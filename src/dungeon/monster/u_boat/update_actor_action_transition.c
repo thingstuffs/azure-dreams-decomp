@@ -1,9 +1,10 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
-extern s32 check_actor_floor_trap(void *, void *);
+
 extern void select_sprite_entry(void *, u8, s32);
 extern void create_owner_linked_directional_object(void *, s32, void *);
 

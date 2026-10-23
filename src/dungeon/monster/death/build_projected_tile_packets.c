@@ -1,5 +1,6 @@
 /* Death effect projection, motion, fading, and object creation. */
 #include "shared/object_node.h"
+#include "dungeon/monster/death.h"
 #include "modules/dungeon_ovl_be1084.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -80,7 +81,7 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 }
 
 /* Accelerates the effect toward its target, fades its color, and expires it near the target or on timeout. */
-void advance_effect_toward_target(void *effect, void *position) {
+void advance_effect_toward_target(void *effect, ObjectPosition *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -88,17 +89,17 @@ void advance_effect_toward_target(void *effect, void *position) {
     s32 y_distance;
     s32 scaled_blue;
 
-    ((S_80BC1264_0 *)position)->unk_00.at00.v = (s32) (((S_80BC1264_0 *)position)->unk_00.at00.v
+    position->x.v = (s32) (position->x.v
         + ((S_80BC1264_1 *)effect)->unk_40);
-    ((S_80BC1264_0 *)position)->unk_04.at00.v = (s32) (((S_80BC1264_0 *)position)->unk_04.at00.v
+    position->y.v = (s32) (position->y.v
         + ((S_80BC1264_1 *)effect)->unk_44);
-    ((S_80BC1264_0 *)position)->unk_08 = (s32) (((S_80BC1264_0 *)position)->unk_08 + ((S_80BC1264_1 *)effect)->unk_48);
+    position->z.v = (s32) (position->z.v + ((S_80BC1264_1 *)effect)->unk_48);
     ((S_80BC1264_1 *)effect)->unk_40 = (s32) (((S_80BC1264_1 *)effect)->unk_40 + ((S_80BC1264_1 *)effect)->unk_4C);
     ((S_80BC1264_1 *)effect)->unk_44 = (s32) (((S_80BC1264_1 *)effect)->unk_44 + ((S_80BC1264_1 *)effect)->unk_50);
     ((S_80BC1264_1 *)effect)->unk_48 = (s32) (((S_80BC1264_1 *)effect)->unk_48 + ((S_80BC1264_1 *)effect)->unk_54);
-    x_distance = abs(((S_80BC1264_1 *)effect)->unk_36 - ((S_80BC1264_0 *)position)->unk_00.at02.v);
+    x_distance = abs(((S_80BC1264_1 *)effect)->unk_36 - position->x.w.i);
     if (x_distance < 0x10) {
-        y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - ((S_80BC1264_0 *)position)->unk_04.at02.v);
+        y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - position->y.w.i);
         if (y_distance < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

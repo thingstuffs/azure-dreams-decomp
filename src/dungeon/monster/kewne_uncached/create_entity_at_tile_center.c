@@ -49,7 +49,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
 
 /* Queues scripts for player actions and tile triggers, then updates actor callbacks, motion, and
  * animation. */
-void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *sprite_in) {
+void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, void *sprite_in) {
     Packed16 facing_map;
     Packed16 *facing_map_src;
     void *sprite = sprite_in;
@@ -613,21 +613,21 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
         if ((s16) previous_state != (s8) ((S_812A524C_4 *)entity)->unk_6D) {
             try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
         }
-        motion_x = ((S_812A524C_37 *)motion_in)->unk_00.at00.v;
-        velocity_x = ((S_812A524C_37 *)motion_in)->unk_0C;
-        motion_y = ((S_812A524C_37 *)motion_in)->unk_04.at00.v;
-        velocity_y = ((S_812A524C_37 *)motion_in)->unk_10;
-        ((S_812A524C_37 *)motion_in)->unk_00.at00.v = motion_x + velocity_x;
-        ((S_812A524C_37 *)motion_in)->unk_04.at00.v = motion_y + velocity_y;
+        motion_x = motion_in->x.v;
+        velocity_x = motion_in->velocity_x;
+        motion_y = motion_in->y.v;
+        velocity_y = motion_in->velocity_y;
+        motion_in->x.v = motion_x + velocity_x;
+        motion_in->y.v = motion_y + velocity_y;
         if (!(((S_812A524C_4 *)entity)->unk_1C & 0x40000) && !(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {
-            ((S_812A524C_37 *)motion_in)->unk_14 = (s32) (((S_812A524C_37 *)motion_in)->unk_14
+            motion_in->velocity_z = (s32) (motion_in->velocity_z
                 + (((S_812A524C_3 *)actor_in)->unk_9D.s * 0x14000));
             ((S_812A524C_3 *)actor_in)->unk_9D.u += 1;
         } else {
             ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
         }
         ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v
-            + ((S_812A524C_37 *)motion_in)->unk_14);
+            + motion_in->velocity_z);
         facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
         sprite_facing = facing;
         if (((S_812A524C_3 *)actor_in)->unk_94 != sprite_facing) {
@@ -699,13 +699,13 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                 ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v
                     - landing_offset);
                 if (!(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {
-                    landing_delta = sample_terrain_surface_height(((S_812A524C_37 *)motion_in)->unk_00.at02.v,
-                        ((S_812A524C_37 *)motion_in)->unk_04.at02.v, (s16) (((S_812A524C_4 *)entity)->unk_88 - 0x20))
+                    landing_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
+                        ((u16) motion_in->y.w.i), (s16) (((S_812A524C_4 *)entity)->unk_88 - 0x20))
                         - ((S_812A524C_4 *)entity)->unk_88;
                     if ((s16) landing_delta < ((S_812A524C_3 *)actor_in)->unk_90.at02.v) {
                         ((S_812A524C_3 *)actor_in)->unk_90.at02.v = (s16) landing_delta;
                         ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
-                        ((S_812A524C_37 *)motion_in)->unk_14 = 0;
+                        motion_in->velocity_z = 0;
                         ((S_812A524C_4 *)entity)->unk_1C |= 0x08000000;
                     }
                 }
@@ -729,13 +729,13 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                 ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v
                     - bob_offset);
                 if (!(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {
-                    ground_delta = sample_terrain_surface_height(((S_812A524C_37 *)motion_in)->unk_00.at02.v,
-                        ((S_812A524C_37 *)motion_in)->unk_04.at02.v, (s16) (((S_812A524C_4 *)entity)->unk_88 - 0x20))
+                    ground_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
+                        ((u16) motion_in->y.w.i), (s16) (((S_812A524C_4 *)entity)->unk_88 - 0x20))
                         - ((S_812A524C_4 *)entity)->unk_88;
                     if ((s16) ground_delta < ((S_812A524C_3 *)actor_in)->unk_90.at02.v) {
                         ((S_812A524C_3 *)actor_in)->unk_90.at02.v = (s16) ground_delta;
                         ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
-                        ((S_812A524C_37 *)motion_in)->unk_14 = 0;
+                        motion_in->velocity_z = 0;
                         ((S_812A524C_4 *)entity)->unk_1C |= 0x08000000;
                     }
                 }
@@ -784,7 +784,7 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                 ((S_812A524C_4 *)entity)->unk_88 = (u16) ground_height;
             }
         }
-        ((S_812A524C_37 *)motion_in)->unk_0A = (s16) ((((S_812A524C_4 *)entity)->unk_88
+        motion_in->z.w.i = (s16) ((((S_812A524C_4 *)entity)->unk_88
             + (u16) ((S_812A524C_3 *)actor_in)->unk_90.at02.v) - ((S_812A524C_3 *)actor_in)->unk_A0.at02.v);
         ((S_812A524C_38 *)sprite)->unk_14.n = (u16) (((S_812A524C_38 *)sprite)->unk_14.n | 0x40);
     }

@@ -34,12 +34,6 @@ extern M2C_UNK D_800E0040;
 extern M2C_UNK D_800E2004;
 
 
-typedef struct S_80091430_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_80091430_0;   /* dungeon_state in update_familiar_command_selection */
 
 typedef struct S_80091430_1 {
     u8 pad_00[0x1C];

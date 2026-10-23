@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/object.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -26,10 +27,6 @@ extern u8 D_800DD0C8[8];
 extern s32 saved_held_item_word[];
 
 
-typedef struct S_8008FA7C_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8008FA7C_0;   /* arg1 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_1 {
     u8 pad_00[0x2C];
@@ -93,7 +90,7 @@ typedef struct S_8008FA7C_9 {
 
 
 /* Advances an actor's action state, updating linked-object flags and directional animation. */
-void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
+void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animation, u8 *entity) {
     s16 countdown;
     s32 direction;
     s16 state;
@@ -107,7 +104,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
     switch (state) {
     case 0:
         init_anim = animation;
-        ((S_8008FA7C_0 *)motion)->unk_14 = 0xFFEA0000;
+        motion->velocity_z = 0xFFEA0000;
         ((S_8008FA7C_1 *)init_anim)->unk_2C = D_800DD0C8;
         {
             s32 init_entry;
@@ -195,7 +192,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             if (!(((S_8008FA7C_3 *)actor)->unk_A2 & 0x10)) {
                 return;
             }
-            ((S_8008FA7C_0 *)motion)->unk_14 = 0;
+            motion->velocity_z = 0;
             next_anim = animation;
             if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
                 actor[0x9B]++;

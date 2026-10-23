@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -11,7 +12,7 @@ extern void register_node(u8 *, u8 *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(u8 *, void *, void *, u8 *);
 extern s32 clear_center_tile_flags_when_enabled(void);
-extern void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFrameState *data);
+
 extern M2C_UNK D_80173980;
 
 typedef struct S_80169D28_1 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -47,7 +48,7 @@ extern u8 D_80174160[];
 /* Advances the actor state sequence and selects effects for its facing direction. */
 /* Animates Hikewne's status-slot-1 entry and recovery, updates MP and turns while active, then restores
  * its normal callback. */
-void advance_actor_state_sequence(void *action, void *context, void *entity, ActorRecord *actor)
+void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor)
 {
     s32 effect_entry;
     s32 next_state;
@@ -60,13 +61,13 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
         u8 *local_table_0;
         {
             DungeonGlobalStatus *dungeon_state;
-            if ((((SpriteFrameState *)entity)->flags & 0xE000) == 0) {
+            if ((entity->flags & 0xE000) == 0) {
                 return;
             }
 
             local_table_0 = D_801740F8;
 
-            ((SpriteFrameState *)entity)->frameTable = local_table_0;
+            entity->frameTable = local_table_0;
             effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
@@ -88,7 +89,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
         }
         local_table_1 = D_80174150;
 
-        ((SpriteFrameState *)entity)->frameTable = local_table_1;
+        entity->frameTable = local_table_1;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
@@ -108,7 +109,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
         }
         local_table_2 = D_80174158;
 
-        ((SpriteFrameState *)entity)->frameTable = local_table_2;
+        entity->frameTable = local_table_2;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
@@ -187,7 +188,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *room_base = &reference_tile_object;
-                s8 room_id = *(s8 *)&((SpriteFrameState *)entity)->unk_26;
+                s8 room_id = *(s8 *)&entity->unk_26;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
@@ -202,12 +203,12 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
 
         local_table_3 = D_80174160;
 
-        ((SpriteFrameState *)entity)->frameTable = local_table_3;
+        entity->frameTable = local_table_3;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         select_sprite_entry(entity, *(u8 *)effect_entry, 0);
-        if ((((SpriteFrameState *)entity)->flags & 0x8000) != 0) {
+        if ((entity->flags & 0x8000) != 0) {
             break;
         }
         ((S_8017360C_0 *)action)->unk_9B++;
@@ -225,7 +226,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
-        if ((((SpriteFrameState *)entity)->flags & 0xE000) == 0) {
+        if ((entity->flags & 0xE000) == 0) {
             return;
         }
 
@@ -234,7 +235,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-        ((SpriteFrameState *)entity)->frameTable = local_table_4;
+        entity->frameTable = local_table_4;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
@@ -254,7 +255,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
 
         local_table_5 = D_801740F0;
 
-        ((SpriteFrameState *)entity)->frameTable = local_table_5;
+        entity->frameTable = local_table_5;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -53,18 +54,9 @@ typedef struct S_80169EC0_3 {
 
    /* data in update_actor_callbacks_and_motion */
 
-typedef struct S_80169EC0_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80169EC0_5;   /* motion in update_actor_callbacks_and_motion */
 
 /* Updates actor callbacks, facing, movement, and terrain height. */
-void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFrameState *data)
+void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, SpriteFrameState *data)
 {
     void *actor = owner_arg;
     s16 initial_state;
@@ -172,19 +164,19 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFram
                                 (status & 0x8FFF) : (status | 0x7000);
     }
 
-    ((S_80169EC0_5 *)motion)->unk_00.at00.v += ((S_80169EC0_5 *)motion)->unk_0C;
-    ((S_80169EC0_5 *)motion)->unk_04.at00.v += ((S_80169EC0_5 *)motion)->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
     if ((*(u16 *)((u8 *)owner_arg + (0x98))) & 8) {
         (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
     } else {
-        ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner_arg + (0x9D))) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)owner_arg + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)owner_arg + (0x9D)))++;
     }
-    (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
+    (*(s32 *)((u8 *)owner_arg + (0x90))) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) &&
-        ((terrain_height = sample_terrain_surface_height(((S_80169EC0_5 *)motion)->unk_00.at02.v,
-            ((S_80169EC0_5 *)motion)->unk_04.at02.v,
+        ((terrain_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+            ((u16) motion->y.w.i),
                            (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20))),
          (s16)terrain_height < 0x200)) {
         height_offset = (*(s16 *)((u8 *)owner_arg + (0x92)));
@@ -198,7 +190,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFram
             } else {
                 (*(s16 *)((u8 *)owner_arg + (0x92))) = terrain_height - height;
             }
-            ((S_80169EC0_5 *)motion)->unk_14 = 0;
+            motion->velocity_z = 0;
             ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
             (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
         }
@@ -215,7 +207,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFram
         ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
 
-    ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
+    motion->z.w.i = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner_arg + (0x92))));
     data->flags |= 0x40;

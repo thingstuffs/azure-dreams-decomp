@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/particle.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -80,11 +81,6 @@ typedef struct S_81814EDC_9 {
     union { s8 s; u8 u; } unk_0E;   /* accessed as both */
 } S_81814EDC_9;
 
-typedef struct S_81814EDC_10 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_81814EDC_10;   /* arg1_value in update_spark_emitter_effect */
 
 typedef struct S_81814EDC_11 {
     u8 pad_00[0x1C];
@@ -106,7 +102,7 @@ s32 check_adjacent_tile_height_clearance();
 extern M2C_UNK D_80024280;
 
 /* Spawns particles, moves the effect, and restores its owner after the fade. */
-void update_spark_emitter_effect(void *effect, void *position) {
+void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
     s16 state;
     s16 effect_type;
     s32 spark_speed;
@@ -145,7 +141,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
                 s32 coordinate;
-                coordinate = ((MovingPosition *)position)->unk_02;
+                coordinate = ((u16) position->x.w.i);
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -154,7 +150,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
                 s32 coordinate;
-                coordinate = ((MovingPosition *)position)->unk_06;
+                coordinate = ((u16) position->y.w.i);
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -163,7 +159,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
             {
                 s32 random_offset = func_80069EF8() & 7;
                 s32 coordinate;
-                coordinate = ((MovingPosition *)position)->unk_0A;
+                coordinate = ((u16) position->z.w.i);
 
                 coordinate -= 4;
                 coordinate += random_offset;
@@ -307,16 +303,16 @@ loop_effects:
         }
         {
 
-            if ((check_adjacent_tile_height_clearance(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v,
-                (s16) ((S_81814EDC_10 *)position)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
+            if ((check_adjacent_tile_height_clearance(((u16) position->x.w.i), ((u16) position->y.w.i),
+                (s16) ((u16) position->z.w.i), ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
                 {
                     s32 velocity = ((S_81814EDC_0 *)effect)->unk_58;
-                    ((S_81814EDC_10 *)position)->unk_00.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_00.at00.v
+                    position->x.v = (s32) (position->x.v
                         + velocity);
                 }
-                ((S_81814EDC_10 *)position)->unk_04.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_04.at00.v
+                position->y.v = (s32) (position->y.v
                     + ((S_81814EDC_0 *)effect)->unk_5C);
-                ((S_81814EDC_10 *)position)->unk_08.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_08.at00.v
+                position->z.v = (s32) (position->z.v
                     + ((S_81814EDC_0 *)effect)->unk_60);
             } else {
                 ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);

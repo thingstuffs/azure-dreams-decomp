@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -31,12 +32,6 @@ typedef struct S_80173A3C_1 {
 } S_80173A3C_1;   /* arg2 in fade_reshape_and_remove_entity */
 
 
-typedef struct S_80173A3C_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_80173A3C_4;   /* arg1 in fade_reshape_and_remove_entity */
 
 
 extern void play_sound_if_enabled(s32);
@@ -49,7 +44,7 @@ extern void unlink_entity_node(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
-void fade_reshape_and_remove_entity(void *fade_state, void *position, void *sprite, void *entity)
+void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, void *sprite, void *entity)
 {
     u8 fade_phase;
     u16 frames_left;
@@ -104,7 +99,7 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
         detach_record_and_update_slot_state(entity);
         if (((ActorRecord *)entity)->unk_49 != 0 &&
             (((ActorRecord *)entity)->unk_4B & 0x20) == 0) {
-            create_effect_or_fallback(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
+            create_effect_or_fallback(position->x.w.i, position->y.w.i,
                           ((ActorRecord *)entity)->ground_height, (u8 *)entity + 0x48);
         }
         if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {

@@ -568,12 +568,12 @@ mask_and_return:
     }
 }
 
-void initialize_actor_direction_table(void *object, void *unusedContext, void *tableTarget, void *headingSource) {
+void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, void *headingSource) {
     s32 tableByteOffset;
 
     *((u8 *)object + 0x9A) = 0x10;
     *((u8 *)object + 0x9B) = 0;
-    ((SpriteFrameState *)tableTarget)->frameTable = actor_movement_frames;
+    tableTarget->frameTable = actor_movement_frames;
     tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
     select_record_entry_and_value(tableTarget, *(s32 *)(actor_movement_frames + tableByteOffset), 0);
 }

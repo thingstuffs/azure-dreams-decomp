@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/naplass.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -43,16 +44,6 @@ typedef struct S_80172840_3 {
     u8 unk_25;
 } S_80172840_3;   /* record in advance_move_action_particles */
 
-typedef struct S_80172840_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172840_5;   /* arg1 in advance_move_action_particles */
 
 typedef struct S_80172840_6 {
     u8 pad_00[0xA6];
@@ -110,7 +101,7 @@ extern u8 D_80174194[0x10];
 /* Updates a move action, spawning particles and resetting state when it ends. */
 /* Starts a targeted spell, emits batches of ten particles ahead during casting, then restores movement and
  * status. */
-void advance_move_action_particles(void *action, void *position, SpriteFrameState *sprite, void *actor)
+void advance_move_action_particles(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor)
 {
     void *particle_callback = D_80173EC0;
     s32 direction_offset;
@@ -218,9 +209,9 @@ void advance_move_action_particles(void *action, void *position, SpriteFrameStat
                 ((S_80172840_0 *)actor)->unk_72.s = abs_x;
                 ((S_80172840_0 *)actor)->unk_73.s = abs_y;
             }
-            coords[0] = ((S_80172840_5 *)position)->unk_02;
-            coords[1] = ((S_80172840_5 *)position)->unk_06;
-            coords[2] = ((S_80172840_5 *)position)->unk_08.at02.v;
+            coords[0] = ((u16) position->x.w.i);
+            coords[1] = ((u16) position->y.w.i);
+            coords[2] = ((u16) position->z.w.i);
             if (create_actor_spell_effect(actor, move_slot, is_special,
                               (u8 *)action + 0x98) == 0) {
                 return;
@@ -232,9 +223,9 @@ void advance_move_action_particles(void *action, void *position, SpriteFrameStat
             return;
         }
 
-        ((S_80172840_5 *)position)->unk_14 = 0;
-        ((S_80172840_5 *)position)->unk_10 = 0;
-        ((S_80172840_5 *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         ((S_80172840_6 *)(((u8 *)primary_actor_record)))->unk_A6--;
@@ -287,7 +278,7 @@ void advance_move_action_particles(void *action, void *position, SpriteFrameStat
                             s32 offset_x;
 
                             random_x = generate_random_value() & 0x3F;
-                            origin_x = ((S_80172840_5 *)position)->unk_02;
+                            origin_x = ((u16) position->x.w.i);
                             offset_x = coords[4];
 
                             origin_x += offset_x;
@@ -298,19 +289,19 @@ void advance_move_action_particles(void *action, void *position, SpriteFrameStat
                                 origin_x - 0x1F;
                         }
                         ((S_80172840_12 *)(particle->position))->unk_06 =
-                            ((S_80172840_5 *)position)->unk_06 + coords[5] +
+                            ((u16) position->y.w.i) + coords[5] +
                             ((s32)direction_y << 6) + (generate_random_value() & 0x3F) - 0x1F;
                         ((S_80172840_12 *)(particle->position))->unk_08 =
-                            ((S_80172840_5 *)position)->unk_08.at00.v;
-                        source_x = ((S_80172840_5 *)position)->unk_02;
+                            position->z.v;
+                        source_x = ((u16) position->x.w.i);
                         offset_x = coords[4];
                         particle_fields = (u8 *)particle + 0x20;
                         ((S_80172840_8 *)particle_fields)->unk_0C = source_x + offset_x;
-                        source_y = ((S_80172840_5 *)position)->unk_06;
+                        source_y = ((u16) position->y.w.i);
                         offset_y = coords[5];
                         color = 0x700000;
                         ((S_80172840_8 *)particle_fields)->unk_0E = source_y + offset_y;
-                        source_z = ((S_80172840_5 *)position)->unk_08.at02.v;
+                        source_z = ((u16) position->z.w.i);
                         offset_z = coords[6];
                         ((S_80172840_8 *)particle_fields)->unk_48 = 4;
                         ((S_80172840_8 *)particle_fields)->unk_10 = source_z + offset_z;
@@ -345,9 +336,9 @@ void advance_move_action_particles(void *action, void *position, SpriteFrameStat
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        ((S_80172840_5 *)position)->unk_14 = 0;
-        ((S_80172840_5 *)position)->unk_10 = 0;
-        ((S_80172840_5 *)position)->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         if (sprite->frameTable != D_80174194) {
             sprite->frameTable = D_80174194;

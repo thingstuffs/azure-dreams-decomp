@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ifrit.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -27,20 +28,20 @@ extern s32 D_80170E84;
 extern u8 D_80174840[];
 
 /* Advance the actor animation action and restore actor state when it finishes. */
-void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprite, ActorRecord *actor) {
+void advance_actor_animation_and_restore(void *action, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
     state = ((S_801726D4_0 *)action)->unk_9B;
     ((S_801726D4_0 *)action)->unk_96--;
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_801726D4_0 *)action)->unk_9B = 0xFF;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_80174840;
+        sprite->frameTable = D_80174840;
         select_sprite_entry(sprite,
             D_80174840[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -48,9 +49,9 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprit
         return;
 
     case 1:
-        if (((((SpriteFrameState *)sprite)->unk_04 == 4) &&
-             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if (((sprite->unk_04 == 4) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x814);
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             ((S_801726D4_0 *)action)->unk_9B = 0xFF;
@@ -58,8 +59,8 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprit
         return;
 
     case 0xFF:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            set_record_integer_tile_center(actor_id, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        if (sprite->flags & 0xE000) {
+            set_record_integer_tile_center(actor_id, sprite->unk_24, sprite->unk_25);
             spend_actor_mp(actor, 0x100);
             ((S_801726D4_0 *)action)->unk_8C = &D_80170E84;
             g_dungeon_status.active_actor = 0;

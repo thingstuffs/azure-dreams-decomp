@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/picket.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -32,7 +33,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174F30;
 
 /* Updates movement animation and settles the actor at its target tile. */
-void update_movement_animation_settles_actor_target_tile(void *action, void *motion, void *sprite, void *actor)
+void update_movement_animation_settles_actor_target_tile(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -46,14 +47,14 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
     state = ((S_80172908_1 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172908_1 *)action)->unk_9B = 0xFF;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
             return;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = &D_80174F30;
+        sprite->frameTable = &D_80174F30;
         select_sprite_entry(sprite,
             *(&D_80174F30 +
               (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7)),
@@ -61,9 +62,9 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         ((S_80172908_1 *)action)->unk_9B++;
         return;
     case 1:
-        if ((((SpriteFrameState *)sprite)->unk_04 == state &&
-             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if ((sprite->unk_04 == state &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
             ((S_80172908_1 *)action)->unk_90 = 0;
             ((S_80172908_1 *)action)->unk_98 |= 8;
@@ -96,23 +97,23 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         return;
     case 0xFF:
     {
-        s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
+        s32 target_x = sprite->unk_24 << 6;
         s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
         ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
     }
         {
-            s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            s32 target_y = sprite->unk_25 << 6;
             s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
             ((EntityRec *)motion)->unk_10 = (target_y - current_y) << 14;
         }
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = D_801710F4;
         g_dungeon_status.active_actor = 0;

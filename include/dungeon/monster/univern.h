@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE17_SLOT0_H
 #define DUNGEON_RESOURCE17_SLOT0_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -433,7 +434,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
-s32 check_actor_floor_trap();
+
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
@@ -449,7 +450,7 @@ void distribute_experience_and_report_gains();
 s32 detach_record_and_update_slot_state();
 void announce_familiar_defeat();
 s32 update_actor_hop_and_shrink();
-s32 advance_actor_removal();
+
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();

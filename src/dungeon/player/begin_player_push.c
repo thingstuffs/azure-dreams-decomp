@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -7,13 +8,6 @@
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 
-typedef struct S_8008CD4C_0 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    union { u8 s; u8 u; } unk_25;   /* accessed as both */
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8008CD4C_0;   /* arg2 in begin_player_push */
 
 typedef struct S_8008CD4C_2 {
     u8 pad_00[0x1C];
@@ -37,7 +31,7 @@ extern u8 D_800DCFB8[];
 extern u8 player_push_frames[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
+void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameState *sprite, S_8008CD4C_2 *actor,
     s16 move_state) {
     s16 state;
     s32 direction_offset;
@@ -47,7 +41,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
     u16 *x_step;
     u16 *y_step;
 
-    ((SpriteFrameState *)sprite)->frameTable = player_push_frames;
+    sprite->frameTable = player_push_frames;
     state = move_state;
     action->unk_9A.as_u8 = 0x18;
     action->unk_9B.as_u8 = 0;
@@ -56,29 +50,29 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
     if ((s16)state != -2) {
         direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
         x_step = (u16 *)((u8 *)dir_step_x + direction_offset);
-        next_x = ((SpriteFrameState *)sprite)->unk_24 + *x_step;
+        next_x = sprite->unk_24 + *x_step;
         y_step = (u16 *)((u8 *)dir_step_y + direction_offset);
-        next_y = ((SpriteFrameState *)sprite)->unk_25 + *y_step;
+        next_y = sprite->unk_25 + *y_step;
         target = find_eligible_actor_at_tile_and_height(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                                actor->unk_88);
         if (target != 0) {
             if ((can_push_adjacent_actor(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {
                 action->unk_124 = target;
-                update_map_cell_flags_with_item_limit(((SpriteFrameState *)sprite)->unk_24,
-                              ((SpriteFrameState *)sprite)->unk_25, 0x300);
-                ((SpriteFrameState *)sprite)->unk_24 =
-                    ((SpriteFrameState *)sprite)->unk_24 + *(u8 *)x_step;
-                ((SpriteFrameState *)sprite)->unk_25 =
-                    ((SpriteFrameState *)sprite)->unk_25 + *(u8 *)y_step;
-                cycle_map_cell_flags(((SpriteFrameState *)sprite)->unk_24,
-                              ((SpriteFrameState *)sprite)->unk_25, 0x300);
+                update_map_cell_flags_with_item_limit(sprite->unk_24,
+                              sprite->unk_25, 0x300);
+                sprite->unk_24 =
+                    sprite->unk_24 + *(u8 *)x_step;
+                sprite->unk_25 =
+                    sprite->unk_25 + *(u8 *)y_step;
+                cycle_map_cell_flags(sprite->unk_24,
+                              sprite->unk_25, 0x300);
 
                 actor->unk_1C |= 0x40000000;
                 g_dungeon_status.movement_frames_left = 0x20;
                 g_dungeon_status.flags |= 8;
                 action->unk_9B.as_u8 = 0x10;
-                ((SpriteFrameState *)sprite)->frameTable = D_800DCFB8;
+                sprite->frameTable = D_800DCFB8;
                 action->unk_96.as_s16 = 4;
                 append_packed_action_record(actor, 8, 0, 0);
                 play_sound_if_enabled(0x50B);
@@ -89,7 +83,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
 
     set_sprite_animation_frame(
         sprite,
-        (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable)
+        (*(u8 * *)&sprite->frameTable)
             [((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
 }

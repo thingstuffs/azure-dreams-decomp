@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -59,7 +60,7 @@ extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern void advance_status_timers(Entity *);
 extern void on_actor_status_updated(Entity *);
 extern void spend_actor_mp(Entity *, s32);
-extern s32 check_actor_floor_trap(Actor *, Entity *);
+
 
 /* Updates timed movement toward the actor's tile and finishes the action when its countdown expires. */
 void update_timed_tile_approach(State *action, Motion *motion, SpriteFrameState *actor, Entity *entity)

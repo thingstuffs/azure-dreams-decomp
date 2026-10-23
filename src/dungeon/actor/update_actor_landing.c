@@ -26,11 +26,11 @@ void set_record_integer_tile_center();              /* extern */
 s32 advance_status_timers();                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
-s32 check_actor_floor_trap();                  /* extern */
+                  /* extern */
 extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void update_actor_landing(void *motion_state, ObjectPosition *transform, void *map_entity, ActorRecord *actor) {
+void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 direction_aux;
     void **animation_table;
     s32 frames_left;
@@ -56,12 +56,12 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
         ((S_800D991C_0 *)motion_state)->unk_90 = (s32) (((S_800D991C_0 *)motion_state)->unk_90
             - ((S_800D991C_0 *)motion_state)->unk_A4);
         if (frames_left != 0) {
-            target_x = ((SpriteFrameState *)map_entity)->unk_24 << 6;
+            target_x = map_entity->unk_24 << 6;
             current_x = transform->x.w.i - 0x20;
             velocity_x = (s32) ((target_x - current_x) << 0x10) / frames_left;
             current_y = transform->y.w.i - 0x20;
             transform->velocity_x = velocity_x;
-            target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
+            target_y = map_entity->unk_25 << 6;
             transform->velocity_y = (s32) ((s32) ((target_y - current_y)
                 << 0x10) / (s16) ((S_800D991C_0 *)motion_state)->unk_96);
             ((S_800D991C_0 *)motion_state)->unk_A4 = (s32) (((S_800D991C_0 *)motion_state)->unk_A4
@@ -82,9 +82,9 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+            set_record_integer_tile_center(transform, map_entity->unk_24, map_entity->unk_25);
             animation_table = actor_action_frames;
-            ((SpriteFrameState *)map_entity)->frameTable = animation_table;
+            map_entity->frameTable = animation_table;
             select_record_entry_and_value(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
@@ -96,7 +96,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+            set_record_integer_tile_center(transform, map_entity->unk_24, map_entity->unk_25);
             spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
@@ -106,8 +106,8 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
             if (!(actor_flags & 0x2000)) {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->facing = get_rounded_facing_and_rounding_flag(((SpriteFrameState *)map_entity)->unk_24,
-                            ((SpriteFrameState *)map_entity)->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+                        actor->facing = get_rounded_facing_and_rounding_flag(map_entity->unk_24,
+                            map_entity->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     }
                 }
             }

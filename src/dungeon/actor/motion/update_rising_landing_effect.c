@@ -1,5 +1,6 @@
 /* Actor-relative motion effects, trailing particles, and rising and landing sprite sequences. */
 #include "modules/dungeon_ovl_199c800.h"
+#include "dungeon/actor/motion.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -761,13 +762,6 @@ typedef struct S_8197D468_1 {
     u16 unk_52;
 } S_8197D468_1;
 
-typedef struct S_8197D468_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_8197D468_3;   /* arg1 in update_rising_landing_effect */
 
 typedef struct S_8197D468_4 {
     u8 pad_00[0x4];
@@ -791,7 +785,7 @@ typedef struct S_8197D468_8 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
-void update_rising_landing_effect(void *effect, void *motion, SpriteFrameState *sprite) {
+void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     void *particle_work;
     s16 state;
     s16 ground_height;
@@ -821,16 +815,16 @@ void update_rising_landing_effect(void *effect, void *motion, SpriteFrameState *
     state = ((S_8197D468_0 *)effect)->unk_4C.s;
     switch (state) {
     case 0:
-        ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
-            + ((S_8197D468_3 *)motion)->unk_14);
+        motion->z.v = (s32) (motion->z.v
+            + motion->velocity_z);
         rise_random = func_80069EF8();
-        rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
+        rise_velocity = motion->velocity_z + 0x1A000;
         rise_velocity += rise_random >> 1;
-        ((S_8197D468_3 *)motion)->unk_14 = rise_velocity;
+        motion->velocity_z = rise_velocity;
         if ((u8) sprite->color.c.r < 0x40) {
             sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
-        if (((S_8197D468_3 *)motion)->unk_14 > 0) {
+        if (motion->velocity_z > 0) {
             sprite->unk_00 = &D_800DE990;
             sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
             sprite_flags = sprite->flags;
@@ -865,18 +859,18 @@ void update_rising_landing_effect(void *effect, void *motion, SpriteFrameState *
             sprite->unk_05 = 0;
             sprite->source = effect_data;
         }
-        ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
-            + ((S_8197D468_3 *)motion)->unk_14);
+        motion->z.v = (s32) (motion->z.v
+            + motion->velocity_z);
         fall_random = func_80069EF8();
-        fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
+        fall_velocity = motion->velocity_z + 0x1C000;
         fall_velocity += fall_random >> 1;
-        ((S_8197D468_3 *)motion)->unk_14 = fall_velocity;
+        motion->velocity_z = fall_velocity;
         if ((u8) sprite->color.c.r < 0x80) {
             sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
-        ground_height = sample_terrain_surface_height(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
+        ground_height = sample_terrain_surface_height(((u16) motion->x.w.i), ((u16) motion->y.w.i),
             (s16) (((u16)view_reference_entity.z.w.i) - 0x80));
-        if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
+        if (motion->z.w.i >= (ground_height - 0x20)) {
             particle_index = 4;
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -885,11 +879,11 @@ void update_rising_landing_effect(void *effect, void *motion, SpriteFrameState *
                     register_node(particle, (s32)project_sprite_chain);
                     particle_sprite = particle->sprite;
                     (particle->position)->x.v =
-                        (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->x.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->y.v =
-                        (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->y.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->z.v =
-                        (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->z.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->velocity_x =
                         (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
                     (particle->position)->velocity_y =

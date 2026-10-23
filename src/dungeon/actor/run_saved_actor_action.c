@@ -31,7 +31,7 @@ void run_saved_actor_action(void *object, s32 unused, void *animation, void *act
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *table;
         /* MATCH: save a2 then a3 before loading the state-byte constant. */
-    void *saved2 = animation;
+    SpriteFrameState *saved2 = animation;
     void *saved = actor;
     ((S_80097898_0 *)object)->unk_9A = 0x39;
     ((S_80097898_0 *)object)->unk_9B = 0;
@@ -40,7 +40,7 @@ void run_saved_actor_action(void *object, s32 unused, void *animation, void *act
         ((S_80097898_1 *)saved)->unk_1C = (s32) (((S_80097898_1 *)saved)->unk_1C & ~0x620);
     }
     table = actor_alternate_frames;
-    ((SpriteFrameState *)saved2)->frameTable = table;
+    saved2->frameTable = table;
     select_record_entry_and_value(saved2, (*(s32 *)((u8 *)table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80097898_1 *)saved)->unk_2A
         + 0x100) >> 7) & 0x1C))), 0);
 }

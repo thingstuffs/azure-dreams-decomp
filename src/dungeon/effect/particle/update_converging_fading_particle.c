@@ -1,10 +1,6 @@
 #include "common.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_flags.h"
-typedef struct S_80165164_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_80165164_0;   /* arg1 in update_converging_fading_particle */
 
 typedef struct S_80165164_1_pre {
     u16 unk_00;
@@ -40,7 +36,7 @@ typedef struct S_80165164_1 {
 
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */
-void update_converging_fading_particle(void *effect, void *position) {
+void update_converging_fading_particle(void *effect, ObjectPosition *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -48,17 +44,17 @@ void update_converging_fading_particle(void *effect, void *position) {
     s32 target_dy;
     s32 scaled_blue;
 
-    ((S_80165164_0 *)position)->unk_00.at00.v = (s32) (((S_80165164_0 *)position)->unk_00.at00.v
+    position->x.v = (s32) (position->x.v
         + ((S_80165164_1 *)effect)->unk_4C);
-    ((S_80165164_0 *)position)->unk_04.at00.v = (s32) (((S_80165164_0 *)position)->unk_04.at00.v
+    position->y.v = (s32) (position->y.v
         + ((S_80165164_1 *)effect)->unk_50);
-    ((S_80165164_0 *)position)->unk_08 = (s32) (((S_80165164_0 *)position)->unk_08 + ((S_80165164_1 *)effect)->unk_54);
+    position->z.v = (s32) (position->z.v + ((S_80165164_1 *)effect)->unk_54);
     ((S_80165164_1 *)effect)->unk_4C = (s32) (((S_80165164_1 *)effect)->unk_4C + ((S_80165164_1 *)effect)->unk_58);
     ((S_80165164_1 *)effect)->unk_50 = (s32) (((S_80165164_1 *)effect)->unk_50 + ((S_80165164_1 *)effect)->unk_5C);
     ((S_80165164_1 *)effect)->unk_54 = (s32) (((S_80165164_1 *)effect)->unk_54 + ((S_80165164_1 *)effect)->unk_60);
-    target_dx = abs(((S_80165164_1 *)effect)->unk_42 - ((S_80165164_0 *)position)->unk_00.at02.v);
+    target_dx = abs(((S_80165164_1 *)effect)->unk_42 - position->x.w.i);
     if (target_dx < 0x10) {
-        target_dy = abs(((S_80165164_1 *)effect)->unk_44 - ((S_80165164_0 *)position)->unk_04.at02.v);
+        target_dy = abs(((S_80165164_1 *)effect)->unk_44 - position->y.w.i);
         if (target_dy < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

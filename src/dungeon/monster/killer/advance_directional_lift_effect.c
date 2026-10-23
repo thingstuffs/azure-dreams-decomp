@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/killer.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -30,12 +31,6 @@ typedef struct S_80173C20_1 {
     s8 unk_6D;
 } S_80173C20_1;   /* entity_data in advance_directional_lift_effect */
 
-typedef struct S_80173C20_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173C20_3;   /* motion_data in advance_directional_lift_effect */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_unused_text_buffer(void);
@@ -57,7 +52,7 @@ extern u8 D_801740A0[];
 
 /* Displays a directional message, animates a rising attack, applies damage, spends MP, and restores actor
  * state. */
-void advance_directional_lift_effect(void *action_record, void *motion_data, void *status_record, void *entity_data)
+void advance_directional_lift_effect(void *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data)
 {
     s32 state;
     s32 saved;
@@ -78,29 +73,29 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
         }
         display_text_with_fullwidth_adjustment(saved);
 
-        if (((SpriteFrameState *)status_record)->flags & 0x8000) {
+        if (status_record->flags & 0x8000) {
             ((S_80173C20_0 *)action_record)->unk_9B = 3;
             ((S_80173C20_0 *)action_record)->unk_96 = 0;
-            ((SpriteFrameState *)status_record)->flags |= 0x6000;
+            status_record->flags |= 0x6000;
             resolve_attack_damage_and_effects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
             break;
         }
-        ((SpriteFrameState *)status_record)->frameTable = D_80174090;
+        status_record->frameTable = D_80174090;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174090[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_90 = 0;
         ((S_80173C20_0 *)action_record)->unk_98 |= 8;
-        ((S_80173C20_3 *)motion_data)->unk_14 = 0xFFF00000;
+        motion_data->velocity_z = 0xFFF00000;
         ((S_80173C20_0 *)action_record)->unk_9B++;
         break;
     case 1:
-        value = ((S_80173C20_3 *)motion_data)->unk_14 + 0x20000;
-        ((S_80173C20_3 *)motion_data)->unk_14 = value;
+        value = motion_data->velocity_z + 0x20000;
+        motion_data->velocity_z = value;
         ((S_80173C20_0 *)action_record)->unk_90 += value;
-        if (!(((SpriteFrameState *)status_record)->flags & 0xE000)) {
+        if (!(status_record->flags & 0xE000)) {
             break;
         }
-        ((SpriteFrameState *)status_record)->frameTable = D_80174098;
+        status_record->frameTable = D_80174098;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174098[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_96 = 8;
@@ -110,22 +105,22 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
     case 2:
         timer = ((S_80173C20_0 *)action_record)->unk_96 - 1;
         ((S_80173C20_0 *)action_record)->unk_96 = timer;
-        if (((timer << 16) == 0) || (((SpriteFrameState *)status_record)->flags & 0x8000)) {
+        if (((timer << 16) == 0) || (status_record->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
         }
-        if (!(((SpriteFrameState *)status_record)->flags & 0xE000)) {
+        if (!(status_record->flags & 0xE000)) {
             break;
         }
-        ((SpriteFrameState *)status_record)->frameTable = D_801740A0;
+        status_record->frameTable = D_801740A0;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_801740A0[index & 7], 0);
 
         ((S_80173C20_0 *)action_record)->unk_9B++;
         break;
     case 3:
-        if (((SpriteFrameState *)status_record)->flags & 0xE000) {
-            ((S_80173C20_3 *)motion_data)->unk_10 = 0;
-            ((S_80173C20_3 *)motion_data)->unk_0C = 0;
+        if (status_record->flags & 0xE000) {
+            motion_data->velocity_y = 0;
+            motion_data->velocity_x = 0;
             spend_actor_mp(entity_data, 0x1000);
             ((S_80173C20_0 *)action_record)->unk_8C = &D_80170EA8;
             g_dungeon_status.active_actor = 0;

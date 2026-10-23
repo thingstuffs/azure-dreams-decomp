@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -20,15 +21,6 @@ extern u8 D_801620E0[];
 extern u8 D_801620E8[];
 extern Callback D_80162168[];
 
-typedef struct S_8015EDA8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8015EDA8_0;   /* arg1 in update_actor_movement_and_ground_height */
 
 typedef struct S_8015EDA8_2 {
     u8 pad_00[0x1C];
@@ -42,7 +34,7 @@ typedef struct S_8015EDA8_2 {
 /* Update actor callbacks, movement, directional animation, and ground height. */
 /* Runs Hikewne state callbacks from D_80162168, alternates its bobbing idle frames, and resolves ground
  * contact. */
-void update_actor_movement_and_ground_height(void *actor, void *motion, SpriteFrameState *sprite)
+void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     void *actor_state = actor;
     s16 previous_state;
@@ -84,17 +76,17 @@ void update_actor_movement_and_ground_height(void *actor, void *motion, SpriteFr
         try_move_actor_to_valid_position(actor, motion, sprite, actor);
     }
 
-    ((S_8015EDA8_0 *)motion)->unk_00.at00.v += ((S_8015EDA8_0 *)motion)->unk_0C;
-    ((S_8015EDA8_0 *)motion)->unk_04.at00.v += ((S_8015EDA8_0 *)motion)->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (!((*(u32 *)((u8 *)actor + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
-        ((S_8015EDA8_0 *)motion)->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)actor + 0x9D))++;
     } else {
         (*(u8 *)((u8 *)actor + 0x9D)) = 0;
     }
-    (*(s32 *)((u8 *)actor + 0x90)) += ((S_8015EDA8_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)actor + 0x90)) += motion->velocity_z;
     sprite_flags = sprite->flags;
 
     if (!(sprite_flags & 0x8000)) {
@@ -136,14 +128,14 @@ void update_actor_movement_and_ground_height(void *actor, void *motion, SpriteFr
                 (*(s32 *)((u8 *)actor + 0xA0)) = 0;
                 (*(s32 *)((u8 *)actor + 0x90)) -= offset;
                 if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
-                    ground_height = sample_terrain_surface_height(((S_8015EDA8_0 *)motion)->unk_00.at02.v,
-                        ((S_8015EDA8_0 *)motion)->unk_04.at02.v,
+                    ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+                        ((u16) motion->y.w.i),
                         (s16)(((S_8015EDA8_2 *)actor_state)->unk_88 - 0x20));
                     ground_delta = ground_height - ((S_8015EDA8_2 *)actor_state)->unk_88;
                     if (ground_delta < (*(s16 *)((u8 *)actor + 0x92))) {
                         (*(s16 *)((u8 *)actor + 0x92)) = ground_delta;
                         (*(u8 *)((u8 *)actor + 0x9D)) = 0;
-                        ((S_8015EDA8_0 *)motion)->unk_14 = 0;
+                        motion->velocity_z = 0;
                         ((S_8015EDA8_2 *)actor_state)->unk_1C.u |= 0x08000000;
                     }
                 }
@@ -203,14 +195,14 @@ void update_actor_movement_and_ground_height(void *actor, void *motion, SpriteFr
             (*(s32 *)((u8 *)actor + 0xA0)) = 0;
             (*(s32 *)((u8 *)actor + 0x90)) -= bob_offset;
             if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
-                ground_height = sample_terrain_surface_height(((S_8015EDA8_0 *)motion)->unk_00.at02.v,
-                    ((S_8015EDA8_0 *)motion)->unk_04.at02.v,
+                ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+                    ((u16) motion->y.w.i),
                     (s16)(((S_8015EDA8_2 *)actor_state)->unk_88 - 0x20));
                 ground_delta = ground_height - ((S_8015EDA8_2 *)actor_state)->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)actor + 0x92))) {
                     (*(s16 *)((u8 *)actor + 0x92)) = ground_delta;
                     (*(u8 *)((u8 *)actor + 0x9D)) = 0;
-                    ((S_8015EDA8_0 *)motion)->unk_14 = 0;
+                    motion->velocity_z = 0;
                     ((S_8015EDA8_2 *)actor_state)->unk_1C.u |= 0x08000000;
                 }
             }
@@ -275,7 +267,7 @@ void update_actor_movement_and_ground_height(void *actor, void *motion, SpriteFr
         }
     }
 
-    ((S_8015EDA8_0 *)motion)->unk_0A = ((S_8015EDA8_2 *)actor_state)->unk_88 +
+    motion->z.w.i = ((S_8015EDA8_2 *)actor_state)->unk_88 +
         (*(u16 *)((u8 *)actor + 0x92)) - (*(u16 *)((u8 *)actor + 0xA2));
     sprite->flags |= 0x40;
 }

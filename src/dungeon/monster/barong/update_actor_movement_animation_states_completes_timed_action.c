@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/barong.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +31,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern u8 D_801536F4[];
 extern u8 D_80157554[];
@@ -37,7 +39,7 @@ extern u8 D_80157574[];
 extern u8 D_8015757C[];
 
 /* Updates actor movement and animation states and completes the timed action. */
-void update_actor_movement_animation_states_completes_timed_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void update_actor_movement_animation_states_completes_timed_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 move_frames;
@@ -59,15 +61,15 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     {
         u8 *state_anims;
 
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
         state_anims = D_80157574;
-        ((SpriteFrameState *)sprite)->frameTable = state_anims;
+        sprite->frameTable = state_anims;
         select_sprite_entry(sprite,
             state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
+        sprite->scale_y = 0x1000;
         ((S_80154B4C_0 *)action)->unk_98 |= 8;
         actor->flags1C &= 0xF7FFFFFF;
         ((S_80154B4C_0 *)action)->unk_9E.s = 5;
@@ -79,7 +81,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         move_frames = ((S_80154B4C_0 *)action)->unk_9E.s;
         ((S_80154B4C_0 *)action)->unk_90 -= ((S_80154B4C_0 *)action)->unk_A4;
         if (move_frames != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
@@ -88,7 +90,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             world_y = motion->y.w.i;
             world_y -= 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - world_y) << 16) /
+                (((sprite->unk_25 << 6) - world_y) << 16) /
                 ((S_80154B4C_0 *)action)->unk_9E.s;
 
             ((S_80154B4C_0 *)action)->unk_A4 =
@@ -118,25 +120,25 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             state_anims = D_8015757C;
-            ((SpriteFrameState *)sprite)->frameTable = state_anims;
+            sprite->frameTable = state_anims;
             select_sprite_entry(sprite,
                 state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((SpriteFrameState *)sprite)->scale_y = 0xC00;
+            sprite->scale_y = 0xC00;
             ((S_80154B4C_0 *)action)->unk_9B++;
         }
     }
         break;
     case 3:
         idle_anims = D_80157554;
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != idle_anims) {
-            ((SpriteFrameState *)sprite)->frameTable = idle_anims;
+        if (*(u8 * *)&sprite->frameTable != idle_anims) {
+            sprite->frameTable = idle_anims;
             select_sprite_entry(sprite,
                 idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((SpriteFrameState *)sprite)->scale_y = 0x1000;
+            sprite->scale_y = 0x1000;
         }
         break;
     default:
@@ -152,8 +154,8 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    ((SpriteFrameState *)sprite)->scale_y = 0x1000;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    sprite->scale_y = 0x1000;
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
@@ -170,8 +172,8 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24,
-                ((SpriteFrameState *)sprite)->unk_25,
+                sprite->unk_24,
+                sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &facing_aux);

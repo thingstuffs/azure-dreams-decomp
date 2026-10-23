@@ -1,8 +1,9 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 extern void advance_status_timers(s32);
 extern s32 update_actor_movement_to_tile(void *, s32, s32, s32);
-extern s32 check_actor_floor_trap(s32, s32);
+
 extern s32 D_8016B778;
 
 /* Initializes the state fields when the availability and value checks pass. */

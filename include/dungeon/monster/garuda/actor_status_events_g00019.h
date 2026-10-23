@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00019 - PD:dungeon/bank_1025000:801748E8, PD:dungeon/bank_102b000:8016E8E8, PD:dungeon/bank_1031000:801688E8, PD:dungeon/bank_1037000:801628E8, PD:dungeon/bank_103d000:8015C8E8, PD:dungeon/bank_1043000:801568E8. */
 
 #include "common.h"
+#include "dungeon/monster/garuda.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -101,6 +102,6 @@ extern u8 D_80171058[];
 
 /* Functions defined in this translation unit. */
 void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameState *sprite_in, void *entity_in);
-void advance_entity_directional_events(void *entity, void *context, SpriteFrameState *sprite, void *actor);
+
 
 #endif

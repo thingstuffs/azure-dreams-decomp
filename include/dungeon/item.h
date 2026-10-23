@@ -3,6 +3,8 @@
 
 /* Function contracts owned by src/dungeon/item/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 void *append_signed_value_bytes(s32 value, u8 *buffer);
 s32 apply_type_based_entry_adjustments(void *entry, s32 value);
 void create_view_color_flash(s32 payload, s16 trigger_event);
@@ -15,5 +17,9 @@ void inventory_process_resources_and_set_flags(void *object);
 void inventory_set_embedded_state_four(s32 object_addr);
 void set_monster_data_pointer(void);
 
+
+
+
+s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type);
 
 #endif

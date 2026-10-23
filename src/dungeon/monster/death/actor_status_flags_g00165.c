@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C.
  */
 #include "dungeon/monster/death/actor_status_flags_g00165.h"
+#include "dungeon/monster/death.h"
 #include "shared/dungeon_status.h"
 #include "shared/sprite_frame_state.h"
 
@@ -177,7 +178,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
 }
 
 /* Advance actor states and directional animations while handling entity flags. */
-void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, void *entity)
+void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
 {
     s32 state;
 
@@ -197,7 +198,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         direction_frames = D_80174684;
         (animation->frameTable) = direction_frames;
         select_sprite_entry(animation,
-            direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
+            direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8017409C_0 *)actor)->unk_9B++;
         return;
@@ -207,14 +208,14 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         u8 *dungeon_state;
         u32 entity_flags;
 
-        if (((ActorRecord *)entity)->mp != 0) {
+        if (entity->mp != 0) {
             s32 *dungeon_state;
 
             (animation->frameTable) = D_8017468C;
             select_sprite_entry(animation,
-                D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
+                D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            ((ActorRecord *)entity)->flags1C |= 0x40000;
+            entity->flags1C |= 0x40000;
             dungeon_state = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)dungeon_state)->unk_0A++;
             ((S_8017409C_0 *)actor)->unk_9B++;
@@ -226,7 +227,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             return;
         }
 
-        if (((ActorRecord *)entity)->unk_64 != 0) {
+        if (entity->unk_64 != 0) {
             if (begin_ready_actor_directional_action(actor, context, animation, 0) != 0) {
                 return;
             }
@@ -236,7 +237,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             return;
         }
 
-        entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
+        entity_flags = ((u32)entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, context, animation, entity);
             return;
@@ -261,7 +262,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             return;
         }
 
-        if (((ActorRecord *)entity)->pending_turn_updates == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -273,15 +274,15 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (((ActorRecord *)entity)->mp == 0) {
+        if (entity->mp == 0) {
             return;
         }
 
         (animation->frameTable) = D_8017468C;
         select_sprite_entry(animation,
-            D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
+            D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+        (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;
     }
         ((S_8017409C_0 *)actor)->unk_9B++;

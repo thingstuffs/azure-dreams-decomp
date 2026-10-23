@@ -5,6 +5,8 @@
 struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/modules.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -1134,7 +1136,7 @@ extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
-extern s32 advance_actor_removal(void *,void *,void *,void *);
+
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
 extern s32 update_thrown_actor_travel(void *,void *,struct SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -1145,7 +1147,7 @@ extern s32 update_actor_fade_in(void *,void *,void *);
 extern s32 update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern M2C_UNK spend_actor_mp(M2C_UNK, M2C_UNK);
-extern s32 check_actor_floor_trap(void *,void *);
+
 extern s32 create_status_linked_render_effect();
 extern s32 relink_entity_and_clear_high_flag();
 /* Retail banks use the signed-halfword height-query return view; this
@@ -1169,7 +1171,7 @@ s32 func_80160298(void *entity_arg, void *primary_context_arg, void *secondary_c
 void func_801603DC(void *state_arg,void *position,void *render_state,void *entity);
 void func_80160458(void *action, struct ObjectPosition *motion, struct SpriteFrameState *map_entry, ActorRecord *actor);
 void func_80160944(S_80172944_0 *state,void *position,void *render_state,void *entity);
-void func_801609A8(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
+
 void func_80160BCC(CL_CC5000_80172BCC_S_func_80C953CC_1 *work, CL_CC5000_80172BCC_S_func_80C953CC_2 *position, CL_CC5000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CC5000_80172BCC_S_func_80C953CC_4 *actor);
 void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);

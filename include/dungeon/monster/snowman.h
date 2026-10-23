@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE10_SLOT0_H
 #define DUNGEON_RESOURCE10_SLOT0_H
 #include "shared/gpu_packets.h"
+#include "dungeon/actor.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -754,7 +755,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 s32 advance_status_timers();
-s32 check_actor_floor_trap();
+
 s32 func_800644B8();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
@@ -770,7 +771,7 @@ void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
 s32 update_actor_hop_and_shrink();
-s32 advance_actor_removal();
+
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();

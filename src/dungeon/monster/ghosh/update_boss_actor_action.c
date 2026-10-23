@@ -32,7 +32,7 @@ typedef struct S_8016F78C_0 {
 } S_8016F78C_0;   /* arg0 in update_boss_actor_action */
 
 /* Updates actor state, directional animation, and action handling. */
-void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRecord *entity) {
+void update_boss_actor_action(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 stack_pad[8];
     u8 current_state;
     s32 next_state;
@@ -50,8 +50,8 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         current_state = ((S_8016F78C_0 *)actor)->unk_9A;
         next_state = 0xE;
         if (current_state != next_state) {
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != ghosh_direction_frames) {
-                ((SpriteFrameState *)sprite)->frameTable = ghosh_direction_frames;
+            if (*(u8 * *)&sprite->frameTable != ghosh_direction_frames) {
+                sprite->frameTable = ghosh_direction_frames;
                 select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             }
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
@@ -63,14 +63,14 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         if (entity->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             func_8017092C(actor, context, sprite, entity);
-            ((SpriteFrameState *)sprite)->frameTable = ghosh_direction_frames;
+            sprite->frameTable = ghosh_direction_frames;
             select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             ((S_8016F78C_0 *)actor)->unk_90 = 0;
             return;
         }
     }
-    ((SpriteFrameState *)sprite)->unk_26 = find_active_rect_containing_point(((SpriteFrameState *)sprite)->unk_24,
-        ((SpriteFrameState *)sprite)->unk_25);
+    sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24,
+        sprite->unk_25);
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_mp(entity);

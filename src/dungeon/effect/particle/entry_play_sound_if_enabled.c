@@ -91,10 +91,6 @@ typedef struct S_818154FC_7 {
 
    /* map in func_818154FC */
 
-typedef struct S_818154FC_9 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_818154FC_9;   /* motion in func_818154FC */
 
 typedef struct S_818154FC_14 {
     u8 pad_00[0x14];
@@ -260,7 +256,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                 if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
                     s32 tile_distance;
                     s32 compare_one;
-                    u8 *motion;
+                    ObjectPosition *motion;
                     s32 z_step;
                     s32 other_z;
 
@@ -280,7 +276,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
                         duration = ((S_818154FC_7 *)work)->unk_02.s;
                         if (duration != 0) {
-                            z_step = ((S_818154FC_9 *)motion)->unk_08;
+                            z_step = motion->z.v;
                             other_z = position->unk_08.at00.v;
                             z_step -= other_z;
                             z_step -= 0x200000;

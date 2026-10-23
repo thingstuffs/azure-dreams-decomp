@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/blume.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -33,7 +34,7 @@ extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
-void update_damped_height_effect(void *state, void *position, void *object)
+void update_damped_height_effect(void *state, void *position, SpriteFrameState *object)
 {
     s32 height;
     u16 ticks_left;
@@ -82,7 +83,7 @@ void update_damped_height_effect(void *state, void *position, void *object)
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    if (((SpriteFrameState *)object)->flags & 0x8000) {
+    if (object->flags & 0x8000) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

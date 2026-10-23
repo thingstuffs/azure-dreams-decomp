@@ -1,5 +1,6 @@
 /* Actor creation and behavior, directional actions, and staged actor replacement effects. */
 #include "shared/entity.h"
+#include "dungeon/modules.h"
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_ccb000.h"
 #include "shared/actor_action_flags.h"
@@ -1005,7 +1006,7 @@ void func_8015A944(S_80172944_0 *state,void *position,void *render_state,void *e
 }
 
 /* Times an attack animation and sound, resolves its hit, then spends MP and advances status timers. */
-void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 next_state;
@@ -1022,7 +1023,7 @@ void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, void *a
         if (sprite->flags & 0x8000) {
             ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
@@ -1031,7 +1032,7 @@ void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, void *a
         ((CL_CCB000_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
         sprite->frameTable = D_8015D2DC;
         select_sprite_entry(sprite,
-            D_8015D2DC[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            D_8015D2DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         next_state = ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_9B;
         ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_96.s = 0;
@@ -1042,7 +1043,7 @@ void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, void *a
         timer = ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
         ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
         if (((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
             play_sound_if_enabled(0x808);
@@ -1064,7 +1065,7 @@ void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, void *a
             ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_8C = func_8015902C;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
     default:

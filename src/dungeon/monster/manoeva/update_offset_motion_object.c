@@ -1,15 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-typedef struct S_80175C60_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175C60_0;   /* arg1_pinned in update_offset_motion_object */
 
 typedef struct S_80175C60_1 {
     s16 * unk_00;
@@ -29,7 +22,7 @@ typedef struct S_80175C60_2 {
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
 void update_offset_motion_object(void *object, void *motion_data, void *rotation)
 {
-    void *motion = motion_data;
+    ObjectPosition *motion = motion_data;
     s32 facing;
     s32 accel_x;
     s32 velocity_y;
@@ -37,16 +30,16 @@ void update_offset_motion_object(void *object, void *motion_data, void *rotation
     s32 velocity_x;
     u16 ticks_left;
 
-    ((S_80175C60_0 *)motion)->unk_00 += ((S_80175C60_0 *)motion)->unk_0C;
-    ((S_80175C60_0 *)motion)->unk_04 += ((S_80175C60_0 *)motion)->unk_10;
-    ((S_80175C60_0 *)motion)->unk_08 += ((S_80175C60_0 *)motion)->unk_14;
-    velocity_x = ((S_80175C60_0 *)motion)->unk_0C;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    velocity_x = motion->velocity_x;
     accel_x = velocity_x >> 5;
-    velocity_y = ((S_80175C60_0 *)motion)->unk_10;
+    velocity_y = motion->velocity_y;
     next_velocity_y = velocity_y;
-    ((S_80175C60_0 *)motion)->unk_0C = velocity_x + accel_x;
+    motion->velocity_x = velocity_x + accel_x;
     next_velocity_y += next_velocity_y >> 5;
-    ((S_80175C60_0 *)motion)->unk_10 = next_velocity_y;
+    motion->velocity_y = next_velocity_y;
     ticks_left = ((S_80175C60_1 *)object)->unk_20 - 1;
     ((S_80175C60_1 *)object)->unk_20 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

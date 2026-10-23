@@ -1,6 +1,7 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -16,7 +17,7 @@ void cycle_map_cell_flags();             /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
-void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, void *entity);
+
 void advance_actor_status_turn_second(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
 s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
 extern M2C_UNK D_800DEF08;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
 
@@ -6,7 +7,7 @@
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 extern s32 D_80171514;
 
 typedef struct S_80172474_0 {

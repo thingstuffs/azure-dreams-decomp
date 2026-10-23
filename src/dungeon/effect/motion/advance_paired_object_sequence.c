@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/actor.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -138,7 +139,7 @@ extern u8 D_800287F0[];
 extern void sound_set_cd_cue_parameters(void *, void *, void *, s32);
 extern s32 read_stream_cue_start_offset(void);
 extern void Control_CD(s32, s32, s32);
-extern void begin_actor_flagged_action(void *, void *, void *, void *);
+
 extern void play_sound_if_enabled(s32);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);

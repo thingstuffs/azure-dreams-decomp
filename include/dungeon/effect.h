@@ -3,6 +3,7 @@
 
 /* Function contracts owned by src/dungeon/effect/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record);
 void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
@@ -14,5 +15,10 @@ void run_indexed_callback_list(s16 list_index);
 void spawn_directed_and_scattered_particles(s32 x, s32 y, s32 z);
 void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
 
+
+
+
+void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, void *animation, ActorRecord *actor);
+void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 #endif

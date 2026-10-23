@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/effect.h"
 
@@ -10,7 +11,7 @@ extern s32 has_pending_actor_or_turn_action(s32);
 extern void begin_pushed_actor_move(void *, s32, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
-extern void begin_actor_flagged_action(void *, s32, void *, void *);
+
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);
 
 /* Dispatch an target action and update the actor and destination state. */

@@ -1,5 +1,6 @@
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
 #include "dungeon/level.h"
+#include "dungeon/menu.h"
 #include "dungeon/menu/select.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -7,7 +8,7 @@
 
 /* Eases the selection sprite toward the selected entry, advances its animation, and toggles visibility
    while blinking. */
-void follow_selection_and_blink_sprite(void *motion_state, void *position, SpriteFrameState *draw_state) {
+void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *position, SpriteFrameState *draw_state) {
     s16 move_ticks;
     s32 target_y;
     s16 ticks_left;
@@ -24,27 +25,27 @@ void follow_selection_and_blink_sprite(void *motion_state, void *position, Sprit
     node_index = ((S_81809800_0 *)owner)->unk_26;
     update_counts = D_8002715C;
     target_node = ((S_81809800_1 *)(((node_index * 4) + owner)))->unk_0C;
-    current_y = ((S_81809800_2 *)position)->unk_00.at02.v;
+    current_y = position->x.w.i;
     target_pos = ((S_81809800_3 *)target_node)->unk_08;
     target_y = ((S_81809800_4 *)target_pos)->unk_00.at02.v;
     update_counts[0] = (s16) ((u16) update_counts[0] + 1);
     if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v
-        != ((S_81809800_2 *)position)->unk_04.at02.v)) {
+        != position->y.w.i)) {
         ((EntityRec *)motion_state)->z.w.i = 2;
     }
     move_ticks = ((EntityRec *)motion_state)->z.w.i;
     if (move_ticks != 0) {
-        ((S_81809800_2 *)position)->unk_00.at00.v = (s32) (((S_81809800_2 *)position)->unk_00.at00.v
+        position->x.v = (s32) (position->x.v
             + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v
-            - ((S_81809800_2 *)position)->unk_00.at00.v) / move_ticks));
-        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v
+            - position->x.v) / move_ticks));
+        position->y.v = (s32) (position->y.v
             + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v
-            - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
+            - position->y.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
         ticks_left = (u16) ((EntityRec *)motion_state)->z.w.i - 1;
         ((EntityRec *)motion_state)->z.w.i = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            ((S_81809800_2 *)position)->unk_00.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_00.at02.v;
-            ((S_81809800_2 *)position)->unk_04.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_04.at02.v;
+            position->x.w.i = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_00.at02.v;
+            position->y.w.i = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_04.at02.v;
             ((EntityRec *)motion_state)->z.w.i = 0;
         }
     }

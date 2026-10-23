@@ -1,15 +1,8 @@
 #include "common.h"
+#include "dungeon/effect/shade.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_800D4CB0_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800D4CB0_0;   /* arg1 in advance_damped_effect_motion */
 
 typedef struct S_800D4CB0_1 {
     u8 pad_00[0xC];
@@ -34,15 +27,15 @@ typedef struct S_800D4CB0_2 {
 
 
 /* Advance and damp motion, fade the effect color, and flag expiration. */
-void advance_damped_effect_motion(void *effect, void *motion, void *color) {
+void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color) {
     s16 ticks_left;
 
-    ((S_800D4CB0_0 *)motion)->unk_00 += ((S_800D4CB0_0 *)motion)->unk_0C;
-    ((S_800D4CB0_0 *)motion)->unk_04 += ((S_800D4CB0_0 *)motion)->unk_10;
-    ((S_800D4CB0_0 *)motion)->unk_08 += ((S_800D4CB0_0 *)motion)->unk_14;
-    ((S_800D4CB0_0 *)motion)->unk_0C /= 2;
-    ((S_800D4CB0_0 *)motion)->unk_10 /= 2;
-    ((S_800D4CB0_0 *)motion)->unk_14 /= 2;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_x /= 2;
+    motion->velocity_y /= 2;
+    motion->velocity_z /= 2;
     ((S_800D4CB0_1 *)color)->unk_0C =
         (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0C * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
     ((S_800D4CB0_1 *)color)->unk_0D =

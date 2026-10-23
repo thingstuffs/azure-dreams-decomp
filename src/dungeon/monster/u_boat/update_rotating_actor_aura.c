@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/u_boat.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
@@ -56,11 +57,6 @@ typedef struct S_80170CEC_5 {
     u8 unk_9A;
 } S_80170CEC_5;   /* entity in update_rotating_actor_aura */
 
-typedef struct S_80170CEC_6 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80170CEC_6;   /* arg1 in update_rotating_actor_aura */
 
 typedef struct S_80170CEC_7 {
     s32 unk_00;
@@ -74,7 +70,7 @@ extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
-void update_rotating_actor_aura(void *effect, void *position, void *visual) {
+void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *visual) {
     void *entity;
     void *entity_saved;
     void *source_position;
@@ -149,14 +145,14 @@ void update_rotating_actor_aura(void *effect, void *position, void *visual) {
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
-        ((S_80170CEC_6 *)position)->unk_00 = ((S_80170CEC_7 *)source_position)->unk_00;
-        ((S_80170CEC_6 *)position)->unk_04 = ((S_80170CEC_7 *)source_position)->unk_04;
-        ((S_80170CEC_6 *)position)->unk_08 = ((S_80170CEC_7 *)source_position)->unk_08;
+        position->x.v = ((S_80170CEC_7 *)source_position)->unk_00;
+        position->y.v = ((S_80170CEC_7 *)source_position)->unk_04;
+        position->z.v = ((S_80170CEC_7 *)source_position)->unk_08;
         break;
     case 3:
-        ((S_80170CEC_6 *)position)->unk_00 = ((S_80170CEC_7 *)source_position)->unk_00;
-        ((S_80170CEC_6 *)position)->unk_04 = ((S_80170CEC_7 *)source_position)->unk_04;
-        ((S_80170CEC_6 *)position)->unk_08 = ((S_80170CEC_7 *)source_position)->unk_08;
+        position->x.v = ((S_80170CEC_7 *)source_position)->unk_00;
+        position->y.v = ((S_80170CEC_7 *)source_position)->unk_04;
+        position->z.v = ((S_80170CEC_7 *)source_position)->unk_08;
         ((S_80170CEC_3 *)visual)->unk_1C = ((S_80170CEC_2 *)record)->unk_1C;
         ((S_80170CEC_3 *)visual)->unk_1E = ((S_80170CEC_2 *)record)->unk_1E;
     case 2:

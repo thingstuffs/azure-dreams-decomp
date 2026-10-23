@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "records/Rec_func_8008D024_arg0.h"
 
 
@@ -13,7 +14,7 @@ extern void *get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(void *src, s32 dst);
 extern void clear_byte_and_advance(s32 byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s32 text);
-extern void begin_actor_flagged_action(void *entity, s32 unused, s32 status, void *event_state);
+
 extern u8 D_800E05E1[];
 extern u8 D_800E05F0[];
 

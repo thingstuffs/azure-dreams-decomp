@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P07_H
 #define DUNGEON_OVL_7F469800_P07_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -143,7 +144,7 @@ extern s32 advance_actor_pending_action();
 extern void begin_actor_move_to_target_facing();
 extern void create_tracked_attachment_sprite();
 extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, T_801759A0_Obj2 *, T_801759A0_Obj3 *);
-extern s32 check_actor_floor_trap(T_801759A0_Obj2 *, T_801759A0_Obj3 *);
+
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];

@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_CB3000_H
 #define MODULE_DUNGEON_OVL_CB3000_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -1161,7 +1162,7 @@ extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
-extern s32 advance_actor_removal(void *,void *,void *,void *);
+
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
 extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -1172,7 +1173,7 @@ extern s32 update_actor_fade_in(void *,void *,void *);
 extern s32 update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern M2C_UNK spend_actor_mp(M2C_UNK, M2C_UNK);
-extern s32 check_actor_floor_trap(void *,void *);
+
 extern s32 create_status_linked_render_effect();
 extern s32 relink_entity_and_clear_high_flag();
 extern void emit_scattered_effects_unless_blocked(void *);
@@ -1195,9 +1196,9 @@ s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 mo
 void begin_unchecked_directional_attack(CB_80172180_S_80172180_1 *state, s32 position, CB_80172180_S_80172180_2 *render_state, void *entity);
 s32 resolve_actor_action_readiness(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_step_and_status(void *state_arg,void *position,void *render_state,void *entity);
-void update_tile_movement_and_height(void *action, ObjectPosition *motion, void *map_entry, ActorRecord *actor);
+
 void finish_linked_motion_and_trap(S_80172944_0 *state,void *position,void *render_state,void *entity);
-void complete_timed_actor_animation(void *action, void *motion, void *sprite, void *actor);
+
 void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80172BCC_S_func_80C953CC_2 *position, CB_80172BCC_S_func_80C953CC_3 *entity,
     CB_80172BCC_S_func_80C953CC_4 *actor);
 void func_801730E0(CB_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity);
@@ -1223,4 +1224,13 @@ void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);
 void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
 void resume_actor_after_floor_trap(CB_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void resume_actor_after_action_flag(CB_80175274_CallbackState *state,void *position,void *sprite,void *entity);
+
+
+
+void update_tile_movement_and_height(void *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);
+
+
+
+void complete_timed_actor_animation(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

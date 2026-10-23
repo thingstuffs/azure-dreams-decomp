@@ -1,6 +1,7 @@
 #include "common.h"
+#include "dungeon/actor.h"
 /* extern */
-s32 check_actor_floor_trap();                /* extern */
+                /* extern */
 extern u8 D_800D4494;
 
 typedef struct S_800D45D0_0 {

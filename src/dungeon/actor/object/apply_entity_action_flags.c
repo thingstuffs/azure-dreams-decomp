@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -22,7 +23,7 @@ void apply_entity_effects();                      /* extern */
 void restore_player_control_callback();              /* extern */
 void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
-void begin_actor_flagged_action(); /* extern */
+ /* extern */
 extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];
 

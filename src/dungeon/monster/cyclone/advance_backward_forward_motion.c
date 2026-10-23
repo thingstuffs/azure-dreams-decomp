@@ -1,6 +1,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -33,7 +34,7 @@ extern u8 D_80171094[];
 extern u8 cyclone_attack_frames[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
-void advance_backward_forward_motion(void *action, ObjectPosition *motion, void *animation, ActorRecord *actor)
+void advance_backward_forward_motion(void *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor)
 {
     u16 timer;
     s32 state;
@@ -51,12 +52,12 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, void 
         ((S_80172C98_0 *)action)->unk_9B++;
 
     case 1:
-        if (((SpriteFrameState *)animation)->flags & 0x8000) {
+        if (animation->flags & 0x8000) {
             ((S_80172C98_0 *)action)->unk_9B = 3;
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;
-            ((SpriteFrameState *)animation)->flags |= 0x6000;
+            animation->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
@@ -69,10 +70,10 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, void 
                     motion->velocity_z = 0;
         }
 
-        if (((SpriteFrameState *)animation)->flags & 0x6000) {
+        if (animation->flags & 0x6000) {
             u8 *direction_anims = cyclone_attack_frames;
 
-            ((SpriteFrameState *)animation)->frameTable = direction_anims;
+            animation->frameTable = direction_anims;
             select_sprite_entry(
                 animation,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -104,15 +105,15 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, void 
 
         timer = ((S_80172C98_0 *)action)->unk_96 + 1;
         ((S_80172C98_0 *)action)->unk_96 = timer;
-        if (((s16)timer == 5) || (((SpriteFrameState *)animation)->flags & 0x8000)) {
+        if (((s16)timer == 5) || (animation->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             play_sound_if_enabled(0x808);
         }
 
     case 3:
-        if (((SpriteFrameState *)animation)->flags & 0xE000) {
+        if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)animation)->unk_24, ((SpriteFrameState *)animation)->unk_25);
+            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;

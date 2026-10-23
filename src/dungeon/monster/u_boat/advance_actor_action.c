@@ -40,7 +40,7 @@ extern u8 D_800E2430[];
 #include "dungeon/monster/u_boat.h"
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
-void advance_actor_action(void *action, void *context, void *sprite, ActorRecord *entity)
+void advance_actor_action(void *action, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 entity_flags;
     u16 action_value;
@@ -51,10 +51,10 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
     phase = ((S_801743DC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = uboat_action_frames;
+        sprite->frameTable = uboat_action_frames;
         select_sprite_entry(sprite,
             uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -115,7 +115,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
+            s8 tile = *(s8 *)&sprite->unk_26;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -127,12 +127,12 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_800E2430;
+        sprite->frameTable = D_800E2430;
         select_sprite_entry(sprite,
             D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_801743DC_0 *)action)->unk_8C = uboat_behavior_entry;
             return;
         }
@@ -144,7 +144,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
         }
         return;
     case 2:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;

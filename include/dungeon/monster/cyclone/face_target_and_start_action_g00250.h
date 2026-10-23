@@ -6,6 +6,7 @@ struct ObjectPosition;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more). */
 
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/dungeon_image_buffer.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -103,6 +104,6 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
 s32 search_ahead_and_start_action(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void update_action_state_direction_specific(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor);
 void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, SpriteFrameState *animation, ActorRecord *actor);
-void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, Rec_D_80082E80 *sprite, ActorRecord *actor);
+
 
 #endif

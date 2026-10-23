@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/saber.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +31,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern s32 D_80165728;
 extern u8 D_80168DEC[];
@@ -37,7 +39,7 @@ extern u8 D_80168E0C[];
 extern u8 D_80168E14[];
 
 /* Updates a timed hop to the entity tile and handles its completion. */
-void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_entity, ActorRecord *actor)
+void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor)
 {
     s32 state;
     s32 hop_frames;
@@ -55,10 +57,10 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
     state = ((S_80166BAC_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = D_80168E0C;
+        map_entity->frameTable = D_80168E0C;
         select_sprite_entry(
             map_entity,
             D_80168E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -74,7 +76,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
         hop_frames = ((S_80166BAC_0 *)action)->unk_9E.s;
         ((S_80166BAC_0 *)action)->unk_90 -= ((S_80166BAC_0 *)action)->unk_A4;
         if (hop_frames != 0) {
-            target_x = ((SpriteFrameState *)map_entity)->unk_24;
+            target_x = map_entity->unk_24;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -84,7 +86,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)map_entity)->unk_25 << 6) - pos_y) << 16) /
+                (((map_entity->unk_25 << 6) - pos_y) << 16) /
                 ((S_80166BAC_0 *)action)->unk_9E.s;
 
             ((S_80166BAC_0 *)action)->unk_A4 =
@@ -112,8 +114,8 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
-            ((SpriteFrameState *)map_entity)->frameTable = D_80168E14;
+            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            map_entity->frameTable = D_80168E14;
             select_sprite_entry(
                 map_entity,
                 D_80168E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -123,8 +125,8 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
         break;
 
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)map_entity)->frameTable != D_80168DEC) {
-            ((SpriteFrameState *)map_entity)->frameTable = D_80168DEC;
+        if (*(u8 * *)&map_entity->frameTable != D_80168DEC) {
+            map_entity->frameTable = D_80168DEC;
             select_sprite_entry(
                 map_entity,
                 D_80168DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -142,7 +144,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+    set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -159,8 +161,8 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, void *map_en
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)map_entity)->unk_24,
-                ((SpriteFrameState *)map_entity)->unk_25,
+                map_entity->unk_24,
+                map_entity->unk_25,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

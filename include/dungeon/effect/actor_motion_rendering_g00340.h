@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
 
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -18,7 +19,7 @@
 #include "dungeon/actor/callback.h"
 
 extern s32 has_pending_dungeon_activity(void *entity);
-extern void begin_actor_flagged_action(void *entity, s32 unused, s32 status, void *event_state);
+
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, s32 properties, void *status);
 extern s16 pending_marked_actor_count;
 extern ActorCallback actor_render_callbacks[];

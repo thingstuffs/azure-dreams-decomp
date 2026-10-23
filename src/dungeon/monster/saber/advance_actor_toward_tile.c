@@ -1,4 +1,5 @@
 #include "dungeon/monster/saber.h"
+#include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +30,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern s32 D_80159728;
 extern u8 D_8015CDEC[];
@@ -37,7 +38,7 @@ extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
 /* Updates movement toward a tile, its animation phases, and action completion. */
-void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
+void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 phase;
     s32 frames_left;
@@ -54,10 +55,10 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
     phase = ((S_80ADF3AC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_8015CE0C;
+        sprite->frameTable = D_8015CE0C;
         select_sprite_entry(
             sprite,
             D_8015CE0C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -71,7 +72,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
         frames_left = ((S_80ADF3AC_0 *)action)->unk_9E.s;
         ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
         if (frames_left != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -79,7 +80,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((sprite->unk_25 << 6) - pos_y) << 16) /
                 ((S_80ADF3AC_0 *)action)->unk_9E.s;
             ((S_80ADF3AC_0 *)action)->unk_A4 =
                 (-func_800644B8(((S_80ADF3AC_0 *)action)->unk_9E.s * 0x199)) << 10;
@@ -103,8 +104,8 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            ((SpriteFrameState *)sprite)->frameTable = D_8015CE14;
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            sprite->frameTable = D_8015CE14;
             select_sprite_entry(
                 sprite,
                 D_8015CE14[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -113,10 +114,10 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
         }
         break;
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == D_8015CDEC) {
+        if (*(u8 * *)&sprite->frameTable == D_8015CDEC) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_8015CDEC;
+        sprite->frameTable = D_8015CDEC;
         select_sprite_entry(
             sprite,
             D_8015CDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -130,7 +131,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
     shared_state = &g_dungeon_status;
@@ -145,8 +146,8 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, A
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24,
-                ((SpriteFrameState *)sprite)->unk_25,
+                sprite->unk_24,
+                sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &target_distance);

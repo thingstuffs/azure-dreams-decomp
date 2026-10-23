@@ -594,7 +594,7 @@ s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
 }
 
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
-void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *search_state) {
+void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord *search_state) {
     s32 lookup_code;
     void *owner;
     u32 map_index_bits, floor_index_bits;
@@ -602,14 +602,14 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
     s16 floor_index, map_index;
     u8 *floor_entry, *map_entry;
 
-    lookup_code = lookup_definition_pair_value(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
+    lookup_code = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
     if ((lookup_code << 16) != 0) {
         *(s16 *)temporary_item_record = (s16)(lookup_code | 0x1400);
         ((PlayerRecord *)primary_actor_record)->selected_floor_entry = 0;
         return;
     } else {
-        map_index_bits = (u32)find_entry_at_tile_coordinates(((SpriteFrameState *)entity)->unk_24,
-                                            ((SpriteFrameState *)entity)->unk_25,
+        map_index_bits = (u32)find_entry_at_tile_coordinates(entity->unk_24,
+                                            entity->unk_25,
                                             search_state->ground_height) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
         if (map_index >= 0) {
@@ -624,8 +624,8 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
             return;
         }
 
-        floor_index_bits = (u32)find_floor_item_at_world_position(((SpriteFrameState *)entity)->unk_24,
-                                              ((SpriteFrameState *)entity)->unk_25,
+        floor_index_bits = (u32)find_floor_item_at_world_position(entity->unk_24,
+                                              entity->unk_25,
                                               search_state->ground_height) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/nyuel.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -28,7 +29,7 @@ extern u8 D_80174EE0[];
 extern u8 D_80174F00[];
 
 /* Updates the actor state and selects its directional effect. */
-void update_actor_state_and_directional_effect(void *controller, void *context, void *sprite, ActorRecord *actor)
+void update_actor_state_and_directional_effect(void *controller, void *context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 state;
     u8 *effect_table;
@@ -40,13 +41,13 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
     {
         u8 *initial_effects;
 
-        if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
         initial_effects = D_80174F00;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((SpriteFrameState *)sprite)->frameTable = initial_effects;
+        sprite->frameTable = initial_effects;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, initial_effects[direction & 7], 0);
         ((S_80173564_0 *)controller)->unk_9B++;
@@ -99,7 +100,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
         }
 
         effect_table = D_80174EE0;
-        ((SpriteFrameState *)sprite)->frameTable = effect_table;
+        sprite->frameTable = effect_table;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect_table[direction & 7], 0);
         actor->flags1C &= ~0x200;

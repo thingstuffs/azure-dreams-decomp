@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_12C50AC_H
 #define MODULE_DUNGEON_OVL_12C50AC_H
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -52,14 +53,13 @@ s32 func_8004491C();                /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
 extern void *D_800FBE1C[];
-void update_actor_scripts_and_motion(void *, void *, void *);
+void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, void *sprite_in);
 
 /* Creates and initializes an entity at the center of the specified tile. */
 
 #include "shared/dir_step.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
-#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
@@ -235,15 +235,6 @@ typedef struct S_812A524C_36 {
     union { s32 n; s32 v; } unk_00;   /* accessed as both */
 } S_812A524C_36;   /* &D_800E296C in func_80170A4C */
 
-typedef struct S_812A524C_37 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_812A524C_37;   /* arg1 in func_80170A4C */
 
 typedef struct S_812A524C_38 {
     u8 pad_00[0x4];

@@ -28,7 +28,7 @@ typedef struct S_801740DC_0 {
 } S_801740DC_0;   /* arg0 in update_actor_directional_animation */
 
 /* Updates actor state, directional animation, and the shared transition counter. */
-void update_actor_directional_animation(void *actor_in, s32 actor_index, void *target, void *entity_in)
+void update_actor_directional_animation(void *actor_in, s32 actor_index, SpriteFrameState *target, void *entity_in)
 {
     EntityRec *entity = entity_in;
     s32 state;
@@ -38,7 +38,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     state = ((S_801740DC_0 *)actor_in)->unk_9B;
     switch (state) {
     case 0:
-    if (!(((SpriteFrameState *)target)->flags & 0xE000)) {
+    if (!(target->flags & 0xE000)) {
         return;
     }
     {
@@ -47,7 +47,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    ((SpriteFrameState *)target)->frameTable = saber_direction_frames_2;
+    target->frameTable = saber_direction_frames_2;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, saber_direction_frames_2[direction & 7], 0);
     ((S_801740DC_0 *)actor_in)->unk_9B++;
@@ -57,7 +57,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     if (entity->tileY != 0) {
         DungeonGlobalStatus *shared_counter;
 
-        ((SpriteFrameState *)target)->frameTable = D_80174E54;
+        target->frameTable = D_80174E54;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
         shared_counter = &g_dungeon_status;
@@ -103,7 +103,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         if (entity->tileY == 0) {
             return;
         }
-        ((SpriteFrameState *)target)->frameTable = D_80174E54;
+        target->frameTable = D_80174E54;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(target, D_80174E54[direction & 7], 0);
         shared_state->activity_counts.parts.pending_action_count++;
@@ -112,7 +112,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
     return;
 
     case 2:
-    if (!(((SpriteFrameState *)target)->flags & 0xE000)) {
+    if (!(target->flags & 0xE000)) {
         return;
     }
     {

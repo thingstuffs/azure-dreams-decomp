@@ -25,7 +25,7 @@ extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target
 
 extern void func_80171388(void *);
 extern void func_801715CC(void *, void *, void *, void *);
-extern s32 attempt_actor_transition(void *, void *, void *, void *);
+
 extern void update_action_and_directional_frame(void *, void *, void *, void *);
 extern s32 func_801720E0(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);

@@ -36,7 +36,7 @@ void select_sprite_entry();         /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
-extern void advance_linked_actor_motion_script(void *state_in, void *motion_in, SpriteFrameState *sprite_in);
+#include "dungeon/monster/beldo_large.h"
 extern M2C_UNK D_80173DA4;
 extern void *beldo_script_node;
 

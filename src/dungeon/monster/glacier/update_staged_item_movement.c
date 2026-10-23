@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/glacier.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -22,7 +23,7 @@ typedef struct S_80173730_0 {
 } S_80173730_0;   /* arg0 in update_staged_item_movement */
 
 /* Updates staged movement toward a target tile and finalizes the action. */
-void update_staged_item_movement(void *action, ObjectPosition *motion, void *target, EntityRec *actor)
+void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFrameState *target, EntityRec *actor)
 {
     u8 state;
     s16 timer;
@@ -40,7 +41,7 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, void *tar
             begin_actor_display_action(action, motion, target, &D_801760D4);
             return;
         }
-        if (!(((SpriteFrameState *)target)->flags & 0x8000)) {
+        if (!(target->flags & 0x8000)) {
             return;
         }
         ((S_80173730_0 *)action)->unk_96.u = 0;
@@ -85,14 +86,14 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, void *tar
 
             if (motion_timer != 0) {
                 {
-                    s32 target_x = ((SpriteFrameState *)target)->unk_24 << 6;
+                    s32 target_x = target->unk_24 << 6;
                     s32 current_x = motion->x.w.i - 0x20;
 
                     motion->velocity_x =
                         ((target_x - current_x) << 16) / motion_timer;
                 }
                 {
-                    s32 target_y = ((SpriteFrameState *)target)->unk_25 << 6;
+                    s32 target_y = target->unk_25 << 6;
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->velocity_y = ((target_y - current_y) << 16)
@@ -121,8 +122,8 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, void *tar
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)target)->unk_24,
-            ((SpriteFrameState *)target)->unk_25);
+        set_record_integer_tile_center(motion, target->unk_24,
+            target->unk_25);
         entity_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_addr == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;

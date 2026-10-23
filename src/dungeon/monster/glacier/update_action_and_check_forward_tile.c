@@ -50,17 +50,6 @@ typedef struct S_801757E0_0 {
     union { u8 u; s8 s; } unk_AD;   /* accessed as both */
 } S_801757E0_0;   /* arg0 in update_action_and_check_forward_tile */
 
-typedef struct S_801757E0_2 {
-    u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801757E0_2;   /* arg1 in update_action_and_check_forward_tile */
 
 typedef struct S_801757E0_3 {
     u8 pad_00[0x1E];
@@ -83,7 +72,7 @@ typedef struct S_801757E0_6 {
 /* Update the action sequence, spawning particles and checking the tile ahead. */
 /* Emits particles, checks the tile ahead before creating a moving effect, spins while it runs, then spends
  * MP. */
-void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrameState *animation, ActorRecord *entity)
+void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *entity)
 {
     u16 offsets[3];
     u16 collision_flags;
@@ -111,9 +100,9 @@ void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrame
             animation->flags |= 0x6000;
             return;
         }
-        ((S_801757E0_2 *)motion)->unk_14 = 0;
-        ((S_801757E0_2 *)motion)->unk_10 = 0;
-        ((S_801757E0_2 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_801757E0_0 *)actor)->unk_96.u = 0xE;
         ((S_801757E0_0 *)actor)->unk_AC.u = 0;
         ((S_801757E0_0 *)actor)->unk_AD.u = 0;
@@ -140,9 +129,9 @@ void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrame
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = particle->position;
                 if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
-                    particle_transform->unk_02 = ((S_801757E0_2 *)motion)->unk_02.u;
-                    particle_transform->unk_06 = ((S_801757E0_2 *)motion)->unk_06.u;
-                    particle_transform->unk_0A = ((S_801757E0_2 *)motion)->unk_0A.u;
+                    particle_transform->unk_02 = ((u16) motion->x.w.i);
+                    particle_transform->unk_06 = ((u16) motion->y.w.i);
+                    particle_transform->unk_0A = ((u16) motion->z.w.i);
                     particle_transform->unk_02 += offsets[0];
                     particle_transform->unk_06 += offsets[1];
                     particle_transform->unk_0A += offsets[2];
@@ -198,15 +187,15 @@ void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrame
         if (!(((S_801757E0_0 *)actor)->unk_96.s != 0x0A && !(animation->flags & 0x8000))) {
             directions = D_8017610C;
             ((S_801757E0_0 *)actor)->unk_AD.s = 0;
-            x = ((S_801757E0_2 *)motion)->unk_02.s +
+            x = motion->x.w.i +
                 (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
-            y = ((S_801757E0_2 *)motion)->unk_06.s +
+            y = motion->y.w.i +
                 (directions[(((u16)entity->facing) >> 9) & 7].y << 6);
             target_x = (u16)x;
             target_y = (u16)y;
 
             if ((s16)check_left_tile_and_center_height(target_x, target_y,
-                                   ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
+                                   motion->z.w.i) != 0) {
                 ((S_801757E0_0 *)actor)->unk_AD.s = 1;
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
@@ -224,16 +213,16 @@ void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrame
                             directions[(((u16)entity->facing) >> 9) & 7].x,
                         animation->unk_25 +
                             directions[(((u16)entity->facing) >> 9) & 7].y,
-                        ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
+                        motion->z.w.i) != 0) {
                     ((S_801757E0_0 *)actor)->unk_AD.s = 1;
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
                 floor_height = sample_terrain_surface_height(target_x, target_y,
-                                     ((S_801757E0_2 *)motion)->unk_0A.s - 0x20);
+                                     motion->z.w.i - 0x20);
                 if (floor_height >= 0x200 ||
-                    floor_height > ((S_801757E0_2 *)motion)->unk_0A.s + 0x20 ||
-                    floor_height < ((S_801757E0_2 *)motion)->unk_0A.s - 0x20) {
+                    floor_height > motion->z.w.i + 0x20 ||
+                    floor_height < motion->z.w.i - 0x20) {
                     ((S_801757E0_0 *)actor)->unk_AD.s = 1;
                 }
             }
@@ -244,9 +233,9 @@ void update_action_and_check_forward_tile(void *actor, void *motion, SpriteFrame
         if (!(animation->flags & 0xE000)) {
             return;
         }
-        ((S_801757E0_2 *)motion)->unk_14 = 0;
-        ((S_801757E0_2 *)motion)->unk_10 = 0;
-        ((S_801757E0_2 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
 
         if (animation->frameTable != glacier_direction_frames) {

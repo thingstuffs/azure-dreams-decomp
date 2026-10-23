@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -33,15 +34,6 @@ typedef struct S_80175CD8_0 {
     union { s16 s; u16 u; } unk_B4;   /* accessed as both */
 } S_80175CD8_0;   /* arg0 in update_actor_approach_descent_return */
 
-typedef struct S_80175CD8_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175CD8_3;   /* arg1 in update_actor_approach_descent_return */
 
 typedef struct S_80175CD8_4 {
     u8 pad_00[0x14];
@@ -101,7 +93,7 @@ extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 d
 /* Updates the actor's approach, descent, and return sequence. */
 /* Spends MP to descend with the player, then saves party state for a scene change or returns with a
  * message. */
-void update_actor_approach_descent_return(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 slot;
     s32 companion_type;
@@ -188,32 +180,32 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             target_z = view_reference_entity.z.v - 0x600000;
             approach_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (approach_ticks >= 0xE) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x
-                    - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (approach_ticks - 9);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_x = (target_x
+                    - motion->x.v) / (approach_ticks - 9);
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 9);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 9);
             } else if (approach_ticks >= 0xB) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x
-                    - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (approach_ticks - 7);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_x = (target_x
+                    - motion->x.v) / (approach_ticks - 7);
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 7);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 7);
             } else if (approach_ticks >= 5) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x
-                    - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (approach_ticks - 2);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_x = (target_x
+                    - motion->x.v) / (approach_ticks - 2);
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 2);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 2);
             } else {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x
-                    - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / approach_ticks;
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_x = (target_x
+                    - motion->x.v) / approach_ticks;
+                motion->velocity_y = (target_y - motion->y.v) /
                     ((S_80175CD8_0 *)action)->unk_96.s;
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     ((S_80175CD8_0 *)action)->unk_96.s;
             }
             ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
@@ -223,9 +215,9 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             }
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B++;
-            ((S_80175CD8_3 *)motion)->unk_14 = 0;
-            ((S_80175CD8_3 *)motion)->unk_10 = 0;
-            ((S_80175CD8_3 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             return;
 
         case 2:
@@ -261,7 +253,7 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             ObjectPosition *scene = ((u8 *)(&view_reference_entity));
             s32 fall_speed = (s32)0xFFF40000;
 
-            ((S_80175CD8_3 *)motion)->unk_14 = fall_speed;
+            motion->velocity_z = fall_speed;
             scene->z.v += fall_speed;
         }
             {
@@ -316,9 +308,9 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
                 request_scene_dispatch_state(map_id);
             }
             mark_sprite_resources_for_purge();
-            ((S_80175CD8_3 *)motion)->unk_14 = 0;
-            ((S_80175CD8_3 *)motion)->unk_10 = 0;
-            ((S_80175CD8_3 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B = 0x14;
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
@@ -367,31 +359,31 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
             return_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (return_ticks >= 0xE) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (return_ticks
+                motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 9);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 9);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 9);
             } else if (return_ticks >= 0xB) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (return_ticks
+                motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 7);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 7);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 7);
             } else if (return_ticks >= 5) {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / (return_ticks
+                motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 2);
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_y = (target_y - motion->y.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 2);
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     (((S_80175CD8_0 *)action)->unk_96.s - 2);
             } else {
-                ((S_80175CD8_3 *)motion)->unk_0C = (target_x - ((S_80175CD8_3 *)motion)->unk_00.at00.v) / return_ticks;
-                ((S_80175CD8_3 *)motion)->unk_10 = (target_y - ((S_80175CD8_3 *)motion)->unk_04.at00.v) /
+                motion->velocity_x = (target_x - motion->x.v) / return_ticks;
+                motion->velocity_y = (target_y - motion->y.v) /
                     ((S_80175CD8_0 *)action)->unk_96.s;
-                ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
+                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     ((S_80175CD8_0 *)action)->unk_96.s;
             }
 
@@ -402,15 +394,15 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             }
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B++;
-            ((S_80175CD8_3 *)motion)->unk_14 = 0;
-            ((S_80175CD8_3 *)motion)->unk_10 = 0;
-            ((S_80175CD8_3 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             return;
 
         case 9:
-            ((S_80175CD8_3 *)motion)->unk_14 = 0;
-            ((S_80175CD8_3 *)motion)->unk_10 = 0;
-            ((S_80175CD8_3 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((S_80175CD8_0 *)action)->unk_8C = &D_80171F1C;
             ((S_80175CD8_0 *)action)->unk_9A = 0xE;
             g_dungeon_status.active_actor = 0;
@@ -424,9 +416,9 @@ void update_actor_approach_descent_return(void *action, void *motion, SpriteFram
             ((S_80175CD8_0 *)action)->unk_9E = 0;
             ((S_80175CD8_0 *)action)->unk_90.at02.v = -0x20;
             ((EntityRec *)actor)->unk_88 = ((S_80175CD8_0 *)action)->unk_B4.u;
-            ((S_80175CD8_3 *)motion)->unk_00.at02.v = (sprite->unk_24 << 6) + 0x20;
-            ((S_80175CD8_3 *)motion)->unk_04.at02.v = (sprite->unk_25 << 6) + 0x20;
-            ((S_80175CD8_3 *)motion)->unk_0A = ((u16)((EntityRec *)actor)->unk_88) +
+            motion->x.w.i = (sprite->unk_24 << 6) + 0x20;
+            motion->y.w.i = (sprite->unk_25 << 6) + 0x20;
+            motion->z.w.i = ((u16)((EntityRec *)actor)->unk_88) +
                 ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
 
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;

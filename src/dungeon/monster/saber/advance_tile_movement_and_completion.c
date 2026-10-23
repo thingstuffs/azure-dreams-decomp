@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +30,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 #include "dungeon/monster/saber.h"
 
@@ -37,7 +38,7 @@ extern u8 D_80174E0C[];
 extern u8 D_80174E14[];
 
 /* Advance movement toward a tile, update animation, and resolve completion. */
-void advance_tile_movement_and_completion(void *action, void *motion, void *map_entity, void *actor)
+void advance_tile_movement_and_completion(void *action, void *motion, SpriteFrameState *map_entity, ActorRecord *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -55,16 +56,16 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
     state = ((S_80172BAC_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = D_80174E0C;
+        map_entity->frameTable = D_80174E0C;
         select_sprite_entry(
             map_entity,
-            D_80174E0C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172BAC_0 *)action)->unk_98 |= 8;
-        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= 0xF7FFFFFF;
         ((S_80172BAC_0 *)action)->unk_9E.s = 5;
         ((S_80172BAC_0 *)action)->unk_A4 = 0;
         ((S_80172BAC_0 *)action)->unk_9B++;
@@ -73,7 +74,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
         move_ticks = ((S_80172BAC_0 *)action)->unk_9E.s;
         ((S_80172BAC_0 *)action)->unk_90 -= ((S_80172BAC_0 *)action)->unk_A4;
         if (move_ticks != 0) {
-            target_x = ((SpriteFrameState *)map_entity)->unk_24;
+            target_x = map_entity->unk_24;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -83,7 +84,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((SpriteFrameState *)map_entity)->unk_25 << 6) - pos_y) << 16) /
+                (((map_entity->unk_25 << 6) - pos_y) << 16) /
                 ((S_80172BAC_0 *)action)->unk_9E.s;
 
             ((S_80172BAC_0 *)action)->unk_A4 =
@@ -100,34 +101,34 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
         if ((next_move_ticks << 16) < 0) {
             ((S_80172BAC_0 *)action)->unk_90 = 0;
             ((S_80172BAC_0 *)action)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            actor->flags1C |= 0x08000000;
             ((S_80172BAC_0 *)action)->unk_9B++;
         }
 
     case 2:
-        if (((ActorRecord *)actor)->flags1C & 0x08000000) {
+        if (actor->flags1C & 0x08000000) {
             ((S_80172BAC_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
-            ((SpriteFrameState *)map_entity)->frameTable = D_80174E14;
+            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            map_entity->frameTable = D_80174E14;
             select_sprite_entry(
                 map_entity,
-                D_80174E14[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                D_80174E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172BAC_0 *)action)->unk_9B++;
         }
         break;
 
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)map_entity)->frameTable == saber_direction_frames) {
+        if (*(u8 * *)&map_entity->frameTable == saber_direction_frames) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = saber_direction_frames;
+        map_entity->frameTable = saber_direction_frames;
         select_sprite_entry(
             map_entity,
-            saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         break;
     }
@@ -140,7 +141,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+    set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -149,16 +150,16 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
         (*(u16 *)&globals->activity_counts.parts.pending_movement_count)--;
     }
 
-    actor_flags = ((ActorRecord *)actor)->flags1C;
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
-            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+        if (actor->action_flags & ACTOR_ACTION_PENDING) {
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)map_entity)->unk_24,
-                ((SpriteFrameState *)map_entity)->unk_25,
+            actor->facing = get_rounded_facing_and_rounding_flag(
+                map_entity->unk_24,
+                map_entity->unk_25,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

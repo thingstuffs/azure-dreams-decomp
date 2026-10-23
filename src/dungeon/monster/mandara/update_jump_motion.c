@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -28,7 +29,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 
 extern u8 D_80170F6C;
 extern u8 D_80175278[];

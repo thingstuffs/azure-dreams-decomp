@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
@@ -22,7 +23,7 @@ typedef struct S_800AD9B4_0_pre {
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in check_actor_floor_trap, addressed as arg1[-1] */
 
 /* Process an eligible dungeon entry and apply its state updates. */
-s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
+s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
 {
     TileObject *player;
     DungeonGlobalStatus *dungeon_state;
@@ -36,15 +37,15 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
         return 1;
     }
     player = &reference_tile_object;
-    if (player->room_index != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
+    if (player->room_index != *(s8 *)&actor->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->mp == 0) {
         return 1;
     }
 
-    entry_index = find_entry_at_tile_coordinates(((SpriteFrameState *)actor)->unk_24,
-                                  ((SpriteFrameState *)actor)->unk_25,
+    entry_index = find_entry_at_tile_coordinates(actor->unk_24,
+                                  actor->unk_25,
                                   target->ground_height);
     result = 1;
     if (entry_index >= 0) {

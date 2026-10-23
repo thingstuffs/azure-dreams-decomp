@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more).
  */
 #include "dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/actor_action_flags.h"
 
 #include "shared/dungeon_status.h"
@@ -199,7 +200,7 @@ void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_
 }
 
 /* Attempt an actor action and initialize its state and directional animation on success. */
-void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, Rec_D_80082E80 *sprite, ActorRecord *actor) {
+void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
@@ -207,7 +208,7 @@ void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx
             action_state->unk_9A = 0x19;
             action_state->unk_8C = 0;
             action_state->unk_9B = 0;
-            ((SpriteFrameState *)sprite)->frameTable = D_801764A0;
+            sprite->frameTable = D_801764A0;
             select_sprite_entry(sprite, D_801764A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);

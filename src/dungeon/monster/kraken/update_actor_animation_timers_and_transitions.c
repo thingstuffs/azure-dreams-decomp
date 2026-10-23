@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kraken.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -45,10 +46,6 @@ typedef struct S_8017352C_5 {
 
    /* part28 in update_actor_animation_timers_and_transitions */
 
-typedef struct S_8017352C_9 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8017352C_9;   /* arg1 in update_actor_animation_timers_and_transitions */
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -71,7 +68,7 @@ extern u8 D_80174184[];
 extern u8 D_801741CC[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
-void update_actor_animation_timers_and_transitions(void *entity, void *motion, SpriteFrameState *sprite, void *actor)
+void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u8 *body_part;
     SpriteFrameState *part_anim;
@@ -216,13 +213,13 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, S
         ((S_8017352C_0 *)entity)->unk_96 = timer;
         if ((timer << 16) <= 0) {
             ((S_8017352C_0 *)entity)->unk_98 |= 0x4000;
-            ((S_8017352C_9 *)motion)->unk_14 = 0xFFF80000;
+            motion->velocity_z = 0xFFF80000;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
         state_two_counter_base = (u8 *)&g_dungeon_status.turn_scale;
-        ((S_8017352C_9 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         ((S_8017352C_0 *)entity)->unk_A8 = 0;
         ((TrailHeightView *)state_two_counter_base)->unk_0A--;
 

@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -68,7 +69,7 @@ extern u8 D_800DD020[];
 extern u8 D_800DD028[];
 
 /* Updates actor movement and animation through the action states. */
-void update_player_push(void *actor, void *motion, void *sprite, void *model) {
+void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, void *model) {
     s16 settle_frames;
     s16 move_frames_left;
     s32 heading_or_coord;
@@ -82,9 +83,9 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
     action_state = ((S_80092018_0 *)actor)->unk_9B;
     switch (action_state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800DD028) {
-                ((SpriteFrameState *)sprite)->frameTable = D_800DD028;
+        if (sprite->flags & 0xE000) {
+            if (*(u8 * *)&sprite->frameTable != D_800DD028) {
+                sprite->frameTable = D_800DD028;
                 set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
                     >> 9) & 7) + D_800DD028), 0, 1);
                 return;
@@ -113,7 +114,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         if ((start_frames_left << 0x10) > 0) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = player_push_frames;
+        sprite->frameTable = player_push_frames;
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
             + player_push_frames), 0, 1);
         attachment = ((S_80092018_0 *)actor)->unk_124;
@@ -123,8 +124,8 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
         return;
     case 17:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            ((SpriteFrameState *)sprite)->frameTable = D_800DD020;
+        if (sprite->flags & 0xE000) {
+            sprite->frameTable = D_800DD020;
             set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
                 >> 9) & 7) + D_800DD020), 0, 1);
             ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
@@ -136,7 +137,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
             {
                 s32 delta;
                 s32 direction_offset;
-                delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
+                delta = sprite->unk_24 << 6;
                 direction_offset = *((s16 *)(((u8 *)dir_step_x) + (((u16) ((S_80092018_2 *)model)->unk_2A
                     >> 8) & 0xE))) * 0x10;
                 direction_offset += 0x20;
@@ -149,7 +150,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
             {
                 s32 delta;
                 s32 direction_offset;
-                delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
+                delta = sprite->unk_25 << 6;
                 direction_offset = *((s16 *)(((u8 *)dir_step_y) + (((u16) ((S_80092018_2 *)model)->unk_2A
                     >> 8) & 0xE))) * 0x10;
                 direction_offset += 0x20;
@@ -171,7 +172,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         ((S_80092018_3 *)motion)->unk_14 = 0;
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
-        ((SpriteFrameState *)sprite)->frameTable = D_800DD028;
+        sprite->frameTable = D_800DD028;
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
             + D_800DD028), 0, 1);
         ((S_80092018_0 *)actor)->unk_96.s = 2U;
@@ -183,7 +184,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
             {
                 s32 delta;
                 s32 origin;
-                delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
+                delta = sprite->unk_24 << 6;
                 origin = ((S_80092018_3 *)motion)->unk_02;
                 origin -= 0x20;
                 delta -= origin;
@@ -194,7 +195,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
                 s32 origin;
                 origin = ((S_80092018_3 *)motion)->unk_06;
                 origin -= 0x20;
-                delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
+                delta = sprite->unk_25 << 6;
                 delta -= origin;
                 ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
                     << 0x10) / (s16) ((S_80092018_0 *)actor)->unk_96.s);
@@ -208,7 +209,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
                 }
             }
         }
-        anim_flags = ((SpriteFrameState *)sprite)->flags;
+        anim_flags = sprite->flags;
         if (!(anim_flags & 0x8000)) {
             if (!(anim_flags & 0x6000)) {
                 return;
@@ -220,7 +221,7 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         ((S_80092018_3 *)motion)->unk_14 = 0;
         ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
         ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         process_unflagged_linked_entries_alt(((S_80092018_2 *)model)->unk_5C);
         process_unflagged_linked_entries(((S_80092018_2 *)model)->unk_5C);
         {

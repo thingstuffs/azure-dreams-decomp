@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -40,7 +41,7 @@ typedef struct S_80174D24_4 {
 } S_80174D24_4;   /* ((S_80174D24_0 *)arg0)->unk_08 in advance_timed_target_flags */
 
 /* Copies object data with offsets and advances a timed target flag cycle. */
-void advance_timed_target_flags(void *state, void *output, void *target)
+void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target)
 {
     u16 offsets[3];
     void *object;
@@ -81,11 +82,11 @@ void advance_timed_target_flags(void *state, void *output, void *target)
     switch (phase) {
     case 0:
         advance_sprite_animation_and_textures(target);
-        target_flags = ((SpriteFrameState *)target)->flags;
+        target_flags = target->flags;
         if ((target_flags & 0x6000) == 0) {
             return;
         }
-        ((SpriteFrameState *)target)->flags = target_flags | 0x80;
+        target->flags = target_flags | 0x80;
         ((S_80174D24_0 *)state)->unk_02 = 0;
         ((S_80174D24_0 *)state)->unk_00.u++;
         break;
@@ -94,7 +95,7 @@ void advance_timed_target_flags(void *state, void *output, void *target)
         if (signed_ticks < 0x40) {
             return;
         }
-        ((SpriteFrameState *)target)->flags &= 0xFF7F;
+        target->flags &= 0xFF7F;
         select_sprite_entry(target, 0x38, 0);
         ((S_80174D24_0 *)state)->unk_02 = 0;
         ((S_80174D24_0 *)state)->unk_00.s = 0;

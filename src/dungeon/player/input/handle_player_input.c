@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -81,7 +82,7 @@ void *select_item_record_pointer();                      /* extern */
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 has_pending_actor_or_turn_action();                          /* extern */
-void select_position_data_and_update_owner();              /* extern */
+              /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK D_800245A8;

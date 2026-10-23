@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/motion.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800B80D8_0 {
@@ -18,19 +19,13 @@ typedef struct S_800B80D8_1 {
     u16 unk_1E;
 } S_800B80D8_1;   /* arg2 in animate_object_motion_and_scale */
 
-typedef struct S_800B80D8_2 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800B80D8_2;   /* arg1 in animate_object_motion_and_scale */
 
 
 extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
 extern s32 D_8006E240;
 
 /* Animate object motion and scale, then signal completion. */
-void animate_object_motion_and_scale(void *object, void *motion, void *display)
+void animate_object_motion_and_scale(void *object, ObjectPosition *motion, void *display)
 {
     s16 state;
     s32 velocity;
@@ -47,9 +42,9 @@ void animate_object_motion_and_scale(void *object, void *motion, void *display)
         ((S_800B80D8_0 *)object)->unk_A4 = 12;
         ((S_800B80D8_0 *)object)->unk_A2.u++;
     case 1:
-        velocity = ((S_800B80D8_2 *)motion)->unk_14 + 0x30000;
-        ((S_800B80D8_2 *)motion)->unk_14 = velocity;
-        ((S_800B80D8_2 *)motion)->unk_08.at00.v += velocity;
+        velocity = motion->velocity_z + 0x30000;
+        motion->velocity_z = velocity;
+        motion->z.v += velocity;
         scale = ((S_800B80D8_1 *)display)->unk_1C;
         if (scale < 0x1000) {
             ((S_800B80D8_1 *)display)->unk_1C = scale + 0x50;
@@ -60,13 +55,13 @@ void animate_object_motion_and_scale(void *object, void *motion, void *display)
         if ((frames_left << 16) != 0) {
             return;
         }
-        ((S_800B80D8_2 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         ((S_800B80D8_0 *)object)->unk_A2.u++;
         return;
     case 2:
         place_item_at_valid_floor_position(((S_800B80D8_0 *)object)->unk_B0,
                       ((S_800B80D8_0 *)object)->unk_B2,
-                      (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
+                      (s16)(((u16) motion->z.w.i) - 0x20),
                       &D_8006E240,
                       (u8 *)object + 0x98);
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;

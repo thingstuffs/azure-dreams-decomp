@@ -128,7 +128,7 @@ extern s32 familiar_record_slots[];
 extern s32 dungeon_menu_action_state[];
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
-void process_dungeon_menu_selection(void *state, s32 context, void *sprite, ActorRecord *actor) {
+void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 tile_x;
     s16 tile_y;
     u8 *anim_table;
@@ -154,7 +154,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         read_vram_blocks_to_buffer();
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-                ((SpriteFrameState *)sprite)->frameTable = &actor_default_frames;
+                sprite->frameTable = &actor_default_frames;
                 select_record_entry_and_value(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
@@ -163,7 +163,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
                 } else {
                     anim_table = player_wait_frames;
                 }
-                ((SpriteFrameState *)sprite)->frameTable = anim_table;
+                sprite->frameTable = anim_table;
                 set_sprite_animation_frame(sprite, *(anim_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                     0, 1);
             }
@@ -264,8 +264,8 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
             break;
         }
         direction = ((u16) actor->facing >> 9) & 7;
-        if ((find_valid_nearby_position(0, (s16) (((SpriteFrameState *)sprite)->unk_24 + dir_step_x[direction]),
-            (s16) (((SpriteFrameState *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
+        if ((find_valid_nearby_position(0, (s16) (sprite->unk_24 + dir_step_x[direction]),
+            (s16) (sprite->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
                 expand_text_control_codes(D_800E069D, text_buffer));

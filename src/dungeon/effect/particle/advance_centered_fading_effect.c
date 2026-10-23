@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/effect/particle.h"
 #include "m2c_compat.h"
 
 s32 func_7006DC5C();                             /* extern */
@@ -27,12 +28,6 @@ typedef struct S_7FFE7804_0 {
     u16 unk_3A;
 } S_7FFE7804_0;   /* arg0 in advance_centered_fading_effect */
 
-typedef struct S_7FFE7804_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_7FFE7804_1;   /* arg1 in advance_centered_fading_effect */
 
 typedef struct S_7FFE7804_2 {
     u8 pad_00[0xC];
@@ -42,7 +37,7 @@ typedef struct S_7FFE7804_2 {
 } S_7FFE7804_2;   /* arg2 in advance_centered_fading_effect */
 
 /* Advance the effect around its center, fade its color, and flag it when its lifetime ends. */
-void advance_centered_fading_effect(void *effect, void *position, void *color) {
+void advance_centered_fading_effect(void *effect, ObjectPosition *position, void *color) {
     s32 life_left;
     s32 arithmetic;
     s32 product;
@@ -59,13 +54,13 @@ void advance_centered_fading_effect(void *effect, void *position, void *color) {
         product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DD28((s16)((S_7FFE7804_0 *)effect)->unk_28);
         arithmetic = ((S_7FFE7804_0 *)effect)->unk_38;
         arithmetic += product >> 12;
-        ((S_7FFE7804_1 *)position)->unk_02 = arithmetic;
+        position->x.w.i = arithmetic;
     }
     {
         product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DC5C((s16)((S_7FFE7804_0 *)effect)->unk_28);
         arithmetic = ((S_7FFE7804_0 *)effect)->unk_3A;
         arithmetic += product >> 12;
-        ((S_7FFE7804_1 *)position)->unk_06 = arithmetic;
+        position->y.w.i = arithmetic;
     }
     {
         product = ((S_7FFE7804_0 *)effect)->unk_0C * ((S_7FFE7804_0 *)effect)->unk_1E.s;

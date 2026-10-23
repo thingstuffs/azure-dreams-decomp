@@ -49,7 +49,7 @@ extern u8 D_800DD0D0[];
 extern u8 active_actor_command_code[];
 
 extern void set_sprite_animation_frame();
-extern void begin_player_push();
+
 extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();

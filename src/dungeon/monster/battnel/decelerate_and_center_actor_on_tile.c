@@ -25,7 +25,7 @@ extern u8 D_80170E5C[];
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
-void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
+void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor)
 {
     s16 timer;
     s16 *x_steps;
@@ -63,7 +63,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, v
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
             ((S_80172EF4_1 *)action)->unk_9B = 2;
             return;
@@ -96,7 +96,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, v
 
         if (((S_80172EF4_1 *)action)->unk_96.s > 0) {
             ((S_80172EF4_1 *)action)->unk_96.s = ((S_80172EF4_1 *)action)->unk_96.u - 1;
-        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        } else if (sprite->flags & 0x6000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
         }
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
@@ -115,10 +115,10 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, v
 
     case 2:
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
+            target_x = sprite->unk_24 << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;
-            target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            target_y = sprite->unk_25 << 6;
             offset_y = motion->y.w.i - 0x20;
             motion->velocity_y = (target_y - offset_y) << 0x10 >> 1;
         }
@@ -132,9 +132,9 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, v
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-        ((SpriteFrameState *)sprite)->frameTable = battnel_direction_frames;
+        sprite->frameTable = battnel_direction_frames;
         select_sprite_entry(sprite,
             battnel_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);

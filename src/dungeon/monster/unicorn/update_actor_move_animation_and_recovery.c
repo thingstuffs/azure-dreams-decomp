@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/unicorn.h"
 #include "shared/object_node.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -42,17 +43,6 @@ typedef struct S_80172AB4_3 {
 
    /* arg2 in update_actor_move_animation_and_recovery */
 
-typedef struct S_80172AB4_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172AB4_5;   /* arg1 in update_actor_move_animation_and_recovery */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
@@ -71,7 +61,7 @@ extern u8 D_80174DA4[];
 /* Updates the actor's move, animation, and recovery state. */
 /* Animates Unicorn's vertical hop while casting a targeted spell with two effect rows, then restores idle
  * and status. */
-void update_actor_move_animation_and_recovery(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void update_actor_move_animation_and_recovery(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u8 *move_id;
     s32 state;
@@ -150,9 +140,9 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, Sprite
                 ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
             }
 
-            position[0] = ((S_80172AB4_5 *)motion)->unk_02;
-            position[1] = ((S_80172AB4_5 *)motion)->unk_06;
-            position[2] = ((S_80172AB4_5 *)motion)->unk_0A;
+            position[0] = ((u16) motion->x.w.i);
+            position[1] = ((u16) motion->y.w.i);
+            position[2] = ((u16) motion->z.w.i);
             if (create_actor_spell_effect(actor, move_id, use_player,
                               (u16 *)((u8 *)action + 0x98)) == 0) {
                 return;
@@ -164,9 +154,9 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, Sprite
             return;
         }
 
-        ((S_80172AB4_5 *)motion)->unk_14 = 0;
-        ((S_80172AB4_5 *)motion)->unk_10 = 0;
-        ((S_80172AB4_5 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
@@ -194,12 +184,12 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, Sprite
         ((S_80172AB4_0 *)action)->unk_98 |= 8;
         ((S_80172AB4_1 *)actor)->unk_1C &= 0xF7FFFFFF;
         ((S_80172AB4_0 *)action)->unk_96 = 8;
-        ((S_80172AB4_5 *)motion)->unk_14 = 0xFFF00000;
+        motion->velocity_z = 0xFFF00000;
         ((S_80172AB4_0 *)action)->unk_9B++;
         return;
 
     case 2:
-        ((S_80172AB4_5 *)motion)->unk_14 += 0x10000;
+        motion->velocity_z += 0x10000;
         ticks_left = ((S_80172AB4_0 *)action)->unk_96 - 1;
         ((S_80172AB4_0 *)action)->unk_96 = ticks_left;
         if ((s32)(ticks_left << 16) > 0) {
@@ -210,7 +200,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, Sprite
             sprite,
             D_80174DA4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_80172AB4_5 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         ((S_80172AB4_0 *)action)->unk_9B++;
         return;
 
@@ -260,9 +250,9 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, Sprite
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_80172AB4_5 *)motion)->unk_14 = 0;
-        ((S_80172AB4_5 *)motion)->unk_10 = 0;
-        ((S_80172AB4_5 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         if (*(unsigned char **)&sprite->frameTable != D_80174D4C) {
             (sprite->frameTable) = D_80174D4C;

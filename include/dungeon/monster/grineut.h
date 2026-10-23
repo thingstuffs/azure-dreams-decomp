@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE07_SLOT0_H
 #define DUNGEON_RESOURCE07_SLOT0_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -333,7 +334,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 s32 func_800644B8();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
@@ -349,7 +350,7 @@ void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
 s32 update_actor_hop_and_shrink();
-s32 advance_actor_removal();
+
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
@@ -409,4 +410,20 @@ void update_spinning_grineut_fall(Resource07CallbackState *state, void *motion, 
 void fade_in_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor);
 void resolve_grineut_floor_trap(Resource07CallbackState *state, void *motion, void *position, void *actor);
 void propagate_grineut_action_flag(Resource07CallbackState *state, void *motion, void *position, void *actor);
+
+
+
+
+void settle_directional_motion_variant(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+
+
+void update_directional_movement_and_center(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity);
+
+
+
+void decelerate_directional_motion_and_center(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion, SpriteFrameState *map_actor, void *actor);
+void settle_entity_after_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *motion, SpriteFrameState *actor, void *entity);
+
 #endif

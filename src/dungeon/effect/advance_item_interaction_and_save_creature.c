@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -194,7 +195,7 @@ void *create_actor_value_popup();
 extern s32 monster_species_table;
 extern s32 held_item_record;
 extern u32 level_experience_table[];
-void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Rec_D_80082E80 *object, EntityRec *state);
+
 extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];

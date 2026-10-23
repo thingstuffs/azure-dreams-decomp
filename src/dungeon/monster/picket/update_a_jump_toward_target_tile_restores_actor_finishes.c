@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/picket.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -26,14 +28,14 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 
 extern u8 D_801710F4;
 extern u8 D_80174F20[];
 extern u8 D_80174F28[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
-void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, ObjectPosition *motion, void *map_entity, ActorRecord *actor) {
+void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 distance;
     s32 frames_left;
     s16 next_timer;
@@ -43,10 +45,10 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
     state = ((S_80172540_0 *)jump_state)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = D_80174F20;
+        map_entity->frameTable = D_80174F20;
         select_sprite_entry(
             map_entity,
             D_80174F20[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -61,13 +63,13 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)map_entity)->unk_24 << 6;
+                s32 target_x = map_entity->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
+                s32 target_y = map_entity->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -89,8 +91,8 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
-            ((SpriteFrameState *)map_entity)->frameTable = D_80174F28;
+            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            map_entity->frameTable = D_80174F28;
             select_sprite_entry(
                 map_entity,
                 D_80174F28[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -105,7 +107,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
+        set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
         {
@@ -124,7 +126,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25,
+                    map_entity->unk_24, map_entity->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             }
         }

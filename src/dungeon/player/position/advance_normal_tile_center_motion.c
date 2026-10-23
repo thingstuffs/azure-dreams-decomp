@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/position.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -16,7 +17,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 D_800DD050[];
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
-void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, void *sprite, EntityRec *facing) {
+void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {
     DungeonGlobalStatus *late_status;
     u32 status_page;
     s32 frames_left;
@@ -33,14 +34,14 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, voi
     timer = g_dungeon_status.movement_frames_left;
     if (timer != 0) {
         x_velocity =
-            ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16) -
+            ((((sprite->unk_24 << 6) + 0x20) << 16) -
              motion->x.v) /
             timer;
         y_position = motion->y.v;
         motion->velocity_x = x_velocity;
         move_frames = g_dungeon_status.movement_frames_left;
         motion->velocity_y =
-            ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16) -
+            ((((sprite->unk_25 << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
     }
@@ -57,9 +58,9 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, voi
 continue_update:
     flags = ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2;
     if (!(flags & 0x10)) {
-        if (*(u8 **)&((SpriteFrameState *)sprite)->frameTable != D_800DD050) {
+        if (*(u8 **)&sprite->frameTable != D_800DD050) {
             ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 = flags | 1;
-            ((SpriteFrameState *)sprite)->frameTable = D_800DD050;
+            sprite->frameTable = D_800DD050;
             set_sprite_animation_frame(
                 sprite,
                 D_800DD050[((g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7],
@@ -80,9 +81,9 @@ continue_update:
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-    ((SpriteFrameState *)sprite)->flags |= 0x4000;
+    sprite->flags |= 0x4000;
     if ((s16)collect_ground_item(entity, motion, sprite, facing) > 0) {
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)handle_player_input;
     }

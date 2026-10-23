@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -27,7 +28,7 @@ extern u8 D_8016A36C[];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 /* Selects the mode table and updates the dungeon object state. */
 /* Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the floor-trap

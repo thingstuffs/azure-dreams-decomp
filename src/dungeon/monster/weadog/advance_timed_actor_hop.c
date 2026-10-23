@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/weadog.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -36,7 +38,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern s32 D_80153CE8;
 extern u8 D_80156EB8[];
@@ -44,7 +46,7 @@ extern u8 D_80156ED0[];
 extern u8 D_80156ED8[];
 
 /* Updates a timed hop to the actor's tile and handles action completion. */
-void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *actor)
+void advance_timed_actor_hop(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 facing_aux;
     s32 state;
@@ -66,7 +68,7 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
             break;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80156ED0;
+        sprite->frameTable = D_80156ED0;
         select_sprite_entry(
             sprite,
             D_80156ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801550E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -81,7 +83,7 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
         hop_frames = ((S_801550E0_0 *)action)->unk_9E.u;
         ((S_801550E0_0 *)action)->unk_90 -= ((S_801550E0_0 *)action)->unk_A0;
         if (hop_frames != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             x_offset = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             x_offset -= 0x20;
@@ -90,7 +92,7 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
             y_offset = ((EntityRec *)motion)->y.w.i;
             y_offset -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - y_offset) << 16) /
+                (((sprite->unk_25 << 6) - y_offset) << 16) /
                 ((S_801550E0_0 *)action)->unk_9E.u;
             ((S_801550E0_0 *)action)->unk_A0 =
                 (-func_800644B8(((S_801550E0_0 *)action)->unk_9E.u * 0x199)) << 10;
@@ -112,9 +114,9 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-            ((SpriteFrameState *)sprite)->frameTable = D_80156ED8;
+            sprite->frameTable = D_80156ED8;
             select_sprite_entry(
                 sprite,
                 D_80156ED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801550E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -125,8 +127,8 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
 
     case 3:
         anim_table = D_80156EB8;
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
-            ((SpriteFrameState *)sprite)->frameTable = anim_table;
+        if (*(u8 * *)&sprite->frameTable != anim_table) {
+            sprite->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801550E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -146,7 +148,7 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -162,7 +164,7 @@ void advance_timed_actor_hop(void *action, void *motion, void *sprite, void *act
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((S_801550E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
         }
     }

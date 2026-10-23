@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/barong.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -34,7 +35,7 @@ extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
-void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
+void update_motion_and_grow_sprite(void *motion, void *position, SpriteFrameState *sprite)
 {
     s32 height;
     u16 frame_count;
@@ -86,16 +87,16 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
         advance_sprite_animation_and_textures(sprite);
     }
 
-    scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;
-    ((SpriteFrameState *)sprite)->scale_x = scale_x;
+    scale_x = sprite->scale_x + 0x64;
+    sprite->scale_x = scale_x;
     if (scale_x > 0x1000) {
-        ((SpriteFrameState *)sprite)->scale_x = 0x1000;
+        sprite->scale_x = 0x1000;
     }
 
-    scale_y = ((SpriteFrameState *)sprite)->scale_y + 0x64;
-    ((SpriteFrameState *)sprite)->scale_y = scale_y;
+    scale_y = sprite->scale_y + 0x64;
+    sprite->scale_y = scale_y;
     if (scale_y > 0x1000) {
-        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
+        sprite->scale_y = 0x1000;
     }
 
     life_ticks = ((S_80170D58_1 *)motion)->unk_26.u - 1;
@@ -105,7 +106,7 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+    if (sprite->flags & 0x8000) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

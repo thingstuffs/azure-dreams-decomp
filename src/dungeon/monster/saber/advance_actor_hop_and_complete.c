@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/saber.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +31,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern s32 D_8014D728;
 extern u8 D_80150DEC[];
@@ -37,7 +39,7 @@ extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
 /* Updates the actor's hop toward its tile and completes the timed action. */
-void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 hop_ticks;
@@ -55,10 +57,10 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
     state = ((S_8014EBAC_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_80150E0C;
+        sprite->frameTable = D_80150E0C;
         select_sprite_entry(
             sprite,
             D_80150E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -73,7 +75,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
         hop_ticks = ((S_8014EBAC_0 *)action)->unk_9E.s;
         ((S_8014EBAC_0 *)action)->unk_90 -= ((S_8014EBAC_0 *)action)->unk_A4;
         if (hop_ticks != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -83,7 +85,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((sprite->unk_25 << 6) - pos_y) << 16) /
                 ((S_8014EBAC_0 *)action)->unk_9E.s;
 
             ((S_8014EBAC_0 *)action)->unk_A4 =
@@ -110,8 +112,8 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            ((SpriteFrameState *)sprite)->frameTable = D_80150E14;
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            sprite->frameTable = D_80150E14;
             select_sprite_entry(
                 sprite,
                 D_80150E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -121,10 +123,10 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
         break;
 
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == D_80150DEC) {
+        if (*(u8 * *)&sprite->frameTable == D_80150DEC) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_80150DEC;
+        sprite->frameTable = D_80150DEC;
         select_sprite_entry(
             sprite,
             D_80150DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -142,7 +144,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -159,8 +161,8 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24,
-                ((SpriteFrameState *)sprite)->unk_25,
+                sprite->unk_24,
+                sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &facing_aux);

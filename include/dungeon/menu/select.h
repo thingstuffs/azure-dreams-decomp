@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1829800_H
 #define DUNGEON_OVL_1829800_H
 #include "common.h"
+#include "dungeon/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -685,7 +686,7 @@ typedef struct {
 
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
-void follow_selection_and_blink_sprite(void *motion_state, void *position, SpriteFrameState *draw_state);
+
 void *allocate_sprite_data_object(s32 user_data);
 void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);

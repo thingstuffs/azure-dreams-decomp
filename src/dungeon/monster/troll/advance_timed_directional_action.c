@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/troll.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -32,7 +33,7 @@ extern u8 D_80175DE4[8];
 extern u8 D_80175DEC[8];
 
 /* Advance a timed action sequence with directional animation and sound effects. */
-void advance_timed_directional_action(void *action, void *motion, void *sprite, ActorRecord *entity)
+void advance_timed_directional_action(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s16 timer;
     u8 state;
@@ -46,33 +47,33 @@ void advance_timed_directional_action(void *action, void *motion, void *sprite, 
         ((Rec_func_8017121C_arg1 *)motion)->unk_0C = 0;
         ((S_801743C4_0 *)action)->unk_96.s = 0;
         ((S_801743C4_0 *)action)->unk_9B++;
-        if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
         timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
         ((S_801743C4_0 *)action)->unk_96.s = timer;
-        if ((timer != 4) && !(((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if ((timer != 4) && !(sprite->flags & 0x8000)) {
             return;
         }
         ((S_801743C4_0 *)action)->unk_96.s = 0;
         ((S_801743C4_0 *)action)->unk_9B++;
         switch (entity->unk_48) {
         case 13:
-            ((SpriteFrameState *)sprite)->frameTable = D_80175DDC;
+            sprite->frameTable = D_80175DDC;
             select_sprite_entry(sprite,
                 D_80175DDC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
-            ((SpriteFrameState *)sprite)->frameTable = D_80175DE4;
+            sprite->frameTable = D_80175DE4;
             select_sprite_entry(sprite,
                 D_80175DE4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
-            ((SpriteFrameState *)sprite)->frameTable = D_80175DEC;
+            sprite->frameTable = D_80175DEC;
             select_sprite_entry(sprite,
                 D_80175DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
@@ -86,7 +87,7 @@ void advance_timed_directional_action(void *action, void *motion, void *sprite, 
     case 2:
         timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
         ((S_801743C4_0 *)action)->unk_96.s = timer;
-        if ((timer == 5) || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if ((timer == 5) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             ((S_801743C4_0 *)action)->unk_96.s = 0;
             ((S_801743C4_0 *)action)->unk_9B++;
@@ -98,7 +99,7 @@ void advance_timed_directional_action(void *action, void *motion, void *sprite, 
         return;
 
     case 3:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
             ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
             g_dungeon_status.active_actor = 0;
@@ -110,20 +111,20 @@ void advance_timed_directional_action(void *action, void *motion, void *sprite, 
     case 5:
         timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
         ((S_801743C4_0 *)action)->unk_96.s = timer;
-        if ((timer == 10) || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x0800;
+        if ((timer == 10) || (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
             create_targeted_motion_effect(action, motion, sprite, entity);
             create_actor_action_effect(action, motion, sprite, entity);
         }
         if ((((S_801743C4_0 *)action)->unk_96.u == 12) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 ((S_801743C4_0 *)action)->unk_AA);
         }
         if ((((S_801743C4_0 *)action)->unk_96.u == 20) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
             ((S_801743C4_0 *)action)->unk_96.s = 0;
             ((S_801743C4_0 *)action)->unk_9B = 3;
         }

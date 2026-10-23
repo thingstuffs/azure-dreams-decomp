@@ -1,9 +1,10 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 extern s32 update_actor_movement_to_tile(void *, s32, s32, s32);
 extern void spend_actor_mp(s32, s32);
 extern void advance_status_timers(s32);
-extern s32 check_actor_floor_trap(s32, s32);
+
 extern s32 D_80170E94;
 
 /* Update the actor after a successful action and reset the entity script on a positive result. */

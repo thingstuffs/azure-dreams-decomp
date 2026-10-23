@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE08_SLOT0_H
 #define DUNGEON_RESOURCE08_SLOT0_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -488,7 +489,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 s32 func_800644B8();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
@@ -504,7 +505,7 @@ void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
 s32 update_actor_hop_and_shrink();
-s32 advance_actor_removal();
+
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
@@ -603,5 +604,20 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
 void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor);
 void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+
+
+
+
+void advance_entity_movement_and_settle_tile(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity);
+void update_actor_directional_movement(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+
+void update_directional_motion_and_center_variant(void *controller, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *entity);
+
+
+
+
+void advance_directional_motion_to_center(void *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void update_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 
 #endif

@@ -3,6 +3,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/monster/u_boat.h"
 #include "shared/object_flags.h"
 
 typedef struct T_80170D40_S_80170D40_0_pre {
@@ -94,7 +95,7 @@ typedef struct T_80170F94_S_80170F94_1 {
 #ifndef NULL
 #define NULL 0
 extern void update_actor_behavior();
-extern void update_rotating_actor_aura();
+
 #endif
 
 typedef struct T_8017121C_S_8017121C_0 {
@@ -453,5 +454,5 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
 extern void update_actor_behavior();
-extern void update_rotating_actor_aura();
+
 #endif

@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
 
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -201,6 +202,6 @@ extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster);
 void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *move_state);
 void advance_actor_traversable_heading(void *move_state, void *context, S_800D92C0_2 *position, void *actor);
-void initialize_actor_direction_table(void *object, void *unusedContext, void *tableTarget, void *headingSource);
+
 
 #endif

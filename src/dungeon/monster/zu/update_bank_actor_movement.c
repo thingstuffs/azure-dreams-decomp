@@ -1108,7 +1108,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context
 #include "shared/sprite_frame_state.h"
 
 extern s32 update_actor_movement_to_tile();
-extern s32 check_actor_floor_trap();
+
 
 /* Select the bank actor callback when the resident checks succeed. */
 void select_bank_resident_callback(BankActorState *state, s32 unused, SpriteFrameState *source, EntityRec *target) {
@@ -1131,7 +1131,7 @@ void select_bank_resident_callback(BankActorState *state, s32 unused, SpriteFram
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 check_actor_floor_trap();
+
 extern s32 update_linked_actor_motion();
 /* Select the bank actor callback when the resident checks succeed. */
 void select_bank_actor_callback(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
@@ -2008,7 +2008,7 @@ void forward_bank_actor_callback_a(void *state, s32 action, SpriteFrameState *so
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 advance_actor_removal(void *, s32, void *, void *);
+
 
 /* Forward all four bank callback arguments to the resident handler. */
 void forward_bank_actor_callback_b(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
@@ -2357,7 +2357,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
 #include "shared/sprite_frame_state.h"
 
 extern s32 update_actor_transform_from_parent(BankActorState *, s32, SpriteFrameState *, ActorRecord *);
-extern s32 check_actor_floor_trap(SpriteFrameState *, ActorRecord *);
+
 extern u8 D_80174AD4[9];
 extern u8 D_80174AFC[9];
 
@@ -2383,7 +2383,7 @@ void update_bank_actor_sprite_state(BankActorState *actor, s32 action, SpriteFra
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 check_actor_floor_trap();
+
 extern s32 update_thrown_actor_travel();
 /* Select the bank actor callback when the resident checks succeed. */
 void update_directional_sprite_state_and_signals(BankActorState *state, s32 action, SpriteFrameState *source, ActorRecord *target) {

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_183A800_H
 #define DUNGEON_OVL_183A800_H
 #include "shared/dungeon_effect_views.h"
+#include "dungeon/effect/particle.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -290,5 +291,5 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
 void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
 void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 void grow_timed_sprite_effect(void *state_data, s32 unused, void *target);
-void advance_projectile_burst_and_impact(void *effect, void *motion, SpriteFrameState *sprite);
+
 #endif

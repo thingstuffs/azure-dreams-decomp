@@ -1,10 +1,11 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
 extern u32 update_actor_movement_to_tile(void);
 extern void spend_actor_mp(void *, s32);
 extern void advance_status_timers(void *);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 #include "dungeon/monster/u_boat.h"
 

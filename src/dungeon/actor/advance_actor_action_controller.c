@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -33,19 +34,19 @@ extern u8 D_800D8C64[];
 extern u8 actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
-void advance_actor_action_controller(void *controller, void *action_context, void *sprite, ActorRecord *actor)
+void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
 
     state = ((S_800DA014_0 *)controller)->unk_9B;
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             u8 *direction_table;
             DungeonGlobalStatus *system_base;
 
             direction_table = actor_action_frames;
-            ((SpriteFrameState *)sprite)->frameTable = direction_table;
+            sprite->frameTable = direction_table;
             select_record_entry_and_value(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
@@ -112,7 +113,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             s8 coordinate;
 
             reference_sprite = &reference_tile_object;
-            coordinate = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
+            coordinate = *(s8 *)&sprite->unk_26;
             if ((((coordinate == reference_sprite->room_index) &&
                         (coordinate >= 0)) ||
                  (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&
@@ -125,7 +126,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             u8 *direction_table;
 
             direction_table = actor_action_frames;
-            ((SpriteFrameState *)sprite)->frameTable = direction_table;
+            sprite->frameTable = direction_table;
             select_record_entry_and_value(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
@@ -134,7 +135,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         }
     }
 
-        if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
@@ -143,7 +144,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         }
         break;
     case 2:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {

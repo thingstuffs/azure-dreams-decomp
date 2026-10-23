@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
@@ -12,7 +13,7 @@ typedef struct S_801724A8_0 {
 s32 advance_status_timers();                     /* extern */
 s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
 void spend_actor_mp();            /* extern */
-s32 check_actor_floor_trap();                /* extern */
+                /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
 
 /* Updates the target and conditionally resets the caller state. */

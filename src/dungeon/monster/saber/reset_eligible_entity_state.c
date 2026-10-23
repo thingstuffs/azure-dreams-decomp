@@ -1,9 +1,10 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 extern s32 update_actor_movement_to_tile(void);
 extern void spend_actor_mp(s32, s32);
 extern void advance_status_timers(s32);
-extern s32 check_actor_floor_trap(s32, s32);
+
 #include "dungeon/monster/saber.h"
 
 /* Updates the actor and resets the entity state when the checks succeed. */

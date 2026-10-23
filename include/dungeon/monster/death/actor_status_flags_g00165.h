@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C. */
 
 #include "common.h"
+#include "dungeon/monster/death.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -107,6 +108,6 @@ extern u8 D_8017468C[];
 
 /* Functions defined in this translation unit. */
 void advance_actor_action_state_handle_status(void *action_in, void *context_in, SpriteFrameState *sprite_in, void *actor_in);
-void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, void *entity);
+
 
 #endif

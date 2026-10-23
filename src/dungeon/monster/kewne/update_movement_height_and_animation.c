@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -50,7 +51,7 @@ typedef struct S_801728A8_4 {
 } S_801728A8_4;   /* arg3 in update_movement_height_and_animation */
 
 /* Updates movement, height, and animation through the action states. */
-void update_movement_height_and_animation(void *action, ObjectPosition *motion, void *sprite, void *actor)
+void update_movement_height_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 direction_x_2;
     u32 step_x;
@@ -64,9 +65,9 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
     switch (state) {
     case 0:
         {
-            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 ((S_801728A8_0 *)action)->unk_9B.n = 4;
-                ((SpriteFrameState *)sprite)->flags |= 0x6000;
+                sprite->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_801728A8_2 *)actor)->unk_2A, 1);
                 return;
             }
@@ -82,7 +83,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
             ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
         }
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
         motion->velocity_z = 0;
@@ -91,7 +92,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         if (((S_801728A8_0 *)action)->unk_A0.at02.v < 0x30) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_80175E58;
+        sprite->frameTable = D_80175E58;
         select_sprite_entry(sprite,
             D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -120,7 +121,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
                 return;
             }
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_80175E60;
+        sprite->frameTable = D_80175E60;
         select_sprite_entry(sprite,
             D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
@@ -162,7 +163,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             if (timer < 13) {
                 return;
             }
-            ((SpriteFrameState *)sprite)->frameTable = D_80175E68;
+            sprite->frameTable = D_80175E68;
             select_sprite_entry(sprite,
                 D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
@@ -192,13 +193,13 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             ((S_801728A8_0 *)action)->unk_A0.at02.v = 0;
         }
     case 4:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
         g_dungeon_status.active_actor = 0;

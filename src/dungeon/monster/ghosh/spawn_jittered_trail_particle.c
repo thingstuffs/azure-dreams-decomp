@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
@@ -17,12 +18,6 @@ typedef struct S_80171F30_1 {
     void * unk_08;
 } S_80171F30_1;   /* arg0 in spawn_jittered_trail_particle */
 
-typedef struct S_80171F30_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_80171F30_2;   /* data in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_4 {
     u8 pad_00[0x8];
@@ -61,7 +56,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     s16 mode_value;
     s32 alloc_kind;
     void *source;
-    void *position;
+    ObjectPosition *position;
     s32 jitter;
     s32 coord;
 
@@ -97,33 +92,33 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     if ((mode_value << 16) == 0) {
         jitter = rand();
         position = object->position;
-        coord = ((S_80171F30_2 *)position)->unk_02;
+        coord = ((u16) position->x.w.i);
         jitter &= 7;
         coord -= 4;
         coord += jitter;
-        ((S_80171F30_2 *)position)->unk_02 = coord;
+        position->x.w.i = coord;
         jitter = rand();
         position = object->position;
-        coord = ((S_80171F30_2 *)position)->unk_06;
+        coord = ((u16) position->y.w.i);
         jitter &= 7;
         coord -= 4;
         coord += jitter;
-        ((S_80171F30_2 *)position)->unk_06 = coord;
+        position->y.w.i = coord;
     } else {
         jitter = rand();
         position = object->position;
-        coord = ((S_80171F30_2 *)position)->unk_02;
+        coord = ((u16) position->x.w.i);
         jitter &= 0xF;
         coord -= 0xC;
         coord += jitter;
-        ((S_80171F30_2 *)position)->unk_02 = coord;
+        position->x.w.i = coord;
         jitter = rand();
         position = object->position;
-        coord = ((S_80171F30_2 *)position)->unk_06;
+        coord = ((u16) position->y.w.i);
         jitter &= 0xF;
         coord -= 0xC;
         coord += jitter;
-        ((S_80171F30_2 *)position)->unk_06 = coord;
+        position->y.w.i = coord;
     }
 
     call_object = object;

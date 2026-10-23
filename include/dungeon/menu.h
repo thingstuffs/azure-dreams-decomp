@@ -1,6 +1,8 @@
 #ifndef DUNGEON_MENU_H
 #define DUNGEON_MENU_H
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_func_801237A4_arg0.h"
 void hud_dispatch_no_op(void *object, s32 slot_data);
 void advance_wrapped_cycle_index(void);
@@ -19,4 +21,8 @@ void retire_menu_object(void *object);
 void select_paired_value_tables(Rec_func_801237A4_arg0 *record);
 void set_record_byte_flags_through_end(u8 *record, s32 flags);
 void set_record_flags_and_negate_x(u8 *record, s32 flags);
+
+
+void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *position, SpriteFrameState *draw_state);
+
 #endif

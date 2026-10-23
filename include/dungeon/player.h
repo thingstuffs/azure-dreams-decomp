@@ -26,4 +26,13 @@ void set_linked_actor_pending_halfword(s32 entry_index, s32 value);
 void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model);
 
 
+
+struct Rec_func_8008ACDC_arg0;
+struct S_8008CD4C_2;
+void begin_player_push(struct Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameState *sprite, struct S_8008CD4C_2 *actor,
+    s16 move_state);
+void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameState *entity, void *actor);
+void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, void *model);
+
 #endif

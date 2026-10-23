@@ -15,4 +15,8 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
 void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can);
 
 
+
+
+void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animation, u8 *entity);
+
 #endif

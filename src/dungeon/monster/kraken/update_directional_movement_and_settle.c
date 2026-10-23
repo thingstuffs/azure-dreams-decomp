@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kraken.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -29,7 +30,7 @@ extern u8 D_8017419C[];
 extern u8 D_801741A4[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
-void update_directional_movement_and_settle(void *action, EntityRec *motion, void *sprite, ActorRecord *actor)
+void update_directional_movement_and_settle(void *action, EntityRec *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 dir_x;
     s32 dir_y;
@@ -46,21 +47,21 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
 
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_801724F4_1 *)action)->unk_9B = 0xFF;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_8017419C;
+        sprite->frameTable = D_8017419C;
         select_sprite_entry(sprite,
             D_8017419C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801724F4_1 *)action)->unk_9B++;
         return;
     case 1:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            ((SpriteFrameState *)sprite)->frameTable = D_801741A4;
+        if (sprite->flags & 0xE000) {
+            sprite->frameTable = D_801741A4;
             select_sprite_entry(sprite,
                 D_801741A4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -79,20 +80,20 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
         return;
     case 0xFF:
     {
-        s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
+        s32 target_x = sprite->unk_24 << 6;
         s32 current_x = motion->x.w.i - 0x20;
         motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
     }
         {
-            s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            s32 target_y = sprite->unk_25 << 6;
             s32 current_y = motion->y.w.i - 0x20;
             motion->unk_10 = ((target_y - current_y) << 0xF) >> 1;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             (*(u32 *)&actor->flags1C) |= 0x40000;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             spend_actor_mp(actor, 0x100);
             ((S_801724F4_1 *)action)->unk_8C = &D_801711A4;
             g_dungeon_status.active_actor = 0;

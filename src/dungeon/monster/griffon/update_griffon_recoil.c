@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/griffon.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,14 +16,6 @@ typedef struct S_8016D234_0 {
     u8 unk_9B;
 } S_8016D234_0;   /* arg0 in update_griffon_recoil */
 
-typedef struct S_8016D234_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8016D234_1;   /* arg1 in update_griffon_recoil */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -34,7 +27,7 @@ extern u8 D_8016EC44[];
 extern u8 D_8016EC74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void update_griffon_recoil(void *action, void *motion, void *sprite, void *entity)
+void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
 {
     s32 state;
     s16 timer;
@@ -44,20 +37,20 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        ((S_8016D234_1 *)motion)->unk_0C =
+        motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-        ((S_8016D234_1 *)motion)->unk_10 =
+        motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         ((S_8016D234_0 *)action)->unk_9B++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((S_8016D234_1 *)motion)->unk_14 = 0;
-            ((S_8016D234_1 *)motion)->unk_10 = 0;
-            ((S_8016D234_1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_8016EC74);
             return;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_8016D234_0 *)action)->unk_96.s = 0;
             ((S_8016D234_0 *)action)->unk_9B = 3;
             return;
@@ -70,19 +63,19 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
         }
         ((S_8016D234_0 *)action)->unk_96.s = timer;
 
-        ((S_8016D234_1 *)motion)->unk_0C -= ((S_8016D234_1 *)motion)->unk_0C / 4;
-        ((S_8016D234_1 *)motion)->unk_10 -= ((S_8016D234_1 *)motion)->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
 
     case 1:
-        ((S_8016D234_1 *)motion)->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-        ((S_8016D234_1 *)motion)->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
 
         if (((S_8016D234_0 *)action)->unk_96.s > 0) {
             ((S_8016D234_0 *)action)->unk_96.s = ((S_8016D234_0 *)action)->unk_96.u - 1;
-        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        } else if (sprite->flags & 0x6000) {
             ((S_8016D234_0 *)action)->unk_96.s = 0;
         }
 
@@ -90,13 +83,13 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((S_8016D234_1 *)motion)->unk_14 = 0;
-            ((S_8016D234_1 *)motion)->unk_10 = 0;
-            ((S_8016D234_1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_8016EC74);
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_8016EC44;
+        sprite->frameTable = D_8016EC44;
         select_sprite_entry(
             sprite,
             D_8016EC44[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
@@ -105,15 +98,15 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
         return;
 
     case 2:
-        ((S_8016D234_1 *)motion)->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-        ((S_8016D234_1 *)motion)->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_8016EC44;
+        sprite->frameTable = D_8016EC44;
         select_sprite_entry(
             sprite,
             D_8016EC44[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
@@ -126,14 +119,14 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
         timer = ((S_8016D234_0 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
-                s32 current_x = ((S_8016D234_1 *)motion)->unk_00.at02.v - 0x20;
-                ((S_8016D234_1 *)motion)->unk_0C = ((target_x - current_x) << 15) / timer;
+                s32 target_x = sprite->unk_24 << 6;
+                s32 current_x = motion->x.w.i - 0x20;
+                motion->velocity_x = ((target_x - current_x) << 15) / timer;
             }
             {
-                s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
-                s32 current_y = ((S_8016D234_1 *)motion)->unk_04.at02.v - 0x20;
-                ((S_8016D234_1 *)motion)->unk_10 =
+                s32 target_y = sprite->unk_25 << 6;
+                s32 current_y = motion->y.w.i - 0x20;
+                motion->velocity_y =
                     ((target_y - current_y) << 15) / ((S_8016D234_0 *)action)->unk_96.s;
             }
         }
@@ -144,12 +137,12 @@ void update_griffon_recoil(void *action, void *motion, void *sprite, void *entit
             return;
         }
 
-        ((S_8016D234_1 *)motion)->unk_14 = 0;
-        ((S_8016D234_1 *)motion)->unk_10 = 0;
-        ((S_8016D234_1 *)motion)->unk_0C = 0;
-        ((S_8016D234_1 *)motion)->unk_00.at00.v = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
-        ((S_8016D234_1 *)motion)->unk_04.at00.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        motion->x.v = ((sprite->unk_24 << 6) + 0x20) << 16;
+        motion->y.v = ((sprite->unk_25 << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

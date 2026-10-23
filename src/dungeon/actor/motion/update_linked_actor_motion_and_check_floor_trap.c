@@ -3,7 +3,7 @@
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
 extern s32 update_linked_actor_motion(void *, void *, void *, void *);
-extern s32 check_actor_floor_trap();
+
 
 void update_linked_actor_motion_and_check_floor_trap(void *actor, void *motion, void *render, void *context)
 {

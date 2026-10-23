@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/mesh.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -23,14 +24,6 @@ typedef struct S_81976850_1 {
     u16 unk_14;
 } S_81976850_1;   /* source in func_81976850 */
 
-typedef struct S_81976850_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_81976850_2;   /* arg1 in func_81976850 */
 
    /* coords in func_81976850 */
 
@@ -81,7 +74,7 @@ extern void register_node(void *, void *);
 extern s32 func_800644B8(s32);
 
 /* Follow the source, then brighten and move to the target over ten frames. */
-void follow_source_then_seek_target(void *effect, void *motion, void *visual)
+void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual)
 {
     Vec16 delta;
     void *source;
@@ -109,17 +102,17 @@ void follow_source_then_seek_target(void *effect, void *motion, void *visual)
         if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
-            ((S_81976850_2 *)motion)->unk_00.at02.v = source_pos->unk_02;
-            ((S_81976850_2 *)motion)->unk_04.at02.v = source_pos->unk_06;
+            motion->x.w.i = source_pos->unk_02;
+            motion->y.w.i = source_pos->unk_06;
             source_z = source_pos->unk_0A;
-            ((S_81976850_2 *)motion)->unk_08.at02.v = source_z;
+            motion->z.w.i = source_z;
 
             if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
-                ((S_81976850_2 *)motion)->unk_00.at02.v += delta.x;
-                ((S_81976850_2 *)motion)->unk_04.at02.v += delta.y;
-                ((S_81976850_2 *)motion)->unk_08.at02.v += delta.z;
+                *(u16 *)&motion->x.w.i += delta.x;
+                *(u16 *)&motion->y.w.i += delta.y;
+                *(u16 *)&motion->z.w.i += delta.z;
             } else {
-                ((S_81976850_2 *)motion)->unk_08.at02.v = source_z - 0x20;
+                motion->z.w.i = source_z - 0x20;
             }
         }
 
@@ -136,11 +129,11 @@ void follow_source_then_seek_target(void *effect, void *motion, void *visual)
         ((S_81976850_4 *)visual)->unk_0C = brightness;
 
         target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
-        ((S_81976850_2 *)motion)->unk_0C = ((S_81976850_5 *)target_pos)->unk_00;
-        (*(s32 *)((u8 *)motion + 0x10)) = ((S_81976850_5 *)target_pos)->unk_04;
+        motion->velocity_x = ((S_81976850_5 *)target_pos)->unk_00;
+        (motion->velocity_y) = ((S_81976850_5 *)target_pos)->unk_04;
 
         scene = primary_actor_record;
-        ((S_81976850_2 *)motion)->unk_14 =
+        motion->velocity_z =
             (scene->ground_height - 0x50) << 16;
 
         table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
@@ -150,30 +143,30 @@ void follow_source_then_seek_target(void *effect, void *motion, void *visual)
                 &reference_tile_object,
                 &delta,
                 0) != 0) {
-            ((S_81976850_2 *)motion)->unk_0C += delta.x << 16;
-            ((S_81976850_2 *)motion)->unk_10 += delta.y << 16;
-            ((S_81976850_2 *)motion)->unk_14 += delta.z << 16;
+            motion->velocity_x += delta.x << 16;
+            motion->velocity_y += delta.y << 16;
+            motion->velocity_z += delta.z << 16;
         }
 
-        ((S_81976850_2 *)motion)->unk_00.at00.v +=
-            (((S_81976850_2 *)motion)->unk_0C - ((S_81976850_2 *)motion)->unk_00.at00.v) /
+        motion->x.v +=
+            (motion->velocity_x - motion->x.v) /
             ((S_81976850_0 *)effect)->unk_0E.s;
 
-        ((S_81976850_2 *)motion)->unk_04.at00.v +=
-            (((S_81976850_2 *)motion)->unk_10 - ((S_81976850_2 *)motion)->unk_04.at00.v) /
+        motion->y.v +=
+            (motion->velocity_y - motion->y.v) /
             ((S_81976850_0 *)effect)->unk_0E.s;
 
         z_offset = func_800644B8(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
-        ((S_81976850_2 *)motion)->unk_08.at00.v +=
-            (((S_81976850_2 *)motion)->unk_14 - ((S_81976850_2 *)motion)->unk_08.at00.v) /
+        motion->z.v +=
+            (motion->velocity_z - motion->z.v) /
             ((S_81976850_0 *)effect)->unk_0E.s - z_offset;
 
         frames_left = ((S_81976850_0 *)effect)->unk_0E.u - 1;
         ((S_81976850_0 *)effect)->unk_0E.s = frames_left;
         if (frames_left <= 0) {
-            ((S_81976850_2 *)motion)->unk_00.at00.v = ((S_81976850_2 *)motion)->unk_0C;
-            ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
-            ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
+            motion->x.v = motion->velocity_x;
+            motion->y.v = motion->velocity_y;
+            motion->z.v = motion->velocity_z;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

@@ -31,16 +31,6 @@ typedef struct S_80175BA8_0 {
     s8 unk_B5;
 } S_80175BA8_0;   /* arg0 in enter_actor_aura_mode */
 
-typedef struct S_80175BA8_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175BA8_1;   /* arg1 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_2 {
     u8 pad_00[0x2A];
@@ -71,7 +61,7 @@ extern u8 D_80170CEC[];
 #include "dungeon/monster/u_boat.h"
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
-void enter_actor_aura_mode(void *actor_state, void *position, SpriteFrameState *sprite, void *actor_info) {
+void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFrameState *sprite, void *actor_info) {
     s16 target_offset;
     u16 next_offset;
     u16 phase_ticks;
@@ -86,10 +76,10 @@ void enter_actor_aura_mode(void *actor_state, void *position, SpriteFrameState *
     phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
     switch (phase) {
     case 0:
-        ((S_80175BA8_1 *)position)->unk_14 = 0;
-        ((S_80175BA8_1 *)position)->unk_10 = 0;
-        ((S_80175BA8_1 *)position)->unk_0C = 0;
-        target_offset = sample_terrain_surface_height(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        target_offset = sample_terrain_surface_height(((u16) position->x.w.i), ((u16) position->y.w.i),
                                 (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
         - ((S_80175BA8_2 *)actor_info)->unk_88;
         if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
@@ -121,8 +111,8 @@ void enter_actor_aura_mode(void *actor_state, void *position, SpriteFrameState *
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;
                 effect_position = effect->position;
-                effect_position->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
-                effect_position->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
+                effect_position->unk_02 = ((u16) position->x.w.i);
+                effect_position->unk_06 = ((u16) position->y.w.i);
                 effect_position->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
                 effect_sprite = effect->sprite;
                 effect_sprite->scale_y = 0xA00;

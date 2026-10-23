@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -8,7 +9,7 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern void begin_actor_flagged_action(void *, s32, void *, void *);
+
 
 /* Update actor state and dungeon count, or dispatch special handling. */
 s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, void *actor) {

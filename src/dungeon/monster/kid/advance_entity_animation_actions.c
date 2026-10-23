@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -47,7 +48,7 @@ typedef struct S_80173ED8_5 {
 } S_80173ED8_5;   /* owner in advance_entity_animation_actions */
 
 /* Advances entity animation states and handles pending actions. */
-void advance_entity_animation_actions(void *action, void *context, void *sprite, void *entity)
+void advance_entity_animation_actions(void *action, void *context, SpriteFrameState *sprite, void *entity)
 {
     void *saved_context;
     register DungeonGlobalStatus *dungeon_state;
@@ -68,13 +69,13 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
     {
         u8 *counter_state;
 
-        if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
         counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
-        ((SpriteFrameState *)sprite)->frameTable = D_80175188;
+        sprite->frameTable = D_80175188;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80175188[direction & 7], 0);
         ((S_80173ED8_0 *)action)->unk_9B++;
@@ -85,7 +86,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
         if (((EntityRec *)entity)->tileY != 0) {
             register u8 *counter_state;
 
-            ((SpriteFrameState *)sprite)->frameTable = D_80175180;
+            sprite->frameTable = D_80175180;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_80175180[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
@@ -140,7 +141,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
             return;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80175180;
+        sprite->frameTable = D_80175180;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80175180[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
@@ -153,7 +154,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
     {
         u8 *counter_state;
 
-        if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 

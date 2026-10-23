@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -16,15 +17,6 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern u8 D_800C9F34;
 extern Callback actor_facing_callbacks[];
 
-typedef struct S_800C9AAC_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800C9AAC_1;   /* motion in update_actor_facing_and_lifecycle */
 
 typedef struct S_800C9AAC_2 {
     u8 pad_00[0x1C];
@@ -36,7 +28,7 @@ typedef struct S_800C9AAC_2 {
 } S_800C9AAC_2;   /* secondary in update_actor_facing_and_lifecycle */
 
 /* Updates object callbacks, motion, sprite direction, and height. */
-void update_actor_facing_and_lifecycle(void *state, void *motion, SpriteFrameState *part)
+void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, SpriteFrameState *part)
 {
     u32 update_flags = g_dungeon_status.flags;
     void *secondary = state;
@@ -78,9 +70,9 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, SpriteFrameSta
         }
     }
 
-    ((S_800C9AAC_1 *)motion)->unk_00.at00.v += ((S_800C9AAC_1 *)motion)->unk_0C;
-    ((S_800C9AAC_1 *)motion)->unk_04.at00.v += ((S_800C9AAC_1 *)motion)->unk_10;
-    (*(s32 *)((u8 *)state + (0x90))) += ((S_800C9AAC_1 *)motion)->unk_14;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    (*(s32 *)((u8 *)state + (0x90))) += motion->velocity_z;
 
     part_flags = part->flags;
     adjusted_flags = part_flags & 0x8000;
@@ -124,7 +116,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, SpriteFrameSta
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
                 s32 min_height = -0x20;
                 s16 height;
-                sample_terrain_surface_height(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
+                sample_terrain_surface_height(((u16) motion->x.w.i), ((u16) motion->y.w.i),
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
                 height = (*(s16 *)((u8 *)state + (0x92)));
                 if (min_height < height) {
@@ -140,8 +132,8 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, SpriteFrameSta
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
             (*(s32 *)((u8 *)state + (0x90))) -= height_adjustment;
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
-                target_height = sample_terrain_surface_height(((S_800C9AAC_1 *)motion)->unk_00.at02.v,
-                    ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
+                target_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+                    ((u16) motion->y.w.i),
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
                     ((S_800C9AAC_2 *)secondary)->unk_88;
                 old_height = (*(u16 *)((u8 *)state + (0x92)));
@@ -182,7 +174,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, SpriteFrameSta
         }
     }
 
-    ((S_800C9AAC_1 *)motion)->unk_0A = ((S_800C9AAC_2 *)secondary)->unk_88 +
+    motion->z.w.i = ((S_800C9AAC_2 *)secondary)->unk_88 +
         (*(u16 *)((u8 *)state + (0x92))) - (*(u16 *)((u8 *)state + (0xA2)));
     part->flags |= 0x40;
 }

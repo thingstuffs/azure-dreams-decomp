@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -700,7 +701,7 @@ extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
-extern s32 advance_actor_removal(void *, s32, void *, void *);
+
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
 extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -711,7 +712,7 @@ extern s32 update_actor_fade_in(void *,void *,void *,void *);
 extern void update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta();
 extern void spend_actor_mp(void *,s32);
-extern s32 check_actor_floor_trap(void *,void *);
+
 extern s32 relink_entity_and_clear_high_flag();
 extern M2C_UNK create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);

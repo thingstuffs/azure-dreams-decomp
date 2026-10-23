@@ -12,4 +12,9 @@ s32 initialize_directional_animation_action(void *state_ptr, s32 action_arg, voi
 s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void *origin, void *actor);
 
 
+
+
+void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *record, ActorRecord *actor);
+void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target);
+
 #endif

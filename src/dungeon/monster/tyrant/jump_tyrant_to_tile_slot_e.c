@@ -1,5 +1,6 @@
 /* Relinked copy of dungeon/func_80B1AA58 (func_80B1AA58.c); this jump variant keeps its counter at +0xA0 (twin +0xA8) and uses launch speed 0xFFE80000 / gravity 0x60000 (twin 0xFFEE0000 / 0x40000); otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -21,10 +22,6 @@ typedef struct S_80172258_0 {
 } S_80172258_0;   /* arg0 in jump_tyrant_to_tile_slot_e */
 
 
-typedef struct S_80172258_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80172258_4;   /* global in jump_tyrant_to_tile_slot_e */
 
 
 void select_sprite_entry();
@@ -33,7 +30,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 on_actor_status_updated();
 void spend_actor_mp();
-s32 check_actor_floor_trap();
+
 
 extern u8 D_80164F68;
 extern u8 D_80167FD8[];

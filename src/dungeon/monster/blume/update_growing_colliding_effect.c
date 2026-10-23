@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/blume.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -37,7 +38,7 @@ extern s32 check_left_tile_and_center_height();
 extern s16 sample_terrain_surface_height();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
-void update_growing_colliding_effect(void *effect, void *position, void *sprite) {
+void update_growing_colliding_effect(void *effect, void *position, SpriteFrameState *sprite) {
     s32 move_height;
     s32 fade_height;
     s32 phase;
@@ -91,15 +92,15 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
         if (!(anim_tick & 3)) {
             advance_sprite_animation_and_textures(sprite);
         }
-        move_scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;
-        ((SpriteFrameState *)sprite)->scale_x = move_scale_x;
+        move_scale_x = sprite->scale_x + 0x64;
+        sprite->scale_x = move_scale_x;
         if ((u32)(move_scale_x & 0xFFFF) >= 0x2001U) {
-            ((SpriteFrameState *)sprite)->scale_x = 0x2000;
+            sprite->scale_x = 0x2000;
         }
-        move_scale_y = ((SpriteFrameState *)sprite)->scale_y + 0x64;
-        ((SpriteFrameState *)sprite)->scale_y = move_scale_y;
+        move_scale_y = sprite->scale_y + 0x64;
+        sprite->scale_y = move_scale_y;
         if ((u32)(move_scale_y & 0xFFFF) >= 0x2001U) {
-            ((SpriteFrameState *)sprite)->scale_y = 0x2000;
+            sprite->scale_y = 0x2000;
         }
         move_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
         ((S_8017142C_0 *)effect)->unk_24 = move_ticks_left;
@@ -107,7 +108,7 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             ((S_8017142C_0 *)effect)->unk_1A = 0;
             ((S_8017142C_0 *)effect)->unk_00 = (u16)((S_8017142C_0 *)effect)->unk_00 + 1;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -121,15 +122,15 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             ((S_8017142C_0 *)effect)->unk_64 = 0;
             ((S_8017142C_0 *)effect)->unk_60 = 0;
         }
-        fade_scale_x = ((SpriteFrameState *)sprite)->scale_x + 0xC8;
-        ((SpriteFrameState *)sprite)->scale_x = fade_scale_x;
+        fade_scale_x = sprite->scale_x + 0xC8;
+        sprite->scale_x = fade_scale_x;
         if ((u32)(fade_scale_x & 0xFFFF) >= 0x2001U) {
-            ((SpriteFrameState *)sprite)->scale_x = 0x2000;
+            sprite->scale_x = 0x2000;
         }
-        fade_scale_y = ((SpriteFrameState *)sprite)->scale_y + 0xC8;
-        ((SpriteFrameState *)sprite)->scale_y = fade_scale_y;
+        fade_scale_y = sprite->scale_y + 0xC8;
+        sprite->scale_y = fade_scale_y;
         if ((u32)(fade_scale_y & 0xFFFF) >= 0x2001U) {
-            ((SpriteFrameState *)sprite)->scale_y = 0x2000;
+            sprite->scale_y = 0x2000;
         }
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
@@ -147,9 +148,9 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
             }
         }
         fade_level = ((s16)((S_8017142C_0 *)effect)->unk_24 << 7) / (s16)((S_8017142C_0 *)effect)->unk_26;
-        ((SpriteFrameState *)sprite)->color.c.b = 0;
-        ((SpriteFrameState *)sprite)->color.c.g = fade_level;
-        ((SpriteFrameState *)sprite)->color.c.r = fade_level;
+        sprite->color.c.b = 0;
+        sprite->color.c.g = fade_level;
+        sprite->color.c.r = fade_level;
         fade_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {

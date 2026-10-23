@@ -62,7 +62,7 @@ extern void finish_actor_tile_move_and_check_trap(void *, void *, void *, void *
 extern s32 search_ahead_and_start_action(void *, void *, void *, void *);
 extern void update_action_state_direction_specific(void *, void *, void *, void *);
 extern void clear_actor_action_flag_and_animate(void *, void *, void *, void *);
-extern void attempt_actor_directional_action(void *, void *, void *, void *);
+
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 

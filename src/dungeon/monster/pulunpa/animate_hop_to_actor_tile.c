@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/pulunpa.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -29,14 +31,14 @@ extern void advance_status_timers(void *);
 extern void apply_capped_damage_and_hit_effect(void *, void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern u8 D_80170F20[];
 extern u8 D_801762D8[];
 extern u8 D_801762E0[];
 
 /* Animate a hop to the actor's tile and finish the action when its timer expires. */
-void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *actor)
+void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_distance;
     s32 tile_origin_y;
@@ -49,16 +51,16 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
     phase = ((S_801721B0_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
-            ((SpriteFrameState *)sprite)->frameTable = D_801762D8;
+        if (sprite->flags & 0x6000) {
+            sprite->frameTable = D_801762D8;
             select_sprite_entry(
                 sprite,
-                D_801762D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >>
+                D_801762D8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >>
                             9) &
                            7],
                 0);
             ((S_801721B0_0 *)action)->unk_98 |= 8;
-            ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+            actor->flags1C &= 0xF7FFFFFF;
             ((S_801721B0_0 *)action)->unk_9E.s = 5;
             ((S_801721B0_0 *)action)->unk_A0 = 0;
             ((S_801721B0_0 *)action)->unk_9B++;
@@ -73,12 +75,12 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
             ((S_801721B0_0 *)action)->unk_90 - ((S_801721B0_0 *)action)->unk_A0;
         if (hop_frames != 0) {
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C =
-                (((((SpriteFrameState *)sprite)->unk_24 << 6) -
+                (((sprite->unk_24 << 6) -
                   ({ ((Rec_func_800A5DFC_arg1 *)motion)->unk_02 - 0x20; })) <<
                  0x10) /
                 hop_frames;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) -
+                (((sprite->unk_25 << 6) -
                   (tile_origin_y = ((Rec_func_800A5DFC_arg1 *)motion)->unk_06 - 0x20)) <<
                  0x10) /
                 ((S_801721B0_0 *)action)->unk_9E.s;
@@ -92,24 +94,24 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
         if ((s16)next_hop_frame < 0) {
             ((S_801721B0_0 *)action)->unk_90 = 0;
             ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            actor->flags1C |= 0x08000000;
             ((S_801721B0_0 *)action)->unk_9B++;
         }
 
                         /* fallthrough */
 
     case 2:
-        if (((ActorRecord *)actor)->flags1C & 0x08000000) {
+        if (actor->flags1C & 0x08000000) {
             ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
-                          ((SpriteFrameState *)sprite)->unk_25);
-            ((SpriteFrameState *)sprite)->frameTable = D_801762E0;
+            set_record_integer_tile_center(motion, sprite->unk_24,
+                          sprite->unk_25);
+            sprite->frameTable = D_801762E0;
             select_sprite_entry(
                 sprite,
-                D_801762E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >>
+                D_801762E0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >>
                             9) &
                            7],
                 0);
@@ -124,25 +126,25 @@ void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *a
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
-                      ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24,
+                      sprite->unk_25);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
         }
-        actor_flags = ((ActorRecord *)actor)->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
             u16 status_flags;
 
-            status_flags = ((ActorRecord *)actor)->action_flags;
+            status_flags = actor->action_flags;
             if (status_flags & 0x8000) {
-                ((ActorRecord *)actor)->action_flags = status_flags & 0x7FFF;
+                actor->action_flags = status_flags & 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }

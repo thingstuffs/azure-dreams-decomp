@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -60,22 +61,11 @@ typedef struct S_8017450C_3 {
     u16 unk_88;
 } S_8017450C_3;   /* actor in update_monster_staged_motion */
 
-typedef struct S_8017450C_4 {
-    u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017450C_4;   /* motion in update_monster_staged_motion */
 
 /* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
 /* Animates Baloon's spinning defeat and fall, searches nearby tiles, awards experience, and removes the
  * actor. */
-void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *monster, void *actor_ptr)
+void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFrameState *monster, void *actor_ptr)
 {
     LocalVector direction;
     LocalTable direction_table;
@@ -128,7 +118,7 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
             s32 *sound_flags = &dungeon_floor_flags;
             ((S_8017450C_0 *)state)->unk_A0 = 0;
             ((S_8017450C_0 *)state)->unk_9B = next_state + 1;
-            state_or_height = ((S_8017450C_4 *)motion)->unk_0A;
+            state_or_height = ((u16) motion->z.w.i);
             state_or_height += height_offset;
             ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
             *sound_flags |= 0x40;
@@ -215,8 +205,8 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
                 direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
 
                 ((S_8017450C_0 *)state)->unk_90.at00.v += scaled_speed << 4;
-                ((S_8017450C_4 *)motion)->unk_0C = (direction.x * radial_speed) >> 4;
-                ((S_8017450C_4 *)motion)->unk_10 = (direction.y * radial_speed) >> 4;
+                motion->velocity_x = (direction.x * radial_speed) >> 4;
+                motion->velocity_y = (direction.y * radial_speed) >> 4;
             }
         }
 
@@ -227,12 +217,12 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
         ((S_8017450C_0 *)state)->unk_96.s = 0;
         ((S_8017450C_0 *)state)->unk_9B++;
         monster->angle_z = 0x800;
-        ((S_8017450C_4 *)motion)->unk_10 = 0;
-        ((S_8017450C_4 *)motion)->unk_0C = 0;
-        ((S_8017450C_4 *)motion)->unk_02.s = (monster->unk_24 << 6) + 0x20;
-        ((S_8017450C_4 *)motion)->unk_06.s = (monster->unk_25 << 6) + 0x20;
-        ((S_8017450C_4 *)motion)->unk_0A = ((S_8017450C_0 *)state)->unk_B6;
-        ((S_8017450C_4 *)motion)->unk_14 = 0x280000;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        motion->x.w.i = (monster->unk_24 << 6) + 0x20;
+        motion->y.w.i = (monster->unk_25 << 6) + 0x20;
+        motion->z.w.i = ((S_8017450C_0 *)state)->unk_B6;
+        motion->velocity_z = 0x280000;
         ((S_8017450C_0 *)state)->unk_A0 = 0;
         ((S_8017450C_0 *)state)->unk_90.at02.v = ((S_8017450C_0 *)state)->unk_B6 - 0x12C;
         monster->scale_x = 0x600;
@@ -241,7 +231,7 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
             random_x = random_below_limit(7) - 3;
             random_y = random_below_limit(6) - 2;
             x_offset = random_x << 6;
-            x = ((S_8017450C_4 *)motion)->unk_02.s + x_offset;
+            x = motion->x.w.i + x_offset;
             if (x >= 0x1020) {
                 continue;
             }
@@ -250,7 +240,7 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
             }
 
             y_offset = random_y << 6;
-            y = ((S_8017450C_4 *)motion)->unk_06.s + y_offset;
+            y = motion->y.w.i + y_offset;
             if (y >= 0x1020) {
                 continue;
             }
@@ -269,8 +259,8 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
 
             random_x = 0xB;
             attempt = random_x;
-            ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
-            ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
+            *(u16 *)&motion->x.w.i += x_offset;
+            *(u16 *)&motion->y.w.i += y_offset;
         }
 
         if (random_x == 0xB) {
@@ -278,7 +268,7 @@ void update_monster_staged_motion(void *state, void *motion, SpriteFrameState *m
         }
 
         ((S_8017450C_0 *)state)->unk_9B = 4;
-        ((S_8017450C_4 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         monster->flags |= 0x80;
         return;
 

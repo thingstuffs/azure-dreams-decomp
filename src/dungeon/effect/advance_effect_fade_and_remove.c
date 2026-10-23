@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -20,20 +21,12 @@ typedef struct S_800B7C14_1 {
     u16 unk_16;
 } S_800B7C14_1;   /* arg0 in advance_effect_fade_and_remove */
 
-typedef struct S_800B7C14_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800B7C14_2;   /* arg1 in advance_effect_fade_and_remove */
 
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);        /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
-void advance_effect_fade_and_remove(void *effect, void *motion, SpriteFrameState *primitive) {
+void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s32 velocity_x;
     u16 life_left;
     u8 brightness;
@@ -44,14 +37,14 @@ void advance_effect_fade_and_remove(void *effect, void *motion, SpriteFrameState
             select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);
         }
     }
-    ((S_800B7C14_2 *)motion)->unk_00 = (s32) (((S_800B7C14_2 *)motion)->unk_00 + ((S_800B7C14_2 *)motion)->unk_0C);
-    ((S_800B7C14_2 *)motion)->unk_04 = (s32) (((S_800B7C14_2 *)motion)->unk_04 + ((S_800B7C14_2 *)motion)->unk_10);
-    velocity_x = ((S_800B7C14_2 *)motion)->unk_0C;
-    ((S_800B7C14_2 *)motion)->unk_08 = (s32) (((S_800B7C14_2 *)motion)->unk_08 + ((S_800B7C14_2 *)motion)->unk_14);
-    ((S_800B7C14_2 *)motion)->unk_0C = (s32) (velocity_x - (velocity_x >> 4));
-    ((S_800B7C14_2 *)motion)->unk_10 = (s32) (((S_800B7C14_2 *)motion)->unk_10 - (((S_800B7C14_2 *)motion)->unk_10
+    motion->x.v = (s32) (motion->x.v + motion->velocity_x);
+    motion->y.v = (s32) (motion->y.v + motion->velocity_y);
+    velocity_x = motion->velocity_x;
+    motion->z.v = (s32) (motion->z.v + motion->velocity_z);
+    motion->velocity_x = (s32) (velocity_x - (velocity_x >> 4));
+    motion->velocity_y = (s32) (motion->velocity_y - (motion->velocity_y
         >> 4));
-    ((S_800B7C14_2 *)motion)->unk_14 = (s32) (((S_800B7C14_2 *)motion)->unk_14 + 0x40000);
+    motion->velocity_z = (s32) (motion->velocity_z + 0x40000);
     if (((S_800B7C14_1 *)effect)->unk_12 != 0) {
         brightness = primitive->color.c.r;
         if (brightness != 0) {

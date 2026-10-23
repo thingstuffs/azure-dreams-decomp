@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/grineut.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,14 +16,6 @@ typedef struct S_8015B238_1 {
     u8 unk_9B;
 } S_8015B238_1;   /* arg0 in settle_directional_actor_motion */
 
-typedef struct S_8015B238_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8015B238_2;   /* arg1 in settle_directional_actor_motion */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -34,7 +27,7 @@ extern u8 D_8015C150[];
 extern u8 D_8015C178[];
 
 /* Updates directional movement and settles the actor at its tile center. */
-void settle_directional_actor_motion(void *motion_state, void *motion, void *map_actor, void *actor)
+void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion, SpriteFrameState *map_actor, void *actor)
 {
     s32 state;
     s32 direction;
@@ -46,18 +39,18 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        ((S_8015B238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        ((S_8015B238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
+        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         ((S_8015B238_1 *)motion_state)->unk_9B++;
 
         if (((EntityRec *)actor)->unk_28 == 0) {
-            ((S_8015B238_2 *)motion)->unk_14 = 0;
-            ((S_8015B238_2 *)motion)->unk_10 = 0;
-            ((S_8015B238_2 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(motion_state, motion, map_actor, D_8015C178);
             return;
         }
-        if (((SpriteFrameState *)map_actor)->flags & 0x8000) {
+        if (map_actor->flags & 0x8000) {
             ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
             ((S_8015B238_1 *)motion_state)->unk_9B = 3;
             return;
@@ -70,16 +63,16 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
         }
         ((S_8015B238_1 *)motion_state)->unk_96.s = timer;
 
-        ((S_8015B238_2 *)motion)->unk_0C -= ((S_8015B238_2 *)motion)->unk_0C / 4;
-        ((S_8015B238_2 *)motion)->unk_10 -= ((S_8015B238_2 *)motion)->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
         if (((S_8015B238_1 *)motion_state)->unk_96.s > 0) {
             ((S_8015B238_1 *)motion_state)->unk_96.s = ((S_8015B238_1 *)motion_state)->unk_96.u - 1;
-        } else if (((SpriteFrameState *)map_actor)->flags & 0x6000) {
+        } else if (map_actor->flags & 0x6000) {
             ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
         }
 
@@ -87,13 +80,13 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
             return;
         }
         if (((EntityRec *)actor)->unk_28 == 0) {
-            ((S_8015B238_2 *)motion)->unk_14 = 0;
-            ((S_8015B238_2 *)motion)->unk_10 = 0;
-            ((S_8015B238_2 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(motion_state, motion, map_actor, D_8015C178);
             return;
         } else {
-            ((SpriteFrameState *)map_actor)->frameTable = D_8015C150;
+            map_actor->frameTable = D_8015C150;
             select_sprite_entry(
                 map_actor,
                 D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -103,13 +96,13 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
         }
 
     case 2:
-        ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
-        if (!(((SpriteFrameState *)map_actor)->flags & 0x6000)) {
+        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        if (!(map_actor->flags & 0x6000)) {
             return;
         }
 
-        ((SpriteFrameState *)map_actor)->frameTable = D_8015C150;
+        map_actor->frameTable = D_8015C150;
         select_sprite_entry(
             map_actor,
             D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -122,14 +115,14 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
         timer = ((S_8015B238_1 *)motion_state)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_coord = ((SpriteFrameState *)map_actor)->unk_24 << 6;
-                s32 current_coord = ((S_8015B238_2 *)motion)->unk_00.at02.v - 0x20;
-                ((S_8015B238_2 *)motion)->unk_0C = ((target_coord - current_coord) << 15) / timer;
+                s32 target_coord = map_actor->unk_24 << 6;
+                s32 current_coord = motion->x.w.i - 0x20;
+                motion->velocity_x = ((target_coord - current_coord) << 15) / timer;
             }
             {
-                s32 target_coord = ((SpriteFrameState *)map_actor)->unk_25 << 6;
-                s32 current_coord = ((S_8015B238_2 *)motion)->unk_04.at02.v - 0x20;
-                ((S_8015B238_2 *)motion)->unk_10 =
+                s32 target_coord = map_actor->unk_25 << 6;
+                s32 current_coord = motion->y.w.i - 0x20;
+                motion->velocity_y =
                     ((target_coord - current_coord) << 15) / ((S_8015B238_1 *)motion_state)->unk_96.s;
             }
         }
@@ -140,12 +133,12 @@ void settle_directional_actor_motion(void *motion_state, void *motion, void *map
             return;
         }
 
-        ((S_8015B238_2 *)motion)->unk_14 = 0;
-        ((S_8015B238_2 *)motion)->unk_10 = 0;
-        ((S_8015B238_2 *)motion)->unk_0C = 0;
-        ((S_8015B238_2 *)motion)->unk_00.at00.v = ((((SpriteFrameState *)map_actor)->unk_24 << 6) + 0x20) << 16;
-        ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((SpriteFrameState *)map_actor)->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->unk_24, ((SpriteFrameState *)map_actor)->unk_25);
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        motion->x.v = ((map_actor->unk_24 << 6) + 0x20) << 16;
+        motion->y.v = ((map_actor->unk_25 << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, map_actor->unk_24, map_actor->unk_25);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
@@ -8,7 +9,7 @@ typedef struct TilePos TilePos;
 extern s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ActorRecord *actor);
 extern void spend_actor_mp(s32, s32);
 extern void advance_status_timers(s32);
-extern s32 check_actor_floor_trap(s32, s32);
+
 extern s32 D_80170E9C;
 
 /* Updates an eligible actor and conditionally resets the entity state. */

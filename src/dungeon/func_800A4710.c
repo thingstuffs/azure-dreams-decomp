@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -10,7 +11,7 @@ extern s32 has_pending_dungeon_activity(void *entity);
 extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
 extern void select_indirect_table_entry(void *state, u8 table_index, s8 entry_index);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern void begin_actor_flagged_action(void *entity, s32 unused, void *status, void *event_state);
+
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);
 
 extern s16 pending_marked_actor_count;
@@ -24,15 +25,6 @@ typedef struct S_800A9E70_2 {
     union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_800A9E70_2;   /* arg2 in refresh_actor_facing_and_lifecycle */
 
-typedef struct S_800A9E70_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    u8 pad_0A[0x2];
-    void * unk_0C;
-    s32 unk_10;
-} S_800A9E70_3;   /* state in refresh_actor_facing_and_lifecycle */
 
 /* Updates entity facing and applies pending animation changes. */
 s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, EntityRec *entity) {

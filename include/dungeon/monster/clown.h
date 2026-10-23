@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE16_SLOT0_H
 #define DUNGEON_RESOURCE16_SLOT0_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
@@ -464,7 +465,7 @@ s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 s32 spend_actor_mp();
-s32 check_actor_floor_trap();
+
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
 s32 play_sound_if_enabled();
@@ -477,7 +478,7 @@ void begin_actor_display_action();
 void apply_clamped_actor_value_delta();
 s32 update_actor_defeat_removal();
 s32 update_actor_hop_and_shrink();
-s32 advance_actor_removal();
+
 s32 update_actor_hop_and_grow();
 s32 get_entity_effect_value();
 s32 func_80042900();
@@ -546,7 +547,7 @@ void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 conte
 s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_dispatch_transition(void *state, s32 unused, s32 source, s32 target);
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic);
-void finish_actor_action_animation(void *action, void *motion, struct SpriteFrameState *anim, void *actor);
+
 void update_overlay_object_action(void *owner, void *motion, struct SpriteFrameState *actor, void *object_in);
 void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
@@ -569,4 +570,8 @@ void create_angled_source_effect(
 void wait_for_clown_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, struct SpriteFrameState *actor, void *model);
+
+
+void finish_actor_action_animation(void *action, void *motion, SpriteFrameState *anim, ActorRecord *actor);
+
 #endif

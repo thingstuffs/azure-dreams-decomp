@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -55,22 +56,6 @@ typedef struct S_800AB778_1 {
     u8 unk_9B;
 } S_800AB778_1;   /* arg0 in advance_actor_removal */
 
-typedef struct S_800AB778_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AB778_3;   /* arg2 in advance_actor_removal */
 
 typedef struct S_800AB778_6 {
     u8 pad_00[0xAC];
@@ -147,7 +132,7 @@ s16 find_entity_slot_by_field_ac();
 s32 has_actor_or_actions();
 void mark_owned_linked_actor_actions();
 s32 display_text_with_fullwidth_adjustment();
-void begin_actor_flagged_action();
+
 void *create_orbiting_teleport_effect();
 extern s32 D_800814A0;
 extern s16 pending_marked_actor_count;
@@ -159,7 +144,7 @@ extern void *familiar_record_slots[];
 extern D_800E3E48_Entry familiar_record_storage[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
-s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor) {
+s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrameState *visual, void *actor) {
     s32 effect_flags;
     s16 actor_slot16;
     s16 fade_ticks;
@@ -240,33 +225,33 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             state->unk_9B = 0x10;
             break;
         }
-        if (((SpriteFrameState *)visual)->clut == 0) {
-            ((SpriteFrameState *)visual)->clut = 0xFF80U;
+        if (visual->clut == 0) {
+            visual->clut = 0xFF80U;
         }
-        ((SpriteFrameState *)visual)->tpage_abr = 0x20;
-        ((SpriteFrameState *)visual)->flags |= 0xC;
+        visual->tpage_abr = 0x20;
+        visual->flags |= 0xC;
         state->unk_96.s = 0x10;
         ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v |= 0x10000000;
         state->unk_9B++;
         break;
 
     case 4:
-        ((SpriteFrameState *)visual)->color.c.r -=
-            (s32)((SpriteFrameState *)visual)->color.c.r / state->unk_96.s;
-        ((SpriteFrameState *)visual)->color.c.g -=
-            (s32)((SpriteFrameState *)visual)->color.c.g / state->unk_96.s;
-        ((SpriteFrameState *)visual)->color.c.b -=
-            (s32)((SpriteFrameState *)visual)->color.c.b / state->unk_96.s;
-        scale_x = ((SpriteFrameState *)visual)->scale_x;
-        ((SpriteFrameState *)visual)->scale_x = scale_x +
+        visual->color.c.r -=
+            (s32)visual->color.c.r / state->unk_96.s;
+        visual->color.c.g -=
+            (s32)visual->color.c.g / state->unk_96.s;
+        visual->color.c.b -=
+            (s32)visual->color.c.b / state->unk_96.s;
+        scale_x = visual->scale_x;
+        visual->scale_x = scale_x +
             ((s32)(0x400 - scale_x) / state->unk_96.s);
-        scale_y = ((SpriteFrameState *)visual)->scale_y;
-        ((SpriteFrameState *)visual)->scale_y = scale_y +
+        scale_y = visual->scale_y;
+        visual->scale_y = scale_y +
             ((s32)(0x400 - scale_y) / state->unk_96.s);
         fade_ticks = state->unk_96.u - 1;
         state->unk_96.s = fade_ticks;
         if (((fade_ticks << 0x10) > 0) &&
-            !(((SpriteFrameState *)visual)->flags & 0x8000)) {
+            !(visual->flags & 0x8000)) {
             return 0;
         }
         event_source = get_unused_text_buffer();
@@ -315,8 +300,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         }
         if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = ((SpriteFrameState *)visual)->unk_24;
-            effect_y = ((SpriteFrameState *)visual)->unk_25;
+            effect_x = visual->unk_24;
+            effect_y = visual->unk_25;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
@@ -379,8 +364,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         clear_slot_and_update_linked_state(globals16->unk_110);
         if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = ((SpriteFrameState *)visual)->unk_24;
-            effect_y = ((SpriteFrameState *)visual)->unk_25;
+            effect_x = visual->unk_24;
+            effect_y = visual->unk_25;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;

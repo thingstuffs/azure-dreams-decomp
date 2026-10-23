@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/sys_flags.h"
@@ -48,18 +49,9 @@ typedef struct S_8016F2E0_3 {
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } S_8016F2E0_3;   /* actor in update_boss_actor_movement */
 
-typedef struct S_8016F2E0_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8016F2E0_5;   /* arg1 in update_boss_actor_movement */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void update_boss_actor_movement(void *entity, void *motion, SpriteFrameState *sprite)
+void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     void *actor = entity;
     s16 old_direction;
@@ -170,20 +162,20 @@ void update_boss_actor_movement(void *entity, void *motion, SpriteFrameState *sp
         sprite->flags = updated_flags;
     }
 
-    ((S_8016F2E0_5 *)motion)->unk_00.at00.v += ((S_8016F2E0_5 *)motion)->unk_0C;
-    ((S_8016F2E0_5 *)motion)->unk_04.at00.v += ((S_8016F2E0_5 *)motion)->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)entity + (0x98))) & 8) {
         (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     } else {
-        ((S_8016F2E0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)entity + (0x9D)))++;
     }
-    (*(s32 *)((u8 *)entity + (0x90))) += ((S_8016F2E0_5 *)motion)->unk_14;
+    (*(s32 *)((u8 *)entity + (0x90))) += motion->velocity_z;
 
     if (!((*(u16 *)((u8 *)entity + (0x98))) & 4)) {
-        floor_height = sample_terrain_surface_height(((S_8016F2E0_5 *)motion)->unk_00.at02.v,
-                              ((S_8016F2E0_5 *)motion)->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+                              ((u16) motion->y.w.i),
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
         if ((s16)floor_height < 0x200) {
             actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
@@ -195,7 +187,7 @@ void update_boss_actor_movement(void *entity, void *motion, SpriteFrameState *sp
                 } else {
                     (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height;
                 }
-                ((S_8016F2E0_5 *)motion)->unk_14 = 0;
+                motion->velocity_z = 0;
                 ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
                 (*(u8 *)((u8 *)entity + (0x9D))) = 0;
             }
@@ -214,6 +206,6 @@ void update_boss_actor_movement(void *entity, void *motion, SpriteFrameState *sp
     } else {
         ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
-    ((S_8016F2E0_5 *)motion)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + (0x92)));
+    motion->z.w.i = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + (0x92)));
     sprite->flags |= 0x40;
 }

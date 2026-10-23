@@ -3,6 +3,7 @@
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers. */
 
 #include "common.h"
+#include "dungeon/actor.h"
 #include "m2c_compat.h"
 #include "shared/def_table.h"
 #include "shared/dungeon_moving_views.h"
@@ -237,7 +238,7 @@ s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
 void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit);
 s16 select_highest_value_item(s32 records_addr, s32 item_kind);
 s32 find_type_13_slot_index(DungeonSlot *targetSlot);
-void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *search_state);
+
 u8 *get_stored_or_fallback_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);

@@ -26,7 +26,7 @@ extern u8 D_80174DFC[];
 extern u8 D_80174E24[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
-void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *actor, EntityRec *entity)
+void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity)
 {
     s32 state;
     s16 timer;
@@ -51,7 +51,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
             begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
-        if (((SpriteFrameState *)actor)->flags & 0x8000) {
+        if (actor->flags & 0x8000) {
             ((S_80173964_0 *)action)->unk_96.s = 0;
             ((S_80173964_0 *)action)->unk_9B = 3;
         }
@@ -68,7 +68,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
             motion->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
-            ((SpriteFrameState *)actor)->flags |= 0x800;
+            actor->flags |= 0x800;
             return;
         }
         if (timer >= 7) {
@@ -82,7 +82,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
             return;
         }
         if (timer == state) {
-            ((SpriteFrameState *)actor)->flags &= 0xF7FF;
+            actor->flags &= 0xF7FF;
             return;
         }
         if (timer != 0) {
@@ -104,10 +104,10 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
         }
         timer = ((S_80173964_0 *)action)->unk_96.s;
         if (timer != 0) {
-            target_x = ((SpriteFrameState *)actor)->unk_24 << 6;
+            target_x = actor->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
             motion->velocity_x = ((target_x - current_x) << 16) / timer;
-            target_y = ((SpriteFrameState *)actor)->unk_25 << 6;
+            target_y = actor->unk_25 << 6;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
@@ -127,9 +127,9 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
-        if (((SpriteFrameState *)actor)->frameTable == D_80174DFC) {
-            ((SpriteFrameState *)actor)->frameTable = saber_direction_frames;
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        if (actor->frameTable == D_80174DFC) {
+            actor->frameTable = saber_direction_frames;
             select_sprite_entry(
                 actor,
                 saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],

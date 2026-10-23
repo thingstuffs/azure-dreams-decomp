@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/nyuel.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -28,13 +30,13 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
-void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 facing_aux;
     s32 move_ticks;
@@ -50,9 +52,9 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
     phase = ((S_80172158_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!((((SpriteFrameState *)sprite)->unk_04 == 1 &&
-               (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-              (((SpriteFrameState *)sprite)->flags & 0xE000))) {
+        if (!((sprite->unk_04 == 1 &&
+               (sprite->flags & 0x1000)) ||
+              (sprite->flags & 0xE000))) {
             break;
         }
         ((S_80172158_0 *)action)->unk_98 |= 8;
@@ -66,7 +68,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
         ((S_80172158_0 *)action)->unk_90 =
             ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            x_delta = ((SpriteFrameState *)sprite)->unk_24;
+            x_delta = sprite->unk_24;
             axis_pos = motion->x.w.i;
             x_delta <<= 6;
             axis_pos -= 0x20;
@@ -75,7 +77,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
             motion->velocity_x = x_delta / move_ticks;
             axis_pos = motion->y.w.i - 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - axis_pos) << 16) /
+                (((sprite->unk_25 << 6) - axis_pos) << 16) /
                 (s16)((S_80172158_0 *)action)->unk_9E;
             ((S_80172158_0 *)action)->unk_A0 =
                 (-func_800644B8(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
@@ -96,8 +98,8 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            ((SpriteFrameState *)sprite)->frameTable = D_80174EE0;
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            sprite->frameTable = D_80174EE0;
             select_sprite_entry(
                 sprite,
                 D_80174EE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -115,7 +117,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
 
@@ -132,7 +134,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sp
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }

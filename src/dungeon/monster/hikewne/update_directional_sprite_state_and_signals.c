@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_800AA258_arg2.h"
@@ -7,7 +8,7 @@
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
-extern s32 check_actor_floor_trap(void *, void *);
+
 
 extern u8 D_801714D4;
 extern u8 D_801740E0[];

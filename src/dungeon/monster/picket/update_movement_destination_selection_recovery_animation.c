@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/picket.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -40,12 +41,6 @@ typedef struct S_80174428_2 {
     u8 * unk_2C;
 } S_80174428_2;   /* actor in update_movement_destination_selection_recovery_animation */
 
-typedef struct S_80174428_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_80174428_3;   /* motion in update_movement_destination_selection_recovery_animation */
 
 extern s16 floor_generation_state[3];
 extern u8 D_801710F4[];
@@ -69,7 +64,7 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Updates movement, destination selection, and recovery animation for the object. */
 /* Animates Picket's dash and retreat, selects a new valid tile when allowed, then restores sprite scale
  * and spends MP. */
-void update_movement_destination_selection_recovery_animation(void *state, void *motion, SpriteFrameState *actor, void *object)
+void update_movement_destination_selection_recovery_animation(void *state, ObjectPosition *motion, SpriteFrameState *actor, void *object)
 {
     s32 y_step;
     s32 x_step;
@@ -101,8 +96,8 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         (*(u8 **)((u8 *)actor + 0x2C)) = D_80174EF8;
         select_sprite_entry(actor,
             D_80174EF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
-        ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
+        motion->velocity_x = (x_step << 19) + (x_step << 18);
+        motion->velocity_y = (y_step << 19) + (y_step << 18);
         ((S_80174428_1 *)state)->unk_96.s = 4;
         play_sound_if_enabled(0x80E);
         ((S_80174428_1 *)state)->unk_9B++;
@@ -113,15 +108,15 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
                 return;
             }
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         (*(u8 **)((u8 *)actor + 0x2C)) = D_80174F58;
         select_sprite_entry(actor,
             D_80174F58[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         ((S_80174428_1 *)state)->unk_96.s = 0;
-        ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
-        ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
+        motion->velocity_x = (-x_step) << 18;
+        motion->velocity_y = (-y_step) << 18;
         ((S_80174428_1 *)state)->unk_9B++;
         return;
 
@@ -129,8 +124,8 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         if (!(actor->flags & 0xE000)) {
             return;
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         (*(u8 **)((u8 *)actor + 0x2C)) = D_80174F00;
         select_sprite_entry(actor,
             D_80174F00[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
@@ -189,7 +184,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             }
             direction_offset = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
                 (actor->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
+                (s16)(((u16) motion->z.w.i) - 0x80));
             raw_direction = direction_offset < 0x201;
             if (raw_direction) {
                 ((S_80174428_1 *)state)->unk_9B++;
@@ -214,7 +209,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             refresh_actor_proximity_state(object);
             height = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
                 (actor->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
+                (s16)(((u16) motion->z.w.i) - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
             ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
             spend_actor_mp(object, 0x200);

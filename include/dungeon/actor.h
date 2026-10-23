@@ -1,6 +1,8 @@
 #ifndef DUNGEON_ACTOR_H
 #define DUNGEON_ACTOR_H
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
 struct SpriteFrameState;
@@ -23,4 +25,19 @@ void run_saved_actor_action(void *object, s32 unused, void *animation, void *act
 void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param);
 void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
 extern void update_actor_movement_and_map_flags(void *obj, s32 move_mode,struct SpriteFrameState *actor, void *map);
+
+struct S_800AB778_1;
+s32 advance_actor_removal(struct S_800AB778_1 *state, void *unused_context, SpriteFrameState *visual, void *actor);
+s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target);
+void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_actor_flagged_action(Rec_func_800A9E70_arg0 *entity, void *unused, SpriteFrameState *status, EntityRec *event_state);
+void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, void *headingSource);
+void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord *search_state);
+void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor);
+
+
+
+void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *motion, void *entity);
+void update_actor_gravity(void *object, ObjectPosition *motion, void *entity);
+
 #endif

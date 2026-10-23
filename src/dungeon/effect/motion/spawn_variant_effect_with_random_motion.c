@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -39,7 +40,7 @@ extern M2C_UNK D_8006E258;
 extern M2C_UNK D_8006E51C;
 extern M2C_UNK D_8006E57C;
 extern M2C_UNK D_8006E5D4;
-void advance_effect_fade_and_remove(void *effect, void *motion, SpriteFrameState *primitive);
+
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {

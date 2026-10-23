@@ -32,13 +32,6 @@ typedef struct S_80174A28_0 {
     u8 unk_9B;
 } S_80174A28_0;   /* arg0 in advance_directional_effect_action */
 
-typedef struct S_80174A28_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174A28_1;   /* arg1 in advance_directional_effect_action */
 
 typedef struct S_80174A28_3 {
     u8 pad_00[0x2A];
@@ -46,16 +39,16 @@ typedef struct S_80174A28_3 {
 } S_80174A28_3;   /* arg3 in advance_directional_effect_action */
 
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
-void advance_directional_effect_action(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void advance_directional_effect_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     OffsetTable offsets = D_80170884;
     s32 coord_value;
 
     switch (((S_80174A28_0 *)action)->unk_9B) {
     case 0:
-        ((S_80174A28_1 *)motion)->unk_14 = 0;
-        ((S_80174A28_1 *)motion)->unk_10 = 0;
-        ((S_80174A28_1 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_80174A28_0 *)action)->unk_96 = 0x14;
         ((S_80174A28_0 *)action)->unk_9B++;
         break;
@@ -75,7 +68,7 @@ void advance_directional_effect_action(void *action, void *motion, SpriteFrameSt
             flags = sprite->flags;
             effect_actor = actor;
             sprite->flags = flags | 0x0800;
-            height = ((S_80174A28_1 *)motion)->unk_0A;
+            height = motion->z.w.i;
             tile_x = sprite->unk_24;
             offset = &offsets.entries[(((S_80174A28_3 *)actor)->unk_2A.u >> 9) & 7];
             x_offset = offset->x;
@@ -102,7 +95,7 @@ void advance_directional_effect_action(void *action, void *motion, SpriteFrameSt
 
             angle = ((S_80174A28_3 *)actor)->unk_2A.u;
             offset = offsets.entries + ((angle >> 9) & 7);
-            height = ((S_80174A28_1 *)motion)->unk_0A;
+            height = motion->z.w.i;
             tile_x = sprite->unk_24;
             coord_value = offset->x;
             x_sum = tile_x + coord_value;
@@ -120,9 +113,9 @@ void advance_directional_effect_action(void *action, void *motion, SpriteFrameSt
 
     case 2:
         if (sprite->flags & 0xE000) {
-            ((S_80174A28_1 *)motion)->unk_14 = 0;
-            ((S_80174A28_1 *)motion)->unk_10 = 0;
-            ((S_80174A28_1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion,
                 sprite->unk_24, sprite->unk_25);
             if (*(u8 **)&sprite->frameTable != saber_direction_frames) {

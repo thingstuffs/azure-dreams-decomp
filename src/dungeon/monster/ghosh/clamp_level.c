@@ -1,6 +1,7 @@
 /* Ghosh level clamping and actor animation, movement, and terrain updates. */
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/dir_step.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
@@ -72,11 +73,6 @@ typedef struct S_8016B0E8_2 {
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } S_8016B0E8_2;   /* obj in update_actor_animation_movement_and_terrain */
 
-typedef struct S_8016B0E8_3 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s32 unk_0C;
-} S_8016B0E8_3;   /* state_83460 in update_actor_animation_movement_and_terrain */
 
 typedef struct S_8016B0E8_4 {
     u8 pad_00[0x3D7C];
@@ -108,10 +104,6 @@ typedef struct S_8016B0E8_10 {
     u16 unk_14;
 } S_8016B0E8_10;
 
-typedef struct S_8016B0E8_11 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016B0E8_11;   /* late_state_83460 in update_actor_animation_movement_and_terrain */
 
 typedef struct S_8016B0E8_12 {
     u8 pad_00[0x1E];
@@ -135,15 +127,6 @@ typedef struct S_8016B0E8_14 {
     s32 unk_2C;
 } S_8016B0E8_14;   /* arg2 in update_actor_animation_movement_and_terrain */
 
-typedef struct S_8016B0E8_15 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8016B0E8_15;   /* arg1 in update_actor_animation_movement_and_terrain */
 
 typedef struct S_8016B0E8_16 {
     u8 pad_00[0xAC];
@@ -160,7 +143,7 @@ static __inline__ u16 clamp_level(u32 level)
 /* Update actor state, animation, movement, and terrain height. */
 /* Initializes Ghosh's experience and scripted events, then runs callbacks, updates facing, and resolves
  * movement and ground height. */
-void update_actor_animation_movement_and_terrain(void *entity, void *motion, void *sprite) {
+void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, void *sprite) {
     register s32 (*update_callback)(void *, void *, void *, void *);
     register s32 (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
@@ -348,26 +331,26 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
             }
             ((S_8016B0E8_14 *)sprite)->unk_14 = display_flags;
         }
-        ((S_8016B0E8_15 *)motion)->unk_00.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_00.at00.v
-            + ((S_8016B0E8_15 *)motion)->unk_0C);
-        ((S_8016B0E8_15 *)motion)->unk_04.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_04.at00.v
-            + ((S_8016B0E8_15 *)motion)->unk_10);
+        motion->x.v = (s32) (motion->x.v
+            + motion->velocity_x);
+        motion->y.v = (s32) (motion->y.v
+            + motion->velocity_y);
         if (((S_8016B0E8_0 *)entity)->unk_98 & 8) {
             ((S_8016B0E8_0 *)entity)->unk_9D = 0;
         } else {
-            ((S_8016B0E8_15 *)motion)->unk_14 = (s32) (((S_8016B0E8_15 *)motion)->unk_14
+            motion->velocity_z = (s32) (motion->velocity_z
                 + (((S_8016B0E8_0 *)entity)->unk_9D * 0x14000));
             fall_ticks = (u8) ((S_8016B0E8_0 *)entity)->unk_9D + 1;
             ((S_8016B0E8_0 *)entity)->unk_9D = (s8) fall_ticks;
         }
         motion_position = ((S_8016B0E8_0 *)entity)->unk_90.at00.v;
-        motion_delta = ((S_8016B0E8_15 *)motion)->unk_14;
+        motion_delta = motion->velocity_z;
         motion_flags = ((S_8016B0E8_0 *)entity)->unk_98;
         motion_position += motion_delta;
         ((S_8016B0E8_0 *)entity)->unk_90.at00.v = motion_position;
         if (!(motion_flags & 4)) {
-            floor_height = sample_terrain_surface_height(((S_8016B0E8_15 *)motion)->unk_00.at02.v,
-                ((S_8016B0E8_15 *)motion)->unk_04.at02.v, (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
+            floor_height = sample_terrain_surface_height(((u16) motion->x.w.i),
+                ((u16) motion->y.w.i), (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
             if (floor_height < 0x200) {
                 base_height = ((S_8016B0E8_2 *)actor)->unk_88.s;
                 if ((((S_8016B0E8_0 *)entity)->unk_90.at02.v + base_height) < floor_height) {
@@ -380,7 +363,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
                         height_delta = floor_height - height_bits;
                         ((S_8016B0E8_0 *)entity)->unk_90.at02.v = height_delta;
                     }
-                    ((S_8016B0E8_15 *)motion)->unk_14 = 0;
+                    motion->velocity_z = 0;
                     ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (((S_8016B0E8_2 *)actor)->unk_1C | 0x08000000);
                     ((S_8016B0E8_0 *)entity)->unk_9D = 0;
                 }
@@ -394,14 +377,14 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
                         + (((S_8016B0E8_2 *)actor)->unk_88.u - floor_height));
                     ((S_8016B0E8_2 *)actor)->unk_88.s = floor_height;
                 }
-                ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
+                motion->z.w.i = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
                     + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
                 ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
                 return;
             }
         }
         ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (((S_8016B0E8_2 *)actor)->unk_1C & 0xF7FFFFFF);
-        ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
+        motion->z.w.i = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
             + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
         ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
     }

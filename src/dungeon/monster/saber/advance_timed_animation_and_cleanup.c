@@ -24,38 +24,32 @@ typedef struct S_80172FD8_0 {
     u8 unk_9B;
 } S_80172FD8_0;   /* arg0 in advance_timed_animation_and_cleanup */
 
-typedef struct S_80172FD8_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172FD8_3;   /* arg1 in advance_timed_animation_and_cleanup */
 
 /* Advances an actor's timed animation sequence and performs its final cleanup. */
-void advance_timed_animation_and_cleanup(void *sequence, void *motion, void *sprite, ActorRecord *actor)
+void advance_timed_animation_and_cleanup(void *sequence, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 state;
 
     state = ((S_80172FD8_0 *)sequence)->unk_9B;
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172FD8_0 *)sequence)->unk_9B = 4;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        ((S_80172FD8_3 *)motion)->unk_14 = 0;
-        ((S_80172FD8_3 *)motion)->unk_10 = 0;
-        ((S_80172FD8_3 *)motion)->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
         ((S_80172FD8_0 *)sequence)->unk_9B++;
         return;
 
     case 1:
         if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 4 ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->frameTable = D_80174E1C;
+            (sprite->flags & 0x8000)) {
+            sprite->frameTable = D_80174E1C;
             select_sprite_entry(sprite,
                 D_80174E1C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -67,7 +61,7 @@ void advance_timed_animation_and_cleanup(void *sequence, void *motion, void *spr
 
     case 2:
         if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 9 ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+            (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
             ((S_80172FD8_0 *)sequence)->unk_9B++;
@@ -80,11 +74,11 @@ void advance_timed_animation_and_cleanup(void *sequence, void *motion, void *spr
 
     case 3:
         if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 6) {
-            ((SpriteFrameState *)sprite)->flags |= 0x0800;
+            sprite->flags |= 0x0800;
         }
         if (((S_80172FD8_0 *)sequence)->unk_96.s == 15 ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
             ((S_80172FD8_0 *)sequence)->unk_9B++;
             return;
@@ -92,7 +86,7 @@ void advance_timed_animation_and_cleanup(void *sequence, void *motion, void *spr
         return;
 
     case 4:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
             ((S_80172FD8_0 *)sequence)->unk_8C = &saber_behavior_entry;
             g_dungeon_status.active_actor = 0;

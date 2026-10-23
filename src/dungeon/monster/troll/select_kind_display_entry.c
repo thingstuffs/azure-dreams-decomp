@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -36,7 +37,7 @@ extern u8 D_8015DE64[];
 
 extern void select_sprite_entry(Obj2 *, u8, s32);
 extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 check_actor_floor_trap(Obj2 *, Obj3 *);
+
 
 /* Updates the kind-specific display table and selects its direction entry. */
 void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)

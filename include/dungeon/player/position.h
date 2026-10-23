@@ -11,4 +11,9 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
 void reset_actor_motion_at_sprite_tile(void *actor_state, void *map_entry, void *sprite, void *entity);
 
 
+
+
+void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing);
+void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing);
+
 #endif

@@ -1,9 +1,11 @@
 /* Moving target effects, tint changes, radial sprite emission, and shaded point rendering. */
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -324,6 +326,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
     D_800257CE[0] = 0;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -340,12 +343,6 @@ typedef struct S_81880F28_1 {
     s32 unk_1C;
 } S_81880F28_1;   /* object in tint_effect_and_advance_motion */
 
-typedef struct S_81880F28_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_81880F28_2;   /* motion in tint_effect_and_advance_motion */
 
 typedef struct S_81880F28_3_pre {
     EffectColor * unk_00;
@@ -354,7 +351,7 @@ typedef struct S_81880F28_3_pre {
 
 /* Tint the object red, restore its color, and advance its motion. */
 void tint_effect_and_advance_motion(void *effect, void *motion_data) {
-    void *motion = motion_data;
+    ObjectPosition *motion = motion_data;
     void *object;
     EffectColor *color;
     s16 state;
@@ -423,12 +420,13 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
         break;
     }
 
-    ((S_81880F28_2 *)motion)->unk_08 += ((S_81880F28_2 *)motion)->unk_14;
-    ((S_81880F28_2 *)motion)->unk_14 += -0x80000;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_z += -0x80000;
     create_radial_effect_node(motion);
     ((S_81880F28_0 *)effect)->unk_1C++;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -462,6 +460,7 @@ void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_v
     return object;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -486,6 +485,7 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
     *(u16 *)((u8 *)record + 0x1C) += 1;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -532,6 +532,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     return node;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -547,15 +548,9 @@ typedef struct S_80024B98_0 {
     s16 unk_24;
 } S_80024B98_0;   /* arg0 in func_80024B98 */
 
-typedef struct S_80024B98_2 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80024B98_2;   /* arg1 in func_80024B98 */
 
 /* Advance an effect through its delay, motion, brightness changes, and periodic emissions. */
-void func_80024B98(void *effect, void *motion, SpriteFrameState *primitive) {
+void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s16 state;
     s32 wave_value;
     u16 frame_count;
@@ -585,10 +580,10 @@ void func_80024B98(void *effect, void *motion, SpriteFrameState *primitive) {
             return;
         }
     }
-    ((S_80024B98_2 *)motion)->unk_08.at00.v += ((S_80024B98_2 *)motion)->unk_14;
-    ((S_80024B98_2 *)motion)->unk_14 += 0x10000;
-    if (((S_80024B98_2 *)motion)->unk_08.at02.v > ((S_80024B98_0 *)effect)->unk_14)
-        ((S_80024B98_2 *)motion)->unk_08.at02.v = ((S_80024B98_0 *)effect)->unk_14;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_z += 0x10000;
+    if (motion->z.w.i > ((S_80024B98_0 *)effect)->unk_14)
+        motion->z.w.i = ((S_80024B98_0 *)effect)->unk_14;
     wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
     primitive->color.word += 0x20202;
     primitive->scale_y -= wave_value >> 5;
@@ -601,6 +596,7 @@ void func_80024B98(void *effect, void *motion, SpriteFrameState *primitive) {
         allocate_jittered_effect_node(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
@@ -669,6 +665,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
 }
 
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -722,6 +719,7 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     visual->field1C = (u16)(visual->field1C + 8);
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
@@ -777,6 +775,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
 }
 
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -877,6 +876,7 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     }
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
@@ -1011,6 +1011,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
     }
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
@@ -1072,6 +1073,7 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
 }
 
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -1096,6 +1098,7 @@ void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *co
     }
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
@@ -1153,6 +1156,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     return object;
 }
 #include "modules/dungeon_ovl_18a0800.h"
+#include "dungeon/effect/travel.h"
 #include "common.h"
 
 extern s32 try_trigger_target_record_effect(s32, s32);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -20,7 +21,7 @@ typedef struct {
 } MapObject;
 
 extern s32 update_actor_transform_from_parent(Actor *, s32, Entity *, MapObject *);
-extern s32 check_actor_floor_trap(Entity *, MapObject *);
+
 extern void select_sprite_entry(Entity *, s16, s16);
 
 extern u8 D_801710EC[9];

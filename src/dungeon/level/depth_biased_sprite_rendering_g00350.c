@@ -38,7 +38,7 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
 }
 
 /* Project sprite tiles and append textured quads to the ordering table. */
-void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 world_z, s32 depth_bias)
+void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *sprite, s16 world_z, s32 depth_bias)
 {
     u8 *scratch_base = (u8 *)0x1F800000;
     u8 *screen_pos = scratch_base;
@@ -84,10 +84,10 @@ void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 w
     sprite_flags = ((S_800BC4D4_2 *)sprite)->unk_14;
     clip_flags = scratch_base;
     ((S_800BC4D4_1 *)scratch)->unk_24 = sprite_flags;
-    world_x = ((S_800BC4D4_3 *)position)->unk_02;
+    world_x = ((u16) position->x.w.i);
     clip_flags = (u8 *)((u32)clip_flags | 0x94);
     ((S_800BC4D4_1 *)scratch)->unk_00 = world_x;
-    world_y = ((S_800BC4D4_3 *)position)->unk_06;
+    world_y = ((u16) position->y.w.i);
     root_ptr = (u8 **)&g_game_work;
     ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;
@@ -108,7 +108,7 @@ void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 w
         sprite_z = ((S_800BC4D4_1 *)scratch)->unk_04;
         ((S_800BC4D4_1 *)scratch)->unk_B8 = screen_x - 0xA0;
         ((S_800BC4D4_1 *)scratch)->unk_BA -= 0x78;
-        scale = ((((S_800BC4D4_3 *)position)->unk_0A - (s16)sprite_z) << 5) + 0x1000;
+        scale = ((position->z.w.i - (s16)sprite_z) << 5) + 0x1000;
         ((S_800BC4D4_1 *)scratch)->unk_38 = scale;
         if (scale < 0) {
             ((S_800BC4D4_1 *)scratch)->unk_38 = 0;

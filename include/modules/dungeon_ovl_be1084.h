@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_BE1084_H
 #define MODULE_DUNGEON_OVL_BE1084_H
 #include "shared/gpu_packets.h"
+#include "dungeon/monster/death.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -232,7 +233,7 @@ typedef struct StackWork {
 
 /* Update the effect's transform, color, and depth, and flag it when its lifetime expires. */
 s32 build_projected_tile_packets(u8 *,u16 *);
-void advance_effect_toward_target(void *,void *);
+
 void advance_damped_motion_and_fade_effect(FadeEffect *,EffectMotion *);
 /* Compatibility for registered relink copies pending LL4 removal. */
 typedef ObjectPayloadView S_80BC172C_2;

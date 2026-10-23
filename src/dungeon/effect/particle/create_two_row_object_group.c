@@ -1,7 +1,9 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/particle.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -418,7 +420,7 @@ typedef struct S_800DAEF4_6 {
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 func_80069EF8(void);
-extern void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState *visual);
+
 extern s32 secondary_sprite;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
@@ -519,18 +521,12 @@ typedef struct S_800DB164_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800DB164_0;   /* arg0 in update_timed_effect_animation */
 
-typedef struct S_800DB164_2 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800DB164_2;   /* arg1 in update_timed_effect_animation */
 
 extern void advance_sprite_animation_and_textures();
 s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
-void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState *visual) {
+void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual) {
     s32 phase;
     s32 ticks_left;
     s32 next_phase;
@@ -554,9 +550,9 @@ void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState 
     case 1:
         visual->color.word = (s32) (visual->color.word
             + 0xFFF3F3F4);
-        ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand() & 0xFF)
+        motion->velocity_z = (s32) (motion->velocity_z - ((rand() & 0xFF)
             << 0xA));
-        if (((S_800DB164_2 *)motion)->unk_08.at02.v < ((S_800DB164_0 *)effect)->unk_10) {
+        if (motion->z.w.i < ((S_800DB164_0 *)effect)->unk_10) {
             phase = 4;
             ((S_800DB164_0 *)effect)->unk_48 = phase;
             next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
@@ -573,8 +569,8 @@ void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState 
     }
 
     if (((S_800DB164_0 *)effect)->unk_4C.s != 0) {
-        ((S_800DB164_2 *)motion)->unk_08.at00.v = (s32) (((S_800DB164_2 *)motion)->unk_08.at00.v
-            + ((S_800DB164_2 *)motion)->unk_14);
+        motion->z.v = (s32) (motion->z.v
+            + motion->velocity_z);
         advance_sprite_animation_and_textures(visual);
     }
 }

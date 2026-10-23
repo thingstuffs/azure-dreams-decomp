@@ -1,8 +1,9 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "m2c_compat.h"
 
 s32 update_linked_actor_motion(void *, s32, s32, s32);
-s32 check_actor_floor_trap(s32, s32);
+
 extern u8 D_80170F20;
 extern u8 D_80173B98;
 

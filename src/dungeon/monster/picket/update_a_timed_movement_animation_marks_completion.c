@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/picket.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80174978_0 {
@@ -21,21 +22,12 @@ typedef struct S_80174978_1 {
     u16 unk_1E;
 } S_80174978_1;   /* arg2 in update_a_timed_movement_animation_marks_completion */
 
-typedef struct S_80174978_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80174978_2;   /* arg1 in update_a_timed_movement_animation_marks_completion */
 
 
 extern void place_item_at_valid_floor_position(s16, s16, s16, s32, void *);
 
 /* Updates a timed movement animation and marks its completion. */
-void update_a_timed_movement_animation_marks_completion(void *actor, void *motion, void *visual) {
+void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, void *visual) {
     s32 state;
     s32 z_step;
     s32 speed_or_z;
@@ -60,20 +52,20 @@ void update_a_timed_movement_animation_marks_completion(void *actor, void *motio
         s32 current_x;
 
         target_x = ((S_80174978_0 *)actor)->unk_A8 << 6;
-        current_x = ((S_80174978_2 *)motion)->unk_02 - 0x20;
-        ((S_80174978_2 *)motion)->unk_02 = (u16)((S_80174978_2 *)motion)->unk_02 +
+        current_x = motion->x.w.i - 0x20;
+        motion->x.w.i = (u16)motion->x.w.i +
             ((target_x - current_x) >> 1);
     }
         z_step = ((S_80174978_0 *)actor)->unk_AA;
-        speed_or_z = ((S_80174978_2 *)motion)->unk_14 + 0x30000;
-        next_height = ((S_80174978_2 *)motion)->unk_08.at00.v + speed_or_z;
-        ((S_80174978_2 *)motion)->unk_14 = speed_or_z;
-        current_z = ((S_80174978_2 *)motion)->unk_06 - 0x20;
+        speed_or_z = motion->velocity_z + 0x30000;
+        next_height = motion->z.v + speed_or_z;
+        motion->velocity_z = speed_or_z;
+        current_z = motion->y.w.i - 0x20;
         z_step <<= 6;
-        ((S_80174978_2 *)motion)->unk_08.at00.v = next_height;
+        motion->z.v = next_height;
         z_step -= current_z;
         z_step >>= 1;
-        ((S_80174978_2 *)motion)->unk_06 = (u16)((S_80174978_2 *)motion)->unk_06 + z_step;
+        motion->y.w.i = (u16)motion->y.w.i + z_step;
         if (((S_80174978_1 *)visual)->unk_1C < 0x1000U) {
             next_scale = ((S_80174978_1 *)visual)->unk_1E + 0x50;
             ((S_80174978_1 *)visual)->unk_1E = next_scale;
@@ -84,14 +76,14 @@ void update_a_timed_movement_animation_marks_completion(void *actor, void *motio
         if ((timer << 16) != 0) {
             return;
         }
-        ((S_80174978_2 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
         return;
 
     case 2:
         place_item_at_valid_floor_position(((S_80174978_0 *)actor)->unk_A8,
                       ((S_80174978_0 *)actor)->unk_AA,
-                      (s16)(((S_80174978_2 *)motion)->unk_08.at02.v - 0x20),
+                      (s16)(((u16) motion->z.w.i) - 0x20),
                       ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
         (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

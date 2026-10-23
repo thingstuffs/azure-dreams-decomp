@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
@@ -46,7 +47,7 @@ void *create_source_linked_fading_effect();
 extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
-void advance_damage_effect_and_particles(void *effect, s32 context, void *record, void *actor) {
+void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameState *record, void *actor) {
     s16 fade_ticks_left;
     s16 restore_ticks;
     s16 restore_ticks_left;
@@ -80,7 +81,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, void *record
     switch (phase) {
     case 0:
         ((S_800CABA8_0 *)effect)->unk_B8 = 1;
-        if (((SpriteFrameState *)record)->flags & 0x8000) {
+        if (record->flags & 0x8000) {
             resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
             ((S_800CABA8_0 *)effect)->unk_9B = 4U;
             return;
@@ -167,7 +168,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, void *record
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
-        set_record_integer_tile_center(context, ((SpriteFrameState *)record)->unk_24, ((SpriteFrameState *)record)->unk_25);
+        set_record_integer_tile_center(context, record->unk_24, record->unk_25);
         g_dungeon_status.active_actor = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);

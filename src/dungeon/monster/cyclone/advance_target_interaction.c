@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -40,7 +41,7 @@ extern u8 D_80171094;
 extern u8 D_80176460[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
-void advance_target_interaction(void *action, void *scene, void *sprite, void *actor)
+void advance_target_interaction(void *action, void *scene, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 sprite_flags;
     u16 timer;
@@ -48,23 +49,23 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
 
     switch (((S_80174764_0 *)action)->unk_9B) {
     case 0:
-        sprite_flags = ((SpriteFrameState *)sprite)->flags;
+        sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
-            ((SpriteFrameState *)sprite)->flags = sprite_flags | 0x6000;
-            if (((ActorRecord *)actor)->flags14 & 0x4000) {
-                target = ((ActorRecord *)actor)->target;
+            sprite->flags = sprite_flags | 0x6000;
+            if (actor->flags14 & 0x4000) {
+                target = actor->target;
                 if (check_object_code_19(target)) {
-                    func_801763CC(1, ((ActorRecord *)actor)->target);
+                    func_801763CC(1, actor->target);
                 } else {
-                    func_801763CC(0, ((ActorRecord *)actor)->target);
+                    func_801763CC(0, actor->target);
                 }
             } else {
-                target = ((ActorRecord *)actor)->target;
+                target = actor->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, ((ActorRecord *)actor)->target);
+                        func_80176330(1, actor->target);
                     } else {
-                        func_80176330(0, ((ActorRecord *)actor)->target);
+                        func_80176330(0, actor->target);
                     }
                 } else {
                     request_random_slot_effect(target);
@@ -74,7 +75,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
             return;
         }
 
-        if (((SpriteFrameState *)sprite)->unk_04 == 1) {
+        if (sprite->unk_04 == 1) {
             if (!(sprite_flags & 0x1000)) {
                 if (!(sprite_flags & 0x6000)) {
                     break;
@@ -85,9 +86,9 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         }
 
         spawn_312_effect_object(action, scene, sprite);
-        if (((ActorRecord *)actor)->flags14 & 0x4000) {
+        if (actor->flags14 & 0x4000) {
             format_entity_message(1, actor);
-        } else if (((S_80174764_4 *)(((ActorRecord *)actor)->target))->unk_14 & 0x4000) {
+        } else if (((S_80174764_4 *)(actor->target))->unk_14 & 0x4000) {
             format_entity_message(0, actor);
         }
         play_sound_if_enabled(0x708);
@@ -99,21 +100,21 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
     case 1:
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
-        if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            if (((ActorRecord *)actor)->flags14 & 0x4000) {
-                target = ((ActorRecord *)actor)->target;
+        if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
+            if (actor->flags14 & 0x4000) {
+                target = actor->target;
                 if (check_object_code_19(target)) {
-                    func_801763CC(1, ((ActorRecord *)actor)->target);
+                    func_801763CC(1, actor->target);
                 } else {
-                    func_801763CC(0, ((ActorRecord *)actor)->target);
+                    func_801763CC(0, actor->target);
                 }
             } else {
-                target = ((ActorRecord *)actor)->target;
+                target = actor->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, ((ActorRecord *)actor)->target);
+                        func_80176330(1, actor->target);
                     } else {
-                        func_80176330(0, ((ActorRecord *)actor)->target);
+                        func_80176330(0, actor->target);
                     }
                 } else {
                     request_random_slot_effect(target);
@@ -127,21 +128,21 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
     case 2:
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
-        if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
-            set_record_integer_tile_center(scene, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(scene, sprite->unk_24, sprite->unk_25);
             ((S_80174764_0 *)action)->unk_8C = &D_80171094;
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            (actor->action_flags) &= 0x7FFF;
         }
         break;
     }
 
-    if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+    if (sprite->flags & 0xE000) {
         s32 direction;
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80176460;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9;
+        sprite->frameTable = D_80176460;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }

@@ -1,8 +1,9 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "m2c_compat.h"
 
 /* extern */
-s32 check_actor_floor_trap();            /* extern */
+            /* extern */
 extern M2C_UNK D_8016B778;
 
 typedef struct S_8016CED4_0 {

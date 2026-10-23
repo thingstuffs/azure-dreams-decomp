@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -39,27 +40,27 @@ typedef struct S_80172DDC_0 {
 } S_80172DDC_0;   /* arg0 in update_staged_movement_and_idle */
 
 /* Updates the actor's staged movement, animation, and return to idle. */
-void update_staged_movement_and_idle(void *action, ObjectPosition *movement, void *sprite, void *actor)
+void update_staged_movement_and_idle(void *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor)
 {
     u8 state;
 
     state = ((S_80172DDC_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x80E);
         }
         ((S_80172DDC_0 *)action)->unk_9B++;
 
     case 1:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172DDC_0 *)action)->unk_96.u = 0x100;
             ((S_80172DDC_0 *)action)->unk_9B = 5;
             resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
             return;
         }
 
-        ((SpriteFrameState *)sprite)->unk_05 -= 2;
+        sprite->unk_05 -= 2;
         {
             u32 direction_offset = ((u16)((ActorRecord *)actor)->facing >> 8) & 0xE;
             movement->velocity_x -=
@@ -67,8 +68,8 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, voi
             movement->velocity_y -=
                 (s32)*(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset) << 16;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
-            ((SpriteFrameState *)sprite)->frameTable = D_80175E78;
+        if (sprite->flags & 0x6000) {
+            sprite->frameTable = D_80175E78;
             select_sprite_entry(
                 sprite,
                 D_80175E78[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
@@ -87,7 +88,7 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, voi
             movement->velocity_x = 0;
         }
     }
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
         movement->velocity_z = 0;
@@ -132,7 +133,7 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, voi
         }
 
         resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
-        ((SpriteFrameState *)sprite)->frameTable = D_80175E80;
+        sprite->frameTable = D_80175E80;
         select_sprite_entry(
             sprite,
             D_80175E80[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
@@ -163,14 +164,14 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, voi
         u16 timer = ((S_80172DDC_0 *)action)->unk_96.u + 1;
 
         ((S_80172DDC_0 *)action)->unk_96.u = timer;
-        if ((s16)timer < 7 && !(((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if ((s16)timer < 7 && !(sprite->flags & 0x8000)) {
             return;
         }
     }
         movement->velocity_z = 0;
         movement->velocity_y = 0;
         movement->velocity_x = 0;
-        set_record_integer_tile_center(movement, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         ((S_80172DDC_0 *)action)->unk_8C = D_801710EC;
         g_dungeon_status.active_actor = 0;

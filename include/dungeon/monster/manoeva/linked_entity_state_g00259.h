@@ -6,6 +6,7 @@ struct ObjectNodeHeader;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00259 - CL:dungeon/func_80E3A540@dungeon/bank_e56c58, CL:dungeon/func_80E3A540@dungeon/bank_e5d000, CL:dungeon/func_80E3A540@dungeon/bank_e63000, CL:dungeon/func_80E3A540@dungeon/bank_e69000, CL:dungeon/func_80E3A540@dungeon/bank_e6f000, CL:dungeon/func_80E3A540@dungeon/bank_e75000. */
 
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -43,7 +44,7 @@ extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern u8 *find_monster_entry_by_type_and_id(s32, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
 extern void set_record_integer_tile_center(s32, s32, s32);
-extern void begin_actor_flagged_action(void *, s32, s32, void *);
+
 extern void select_sprite_entry();
 extern s32 has_pending_dungeon_activity();
 extern u8 D_80176670[16];

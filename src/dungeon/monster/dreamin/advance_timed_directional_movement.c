@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/dreamin.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -24,7 +25,7 @@ extern u8 D_80170E68;
 extern u8 D_80173874[];
 
 /* Updates timed directional movement and settles the entity at its grid position. */
-void advance_timed_directional_movement(void *action, void *motion, void *sprite, void *entity)
+void advance_timed_directional_movement(void *action, void *motion, SpriteFrameState *sprite, void *entity)
 {
     s16 *direction_y;
     s16 *direction_x_table;
@@ -58,7 +59,7 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
             begin_actor_display_action(action, motion, sprite, D_80173874);
             return;
         }
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80172D24_1 *)action)->unk_96.s = 0;
             ((S_80172D24_1 *)action)->unk_9B = 3;
             return;
@@ -72,7 +73,7 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
             return;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80173874;
+        sprite->frameTable = D_80173874;
         select_sprite_entry(sprite,
             D_80173874[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
@@ -112,7 +113,7 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
 
         if (((S_80172D24_1 *)action)->unk_96.u > 0) {
             ((S_80172D24_1 *)action)->unk_96.s--;
-        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        } else if (sprite->flags & 0x6000) {
             ((S_80172D24_1 *)action)->unk_96.s = 0;
         }
         if (((S_80172D24_1 *)action)->unk_96.u != 0) {
@@ -133,11 +134,11 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
     case 3:
         frames_left = ((S_80172D24_1 *)action)->unk_96.u;
         if (frames_left != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
+            target_x = sprite->unk_24 << 6;
             position_x = ((EntityRec *)motion)->x.w.i - 0x20;
             ((EntityRec *)motion)->unk_0C = ((target_x - position_x) << 15) / frames_left;
 
-            target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            target_y = sprite->unk_25 << 6;
             position_y = ((EntityRec *)motion)->y.w.i - 0x20;
             ((EntityRec *)motion)->unk_10 =
                 ((target_y - position_y) << 15) / ((S_80172D24_1 *)action)->unk_96.u;
@@ -152,7 +153,7 @@ void advance_timed_directional_movement(void *action, void *motion, void *sprite
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

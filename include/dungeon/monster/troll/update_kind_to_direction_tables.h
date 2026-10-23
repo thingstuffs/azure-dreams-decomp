@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_D1CBC4_P02_H
 #define DUNGEON_OVL_D1CBC4_P02_H
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -38,7 +39,7 @@ extern u8 D_80163E64[8];
 extern void select_sprite_entry(Obj2 *, u8, s32);
 extern void func_80047784(Obj2 *, u8, s32);
 extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 check_actor_floor_trap(Obj2 *, Obj3 *);
+
 
 void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg);
 #endif

@@ -23,7 +23,7 @@ extern void func_80097C50();
 extern void *advance_monster_timed_sequence();
 extern void read_monster_script_entry();
 extern s32 has_pending_actor_or_turn_action();
-extern void select_position_data_and_update_owner();
+
 extern s32 lookup_definition_pair_value();
 extern void play_sound_if_enabled();
 extern s32 generate_random_value(void);
