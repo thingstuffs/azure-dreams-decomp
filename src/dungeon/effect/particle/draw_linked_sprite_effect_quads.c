@@ -300,9 +300,9 @@ typedef struct SpriteQuad {
     u8 v3;
 } SpriteQuad;
 
-extern s32 func_80065420();
-extern void func_80066640();
-extern void func_800666F4();
+extern s32 RotTransPers();
+extern void SetSemiTrans();
+extern void SetPolyFT4();
 
 /* Retail 819B2C40 (draw_linked_sprite_effect_quads): projects each linked sprite effect and queues a textured quad centred on
  * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
@@ -332,7 +332,7 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
         point_index = 0;
         screen_point = screen_base;
         do {
-            depth_index = func_80065420(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
+            depth_index = RotTransPers(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
             screen_point = (u8 *)screen_point + 4;
             point_index++;
             world_pos[2] += item->size;
@@ -355,8 +355,8 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
             packet = (SpriteQuad *)packet_pool->packetCursor;
             packet_pool->packetCursor = (u8 *)packet + 0x34;
             packet->color = 0xA0A0A0;
-            func_800666F4(packet);
-            func_80066640(packet, 1);
+            SetPolyFT4(packet);
+            SetSemiTrans(packet, 1);
 
             packet->tpage = item->tpage;
             packet->clut = item->clut;
@@ -466,7 +466,7 @@ typedef struct S_8002466C_9 {
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 rand(void);
 
 extern u8 secondary_sprite[];
@@ -517,7 +517,7 @@ void update_animated_target_effect(void *effect)
                 ((target_pos[2] + view_reference_entity.z.w.i) -
                  ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
             ((S_8002466C_0 *)effect)->unk_24.at00.v -=
-                func_800644B8((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
+                rsin((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
         }
         if (((S_8002466C_0 *)effect)->unk_48.u >= 0xA) {
             ((S_8002466C_0 *)effect)->unk_4A = 0x10;
@@ -730,13 +730,13 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-extern s32 func_800644B8();
-extern s32 func_80064710();
-extern s32 func_80065420();
+extern s32 rsin();
+extern s32 SquareRoot0();
+extern s32 RotTransPers();
 extern s32 func_80066460();
-extern void func_80066640();
-extern s32 func_80066708();
-extern s32 func_80067F20();
+extern void SetSemiTrans();
+extern s32 SetPolyG4();
+extern s32 SetDrawMode();
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
 s32 draw_fading_radial_effect_grid(void *effect_data) {
@@ -762,7 +762,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                 s32 shade;
                 s32 upper_channels;
                 phase = seed_index + *(s16 *)(effect + 0x48);
-                shade = func_800644B8(phase * 1200);
+                shade = rsin(phase * 1200);
                 shade = (shade >> 7) + 32;
                 upper_channels = (shade << 8) + (shade << 16);
                 shade += upper_channels;
@@ -789,15 +789,15 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                     vertex[0] = *(u16 *)(effect + 0x0c) + column_offset;
                     vertex[1] = *(u16 *)(effect + 0x0e) + row_offset;
                     vertex[2] = *(u16 *)(effect + 0x10);
-                    func_80065420(vertex, &screen_grid[column][row],
+                    RotTransPers(vertex, &screen_grid[column][row],
                         &depth_cue, &projection_flags);
 
                     vertex[0] -= *(u16 *)(effect + 4);
                     dx_square = (s16)vertex[0] * (s16)vertex[0];
                     vertex[1] -= *(u16 *)(effect + 6);
                     dy_square = (s16)vertex[1] * (s16)vertex[1];
-                    distance = func_80064710(dx_square + dy_square);
-                    shade = func_800644B8(
+                    distance = SquareRoot0(dx_square + dy_square);
+                    shade = rsin(
                         100 * (distance >> 2) -
                         (*(s16 *)(effect + 0x48) << 8));
                     shade = (shade >> 7) + 32;
@@ -862,8 +862,8 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                             quad->color1 = *(u32 *)(vertex_colors + 64);
                             quad->color2 = *(u32 *)(vertex_colors + 4);
                             quad->color3 = *(u32 *)(vertex_colors + 68);
-                            func_80066708(quad);
-                            func_80066640(quad, 1);
+                            SetPolyG4(quad);
+                            SetSemiTrans(quad, 1);
 
                             quad->xy0 = screen_grid[column][row];
                             quad->xy1 = screen_grid[column][row + 1];
@@ -895,7 +895,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                 *(u8 **)(packet_pool + 0x8d0) = draw_mode + 12;
             }
             texture_page = func_80066460(0, 2, 0, 0);
-            func_80067F20(draw_mode, 0, 0, texture_page & 0xffff, 0);
+            SetDrawMode(draw_mode, 0, 0, texture_page & 0xffff, 0);
 
             ((P_TAG *)draw_mode)->addr = ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr;
             ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr = (u32)draw_mode;

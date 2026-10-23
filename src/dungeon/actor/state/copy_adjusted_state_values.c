@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 func_80065420();        /* extern */
+s32 RotTransPers();        /* extern */
 
 typedef struct S_800B0654_0 {
     u8 pad_00[0x28];
@@ -25,6 +25,6 @@ void copy_adjusted_state_values(MovingPosition *sourceValues, S_800B0654_2 *resu
     ((S_800B0654_0 *)destinationState)->unk_28 = (u16) sourceValues->unk_02;
     ((S_800B0654_0 *)destinationState)->unk_2A = (u16) sourceValues->unk_06;
     ((S_800B0654_0 *)destinationState)->unk_2C = (u16) sourceValues->unk_0A;
-    ((S_800B0654_0 *)destinationState)->unk_C0 = (s32) (func_80065420(destinationState + 0x28, destinationState + 0xB8,
+    ((S_800B0654_0 *)destinationState)->unk_C0 = (s32) (RotTransPers(destinationState + 0x28, destinationState + 0xB8,
         destinationState + 0x90, destinationState + 0x94) + resultAdjustment->unk_04);
 }

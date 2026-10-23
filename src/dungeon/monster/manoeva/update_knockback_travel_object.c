@@ -89,7 +89,7 @@ extern s32 has_enough_available_runtime_nodes(s32);
 extern void func_80042640(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
@@ -137,7 +137,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
         position->unk_04.at00.v +=
             (delta_y << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
 
-        height_offset = func_800644B8(((S_80174CCC_0 *)motion)->unk_20.s << 6) >> 4;
+        height_offset = rsin(((S_80174CCC_0 *)motion)->unk_20.s << 6) >> 4;
         position->unk_08.at00.v +=
             (((((S_80174CCC_0 *)motion)->unk_36.s - height_offset) -
               position->unk_08.at02.v) << 16) /

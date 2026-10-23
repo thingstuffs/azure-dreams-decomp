@@ -115,22 +115,22 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void *func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064B90(void *, void *);
-extern void *func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
+extern void *CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void TransMatrix(void *, void *);
+extern void *ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 extern void func_80065034(void *, void *, void *);
-extern s32 func_80065480(s32, s32, s32);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065AB0(u16, void *);
-extern void func_80065C50(u16, void *);
-extern void func_80065DF0(u16, void *);
-extern void func_8006658C(void *, void *);
-extern void func_8006671C(void *);
+extern s32 NormalClip(s32, s32, s32);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrixX(u16, void *);
+extern void RotMatrixY(u16, void *);
+extern void RotMatrixZ(u16, void *);
+extern void AddPrim(void *, void *);
+extern void SetPolyGT4(void *);
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias)
@@ -166,7 +166,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     s32 screen_xy0, screen_xy1, screen_xy2;
 
 
-    func_800649A0();
+    PushMatrix();
 
     scale_x = ((S_800C9088_0 *)model)->unk_1C;
     scratch = (u8 *)0x1F800000;
@@ -177,7 +177,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     ((S_800C9088_1 *)scratch)->unk_44 = ((S_800C9088_2 *)translation)->unk_06;
     ((S_800C9088_1 *)scratch)->unk_48 = ((S_800C9088_2 *)translation)->unk_0A;
 
-    func_80064AE0(&saved_transform);
+    ReadRotMatrix(&saved_transform);
 
     ((S_800C9088_1 *)scratch)->unk_60 = 0x1000;
     ((S_800C9088_1 *)scratch)->unk_58 = 0x1000;
@@ -189,9 +189,9 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     ((S_800C9088_1 *)scratch)->unk_54 = 0;
     ((S_800C9088_1 *)scratch)->unk_52 = 0;
 
-    func_80065AB0(((S_800C9088_0 *)model)->unk_16, scratch + 0x50);
-    func_80065DF0(((S_800C9088_0 *)model)->unk_1A, scratch + 0x50);
-    func_80065C50(((S_800C9088_0 *)model)->unk_18, scratch + 0x50);
+    RotMatrixX(((S_800C9088_0 *)model)->unk_16, scratch + 0x50);
+    RotMatrixZ(((S_800C9088_0 *)model)->unk_1A, scratch + 0x50);
+    RotMatrixY(((S_800C9088_0 *)model)->unk_18, scratch + 0x50);
 
     if (((S_800C9088_0 *)model)->unk_14 & 1) {
         ((S_800C9088_1 *)scratch)->unk_30 = -((S_800C9088_1 *)scratch)->unk_30;
@@ -200,12 +200,12 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
         ((S_800C9088_1 *)scratch)->unk_34 = -((S_800C9088_1 *)scratch)->unk_34;
     }
 
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80064840(scratch + 0x50, parent_matrix, scratch + 0xD0);
-    func_80064840(&saved_transform, scratch + 0xD0, scratch + 0x50);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    TransMatrix(scratch + 0x50, scratch + 0x40);
+    CompMatrix(scratch + 0x50, parent_matrix, scratch + 0xD0);
+    CompMatrix(&saved_transform, scratch + 0xD0, scratch + 0x50);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
 
     state = state_table[0];
     base_color = (u8 *)model + 0xC;
@@ -251,7 +251,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
 
     ((S_800C9088_1 *)scratch)->unk_8C = vertex3_z;
-    depth = func_80065590(vertex0, vertex1,
+    depth = RotAverage4(vertex0, vertex1,
                           vertex2, vertex3,
                           packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
@@ -281,7 +281,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
         screen_xy2 = (*(s32 *)((u8 *)packet + 0x14));
         break;
     }
-    winding = func_80065480(screen_xy0, screen_xy1, screen_xy2);
+    winding = NormalClip(screen_xy0, screen_xy1, screen_xy2);
     ((S_800C9088_1 *)scratch)->unk_114 = winding;
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
         ((S_800C9088_1 *)scratch)->unk_C0 -= depth_bias;
@@ -306,14 +306,14 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
             (*(u16 *)((u8 *)packet + 0x24)) = (*(u16 *)((u8 *)indices + 0x1A));
             (*(u16 *)((u8 *)packet + 0x30)) = (*(u16 *)((u8 *)indices + 0x1C));
 
-            func_8006671C(packet);
+            SetPolyGT4(packet);
             flags = ((S_800C9088_0 *)model)->unk_14;
             if (flags & 8) {
                 if (flags & 4) {
                     packet[7] |= 2;
                 }
             }
-            func_8006658C((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
+            AddPrim((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
                           ((S_800C9088_1 *)scratch)->unk_C0 * 4,
                           packet);
             packet += 0x34;
@@ -327,7 +327,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     indices += 0x20;
     }
 
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)state_table[0])->packetCursor = packet;
 }
 #include "common.h"
@@ -344,7 +344,7 @@ typedef struct S_800C95C0_1_pre {
 } S_800C95C0_1_pre;   /* the 0x8 bytes before state in queue_linked_visible_rectangle_copies, addressed as state[-1] */
 
 
-extern s32 func_80065420(void *, void *, ...);
+extern s32 RotTransPers(void *, void *, ...);
 struct S_Rect;
 struct S_Arg1;
 extern void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
@@ -361,7 +361,7 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
         *(u16 *)(scratch + 2) = (*(u16 *)((u8 *)input_values + 6));
         *(u16 *)(scratch + 4) = (*(u16 *)((u8 *)input_values + 0xA));
         *(s32 *)(scratch + 0xC0) =
-            func_80065420((void *)scratch, (void *)(scratch + 0xB8),
+            RotTransPers((void *)scratch, (void *)(scratch + 0xB8),
                           (void *)(scratch + 0x90), (void *)(scratch + 0x94)) -
             *(s16 *)((u8 *)delta + 6);
         queue_visible_rectangle_copy(state, scratch);
@@ -434,7 +434,7 @@ typedef struct {
 extern u8 resident_globals_page[];
 extern u8 upper_draw_context[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
-extern void func_8006658C(void *, void *);
+extern void AddPrim(void *, void *);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
 void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
@@ -470,7 +470,7 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
                     func_80066890(cursor, &source_rect, source_x + copy_rect->w, (s16)buffer_y + copy_rect->h);
                     packet = cursor;
                     cursor += 24;
-                    func_8006658C((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->index * 4) + 0xB0), packet);
+                    AddPrim((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->index * 4) + 0xB0), packet);
                 }
             }
         }

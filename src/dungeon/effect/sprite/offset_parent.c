@@ -38,7 +38,7 @@ loop:
     screen_cursor = screen_base;
     do {
         ordering_index =
-            func_80065420(world_pos, screen_cursor, scratch_base, scratch_base);
+            RotTransPers(world_pos, screen_cursor, scratch_base, scratch_base);
         ordering_index -= 8;
         screen_cursor += 2;
         point_index++;
@@ -51,10 +51,10 @@ loop:
         primitive = state->next_primitive;
         state->next_primitive = primitive + 1;
         primitive->color = 0x00C0C0C0;
-        func_800666F4(primitive);
-        func_80066640(primitive, 1);
-        primitive->tpage = func_80066460(0, 1, 0x2C0, 0x100);
-        primitive->clut = func_8006649C(0x20, 0x1F8);
+        SetPolyFT4(primitive);
+        SetSemiTrans(primitive, 1);
+        primitive->tpage = GetTPage(0, 1, 0x2C0, 0x100);
+        primitive->clut = GetClut(0x20, 0x1F8);
 
         scratch.w[0] = width >> 1;
         center_x = screen_points[0];

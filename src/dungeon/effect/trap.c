@@ -521,17 +521,17 @@ typedef struct S_800CC4F0_1 {
 } S_800CC4F0_1;   /* arg0 in update_directional_trap_effect; pointer addresses record offset 0x2 */
 
 
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
 void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
     u16 ticks_left;
 
-    position->unk_0E = (u16) (position->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
+    position->unk_0E = (u16) (position->unk_0E + (rcos(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
         >> 6));
-    position->unk_12 = (u16) (position->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
+    position->unk_12 = (u16) (position->unk_12 + (rsin(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
         >> 6));
     if (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_08 == 0) {
         create_tile_center_quad_effect((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
@@ -1024,8 +1024,8 @@ typedef struct S_800CCDA0_3 {
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void apply_attack_power_and_element_effects(s32, s32, s32, s32, s32, s32, s32);
 extern s32 play_sound_if_enabled();
 
@@ -1053,9 +1053,9 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
             ((S_800CCDA0_1 *)motion)->unk_0C =
-                func_80064584(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
+                rcos(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
             ((S_800CCDA0_1 *)motion)->unk_10 =
-                func_800644B8(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
+                rsin(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
 
             ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
             ((S_800CCDA0_0 *)effect)->unk_06.s = 12;
@@ -1177,7 +1177,7 @@ typedef struct S_800CD004_6 {
 
 
 extern s32 register_node();
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 play_sound_if_enabled();
 extern s32 generate_random_value(void);
 
@@ -1235,7 +1235,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
             color = 0x808080;
             sprite->unk_0C = color;
 
-            variant = func_80069EF8();
+            variant = rand();
             if (variant & 3) {
                 texture = D_800DFD0C;
             } else {

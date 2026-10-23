@@ -37,8 +37,8 @@ typedef struct S_80099A1C_4 {
 } S_80099A1C_4;   /* next in apply_scratch_parameters_to_chain */
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 rsin(s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
 extern void queue_visible_rectangle_copy(void *, void *);
 
 /* Build scratch parameters and apply them to each object in a linked chain. */
@@ -55,7 +55,7 @@ s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_
         ((S_80099A1C_0 *)scratch)->unk_02 = position->unk_06;
         ((S_80099A1C_0 *)scratch)->unk_04 = position->unk_0A;
 
-        transform_result = func_80065420(
+        transform_result = RotTransPers(
             scratch,
             scratch + 0xB8,
             scratch + 0x90,
@@ -73,7 +73,7 @@ s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_
             ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
         }
         ((S_80099A1C_0 *)scratch)->unk_B8 +=
-            (func_800644B8(
+            (rsin(
                 (((S_80099A1C_3 *)object)->unk_0C << 8) +
                 (((S_80099A1C_3 *)object)->unk_08 << 7)) *
              (((S_80099A1C_3 *)object)->unk_08 >> 2)) >> 9;

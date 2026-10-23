@@ -123,16 +123,16 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006671C(void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern void SetPolyGT4(void *);
 
 /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, void *render_state, s16 depth_bias)
@@ -151,7 +151,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     ((S_801663AC_0 *)scratch)->unk_90 = position->z.w.i;
     ((S_801663AC_2 *)render_state)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((S_801663AC_0 *)scratch)->unk_3C = 0x2000;
     ((S_801663AC_0 *)scratch)->unk_38 = 0x2000;
@@ -159,12 +159,12 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     ((S_801663AC_0 *)scratch)->unk_A4 = ((S_801663AC_2 *)render_state)->unk_16;
     ((S_801663AC_0 *)scratch)->unk_A8 = ((S_801663AC_2 *)render_state)->unk_1A;
     ((S_801663AC_0 *)scratch)->unk_A6 = ((S_801663AC_2 *)render_state)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&view_matrix);
-    func_80064840(&view_matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&view_matrix);
+    CompMatrix(&view_matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = ((S_801663AC_2 *)render_state)->unk_08;
     ((S_801663AC_0 *)scratch)->unk_28 = ((S_801663AC_2 *)render_state)->unk_14;
@@ -188,7 +188,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     ((S_801663AC_0 *)scratch)->unk_C4 = ((S_801663AC_4 *)quad)->unk_84;
     ((S_801663AC_0 *)scratch)->unk_CC = ((S_801663AC_4 *)quad)->unk_8A;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x14,
                              packet + 0x20, packet + 0x2C,
@@ -259,7 +259,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
             ((S_801663AC_5 *)packet)->unk_1C = ((S_801663AC_4 *)quad)->unk_08;
             ((S_801663AC_5 *)packet)->unk_28 = ((S_801663AC_4 *)quad)->unk_0C;
 
-            func_8006671C(packet);
+            SetPolyGT4(packet);
 
             tex_flags = texture[1];
             ((S_801663AC_2 *)render_state)->unk_0F = tex_flags;
@@ -281,6 +281,6 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 

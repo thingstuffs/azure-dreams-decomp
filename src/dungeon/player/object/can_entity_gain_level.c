@@ -63,7 +63,7 @@ s32 can_entity_gain_level(void *entity) {
 
 extern s32 format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects();
-extern s32 func_800647A0();
+extern s32 SquareRoot12();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
@@ -117,7 +117,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             s32 old_sum;
             s32 stat;
             s32 old_value;
-            curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB);
+            curve_value = SquareRoot12((prev_level * stat_growth[5]) << 0xB);
             old_base = initial_stats[5];
             old_linear = stat_growth[5] * prev_level;
             if (old_linear < 0) {
@@ -128,7 +128,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             old_stat = old_sum + (old_curve / 32768);
 
             level_product = level * stat_growth[5];
-            curve_value = func_800647A0(level_product << 0xB);
+            curve_value = SquareRoot12(level_product << 0xB);
             new_base = *(u8 *)(initial_stats + 5);
             new_linear = stat_growth[5] * level;
             if (new_linear < 0) {
@@ -431,7 +431,7 @@ loop_0:
 
 extern s32 format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects();
-extern s32 func_800647A0();
+extern s32 SquareRoot12();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
@@ -497,7 +497,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         s32 upper_stat;
         s32 lower_hp_base;
         s32 stat_value;
-        hp_curve = func_800647A0((level_offset * stat_growth[5]) << 0xB);
+        hp_curve = SquareRoot12((level_offset * stat_growth[5]) << 0xB);
         base_hp = *(u8 *)(initial_stats + 5);
         temp = stat_growth[5];
         lower_hp_growth = temp * level_offset;
@@ -511,7 +511,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         }
         lower_stat = lower_hp_base + (lower_hp_curve >> 0xF);
 
-        hp_curve = func_800647A0((level * temp) << 0xB);
+        hp_curve = SquareRoot12((level * temp) << 0xB);
         lower_hp_curve = *(u8 *)(initial_stats + 5);
         upper_hp_growth = stat_growth[5] * level;
         if (upper_hp_growth < 0) {

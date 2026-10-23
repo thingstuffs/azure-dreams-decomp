@@ -129,11 +129,11 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
         ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + angular_speed);
         do {
             grow_angle = grow_angle_fixed >> 0x10;
-            radial_product = (func_800644B8((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
+            radial_product = (rsin((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (func_80064584((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
+            radial_product = (rcos((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + grow_angle)
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
@@ -163,11 +163,11 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
         ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 = (u16) (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0A);
         do {
             fade_angle = fade_angle_fixed >> 0x10;
-            radial_product = (func_800644B8((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
+            radial_product = (rsin((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (func_80064584((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
+            radial_product = (rcos((s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_08 + fade_angle)
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
@@ -484,10 +484,10 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
 
     projection_work_a = scratch + 0x84;
     projection_work_b = scratch + 0x88;
-    first_z = func_80065420((void *)((u32)scratch | 0x64),
+    first_z = RotTransPers((void *)((u32)scratch | 0x64),
                             (void *)((u32)scratch | 0xD8), projection_work_a, projection_work_b);
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F4 = first_z;
-    second_z = func_80065420((void *)((u32)scratch | 0x6C),
+    second_z = RotTransPers((void *)((u32)scratch | 0x6C),
                              (void *)((u32)scratch | 0xDC), projection_work_a, projection_work_b);
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_F8 = second_z;
 

@@ -937,7 +937,7 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
     register_node_if_unregistered(object, project_sprite_chain);
     phase = object->unk_6C + 0x60;
     object->unk_6C = phase;
-    wave = func_800644B8(phase);
+    wave = rsin(phase);
     wave_step = wave >> 7;
     if (wave < 0) {
         wave_step = (wave + 0x7F) >> 7;

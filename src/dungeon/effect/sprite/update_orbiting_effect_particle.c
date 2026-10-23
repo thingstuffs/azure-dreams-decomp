@@ -33,10 +33,10 @@ typedef struct S_800D81D4_1 {
 } S_800D81D4_1;   /* p1 in update_orbiting_effect_particle */
 
 void advance_sprite_animation_and_textures(void *);
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
-s32 func_80064710(s32);
-s32 func_80069EF8(void);
+s32 rsin(s32);
+s32 rcos(s32);
+s32 SquareRoot0(s32);
+s32 rand(void);
 
 /* Updates a rotating effect's motion, color, and lifetime. */
 void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
@@ -49,18 +49,18 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
     phase_index = effect->unk_4C.s;
     switch (phase_index) {
     default:
-        motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v)
+        motion->unk_02 = (s16) (effect->unk_0C + ((s32) (rsin((s16) effect->unk_18) * effect->unk_1C.at02.v)
             >> 0xC));
-        motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v)
+        motion->unk_06 = (s16) (effect->unk_0E + ((s32) (rcos((s16) effect->unk_18) * effect->unk_1C.at02.v)
             >> 0xC));
         return;
     case 0:
         effect->unk_48.s = 0x10U;
-        height_offset = (func_80069EF8() % 96) - 0x30;
+        height_offset = (rand() % 96) - 0x30;
         motion->unk_14.at00.v = (s32) ((s32) (height_offset << 0x10) / (s16) effect->unk_48.s);
-        effect->unk_28 = (s32) ((s32) (func_80064710(0x900 - (height_offset * height_offset))
+        effect->unk_28 = (s32) ((s32) (SquareRoot0(0x900 - (height_offset * height_offset))
             << 0x10) / (s16) effect->unk_48.s);
-        effect->unk_18 = func_80069EF8();
+        effect->unk_18 = rand();
         effect->unk_4C.s = (s16) ((u16) effect->unk_4C.s + 1);
     case 1:
     {
@@ -115,12 +115,12 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
             break;
         }
         primitive->tpage_abr = 0x60;
-        motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
+        motion->unk_14.at02.v = (s16) (0 - (rand() & 3));
         effect->unk_4C.s++;
         break;
     case 5:
         motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
-        motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
+        motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((rand() & 0xFFF) << 6));
         effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - 0x8000);
         effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
         primitive->color.word = (s32) (primitive->color.word + 0xFFE7E7E8);
@@ -133,9 +133,9 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
-    motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v)
+    motion->unk_02 = (s16) (effect->unk_0C + ((s32) (rsin((s16) effect->unk_18) * effect->unk_1C.at02.v)
         >> 0xC));
-    motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v)
+    motion->unk_06 = (s16) (effect->unk_0E + ((s32) (rcos((s16) effect->unk_18) * effect->unk_1C.at02.v)
         >> 0xC));
     return;
 }

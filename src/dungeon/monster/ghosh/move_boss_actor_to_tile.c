@@ -24,7 +24,7 @@ typedef struct S_801704A0_0 {
 } S_801704A0_0;   /* arg0 in move_boss_actor_to_tile */
 
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
-s32 func_800644B8();
+s32 rsin();
 s16 get_rounded_facing_and_rounding_flag();
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
@@ -77,7 +77,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             y_offset = motion->y.w.i - 0x20;
             motion->velocity_x = x_step;
             motion->velocity_y = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
-            action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
+            action->unk_A4 = (s32) ((0 - rsin(action->unk_9E.s * 0x199)) << 0xA);
         }
         height = action->unk_90;
         height += action->unk_A4;

@@ -58,7 +58,7 @@ typedef struct {
 
 
 
-extern s32 func_800644B8(s32 value);
+extern s32 rsin(s32 value);
 extern void select_sprite_entry(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
 extern void func_80047784(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
 extern void set_record_integer_tile_center(T_80172B6C_Motion *motion, u8 x, u8 y);

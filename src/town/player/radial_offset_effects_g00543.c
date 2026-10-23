@@ -69,8 +69,8 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
                  scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
-            record.fieldC = func_80064584(angle) << 5;
-            first_trig_value = func_800644B8(angle);
+            record.fieldC = rcos(angle) << 5;
+            first_trig_value = rsin(angle);
             {
                 void *record_ptr = &record;
                 first_trig_value <<= 5;
@@ -78,7 +78,7 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
                 object = create_randomized_offset_effect((S_8009792C_2 *)record_ptr, (u32)(s16)angle);
             }
             if (object != 0) {
-                angle_component = func_800644B8(angle) << 5;
+                angle_component = rsin(angle) << 5;
                 if (angle_component < 0) {
                     angle_component = -angle_component;
                 }

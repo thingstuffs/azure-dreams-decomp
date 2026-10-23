@@ -52,7 +52,7 @@ typedef struct S_800D1824_5 {
 
 
 extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
-extern void func_8006658C(s32 value, void *ptr);
+extern void AddPrim(s32 value, void *ptr);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(u8 *tiles)
@@ -125,7 +125,7 @@ void build_visible_tile_quads(u8 *tiles)
                     *(u16 *)(prim + 0x1C) = ((S_800D1824_4 *)style)->unk_12;
                     *(u16 *)(prim + 0x24) = ((S_800D1824_4 *)style)->unk_14;
                     prim[3] = 9;
-                    func_8006658C(
+                    AddPrim(
                         (s32)((S_800D1824_0 *)scratch)->unk_20 +
                             (((S_800D1824_0 *)scratch)->unk_C0 << 2),
                         prim);

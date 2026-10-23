@@ -12,8 +12,8 @@
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 void set_record_integer_tile_center();              /* extern */
 void apply_clamped_actor_value_delta();                      /* extern */
 extern u8 player_wait_frames[8];
@@ -34,8 +34,8 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
     if (((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 == 0) {
         apply_clamped_actor_value_delta(actor);
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 + 1);
-        ((EntityRec *)motion)->unk_0C = (u32) (func_80064584(((s16)((EntityRec *)actor)->unk_6A)) << 9);
-        ((EntityRec *)motion)->unk_10 = (s32) (func_800644B8(((s16)((EntityRec *)actor)->unk_6A)) << 9);
+        ((EntityRec *)motion)->unk_0C = (u32) (rcos(((s16)((EntityRec *)actor)->unk_6A)) << 9);
+        ((EntityRec *)motion)->unk_10 = (s32) (rsin(((s16)((EntityRec *)actor)->unk_6A)) << 9);
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = 0xCU;
     }
     if (((Rec_func_8008ACDC_arg0 *)state)->unk_10C & 1) {

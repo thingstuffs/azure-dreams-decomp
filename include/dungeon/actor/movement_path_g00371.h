@@ -162,7 +162,7 @@ typedef struct {
 } DungeonEntry;
 
 extern void advance_sprite_animation_and_textures();
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();

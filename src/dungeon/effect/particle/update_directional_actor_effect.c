@@ -66,12 +66,12 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                 render_data = (u8 *)*(s32 *)&particle->sprite;
                 particle->unk_10 = (s32)spawn_callback;
                 ((ObjectPosition *)*(s32 *)&particle->position)->x.w.i = (u16)(U16(motion, 2) +
-                                                 (func_80069EF8() & 0x1ff) - 256);
+                                                 (rand() & 0x1ff) - 256);
                 ((ObjectPosition *)*(s32 *)&particle->position)->y.w.i = (u16)(U16(motion, 6) +
-                                                 (func_80069EF8() & 0x1ff) - 256);
+                                                 (rand() & 0x1ff) - 256);
                 particle_data = ((u8 *)particle) + 32;
                 ((ObjectPosition *)*(s32 *)&particle->position)->z.w.i = (u16)(U16(motion, 10) +
-                                                  (func_80069EF8() & 0xf) - 8);
+                                                  (rand() & 0xf) - 8);
                 S32(particle_data, 28) = S32(motion, 0);
                 S32(particle_data, 32) = S32(motion, 4);
                 S32(particle_data, 36) = S32(motion, 8);

@@ -201,7 +201,7 @@ s32 try_apply_confusion_status();        /* extern */
 s32 generate_random_value();                                /* extern */
 s32 check_adjacent_tile_height_clearance();           /* extern */
 s32 try_trigger_target_record_effect();            /* extern */
-s32 func_80069EF8();                                /* extern */
+s32 rand();                                /* extern */
 extern void *get_sprite_attachment_vector(void *, void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);
 #endif

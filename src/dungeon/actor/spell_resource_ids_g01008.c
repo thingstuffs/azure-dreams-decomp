@@ -118,7 +118,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
             effect_position->unk_02 = (u16) actor_position->unk_02;
             effect_position->unk_06 = (u16) actor_position->unk_06;
             effect_position->unk_0A = (u16) actor_position->unk_0A;
-            text_context = func_80069EF8();
+            text_context = rand();
             if (!((u16) *((s16 *)&system_update_flags) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {

@@ -31,7 +31,7 @@ extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern void func_800673A0(s16 *, s32, s32);
+extern void MoveImage(s16 *, s32, s32);
 
 extern u8 D_8016AB40[];
 extern u8 D_8016AF6C[];
@@ -140,14 +140,14 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
         rect[1] = entry_count;
         rect[2] = 0x100;
         rect[3] = 1;
-        func_800673A0(rect, 0, entry_count - 1);
+        MoveImage(rect, 0, entry_count - 1);
 
         rect[2] = 0x10;
         rect[0] = 0x30;
         rect[1] -= 1;
         do {
             {
-                func_800673A0(rect, rect[0] - 0x30, rect[1]);
+                MoveImage(rect, rect[0] - 0x30, rect[1]);
                 rect[0] += 0x40;
             }
         } while (rect[0] < 0x100);

@@ -367,10 +367,10 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
 
     projection_out_a = scratch + 0x84;
     projection_out_b = scratch + 0x88;
-    first_z = func_80065420((void *)((u32)scratch | 0x64),
+    first_z = RotTransPers((void *)((u32)scratch | 0x64),
                             (void *)((u32)scratch | 0xD8), projection_out_a, projection_out_b);
     ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F4 = first_z;
-    second_z = func_80065420((void *)((u32)scratch | 0x6C),
+    second_z = RotTransPers((void *)((u32)scratch | 0x6C),
                              (void *)((u32)scratch | 0xDC), projection_out_a, projection_out_b);
     ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_F8 = second_z;
 

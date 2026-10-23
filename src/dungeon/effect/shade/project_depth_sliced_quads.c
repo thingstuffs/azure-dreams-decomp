@@ -11,16 +11,16 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_800666E0(void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern void SetPolyF4(void *);
 
 typedef struct S_800D6170_0 {
     u8 pad_00[0x24];
@@ -97,7 +97,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
     ((S_800D6170_0 *)scratch)->unk_90 = position->z.w.i;
     render_state->flags |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((S_800D6170_0 *)scratch)->unk_3C = 0x2000;
     ((S_800D6170_0 *)scratch)->unk_38 = 0x2000;
@@ -105,12 +105,12 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
     ((S_800D6170_0 *)scratch)->unk_A4 = render_state->angle_x;
     ((S_800D6170_0 *)scratch)->unk_A8 = render_state->angle_z;
     ((S_800D6170_0 *)scratch)->unk_A6 = render_state->angle_y;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     ((S_800D6170_0 *)scratch)->unk_28 = render_state->flags;
     for (coord_index = 0; coord_index < 4; coord_index++) {
@@ -139,7 +139,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
 
             packet = ((GpuContext *)(*render_context))->packetCursor;
             ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
-            ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+            ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                                      scratch + 0xC0, scratch + 0xC8,
                                      packet + 8, packet + 0xC,
                                      packet + 0x10, packet + 0x14,
@@ -157,7 +157,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                      ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
                     render_state->flags &= 0x7FFF;
                     ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
-                    func_800666E0(packet);
+                    SetPolyF4(packet);
 
                     ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
                         ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
@@ -188,7 +188,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
 
         packet = ((GpuContext *)(*render_context))->packetCursor;
         ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
-        ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+        ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                                  scratch + 0xC0, scratch + 0xC8,
                                  packet + 8, packet + 0xC,
                                  packet + 0x10, packet + 0x14,
@@ -206,7 +206,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                  ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
                 render_state->flags &= 0x7FFF;
                 ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
-                func_800666E0(packet);
+                SetPolyF4(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |
                     ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
@@ -219,5 +219,5 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }

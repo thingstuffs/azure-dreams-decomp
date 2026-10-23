@@ -79,12 +79,12 @@ typedef struct S_SCRATCH {
 } S_SCRATCH;
 
 void advance_sprite_animation_and_textures();                      /* extern */
-s32 func_80064840(void *, void *, void *); /* extern */
-void func_80064AE0(void *);
-s32 func_80064BC0(void *, void *);              /* extern */
-s32 func_80064CF0(void *);                   /* extern */
-s32 func_80064D80(void *);                   /* extern */
-u32 func_80065420(); /* extern */
+s32 CompMatrix(void *, void *, void *); /* extern */
+void ReadRotMatrix(void *);
+s32 ScaleMatrix(void *, void *);              /* extern */
+s32 SetRotMatrix(void *);                   /* extern */
+s32 SetTransMatrix(void *);                   /* extern */
+u32 RotTransPers(); /* extern */
 typedef struct S_800AFA68_part {
     u8 unk_00;
     u8 unk_01;
@@ -99,12 +99,12 @@ typedef struct S_800AFA68_part {
 } S_800AFA68_part;
 typedef struct GeomSideEffects {
 } GeomSideEffects;
-u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
-s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
+u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
+s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
-s32 func_80065820(void *, void *, ...);        /* extern */
-void func_8006658C(void *, void *);         /* extern */
-void func_800666F4(void *);                 /* extern */
+s32 RotMatrix(void *, void *, ...);        /* extern */
+void AddPrim(void *, void *);         /* extern */
+void SetPolyFT4(void *);                 /* extern */
 u16 sample_terrain_surface_height();                   /* extern */
 extern M2C_UNK sprite_projection_matrix[8];
 extern s32 dungeon_floor_flags[3];
@@ -206,7 +206,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     camera.yaw = *(u16 *)&game_base->view.camera_rotation.parts.camera_rotation_y;
     camera.roll = *(u16 *)&game_base->view.camera_rotation.parts.viewAngle;
     scr->unk_018 = primitive_buffer;
-    func_80064AE0(saved_matrix);
+    ReadRotMatrix(saved_matrix);
     entry_index = 0;
     rotation_matrix = (u8 *) 0x1F8000D0;
     view_matrix = (u8 *) 0x1F800050;
@@ -245,11 +245,11 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 scr->unk_0E4 = (s32) world_x;
                 scr->unk_0E8 = (s32) ((s16) world_y);
                 scr->unk_0EC = (s32) ((s16) world_z);
-                func_80065820((u8 *)&scr->unk_100, rotation_matrix, world_x);
-                func_80064840(&saved_matrix, rotation_matrix, view_matrix);
-                func_80064BC0(view_matrix, (u8 *)&scr->unk_030);
-                func_80064D80((s32 *) view_matrix);
-                func_80064CF0((s32 *) view_matrix);
+                RotMatrix((u8 *)&scr->unk_100, rotation_matrix, world_x);
+                CompMatrix(&saved_matrix, rotation_matrix, view_matrix);
+                ScaleMatrix(view_matrix, (u8 *)&scr->unk_030);
+                SetTransMatrix((s32 *) view_matrix);
+                SetRotMatrix((s32 *) view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     texture_u_byte = part_header->unk_08;
@@ -277,7 +277,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         scr->unk_078 = world_corner_x;
                         world_y_byte = part_header->unk_03;
                         scr->unk_018 = quad + 0x28;
-                        quad_depth = func_80065590((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
+                        quad_depth = RotAverage4((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
                             (u8 *)&scr->unk_088, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
                             depth_cue, transform_flags,
                             (world_corner_y = (s8) world_y_byte, scr->unk_07A = world_corner_y,
@@ -330,9 +330,9 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                 + ((u16) (scr->unk_010.u16)));
 
                             *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
-                            func_800666F4(quad);
+                            SetPolyFT4(quad);
                             *((u8 *) (((s8 *) quad) + 7)) = (u8) ((*((u8 *) (((s8 *) quad) + 7))) | 2);
-                            func_8006658C(((u8 *) (scr->unk_020))
+                            AddPrim(((u8 *) (scr->unk_020))
                                 + (((s32) (scr->unk_0C0)) * 4), quad);
                         }
                     }
@@ -347,7 +347,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
             scr->unk_0E4 = 0;
             scr->unk_0E8 = 0;
             scr->unk_0EC = 0;
-            sprite_depth = func_80065420((u8 *)scr, (u8 *)&scr->unk_0B8, (u8 *)scr + 0x90, (u8 *)scr + 0x94);
+            sprite_depth = RotTransPers((u8 *)scr, (u8 *)&scr->unk_0B8, (u8 *)scr + 0x90, (u8 *)scr + 0x94);
             scr->unk_0C0 = sprite_depth;
             sprite_depth <<= 2;
             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
@@ -370,10 +370,10 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     - view_yaw));
 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
-                func_80065820((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
-                func_80064840(&sprite_projection_matrix, rotation_matrix, view_matrix);
-                func_80064D80((s32 *) view_matrix);
-                func_80064CF0((s32 *) view_matrix);
+                RotMatrix((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
+                CompMatrix(&sprite_projection_matrix, rotation_matrix, view_matrix);
+                SetTransMatrix((s32 *) view_matrix);
+                SetRotMatrix((s32 *) view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     scr->unk_008.s32 = (s32) part_header->unk_08;
@@ -388,7 +388,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     scr->unk_088 = sprite_corner_x;
                     scr->unk_078 = sprite_corner_x;
                     sprite_y_byte = part_header->unk_03;
-                    func_800654B0((u8 *)&scr->unk_070, (u8 *)&scr->unk_078, (u8 *)&scr->unk_080, (u8 *)&scr->unk_088, (u8 *)&scr->unk_0F0,
+                    RotTransPers4((u8 *)&scr->unk_070, (u8 *)&scr->unk_078, (u8 *)&scr->unk_080, (u8 *)&scr->unk_088, (u8 *)&scr->unk_0F0,
                         (u8 *)&scr->unk_0F4, (u8 *)&scr->unk_0F8, (u8 *)&scr->unk_0FC, depth_cue, transform_flags,
                         (sprite_corner_y = (s8) sprite_y_byte, scr->unk_07A = sprite_corner_y,
                          scr->unk_072 = sprite_corner_y,
@@ -474,16 +474,16 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         if ((dungeon_floor_flags[0] & 8) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
-                        func_8006658C(((u8 *) (scr->unk_020))
+                        AddPrim(((u8 *) (scr->unk_020))
                             + (((s32) (scr->unk_0C0)) * 4), quad);
                         if (!((*((u8 *) (((s8 *) quad) + 7))) & 2)) {
-                            func_80064D80(&saved_matrix);
-                            func_80064CF0(&saved_matrix);
+                            SetTransMatrix(&saved_matrix);
+                            SetRotMatrix(&saved_matrix);
                             world_pos_x = scr->unk_000.u16;
                             world_pos_y = scr->unk_002;
                             scr->unk_004 = sample_terrain_surface_height(world_pos_x, world_pos_y,
                                 (s16)(shadow_scale[2] = (s16)scr->unk_004 - 4));
-                            depth_or_height = func_80065420((u8 *)scr, (u8 *)&scr->unk_0B8, depth_cue, transform_flags);
+                            depth_or_height = RotTransPers((u8 *)scr, (u8 *)&scr->unk_0B8, depth_cue, transform_flags);
                             scr->unk_0C0 = depth_or_height;
                             depth_or_height = (u32)depth_or_height * 4;
                             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = depth_or_height;
@@ -510,16 +510,16 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                 scr->unk_100 = (s16) shadow_pitch;
                                 scr->unk_104 = (s16) shadow_roll;
                             }
-                            func_80065820((u8 *)&scr->unk_100, rotation_matrix);
-                            func_80064840(&sprite_projection_matrix, rotation_matrix, view_matrix);
-                            func_80064BC0(view_matrix, shadow_scale);
-                            func_80064D80((s32 *) view_matrix);
-                            func_80064CF0((s32 *) view_matrix);
+                            RotMatrix((u8 *)&scr->unk_100, rotation_matrix);
+                            CompMatrix(&sprite_projection_matrix, rotation_matrix, view_matrix);
+                            ScaleMatrix(view_matrix, shadow_scale);
+                            SetTransMatrix((s32 *) view_matrix);
+                            SetRotMatrix((s32 *) view_matrix);
                             {
                                 u16 right_x;
                                 u16 left_x;
                                 quad = scr->unk_018;
-                                func_800654B0((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
+                                RotTransPers4((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
                                     (u8 *)&scr->unk_088, (u8 *)&scr->unk_0F0, (u8 *)&scr->unk_0F4, (u8 *)&scr->unk_0F8, (u8 *)&scr->unk_0FC,
                                     depth_cue, transform_flags,
                                     (left_x = scr->unk_070,
@@ -573,7 +573,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             *((s32 *) (((s8 *) quad) + 4)) =
                                 (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                            func_8006658C(((u8 *) (scr->unk_020))
+                            AddPrim(((u8 *) (scr->unk_020))
                                 + (((s32) (scr->unk_0C0)) * 4), quad);
                         }
                     }
@@ -586,8 +586,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 }
             }
             }
-            func_80064D80(&saved_matrix);
-            func_80064CF0(&saved_matrix);
+            SetTransMatrix(&saved_matrix);
+            SetRotMatrix(&saved_matrix);
         }
     }
     } while (++entry_index < 0x20);

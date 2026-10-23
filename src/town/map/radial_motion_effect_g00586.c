@@ -86,8 +86,8 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
                  scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
-            record.fieldC = func_80064584(angle) << 5;
-            first_trig_value = func_800644B8(angle);
+            record.fieldC = rcos(angle) << 5;
+            first_trig_value = rsin(angle);
             {
                 void *record_ptr = &record;
                 first_trig_value <<= 5;
@@ -95,7 +95,7 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
                 object = create_reverse_motion_effect((S_800A878C_2 *)record_ptr, (s16)angle);
             }
             if (object != 0) {
-                angle_value = func_800644B8(angle) << 5;
+                angle_value = rsin(angle) << 5;
                 if (angle_value < 0) {
                     angle_value = -angle_value;
                 }

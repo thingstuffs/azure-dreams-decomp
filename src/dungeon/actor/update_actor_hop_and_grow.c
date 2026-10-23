@@ -39,7 +39,7 @@ typedef struct {
 
 extern s16 system_update_flags[8];
 extern void set_record_integer_tile_center(Motion *, u8, u8);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 /* Advance movement to the target tile, updating height and scale until complete. */
 s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extra *extra) {
@@ -85,7 +85,7 @@ s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extr
             }
         }
         if (state->field96 != 0) {
-            motion->field14 = ((-(func_800644B8(state->field96 << 6) >> 4) - (height_offset = state->field92 + 0x20))
+            motion->field14 = ((-(rsin(state->field96 << 6) >> 4) - (height_offset = state->field92 + 0x20))
                 << 16) / state->field96;
         }
         scale = ((SpriteFrameState *)params)->scale_x + extra->field8A;

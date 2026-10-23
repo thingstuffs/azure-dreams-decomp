@@ -103,12 +103,12 @@ typedef struct S_800970FC_14 {
 
 extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
 extern void project_sprite_commands(void *, void *, void *, s16);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066640(void *, s32);
-extern void func_800666E0(void *);
-extern void func_800666F4(void *);
-extern void func_80067E2C(void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyF4(void *);
+extern void SetPolyFT4(void *);
+extern void SetDrawArea(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(s32);
@@ -192,21 +192,21 @@ s32 draw_entry_overlays(void) {
                 project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
                 primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
                 ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0xC);
-                func_80067E2C(primitive, CUR_PAGE);
-                func_8006658C(CUR_PAGE + 0x830, primitive);
+                SetDrawArea(primitive, CUR_PAGE);
+                AddPrim(CUR_PAGE + 0x830, primitive);
                 primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
                 ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0x28);
                 color = 0x808080;
                 ((S_800970FC_4 *)primitive)->unk_04 = color;
-                func_800666F4(primitive);
+                SetPolyFT4(primitive);
                 texture_depth = 2;
                 color = texture_depth;
                 texture_rect = D_800D04D0;
                 page_mask = ~0xFF;
-                ((S_800970FC_4 *)primitive)->unk_16 = func_80066460(texture_depth, color,
+                ((S_800970FC_4 *)primitive)->unk_16 = GetTPage(texture_depth, color,
                     (s16) (((S_800970FC_5 *)D_800D04D0)->unk_00.u & page_mask),
                     (s16) (((S_800970FC_6 *)texture_rect)->unk_02.u & page_mask));
-                func_80066640(primitive, 1);
+                SetSemiTrans(primitive, 1);
                 ((S_800970FC_4 *)primitive)->unk_0C = (s8) (((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_0D = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100)
@@ -252,14 +252,14 @@ s32 draw_entry_overlays(void) {
                     rect_height = 0;
                     rect_height = ((S_800970FC_8 *)rect)->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x22)) = (s16) (rect_y + rect_height);
-                    func_8006658C(CUR_CTX + 0x830, primitive);
+                    AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                     ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
                     ((S_800970FC_10 *)primitive)->unk_04 = 0x40;
                     ((S_800970FC_10 *)primitive)->unk_05 = 0x40;
                     ((S_800970FC_10 *)primitive)->unk_06 = 0xC0;
-                    func_800666E0(primitive);
-                    func_80066640(primitive, 0);
+                    SetPolyF4(primitive);
+                    SetSemiTrans(primitive, 0);
                     (*(u16 *)((u8 *)primitive + 8)) = quad_x;
                     fill_height = ((S_800970FC_8 *)rect)->unk_06;
                     (*(s16 *)((u8 *)primitive + 0xA)) = (s16) ((rect_y + fill_height) - overlay_height);
@@ -278,14 +278,14 @@ s32 draw_entry_overlays(void) {
                     fill_height = 0;
                     fill_height = ((S_800970FC_8 *)rect)->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + fill_height);
-                    func_8006658C(CUR_CTX + 0x830, primitive);
+                    AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                     ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
                     ((S_800970FC_11 *)primitive)->unk_06 = 0;
                     ((S_800970FC_11 *)primitive)->unk_05 = 0;
                     ((S_800970FC_11 *)primitive)->unk_04 = 0;
-                    func_800666E0(primitive);
-                    func_80066640(primitive, 0);
+                    SetPolyF4(primitive);
+                    SetSemiTrans(primitive, 0);
                     ((S_800970FC_11 *)primitive)->unk_08 = quad_x;
                     ((S_800970FC_11 *)primitive)->unk_0A = rect_y;
                     rect_width = ((S_800970FC_8 *)rect)->unk_04;
@@ -300,11 +300,11 @@ s32 draw_entry_overlays(void) {
                     rect_height = 0;
                     rect_height = ((S_800970FC_8 *)rect)->unk_06;
                     (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + rect_height);
-                    func_8006658C(CUR_CTX + 0x830, primitive);
+                    AddPrim(CUR_CTX + 0x830, primitive);
                     primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                     ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
-                    func_80067E2C(primitive, rect);
-                    func_8006658C(CUR_CTX + 0x830, primitive);
+                    SetDrawArea(primitive, rect);
+                    AddPrim(CUR_CTX + 0x830, primitive);
                 }
                 draw_entry = &reference_tile_object;
                 quad_x = ((S_800970FC_6 *)texture_rect)->unk_00;
@@ -340,14 +340,14 @@ s32 draw_entry_overlays(void) {
                 primitive = ((S_800970FC_13 *)draw_ctx)->unk_8D0;
                 ((S_800970FC_13 *)draw_ctx)->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 0);
-                func_8006658C(CUR_CTX + 0x830, primitive);
+                AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                 ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0x18);
                 ((S_800970FC_14 *)primitive)->unk_06 = 0xFF;
                 ((S_800970FC_14 *)primitive)->unk_05 = 0xFF;
                 ((S_800970FC_14 *)primitive)->unk_04 = 0xFF;
-                func_800666E0(primitive);
-                func_80066640(primitive, 0);
+                SetPolyF4(primitive);
+                SetSemiTrans(primitive, 0);
                 (*(u16 *)((u8 *)primitive + 8)) = quad_x;
                 (*(s16 *)((u8 *)primitive + 0xA)) = texture_top;
                 (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
@@ -358,15 +358,15 @@ s32 draw_entry_overlays(void) {
                 (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
                 bottom = texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16;
                 (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
-                func_8006658C(CUR_CTX + 0x830, primitive);
+                AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                 ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 1);
-                func_8006658C(CUR_CTX + 0x830, primitive);
+                AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                 ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);
-                func_80067E2C(primitive, texture_rect);
-                func_8006658C(CUR_CTX + 0x830, primitive);
+                SetDrawArea(primitive, texture_rect);
+                AddPrim(CUR_CTX + 0x830, primitive);
                 return 0;
             }
         }

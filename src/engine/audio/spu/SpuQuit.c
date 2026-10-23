@@ -15,7 +15,7 @@ extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
 
 /* Shuts down SPU event/callback state when the SPU service flag is active. */
-void stop_spu_dma_event_service(void)
+void SpuQuit(void)
 {
     if (spu_event_service_active[0] == 1) {
         spu_register_buffer_flags[1] = 0;

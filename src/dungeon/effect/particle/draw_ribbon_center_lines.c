@@ -90,17 +90,17 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
@@ -138,7 +138,7 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
     ((S_80166968_0 *)scratch)->unk_90 = position->unk_0A;
     ((S_80166968_2 *)render_data)->unk_14 |= 0x8000;
     render_state_ref = &g_game_work.draw_buffer;
-    func_800649A0();
+    PushMatrix();
 
     ((S_80166968_0 *)scratch)->unk_3C = 0x2000;
     ((S_80166968_0 *)scratch)->unk_38 = 0x2000;
@@ -146,12 +146,12 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
     ((S_80166968_0 *)scratch)->unk_A4 = ((S_80166968_2 *)render_data)->unk_16;
     ((S_80166968_0 *)scratch)->unk_A8 = ((S_80166968_2 *)render_data)->unk_1A;
     ((S_80166968_0 *)scratch)->unk_A6 = ((S_80166968_2 *)render_data)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture_entry = ((S_80166968_2 *)render_data)->unk_08;
     length_mask = 0xFF000000;
@@ -184,7 +184,7 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
         ((S_80166968_0 *)scratch)->unk_CC = mid_b_z;
         ((S_80166968_0 *)scratch)->unk_BC = mid_b_z;
 
-        ot_index = func_80065590(point_a, point_b, point_a_copy, point_b_copy,
+        ot_index = RotAverage4(point_a, point_b, point_a_copy, point_b_copy,
                                  packet + 8, packet + 0xC,
                                  packet + 8, packet + 0xC,
                                  scratch + 0xD0, scratch + 0xD4) - (s16)saved_depth_bias - 6;
@@ -216,7 +216,7 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
 
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
         ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0xC;
-        func_80067F20(packet, zero, zero, func_80066460(zero, 1, zero, zero) & 0xFFFF, zero);
+        SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
             ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
@@ -233,5 +233,5 @@ void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8
         texture_entry += 0xC;
     }
 
-    func_80064A40();
+    PopMatrix();
 }

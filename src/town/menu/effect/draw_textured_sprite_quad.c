@@ -62,14 +62,14 @@ typedef struct S_800A17CC_3 {
 
 typedef struct {} EmptyArg;
 
-extern s32 func_800654B0();
-extern s32 func_80066460();
-extern s32 func_8006649C();
-extern void func_8006658C();
-extern void func_80066640();
-extern void func_800666E0();
-extern void func_800666F4();
-extern void func_80067F20();
+extern s32 RotTransPers4();
+extern s32 GetTPage();
+extern s32 GetClut();
+extern void AddPrim();
+extern void SetSemiTrans();
+extern void SetPolyF4();
+extern void SetPolyFT4();
+extern void SetDrawMode();
 struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
 struct S_800A1330_0; struct S_800A1330_1; void copy_menu_vector_halfwords(struct S_800A1330_0 *, struct S_800A1330_1 *);
 extern s16 D_800D0A40;
@@ -115,12 +115,12 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     }
     color |= 0x8080;
     ((S_800A17CC_1 *)textured_quad)->unk_04 = color;
-    func_800666F4(quad_packet);
+    SetPolyFT4(quad_packet);
 
-    texture_page = func_80066460(1, 0,
+    texture_page = GetTPage(1, 0,
         ((S_800A17CC_2 *)sprite)->unk_6C & 0xFF80, ((S_800A17CC_2 *)sprite)->unk_6E);
     ((S_800A17CC_1 *)textured_quad)->unk_16 = texture_page;
-    ((S_800A17CC_1 *)textured_quad)->unk_0E = func_8006649C(0, 0x1EF);
+    ((S_800A17CC_1 *)textured_quad)->unk_0E = GetClut(0, 0x1EF);
 
     {
         s32 texture_x;
@@ -201,7 +201,7 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         SCRATCH(u16, 0x8C) = right_x;
     }
     height = ((S_800A17CC_2 *)sprite)->unk_7A;
-    SCRATCH(s32, 0xC4) = func_800654B0(
+    SCRATCH(s32, 0xC4) = RotTransPers4(
         (void *)0x1F800074, (void *)0x1F80007C,
         vertex2, vertex3,
         screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags,
@@ -225,8 +225,8 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
     ((S_800A17CC_3 *)overlay_quad)->unk_05 = ((S_800A17CC_2 *)sprite)->unk_12;
     ((S_800A17CC_3 *)overlay_quad)->unk_06 = ((S_800A17CC_2 *)sprite)->unk_12;
-    func_800666E0(overlay_quad);
-    func_80066640(overlay_quad, 1);
+    SetPolyF4(overlay_quad);
+    SetSemiTrans(overlay_quad, 1);
     ((S_800A17CC_3 *)overlay_quad)->unk_08 = SCRATCH(u16, 0xE8);
     ((S_800A17CC_3 *)overlay_quad)->unk_0A = SCRATCH(u16, 0xEA);
     ((S_800A17CC_3 *)overlay_quad)->unk_0C = SCRATCH(u16, 0xEC);
@@ -240,21 +240,21 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
     SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
-    func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
+    SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
+    AddPrim((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
+    AddPrim((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
     render_state = g_game_work.draw_buffer;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
-    func_80067F20(draw_mode, 1, 0,
-        func_80066460(0, 1, 0x140, 0) & 0xFFFF, 0);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
+    SetDrawMode(draw_mode, 1, 0,
+        GetTPage(0, 1, 0x140, 0) & 0xFFFF, 0);
+    AddPrim((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
+    AddPrim((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
     render_state = g_game_work.draw_buffer;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
-    func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
+    SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
+    AddPrim((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
 }

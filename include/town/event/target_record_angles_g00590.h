@@ -21,8 +21,8 @@ extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
 
 extern void transform_and_queue_mesh_quads();
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 extern IntVector3 D_80100D48, D_80100D68;
 extern PositionRotationPair D_80100D60;

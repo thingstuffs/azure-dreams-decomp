@@ -16,8 +16,8 @@ typedef struct S_80024550_1 {
 
 extern s32 rand(void);
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
+extern s32 rcos(s32);
+extern s32 rsin(s32);
 extern void register_node(void *, void *);
 
 extern u8 D_800244A4[];
@@ -54,14 +54,14 @@ void mark_owner_on_target_completion(MovingPosition *origin)
         render_data->tpage_abr |= 0x20;
         render_data->flags |= 0xC;
         render_data->angle_z =
-            (s32)(0 - ((func_80064584(effect_state->unk_08 -
+            (s32)(0 - ((rcos(effect_state->unk_08 -
                                       scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
         position = effect->position;
         position->x.w.i = origin->unk_02 +
-            ((func_800644B8(effect_state->unk_08) * 2) >> 8);
+            ((rsin(effect_state->unk_08) * 2) >> 8);
         position->y.w.i = origin->unk_06 +
-            ((func_80064584(effect_state->unk_08) * 2) >> 8);
+            ((rcos(effect_state->unk_08) * 2) >> 8);
         position->z.w.i = origin->unk_0A;
     }
 }

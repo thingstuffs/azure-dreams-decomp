@@ -302,7 +302,7 @@ s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
 void select_sprite_entry();
 void func_80047784();
-s32 func_80069EF8();
+s32 rand();
 s32 check_entity_relation();
 s32 find_active_rect_containing_point();
 s32 test_neighbor_position_relation();
@@ -335,7 +335,7 @@ s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-s32 func_800644B8();
+s32 rsin();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
 void func_800A9A04();

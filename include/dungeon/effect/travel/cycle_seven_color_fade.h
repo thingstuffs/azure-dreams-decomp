@@ -477,14 +477,14 @@ extern s16 cap_pending_actor_value_delta(void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern s32 get_random_scaled_value(s16 input_value);
 extern s32 try_trigger_target_record_effect(void *, s32);
-extern s32 func_80064584();
-extern s32 func_800644B8();
-extern s32 func_80065590(
+extern s32 rcos();
+extern s32 rsin();
+extern s32 RotAverage4(
     void *ptr0, void *ptr1, void *ptr2, void *ptr3,
     void *ptr4, void *ptr5, void *ptr6, void *ptr7,
     void *ptr8, void *ptr9);
-extern s16 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
-extern s32 func_80069EF8(void);
+extern s16 GetTPage(s32 value0, s32 value1, s32 value2, s32 value3);
+extern s32 rand(void);
 s32 check_layer_offset_height();              /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 #endif

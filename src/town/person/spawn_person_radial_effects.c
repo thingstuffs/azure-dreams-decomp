@@ -44,8 +44,8 @@ void spawn_person_radial_effects(void *source) {
             effects_spawned += 1;
             effect.x = (origin->unk_02 + (rand() & 0x1F)) - 0x10;
             effect.y = (origin->unk_06 + (rand() & 0x1F)) - 0x10;
-            effect.a = func_80064584(angle) << 5;
-            effect.b = func_800644B8(angle) << 5;
+            effect.a = rcos(angle) << 5;
+            effect.b = rsin(angle) << 5;
             spawn_person_offset_effect(&effect, angle);
             angle += angle_step;
         } while (effects_spawned < effect_count);

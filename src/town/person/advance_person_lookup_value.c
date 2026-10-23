@@ -11,5 +11,5 @@ s16 advance_person_lookup_value(Rec_func_800AB030_arg0 *record) {
 
     updated_value = record->unk_6A + 0xCC;
     record->unk_6A = updated_value;
-    return (s16) (func_800644B8((s16) updated_value) / 384);
+    return (s16) (rsin((s16) updated_value) / 384);
 }

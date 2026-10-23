@@ -27,7 +27,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
     } else {
         func_80024184(object);
         object->flags &= 0x7FFF;
-        func_80069EC8(runtime, 0x3C4);
+        bzero(runtime, 0x3C4);
     }
     func_80023EF4(runtime, 0xA);
     object->sprite = runtime + 0x24C;

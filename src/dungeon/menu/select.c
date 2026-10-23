@@ -153,7 +153,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         side_data = (void *)(((S_8002520C_0 *)menu)->unk_22);
         if (((s16)side_data) != 0) {
             motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
-            motion->unk_0A.s = (s16) (func_800644B8(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
+            motion->unk_0A.s = (s16) (rsin(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
             enter_scale = appearance->unk_16;
             appearance->unk_16 = (u16) (enter_scale + ((s32) (0xD00
                 - enter_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
@@ -379,7 +379,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                 exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
-                    motion->unk_0A.u = (u16) (motion->unk_0A.u + func_800644B8(((S_8002520C_0 *)menu)->unk_22 << 5));
+                    motion->unk_0A.u = (u16) (motion->unk_0A.u + rsin(((S_8002520C_0 *)menu)->unk_22 << 5));
                     exit_scale = appearance->unk_16;
                     appearance->unk_16 = (u16) (exit_scale + ((s32) (0x1000
                         - exit_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
@@ -1127,7 +1127,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
     geometry = (Geometry *)&scene_geometry[0];
     vertices = geometry->vertices;
     materials = geometry->materials;
-    func_800649A0();
+    PushMatrix();
     {
         union { s32 value; } cell_y = {0};
         cell_y.value = -0x60;
@@ -1140,17 +1140,17 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
         scratch->eye[0] = view_position->x;
         scratch->eye[1] = view_position->y;
         scratch->eye[2] = view_position->z;
-        func_80064B90(scratch->matrix, &scratch->eye[0]);
-        func_80065820(render_params->rotation, scratch->matrix);
-        func_80064BC0(scratch->matrix, &scratch->view_w);
-        func_80064CF0(scratch->matrix);
-        func_80064D80(scratch->matrix);
+        TransMatrix(scratch->matrix, &scratch->eye[0]);
+        RotMatrix(render_params->rotation, scratch->matrix);
+        ScaleMatrix(scratch->matrix, &scratch->view_w);
+        SetRotMatrix(scratch->matrix);
+        SetTransMatrix(scratch->matrix);
         draw_buffer = render_state->draw_buffer;
         scratch->ot = (s32) draw_buffer->ot;
         prim = draw_buffer->prim;
         scratch->xy0 = 0;
         scratch->h0 = 0;
-        scratch->depth_base = func_80065420(&scratch->xy0, scratch->buf, &scratch->out0, &scratch->out1) - 0x27;
+        scratch->depth_base = RotTransPers(&scratch->xy0, scratch->buf, &scratch->out0, &scratch->out1) - 0x27;
         row = 0;
         cell_index = 0;
         do {
@@ -1256,7 +1256,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                                     prim->rgb[2] = (prim->rgb[2] * render_params->color[2]) >> 7;
                                 }
                                 prim->code = 9;
-                                func_8006658C(scratch->ot + scratch->depth * 4, prim);
+                                AddPrim(scratch->ot + scratch->depth * 4, prim);
                                 prim += 1;
                             }
                         }
@@ -1323,7 +1323,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
         render_state->rotation[0] = saved_rotation[0];
         render_state->rotation[1] = saved_rotation[1];
         render_state->rotation[2] = saved_rotation[2];
-        func_80064A40();
+        PopMatrix();
         return 0;
     }
 }
@@ -1404,19 +1404,19 @@ s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg)
             S32(packet, 0xC) = 0;
             S32(packet, 0x14) = 0;
             S32(packet, 4) = packet_word;
-            func_80066708(packet);
+            SetPolyG4(packet);
 
             quadrant--;
             U8(packet, 7) |= 2;
-            func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
+            AddPrim(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
         } while (quadrant >= 0);
 
         render_state = *render_state_ptr;
         packet = PTR(render_state, 0x8D0);
         PTR(render_state, 0x8D0) = packet + 0xC;
-        packet_word = func_80066460(0, 2, 0, 0);
-        func_80067F20(packet, 0, 0, packet_word & 0xFFFF, 0);
-        func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
+        packet_word = GetTPage(0, 2, 0, 0);
+        SetDrawMode(packet, 0, 0, packet_word & 0xFFFF, 0);
+        AddPrim(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
 
         next_node = PTR(rect_data, -8);
         rect_data = next_node + 0x20;

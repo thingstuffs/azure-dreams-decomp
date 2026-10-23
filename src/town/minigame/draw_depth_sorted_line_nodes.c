@@ -33,11 +33,11 @@ typedef struct PacketTag {
 
 
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_800667BC(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetSemiTrans(void *, s32);
+extern void SetLineF2(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
 s32 draw_depth_sorted_line_nodes(u8 *node)
@@ -61,11 +61,11 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
             line_prim = render_state->packetCursor;
             render_state->packetCursor = line_prim + 0x10;
             ((S_8002415C_1 *)line_prim)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
-            func_800667BC(line_prim);
-            func_80066640(line_prim, 1);
-            first_depth = func_80065420(node + 4, line_prim + 8,
+            SetLineF2(line_prim);
+            SetSemiTrans(line_prim, 1);
+            first_depth = RotTransPers(node + 4, line_prim + 8,
                                   &coords[0], second_coord);
-            avg_depth = (first_depth + func_80065420(node + 0xC, line_prim + 0xC,
+            avg_depth = (first_depth + RotTransPers(node + 0xC, line_prim + 0xC,
                                              &coords[0], second_coord)) >> 1;
             if ((u16)avg_depth < 0x1E0U) {
                 ot_offset = (s16)avg_depth * 4;
@@ -75,8 +75,8 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
                 render_state = town_state->draw_buffer;
                 draw_mode_prim = render_state->packetCursor;
                 render_state->packetCursor = draw_mode_prim + 0xC;
-                func_80067F20(draw_mode_prim, 0, 0,
-                    func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
+                SetDrawMode(draw_mode_prim, 0, 0,
+                    GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
                 addPrim((u8 *)(ot_offset + (s32)town_state->draw_buffer) + 0xB0,
                         draw_mode_prim);
             }

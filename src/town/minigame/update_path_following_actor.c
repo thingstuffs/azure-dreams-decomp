@@ -48,8 +48,8 @@ void advance_bounded_entry_index();              /* extern */
 void fill_eligible_negative_slots();            /* extern */
 M2C_UNK select_sprite_entry();         /* extern */
 M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 s32 rand();              /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 void spawn_person_radial_effects();                 /* extern */
@@ -301,9 +301,9 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
         }
         ground_height = query_lowered_transform_position(&ground_probe);
         motion->velocity_x =
-            (s32) (func_80064584(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+            (s32) (rcos(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
         motion->velocity_y =
-            (s32) (func_800644B8(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+            (s32) (rsin(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
         if (ground_height < motion->z.w.i) {
             motion->z.w.i = ground_height;
             if (motion->velocity_z >= 0) {

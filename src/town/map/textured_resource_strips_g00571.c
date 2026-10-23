@@ -74,9 +74,9 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     forward_angle = angle_or_coord;
     angle_or_coord <<= 16;
     angle_or_coord >>= 16;
-    coord_value = func_80064584(angle_or_coord) * 6;
+    coord_value = rcos(angle_or_coord) * 6;
     coord_y = coord_value - origin_y;
-    coord_value = func_800644B8(angle_or_coord) * 6;
+    coord_value = rsin(angle_or_coord) * 6;
     coord_x = coord_value - origin_x;
 
 forward_segment:
@@ -89,11 +89,11 @@ forward_segment:
     }
     if (object->unk_0C != 0) {
         coord_value = angle_or_coord -
-            (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+            (rsin(((s32)(forward_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     } else {
         coord_value = angle_or_coord +
-            (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+            (rsin(((s32)(forward_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     }
     stepped = forward_angle + 0x80;
@@ -102,13 +102,13 @@ forward_segment:
     next_angle = stepped >> 16;
     scratch->data82 = coord_value;
     scratch->data72 = coord_value;
-    coord_value = func_80064584(next_angle);
+    coord_value = rcos(next_angle);
     angle_or_coord = coord_value << 1;
     angle_or_coord += coord_value;
     angle_or_coord <<= 1;
     angle_or_coord -= origin_y;
     coord_y = angle_or_coord;
-    coord_value = func_800644B8(next_angle) * 6;
+    coord_value = rsin(next_angle) * 6;
     scratch->data88 = angle_or_coord;
     scratch->data78 = angle_or_coord;
     coord_value -= origin_x;
@@ -117,10 +117,10 @@ forward_segment:
     angle_or_coord = coord_value >> 16;
     if (object->unk_0C != 0) {
         result = angle_or_coord -
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
     } else {
         result = angle_or_coord +
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
     }
     scratch->data8A = result;
     scratch->data7A = result;
@@ -137,11 +137,11 @@ forward_segment:
         }
         if (object->unk_0C != 0) {
             coord_value = angle_or_coord -
-                (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+                (rsin(((s32)(forward_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         } else {
             coord_value = angle_or_coord +
-                (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+                (rsin(((s32)(forward_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         }
         stepped = forward_angle + 0x80;
@@ -150,13 +150,13 @@ forward_segment:
         next_angle = stepped >> 16;
         scratch->data82 = coord_value;
         scratch->data72 = coord_value;
-        coord_value = func_80064584(next_angle);
+        coord_value = rcos(next_angle);
         angle_or_coord = coord_value << 1;
         angle_or_coord += coord_value;
         angle_or_coord <<= 1;
         angle_or_coord -= origin_y;
         coord_y = angle_or_coord;
-        coord_value = func_800644B8(next_angle) * 6;
+        coord_value = rsin(next_angle) * 6;
         scratch->data88 = angle_or_coord;
         scratch->data78 = angle_or_coord;
         coord_value -= origin_x;
@@ -165,10 +165,10 @@ forward_segment:
         angle_or_coord = coord_value >> 16;
         if (object->unk_0C != 0) {
             result = angle_or_coord -
-                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
         } else {
             result = angle_or_coord +
-                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
         }
         scratch->data8A = result;
         scratch->data7A = result;
@@ -181,9 +181,9 @@ forward_segment:
     angle_or_coord = reverse_angle;
     angle_or_coord <<= 16;
     angle_or_coord >>= 16;
-    coord_value = func_80064584(angle_or_coord) * 6;
+    coord_value = rcos(angle_or_coord) * 6;
     coord_y = coord_value - origin_y;
-    coord_value = func_800644B8(angle_or_coord) * 6;
+    coord_value = rsin(angle_or_coord) * 6;
     coord_x = coord_value - origin_x;
 
 reverse_segment:
@@ -196,11 +196,11 @@ reverse_segment:
     }
     if (object->unk_0C != 0) {
         coord_value = angle_or_coord -
-            (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+            (rsin(((s32)(reverse_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     } else {
         coord_value = angle_or_coord +
-            (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+            (rsin(((s32)(reverse_angle << 16) >> 14) +
                            (object->unk_00 << 5)) >> 1);
     }
     stepped = reverse_angle - 0x80;
@@ -209,13 +209,13 @@ reverse_segment:
     next_angle = stepped >> 16;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;
-    coord_value = func_80064584(next_angle);
+    coord_value = rcos(next_angle);
     angle_or_coord = coord_value << 1;
     angle_or_coord += coord_value;
     angle_or_coord <<= 1;
     angle_or_coord -= origin_y;
     coord_y = angle_or_coord;
-    coord_value = func_800644B8(next_angle) * 6;
+    coord_value = rsin(next_angle) * 6;
     scratch->data80 = angle_or_coord;
     scratch->data70 = angle_or_coord;
     coord_value -= origin_x;
@@ -224,10 +224,10 @@ reverse_segment:
     angle_or_coord = coord_value >> 16;
     if (object->unk_0C != 0) {
         result = angle_or_coord -
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
     } else {
         result = angle_or_coord +
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
     }
     scratch->data82 = result;
     scratch->data72 = result;
@@ -244,11 +244,11 @@ reverse_segment:
         }
         if (object->unk_0C != 0) {
             coord_value = angle_or_coord -
-                (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+                (rsin(((s32)(reverse_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         } else {
             coord_value = angle_or_coord +
-                (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+                (rsin(((s32)(reverse_angle << 16) >> 14) +
                                (object->unk_00 << 5)) >> 1);
         }
         stepped = reverse_angle - 0x80;
@@ -257,13 +257,13 @@ reverse_segment:
         next_angle = stepped >> 16;
         scratch->data8A = coord_value;
         scratch->data7A = coord_value;
-        coord_value = func_80064584(next_angle);
+        coord_value = rcos(next_angle);
         angle_or_coord = coord_value << 1;
         angle_or_coord += coord_value;
         angle_or_coord <<= 1;
         angle_or_coord -= origin_y;
         coord_y = angle_or_coord;
-        coord_value = func_800644B8(next_angle) * 6;
+        coord_value = rsin(next_angle) * 6;
         scratch->data80 = angle_or_coord;
         scratch->data70 = angle_or_coord;
         coord_value -= origin_x;
@@ -272,10 +272,10 @@ reverse_segment:
         angle_or_coord = coord_value >> 16;
         if (object->unk_0C != 0) {
             result = angle_or_coord -
-                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
         } else {
             result = angle_or_coord +
-                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
         }
         scratch->data82 = result;
         scratch->data72 = result;
@@ -423,7 +423,7 @@ void *project_visible_textured_strips(void *origin, void *render_flags, void *dr
                 texture_entry = ((S_800A41D8_1 *)draw_state)->unk_118 + ((((strip_index & 1) * 2) + ((s32) (texture_id
                     << 0x10) >> 0xE)) * 0xC);
                 do {
-                    func_800666F4(prim_buffer);
+                    SetPolyFT4(prim_buffer);
                     ((S_800A41D8_5 *)prim_buffer)->unk_07 =
                         (u8) (((S_800A41D8_5 *)prim_buffer)->unk_07
                         | (((S_800A41D8_6 *)render_flags)->unk_0F & 2));
@@ -461,7 +461,7 @@ void *project_visible_textured_strips(void *origin, void *render_flags, void *dr
                     ((S_800A41D8_5 *)prim_buffer)->unk_1D =
                         (u8) (((S_800A41D8_5 *)prim_buffer)->unk_1D - 1);
                     ((S_800A41D8_5 *)prim_buffer)->unk_25 = (u8) (((S_800A41D8_5 *)prim_buffer)->unk_25 - 1);
-                    func_8006658C(((S_800A41D8_1 *)draw_state)->unk_20
+                    AddPrim(((S_800A41D8_1 *)draw_state)->unk_20
                         + (((u32) ((s32) (0 - ((texture_entry - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555))
                         >> 2) / 12U) * 4), prim_buffer);
                     bucket_index = (u32) ((s32) (0 - ((texture_entry
@@ -479,13 +479,13 @@ void *project_visible_textured_strips(void *origin, void *render_flags, void *dr
                 half_index = 0;
                 entry_cursor = bucket_list;
                 do {
-                    func_80067F20(packet_cursor, 1, 0, func_80066460(0, 0, 0x140, 0) & 0xFFFF, 0);
+                    SetDrawMode(packet_cursor, 1, 0, GetTPage(0, 0, 0x140, 0) & 0xFFFF, 0);
                     draw_mode = packet_cursor;
                     packet_cursor += 0xC;
                     bucket = *(s32 *)entry_cursor;
                     entry_cursor += 4;
                     half_index += 1;
-                    func_8006658C(bucket, draw_mode);
+                    AddPrim(bucket, draw_mode);
                 } while (half_index < 2);
                 prim_buffer = packet_cursor;
                 visible_count += 1;

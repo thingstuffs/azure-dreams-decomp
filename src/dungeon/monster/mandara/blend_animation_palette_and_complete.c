@@ -30,9 +30,9 @@ typedef struct S_80174424_1 {
 } S_80174424_1;   /* out in blend_animation_palette_and_complete */
 
 
-extern void func_80067014(s32);
-extern void func_800672D8(void *, void *);
-extern void func_8006733C(void *, void *);
+extern void DrawSync(s32);
+extern void LoadImage(void *, void *);
+extern void StoreImage(void *, void *);
 
 
 /* Blend palette colors for the current animation frame and flag completion. */
@@ -67,7 +67,7 @@ void blend_animation_palette_and_complete(void *effect)
 
     flags_page = (s32 *)(u32)0x80080000;
 
-    func_8006733C((s8 *)effect + 0xA0, &buffer[4]);
+    StoreImage((s8 *)effect + 0xA0, &buffer[4]);
     buffer[0] = 0x340;
     buffer[2] = 0x80;
     buffer[3] = 2;
@@ -80,7 +80,7 @@ void blend_animation_palette_and_complete(void *effect)
         frame = ((S_80174424_0 *)effect)->unk_96;
         blend_frame = (u16)column - frame;
     }
-    func_80067014(0);
+    DrawSync(0);
 
     palette_row = 12;
     buffer_base = buffer;
@@ -150,6 +150,6 @@ unpack_pair:
         column = 15;
     } while (palette_row >= 0);
 
-    func_800672D8(buffer, &buffer[4]);
-    func_80067014(0);
+    LoadImage(buffer, &buffer[4]);
+    DrawSync(0);
 }

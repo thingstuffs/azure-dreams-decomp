@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 /* The 0x54-byte ring ends at the adjacent weights-table address.
  * Name the bounded ring without guessing the following table's extent. */
 typedef struct { u8 packets[0x54]; } PacketRing;
@@ -56,7 +56,7 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
     axes_left = 3;
     do {
         axes_left -= 1;
-        jitter = (func_80069EF8() & 0xF) - 8;
+        jitter = (rand() & 0xF) - 8;
         base_value = *base_coord;
         base_coord += 1;
         (((JitterAxis *)motion_axis)->whole.value) = (s16) (base_value + (jitter * D_80024AE0[(((JitterEffect *)effect)->phase)]));

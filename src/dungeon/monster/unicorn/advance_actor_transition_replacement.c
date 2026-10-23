@@ -36,7 +36,7 @@ extern s32 read_stream_cue_start_offset();
 extern s32 register_node();
 extern void select_indirect_table_entry();
 extern s32 lookup_masked_byte_table();
-extern s32 func_80069EF8();
+extern s32 rand();
 extern s32 unlink_entity_node();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s32 decrement_monster_entry_count();
@@ -238,7 +238,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             s16 effect_index = lookup_masked_byte_table(actor) - 1;
 
             if (effect_index < 0) {
-                effect_index = func_80069EF8() % 3;
+                effect_index = rand() % 3;
             }
             select_record_entry_and_value(object, D_8014A000 + D_80174E2C[effect_index], 0);
         }

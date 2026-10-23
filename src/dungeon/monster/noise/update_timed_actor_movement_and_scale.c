@@ -46,7 +46,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             motion->value_10 = (((sprite->unk_25 << 6) - current_y) << 16) /
                                state->count_9e.s;
             frames_left = state->count_9e.s;
-            state->value_a4 = (-func_800644B8(frames_left * 0x199)) << 9;
+            state->value_a4 = (-rsin(frames_left * 0x199)) << 9;
         }
 
         state->value_90 += state->value_a4;

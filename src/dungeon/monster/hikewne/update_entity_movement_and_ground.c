@@ -9,7 +9,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -147,7 +147,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                         bob_tick = (*(u16 *)((u8 *)entity + (0x9E)))++;
                         signed_tick = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = signed_tick * 0xE3;
-                        (*(s32 *)((u8 *)entity + (0xA0))) = func_800644B8(bob_angle) << 7;
+                        (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = hikewne_alt_direction_frames;
                             select_sprite_entry(sprite, hikewne_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -157,7 +157,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                         bob_tick = (*(u16 *)((u8 *)entity + (0x9E)))++;
                         signed_tick = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = signed_tick * 0xE3;
-                        (*(s32 *)((u8 *)entity + (0xA0))) = func_800644B8(bob_angle) << 7;
+                        (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = D_801740E0;
                             select_sprite_entry(sprite, D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -214,7 +214,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                     bob_tick = (*(u16 *)((u8 *)entity + (0x9E)))++;
                     signed_tick = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = signed_tick * 0xE3;
-                    (*(s32 *)((u8 *)entity + (0xA0))) = func_800644B8(bob_angle) << 7;
+                    (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = hikewne_alt_direction_frames;
                         select_sprite_entry(sprite, hikewne_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -224,7 +224,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                     bob_tick = (*(u16 *)((u8 *)entity + (0x9E)))++;
                     signed_tick = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = signed_tick * 0xE3;
-                    (*(s32 *)((u8 *)entity + (0xA0))) = func_800644B8(bob_angle) << 7;
+                    (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = D_801740E0;
                         select_sprite_entry(sprite, D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle

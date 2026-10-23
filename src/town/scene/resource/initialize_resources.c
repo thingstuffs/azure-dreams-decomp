@@ -7,7 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 extern void play_movie_with_fixed_display_flag(s32 a0, s32 a1);
-extern void func_80066F78(s32 a0);
+extern void SetDispMask(s32 a0);
 extern void file_load_com(void *arg);
 extern void find_or_load_runtime_resource_key(void *arg);
 extern void reserve_twch_load(s32 a0);
@@ -21,7 +21,7 @@ void initialize_resources(void)
 {
     u8 *resource_data;
     play_movie_with_fixed_display_flag(1, 0x73);
-    func_80066F78(1);
+    SetDispMask(1);
     file_load_com(&town_scene_resource_descriptor);
     resource_data = &D_800D1D54;
     file_load_com(resource_data);

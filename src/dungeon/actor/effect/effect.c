@@ -281,7 +281,7 @@ typedef struct {
     u16 value_1e;
 } FuncArg2;
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 /* Updates a two-phase visual effect's size, brightness, and motion. */
 void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2 *visual) {
@@ -299,8 +299,8 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
     case 1:
         updated_value = effect->counter + 1;
         effect->counter = updated_value;
-        visual->value_1c = visual->value_1c + func_800644B8((s32)(updated_value << 16) >> 11);
-        visual->value_1e = visual->value_1e - func_800644B8(((s16)effect->counter) << 5);
+        visual->value_1c = visual->value_1c + rsin((s32)(updated_value << 16) >> 11);
+        visual->value_1e = visual->value_1e - rsin(((s16)effect->counter) << 5);
         updated_value = effect->remaining - 1;
         effect->remaining = updated_value;
         if ((s16)updated_value > 0) {
@@ -314,8 +314,8 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
         if ((s16)updated_value <= 0) {
             effect->counter = min_counter;
         }
-        visual->value_1c = visual->value_1c - (func_800644B8(((s16)effect->counter) << 5) * 2);
-        visual->value_1e = visual->value_1e + (func_800644B8(((s16)effect->counter) << 5) * 4);
+        visual->value_1c = visual->value_1c - (rsin(((s16)effect->counter) << 5) * 2);
+        visual->value_1e = visual->value_1e + (rsin(((s16)effect->counter) << 5) * 4);
         motion->value_14 = motion->value_14 - 0x20000;
         updated_value = visual->value_e - 4;
         visual->value_e = updated_value;
@@ -635,17 +635,17 @@ void create_floor_item_renderer(void) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void func_80064840();
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064BC0();
-extern void func_80064CF0();
-extern void func_80064D80();
-extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800654B0();
-extern void func_80065820();
-extern void func_8006658C();
-extern void func_800666F4();
+extern void CompMatrix();
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ScaleMatrix();
+extern void SetRotMatrix();
+extern void SetTransMatrix();
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern void RotTransPers4();
+extern void RotMatrix();
+extern void AddPrim();
+extern void SetPolyFT4();
 
 extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
@@ -731,13 +731,13 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
             U16(scratch, 4) = world_z;
             sprite = *(u8 **)(entity + 8);
             U16(entity, 2) = world_z;
-            depth = func_80065420(scratch, scratch + 0xB8, scratch + depth_offset, scratch + flags_offset);
+            depth = RotTransPers(scratch, scratch + 0xB8, scratch + depth_offset, scratch + flags_offset);
             U32(scratch, 0xC0) = depth;
             U32(view_matrix, 0x1C) = depth * 4;
             U32(scratch, 0xC0) -= 2;
             sort_depth = U32(scratch, 0xC0);
             if ((u32)sort_depth < 0x1E0) {
-                func_800649A0();
+                PushMatrix();
                 matrix_or_prim = rotation_matrix;
                 U16(scratch, 0xB8) = U16(scratch, 0xB8) - 0xA0;
                 U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
@@ -747,7 +747,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                 angle_y = (camera_angles.c + 0x100) & 0x1FF;
                 angle_y_offset = U16(render_params, 0x18) - 0x100;
                 U16(scratch, 0x102) = angle_y + angle_y_offset;
-                func_80065820(scratch + 0x100, matrix_or_prim);
+                RotMatrix(scratch + 0x100, matrix_or_prim);
                 vertex3 = scratch + 0x88;
                 screen0 = scratch + 0xF0;
                 screen1 = scratch + 0xF4;
@@ -755,9 +755,9 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                 screen3 = scratch + 0xFC;
                 depth_out = scratch + 0x90;
                 flags_out = scratch + 0x94;
-                func_80064840(view_matrix, rotation_matrix, transform);
-                func_80064D80(transform);
-                func_80064CF0(transform);
+                CompMatrix(view_matrix, rotation_matrix, transform);
+                SetTransMatrix(transform);
+                SetRotMatrix(transform);
                 for (;;) {
                     if (!(U8(sprite, 0) & 0x20)) {
                         tex_u = U8(sprite, 0x8);
@@ -788,7 +788,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                         quad_bottom = quad_top + U16(scratch, 0x14);
                         S16(scratch, 0x8A) = quad_bottom;
                         S16(scratch, 0x82) = quad_bottom;
-                        func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+                        RotTransPers4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                             depth_out, flags_out);
                         U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
                         U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
@@ -845,11 +845,11 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                                 U8(prim, 0x25) = U8(prim, 0x25) - 1;
                             }
                             S32(prim, 0x4) = S32(render_params, 0xC);
-                            func_800666F4(prim);
+                            SetPolyFT4(prim);
                             matrix_or_prim = prim;
-                            func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
+                            AddPrim(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
                             prim += 40;
-                            func_800649A0();
+                            PushMatrix();
                             shadow_scale.vz = (s32)(s16)(*(u16 *)(scratch + 4)) - 4;
                             shadow_scale.vz = ((shadow_scale.vz - (s32)(s16)(*(u16 *)(scratch + 4))) << 5) + 0x1000;
                             if (shadow_scale.vz < 0) {
@@ -860,14 +860,14 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                             shadow_scale.vy = shadow_scale.vz / 2;
                             U16(scratch, 0x100) = -camera_angles.a;
                             U16(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z - camera_angles.b;
-                            func_80065820(scratch + 0x100, rotation_matrix);
-                            func_80064840(matrix_page - 0x32D0, rotation_matrix, transform);
-                            func_80064BC0(transform, &shadow_scale);
-                            func_80064D80(transform);
-                            func_80064CF0(transform);
+                            RotMatrix(scratch + 0x100, rotation_matrix);
+                            CompMatrix(matrix_page - 0x32D0, rotation_matrix, transform);
+                            ScaleMatrix(transform, &shadow_scale);
+                            SetTransMatrix(transform);
+                            SetRotMatrix(transform);
                             U16(scratch, 0x70) = U16(scratch, 0x70) + 6;
                             U16(scratch, 0x78) = U16(scratch, 0x78) + 6;
-                            func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+                            RotTransPers4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                                 depth_out, flags_out);
                             U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
                             U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
@@ -890,11 +890,11 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                                 U8(prim, 0x25) = U8(prim, 0x25) - 1;
                             }
                             S32(prim, 0x4) = S32(render_params, 0xC);
-                            func_800666F4(prim);
+                            SetPolyFT4(prim);
                             U8(prim, 0x7) = U8(prim, 0x7) | 2;
-                            func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, prim);
+                            AddPrim(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, prim);
                             prim += 40;
-                            func_80064A40();
+                            PopMatrix();
                         }
                     }
                     if (S8(sprite, 0) < 0) {
@@ -902,7 +902,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                     }
                     sprite += 12;
                 }
-                func_80064A40();
+                PopMatrix();
             }
         }
         entity_index += 1;

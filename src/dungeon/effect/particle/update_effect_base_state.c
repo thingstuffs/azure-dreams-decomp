@@ -46,11 +46,11 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     sprite = spawned->sprite;
                     spawned->unk_10 = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(spawned->position))->unk_00.s =
-                        ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
+                        ((S_81844800_3 *)motion)->unk_00.at00.v + (((rand() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(spawned->position))->unk_04.s =
-                        ((S_81844800_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
+                        ((S_81844800_3 *)motion)->unk_04.at00.v + (((rand() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(spawned->position))->unk_08.at00.v =
-                        ((S_81844800_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 10);
+                        ((S_81844800_3 *)motion)->unk_08.at00.v + (((rand() & 0x1FF) - 255) << 10);
 
                     {
                         u16 flags = sprite->flags;
@@ -68,7 +68,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                         }
                     }
                     ((S_81844800_2 *)spawned)->unk_20 = effect;
-                    ((S_81844800_6 *)particle_data)->unk_48 = func_80069EF8() & 3;
+                    ((S_81844800_6 *)particle_data)->unk_48 = rand() & 3;
                     ((S_81844800_6 *)particle_data)->unk_4A = 8;
                     ((S_81844800_6 *)particle_data)->unk_4C = 0;
                 }
@@ -232,12 +232,12 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     ((S_81844800_3 *)motion)->unk_00.at00.v;
                 ((S_81844800_14 *)(spawned->position))->unk_04.u =
                     ((S_81844800_3 *)motion)->unk_04.at00.v;
-                state = (func_80069EF8() & 0x3F) - 176;
+                state = (rand() & 0x3F) - 176;
                 ((S_81844800_14 *)(spawned->position))->unk_08.at02.v =
                     ((S_81844800_3 *)motion)->unk_08.at02.v - state;
-                ((S_81844800_14 *)(spawned->position))->unk_0E = (func_80069EF8() & 0xF) - 8;
-                ((S_81844800_14 *)(spawned->position))->unk_12 = (func_80069EF8() & 0xF) - 8;
-                ((S_81844800_14 *)(spawned->position))->unk_16 = -(func_80069EF8() & 7);
+                ((S_81844800_14 *)(spawned->position))->unk_0E = (rand() & 0xF) - 8;
+                ((S_81844800_14 *)(spawned->position))->unk_12 = (rand() & 0xF) - 8;
+                ((S_81844800_14 *)(spawned->position))->unk_16 = -(rand() & 7);
                 {
                     u16 flags = sprite->flags;
                     sprite->scale_y = 0x1000;
@@ -254,7 +254,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     }
                 }
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
-                ((S_81844800_6 *)particle_data)->unk_48 = func_80069EF8() & 3;
+                ((S_81844800_6 *)particle_data)->unk_48 = rand() & 3;
                 ((S_81844800_6 *)particle_data)->unk_4A = 16;
                 ((S_81844800_6 *)particle_data)->unk_4C = 0;
             }
@@ -415,7 +415,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         scratch_or_height = &screen_coords[2];
         screen_pos = screen_base;
         do {
-            depth_bucket = func_80065420(&world_pos, screen_pos, scratch_or_height, scratch_or_height) - 8;
+            depth_bucket = RotTransPers(&world_pos, screen_pos, scratch_or_height, scratch_or_height) - 8;
             screen_pos++;
             index_or_jitter++;
             *(u16 *)((u8 *)&world_pos + 4) =
@@ -429,10 +429,10 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
             prim = LOAD_PTR(alloc_ctx + 0x8D0);
             LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
             STORE_U32(prim + 4, 0x00808080);
-            func_800666F4(prim);
-            func_80066640(prim, 1);
-            STORE_U16(prim + 0x16, func_80066460(0, 0, 0x2C0, 0x100));
-            STORE_U16(prim + 0x0E, func_8006649C(0xA0, 0x1F7));
+            SetPolyFT4(prim);
+            SetSemiTrans(prim, 1);
+            STORE_U16(prim + 0x16, GetTPage(0, 0, 0x2C0, 0x100));
+            STORE_U16(prim + 0x0E, GetClut(0xA0, 0x1F7));
 
             ((Scratch *)&screen_coords[2])->word = (s32)scratch_or_height / 6;
             vertex_x = screen_coords[0].x;
@@ -481,12 +481,12 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         prim = LOAD_PTR(alloc_ctx_2 + 0x8D0);
         LOAD_PTR(alloc_ctx_2 + 0x8D0) = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);
-        func_800666F4(prim);
-        func_80066640(prim, 1);
-        STORE_U16(prim + 0x16, func_80066460(0, 3, 0x2C0, 0x100));
-        STORE_U16(prim + 0x0E, func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8));
+        SetPolyFT4(prim);
+        SetSemiTrans(prim, 1);
+        STORE_U16(prim + 0x16, GetTPage(0, 3, 0x2C0, 0x100));
+        STORE_U16(prim + 0x0E, GetClut((rand() & 0xF) << 4, 0x1F8));
 
-        index_or_jitter = func_80069EF8() & 1;
+        index_or_jitter = rand() & 1;
         tex_value = *(u8 *)&uv_choices[index_or_jitter];
         STORE_U8(prim + 0x1C, tex_value);
         STORE_U8(prim + 0x0C, tex_value);
@@ -500,7 +500,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         STORE_U8(prim + 0x25, tex_value);
         STORE_U8(prim + 0x1D, tex_value);
 
-        random_value = func_80069EF8();
+        random_value = rand();
         index_or_jitter = (random_value % 64) - 0x20;
         ((Scratch *)&screen_coords[2])->word = (s32)scratch_or_height / 6;
         index_or_jitter = (index_or_jitter >> 1) + (index_or_jitter >> 2);

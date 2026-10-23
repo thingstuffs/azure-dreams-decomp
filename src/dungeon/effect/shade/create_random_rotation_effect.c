@@ -21,9 +21,9 @@ typedef union {
 
 extern s32 select_record_entry_and_value();
 extern s32 register_node();
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern s32 func_80069EF8();
+extern s32 rsin();
+extern s32 rcos();
+extern s32 rand();
 
 extern u8 D_80024710[];
 extern u8 D_800DEC70[];
@@ -113,7 +113,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             render_table = D_800DEC70;
             select_record_entry_and_value(render_arg, render_table, 0);
         }
-        random_value = func_80069EF8();
+        random_value = rand();
         biased_random = random_value;
         ((SpriteFrameState *)render_or_radius)->angle_z = (random_value % 4096);
         ((SpriteFrameState *)render_or_radius)->scale_y = 0x1000;
@@ -124,13 +124,13 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
         divisor_reciprocal = (s32)position_addr;
         *(Copy24 *)data_addr = *(Copy24 *)divisor_reciprocal;
 
-        random_value = func_80069EF8();
+        random_value = rand();
         divisor_reciprocal = 0x78787879;
         render_or_radius = (uptr)random_value;
         offset_angle = (s16)offset_angle;
         render_or_radius = (uptr)((s32)render_or_radius % 17);
         render_or_radius += 0x20;
-        y_factor = func_800644B8(offset_angle) >> 4;
+        y_factor = rsin(offset_angle) >> 4;
         radius = (s16)render_or_radius;
         {
             s32 x_offset;
@@ -139,7 +139,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
         }
         {
-            y_factor = func_80064584(offset_angle) >> 4;
+            y_factor = rcos(offset_angle) >> 4;
             scaled_radius = y_factor * (s32)radius;
             y_offset = scaled_radius << 8;
             new_y = (*(s32 *)((u8 *)((void *)data_addr) + 4)) + y_offset;

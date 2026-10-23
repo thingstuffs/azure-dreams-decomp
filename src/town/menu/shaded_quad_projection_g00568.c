@@ -40,11 +40,11 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
         ((S_800A2E30_1 *)packet)->unk_0E = 0;
         ((S_800A2E30_1 *)packet)->unk_0D = 0;
         ((S_800A2E30_1 *)packet)->unk_0C = 0;
-        func_80066708(packet);
+        SetPolyG4(packet);
     }
-    func_80066640(packet, 1);
+    SetSemiTrans(packet, 1);
 
-    depth_or_page = func_800654B0((InputPair *)&vertex_0, (InputPair *)&vertex_1, (InputPair *)&vertex_2, (InputPair *)&vertex_3,
+    depth_or_page = RotTransPers4((InputPair *)&vertex_0, (InputPair *)&vertex_1, (InputPair *)&vertex_2, (InputPair *)&vertex_3,
                           &screen_0, &screen_1, &screen_2, &screen_3, &depth_cue, &transform_flags);
 
     ((S_800A2E30_1 *)packet)->unk_08 = screen_0.first;
@@ -63,15 +63,15 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
         depth_or_page = 0;
     }
 
-    func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
+    AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 
     draw_ctx = *(u8 **)&g_game_work.draw_buffer;
     packet = ((GpuContext *)draw_ctx)->packetCursor;
     ((GpuContext *)draw_ctx)->packetCursor = packet + 0xC;
-    depth_or_page = func_80066460(0, 1, 0x140, 0);
-    func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
+    depth_or_page = GetTPage(0, 1, 0x140, 0);
+    SetDrawMode(packet, 0, 0, (u16)depth_or_page, 0);
 
-    func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
+    AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 }
 
 static __inline__ s16 scale_trig(s32 trig, s32 radius)
@@ -104,10 +104,10 @@ void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16
     copy_menu_vector_halfwords(start_a, &center);
     start_b = &point_b;
     copy_menu_vector_halfwords(start_b, &center);
-    point_a.h[0] = offset_coord(point_a.h[0], scale_trig(func_800644B8(0), radius_a));
-    point_a.h[1] = offset_coord(point_a.h[1], scale_trig(func_80064584(0), radius_a));
-    point_b.h[0] = offset_coord(point_b.h[0], scale_trig(func_800644B8(0), radius_b));
-    point_b.h[1] = offset_coord(point_b.h[1], scale_trig(func_80064584(0), radius_b));
+    point_a.h[0] = offset_coord(point_a.h[0], scale_trig(rsin(0), radius_a));
+    point_a.h[1] = offset_coord(point_a.h[1], scale_trig(rcos(0), radius_a));
+    point_b.h[0] = offset_coord(point_b.h[0], scale_trig(rsin(0), radius_b));
+    point_b.h[1] = offset_coord(point_b.h[1], scale_trig(rcos(0), radius_b));
     angle = 0;
     segment_count = 0;
     point_a_ptr = start_a;
@@ -122,11 +122,11 @@ void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16
             angle += 0x100;
             copy_menu_vector_halfwords(point_a_ptr, &center);
             copy_menu_vector_halfwords(point_b_ptr, &center);
-            point_a.h[0] = offset_coord(point_a.h[0], scale_trig(func_800644B8(angle), radius_a));
-            point_a.h[1] = offset_coord(point_a.h[1], scale_trig(func_80064584(angle), radius_a));
-            point_b.h[0] = offset_coord(point_b.h[0], scale_trig(func_800644B8(angle), radius_b));
+            point_a.h[0] = offset_coord(point_a.h[0], scale_trig(rsin(angle), radius_a));
+            point_a.h[1] = offset_coord(point_a.h[1], scale_trig(rcos(angle), radius_a));
+            point_b.h[0] = offset_coord(point_b.h[0], scale_trig(rsin(angle), radius_b));
             segment_count++;
-            point_b.h[1] = offset_coord(point_b.h[1], scale_trig(func_80064584(angle), radius_b));
+            point_b.h[1] = offset_coord(point_b.h[1], scale_trig(rcos(angle), radius_b));
             project_and_enqueue_shaded_quad(prev_a, prev_b,
                           *(Packed8 *)&point_a,
                           *(Packed8 *)&point_b,

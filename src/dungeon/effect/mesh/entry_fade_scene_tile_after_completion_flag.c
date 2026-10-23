@@ -28,8 +28,8 @@ typedef struct {
 
 extern void func_80024770(s32, s32, s32);
 extern void fade_scene_tile_after_completion_flag(s32, s32, s32, s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
 s32 draw_shaded_rotating_vertex_strip(Record *record) {
@@ -83,31 +83,31 @@ shade:
         s32 fixed_coord;
         s32 trig_value;
 
-        trig_value = func_800644B8(record->f40 + record->add);
+        trig_value = rsin(record->f40 + record->add);
         scale = record->scale10;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
         vertices[12] = fixed_coord;
 
-        trig_value = func_800644B8(record->f41 + record->add);
+        trig_value = rsin(record->f41 + record->add);
         scale = record->scale11;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
         vertices[16] = fixed_coord;
 
-        trig_value = func_800644B8(record->f35 + record->add);
+        trig_value = rsin(record->f35 + record->add);
         scale = record->scale0;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
         vertices[20] = fixed_coord;
 
-        trig_value = func_80064584(record->f40 + record->add);
+        trig_value = rcos(record->f40 + record->add);
         scale = record->scale10;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
         vertices[13] = fixed_coord;
 
-        trig_value = func_80064584(record->f41 + record->add);
+        trig_value = rcos(record->f41 + record->add);
         scale = record->scale11;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
@@ -117,7 +117,7 @@ shade:
 
             lower_color = record->f35 + record->add;
             segment = 0;
-            trig_value = func_80064584(lower_color);
+            trig_value = rcos(lower_color);
         }
         {
             s32 intensity;
@@ -171,16 +171,16 @@ shade:
         s32 prev_z;
 
         vertices[12] = vertices[16];
-        scaled_coord = (func_800644B8(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
+        scaled_coord = (rsin(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
         vertices[20] = vertices[24];
         vertices[16] = scaled_coord << 8;
-        scaled_coord = (func_800644B8(((s16 *)record)[segment + 36] + record->add) >> 4) * ((s16 *)record)[segment + 6];
+        scaled_coord = (rsin(((s16 *)record)[segment + 36] + record->add) >> 4) * ((s16 *)record)[segment + 6];
         vertices[13] = vertices[17];
         vertices[24] = scaled_coord << 8;
-        scaled_coord = (func_80064584(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
+        scaled_coord = (rcos(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
         vertices[21] = vertices[25];
         vertices[17] = scaled_coord << 8;
-        last_trig_value = func_80064584(((s16 *)record)[segment + 36] + record->add);
+        last_trig_value = rcos(((s16 *)record)[segment + 36] + record->add);
 
         lower_shade = (22 - segment) * shade_step;
         upper_shade = (28 - segment) * shade_step;

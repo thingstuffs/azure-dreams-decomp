@@ -314,11 +314,11 @@ void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *so
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
 void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);
 void select_record_entry_and_value(void *, void *, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-extern s32 func_80066460(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
+extern s32 rcos(s32);
+extern s32 rsin(s32);
 extern s32 generate_random_value(void);
 extern void func_80042640(void *, s32);
 extern void *create_actor_at_tile(u8, s16, s16, s16);

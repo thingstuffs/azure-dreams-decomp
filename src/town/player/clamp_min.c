@@ -5,7 +5,7 @@
 #include "sdk/libgte.h"
 extern int abs(int);
 
-s32 func_80065F90(s32, s32);             /* extern */
+s32 ratan2(s32, s32);             /* extern */
 
 
 static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }
@@ -34,13 +34,13 @@ void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(En
         clamped_x = clamp_min(initial_x, min_component);
         initial_y = record->unk_10;
         clamped_y = clamp_min(initial_y, min_component);
-        x_step = func_80065F90(clamped_x, clamped_y);
-        signed_x_step = func_800644B8(x_step);
+        x_step = ratan2(clamped_x, clamped_y);
+        signed_x_step = rsin(x_step);
         y_step = x_step;
         signed_x_step = signed_x_step << 5;
         x_step = signed_x_step;
         x_step = abs(x_step);
-        signed_y_step = func_80064584(y_step);
+        signed_y_step = rcos(y_step);
         signed_y_step = signed_y_step << 5;
         current_x = record->unk_0C;
         y_step = abs(signed_y_step);

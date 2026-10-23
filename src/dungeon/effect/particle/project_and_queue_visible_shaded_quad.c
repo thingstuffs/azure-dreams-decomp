@@ -11,17 +11,17 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 typedef struct S_func_81970800_1 {
     u8 pad_00[0x24];
@@ -154,7 +154,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     scratch->unk_90 = position->unk_0A;
     object->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
@@ -162,19 +162,19 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     scratch->unk_A4 = object->unk_16;
     scratch->unk_A8 = object->unk_1A;
     scratch->unk_A6 = object->unk_18;
-    func_80065820(&scratch->unk_A4, (u8 *)scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    func_80064BC0((u8 *)scratch + 0x54, &scratch->unk_34);
-    func_80064D80((u8 *)scratch + 0x54);
-    func_80064CF0((u8 *)scratch + 0x54);
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = object->unk_08;
     scratch->unk_28 = object->unk_14;
 
     packet = (S_func_81970800_5 *)((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0;
     ((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0 = (u8 *)packet + 0xC;
-    func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
+    SetDrawMode(packet, 0, 0, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     (packet->unk_00.unk_00) = (packet->unk_00.unk_00 & 0xFF000000) |
         (((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)g_game_work.draw_buffer + 0xB0)) =
@@ -202,7 +202,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     scratch->unk_C4 = quad->unk_5C;
     scratch->unk_CC = quad->unk_62;
 
-    depth = func_80065590(&scratch->unk_B0, &scratch->unk_B8,
+    depth = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
                           &scratch->unk_C0, &scratch->unk_C8,
                           &packet->unk_08, &packet->unk_10,
                           &packet->unk_18, &packet->unk_20,
@@ -242,7 +242,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
 
             packet = (S_func_81970800_5 *)((S_func_81970800_6 *)(*render_context_ref))->unk_8D0;
             ((S_func_81970800_6 *)(*render_context_ref))->unk_8D0 = (u8 *)packet + 0xC;
-            func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             packet->unk_00.unk_00 = (packet->unk_00.unk_00 & 0xFF000000) |
                 (scratch->unk_24[scratch->unk_100] & 0x00FFFFFF);
             scratch->unk_24[scratch->unk_100] =
@@ -251,7 +251,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 /* Selector 59, retail file [0x1990D44, 0x1990D98); complete callable clone. */
@@ -283,7 +283,7 @@ s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *obj
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
-extern u32 func_80065420();
+extern u32 RotTransPers();
 
 /* Position the point is projected from: three 4-byte slots, only the second halfword of each is used. */
 
@@ -331,7 +331,7 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
+        depth_index = RotTransPers(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
         if (depth_index < 0x1E0U) {
             *(u32 *)&packet->r = record->color;
@@ -347,7 +347,7 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
 
             mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
-            func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
             ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
@@ -821,7 +821,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 func_80069EF8();
+s32 rand();
 extern M2C_UNK D_80025FE8;
 
 typedef struct S_81971760_0 {
@@ -885,15 +885,15 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
         render_data->unk_06 = 6;
         render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
         offset_x = (s32)effect->position;
-        random_value = func_80069EF8();
+        random_value = rand();
         coord = effect_state->unk_44;
         coord -= 0x10;
         effect_state->unk_44 = coord + (random_value & 0x1F);
-        random_value = func_80069EF8();
+        random_value = rand();
         coord = effect_state->unk_46;
         coord -= 0x10;
         effect_state->unk_46 = coord + (random_value & 0x1F);
-        random_value = func_80069EF8();
+        random_value = rand();
         coord = effect_state->unk_48;
         jittered_x = effect_state->unk_44;
         coord -= 0x10;
@@ -1086,7 +1086,7 @@ extern Data12 D_80025FDC;
 
 extern s32 read_sound_mode_blocking_status(s32);
 extern void *get_sprite_attachment_vector(void *, void *, void *, s16);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
 void advance_effect_sequence(void *effect, void *owner, void *context_arg)
@@ -1164,7 +1164,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     step = 0;
                     do {
                         spawn_random_offset_effect_record((u8 *)(*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x) - 0x20, 0,
-                                      0xE04040, (func_80069EF8() & 0x3F) | 0x40,
+                                      0xE04040, (rand() & 0x3F) | 0x40,
                                       ((S_8197192C_0 *)effect)->unk_2E.s,
                                       ((S_8197192C_0 *)effect)->unk_30.s,
                                       ((S_8197192C_0 *)effect)->unk_32.s);

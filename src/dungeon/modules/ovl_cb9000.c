@@ -905,7 +905,7 @@ void func_8016C458(void *action, ObjectPosition *motion, SpriteFrameState *map_e
             move_value = (move_value << 0x10) / move_operand;
             motion->velocity_y = move_value;
             if (((CL_CB9000_80172458_S_80172458_0 *)action)->unk_A4 == 3) {
-                ((CL_CB9000_80172458_S_80172458_0 *)action)->unk_A0 = (s32) ((0 - func_800644B8(((CL_CB9000_80172458_S_80172458_0 *)action)->unk_9E * 0x155))
+                ((CL_CB9000_80172458_S_80172458_0 *)action)->unk_A0 = (s32) ((0 - rsin(((CL_CB9000_80172458_S_80172458_0 *)action)->unk_9E * 0x155))
                     << 9);
                 ((CL_CB9000_80172458_S_80172458_0 *)action)->unk_90 += ((CL_CB9000_80172458_S_80172458_0 *)action)->unk_A0;
             } else {
@@ -1710,7 +1710,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_90 = ((CL_CB9000_80173E40_S_80173E40_1 *)position)->unk_0A;
     ((CL_CB9000_80173E40_S_80173E40_2 *)render_info)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_3C = 0x2000;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_38 = 0x2000;
@@ -1718,18 +1718,18 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A4 = ((CL_CB9000_80173E40_S_80173E40_2 *)render_info)->unk_16;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A8 = ((CL_CB9000_80173E40_S_80173E40_2 *)render_info)->unk_1A;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_A6 = ((CL_CB9000_80173E40_S_80173E40_2 *)render_info)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&current_matrix);
-    func_80064840(&current_matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&current_matrix);
+    CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_28 = ((CL_CB9000_80173E40_S_80173E40_2 *)render_info)->unk_14;
     packet = ((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
-    func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0), 0);
+    SetDrawMode(packet, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
     (*(u32 *)((u8 *)packet + 0)) = (((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
         (((CL_CB9000_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
@@ -1756,7 +1756,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_C4 = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_54;
     ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_CC = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_5A;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x10,
                              packet + 0x18, packet + 0x20,
@@ -1785,7 +1785,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_08;
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_14 = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_0C;
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CL_CB9000_80173E40_S_80173E40_6 *)quad)->unk_10;
-            func_80066708(packet);
+            SetPolyG4(packet);
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
 
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
@@ -1798,7 +1798,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
 
             packet = ((CL_CB9000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0;
             ((CL_CB9000_80173E40_S_80173E40_7 *)(render_state_ptr->draw_buffer))->unk_8D0 = packet + 0xC;
-            func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0), 0);
+            SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0), 0);
             ((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 = (((CL_CB9000_80173E40_S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_24.p2)
                     + ((CL_CB9000_80173E40_S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
@@ -1809,7 +1809,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 /* Draws each effect in the linked list using its position and color records. */
@@ -2030,11 +2030,11 @@ void func_8016E724(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *e
                 ((CL_CB9000_80174724_S_80C96F24_4 *)render_state)->unk_0C = 0x80;
 
                 ((CL_CB9000_80174724_S_80C96F24_3 *)effect)->unk_20 =
-                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
+                    (rand() & 0x1F) + 0x10 + shade_offset;
                 ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_01 =
-                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
+                    (rand() & 0x1F) + 0x10 + shade_offset;
                 ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_02 =
-                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
+                    (rand() & 0x1F) + 0x10 + shade_offset;
 
                 {
                     s32 segment_index = (s16)segment;
@@ -2075,31 +2075,31 @@ void func_8016E724(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *e
                     render_data = effect_data + 0x7A;
                     ((CL_CB9000_80174724_S_80C96F24_4 *)render_state)->unk_08 = render_data;
 
-                    product = start_radius * func_80064584(trig_angle);
+                    product = start_radius * rcos(trig_angle);
                     start_angle = angle_index << 9;
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_44 = last_band;
-                    product = start_radius * func_80064584(start_angle);
+                    product = start_radius * rcos(start_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_4A = last_band;
-                    trig_value = func_80064584(end_angle);
+                    trig_value = rcos(end_angle);
                     end_radius_copy = end_radius;
                     product = end_radius_copy * trig_value;
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_50 = last_band;
-                    product = end_radius_copy * func_80064584(start_angle);
+                    product = end_radius_copy * rcos(start_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_56 = last_band;
-                    product = start_radius * func_800644B8(end_angle);
+                    product = start_radius * rsin(end_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_46 = last_band;
-                    product = start_radius * func_800644B8(start_angle);
+                    product = start_radius * rsin(start_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_4C = last_band;
-                    product = end_radius_copy * func_800644B8(end_angle);
+                    product = end_radius_copy * rsin(end_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_52 = last_band;
-                    product = end_radius_copy * func_800644B8(start_angle);
+                    product = end_radius_copy * rsin(start_angle);
                     last_band = product >> 12;
                     ((CL_CB9000_80174724_S_80C96F24_1 *)effect_data)->unk_58 = last_band;
                 }
@@ -2297,7 +2297,7 @@ void func_8016ED14(void *state, EntityRec *position, SpriteFrameState *entity, v
         effect_type = lookup_masked_byte_table(actor) - 1;
         effect_index = effect_type;
         if ((effect_type << 0x10) < 0) {
-            effect_index = func_80069EF8() % 3;
+            effect_index = rand() % 3;
         }
         effect_data = (void *)(*((s32 *)&D_8016F318 + (s16) effect_index) + (s32)&D_8014A000);
         select_record_entry_and_value(render_obj, effect_data, 0);

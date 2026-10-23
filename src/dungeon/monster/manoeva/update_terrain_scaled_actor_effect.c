@@ -74,8 +74,8 @@ typedef struct S_8017474C_8 {
 
 
 extern s32 get_entity_effect_value(void *, s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s32 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_8017398C[];
@@ -170,28 +170,28 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         ((S_8017474C_6 *)out_render)->unk_12 = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_12;
         ((S_8017474C_6 *)out_render)->unk_0C = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_0C;
         ((S_8017474C_6 *)out_render)->unk_1C = ((S_8017474C_0 *)effect)->unk_1C.s +
-            (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
+            (rcos(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
         ((S_8017474C_6 *)out_render)->unk_1E = ((S_8017474C_0 *)effect)->unk_1C.s +
-            (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
+            (rsin(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
 
         effect_kind = *((S_8017474C_0 *)effect)->unk_04;
         if (effect_kind == 0xF) {
             ((S_8017474C_0 *)effect)->unk_22 =
-                (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
+                (rcos(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_24 =
-                (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
+                (rsin(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_26 =
-                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_28 =
-                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_2A =
-                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_2C =
-                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_2E =
-                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
             ((S_8017474C_0 *)effect)->unk_30 =
-                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
         } else if (effect_kind == 0) {
             ((S_8017474C_0 *)effect)->unk_1C.u = 0;
         } else {

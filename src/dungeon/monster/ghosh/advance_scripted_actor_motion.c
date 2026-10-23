@@ -16,8 +16,8 @@ void initialize_timed_motion_step();            /* extern */
 void select_indirect_table_entry();              /* extern */
 void select_sprite_entry();         /* extern */
 void advance_sprite_animation_and_textures();  /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80069EF8();                                /* extern */
+s32 rsin();                             /* extern */
+s32 rand();                                /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void create_boss_linked_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
@@ -257,7 +257,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             path_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
             actor->unk_96 = (u16) (actor->unk_96 - 1);
@@ -274,7 +274,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             end_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
@@ -326,7 +326,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     case 13:
         bob_phase = actor->unk_9E;
         actor->unk_9E = (u16) (bob_phase + 1);
-        actor->unk_A0.unk_A0 = (s32) (actor->unk_A0.unk_A0 + (func_800644B8((s16) bob_phase * 0x55) * 0x10));
+        actor->unk_A0.unk_A0 = (s32) (actor->unk_A0.unk_A0 + (rsin((s16) bob_phase * 0x55) * 0x10));
         motion->unk_0A = (u16) (beldo->unk_88
             + actor->unk_92.u - actor->unk_A0.unk_A2.unk_A2);
         break;
@@ -354,7 +354,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             play_sound_if_enabled(0x706);
             wait_particle_mode = 1;
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (rand() & 0xFF) | 0x80, wait_particle_mode);
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
@@ -403,7 +403,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             play_sound_if_enabled(0x706);
             move_particle_mode = 1;
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (rand() & 0xFF) | 0x80, move_particle_mode);
                 move_particle_count += 1;
             } while (move_particle_count < 0x14);
         }

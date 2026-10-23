@@ -4,8 +4,8 @@
 #include "common.h"
 
 void register_node(void *, void *);
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
+s32 rsin(s32);
+s32 rcos(s32);
 void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 D_8002744C[9];
 extern u8 D_80028880[9];
@@ -59,9 +59,9 @@ spawn:
         *(s16 *)(((u8 *)positions) + 0x16) = pos_z;
         sample_angle = sample_index << 7;
         effect_state = (u8 *)effect + 0x20;
-        *(s32 *)(effect_state + 0xC) = (func_80064584(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
-        *(s32 *)(effect_state + 0x10) = (func_800644B8(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
-        *(s32 *)(effect_state + 0x14) = func_800644B8(sample_angle) << ((group_index >> 1) + 7);
+        *(s32 *)(effect_state + 0xC) = (rcos(motion_angle) * rcos(sample_angle)) >> scale_shift;
+        *(s32 *)(effect_state + 0x10) = (rsin(motion_angle) * rcos(sample_angle)) >> scale_shift;
+        *(s32 *)(effect_state + 0x14) = rsin(sample_angle) << ((group_index >> 1) + 7);
         sprite = *(u8 * *)&effect->sprite;
         data = (void *)0x808080;
         sprite->scale_y = 0x400;

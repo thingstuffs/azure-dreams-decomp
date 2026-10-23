@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80065F90(s32, s32);
+extern s32 ratan2(s32, s32);
 
 /* Checks cyclic half-turn limits for four vector directions, accepting zero vectors. */
 s32 check_four_vector_half_turn_gaps(
@@ -39,10 +39,10 @@ s32 check_four_vector_half_turn_gaps(
         shifted_y = (s32)((u32)first_y << 16);
     }
 
-    base_angle = func_80065F90(shifted_y >> 16, (s16)first_x) & 0xFFF;
-    second_angle = func_80065F90((s16)second_y, (s16)second_x) & 0xFFF;
-    third_angle = func_80065F90((s16)third_y, (s16)third_x) & 0xFFF;
-    closing_gap = func_80065F90((s16)fourth_y, (s16)fourth_x) & 0xFFF;
+    base_angle = ratan2(shifted_y >> 16, (s16)first_x) & 0xFFF;
+    second_angle = ratan2((s16)second_y, (s16)second_x) & 0xFFF;
+    third_angle = ratan2((s16)third_y, (s16)third_x) & 0xFFF;
+    closing_gap = ratan2((s16)fourth_y, (s16)fourth_x) & 0xFFF;
     closing_gap = (closing_gap - base_angle) & 0xFFF;
     third_angle = (third_angle - base_angle) & 0xFFF;
     second_angle = (second_angle - base_angle) & 0xFFF;

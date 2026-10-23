@@ -243,26 +243,26 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_04 =
                 (s8)(-0x80 - (height << 4));
 
-            x_trig = func_800644B8(start_angle);
+            x_trig = rsin(start_angle);
 
             angle_base = segment * 2;
             mid_angle = (angle_base + 1) * angle_step;
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
                 (((x_trig >> 4) * radius) >> 8));
-            x_trig = func_800644B8(mid_angle);
+            x_trig = rsin(mid_angle);
 
             end_angle = (angle_base + 2) * angle_step;
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
                 (((x_trig >> 4) * radius) >> 8));
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_74 = (s16)(center->unk_02 +
-                (((func_800644B8(end_angle) >> 4) * radius) >> 8));
+                (((rsin(end_angle) >> 4) * radius) >> 8));
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_66 = (s16)(center->unk_06 +
-                (((func_80064584(start_angle) >> 4) * radius) >> 8));
+                (((rcos(start_angle) >> 4) * radius) >> 8));
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
-                (((func_80064584(mid_angle) >> 4) * radius) >> 8));
+                (((rcos(mid_angle) >> 4) * radius) >> 8));
             {
 
-                end_y_scaled = (func_80064584(end_angle) >> 4) * radius;
+                end_y_scaled = (rcos(end_angle) >> 4) * radius;
                 base_height = end_y_scaled >> 8;
                 ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
             }
@@ -299,7 +299,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
                         tpage = draw_context->unk_8D0;
                         draw_context->unk_8D0 = (u8 *)tpage + 0xC;
                     }
-                    func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+                    SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
                     addPrim(((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.u + ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_B4.u, tpage);
                 }
@@ -459,8 +459,8 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
             register_node(effect, project_sprite_chain);
             payload = effect->field8;
             *(B22_81893244_Func81893244Data *)payload = *initial_data;
-            payload->x.w.i = (u16) (*(u16 *)&payload->x.w.i + ((s32) (func_800644B8(rand()) * 2) >> 8));
-            payload->y.w.i = (u16) (*(u16 *)&payload->y.w.i + ((s32) (func_80064584(rand()) * 2) >> 8));
+            payload->x.w.i = (u16) (*(u16 *)&payload->x.w.i + ((s32) (rsin(rand()) * 2) >> 8));
+            payload->y.w.i = (u16) (*(u16 *)&payload->y.w.i + ((s32) (rcos(rand()) * 2) >> 8));
         }
         particle_index += 1;
     } while (particle_index < 8);

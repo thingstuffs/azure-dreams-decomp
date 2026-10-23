@@ -51,8 +51,8 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)
                     sprite = ctx_ptr->ctx->packetCursor;
                     ctx_ptr->ctx->packetCursor = (u8 *)sprite + 0x14;
                     *(s32 *)((u8 *)sprite + 4) = 0x505050;
-                    func_80066758(sprite);
-                    func_80066640(sprite, 1);
+                    SetSprt(sprite);
+                    SetSemiTrans(sprite, 1);
                     clut_x = 0;
                     screen_x = tile_col;
                     screen_x <<= 8;
@@ -64,14 +64,14 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)
                     *(s16 *)((u8 *)sprite + 12) = 0;
                     screen_y = (tile_y - scroll_y) + layer_offset;
                     *(s16 *)((u8 *)sprite + 10) = screen_y;
-                    *(s16 *)((u8 *)sprite + 14) = func_8006649C(clut_x, 0x1F0);
+                    *(s16 *)((u8 *)sprite + 14) = GetClut(clut_x, 0x1F0);
                     addPrim(&ctx_ptr->ctx->orderTag82C, sprite);
 
                     ctx = ctx_ptr->ctx;
                     draw_mode = ctx->packetCursor;
                     ctx->packetCursor = (u8 *)draw_mode + 0xC;
-                    func_80067F20(draw_mode, 0, 0,
-                                  func_80066460(1, 3, page_x, tile_y) & 0xFFFF, 0);
+                    SetDrawMode(draw_mode, 0, 0,
+                                  GetTPage(1, 3, page_x, tile_y) & 0xFFFF, 0);
                     tile_col -= 1;
                     addPrim(&ctx_ptr->ctx->orderTag82C, draw_mode);
                     page_x -= 0x80;

@@ -35,7 +35,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
         scratch->in2 = position[5];
 
         scratch->current = (u8 *)packet + 0xC;
-        depth_index = func_80065420(&scratch->in0, (u8 *)packet + 8,
+        depth_index = RotTransPers(&scratch->in0, (u8 *)packet + 8,
                               &scratch->out0, &scratch->out1);
         scratch->index = depth_index;
 
@@ -63,8 +63,8 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
 
             mode_packet = (R10_8017092C_Packet *)scratch->current;
             scratch->current = (u8 *)mode_packet + 0xC;
-            tpage = (u16)func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0,(u16)(tpage), 0);
+            tpage = (u16)GetTPage(0, 1, 0, 0);
+            SetDrawMode(mode_packet, 0, 0,(u16)(tpage), 0);
 
             *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & addr_mask);
@@ -1162,7 +1162,7 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
                 ((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s;
 
             ((R10_80172C54_S_80172C54_0 *)action)->unk_A4 =
-                (-func_800644B8(((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s * 0x199)) << 10;
+                (-rsin(((R10_80172C54_S_80172C54_0 *)action)->unk_9E.s * 0x199)) << 10;
         }
 
         height_offset = ((R10_80172C54_S_80172C54_0 *)action)->unk_90;
@@ -1451,12 +1451,12 @@ case 1:
 case 2:
     particle_index = 0;
     do {
-        effect_flags = func_80069EF8() & 0xFF;
+        effect_flags = rand() & 0xFF;
         effect_flags |= 0x80;
-        offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
+        offset_x = (s16)((rand() & 0x7F) - 0x40);
+        offset_y = (s16)((rand() & 0x7F) - 0x40);
         create_converging_fading_sprite((u8 *)actor - 0x20, 0, 0x00808080, effect_flags, offset_x, offset_y,
-                   (s16)((func_80069EF8() & 0x7F) - 0x40));
+                   (s16)((rand() & 0x7F) - 0x40));
         particle_index++;
     } while (particle_index < 5);
 
@@ -2281,13 +2281,13 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
     }
     {
         s16 normalized_phase = phase_angle;
-        s32 sine = func_80064584(normalized_phase);
+        s32 sine = rcos(normalized_phase);
         s32 sine_radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
         s32 sine_product = sine_radius * sine;
         s32 cosine_angle = normalized_phase;
 
         render_or_step = sine_product << 4;
-        phase_offset = func_800644B8(cosine_angle);
+        phase_offset = rsin(cosine_angle);
     }
 
     {
@@ -2557,7 +2557,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             s16 resource_index = lookup_masked_byte_table(actor) - 1;
 
             if (resource_index < 0) {
-                s32 random_value = func_80069EF8();
+                s32 random_value = rand();
 
                 resource_index = random_value % 3;
             }

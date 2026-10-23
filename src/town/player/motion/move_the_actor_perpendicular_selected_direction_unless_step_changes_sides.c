@@ -17,8 +17,8 @@ typedef struct {
 } TownState;
 
 extern s16 input_angle_with_offset(s32, s16);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void func_800652AC(IntVector3 *, IntVector3 *, IntVector3 *);
 
 /* Moves the actor perpendicular to the selected direction unless the step changes sides. */
@@ -40,8 +40,8 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(A
         return;
     }
 
-    direction.x = func_800644B8(direction_index);
-    direction.y = func_80064584(direction_index);
+    direction.x = rsin(direction_index);
+    direction.y = rcos(direction_index);
     direction.z = 0;
 
     fixed_coord = actor->x;

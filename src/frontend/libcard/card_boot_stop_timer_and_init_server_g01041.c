@@ -43,7 +43,7 @@ void dispatch_request_mode_two(s32 request) {
 void dispatch_menu_update_callback(s32 request) {
     card_boot_stop_timer_and_init_server();
     g_game_work.view.projection_distance = 0x200;
-    func_80064F20(0x200);
-    func_80064F00(0xA0, 0x78);
+    SetGeomScreen(0x200);
+    SetGeomOffset(0xA0, 0x78);
     init_card_boot_request_object(request, 0);
 }

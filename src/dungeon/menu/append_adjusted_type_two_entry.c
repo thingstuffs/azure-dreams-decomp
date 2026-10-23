@@ -15,7 +15,7 @@ typedef struct State {
 } State;
 
 extern u8 upper_draw_context[16];
-extern s32 func_8006658C(s32 submission_target, void *entry);
+extern s32 AddPrim(s32 submission_target, void *entry);
 
 // Appends a type-2 entry with adjusted coordinates and submits it for processing.
 void append_adjusted_type_two_entry(s32 x, s32 y, s32 *entryValue, s32 submissionTarget)
@@ -34,5 +34,5 @@ void append_adjusted_type_two_entry(s32 x, s32 y, s32 *entryValue, s32 submissio
     }
     entry->valA = (s16)adjustedY;
     entry->val4 = *entryValue;
-    func_8006658C(submissionTarget, entry);
+    AddPrim(submissionTarget, entry);
 }

@@ -105,12 +105,12 @@ typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
 #define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern u32 RotAverage4(void *, void *, void *, void *, void *, void *,
                          void *, void *, void *, void *);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, void *);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, void *);
 
 /* Draw four shaded textured quads around the given position. */
 s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
@@ -144,8 +144,8 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->view.camera_rotation.parts.viewAngle;
     scratch->unk_18 = (u8 *)g_game_work.draw_buffer + 0xB0;
-    x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
-    y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
+    x_extent = (u32)((rcos(angle) >> 4) * effect->unk_08.as_s16) >> 8;
+    y_extent = (u32)((rsin(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     texture_v = (effect->unk_04 % 4) << 3;
 
     quad_index = 0;
@@ -157,7 +157,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
 
         packet->unk_00.as_bytes.unk_03 = 0x0C;
         packet->unk_07 = 0x3E;
-        packet->unk_1A = func_80066460(0, 1, 0x280, 0x100);
+        packet->unk_1A = GetTPage(0, 1, 0x280, 0x100);
         packet->unk_0E = effect->unk_0C;
         packet->unk_0C = 0;
         packet->unk_0D = (u8)texture_v;
@@ -275,7 +275,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             void *vertex2 = &scratch->unk_74;
             void *vertex3 = &scratch->unk_7C;
 
-            depth = func_80065590(vertex0, vertex1, vertex2, vertex3,
+            depth = RotAverage4(vertex0, vertex1, vertex2, vertex3,
                               &scratch->unk_D8, &scratch->unk_DC,
                               &scratch->unk_E0, &scratch->unk_E4,
                               (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
@@ -298,7 +298,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             full_window[2] = 0xFF;
             draw_mode = full_ctx->unk_8D0;
             full_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
-            func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0x280, 0x100), full_window);
+            SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0x280, 0x100), full_window);
             page_depth = 0;
 
             page_blend = 1;
@@ -336,7 +336,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
             tile_window[2] = 0x40;
             draw_mode_2 = tile_ctx->unk_8D0;
             tile_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
-            func_80067F20(draw_mode_2, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
+            SetDrawMode(draw_mode_2, 0, 0, GetTPage(page_depth, page_blend, page_x, 0x100), tile_window);
 
             {
                 u32 *ot;

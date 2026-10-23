@@ -7,15 +7,15 @@
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-void * func_80064840();
-void func_800649A0();
-void func_80064A40();
-void * func_80064BC0();
-void func_80064CF0();
-void func_80064D80();
-u32 func_80065420();
-s32 func_800654B0();
-void * func_80065820();
+void * CompMatrix();
+void PushMatrix();
+void PopMatrix();
+void * ScaleMatrix();
+void SetRotMatrix();
+void SetTransMatrix();
+u32 RotTransPers();
+s32 RotTransPers4();
+void * RotMatrix();
 M2C_UNK func_800D3924();
 M2C_UNK func_800D3AB8();
 M2C_UNK func_800D3B28();
@@ -256,7 +256,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
     scratch->unk_02 = position->unk_06;
     scratch->unk_04 = position->unk_0A;
     packet = render_root->unk_8D0;
-    scratch->unk_C0 = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
+    scratch->unk_C0 = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     sprite->unk_14 |= 0x8000;
     depth = scratch->unk_C0;
     matrix_or_part = (S_func_800CDFD8_6 *)&sprite_projection_matrix;
@@ -265,7 +265,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
     ot_depth = depth - depth_bias;
     scratch->unk_C0 = ot_depth;
     if (ot_depth < 0x1D6U) {
-        func_800649A0();
+        PushMatrix();
         angles = (void *)0x1F800100;
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
@@ -287,16 +287,16 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
         scratch->unk_102 = (s16) rotation_y;
         scratch->unk_108 = scratch->unk_E4 = sprite->unk_20;
         scratch->unk_10A = scratch->unk_E8 = sprite->unk_22;
-        func_80065820(angles, (void *)0x1F8000D0);
+        RotMatrix(angles, (void *)0x1F8000D0);
         quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
         scratch->unk_30 = sprite->unk_1C;
         scale_y = sprite->unk_1E;
         scratch->unk_38 = 0x1000;
         scratch->unk_34.unk_34_u32 = scale_y;
-        func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
-        func_80064840(matrix_or_part, (void *)0x1F8000D0, (void *)0x1F800050);
-        func_80064D80((void *)0x1F800050);
-        func_80064CF0((void *)0x1F800050);
+        ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
+        CompMatrix(matrix_or_part, (void *)0x1F8000D0, (void *)0x1F800050);
+        SetTransMatrix((void *)0x1F800050);
+        SetRotMatrix((void *)0x1F800050);
         part = sprite->unk_08;
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
         scratch->unk_24.unk_24_u16 = (u16) sprite->unk_14;
@@ -360,7 +360,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
                     scratch->unk_8A = edge_y;
                     scratch->unk_82 = edge_y;
                 }
-                func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
                     (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
                     (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
@@ -481,7 +481,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
             quad_cursor = cursor;
             part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
         }
-        func_80064A40();
+        PopMatrix();
     }
     ((S_func_800CDFD8_3 *)render_state->draw_buffer)->unk_8D0 = packet;
 }

@@ -176,7 +176,7 @@ typedef struct {
 } __attribute__((packed)) EffectPacked12;
 void select_record_entry_and_value(void *, void *, s32);
 s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-u32 func_80065420(void *, void *, void *, void *);
+u32 RotTransPers(void *, void *, void *, void *);
 extern s16 tint_particle_effect_updated;
 extern PackedVec3 tint_particle_sprite_data;
 void func_8002405C(void *effect, void *unused, void *primitive);

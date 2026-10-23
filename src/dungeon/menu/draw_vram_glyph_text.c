@@ -3,7 +3,7 @@
 #include "engine/camera.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 func_800673A0(s32 *, s32, s32);         /* extern */
+extern s32 MoveImage(s32 *, s32, s32);         /* extern */
 
 typedef struct S_80123928_0 {
     u8 unk_00;
@@ -26,7 +26,7 @@ void draw_vram_glyph_text(u8 *text, s16 x, s16 y) {
             code_lo = ((S_80123928_0 *)cursor)->unk_01;
             cursor += 2;
             get_glyph_vram_rectangle(map_fullwidth_character_to_glyph_byte(code_lo | (code_hi << 8)) & 0xFF, &glyph);
-            func_800673A0(&glyph, draw_x, y);
+            MoveImage(&glyph, draw_x, y);
             draw_x += 2;
         } while (*cursor != 0);
     }

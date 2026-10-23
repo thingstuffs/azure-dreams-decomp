@@ -10,8 +10,8 @@
 s32 register_node();
 void release_null_terminated_entries(u16 **entries);
 short SD_Call(int flags);
-void func_80064F00(s32, s32);
-void func_80064F20(s32);
+void SetGeomOffset(s32, s32);
+void SetGeomScreen(s32);
 void initialize_catalog_glyph_cache();
 s32 initialize_catalog_display_nodes();
 void initialize_catalog_state();
@@ -37,8 +37,8 @@ void open_standalone_catalog(void) {
             register_node(obj, &draw_tinted_node_sprites_scratch);
             obj->unk_10 = &D_80126704;
             g_game_work.view.projection_distance = 0x200;
-            func_80064F20(0x200);
-            func_80064F00(0xA0, 0x78);
+            SetGeomScreen(0x200);
+            SetGeomOffset(0xA0, 0x78);
             SD_Call(0x701);
             return;
         }

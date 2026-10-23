@@ -43,8 +43,8 @@ void func_80023E6C();   /* extern */
 void clear_resident_bit();                     /* extern */
 void set_resident_bit();                     /* extern */
 short SD_Call(); /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();           /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();           /* extern */
 s32 rand();                      /* extern */
 void spawn_person_radial_effects();                       /* extern */
 s32 create_dual_buffer_object();       /* extern */
@@ -500,9 +500,9 @@ object_pairs:
                         collision_value = abs(collision_value);
                         pair_value += collision_value;
                         if (pair_value <= 0x3FFFF) {
-                            x_step = func_80064584(*position_slot->angle);
+                            x_step = rcos(*position_slot->angle);
                             position_slot->rec->unk_0C = (s32) (x_step << 6);
-                            other_x = func_800644B8(*position_slot->angle);
+                            other_x = rsin(*position_slot->angle);
                             position_slot->rec->unk_10 = (s32) (other_x << 6);
                         }
                         object_velocity = position_slot->rec;
@@ -546,10 +546,10 @@ object_pairs:
                             pair_value = abs(pair_value);
                             collision_value = collision_value < (other_speed_y + pair_value);
                             if (!collision_value) {
-                                x_step = func_80064584(*game->angle[partner_index],
+                                x_step = rcos(*game->angle[partner_index],
                                     (void *) x_or_distance, y_step, other_y);
                                 game->rec[partner_index]->velocity_x = (s32) (x_step << 6);
-                                other_x = func_800644B8(*game->angle[partner_index]);
+                                other_x = rsin(*game->angle[partner_index]);
                                 game->rec[partner_index]->velocity_y = (s32) (other_x << 6);
                             }
                             partner_velocity = game->rec[partner_index];

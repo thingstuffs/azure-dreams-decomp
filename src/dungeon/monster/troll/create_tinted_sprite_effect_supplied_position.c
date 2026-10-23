@@ -46,7 +46,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
                 animation->unk_9E.s;
 
             animation->unk_A0 =
-                (-func_800644B8(animation->unk_9E.s * 0x199)) << 10;
+                (-rsin(animation->unk_9E.s * 0x199)) << 10;
         }
 
         height = animation->unk_90;

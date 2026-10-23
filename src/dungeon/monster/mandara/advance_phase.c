@@ -42,11 +42,11 @@ extern u8 D_8017089C[];
 extern u8 upper_draw_context[];
 
 extern void transform_rotated_vertices(void *);
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_800644B8(s32);
-extern void func_800666F4(void *);
-extern void func_80066640(void *, s32);
-extern s32 func_80066460(s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 rsin(s32);
+extern void SetPolyFT4(void *);
+extern void SetSemiTrans(void *, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
 
 static __inline__ s32 advance_phase(s32 phase, s32 layer)
 {
@@ -154,7 +154,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
             u16 x_bits;
             s32 screen_y;
             u16 y_bits;
-            vertex_depth = func_80065420(vertex_bytes, scratch.screen, (void *) depth_out_or_phase,
+            vertex_depth = RotTransPers(vertex_bytes, scratch.screen, (void *) depth_out_or_phase,
                 (void *) depth_out_or_phase);
             depth += vertex_depth - 8;
             x_bits = (u16) scratch.screen[0];
@@ -250,9 +250,9 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         poly = *((u8 **) (frame + 0x8D0));
                         *((u8 **) (frame + 0x8D0)) = poly + 40;
                         *((s32 *) (((u8 *) poly) + 4)) = *((s32 *) (((u8 *) appearance) + 0xC));
-                        func_800666F4(poly);
-                        func_80066640(poly, 1);
-                        *((s16 *) (((u8 *) poly) + 0x16)) = (s16) func_80066460(2, ((u8 *) appearance)[0xC] != 0x80,
+                        SetPolyFT4(poly);
+                        SetSemiTrans(poly, 1);
+                        *((s16 *) (((u8 *) poly) + 0x16)) = (s16) GetTPage(2, ((u8 *) appearance)[0xC] != 0x80,
                             0x340, 0x100);
                         *((u8 *) (((u8 *) poly) + 0x14)) = 0;
                         *((u8 *) (((u8 *) poly) + 0x0C)) = 0;
@@ -278,7 +278,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         }
                         *((u8 *) (((u8 *) poly) + 0x25)) = (u8) texture_bottom;
                         *((u8 *) (((u8 *) poly) + 0x15)) = (u8) texture_bottom;
-                        wave_x = func_800644B8(depth_out_or_phase);
+                        wave_x = rsin(depth_out_or_phase);
                         wave_x = ((u16) bounds[0]) + (wave_x >> 9);
                         *((s16 *) (((u8 *) poly) + 0x10)) = (s16) wave_x;
                         *((s16 *) (((u8 *) poly) + 8)) = (s16) wave_x;

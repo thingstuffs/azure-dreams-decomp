@@ -3,7 +3,7 @@
 #include "shared/object_links.h"
 
 
-extern void func_800672D8();
+extern void LoadImage();
 
 extern u8 D_80024640[];
 extern u8 D_80024660[];
@@ -45,16 +45,16 @@ void update_minigame_image_animation(void *anim)
         u8 *image = D_80024660;
 
         rect[0] = 0x40;
-        func_800672D8(rect, image);
+        LoadImage(rect, image);
         rect[0] = 0x50;
-        func_800672D8(rect, image - 0x20);
+        LoadImage(rect, image - 0x20);
     } else {
         u8 *image = D_80024640;
 
         rect[0] = 0x40;
-        func_800672D8(rect, image);
+        LoadImage(rect, image);
         rect[0] = 0x50;
-        func_800672D8(rect, image + 0x20);
+        LoadImage(rect, image + 0x20);
     }
 
     rect[1] = 0x1F8;
@@ -65,10 +65,10 @@ void update_minigame_image_animation(void *anim)
         u8 *image = D_800246C0;
 
         rect[0] = 0xC0;
-        func_800672D8(rect, image);
+        LoadImage(rect, image);
         rect[0] = 0xD0;
         rect[2] = 0x20;
-        func_800672D8(rect, image - 0x40);
+        LoadImage(rect, image - 0x40);
         break;
     }
     case 1:
@@ -76,16 +76,16 @@ void update_minigame_image_animation(void *anim)
         u8 *image = D_80024680;
 
         rect[0] = 0xE0;
-        func_800672D8(rect, image);
+        LoadImage(rect, image);
         rect[0] = 0xC0;
         rect[2] = 0x20;
-        func_800672D8(rect, image + 0x20);
+        LoadImage(rect, image + 0x20);
         break;
     }
     case 2:
         rect[0] = 0xC0;
         rect[2] = 0x30;
-        func_800672D8(rect, D_80024680);
+        LoadImage(rect, D_80024680);
         break;
     default:
         break;

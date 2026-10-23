@@ -17,8 +17,8 @@ void add_a_directional_step_vector_scale_down_exceeds_length_limit(s16 angle, s3
     s32 second_step;
     s32 length;
 
-    first_step = func_800644B8(angle) << 6;
-    second_step = func_80064584(angle) << 6;
+    first_step = rsin(angle) << 6;
+    second_step = rcos(angle) << 6;
     vector->first += first_step;
     vector->second += second_step;
     length = runtime_estimate_vector_length(vector->first, vector->second);

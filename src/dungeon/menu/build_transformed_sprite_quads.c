@@ -139,18 +139,18 @@ typedef struct S_8009E798_7 {
    /* ret_state in build_transformed_sprite_quads */
 
 extern void copy_words_forward(void *, void *, s32);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void *func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void *ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
-extern void func_800666E0(void *);
-extern void func_800666F4(void *);
-extern void func_80067E2C(void *, void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
+extern void SetPolyF4(void *);
+extern void SetPolyFT4(void *);
+extern void SetDrawArea(void *, void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 extern u8 upper_draw_context[16];
 
@@ -173,8 +173,8 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_1 *)scratch)->unk_38 = 0x1000;
     ((S_8009E798_1 *)scratch)->unk_48 = 0;
 
-    func_80067E2C(packet, state);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    SetDrawArea(packet, state);
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   packet);
 
     ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)sprite)->unk_1C.at00.v;
@@ -183,19 +183,19 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)placement)->unk_06;
     frame = ((S_8009E798_3 *)sprite)->unk_08;
     ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite)->unk_14.at00.v;
-    func_800649A0();
+    PushMatrix();
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
     ((S_8009E798_1 *)scratch)->unk_9C = *(u16 *)&g_game_work.view.camera_rotation.parts.viewAngle;
-    func_80065820(scratch + 0x98, scratch + 0xD0);
-    func_80064BC0(scratch + 0xD0, scratch + 0x30);
+    RotMatrix(scratch + 0x98, scratch + 0xD0);
+    ScaleMatrix(scratch + 0xD0, scratch + 0x30);
 
     ((S_8009E798_1 *)scratch)->unk_EC = 0;
     ((S_8009E798_1 *)scratch)->unk_E4 = ((S_8009E798_1 *)scratch)->unk_00.s;
     ((S_8009E798_1 *)scratch)->unk_E8 = (s16)((S_8009E798_1 *)scratch)->unk_02;
-    func_80064CF0(scratch + 0xD0);
-    func_80064D80(scratch + 0xD0);
+    SetRotMatrix(scratch + 0xD0);
+    SetTransMatrix(scratch + 0xD0);
 
     ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)sprite)->unk_20;
     ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)sprite)->unk_22;
@@ -257,7 +257,7 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     (*(u16 *)((u8 *)packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
     ((S_8009E798_6 *)packet)->unk_24 = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite)->unk_0C.at00.v;
-    func_800666F4(packet);
+    SetPolyFT4(packet);
 
     copy = packet + 0x28;
     copy_words_forward(copy, packet, 0xA);
@@ -268,9 +268,9 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_3 *)packet)->unk_1C.at01.v = (((S_8009E798_3 *)packet)->unk_25 += 0x40);
     ((S_8009E798_3 *)packet)->unk_16 |= 0x100;
 
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   packet);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   packet - 0x28);
 
     ((S_8009E798_5 *)prim)->unk_04.at00u.v = 0x00606060;
@@ -281,14 +281,14 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     ((S_8009E798_5 *)prim)->unk_04.at00p.v >>= 1;
     ((S_8009E798_5 *)prim)->unk_04.at01.v >>= 1;
     ((S_8009E798_5 *)prim)->unk_04.at02u.v >>= 1;
-    func_800666E0(prim);
+    SetPolyF4(prim);
     ((S_8009E798_5 *)prim)->unk_04.at03.v |= 2;
 
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   prim);
     prim = packet + 0x40;
-    func_80067F20(prim, 0, 0, 0x40, 0);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    SetDrawMode(prim, 0, 0, 0x40, 0);
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   prim);
 
     rect[0] = ((S_8009E798_7 *)draw_area)->unk_04;
@@ -300,11 +300,11 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
         rect[1] += 0xE0;
     }
 
-    func_80067E2C(prim, rect);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+    SetDrawArea(prim, rect);
+    AddPrim(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   prim);
     prim = packet + 0x58;
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)*state_ptr)->packetCursor = prim;
     return 0;
 }

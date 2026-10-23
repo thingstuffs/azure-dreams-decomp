@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 
 typedef struct S_800C4E30_0 {
@@ -32,9 +32,9 @@ void animate_scale_and_restore(S_800C4E30_0 *state, void *context, S_800C4E30_1 
         apply_object_setup_and_update(state, context, scale);
         return;
     }
-    shrink_value = func_800644B8(frames_left * 0x199);
+    shrink_value = rsin(frames_left * 0x199);
     shrink_amount = (shrink_value / 4);
     scale->unk_1C = (s16) (0x1000 - shrink_amount);
-    grow_value = func_800644B8(state->unk_6C * 0x199);
+    grow_value = rsin(state->unk_6C * 0x199);
     scale->unk_1E = (s16) ((grow_value / 4) + 0x1000);
 }

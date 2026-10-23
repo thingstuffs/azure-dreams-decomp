@@ -13,6 +13,6 @@ s32 EnableEvent(s32 event);
 s32 CloseEvent(s32 event);
 s32 DisableEvent(s32 event);
 void SpuStart(void);
-void stop_spu_dma_event_service(void);
+void SpuQuit(void);
 
 #endif

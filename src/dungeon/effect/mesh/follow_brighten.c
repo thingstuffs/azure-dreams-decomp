@@ -39,16 +39,16 @@ void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
     rect[1] = 0x100;
     rect[2] = 1;
     rect[3] = 1;
-    func_800672D8(rect, &pixel);
+    LoadImage(rect, &pixel);
 
     pixel = 0xFC00;
     rect[0] = 0x340;
     rect[1] = 0x180;
     rect[2] = 1;
     rect[3] = 1;
-    func_800672D8(rect, &pixel);
+    LoadImage(rect, &pixel);
 
-    func_80067014(0);
+    DrawSync(0);
 }
 
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state) {
@@ -108,8 +108,8 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
     state->unk_04 = height_offset;
     if ((s16)height_offset < -0x80) {
         angle = rand() % 0x1000;
-        position->unk_02 = (s16)(state->unk_08 + ((func_800644B8(angle) * 2) >> 8));
-        position->unk_06 = (s16)(state->unk_0A + ((func_80064584(angle) * 2) >> 8));
+        position->unk_02 = (s16)(state->unk_08 + ((rsin(angle) * 2) >> 8));
+        position->unk_06 = (s16)(state->unk_0A + ((rcos(angle) * 2) >> 8));
         state->unk_04 = (u16)(state->unk_04 + 0x80);
         state->unk_06 = (u16)(-6 - (rand() % 5));
     }
@@ -139,7 +139,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         owner = (s32)(((u8 *)node) + 0x20);
         node->unk_10 = node_type;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_04 = motion;
-        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (func_80069EF8() % 5));
+        ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (rand() % 5));
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_02.s;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_06.s;
         node_type = (s32 *)(((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_0A.s);
@@ -158,9 +158,9 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);
         position = node->position;
-        angle = func_80069EF8() % 0x1000;
-        position->x.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        position->y.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        angle = rand() % 0x1000;
+        position->x.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
+        position->y.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
         position_z = ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C;
         result = (s32)node;
         position->z.w.i = (s16)position_z;
@@ -262,8 +262,8 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       u8 *end_screen = scratch + 0xDC;
       u8 *projection_aux = scratch + 0x84;
       u8 *projection_flags = scratch + 0x88;
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4 = func_80065420(start_vertex, start_screen, projection_aux, projection_flags);
-      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8 = func_80065420(end_vertex, end_screen, projection_aux, projection_flags);
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F4 = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
+      ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_F8 = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
     }
     *((u16 *) (line_prim + 8)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_D8;
     *((u16 *) (line_prim + 0xA)) = ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_DA;
@@ -282,7 +282,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, line_prim);
       draw_mode_prim = ((GpuContext *)render_state->draw_buffer)->packetCursor;
       ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 0xC;
-      func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+      SetDrawMode(draw_mode_prim, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
       ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
     }
     segment -= 1;
@@ -316,8 +316,8 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
     do {
         biased_index = table_index;
         table_angle = (table_index - ((biased_index / 16) * 0x10)) << 8;
-        trig_cursor[0] = func_800644B8(table_angle) >> 4;
-        trig_cursor[17] = func_80064584(table_angle) >> 4;
+        trig_cursor[0] = rsin(table_angle) >> 4;
+        trig_cursor[17] = rcos(table_angle) >> 4;
         trig_cursor--;
     } while (--table_index >= 0);
 
@@ -333,8 +333,8 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
         do {
             phase = source->unk_10 - segment_index;
             biased_phase = phase;
-            angle = (func_800644B8((phase - ((biased_phase / 16) * 0x10)) << 9) >> 9) + 0x20;
-            func_80064584(segment_index << 9);
+            angle = (rsin((phase - ((biased_phase / 16) * 0x10)) << 9) >> 9) + 0x20;
+            rcos(segment_index << 9);
             segment_source = source;
             height = ((ovl_18d0850_818B11B4_S_818B11B4_1 *)height_cursor)->unk_1A;
             scaled_segment = segment_index << 0x11;
@@ -372,8 +372,8 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
     do {
         index_bias = circle_index;
         circle_angle = (circle_index - ((index_bias / 16) * 0x10)) << 8;
-        ((ovl_18d0850_818B1334_S_818B1334_0 *)circle_entry)->unk_00 = (s32) (func_800644B8(circle_angle) >> 4);
-        ((ovl_18d0850_818B1334_S_818B1334_0 *)circle_entry)->unk_44 = (s32) (func_80064584(circle_angle) >> 4);
+        ((ovl_18d0850_818B1334_S_818B1334_0 *)circle_entry)->unk_00 = (s32) (rsin(circle_angle) >> 4);
+        ((ovl_18d0850_818B1334_S_818B1334_0 *)circle_entry)->unk_44 = (s32) (rcos(circle_angle) >> 4);
         circle_entry -= 1;
     } while (--circle_index >= 0);
     entry_index = 0;
@@ -381,8 +381,8 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
     do {
         phase = source->unk_10 - entry_index;
         phase_bias = phase;
-        radius = (func_800644B8((phase - ((phase_bias / 16) * 0x10)) << 9) >> 9) + 0x20;
-        func_80064584(entry_index << 0xA);
+        radius = (rsin((phase - ((phase_bias / 16) * 0x10)) << 9) >> 9) + 0x20;
+        rcos(entry_index << 0xA);
         source_arg = source;
         angle_offset = ((ovl_18d0850_818B1334_S_818B1334_2 *)offset_cursor)->unk_1A;
         entry_angle = entry_index << 0x11;
@@ -417,8 +417,8 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
     do {
         index_rounded = sample_index;
         sample_angle = (sample_index - ((index_rounded / 16) * 0x10)) << 8;
-        ((ovl_18d0850_818B1484_S_818B1484_0 *)sample_ptr)->unk_00 = (u32) (func_800644B8(sample_angle) >> 4);
-        ((ovl_18d0850_818B1484_S_818B1484_0 *)sample_ptr)->unk_44 = (s32) (func_80064584(sample_angle) >> 4);
+        ((ovl_18d0850_818B1484_S_818B1484_0 *)sample_ptr)->unk_00 = (u32) (rsin(sample_angle) >> 4);
+        ((ovl_18d0850_818B1484_S_818B1484_0 *)sample_ptr)->unk_44 = (s32) (rcos(sample_angle) >> 4);
         sample_ptr--;
     } while (--sample_index >= 0);
     entry_index = ((s32) (effect->unk_16 << 0x10) >> 0x12) + 1;
@@ -427,8 +427,8 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
         do {
             phase = effect->unk_10 - entry_index;
             phase_rounded = phase;
-            entry_scale = (func_800644B8((phase - ((phase_rounded / 16) * 0x10)) << 9) >> 9) + 0x20;
-            func_80064584(entry_index << 9);
+            entry_scale = (rsin((phase - ((phase_rounded / 16) * 0x10)) << 9) >> 9) + 0x20;
+            rcos(entry_index << 9);
             effect_arg = effect;
             entry_offset = ((ovl_18d0850_818B1484_S_818B1484_2 *)entry_ptr)->unk_1A;
             entry_arg = entry_index << 0x11;

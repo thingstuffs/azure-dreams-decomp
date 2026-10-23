@@ -43,8 +43,8 @@ s32 lookup_item_category_mapped_value(s32, s32);
 void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 extern s32 service_script_controller(void);
 extern void unlink_node_if_registered(void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 /* Functions defined in this translation unit. */
 void present_flower_set(s32 initial_value);

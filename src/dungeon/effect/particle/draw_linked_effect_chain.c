@@ -25,7 +25,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = ((Row_819A088C_S_819A088C_1 *)position)->unk_0A;
     ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_3C = 0x2000;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_38 = 0x2000;
@@ -33,19 +33,19 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A4 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_16;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A8 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_1A;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A6 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&base_matrix);
-    func_80064840(&base_matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&base_matrix);
+    CompMatrix(&base_matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14;
 
     packet = ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
-    func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
+    SetDrawMode(packet, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
         (((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
@@ -73,7 +73,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_C4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_64;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_CC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_6A;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x10,
                              packet + 0x18, packet + 0x20,
@@ -115,7 +115,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
 
             packet = ((Row_819A088C_S_819A088C_7 *)(*render_context_ptr))->unk_8D0;
             ((Row_819A088C_S_819A088C_7 *)(*render_context_ptr))->unk_8D0 = packet + 0xC;
-            func_80067F20(packet, 0, 1, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(packet, 0, 1, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2)
                     + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
@@ -126,7 +126,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 /* Draws a shaded quad for each node in the linked effect chain using that node's position and appearance. */

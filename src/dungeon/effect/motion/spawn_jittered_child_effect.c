@@ -35,7 +35,7 @@ void spawn_jittered_child_effect(
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
         object_cursor->unk_10 = (s32)D_80024400;
-        jitter_x = func_80069EF8() & 0x1F;
+        jitter_x = rand() & 0x1F;
         position_x = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
         dest_x = object_cursor->position;
         position_x += jitter_x;
@@ -43,7 +43,7 @@ void spawn_jittered_child_effect(
         position_x += bias_x;
         dest_x->unk_02 = (s16)position_x;
 
-        jitter_y = func_80069EF8() & 0x1F;
+        jitter_y = rand() & 0x1F;
         position_y = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
         dest_y = object_cursor->position;
         position_y += jitter_y;
@@ -51,7 +51,7 @@ void spawn_jittered_child_effect(
         position_y += bias_y;
         dest_y->unk_06 = (s16)position_y;
 
-        jitter_z = func_80069EF8();
+        jitter_z = rand();
         init_data = &D_800241B0;
         jitter_z &= 0x1F;
         position_z = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;

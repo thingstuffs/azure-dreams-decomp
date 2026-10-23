@@ -7,7 +7,7 @@
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -111,12 +111,12 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
                 if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 5;
                 }
                 else {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 6;
                 }
             }
             if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
@@ -168,12 +168,12 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
                 if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 5;
                 }
                 else {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 6;
                 }
             }
             if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {

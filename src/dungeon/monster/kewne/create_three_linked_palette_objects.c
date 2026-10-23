@@ -20,7 +20,7 @@ typedef struct S_80174910_9 {
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
-s32 func_800672D8();              /* extern */
+s32 LoadImage();              /* extern */
 extern M2C_UNK D_801747B8;
 extern u8 D_80175F70[];
 
@@ -114,7 +114,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
                 palette_rect[0] = 0;
                 palette_rect[1] = (s16) ((u32) (((clut_id & 0xFFC0) - 0x40) & 0xFFFF) >> 6);
                 do {
-                    func_800672D8((s16 *) palette_rect, D_80175F70);
+                    LoadImage((s16 *) palette_rect, D_80175F70);
                     next_palette_x = palette_rect[0] + 0x10;
                     palette_rect[0] = next_palette_x;
                 } while (next_palette_x < 0x100);

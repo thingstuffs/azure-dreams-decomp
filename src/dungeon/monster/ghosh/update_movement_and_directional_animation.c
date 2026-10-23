@@ -7,7 +7,7 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -69,7 +69,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
             ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((actor->unk_25 << 6) - pixel_y)
                 << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
-            ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199))
+            ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - rsin(((S_8016CB80_0 *)state)->unk_9E * 0x199))
                 << 0xA);
         }
         ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);

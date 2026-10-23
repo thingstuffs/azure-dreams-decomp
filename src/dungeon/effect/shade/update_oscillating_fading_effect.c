@@ -74,7 +74,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
         }
     }
     transform = ((Row_818F34E4_S_80024CE4_3_pre *)((*(void **)((u8 *)effect + 0x2C))))[-1].unk_00;
-    wave_height = func_800644B8(angle) * (s16) (*(u16 *)((u8 *)effect + 0x38));
+    wave_height = rsin(angle) * (s16) (*(u16 *)((u8 *)effect + 0x38));
     height_offset = wave_height * 2;
     (*(s32 *)((u8 *)transform + 8)) = height_offset;
     (*(s32 *)((u8 *)transform + 8)) = (s32) (height_offset + (*(s32 *)((u8 *)effect + 0x40)));

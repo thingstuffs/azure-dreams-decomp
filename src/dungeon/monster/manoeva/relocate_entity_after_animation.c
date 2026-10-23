@@ -108,17 +108,17 @@ typedef struct S_80175594_7 {
 
    /* *global in relocate_entity_after_animation */
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
-extern void func_800666F4(void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
+extern void SetPolyFT4(void *);
 extern u8 sprite_projection_matrix[];
 
 typedef struct {
@@ -190,7 +190,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
     ((S_80175594_1 *)scratch)->unk_02 = position->unk_06;
     ((S_80175594_1 *)scratch)->unk_04 = position->unk_0A;
     packet = (Packet *)((GpuContext *)state)->packetCursor;
-    ((S_80175594_1 *)scratch)->unk_C0 = func_80065420(
+    ((S_80175594_1 *)scratch)->unk_C0 = RotTransPers(
         scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
 
     render->unk_14 |= 0x8000;
@@ -205,7 +205,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
     }
 
     if ((u32)((S_80175594_1 *)scratch)->unk_C0 < 0x1E0U) {
-        func_800649A0();
+        PushMatrix();
         ((S_80175594_1 *)scratch)->unk_B8 -= 0xA0;
         ((S_80175594_1 *)scratch)->unk_BA -= 0x78;
         ((S_80175594_1 *)scratch)->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
@@ -224,15 +224,15 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
             render->unk_20;
         ((S_80175594_1 *)scratch)->unk_10A = ((S_80175594_1 *)scratch)->unk_E8 =
             render->unk_22;
-        func_80065820(scratch + 0x100, scratch + 0xD0);
+        RotMatrix(scratch + 0x100, scratch + 0xD0);
 
         ((S_80175594_1 *)scratch)->unk_30 = render->unk_1C;
         ((S_80175594_1 *)scratch)->unk_34.s32 = render->unk_1E;
         ((S_80175594_1 *)scratch)->unk_38.s32 = 0x1000;
-        func_80064BC0(scratch + 0xD0, scratch + 0x30);
-        func_80064840(matrix, scratch + 0xD0, scratch + 0x50);
-        func_80064D80(scratch + 0x50);
-        func_80064CF0(scratch + 0x50);
+        ScaleMatrix(scratch + 0xD0, scratch + 0x30);
+        CompMatrix(matrix, scratch + 0xD0, scratch + 0x50);
+        SetTransMatrix(scratch + 0x50);
+        SetRotMatrix(scratch + 0x50);
 
         texture = (Texture *)render->unk_08;
         ((S_80175594_1 *)scratch)->unk_24 = render->unk_14;
@@ -284,7 +284,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
                 screen_0 = scratch + 0xF0;
                 ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * sprite->unk_30) >> 12;
 
-                func_800654B0(scratch + 0x70, vertex_1,
+                RotTransPers4(scratch + 0x70, vertex_1,
                               vertex_2, vertex_3,
                               screen_0, scratch + 0xF4,
                               scratch + 0xF8, scratch + 0xFC,
@@ -366,12 +366,12 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
                 }
 
                 ((S_80175594_7 *)packet)->unk_04.at00.v = render->unk_0C;
-                func_800666F4(packet);
+                SetPolyFT4(packet);
                 if (((S_80175594_1 *)scratch)->unk_24 & 8) {
                     ((S_80175594_7 *)packet)->unk_04.at03.v |= 2;
                 }
 
-                func_8006658C(((S_80175594_1 *)scratch)->unk_20 +
+                AddPrim(((S_80175594_1 *)scratch)->unk_20 +
                               ((S_80175594_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet++;
@@ -383,7 +383,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
             texture++;
         }
 
-        func_80064A40();
+        PopMatrix();
     }
 
     ((GpuContext *)(*(u8 **)&render_globals->draw_buffer))->packetCursor = packet;

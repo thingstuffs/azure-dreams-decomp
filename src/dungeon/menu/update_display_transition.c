@@ -4,7 +4,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004DC14();                    /* extern */
-u32 func_80069E98();                             /* extern */
+u32 strlen();                             /* extern */
 extern void copy_cached_hud_rectangle_to_fixed_position(void);
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
@@ -153,7 +153,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
                 flag_optional_object_for_removal(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
                 copy_cached_hud_rectangle_to_fixed_position();
                 layout = transition->unk_40;
-                layout->unk_88 = (s16) (((3 - (func_80069E98(transition->unk_2C) >> 1)) * 6) + 0xA4);
+                layout->unk_88 = (s16) (((3 - (strlen(transition->unk_2C) >> 1)) * 6) + 0xA4);
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = func_8004DC14(transition->unk_2C, 6);
                 if (((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 == 0) {
                     return;

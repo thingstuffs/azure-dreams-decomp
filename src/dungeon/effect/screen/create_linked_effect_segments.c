@@ -8,8 +8,8 @@
 extern u8 D_800DF334[];
 void spawn_spiraling();
 void *allocate_list_node();
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 s16 calculate_planar_heading();
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
@@ -91,8 +91,8 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
             render_state->scale_x = 0x800;
             segment_state->unk_30 = 0x10;
             if (segment_index == 0) {
-                segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));
-                segment_state->unk_16 = (s16) (coords->unk_06 + (func_800644B8(angle) >> 5));
+                segment_state->unk_14 = (s16) (coords->unk_02 + (rcos(angle) >> 5));
+                segment_state->unk_16 = (s16) (coords->unk_06 + (rsin(angle) >> 5));
                 segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
                 spawn_spiraling((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, ((void *)segment) + 0x2C);

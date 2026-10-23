@@ -325,9 +325,9 @@ typedef struct {
     s32 unk1FC;
 } S_800A1600_D80083160;
 
-extern s32 func_80065420();
-extern void func_80066640();
-extern void func_800666F4();
+extern s32 RotTransPers();
+extern void SetSemiTrans();
+extern void SetPolyFT4();
 
 /* Projects linked items into textured quads and adds them to the ordering table. */
 s32 create_counted_sprite_effect(void *first_item) {
@@ -356,7 +356,7 @@ s32 create_counted_sprite_effect(void *first_item) {
         point_index = 0;
         screen_point = screen_base;
         do {
-            depth_index = func_80065420(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
+            depth_index = RotTransPers(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
             screen_point = (u8 *)screen_point + 4;
             point_index++;
             world_pos[2] += ((S_81988C1C_0 *)item)->unk_4E;
@@ -379,8 +379,8 @@ s32 create_counted_sprite_effect(void *first_item) {
             packet = ((S_81988C1C_3 *)packet_pool)->unk_8D0;
             ((S_81988C1C_3 *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
             ((S_81988C1C_4 *)packet)->unk_04 = 0xA0A0A0;
-            func_800666F4(packet);
-            func_80066640(packet, 1);
+            SetPolyFT4(packet);
+            SetSemiTrans(packet, 1);
 
             ((S_81988C1C_4 *)packet)->unk_16 = ((S_81988C1C_0 *)item)->unk_50;
             (*(u16 *)((u8 *)packet + 0x0E)) = ((S_81988C1C_0 *)item)->unk_52;
@@ -510,10 +510,10 @@ typedef struct Resource {
 extern u8 D_800DEC00[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern s32 func_8006649C(s32, s32);
-extern s32 func_80069EF8(void);
+extern s32 rsin(s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 GetClut(s32, s32);
+extern s32 rand(void);
 
 /* Moves an animated effect toward the actor's sprite offset and emits randomized fragments until it ends. */
 void update_effect_and_spawn_fragments(MainObject *obj)
@@ -536,8 +536,8 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     state = obj->state;
     switch (state) {
     case 0:
-        obj->value_a = func_80066460(0, 1, 0x2C0, 0x100);
-        obj->value_b = func_8006649C(0x80, 0x1F7);
+        obj->value_a = GetTPage(0, 1, 0x2C0, 0x100);
+        obj->value_b = GetClut(0x80, 0x1F7);
         obj->size_b = 0x1F;
         obj->size_a = 0x1F;
         obj->age = 0;
@@ -549,7 +549,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             obj->x += (hit[0] + view_reference_entity.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + view_reference_entity.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + view_reference_entity.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
-            obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
+            obj->z -= rsin((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
             obj->timer = 0x10;
@@ -603,11 +603,11 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             child = effect->child;
 
             effect->position->x = obj->x +
-                (((func_80069EF8() & 0x3FF) - 0x1FF) << 12);
+                (((rand() & 0x3FF) - 0x1FF) << 12);
             effect->position->y = obj->y +
-                (((func_80069EF8() & 0x3FF) - 0x1FF) << 12);
+                (((rand() & 0x3FF) - 0x1FF) << 12);
             effect->position->z = obj->z +
-                (((func_80069EF8() & 0x3FF) - 0x1FF) << 11);
+                (((rand() & 0x3FF) - 0x1FF) << 11);
 
             child->scale_y = 0x1000;
             child->scale_x = 0x1000;
@@ -683,7 +683,7 @@ typedef struct S_80024B20_5 {
     u32 unk_14A0;
 } S_80024B20_5;   /* page in update_segment */
 
-extern s32 func_800644B8();
+extern s32 rsin();
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
 void update_segment(void *effect) {
@@ -733,7 +733,7 @@ void update_segment(void *effect) {
         s32 phase = ((S_80024B20_2 *)effect)->unk_42.s;
         color += 0xC0C0C;
         ((S_80024B20_2 *)effect)->unk_0C = color;
-        ((S_80024B20_2 *)effect)->unk_3A = func_800644B8(phase << 9) >> 7;
+        ((S_80024B20_2 *)effect)->unk_3A = rsin(phase << 9) >> 7;
         if (((S_80024B20_2 *)effect)->unk_0C > 0x60605F) {
             ((S_80024B20_2 *)effect)->unk_42.u = 0x38;
             ((S_80024B20_2 *)effect)->unk_40.u++;

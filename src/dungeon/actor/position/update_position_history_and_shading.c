@@ -16,7 +16,7 @@ typedef struct {
     s32 height;
 } HeightData;
 
-extern s32 func_800644B8(s32, s32);
+extern s32 rsin(s32, s32);
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
 void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
@@ -85,7 +85,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
             }
             S32_AT(obj, 0x14) +=
                 (view_reference_entity.z.v -
-                 (func_800644B8(S16_AT(obj, 0x66) * 42, S16_AT(obj, 0x66)) << 12) -
+                 (rsin(S16_AT(obj, 0x66) * 42, S16_AT(obj, 0x66)) << 12) -
                  S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
 
             if (S16_AT(obj, 0x6A) < 0x80) {

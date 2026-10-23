@@ -31,7 +31,7 @@ typedef struct S_8016D0E0_1 {
 } S_8016D0E0_1;   /* arg3 in update_hop_to_tile_and_complete */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -94,7 +94,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
                 (((((SpriteFrameState *)sprite)->unk_25 << 6) - position_y) << 16) /
                 ((S_8016D0E0_0 *)action)->unk_9E.u;
             ((S_8016D0E0_0 *)action)->unk_A0 =
-                (-func_800644B8(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
+                (-rsin(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
         }
 
         ((S_8016D0E0_0 *)action)->unk_90 += ((S_8016D0E0_0 *)action)->unk_A0;

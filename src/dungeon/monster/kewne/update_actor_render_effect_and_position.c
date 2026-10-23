@@ -42,8 +42,8 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
     if (state == 0) {
         page_packet = ((ovl_9c32d4_809A32D4_S_80174AD4_0 *)initial_page)->unk_8D0;
         ((ovl_9c32d4_809A32D4_S_80174AD4_0 *)initial_page)->unk_8D0 = (u8 *)page_packet + 0xC;
-        func_80067E2C(page_packet, DUNGEON_FROM_PAGE);
-        func_8006658C(packet_list, page_packet);
+        SetDrawArea(page_packet, DUNGEON_FROM_PAGE);
+        AddPrim(packet_list, page_packet);
 
         draw_y = 0x110;
         draw_region.x = 0x340;
@@ -74,13 +74,13 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
         packed_size = *(s32 *)&draw_region.w;
         ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_0A = draw_y;
         ((ovl_9c32d4_809A32D4_S_80174AD4_2 *)rect_packet)->unk_0C = packed_size;
-        func_8006658C(packet_list, rect_packet);
+        AddPrim(packet_list, rect_packet);
 
         region_page = DUNGEON_FROM_PAGE;
         region_packet = ((ovl_9c32d4_809A32D4_S_80174AD4_3 *)region_page)->unk_8D0;
         ((ovl_9c32d4_809A32D4_S_80174AD4_3 *)region_page)->unk_8D0 = (u8 *)region_packet + 0xC;
-        func_80067E2C(region_packet, (void *)&draw_region);
-        func_8006658C(packet_list, region_packet);
+        SetDrawArea(region_packet, (void *)&draw_region);
+        AddPrim(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
         register_node((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
@@ -192,9 +192,9 @@ void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject
     if (object != 0) {
         object->update = advance_directional_effect_motion;
         register_node(object, project_sprite_chain);
-        object->position->x.ovl_9c32d4_809A37C0_half.high = parent->position->x.ovl_9c32d4_809A37C0_half.high + (func_80069EF8() & 0x3F) - 0x20;
-        object->position->y.ovl_9c32d4_809A37C0_half.high = parent->position->y.ovl_9c32d4_809A37C0_half.high + (func_80069EF8() & 0x3F) - 0x20;
-        object->position->z.ovl_9c32d4_809A37C0_half.high = parent->position->z.ovl_9c32d4_809A37C0_half.high + (func_80069EF8() & 0x3F) - 0x20;
+        object->position->x.ovl_9c32d4_809A37C0_half.high = parent->position->x.ovl_9c32d4_809A37C0_half.high + (rand() & 0x3F) - 0x20;
+        object->position->y.ovl_9c32d4_809A37C0_half.high = parent->position->y.ovl_9c32d4_809A37C0_half.high + (rand() & 0x3F) - 0x20;
+        object->position->z.ovl_9c32d4_809A37C0_half.high = parent->position->z.ovl_9c32d4_809A37C0_half.high + (rand() & 0x3F) - 0x20;
         draw = object->draw;
         state = &object->state;
         draw->source = D_80175F9C;
@@ -202,7 +202,7 @@ void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject
         draw->color.word = value;
         draw->unk_06 = 8;
         state->direction = direction;
-        state->speed = (func_80069EF8() & 0xFF) | 0x80;
+        state->speed = (rand() & 0xFF) | 0x80;
     }
 }
 
@@ -257,8 +257,8 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
     radii.inner_y = radius_a_y;
     radii.outer_x = radius_b_x;
     radii.outer_y = radius_b_y;
-    sin_angle = func_80064584(angle) >> 4;
-    cos_angle = func_800644B8(angle) >> 4;
+    sin_angle = rcos(angle) >> 4;
+    cos_angle = rsin(angle) >> 4;
     segment_limit.v = end_segment;
     segment = start_segment;
 
@@ -274,9 +274,9 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
         do {
             angle += 0x80;
             prev_sin = sin_angle;
-            sin_angle = func_80064584(angle) >> 4;
+            sin_angle = rcos(angle) >> 4;
             prev_cos = cos_angle;
-            cos_angle = func_800644B8(angle);
+            cos_angle = rsin(angle);
             cos_angle = cos_angle >> 4;
 
             color_b = *color_b_ptr;
@@ -285,7 +285,7 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
             color_a = *color_a_ptr;
             (*(u32 *)((u8 *)vertex_data + 0x0E)) = color_a;
             (*(u32 *)((u8 *)vertex_data + 0x02)) = color_a;
-            func_8006671C(prim);
+            SetPolyGT4(prim);
 
             ((ovl_9c32d4_809A38E4_S_801750E4_0 *)vertex_data)->unk_0A = 1;
             ((ovl_9c32d4_809A38E4_S_801750E4_0_pre *)vertex_data)[-1].unk_04 = 1;
@@ -316,7 +316,7 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
             ((ovl_9c32d4_809A38E4_S_801750E4_0 *)vertex_data)->unk_00 = 0x133;
 
             submit_prim = prim;
-            func_8006658C(draw_bucket, submit_prim);
+            AddPrim(draw_bucket, submit_prim);
             prim += sizeof(ovl_9c32d4_809A38E4_Block);
             next_vertex = vertex_data + sizeof(ovl_9c32d4_809A38E4_Block);
             next_segment = segment;

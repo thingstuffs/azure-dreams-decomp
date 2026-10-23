@@ -177,7 +177,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
 
                         jitter_point->y = (s16)((u16)screen_points[4].y +
                                                 row_offset);
-                        x_jitter = func_80069EF8() % step;
+                        x_jitter = rand() % step;
                         segment_index--;
                         row_offset -= step;
                         half_step = jitter_corner->x;
@@ -209,11 +209,11 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                         }
                         primitive_color = 0x00808080;
                         ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_04 = primitive_color;
-                        func_800666F4(primitive);
-                        func_80066640(primitive, 1);
+                        SetPolyFT4(primitive);
+                        SetSemiTrans(primitive, 1);
                         ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_16 =
-                            func_80066460(0, 1, 0x2C0, 0x100);
-                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0E = func_8006649C(0xA0, 0x1F7);
+                            GetTPage(0, 1, 0x2C0, 0x100);
+                        ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_0E = GetClut(0xA0, 0x1F7);
 
                         vertex_y = segment_start->y;
                         ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_1A = (u16)vertex_y;

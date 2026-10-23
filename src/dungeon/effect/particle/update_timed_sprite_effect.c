@@ -68,11 +68,11 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                 sprite_or_x = (s32)((ProjectileObject *)particle_or_y)->unk_0C;
                 ((ProjectileObject *)particle_or_y)->unk_10 = update_timed_sprite_effect;
                 ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_00.s =
-                    motion->unk_00.s + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                    motion->unk_00.s + (((rand() & 0x3FF) - 511) << 9);
                 ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_04.s =
-                    motion->unk_04.s + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                    motion->unk_04.s + (((rand() & 0x3FF) - 511) << 9);
                 ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_08.s =
-                    motion->unk_08.s + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                    motion->unk_08.s + (((rand() & 0x3FF) - 511) << 9);
                 if (effect->unk_0A.s == 2) {
                     ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_0C =
                         motion->unk_0C >> 2;
@@ -88,11 +88,11 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                 } else {
                     particle_data = (ProjectileParticle *)((u8 *)particle_or_y + 0x20);
                 }
-                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_14 = -func_80069EF8() << 1;
+                ((ProjectileMotion *)((ProjectileObject *)particle_or_y)->unk_08)->unk_14 = -rand() << 1;
                 ((ProjectileSprite *)sprite_or_x)->unk_1E = 0x1000;
                 ((ProjectileSprite *)sprite_or_x)->unk_1C = 0x1000;
                 ((ProjectileSprite *)sprite_or_x)->unk_14 |= 0xC;
-                if (func_80069EF8() & 1) {
+                if (rand() & 1) {
                     ((ProjectileSprite *)sprite_or_x)->unk_14 |= 1;
                 }
                 *(s16 *)((u8 *)sprite_or_x + 0x10) = 96;
@@ -103,7 +103,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                 ((ProjectileSprite *)sprite_or_x)->unk_0C.at00u.v = 0x3030C0;
                 particle_data->unk_00 = effect;
                 particle_data->unk_4C.u = 0;
-                particle_data->unk_48 = func_80069EF8() & 3;
+                particle_data->unk_48 = rand() & 3;
                 particle_data->unk_4A = index_or_x + 40;
                 particle_data->unk_04 = (s8)caster->unk_72.u;
                 particle_data->unk_06 = (s8)caster->unk_73.u;
@@ -308,7 +308,7 @@ next_record:
     world_point.z = (u16)position->z.w.i - 14;
 
     for (endpoint = 0; endpoint < 2; endpoint++) {
-        depth = func_80065420(&world_point, &screen_base[endpoint * 2], projection_out, projection_out) - 8;
+        depth = RotTransPers(&world_point, &screen_base[endpoint * 2], projection_out, projection_out) - 8;
         world_point.z += 28;
     }
 
@@ -325,10 +325,10 @@ next_record:
         poly = (POLY_FT4 *)((RenderContext *)render_state->draw_buffer)->next_prim;
         ((RenderContext *)render_state->draw_buffer)->next_prim = (u8 *)poly + sizeof(POLY_FT4);
         *(u32 *)&poly->r0 = 0x00808080;
-        func_800666F4(poly);
-        func_80066640(poly, 1);
-        poly->tpage = func_80066460(0, 1, 0x2C0, 0x100);
-        poly->clut = func_8006649C(0, 0x1F8);
+        SetPolyFT4(poly);
+        SetSemiTrans(poly, 1);
+        poly->tpage = GetTPage(0, 1, 0x2C0, 0x100);
+        poly->clut = GetClut(0, 0x1F8);
 
         half_width = height >> 1;
         poly->x0 = poly->x1 = screen[0] + (u16)half_width;

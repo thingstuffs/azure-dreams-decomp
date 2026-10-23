@@ -4,7 +4,7 @@
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(void *, void *, void *);
 
@@ -127,7 +127,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             angle = (s8)quadrant;
             if ((*(s8 *)((u8 *)entity + 0x97)) == angle) {
                 angle = ((S_800BA00C_5 *)((*(void * *)((u8 *)entity + 0x9C))))->unk_66;
-                ((S_800BA00C_1 *)obj)->unk_08.i = -((func_800644B8(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
+                ((S_800BA00C_1 *)obj)->unk_08.i = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)((u8 *)entity + 0x66)) = 0x1E;
             } else {
                 ((S_800BA00C_1 *)obj)->unk_08.i = 0;

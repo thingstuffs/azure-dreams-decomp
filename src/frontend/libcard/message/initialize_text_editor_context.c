@@ -28,9 +28,9 @@ void initialize_text_editor_context(void *dest, s32 record_index)
     entry = (u8 *)(unsigned long)0x80010080;
     descriptor.second += record_index * 0x10;
     do {
-        func_8006733C(&descriptor, entry);
+        StoreImage(&descriptor, entry);
         descriptor.first += 4;
         entry += 0x80;
     } while (++entry_index < 3);
-    func_80067014(0);
+    DrawSync(0);
 }

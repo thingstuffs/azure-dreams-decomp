@@ -12,7 +12,7 @@ extern s32 register_node();
 s32 decode_fullwidth_text();
 s32 build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
-s32 func_80069E98();
+s32 strlen();
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
@@ -101,7 +101,7 @@ void *create_panel_effect_object(void *owner)
                 *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
                 text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
                 prim_index = 4;
-                text_width = func_80069E98(text_addr + 1);
+                text_width = strlen(text_addr + 1);
     
             }
             else {
@@ -109,7 +109,7 @@ void *create_panel_effect_object(void *owner)
                 *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, text_table[4] + 1, 0);
                 text_addr_2 = text_table[4];
                 prim_index = 4;
-                text_width = func_80069E98(text_addr_2 + 1);
+                text_width = strlen(text_addr_2 + 1);
             }
             text_width *= 4;
                 offset_record_coordinates(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80),
@@ -576,7 +576,7 @@ extern s32 D_800DF03C[];
 extern void * allocate_list_node();
 extern s32 register_node();
 extern s32 build_positioned_text_glyphs(void *, s32, s32);
-extern s32 func_80069E98(s32);
+extern s32 strlen(s32);
 extern s32 allocate_panel_offset_or_zero(void);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
@@ -654,7 +654,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             table_entry = (s32 *)((style_byte * 4) + (s32)base_2);
             hard_zero = 0;
             *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
-            style_hold = func_80069E98(*table_entry) * 8;
+            style_hold = strlen(*table_entry) * 8;
             count++;
             tmp = value_a << 2;
             tmp += value_a;
@@ -827,7 +827,7 @@ typedef struct S_800B1B10_7 {
 extern void * allocate_list_node();
 extern s32 register_node();
 s32 decode_fullwidth_text();
-s32 func_80069E98();
+s32 strlen();
 s32 get_unused_text_buffer();
 s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
@@ -909,7 +909,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 mask_v1 = 0x7FFFFFFF;
                 ((S_800B1B10_0 *)obj)->unk_74 = value_5 & mask_v1;
             }
-            obj_2 = func_80069E98(value_4) * 4;
+            obj_2 = strlen(value_4) * 4;
             if ((compact_held << 0x10) != 0) {
                 tail = 0x89 - obj_2;
                 offset = (s16) tail;
@@ -931,7 +931,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 *slots = color_v0;
             }
             slots++;
-            func_80069E98(value_4);
+            strlen(value_4);
             b_held = (s32) allocate_panel_offset_or_zero();
             ((S_800B1B10_2 *)sub)->unk_2C = b_held;
             {

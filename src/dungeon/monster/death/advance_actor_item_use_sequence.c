@@ -18,7 +18,7 @@ typedef struct {
 extern int abs(int);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -256,10 +256,10 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                 s16 offset_z;
 
                 i++;
-                brightness = (func_80069EF8() & 0xFF) | 0x80;
-                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_z = (func_80069EF8() & 0x7F) - 0x40;
+                brightness = (rand() & 0xFF) | 0x80;
+                offset_x = (s16)((rand() & 0x7F) - 0x40);
+                offset_y = (s16)((rand() & 0x7F) - 0x40);
+                offset_z = (rand() & 0x7F) - 0x40;
                 create_parent_return_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
                               brightness, offset_x, offset_y, offset_z);
             } while ((u16)i < 5);
@@ -321,7 +321,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                     s32 brightness;
 
                     i++;
-                    brightness = (func_80069EF8() & 0xFF) | 0x80;
+                    brightness = (rand() & 0xFF) | 0x80;
                     spawn_parent_offset_random_motion_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
                                   brightness, 0, 0, 0);
                 }

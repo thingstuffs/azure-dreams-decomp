@@ -36,9 +36,9 @@ typedef struct Object {
 extern void select_record_entry_and_value(Sprite *, void *, s32);
 extern void register_node(Object *, void *);
 extern void SD_Call(s32, s32);
-extern void func_80067014(s32);
-extern void func_800672D8(void *, void *);
-extern void func_8006733C(void *, void *);
+extern void DrawSync(s32);
+extern void LoadImage(void *, void *);
+extern void StoreImage(void *, void *);
 extern s32 rand(void);
 extern void set_linked_object_and_global_flags(void);
 
@@ -114,8 +114,8 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         s32 channel_max;
         s32 color_bias;
 
-        func_8006733C(D_800D2324, colors);
-        func_80067014(0);
+        StoreImage(D_800D2324, colors);
+        DrawSync(0);
 
         index = 15;
         channel_max = 0x1F;
@@ -143,8 +143,8 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             }
         }
 
-        func_800672D8(D_800D231C, colors);
-        func_80067014(0);
+        LoadImage(D_800D231C, colors);
+        DrawSync(0);
         if (state->timer <= 0) {
             state->timer = 0x1E;
             state->state++;
@@ -161,8 +161,8 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             colors[index] = (blue << 10) + ((green << 5) - 0x8000) + red;
             index--;
         } while (index >= 0);
-        func_800672D8(D_800D231C, colors);
-        func_80067014(0);
+        LoadImage(D_800D231C, colors);
+        DrawSync(0);
         if (state->timer <= 0) {
             state->timer = 0x20;
             state->state++;
@@ -195,8 +195,8 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             output_color--;
             index--;
         } while (index >= 0);
-        func_800672D8(D_800D231C, colors);
-        func_80067014(0);
+        LoadImage(D_800D231C, colors);
+        DrawSync(0);
         if (state->timer <= 0) {
             state->state++;
         }
@@ -204,8 +204,8 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
     }
 
     case 5:
-        func_800672D8(D_800D231C, D_80113138);
-        func_80067014(0);
+        LoadImage(D_800D231C, D_80113138);
+        DrawSync(0);
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

@@ -341,8 +341,8 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 #define DELTA(i) (((Row_8191CD78_S_func_80024578_13 *)scratch)->unk_18[(i)])
 
 /* Updates effect movement, target spinning, and completion across animation states. */
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 s32 select_record_entry_and_value(void *, void *, s16);
 s32 register_node(void *, void *);
 s32 func_8004491C(void *, void *);

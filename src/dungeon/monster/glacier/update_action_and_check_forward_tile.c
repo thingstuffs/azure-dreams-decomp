@@ -17,7 +17,7 @@ extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 check_left_tile_and_center_height(u16, u16, s16);
@@ -137,15 +137,15 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                     particle_transform->unk_0A += offsets[2];
                 }
 
-                x = (func_80069EF8() & 0x1F) - 0x10;
-                y = (func_80069EF8() & 0x1F) - 0x10;
+                x = (rand() & 0x1F) - 0x10;
+                y = (rand() & 0x1F) - 0x10;
                 particle_transform->unk_02 += x;
                 particle_transform->unk_06 += y;
                 ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
                 ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
                 ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].x << 16;
                 ((S_801757E0_3 *)particle_work)->unk_54.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].y << 16;
-                ((S_801757E0_3 *)particle_work)->unk_58 = -(func_80069EF8() + 0x50000);
+                ((S_801757E0_3 *)particle_work)->unk_58 = -(rand() + 0x50000);
                 ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
 
                 sprite = particle->sprite;

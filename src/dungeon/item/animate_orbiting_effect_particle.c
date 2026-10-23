@@ -37,8 +37,8 @@ struct EffectColor {
     u16 value_1e;
 };
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s32 rand(void);
 
 /* Updates effect brightness, paired color values, and motion through three stages. */
@@ -137,15 +137,15 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Effe
 
         next_phase = state->phase + 1;
         state->phase = next_phase;
-        next_angle = state->angle + (func_800644B8((next_phase << 16) >> 8) >> 6);
+        next_angle = state->angle + (rsin((next_phase << 16) >> 8) >> 6);
         state->angle = next_angle;
-        work->value = state->work->value + ((func_80064584((s16)next_angle) * state->current) >> 12);
+        work->value = state->work->value + ((rcos((s16)next_angle) * state->current) >> 12);
     }
 
     {
         s32 height_product;
 
-        height_product = func_800644B8((s16)state->angle) * state->current;
+        height_product = rsin((s16)state->angle) * state->current;
         work->height = state->work->height + (height_product >> 12);
         work->position += work->offset;
     }

@@ -35,7 +35,7 @@ void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2
         ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_0C + motion->unk_14;
     motion->unk_08 =
         ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_0C -
-        ((func_800644B8((0x800 / (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08) *
+        ((rsin((0x800 / (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08) *
                         (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_06.s) >> 4) << 0xE);
     scale_step = 0x200 / (s16) ((ovl_1930844_81910844_S_81910844_0 *)state)->unk_08;
     angle = visual->unk_1A;
@@ -149,7 +149,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
         *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
-        radial_x = ((func_800644B8(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
+        radial_x = ((rsin(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_x / scale;
         *((s32 *) (((u8 *) scratch) + 0x108)) = radial_x;
@@ -164,7 +164,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         start_screen = scratch + 0xD8;
         end_vertex = scratch + 0x6C;
         end_screen = scratch + 0xDC;
-        radial_y = ((func_80064584(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
+        radial_y = ((rcos(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_y / scale;
         *((s32 *) (((u8 *) scratch) + 0x10C)) = radial_y;
@@ -182,8 +182,8 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
         *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
         origin_ptr = scratch + 0x88;
-        *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(start_vertex, start_screen, render_ptr, origin_ptr);
-        *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(end_vertex, end_screen, render_ptr,
+        *((s32 *) (((u8 *) scratch) + 0xF4)) = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
+        *((s32 *) (((u8 *) scratch) + 0xF8)) = RotTransPers(end_vertex, end_screen, render_ptr,
             origin_ptr);
         *((u16 *) (((u8 *) line_packet) + 8)) = *((u16 *) (((u8 *) scratch) + 0xD8));
         *((u16 *) (((u8 *) line_packet) + 0xA)) = *((u16 *) (((u8 *) scratch) + 0xDA));
@@ -201,7 +201,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
             render_ctx = *render_ptr;
             draw_mode_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
             *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = draw_mode_packet + 0xC;
-            func_80067F20(draw_mode_packet, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
+            SetDrawMode(draw_mode_packet, 0, 0, GetTPage(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
                 0) & 0xFFFF, 0);
             OT_SETADDR(draw_mode_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))), addr_mask), 0xFF000000, addr_mask);
@@ -296,7 +296,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
         ovl_1930844_81910EC0_U16_AT(scratchpad, 0x78) = coord;
         ovl_1930844_81910EC0_U16_AT(scratchpad, 0x80) = coord;
 
-        ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) = func_80065590(
+        ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) = RotAverage4(
             scratchpad + 0x64, scratchpad + 0x6C,
             scratchpad + 0x74, scratchpad + 0x7C,
             scratchpad + 0xD8, scratchpad + 0xDC,
@@ -325,8 +325,8 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
             gfx_pool = (GpuContext **)gfx_slot;
             packet = (*gfx_pool)->packetCursor;
             (*gfx_pool)->packetCursor = packet + 0xC;
-            func_80067F20(packet, 0, 0,
-                (u16)func_80066460(0, ovl_1930844_81910EC0_S16_AT(shape, 0x12), 0, 0), 0);
+            SetDrawMode(packet, 0, 0,
+                (u16)GetTPage(0, ovl_1930844_81910EC0_S16_AT(shape, 0x12), 0, 0), 0);
 
             ovl_1930844_81910EC0_U32_AT(packet, 0) = (ovl_1930844_81910EC0_U32_AT(packet, 0) & length_mask) |
                 (*(u32 *)(ovl_1930844_81910EC0_PTR_AT(scratchpad, 0x18) + ovl_1930844_81910EC0_U32_AT(scratchpad, 0xB4) * 4) & addr_mask);
@@ -416,9 +416,9 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
         link = (u32 *)(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
-        radial_x = func_800644B8((s32)link);
+        radial_x = rsin((s32)link);
         target_x = radial_coordinate(origin->unk_00, radial_x, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E);
-        row_off = func_80064584(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
+        row_off = rcos(angle_x_or_mask_2 + ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0A);
         row_off >>= 4;
         radial_y = origin->unk_04 +
             ((row_off * ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_0E) << 8);
@@ -477,7 +477,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         sxy3 = (u8 *)scratch + 0xE4;
         depth = (u8 *)scratch + 0x84;
         flag = (u8 *)scratch + 0x88;
-        ovl_1930844_819112CC_SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+        ovl_1930844_819112CC_SP32(0xB4) = RotAverage4(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
                                    depth, (ovl_1930844_819112CC_SP16(0x78) = top_z,
                                     ovl_1930844_819112CC_SP16(0x80) = top_z,
@@ -505,8 +505,8 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }
-            func_80067F20(prim, 0, 0,
-                          func_80066460(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+            SetDrawMode(prim, 0, 0,
+                          GetTPage(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
             ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
             link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
@@ -559,7 +559,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
         }
         next_end_y = ((ovl_1930844_819112CC_S_819112CC_3 *)point)->unk_2C.at02.v;
         y_step = ovl_1930844_819112CC_SP16(0x10E);
-        ovl_1930844_819112CC_SP32(0xB4) = func_80065590(vertex_base, v1, v2, v3,
+        ovl_1930844_819112CC_SP32(0xB4) = RotAverage4(vertex_base, v1, v2, v3,
                                    sxy0, sxy1, sxy2, sxy3,
                                    depth, (next_end_y += y_step,
                                     ovl_1930844_819112CC_SP16(0x7E) = next_end_y,
@@ -588,8 +588,8 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }
-            func_80067F20(prim, 0, 0,
-                          func_80066460(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+            SetDrawMode(prim, 0, 0,
+                          GetTPage(0, ((ovl_1930844_819112CC_S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
             ovl_1930844_819112CC_setaddr(prim, ovl_1930844_819112CC_getaddr(&((u32 *)ovl_1930844_819112CC_SP32(0x18))[ovl_1930844_819112CC_SP32(0xB4)]));
             link = (u32 *)ovl_1930844_819112CC_SP32(0xB4);
@@ -621,9 +621,9 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     green_blue = -0x40 - (((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 * 0xC);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_06 = green_blue;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
-    func_800667A8(overlay);
+    SetTile(overlay);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
-    func_8006658C(*(s32 *)&g_game_work.draw_buffer + 0xB0, overlay);
+    AddPrim(*(s32 *)&g_game_work.draw_buffer + 0xB0, overlay);
     frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
     ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
@@ -659,8 +659,8 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
     effect->timer++;
 
     for (point_index = 0; point_index < 5; point_index++) {
-        effect->x[point_index] = position[0] + (((func_800644B8(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
-        effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
+        effect->x[point_index] = position[0] + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
+        effect->y[point_index] = position[1] + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
     }
 
     state = effect->state;
@@ -768,8 +768,8 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
         effect->scale = (u16)effect->scale * 2;
 
         for (point_index = 0; point_index < 5; point_index++) {
-            effect->x[point_index] = position[0] + (((func_800644B8(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
-            effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+            effect->x[point_index] = position[0] + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+            effect->y[point_index] = position[1] + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
         }
 
         build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(effect, position, 0, 0);

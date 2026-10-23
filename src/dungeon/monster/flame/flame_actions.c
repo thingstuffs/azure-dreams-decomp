@@ -238,7 +238,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                             (*(u16 *)((u8 *)actor + 0x98)) = actor_flags | 0xC000;
                             ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 |= 0x8000;
                             (*(u16 *)((u8 *)actor + 0xA0)) =
-                                (func_80069EF8() & 7) + 0x10;
+                                (rand() & 7) + 0x10;
                         }
                     }
                 }
@@ -282,7 +282,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                         s32 random_value;
 
                         select_sprite_entry((u8 *)direction, 0x19, 0);
-                        random_value = func_80069EF8();
+                        random_value = rand();
                         ground_offset = 0x24;
                         if (random_value & 3) {
                             ground_offset = 0x19;
@@ -340,7 +340,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 
                         (*(u16 *)((u8 *)actor + 0xB8)) = bob_frame + 1;
                         (*(s32 *)((u8 *)actor + 0xB4)) +=
-                            func_800644B8((s16)bob_frame * 0xAA) << 5;
+                            rsin((s16)bob_frame * 0xAA) << 5;
                     }
 
                     if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
@@ -431,7 +431,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 
                         (*(u16 *)((u8 *)actor + 0xB8)) = bob_frame + 1;
                         (*(s32 *)((u8 *)actor + 0xB4)) +=
-                            func_800644B8((s16)bob_frame * 0xAA) << 5;
+                            rsin((s16)bob_frame * 0xAA) << 5;
                     }
 
                     if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
@@ -1954,7 +1954,7 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
         ((R06_80173E94_S_80173E94_1 *)scratch)->unk_04 = ((R06_80173E94_S_80173E94_2 *)vertex)->unk_0A;
         *(u8 **)(scratch + 0x18) = packet + 0xC;
 
-        depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
+        depth_index = RotTransPers(scratch, packet + 8, scratch + 0x90,
                              scratch + 0x94);
         ((R06_80173E94_S_80173E94_1 *)scratch)->unk_C0 = depth_index;
 
@@ -2009,8 +2009,8 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 
             mode_packet = *(u8 **)(scratch + 0x18);
             ((R06_80173E94_S_80173E94_1 *)scratch)->unk_18 = mode_packet + 0xC;
-            shade_or_page = func_80066460(pixel_mode, blend_mode, page_x, pixel_mode);
-            func_80067F20(mode_packet, 0, 0, (u16)shade_or_page, 0);
+            shade_or_page = GetTPage(pixel_mode, blend_mode, page_x, pixel_mode);
+            SetDrawMode(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
             ((R06_80173E94_OrderingTag *)mode_packet)->addr =
                 ((R06_80173E94_OrderingTag *)(((R06_80173E94_S_80173E94_1 *)scratch)->unk_20.p2
@@ -2146,7 +2146,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
     ((R06_80174334_S_80174334_0 *)scratch)->unk_90 = ((R06_80174334_S_80174334_1 *)position)->unk_0A;
     ((R06_80174334_S_80174334_2 *)draw_state)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((R06_80174334_S_80174334_0 *)scratch)->unk_3C = 0x2000;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_38 = 0x2000;
@@ -2154,12 +2154,12 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
     ((R06_80174334_S_80174334_0 *)scratch)->unk_A4 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_16;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_A8 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_1A;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_A6 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = ((R06_80174334_S_80174334_2 *)draw_state)->unk_08;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_28 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_14;
@@ -2183,7 +2183,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
     ((R06_80174334_S_80174334_0 *)scratch)->unk_C4 = ((R06_80174334_S_80174334_4 *)quad)->unk_74;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_CC = ((R06_80174334_S_80174334_4 *)quad)->unk_7A;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x14,
                              packet + 0x20, packet + 0x2C,
@@ -2254,7 +2254,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
             ((R06_80174334_S_80174334_5 *)packet)->unk_1C = ((R06_80174334_S_80174334_4 *)quad)->unk_0C;
             ((R06_80174334_S_80174334_5 *)packet)->unk_28 = ((R06_80174334_S_80174334_4 *)quad)->unk_10;
 
-            func_8006671C(packet);
+            SetPolyGT4(packet);
 
             tex_flags = texture[1];
             ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F = tex_flags;
@@ -2276,7 +2276,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 
@@ -2357,19 +2357,19 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
             ((R06_80174934_S_80174934_0 *)effect)->unk_16.s = phase_bits + 1;
         }
 
-        if (func_80069EF8() & 1) {
-            particle_variant = func_80069EF8() & 7;
-            particle_strength = func_80069EF8() & 0xFF;
+        if (rand() & 1) {
+            particle_variant = rand() & 7;
+            particle_strength = rand() & 0xFF;
             particle_strength = particle_strength | 0x80;
-            random_offset = func_80069EF8();
+            random_offset = rand();
             advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
                 (s16)(-0x70 - (random_offset & 0x1F)));
         } else {
-            particle_variant = func_80069EF8() & 7;
-            particle_strength = func_80069EF8() & 0xFF;
+            particle_variant = rand() & 7;
+            particle_strength = rand() & 0xFF;
             particle_strength = particle_strength | 0x80;
-            random_offset = func_80069EF8();
+            random_offset = rand();
             advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
                 (s16)(-0x40 - (random_offset & 0x1F)));
@@ -2527,26 +2527,26 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         sub->field_7A = 0;
         sub->field_74 = 0;
 
-        trig_value = func_80064584(next_angle);
+        trig_value = rcos(next_angle);
         angle = segment_index << 8;
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_70 = radial_offset;
         sub->field_64 = radial_offset;
 
-        trig_value = func_80064584(trig_angle);
+        trig_value = rcos(trig_angle);
         trig_angle = next_angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_76 = radial_offset;
         sub->field_6A = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
+        trig_value = rsin(trig_angle);
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_72 = radial_offset;
         sub->field_66 = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
+        trig_value = rsin(trig_angle);
         radial_offset = (trig_value * 24) >> 12;
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;
@@ -2730,7 +2730,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             work->unk_0C.i = color;
             asset_index = lookup_masked_byte_table(actor) - 1;
             if (asset_index < 0) {
-                asset_index = func_80069EF8() % 3;
+                asset_index = rand() % 3;
             }
             select_record_entry_and_value(work, ((u8 *)D_8014A000) + ((s32 *)D_80175904)[asset_index], 0);
             entity->flags |= 0x80;

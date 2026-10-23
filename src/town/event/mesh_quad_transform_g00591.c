@@ -14,12 +14,12 @@ void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src) {
 void transform_vector(s32 transform, void *vector, void *transformed) {
     s32 flags;
 
-    func_80064B90(0x1F800054, &D_800D11C0);
-    func_80065820(transform + 8, 0x1F800054);
-    func_80064BC0(0x1F800054, transform + 0x10);
-    func_80064CF0(0x1F800054);
-    func_80064D80(0x1F800054);
-    func_80065450(vector, transformed, &flags);
+    TransMatrix(0x1F800054, &D_800D11C0);
+    RotMatrix(transform + 8, 0x1F800054);
+    ScaleMatrix(0x1F800054, transform + 0x10);
+    SetRotMatrix(0x1F800054);
+    SetTransMatrix(0x1F800054);
+    RotTrans(vector, transformed, &flags);
     copy_even_halfwords_3(vector, transformed);
 }
 
@@ -74,27 +74,27 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             random_factor = rand();
             quad->unk_1C = (random_factor * rand()) & color_masks[3];
 
-            func_80066844(quad);
-            func_80066640(quad, 1);
+            SetLineG4(quad);
+            SetSemiTrans(quad, 1);
 
             copy_menu_vector_halfwords(vertex_0, vertices + (quad_indices[0] * 8));
             copy_menu_vector_halfwords(vertex_1, vertices + (quad_indices[1] * 8));
             copy_menu_vector_halfwords(vertex_2, vertices + (quad_indices[2] * 8));
             copy_menu_vector_halfwords(vertex_3, vertices + (quad_indices[3] * 8));
 
-            func_800649A0();
+            PushMatrix();
             transform_vector((s32)mesh, vertex_0, vertex_work);
             transform_vector((s32)mesh, vertex_1, vertex_work);
             transform_vector((s32)mesh, vertex_2, vertex_work);
             transform_vector((s32)mesh, vertex_3, vertex_work);
-            func_80064A40();
+            PopMatrix();
 
             add_entity_position_to_menu_vector(vertex_0, transform);
             add_entity_position_to_menu_vector(vertex_1, transform);
             add_entity_position_to_menu_vector(vertex_2, transform);
             add_entity_position_to_menu_vector(vertex_3, transform);
 
-            scratch->unk_C4 = func_800654B0(
+            scratch->unk_C4 = RotTransPers4(
                 vertex_0, vertex_1, vertex_2, vertex_3,
                 &scratch->unk_E8, &scratch->unk_EC,
                 &scratch->unk_F0, &scratch->unk_F4,
@@ -117,8 +117,8 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             render_state = (S_func_800AC9AC_2 *)*render_state_ptr;
             draw_mode = render_state->unk_8D0;
             render_state->unk_8D0 = (u8 *)draw_mode + 0xC;
-            func_80067F20(draw_mode, 1, 0,
-                          (u16)func_80066460(0, 0, 0x140, 0), 0);
+            SetDrawMode(draw_mode, 1, 0,
+                          (u16)GetTPage(0, 0, 0x140, 0), 0);
 
             length_mask = 0xFF000000;
             draw_mode[0] = (draw_mode[0] & length_mask) | (OTSLOT() & address_mask);
@@ -129,8 +129,8 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             render_state = (S_func_800AC9AC_2 *)*render_state_ptr;
             draw_mode = render_state->unk_8D0;
             render_state->unk_8D0 = (u8 *)draw_mode + 0xC;
-            func_80067F20(draw_mode, 1, 0,
-                          (u16)func_80066460(0, 1, 0x140, 0), 0);
+            SetDrawMode(draw_mode, 1, 0,
+                          (u16)GetTPage(0, 1, 0x140, 0), 0);
 
             length_mask = 0xFF000000;
             quad_indices += 4;

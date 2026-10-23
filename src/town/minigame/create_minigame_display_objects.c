@@ -52,7 +52,7 @@ extern u8 D_800246E0[];
 extern u8 D_80046398[];
 
 extern void register_node();
-extern void func_8006733C();
+extern void StoreImage();
 extern void configure_the_set_mode_n_3();
 
 /* Creates parent and child display objects and uploads their graphics data. */
@@ -168,10 +168,10 @@ void create_minigame_display_objects(void)
     upload_rect[1] = 0x1D0;
     upload_rect[2] = 0x20;
     upload_rect[3] = 1;
-    func_8006733C(upload_rect, D_80024640);
+    StoreImage(upload_rect, D_80024640);
     upload_rect[0] = 0xC0;
     upload_rect[1] = 0x1F8;
     upload_rect[2] = 0x30;
     upload_rect[3] = 1;
-    func_8006733C(upload_rect, D_80024680);
+    StoreImage(upload_rect, D_80024680);
 }

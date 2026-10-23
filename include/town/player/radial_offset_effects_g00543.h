@@ -57,8 +57,8 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 extern s32 register_node();
 extern s32 D_800ABB20;
 extern s32 D_800D1464;
-extern s32 func_800644B8(s32 value);
-extern s32 func_80064584(s32 value);
+extern s32 rsin(s32 value);
+extern s32 rcos(s32 value);
 
 extern u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 extern s32 rand(void);

@@ -37,9 +37,9 @@ typedef struct Packet {
     } data;
 } Packet;
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 s32 queue_linked_point_packets(u8 *item_data, u16 *coords);
 #endif

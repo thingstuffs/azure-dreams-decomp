@@ -136,9 +136,9 @@ typedef struct DrawSettings {
 
 s32 build_screen_outline();
 s32 runtime_initialize_polygon_edges();
-s32 func_80064624();
-s32 func_80064D20();
-s32 func_80064D50();
+s32 SetFogFar();
+s32 SetLightMatrix();
+s32 SetColorMatrix();
 s16 sample_terrain_surface_height();
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
@@ -225,9 +225,9 @@ void render_map_cell_mesh(void) {
         } else {
             view_scratch->view_height = 0;
         }
-        func_80064D50(&view->color_matrix_00);
-        func_80064624(view->fog_far, view->projection_distance);
-        func_80064D20(&view->light_matrix_00);
+        SetColorMatrix(&view->color_matrix_00);
+        SetFogFar(view->fog_far, view->projection_distance);
+        SetLightMatrix(&view->light_matrix_00);
         scratch = view_scratch;
         view_depth = scratch->view_height;
         scene->view.clip_height = 0x1BA;
@@ -605,79 +605,83 @@ next_face:
                             gte_rtpt_nn();
                             gte_nclip();
                             gte_stopz(&scratch->opz);
-                            if (scratch->opz >= 0) {
-                                gte_stflg(&scratch->flag);
-                                if (scratch->flag == 0) {
-                                    gte_stsxy3_g3(packet);
-                                    gte_avsz3();
-                                    gte_stotz(&scratch->otz);
-                                    normal_index = scratch->face_attr.h.x;
-                                    if (scratch->last_normal != normal_index) {
-                                        scratch->last_normal = normal_index;
-                                        normal = (MapNormal *)((normal_index * 8) + (s32)normals);
-                                        if (normal->z >= 0) {
-                                            normal_xy = normal->xy;
-                                            if (!(normal_xy & 0x0FFF0FFF)) {
-                                                scratch->step.word = normal_xy;
-                                                normal_x = scratch->step.h.x;
-                                                if ((s16) normal_x > 0) {
-                                                    scratch->step.h.x = row_mask;
-                                                } else {
-                                                    if ((s16) normal_x < 0) {
-                                                        *(s16 *)&scratch->step.h.x = -1;
-                                                    }
-                                                }
-                                                normal_y = scratch->step.h.y;
-                                                if ((s16) normal_y > 0) {
-                                                    row_step = row_mask << scratch->width_shift;
-                                                    *(s16 *)&scratch->step.h.y = (s16)row_step;
-                                                } else if ((s16) normal_y < 0) {
-                                                    row_step = 0 - (row_mask << scratch->width_shift);
-                                                    *(s16 *)&scratch->step.h.y = (s16)row_step;
-                                                }
-                                                {
-                                                    s32 neighbor_offset;
-                                                    s32 row_offset_mask;
-
-                                                    neighbor_offset = scratch->step.h.x;
-                                                    error_step = scratch->column;
-                                                    vertex_x = scratch->step.h.y;
-                                                    row_offset_mask = scratch->row_mask;
-                                                    loop_tmp = scratch->width_shift;
-                                                    neighbor_offset = (s16)neighbor_offset;
-                                                    error_step += neighbor_offset;
-                                                    neighbor_offset = scratch->column_mask;
-                                                    vertex_x <<= 16;
-                                                    vertex_x >>= 16;
-                                                    error_step &= neighbor_offset;
-                                                    row_offset_mask <<= loop_tmp;
-                                                    scratch->neighbor_index = error_step;
-                                                    neighbor_offset = scratch->row_base;
-                                                    neighbor_offset += vertex_x;
-                                                    neighbor_offset &= row_offset_mask;
-                                                    error_step += neighbor_offset;
-                                                    neighbor_index = error_step;
-                                                    scratch->neighbor_index = neighbor_index;
-                                                }
-                                                neighbor = (CellRec *)((neighbor_index * 6) + (s32)cells);
-                                                neighbor_flags = neighbor->flags;
-                                                if (!(neighbor_flags & 1)) {
-                                                    if (neighbor_flags & 0x80) {
-                                                        if (cells[scratch->cell_index].flags & 0x80) {
-                                                            neighbor_face_flags = scratch->face_info.b.flags;
-                                                            if (!(neighbor_face_flags & 2)) {
-                                                                if ((scratch->face_info.b.skip != row_mask)
-                                                                    || ((s8) neighbor_face_flags) >= 0) {
-                                                                    face++;
-                                                                    scratch->last_normal = 0xFFFF;
-                                                                    goto next_face;
-                                                                }
-                                                                goto check_packet_end;
-                                                            }
+                            do {
+                                if (scratch->opz >= 0) {
+                                    gte_stflg(&scratch->flag);
+                                    if (scratch->flag == 0) {
+                                        gte_stsxy3_g3(packet);
+                                        gte_avsz3();
+                                        gte_stotz(&scratch->otz);
+                                        normal_index = scratch->face_attr.h.x;
+                                        if (scratch->last_normal != normal_index) {
+                                            scratch->last_normal = normal_index;
+                                            normal = (MapNormal *)((normal_index * 8) + (s32)normals);
+                                            if (normal->z >= 0) {
+                                                normal_xy = normal->xy;
+                                                if (!(normal_xy & 0x0FFF0FFF)) {
+                                                    scratch->step.word = normal_xy;
+                                                    normal_x = scratch->step.h.x;
+                                                    if ((s16) normal_x > 0) {
+                                                        scratch->step.h.x = row_mask;
+                                                    } else {
+                                                        if ((s16) normal_x < 0) {
+                                                            *(s16 *)&scratch->step.h.x = -1;
                                                         }
-                                                        scratch->min_height = max_height;
-                                                    } else if (!(neighbor_flags & 0x40)) {
-                                                        scratch->min_height = -(s32) neighbor->offset;
+                                                    }
+                                                    normal_y = scratch->step.h.y;
+                                                    if ((s16) normal_y > 0) {
+                                                        row_step = row_mask << scratch->width_shift;
+                                                        *(s16 *)&scratch->step.h.y = (s16)row_step;
+                                                    } else if ((s16) normal_y < 0) {
+                                                        row_step = 0 - (row_mask << scratch->width_shift);
+                                                        *(s16 *)&scratch->step.h.y = (s16)row_step;
+                                                    }
+                                                    {
+                                                        s32 neighbor_offset;
+                                                        s32 row_offset_mask;
+
+                                                        neighbor_offset = scratch->step.h.x;
+                                                        error_step = scratch->column;
+                                                        vertex_x = scratch->step.h.y;
+                                                        row_offset_mask = scratch->row_mask;
+                                                        loop_tmp = scratch->width_shift;
+                                                        neighbor_offset = (s16)neighbor_offset;
+                                                        error_step += neighbor_offset;
+                                                        neighbor_offset = scratch->column_mask;
+                                                        vertex_x <<= 16;
+                                                        vertex_x >>= 16;
+                                                        error_step &= neighbor_offset;
+                                                        row_offset_mask <<= loop_tmp;
+                                                        scratch->neighbor_index = error_step;
+                                                        neighbor_offset = scratch->row_base;
+                                                        neighbor_offset += vertex_x;
+                                                        neighbor_offset &= row_offset_mask;
+                                                        error_step += neighbor_offset;
+                                                        neighbor_index = error_step;
+                                                        scratch->neighbor_index = neighbor_index;
+                                                    }
+                                                    neighbor = (CellRec *)((neighbor_index * 6) + (s32)cells);
+                                                    neighbor_flags = neighbor->flags;
+                                                    if (!(neighbor_flags & 1)) {
+                                                        if (neighbor_flags & 0x80) {
+                                                            if (cells[scratch->cell_index].flags & 0x80) {
+                                                                neighbor_face_flags = scratch->face_info.b.flags;
+                                                                if (!(neighbor_face_flags & 2)) {
+                                                                    if ((scratch->face_info.b.skip != row_mask)
+                                                                        || ((s8) neighbor_face_flags) >= 0) {
+                                                                        face++;
+                                                                        scratch->last_normal = 0xFFFF;
+                                                                        goto next_face;
+                                                                    }
+                                                                    break;
+                                                                }
+                                                            }
+                                                            scratch->min_height = max_height;
+                                                        } else if (!(neighbor_flags & 0x40)) {
+                                                            scratch->min_height = -(s32) neighbor->offset;
+                                                        } else {
+                                                            scratch->min_height = max_height;
+                                                        }
                                                     } else {
                                                         scratch->min_height = max_height;
                                                     }
@@ -687,150 +691,148 @@ next_face:
                                             } else {
                                                 scratch->min_height = max_height;
                                             }
-                                        } else {
-                                            scratch->min_height = max_height;
+                                            gte_ldrgb(&scratch->color);
+                                            gte_ldv0(&normals[scratch->last_normal]);
+                                            gte_nccs();
+                                            gte_strgb(&scratch->lit_color);
                                         }
-                                        gte_ldrgb(&scratch->color);
-                                        gte_ldv0(&normals[scratch->last_normal]);
-                                        gte_nccs();
-                                        gte_strgb(&scratch->lit_color);
-                                    }
-                                    occlusion_height = scratch->min_height;
-                                    if (((s16) scratch->v[0].z >= occlusion_height)
-                                        && ((s16) scratch->v[1].z >= occlusion_height)
-                                        && ((s16) scratch->v[2].z >= occlusion_height)
-                                        && ((s16) scratch->v[3].z >= occlusion_height)) {
-                                        if (((s8) scratch->face_info.b.flags) >= 0) {
+                                        occlusion_height = scratch->min_height;
+                                        if (((s16) scratch->v[0].z >= occlusion_height)
+                                            && ((s16) scratch->v[1].z >= occlusion_height)
+                                            && ((s16) scratch->v[2].z >= occlusion_height)
+                                            && ((s16) scratch->v[3].z >= occlusion_height)) {
+                                            if (((s8) scratch->face_info.b.flags) >= 0) {
+                                                face_skip = scratch->face_info.b.skip;
+                                                face_skip &= 0xF;
+                                                face += face_skip;
+                                                goto next_face;
+                                            }
+                                        } else {
+                                            scratch->vtx.word =
+                                                vertices[face->v3].xy;
+                                            scratch->v[3].xy = (((u16) scratch->min_x.word
+                                                + (u16) scratch->vtx.word) & 0xFFFF)
+                                            | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
+                                            gte_ldv0(&scratch->v[3]);
+                                            *(s32 *)(packet_code + 5) = face->uv0_clut;
+                                            gte_rtps_nn();
+                                            *(s32 *)(packet_code + 0xD) = face->uv1_tpage;
+                                            *(u16 *)(packet_code + 0x15) = scratch->face_attr.h.y;
+                                            *(u16 *)(packet_code + 0x1D) = (u16) scratch->face_info.word;
+                                            gte_stsxy(packet + 0x20);
+                                            gte_stszotz(&scratch->otz4);
+                                            {
+                                                s32 depth_sum;
+                                                s32 twice_depth;
+                                                s32 fourth_depth;
+
+                                                depth_sum = scratch->otz;
+                                                fourth_depth = scratch->otz4;
+                                                twice_depth = depth_sum << 1;
+                                                depth_sum += twice_depth;
+                                                depth_sum += fourth_depth;
+                                                quad_depth = depth_sum >> 2;
+                                            }
+                                            scratch->otz = quad_depth;
+                                            if ((u32) quad_depth < 0x1BEU) {
+                                                packet_code[-4] = 9;
+                                                *(s32 *)(packet_code - 3) = scratch->lit_color;
+                                                face_flags = scratch->face_info.b.flags;
+                                                if (face_flags & 1) {
+                                                    *packet_code |= 2;
+                                                } else {
+                                                    if ((scratch->blend != 0)
+                                                        && (cells[scratch->cell_index].flags & 0x80)
+                                                        && !(face_flags & 2)
+                                                        && ((view_height = scratch->view_height,
+                                                        (((s16) scratch->v[0].z < view_height) != 0))
+                                                            || ((s16) scratch->v[1].z < view_height)
+                                                            || ((s16) scratch->v[2].z < view_height)
+                                                            || ((s16) scratch->v[3].z < view_height))) {
+                                                        *(s32 *)(packet_code + 5) =
+                                                            *(s32 *)(packet_code + 9);
+                                                        *(s32 *)(packet_code + 9) =
+                                                            *(s32 *)(packet_code + 0x11);
+                                                        *(s32 *)(packet_code + 0xD) =
+                                                            *(s32 *)(packet_code + 0x19);
+                                                        overlay_color = scratch->overlay_color;
+                                                        packet_code[-4] = 5;
+                                                        *(s32 *)(packet_code - 3) = overlay_color;
+                                                        packet_code += 0x28;
+                                                        OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask),
+                                                            tag_mask, column_mask);
+                                                        error_step = scratch->otz;
+                                                        error_step *= 4;
+                                                        error_step += scratch->ot_base;
+                                                        {
+                                                            s32 overlay_addr;
+
+                                                            overlay_addr = (s32) packet & column_mask;
+                                                            edge_progress = *(s32 *)error_step;
+                                                            packet += 0x28;
+                                                            edge_progress &= tag_mask;
+                                                            edge_progress |= overlay_addr;
+                                                            *(s32 *)error_step = edge_progress;
+                                                        }
+                                                        packet_code[-4] = row_mask;
+                                                        {
+
+                                                            edge_progress = scratch->draw_mode;
+                                                            edge_progress &= 0x9FF;
+                                                            edge_progress |= 0xE1000000;
+                                                            *(s32 *)(packet_code - 3) = edge_progress;
+                                                        }
+                                                    }
+                                                }
+                                                packet_code += 0x28;
+                                                packet_addr = (void *) ((s32) packet & column_mask);
+                                            } else if ((u32) quad_depth < 0x1DEU) {
+                                                packet_code[-4] = 9;
+                                                *(s32 *)(packet_code - 3) = scratch->lit_color;
+                                                packet_addr = (void *) ((s32) packet & column_mask);
+                                                *packet_code |= 2;
+                                                packet_code += 0x28;
+                                            } else {
+                                                break;
+                                            }
+                                            OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask), tag_mask, column_mask);
+                                            ot_entry = (scratch->otz * 4) + scratch->ot_base;
+                                            *ot_entry = (*ot_entry & tag_mask) | (s32)packet_addr;
+                                            packet += 0x28;
                                             face_skip = scratch->face_info.b.skip;
+                                            if ((face_skip & 0xF) == row_mask) {
+                                                if (((s8) scratch->face_info.b.flags) >= 0) {
+                                                    face += ((u32)face_skip >> 4) + 1;
+                                                    goto next_face;
+                                                }
+                                            } else {
+                                                face++;
+                                                goto next_face;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (normals[scratch->face_attr.h.x].z < 0) {
+                                        s32 end_marker;
+
+                                        end_marker = 0x8001;
+                                        edge_progress = scratch->face_info.h.mode;
+                                        edge_progress &= 0x80FF;
+                                        if (edge_progress != end_marker) {
+                                            face++;
+                                            goto next_face;
+                                        }
+                                    } else {
+                                        face_skip = scratch->face_info.b.skip;
+                                        if ((face_skip & 0xF0) || ((s8) scratch->face_info.b.flags) >= 0) {
                                             face_skip &= 0xF;
                                             face += face_skip;
                                             goto next_face;
                                         }
-                                    } else {
-                                        scratch->vtx.word =
-                                            vertices[face->v3].xy;
-                                        scratch->v[3].xy = (((u16) scratch->min_x.word
-                                            + (u16) scratch->vtx.word) & 0xFFFF)
-                                        | ((scratch->cur_y + (s16) scratch->vtx.h.y) << 0x10);
-                                        gte_ldv0(&scratch->v[3]);
-                                        *(s32 *)(packet_code + 5) = face->uv0_clut;
-                                        gte_rtps_nn();
-                                        *(s32 *)(packet_code + 0xD) = face->uv1_tpage;
-                                        *(u16 *)(packet_code + 0x15) = scratch->face_attr.h.y;
-                                        *(u16 *)(packet_code + 0x1D) = (u16) scratch->face_info.word;
-                                        gte_stsxy(packet + 0x20);
-                                        gte_stszotz(&scratch->otz4);
-                                        {
-                                            s32 depth_sum;
-                                            s32 twice_depth;
-                                            s32 fourth_depth;
-
-                                            depth_sum = scratch->otz;
-                                            fourth_depth = scratch->otz4;
-                                            twice_depth = depth_sum << 1;
-                                            depth_sum += twice_depth;
-                                            depth_sum += fourth_depth;
-                                            quad_depth = depth_sum >> 2;
-                                        }
-                                        scratch->otz = quad_depth;
-                                        if ((u32) quad_depth < 0x1BEU) {
-                                            packet_code[-4] = 9;
-                                            *(s32 *)(packet_code - 3) = scratch->lit_color;
-                                            face_flags = scratch->face_info.b.flags;
-                                            if (face_flags & 1) {
-                                                *packet_code |= 2;
-                                            } else {
-                                                if ((scratch->blend != 0)
-                                                    && (cells[scratch->cell_index].flags & 0x80)
-                                                    && !(face_flags & 2)
-                                                    && ((view_height = scratch->view_height,
-                                                    (((s16) scratch->v[0].z < view_height) != 0))
-                                                        || ((s16) scratch->v[1].z < view_height)
-                                                        || ((s16) scratch->v[2].z < view_height)
-                                                        || ((s16) scratch->v[3].z < view_height))) {
-                                                    *(s32 *)(packet_code + 5) =
-                                                        *(s32 *)(packet_code + 9);
-                                                    *(s32 *)(packet_code + 9) =
-                                                        *(s32 *)(packet_code + 0x11);
-                                                    *(s32 *)(packet_code + 0xD) =
-                                                        *(s32 *)(packet_code + 0x19);
-                                                    overlay_color = scratch->overlay_color;
-                                                    packet_code[-4] = 5;
-                                                    *(s32 *)(packet_code - 3) = overlay_color;
-                                                    packet_code += 0x28;
-                                                    OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask),
-                                                        tag_mask, column_mask);
-                                                    error_step = scratch->otz;
-                                                    error_step *= 4;
-                                                    error_step += scratch->ot_base;
-                                                    {
-                                                        s32 overlay_addr;
-
-                                                        overlay_addr = (s32) packet & column_mask;
-                                                        edge_progress = *(s32 *)error_step;
-                                                        packet += 0x28;
-                                                        edge_progress &= tag_mask;
-                                                        edge_progress |= overlay_addr;
-                                                        *(s32 *)error_step = edge_progress;
-                                                    }
-                                                    packet_code[-4] = row_mask;
-                                                    {
-
-                                                        edge_progress = scratch->draw_mode;
-                                                        edge_progress &= 0x9FF;
-                                                        edge_progress |= 0xE1000000;
-                                                        *(s32 *)(packet_code - 3) = edge_progress;
-                                                    }
-                                                }
-                                            }
-                                            packet_code += 0x28;
-                                            packet_addr = (void *) ((s32) packet & column_mask);
-                                        } else if ((u32) quad_depth < 0x1DEU) {
-                                            packet_code[-4] = 9;
-                                            *(s32 *)(packet_code - 3) = scratch->lit_color;
-                                            packet_addr = (void *) ((s32) packet & column_mask);
-                                            *packet_code |= 2;
-                                            packet_code += 0x28;
-                                        } else {
-                                            goto check_packet_end;
-                                        }
-                                        OT_SETADDR(packet, OT_GETADDR((scratch->otz * 4) + scratch->ot_base, column_mask), tag_mask, column_mask);
-                                        ot_entry = (scratch->otz * 4) + scratch->ot_base;
-                                        *ot_entry = (*ot_entry & tag_mask) | (s32)packet_addr;
-                                        packet += 0x28;
-                                        face_skip = scratch->face_info.b.skip;
-                                        if ((face_skip & 0xF) == row_mask) {
-                                            if (((s8) scratch->face_info.b.flags) >= 0) {
-                                                face += ((u32)face_skip >> 4) + 1;
-                                                goto next_face;
-                                            }
-                                        } else {
-                                            face++;
-                                            goto next_face;
-                                        }
                                     }
                                 }
-                            } else {
-                                if (normals[scratch->face_attr.h.x].z < 0) {
-                                    s32 end_marker;
+                            } while (0);
 
-                                    end_marker = 0x8001;
-                                    edge_progress = scratch->face_info.h.mode;
-                                    edge_progress &= 0x80FF;
-                                    if (edge_progress != end_marker) {
-                                        face++;
-                                        goto next_face;
-                                    }
-                                } else {
-                                    face_skip = scratch->face_info.b.skip;
-                                    if ((face_skip & 0xF0) || ((s8) scratch->face_info.b.flags) >= 0) {
-                                        face_skip &= 0xF;
-                                        face += face_skip;
-                                        goto next_face;
-                                    }
-                                }
-                            }
-check_packet_end:
                             if ((u32) scratch->packet_end < (u32) packet) {
                                 ((GpuContext *)scene->draw_buffer)->packetCursor = packet;
                                 return;

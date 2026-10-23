@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
-extern s32 func_800644B8(s32 angle);
-extern s32 func_80064584(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
 extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
 
@@ -28,9 +28,9 @@ void update_object_orbit_and_timer(void *object, void *position, s32 update_arg,
     S16_AT(object, 0x72) = angle + 0x440;
 
     U16_AT(position, 2) = U16_AT(object, 0x84) +
-        func_800644B8(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84));
+        rsin(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84));
     U16_AT(position, 6) = U16_AT(object, 0x86) +
-        func_80064584(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84)) -
+        rcos(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84)) -
         U16_AT(object, 0x84);
 
     motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, D_800CFCB4);

@@ -80,17 +80,17 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
-s32 func_800644B8();
-void func_80064840();
-void func_800649A0();
-void func_80064A40();
-void func_80064BC0();
-void func_80064CF0();
-void func_80064D80();
-void func_800654B0();
-void func_80065820();
+s32 rsin();
+void CompMatrix();
+void PushMatrix();
+void PopMatrix();
+void ScaleMatrix();
+void SetRotMatrix();
+void SetTransMatrix();
+void RotTransPers4();
+void RotMatrix();
 void func_80067EF4();
-void func_80067E2C(void *, void *);
+void SetDrawArea(void *, void *);
 extern u8 D_8006CD10[3];
 extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode);

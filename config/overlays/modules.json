@@ -506,7 +506,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -539,11 +539,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1852800.membership.json",
@@ -706,7 +701,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -936,32 +931,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -1156,42 +1151,42 @@
           "vma": 2147764508
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_80066690",
+          "symbol": "SetPolyF3",
           "kind": "function",
           "vma": 2147903120
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -1408,7 +1403,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -1701,12 +1696,12 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
@@ -2153,7 +2148,7 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -2447,12 +2442,12 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -2748,22 +2743,22 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -3013,37 +3008,37 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -3471,77 +3466,77 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -3604,11 +3599,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "review": {
@@ -3974,32 +3964,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -4062,11 +4052,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "review": {
@@ -4579,17 +4564,17 @@
           "vma": 2147828412
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -4822,32 +4807,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -4865,11 +4850,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1876800.membership.json",
@@ -5250,82 +5230,82 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -5388,11 +5368,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1894800.membership.json",
@@ -5864,32 +5839,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
@@ -5899,47 +5874,47 @@
           "vma": 2147898144
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -5977,11 +5952,6 @@
           "symbol": "func_800B835C",
           "kind": "function",
           "vma": 2148238172
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18a6800.membership.json",
@@ -6245,17 +6215,17 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064710",
+          "symbol": "SquareRoot0",
           "kind": "function",
           "vma": 2147895056
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -6265,22 +6235,22 @@
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -6563,12 +6533,12 @@
           "vma": 2147764508
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -6944,67 +6914,67 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -7017,11 +6987,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "genuine_aspsx": {
@@ -7422,22 +7387,22 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -7450,11 +7415,6 @@
           "symbol": "func_800B8FC8",
           "kind": "function",
           "vma": 2148241352
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1960800.membership.json",
@@ -7809,22 +7769,22 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -7847,11 +7807,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_183a800.membership.json",
@@ -8237,32 +8192,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -8305,11 +8260,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18a0800.membership.json",
@@ -8516,37 +8466,37 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -8569,11 +8519,6 @@
           "symbol": "func_800DBA90",
           "kind": "function",
           "vma": 2148383376
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_19c6800.membership.json",
@@ -9178,67 +9123,67 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064B90",
+          "symbol": "TransMatrix",
           "kind": "function",
           "vma": 2147896208
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065450",
+          "symbol": "RotTrans",
           "kind": "function",
           "vma": 2147898448
         },
         {
-          "symbol": "func_80065AB0",
+          "symbol": "RotMatrixX",
           "kind": "function",
           "vma": 2147900080
         },
         {
-          "symbol": "func_80065C50",
+          "symbol": "RotMatrixY",
           "kind": "function",
           "vma": 2147900496
         },
         {
-          "symbol": "func_80065DF0",
+          "symbol": "RotMatrixZ",
           "kind": "function",
           "vma": 2147900912
         },
@@ -9759,7 +9704,7 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -9769,17 +9714,17 @@
           "vma": 2147902560
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -9827,11 +9772,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_192a800.membership.json",
@@ -10261,62 +10201,62 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
@@ -10326,12 +10266,12 @@
           "vma": 2147909364
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -10369,11 +10309,6 @@
           "symbol": "func_800C8A3C",
           "kind": "function",
           "vma": 2148305468
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1918800.membership.json",
@@ -10924,57 +10859,57 @@
           "vma": 2147828412
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -11007,11 +10942,6 @@
           "symbol": "func_800C9034",
           "kind": "function",
           "vma": 2148306996
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_19de800.membership.json",
@@ -11740,52 +11670,52 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -12558,7 +12488,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -13374,77 +13304,77 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
         {
-          "symbol": "func_8006733C",
+          "symbol": "StoreImage",
           "kind": "function",
           "vma": 2147906364
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
@@ -13454,12 +13384,12 @@
           "vma": 2147909364
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -13532,11 +13462,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1924800.membership.json",
@@ -14119,7 +14044,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -14157,11 +14082,6 @@
           "symbol": "func_800DBA90",
           "kind": "function",
           "vma": 2148383376
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_184c800.membership.json",
@@ -14350,32 +14270,32 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -15026,47 +14946,47 @@
           "vma": 2147771288
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
@@ -15076,32 +14996,32 @@
           "vma": 2147898144
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
@@ -15429,27 +15349,27 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -15492,11 +15412,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18d6800.membership.json",
@@ -15845,22 +15760,22 @@
           "vma": 2147828412
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -15898,11 +15813,6 @@
           "symbol": "func_800C8CD8",
           "kind": "function",
           "vma": 2148306136
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18ee800.membership.json",
@@ -16148,7 +16058,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -16484,12 +16394,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -16499,12 +16409,12 @@
           "vma": 2147898672
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -17824,27 +17734,27 @@
           "vma": 2147827112
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666E0",
+          "symbol": "SetPolyF4",
           "kind": "function",
           "vma": 2147903200
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -18486,7 +18396,7 @@
           "vma": 2147756904
         },
         {
-          "symbol": "func_800647A0",
+          "symbol": "SquareRoot12",
           "kind": "function",
           "vma": 2147895200
         },
@@ -18997,17 +18907,17 @@
           "vma": 2147756288
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800667A8",
+          "symbol": "SetTile",
           "kind": "function",
           "vma": 2147903400
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
@@ -19677,62 +19587,62 @@
           "vma": 2147789016
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
@@ -20292,7 +20202,7 @@
           "vma": 2147756288
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
@@ -20741,7 +20651,7 @@
           "vma": 2147805588
         },
         {
-          "symbol": "func_80069E98",
+          "symbol": "strlen",
           "kind": "function",
           "vma": 2147917464
         },
@@ -20965,87 +20875,87 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065450",
+          "symbol": "RotTrans",
           "kind": "function",
           "vma": 2147898448
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80065AB0",
+          "symbol": "RotMatrixX",
           "kind": "function",
           "vma": 2147900080
         },
         {
-          "symbol": "func_80065C50",
+          "symbol": "RotMatrixY",
           "kind": "function",
           "vma": 2147900496
         },
         {
-          "symbol": "func_80065DF0",
+          "symbol": "RotMatrixZ",
           "kind": "function",
           "vma": 2147900912
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -21053,11 +20963,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "owned_data": [],
@@ -21159,42 +21064,42 @@
           "declaration": "src/dungeon/effect/screen/menu.c"
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064B90",
+          "symbol": "TransMatrix",
           "kind": "function",
           "vma": 2147896208
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
@@ -21204,42 +21109,42 @@
           "vma": 2147897396
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065480",
+          "symbol": "NormalClip",
           "kind": "function",
           "vma": 2147898496
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065AB0",
+          "symbol": "RotMatrixX",
           "kind": "function",
           "vma": 2147900080
         },
         {
-          "symbol": "func_80065C50",
+          "symbol": "RotMatrixY",
           "kind": "function",
           "vma": 2147900496
         },
         {
-          "symbol": "func_80065DF0",
+          "symbol": "RotMatrixZ",
           "kind": "function",
           "vma": 2147900912
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
@@ -22178,17 +22083,17 @@
           "vma": 2147827112
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -23076,52 +22981,52 @@
           "vma": 2147788376
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064B90",
+          "symbol": "TransMatrix",
           "kind": "function",
           "vma": 2147896208
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
@@ -23131,47 +23036,47 @@
           "vma": 2147898144
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666E0",
+          "symbol": "SetPolyF4",
           "kind": "function",
           "vma": 2147903200
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
         {
-          "symbol": "func_800673A0",
+          "symbol": "MoveImage",
           "kind": "function",
           "vma": 2147906464
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
@@ -23181,7 +23086,7 @@
           "vma": 2147909364
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -23883,82 +23788,82 @@
           "vma": 2147798732
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065480",
+          "symbol": "NormalClip",
           "kind": "function",
           "vma": 2147898496
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666B8",
+          "symbol": "SetPolyG3",
           "kind": "function",
           "vma": 2147903160
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -25881,7 +25786,7 @@
           "vma": 2147793116
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -26584,7 +26489,7 @@
           "vma": 2147778168
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         }
@@ -26760,7 +26665,7 @@
           "vma": 2147826940
         },
         {
-          "symbol": "func_80069ED8",
+          "symbol": "memcpy",
           "kind": "function",
           "vma": 2147917528
         },
@@ -27770,47 +27675,47 @@
           "vma": 2147789692
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064624",
+          "symbol": "SetFogFar",
           "kind": "function",
           "vma": 2147894820
         },
         {
-          "symbol": "func_80064D20",
+          "symbol": "SetLightMatrix",
           "kind": "function",
           "vma": 2147896608
         },
         {
-          "symbol": "func_80064D50",
+          "symbol": "SetColorMatrix",
           "kind": "function",
           "vma": 2147896656
         },
         {
-          "symbol": "func_80064EC0",
+          "symbol": "SetBackColor",
           "kind": "function",
           "vma": 2147897024
         },
         {
-          "symbol": "func_80064EE0",
+          "symbol": "SetFarColor",
           "kind": "function",
           "vma": 2147897056
         },
         {
-          "symbol": "func_80064F00",
+          "symbol": "SetGeomOffset",
           "kind": "function",
           "vma": 2147897088
         },
         {
-          "symbol": "func_80064F20",
+          "symbol": "SetGeomScreen",
           "kind": "function",
           "vma": 2147897120
         },
@@ -28346,7 +28251,7 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         }
@@ -30167,32 +30072,32 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -30814,17 +30719,17 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -30872,11 +30777,6 @@
           "symbol": "func_800C9034",
           "kind": "function",
           "vma": 2148306996
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_19a332c.membership.json",
@@ -31141,42 +31041,42 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800667A8",
+          "symbol": "SetTile",
           "kind": "function",
           "vma": 2147903400
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -31497,42 +31397,42 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -31575,11 +31475,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18d0850.membership.json",
@@ -31867,17 +31762,17 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -32194,7 +32089,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -32458,17 +32353,17 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -32511,11 +32406,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_18ca83c.membership.json",
@@ -34532,12 +34422,12 @@
           "vma": 2147828412
         },
         {
-          "symbol": "func_8005FE18",
+          "symbol": "VSync",
           "kind": "function",
           "vma": 2147876376
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
@@ -35169,7 +35059,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -35989,12 +35879,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -36480,17 +36370,17 @@
           "vma": 2147764508
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -37437,77 +37327,77 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -37845,11 +37735,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_cb3000.membership.json",
@@ -39031,77 +38916,77 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -39439,11 +39324,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_cb9000.membership.json",
@@ -40385,77 +40265,77 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -40793,11 +40673,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_cc5000.membership.json",
@@ -41739,77 +41614,77 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -42147,11 +42022,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_ccb000.membership.json",
@@ -43093,77 +42963,77 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -43501,11 +43371,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_cd7000.membership.json",
@@ -43566,7 +43431,7 @@
           "declaration": "include/shared/object_flags.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         }
@@ -43650,7 +43515,7 @@
           "vma": 2147764508
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         }
@@ -43702,7 +43567,7 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         }
@@ -44166,27 +44031,27 @@
           "declaration": "include/shared/game_work.h"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
@@ -44309,27 +44174,27 @@
           "vma": 2147899248
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         }
@@ -44577,12 +44442,12 @@
           "vma": 2147828412
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -44832,7 +44697,7 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -44860,11 +44725,6 @@
           "symbol": "func_800C80F0",
           "kind": "function",
           "vma": 2148303088
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1954800.membership.json",
@@ -45168,47 +45028,47 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064710",
+          "symbol": "SquareRoot0",
           "kind": "function",
           "vma": 2147895056
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064B30",
+          "symbol": "ApplyMatrixSV",
           "kind": "function",
           "vma": 2147896112
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -45510,67 +45370,67 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -46038,57 +45898,57 @@
           "vma": 2147827440
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -46579,37 +46439,37 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_800647A0",
+          "symbol": "SquareRoot12",
           "kind": "function",
           "vma": 2147895200
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800667A8",
+          "symbol": "SetTile",
           "kind": "function",
           "vma": 2147903400
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -46632,11 +46492,6 @@
           "symbol": "func_800BCB04",
           "kind": "function",
           "vma": 2148256516
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_1936800.membership.json",
@@ -46914,12 +46769,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -46957,11 +46812,6 @@
           "symbol": "func_800DBA90",
           "kind": "function",
           "vma": 2148383376
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_ovl_190081c.membership.json",
@@ -47020,27 +46870,27 @@
           "declaration": "include/shared/game_work.h"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006649C",
+          "symbol": "GetClut",
           "kind": "function",
           "vma": 2147902620
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         }
@@ -47214,7 +47064,7 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -47332,67 +47182,67 @@
           "declaration": "include/shared/game_work.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -47500,7 +47350,7 @@
           "declaration": "include/shared/entity_objects.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -47698,12 +47548,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -47823,52 +47673,52 @@
           "declaration": "src/dungeon/effect/particle/update_brightening_fading_effect.c"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80067E2C",
+          "symbol": "SetDrawArea",
           "kind": "function",
           "vma": 2147909164
         },
@@ -48159,17 +48009,17 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
         {
-          "symbol": "func_8006733C",
+          "symbol": "StoreImage",
           "kind": "function",
           "vma": 2147906364
         },
@@ -48235,17 +48085,17 @@
           "evidence": "docs/evidence/dungeon_ovl_be7084.imports.json"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -48297,17 +48147,17 @@
           "evidence": "docs/evidence/dungeon_ovl_bf3084.imports.json"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -48359,17 +48209,17 @@
           "evidence": "docs/evidence/dungeon_ovl_bf9084.imports.json"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -48421,17 +48271,17 @@
           "evidence": "docs/evidence/dungeon_ovl_c05084.imports.json"
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -53025,7 +52875,7 @@
           "vma": 2147776744
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -54020,12 +53870,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -55300,12 +55150,12 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -55643,11 +55493,6 @@
           "symbol": "func_800DA840",
           "kind": "function",
           "vma": 2148378688
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_resource08_slot0.membership.json",
@@ -56745,32 +56590,32 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -57108,11 +56953,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_resource10_slot0.membership.json",
@@ -58037,52 +57877,52 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
@@ -58092,37 +57932,37 @@
           "vma": 2147899248
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_800667D0",
+          "symbol": "SetLineG2",
           "kind": "function",
           "vma": 2147903440
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -59319,17 +59159,17 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -59667,11 +59507,6 @@
           "symbol": "func_800C7930",
           "kind": "function",
           "vma": 2148301104
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_resource16_slot0.membership.json",
@@ -60587,82 +60422,82 @@
           "vma": 2147784864
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064AE0",
+          "symbol": "ReadRotMatrix",
           "kind": "function",
           "vma": 2147896032
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80065590",
+          "symbol": "RotAverage4",
           "kind": "function",
           "vma": 2147898768
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -61010,11 +60845,6 @@
           "symbol": "func_800D78C0",
           "kind": "function",
           "vma": 2148366528
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
         }
       ],
       "membership_evidence": "docs/evidence/dungeon_resource06_slot0.membership.json",
@@ -62603,7 +62433,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         }
@@ -63105,12 +62935,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -63594,7 +63424,7 @@
           "declaration": "include/shared/dungeon_status.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -64622,17 +64452,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -64692,17 +64522,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -64762,17 +64592,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -64832,17 +64662,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -64902,17 +64732,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -65882,47 +65712,47 @@
           "declaration": "include/shared/game_work.h"
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         }
@@ -68891,37 +68721,37 @@
           "declaration": "include/dungeon/level/init_dungeon_view.h"
         },
         {
-          "symbol": "func_80064624",
+          "symbol": "SetFogFar",
           "kind": "function",
           "vma": 2147894820
         },
         {
-          "symbol": "func_80064D20",
+          "symbol": "SetLightMatrix",
           "kind": "function",
           "vma": 2147896608
         },
         {
-          "symbol": "func_80064D50",
+          "symbol": "SetColorMatrix",
           "kind": "function",
           "vma": 2147896656
         },
         {
-          "symbol": "func_80064EC0",
+          "symbol": "SetBackColor",
           "kind": "function",
           "vma": 2147897024
         },
         {
-          "symbol": "func_80064EE0",
+          "symbol": "SetFarColor",
           "kind": "function",
           "vma": 2147897056
         },
         {
-          "symbol": "func_80064F00",
+          "symbol": "SetGeomOffset",
           "kind": "function",
           "vma": 2147897088
         },
         {
-          "symbol": "func_80064F20",
+          "symbol": "SetGeomScreen",
           "kind": "function",
           "vma": 2147897120
         }
@@ -69213,7 +69043,7 @@
           "vma": 2147776388
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -69408,7 +69238,7 @@
           "vma": 2147776388
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -69622,7 +69452,7 @@
           "vma": 2147776388
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -69805,12 +69635,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -70268,37 +70098,37 @@
           "vma": 2147803440
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064B90",
+          "symbol": "TransMatrix",
           "kind": "function",
           "vma": 2147896208
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
@@ -70308,7 +70138,7 @@
           "vma": 2147897396
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
@@ -70318,27 +70148,27 @@
           "vma": 2147899072
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -73327,12 +73157,12 @@
           "vma": 2147804828
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
@@ -75917,12 +75747,12 @@
           "vma": 2147764508
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -75932,22 +75762,22 @@
           "vma": 2147898896
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -76370,12 +76200,12 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -76630,27 +76460,27 @@
           "vma": 2147773472
         },
         {
-          "symbol": "func_80064624",
+          "symbol": "SetFogFar",
           "kind": "function",
           "vma": 2147894820
         },
         {
-          "symbol": "func_80064D20",
+          "symbol": "SetLightMatrix",
           "kind": "function",
           "vma": 2147896608
         },
         {
-          "symbol": "func_80064D50",
+          "symbol": "SetColorMatrix",
           "kind": "function",
           "vma": 2147896656
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         }
@@ -77144,12 +76974,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -78815,12 +78645,12 @@
           "declaration": "include/dungeon/actor/depth_strip_projection_g00337.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -78830,12 +78660,12 @@
           "vma": 2147898896
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_8006671C",
+          "symbol": "SetPolyGT4",
           "kind": "function",
           "vma": 2147903260
         }
@@ -79206,52 +79036,52 @@
           "vma": 2147798312
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065480",
+          "symbol": "NormalClip",
           "kind": "function",
           "vma": 2147898496
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_800666F4",
+          "symbol": "SetPolyFT4",
           "kind": "function",
           "vma": 2147903220
         }
@@ -79582,12 +79412,12 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -79684,52 +79514,52 @@
           "vma": 2147767056
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
@@ -79808,7 +79638,7 @@
           "declaration": "include/dungeon/level/terrain_surface_height_g00351.h"
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         }
@@ -80127,57 +79957,57 @@
           "declaration": "include/dungeon/effect/oriented_mesh_quads_g00367.h"
         },
         {
-          "symbol": "func_80064840",
+          "symbol": "CompMatrix",
           "kind": "function",
           "vma": 2147895360
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065420",
+          "symbol": "RotTransPers",
           "kind": "function",
           "vma": 2147898400
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         }
@@ -80463,7 +80293,7 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },
@@ -83274,12 +83104,12 @@
           "vma": 2147797736
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         }
@@ -83584,12 +83414,12 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -83706,12 +83536,12 @@
           "vma": 2147744868
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065F90",
+          "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
         }
@@ -83921,12 +83751,12 @@
           "vma": 2147776696
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -84095,12 +83925,12 @@
           "vma": 2147788376
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -84829,12 +84659,12 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -84928,67 +84758,67 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "func_800649A0",
+          "symbol": "PushMatrix",
           "kind": "function",
           "vma": 2147895712
         },
         {
-          "symbol": "func_80064A40",
+          "symbol": "PopMatrix",
           "kind": "function",
           "vma": 2147895872
         },
         {
-          "symbol": "func_80064B90",
+          "symbol": "TransMatrix",
           "kind": "function",
           "vma": 2147896208
         },
         {
-          "symbol": "func_80064BC0",
+          "symbol": "ScaleMatrix",
           "kind": "function",
           "vma": 2147896256
         },
         {
-          "symbol": "func_80064CF0",
+          "symbol": "SetRotMatrix",
           "kind": "function",
           "vma": 2147896560
         },
         {
-          "symbol": "func_80064D80",
+          "symbol": "SetTransMatrix",
           "kind": "function",
           "vma": 2147896704
         },
         {
-          "symbol": "func_80065450",
+          "symbol": "RotTrans",
           "kind": "function",
           "vma": 2147898448
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80065820",
+          "symbol": "RotMatrix",
           "kind": "function",
           "vma": 2147899424
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_80066844",
+          "symbol": "SetLineG4",
           "kind": "function",
           "vma": 2147903556
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -85907,12 +85737,12 @@
           "vma": 2147786376
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
@@ -86131,12 +85961,12 @@
           "vma": 2147767104
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
@@ -86606,42 +86436,42 @@
           "declaration": "include/town/menu/shaded_quad_projection_g00568.h"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         },
         {
-          "symbol": "func_800654B0",
+          "symbol": "RotTransPers4",
           "kind": "function",
           "vma": 2147898544
         },
         {
-          "symbol": "func_80066460",
+          "symbol": "GetTPage",
           "kind": "function",
           "vma": 2147902560
         },
         {
-          "symbol": "func_8006658C",
+          "symbol": "AddPrim",
           "kind": "function",
           "vma": 2147902860
         },
         {
-          "symbol": "func_80066640",
+          "symbol": "SetSemiTrans",
           "kind": "function",
           "vma": 2147903040
         },
         {
-          "symbol": "func_80066708",
+          "symbol": "SetPolyG4",
           "kind": "function",
           "vma": 2147903240
         },
         {
-          "symbol": "func_80067F20",
+          "symbol": "SetDrawMode",
           "kind": "function",
           "vma": 2147909408
         },
@@ -89364,7 +89194,7 @@
           "vma": 2147620152
         },
         {
-          "symbol": "func_8005FE18",
+          "symbol": "VSync",
           "kind": "function",
           "vma": 2147876376
         },
@@ -91939,12 +91769,12 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
         {
-          "symbol": "func_80064584",
+          "symbol": "rcos",
           "kind": "function",
           "vma": 2147894660
         }
@@ -92890,12 +92720,12 @@
           "vma": 2147845692
         },
         {
-          "symbol": "func_80064F00",
+          "symbol": "SetGeomOffset",
           "kind": "function",
           "vma": 2147897088
         },
         {
-          "symbol": "func_80064F20",
+          "symbol": "SetGeomScreen",
           "kind": "function",
           "vma": 2147897120
         },
@@ -93767,7 +93597,7 @@
           "vma": 2147827112
         },
         {
-          "symbol": "func_800644B8",
+          "symbol": "rsin",
           "kind": "function",
           "vma": 2147894456
         },
@@ -94992,7 +94822,7 @@
           "vma": 2147853676
         },
         {
-          "symbol": "func_8005FE18",
+          "symbol": "VSync",
           "kind": "function",
           "vma": 2147876376
         },
@@ -95067,22 +94897,22 @@
           "vma": 2147902500
         },
         {
-          "symbol": "func_80066F78",
+          "symbol": "SetDispMask",
           "kind": "function",
           "vma": 2147905400
         },
         {
-          "symbol": "func_80067014",
+          "symbol": "DrawSync",
           "kind": "function",
           "vma": 2147905556
         },
         {
-          "symbol": "func_800671A8",
+          "symbol": "ClearImage",
           "kind": "function",
           "vma": 2147905960
         },
         {
-          "symbol": "func_800672D8",
+          "symbol": "LoadImage",
           "kind": "function",
           "vma": 2147906264
         },
@@ -97034,7 +96864,7 @@
           "vma": 2147763680
         },
         {
-          "symbol": "func_80069EF8",
+          "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
         },

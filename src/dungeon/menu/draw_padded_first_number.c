@@ -8,7 +8,7 @@ typedef struct {
 } DrawRecord;
 
 extern void format_reversed_decimal_space_padded(s32 value, u16 width, char *buf);
-extern void func_800673A0(void *record, s32 y, s32 x);
+extern void MoveImage(void *record, s32 y, s32 x);
 extern u8 D_800808ED[];
 
 /* Draws the first formatted number with mode-dependent padding glyphs. */
@@ -51,7 +51,7 @@ plus:
             record.second = 0x1C0;
             record.third = 4;
             record.fourth = 8;
-            func_800673A0(&record, y, (s16)x);
+            MoveImage(&record, y, (s16)x);
             cursor++;
             y -= 4;
         } while (*cursor != 0);

@@ -26,7 +26,7 @@ void advance_arcing_effect_motion(void *state, Row_8189E820_S_8189E820_2 *motion
         ((Row_8189E820_S_8189E820_0 *)state)->unk_04 + motion->unk_14;
     motion->unk_08 =
         ((Row_8189E820_S_8189E820_0 *)state)->unk_04 -
-        ((func_800644B8((0x800 / (s16)((Row_8189E820_S_8189E820_0 *)state)->unk_02) *
+        ((rsin((0x800 / (s16)((Row_8189E820_S_8189E820_0 *)state)->unk_02) *
                         ((Row_8189E820_S_8189E820_0 *)state)->unk_00,
                         y_step) >> 4) * 0xC000);
     rotation->unk_1A =

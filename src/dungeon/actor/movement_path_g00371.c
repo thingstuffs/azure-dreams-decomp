@@ -111,7 +111,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 
         if (entity->unk_A0.s16 < -7) {
             entity->unk_98 &= 0xFFFE;
-            entity->unk_A0.u16 = (func_80069EF8() & 0x3F) | 0x40;
+            entity->unk_A0.u16 = (rand() & 0x3F) | 0x40;
         }
     } else {
         entity->unk_98 &= 0xFFFE;

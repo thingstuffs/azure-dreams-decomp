@@ -12,7 +12,7 @@ extern Callback uboat_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(u32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -146,7 +146,7 @@ void update_actor_visual_motion(void *object_arg, ObjectPosition *motion_arg, Sp
                 bob_signed >>= 16;
                 bob_phase = bob_signed * 0x55;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
-                    func_800644B8(bob_phase) << 4;
+                    rsin(bob_phase) << 4;
             }
 
             ground_height = -0x20;
@@ -214,7 +214,7 @@ void update_actor_visual_motion(void *object_arg, ObjectPosition *motion_arg, Sp
                 bob_signed >>= 16;
                 bob_phase = bob_signed * 0x55;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
-                    func_800644B8(bob_phase) << 4;
+                    rsin(bob_phase) << 4;
             }
 
             ground_height = -0x20;

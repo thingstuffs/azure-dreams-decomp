@@ -6,15 +6,15 @@
 
 #define SCALE255(value) ((u32)(value) / 255)
 
-extern s32 func_80069EF8(void);
-extern void func_80066844(void *);
-extern void func_80066640(void *, s32);
+extern s32 rand(void);
+extern void SetLineG4(void *);
+extern void SetSemiTrans(void *, s32);
 extern void copy_odd_halfwords_3(void *, void *);
 extern void copy_menu_vector_halfwords(void *, void *);
-extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_8006658C(void *, void *);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void AddPrim(void *, void *);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 
 typedef struct S_800A1354_1 {
@@ -106,14 +106,14 @@ void draw_random_tinted_quad_pair(u8 *effect)
 
         quad = ((GpuContext *)render_ctx)->packetCursor;
         ((GpuContext *)render_ctx)->packetCursor = quad + 0x28;
-        random_value = func_80069EF8();
-        ((S_800A1354_3 *)quad)->unk_04.at00.v = (random_value * func_80069EF8()) & rgb_mask;
-        random_value = func_80069EF8();
-        ((S_800A1354_3 *)quad)->unk_0C.at00.v = (random_value * func_80069EF8()) & rgb_mask;
-        random_value = func_80069EF8();
-        ((S_800A1354_3 *)quad)->unk_14.at00.v = (random_value * func_80069EF8()) & rgb_mask;
-        random_value = func_80069EF8();
-        random_color = random_value * func_80069EF8();
+        random_value = rand();
+        ((S_800A1354_3 *)quad)->unk_04.at00.v = (random_value * rand()) & rgb_mask;
+        random_value = rand();
+        ((S_800A1354_3 *)quad)->unk_0C.at00.v = (random_value * rand()) & rgb_mask;
+        random_value = rand();
+        ((S_800A1354_3 *)quad)->unk_14.at00.v = (random_value * rand()) & rgb_mask;
+        random_value = rand();
+        random_color = random_value * rand();
         ((S_800A1354_3 *)quad)->unk_1C.at00.v = random_color & rgb_mask;
 
         ((S_800A1354_3 *)quad)->unk_04.at00u.v = SCALE255(((S_800A1354_3 *)quad)->unk_04.at00u.v * intensity);
@@ -128,14 +128,14 @@ void draw_random_tinted_quad_pair(u8 *effect)
         ((S_800A1354_3 *)quad)->unk_1C.at00u.v = ((S_800A1354_3 *)quad)->unk_04.at00u.v;
         ((S_800A1354_3 *)quad)->unk_1C.at01.v = ((S_800A1354_3 *)quad)->unk_04.at01.v;
         ((S_800A1354_3 *)quad)->unk_1C.at02.v = ((S_800A1354_3 *)quad)->unk_04.at02.v;
-        func_80066844(quad);
-        func_80066640(quad, 1);
+        SetLineG4(quad);
+        SetSemiTrans(quad, 1);
 
         copy_odd_halfwords_3(scratch + 0x74, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
         copy_odd_halfwords_3(scratch + 0x7C, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
         copy_odd_halfwords_3(scratch + 0x84, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
         copy_menu_vector_halfwords(scratch + 0x8C, scratch + 0x74);
-        ((S_800A1354_1 *)scratch)->unk_C4 = func_800654B0(
+        ((S_800A1354_1 *)scratch)->unk_C4 = RotTransPers4(
             scratch + 0x74, scratch + 0x7C, scratch + 0x84, scratch + 0x8C, scratch + 0xE8, scratch + 0xEC,
             scratch + 0xF0, scratch + 0xF4, scratch + 0x94, scratch + 0x98) - 0x30;
 
@@ -151,12 +151,12 @@ void draw_random_tinted_quad_pair(u8 *effect)
             ((S_800A1354_1 *)scratch)->unk_C4 = 0x1DF;
         if (((S_800A1354_1 *)scratch)->unk_C4 < 0)
             ((S_800A1354_1 *)scratch)->unk_C4 = 0;
-        func_8006658C(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, quad);
+        AddPrim(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, quad);
         vertex_index += 3;
         render_ctx = *render_ctx_addr;
         draw_mode = ((GpuContext *)render_ctx)->packetCursor;
         ((GpuContext *)render_ctx)->packetCursor = draw_mode + 0xC;
-        func_80067F20(draw_mode, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
-        func_8006658C(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, draw_mode);
+        SetDrawMode(draw_mode, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
+        AddPrim(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, draw_mode);
     } while (vertex_index < 6);
 }

@@ -8,7 +8,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -162,7 +162,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
                     u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
 
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
-                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
+                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -rsin((s16)bob_frame * 0xC3) << 7;
                 }
             }
             if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
@@ -218,7 +218,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
                     u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
 
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
-                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
+                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -rsin((s16)bob_frame * 0xC3) << 7;
                 }
             }
             if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {

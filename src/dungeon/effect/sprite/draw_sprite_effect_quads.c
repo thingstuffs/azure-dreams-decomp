@@ -43,7 +43,7 @@ typedef struct Scratch800D1A48
 }
 Scratch800D1A48;
 typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
-extern void *func_800654B0(u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *);
+extern void *RotTransPers4(u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *);
 /* Build visible textured quads for the matching sprite and link them into the ordering table. */
 void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf)
 {
@@ -176,7 +176,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                             scratch->data82 = y;
                         }
                     }
-                    func_800654B0(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88, &scratch->dataF0,
+                    RotTransPers4(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88, &scratch->dataF0,
                         &scratch->dataF4, &scratch->dataF8, &scratch->dataFC, (u16 *) (((u8 *) scratch) + 0x90),
                         (u16 *) (((u8 *) scratch) + 0x94));
                     *((u16 *) (packet + 0x8)) = scratch->dataF0 + scratch->dataB8;

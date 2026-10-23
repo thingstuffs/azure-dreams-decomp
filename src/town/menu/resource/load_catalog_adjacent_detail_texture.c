@@ -32,7 +32,7 @@ typedef struct {
 extern s32 Control_CD();
 extern s32 pack_tagged_resource_descriptor();
 extern s32 decompress_lz();
-extern s32 func_800672D8();
+extern s32 LoadImage();
 
 extern s32 D_8003E140[];
 extern s32 *catalog_texture_resources[];
@@ -68,7 +68,7 @@ void load_catalog_adjacent_detail_texture(void *context) {
     palette_rect.y = ((S_801254D8_0 *)context)->unk_16 + 0x1CA;
     palette_rect.w = 0x100;
     palette_rect.h = 1;
-    func_800672D8(&palette_rect, catalog_texture_buffer);
+    LoadImage(&palette_rect, catalog_texture_buffer);
 
     decompress_lz(catalog_texture_buffer + 0x200, catalog_texture_pixels);
 
@@ -76,7 +76,7 @@ void load_catalog_adjacent_detail_texture(void *context) {
     image_rect.y = 0x80;
     image_rect.w = 0x40;
     image_rect.h = 0x80;
-    func_800672D8(&image_rect, catalog_texture_pixels);
+    LoadImage(&image_rect, catalog_texture_pixels);
 
     ((S_801254D8_1 *)((u8 *)context + ((S_801254D8_0 *)context)->unk_16))->unk_17 =
         ((S_801254D8_0 *)context)->unk_13;

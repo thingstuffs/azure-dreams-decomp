@@ -62,8 +62,8 @@ typedef struct {
 } Source;
 
 extern void register_node(Entity *, void *);
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
+extern s32 rcos(s32);
+extern s32 rsin(s32);
 extern void D_8017414C(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */
@@ -120,26 +120,26 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         sub->field_7A = 0;
         sub->field_74 = 0;
 
-        trig_value = func_80064584(next_angle);
+        trig_value = rcos(next_angle);
         angle = segment << 8;
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_70 = radial_offset;
         sub->field_64 = radial_offset;
 
-        trig_value = func_80064584(trig_angle);
+        trig_value = rcos(trig_angle);
         trig_angle = next_angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_76 = radial_offset;
         sub->field_6A = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
+        trig_value = rsin(trig_angle);
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
         sub->field_72 = radial_offset;
         sub->field_66 = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
+        trig_value = rsin(trig_angle);
         radial_offset = (trig_value * 24) >> 12;
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;

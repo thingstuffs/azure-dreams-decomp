@@ -30,7 +30,7 @@ typedef struct Copy24 {
 
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 s32 register_node();           /* extern */
-s32 func_80069EF8();                                /* extern */
+s32 rand();                                /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
 extern M2C_UNK D_80025E04;
 
@@ -82,7 +82,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         visual->tpage_abr = (u16) (visual->tpage_abr | 0x60);
         visual->flags = (u16) (visual->flags | 0x100);
         select_record_entry_and_value(data_ptr, &D_80025E04, 0);
-        phase_rounded = func_80069EF8();
+        phase_rounded = rand();
         phase_value = phase_rounded;
         if (phase_value < 0) {
             phase_rounded = phase_value + 0xFFF;

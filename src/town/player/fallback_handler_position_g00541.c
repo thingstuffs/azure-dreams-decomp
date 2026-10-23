@@ -51,8 +51,8 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
         (void *)call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, (u8 *)*(s32 *)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
         angle = (*(u16 *)((u8 *)object + 0x10) - 0xC00) & 0xFFF;
-        x = (record->scale * func_80064584(angle)) << 5;
-        y = (-record->scale * func_800644B8(angle)) << 5;
+        x = (record->scale * rcos(angle)) << 5;
+        y = (-record->scale * rsin(angle)) << 5;
         height = record->height;
         D_80100D20 = &computed_position;
         computed_position.x = D_800D0AE4.x + offset->x + x;

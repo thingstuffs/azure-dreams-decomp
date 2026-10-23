@@ -20,7 +20,7 @@ extern u8 secondary_sprite[];
 extern u8 D_800DED70[];
 void *allocate_list_node();                     /* extern */
 s32 register_node();                /* extern */
-s32 func_80069EF8();                /* extern */
+s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 void *scan_actor_along_heading();      /* extern */
 s32 get_definition_entry_byte_13(s16);                         /* extern */
@@ -192,7 +192,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 jitter_count = 1;
                 (((ObjectPosition *)object->unk_08))->y.v = (s32) position->unk_04.as_s32;
                 do {
-                    spawn_value = func_80069EF8();
+                    spawn_value = rand();
                     jitter_position_x = object->unk_08;
                     jitter_x = spawn_value;
                     jitter_base = *(u16 *)&jitter_position_x->x.w.i - 0x10;
@@ -200,7 +200,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                         jitter_x = spawn_value + 0x1F;
                     }
                     jitter_position_x->x.w.i = jitter_base + (spawn_value - ((jitter_x >> 5) << 5));
-                    spawn_value = func_80069EF8(spawn_value, jitter_position_x, jitter_base);
+                    spawn_value = rand(spawn_value, jitter_position_x, jitter_base);
                     jitter_position_y = object->unk_08;
                     jitter_y = spawn_value;
                     jitter_base = *(u16 *)&jitter_position_y->y.w.i - 0x10;
@@ -317,7 +317,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 sprite = object->unk_0C;
                 callback = &update_homing_brightening_effect;
                 object->unk_10 = callback;
-                rounded_x = func_80069EF8();
+                rounded_x = rand();
                 random_x = rounded_x;
                 burst_position = object->unk_08;
                 origin_x = position->unk_00.parts.unk_02.as_u16;
@@ -327,7 +327,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 }
                 burst_position->x.w.i = (s16) ((origin_x + (random_x - ((rounded_x >> 7) << 7)))
                     - 0x40);
-                rounded_y = func_80069EF8((s32) origin_x, burst_position);
+                rounded_y = rand((s32) origin_x, burst_position);
                 random_y = rounded_y;
                 burst_position_y = object->unk_08;
                 origin_y = position->unk_04.parts.unk_06.as_u16;
@@ -337,7 +337,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 }
                 burst_position_y->y.w.i = (s16) ((origin_y + (random_y - ((rounded_y >> 7) << 7)))
                     - 0x40);
-                rounded_height = func_80069EF8((s32) origin_y, burst_position_y);
+                rounded_height = rand((s32) origin_y, burst_position_y);
                 random_height = rounded_height;
                 burst_position = object->unk_08;
                 particle_data->unk_10 = ground_height;
@@ -375,12 +375,12 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         if ((u16) sprite->scale_x >= 0x21C1U) {
             sprite->scale_x = 0x2000U;
         }
-        scale_random = func_80069EF8();
+        scale_random = rand();
         sprite->scale_x = (u16) (sprite->scale_x + ((scale_random & 0x1FF) + 0x100));
         if ((u16) sprite->scale_y < 0x76CU) {
             sprite->scale_y = 0x800U;
         }
-        sprite->scale_y = (u16) (sprite->scale_y - ((func_80069EF8() & 0xFF) + 0x80));
+        sprite->scale_y = (u16) (sprite->scale_y - ((rand() & 0xFF) + 0x80));
         if ((s16) effect->unk_50 > 0) {
             return;
         }

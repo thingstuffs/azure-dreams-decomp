@@ -191,17 +191,17 @@ extern GlobalSlot D_80083160[];
 extern s32 swap_int_values();
 extern s32 multiply_rgb_tint_saturated();
 extern void *emit_gpu_packets();
-extern s32 func_800649A0();
-extern s32 func_80064A40();
-extern s32 func_80064BC0();
-extern s32 func_80064CF0();
-extern s32 func_80064D80();
-extern s32 func_80065480();
-extern s32 func_800654B0();
-extern s32 func_80065820();
-s32 func_8006658C(void *, void *);
+extern s32 PushMatrix();
+extern s32 PopMatrix();
+extern s32 ScaleMatrix();
+extern s32 SetRotMatrix();
+extern s32 SetTransMatrix();
+extern s32 NormalClip();
+extern s32 RotTransPers4();
+extern s32 RotMatrix();
+s32 AddPrim(void *, void *);
 /* extern */
-s32 func_800666F4(void *);
+s32 SetPolyFT4(void *);
 
 extern s32 (*quad_batch_callbacks[])(s32, void *, void *);
 

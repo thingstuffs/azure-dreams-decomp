@@ -77,8 +77,8 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
     }
 }
 
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Retail 8181A9EC (func_800241EC): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -110,7 +110,7 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, &tile->data,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -141,8 +141,8 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
-            draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            draw_page = GetTPage(0, 1, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
@@ -411,7 +411,7 @@ extern s32 func_8003DF74(s32, void *, s16 *, s32);
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
@@ -571,7 +571,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             s32 direction;
             s32 particle_color;
             s32 intensity;
-            random_intensity = func_80069EF8();
+            random_intensity = rand();
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
@@ -638,67 +638,67 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             motion->y.v += motion->velocity_y;
             motion->z.v += motion->velocity_z;
 
-            random_intensity = func_80069EF8();
+            random_intensity = rand();
             impact_position = random_intensity & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
-            impact_position = func_80069EF8() & 0xF;
+                (s16)((rand() & 0xF) - 8));
+            impact_position = rand() & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
-            impact_position = func_80069EF8() & 0xF;
+                (s16)((rand() & 0xF) - 8));
+            impact_position = rand() & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
-            impact_position = func_80069EF8() & 0xF;
+                (s16)((rand() & 0xF) - 8));
+            impact_position = rand() & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
-            impact_position = func_80069EF8() & 0xF;
+                (s16)((rand() & 0xF) - 8));
+            impact_position = rand() & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
-            impact_position = func_80069EF8() & 0xF;
+                (s16)((rand() & 0xF) - 8));
+            impact_position = rand() & 0xF;
             impact_position -= 8;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite = rand() & 0xF;
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
-                (s16)((func_80069EF8() & 0xF) - 8));
+                (s16)((rand() & 0xF) - 8));
             break;
         }
     }
@@ -743,12 +743,12 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         particle_count_m = 0;
         do {
             particle_count_m++;
-            impact_sprite = func_80069EF8() & 0x3F;
+            impact_sprite = rand() & 0x3F;
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             decrement_object_counter((u8 *)effect - 0x20, impact_sprite,
-                (s16)((func_80069EF8() & 0x3F) - 0x20),
+                (s16)((rand() & 0x3F) - 0x20),
                 (s16)(-(((S_80024BE8_0 *)effect)->unk_86.s * 2) + 0x10), 0x1E);
         } while (particle_count_m < 2);
 
@@ -763,17 +763,17 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             particle_sprite->tpage_abr = 0;
             particle_sprite->flags |= 0xC;
             particle_position = impact->position;
-            jitter = func_80069EF8() & 0xF;
+            jitter = rand() & 0xF;
             coord = ((u16) motion->x.w.i);
             coord -= 8;
             coord += jitter;
             particle_position->x.w.i = coord;
-            jitter = func_80069EF8() & 0xF;
+            jitter = rand() & 0xF;
             coord = ((u16) motion->y.w.i);
             coord -= 8;
             coord += jitter;
             particle_position->y.w.i = coord;
-            if (func_80069EF8() & 1) {
+            if (rand() & 1) {
                 particle_sprite->flags |= 1;
             }
 
@@ -839,16 +839,16 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         particle_count_m = 0;
         do {
             particle_count_m++;
-            impact_position = func_80069EF8() & 0x3F;
+            impact_position = rand() & 0x3F;
             impact_position -= 0x20;
             impact_position <<= 16;
             impact_position >>= 16;
-            impact_sprite = func_80069EF8() & 0x3F;
+            impact_sprite = rand() & 0x3F;
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
             decrement_object_counter((u8 *)effect - 0x20, impact_position, impact_sprite,
-                (s16)(-0x20 - (func_80069EF8() & 0x3F)), 0x1E);
+                (s16)(-0x20 - (rand() & 0x3F)), 0x1E);
         } while (particle_count_m < 2);
 
         scale_step = ((S_80024BE8_0 *)effect)->unk_86.u - 2;

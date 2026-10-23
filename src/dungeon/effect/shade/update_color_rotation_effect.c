@@ -24,7 +24,7 @@ typedef struct S_818C3448_1 {
 
 s32 advance_object_and_global_counters();
 s32 func_80024AF4();
-s32 func_80069EF8();
+s32 rand();
 
 typedef struct {
     s32 f0;
@@ -111,7 +111,7 @@ void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameS
         return;
     case 2:
         func_80024AF4(effect, motion, visual);
-        random_bias = func_80069EF8();
+        random_bias = rand();
         random_value = random_bias;
         angle = (random_value % 4096);
         advance_object_and_global_counters(effect, motion, angle);

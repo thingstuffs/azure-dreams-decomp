@@ -89,19 +89,19 @@ typedef struct S_800C55F4_8 {
    /* ((S_800C55F4_9 *)global_base)->unk_00 in transform_mesh_and_append_draw_packets */
 
 extern s32 convert_hsv_to_rgb();
-extern void *func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern s32 func_80064AE0();
-extern void *func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065420(void *, void *, ...);
-extern s32 func_80065480();
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
-extern s32 func_800666B8();
-extern s32 func_80067F20();
+extern void *CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern s32 ReadRotMatrix();
+extern void *ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotTransPers(void *, void *, ...);
+extern s32 NormalClip();
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
+extern s32 SetPolyG3();
+extern s32 SetDrawMode();
 
 typedef struct Face {
     u8 v0;
@@ -152,7 +152,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
     vertices = ((S_800C55F4_0 *)descriptor)->unk_00;
     face = (Face *)((S_800C55F4_0 *)descriptor)->unk_08;
 
-    func_800649A0();
+    PushMatrix();
 
     vector_arg = (u8 *)0x1F800028;
     screen_arg = (u8 *)0x1F800000;
@@ -182,16 +182,16 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
         ((S_800C55F4_1 *)scratch)->unk_2C = translation_coord;
     }
 
-    result = func_80065420(vector_arg, screen_arg,
+    result = RotTransPers(vector_arg, screen_arg,
                            (void *)0x1F800090, (void *)0x1F800094);
     depth_bias = narrow_depth(depth_bias);
     ((S_800C55F4_1 *)scratch)->unk_CC = result - depth_bias;
-    func_80064AE0(saved_matrix);
-    func_80065820((u8 *)mesh_data + 0x16, scratch + 0x50);
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064840(saved_matrix, scratch + 0x50, scratch + 0xD0);
-    func_80064D80(scratch + 0xD0);
-    func_80064CF0(scratch + 0xD0);
+    ReadRotMatrix(saved_matrix);
+    RotMatrix((u8 *)mesh_data + 0x16, scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    CompMatrix(saved_matrix, scratch + 0x50, scratch + 0xD0);
+    SetTransMatrix(scratch + 0xD0);
+    SetRotMatrix(scratch + 0xD0);
 
     render_state = ((u8 *)global_base->draw_buffer);
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
@@ -218,22 +218,22 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
         {
             s32 depth;
 
-            depth = func_80065420(scratch + 0x70, prim + 8,
+            depth = RotTransPers(scratch + 0x70, prim + 8,
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
             flags_arg = flags_out;
             ((S_800C55F4_1 *)scratch)->unk_C0.s = depth;
-            depth = func_80065420(scratch + 0x78, prim + 0x10,
+            depth = RotTransPers(scratch + 0x78, prim + 0x10,
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
             flags_arg = flags_out;
             ((S_800C55F4_1 *)scratch)->unk_C4 = depth;
-            depth = func_80065420(scratch + 0x80, prim + 0x18,
+            depth = RotTransPers(scratch + 0x80, prim + 0x18,
                                         perspective_arg, flags_arg);
             ((S_800C55F4_1 *)scratch)->unk_C8.s = depth;
         }
 
-        result = func_80065480((*(s32 *)((u8 *)packet_code + 1)),
+        result = NormalClip((*(s32 *)((u8 *)packet_code + 1)),
                                (*(s32 *)((u8 *)packet_code + 9)),
                                (*(s32 *)((u8 *)packet_code + 0x11)));
         ((S_800C55F4_1 *)scratch)->unk_114 = result;
@@ -315,21 +315,21 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
                     }
                 }
 
-                func_800666B8(prim);
+                SetPolyG3(prim);
                 packet = prim;
                 packet_flags = ((S_800C55F4_4 *)packet_code)->unk_00;
                 prim += 0x1C;
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
-                func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
+                AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
                               (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
 
                 packet_code += 0xC;
                 ((S_800C55F4_2 *)mesh_data)->unk_14 &= 0x7FFF;
-                func_80067F20(prim, 0, 0, 0, 0);
+                SetDrawMode(prim, 0, 0, 0, 0);
                 packet = prim;
                 prim += 0xC;
-                func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
+                AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
                               (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
             }
         }
@@ -341,7 +341,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
         }
         break;
     }
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(((u8 *)global_base->draw_buffer)))->packetCursor = prim;
 }
 #include "common.h"
@@ -1129,16 +1129,16 @@ typedef struct {
     u16 origin_y;
 } RotationWork;
 
-extern void *func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void *func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065420(void *, void *, ...);
-void func_800654B0();
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
+extern void *CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void *ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotTransPers(void *, void *, ...);
+void RotTransPers4();
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
@@ -1223,7 +1223,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     *(u16 *)(scratch + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
     *(u16 *)(scratch + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(s32 *)(state + 0x8D0);
-    ((ScratchDepth *)scratch)->depth = func_80065420(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
+    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
     matrix_or_u = (s32)sprite_projection_matrix;
     (*(u16 *)((u8 *)sprite + 0x14)) = (u16)((*(u16 *)((u8 *)sprite + 0x14)) | 0x8000);
     depth = ((ScratchDepth *)scratch)->depth;
@@ -1232,7 +1232,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     sort_depth = depth - depth_bias;
     *(u32 *)(scratch + 0x0C0) = sort_depth;
     if (sort_depth < 0x1E0U) {
-        func_800649A0();
+        PushMatrix();
         *(u16 *)(scratch + 0x0B8) = (u16)(*(u16 *)(scratch + 0x0B8) - 0xA0);
         *(u16 *)(scratch + 0x0BA) = (u16)(*(u16 *)(scratch + 0x0BA) - 0x78);
         *(u32 *)(scratch + 0x030) = render_globals->view.camera_rotation.parts.camera_rotation_x;
@@ -1248,14 +1248,14 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
         *(u32 *)(scratch + 0x0E8) = origin_y;
         ((RotationWork *)(scratch + 0x100))->origin_y = origin_y;
-        func_80065820(0x1F800100, 0x1F8000D0);
+        RotMatrix(0x1F800100, 0x1F8000D0);
         *(u32 *)(scratch + 0x030) = (void *)((S_800C6B40_0 *)sprite)->unk_1C;
         *(u32 *)(scratch + 0x034) = (void *)(*(u16 *)((u8 *)sprite + 0x1E));
         *(u32 *)(scratch + 0x038) = NULL;
-        func_80064BC0(scratch + 0xD0, scratch + 0x30);
-        func_80064840((s32 *)matrix_or_u, scratch + 0xD0, scratch + 0x50);
-        func_80064D80(scratch + 0x50);
-        func_80064CF0(scratch + 0x50);
+        ScaleMatrix(scratch + 0xD0, scratch + 0x30);
+        CompMatrix((s32 *)matrix_or_u, scratch + 0xD0, scratch + 0x50);
+        SetTransMatrix(scratch + 0x50);
+        SetRotMatrix(scratch + 0x50);
         sprite_flags = ((S_800C6B40_0 *)sprite)->unk_14;
         part = ((S_800C6B40_0 *)sprite)->unk_08;
         *(u16 *)(scratch + 0x024) = (u16)sprite_flags;
@@ -1299,7 +1299,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                     *(u16 *)(scratch + 0x08A) = local_y;
                     *(u16 *)(scratch + 0x082) = local_y;
                 }
-                func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
+                RotTransPers4(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
                     scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
                 width = *(u32 *)(scratch + 0x010);
                 if (width < 0) {
@@ -1429,7 +1429,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
                                     ((QuadPrim *)packet_next)->unk_04.at03.code = command;
                                 }
                             }
-                            func_8006658C((u8 *)*(u32 *)(scratch + 0x020) + ((u32)*(u32 *)(scratch + 0x0C0) * 4),
+                            AddPrim((u8 *)*(u32 *)(scratch + 0x020) + ((u32)*(u32 *)(scratch + 0x0C0) * 4),
                                 packet_next);
                             packet_next += 0x28;
                         }
@@ -1460,7 +1460,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
             part_flags = (s8)((S_800C6B40_1 *)part)->unk_00;
             part += 0xC;
         } while (part_flags >= 0);
-        func_80064A40();
+        PopMatrix();
     }
     *(s32 *)(*(u32 *)&render_globals->draw_buffer + 0x8D0) = packet_next;
 }
@@ -1519,8 +1519,8 @@ typedef struct {
 extern void copy_words_forward(void *, void *, s32);
 extern DungeonObject *allocate_list_node(s32, void *);
 extern s32 register_node();
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s32 draw_linked_sprites_clipped();
 extern u8 D_800777E8[];
 extern void update_timed_tile_effect();
@@ -1585,8 +1585,8 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
                 child->callback = callback_fn;
                 register_node(init_child, child_resource);
                 child_coord = child->coord;
-                child_coord->x.w.i = (s16) (center->x.w.i + (func_80064584(angle) >> 7));
-                child_coord->y.w.i = (s16) (center->y.w.i + (func_800644B8(angle) >> 7));
+                child_coord->x.w.i = (s16) (center->x.w.i + (rcos(angle) >> 7));
+                child_coord->y.w.i = (s16) (center->y.w.i + (rsin(angle) >> 7));
                 child_coord->z.w.i = *(u16 *)&center->z.w.i;
                 render = child->render;
                 render->blend2 = 0xFC00;

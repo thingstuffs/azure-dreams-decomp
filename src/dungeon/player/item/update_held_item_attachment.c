@@ -71,7 +71,7 @@ typedef struct S_8008D470_7 {
 extern u8 held_item_record[];
 
 extern s32 resolve_record_orientation_or_fallback();
-extern s32 func_800644B8();
+extern s32 rsin();
 extern s32 create_indexed_floor_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */
@@ -146,7 +146,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
     }
 
     if (((S_8008D470_0 *)effect)->unk_AE != 0) {
-        brightness = (func_800644B8(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
+        brightness = (rsin(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
         intensity = visual->unk_0C;
         intensity += (brightness - intensity) >> 2;
         visual->unk_0C = intensity;

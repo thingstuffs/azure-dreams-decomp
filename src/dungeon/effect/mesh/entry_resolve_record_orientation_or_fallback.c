@@ -71,7 +71,7 @@ extern u8 *actor_direction_sprites;
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec16 *, s16);
 extern void register_node(void *, void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 /* Follow the source, then brighten and move to the target over ten frames. */
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual)
@@ -156,7 +156,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
             (motion->velocity_y - motion->y.v) /
             ((S_81976850_0 *)effect)->unk_0E.s;
 
-        z_offset = func_800644B8(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
+        z_offset = rsin(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
         motion->z.v +=
             (motion->velocity_z - motion->z.v) /
             ((S_81976850_0 *)effect)->unk_0E.s - z_offset;

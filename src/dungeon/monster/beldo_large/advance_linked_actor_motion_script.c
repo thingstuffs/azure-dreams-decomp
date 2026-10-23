@@ -127,7 +127,7 @@ void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 void advance_sprite_animation_and_textures();  /* extern */
-s32 func_800644B8();                     /* extern */
+s32 rsin();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
 void play_sound_if_enabled();             /* extern */
 s32 is_special_floor_entry_absent();                      /* extern */
@@ -517,7 +517,7 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             }
             ((S_80171D74_1 *)state_in)->unk_96 = next_frame;
             if ((u32) (bounce_frame - 0xA) < 8U) {
-                ((S_80171D74_1 *)state_in)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (next_frame << 0x10) >> 8) - 0xA00)
+                ((S_80171D74_1 *)state_in)->unk_A0.at00.v = (s32) (rsin(((s32) (next_frame << 0x10) >> 8) - 0xA00)
                     << 8);
                 motion_in->z.w.i = (u16) (owner_state->unk_88
                     - ((S_80171D74_1 *)state_in)->unk_A0.at02.v);

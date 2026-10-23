@@ -106,16 +106,16 @@ void card_boot_format_saved_slot_details(void *record) {
 
     assetSlot = ((S_80024390_0 *)record)->unk_B4C;
     format_unsigned_double_byte_decimal(((S_80024390_0 *)record)->unk_7C + 1, (u8 *)(&textBuffer));
-    func_80069E38(&textBuffer, D_800282D8);
+    strcat(&textBuffer, D_800282D8);
     assetDataBase = card_slot_payload;
-    func_80069E38(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
+    strcat(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
     asset0 = record + 0x84;
     decode_fullwidth_text(asset0, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset0;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xA8;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
     assetSlot = ((S_80024390_0 *)record)->unk_B50;
-    func_80069E78(&textBuffer, D_800282E8);
+    strcpy(&textBuffer, D_800282E8);
     asset1 = record + 0x204;
     decode_fullwidth_text(asset1, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset1;
@@ -125,10 +125,10 @@ void card_boot_format_saved_slot_details(void *record) {
     if (((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_08 != 0) {
         table_base = D_800283A8;
         assetSlot = ((S_80024390_0 *)record)->unk_B54;
-        func_80069E78(&textBuffer, table_base->unk_08);
+        strcpy(&textBuffer, table_base->unk_08);
         format_unsigned_double_byte_decimal(((S_80024390_6 *)(((((S_80024390_0 *)record)->unk_7C << 7) + recordBase)))->unk_34, (u8 *)(&numberBuffer));
-        func_80069E38(&textBuffer, &numberBuffer);
-        func_80069E38(&textBuffer, table_base->unk_0C);
+        strcat(&textBuffer, &numberBuffer);
+        strcat(&textBuffer, table_base->unk_0C);
         asset2 = record + 0x384;
         decode_fullwidth_text(asset2, (u8 *)(&textBuffer), 1);
         assetSlot->unk_00.s = asset2;
@@ -153,13 +153,13 @@ void card_boot_format_saved_slot_details(void *record) {
         value = hours;
     }
     func_8004E5A0(value, 3, (char *)(&textBuffer));
-    func_80069E38(&textBuffer, D_800200A4);
+    strcat(&textBuffer, D_800200A4);
     totalMinutes = elapsedSeconds / 60;
     func_8004E5E8(totalMinutes - (hours * 0x3C), 2, &numberBuffer);
-    func_80069E38(&textBuffer, &numberBuffer);
-    func_80069E38(&textBuffer, D_800200A4);
+    strcat(&textBuffer, &numberBuffer);
+    strcat(&textBuffer, D_800200A4);
     func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, &numberBuffer);
-    func_80069E38(&textBuffer, &numberBuffer);
+    strcat(&textBuffer, &numberBuffer);
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset4 = record + 0x684;
     build_positioned_text_glyphs(asset4, (u8 *)(&textBuffer), 1);

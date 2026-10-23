@@ -8,7 +8,7 @@ typedef struct {
     u16 field_8;
 } Obj;
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 /* Advance the object counters and wrapped phase according to its state. */
 void advance_object_phase_counters(Obj *obj)
@@ -42,7 +42,7 @@ void advance_object_phase_counters(Obj *obj)
         return;
     case 3:
         obj->field_6 += 8;
-        phase = (func_800644B8((s16)obj->field_0 << 5) >> 1) + 0xC00;
+        phase = (rsin((s16)obj->field_0 << 5) >> 1) + 0xC00;
         obj->field_0++;
         obj->field_8 = phase % 0x1C00;
         return;

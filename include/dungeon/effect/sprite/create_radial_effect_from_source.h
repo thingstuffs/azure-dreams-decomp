@@ -36,8 +36,8 @@ extern u8 D_80026478[];
 void create_radial_effect_from_source();
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void);
 
-s32 func_80066460(s32, s32, s32, s32);
-void func_8006658C();
-void func_80067F20(void *, s32, s32, u16, s32);
+s32 GetTPage(s32, s32, s32, s32);
+void AddPrim();
+void SetDrawMode(void *, s32, s32, u16, s32);
 
 #endif

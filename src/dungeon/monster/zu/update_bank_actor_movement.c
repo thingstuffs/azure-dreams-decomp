@@ -141,7 +141,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -259,7 +259,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
         if (object->unk_1C & 0x40000) {
             if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
                 {
-                    s32 bob_wave = func_800644B8(
+                    s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
                     if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;
@@ -326,7 +326,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
         } else {
             if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
                 {
-                    s32 bob_wave = func_800644B8(
+                    s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
                     if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
                         bob_offset = bob_wave >> 10;

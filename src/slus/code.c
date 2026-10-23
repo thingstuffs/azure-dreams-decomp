@@ -1242,14 +1242,14 @@ void noop_audio_init_hook(void) {
 
 extern void audio_reset_all_voices(void);
 extern void reset_sound_slots(void);
-extern void stop_spu_dma_event_service(void);
+extern void SpuQuit(void);
 
 /* Run the three initialization routines in order. */
 void reset_voices_slots_and_stop_spu_service(void)
 {
     audio_reset_all_voices();
     reset_sound_slots();
-    stop_spu_dma_event_service();
+    SpuQuit();
 }
 
 /* Store the global halfword value. */

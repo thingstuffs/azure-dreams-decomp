@@ -54,7 +54,7 @@ typedef struct {
 } TableEntry;
 
 s32 register_node();
-s32 func_80069EF8();
+s32 rand();
 extern M2C_UNK D_800777F4;
 extern u8 D_8016E528;
 extern void *ghosh_actor_node[];
@@ -84,7 +84,7 @@ void spawn_conditional_source_effect(void) {
     count = low_byte | (high_byte << 8);
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;
     source_state = source + 0x20;
-    if (((count & 3) == 1) && !(func_80069EF8(source) & 1)) {
+    if (((count & 3) == 1) && !(rand(source) & 1)) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
             effect_state = ((void *)effect) + 0x20;

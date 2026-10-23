@@ -34,11 +34,11 @@ void update_three_axis_scale_effect(S_800A70EC_0 *state, s32 unused_1, s32 unuse
         state->unk_50 = 0;
         return;
     }
-    x_wave = func_800644B8((s16) ticks_left * 0xCC);
+    x_wave = rsin((s16) ticks_left * 0xCC);
     scale->unk_1C = (s16) ((x_wave / 8) + 0x1000);
-    y_wave = func_800644B8(state->unk_6C.s * 0xCC);
+    y_wave = rsin(state->unk_6C.s * 0xCC);
     scale->unk_1E = (s16) ((y_wave / 8) + 0x1000);
-    z_wave = func_800644B8(state->unk_6C.s * 0xCC);
+    z_wave = rsin(state->unk_6C.s * 0xCC);
     z_offset = z_wave >> 3;
     if (z_wave < 0) {
         z_offset = (s32) (z_wave + 7) >> 3;

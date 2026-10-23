@@ -8,7 +8,7 @@
 #include "common.h"
 
 extern void register_node();
-extern s16 func_8006649C();
+extern s16 GetClut();
 extern s32 draw_linked_textured_quads(void *first_quad);
 extern void update_rotating_effect_vertices(void *effect_data);
 
@@ -30,7 +30,7 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
                 *(s16 *)(data + 8) = row;
                 *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
                 *(Copy8 *)(((u8 *)object) + 0x40) = *(Copy8 *)payload;
-                *(s16 *)(data + 6) = func_8006649C(value_scale << 4, 0x1F8);
+                *(s16 *)(data + 6) = GetClut(value_scale << 4, 0x1F8);
                 object->unk_10 = update_rotating_effect_vertices;
                 register_node(object, draw_linked_textured_quads);
             }
@@ -87,9 +87,9 @@ typedef struct S_800DA93C_4 {
     u32 unk_B0;
 } S_800DA93C_4;   /* (u8 *)work in draw_linked_textured_quads */
 
-extern s32 func_80065420();
-extern void func_80066640();
-extern void func_800666F4();
+extern s32 RotTransPers();
+extern void SetSemiTrans();
+extern void SetPolyFT4();
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
 s32 draw_linked_textured_quads(void *first_quad) {
@@ -118,21 +118,21 @@ s32 draw_linked_textured_quads(void *first_quad) {
         packet = ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0;
         ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0 = (u8 *)packet + 0x28;
 
-        depth = func_80065420((u8 *)quad_data + 0x28,
+        depth = RotTransPers((u8 *)quad_data + 0x28,
                               (u8 *)packet + 8, &scratch, &scratch);
-        depth += func_80065420((u8 *)quad_data + 0x30,
+        depth += RotTransPers((u8 *)quad_data + 0x30,
                                (u8 *)packet + 0x10, &scratch, &scratch);
-        depth += func_80065420((u8 *)quad_data + 0x38,
+        depth += RotTransPers((u8 *)quad_data + 0x38,
                                (u8 *)packet + 0x18, &scratch, &scratch);
-        depth += func_80065420((u8 *)quad_data + 0x40,
+        depth += RotTransPers((u8 *)quad_data + 0x40,
                                (u8 *)packet + 0x20, &scratch, &scratch);
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {
             scratch = 0xFF - ((S_800DA93C_1 *)quad_data)->unk_02;
             ((S_800DA93C_2 *)packet)->unk_04 = (*(s32 *)((u8 *)quad_data + 0x10));
-            func_800666F4(packet);
-            func_80066640(packet, 1);
+            SetPolyFT4(packet);
+            SetSemiTrans(packet, 1);
 
             ((S_800DA93C_2 *)packet)->unk_16 = ((S_800DA93C_1 *)quad_data)->unk_04;
             ((S_800DA93C_2 *)packet)->unk_0E = ((S_800DA93C_1 *)quad_data)->unk_06;
@@ -225,8 +225,8 @@ typedef struct WorkBlock {
     s16 unk2C;
 } WorkBlock;
 
-extern s32 func_800644B8();
-extern s32 func_80066460();
+extern s32 rsin();
+extern s32 GetTPage();
 struct Struct_800D6330;
 extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 
@@ -251,7 +251,7 @@ void update_rotating_effect_vertices(void *effect_data) {
         work.unk2A = 0x30;
         work.unk22 = (phase_value_2 * 2) + 0x40;
     }
-    work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)effect_data)->unk_02.s - 0x20) << 6) >> 6);
+    work.unk24 = (s16)(rsin(((s16)((S_800DAB50_0 *)effect_data)->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
@@ -277,7 +277,7 @@ void update_rotating_effect_vertices(void *effect_data) {
     switch (state) {
     case 0:
         ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
-        ((S_800DAB50_0 *)effect_data)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
+        ((S_800DAB50_0 *)effect_data)->unk_04 = GetTPage(0, 1, 0x2C0, 0x100);
         ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
         ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
     case 1:
@@ -285,7 +285,7 @@ void update_rotating_effect_vertices(void *effect_data) {
             + ((S_800DAB50_0 *)effect_data)->unk_0C;
         color_step = 0;
         if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
-            phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+            phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xFFFFFF;
             color_step = 0x101010;
             state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
@@ -302,7 +302,7 @@ void update_rotating_effect_vertices(void *effect_data) {
             - ((S_800DAB50_0 *)effect_data)->unk_0C;
         color_step = 0;
         if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
-            phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+            phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xA0A0A0;
             color_step = 0x101010;
             state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
@@ -419,7 +419,7 @@ typedef struct S_800DAEF4_6 {
 
 extern void *allocate_list_node();
 extern void register_node();
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 extern s32 secondary_sprite;
 
@@ -452,9 +452,9 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             work = (u8 *)object;
             work += 0x20;
 
-            offset_roll_a = func_80069EF8();
+            offset_roll_a = rand();
             {
-                const s32 offset_roll_b = func_80069EF8();
+                const s32 offset_roll_b = rand();
                 s32 offset_sum;
                 part = object->position;
                 offset_sum = offset_roll_a % 64 + offset_roll_b % 64 - 64;
@@ -462,15 +462,15 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
                     ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
             }
 
-            spread_roll_a = func_80069EF8();
-            spread_roll_b = func_80069EF8();
+            spread_roll_a = rand();
+            spread_roll_b = rand();
             object->position->y.w.i =
                 ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             object->position->z.w.i = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
             ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
 
-            divisor = (func_80069EF8() & 3) + 4;
+            divisor = (rand() & 3) + 4;
             height_delta = ((S_800DAEF4_2 *)spawn_params)->unk_08.at00.v;
             height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
             object->position->velocity_z = height_delta / divisor;
@@ -478,7 +478,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             node->flags |= 0xC;
             node->scale_x = 0x1000;
             node->scale_y = 0x200;
-            if (func_80069EF8() & 1) {
+            if (rand() & 1) {
                 node->flags |= 1;
             }
             node->tpage_abr = 0x60;
@@ -845,10 +845,10 @@ typedef struct
     Primitive *next_primitive;
 }
 Dungeon;
-extern s32 func_800644B8(s32);
-extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80066640(Primitive *, s32);
-extern void func_800666F4(Primitive *);
+extern s32 rsin(s32);
+extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void SetSemiTrans(Primitive *, s32);
+extern void SetPolyFT4(Primitive *);
 struct Struct_800D6330;
 extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 /* Draw linked items as fading textured quads along interpolated, oscillating paths. */
@@ -921,7 +921,7 @@ s32 draw_fading_linked_quads(Item *item)
                 u8 u_end;
                 u8 v_start;
                 u8 v_end;
-                wave_value = func_800644B8(offset_phase);
+                wave_value = rsin(offset_phase);
                 transform.x = (wave_value * current_item->scale) >> 12;
                 transform.z = 0;
                 transform.y = 0;
@@ -930,7 +930,7 @@ s32 draw_fading_linked_quads(Item *item)
                 transform.sx = current_item->tpage;
                 transform.sy = current_item->x0 + (accum_x / current_item->count);
                 transform.sz = current_item->y0 + (accum_y / current_item->count);
-                wave_value = func_800644B8(z_phase);
+                wave_value = rsin(z_phase);
                 transform.value = (current_item->z0 + (accum_z / current_item->count))
                     + ((wave_value * current_item->angle) >> 12);
                 transform.one = 1;
@@ -960,13 +960,13 @@ s32 draw_fading_linked_quads(Item *item)
                     offset_phase += current_item->angle_step;
                     dungeon->next_primitive = (Primitive *) (((u8 *) primitive) + 0x34);
                 }
-                ordering_index = func_800654B0(vertex_0, vertex_1, vertex_2, vertex_3, ((u8 *) primitive) + 8,
+                ordering_index = RotTransPers4(vertex_0, vertex_1, vertex_2, vertex_3, ((u8 *) primitive) + 8,
                     ((u8 *) primitive) + 0x10, ((u8 *) primitive) + 0x18, ((u8 *) primitive) + 0x20,
                     &projection_scratch, &projection_scratch) - 8;
                 if (((u32) ordering_index) < 0x1E0) {
                     primitive->color = color;
-                    func_800666F4(primitive);
-                    func_80066640(primitive, 1);
+                    SetPolyFT4(primitive);
+                    SetSemiTrans(primitive, 1);
                     *((u16 *) (((u8 *) primitive) + 0x16)) = current_item->clut;
                     *((u16 *) (((u8 *) primitive) + 0x0E)) = current_item->tex;
                     u_start = current_item->u0;
@@ -1015,15 +1015,15 @@ s32 draw_fading_linked_quads(Item *item)
 }
 #include "common.h"
 
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064CF0(void *matrix);
-extern void func_80064D80(void *values);
-extern void func_80065450(void *vertex, void *coordinates, s32 *result);
-extern void func_80065820(void *transform_fields, void *matrix);
-extern void func_80065AB0(s16 value, void *matrix, s32 diagonal_value, s32 last_column_index_index);
-extern void func_80065C50(s16 value, void *matrix);
-extern void func_80065DF0(s16 value, void *matrix);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void SetRotMatrix(void *matrix);
+extern void SetTransMatrix(void *values);
+extern void RotTrans(void *vertex, void *coordinates, s32 *result);
+extern void RotMatrix(void *transform_fields, void *matrix);
+extern void RotMatrixX(s16 value, void *matrix, s32 diagonal_value, s32 last_column_index_index);
+extern void RotMatrixY(s16 value, void *matrix);
+extern void RotMatrixZ(s16 value, void *matrix);
 
 typedef struct Struct_800D6330 {
     /* 0x00 */ s32 *unk00;
@@ -1065,13 +1065,13 @@ void transform_rotated_vertices(Struct_800D6330 *transform) {
     s32 *source_vertices;
     void *output_coordinates;
 
-    func_800649A0();
+    PushMatrix();
     scratch.s.input_0 = transform->unk10;
     scratch.s.input_1 = transform->unk12;
     scratch.s.input_2 = transform->unk14;
-    func_80064D80(scratch.rotation_matrix);
+    SetTransMatrix(scratch.rotation_matrix);
     if (transform->unk1A == 0) {
-        func_80065820(&transform->unk08, scratch.rotation_matrix);
+        RotMatrix(&transform->unk08, scratch.rotation_matrix);
     } else {
         index = 2;
         if (transform->unk1A != 0x8000) {
@@ -1094,20 +1094,20 @@ void transform_rotated_vertices(Struct_800D6330 *transform) {
                 matrix_row -= 3;
             } while (index >= 0);
             if (transform->unk1A == 1) {
-                func_80065AB0(transform->unk08, scratch.rotation_matrix, diagonal_value, last_column_index);
-                func_80065C50(transform->unk0A, scratch.rotation_matrix);
-                func_80065DF0(transform->unk0C, scratch.rotation_matrix);
+                RotMatrixX(transform->unk08, scratch.rotation_matrix, diagonal_value, last_column_index);
+                RotMatrixY(transform->unk0A, scratch.rotation_matrix);
+                RotMatrixZ(transform->unk0C, scratch.rotation_matrix);
             }
         }
     }
-    func_80064CF0(scratch.rotation_matrix);
+    SetRotMatrix(scratch.rotation_matrix);
     index = 0;
     if (transform->unk18 > 0) {
         output_coordinates = &scratch.s.output_x;
         do {
             vertex_byte_offset = index * 8;
             source_vertices = transform->unk00;
-            func_80065450((s8 *) source_vertices + vertex_byte_offset, output_coordinates, &column_index);
+            RotTrans((s8 *) source_vertices + vertex_byte_offset, output_coordinates, &column_index);
             *(u16 *) ((s8 *) transform->unk04 + index * 8) = *(u16 *) &scratch.s.output_x;
             *(u16 *) ((s8 *) transform->unk04 + index * 8 + 2) = *(u16 *) &scratch.s.output_y;
             vertex_byte_offset = (s32)transform->unk04 + vertex_byte_offset;
@@ -1119,5 +1119,5 @@ void transform_rotated_vertices(Struct_800D6330 *transform) {
             output_coordinates = &scratch.s.output_x;
         } while (1);
     }
-    func_80064A40();
+    PopMatrix();
 }

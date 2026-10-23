@@ -76,8 +76,8 @@ extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 extern void SD_Call(s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void unlink_scene_list_node(void *);
 extern void add_motion_deltas_to_position(void *);
 extern s32 query_lowered_transform_position(void *);
@@ -139,7 +139,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
             ((S_80020DF0_0 *)object)->unk_6C.s = timer;
             if ((s16)timer >= 0) {
                 ((S_80020DF0_2 *)motion)->unk_00 =
-                    (func_800644B8((s16)timer << 7) << 7) + 0x03A00000;
+                    (rsin((s16)timer << 7) << 7) + 0x03A00000;
             }
         }
         if (((S_80020DF0_2 *)motion)->unk_04 > 0x0477FFFF) {
@@ -262,9 +262,9 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
 
         ((S_80020DF0_2 *)motion)->unk_0C =
             (((S_80020DF0_1 *)actor)->unk_00 >> 12) *
-            func_800644B8(((S_80020DF0_1 *)actor)->unk_2C.s);
+            rsin(((S_80020DF0_1 *)actor)->unk_2C.s);
         velocity_y = ((-((S_80020DF0_1 *)actor)->unk_00) >> 12) *
-            func_80064584(((S_80020DF0_1 *)actor)->unk_2C.s);
+            rcos(((S_80020DF0_1 *)actor)->unk_2C.s);
         ((S_80020DF0_2 *)motion)->unk_10 = velocity_y;
         if (velocity_y > -0x40000) {
             ((S_80020DF0_2 *)motion)->unk_10 = -0x40000;

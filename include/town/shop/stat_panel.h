@@ -40,9 +40,9 @@ typedef struct Func800B8500Entry {
     Func800B8500Inner *inner;
 } Func800B8500Entry;
 
-void func_80067014(s32);
+void DrawSync(s32);
 /* extern */
-void func_800672D8(void *, s32);
+void LoadImage(void *, s32);
 /* extern */
 extern s16 display_resource_cache_keys[];
 extern s32 lookup_patterned_display_icon(s32 value);

@@ -33,8 +33,8 @@ typedef struct S_818BD3B0_2 {
 
 s32 select_record_entry_and_value();
 s32 advance_sprite_animation_and_textures();
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 extern M2C_UNK D_800DEC70[3];
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
@@ -54,15 +54,15 @@ void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, 
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
-    height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * motion->orbit_scale) >> 8;
+    height_offset = (s32) ((rcos((s16) tick << 7) >> 4) * motion->orbit_scale) >> 8;
     motion->wave_offset = (s16) height_offset;
     position->z = (s32) (position->center_z - (height_offset << 0x10));
-    radius_product = (func_800644B8((s16) motion->elapsed_ticks << 7) >> 4) * motion->orbit_scale;
+    radius_product = (rsin((s16) motion->elapsed_ticks << 7) >> 4) * motion->orbit_scale;
     angle = motion->angle + 0x80;
     motion->angle = (u16) angle;
     motion->wave_offset = (s16) (radius_product >> 8);
-    position->x = (s32) (position->center_x + (((func_80064584(angle) >> 4) * motion->wave_offset) << 8));
-    position->y = (s32) (position->center_y + (((func_800644B8((s16) motion->angle) >> 4) * motion->wave_offset) << 8));
+    position->x = (s32) (position->center_x + (((rcos(angle) >> 4) * motion->wave_offset) << 8));
+    position->y = (s32) (position->center_y + (((rsin((s16) motion->angle) >> 4) * motion->wave_offset) << 8));
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         select_record_entry_and_value(object, &D_800DEC70, 0);

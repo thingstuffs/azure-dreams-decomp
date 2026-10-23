@@ -116,8 +116,8 @@ extern void clear_resident_bit(s32);
 extern s32 service_script_controller(void);
 extern void return_zero_variadic(void *, s32);
 extern void SD_Call(s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
@@ -306,9 +306,9 @@ void count_entries_matching_search_path(void *scene)
         pos.h00 = ((S_8002191C_0 *)scene)->unk_30.s;
         pos.h02 = ((S_8002191C_0 *)scene)->unk_32.u;
         pos.h08 = ((S_8002191C_0 *)scene)->unk_30.s +
-                  func_800644B8(((S_8002191C_0 *)scene)->unk_2C.u) / 24;
+                  rsin(((S_8002191C_0 *)scene)->unk_2C.u) / 24;
         {
-            s32 t = func_80064584(((S_8002191C_0 *)scene)->unk_2C.u);
+            s32 t = rcos(((S_8002191C_0 *)scene)->unk_2C.u);
 
             color[1] = 0x202020;
             color[0] = 0x202020;

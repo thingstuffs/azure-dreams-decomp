@@ -2,7 +2,7 @@
 #include "engine/camera.h"
 
 void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);              /* extern */
-void func_800673A0(void *, s32, s32);         /* extern */
+void MoveImage(void *, s32, s32);         /* extern */
 
 typedef struct S_80123928_0 {
     u8 unk_00;
@@ -25,7 +25,7 @@ void draw_vram_glyph_text(u8 *text, s16 start_x, s16 y) {
             code_lo = ((S_80123928_0 *)cursor)->unk_01;
             cursor += 2;
             get_glyph_vram_rectangle(map_fullwidth_character_to_glyph_byte(code_lo | (code_hi << 8)) & 0xFF, &glyph);
-            func_800673A0(&glyph, x, y);
+            MoveImage(&glyph, x, y);
             x += 2;
         } while (*cursor != 0);
     }

@@ -35,8 +35,8 @@ typedef struct {
 
 extern u8 upper_draw_context[16];
 
-extern void func_80067E2C(void *, void *);
-extern void func_8006658C(void *, void *, ...);
+extern void SetDrawArea(void *, void *);
+extern void AddPrim(void *, void *, ...);
 struct DungeonPosition;
 struct DungeonParameters;
 extern void draw_textured_ellipse_segments(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
@@ -59,8 +59,8 @@ void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u1
     command_cursor = initial_state->packetCursor;
     draw_list = (u8 *)initial_state + 0x8B0;
     initial_state->packetCursor = command_cursor + 0xC;
-    func_80067E2C(command_cursor, g_game_work.draw_buffer);
-    func_8006658C(draw_list, command_cursor);
+    SetDrawArea(command_cursor, g_game_work.draw_buffer);
+    AddPrim(draw_list, command_cursor);
 
     center[0] = rect->x + ((s32)(rect->data.half.z << 0x10) >> 0x11);
     center_y = (s32)rect->y + ((s32)(rect->data.half.w << 0x10) >> 0x11);
@@ -83,14 +83,14 @@ void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u1
         }
         fill_packet->y = packet_y;
         fill_packet->wordC = rect->data.word4;
-        func_8006658C(draw_list, (u8 *)fill_packet);
+        AddPrim(draw_list, (u8 *)fill_packet);
     }
 
     active_state = *state_slot;
     command_cursor = active_state->packetCursor;
     active_state->packetCursor = command_cursor + 0xC;
-    func_80067E2C(command_cursor, rect);
-    func_8006658C(draw_list, command_cursor);
+    SetDrawArea(command_cursor, rect);
+    AddPrim(draw_list, command_cursor);
 }
 #include "shared/gpu_packets.h"
 #include "common.h"
@@ -134,10 +134,10 @@ typedef struct
     u16 cur_z;
 }
 EllipseWork;
-extern s32 func_800644B8(s32, ...);
-extern s32 func_80064584(s32, ...);
-extern void func_8006658C(void *, void *, ...);
-extern void func_8006671C(u8 *);
+extern s32 rsin(s32, ...);
+extern s32 rcos(s32, ...);
+extern void AddPrim(void *, void *, ...);
+extern void SetPolyGT4(u8 *);
 /* Emit textured ellipse segments around the given position. */
 void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
 {
@@ -188,7 +188,7 @@ loop_0:
                 + (scratchpad->tex_h >> 1);
             *((u8 *) (((u8 *) packet_code) + 18)) = center_v;
             *((u8 *) (((u8 *) packet_code) + 6)) = center_v;
-            trig_value = func_80064584(angle_step / parameters->count);
+            trig_value = rcos(angle_step / parameters->count);
             segment += 1;
             {
                 offset = scratchpad->tex_w;
@@ -197,7 +197,7 @@ loop_0:
                 *((u8 *) (((u8 *) packet_code) + 41)) =
                     (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
             }
-            trig_value = func_800644B8(angle_step / parameters->count);
+            trig_value = rsin(angle_step / parameters->count);
             angle_step += 0x1000;
             {
                 offset = scratchpad->tex_h;
@@ -206,14 +206,14 @@ loop_0:
                 *((u8 *) (((u8 *) packet_code) + 42)) =
                     (*((u8 *) (((u8 *) packet_code) + 6))) + offset;
             }
-            trig_value = func_80064584(angle_step / parameters->count);
+            trig_value = rcos(angle_step / parameters->count);
             {
                 offset = parameters->x2;
                 scratch = offset * trig_value;
                 offset = scratch >> 12;
                 scratchpad->cur.v.x = position->x + offset;
             }
-            trig_value = func_800644B8(angle_step / (parameters->count));
+            trig_value = rsin(angle_step / (parameters->count));
             {
                 offset = parameters->y2;
                 scratch = offset * trig_value;
@@ -226,14 +226,14 @@ loop_0:
             *((s32 *) (((u8 *) packet_code) + 25)) =
                 scratchpad->cur.xy;
             *((s32 *) (((u8 *) packet_code) + 37)) = scratchpad->prev.xy;
-            trig_value = func_80064584(angle_step / parameters->count);
+            trig_value = rcos(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
                 *((u8 *) (((u8 *) packet_code) + 29)) = (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
             }
-            trig_value = func_800644B8(angle_step / parameters->count);
+            trig_value = rsin(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_h;
                 scratch = offset * trig_value;
@@ -253,14 +253,14 @@ loop_0:
             quad_packet = cursor;
             outer_color3 = parameters->value1;
             *((s32 *) (((u8 *) packet_code) + 33)) = outer_color3;
-            func_8006671C(quad_packet);
+            SetPolyGT4(quad_packet);
             if (blend_setting != 0) {
                 *((u8 *) (((u8 *) packet_code) + 0)) |= 2;
                 packet_order = draw_order;
             } else {
                 packet_order = draw_order;
             }
-            func_8006658C(packet_order, cursor);
+            AddPrim(packet_order, cursor);
             packet_code += 52;
             cursor += 52;
         }
@@ -292,7 +292,7 @@ extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
 extern s32 register_node();
-extern s32 func_800644B8(s32, ...);
+extern s32 rsin(s32, ...);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
 struct FuncInput;
 extern void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
@@ -468,7 +468,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
 
         coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
         coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
-        curve = func_800644B8(((S_800B8830_0 *)motion)->unk_26.s * 170);
+        curve = rsin(((S_800B8830_0 *)motion)->unk_26.s * 170);
         coords->unk_08.at00.v +=
             (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
 
@@ -845,8 +845,8 @@ typedef struct DrawContext {
     Packet *next_packet;
 } DrawContext;
 
-extern void func_8006658C(void *, void *, ...);
-extern void func_80067E2C(void *, void *);
+extern void AddPrim(void *, void *, ...);
+extern void SetDrawArea(void *, void *);
 extern void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode);
 extern u8 upper_draw_context[16];
 
@@ -869,8 +869,8 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
     ordering_table = context->ordering_table;
     context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
     draw_context = g_game_work.draw_buffer;
-    func_80067E2C(area_packet, draw_context);
-    func_8006658C(ordering_table, area_packet);
+    SetDrawArea(area_packet, draw_context);
+    AddPrim(ordering_table, area_packet);
 
     draw_pos.x = screen_pos->x;
     y = screen_pos->y;
@@ -899,14 +899,14 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
             }
             clear_packet->y = y;
             clear_packet->data = *(u32 *)((u8 *)clip_rect + 4);
-            func_8006658C(ordering_table, clear_packet);
+            AddPrim(ordering_table, clear_packet);
         }
 
         context = *context_slot;
         area_packet = context->next_packet;
         context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
-        func_80067E2C(area_packet, clip_rect);
-        func_8006658C(ordering_table, area_packet);
+        SetDrawArea(area_packet, clip_rect);
+        AddPrim(ordering_table, area_packet);
     }
 }
 
@@ -952,15 +952,15 @@ typedef struct {
 } Record;
 
 
-extern void func_800649A0();
-extern void func_80064A40(void);
-extern void func_80064B90(void *, void *, s32, s32);
-extern void *func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
+extern void PushMatrix();
+extern void PopMatrix(void);
+extern void TransMatrix(void *, void *, s32, s32);
+extern void *ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *, ...);
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *, ...);
 extern void func_80067EF4(void *, s32, s32, ...);
 
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
@@ -992,10 +992,10 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     S32(scratch, 0xC0) = 0;
     if (mode_bits != 0) {
         func_80067EF4(packet, 0, 0, mode_bits);
-        func_8006658C(S32(scratch, 0x20), packet);
+        AddPrim(S32(scratch, 0x20), packet);
         packet += 12;
     }
-    func_800649A0();
+    PushMatrix();
 
     {
         u16 *input = position;
@@ -1030,12 +1030,12 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         y_component >>= 16;
         y += y_component;
         S32(scratch, 0x44) = y;
-        func_80064B90((u8 *)scratch + 0x50, (u8 *)scratch + 0x40,
+        TransMatrix((u8 *)scratch + 0x50, (u8 *)scratch + 0x40,
                       x, y);
-        func_80065820(sprite + 0x16, scratch_base + 0x50);
-        func_80064BC0(scratch_base + 0x50, (u8 *)scratch + 0x30);
-        func_80064CF0(scratch_base + 0x50);
-        func_80064D80(scratch_base + 0x50);
+        RotMatrix(sprite + 0x16, scratch_base + 0x50);
+        ScaleMatrix(scratch_base + 0x50, (u8 *)scratch + 0x30);
+        SetRotMatrix(scratch_base + 0x50);
+        SetTransMatrix(scratch_base + 0x50);
         U16(scratch, 0x24) = U16(sprite, 0x14);
         scratch_base += 0x94;
     }
@@ -1250,7 +1250,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 color_code = S32(sprite, 0x0C);
                 draw_packet = packet;
                 S32(packet, 4) = color_code;
-                func_8006658C(S32(scratch, 0x20), draw_packet);
+                AddPrim(S32(scratch, 0x20), draw_packet);
                 packet += 40;
 
             }
@@ -1276,11 +1276,11 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         s32 end_mode_bits = saved_mode << 16;
         if (end_mode_bits != 0) {
             func_80067EF4(packet, 0, 1);
-            func_8006658C(S32(scratch, 0x20), packet);
+            AddPrim(S32(scratch, 0x20), packet);
             packet += 12;
         }
     }
-    func_80064A40();
+    PopMatrix();
     (*global_slot)->packetCursor = packet;
     return;
 }
@@ -1544,8 +1544,8 @@ typedef struct GlobalObj {
 } GlobalObj;
 
 
-extern s32 func_800644B8(s32, ...);
-extern s32 func_80064584(s32, ...);
+extern s32 rsin(s32, ...);
+extern s32 rcos(s32, ...);
 extern s32 get_special_table_data_index();
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
@@ -1580,7 +1580,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             if ((work->mode) != 2) {
                 u8 *height_base;
                 s32 current_height;
-                trig_value = func_800644B8(work->timer << 8);
+                trig_value = rsin(work->timer << 8);
                 height_base = (u8 *)work->node;
                 current_height = work->y.whole;
                 entity = ((Node *)height_base)->entity;
@@ -1739,7 +1739,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
     if (work->mode == 2) {
         render->rot_y += 0x40;
     } else {
-        trig_value = func_800644B8((s16)work->counter << 7);
+        trig_value = rsin((s16)work->counter << 7);
         work->x += trig_value << 5;
     }
     if (work->mode == 0) {
@@ -1753,9 +1753,9 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
     if (render->primitive != 0) {
         advance_sprite_animation_and_textures(render);
     }
-    trig_value = func_80064584(controls->view.camera_rotation.parts.viewAngle);
+    trig_value = rcos(controls->view.camera_rotation.parts.viewAngle);
     out->x = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
-    trig_value = func_800644B8(controls->view.camera_rotation.parts.viewAngle);
+    trig_value = rsin(controls->view.camera_rotation.parts.viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);
     return;
@@ -2073,18 +2073,18 @@ typedef struct S_800BA414_4 {
    /* *global in draw_projected_quad_with_depth_bias */
 
 
-extern void *func_80064840(void *, void *, void *);
-extern void func_800649A0();
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
+extern void *CompMatrix(void *, void *, void *);
+extern void PushMatrix();
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern u32 RotAverage4(void *, void *, void *, void *, void *, void *,
                          void *, void *, void *, void *);
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *, ...);
-extern void func_800666E0(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *, ...);
+extern void SetPolyF4(void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Project a quad and enqueue it with its draw mode when depth and screen bounds allow. */
 void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
@@ -2128,30 +2128,30 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     prim = ((GpuContext *)state)->packetCursor;
     state_slot = (u8 **)((s8 *)(&g_game_work));
 
-    func_800649A0();
+    PushMatrix();
     rotation = scratch;
     rotation = (u8 *)((u32)rotation | 0x100);
     local_matrix = scratch;
     local_matrix = (u8 *)((u32)local_matrix | 0xD0);
     ((S_800BA414_0 *)scratch)->unk_100 = 0;
     ((S_800BA414_0 *)scratch)->unk_104 = 0;
-    func_80065820(rotation, local_matrix);
+    RotMatrix(rotation, local_matrix);
     view_matrix = scratch;
     view_matrix = (u8 *)((u32)view_matrix | 0x11C);
-    func_80064AE0(view_matrix);
+    ReadRotMatrix(view_matrix);
     view_matrix = scratch;
     view_matrix = (u8 *)((u32)view_matrix | 0x11C);
     local_matrix = scratch;
     local_matrix = (u8 *)((u32)local_matrix | 0xD0);
     combined_matrix = scratch;
     combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
-    func_80064840(view_matrix, local_matrix, combined_matrix);
+    CompMatrix(view_matrix, local_matrix, combined_matrix);
     combined_matrix = scratch;
     combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
-    func_80064D80(combined_matrix);
+    SetTransMatrix(combined_matrix);
     combined_matrix = scratch;
     combined_matrix = (u8 *)((u32)combined_matrix | 0x50);
-    func_80064CF0(combined_matrix);
+    SetRotMatrix(combined_matrix);
 
     depth_cue = scratch;
     depth_cue = (u8 *)((u32)depth_cue | 0x90);
@@ -2165,7 +2165,7 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     vertex_2 = (u8 *)((u32)vertex_2 | 0x80);
     vertex_3 = scratch;
     vertex_3 = (u8 *)((u32)vertex_3 | 0x88);
-    ot_index = (func_80065590(vertex_0, vertex_1, vertex_2, vertex_3,
+    ot_index = (RotAverage4(vertex_0, vertex_1, vertex_2, vertex_3,
                               prim + 8, prim + 0xC, prim + 0x10, prim + 0x14,
                               depth_cue, transform_flags) -
                 depth_offset) - 8;
@@ -2211,25 +2211,25 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
 
         if (clip_test != 0) {
             ((S_800BA414_3 *)prim)->unk_04.at00.v = owner->unk_0C;
-            func_800666E0(prim);
+            SetPolyF4(prim);
             quad = prim;
             draw_mode = prim + 0x18;
             ((S_800BA414_3 *)prim)->unk_04.at03.v |= 2;
             prim += 0x24;
-            func_8006658C(((S_800BA414_0 *)scratch)->unk_20 +
+            AddPrim(((S_800BA414_0 *)scratch)->unk_20 +
                           ((S_800BA414_0 *)scratch)->unk_C0 * 4,
                           quad);
             mode_ptr = draw_mode;
             mode_zero = 0;
-            func_80067F20(mode_ptr, (s32)mode_zero, (s32)mode_zero, 0x20, 0);
-            func_8006658C(((S_800BA414_0 *)scratch)->unk_20 +
+            SetDrawMode(mode_ptr, (s32)mode_zero, (s32)mode_zero, 0x20, 0);
+            AddPrim(((S_800BA414_0 *)scratch)->unk_20 +
                           ((S_800BA414_0 *)scratch)->unk_C0 * 4,
                           draw_mode);
         }
     }
 
     ((GpuContext *)(*state_slot))->packetCursor = prim;
-    func_80064A40();
+    PopMatrix();
 }
 #include "common.h"
 #include "shared/game_work.h"
@@ -2255,7 +2255,7 @@ typedef struct S_800BA6B8_1 {
 } S_800BA6B8_1;   /* arg2 in update_pulsing_sprite_color */
 
 
-extern s32 func_800644B8(s32, ...);
+extern s32 rsin(s32, ...);
 extern u16 D_800DF37C;
 
 /* Updates enabled output channels with a shared value and sets flags when active. */
@@ -2266,7 +2266,7 @@ void update_pulsing_sprite_color(void *channel_config, void *unused, void *outpu
         (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    channel_value = (func_800644B8(g_game_work.unk_004 << 8) >> 7) - 0x80;
+    channel_value = (rsin(g_game_work.unk_004 << 8) >> 7) - 0x80;
     if (((S_800BA6B8_0 *)channel_config)->unk_30 != 0) {
         ((S_800BA6B8_1 *)output)->unk_0C = channel_value;
     }
@@ -2557,11 +2557,11 @@ struct Scratch_800B5448 {
 };
 
 
-extern s32 func_800644B8(s32, ...);
-extern s32 func_80064584(s32, ...);
-extern s32 func_80065420(void *, void *, ...);
-extern void func_8006658C(void *, void *, ...);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 rsin(s32, ...);
+extern s32 rcos(s32, ...);
+extern s32 RotTransPers(void *, void *, ...);
+extern void AddPrim(void *, void *, ...);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
 /* Advances particle levels and emits colored effect primitives into the dungeon display list. */
@@ -2601,10 +2601,10 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + -3)) = 0;
             (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 5)) = 0;
             scratch->x70 = scratch->values[0] +
-                ((func_80064584((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
+                ((rcos((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->x78 = scratch->x70;
             scratch->y72 = scratch->values[1] +
-                ((func_800644B8((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
+                ((rsin((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->y7A = scratch->y72;
             scratch->z74 = scratch->values[2] -
                 *(s8 *)((u8 *)object + particle_index + 0x12) * 2;
@@ -2632,11 +2632,11 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
                     ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F;
             }
 
-            scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),
+            scratch->length = RotTransPers(&scratch->x70, (void *)(packet_cursor + 8),
                 scratch_90, scratch_94);
             (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 9)) = (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 1));
             (*(u16 *)((u8 *)((void *)(packet_cursor + 7)) + 9)) += 4;
-            scratch->length += func_80065420(&scratch->x78, (void *)(packet_cursor + 24),
+            scratch->length += RotTransPers(&scratch->x78, (void *)(packet_cursor + 24),
                 scratch_90, scratch_94);
             (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 25)) = (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 17));
             (*(u16 *)((u8 *)((void *)(packet_cursor + 7)) + 25)) += 2;
@@ -2644,11 +2644,11 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             ((S_800BABA8_0_pre *)((void *)(packet_cursor + 7)))[-1].unk_00 = 8;
             ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_00 = 58;
             packet = (void *)((s8 *)((void *)((s8 *)((void *)(packet_cursor + 7)) + 36)) + 12);
-            func_8006658C((void *)(scratch->base + scratch->length * 4),
+            AddPrim((void *)(scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             packet_cursor += 36;
-            func_80067F20((void *)packet_cursor, 0, 0, 96, 0);
-            func_8006658C((void *)(scratch->base + scratch->length * 4),
+            SetDrawMode((void *)packet_cursor, 0, 0, 96, 0);
+            AddPrim((void *)(scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             {
                 u8 drawn_count = object->count;
@@ -2946,8 +2946,8 @@ typedef struct {
     s16 y;
 } CoordPair;
 
-extern void func_8006658C(void *, void *, ...);
-extern void func_80067E2C(void *, void *);
+extern void AddPrim(void *, void *, ...);
+extern void SetDrawArea(void *, void *);
 extern void func_80067EF4(void *, s32, s32, ...);
 struct Position;
 struct Position;
@@ -2978,7 +2978,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         primitive = ((GpuContext *)state)->packetCursor;
         ((GpuContext *)state)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);
-        func_8006658C(ordering_table, primitive);
+        AddPrim(ordering_table, primitive);
 
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
@@ -2987,7 +2987,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 1, 0);
-        func_8006658C(ordering_table, primitive);
+        AddPrim(ordering_table, primitive);
     } else if (fill == 0) {
         packet = ((GpuContext *)state)->packetCursor;
         ((GpuContext *)state)->packetCursor = packet + 0x10;
@@ -3000,13 +3000,13 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0;
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
-        func_8006658C(ordering_table, packet);
+        AddPrim(ordering_table, packet);
 
         buf = *(u8 **)((u8 *)(&g_game_work));
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);
-        func_8006658C(ordering_table, primitive);
+        AddPrim(ordering_table, primitive);
     }
 
     if (fill != 0) {
@@ -3023,19 +3023,19 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
         ((S_800BB2E4_2 *)packet)->unk_08.at02u.v = y;
         ((S_800BB2E4_2 *)packet)->unk_0C.at00u.v = ((S_800BB2E4_1 *)rect)->unk_04;
         ((S_800BB2E4_2 *)packet)->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
-        func_8006658C(ordering_table, packet);
+        AddPrim(ordering_table, packet);
 
         buf = *state_addr;
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 1);
-        func_8006658C(ordering_table, primitive);
+        AddPrim(ordering_table, primitive);
 
         buf = *state_addr;
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
-        func_80067E2C(primitive, rect);
-        func_8006658C(ordering_table, primitive);
+        SetDrawArea(primitive, rect);
+        AddPrim(ordering_table, primitive);
     }
 }
 #include "common.h"
@@ -3043,8 +3043,8 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-extern s32 func_800644B8(s32, ...);
-extern s32 func_80064584(s32, ...);
+extern s32 rsin(s32, ...);
+extern s32 rcos(s32, ...);
 s16 calculate_planar_heading();
 extern s32 play_sound_if_enabled();
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
@@ -3134,17 +3134,17 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
     for (point_index = 0; point_index < 5; point_index++) {
         packet_or_angle = base_angle << 0x10;
         packet_or_angle >>= 0x10;
-        start_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
-        start_xy[1] = (func_800644B8(packet_or_angle) >> 7) + 0x122;
+        start_xy[0] = (rcos(packet_or_angle) >> 7) + 0x362;
+        start_xy[1] = (rsin(packet_or_angle) >> 7) + 0x122;
         packet_or_angle += 0x999;
-        end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
-        end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
+        end_xy[0] = (rcos(packet_or_angle) >> 7) + 0x362;
+        end_y = (rsin(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
         arc_angle = calculate_planar_heading(start_xy[0], start_xy[1], end_xy[0], end_y);
         line_angle = arc_angle;
-        end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
+        end_xy[0] = (u16) start_xy[0] + ((s32) (rcos(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
-        end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
+        end_xy[1] = (u16) start_xy[1] + ((s32) (rsin(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
         ((DungeonWork *)effect)->field_3C[point_index] = base_angle;
         base_angle += 0x999;
@@ -3154,16 +3154,16 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
     for (point_index = 0; point_index < 5; point_index++) {
         packet_or_angle = base_angle << 0x10;
         packet_or_angle >>= 0x10;
-        start_xy[0] = (func_80064584((s16) packet_or_angle) >> 7) + 0x362;
-        start_xy[1] = (func_800644B8((s16) packet_or_angle) >> 7) + 0x122;
+        start_xy[0] = (rcos((s16) packet_or_angle) >> 7) + 0x362;
+        start_xy[1] = (rsin((s16) packet_or_angle) >> 7) + 0x122;
         arc_angle = base_angle;
         for (segment_index = 0; segment_index < ((DungeonWork *)effect)->field_30[point_index]; segment_index++) {
             packet_or_angle = arc_angle + 0x19;
             arc_angle = packet_or_angle;
             packet_or_angle <<= 16;
             packet_or_angle >>= 16;
-            end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
-            end_xy[1] = (func_800644B8((s16)packet_or_angle) >> 7) + 0x122;
+            end_xy[0] = (rcos(packet_or_angle) >> 7) + 0x362;
+            end_xy[1] = (rsin((s16)packet_or_angle) >> 7) + 0x122;
             draw_content_or_rect(start_xy, end_xy, draw_params, 0, NULL);
             start_xy[0] = (u16) end_xy[0];
             start_xy[1] = (u16) end_xy[1];
@@ -3377,13 +3377,13 @@ typedef struct Interp {
     s16 value1a;
 } Interp;
 
-extern s32 func_800644B8(s32, ...);
-extern s32 func_80064584(s32, ...);
+extern s32 rsin(s32, ...);
+extern s32 rcos(s32, ...);
 
 /* Updates angular motion and fades three channels in, holds them, then fades them out. */
 void update_orbiting_color_particle(State *state, Output *output, Interp *interp) {
-    output->value2 = state->value4 + (func_80064584(state->angle) >> state->shift);
-    output->value6 = state->value6 + (func_800644B8(state->angle) >> state->shift);
+    output->value2 = state->value4 + (rcos(state->angle) >> state->shift);
+    output->value6 = state->value6 + (rsin(state->angle) >> state->shift);
     state->angle = state->angle + state->delta;
     interp->value1a = state->angle + 0x400;
 
@@ -3494,17 +3494,17 @@ typedef struct S_800BBDEC_5 {
 } S_800BBDEC_5;   /* prim in draw_shaded_vertical_quad */
 
 
-extern void *func_80064840(void *, void *, void *);
-extern void func_800649A0();
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void *func_80065820(void *, void *);
-extern void func_8006658C(void *, void *, ...);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void *CompMatrix(void *, void *, void *);
+extern void PushMatrix();
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void *RotMatrix(void *, void *);
+extern void AddPrim(void *, void *, ...);
+extern void SetPolyG4(void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Projects and queues a shaded quad with optional semitransparency. */
 void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance, s32 unused_draw_value)
@@ -3522,16 +3522,16 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
     ((S_800BBDEC_0 *)scratch)->unk_EC = position->unk_0A;
     prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
-    func_800649A0();
+    PushMatrix();
 
     ((S_800BBDEC_0 *)scratch)->unk_100 = appearance->unk_16;
     ((S_800BBDEC_0 *)scratch)->unk_104 = appearance->unk_1A;
     ((S_800BBDEC_0 *)scratch)->unk_102 = appearance->unk_18;
-    func_80065820(scratch + 0x100, scratch + 0xD0);
-    func_80064AE0(scratch + 0x11C);
-    func_80064840(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    ReadRotMatrix(scratch + 0x11C);
+    CompMatrix(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
 
     ((S_800BBDEC_0 *)scratch)->unk_7C = 0;
     ((S_800BBDEC_0 *)scratch)->unk_74 = 0;
@@ -3547,7 +3547,7 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
     ((S_800BBDEC_0 *)scratch)->unk_8C = end_z;
     ((S_800BBDEC_0 *)scratch)->unk_84 = end_z;
 
-    depth_index = func_80065590(scratch + 0x70, scratch + 0x78,
+    depth_index = RotAverage4(scratch + 0x70, scratch + 0x78,
                           scratch + 0x80, scratch + 0x88,
                           prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
                           scratch + 0x90, scratch + 0x94);
@@ -3561,27 +3561,27 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
         ((S_800BBDEC_5 *)prim)->unk_0C = ((S_800BBDEC_5 *)prim)->unk_04.at00u.v >> 2;
         ((S_800BBDEC_5 *)prim)->unk_0D = ((S_800BBDEC_5 *)prim)->unk_04.at01.v >> 2;
         ((S_800BBDEC_5 *)prim)->unk_0E = ((S_800BBDEC_5 *)prim)->unk_04.at02.v >> 2;
-        func_80066708(prim);
+        SetPolyG4(prim);
 
         if (appearance->unk_14 & 4) {
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
-        func_8006658C((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
+        AddPrim((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
                       ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
                       prim);
         prim += 0x24;
 
         if (appearance->unk_14 & 4) {
-            func_80067F20(prim, 0, 0, 0x20, 0);
-            func_8006658C((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
+            SetDrawMode(prim, 0, 0, 0x20, 0);
+            AddPrim((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
                           ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
                           prim);
             prim += 0xC;
         }
     }
 
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(*render_ctx))->packetCursor = prim;
 }
 #include "common.h"
@@ -3695,7 +3695,7 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
 #include "common.h"
 
 
-extern void func_800673A0();
+extern void MoveImage();
 
 // Updates the wrapped scroll offset and copies its source rectangle to two destinations.
 void update_wrapped_texture_scroll(void *scrollState) {
@@ -3722,9 +3722,9 @@ void update_wrapped_texture_scroll(void *scrollState) {
         sourceRect[3] = offsetOrRectValue;
         scrollStepOrSourceY = scrollStepOrSourceY + 0x140;
         sourceRect[1] = scrollStepOrSourceY;
-        func_800673A0(sourceRect, destinationX, destinationY, scrollState);
+        MoveImage(sourceRect, destinationX, destinationY, scrollState);
     }
-    func_800673A0(sourceRect, 0x270, 0x120);
+    MoveImage(sourceRect, 0x270, 0x120);
 }
 #include "shared/object_node.h"
 #include "common.h"

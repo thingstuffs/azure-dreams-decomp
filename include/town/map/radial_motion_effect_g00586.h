@@ -59,8 +59,8 @@ s32 register_node();
 /* extern */
 extern M2C_UNK D_800A86BC;
 extern M2C_UNK D_800F15AC;
-extern s32 func_800644B8(s32 value);
-extern s32 func_80064584(s32 value);
+extern s32 rsin(s32 value);
+extern s32 rcos(s32 value);
 
 u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 s32 rand(void);

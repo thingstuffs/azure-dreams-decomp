@@ -152,9 +152,9 @@ typedef struct Row_818FF5B8_S_818FF5B8_5 {
 } Row_818FF5B8_S_818FF5B8_5;   /* arg2 in func_80024DB8 */
 
 /* Creates an owner-linked object with the supplied position and appearance. */
-s32 func_80067014(s32);
-void func_800672D8(void *, void *);
-void func_8006733C(void *, void *);
+s32 DrawSync(s32);
+void LoadImage(void *, void *);
+void StoreImage(void *, void *);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 s32 register_node();
 s32 func_8004491C();

@@ -82,14 +82,14 @@ void render_shaded_map_tiles(void) {
     tile_map = render_state->map.cells;
     vertices = map_data->unk_08;
     normals = map_data->unk_0C;
-    func_80064D50((u8 *)render_state + 0x70);
+    SetColorMatrix((u8 *)render_state + 0x70);
     {
         S_func_800AED64_3 *view_params;
         view_params = (u8 *)render_state + 0x18;
-        func_80064624(view_params->unk_84, view_params->unk_88);
+        SetFogFar(view_params->unk_84, view_params->unk_88);
     }
     scratch = (ScratchAddress){ (S_func_800AED64_4 *)0x1F800000 };
-    func_80064D20((u8 *)render_state + 0x50);
+    SetLightMatrix((u8 *)render_state + 0x50);
     if (map_wide_culling[0] != 0) {
         render_state->view.clip_y = -0xB8;
         render_state->view.clip_height = 0x1DA;
@@ -699,8 +699,8 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     draw_rect[0] = 0;
     draw_rect[1] = initial_size;
     cell_table = ((S_800AD138_1 *)state)->unk_1DC;
-    func_80067F20(packet, (s32)edge_buffer, edge_count_addr, 0x20, draw_rect);
-    func_8006658C((void *)((MapQuadScratch *)scratch)->chain_address, packet);
+    SetDrawMode(packet, (s32)edge_buffer, edge_count_addr, 0x20, draw_rect);
+    AddPrim((void *)((MapQuadScratch *)scratch)->chain_address, packet);
     packet += 3;
     ((MapQuadScratch *)scratch)->edge_count = 4;
     clip_vertices = (s16 *)(state + 0x20);
@@ -959,8 +959,8 @@ void draw_empty_map_cell_quads(u32 packet_limit)
 done:
     draw_rect[1] = 0x400040;
     draw_rect[0] = 0;
-    func_80067F20(packet, 0, 0, 0x20, draw_rect);
-    func_8006658C((void *)((MapQuadScratch *)scratch)->chain_address, packet);
+    SetDrawMode(packet, 0, 0, 0x20, draw_rect);
+    AddPrim((void *)((MapQuadScratch *)scratch)->chain_address, packet);
     packet += 3;
     ((S_800AD138_5 *)(((S_800AD138_1 *)state)->unk_00))->unk_8D0 = packet;
     return;

@@ -7,7 +7,7 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void func_800673A0(Rect *rect, s32 x, s32 width);
+extern void MoveImage(Rect *rect, s32 x, s32 width);
 extern u8 D_800244B8[][12];
 
 /* Draws a scrolling column of tiles, clipping at the top edge. */
@@ -40,7 +40,7 @@ void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y)
                 rect.y = src_y - row_y;
                 rect.h = row_y + 0x20;
             }
-            func_800673A0(&rect, dest_x, dest_y);
+            MoveImage(&rect, dest_x, dest_y);
         }
         row += 1;
     } while (row < 3);

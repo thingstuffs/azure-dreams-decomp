@@ -12,8 +12,8 @@ typedef s32 M2C_UNK;
 
 extern void select_record_entry_and_value();
 extern s32 register_node();
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern M2C_UNK D_80024330[];
 extern u8 D_800DEAE0[];
 
@@ -100,10 +100,10 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
         register_node(effect, project_sprite_chain);
         component = effect->position;
         component->unk_02 = state->unk_06 +
-            ((func_800644B8(state->unk_1C) >> 4) *
+            ((rsin(state->unk_1C) >> 4) *
              state->unk_20 >> 8);
         component->unk_06 = state->unk_0A +
-            ((func_80064584(state->unk_1C) >> 4) *
+            ((rcos(state->unk_1C) >> 4) *
              state->unk_20 >> 8);
         component->unk_0A = state->unk_0E - 8;
         return (s32) effect;

@@ -11,8 +11,8 @@
 #endif
 
 extern void register_node(void *, u8 *, s32, void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 extern u8 D_80099B18[];
 extern s32 D_800DEDB0[3];
@@ -96,8 +96,8 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
             effect_state->unk_14 = y;
             motion->z.w.i = z;
             effect_state->unk_16 = z;
-            motion->velocity_z = func_80064584(angle) << 7;
-            motion->velocity_x = func_800644B8(angle) << 7;
+            motion->velocity_z = rcos(angle) << 7;
+            motion->velocity_x = rsin(angle) << 7;
             effect_state->unk_10 = 0;
             sprite = particle->sprite;
             if (flags & 2) {

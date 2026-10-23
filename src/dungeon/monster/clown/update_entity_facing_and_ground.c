@@ -166,7 +166,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
                 if (*(u8 * *)&sprite->frameTable == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
-                    (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
+                    (*(s32 *)((u8 *)entity + 0xA0)) += rsin((s16)bob_tick * 0xAA) << 5;
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
@@ -227,7 +227,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, Sprit
                 if (*(u8 * *)&sprite->frameTable == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
-                    (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
+                    (*(s32 *)((u8 *)entity + 0xA0)) += rsin((s16)bob_tick * 0xAA) << 5;
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
@@ -1562,8 +1562,8 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     ((R16_80173738_S_80173738_0 *)effect)->unk_1E = (u16) (((R16_80173738_S_80173738_0 *)effect)->unk_1E - 0x12C);
     ((R16_80173738_S_80173738_0 *)effect)->unk_20 = (u16) (((R16_80173738_S_80173738_0 *)effect)->unk_20 + 2);
     position->unk00 = (s32) (((R16_80173738_S_80173738_0 *)effect)->unk_40
-        + ((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * func_80064584((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E) * 0x10));
-    y_offset = (s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * func_800644B8((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E);
+        + ((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * rcos((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E) * 0x10));
+    y_offset = (s16) ((R16_80173738_S_80173738_0 *)effect)->unk_20 * rsin((s16) ((R16_80173738_S_80173738_0 *)effect)->unk_1E);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
     base_y = ((R16_80173738_S_80173738_0 *)effect)->unk_44;
@@ -1622,8 +1622,8 @@ void create_angled_source_effect(
             wrapped_angle -= 0x1000;
         }
 
-        transform->x.v = state->unk_40 + ((state->unk_20 * func_80064584(wrapped_angle)) << 4);
-        transform->y.v = state->unk_44 + ((state->unk_20 * func_800644B8(wrapped_angle)) << 4);
+        transform->x.v = state->unk_40 + ((state->unk_20 * rcos(wrapped_angle)) << 4);
+        transform->y.v = state->unk_44 + ((state->unk_20 * rsin(wrapped_angle)) << 4);
         transform->z.w.i = origin->unk_0A + depth_offset;
 
         display = object->sprite;
@@ -1802,7 +1802,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         variant_index = lookup_masked_byte_table(effect_model) - 1;
         effect_value = variant_index;
         if ((variant_index << 0x10) < 0) {
-            effect_value = func_80069EF8() % 3;
+            effect_value = rand() % 3;
         }
         select_record_entry_and_value(effect_sprite, ((s32 *)D_801742D4)[(s16) effect_value] + (s8 *) ((s32 *)D_8014A000), 0);
         actor->flags = (u16) (actor->flags | 0x80);
@@ -1810,7 +1810,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_96 = 0U;
         state->unk_9B = (u8) (state->unk_9B + 1);
         do {
-            create_angled_source_effect(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+            create_angled_source_effect(state, position, actor, model, rand() & 0xFFF, 0);
             next_spawn = spawn_count + 1;
             spawn_count = next_spawn;
             if (next_spawn >= 8) {
@@ -1823,7 +1823,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         if ((s16) elapsed < 0x1E) {
             trail_count = 0;
             do {
-                create_angled_source_effect(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+                create_angled_source_effect(state, position, actor, model, rand() & 0xFFF, 0);
                 next_trail = trail_count + 1;
                 trail_count = next_trail;
             } while (next_trail < 8);

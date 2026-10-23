@@ -27,7 +27,7 @@ typedef struct {
 } Motion;
 
 
-extern s32 func_800644B8(s32 angle);
+extern s32 rsin(s32 angle);
 extern s32 unlink_entity_node(void *node);
 extern s32 has_actor_or_actions(void *unused);
 extern s32 detach_record_and_update_slot_state(void *record);
@@ -50,8 +50,8 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
     case 1:
         counter = state->value_96 + 1;
         state->value_96 = counter;
-        motion->value_1c = motion->value_1c + func_800644B8((counter << 16) >> 11);
-        motion->value_1e = motion->value_1e - func_800644B8((s16)state->value_96 << 5);
+        motion->value_1c = motion->value_1c + rsin((counter << 16) >> 11);
+        motion->value_1e = motion->value_1e - rsin((s16)state->value_96 << 5);
         counter = state->value_b2 - 1;
         state->value_b2 = counter;
         if ((counter << 16) <= 0) {
@@ -64,8 +64,8 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
         if ((counter << 16) <= 0) {
             state->value_96 = one;
         }
-        motion->value_1c = motion->value_1c - func_800644B8((s16)state->value_96 << 5) * 2;
-        motion->value_1e = motion->value_1e + func_800644B8((s16)state->value_96 << 5) * 4;
+        motion->value_1c = motion->value_1c - rsin((s16)state->value_96 << 5) * 2;
+        motion->value_1e = motion->value_1e + rsin((s16)state->value_96 << 5) * 4;
         position->value_14 = position->value_14 + (s32)0xfffe0000;
         shade = motion->value_0e - 4;
         motion->value_0e = shade;

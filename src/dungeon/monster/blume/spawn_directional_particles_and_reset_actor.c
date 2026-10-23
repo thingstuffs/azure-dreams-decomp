@@ -84,7 +84,7 @@ extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
@@ -188,14 +188,14 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                             ((MovingPosition *)position)->unk_0A += map_offset.z;
                         }
 
-                        offset_x = (func_80069EF8() & 0x1F) - 0x10;
-                        offset_y = (func_80069EF8() & 0x1F) - 0x10;
+                        offset_x = (rand() & 0x1F) - 0x10;
+                        offset_y = (rand() & 0x1F) - 0x10;
                         coord = ((MovingPosition *)position)->unk_02;
                         coord += offset_x;
                         position_y = ((MovingPosition *)position)->unk_06 + offset_y;
                         ((MovingPosition *)position)->unk_02 = coord;
                         ((MovingPosition *)position)->unk_06 = position_y;
-                        offset_z = func_80069EF8() & 0x1F;
+                        offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
                         coord = ((MovingPosition *)position)->unk_0A;
@@ -211,7 +211,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
                         ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
+                        ((S_80174BEC_3 *)motion)->unk_AC = -((rand() & 0x7FFF) * 2);
                         ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
                         render->scale_y = 0x1000;
                         render->scale_x = 0x1000;
@@ -270,14 +270,14 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                             ((MovingPosition *)position)->unk_0A += map_offset.z;
                         }
 
-                        offset_x = (func_80069EF8() & 0x1F) - 0x10;
-                        offset_y = (func_80069EF8() & 0x1F) - 0x10;
+                        offset_x = (rand() & 0x1F) - 0x10;
+                        offset_y = (rand() & 0x1F) - 0x10;
                         coord = ((MovingPosition *)position)->unk_02;
                         coord += offset_x;
                         position_y = ((MovingPosition *)position)->unk_06 + offset_y;
                         ((MovingPosition *)position)->unk_02 = coord;
                         ((MovingPosition *)position)->unk_06 = position_y;
-                        offset_z = func_80069EF8() & 0x1F;
+                        offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
                         position_z = ((MovingPosition *)position)->unk_0A;
@@ -293,7 +293,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
                         ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
+                        ((S_80174BEC_3 *)motion)->unk_68 = -((rand() & 0x7FFF) * 2);
                         ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
                         render->scale_x = 0x800;
                         render->scale_y = 0x800;

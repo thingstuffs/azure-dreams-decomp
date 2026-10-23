@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-void func_80067014(s32);                     /* extern */
-void func_800671A8(void *, s32, s32, s32); /* extern */
+void DrawSync(s32);                     /* extern */
+void ClearImage(void *, s32, s32, s32); /* extern */
 s32 is_catalog_entry_available();                             /* extern */
 void draw_vram_glyph_text();               /* extern */
 void draw_cached_catalog_text(); /* extern */
@@ -36,9 +36,9 @@ void draw_catalog_entry_page(void *object_data) {
     clear_rect[1] = 0x80;
     clear_rect[2] = 0x36;
     clear_rect[3] = 0x60;
-    func_800671A8(clear_rect, 0, 0, 0);
+    ClearImage(clear_rect, 0, 0, 0);
     draw_cached_catalog_text(&D_8011ACD8, 0x192, 0xD0);
-    func_80067014(0);
+    DrawSync(0);
     category = object->unk_0F;
     test_category = category;
     slot = 0;
@@ -72,5 +72,5 @@ void draw_catalog_entry_page(void *object_data) {
             image_id += 1;
         } while (slot < 0x10);
     }
-    func_80067014(0);
+    DrawSync(0);
 }

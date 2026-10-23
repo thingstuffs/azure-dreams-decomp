@@ -37,13 +37,13 @@ extern u32 D_800265C0;
 extern u32 D_800265C4;
 extern u32 D_800265C8[];
 
-extern u32 func_800654B0(
+extern u32 RotTransPers4(
     u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *,
     EmptyCallArg);
-extern void func_80066708(Entry *);
-extern void func_8006658C(u32 *, Entry *);
-extern u32 func_80066460(u32, u32, u32, u32);
-extern void func_80067F20(Entry *, u32, u32, u32, u32);
+extern void SetPolyG4(Entry *);
+extern void AddPrim(u32 *, Entry *);
+extern u32 GetTPage(u32, u32, u32, u32);
+extern void SetDrawMode(Entry *, u32, u32, u32, u32);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
 s32 draw_adjacent_row_quads(void)
@@ -101,7 +101,7 @@ s32 draw_adjacent_row_quads(void)
                 next_row_index = quad_index + 16;
                 next_row_z = ((u16 *)vertices)[(next_row_index * 4) + 2];
 
-                scratch->index = func_800654B0(
+                scratch->index = RotTransPers4(
                     row_left, row_right, next_row_left, next_row_right,
                     (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
                     (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
@@ -125,16 +125,16 @@ s32 draw_adjacent_row_quads(void)
                         *(u32 *)((u8 *)quad + 4) = D_800265C4;
                     }
 
-                    func_80066708(quad);
+                    SetPolyG4(quad);
                     quad->bytes[7] |= 2;
-                    func_8006658C(scratch->table + scratch->index, quad);
+                    AddPrim(scratch->table + scratch->index, quad);
 
                     {
                         u8 *draw_mode = scratch->current;
                         scratch->current = draw_mode + 0x0C;
-                        func_80067F20(draw_mode, 0, 0,
-                                      (u16)func_80066460(0, 1, 0, 0), 0);
-                        func_8006658C(scratch->table + scratch->index,
+                        SetDrawMode(draw_mode, 0, 0,
+                                      (u16)GetTPage(0, 1, 0, 0), 0);
+                        AddPrim(scratch->table + scratch->index,
                                       (Entry *)draw_mode);
                     }
                 }

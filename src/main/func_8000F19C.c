@@ -28,7 +28,7 @@ s32 card_boot_erase_slot_file(s32 file_index) {
     do {
         erase_status = card_boot_take_hardware_status();
         if (erase_status == 0) {
-            func_8005FE18(0);
+            VSync(0);
         }
     } while (erase_status == 0);
     if (file_index < 5) {

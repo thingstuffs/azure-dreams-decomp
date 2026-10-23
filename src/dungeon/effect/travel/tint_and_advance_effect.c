@@ -584,7 +584,7 @@ void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primi
     motion->velocity_z += 0x10000;
     if (motion->z.w.i > ((S_80024B98_0 *)effect)->unk_14)
         motion->z.w.i = ((S_80024B98_0 *)effect)->unk_14;
-    wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
+    wave_value = rsin((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
     primitive->color.word += 0x20202;
     primitive->scale_y -= wave_value >> 5;
     if (primitive->color.c.r >= 0x41)
@@ -637,9 +637,9 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             register_node(effect, (s32)draw_linked_sprites_clipped);
             angle = effect_index << 8;
             position = effect->position;
-            value = origin->unk_02 + (func_80064584(angle) >> 7);
+            value = origin->unk_02 + (rcos(angle) >> 7);
             position->x.w.i = value;
-            value = origin->unk_06 + (func_800644B8(angle) >> 7);
+            value = origin->unk_06 + (rsin(angle) >> 7);
             position->y.w.i = value;
             position->z.w.i =
                 (s16)(origin->unk_0A - 0x100);
@@ -703,8 +703,8 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     position = (Func818816E0Arg1 *)position_data;
     angle = effect->field24 << 8;
     D_800257CE[0] = D_800257CE[0] + 1;
-    position->field0 = position->field0 + (func_80064584(angle) * 8);
-    position->field4 = position->field4 + (func_800644B8(effect->field24 << 8) * 8);
+    position->field0 = position->field0 + (rcos(angle) * 8);
+    position->field4 = position->field4 + (rsin(effect->field24 << 8) * 8);
     brightness = visual->field0E - 2;
     visual->field0E = brightness;
     visual->field0D = brightness;
@@ -808,7 +808,7 @@ typedef struct S_800250E8_2 {
     u16 unk_14;
 } S_800250E8_2;   /* tail_arg in update_spark_effect */
 
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
@@ -840,24 +840,24 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     if (motion->unk_08.at02u.v <
         (s16)sample_terrain_surface_height(x, y, probe_z)) {
         if (((S_800250E8_1 *)effect)->unk_26 == 0) {
-            x_direction = func_80064584(((S_800250E8_1 *)effect)->unk_1A);
+            x_direction = rcos(((S_800250E8_1 *)effect)->unk_1A);
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
                 (((s32)(x_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
-                 (func_80069EF8() & 0xFFFF)));
+                 (rand() & 0xFFFF)));
 
-            y_direction = func_800644B8(((S_800250E8_1 *)effect)->unk_1A);
+            y_direction = rsin(((S_800250E8_1 *)effect)->unk_1A);
             y_step = ((y_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
-                       (func_80069EF8() & 0xFFFF);
+                       (rand() & 0xFFFF);
             motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
 
-            z_velocity_copy = func_80069EF8();
+            z_velocity_copy = rand();
             motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v +
                 (0xFFFE0000 - (z_velocity_copy & 0xFFF)));
         } else {
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
-                func_80064584(((S_800250E8_1 *)effect)->unk_1A) *
+                rcos(((S_800250E8_1 *)effect)->unk_1A) *
                 ((S_800250E8_1 *)effect)->unk_1C.s * 8);
-            y_motion = func_800644B8(((S_800250E8_1 *)effect)->unk_1A) *
+            y_motion = rsin(((S_800250E8_1 *)effect)->unk_1A) *
                       ((S_800250E8_1 *)effect)->unk_1C.s;
             z_velocity = motion->unk_14;
             z_position = motion->unk_08.at00.v;
@@ -935,9 +935,9 @@ typedef struct S_800252E0_8 {
 } S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in queue_projected_point_primitives */
 
 extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list();
-extern u32 func_80065420();
-extern s32 func_80066460();
-extern void func_80067F20();
+extern u32 RotTransPers();
+extern s32 GetTPage();
+extern void SetDrawMode();
 extern u8 resident_globals_page[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
@@ -965,7 +965,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         ((S_800252E0_1 *)scratch)->unk_04 = position->unk_0A;
         packet = ((S_800252E0_1 *)scratch)->unk_18;
         ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
-        ((S_800252E0_1 *)scratch)->unk_C0 = func_80065420(
+        ((S_800252E0_1 *)scratch)->unk_C0 = RotTransPers(
             scratch, (u8 *)packet + 8, scratch + 0x90, scratch + 0x94);
         if (((S_800252E0_1 *)scratch)->unk_C0 < 0x1E0) {
             s32 color = ((S_800252E0_3 *)appearance)->unk_0C;
@@ -984,7 +984,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             *ot_entry.pointer = (*ot_entry.pointer & length_mask) | ((u32)packet & addr_mask);
             packet = ((S_800252E0_1 *)scratch)->unk_18;
             ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
-            func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             ((S_800252E0_4 *)packet)->unk_00.at00.v = (((S_800252E0_4 *)packet)->unk_00.at00.v & length_mask) |
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);

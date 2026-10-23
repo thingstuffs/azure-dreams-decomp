@@ -27,7 +27,7 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
         scratch->in2 = position[5];
 
         scratch->current = (u8 *)packet + 0xC;
-        depth = func_80065420(&scratch->in0, (u8 *)packet + 8,
+        depth = RotTransPers(&scratch->in0, (u8 *)packet + 8,
                               &scratch->out0, &scratch->out1);
         scratch->index = depth;
 
@@ -55,8 +55,8 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 
             mode_packet = (Packet *)scratch->current;
             scratch->current = (u8 *)mode_packet + 0xC;
-            tpage = (u16)func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0, tpage, 0);
+            tpage = (u16)GetTPage(0, 1, 0, 0);
+            SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
             *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & addr_mask);
@@ -275,7 +275,7 @@ void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S
     projection.xyz[1] = position->unk_06;
     projection.xyz[2] = position->unk_0A;
     render_state->unk_06 =
-        func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
+        RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
 
     ticks_left = ((S_80BC1880_1 *)effect)->unk_1A.u - 1;
     ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;

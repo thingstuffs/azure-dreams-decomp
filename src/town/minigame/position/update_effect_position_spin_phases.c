@@ -13,8 +13,8 @@ typedef struct {
 extern u8 D_8002004C[];
 extern u8 D_800245DC[];
 
-extern s32 func_80064710(s32);
-extern void func_800672D8(LocalPoint *, void *);
+extern s32 SquareRoot0(s32);
+extern void LoadImage(LocalPoint *, void *);
 extern void SD_Call(s32);
 
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
@@ -56,7 +56,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
     point = *(LocalPoint *)D_8002004C;
     dx_squared = dx * dx;
     dy_squared = dy * dy;
-    distance = func_80064710(dx_squared + dy_squared);
+    distance = SquareRoot0(dx_squared + dy_squared);
     S32(state_arg, 0x60) = S32(target_arg, 8);
 
     if (world_pos->y.v > 0x035FFFFF ? distance < 185 : distance < 193) {
@@ -204,7 +204,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
             point.x = 122 + dx * 16;
             point.y = 6;
             icon_frame = (S16(state_arg, 0x72) >> 1) + dx;
-            func_800672D8(&point, (void *)((icon_frame % 3) * 32 + (s32)D_800245DC));
+            LoadImage(&point, (void *)((icon_frame % 3) * 32 + (s32)D_800245DC));
         }
         value_draw = U16(state_arg, 0x72);
         U16(state_arg, 0x72) = value_draw + 1;

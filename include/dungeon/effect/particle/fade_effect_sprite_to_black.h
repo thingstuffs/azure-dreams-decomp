@@ -233,7 +233,7 @@ extern u8 D_800DEC28[];
 extern u8 D_800DEC00[];
 extern s32 D_800DEB70;
 s32 resolve_record_orientation_or_fallback();
-s32 func_80069EF8(void);
+s32 rand(void);
 void apply_attack_power_and_element_effects();
 s32 scan_actor_along_heading();
 s32 get_definition_entry_byte_13();

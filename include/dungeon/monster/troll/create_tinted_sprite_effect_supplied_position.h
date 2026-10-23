@@ -25,7 +25,7 @@ typedef struct T_8017406C_S_8017406C_0 {
 
 
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);

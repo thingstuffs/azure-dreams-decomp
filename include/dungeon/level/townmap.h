@@ -103,7 +103,7 @@ typedef struct town_map_7FFEE778_S_8008BED8_0 {
 extern u32 loaded_town_resource_attributes[];
 extern s32 town_resource_descriptors[218];
 extern s32 town_resource_request[203];
-extern void func_80067014(s32 control_value);
+extern void DrawSync(s32 control_value);
 extern s32 load_cd_resource(s32 entry_value);
 extern s32 func_80047E78(s32 entry_value);
 extern void call_script();

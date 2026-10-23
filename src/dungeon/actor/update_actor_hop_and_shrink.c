@@ -32,7 +32,7 @@ typedef struct S_800AB538_3 {
     s32 unk_14;
 } S_800AB538_3;   /* p1 in update_actor_hop_and_shrink */
 
-extern s32 func_800644B8();
+extern s32 rsin();
 
 extern u8 view_reference_entity[];
 extern s16 D_8008378A;
@@ -85,7 +85,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
             {
                 s16 *target_height = &D_8008378A;
 
-                height_offset = func_800644B8(frames_left << 6) >> 4;
+                height_offset = rsin(frames_left << 6) >> 4;
                 ((S_800AB538_3 *)motion)->unk_14 =
                     ((*target_height - height_offset - ((S_800AB538_3 *)motion)->unk_0A.s) << 16) /
                     ((S_800AB538_0 *)animation)->unk_96.s;

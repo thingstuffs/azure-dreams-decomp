@@ -7,8 +7,8 @@
 #include "dungeon/actor.h"
 
 
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
+s32 rsin(s32);
+s32 rcos(s32);
 void unlink_entity_node(); /* extern */
 void update_map_cell_flags_with_item_limit();
 void distribute_experience_and_report_gains(); /* extern */
@@ -159,18 +159,18 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
         return finished;
 
     case 3:
-        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * rcos(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((ObjectPosition *)((u8 *)(&view_reference_entity)))->x.v + orbit_offset
             - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
-        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * rsin(((S_800AD058_1 *)sprite)->unk_27
             << 7)) << 5;
         ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((ObjectPosition *)((u8 *)(&view_reference_entity)))->y.v + orbit_offset
             - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
         {
             s32 vertical_step;
 
-            vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
+            vertical_step = rsin(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
             ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
                 ((((ObjectPosition *)((u8 *)(&view_reference_entity)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88)
                     >> 4));

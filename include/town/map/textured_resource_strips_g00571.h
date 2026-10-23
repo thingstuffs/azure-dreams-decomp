@@ -226,14 +226,14 @@ typedef struct S_800A47A8_3 {
     s16 unk_14;
 } S_800A47A8_3;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 /* texture_entry in project_visible_textured_strips */
 extern s32 func_80065610();
-extern s32 func_80066460();
-extern void func_8006658C();
-extern void func_800666F4();
-extern void func_80067F20();
+extern s32 GetTPage();
+extern void AddPrim();
+extern void SetPolyFT4();
+extern void SetDrawMode();
 s32 register_node();
 extern s32 D_800A3918[];
 extern s32 D_800A3B1C[];

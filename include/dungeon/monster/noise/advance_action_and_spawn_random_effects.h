@@ -89,7 +89,7 @@ extern s32 register_node();
 extern s32 func_8004491C();
 extern void select_sprite_entry();
 extern void func_80047784();
-extern s32 func_80065420();
+extern s32 RotTransPers();
 extern void * resolve_attack_damage_and_effects();
 extern s32 advance_status_timers();
 extern s32 play_sound_if_enabled();

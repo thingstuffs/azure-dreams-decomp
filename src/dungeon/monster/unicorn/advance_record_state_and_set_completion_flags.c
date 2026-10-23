@@ -66,9 +66,9 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
 
     angle = ((T_801741A0_S_801741A0_0 *)effect)->unk_1E - 0x12C;
     ((T_801741A0_S_801741A0_0 *)effect)->unk_1E = (u16) angle;
-    position->x.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_40 + (func_80064584(angle) * 0x280));
+    position->x.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_40 + (rcos(angle) * 0x280));
     position->y.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_44
-        + (func_800644B8((s16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1E) * 0x280));
+        + (rsin((s16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1E) * 0x280));
     position->z.v = (s32) (position->z.v + 0xFFF60000);
     advance_sprite_animation_and_textures(primitive);
     if ((((T_801741A0_S_801741A0_0 *)effect)->unk_1A < 0x11) && (((T_801741A0_S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
@@ -120,8 +120,8 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
             wrapped_angle -= 0x1000;
         }
 
-        position->x.v = effect_state->unk_40 + func_80064584(wrapped_angle) * 0x280;
-        position->y.v = effect_state->unk_44 + func_800644B8(wrapped_angle) * 0x280;
+        position->x.v = effect_state->unk_40 + rcos(wrapped_angle) * 0x280;
+        position->y.v = effect_state->unk_44 + rsin(wrapped_angle) * 0x280;
         position->z.w.i = origin->unk_0A + height_offset;
 
         sprite = effect->sprite;

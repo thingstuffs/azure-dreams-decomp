@@ -19,8 +19,8 @@ typedef struct S_80172C98_0 {
     union { s16 s; u16 u; } unk_AE;   /* accessed as both */
 } S_80172C98_0;   /* arg0 in advance_backward_forward_motion */
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -44,10 +44,10 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
     case 0:
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
         motion->velocity_x =
-            -(((func_80064584(actor->facing) >> 4) << 13) /
+            -(((rcos(actor->facing) >> 4) << 13) /
               ((S_80172C98_0 *)action)->unk_AE.s);
         motion->velocity_y =
-            -(((func_800644B8(actor->facing) >> 4) << 13) /
+            -(((rsin(actor->facing) >> 4) << 13) /
               ((S_80172C98_0 *)action)->unk_AE.s);
         ((S_80172C98_0 *)action)->unk_9B++;
 
@@ -80,10 +80,10 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
                 0);
             ((S_80172C98_0 *)action)->unk_AE.s = 6;
             motion->velocity_x =
-                ((func_80064584(actor->facing) >> 4) << 14) /
+                ((rcos(actor->facing) >> 4) << 14) /
                 ((S_80172C98_0 *)action)->unk_AE.s;
             motion->velocity_y =
-                ((func_800644B8(actor->facing) >> 4) << 14) /
+                ((rsin(actor->facing) >> 4) << 14) /
                 ((S_80172C98_0 *)action)->unk_AE.s;
             ((S_80172C98_0 *)action)->unk_AE.u--;
             create_directional_effect(action, motion, animation);

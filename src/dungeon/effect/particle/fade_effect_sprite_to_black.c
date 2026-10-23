@@ -273,7 +273,7 @@ spawn_trail:
         if (object != 0) {
             sprite_work = (s32)(object->sprite);
             object->unk_10 = (void *)move_the_effect_count_down_timer_fade_sprite_black;
-            frame.vel_x = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
+            frame.vel_x = 0 - ((motion_extent = rand()) & 0x1FF);
             frame.vel_z = 0;
             frame.vel_y = 0;
             frame.spec.vec_a = &frame.vel_x;
@@ -286,8 +286,8 @@ spawn_trail:
             if (motion_extent < 0x40) {
                 motion_extent = 0x40;
             }
-            frame.spec.yaw = (func_80069EF8() & 0xFF) - 0x80;
-            frame.spec.pitch = (func_80069EF8() & 0xFF) - 0x80;
+            frame.spec.yaw = (rand() & 0xFF) - 0x80;
+            frame.spec.pitch = (rand() & 0xFF) - 0x80;
             angle_offset = frame.spec.yaw;
             if (angle_offset <= 0) {
                 spread_angle = angle_offset - motion_extent;
@@ -311,11 +311,11 @@ spawn_trail:
             frame.spec.zero = 0;
             transform_rotated_vertices(&frame.spec);
             (object->position)->x.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             (object->position)->y.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             (object->position)->z.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             trail_pos_x = object->position;
             trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
             trail_pos_y = object->position;
@@ -338,7 +338,7 @@ spawn_trail:
             ((SpriteFrameState *)sprite_work)->unk_05 = 0;
             ((SpriteFrameState *)sprite_work)->color.word = 0x808080;
             particle->unk_00 = effect;
-            particle->unk_48 = (s16) ((sprite_work = func_80069EF8()) & 3);
+            particle->unk_48 = (s16) ((sprite_work = rand()) & 3);
             particle->unk_4C = 0;
         }
         distance_x -= 1;
@@ -417,12 +417,12 @@ spawn_trail:
                         object->unk_10 = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
                         (object->position)->x.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-                                + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
+                                + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
                         (object->position)->y.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-                                + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
+                                + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
                         (object->position)->z.v =
-                            (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xC));
+                            (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xC));
                         burst_motion_x = object->position;
                         burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                             - burst_motion_x->unk_00) >> 3);
@@ -430,7 +430,7 @@ spawn_trail:
                         burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
                             - burst_motion_y->unk_04) >> 3);
                         (object->position)->velocity_z =
-                            (s32) (0 - (((sprite_work = func_80069EF8()) & 0x3FF) << 9));
+                            (s32) (0 - (((sprite_work = rand()) & 0x3FF) << 9));
                         burst_sprite->scale_y = 0x800;
                         burst_sprite->scale_x = 0x800;
                         burst_sprite->tpage_abr = 0x20;
@@ -444,7 +444,7 @@ spawn_trail:
                         burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
                         particle = ((void *)object) + 0x20;
-                        particle->unk_48 = (s16) ((motion_extent = func_80069EF8()) & 3);
+                        particle->unk_48 = (s16) ((motion_extent = rand()) & 3);
                     }
                     distance_x -= 1;
                 } while (distance_x >= 0);
@@ -541,7 +541,7 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
     motion->z += motion->dz;
     motion->dx -= motion->dx >> 3;
     motion->dy -= motion->dy >> 3;
-    motion->dz -= func_80069EF8() * 4 + 0x4000;
+    motion->dz -= rand() * 4 + 0x4000;
 
     state = object->kind;
     switch (state) {
@@ -561,7 +561,7 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
             effect->unk_05 = 0;
         }
         {
-            s32 fade_step = (func_80069EF8() & 0xF) + 4;
+            s32 fade_step = (rand() & 0xF) + 4;
             if (fade_step >= effect->color.c.r) {
                 effect->color.word = 0;
                 *((u16 *)((u8 *)object - 2)) |= NODE_REMOVE;

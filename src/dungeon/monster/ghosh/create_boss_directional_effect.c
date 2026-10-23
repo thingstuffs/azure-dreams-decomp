@@ -11,7 +11,7 @@ DungeonTable;
 extern u8 D_80171704[];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 s32 register_node();
-s32 func_80069EF8();
+s32 rand();
 extern DungeonTable D_8016A894;
 extern void func_801718E4(u8 *effect, s32 *motion);
 
@@ -54,19 +54,19 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         source = ((void *)effect) + 0x20;
         if (spread_mode == 0) {
             *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
-                (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 7);
-            y_velocity = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 7);
+                (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+            y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
             velocity_base = effect->position;
             *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
         }
         else {
             *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
-                (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
-            y_velocity = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
+                (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
+            y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
             velocity_base = effect->position;
             *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
         }
-        motion_value = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 5);
+        motion_value = (s32) (((rand() & 0x7FFF) - 0x4000) << 5);
         direction_entry = (u8 *)&direction_table + ((saved_angle >> 7) & 0x1C);
         motion = (effect_obj = effect->position);
         *((s32 *) (((s8 *) motion) + 0x14)) = motion_value;

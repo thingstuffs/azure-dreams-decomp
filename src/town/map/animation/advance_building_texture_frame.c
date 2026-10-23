@@ -1,7 +1,7 @@
 #include "common.h"
 extern u8 building_upload_rect[];
 
-extern void func_800672D8(void *, void *);
+extern void LoadImage(void *, void *);
 extern u8 D_80110EC8[];
 extern u8 D_801110C8[];
 extern u8 D_801112C8[];
@@ -34,7 +34,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
         break;
     case 4:
     case 20:
@@ -44,7 +44,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
         break;
     case 8:
     case 16:
@@ -54,7 +54,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
         break;
     case 12:
         rect = (void *)building_upload_rect;
@@ -63,7 +63,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
     }
 
     palette_phase = (s16)*anim_tick % 6;
@@ -75,7 +75,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
         return;
     case 2:
         rect = (void *)building_upload_rect;
@@ -84,7 +84,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
         return;
     case 4:
         rect = (void *)building_upload_rect;
@@ -93,7 +93,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
-        func_800672D8(rect, upload_data);
+        LoadImage(rect, upload_data);
     default:
         return;
     }

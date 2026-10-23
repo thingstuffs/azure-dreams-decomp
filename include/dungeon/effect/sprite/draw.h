@@ -181,19 +181,19 @@ typedef struct {
 
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
 
-s32 func_800644B8(s32);
-void func_80064840();
-void func_800649A0(void);
-void func_80064A40(void);
-void func_80064AE0();
-void func_80064BC0();
-void func_80064CF0();
-void func_80064D80();
-s32 func_80065590();
-void func_80065820();
-u32 func_80065420(void *, void *, void *, void *);
-s32 func_80066460(s32, s32, s32, s32);
-void func_80067F20(void *, s32, s32, s32, s32);
+s32 rsin(s32);
+void CompMatrix();
+void PushMatrix(void);
+void PopMatrix(void);
+void ReadRotMatrix();
+void ScaleMatrix();
+void SetRotMatrix();
+void SetTransMatrix();
+s32 RotAverage4();
+void RotMatrix();
+u32 RotTransPers(void *, void *, void *, void *);
+s32 GetTPage(s32, s32, s32, s32);
+void SetDrawMode(void *, s32, s32, s32, s32);
 
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset);
 s32 draw_linked_gap_effects(void *state, void *position, void *appearance);

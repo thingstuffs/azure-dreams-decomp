@@ -105,10 +105,10 @@ typedef struct S_func_80174228_10 {
 #define OUTY ((S_func_80174228_0 *)storage)->unk_7A
 
 static __inline__ s16 divide_tex(s16 n) { return n / 23; }
-extern s32 func_80065420();
-extern s16 func_80066460();
-extern void func_80066640();
-extern void func_800666F4(void *);
+extern s32 RotTransPers();
+extern s16 GetTPage();
+extern void SetSemiTrans();
+extern void SetPolyFT4(void *);
 extern void transform_rotated_vertices();
 
 extern u8 D_8017087C[];
@@ -224,7 +224,7 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         max_xy |= 0x8AD0;
 
         do {
-            vertex_depth = func_80065420(vertex, &OUTX, scratch_ptr, scratch_ptr);
+            vertex_depth = RotTransPers(vertex, &OUTX, scratch_ptr, scratch_ptr);
             prev_depth = depth;
             screen_x = OUTX;
             biased_depth = prev_depth - 8;
@@ -295,9 +295,9 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 prim->unk_06 = shade;
                 prim->unk_05 = shade;
                 prim->unk_04 = shade;
-                func_800666F4(prim);
-                func_80066640(prim, 1);
-                prim->unk_16 = func_80066460(2, 1, 0x340, 0x100);
+                SetPolyFT4(prim);
+                SetSemiTrans(prim, 1);
+                prim->unk_16 = GetTPage(2, 1, 0x340, 0x100);
 
                 render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
                 uv_arg = render_term / 23;

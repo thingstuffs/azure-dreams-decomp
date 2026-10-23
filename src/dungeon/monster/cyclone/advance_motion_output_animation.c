@@ -23,7 +23,7 @@ typedef struct {
     u16 value;
 } FuncOutput;
 
-extern s32 func_800644B8(u32);
+extern s32 rsin(u32);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -44,7 +44,7 @@ void advance_motion_output_animation(FuncState *motion, void *position, SpriteFr
         motion->value1 = motion->value1 + motion->step1;
         ((s32 *)position)[1] = motion->value1;
         motion->value2 = motion->value2 + motion->step2;
-        ((s32 *)position)[2] = motion->value2 - ((func_800644B8((s16)motion->count << 6) >> 4) * 0xC000);
+        ((s32 *)position)[2] = motion->value2 - ((rsin((s16)motion->count << 6) >> 4) * 0xC000);
         if ((s16)motion->count >= 0x20) {
             motion->count = 0;
             motion->state = motion->state + 1;

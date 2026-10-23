@@ -12,7 +12,7 @@ typedef struct {
 } S_8003E0C4_VECTOR;
 
 
-s32 func_80065820(s32, s32 *);
+s32 RotMatrix(s32, s32 *);
 void transform_vector_with_saved_matrix(S_8003E0C4_MATRIX *matrix, S_8003E0C4_SVECTOR *input_vec, S_8003E0C4_VECTOR *output_vec);
 
 /* Builds a transform with a fixed-point offset and passes it to the output helper. */
@@ -24,6 +24,6 @@ void build_offset_transform(s32 source, s32 offset, s32 output) {
     transform[5] = 0;
     transform[8] = 0;
     transform[9] = offset << 0xC;
-    func_80065820(source, transform);
+    RotMatrix(source, transform);
     transform_vector_with_saved_matrix(transform, &transform[8], output);
 }

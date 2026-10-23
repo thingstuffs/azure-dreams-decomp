@@ -34,8 +34,8 @@ typedef struct S_80091C64_1 {
 } S_80091C64_1;   /* arg3 in update_actor_hop_and_return */
 
 void set_sprite_animation_frame();
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 void set_record_integer_tile_center();
 s32 play_sound_if_enabled();
 
@@ -75,9 +75,9 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         return;
     case 1:
         if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
-            position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-            position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s
+            position->x.v = (s32) (position->x.v + (rcos(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+            position->y.v = (s32) (position->y.v + (rsin(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - rsin((s16) ((S_80091C64_0 *)motion)->unk_96.s
                 << 8)) >> 8);
         }
         hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
@@ -119,7 +119,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
             }
             y_work = position->y.v + y_step;
             position->y.v = y_work;
-            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s
+            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - rsin((s16) ((S_80091C64_0 *)motion)->unk_96.s
                 << 8)) >> 8);
         }
         return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;

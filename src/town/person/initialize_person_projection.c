@@ -2,13 +2,13 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void func_80064624(s32, s32);                /* extern */
-void func_80064D20(void *);                      /* extern */
-void func_80064D50(void *);                      /* extern */
-void func_80064EC0(s32, s32, s32);   /* extern */
-void func_80064EE0(s32, s32, s32);   /* extern */
-void func_80064F00(s32, s32);            /* extern */
-void func_80064F20(s32);                     /* extern */
+void SetFogFar(s32, s32);                /* extern */
+void SetLightMatrix(void *);                      /* extern */
+void SetColorMatrix(void *);                      /* extern */
+void SetBackColor(s32, s32, s32);   /* extern */
+void SetFarColor(s32, s32, s32);   /* extern */
+void SetGeomOffset(s32, s32);            /* extern */
+void SetGeomScreen(s32);                     /* extern */
 extern M2C_UNK map_runtime_state;
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
 extern u8 upper_draw_context[];
@@ -36,18 +36,18 @@ void initialize_person_projection(void) {
     view_state = &render_data->view;
     screen_distance = 0x200;
     view_state->projection_distance = screen_distance;
-    func_80064F20(screen_distance);
+    SetGeomScreen(screen_distance);
     view_state->unk_078 = 0;
     view_state->unk_07C = 0;
     view_state->unk_080 = 0;
-    func_80064EE0(0, 0, 0);
+    SetFarColor(0, 0, 0);
     view_state->color_matrix_01 = -0x100;
     view_state->color_matrix_11 = -0x100;
     view_state->color_matrix_21 = -0x100;
     view_state->color_matrix_02 = 0;
     view_state->color_matrix_12 = 0;
     view_state->color_matrix_22 = 0;
-    func_80064D50(&render_data->view.color_matrix_00);
+    SetColorMatrix(&render_data->view.color_matrix_00);
     scene_state = (u8 *)render_data + 0x50;
     light_negative = -0x800;
     view_state->light_matrix_00 = light_negative;
@@ -60,9 +60,9 @@ void initialize_person_projection(void) {
     view_state->light_matrix_20 = 0;
     view_state->light_matrix_21 = 0;
     view_state->light_matrix_22 = 0;
-    func_80064D20(scene_state);
+    SetLightMatrix(scene_state);
     view_state->fog_far = 0x1000;
-    func_80064624(0x1000, view_state->projection_distance);
+    SetFogFar(0x1000, view_state->projection_distance);
     scene_state = &map_runtime_state;
     if ((scene_state->unk_18 == 0xC) && (scene_state->unk_1A != 0x34)) {
         ambient_red = 0xA0;
@@ -79,8 +79,8 @@ void initialize_person_projection(void) {
         view_state->color_matrix_10 = 0x3C0;
         view_state->color_matrix_20 = 0x3C0;
     }
-    func_80064EC0(ambient_red, ambient_green, ambient_blue);
-    func_80064F00(0xA0, 0x78);
+    SetBackColor(ambient_red, ambient_green, ambient_blue);
+    SetGeomOffset(0xA0, 0x78);
     render_data->view.clip_x = -0xBC;
     render_data->view.clip_y = -0x88;
     render_data->view.clip_width = 0x172;

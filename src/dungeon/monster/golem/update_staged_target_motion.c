@@ -97,9 +97,9 @@ typedef struct S_81087818_7 {
 
 extern void advance_sprite_animation_and_textures(void *);
 extern void *resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
-extern s32 func_80069EF8(void);
-extern s32 func_800644B8(s16);
-extern s32 func_80064584(s16);
+extern s32 rand(void);
+extern s32 rsin(s16);
+extern s32 rcos(s16);
 extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
@@ -292,7 +292,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
         s32 elevation_factor;
         s32 azimuth_factor;
         {
-            s32 random_angle = func_80069EF8();
+            s32 random_angle = rand();
             s32 biased_angle = random_angle;
             s32 base_angle = motion->unk_06.u + 0x400;
             s32 quotient;
@@ -306,7 +306,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
             motion->unk_06.u = base_angle + remainder;
         }
         {
-            s32 random_angle = func_80069EF8();
+            s32 random_angle = rand();
             s32 biased_angle = random_angle;
             s32 base_angle = motion->unk_08.u + 0x400;
             s32 quotient;
@@ -320,11 +320,11 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
             motion->unk_08.u = base_angle + remainder;
         }
 
-        trajectory->x = motion->unk_28.word + (((func_800644B8(motion->unk_06.s) >> 4) *
-            (func_800644B8(motion->unk_08.s) >> 4)) << 5);
-        trajectory->y = motion->unk_2C.word + (((func_800644B8(motion->unk_06.s) >> 4) *
-            (func_80064584(motion->unk_08.s) >> 4)) << 5);
-        trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
+        trajectory->x = motion->unk_28.word + (((rsin(motion->unk_06.s) >> 4) *
+            (rsin(motion->unk_08.s) >> 4)) << 5);
+        trajectory->y = motion->unk_2C.word + (((rsin(motion->unk_06.s) >> 4) *
+            (rcos(motion->unk_08.s) >> 4)) << 5);
+        trajectory->z = motion->unk_30.word + ((rcos(motion->unk_06.s) >> 4) << 13);
 
         if (motion->unk_02.s >= 8) {
             {

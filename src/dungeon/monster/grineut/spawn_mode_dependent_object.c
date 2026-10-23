@@ -422,7 +422,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
 
         ((Rec_func_800A9E70_arg0 *)record)->unk_AA = timer;
         if (timer < 0) {
-            ((Rec_func_800A9E70_arg0 *)record)->unk_AA = (func_80069EF8() & 0x1F) + 0x20;
+            ((Rec_func_800A9E70_arg0 *)record)->unk_AA = (rand() & 0x1F) + 0x20;
         }
         if (((Rec_func_800A9E70_arg0 *)record)->unk_AA < 2) {
             ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p = ((u8 *)D_80174148);
@@ -969,7 +969,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
                 ((R07_80172478_S_80172478_0 *)action)->unk_A8.s;
 
             ((R07_80172478_S_80172478_0 *)action)->unk_A4 =
-                (-func_800644B8(((R07_80172478_S_80172478_0 *)action)->unk_A8.s * 0x199)) << 10;
+                (-rsin(((R07_80172478_S_80172478_0 *)action)->unk_A8.s * 0x199)) << 10;
         }
 
         height_offset = ((R07_80172478_S_80172478_0 *)action)->unk_90;

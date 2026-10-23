@@ -4,8 +4,8 @@
 
 extern u8 upper_draw_context[16];
 
-extern void func_8006658C(void *, void *);
-extern void func_80067E2C(void *, void *);
+extern void AddPrim(void *, void *);
+extern void SetDrawArea(void *, void *);
 extern void draw_nearby_map_markers(void *, s32);
 
 /* Queues drawing commands and a black 64-by-64 rectangle in the active draw buffer. */
@@ -25,8 +25,8 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
     ordering_table = draw_buffer + 0x8B0;
     area_packet = *(u8 **)(draw_buffer + 0x8D0);
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
-    func_80067E2C(area_packet, *(u8 * *)&g_game_work.draw_buffer);
-    func_8006658C(ordering_table, area_packet);
+    SetDrawArea(area_packet, *(u8 * *)&g_game_work.draw_buffer);
+    AddPrim(ordering_table, area_packet);
     draw_nearby_map_markers(ordering_table, draw_param);
 
     rect_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
@@ -40,10 +40,10 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
     }
     *(s16 *)(rect_packet + 0xA) = rect_y;
     *(s32 *)(rect_packet + 0xC) = draw_rect[1];
-    func_8006658C(ordering_table, rect_packet);
+    AddPrim(ordering_table, rect_packet);
 
     area_packet = *(u8 **)(g_game_work.draw_buffer + 0x8D0);
     *(u8 **)(g_game_work.draw_buffer + 0x8D0) = area_packet + 0xC;
-    func_80067E2C(area_packet, &draw_rect[0]);
-    func_8006658C(ordering_table, area_packet);
+    SetDrawArea(area_packet, &draw_rect[0]);
+    AddPrim(ordering_table, area_packet);
 }

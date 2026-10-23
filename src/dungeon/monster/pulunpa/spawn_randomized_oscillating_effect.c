@@ -33,7 +33,7 @@ typedef struct S_80174F24_3 {
 } S_80174F24_3;   /* arg1 in spawn_randomized_oscillating_effect */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -95,7 +95,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
                 (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
 
             ((S_80174F24_0 *)action)->unk_A0 =
-                (-func_800644B8(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
+                (-rsin(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
         }
 
         ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;

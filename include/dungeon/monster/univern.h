@@ -399,7 +399,7 @@ s32 func_80047784();
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void select_indirect_table_entry();
 void advance_sprite_animation_and_textures();
-s32 func_800644B8();
+s32 rsin();
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();

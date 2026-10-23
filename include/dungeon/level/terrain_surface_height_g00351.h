@@ -82,7 +82,7 @@ typedef struct S_800BCE7C_0 {
 } S_800BCE7C_0;
 
 /* arg0 in are_quad_corner_turns_within_half_revolution */
-s32 func_80065F90();
+s32 ratan2();
 
 /* Functions defined in this translation unit. */
 s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);

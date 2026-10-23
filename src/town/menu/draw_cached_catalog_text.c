@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_800661B0(s32, s32, s32, s32, s32, s32, s32);
+s32 LoadTPage(s32, s32, s32, s32, s32, s32, s32);
 s32 get_cached_catalog_glyph();                             /* extern */
 
 typedef struct S_801239B8_0 {
@@ -25,7 +25,7 @@ void draw_cached_catalog_text(u8 *text, s16 x, s16 y) {
             cursor += 2;
             glyph = get_cached_catalog_glyph(code_lo | (code_hi << 8));
             if (glyph != 0) {
-                func_800661B0(glyph, 0, 0, glyph_x, (s32) y, 0xC, 0x10);
+                LoadTPage(glyph, 0, 0, glyph_x, (s32) y, 0xC, 0x10);
                 glyph_x += 3;
             }
         } while (*cursor != 0);

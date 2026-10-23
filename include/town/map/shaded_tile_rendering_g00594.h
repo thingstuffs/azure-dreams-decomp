@@ -363,14 +363,14 @@ typedef struct MapQuadScratch {
 } MapQuadScratch;
 
 extern void build_screen_outline(void *, void *, s32);
-extern void func_80064624(s32, s32);
-extern void func_80064D20(void *);
-extern void func_80064D50(void *);
+extern void SetFogFar(s32, s32);
+extern void SetLightMatrix(void *);
+extern void SetColorMatrix(void *);
 /* extern */
 extern u8 map_runtime_state[];
 extern u8 map_wide_culling[9];
-extern void func_8006658C(void *, void *);
-extern void func_80067F20(void *, s32, s32, s32, void *);
+extern void AddPrim(void *, void *);
+extern void SetDrawMode(void *, s32, s32, s32, void *);
 
 extern s8 map_tile_uvs[12];
 extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);

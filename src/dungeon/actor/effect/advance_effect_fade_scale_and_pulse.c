@@ -31,7 +31,7 @@ typedef struct {
     Output *output;
 } Link;
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
 void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *output) {
@@ -95,7 +95,7 @@ void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *o
     tick = effect->frame + 1;
     effect->frame = tick;
     if (effect->state != 0) {
-        scale = (func_800644B8((s32)(tick << 0x10) >> 7) >> 4) + 0x1000;
+        scale = (rsin((s32)(tick << 0x10) >> 7) >> 4) + 0x1000;
         output->scale_y = scale;
         output->scale_x = scale;
         output->phase = output->phase + 0x555;

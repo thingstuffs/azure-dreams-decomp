@@ -4,7 +4,7 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 D_80174A7C[];
@@ -59,7 +59,7 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteF
         timer = ((S_801740F8_0 *)actor)->unk_9E;
         ((S_801740F8_0 *)actor)->unk_90 -= ((S_801740F8_0 *)actor)->unk_A4;
         if (timer != 0) {
-            ((S_801740F8_0 *)actor)->unk_A4 = -func_800644B8(timer * 0x199) << 10;
+            ((S_801740F8_0 *)actor)->unk_A4 = -rsin(timer * 0x199) << 10;
         }
 
         ((S_801740F8_0 *)actor)->unk_90 += ((S_801740F8_0 *)actor)->unk_A4;

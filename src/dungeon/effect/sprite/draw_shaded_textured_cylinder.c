@@ -85,10 +85,10 @@ typedef struct S_80024930_4 {
 
 typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
 s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,
@@ -122,11 +122,11 @@ s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32
         ((S_80024930_3 *)prim)->unk_07 = 0x3C;
 
         if (blend_mode == 4) {
-            ((S_80024930_3 *)prim)->unk_1A = func_80066460(0, 0, 0x280, 0x100);
+            ((S_80024930_3 *)prim)->unk_1A = GetTPage(0, 0, 0x280, 0x100);
         } else {
             ((S_80024930_3 *)prim)->unk_07 = 0x3E;
             ((S_80024930_3 *)prim)->unk_1A =
-                func_80066460(0, blend_mode, 0x280, 0x100);
+                GetTPage(0, blend_mode, 0x280, 0x100);
         }
 
         ((S_80024930_3 *)prim)->unk_0E = 0x7E00;
@@ -165,22 +165,22 @@ s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32
         angle = raw_angle - angle_offset;
 
         ((S_80024930_0 *)scratch)->unk_74 = center->unk_02 +
-            ((func_800644B8(angle) >> 4) * radius >> 8);
+            ((rsin(angle) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_64 = ((S_80024930_0 *)scratch)->unk_74;
 
         ((S_80024930_0 *)scratch)->unk_7C = center->unk_02 +
-            ((func_800644B8((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
+            ((rsin((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6C = ((S_80024930_0 *)scratch)->unk_7C;
 
         ((S_80024930_0 *)scratch)->unk_76 = center->unk_06 +
-            ((func_80064584(angle) >> 4) * radius >> 8);
+            ((rcos(angle) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_66 = ((S_80024930_0 *)scratch)->unk_76;
 
         ((S_80024930_0 *)scratch)->unk_7E = center->unk_06 +
-            ((func_80064584((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
+            ((rcos((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6E = ((S_80024930_0 *)scratch)->unk_7E;
 
-        ((S_80024930_0 *)scratch)->unk_B4 = func_80065590(
+        ((S_80024930_0 *)scratch)->unk_B4 = RotAverage4(
             scratch + 0x64, scratch + 0x6C, scratch + 0x74, scratch + 0x7C,
             scratch + 0xD8, scratch + 0xDC, scratch + 0xE0, scratch + 0xE4,
             scratch + 0x84, scratch + 0x88);

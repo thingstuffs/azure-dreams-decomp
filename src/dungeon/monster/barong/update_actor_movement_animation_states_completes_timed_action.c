@@ -25,7 +25,7 @@ typedef struct S_80154B4C_0 {
 } S_80154B4C_0;   /* arg0 in update_actor_movement_animation_states_completes_timed_action */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -94,7 +94,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
                 ((S_80154B4C_0 *)action)->unk_9E.s;
 
             ((S_80154B4C_0 *)action)->unk_A4 =
-                (-func_800644B8(((S_80154B4C_0 *)action)->unk_9E.s * 0x199)) << 10;
+                (-rsin(((S_80154B4C_0 *)action)->unk_9E.s * 0x199)) << 10;
         }
 
         height = ((S_80154B4C_0 *)action)->unk_90;

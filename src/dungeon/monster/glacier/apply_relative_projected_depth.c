@@ -34,7 +34,7 @@ typedef struct {
 } Stack3;
 
 extern s8 view_direction_depth_biases[];
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
@@ -52,12 +52,12 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     coords.x0 = position->unk_02;
     coords.x1 = position->unk_06;
     coords.x2 = position->unk_0A;
-    depth_delta = func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    depth_delta = RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
     base_position = ((S_8102F20C_1 *)entity)->reference_position;
     coords.x0 = base_position->unk_02;
     coords.x1 = base_position->unk_06;
     coords.x2 = base_position->unk_0A;
-    depth_delta = depth_delta - func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    depth_delta = depth_delta - RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
     depth_bias = view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;
     result->unk_14 = (u16) (result->unk_14 & 0xFF7F);

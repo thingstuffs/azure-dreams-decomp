@@ -5,8 +5,8 @@
 
 
 extern void unlink_node_if_registered(void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void unlink_scene_list_node(void *);
 
 
@@ -36,7 +36,7 @@ void update_angle_driven_offset(void *object, DelayMotionZ *offset_state)
     angle = ((S_800B9D64_2 *)(((Rec_D_80082D58 *)object)->unk_9C))->unk_66;
     sector = angle / 0x200;
     if ((s8)(sector % 4) == ((Rec_D_80082D58 *)object)->unk_97) {
-        phase_value = func_800644B8((s16)(angle % 0x200) * 2);
+        phase_value = rsin((s16)(angle % 0x200) * 2);
         offset_state->unk_08 = -((phase_value >> 4) * 0x1E00);
         ((Rec_D_80082D58 *)object)->unk_66 = 30;
         return;
@@ -48,7 +48,7 @@ void update_angle_driven_offset(void *object, DelayMotionZ *offset_state)
 
         ((Rec_D_80082D58 *)object)->unk_66 = (u16)((Rec_D_80082D58 *)object)->unk_66 - 3;
         decay_angle = ((S_800B9D64_2 *)(((Rec_D_80082D58 *)object)->unk_9C))->unk_66;
-        amplitude = ((func_80064584((s16)(decay_angle % 0x200) * 0x18) >> 4)
+        amplitude = ((rcos((s16)(decay_angle % 0x200) * 0x18) >> 4)
                      * ((Rec_D_80082D58 *)object)->unk_66) << 8;
         offset = -amplitude;
 

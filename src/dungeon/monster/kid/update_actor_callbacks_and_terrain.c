@@ -9,7 +9,7 @@
 void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void select_sprite_entry(void *, u8, s32);             /* extern */
 void advance_sprite_animation_and_textures(void *);                       /* extern */
-s32 func_800644B8(s32);                            /* extern */
+s32 rsin(s32);                            /* extern */
 void apply_monster_koyaw_data(s32, void *);               /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
@@ -201,7 +201,7 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                             ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                         }
                     }
-                    bob_offset = func_800644B8((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
+                    bob_offset = rsin((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
@@ -298,7 +298,7 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                             ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                         }
                     }
-                    bob_offset = func_800644B8((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
+                    bob_offset = rsin((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {

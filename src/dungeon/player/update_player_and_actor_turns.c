@@ -35,7 +35,7 @@ extern void set_camera_targets(void *target_position, void *target_rotation, s32
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
 s32 read_sound_mode_blocking_status();                         /* extern */
-s32 func_800644B8();                             /* extern */
+s32 rsin();                             /* extern */
 s32 update_sound_settings_from_pad(); /* extern */
 s32 check_entity_relation();                 /* extern */
 void *find_eligible_actor_at_tile_and_height();           /* extern */
@@ -379,11 +379,11 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                 if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x800) {
                     slow_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (slow_phase + 1);
-                    (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) slow_phase) >> 8) + 0x30);
+                    (*(s8 *)((u8 *)actor + 3)) = (s8) ((rsin((s16) slow_phase) >> 8) + 0x30);
                 } else {
                     normal_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (normal_phase + 1);
-                    (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) normal_phase) >> 7) + 0x40);
+                    (*(s8 *)((u8 *)actor + 3)) = (s8) ((rsin((s16) normal_phase) >> 7) + 0x40);
                 }
                 (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (generate_random_value() & 0xFFFF);
                 if (!(system_update_flags & 8)) {

@@ -253,10 +253,10 @@ typedef struct S_func_81886800_19 {
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 set_item_w0(s32, s32, s32, s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
-extern void func_80065F90(s32, s32);
+extern void ratan2(s32, s32);
 extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(s32, s32, void *);
 
 extern u8 D_8002632C[];
@@ -448,7 +448,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         motion->unk_08.s32 = height;
     }
     {
-        s32 bob_offset = func_800644B8((s32)effect->unk_18.s16 << 7);
+        s32 bob_offset = rsin((s32)effect->unk_18.s16 << 7);
         motion->unk_08.s32 += bob_offset << 6;
     }
     handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
@@ -527,7 +527,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     }
 
     case 3:
-    func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
+    ratan2(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     target_object = owner->unk_60;
     effect->unk_28 = create_an_copies_three_source_fields_child_runs_n_16_child_setup(
         effect, motion, target_object->unk_88.s16, target_object);
@@ -630,7 +630,7 @@ extern u8 last_frame_ticks[];
 
 extern void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 extern void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
 void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
@@ -700,9 +700,9 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
     {
         u8 *random_rgb;
 
-        D_80026474[0] = (func_80069EF8() % 0x3F) - 0x80;
+        D_80026474[0] = (rand() % 0x3F) - 0x80;
         random_rgb = D_80026474;
-        random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
+        random_rgb[1] = (rand() % 0x3F) - 0x80;
         effect->timer -= last_frame_ticks[0];
         if (effect->timer <= 0) {
             create_quad_fragments_vertex_grid_randomized_motion_rotation();
@@ -934,9 +934,9 @@ typedef struct Entry {
 typedef struct EmptyCallArg {
 } EmptyCallArg;
 
-extern u32 func_800654B0(
+extern u32 RotTransPers4(
     void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, ...);
-extern void func_80066708(void *);
+extern void SetPolyG4(void *);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
@@ -994,7 +994,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
                 far_index = quad_index + 16;
                 far_z = ((u16 *)vertices)[(far_index * 4) + 2];
 
-                scratch->index = func_800654B0(
+                scratch->index = RotTransPers4(
                     near_vertex, near_next_vertex, far_vertex, far_next_vertex,
                     (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
                     (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
@@ -1018,16 +1018,16 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
                         *(u32 *)((u8 *)quad + 4) = (*(u32 *)D_80026474);
                     }
 
-                    func_80066708(quad);
+                    SetPolyG4(quad);
                     quad->bytes[7] |= 2;
-                    func_8006658C(scratch->table + scratch->index, quad);
+                    AddPrim(scratch->table + scratch->index, quad);
 
                     {
                         u8 *draw_mode = scratch->current;
                         scratch->current = draw_mode + 0x0C;
-                        func_80067F20(draw_mode, 0, 0,
-                                      (u16)func_80066460(0, 1, 0, 0), 0);
-                        func_8006658C(scratch->table + scratch->index,
+                        SetDrawMode(draw_mode, 0, 0,
+                                      (u16)GetTPage(0, 1, 0, 0), 0);
+                        AddPrim(scratch->table + scratch->index,
                                       (Entry *)draw_mode);
                     }
                 }
@@ -1188,7 +1188,7 @@ typedef struct
     u16 pad;
 }
 TableEntry;
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
 /* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line)
 {
@@ -1218,7 +1218,7 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
                 *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 0xE);
                 *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 0x12);
                 *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0x16);
-                *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
+                *(s32 *)(scratch + 0xC0) = RotTransPers(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
                 *(u16 *)(scratch + 0) =
                     (*(u16 *)((u8 *) vertex_data + 0xE)) + ((((*(s16 *)((u8 *) vertex_data + 2))
                         - (*(s16 *)((u8 *) vertex_data + 0xE))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
@@ -1253,12 +1253,12 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
                 *(u16 *)(scratch + 4) =
                     (*(u16 *)((u8 *) vertex_data + 0xA)) - ((((*(s16 *)((u8 *) vertex_data + 0x16))
                         - (*(s16 *)((u8 *) vertex_data + 0xA))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
+                *(s32 *)(scratch + 0xC0) = RotTransPers(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
                 *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 2);
                 *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 6);
                 *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0xA);
             }
-            avg_depth = ((*(s32 *)(scratch + 0xC0)) + func_80065420(scratch, line_packet + 0x10, scratch + 0x90,
+            avg_depth = ((*(s32 *)(scratch + 0xC0)) + RotTransPers(scratch, line_packet + 0x10, scratch + 0x90,
                 scratch + 0x94)) >> 1;
             *(s32 *)(scratch + 0xC0) = avg_depth;
             if (((u32) avg_depth) < 0x1E0U) {
@@ -1275,11 +1275,11 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
                 *(u8 *)(packet + 0xD) = green;
                 red_blue >>= 1;
                 *(u8 *)(packet + 0xE) = red_blue;
-                func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
+                AddPrim((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
                 vertex_data = *(u8 **)(scratch + 0x18);
                 *(u8 **)(scratch + 0x18) = ((u8 *) vertex_data) + 0xC;
-                func_80067F20(vertex_data, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-                func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), vertex_data);
+                SetDrawMode(vertex_data, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
+                AddPrim((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), vertex_data);
             }
             next_node = *(void **)((u8 *) owner + (-8));
             if (next_node != 0) {
@@ -1302,8 +1302,8 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 
                   /* extern */
 
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 extern s16 D_8002632A;
 extern u8 D_80026478[];
 extern u8 D_80026878[];
@@ -1352,8 +1352,8 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
         object->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
         register_node(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = object->position;
-        positions->x.w.i = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));
+        positions->x.w.i = (s16) (origin->unk_02 + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (origin->unk_06 + ((s32) (rsin(angle) * radius) >> 0xF));
         height = origin->unk_0A + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
         if ((*(s16 *)D_80026878) < height) {
@@ -1497,12 +1497,12 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern void func_800649A0(s32);
-extern void func_80064A40(void);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
+extern void PushMatrix(s32);
+extern void PopMatrix(void);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void func_80065820(void *, void *);
+extern void RotMatrix(void *, void *);
 
 /* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
 void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect, void *motion_data, void *rotation_data)
@@ -1539,7 +1539,7 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect,
     globals_page[0x6326 / 2] = update_count;
     scratch[0x84 / 2] = relative_z;
     scratch[0x8C / 2] = U16_AT(effect, 0x4C) - U16_AT(motion, 0xA);
-    func_800649A0(origin_z);
+    PushMatrix(origin_z);
 
     angles[0] = U16_AT(rotation_data, 0x16);
     angles[1] = U16_AT(rotation_data, 0x18);
@@ -1547,9 +1547,9 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect,
     matrix[7] = 0;
     matrix[6] = 0;
     matrix[5] = 0;
-    func_80065820(angles, matrix);
-    func_80064D80(matrix);
-    func_80064CF0(matrix);
+    RotMatrix(angles, matrix);
+    SetTransMatrix(matrix);
+    SetRotMatrix(matrix);
 
     func_80065320(scratch + 0x70 / 2, scratch + 0x98 / 2,
                   scratch + 0x94 / 2);
@@ -1559,7 +1559,7 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect,
                   scratch + 0x94 / 2);
     func_80065320(scratch + 0x88 / 2, scratch + 0xB0 / 2,
                   scratch + 0x94 / 2);
-    func_80064A40();
+    PopMatrix();
 
     S32_AT(motion, 0) = S32_AT(motion, 0) + S32_AT(motion, 0xC);
     S32_AT(motion, 4) = S32_AT(motion, 4) + S32_AT(motion, 0x10);
@@ -1653,10 +1653,10 @@ typedef struct S_80025E4C_2 {
     s32 unk_1C;
 } S_80025E4C_2;   /* obj in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
 
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
 
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 typedef struct GlobalState {
     u8 pad[0x8D0];
@@ -1690,7 +1690,7 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
         ((S_80025E4C_0 *)scratch)->unk_84 = ((S_80025E4C_1 *)quad)->unk_44;
         ((S_80025E4C_0 *)scratch)->unk_88 = vertex3_xy;
         ((S_80025E4C_0 *)scratch)->unk_8C = ((S_80025E4C_1 *)quad)->unk_4C;
-        depth_bucket = func_800654B0(scratch + 0x70, scratch + 0x78,
+        depth_bucket = RotTransPers4(scratch + 0x70, scratch + 0x78,
                               scratch + 0x80, scratch + 0x88,
                               (u8 *)packet + 8, (u8 *)packet + 0x10,
                               (u8 *)packet + 0x18, (u8 *)packet + 0x20,
@@ -1703,15 +1703,15 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
             second_color = ((S_80025E4C_1 *)quad)->unk_54;
             ((S_80025E4C_2 *)packet)->unk_1C = second_color;
             ((S_80025E4C_2 *)packet)->unk_14 = second_color;
-            func_80066708(packet);
+            SetPolyG4(packet);
             ((S_80025E4C_2 *)packet)->unk_04.at03.v = (u8)(((S_80025E4C_2 *)packet)->unk_04.at03.v | 2);
-            func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
+            AddPrim((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
                           (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
             packet = ((S_80025E4C_0 *)scratch)->unk_18;
             ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)packet + 0xC;
-            func_80067F20(packet, 0, 0,
-                          (u16)func_80066460(0, 1, 0, 0), 0);
-            func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
+            SetDrawMode(packet, 0, 0,
+                          (u16)GetTPage(0, 1, 0, 0), 0);
+            AddPrim((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
                           (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
         }
         next_node = ((S_80025E4C_1_pre *)quad)[-1].unk_00;

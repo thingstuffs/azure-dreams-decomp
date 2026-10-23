@@ -127,8 +127,8 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818
         random_value = rand();
         biased_random = random_value;
         angle = (random_value % 4096);
-        position->unk_02 = (s16) (motion->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        position->unk_06 = (s16) (motion->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        position->unk_02 = (s16) (motion->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
+        position->unk_06 = (s16) (motion->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
         motion->unk_04 = (u16) (motion->unk_04 + 0x80);
         motion->unk_06 = (u16) (-6 - (rand() % 5));
     }
@@ -179,8 +179,8 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         random_value = rand();
         biased_random = random_value;
         angle = (random_value % 4096);
-        position->x.w.i = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        position->y.w.i = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        position->x.w.i = (s16) (effect_data->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
+        position->y.w.i = (s16) (effect_data->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
         height = effect_data->unk_0C;
         result = (s32)effect;
         position->z.w.i = (s16)height;

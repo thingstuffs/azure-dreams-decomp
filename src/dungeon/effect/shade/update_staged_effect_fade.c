@@ -7,8 +7,8 @@ typedef struct {
     u8 pad[8];
 } Counter;
 
-s32 func_800644B8(s16);
-s32 func_80064584(s16);
+s32 rsin(s16);
+s32 rcos(s16);
 void draw_textured_ellipse(void *, s32 *, s32, s32);
 
 extern Counter D_80026472;
@@ -76,13 +76,13 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
         angle = held_angle - ((S_80025E48_0 *)effect)->unk_18.s * 0x10;
     }
     points->unk_02 = ((S_80025E48_0 *)effect)->unk_5C +
-        ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+        ((((S_80025E48_0 *)effect)->unk_66.s * rcos(angle)) >> 10);
     points->unk_06 = ((S_80025E48_0 *)effect)->unk_5E +
-        ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
+        ((((S_80025E48_0 *)effect)->unk_66.s * rsin(angle)) >> 10);
     points->unk_0E = ((S_80025E48_0 *)effect)->unk_5C +
-        ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+        ((((S_80025E48_0 *)effect)->unk_66.s * rcos(angle)) >> 10);
     points->unk_12 = ((S_80025E48_0 *)effect)->unk_5E +
-        ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
+        ((((S_80025E48_0 *)effect)->unk_66.s * rsin(angle)) >> 10);
 
     state = ((S_80025E48_0 *)effect)->unk_0A.s;
     switch (state) {

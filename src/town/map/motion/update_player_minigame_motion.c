@@ -88,8 +88,8 @@ typedef struct {
     u16 unk14;
 } S_80048AC8;
 void step_actor_animation(S_80048AC8 *entity, void *slot_index);             /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 void reserve_tw_mon_load(s32 reservation_value);     /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);                      /* extern */
@@ -196,9 +196,9 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, SpriteFram
         ((S_800C035C_0 *)actor)->unk_10.s = (u16) (heading_or_speed & 0xFFF);
     }
     motion->unk_0C =
-        (s32) (func_800644B8((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
+        (s32) (rsin((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
     motion->unk_10 =
-        (s32) (func_80064584((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
+        (s32) (rcos((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
     angle_base = controls->unk_C8.s - 0x800;
     angle_value = ((S_800C035C_0 *)actor)->unk_10.u;
     angle_delta = angle_value - angle_base;

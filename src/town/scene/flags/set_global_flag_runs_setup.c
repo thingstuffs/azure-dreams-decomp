@@ -5,7 +5,7 @@ void play_movie_with_fixed_display_flag(s32 table_index, s32 flags);
 void file_load_com(void *packed_data);
 short SD_Call(int flags);
 void drain_audio_commands_and_service_channels(void);
-s32 func_80066F78(s32);
+s32 SetDispMask(s32);
 extern s8 scene_music_hold;
 extern u32 town_scene_resource_descriptor[2];
 extern u32 D_800D1D54[2];
@@ -18,7 +18,7 @@ void set_global_flag_runs_setup(void) {
     SD_Call(0x60C);
     drain_audio_commands_and_service_channels();
     play_movie_with_fixed_display_flag(0x13, 0xC6);
-    func_80066F78(1);
+    SetDispMask(1);
     file_load_com(town_scene_resource_descriptor);
     file_load_com(D_800D1D54);
 }

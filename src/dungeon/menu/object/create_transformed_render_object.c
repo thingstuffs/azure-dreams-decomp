@@ -28,11 +28,11 @@ typedef struct {
     u16 counter_copy;
 } InterpTarget;
 
-s32 func_80064BC0(void *, void *);
-s32 func_80064CF0(void *);
-s32 func_80064D80(void *);
-s32 func_80065420(void *, void *, void *, void *);
-s32 func_80065820(void *, void *);
+s32 ScaleMatrix(void *, void *);
+s32 SetRotMatrix(void *);
+s32 SetTransMatrix(void *);
+s32 RotTransPers(void *, void *, void *, void *);
+s32 RotMatrix(void *, void *);
 void interpolate_delayed_target_values(InterpState *state, void *unused, InterpTarget *target);
 extern M2C_UNK D_800DD824;
 
@@ -64,17 +64,17 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         *(u32 *)(scratchpad + 0x30) = 0x1800;
         *(u32 *)(scratchpad + 0x38) = 0;
         *(u16 *)(scratchpad + 0x9C) = *(u16 *)(camera_config + 0xB0);
-        func_80065820((void *)0x1F800098, (void *)0x1F8000D0);
-        func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
+        RotMatrix((void *)0x1F800098, (void *)0x1F8000D0);
+        ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
         *(u32 *)(scratchpad + 0xE4) = 0;
         *(u32 *)(scratchpad + 0xE8) = 0;
         *(u32 *)(scratchpad + 0xEC) = 0;
-        func_80064CF0((void *)0x1F8000D0);
-        func_80064D80((void *)0x1F8000D0);
+        SetRotMatrix((void *)0x1F8000D0);
+        SetTransMatrix((void *)0x1F8000D0);
         *(u16 *)(scratchpad + 0x74) = 0;
         *(u16 *)(scratchpad + 0x70) = x - ((s32)(1 << view_config->shiftX) / 2);
         *(u16 *)(scratchpad + 0x72) = y - ((s32)(1 << view_config->shiftY) / 2);
-        func_80065420((void *)0x1F800070, (void *)0x1F8000F0,
+        RotTransPers((void *)0x1F800070, (void *)0x1F8000F0,
                       (void *)0x1F800090, (void *)0x1F800094);
         *(u16 *)((u8 *)position + 2) = *(u16 *)(scratchpad + 0xF0);
         position->y.w.i = *(u16 *)(scratchpad + 0xF2);

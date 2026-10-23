@@ -257,10 +257,10 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
 
     if (D_800249A4 != 0 && ((S_81952B4C_0 *)effect)->unk_24.s < 2) {
         ((S_81952B4C_0 *)effect)->unk_00 =
-            func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
+            rcos(((S_81952B4C_0 *)effect)->unk_28.s) *
             ((S_81952B4C_0 *)effect)->unk_34 * 8;
         ((S_81952B4C_0 *)effect)->unk_04 =
-            func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
+            rsin(((S_81952B4C_0 *)effect)->unk_28.s) *
             ((S_81952B4C_0 *)effect)->unk_34 * 8;
         ((S_81952B4C_0 *)effect)->unk_24.s = 2;
     }
@@ -291,11 +291,11 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
 
         ((S_81952B4C_1 *)position)->unk_00.at00.v =
             (((S_81952B4C_0 *)effect)->unk_10 << 16) +
-            func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
+            rcos(((S_81952B4C_0 *)effect)->unk_28.s) *
             ((S_81952B4C_0 *)effect)->unk_34 * 8;
         ((S_81952B4C_1 *)position)->unk_04.at00.v =
             (((S_81952B4C_0 *)effect)->unk_12 << 16) +
-            func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
+            rsin(((S_81952B4C_0 *)effect)->unk_28.s) *
             ((S_81952B4C_0 *)effect)->unk_34 * 8;
 
         ((S_81952B4C_0 *)effect)->unk_08 -= 0x5000;

@@ -25,7 +25,7 @@ void play_selected_movie_and_restore_display(void) {
     movie_globals_hi = (u8 *) 0x80180000;
     *(s32 *) (movie_globals_hi - 0x7E1C) = movie_flag;
     clear_movie_display_area(movie_flag);
-    func_80066F78(0);
+    SetDispMask(0);
 
     frame_buffers = upper_draw_context;
     frame_buffers[0x6D] = 1;
@@ -36,7 +36,7 @@ void play_selected_movie_and_restore_display(void) {
     movie_rgb24_mode = 1;
     set_movie_strip_offsets(0, ((movie_frame_control & 0x40000000) == 0) * 0x10);
     play_movie_frames_with_skip_fade(0, movie_frame_control & 0x3FFFFFFF, movie_start_sector, *(s32 *) (movie_globals_hi - 0x7E1C));
-    func_80066F78(0);
+    SetDispMask(0);
 
     {
         u8 *active_buffer;
@@ -46,14 +46,14 @@ void play_selected_movie_and_restore_display(void) {
         frame_buffers[0x10941] = 0;
         func_800678E0(active_buffer + 0x5C);
     }
-    func_80067014(0);
-    func_8005FE18(2);
+    DrawSync(0);
+    VSync(2);
     func_80060DE8(0);
     Control_CD(9, 0, 0);
     drain_cd_command_queue();
     register_mode_one_callback(0);
     func_80061208(0);
-    func_80067014(0);
+    DrawSync(0);
     clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 
     {
@@ -71,7 +71,7 @@ void play_selected_movie_and_restore_display(void) {
         func_8006751C(next_buffer + 0x70, 0x218);
         func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
-    func_8005FE18(0);
+    VSync(0);
     {
         u8 *next_buffer;
 
@@ -83,7 +83,7 @@ void play_selected_movie_and_restore_display(void) {
         func_8006751C(next_buffer + 0x70, 0x218);
         func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
-    func_8005FE18(0);
+    VSync(0);
     clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 }
 
@@ -93,7 +93,7 @@ void clear_movie_display_area(s32 useFullHeight) {
     s16 extent;
     s32 blackComponent;
 
-    func_80067014(0);
+    DrawSync(0);
     extent = 0x1E0;
     clearRect[0] = 0;
     clearRect[1] = 0;
@@ -103,8 +103,8 @@ void clear_movie_display_area(s32 useFullHeight) {
     }
     blackComponent = 0;
     clearRect[3] = extent;
-    func_800671A8(clearRect, blackComponent, blackComponent, blackComponent);
-    func_80067014(0);
+    ClearImage(clearRect, blackComponent, blackComponent, blackComponent);
+    DrawSync(0);
 }
 
 /* Stores two signed values in the movie state globals. */
@@ -184,8 +184,8 @@ void upload_movie_strip_and_advance_buffer(void) {
         rectangle.x += movie_strip_x_offset;
         rectangle.y += movie_strip_y_offset;
     }
-    func_800672D8(&rectangle, active_movie->output);
-    func_80067014(0);
+    LoadImage(&rectangle, active_movie->output);
+    DrawSync(0);
     movie = active_movie;
     movie->strip.x += movie->strip.w;
     if (movie->strip.x < movie->screen[movie->screen_index].x + movie->screen[movie->screen_index].w) {
@@ -317,7 +317,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
     else initialize_movie_frame_buffers((MovieBuffer *)((u8 *)active_movie + 4),0,0,0,224);
     initialize_movie_decoder_and_start_stream(active_movie,upload_movie_strip_and_advance_buffer);
     if (decode_next_movie_frame((u8 *)active_movie + 4)) {
-        func_80066F78(1);
+        SetDispMask(1);
         if (active_movie->height >= 225) {
             func_80066424(&display,active_movie->screen[1].x,active_movie->screen[1].y,active_movie->screen[1].w,active_movie->screen[1].h);
             func_8006636C(&draw,active_movie->screen[1].x,active_movie->screen[1].y,active_movie->screen[1].w,active_movie->screen[1].h);
@@ -339,7 +339,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
             request_decoder_output_dma((s32)active_movie->output,(active_movie->strip.w * active_movie->strip.h) / 2);
             if (!decode_next_movie_frame((u8 *)active_movie + 4)) break;
             wait_for_movie_strip_completion((MovieEntity *)((u8 *)active_movie + 4),0);
-            func_8005FE18(2);
+            VSync(2);
             if (active_movie->height >= 225) {
                 s32 index = !active_movie->screen_index;
                 func_80066424(&display,active_movie->screen[index].x,active_movie->screen[index].y,active_movie->screen[index].w,active_movie->screen[index].h);

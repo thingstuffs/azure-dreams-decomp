@@ -53,7 +53,7 @@ typedef struct S_8016FC4C_8 {
 
 void select_indirect_table_entry();
 void advance_sprite_animation_and_textures();
-s32 func_80069EF8();
+s32 rand();
 u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 play_sound_if_enabled();
 void create_random_velocity_child_effect();
@@ -168,10 +168,10 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
         burst_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = burst_ticks;
         if (!(burst_ticks & 1)) {
-            burst_x = (func_80069EF8(burst_source) & 0x1F) - 0xF;
+            burst_x = (rand(burst_source) & 0x1F) - 0xF;
             burst_x = (s16)(((s32)burst_x << 16) >> 16);
-            burst_y = (s16)((func_80069EF8() & 0x1F) - 0xF);
-            create_offset_half_scale_spark(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            burst_y = (s16)((rand() & 0x1F) - 0xF);
+            create_offset_half_scale_spark(entity, burst_x, burst_y, (s16)((0 - (rand() & 0x1F)) - 0xA));
         }
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7))
             play_sound_if_enabled(0x817);
@@ -188,12 +188,12 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
         if (!(sustain_ticks & 7))
             play_sound_if_enabled(0x817);
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 1)) {
-            random_bits = func_80069EF8();
+            random_bits = rand();
             sustain_x = (random_bits & 0x1F) - 0xF;
             sustain_x = (s16)(((s32)sustain_x << 16) >> 16);
-            sustain_y = (func_80069EF8() & 0x1F) - 0xF;
+            sustain_y = (rand() & 0x1F) - 0xF;
             sustain_y = (s16)(((s32)sustain_y << 16) >> 16);
-            create_offset_half_scale_spark(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            create_offset_half_scale_spark(entity, sustain_x, sustain_y, (s16)((0 - (rand() & 0x1F)) - 0xA));
         }
         break;
     case 4:

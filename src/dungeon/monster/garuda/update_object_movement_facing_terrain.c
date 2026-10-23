@@ -45,7 +45,7 @@ extern Callback garuda_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -194,7 +194,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
                 input_part->frameTable == D_80174880) {
                 bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
                 (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)bob_phase * 0xAA) << 5;
             }
             if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
                 floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
@@ -242,7 +242,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
                 u16 bob_phase;
                 bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
                 (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)bob_phase * 0xAA) << 5;
             }
             if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
                 floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,

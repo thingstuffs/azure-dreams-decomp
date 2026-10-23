@@ -23,7 +23,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -272,7 +272,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                         s32 position_roll;
                         s32 position_base;
 
-                        position_roll = func_80069EF8();
+                        position_roll = rand();
                         position_base = ((u16)motion->x.w.i);
                         position_base -= 0x20;
                         ((S_801731C8_6 *)particle_part)->unk_02 = position_base + (position_roll & 0x3F);
@@ -281,13 +281,13 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                         s32 position_roll;
                         s32 position_base;
 
-                        position_roll = func_80069EF8();
+                        position_roll = rand();
                         position_base = ((u16)motion->y.w.i);
                         position_base -= 0x20;
                         ((S_801731C8_6 *)particle_part)->unk_06 = position_base + (position_roll & 0x3F);
                     }
                     ((S_801731C8_6 *)particle_part)->unk_08.at02.v =
-                        ((u16)motion->z.w.i) - (func_80069EF8() & 0x1F) - 0x30;
+                        ((u16)motion->z.w.i) - (rand() & 0x1F) - 0x30;
 
                     particle_part = particle->sprite;
                     {
@@ -303,7 +303,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                     *(LocalPacket *)((u8 *)particle + 0x40) = D_801755D4;
                     ((S_801731C8_6 *)particle_part)->unk_08.at00.v = (u8 *)particle + 0x40;
 
-                    color_roll = func_80069EF8() & 3;
+                    color_roll = rand() & 3;
                     color_choice = color_roll;
                     if (color_choice == 0) {
                         continue;

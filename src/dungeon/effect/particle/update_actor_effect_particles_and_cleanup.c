@@ -37,9 +37,9 @@ typedef struct PrimTag818D4800 {
     u32 len : 8;
 } PrimTag818D4800;
 
-extern u32 func_80065420(void *scratch, void *prim_output, void *scratch_90, void *scratch_94);
-extern s32 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
-extern void func_80067F20(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
+extern u32 RotTransPers(void *scratch, void *prim_output, void *scratch_90, void *scratch_94);
+extern s32 GetTPage(s32 value0, s32 value1, s32 value2, s32 value3);
+extern void SetDrawMode(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
 
 void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = update_actor_effect_particles_and_cleanup;
 const PackedOffsets dungeon_18f4800_offsets = { {
@@ -54,7 +54,7 @@ extern Packed12 D_8002510C;
 extern u8 current_spell_effect_variant[16];
 extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void unlink_node(void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
@@ -87,7 +87,7 @@ s32 func_80024044(void *object_data, void *position_data)
         scratch->z = *(u16 *)(position + 0xA);
         scratch->next = tile_prim + 0xC;
 
-        scratch->index = func_80065420(scratch, tile_prim + 8,
+        scratch->index = RotTransPers(scratch, tile_prim + 8,
             &scratch->unk90, &scratch->unk94);
 
         if (scratch->index < 0x1E0U) {
@@ -107,8 +107,8 @@ s32 func_80024044(void *object_data, void *position_data)
             prim = scratch->next;
             next_prim = prim + 0xC;
             scratch->next = next_prim;
-            draw_mode = func_80066460(0, 1, 0, 0);
-            func_80067F20(prim, 0, 0, draw_mode & 0xFFFF, 0);
+            draw_mode = GetTPage(0, 1, 0, 0);
+            SetDrawMode(prim, 0, 0, draw_mode & 0xFFFF, 0);
 
             ((PrimTag818D4800 *)prim)->addr = ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
             prim = (u8 *)((u32)prim & 0x00FFFFFF);
@@ -619,10 +619,10 @@ state1_cleanup:
             }
             do {
                 particle_count++;
-                shade = (func_80069EF8() & 0xFF) | 0x80;
-                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                shade = (rand() & 0xFF) | 0x80;
+                offset_x = (s16)((rand() & 0x7F) - 0x40);
+                offset_y = (s16)((rand() & 0x7F) - 0x40);
+                offset_z = (s16)((rand() & 0x7F) - 0x40);
                 create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
                 more_particles = particle_count < 2;
@@ -639,10 +639,10 @@ state1_cleanup:
                 s32 offset_x;
                 s32 offset_y;
                 s32 offset_z;
-                shade = (func_80069EF8() & 0xFF) | 0x80;
-                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                shade = (rand() & 0xFF) | 0x80;
+                offset_x = (s16)((rand() & 0x7F) - 0x40);
+                offset_y = (s16)((rand() & 0x7F) - 0x40);
+                offset_z = (s16)((rand() & 0x7F) - 0x40);
                 create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
             }

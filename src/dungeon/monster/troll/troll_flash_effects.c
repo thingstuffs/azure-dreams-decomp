@@ -460,14 +460,14 @@ void spawn_random_color_burst_particle(void *source, void *position) {
         effect_state->unk_02 = random_byte_2;
         obj_or_angle = rand() & 0xFFF;
         data_or_speed =
-            (source_obj->unk_AE * func_80064584(obj_or_angle)) >> 0xC;
+            (source_obj->unk_AE * rcos(obj_or_angle)) >> 0xC;
         effect_state->unk_62 =
-            (source_obj->unk_AE * func_800644B8(obj_or_angle)) >> 0xC;
+            (source_obj->unk_AE * rsin(obj_or_angle)) >> 0xC;
         obj_or_angle = rand() & 0xFFF;
         effect_state->unk_5A =
-            (data_or_speed * func_80064584(obj_or_angle)) >> 0xC;
+            (data_or_speed * rcos(obj_or_angle)) >> 0xC;
         effect_state->unk_5E =
-            (data_or_speed * func_800644B8(obj_or_angle)) >> 0xC;
+            (data_or_speed * rsin(obj_or_angle)) >> 0xC;
     }
 }
 

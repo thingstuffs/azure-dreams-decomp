@@ -54,7 +54,7 @@ extern u8 D_80174050[];
 extern u8 D_80174058[];
 
 extern void select_sprite_entry(Actor *, u8, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern void advance_status_timers(Entity *);
@@ -101,7 +101,7 @@ void move_toward_actor_tile_center(State *action, Motion *motion, SpriteFrameSta
             motion->dxC = x_velocity;
             motion->dy10 = (((actor->unk_25 << 6) - y_origin) << 16) /
                          action->timerA4;
-            action->velocityA0 = -func_800644B8(action->timerA4 * 0x199) << 10;
+            action->velocityA0 = -rsin(action->timerA4 * 0x199) << 10;
         }
         action->position90 += action->velocityA0;
         action->timerA4--;

@@ -168,10 +168,10 @@ typedef union {
 } MipsProduct;
 #endif
 
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s16 func_80066460(s32, s32, s32, s32);
-extern s16 func_8006649C(s32, s32);
+extern s16 GetTPage(s32, s32, s32, s32);
+extern s16 GetClut(s32, s32);
 
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
@@ -251,13 +251,13 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
                     }
                     (((ObjectPosition *)effect->unk_08))->x.v =
                         motion_arg->unk_00.s32_00 +
-                        (((func_80069EF8() & 0x1FF) - 255) << 13);
+                        (((rand() & 0x1FF) - 255) << 13);
                     (((ObjectPosition *)effect->unk_08))->y.v =
                         motion_arg->unk_04.s32_04 +
-                        (((func_80069EF8() & 0x1FF) - 255) << 13);
+                        (((rand() & 0x1FF) - 255) << 13);
                     (((ObjectPosition *)effect->unk_08))->z.v =
                         motion_arg->unk_08.s32_08 -
-                        (((func_80069EF8() & 0x1FF) - 255) << 14) +
+                        (((rand() & 0x1FF) - 255) << 14) +
                         (s32)0xFFE00000;
                     flags = part->unk_14;
                     part->unk_1E = 2048;
@@ -302,7 +302,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
                         part->unk_08.ptr_08 = texture_data;
                     }
                     particle_data->unk_00 = action;
-                    frame_index = func_80069EF8() & 3;
+                    frame_index = rand() & 3;
                     particle_data->unk_48 = frame_index;
                     particle_data->unk_4C = 0;
                 }
@@ -462,11 +462,11 @@ case2_spawn_loop:
                 effect->unk_10 = fade_packed_object_color_to_zero;
                 register_node(effect, project_linked_shape_quads);
                 part->unk_04.u16_04 =
-                    motion_arg->unk_00.u16_02.unk_02 + (func_80069EF8() & 0x3F) - 32;
+                    motion_arg->unk_00.u16_02.unk_02 + (rand() & 0x3F) - 32;
                 part->unk_06 =
-                    motion_arg->unk_04.u16_06.unk_06 + (func_80069EF8() & 0x3F) - 32;
+                    motion_arg->unk_04.u16_06.unk_06 + (rand() & 0x3F) - 32;
                 part->unk_08.u16_08 = motion_arg->unk_08.u16_0A.unk_0A;
-                part->unk_40 = func_80066460(0, 3, 0x2C0, 0x100);
+                part->unk_40 = GetTPage(0, 3, 0x2C0, 0x100);
                 part->unk_34 = 0x00707070;
                 if (action->unk_50.u16_50 & 1) {
                     part->unk_38 = 0xA0;
@@ -477,7 +477,7 @@ case2_spawn_loop:
                 }
                 part->unk_3C = 0xBF;
                 part->unk_3E = 0x1F;
-                part->unk_42 = func_8006649C(0xA0, 0x1F7);
+                part->unk_42 = GetClut(0xA0, 0x1F7);
                 part->unk_46 = 6;
                 index = 1;
 #ifdef __mips__
@@ -494,7 +494,7 @@ case2_spawn_loop:
                         s32 mod_sign;
                         s32 mod_quotient;
 
-                        mod_value = func_80069EF8();
+                        mod_value = rand();
                         product.value = (long long)mod_value * page_or_magic;
                         mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
                         mod_sign = (mod_quotient << 2) + mod_quotient;
@@ -511,7 +511,7 @@ case2_spawn_loop:
                         s32 mod_sign;
                         s32 mod_quotient;
 
-                        mod_value = func_80069EF8();
+                        mod_value = rand();
                         product.value = (long long)mod_value * page_or_magic;
 
                         mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
@@ -525,13 +525,13 @@ case2_spawn_loop:
                     }
 #else
                     dst_point->unk_04 =
-                        src_point->unk_04 + (func_80069EF8() % 159) - 80;
+                        src_point->unk_04 + (rand() % 159) - 80;
                     dst_point->unk_06 =
-                        src_point->unk_06 + (func_80069EF8() % 159) - 80;
+                        src_point->unk_06 + (rand() % 159) - 80;
 
 #endif
                     dst_point->unk_08 =
-                        src_point->unk_08 - ((func_80069EF8() & 0x1F) + 20);
+                        src_point->unk_08 - ((rand() & 0x1F) + 20);
                     index++;
                 } while (index < 5);
                 part->unk_00 = action;
@@ -569,13 +569,13 @@ case2_spawn_loop:
             effect->unk_10 = advance_motion_and_fade_sprite;
             (((ObjectPosition *)effect->unk_08))->x.v =
                 motion_arg->unk_00.s32_00 +
-                (((func_80069EF8() & 0x1FF) - 255) << 13);
+                (((rand() & 0x1FF) - 255) << 13);
             (((ObjectPosition *)effect->unk_08))->y.v =
                 motion_arg->unk_04.s32_04 +
-                (((func_80069EF8() & 0x1FF) - 255) << 13);
+                (((rand() & 0x1FF) - 255) << 13);
             (((ObjectPosition *)effect->unk_08))->z.v =
                 motion_arg->unk_08.s32_08 -
-                ((func_80069EF8() & 0x1FF) << 12) + (s32)0xFFE00000;
+                ((rand() & 0x1FF) << 12) + (s32)0xFFE00000;
             part->unk_1E = 3072;
             part->unk_1C = 3072;
             part->unk_10 = 32;
@@ -593,7 +593,7 @@ case2_spawn_loop:
                 part->unk_08.ptr_08 = texture_data;
             }
             effect->unk_20 = action;
-            particle_data->unk_48 = func_80069EF8() & 3;
+            particle_data->unk_48 = rand() & 3;
             particle_data->unk_4C = 0;
         }
         timer = action->unk_50.u16_50 - 1;
@@ -707,9 +707,9 @@ typedef struct DungeonShape {
 } DungeonShape;
 
 extern DungeonDrawState *D_80083160[];
-extern s32 func_80065420(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
-extern void func_80066640(void *primitive, s32 value);
-extern void func_800666F4(void *primitive);
+extern s32 RotTransPers(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
+extern void SetSemiTrans(void *primitive, s32 value);
+extern void SetPolyFT4(void *primitive);
 
 typedef struct DungeonTag {
     unsigned addr : 24;
@@ -755,7 +755,7 @@ s32 project_linked_shape_quads(void *shape_data)
             s32 point_depth;
             s32 biased_depth_sum;
 
-            point_depth = func_80065420((u8 *)shape + 4 + point_index * 8, points[point_index],
+            point_depth = RotTransPers((u8 *)shape + 4 + point_index * 8, points[point_index],
                                    &half_width, &half_width);
             biased_depth_sum = depth_or_tag_mask - 8;
             depth_or_tag_mask = biased_depth_sum + point_depth;
@@ -799,8 +799,8 @@ s32 project_linked_shape_quads(void *shape_data)
 
                     draw_state->next_primitive = primitive + 0x28;
                     PRIM_U32(primitive, 4) = shape->unk34;
-                    func_800666F4(primitive);
-                    func_80066640(primitive, 1);
+                    SetPolyFT4(primitive);
+                    SetSemiTrans(primitive, 1);
 
                     current_point = points[point_index];
                     texture_attr = shape->unk40;
@@ -884,8 +884,8 @@ typedef struct {
     s16 state4A;
 } Entity;
 
-extern s16 func_80066460(s32, s32, s32, s32);
-extern s16 func_8006649C(s32, s32);
+extern s16 GetTPage(s32, s32, s32, s32);
+extern s16 GetClut(s32, s32);
 extern s32 rand();
 
 /* Initializes, animates, and retires a jittering five-point effect. */
@@ -910,8 +910,8 @@ void animate_jittering_five_point_effect(Entity *entity)
             register_node(entity_base, (s32)project_linked_shape_quads);
         }
         entity->value34 = 0x00C0C0C0;
-        entity->field40 = func_80066460(0, 1, 0x2C0, 0x100);
-        random_value = func_8006649C(0xA0, 0x1F7);
+        entity->field40 = GetTPage(0, 1, 0x2C0, 0x100);
+        random_value = GetClut(0xA0, 0x1F7);
         point_index = 1;
         {
             entity->field42 = random_value;
@@ -1005,8 +1005,8 @@ typedef struct S_80024F40_1 {
     u16 unk_52;
 } S_80024F40_1;
 
-s16 func_8006649C();
-s32 func_80069EF8();
+s16 GetClut();
+s32 rand();
 
 /* Fades the object's packed color to zero, then sets completion flags. */
 void fade_packed_object_color_to_zero(void *object) {
@@ -1017,7 +1017,7 @@ void fade_packed_object_color_to_zero(void *object) {
     ((S_80024F40_1 *)linked_object)->unk_52 =
         (u16)(((S_80024F40_1 *)linked_object)->unk_52 | 0x8000);
     ((S_80024F40_0 *)object)->unk_42 =
-        func_8006649C((func_80069EF8() & 0xF) * 0x10, 0x1F8);
+        GetClut((rand() & 0xF) * 0x10, 0x1F8);
     fade_state = ((S_80024F40_0 *)object)->unk_4A.s;
     switch (fade_state) {
     case 0:

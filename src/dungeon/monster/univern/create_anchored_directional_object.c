@@ -286,7 +286,7 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
                         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
-                bob_wave = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
+                bob_wave = rsin(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
                 bob = bob_wave >> 8;
                 if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
                     bob = bob_wave >> 10;
@@ -372,7 +372,7 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
                         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
-                bob_wave = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
+                bob_wave = rsin(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
                 bob = bob_wave >> 8;
                 if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
                     bob = bob_wave >> 10;

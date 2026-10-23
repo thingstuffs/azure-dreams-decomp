@@ -79,7 +79,7 @@ extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void project_sprite_chain(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -278,17 +278,17 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                     register_node(effect, project_sprite_chain);
                     effect->unk_10 = callback;
                     effect->position->x.w.i =
-                        ((u16)motion->x.w.i) + delta[0] + (func_80069EF8() & 0xF) - 8;
+                        ((u16)motion->x.w.i) + delta[0] + (rand() & 0xF) - 8;
                     effect->position->y.w.i =
-                        ((u16)motion->y.w.i) + delta[1] + (func_80069EF8() & 0xF) - 8;
+                        ((u16)motion->y.w.i) + delta[1] + (rand() & 0xF) - 8;
                     effect->position->z.w.i =
-                        ((u16)motion->z.w.i) + delta[2] + (func_80069EF8() & 0xF) - 8;
+                        ((u16)motion->z.w.i) + delta[2] + (rand() & 0xF) - 8;
                     effect->position->velocity_x =
-                        ((func_80069EF8() & 0xFF) - 0x80) << 11;
+                        ((rand() & 0xFF) - 0x80) << 11;
                     effect->position->velocity_y =
-                        ((func_80069EF8() & 0xFF) - 0x80) << 11;
+                        ((rand() & 0xFF) - 0x80) << 11;
                     effect->position->velocity_z =
-                        -(func_80069EF8() & 0xFF) << 12;
+                        -(rand() & 0xFF) << 12;
                     effect_state = (u8 *)effect + 0x20;
                     ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
                     ((S_801728C4_8 *)effect_state)->unk_96 = 7;

@@ -98,7 +98,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     addr_mask = 0xFFFFFF;
     view_matrix = (u8 *) (&D_8006CD10);
     *((s32 *) (((s8 *) view_matrix) + 0x1C)) = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
-    func_800649A0((s32) setup_arg, draw_arg);
+    PushMatrix((s32) setup_arg, draw_arg);
     view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));
     view_axis_y = *((s16 *) (((s8 *) render_state) + 0xC6));
     view_axis_z = *((s16 *) (((s8 *) render_state) + 0xC8));
@@ -116,14 +116,14 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     pivot_y = *((u16 *) (((s8 *) sprite) + 0x22));
     scratch->sw[58] = pivot_y;
     scratch->h[133] = pivot_y;
-    func_80065820(0x1F800100, 0x1F8000D0);
+    RotMatrix(0x1F800100, 0x1F8000D0);
     scratch->sw[12] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1C)));
     scratch->sw[13] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1E)));
     scratch->sw[14] = 0x1000;
-    func_80064BC0(0x1F8000D0, 0x1F800030);
-    func_80064840(view_matrix, 0x1F8000D0, 0x1F800050);
-    func_80064D80(0x1F800050);
-    func_80064CF0(0x1F800050);
+    ScaleMatrix(0x1F8000D0, 0x1F800030);
+    CompMatrix(view_matrix, 0x1F8000D0, 0x1F800050);
+    SetTransMatrix(0x1F800050);
+    SetRotMatrix(0x1F800050);
     scratch->h[18] = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
     do {
     frame_data = frame + 8;
@@ -168,7 +168,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             scratch->h[69] = quad_y;
             scratch->h[65] = quad_y;
         }
-        func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
+        RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
             (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         *((s16 *) (((s8 *) packet) + 8)) = (s16) ((scratch->h[120]) + (scratch->h[92]));
         *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((scratch->h[121])
@@ -279,20 +279,20 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
                 while (((s32 *) packet_src) != copy_end);
                 *((Blk8 *) packet_dst) = *((Blk8 *) packet_src);
             }
-            wave_value = func_800644B8(wave_phase);
+            wave_value = rsin(wave_phase);
             row_effect = effect + row_index;
             *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
                 + (((s32) (wave_value * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10)))
-                + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
+                + (((s32) (rsin(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             wave_phase = wave_phase + (*((s16 *) (((s8 *) effect) + 0x8E)));
             if (wave_phase >= 0x1001) {
                 wave_phase -= 0x1000;
             }
             *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18)))
-                + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
+                + (((s32) (rsin(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
-                + (((s32) (func_800644B8(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
+                + (((s32) (rsin(wave_phase) * (*((u8 *) (((s8 *) row_effect) + 0x50))))) >> 0x10));
             *((u16 *) (((s8 *) packet) + 0xA)) = ((Row_818EC800_QuadTail *) quad_copies)->y;
             *((u16 *) (((s8 *) packet) + 0x12)) = ((Row_818EC800_QuadTail *) quad_copies)->y;
             *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) (((Row_818EC800_QuadTail *) quad_copies)->y + 1);
@@ -348,7 +348,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         packet += 0xC;
         *end_tag = ((*end_tag) & 0xFF000000) | ((s32) restore_arg);
     }
-    func_80064A40((s32) restore_arg);
+    PopMatrix((s32) restore_arg);
     packet_low = (s32) ((u16) ((s32) packet));
     context_addr = render_state + (packet_low & 0x10000);
     final_context = *((void **) (((s8 *) context_addr) + 0));
@@ -384,7 +384,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    func_80067E2C(clip_packet, g_game_work.draw_buffer);
+    SetDrawArea(clip_packet, g_game_work.draw_buffer);
     tag_mask = 0xFF000000U;
 
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & tag_mask) |
@@ -430,7 +430,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     packet_page = page_ptr->draw_buffer;
     clip_packet = packet_page->unk_8D0;
     packet_page->unk_8D0 = clip_packet + 0xC;
-    func_80067E2C(clip_packet, clip_rect);
+    SetDrawArea(clip_packet, clip_rect);
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & 0xFF000000U) |
                             (((Row_818ED25C_S_80024A5C_6 *)order_table)->unk_00 & 0x00FFFFFFU);
     ((Row_818ED25C_S_80024A5C_6 *)order_table)->unk_00 = (((Row_818ED25C_S_80024A5C_6 *)order_table)->unk_00 & 0xFF000000U) |

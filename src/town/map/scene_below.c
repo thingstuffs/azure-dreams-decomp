@@ -15,8 +15,8 @@ typedef struct S_800B70EC_0 {
 
 
 void runtime_load_packed_resource_chunks(s16, u8 *);
-extern void func_80067014();
-extern void func_8006733C();
+extern void DrawSync();
+extern void StoreImage();
 void clear_and_initialize_building_grid(s32);
 
 
@@ -73,7 +73,7 @@ void initialize_building_scene_assets(void) {
     upload_rect[3] = 0x80;
     (shared_state->flags16) |= 1;
     asset_data = D_8014F004;
-    func_8006733C(upload_rect, image_data);
+    StoreImage(upload_rect, image_data);
 
     single_row = 1;
     kind_table = town_map_variants;
@@ -87,12 +87,12 @@ void initialize_building_scene_assets(void) {
             upload_rect[1] = 0x80;
             upload_rect[2] = 8;
             upload_rect[3] = 0x80;
-            func_8006733C(upload_rect, D_801116C8);
+            StoreImage(upload_rect, D_801116C8);
             building_upload_rect[0] = 0;
             upload_rect[1] = 0x1FB;
             upload_rect[2] = 0x40;
             upload_rect[3] = single_row;
-            func_8006733C(upload_rect, D_80111EC8);
+            StoreImage(upload_rect, D_80111EC8);
             }
         }
     } else {
@@ -100,10 +100,10 @@ void initialize_building_scene_assets(void) {
         upload_rect[1] = 0x1C1;
         upload_rect[2] = 0x30;
         upload_rect[3] = single_row;
-        func_8006733C(upload_rect, D_80111F48);
+        StoreImage(upload_rect, D_80111F48);
     }
 
-    func_80067014(0);
+    DrawSync(0);
     *(void **)asset_state = asset_data;
     clear_and_initialize_building_grid((s32)(asset_data));
     scene_table = town_map_variants;

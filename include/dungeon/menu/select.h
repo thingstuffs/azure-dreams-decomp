@@ -702,7 +702,7 @@ s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg);
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value();  /* extern */
 extern M2C_UNK D_80079444;
-s32 func_800644B8();                        /* extern */
+s32 rsin();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* extern */
@@ -738,27 +738,27 @@ extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
 extern s8 scene_geometry[];
-extern void func_800649A0();
-extern void func_80064B90();
-extern void func_80065820();
-extern void func_80064BC0();
-extern void func_80064CF0();
-extern void func_80064D80();
-extern s32 func_80065420();
+extern void PushMatrix();
+extern void TransMatrix();
+extern void RotMatrix();
+extern void ScaleMatrix();
+extern void SetRotMatrix();
+extern void SetTransMatrix();
+extern s32 RotTransPers();
 extern s32 func_800656C0();
 extern void func_80065034();
 extern void project_sprite_commands();
 extern void func_800453E0();
 extern void draw_sprite_clipped();
 extern void func_80045CC4();
-extern void func_80064A40();
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void PopMatrix();
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetPolyG4(void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 D_8002715C[5];
 s32 register_node();
 s32 func_8004491C();
-void func_8006658C(void *, void *);
+void AddPrim(void *, void *);
 #endif

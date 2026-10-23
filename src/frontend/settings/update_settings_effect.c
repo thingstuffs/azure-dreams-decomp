@@ -172,12 +172,12 @@ void update_settings_effect(void *effect) {
             sprite = element->sprite;
             element->unk_10 = callback;
             register_node(element, &D_80044BB0);
-            x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            x_product = rcos(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_02 =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
-            y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            y_product = rsin(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = y_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_06 =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);

@@ -20,8 +20,8 @@ typedef struct {
 } __attribute__((packed)) LocalTable;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern s32 distribute_experience_and_report_gains(void *);
@@ -187,13 +187,13 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
             }
             angle = (s16)angle;
 
-            trig_value = func_80064584(angle);
+            trig_value = rcos(angle);
             scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
             {
                 s32 original_angle = angle;
 
                 radial_speed = scaled_speed << 4;
-                trig_value = func_800644B8(original_angle);
+                trig_value = rsin(original_angle);
             }
 
             scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;

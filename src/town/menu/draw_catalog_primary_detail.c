@@ -21,8 +21,8 @@ typedef struct {
     u8 pad[3];
 } ImageList;
 
-extern void func_80067014();
-extern void func_800671A8();
+extern void DrawSync();
+extern void ClearImage();
 extern void strcat();
 
 extern u8 catalog_habitat_label[16];
@@ -45,19 +45,19 @@ void draw_catalog_primary_detail(void *entry_state)
     clear_rect.y = 0x80;
     clear_rect.w = 0x38;
     clear_rect.h = 0x10;
-    func_800671A8(&clear_rect, 0, 0, 0);
+    ClearImage(&clear_rect, 0, 0, 0);
 
     clear_rect.y = 0xA0;
     clear_rect.w = 0x1E;
     clear_rect.x = 0x1C0;
     clear_rect.h = 0x20;
-    func_800671A8(&clear_rect, 0, 0, 0);
+    ClearImage(&clear_rect, 0, 0, 0);
 
     clear_rect.x = 0x340;
     clear_rect.w = 0x3E;
     clear_rect.y = 0;
     clear_rect.h = 0xF0;
-    func_800671A8(&clear_rect, 0, 0, 0);
+    ClearImage(&clear_rect, 0, 0, 0);
 
     entry_index = ((u8 *)entry_state)[0x13];
     draw_cached_catalog_text(catalog_glyphs[entry_index].image, 0x1C0, 0x80);
@@ -74,7 +74,7 @@ void draw_catalog_primary_detail(void *entry_state)
         do {
             draw_vram_glyph_text(image_lists[entry_index].images[pos], 0x340, (s16)(pos * 0x10));
             if ((pos & 1) || (pos < (image_lists[((u8 *)entry_state)[0x13]].count - 1))) {
-                func_80067014(0);
+                DrawSync(0);
             }
             pos++;
             entry_index = ((u8 *)entry_state)[0x13];
@@ -97,5 +97,5 @@ void draw_catalog_primary_detail(void *entry_state)
     number_text[4] = 0;
     strcat(label, number_text);
     draw_cached_catalog_text(label, 0x1DB, 0x80);
-    func_80067014(0);
+    DrawSync(0);
 }

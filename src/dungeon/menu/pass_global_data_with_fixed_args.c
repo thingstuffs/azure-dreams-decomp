@@ -6,12 +6,12 @@ typedef struct {
 } __attribute__((packed)) Copy8;
 
 extern u8 D_80089490[9];
-extern void func_800673A0(void *, s32, s32);
+extern void MoveImage(void *, s32, s32);
 
 /* Passes a local copy of the global eight-byte data with fixed arguments. */
 void pass_global_data_with_fixed_args(void) {
     Copy8 copy;
 
     copy = *(Copy8 *)D_80089490;
-    func_800673A0(&copy, 0x1C2, 0x19C);
+    MoveImage(&copy, 0x1C2, 0x19C);
 }

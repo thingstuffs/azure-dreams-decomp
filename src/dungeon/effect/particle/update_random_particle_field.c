@@ -243,7 +243,7 @@ void draw_red(void *effect) {
             {
                 s32 *animation;
 
-                if (func_80069EF8() & 1) {
+                if (rand() & 1) {
                     animation = &D_800DEDB0;
                 } else {
                     animation = &D_800DEE38;

@@ -8,7 +8,7 @@ void *allocate_list_node();
 void *build_positioned_text_glyphs();
 char *func_8004E5A0();
 char *func_8004E634();
-s32 func_80069E98();
+s32 strlen();
 void *find_first_ended_record();
 extern M2C_UNK D_800B45E0;
 extern M2C_UNK D_800B490C;
@@ -159,7 +159,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
                 break;
             case 0x80:
                 func_8004E634(number, text_cursor);
-                text_cursor = (s8 *) text_cursor + func_80069E98(text_cursor);
+                text_cursor = (s8 *) text_cursor + strlen(text_cursor);
                 *text_cursor++ = 0x45;
                 *text_cursor++ = 0x58;
                 *text_cursor++ = flags;

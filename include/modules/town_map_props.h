@@ -32,7 +32,7 @@ void advance_sprite_animation_and_textures(void *animation);
 s32 check_transform_identifier_and_hook(s32 requested_id);
 s32 service_script_controller(void);
 s32 func_800352FC(void);
-s32 func_80064584(s32 angle);
+s32 rcos(s32 angle);
 s32 rand(void);
 s32 draw_linked_lit_meshes(void *group_data, void *position, void *render_data, s32 unused);
 void randomize_paired_object_motion(void *pair);

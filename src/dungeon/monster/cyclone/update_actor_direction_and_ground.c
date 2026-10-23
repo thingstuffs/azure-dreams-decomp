@@ -83,7 +83,7 @@ extern ActorCallback cyclone_callbacks[];
 
 extern void select_indirect_table_entry(Entity *, u8, s8);
 extern void advance_sprite_animation_and_textures(Entity *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
 extern void try_move_actor_to_valid_position(Actor *, Motion *, Entity *, Actor *);
@@ -192,7 +192,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
             if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
-                input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
+                input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
@@ -255,7 +255,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
             if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
-                input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
+                input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;

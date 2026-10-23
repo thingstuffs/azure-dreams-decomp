@@ -1872,7 +1872,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 callback_arg
                loop-carried successor field the tail reloads. */
             row = 0;
         }
-        (frame.desc).value = ((s16)func_80065F90(((R12_80173FDC_S_80173FDC_0 *)node)->unk_12, 0x40));
+        (frame.desc).value = ((s16)ratan2(((R12_80173FDC_S_80173FDC_0 *)node)->unk_12, 0x40));
         row = 0;
 grid_row:
         col = 7;
@@ -1893,11 +1893,11 @@ grid_loop:
             }
             point->y = next_node >> 3;
             angle = col << 9;
-            sin_angle = func_800644B8(angle);
-            point->x = (sin_angle * func_800644B8(
+            sin_angle = rsin(angle);
+            point->x = (sin_angle * rsin(
                 ((s32)((u32)point->y << 16) >> 12) + 0x800)) >> 18;
-            cos_angle = func_80064584(angle);
-            point->z = (cos_angle * func_800644B8(
+            cos_angle = rcos(angle);
+            point->z = (cos_angle * rsin(
                 ((s32)((u32)point->y << 16) >> 12) + 0x800)) >> 18;
         }
         col--;
@@ -1938,12 +1938,12 @@ grid_loop:
                         tpage = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2;
                         ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
 
-                        func_80067F20(tpage, 0, 0,(u16)(((u16)func_80066460(0, 1, 0, 0))), 0);
+                        SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
                         line->color0 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
                         line->color1 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
-                        func_800667D0(line);
-                        func_80066640(line, 1);
+                        SetLineG2(line);
+                        SetSemiTrans(line, 1);
 
                         line->xy0 = ((R12_80173FDC_S_80173FDC_4 *)xy)->unk_00;
                         line->xy1 = ((R12_80173FDC_S_80173FDC_4_pre *)xy)[-1].unk_00;
@@ -1995,12 +1995,12 @@ grid_loop:
                         tpage = ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2;
                         ((R12_80173FDC_S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
 
-                        func_80067F20(tpage, 0, 0,(u16)(((u16)func_80066460(0, 1, 0, 0))), 0);
+                        SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
                         line->color0 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
                         line->color1 = ((R12_80173FDC_S_80173FDC_1 *)effect)->unk_08;
-                        func_800667D0(line);
-                        func_80066640(line, 1);
+                        SetLineG2(line);
+                        SetSemiTrans(line, 1);
 
                         line->xy0 = ((R12_80173FDC_S_80173FDC_7 *)ring_xy)->unk_00;
                         line->xy1 = (*(u32 *)((u8 *)xy_base + next_col * 4));
@@ -2094,7 +2094,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     ((R12_80174618_S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
     ((R12_80174618_S_80174618_2 *)render_params)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((R12_80174618_S_80174618_0 *)scratch)->unk_3C = 0x2000;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_38 = 0x2000;
@@ -2102,12 +2102,12 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     ((R12_80174618_S_80174618_0 *)scratch)->unk_A4 = ((R12_80174618_S_80174618_2 *)render_params)->unk_16;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_A8 = ((R12_80174618_S_80174618_2 *)render_params)->unk_1A;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_A6 = ((R12_80174618_S_80174618_2 *)render_params)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     depth_cue = scratch + 0xD0;
     transform_flags = scratch + 0xD4;
@@ -2138,7 +2138,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
     work_base = &g_game_work;
-    depth_index = func_80065590(start_vertex, scratch + 0xB8,
+    depth_index = RotAverage4(start_vertex, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           screen_start, screen_end,
                           screen_start, screen_end,
@@ -2183,12 +2183,12 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
         draw_context = work_base->draw_buffer;
         draw_packet = ((GpuContext *)draw_context)->packetCursor;
         ((GpuContext *)draw_context)->packetCursor = draw_packet + 0xC;
-        func_80067F20(draw_packet, 0, 0, (u16)func_80066460(0, 1, 0, 0), 0);
+        SetDrawMode(draw_packet, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
 
         ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
         ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)draw_packet;
 
-        func_80064A40();
+        PopMatrix();
     }
 }
 
@@ -2306,16 +2306,16 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
         } while (next_angle_index < 0xA);
         for (ring_index = 0; ring_index < 10; ring_index++) {
             for (sector = 0; sector < 6; sector++) {
-                coordinate = func_800644B8(ring_angles[ring_index]);
+                coordinate = rsin(ring_angles[ring_index]);
                 radius = scale;
                 state_m = radius * coordinate;
                 vertices[ring_index][sector][2] = state_m >> 0xC;
-                state_m = radius * func_80064584(ring_angles[ring_index]);
+                state_m = radius * rcos(ring_angles[ring_index]);
                 opening_azimuth = sector * 682;
                 opening_sector_radius = state_m >> 0xC;
-                state_m = (s16) opening_sector_radius * func_80064584(opening_azimuth);
+                state_m = (s16) opening_sector_radius * rcos(opening_azimuth);
                 vertices[ring_index][sector][0] = state_m >> 0xC;
-                state_m = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
+                state_m = (s16) opening_sector_radius * rsin(opening_azimuth);
                 vertices[ring_index][sector][1] = state_m >> 0xC;
             }
         }
@@ -2352,16 +2352,16 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
         } while ((prev_angle_index << 0x10) != 0);
         for (ring_index = 0; ring_index < 10; ring_index++) {
             for (sector = 0; sector < 6; sector++) {
-                coordinate = func_800644B8(ring_angles[ring_index]);
+                coordinate = rsin(ring_angles[ring_index]);
                 radius = scale;
                 state_m = radius * coordinate;
                 vertices[ring_index][sector][2] = state_m >> 0xC;
-                state_m = radius * func_80064584(ring_angles[ring_index]);
+                state_m = radius * rcos(ring_angles[ring_index]);
                 closing_azimuth = sector * 682;
                 closing_sector_radius = state_m >> 0xC;
-                state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
+                state_m = (s16) closing_sector_radius * rcos(closing_azimuth);
                 vertices[ring_index][sector][0] = state_m >> 0xC;
-                state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
+                state_m = (s16) closing_sector_radius * rsin(closing_azimuth);
                 vertices[ring_index][sector][1] = state_m >> 0xC;
             }
         }
@@ -2671,7 +2671,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         effect_choice = lookup_masked_byte_table(actor) - 1;
         effect_index = effect_choice;
         if ((s16)effect_choice < 0) {
-            effect_index = func_80069EF8() % 3;
+            effect_index = rand() % 3;
         }
         select_record_entry_and_value(model, ((u8 *)D_8014A000) + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->flags |= 0x80;

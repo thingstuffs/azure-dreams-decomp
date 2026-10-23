@@ -24,7 +24,7 @@ typedef struct S_801721B0_0 {
 } S_801721B0_0;   /* arg0 in animate_hop_to_actor_tile */
 
 extern void select_sprite_entry(void *, s16, s16);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -85,7 +85,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
                  0x10) /
                 ((S_801721B0_0 *)action)->unk_9E.s;
             ((S_801721B0_0 *)action)->unk_A0 =
-                (-func_800644B8(((S_801721B0_0 *)action)->unk_9E.s * 0x199)) << 9;
+                (-rsin(((S_801721B0_0 *)action)->unk_9E.s * 0x199)) << 9;
         }
         ((S_801721B0_0 *)action)->unk_90 =
             ((S_801721B0_0 *)action)->unk_90 + ((S_801721B0_0 *)action)->unk_A0;

@@ -53,8 +53,8 @@ void update_positions_from_origin(IntVector3 *origin)
         position->y = origin->y;
         position->z = origin->z;
         D_80100D42 += town_motion_y_step;
-        position->y += func_80064584(add_x_and_get_angle(
-            position, func_800644B8(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
+        position->y += rcos(add_x_and_get_angle(
+            position, rsin(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
         draw_random_colored_line((s32)position, (s32)origin);
         scale = town_orbit_radius;
         D_80100D48.x = origin->x + scale * 0x1800;

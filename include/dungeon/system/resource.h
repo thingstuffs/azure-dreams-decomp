@@ -66,7 +66,7 @@ typedef struct {
 } DungeonCacheState;
 extern DungeonCacheState town_resource_context;
 extern s32 alloc_gpu_scratch_ring(s32 size);
-extern void func_80069ED8(s32, s32, s32);
+extern void memcpy(s32, s32, s32);
 extern u32 *D_801131EC;
 extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);

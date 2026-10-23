@@ -157,15 +157,15 @@ typedef struct S_81874988_5 {
     } unk_24;   /* overlapping accesses */
 } S_81874988_5;   /* packet in project_textured_quad_or_callback */
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
 void project_textured_quad_or_callback(void *quad, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
@@ -191,7 +191,7 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
     ((GpuContext *)render_state)->packetCursor = packet + 0x28;
 
     material->flags |= 0x8000;
-    func_800649A0();
+    PushMatrix();
 
     ((S_81874988_0 *)scratch)->unk_3C = 0x2000;
     ((S_81874988_0 *)scratch)->unk_38 = 0x2000;
@@ -199,12 +199,12 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
     ((S_81874988_0 *)scratch)->unk_A4 = material->angle_x;
     ((S_81874988_0 *)scratch)->unk_A8 = material->angle_z;
     ((S_81874988_0 *)scratch)->unk_A6 = material->angle_y;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&view_matrix);
-    func_80064840(&view_matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&view_matrix);
+    CompMatrix(&view_matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = *(u8 **)&material->source;
     ((S_81874988_0 *)scratch)->unk_28 = material->flags;
@@ -228,7 +228,7 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
         ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)quad)->unk_64;
         ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)quad)->unk_66;
 
-        depth_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+        depth_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                               scratch + 0xC0, scratch + 0xC8,
                               packet + 8, packet + 0x10,
                               packet + 0x18, packet + 0x20,
@@ -324,7 +324,7 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
             callback(quad, position, material, texture);
         }
     }
-    func_80064A40();
+    PopMatrix();
 }
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
@@ -359,19 +359,19 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
-void func_80064840(void *, void *, void *);
-void func_800649A0(void);
-void func_80064A40(void);
-void func_80064AE0(void *);
-void func_80064BC0(void *, void *);
-void func_80064CF0(void *);
-void func_80064D80(void *);
-s32 func_80065590(void *, void *, void *, void *, void *,
+s32 rsin(s32);
+s32 rcos(s32);
+void CompMatrix(void *, void *, void *);
+void PushMatrix(void);
+void PopMatrix(void);
+void ReadRotMatrix(void *);
+void ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
+s32 RotAverage4(void *, void *, void *, void *, void *,
                   void *, void *, void *, void *, void *);
-void func_80065820(void *, void *);
-void func_800666F4(void *);
+void RotMatrix(void *, void *);
+void SetPolyFT4(void *);
 
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
 void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
@@ -423,19 +423,19 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     *(s32 *)(scratch + 0x90) = *(s16 *)((u8 *)position + 0xA);
     *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) | 0x8000;
     saved_depth_bias = depth_bias;
-    func_800649A0();
+    PushMatrix();
     *(s32 *)(scratch + 0x3C) = 0x2000;
     *(s32 *)(scratch + 0x38) = 0x2000;
     *(s32 *)(scratch + 0x34) = 0x2000;
     *(u16 *)(scratch + 0xA4) = *(u16 *)((u8 *)material + 0x16);
     *(u16 *)(scratch + 0xA8) = *(u16 *)((u8 *)material + 0x1A);
     *(u16 *)(scratch + 0xA6) = *(u16 *)((u8 *)material + 0x18);
-    func_80065820((u8 *)((u32)scratch | 0xA4), (u8 *)((u32)scratch | 0x74));
-    func_80064AE0(&view_matrix[0]);
-    func_80064840(&view_matrix[0], (u8 *)((u32)scratch | 0x74), (u8 *)((u32)scratch | 0x54));
-    func_80064BC0((u8 *)((u32)scratch | 0x54), (u8 *)((u32)scratch | 0x34));
-    func_80064D80((u8 *)((u32)scratch | 0x54));
-    func_80064CF0((u8 *)((u32)scratch | 0x54));
+    RotMatrix((u8 *)((u32)scratch | 0xA4), (u8 *)((u32)scratch | 0x74));
+    ReadRotMatrix(&view_matrix[0]);
+    CompMatrix(&view_matrix[0], (u8 *)((u32)scratch | 0x74), (u8 *)((u32)scratch | 0x54));
+    ScaleMatrix((u8 *)((u32)scratch | 0x54), (u8 *)((u32)scratch | 0x34));
+    SetTransMatrix((u8 *)((u32)scratch | 0x54));
+    SetRotMatrix((u8 *)((u32)scratch | 0x54));
     texture = *(u8 **)((u8 *)material + 8);
     *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)material + 0x14);
     for (;;) {
@@ -472,22 +472,22 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                 if (next_longitude < 0) {
                     next_longitude += 0x1000;
                 }
-                ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_80064584(latitude)) >> 0x14;
-                next_ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_80064584(next_latitude)) >> 0x14;
-                *(s16 *)(scratch + 0xB0) = (ring_radius * func_800644B8(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xB2) = (ring_radius * func_80064584(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xB4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(latitude)) >> 0x14);
-                *(s16 *)(scratch + 0xB8) = (ring_radius * func_800644B8(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xBA) = (ring_radius * func_80064584(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xBC) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(latitude)) >> 0x14);
-                *(s16 *)(scratch + 0xC0) = (next_ring_radius * func_800644B8(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xC2) = (next_ring_radius * func_80064584(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xC4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude))
+                ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(latitude)) >> 0x14;
+                next_ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(next_latitude)) >> 0x14;
+                *(s16 *)(scratch + 0xB0) = (ring_radius * rsin(longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xB2) = (ring_radius * rcos(longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xB4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                *(s16 *)(scratch + 0xB8) = (ring_radius * rsin(next_longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xBA) = (ring_radius * rcos(next_longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xBC) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                *(s16 *)(scratch + 0xC0) = (next_ring_radius * rsin(longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xC2) = (next_ring_radius * rcos(longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xC4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude))
                     >> 0x14);
-                *(s16 *)(scratch + 0xC8) = (next_ring_radius * func_800644B8(next_longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xCA) = (next_ring_radius * func_80064584(next_longitude)) >> 0xC;
-                last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude)) >> 0x14);
-                depth_index = (func_80065590(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8,
+                *(s16 *)(scratch + 0xC8) = (next_ring_radius * rsin(next_longitude)) >> 0xC;
+                *(s16 *)(scratch + 0xCA) = (next_ring_radius * rcos(next_longitude)) >> 0xC;
+                last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude)) >> 0x14);
+                depth_index = (RotAverage4(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8,
                     quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (*(s16 *)(scratch + 0xCC) = last_vertex_z, (void *)(scratch + 0xD4))) - (s16)saved_depth_bias) - 6;
                 *(s32 *)(scratch + 0x100) = depth_index;
                 if ((u32)depth_index < 0x1E0U) {
@@ -519,7 +519,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                     }
                     if ((any_corner_visible | corner_3_visible) != 0) {
                         *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) & 0x7FFF;
-                        func_800666F4(quad);
+                        SetPolyFT4(quad);
                         uv_end = *(s32 *)(scratch + 0x14) + *(s32 *)(scratch + 0x0C);
                         *(s32 *)(scratch + 0x14) = uv_end;
                         if (uv_end & 0x100) {
@@ -594,7 +594,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
         }
         texture += 12;
     }
-    func_80064A40();
+    PopMatrix();
 }
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
@@ -631,9 +631,9 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 #define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460();
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage();
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point(u8 *render_data, u8 *source_vertex)
@@ -667,7 +667,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
         FIELD_U16(scratch, 4) = FIELD_U16(vertex, 0xA);
         FIELD_PTR(scratch, 0x18) = point_packet + 0xC;
 
-        depth_index = func_80065420(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
+        depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
         FIELD_U32(scratch, 0xC0) = depth_index;
         if (depth_index < 0x1E0U) {
             FIELD_U32(point_packet, 4) = FIELD_U32(render_data, 8);
@@ -695,7 +695,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
 
             mode_packet = FIELD_PTR(scratch, 0x18);
             FIELD_PTR(scratch, 0x18) = mode_packet + 0xC;
-            func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
             FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
                 (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
@@ -823,7 +823,7 @@ void create_terrain_seeking_point_effect(
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 typedef struct {
@@ -943,11 +943,11 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
 
         i = 0;
         do {
-            r0 = (func_80069EF8() & 0xFF) | 0x80;
+            r0 = (rand() & 0xFF) | 0x80;
             i++;
-            r1 = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            r2 = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            r3 = (s16)((func_80069EF8() & 0x3F) - 0x60);
+            r1 = (s16)((rand() & 0x7F) - 0x40);
+            r2 = (s16)((rand() & 0x7F) - 0x40);
+            r3 = (s16)((rand() & 0x3F) - 0x60);
             color = 0xE04040;
             create_terrain_seeking_point_effect(p - 0x20, 0, color, r0, r1, r2, r3);
         } while (i < 0x20);
@@ -1055,8 +1055,8 @@ typedef struct S_81876014_6 {
     u8 unk_0E;
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void update_effect_quad_and_completion(void *effect, void *position_out, void *color_out) {
@@ -1071,8 +1071,8 @@ void update_effect_quad_and_completion(void *effect, void *position_out, void *c
         /* vertex 0 of the quad */
         ((S_81876014_0 *)effect)->unk_50 =
             (u16)((((S_81876014_0 *)effect)->unk_0A *
-                   func_80064584(((S_81876014_0 *)effect)->unk_0C)) >> 12);
-        y_factor = func_800644B8(((S_81876014_0 *)effect)->unk_0C);
+                   rcos(((S_81876014_0 *)effect)->unk_0C)) >> 12);
+        y_factor = rsin(((S_81876014_0 *)effect)->unk_0C);
         ((S_81876014_0 *)effect)->unk_58 = (((S_81876014_0 *)effect)->unk_0A * y_factor) >> 12;
         ((S_81876014_0 *)effect)->unk_60 = 0;
         /* x of vertices 1..3 */
@@ -1353,12 +1353,12 @@ extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3s *, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
+extern s32 rcos(s32);
+extern s32 rsin(s32);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *sprite)
@@ -1530,14 +1530,14 @@ L0_adjust_z:
                 work->unk_14 |= 0xC;
                 work->unk_10 = 0x20;
                 dst = spawn->position;
-                ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
-                ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
-                work->unk_16 = (func_80069EF8() & 0xFF) << 4;
-                work->unk_18 = (func_80069EF8() & 0xFF) << 4;
-                work->unk_1A = (func_80069EF8() & 0xFF) << 4;
-                value = func_80064584(((S_800259D8_5 *)entry)->unk_0C);
+                ((S_800259D8_5 *)entry)->unk_08.at02u.v = (rand() & 7) + 12;
+                ((S_800259D8_5 *)entry)->unk_0C = rand() & 0xFFF;
+                work->unk_16 = (rand() & 0xFF) << 4;
+                work->unk_18 = (rand() & 0xFF) << 4;
+                work->unk_1A = (rand() & 0xFF) << 4;
+                value = rcos(((S_800259D8_5 *)entry)->unk_0C);
                 dst->x.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
-                value = func_800644B8(((S_800259D8_5 *)entry)->unk_0C);
+                value = rsin(((S_800259D8_5 *)entry)->unk_0C);
                 dst->y.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
                 dst->z.w.i = ((S_800259D8_4 *)entity)->unk_08.at02.v;
                 work = spawn->sprite;
@@ -1691,7 +1691,7 @@ L1_calc:
             }
             i = 0;
             while (1) {
-                value = func_80069EF8();
+                value = rand();
                 create_terrain_seeking_point_effect((u8 *)effect - 0x20, ((S_800259D8_0 *)effect)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
                     0, 0);
                 i++;

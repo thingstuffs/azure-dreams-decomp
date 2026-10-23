@@ -1345,7 +1345,7 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 
 
 extern void zero_words(void *, s32);
-extern s32 func_80065F90(s32, s32);
+extern s32 ratan2(s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 get_actor_height_difference(void *, void *);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
@@ -1421,9 +1421,9 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
             if (tile_distance == 0) {
                 slot = 0;
             } else if (tile_distance == 1) {
-                slot = (((func_80065F90(object_y - (s16)target_y, object_x - (s16)target_x) + 256) >> 9) & 7) + 1;
+                slot = (((ratan2(object_y - (s16)target_y, object_x - (s16)target_x) + 256) >> 9) & 7) + 1;
             } else {
-                slot = (((func_80065F90(object_y - (s16)target_y, object_x - (s16)target_x) + 128) >> 8) & 15) + 9;
+                slot = (((ratan2(object_y - (s16)target_y, object_x - (s16)target_x) + 128) >> 8) & 15) + 9;
             }
             separation = (s16)get_actor_height_difference(actor, entry);
             if (separation < 0) {

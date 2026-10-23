@@ -55,16 +55,16 @@ typedef struct {
     u32 w1;
 } __attribute__((packed)) Packed8;
 
-extern s32 func_800654B0(InputPair *, InputPair *, InputPair *, InputPair *,
+extern s32 RotTransPers4(InputPair *, InputPair *, InputPair *, InputPair *,
                          OutputPair *, OutputPair *, OutputPair *, OutputPair *,
                          u32 *, u32 *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066640(void *, s32);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
-extern s32 func_800644B8();
-extern s32 func_80064584();
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyG4(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
+extern s32 rsin();
+extern s32 rcos();
 extern s32 copy_odd_halfwords_3();
 extern s32 copy_menu_vector_halfwords();
 

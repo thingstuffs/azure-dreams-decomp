@@ -32,7 +32,7 @@ extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
 extern Any select_sprite_entry();
-extern s32 func_80069EF8();
+extern s32 rand();
 extern void *scan_actor_along_heading();
 extern Any set_record_integer_tile_center();
 extern Any advance_status_timers();
@@ -215,9 +215,9 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         particle_count = 0;
         do {
             particle_count++;
-            offset_x = (s16)((func_80069EF8() & 0x3F) - 0x20);
-            offset_y = (s16)((func_80069EF8() & 0x3F) - 0x20);
-            offset_z = func_80069EF8();
+            offset_x = (s16)((rand() & 0x3F) - 0x20);
+            offset_y = (s16)((rand() & 0x3F) - 0x20);
+            offset_z = rand();
             particle_origin = (u8 *)action - 0x20;
             particle_zero = 0;
             particle_color = 0xC0C0C0;

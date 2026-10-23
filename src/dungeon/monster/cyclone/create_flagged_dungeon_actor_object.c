@@ -36,7 +36,7 @@ extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
-extern void func_800672D8(void *, void *);
+extern void LoadImage(void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern s32 D_80045340;
@@ -131,7 +131,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
             packet[2] = 256;
             packet[0] = 0;
             packet[3] = 1;
-            func_800672D8(packet, D_801764B8);
+            LoadImage(packet, D_801764B8);
             try_move_actor_to_valid_position(actor, part_a, part_b, work);
         }
     }

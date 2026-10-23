@@ -184,15 +184,15 @@ typedef struct {
 #define setaddr(p, _addr) (((T_80170874_P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((T_80170874_P_TAG *)(p))->addr)
 
-extern void func_80064840();
-extern void func_800649A0();
-extern void func_80064A40();
-extern void func_80064BC0();
-extern void func_80064CF0();
-extern void func_80064D80();
-extern u32 func_80065420();
-extern void func_800654B0();
-extern void func_80065820();
+extern void CompMatrix();
+extern void PushMatrix();
+extern void PopMatrix();
+extern void ScaleMatrix();
+extern void SetRotMatrix();
+extern void SetTransMatrix();
+extern u32 RotTransPers();
+extern void RotTransPers4();
+extern void RotMatrix();
 extern s32 func_80170B40();
 extern s32 func_80170BAC();
 extern s32 func_80170DF8();

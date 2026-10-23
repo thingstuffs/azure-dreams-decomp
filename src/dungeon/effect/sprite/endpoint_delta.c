@@ -65,9 +65,9 @@ typedef struct S_800247D4_4 {
     u32 unk_00;
 } S_800247D4_4;   /* (void *)scaled_index in draw_animated_shaded_lines */
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
 
 static __inline__ s32 endpoint_delta(u16 end, u16 start)
 {
@@ -126,9 +126,9 @@ s32 draw_animated_shaded_lines(void *effect_data)
 
         angle = (radial_step % 8) << 9;
         ((S_800247D4_0 *)scratch)->unk_6C =
-            ((S_800247D4_3 *)effect)->unk_52 + ((func_800644B8(angle) * 2) >> 8);
+            ((S_800247D4_3 *)effect)->unk_52 + ((rsin(angle) * 2) >> 8);
         ((S_800247D4_0 *)scratch)->unk_6E =
-            ((S_800247D4_3 *)effect)->unk_56 + ((func_80064584(angle) * 2) >> 8);
+            ((S_800247D4_3 *)effect)->unk_56 + ((rcos(angle) * 2) >> 8);
         ((S_800247D4_0 *)scratch)->unk_70 = ((S_800247D4_3 *)effect)->unk_5A;
 
         stage_index = ((S_800247D4_3 *)effect)->unk_10 - 1;
@@ -264,13 +264,13 @@ s32 draw_animated_shaded_lines(void *effect_data)
         {
             u8 *start_pos = scratch + 0x64;
             u8 *start_screen = scratch + 0xD8;
-            start_depth = func_80065420(start_pos, start_screen, project_work_a, project_work_b);
+            start_depth = RotTransPers(start_pos, start_screen, project_work_a, project_work_b);
         }
         ((S_800247D4_0 *)scratch)->unk_F4 = start_depth;
         {
             u8 *end_pos = scratch + 0x6C;
             u8 *end_screen = scratch + 0xDC;
-            end_depth = func_80065420(end_pos, end_screen, project_work_a, project_work_b);
+            end_depth = RotTransPers(end_pos, end_screen, project_work_a, project_work_b);
         }
         ((S_800247D4_0 *)scratch)->unk_F8 = end_depth;
 

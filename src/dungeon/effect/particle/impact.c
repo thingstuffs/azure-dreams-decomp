@@ -517,7 +517,7 @@ typedef struct S_800247C0_7 {
     s16 unk_64;
 } S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
 
-s32 func_80069EF8();
+s32 rand();
 s32 set_or_clear_actor_status_slot();
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
@@ -544,9 +544,9 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     void *object;
 
     D_8002992E = 1;
-    offset_x = (func_80069EF8() & 0x3F) - 0x20;
-    offset_y = (func_80069EF8() & 0x3F) - 0x20;
-    random_bits = func_80069EF8();
+    offset_x = (rand() & 0x3F) - 0x20;
+    offset_y = (rand() & 0x3F) - 0x20;
+    random_bits = rand();
     object = ((S_800247C0_0 *)effect)->unk_20;
     position = ((ObjectNodeHeader *)object)->position;
     sprite = ((ObjectNodeHeader *)object)->sprite;
@@ -829,15 +829,15 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006671C(void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern void SetPolyGT4(void *);
 
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
@@ -856,7 +856,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     ((S_80024BF4_0 *)scratch)->unk_90 = position->z.w.i;
     render_state->flags |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((S_80024BF4_0 *)scratch)->unk_3C = 0x2000;
     ((S_80024BF4_0 *)scratch)->unk_38 = 0x2000;
@@ -864,12 +864,12 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     ((S_80024BF4_0 *)scratch)->unk_A4 = render_state->angle_x;
     ((S_80024BF4_0 *)scratch)->unk_A8 = render_state->angle_z;
     ((S_80024BF4_0 *)scratch)->unk_A6 = render_state->angle_y;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = *(u8 * *)&render_state->source;
     ((S_80024BF4_0 *)scratch)->unk_28 = render_state->flags;
@@ -889,7 +889,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     ((S_80024BF4_0 *)scratch)->unk_C4 = quad->unk_5A;
     ((S_80024BF4_0 *)scratch)->unk_CC = quad->unk_60;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x14,
                              packet + 0x20, packet + 0x2C,
@@ -921,7 +921,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
             ((S_80024BF4_5 *)packet)->unk_1C = quad->unk_14;
             ((S_80024BF4_5 *)packet)->unk_28 = quad->unk_18;
 
-            func_8006671C(packet);
+            SetPolyGT4(packet);
 
             texture_flags = texture[1];
             render_state->color.c.code = texture_flags;
@@ -943,7 +943,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 /* Selector 72, retail file [0x19DF834, 0x19DF888); complete callable clone. */
@@ -1089,7 +1089,7 @@ typedef struct {
     s16 v[12];
 } QuadUV;
 
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
 void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
@@ -1126,7 +1126,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
         particle_work = (u8 *)particle + 0x20;
         if (particle != 0) {
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
-            ((S_800251F4_0 *)particle_work)->unk_2C = func_80069EF8() & 1;
+            ((S_800251F4_0 *)particle_work)->unk_2C = rand() & 1;
             particle->unk_10 = (void *)advance_rotating_ballistic_particle_and_expire;
             register_node(particle, (s32)draw_linked_meshes);
 
@@ -1134,10 +1134,10 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             transform->tpage_abr = 0x20;
             transform->flags |= 0xC;
 
-            position_jitter = func_80069EF8();
+            position_jitter = rand();
             min_x = saved_x - 0x20;
             (particle->position)->x.w.i = min_x + (position_jitter & 0x3F);
-            position_jitter = func_80069EF8() & 0x3F;
+            position_jitter = rand() & 0x3F;
             quad_word_4 = center_y - 0x20;
             (particle->position)->y.w.i = quad_word_4 + position_jitter;
             (particle->position)->z.w.i = center_z;
@@ -1160,8 +1160,8 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
                 end_v = ((S_800251F4_0 *)particle_work)->unk_3F + 1;
             }
 
-            tile_u = func_80069EF8() & 3;
-            tile_v = func_80069EF8() & 3;
+            tile_u = rand() & 3;
+            tile_v = rand() & 3;
             uv_span = end_u - min_u;
             if (uv_span < 0) {
                 uv_span += 3;
@@ -1202,18 +1202,18 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             transform->scale_y = 0x1000;
             transform->scale_x = 0x1000;
 
-            ((S_800251F4_0 *)particle_work)->unk_4A = (func_80069EF8() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_4C = (func_80069EF8() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_4E = (func_80069EF8() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_50 = (func_80069EF8() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_52 = (func_80069EF8() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_54 = (func_80069EF8() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_56 = (func_80069EF8() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_58 = (func_80069EF8() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_5A = (func_80069EF8() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_5C = (func_80069EF8() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_5E = (func_80069EF8() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_60 = (func_80069EF8() & 3) + 1;
+            ((S_800251F4_0 *)particle_work)->unk_4A = (rand() & 3) - 5;
+            ((S_800251F4_0 *)particle_work)->unk_4C = (rand() & 3) - 2;
+            ((S_800251F4_0 *)particle_work)->unk_4E = (rand() & 3) - 5;
+            ((S_800251F4_0 *)particle_work)->unk_50 = (rand() & 3) + 1;
+            ((S_800251F4_0 *)particle_work)->unk_52 = (rand() & 3) - 2;
+            ((S_800251F4_0 *)particle_work)->unk_54 = (rand() & 3) - 5;
+            ((S_800251F4_0 *)particle_work)->unk_56 = (rand() & 3) - 5;
+            ((S_800251F4_0 *)particle_work)->unk_58 = (rand() & 3) - 2;
+            ((S_800251F4_0 *)particle_work)->unk_5A = (rand() & 3) + 1;
+            ((S_800251F4_0 *)particle_work)->unk_5C = (rand() & 3) + 1;
+            ((S_800251F4_0 *)particle_work)->unk_5E = (rand() & 3) - 2;
+            ((S_800251F4_0 *)particle_work)->unk_60 = (rand() & 3) + 1;
 
             ((S_800251F4_0 *)particle_work)->unk_0E = brightness;
             ((S_800251F4_0 *)particle_work)->unk_0D = brightness;
@@ -1228,13 +1228,13 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             ((S_800251F4_0 *)particle_work)->unk_19 = brightness;
             ((S_800251F4_0 *)particle_work)->unk_18 = brightness;
 
-            transform->angle_x = func_80069EF8() & 0xFFF;
-            transform->angle_y = func_80069EF8() & 0xFFF;
-            transform->angle_z = func_80069EF8() & 0xFFF;
-            ((S_800251F4_0 *)particle_work)->unk_7C = ((func_80069EF8() & 0x7FFF) - 0x4000) << 5;
-            ((S_800251F4_0 *)particle_work)->unk_80 = ((func_80069EF8() & 0x7FFF) - 0x4000) << 5;
+            transform->angle_x = rand() & 0xFFF;
+            transform->angle_y = rand() & 0xFFF;
+            transform->angle_z = rand() & 0xFFF;
+            ((S_800251F4_0 *)particle_work)->unk_7C = ((rand() & 0x7FFF) - 0x4000) << 5;
+            ((S_800251F4_0 *)particle_work)->unk_80 = ((rand() & 0x7FFF) - 0x4000) << 5;
             ((S_800251F4_0 *)particle_work)->unk_84 =
-                (((func_80069EF8() & 0x7FFF) - 0x6000) << 6) + (s32)0xFFFE0000;
+                (((rand() & 0x7FFF) - 0x6000) << 6) + (s32)0xFFFE0000;
             ((S_800251F4_0 *)particle_work)->unk_90 = 0x10000;
 
             transform->color.c.b = brightness;
@@ -1784,7 +1784,7 @@ void copy_and_expand_effect_record(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
         zero_args[2] = 0;
         zero_args[1] = 0;
         zero_args[0] = 0;
-        func_80064BC0(dst, zero_args);
+        ScaleMatrix(dst, zero_args);
     }
 }
 
@@ -2033,7 +2033,7 @@ extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern s32 decode_and_upload_image(void *, void *);
 extern void drain_audio_commands_and_service_channels(void);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
@@ -2122,9 +2122,9 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             s32 spread_x;
             s32 spread_z;
 
-            spread_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            spread_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            spread_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+            spread_y = (s16)((rand() & 0x7F) - 0x40);
+            spread_x = (s16)((rand() & 0x7F) - 0x40);
+            spread_z = (s16)((rand() & 0x7F) - 0x40);
 
             create_offset_colored_effect((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,

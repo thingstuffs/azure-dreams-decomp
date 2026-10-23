@@ -40,19 +40,19 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     packet = ((GpuContext *)graphics)->packetCursor;
     state->unk_14 = (u16)(state->unk_14 | 0x8000);
     depth_bias = depth_offset;
-    func_800649A0();
+    PushMatrix();
     DM_U32(0x30) = state->unk_1C * 2;
     DM_U32(0x34) = state->unk_1E * 2;
     DM_U32(0x38) = 0x2000;
     DM_U16(0x100) = state->unk_16;
     DM_U16(0x104) = state->unk_1A;
     DM_U16(0x102) = state->unk_18;
-    func_80065820(0x1F800100, 0x1F8000D0);
-    func_80064AE0(&transform_buf[0]);
-    func_80064840(&transform_buf[0], 0x1F8000D0, 0x1F800050);
-    func_80064BC0(0x1F800050, 0x1F800030);
-    func_80064D80(0x1F800050);
-    func_80064CF0(0x1F800050);
+    RotMatrix(0x1F800100, 0x1F8000D0);
+    ReadRotMatrix(&transform_buf[0]);
+    CompMatrix(&transform_buf[0], 0x1F8000D0, 0x1F800050);
+    ScaleMatrix(0x1F800050, 0x1F800030);
+    SetTransMatrix(0x1F800050);
+    SetRotMatrix(0x1F800050);
     edge_cache = (u8 *)&transform_buf[0];
     {
         s32 init_flags;
@@ -119,7 +119,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                     }
                     {
                         s32 left_z;
-                        left_z = (func_800644B8(angle) * geometry->unk_38) >> 0x10;
+                        left_z = (rsin(angle) * geometry->unk_38) >> 0x10;
                         DM_S16(0x84) = (s16)left_z;
                         DM_S16(0x74) = (s16)left_z;
                     }
@@ -133,7 +133,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                     }
                     {
                         s32 right_z;
-                        right_z = (func_800644B8(angle) * geometry->unk_38) >> 0x10;
+                        right_z = (rsin(angle) * geometry->unk_38) >> 0x10;
                         DM_S16(0x8C) = (s16)right_z;
                         DM_S16(0x7C) = (s16)right_z;
                     }
@@ -219,7 +219,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             }
                         }
                     }
-                    DM_S32(0xC0) = (func_80065590(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
+                    DM_S32(0xC0) = (RotAverage4(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
                                                   packet + 8, packet + 0x10, packet + 0x18, packet + 0x20,
                                                   scratch + 0x90, scratch + 0x94)
                                     - (s32)(s16)depth_bias) - 6;
@@ -398,7 +398,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
             }
         }
     } while (1);
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(globals[0]))->packetCursor = packet;
 }
 
@@ -446,7 +446,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
         scratch->y = ((Row_818F30EC_S_800248EC_1 *)position)->unk_06;
         scratch->z = ((Row_818F30EC_S_800248EC_1 *)position)->unk_0A;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, (u8 *)tile + 8,
+        scratch->index = RotTransPers(scratch, (u8 *)tile + 8,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -474,8 +474,8 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 
             draw_mode = (Row_818F30EC_Packet800248EC *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
-            draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            draw_page = GetTPage(0, 1, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((Row_818F30EC_P_TAG *)&draw_mode->tag)->addr = ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr;
             ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr = (u32)((u32)draw_mode);

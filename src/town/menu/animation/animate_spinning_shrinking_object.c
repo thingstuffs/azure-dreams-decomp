@@ -53,12 +53,12 @@ typedef struct TownObject {
 } TownObject;
 
 
-extern s32 func_800644B8(s32 angle);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064B90(TownMatrix *matrix, TownVec32 *translation);
-extern void func_80065820(TownVec16 *rotation, TownMatrix *matrix);
-extern void func_80064BC0(TownMatrix *matrix, TownVec32 *scale);
+extern s32 rsin(s32 angle);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void TransMatrix(TownMatrix *matrix, TownVec32 *translation);
+extern void RotMatrix(TownVec16 *rotation, TownMatrix *matrix);
+extern void ScaleMatrix(TownMatrix *matrix, TownVec32 *scale);
 extern void draw_random_tinted_quad_pair(u8 *effect);
 
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
@@ -92,9 +92,9 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
 
     animation_time = object->timer;
     if (animation_time < 0xC1)
-        wave_value = func_800644B8(animation_time * 5);
+        wave_value = rsin(animation_time * 5);
     else
-        wave_value = func_800644B8((animation_time * 0x10) - 0x400);
+        wave_value = rsin((animation_time * 0x10) - 0x400);
     if (wave_value < 0) {
         wave_value += 0xF;
         object->reciprocal.bits = wave_value >> 4;
@@ -110,7 +110,7 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
         object->extent.bits = 0;
 
     translation = &scratch->translation;
-    func_800649A0();
+    PushMatrix();
     scratch->translation.x = point->unk_02;
     scratch->translation.y = point->unk_06;
     scratch->translation.z = point->unk_0A - (object->half_height / 2);
@@ -122,21 +122,21 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     scratch->rotation.y = object->angle_y;
     scratch->rotation.z = object->angle_z;
     first_matrix = &object->first_matrix;
-    func_80064B90(first_matrix, translation);
+    TransMatrix(first_matrix, translation);
 
     rotation = &scratch->rotation;
-    func_80065820(rotation, first_matrix);
+    RotMatrix(rotation, first_matrix);
     scale = &scratch->scale;
-    func_80064BC0(first_matrix, scale);
+    ScaleMatrix(first_matrix, scale);
 
     scratch->rotation.x = -object->angle_x;
     scratch->rotation.y = -object->angle_y;
     scratch->rotation.z = -object->angle_z;
     second_matrix = &object->second_matrix;
-    func_80064B90(second_matrix, translation);
-    func_80065820(rotation, second_matrix);
-    func_80064BC0(second_matrix, scale);
-    func_80064A40();
+    TransMatrix(second_matrix, translation);
+    RotMatrix(rotation, second_matrix);
+    ScaleMatrix(second_matrix, scale);
+    PopMatrix();
     draw_random_tinted_quad_pair(object);
 
     if (object->extent.signed_value == 0) {

@@ -36,8 +36,8 @@ typedef struct S_800A25CC_1 {
     s32 unk_14;
 } S_800A25CC_1;
 
-extern s32 func_80064584(s32);
-extern s16 func_80065F90(s32, s32);
+extern s32 rcos(s32);
+extern s16 ratan2(s32, s32);
 extern s32 scale_random_to_unsigned_halfword_limit(u32);
 extern u8 D_800A2690[9];
 

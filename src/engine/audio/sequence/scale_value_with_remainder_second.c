@@ -57,31 +57,59 @@ s32 initialize_audio_sequence_tracks(void)
     }
     init_sequence_playback();
     mode = audio_sequence_format[0];
-    if (mode < 0) {
-        goto done;
-    }
-    if (mode >= 2) {
-        if (mode == 2) {
-            goto init_spans;
+    if (mode >= 0) {
+        if (mode >= 2) {
+            if (mode != 2) {
+                return 0;
+            }
+        } else {
+            entity_index = 0;
+            if (audio_sequence_track_count[0] == 0) {
+                return 0;
+            }
+            default_value = 0x68;
+            do {
+                entity = &audio_sequence_tracks[entity_index];
+                if (audio_sequence_format[0] == 1) {
+                    entity->f00 = offset + 1;
+                    entity->f24 = default_value;
+                    entity->f20 = default_value;
+                    seek_sequence_tag_and_schedule_step(entity);
+                    offset = entity->f00;
+                }
+                entity->f04 = entity->f00;
+                entity->f10 = read_base_128_vlq((s32)entity);
+                entity->f48 = 0;
+                entity->f4A = 0;
+                entity->f49 = 0;
+                entity->f2C = 0;
+                entity->f40 = 0;
+                if (*(s32 *)&audio_sequence_timing_word != 0) {
+                    scale_value_with_remainder(entity);
+                }
+                entity_index++;
+            } while (entity_index < audio_sequence_track_count[0]);
+            return 0;
         }
-        return 0;
-    }
-    {
+        offset = 0x50;
+        data = audio_sequence_data_base[0];
         entity_index = 0;
         if (audio_sequence_track_count[0] == 0) {
             return 0;
         }
-        default_value = 0x68;
+        packed_default = 0x68;
         do {
             entity = &audio_sequence_tracks[entity_index];
-            if (audio_sequence_format[0] == 1) {
-                entity->f00 = offset + 1;
-                entity->f24 = default_value;
-                entity->f20 = default_value;
-                seek_sequence_tag_and_schedule_step(entity);
-                offset = entity->f00;
-            }
-            entity->f04 = entity->f00;
+            entity->f00 = offset;
+            length = *(u16 *)(data + 0x10 + entity_index * 2);
+            entity->f18 = length;
+            entity->f24 = packed_default;
+            entity->f20 = packed_default;
+            start = entity->f00;
+            entity->f04 = start;
+            entity->f38 = start;
+            offset += length;
+            entity->f1C = entity->f00 + entity->f18;
             entity->f10 = read_base_128_vlq((s32)entity);
             entity->f48 = 0;
             entity->f4A = 0;
@@ -93,39 +121,7 @@ s32 initialize_audio_sequence_tracks(void)
             }
             entity_index++;
         } while (entity_index < audio_sequence_track_count[0]);
-        return 0;
     }
-init_spans:
-    offset = 0x50;
-    data = audio_sequence_data_base[0];
-    entity_index = 0;
-    if (audio_sequence_track_count[0] == 0) {
-        return 0;
-    }
-    packed_default = 0x68;
-    do {
-        entity = &audio_sequence_tracks[entity_index];
-        entity->f00 = offset;
-        length = *(u16 *)(data + 0x10 + entity_index * 2);
-        entity->f18 = length;
-        entity->f24 = packed_default;
-        entity->f20 = packed_default;
-        start = entity->f00;
-        entity->f04 = start;
-        entity->f38 = start;
-        offset += length;
-        entity->f1C = entity->f00 + entity->f18;
-        entity->f10 = read_base_128_vlq((s32)entity);
-        entity->f48 = 0;
-        entity->f4A = 0;
-        entity->f49 = 0;
-        entity->f2C = 0;
-        entity->f40 = 0;
-        if (*(s32 *)&audio_sequence_timing_word != 0) {
-            scale_value_with_remainder(entity);
-        }
-        entity_index++;
-    } while (entity_index < audio_sequence_track_count[0]);
-done:
+
     return 0;
 }

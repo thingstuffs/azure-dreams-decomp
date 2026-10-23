@@ -22,8 +22,8 @@ typedef struct S_800B6FB8_2 {
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
 
 void runtime_load_packed_resource_chunks(s16, u8 *);
-extern void func_80067014();
-extern void func_8006733C();
+extern void DrawSync();
+extern void StoreImage();
 void update_active_building_entries(void);
 
 extern u8 D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
@@ -61,21 +61,21 @@ void initialize_building_graphics(void)
     image_rect[2] = image_width;
     image_rect[3] = 0x80;
     ((S_800B6FB8_1 *)status)->unk_16 &= 0xFFFE;
-    func_8006733C(first_rect, image_data);
+    StoreImage(first_rect, image_data);
 
     building_upload_rect[0] = 0x330;
     image_rect[1] = 0x80;
     image_rect[2] = image_width;
     image_rect[3] = 0x80;
-    func_8006733C(image_rect, D_801116C8);
+    StoreImage(image_rect, D_801116C8);
 
     palette_rect = building_upload_rect;
     building_upload_rect[0] = 0;
     palette_rect[1] = 0x1FB;
     palette_rect[2] = 0x40;
     palette_rect[3] = 1;
-    func_8006733C(palette_rect, D_80111EC8);
-    func_80067014(0);
+    StoreImage(palette_rect, D_80111EC8);
+    DrawSync(0);
 
     draw_buffer = D_80162004;
     ((S_800B6FB8_2 *)base)->unk_1DC = draw_buffer;

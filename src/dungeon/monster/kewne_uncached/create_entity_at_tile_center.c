@@ -669,13 +669,13 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                         ((S_812A524C_3 *)actor_in)->unk_9E = (u16) (bob_phase + 1);
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v =
                             (s32) (((S_812A524C_3 *)actor_in)->unk_A0.at00.v
-                            + (func_800644B8((s16) bob_phase * 0xAA) << 5));
+                            + (rsin((s16) bob_phase * 0xAA) << 5));
                     } else {
                         bob_phase_wide = ((S_812A524C_3 *)actor_in)->unk_9E;
                         ((S_812A524C_3 *)actor_in)->unk_9E = (u16) (bob_phase_wide + 1);
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v =
                             (s32) (((S_812A524C_3 *)actor_in)->unk_A0.at00.v
-                            + (func_800644B8((s16) bob_phase_wide * 0xAA) << 6));
+                            + (rsin((s16) bob_phase_wide * 0xAA) << 6));
                     }
                 }
                 if (!(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {
@@ -751,13 +751,13 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                         ((S_812A524C_3 *)actor_in)->unk_9E = (u16) (fixed_bob_phase + 1);
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v =
                             (s32) (((S_812A524C_3 *)actor_in)->unk_A0.at00.v
-                            + (func_800644B8((s16) fixed_bob_phase * 0xAA) << 5));
+                            + (rsin((s16) fixed_bob_phase * 0xAA) << 5));
                     } else {
                         fixed_bob_phase_wide = ((S_812A524C_3 *)actor_in)->unk_9E;
                         ((S_812A524C_3 *)actor_in)->unk_9E = (u16) (fixed_bob_phase_wide + 1);
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v =
                             (s32) (((S_812A524C_3 *)actor_in)->unk_A0.at00.v
-                            + (func_800644B8((s16) fixed_bob_phase_wide * 0xAA) << 6));
+                            + (rsin((s16) fixed_bob_phase_wide * 0xAA) << 6));
                     }
                 }
                 if (!(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {

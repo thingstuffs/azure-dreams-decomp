@@ -146,8 +146,8 @@ s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly) {
     if (poly->unk_160.at00.v == 0) {
         return 1;
     }
-    poly->unk_164 = func_80065F90(poly->unk_154.at02.v, (s16) poly->unk_154.at00.v);
-    angle_1 = func_80065F90(poly->unk_160.at02.v, (s16) poly->unk_160.at00.v);
+    poly->unk_164 = ratan2(poly->unk_154.at02.v, (s16) poly->unk_154.at00.v);
+    angle_1 = ratan2(poly->unk_160.at02.v, (s16) poly->unk_160.at00.v);
     poly->unk_170 = angle_1;
     delta_1 = angle_1 - poly->unk_164;
     turn_1 = (0x1000 - delta_1) & 0xFFF;
@@ -159,7 +159,7 @@ s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly) {
     if (poly->unk_15C.at00.v == 0) {
         return 1;
     }
-    angle_2 = func_80065F90(poly->unk_15C.at02.v, (s16) poly->unk_15C.at00.v);
+    angle_2 = ratan2(poly->unk_15C.at02.v, (s16) poly->unk_15C.at00.v);
     poly->unk_16C = angle_2;
     delta_2 = angle_2 - poly->unk_164;
     turn_2 = (poly->unk_170 - delta_2) & 0xFFF;
@@ -171,7 +171,7 @@ s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly) {
     if (poly->unk_158.at00.v == 0) {
         return 1;
     }
-    angle_3 = func_80065F90(poly->unk_158.at02.v, (s16) poly->unk_158.at00.v);
+    angle_3 = ratan2(poly->unk_158.at02.v, (s16) poly->unk_158.at00.v);
     poly->unk_168 = angle_3;
     delta_3 = (angle_3 - poly->unk_164) & 0xFFF;
     poly->unk_168 = delta_3;

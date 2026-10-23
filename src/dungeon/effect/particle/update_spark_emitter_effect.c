@@ -96,7 +96,7 @@ typedef struct S_81814EDC_12_pre {
 extern u8 D_800DE938[];
 M2C_UNK func_800245BC();
 s32 register_node();
-s32 func_80069EF8();
+s32 rand();
 void apply_attack_power_and_element_effects();
 s32 check_adjacent_tile_height_clearance();
 extern M2C_UNK D_80024280;
@@ -125,10 +125,10 @@ void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
 
     if (((S_81814EDC_0 *)effect)->unk_00 == 0) {
         if (!(((S_81814EDC_0 *)effect)->unk_0A & 1)) {
-            spark_kind = func_80069EF8() & 7;
-            spark_speed = (func_80069EF8() & 0xFF) | 0x80;
+            spark_kind = rand() & 7;
+            spark_speed = (rand() & 0xFF) | 0x80;
             func_800245BC(effect - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
-                (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+                (s32) (s16) (-0x20 - (rand() & 0x1F)));
         }
         particle = allocate_flagged_object_node(0x212);
         if (particle != NULL) {
@@ -139,7 +139,7 @@ void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
             sprite->flags = (u16) (sprite->flags | 0xC);
             debris = particle->position;
             {
-                s32 random_offset = func_80069EF8() & 0x1F;
+                s32 random_offset = rand() & 0x1F;
                 s32 coordinate;
                 coordinate = ((u16) position->x.w.i);
 
@@ -148,7 +148,7 @@ void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
                 ((S_81814EDC_4 *)debris)->unk_02 = (s16) coordinate;
             }
             {
-                s32 random_offset = func_80069EF8() & 0x1F;
+                s32 random_offset = rand() & 0x1F;
                 s32 coordinate;
                 coordinate = ((u16) position->y.w.i);
 
@@ -157,7 +157,7 @@ void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
                 ((S_81814EDC_4 *)debris)->unk_06 = (s16) coordinate;
             }
             {
-                s32 random_offset = func_80069EF8() & 7;
+                s32 random_offset = rand() & 7;
                 s32 coordinate;
                 coordinate = ((u16) position->z.w.i);
 
@@ -182,10 +182,10 @@ void update_spark_emitter_effect(void *effect, ObjectPosition *position) {
             if (((S_81814EDC_0 *)effect)->unk_08 != 0) {
 loop_effects:
                 effect_index += 1;
-                burst_kind = func_80069EF8() & 7;
-                burst_speed = (func_80069EF8() & 0xFF) | 0x80;
+                burst_kind = rand() & 7;
+                burst_speed = (rand() & 0xFF) | 0x80;
                 func_800245BC(effect - 0x20, burst_kind, 0xF0, burst_speed, 0, 0,
-                    (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+                    (s32) (s16) (-0x20 - (rand() & 0x1F)));
                 if (effect_index < 4) {
                     goto loop_effects;
                 }
@@ -203,16 +203,16 @@ loop_effects:
                         register_node(particle, project_sprite_chain);
                         sprite = particle->sprite;
                         sprite->flags = (u16) (sprite->flags | 0xC);
-                        debris->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
-                        debris->unk_5C = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
-                        debris->unk_60 = (s32) (((func_80069EF8() & 0x3FFF) << 5) + 0xFFF80000);
+                        debris->unk_58 = (s32) (((rand() & 0x7FFF) << 5) + 0xFFF80000);
+                        debris->unk_5C = (s32) (((rand() & 0x7FFF) << 5) + 0xFFF80000);
+                        debris->unk_60 = (s32) (((rand() & 0x3FFF) << 5) + 0xFFF80000);
                         debris = particle->position;
-                        random_offset = func_80069EF8() & 0xF;
+                        random_offset = rand() & 0xF;
                         coordinate = owner_position->unk_02;
                         coordinate -= 8;
                         coordinate += random_offset;
                         debris->unk_02 = (s16) coordinate;
-                        random_offset = func_80069EF8() & 1;
+                        random_offset = rand() & 1;
                         coordinate = owner_position->unk_06;
                         coordinate -= 1;
                         coordinate += random_offset;
@@ -245,12 +245,12 @@ loop_effects:
                         sprite = particle->sprite;
                         sprite->flags = (u16) (sprite->flags | 0xC);
                         debris = particle->position;
-                        random_offset = func_80069EF8() & 0xF;
+                        random_offset = rand() & 0xF;
                         coordinate = owner_position->unk_02;
                         coordinate -= 8;
                         coordinate += random_offset;
                         ((S_81814EDC_4 *)debris)->unk_02 = (s16) coordinate;
-                        random_offset = func_80069EF8() & 1;
+                        random_offset = rand() & 1;
                         coordinate = owner_position->unk_06;
                         coordinate -= 1;
                         coordinate += random_offset;

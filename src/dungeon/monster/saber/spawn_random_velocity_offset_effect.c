@@ -21,7 +21,7 @@ typedef struct S_80AC5820_1 {
    /* other in spawn_random_velocity_offset_effect */
 
 extern void advance_sprite_animation_and_textures();
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
 
 extern s32 D_800814A0 __attribute__((section(".data")));
 extern s16 view_facing_angle_alias __attribute__((section(".data")));
@@ -51,13 +51,13 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     work.xyz[0] = position->unk_02;
     work.xyz[1] = position->unk_06;
     work.xyz[2] = position->unk_0A;
-    position_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    position_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
 
     reference_pos = ((S_80AC5820_1 *)state)->unk_A8;
     work.xyz[0] = reference_pos->unk_02;
     work.xyz[1] = reference_pos->unk_06;
     work.xyz[2] = reference_pos->unk_0A;
-    reference_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    reference_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
     angle_page = (u32)resident_globals_page;
     angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +

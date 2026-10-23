@@ -335,14 +335,14 @@ extern const B32_818CFB74_PackedOffsets D_80024004;
 extern s16 linked_point_effect_updated[5];
 void *get_sprite_attachment_vector(void *, void *, void *, s32);
 void *func_8003DF74(void *, void *, void *, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern s32 func_80065420(void *, void *, void *, void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
 s32 check_left_tile_and_center_height();
 extern void try_apply_confusion_status();
 extern void drain_audio_commands_and_service_channels();
 extern s32 generate_random_value();
 extern s32 try_trigger_target_record_effect();
 extern s32 check_adjacent_tile_height_clearance();
-extern s32 func_80069EF8();
+extern s32 rand();
 #endif

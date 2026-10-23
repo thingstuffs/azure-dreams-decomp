@@ -61,7 +61,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     scratch_page->unk_08 = position->unk_0A;
     packet = state->unk_8D0;
     render_state = &g_game_work;
-    scratch_page->unk_100 = func_80065420((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
+    scratch_page->unk_100 = RotTransPers((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;
     depth_scaled = depth * 4;
@@ -71,7 +71,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     render_data->unk_1C = (s32)depth_scaled;
     scratch_page->unk_100 = ot_index;
     if (ot_index < 0x1D6U) {
-        func_800649A0();
+        PushMatrix();
         screen_offset_2 = scratch_page->unk_F8;
         screen_offset_2 -= 0xA0;
         scratch_page->unk_F8 = screen_offset_2;
@@ -104,15 +104,15 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         coord_value = sprite->unk_22;
         scratch_page->unk_8C = coord_value;
         scratch_page->unk_AE = coord_value;
-        func_80065820((u8 *)0x1F8000A4, (u8 *)0x1F800074, view_y_angle, view_rot_z);
+        RotMatrix((u8 *)0x1F8000A4, (u8 *)0x1F800074, view_y_angle, view_rot_z);
         scratch_page->unk_34 = sprite->unk_1C;
         scale_y = sprite->unk_1E;
         scratch_page->unk_3C.u32 = 0x1000;
         scratch_page->unk_38.u32 = scale_y;
-        func_80064BC0((u8 *)0x1F800074, (u8 *)0x1F800034);
-        func_80064840(render_data, (u8 *)0x1F800074, (u8 *)0x1F800054);
-        func_80064D80((u8 *)0x1F800054);
-        func_80064CF0((u8 *)0x1F800054);
+        ScaleMatrix((u8 *)0x1F800074, (u8 *)0x1F800034);
+        CompMatrix(render_data, (u8 *)0x1F800074, (u8 *)0x1F800054);
+        SetTransMatrix((u8 *)0x1F800054);
+        SetRotMatrix((u8 *)0x1F800054);
         render_data = sprite->unk_08;
         scratch_page->unk_28 = sprite->unk_14;
         for (;;) {
@@ -152,7 +152,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
                 scratch_page->unk_CA = bottom_y;
                 scratch_page->unk_C2 = bottom_y;
             }
-            func_800654B0((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0,
+            RotTransPers4((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0,
                 (u8 *)scratch_page + 0xC8, (u8 *)scratch_page + 0x94, (u8 *)scratch_page + 0x98,
                 (u8 *)scratch_page + 0x9C, (u8 *)scratch_page + 0xA0, (u8 *)scratch_page + 0xD0,
                 (u8 *)scratch_page + 0xD4);
@@ -272,7 +272,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         }
         render_data = (T_80170874_S_80DB9000_7 *)((u8 *)render_data + 0xC);
         }
-        func_80064A40();
+        PopMatrix();
     }
     ((T_80170874_S_80DB9000_6 *)render_state->draw_buffer)->unk_8D0 = packet;
 }

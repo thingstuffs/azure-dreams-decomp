@@ -57,11 +57,11 @@ typedef struct S_800259DC_2 {
 } S_800259DC_2;   /* obj in build_sorted_effect_quads */
 
 
-extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetPolyG4(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 typedef struct GlobalState {
     u8 pad[0x8D0];
@@ -96,7 +96,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         ((S_800259DC_0 *)scratch)->unk_84 = ((S_800259DC_1 *)quad_entry)->unk_48;
         ((S_800259DC_0 *)scratch)->unk_88 = corner3_xy;
         ((S_800259DC_0 *)scratch)->unk_8C = ((S_800259DC_1 *)quad_entry)->unk_50;
-        depth_index = func_800654B0(scratch + 0x70, scratch + 0x78,
+        depth_index = RotTransPers4(scratch + 0x70, scratch + 0x78,
                               scratch + 0x80, scratch + 0x88,
                               (u8 *)packet + 8, (u8 *)packet + 0x10,
                               (u8 *)packet + 0x18, (u8 *)packet + 0x20,
@@ -109,15 +109,15 @@ s32 build_sorted_effect_quads(void *quad_entry) {
             color_23 = ((S_800259DC_1 *)quad_entry)->unk_58;
             ((S_800259DC_2 *)packet)->unk_1C = color_23;
             ((S_800259DC_2 *)packet)->unk_14 = color_23;
-            func_80066708(packet);
+            SetPolyG4(packet);
             ((S_800259DC_2 *)packet)->unk_04.at03.v = (u8)(((S_800259DC_2 *)packet)->unk_04.at03.v | 2);
-            func_8006658C((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
+            AddPrim((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
                           (((S_800259DC_0 *)scratch)->unk_C0 * 4), packet);
             packet = ((S_800259DC_0 *)scratch)->unk_18;
             ((S_800259DC_0 *)scratch)->unk_18 = (u8 *)packet + 0xC;
-            func_80067F20(packet, 0, 0,
-                          (u16)func_80066460(0, 1, 0, 0), 0);
-            func_8006658C((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
+            SetDrawMode(packet, 0, 0,
+                          (u16)GetTPage(0, 1, 0, 0), 0);
+            AddPrim((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
                           (((S_800259DC_0 *)scratch)->unk_C0 * 4), packet);
         }
         next_entry = ((S_800259DC_1_pre *)quad_entry)[-1].unk_00;

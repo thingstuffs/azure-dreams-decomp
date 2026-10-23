@@ -27,8 +27,8 @@ extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
 s32 register_node();
-s16 func_80066460();
-s16 func_8006649C();
+s16 GetTPage();
+s16 GetClut();
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
@@ -207,8 +207,8 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
                     effect_data->unk_1C = (s32) ((fade_steps * 0x30303) + base_gray);
                     (*(Vec3s *)((u8 *)effect + 0x40)) = effect_vectors_a.item[animation->unk_04 - 3];
                     (*(Vec3s *)((u8 *)effect + 0x46)) = effect_vectors_b.item[animation->unk_04 - 3];
-                    effect_data->unk_32 = func_80066460(0, 1, 0x2C0, 0x100);
-                    effect_data->unk_34 = func_8006649C(0, 0x1F8);
+                    effect_data->unk_32 = GetTPage(0, 1, 0x2C0, 0x100);
+                    effect_data->unk_34 = GetClut(0, 0x1F8);
                 }
             }
         }

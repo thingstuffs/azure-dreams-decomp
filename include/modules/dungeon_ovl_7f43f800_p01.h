@@ -67,6 +67,6 @@ typedef struct {
 } T_80170AD0_StackWork;
 
 extern void advance_sprite_animation_and_textures();
-extern s32 func_80065420();
+extern s32 RotTransPers();
 extern s8 view_direction_depth_biases[8];
 #endif

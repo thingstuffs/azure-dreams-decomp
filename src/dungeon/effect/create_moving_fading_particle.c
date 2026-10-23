@@ -8,8 +8,8 @@ typedef struct ParticleRenderOwner {
     void * unk_0C;
 } ParticleRenderOwner;
 
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 extern s16 D_80026476;
 extern void move_linked_effect_along_path(void *, s32, void *);
 extern s32 func_80024ED0(void *, void *, void *);
@@ -66,8 +66,8 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         object->unk_10 = (void *)move_linked_effect_along_path;
         register_node(object, (s32)func_80024ED0);
         positions = object->position;
-        positions->x.w.i = (s16) (*(u16 *)&origin->x.w.i + ((s32) (func_80064584(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (*(u16 *)&origin->y.w.i + ((s32) (func_800644B8(angle) * radius) >> 0xF));
+        positions->x.w.i = (s16) (*(u16 *)&origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (*(u16 *)&origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
         height = *(u16 *)&origin->z.w.i + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
         if ((*(s16 *)D_800269C8) < height) {

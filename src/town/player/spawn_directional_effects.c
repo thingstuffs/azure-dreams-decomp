@@ -13,8 +13,8 @@ typedef struct {
     s16 field_16;
 } UnkStack;
 
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
+s32 rsin(s32);
+s32 rcos(s32);
 s32 rand(void);
 void spawn_person_offset_effect(UnkStack *, s16);
 
@@ -39,8 +39,8 @@ void spawn_directional_effects(void *source, s32 effect_count)
                             (rand() & 0x1F)) - 0x10;
                 effect.y = (*(u16 *)((u8 *)source + 6) +
                             (rand() & 0x1F)) - 0x10;
-                effect.field_C = func_80064584(angle) << 5;
-                effect.field_10 = func_800644B8(angle) << 5;
+                effect.field_C = rcos(angle) << 5;
+                effect.field_10 = rsin(angle) << 5;
                 spawn_person_offset_effect(&effect, (s16)angle);
                 angle += angle_step;
             } while (spawned < effect_count);

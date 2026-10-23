@@ -11,8 +11,8 @@
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 s16 rand();                                /* extern */
 extern M2C_UNK D_800CAED0;
 extern M2C_UNK D_800E03B0;
@@ -45,8 +45,8 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
             motion->y.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
             motion->z.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
             angle = rand();
-            motion->velocity_x = (s32) (func_80064584(angle) << 5);
-            motion->velocity_y = (s32) (func_800644B8(angle) << 5);
+            motion->velocity_x = (s32) (rcos(angle) << 5);
+            motion->velocity_y = (s32) (rsin(angle) << 5);
             *((s16 *)&motion->velocity_z + 1) = (s16) ((0 - (rand() & 7)) - 8);
             render = particle->sprite;
             effect_state = ((void *)particle) + 0x20;

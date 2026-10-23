@@ -43,8 +43,8 @@ void update_linked_part_position(u16 *part, u16 *out_coords, void *unused)
         if (object != 0) {
             inner = &object->inner;
             coords = object->coords;
-            out_coords[1] = coords[1] + func_800644B8(inner->angle + 0x200) / 170;
-            out_coords[3] = coords[3] + func_80064584(inner->angle + 0x200) / 170;
+            out_coords[1] = coords[1] + rsin(inner->angle + 0x200) / 170;
+            out_coords[3] = coords[3] + rcos(inner->angle + 0x200) / 170;
             out_coords[5] = coords[5] - 46;
         }
     }

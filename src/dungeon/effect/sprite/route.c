@@ -69,7 +69,7 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_04 = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_0A;
         *(u8 **)(scratch + 0x18) = packet + 0xC;
 
-        depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
+        depth_index = RotTransPers(scratch, packet + 8, scratch + 0x90,
                              scratch + 0x94);
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 = depth_index;
 
@@ -124,8 +124,8 @@ s32 project_linked_shaded_points(void *start_node, void *start_coords)
 
             mode_packet = *(u8 **)(scratch + 0x18);
             ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_18 = mode_packet + 0xC;
-            color_or_tpage = func_80066460(texture_depth, blend_mode, page_x, texture_depth);
-            func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
+            color_or_tpage = GetTPage(texture_depth, blend_mode, page_x, texture_depth);
+            SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
             ((B32_818CE83C_PacketTag *)mode_packet)->addr =
                 ((B32_818CE83C_PacketTag *)((u8 *)(((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p2) + (((B32_818CE83C_S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
@@ -469,7 +469,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         loop_0: {
             s32 a3v;
             s32 rv;
-            rv = func_80069EF8();
+            rv = rand();
             w1 = (s32)((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
@@ -678,7 +678,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             {
                 s32 r2;
                 s32 b2;
-                r2 = func_80069EF8() & 0x1F;
+                r2 = rand() & 0x1F;
                 b2 = pos->unk_00.at02.v - 0x10;
                 b2 += r2;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.s = b2;
@@ -686,13 +686,13 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             {
                 s32 r2;
                 s32 b2;
-                r2 = func_80069EF8() & 0x1F;
+                r2 = rand() & 0x1F;
                 b2 = pos->unk_04.at02.v - 0x10;
                 b2 += r2;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = b2;
             }
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
-            ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = func_80069EF8() + 0x30000;
+            ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = rand() + 0x30000;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
             p = obj->sprite;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
@@ -723,7 +723,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 {
                     s32 r2;
                     s32 b2;
-                    r2 = func_80069EF8() & 0x1F;
+                    r2 = rand() & 0x1F;
                     b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.u - 0x10;
                     b2 += r2;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.s = b2;
@@ -731,7 +731,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 {
                     s32 r2;
                     s32 b2;
-                    r2 = func_80069EF8() & 0x1F;
+                    r2 = rand() & 0x1F;
                     b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.u - 0x10;
                     b2 += r2;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = b2;
@@ -739,7 +739,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 {
                     s32 r2;
                     s32 b2;
-                    r2 = (func_80069EF8() & 0x3F) + 0x20;
+                    r2 = (rand() & 0x3F) + 0x20;
                     b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_08.at02.v;
                     b2 -= r2;
                     ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02u.v = b2;
@@ -747,7 +747,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 p = obj->sprite;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
-                ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_54 = func_80069EF8() + (s32)0xFFFE0000;
+                ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_54 = rand() + (s32)0xFFFE0000;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = 0x80;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = 0x80;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = 0x80;
@@ -806,7 +806,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
-        hi = func_80069EF8() & 0xFFF;
+        hi = rand() & 0xFFF;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1A = hi;
         *(B32_818CF0E8_Vec12 *)((u8 *)obj + 0x40) = D_8002590C;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
@@ -831,12 +831,12 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
-        hi = func_80069EF8() & 0xFFF;
+        hi = rand() & 0xFFF;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1A = hi;
         *(B32_818CF0E8_Vec12 *)((u8 *)obj + 0x40) = D_80025918;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
     }
-    gfx->unk_1A = func_80069EF8() & 0xFFF;
+    gfx->unk_1A = rand() & 0xFFF;
 }
 #include "shared/object_node.h"
 #include "dungeon/effect/sprite/route.h"

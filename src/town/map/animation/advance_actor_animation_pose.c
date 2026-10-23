@@ -103,7 +103,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
         actor->state = 0x60;
         break;
     case 0x40:
-        pose->unk_0A = (u16)(actor->base_height + (func_80064584((actor->pose_ticks << 0xC) / 22) >> 8));
+        pose->unk_0A = (u16)(actor->base_height + (rcos((actor->pose_ticks << 0xC) / 22) >> 8));
         elapsed_frames = (u16)actor->pose_ticks;
         actor->pose_ticks = (s16)(elapsed_frames + 1);
         if ((s16)elapsed_frames >= 0xDC) {

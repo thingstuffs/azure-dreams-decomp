@@ -33,12 +33,12 @@ void update_opposing_scale_effect(S_800A79F0_0 *state, s32 finish_arg1, S_800A79
         initialize_randomized_scale_timer(state);
         return;
     }
-    scale_wave = func_800644B8((s16) ticks_left * 0xBA);
+    scale_wave = rsin((s16) ticks_left * 0xBA);
     scale_offset = scale_wave >> 2;
     if (scale_wave < 0) {
         scale_offset = (s32) (scale_wave + 3) >> 2;
     }
     scale->unk_1C = (s16) (0x1000 - scale_offset);
-    rounded_wave = func_800644B8((s16) state->unk_6C * 0xBA);
+    rounded_wave = rsin((s16) state->unk_6C * 0xBA);
     scale->unk_1E = (s16) ((rounded_wave / 4) + 0x1000);
 }

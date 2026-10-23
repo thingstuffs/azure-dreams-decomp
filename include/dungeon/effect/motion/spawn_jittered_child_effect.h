@@ -49,7 +49,7 @@ typedef struct Row_818FECCC_S_818FECCC_6 {
 /* Creates an effect at randomized offsets from the source object's position. */
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
-s32 func_80069EF8(void);
+s32 rand(void);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 extern u8 D_800241B0[];

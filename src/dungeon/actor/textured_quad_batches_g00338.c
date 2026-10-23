@@ -49,7 +49,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
         ((S_800B06F0_0 *)scratch)->unk_C0.p = (u8 *)ot_entry_addr;
         ((S_800B06F0_0 *)scratch)->unk_B8 -= 0xA0;
         ((S_800B06F0_0 *)scratch)->unk_BA -= 0x78;
-        func_800649A0(depth);
+        PushMatrix(depth);
 
         ((S_800B06F0_0 *)scratch)->unk_100 = ((S_800B06F0_3 *)params)->unk_16;
         ((S_800B06F0_0 *)scratch)->unk_102 = ((S_800B06F0_3 *)params)->unk_18;
@@ -60,10 +60,10 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
         ((S_800B06F0_0 *)scratch)->unk_34 = ((S_800B06F0_3 *)params)->unk_1E;
         ((S_800B06F0_0 *)scratch)->unk_38 = 0x1000;
 
-        func_80065820(scratch + 0x100, transform);
-        func_80064BC0(transform, scratch + 0x30);
-        func_80064D80(transform);
-        func_80064CF0(transform);
+        RotMatrix(scratch + 0x100, transform);
+        ScaleMatrix(transform, scratch + 0x30);
+        SetTransMatrix(transform);
+        SetRotMatrix(transform);
 
         primitive = *primitive_list;
         while (primitive != 0) {
@@ -108,7 +108,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
                 ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
             }
 
-            func_800654B0(
+            RotTransPers4(
                 scratch + 0x70, scratch + 0x78,
                 scratch + 0x80, scratch + 0x88,
                 scratch + 0xF0, scratch + 0xF4,
@@ -119,7 +119,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
             primitive_flags = primitive[0];
             if ((signed_flags >= 0) && (primitive_flags & 8)) {
                 reverse_winding = primitive_flags & 4;
-                if (func_80065480(
+                if (NormalClip(
                         ((S_800B06F0_0 *)scratch)->unk_F0.at00.v,
                         ((S_800B06F0_0 *)scratch)->unk_F4.at00.v,
                         ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0
@@ -176,7 +176,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
             primitive_list++;
             primitive = *primitive_list;
         }
-        func_80064A40();
+        PopMatrix();
     }
 
     next_batch = ((S_800B06F0_2_pre *)batch)[-1].unk_00;
@@ -208,7 +208,7 @@ void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void *
     u16 page_override;
 
     ((S_800B0BE0_0 *)primitive)->unk_04 = (s32) draw_settings->unk_0C;
-    func_800666F4(primitive);
+    SetPolyFT4(primitive);
     ((S_800B0BE0_0 *)primitive)->unk_0E = (u16) ((S_800B0BE0_2 *)(*texture_cursor))->unk_06;
     page_override = draw_settings->unk_10;
     if (page_override != 0) {
@@ -233,7 +233,7 @@ void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void *
     v_end = (v_bounds->unk_09 + v_bounds->unk_0B) - 1;
     ((S_800B0BE0_0 *)primitive)->unk_25 = v_end;
     ((S_800B0BE0_0 *)primitive)->unk_1D = v_end;
-    func_8006658C(submit_context, primitive);
+    AddPrim(submit_context, primitive);
     texture_entry = *texture_cursor;
     primitive += 0x28;
     if (((S_800B0BE0_5 *)texture_entry)->unk_00 < 0) {

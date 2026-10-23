@@ -31,8 +31,8 @@ void apply_random_actor_value_adjustment();          /* extern */
 void create_owner_linked_mirrored_sprite(); /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 register_node();           /* extern */
-s16 func_80066460(); /* extern */
-s32 func_80069EF8();                                /* extern */
+s16 GetTPage(); /* extern */
+s32 rand();                                /* extern */
 s32 check_adjacent_tile_height_clearance();           /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
@@ -442,7 +442,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
                 s32 particle_direction;
                 s32 particle_color;
                 s32 random_value;
-                random_value = func_80069EF8();
+                random_value = rand();
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
@@ -593,7 +593,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             first_sprite->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)first_object + 0x40)) = D_80025E34;
             first_sprite->unk_08 = (void *) (((void *)first_object) + 0x40);
-            ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = func_80066460(2, 2, 0x340, 0x154);
+            ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = GetTPage(2, 2, 0x340, 0x154);
         }
         second_object = allocate_flagged_object_node(0x212);
         child_effect = ((void *)second_object) + 0x20;
@@ -625,7 +625,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             second_sprite->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)second_object + 0x40)) = D_80025E40;
             second_sprite->unk_08 = (void *) (((void *)second_object) + 0x40);
-            ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = func_80066460(2, 1, 0x340, 0x1A8);
+            ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = GetTPage(2, 1, 0x340, 0x1A8);
         }
         third_object = allocate_flagged_object_node(0x212);
         child_effect = ((void *)third_object) + 0x20;
@@ -714,7 +714,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
                 s32 particle_direction;
                 s32 particle_color;
                 s32 random_value;
-                random_value = func_80069EF8();
+                random_value = rand();
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = (*(s16 *)((u8 *)effect + 0x7E));

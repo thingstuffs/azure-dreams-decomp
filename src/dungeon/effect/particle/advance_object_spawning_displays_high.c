@@ -19,8 +19,8 @@ const RectTable D_80024004 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{
 void func_8002405C(void *effect, void *unused, void *primitive)
 ;
 /* Advance the effect fade and mark it finished when its countdown expires. */
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
@@ -30,7 +30,7 @@ extern u8 D_800DEB28[];
 extern u8 effect_sprite_sources[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 read_sound_mode_blocking_status(s32);
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
@@ -212,7 +212,7 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
         scratch->y = position->y.w.i;
         scratch->z = position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, &tile->data,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -240,8 +240,8 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
-            draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            draw_page = GetTPage(0, 1, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
@@ -524,7 +524,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                 particle_index = 0;
                 do
                 {
-                    sprite_rgb = (u32)func_80069EF8();
+                    sprite_rgb = (u32)rand();
                     particle_color = 0x200000;
                     sprite_rgb = particle_alpha_from_random(sprite_rgb);
                     particle_level = F(effect, s16, 0x26);
@@ -551,7 +551,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                         sprite = particle->sprite;
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                         position = particle->position;
-                        if ((func_80069EF8() & 1) == 0) {
+                        if ((rand() & 1) == 0) {
                             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                         }
                         position->x.w.i = F(effect, u16, 0xC);
@@ -561,17 +561,17 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                         position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
                         position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
                         if (particle_index != 0) {
-                            bits = (u32)func_80069EF8() & 0x1F;
+                            bits = (u32)rand() & 0x1F;
                             component = *(u16 *)&position->x.w.i;
                             component -= 0x10;
                             component += bits;
                             position->x.w.i = (u16)component;
-                            bits = (u32)func_80069EF8() & 0x1F;
+                            bits = (u32)rand() & 0x1F;
                             component = *(u16 *)&position->y.w.i;
                             component -= 0x10;
                             component += bits;
                             position->y.w.i = (u16)component;
-                            bits = (u32)func_80069EF8() & 0x1F;
+                            bits = (u32)rand() & 0x1F;
                             component = *(u16 *)&position->z.w.i;
                             component -= 0x10;
                             component += bits;
@@ -612,7 +612,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                         (F(effect, s16, 0x10) + F(effect, s16, 0x16)) / 2;
                     particle_index = 0;
                     do {
-                        sprite_rgb = (u32)func_80069EF8();
+                        sprite_rgb = (u32)rand();
                         particle_color = 0x200000;
                         sprite_rgb = particle_alpha_from_random(sprite_rgb);
                         particle_level = F(effect, s16, 0x26);
@@ -639,7 +639,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                             sprite = particle->sprite;
                             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                             position = particle->position;
-                            if ((func_80069EF8() & 1) == 0) {
+                            if ((rand() & 1) == 0) {
                                 F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                             }
                             position->x.w.i = F(effect, u16, 0x18);
@@ -649,17 +649,17 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                             position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
                             position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
                             if (particle_index != 0) {
-                                bits = (u32)func_80069EF8() & 0xF;
+                                bits = (u32)rand() & 0xF;
                                 component = *(u16 *)&position->x.w.i;
                                 component -= 8;
                                 component += bits;
                                 position->x.w.i = (u16)component;
-                                bits = (u32)func_80069EF8() & 0xF;
+                                bits = (u32)rand() & 0xF;
                                 component = *(u16 *)&position->y.w.i;
                                 component -= 8;
                                 component += bits;
                                 position->y.w.i = (u16)component;
-                                bits = (u32)func_80069EF8() & 0x1F;
+                                bits = (u32)rand() & 0x1F;
                                 component = *(u16 *)&position->z.w.i;
                                 component -= 0x10;
                                 component += bits;
@@ -771,7 +771,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                     sprite = particle->sprite;
                     F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                     F(sprite, u16, 0x10) = 0x60;
-                    if ((func_80069EF8() & 1) == 0) {
+                    if ((rand() & 1) == 0) {
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                     }
                     position = particle->position;
@@ -782,19 +782,19 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                         if (particle_index != 0) {
                             F(burst_tail, s16, 0x2A) = 8;
                             F(sprite, u16, 0x10) = 0x20;
-                            sprite_rgb = (u32)func_80069EF8();
+                            sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0xC);
                             component -= 0x20;
                             component += bits;
                             F(effect, u16, 0xC) = (u16)component;
-                            sprite_rgb = (u32)func_80069EF8();
+                            sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0xE);
                             component -= 0x20;
                             component += bits;
                             F(effect, u16, 0xE) = (u16)component;
-                            sprite_rgb = (u32)func_80069EF8();
+                            sprite_rgb = (u32)rand();
                             bits = sprite_rgb & 0x3F;
                             component = F(effect, u16, 0x10);
                             component -= 0x20;

@@ -27,9 +27,9 @@ extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 
 extern const u8 D_80024004[];
 
 /* Runs action 0x53 on the target after state and threshold checks. */
-extern u32 func_80065420(void *, void *, void *, void *);
+extern u32 RotTransPers(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern s32 rand(void);
 extern s32 rand(void);
@@ -37,13 +37,13 @@ extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
 extern s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
-extern void func_800672D8(Rect *, s32 *);
+extern void LoadImage(Rect *, s32 *);
 extern void *jtbl_80024088[9];
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
 extern u8 current_spell_effect_variant[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern u16 GetTPage(s32, s32, s32, s32);
 
@@ -119,7 +119,7 @@ s32 func_80024154(PointRecord *first_point, ObjectPosition *first_position)
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, &tile->data,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -151,7 +151,7 @@ s32 func_80024154(PointRecord *first_point, ObjectPosition *first_position)
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
             draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
@@ -485,7 +485,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
             }
             draw_data = D_80025638;
             draw_rect.y = D_80025678[order_index] * 2 + 0x100;
-            func_800672D8(&draw_rect, draw_data);
+            LoadImage(&draw_rect, draw_data);
             entry++;
         } while (entry < 0x30);
 
@@ -826,7 +826,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         particle_index = 0;
         do {
             s32 particle_shade;
-            s32 random_bits = func_80069EF8();
+            s32 random_bits = rand();
             particle_shade = (random_bits & 0xFF) | 0x80;
             handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);

@@ -741,11 +741,11 @@ struct Scratch {
     s32 length;
 };
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_8006658C(void *, void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern void AddPrim(void *, void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
 typedef union {
@@ -807,10 +807,10 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
             ((ParticleQuad *)packet_cursor)->color0.word = 0;
             ((ParticleQuad *)packet_cursor)->color1.word = 0;
             scratch->x70 = scratch->values[0] +
-                ((func_80064584((particle_offset + (object->coord << 6)) << 7) << 4) >> 11);
+                ((rcos((particle_offset + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->x78 = scratch->x70;
             scratch->y72 = scratch->values[1] +
-                ((func_800644B8((particle_offset + (object->coord << 6)) << 7) << 4) >> 11);
+                ((rsin((particle_offset + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->y7A = scratch->y72;
             scratch->z74 = scratch->values[2] -
                 *(s8 *)((u8 *)object + particle_offset + 0x10) * 2;
@@ -832,11 +832,11 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
                 ((ParticleQuad *)packet_cursor)->color3.bytes.b = ((ParticleQuad *)packet_cursor)->color2.bytes.b;
             }
 
-            scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),
+            scratch->length = RotTransPers(&scratch->x70, (void *)(packet_cursor + 8),
                 projection_param, projection_flags);
             ((ParticleQuad *)packet_cursor)->point1.word = ((ParticleQuad *)packet_cursor)->point0.word;
             ((ParticleQuad *)packet_cursor)->point1.halves.x += 4;
-            scratch->length += func_80065420(&scratch->x78, (void *)(packet_cursor + 24),
+            scratch->length += RotTransPers(&scratch->x78, (void *)(packet_cursor + 24),
                 projection_param, projection_flags);
             ((ParticleQuad *)packet_cursor)->point3.word = ((ParticleQuad *)packet_cursor)->point2.word;
             ((ParticleQuad *)packet_cursor)->point3.halves.x += 2;
@@ -844,12 +844,12 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
             ((ParticleQuad *)packet_cursor)->tag.bytes.length = 8;
             ((ParticleQuad *)packet_cursor)->color0.bytes.code = 58;
             {
-                func_8006658C((void *)(scratch->base + scratch->length * 4),
+                AddPrim((void *)(scratch->base + scratch->length * 4),
                     (void *)packet_cursor);
                 packet_cursor += 36;
             }
-            func_80067F20((void *)packet_cursor, 0, 0, 96, 0);
-            func_8006658C((void *)(scratch->base + scratch->length * 4),
+            SetDrawMode((void *)packet_cursor, 0, 0, 96, 0);
+            AddPrim((void *)(scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             {
                 u8 particle_count = object->count;
@@ -1909,13 +1909,13 @@ typedef struct {
     s32 projection_flag;
 } StackLocals;
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s16 func_80066460(s32, s32, s32, s32);
-extern s16 func_8006649C(s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_80066708(void *);
-extern void func_8006671C(u8 *primitive);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s16 GetTPage(s32, s32, s32, s32);
+extern s16 GetClut(s32, s32);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyG4(void *);
+extern void SetPolyGT4(u8 *primitive);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern u8 D_80083150[];
 
 /* Builds and queues textured and shaded quads for an effect and advances to the next object. */
@@ -2035,7 +2035,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         depth = 0;
 
         for (vertex_index = 0; vertex_index < 4; vertex_index++) {
-            s32 vertex_depth = func_80065420(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
+            s32 vertex_depth = RotTransPers(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
             bucket_ptr_m = (u8 *)(depth - 8);
             depth = (s32)bucket_ptr_m + vertex_depth;
         }
@@ -2060,13 +2060,13 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         ((S_807B0B3C_7 *)prim)->unk_04 = 0;
         ((S_807B0B3C_7 *)prim)->unk_28 = gray;
         ((S_807B0B3C_7 *)prim)->unk_10 = gray;
-        func_8006671C(prim_arg);
-        func_80066640(prim, 1);
-        ((S_807B0B3C_7 *)prim)->unk_18.at02.v = func_80066460(0, 1, 0x280, 0x100);
+        SetPolyGT4(prim_arg);
+        SetSemiTrans(prim, 1);
+        ((S_807B0B3C_7 *)prim)->unk_18.at02.v = GetTPage(0, 1, 0x280, 0x100);
         {
             u16 clut;
 
-            clut = func_8006649C(0x90, 0x1F7);
+            clut = GetClut(0x90, 0x1F7);
             tex_left = ((S_807B0B3C_8 *)verts)->unk_00;
             ((S_807B0B3C_7 *)prim)->unk_0C.at02.v = clut;
             ((S_807B0B3C_7 *)prim)->unk_08 = tex_left;
@@ -2191,7 +2191,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             break;
         }
         for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
-            func_80065420(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
+            RotTransPers(scratch + vertex_index * 8, verts + vertex_index * 4, &stack.projection_flag, &stack.projection_flag);
         }
 
         if ((u32)depth < 0x1E0U) {
@@ -2215,8 +2215,8 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             ((S_807B0B3C_7 *)shaded_prim)->unk_0C.at00u.v = ((S_807B0B3C_12 *)colors)->unk_04.s;
             ((S_807B0B3C_7 *)shaded_prim)->unk_14 = ((S_807B0B3C_12 *)colors)->unk_08.s;
             ((S_807B0B3C_7 *)shaded_prim)->unk_1C = ((S_807B0B3C_12 *)colors)->unk_0C.s;
-            func_80066708(shaded_prim);
-            func_80066640(shaded_prim, 1);
+            SetPolyG4(shaded_prim);
+            SetSemiTrans(shaded_prim, 1);
             {
                 s32 vertex;
                 u32 prim_tag;
@@ -2257,14 +2257,14 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 page_y = draw_value;
                 *(u8 **)(bucket_ptr_m + 0x8D0) = draw_prim + 0xC;
             }
-            component_5 = func_80066460(draw_value, blend_mode, page_x, page_y);
+            component_5 = GetTPage(draw_value, blend_mode, page_x, page_y);
             {
                 s32 zero;
                 void *draw_mode_arg;
 
                 draw_mode_arg = (void *)draw_prim;
                 zero = 0;
-                func_80067F20(draw_mode_arg, zero, zero, component_5, 0);
+                SetDrawMode(draw_mode_arg, zero, zero, component_5, 0);
             }
 
             {

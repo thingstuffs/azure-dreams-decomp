@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_80065F90(s32, s32);
+extern s16 ratan2(s32, s32);
 
 /* Clamp the fixed-point coordinate deltas to the minimum before passing them to the helper. */
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin) {
@@ -25,5 +25,5 @@ s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin) {
     } else {
         clamped_y_delta = minimum;
     }
-    return func_80065F90(clamped_x_delta, clamped_y_delta);
+    return ratan2(clamped_x_delta, clamped_y_delta);
 }

@@ -75,7 +75,7 @@ typedef struct Scratch81976F70 {
 } Scratch81976F70;
 
 extern s32 *D_80026208;
-extern s32 func_80066460(s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Project three vertices and queue a textured, shaded triangle by depth. */
@@ -100,7 +100,7 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
 
     packet->type = 9;
     packet->unk7 = 0x36;
-    texture_page = func_80066460(0, 3, 0x300, 0x100);
+    texture_page = GetTPage(0, 3, 0x300, 0x100);
     screen_xy1 = (void *)((u32)scratch | 0x74);
     screen_xy2 = (void *)((u32)scratch | 0x78);
     depth_cue_out = (void *)((u32)scratch | 8);

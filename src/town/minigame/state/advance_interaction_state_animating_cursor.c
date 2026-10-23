@@ -40,7 +40,7 @@ extern int abs(int);
 
 extern s32 service_script_controller(void);
 extern void SD_Call(s32);
-extern void func_800673A0(void *, s32, s32);
+extern void MoveImage(void *, s32, s32);
 extern s32 check_transform_identifier_and_hook(Obj *);
 /* Advances the interaction state, animating the cursor and vertical position. */
 void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 *cursor_data) {
@@ -68,7 +68,7 @@ void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 
                     entry_index = 1;
                 }
             }
-            func_800673A0(&entries.entries[entry_index], 0x188, 0x180);
+            MoveImage(&entries.entries[entry_index], 0x188, 0x180);
         } while (0);
     case 3:
     {

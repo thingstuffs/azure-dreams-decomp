@@ -6,12 +6,12 @@
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern void func_800649A0(s32);
-extern void func_80064A40(void);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
+extern void PushMatrix(s32);
+extern void PopMatrix(void);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void func_80065820(void *, void *);
+extern void RotMatrix(void *, void *);
 
 /* Rotate and move four effect vertices, fade their colors, and mark the effect expired when its lifetime ends. */
 void update_rotating_effect_fade(void *effect, void *motion, void *rotation)
@@ -60,7 +60,7 @@ void update_rotating_effect_fade(void *effect, void *motion, void *rotation)
     counter_page[0x6472 / 2] = update_count;
     scratch[0x84 / 2] = relative_z;
     scratch[0x8C / 2] = U16_AT(effect, 0x50) - U16_AT(motion_state, 0xA);
-    func_800649A0(center_z);
+    PushMatrix(center_z);
 
     angles[0] = U16_AT(rotation, 0x16);
     angles[1] = U16_AT(rotation, 0x18);
@@ -68,9 +68,9 @@ void update_rotating_effect_fade(void *effect, void *motion, void *rotation)
     matrix[7] = 0;
     matrix[6] = 0;
     matrix[5] = 0;
-    func_80065820(angles, matrix);
-    func_80064D80(matrix);
-    func_80064CF0(matrix);
+    RotMatrix(angles, matrix);
+    SetTransMatrix(matrix);
+    SetRotMatrix(matrix);
 
     func_80065320(scratch + 0x70 / 2, scratch + 0x98 / 2,
                   scratch + 0x94 / 2);
@@ -80,7 +80,7 @@ void update_rotating_effect_fade(void *effect, void *motion, void *rotation)
                   scratch + 0x94 / 2);
     func_80065320(scratch + 0x88 / 2, scratch + 0xB0 / 2,
                   scratch + 0x94 / 2);
-    func_80064A40();
+    PopMatrix();
 
     S32_AT(motion_state, 0) = S32_AT(motion_state, 0) + S32_AT(motion_state, 0xC);
     S32_AT(motion_state, 4) = S32_AT(motion_state, 4) + S32_AT(motion_state, 0x10);

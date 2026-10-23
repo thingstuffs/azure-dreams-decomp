@@ -2,11 +2,11 @@
 #include "shared/game_work.h"
 
 
-extern s32 func_80065420();
-extern s32 func_80066460();
-extern void func_80066640();
-extern void func_800667D0();
-extern void func_80067F20();
+extern s32 RotTransPers();
+extern s32 GetTPage();
+extern void SetSemiTrans();
+extern void SetLineG2();
+extern void SetDrawMode();
 extern s32 rand();
 struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
 
@@ -57,14 +57,14 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     color_factor_2 = rand();
     line[3] = (color_factor_2 * rand()) & low_mask;
 
-    func_800667D0(line);
-    func_80066640(line, 1);
+    SetLineG2(line);
+    SetSemiTrans(line, 1);
 
     copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->start), (struct MovingPosition *)(start_pos));
     copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->end), (struct MovingPosition *)(end_pos));
-    scratch->depth = func_80065420(
+    scratch->depth = RotTransPers(
         scratch->start, &scratch->start_x, &scratch->interp, &scratch->flag);
-    func_80065420(
+    RotTransPers(
         scratch->end, &scratch->end_x, &scratch->interp, &scratch->flag);
 
     {
@@ -89,8 +89,8 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     draw_ctx = (u8 *)g_game_work.draw_buffer;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
-    depth_or_tpage = func_80066460(0, 0, 0x140, 0);
-    func_80067F20(draw_mode, 1, 0, (u16)depth_or_tpage, 0);
+    depth_or_tpage = GetTPage(0, 0, 0x140, 0);
+    SetDrawMode(draw_mode, 1, 0, (u16)depth_or_tpage, 0);
 
     texture_depth = 0;
     length_mask = 0xFF000000;
@@ -123,8 +123,8 @@ void draw_random_colored_line(s32 end_point, s32 start_point)
     draw_ctx = (u8 *)g_game_work.draw_buffer;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
-    depth_or_tpage = func_80066460(texture_depth, 1, 0x140, texture_y);
-    func_80067F20(draw_mode, 1, 0, (u16)depth_or_tpage, 0);
+    depth_or_tpage = GetTPage(texture_depth, 1, 0x140, texture_y);
+    SetDrawMode(draw_mode, 1, 0, (u16)depth_or_tpage, 0);
 
     {
         u32 *ot_entry =

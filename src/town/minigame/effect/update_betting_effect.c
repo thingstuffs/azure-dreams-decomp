@@ -50,9 +50,9 @@ extern s32 service_script_controller(void);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void SD_Call(s32);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80069EF8(void);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 rand(void);
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
@@ -533,12 +533,12 @@ void update_betting_effect(TownEffect *input)
         ObjectPosition *motion_words;
         s16 *timer_ptr;
         orbit_component = effect->timer;
-        orbit_component = func_800644B8(0x1000 - orbit_component);
+        orbit_component = rsin(0x1000 - orbit_component);
         motion = &view_reference_entity;
         motion_words = motion;
         motion_words->x.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
         timer_ptr = (s16 *)((u8 *)effect + 0x1A);
-        orbit_component = func_80064584(0x1000 - *timer_ptr);
+        orbit_component = rcos(0x1000 - *timer_ptr);
         motion_words->y.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
         if (--effect->count == 0) {
             apply_global_scene_value(D_800D0080);
@@ -619,7 +619,7 @@ void update_betting_effect(TownEffect *input)
         particle_index = 0;
         while (particle_index < digit_sum) {
             do {
-                random_value = func_80069EF8();
+                random_value = rand();
                 message.x = (s16)(random_value % 3);
                 digit = (u8 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
                 digit_count = ((S_800211A4_12 *)digit)->unk_70.s;
@@ -633,8 +633,8 @@ void update_betting_effect(TownEffect *input)
             scratch.a = origin_xy;
             scratch.b = origin_xy;
             scratch.c = (s32)0xFF800000;
-            scratch.d = (s32)((u32)(func_800644B8(angle) * 5) << 6);
-            scratch.e = (s32)((u32)(func_80064584(angle) * 5) << 6);
+            scratch.d = (s32)((u32)(rsin(angle) * 5) << 6);
+            scratch.e = (s32)((u32)(rcos(angle) * 5) << 6);
             scratch.f = (s32)0xFFF80000;
             initialize_source_and_initial_data(&message, &scratch);
             particle_index++;

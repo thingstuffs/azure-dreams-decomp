@@ -73,21 +73,21 @@ typedef struct S_func_800AC9AC_3 {
     u16 unk_22;
 } S_func_800AC9AC_3;
 
-s32 func_80064B90(void *, void *);
-s32 func_80064BC0(void *, void *);
-s32 func_80064CF0(void *);
-s32 func_80064D80(void *);
-s32 func_80065450(void *, void *, s32 *);
-s32 func_80065820(void *, void *);
+s32 TransMatrix(void *, void *);
+s32 ScaleMatrix(void *, void *);
+s32 SetRotMatrix(void *);
+s32 SetTransMatrix(void *);
+s32 RotTrans(void *, void *, s32 *);
+s32 RotMatrix(void *, void *);
 /* extern */
 extern s32 D_800D11C0[4];
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_80066844(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetSemiTrans(void *, s32);
+extern void SetLineG4(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 extern s32 rand(void);
 extern void copy_menu_vector_halfwords(void *, void *);
 extern void add_entity_position_to_menu_vector(void *, void *);

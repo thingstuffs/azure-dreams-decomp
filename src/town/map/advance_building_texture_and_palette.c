@@ -14,7 +14,7 @@ extern u8 D_80111EE8[];
 extern u8 D_80111F08[];
 extern u8 D_80111F28[];
 
-extern void func_800672D8();
+extern void LoadImage();
 
 /* Advance the animation tick and upload the current texture and palette frames. */
 void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload_arg) {
@@ -39,7 +39,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_80110EC8, upload_arg);
+        LoadImage(rect, D_80110EC8, upload_arg);
         break;
 
     case 4:
@@ -49,7 +49,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_801110C8, upload_arg);
+        LoadImage(rect, D_801110C8, upload_arg);
         break;
 
     case 8:
@@ -59,7 +59,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_801112C8, upload_arg);
+        LoadImage(rect, D_801112C8, upload_arg);
         break;
 
     case 12:
@@ -69,7 +69,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_801114C8, upload_arg);
+        LoadImage(rect, D_801114C8, upload_arg);
         break;
 
     default:
@@ -84,7 +84,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         ((s16 *)rect)[1] = 0x80;
         ((s16 *)rect)[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_801116C8);
+        LoadImage(rect, D_801116C8);
         break;
 
     case 4:
@@ -93,7 +93,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        func_800672D8(rect, D_801118C8);
+        LoadImage(rect, D_801118C8);
         break;
 
     case 8:
@@ -106,7 +106,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
             tile_height = 0x20;
             rect[2] = tile_width;
             rect[3] = tile_height;
-            func_800672D8(rect, D_80111AC8);
+            LoadImage(rect, D_80111AC8);
         }
         break;
 
@@ -121,7 +121,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
             tile_height = 0x20;
             rect[2] = tile_width;
             rect[3] = tile_height;
-            func_800672D8(rect, D_80111CC8);
+            LoadImage(rect, D_80111CC8);
         }
     }
 
@@ -133,7 +133,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
-        func_800672D8(rect, D_80111EC8);
+        LoadImage(rect, D_80111EC8);
         return;
 
     case 2:
@@ -142,7 +142,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
-        func_800672D8(rect, D_80111EE8);
+        LoadImage(rect, D_80111EE8);
         return;
 
     case 4:
@@ -151,7 +151,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
-        func_800672D8(rect, D_80111F08);
+        LoadImage(rect, D_80111F08);
         return;
 
     case 6:
@@ -161,6 +161,6 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
-        func_800672D8(rect, D_80111F28);
+        LoadImage(rect, D_80111F28);
     }
 }

@@ -8,7 +8,7 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -113,7 +113,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             step_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset) << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -func_800644B8(((S_801728A8_0 *)action)->unk_96.s * 170);
+            arc = -rsin(((S_801728A8_0 *)action)->unk_96.s * 170);
             ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
             timer = ((S_801728A8_0 *)action)->unk_96.u + 1;
             ((S_801728A8_0 *)action)->unk_96.u = timer;
@@ -156,7 +156,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -func_800644B8(((S_801728A8_0 *)action)->unk_96.s * 170);
+            arc = -rsin(((S_801728A8_0 *)action)->unk_96.s * 170);
             ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
             timer = ((S_801728A8_0 *)action)->unk_96.u + 1;
             ((S_801728A8_0 *)action)->unk_96.u = timer;

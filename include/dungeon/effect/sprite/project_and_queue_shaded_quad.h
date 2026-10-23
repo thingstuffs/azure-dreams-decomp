@@ -358,22 +358,22 @@ typedef struct Row_8192365C_S_80024E5C_5 {
 } Row_8192365C_S_80024E5C_5;   /* ((Row_8192365C_S_80024E5C_0 *)arg0)->unk_8C in func_80024E5C */
 
 /* Update the effect's color cycle, movement, bursts, and destruction. */
-void func_80064840(void *, void *, void *);
-void func_800649A0(void);
-void func_80064A40(void);
-void func_80064AE0(void *);
-void func_80064BC0(void *, void *);
-void func_80064CF0(void *);
-void func_80064D80(void *);
-s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-void func_80065820(void *, void *);
-u16 func_80066460(s32, s32, s32, s32);
-void func_80067F20(void *, s32, s32, u16, s32);
+void CompMatrix(void *, void *, void *);
+void PushMatrix(void);
+void PopMatrix(void);
+void ReadRotMatrix(void *);
+void ScaleMatrix(void *, void *);
+void SetRotMatrix(void *);
+void SetTransMatrix(void *);
+s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+void RotMatrix(void *, void *);
+u16 GetTPage(s32, s32, s32, s32);
+void SetDrawMode(void *, s32, s32, u16, s32);
 s32 project_and_queue_visible_shaded_quad(s32);
 s32 register_node();
 s32 func_8004491C();
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
+s32 rsin(s32);
+s32 rcos(s32);
 s32 rand();
 s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value();

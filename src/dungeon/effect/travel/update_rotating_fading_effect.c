@@ -60,17 +60,17 @@ void func_8002403C(void *target, s32 amount_input, void *owner) {
         quarter_turn = 0x400;
         *(s32 *)((u8 *) position + 0) =
             (*(s32 *)((u8 *) effect + 4))
-        + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
             * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
             * ((*(s32 *)((u8 *) effect + 0x28)) >> 8));
         *(s32 *)((u8 *) position + 4) =
             (*(s32 *)((u8 *) effect + 8))
-        + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
             * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
             * ((*(s32 *)((u8 *) effect + 0x2C)) >> 8));
         *(s32 *)((u8 *) position + 8) =
             (*(s32 *)((u8 *) effect + 0xC))
-        + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
             * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
             * ((*(s32 *)((u8 *) effect + 0x30)) >> 8));
         if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x3A))) {
@@ -142,9 +142,9 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
         data->unk_36 = 0;
         data->unk_3A = source->unk_12.as_u16;
 
-        amplitude = func_80069EF8() % 48;
-        angle_x = func_80069EF8() % 0x1000;
-        angle_y = func_80069EF8() % 0x1000;
+        amplitude = rand() % 48;
+        angle_x = rand() % 0x1000;
+        angle_y = rand() % 0x1000;
 
         data->unk_04 = start->unk_00;
         data->unk_08 = start->unk_04;
@@ -154,10 +154,10 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
             s32 trig_x, trig_y;
             s32 raw_trig_x;
             s32 sample_angle;
-            raw_trig_x = func_800644B8(angle_x);
+            raw_trig_x = rsin(angle_x);
             sample_angle = angle_y;
             trig_x = raw_trig_x;
-            trig_y = func_800644B8(sample_angle);
+            trig_y = rsin(sample_angle);
             trig_x >>= 4;
             trig_y >>= 4;
             data->unk_1C = center->unk_00 +
@@ -168,10 +168,10 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
             s32 trig_x, trig_y;
             s32 raw_trig_x;
             s32 sample_angle;
-            raw_trig_x = func_800644B8(angle_x);
+            raw_trig_x = rsin(angle_x);
             sample_angle = angle_y;
             trig_x = raw_trig_x;
-            trig_y = func_80064584(sample_angle);
+            trig_y = rcos(sample_angle);
             trig_x >>= 4;
             trig_y >>= 4;
             data->unk_20 = center->unk_04 +
@@ -180,7 +180,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
 
         {
             s32 trig_x;
-            trig_x = func_80064584(angle_x);
+            trig_x = rcos(angle_x);
             data->unk_24 = center->unk_08 +
                 (((trig_x >> 4) * amplitude) << 8);
         }
@@ -195,7 +195,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
         sprite->color.c.r = 0xFF;
         sprite->scale_y = 0x300;
         sprite->scale_x = 0x300;
-        sprite->angle_z = func_80069EF8() % 0x1000;
+        sprite->angle_z = rand() % 0x1000;
         sprite->clut = 0x7E06;
         sprite->source = D_800777DC;
         sprite->flags |= 0x100;

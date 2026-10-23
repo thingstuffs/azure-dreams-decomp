@@ -37,7 +37,7 @@ void apply_indexed_effect_condition(s32,u8,void *);
 s32 select_record_entry_and_value(void *,void *,s32);
 s32 get_sprite_attachment_vector(void *,void *,s16 *,s32);
 s32 func_8003DF74(void *,void *,s16 *,s32);
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
+s32 rsin(s32);
+s32 rcos(s32);
 s32 rand(void);
 #endif

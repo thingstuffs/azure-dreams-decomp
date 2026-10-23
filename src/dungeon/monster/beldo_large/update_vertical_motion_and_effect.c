@@ -21,7 +21,7 @@ typedef struct S_8017085C_2 {
 } S_8017085C_2;   /* arg2 in update_vertical_motion_and_effect */
 
 
-extern s32 func_800644B8();
+extern s32 rsin();
 extern void place_item_at_valid_floor_position();
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
@@ -46,7 +46,7 @@ void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, v
         ((S_8017085C_0 *)motion)->unk_18 = frame_2 + 1;
         phase = (s32)((u32)frame_2 << 0x10);
         phase >>= 4;
-        ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+        ((S_8017085C_0 *)motion)->unk_5C = (0 - rsin(phase / 80)) << 7;
         height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
         position->z.v = position->velocity_z + height_offset;
 
@@ -56,7 +56,7 @@ void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, v
         ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
         phase = (s32)((u32)frame << 0x10);
         phase >>= 4;
-        ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+        ((S_8017085C_0 *)motion)->unk_5C = (0 - rsin(phase / 80)) << 7;
         height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
         position->z.v = position->velocity_z + height_offset;
 

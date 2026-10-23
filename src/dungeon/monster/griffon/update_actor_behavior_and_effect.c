@@ -970,7 +970,7 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
                 ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s;
 
             ((R08_8017245C_S_80172478_0 *)action)->unk_A4 =
-                (-func_800644B8(((R08_8017245C_S_80172478_0 *)action)->unk_A8.s * 0x199)) << 10;
+                (-rsin(((R08_8017245C_S_80172478_0 *)action)->unk_A8.s * 0x199)) << 10;
         }
 
         height_offset = ((R08_8017245C_S_80172478_0 *)action)->unk_90;
@@ -2138,7 +2138,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             effect_work->unk_0C.i = color;
             variant = lookup_masked_byte_table(actor) - 1;
             if (variant < 0) {
-                variant = func_80069EF8() % 3;
+                variant = rand() % 3;
             }
             select_record_entry_and_value(effect_work, ((u8 *)D_8014A000) + (s32)((void * *)D_80174CFC)[variant], 0);
             entity->flags |= 0x80;

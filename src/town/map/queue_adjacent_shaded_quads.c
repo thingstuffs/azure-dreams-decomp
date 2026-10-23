@@ -44,11 +44,11 @@ typedef struct Func800AB788Poly {
     u16 y3;
 } Func800AB788Poly;
 
-extern u16 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066640(void *, s32);
-extern void func_80066708(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyG4(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
 void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
@@ -76,8 +76,8 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->color1 = strip->color1;
         poly->color2 = 0x383838;
         poly->color3 = strip->color3;
-        func_80066708(poly);
-        func_80066640(poly, 1);
+        SetPolyG4(poly);
+        SetSemiTrans(poly, 1);
 
         poly->tag = (poly->tag & 0xFF000000) |
                     (strip->ot[strip->otIndex] & 0x00FFFFFF);
@@ -97,8 +97,8 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
-        func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
-        func_8006658C(strip->ot + strip->otIndex, tpage);
+        SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
+        AddPrim(strip->ot + strip->otIndex, tpage);
     }
 
     if ((((u16)(strip->x1 + 0x20) < 0x181) &&
@@ -120,8 +120,8 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         poly->color1 = 0;
         poly->color2 = strip->color3;
         poly->color3 = 0;
-        func_80066708(poly);
-        func_80066640(poly, 1);
+        SetPolyG4(poly);
+        SetSemiTrans(poly, 1);
 
         poly->tag = (poly->tag & 0xFF000000) |
                     (strip->ot[strip->otIndex] & 0x00FFFFFF);
@@ -141,7 +141,7 @@ void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
         tpage_state = (GpuContext *)render_state_ptr->draw_buffer;
         tpage = tpage_state->packetCursor;
         tpage_state->packetCursor = tpage + 0xC;
-        func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
-        func_8006658C(strip->ot + strip->otIndex, tpage);
+        SetDrawMode(tpage, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
+        AddPrim(strip->ot + strip->otIndex, tpage);
     }
 }

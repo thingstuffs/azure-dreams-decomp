@@ -22,9 +22,9 @@ const NativeOffsets58 D_80024004 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,
 const RectTable D_80024024 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
-extern u32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern u32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern s32 func_80024124(PointRecord *, ObjectPosition *);
 extern void advance_counter_and_propagate_target_flags(void *);
@@ -100,7 +100,7 @@ s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position)
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, &tile->data,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -128,8 +128,8 @@ s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position)
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
-            draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            draw_page = GetTPage(0, 1, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;

@@ -79,7 +79,7 @@ typedef struct {
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
@@ -241,10 +241,10 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                     dir_step_x[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
                 ((S_80170F6C_3 *)aux_entity)->unk_10 =
                     dir_step_y[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
-                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                scale = rsin((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
                 ((S_80170F6C_3 *)aux_entity)->unk_0C = ((S_80170F6C_3 *)aux_entity)->unk_0C +
                     (((S_80170F6C_3 *)aux_entity)->unk_0C * scale >> 9);
-                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                scale = rsin((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
                 ((S_80170F6C_3 *)aux_entity)->unk_10 = ((S_80170F6C_3 *)aux_entity)->unk_10 +
                     (((S_80170F6C_3 *)aux_entity)->unk_10 * scale >> 9);
 

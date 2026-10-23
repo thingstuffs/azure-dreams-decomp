@@ -863,11 +863,11 @@ typedef struct S_819AD81C_4 {
 
    /* link in func_819AD81C */
 
-s32 func_800644B8();
-s32 func_80064584();
-void func_800649A0();
-void func_80064A40();
-void func_80065450();
+s32 rsin();
+s32 rcos();
+void PushMatrix();
+void PopMatrix();
+void RotTrans();
 void apply_attack_power_and_element_effects();
 s32 calculate_planar_heading();
 s32 check_left_tile_and_center_height();
@@ -951,8 +951,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 return;
             }
         }
-        ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (func_80064584(((S_819AD81C_0 *)entity)->unk_34) << 8);
-        ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (func_800644B8(((S_819AD81C_0 *)entity)->unk_34) << 8);
+        ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (rcos(((S_819AD81C_0 *)entity)->unk_34) << 8);
+        ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (rsin(((S_819AD81C_0 *)entity)->unk_34) << 8);
         level = ((S_819AD81C_1 *)gfx)->unk_04;
         if (level < 3) {
             component = ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
@@ -1056,18 +1056,18 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         want_kind = D_8002758C[((S_819AD81C_0 *)entity)->unk_48];
         node = ((void *)attached) + 0x20;
         if ((want_kind >= 0) && (((S_819AD81C_4 *)info)->unk_04 == want_kind)) {
-            func_800649A0(attached);
+            PushMatrix(attached);
             build_install(entity, motion, gfx);
             zero_vec.unk0 = 0;
             zero_vec.unk2 = 0;
             zero_vec.unk4 = 0;
-            func_80065450(&zero_vec, motion + 0xC, &rotated);
-            func_80064A40();
+            RotTrans(&zero_vec, motion + 0xC, &rotated);
+            PopMatrix();
             warp_params.unk2 = (u16) ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
             warp_params.unk6 = (u16) ((S_819AD81C_2 *)motion)->unk_10.at00.v;
             warp_params.unkA = (u16) ((S_819AD81C_2 *)motion)->unk_14;
-            warp_params.unkC = func_80064584(((S_819AD81C_3 *)node)->unk_34) * 0x10;
-            warp_params.unk10 = func_800644B8(((S_819AD81C_3 *)node)->unk_34) * 0x10;
+            warp_params.unkC = rcos(((S_819AD81C_3 *)node)->unk_34) * 0x10;
+            warp_params.unk10 = rsin(((S_819AD81C_3 *)node)->unk_34) * 0x10;
             warp_params.unk14 = 0;
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
@@ -1351,14 +1351,14 @@ typedef struct MATRIX {
     s32 t[3];
 } MATRIX;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_80064AE0(void *);
-extern void func_80064B90(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern void func_80065AB0(u16, void *);
-extern void func_80065C50(u16, void *);
-extern void func_80065DF0(u16, void *);
+extern void CompMatrix(void *, void *, void *);
+extern void ReadRotMatrix(void *);
+extern void TransMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern void RotMatrixX(u16, void *);
+extern void RotMatrixY(u16, void *);
+extern void RotMatrixZ(u16, void *);
 
 /* Build and install a transform from position, rotation, and a base matrix. */
 void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
@@ -1369,7 +1369,7 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
     ((S_8002593C_0 *)scratch)->unk_40 = position->unk_02;
     ((S_8002593C_0 *)scratch)->unk_44 = position->unk_06;
     ((S_8002593C_0 *)scratch)->unk_48 = position->unk_0A;
-    func_80064AE0(&matrix);
+    ReadRotMatrix(&matrix);
 
     ((S_8002593C_0 *)scratch)->unk_50 = ((S_8002593C_0 *)scratch)->unk_58 =
         ((S_8002593C_0 *)scratch)->unk_60 = 0x1000;
@@ -1377,13 +1377,13 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
         ((S_8002593C_0 *)scratch)->unk_56 = ((S_8002593C_0 *)scratch)->unk_5A =
         ((S_8002593C_0 *)scratch)->unk_5C = ((S_8002593C_0 *)scratch)->unk_5E = 0;
 
-    func_80065AB0(rotation->unk_16, scratch + 0x50);
-    func_80065DF0(rotation->unk_1A, scratch + 0x50);
-    func_80065C50(rotation->unk_18, scratch + 0x50);
-    func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80064840(scratch + 0x50, base_matrix, scratch + 0xD0);
-    func_80064D80(scratch + 0xD0);
-    func_80064CF0(scratch + 0xD0);
+    RotMatrixX(rotation->unk_16, scratch + 0x50);
+    RotMatrixZ(rotation->unk_1A, scratch + 0x50);
+    RotMatrixY(rotation->unk_18, scratch + 0x50);
+    TransMatrix(scratch + 0x50, scratch + 0x40);
+    CompMatrix(scratch + 0x50, base_matrix, scratch + 0xD0);
+    SetTransMatrix(scratch + 0xD0);
+    SetRotMatrix(scratch + 0xD0);
 }
 
 #include "modules/dungeon_ovl_19cc800.h"
@@ -1543,8 +1543,8 @@ typedef struct S_80025D28_2 {
     u8 unk_0D;
 } S_80025D28_2;   /* arg2 in initialize_inventory_packet */
 
-extern s32 func_800644B8();
-extern s32 func_80064584();
+extern s32 rsin();
+extern s32 rcos();
 
 /* Update two animated points, fade their intensity, and flag expiration. */
 void initialize_inventory_packet(void *state, void *points, void *appearance) {
@@ -1568,19 +1568,19 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
     phase_step = ((Rec_func_80025D28_arg0 *)state)->unk_38;
     phase_angle = (s16)(phase_step << 6);
     *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
-    start_wave_x = func_800644B8(phase_angle);
+    start_wave_x = rsin(phase_angle);
     ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
-        ((s32)(start_wave_x * func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36
+        ((s32)(start_wave_x * rcos(((Rec_func_80025D28_arg0 *)state)->unk_36
             + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
-    start_wave_y = func_800644B8(phase_angle);
+    start_wave_y = rsin(phase_angle);
     ((S_80025D28_1 *)points)->unk_04 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
-        ((s32)(start_wave_y * func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36
+        ((s32)(start_wave_y * rsin(((Rec_func_80025D28_arg0 *)state)->unk_36
             + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
     ((S_80025D28_1 *)points)->unk_08 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
-        ((func_80064584(phase_angle) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
-    end_wave_x = func_800644B8(phase_angle);
-    direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
-    side_direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+        ((rcos(phase_angle) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
+    end_wave_x = rsin(phase_angle);
+    direction_x = rcos(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
+    side_direction_x = rcos(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
     radial_offset_x = end_wave_x * direction_x;
     do {
         radial_offset_x *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
@@ -1588,9 +1588,9 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
     side_offset_x = side_direction_x * ((Rec_func_80025D28_arg0 *)state)->unk_40;
     ((S_80025D28_1 *)points)->unk_0C = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
         (radial_offset_x >> 7) + (side_offset_x << 6);
-    end_wave_y = func_800644B8(phase_angle, side_offset_x);
-    direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
-    side_direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+    end_wave_y = rsin(phase_angle, side_offset_x);
+    direction_y = rsin(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
+    side_direction_y = rsin(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
     radial_offset_y = end_wave_y * direction_y;
     do {
         radial_offset_y *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
@@ -1599,7 +1599,7 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
     ((S_80025D28_1 *)points)->unk_10 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
         (radial_offset_y >> 7) + (side_offset_y << 6);
     ((S_80025D28_1 *)points)->unk_14 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
-        ((func_80064584(phase_angle, side_offset_y) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
+        ((rcos(phase_angle, side_offset_y) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
     ((Rec_func_80025D28_arg0 *)state)->unk_40 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_40 + 2;
     ((Rec_func_80025D28_arg0 *)state)->unk_38 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_38 + 1;
     intensity = ((S_80025D28_2 *)appearance)->unk_0D;
@@ -1751,8 +1751,8 @@ typedef struct Actor {
 
 extern Coord D_800287B0;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 /* Spawns an effect actor or builds a curved trail toward the saved position. */
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
@@ -1795,8 +1795,8 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             trail_y = y + step_y;
             trail_z = z + step_z;
             for (trail_index = 0; trail_index < 16; trail_index++) {
-                update_object_movement_proximity_reactions(trail_x + ((func_80064584(angle) * func_800644B8(trail_index << 7)) >> 21),
-                              trail_y + ((func_800644B8(angle) * func_800644B8(trail_index << 7)) >> 21),
+                update_object_movement_proximity_reactions(trail_x + ((rcos(angle) * rsin(trail_index << 7)) >> 21),
+                              trail_y + ((rsin(angle) * rsin(trail_index << 7)) >> 21),
                               trail_z, angle, 1);
                 trail_x += step_x;
                 trail_y += step_y;

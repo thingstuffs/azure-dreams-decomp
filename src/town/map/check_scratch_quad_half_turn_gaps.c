@@ -18,7 +18,7 @@ typedef struct ScratchQuad {
     s32 diff3;
 } ScratchQuad;
 
-extern s32 func_80065F90(s16, s16);
+extern s32 ratan2(s16, s16);
 
 /* Checks the quad's angular gaps against a half-turn limit. */
 s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {
@@ -29,8 +29,8 @@ s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {
         return 1;
     }
 
-    scratch->angle0 = func_80065F90(scratch->quad.vals[1], scratch->quad.vals[0]);
-    scratch->angle3 = func_80065F90(scratch->quad.vals[7], scratch->quad.vals[6]);
+    scratch->angle0 = ratan2(scratch->quad.vals[1], scratch->quad.vals[0]);
+    scratch->angle3 = ratan2(scratch->quad.vals[7], scratch->quad.vals[6]);
     scratch->angle3 -= scratch->angle0;
     scratch->diff3 = (4096 - scratch->angle3) & 0xFFF;
     if (scratch->diff3 >= 2049) {
@@ -40,7 +40,7 @@ s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {
         return 1;
     }
 
-    scratch->angle2 = func_80065F90(scratch->quad.vals[5], scratch->quad.vals[4]);
+    scratch->angle2 = ratan2(scratch->quad.vals[5], scratch->quad.vals[4]);
     scratch->angle2 -= scratch->angle0;
     scratch->diff2 = (scratch->angle3 - scratch->angle2) & 0xFFF;
     if (scratch->diff2 >= 2049) {
@@ -50,7 +50,7 @@ s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {
         return 1;
     }
 
-    scratch->angle1 = func_80065F90(scratch->quad.vals[3], scratch->quad.vals[2]);
+    scratch->angle1 = ratan2(scratch->quad.vals[3], scratch->quad.vals[2]);
     scratch->angle1 = (scratch->angle1 - scratch->angle0) & 0xFFF;
     if (scratch->angle1 >= 2049) {
         return 0;

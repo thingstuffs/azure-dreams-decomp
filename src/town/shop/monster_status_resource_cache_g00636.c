@@ -43,7 +43,7 @@ void clear_monster_status_texture(void *texture) {
 
     clear_data = alloc_gpu_scratch_ring(0x200);
     bzero(clear_data, 0x200);
-    func_80067014(0);
+    DrawSync(0);
 
     rect[0] = (*(u8 *)((u8 *)texture + 8) >> 2)
     + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
@@ -52,8 +52,8 @@ void clear_monster_status_texture(void *texture) {
     rect[2] = *(u8 *)((u8 *)texture + 10) >> 2;
     rect[3] = *(u8 *)((u8 *)texture + 11);
 
-    func_800672D8(rect, clear_data);
-    func_80067014(0);
+    LoadImage(rect, clear_data);
+    DrawSync(0);
 }
 
 /* Invalidates changed cached state and starts the corresponding CD operations. */

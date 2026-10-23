@@ -3,8 +3,8 @@
 #include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 func_80067014(s32);
-extern s32 func_800671A8(s16 *, s32, s32, s32);
+extern s32 DrawSync(s32);
+extern s32 ClearImage(s16 *, s32, s32, s32);
 s32 is_catalog_entry_available();
 extern M2C_UNK D_8011ACD8;
 extern M2C_UNK catalog_glyphs;
@@ -29,9 +29,9 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
     draw_rect[1] = 0x80;
     draw_rect[2] = 0x36;
     draw_rect[3] = 0x60;
-    func_800671A8(draw_rect, 0, 0, 0);
+    ClearImage(draw_rect, 0, 0, 0);
     draw_cached_catalog_text(&D_8011ACD8, 0x192, 0xD0);
-    func_80067014(0);
+    DrawSync(0);
     slot = 0;
     if (state->unk_0F == 3) {
         slot = state->unk_0F;
@@ -45,7 +45,7 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
             entry_table_2 = &catalog_glyphs;
             draw_vram_glyph_text(*((entry_id * 3) + entry_table_2), 0x1A4, 0xA0);
         }
-        func_80067014(0);
+        DrawSync(0);
         return;
     }
     group = state->unk_0F;
@@ -63,5 +63,5 @@ loop_0:
     }
     if (slot < 0x10)
         goto loop_0;
-    func_80067014(0);
+    DrawSync(0);
 }

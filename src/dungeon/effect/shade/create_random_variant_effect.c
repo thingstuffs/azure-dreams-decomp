@@ -17,7 +17,7 @@ typedef struct {
 
 extern s32 D_80045C34[3];
 s32 register_node();
-s32 func_80069EF8();
+s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 extern M2C_UNK D_80025AF0;
 
@@ -61,7 +61,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         ((S_818C370C_0 *)object)->unk_20 = owner;
         state->unk_0E = 0;
         state->unk_10 = 0;
-        variant_random = func_80069EF8();
+        variant_random = rand();
         state->unk_12 = (s16)(variant_random % 7);
         color_value = 0x80;
         state->unk_14 = owner->unk_14;
@@ -74,7 +74,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         render_data->tpage_abr = render_data->tpage_abr | 0x20;
         render_data->flags = render_data->flags | 0x100;
         select_record_entry_and_value(render_data, &D_80025AF0, 0);
-        angle_random = func_80069EF8();
+        angle_random = rand();
         render_data->angle_z = angle_random % 0x1000;
         scale = 0x1400 / (s16)state->unk_14;
         render_data->scale_y = scale;

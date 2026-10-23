@@ -67,13 +67,13 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
         coord_work.xyz[0] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_02;
         coord_work.xyz[1] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_06;
         coord_work.xyz[2] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_0A;
-        position_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
+        position_value = RotTransPers(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
 
         reference_coords = ((T_80170AD0_S_80170AD0_0 *)state)->unk_A8;
         coord_work.xyz[0] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_02;
         coord_work.xyz[1] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_06;
         coord_work.xyz[2] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_0A;
-        reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
+        reference_value = RotTransPers(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
         ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
             (view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80170AD0_S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
     } else {

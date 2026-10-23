@@ -159,17 +159,17 @@ extern s32 is_frame_packet_arena_overflowed(void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 /* texture + 4 in render_projected_sprite_with_depth_bias */
 /* *global in render_projected_sprite_with_depth_bias */
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern u32 func_80065420(void *, void *, void *, void *);
-extern void func_800654B0(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *,
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern u32 RotTransPers(void *, void *, void *, void *);
+extern void RotTransPers4(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *,
                           s16 *, s16 *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
+extern void RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern u8 sprite_projection_matrix[];
 

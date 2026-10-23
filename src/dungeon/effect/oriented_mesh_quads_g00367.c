@@ -95,7 +95,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
     scratch->unk_002 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_06;
     render_state = &g_game_work;
     scratch->unk_004 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_0A;
-    start_depth = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
+    start_depth = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     scratch->unk_0C0 = start_depth;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_0E;
     scratch->unk_000 = second_coord;
@@ -103,13 +103,13 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
     scratch->unk_002 = second_coord;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_16;
     scratch->unk_004 = second_coord;
-    otz2 = func_80065420((void *)scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
+    otz2 = RotTransPers((void *)scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
     end_y = scratch->unk_0F2;
     packet_code = scratch->unk_0BA;
     end_x = scratch->unk_0F0;
     start_x = scratch->unk_0B8;
     scratch->unk_0C0 = (s32)(scratch->unk_0C0 + otz2) >> 1;
-    scratch->unk_10E = func_80065F90((s16)end_y - (s16)packet_code,
+    scratch->unk_10E = ratan2((s16)end_y - (s16)packet_code,
                                 (s16)end_x - (s16)start_x,
                                 (s16)end_x);
     end_depth = (s32)sprite_projection_matrix;
@@ -119,7 +119,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
     scratch->unk_0C0 = sort_depth;
     draw_mode = orient_mode;
     if ((u32) sort_depth < 0x1E0U) {
-        func_800649A0();
+        PushMatrix();
         scratch->unk_0B8 -= 0xA0;
         coord_end = scratch->unk_0BA;
         scratch->unk_0BA = coord_end - 0x78;
@@ -148,7 +148,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
             origin_y = ((S_800CEFB8_1 *)sprite)->unk_22;
             scratch->unk_0E8 = (s32) origin_y;
             scratch->unk_10A = origin_y;
-            func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
+            RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
         }
         {
             s32 scale_x;
@@ -160,11 +160,11 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
             scale_z = 0x1000;
             scratch->unk_038 = scale_z;
             scratch->unk_034 = scale_y;
-            func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
+            ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
         }
-        func_80064840((s32 *)end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
-        func_80064D80((void *)0x1F800050);
-        func_80064CF0((void *)0x1F800050);
+        CompMatrix((s32 *)end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
+        SetTransMatrix((void *)0x1F800050);
+        SetRotMatrix((void *)0x1F800050);
         part = ((S_800CEFB8_1 *)sprite)->unk_08;
         scratch->unk_024 = (u16) ((S_800CEFB8_1 *)sprite)->unk_14;
         for (;;) {
@@ -227,7 +227,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
                     scratch->unk_082 = edge_coord;
                 }
             }
-            func_800654B0(SPA(0x70), SPA(0x78), SPA(0x80), SPA(0x88),
+            RotTransPers4(SPA(0x70), SPA(0x78), SPA(0x80), SPA(0x88),
                           &packet_next->unk_08, &packet_next->unk_10, &packet_next->unk_18,
                           &packet_next->unk_20, SPA(0x90), SPA(0x94));
             if (draw_mode != 0) {
@@ -377,7 +377,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
                 draw_packet = packet_next;
                 packet_next->unk_04 = (s32) ((S_800CEFB8_1 *)sprite)->unk_0C.at00.v;
                 packet_next = packet_next + 1;
-                func_8006658C(scratch->unk_020 + (scratch->unk_0C0 * 4), draw_packet);
+                AddPrim(scratch->unk_020 + (scratch->unk_0C0 * 4), draw_packet);
             }
         }
         if ((s8) part->unk_00 < 0) {
@@ -385,7 +385,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
         }
         part = part + 1;
         }
-        func_80064A40();
+        PopMatrix();
     }
     ((S_800CEFB8_9 *)(render_state->draw_buffer))->unk_8D0 = packet_next;
 }

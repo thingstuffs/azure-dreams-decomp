@@ -6,16 +6,16 @@
 
 typedef void (*Callback)(s32, void *, void *, void *);
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern void func_8006658C(void *, void *);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern void AddPrim(void *, void *);
 
 typedef struct S_800D07C8_0 {
     u8 pad_00[0x8];
@@ -120,7 +120,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     ((S_800D07C8_0 *)scratch)->unk_74 = 0;
     packet = ((GpuContext *)(table[0]))->packetCursor;
     sprite->flags |= 0x8000;
-    func_800649A0();
+    PushMatrix();
     ((S_800D07C8_0 *)scratch)->unk_108 = sprite->unk_20;
     ((S_800D07C8_0 *)scratch)->unk_10A = sprite->unk_22;
     ((S_800D07C8_0 *)scratch)->unk_30 = sprite->scale_x * 2;
@@ -129,12 +129,12 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     ((S_800D07C8_0 *)scratch)->unk_100 = sprite->angle_x;
     ((S_800D07C8_0 *)scratch)->unk_104 = sprite->angle_z;
     ((S_800D07C8_0 *)scratch)->unk_102 = sprite->angle_y;
-    func_80065820(scratch + 0x100, scratch + 0xD0);
-    func_80064AE0(matrix);
-    func_80064840(matrix, scratch + 0xD0, scratch + 0x50);
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    ReadRotMatrix(matrix);
+    CompMatrix(matrix, scratch + 0xD0, scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
 
     part = *(u8 * *)&sprite->source;
     ((S_800D07C8_0 *)scratch)->unk_24 = sprite->flags;
@@ -176,7 +176,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                 ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
             }
 
-            depth = (func_80065590(scratch + 0x70, scratch + 0x78,
+            depth = (RotAverage4(scratch + 0x70, scratch + 0x78,
                                    scratch + 0x80, scratch + 0x88,
                                    packet + 8, packet + 0x14,
                                    packet + 0x20, packet + 0x2C,
@@ -273,7 +273,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         }
                         ((S_800D07C8_5 *)(packet + 7))->unk_00 = draw_command;
                     }
-                    func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4),
+                    AddPrim(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4),
                         packet);
                     packet += 0x34;
                                 }
@@ -291,6 +291,6 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
             break;
         }
     }
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(table[0]))->packetCursor = packet;
 }

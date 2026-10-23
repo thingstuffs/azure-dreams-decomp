@@ -11,7 +11,7 @@
 typedef struct { u16 x; u16 y; u16 z; u16 pad_a; } HistEntry;   /* 8-byte trail entry at +0x20 */
 typedef struct { u8 pad[0x24]; HistEntry hist[7]; } TrailEffect;
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 rand(void);
 extern u8 D_80028868[];
 
@@ -55,7 +55,7 @@ void update_trailing_effect_animation(void *effect, void *transform, void *rende
                                S16_AT(effect, 0x66);
             S32_AT(transform, 8) +=
                 (S32_AT(PTR_AT(effect, 0), 8) -
-                 (func_800644B8(S16_AT(effect, 0x66) * 42) << 12) -
+                 (rsin(S16_AT(effect, 0x66) * 42) << 12) -
                  S32_AT(transform, 8)) /
                 S16_AT(effect, 0x66);
 

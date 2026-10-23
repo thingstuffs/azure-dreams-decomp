@@ -100,7 +100,7 @@ typedef struct S_8009F4C0_2 {
     u8 unk_983;
 } S_8009F4C0_2;
 
-s32 func_800644B8();
+s32 rsin();
 extern s32 D_80093328;
 extern M2C_UNK D_80093524[3];
 extern s32 add_motion_deltas_to_position(void *);

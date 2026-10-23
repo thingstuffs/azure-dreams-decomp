@@ -12,7 +12,7 @@ extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[];
 extern u8 dungeon_floor_marker_entries[];
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void append_adjusted_type_two_entry(s32, s32, u8 *, s32);
 extern s32 get_masked_grid_nibble(s32, s32);
 extern void draw_green_type_two_markers(void);
@@ -90,7 +90,7 @@ void draw_nearby_map_markers(s32 draw_param) {
         draw_green_type_two_markers();
     }
 
-    brightness = (func_800644B8(system->unk_004 << 8) >> 6) + 0x80;
+    brightness = (rsin(system->unk_004 << 8) >> 6) + 0x80;
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;

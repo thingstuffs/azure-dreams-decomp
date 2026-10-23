@@ -87,7 +87,7 @@ s32 render_rotated_grid_surface(void *node) {
                         offset = point_index * 8;
                         rotated_point = (u8 *) (offset + (s32) rotated_points);
                         do {
-                            func_80065420(rotated_point, grid_point, &frame.p.f530, &frame.p.f534);
+                            RotTransPers(rotated_point, grid_point, &frame.p.f530, &frame.p.f534);
                             grid_point += 4;
                             rotated_point += 8;
                             point_index += 1;
@@ -102,7 +102,7 @@ s32 render_rotated_grid_surface(void *node) {
                         do {
                             s32 next_index;
                             ring_points = grid_cell(grid, (edge_base + (s16) point_count) - (next_index = point_index + 1), ring);
-                            func_80065420(rotated_points + point_index * 8, ring_points,
+                            RotTransPers(rotated_points + point_index * 8, ring_points,
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;
                             point_count = frame.p.f528;
@@ -115,7 +115,7 @@ s32 render_rotated_grid_surface(void *node) {
                     if (point_index < (point_index + frame.p.f528)) {
                         do {
                             s32 next_index;
-                            func_80065420(rotated_points + point_index * 8,
+                            RotTransPers(rotated_points + point_index * 8,
                                           grid + (((ring + (s16) point_count) << 6) - 0x40)
                                           + (((span_base + (s16) point_count)
                                               - (next_index = point_index + 1)) * 4),
@@ -132,7 +132,7 @@ s32 render_rotated_grid_surface(void *node) {
                         u8 *grid_row = (u8 *) ((point_index << 6) + (s32) grid);
                         u8 *rotated_point = (u8 *) ((point_index * 8) + (s32) rotated_points);
                         do {
-                            func_80065420(rotated_point, grid_row + (((ring + (s16) point_count) * 4) - 4),
+                            RotTransPers(rotated_point, grid_row + (((ring + (s16) point_count) * 4) - 4),
                                           &frame.p.f530, &frame.p.f534);
                             grid_row += 0x40;
                             point_index += 1;
@@ -173,10 +173,10 @@ s32 render_rotated_grid_surface(void *node) {
                         s32 row_offset;
                         ((GpuContext *)context)->packetCursor = quad + 0x28;
                         ((PolyFT4 *)quad)->colorCode = ((Row_81989558_S_80024D58_Obj *)object)->unk_0C;
-                        func_800666F4(quad);
-                        func_80066640(quad, 1);
-                        ((PolyFT4 *)quad)->tpage = func_80066460(0, 3, 0x300, 0x100);
-                        ((PolyFT4 *)quad)->clut = func_8006649C(0x10, 0x1F8);
+                        SetPolyFT4(quad);
+                        SetSemiTrans(quad, 1);
+                        ((PolyFT4 *)quad)->tpage = GetTPage(0, 3, 0x300, 0x100);
+                        ((PolyFT4 *)quad)->clut = GetClut(0x10, 0x1F8);
                         row_offset = point_index << 6;
                         src_base = (u8 *) (row_offset + (s32) source_points);
                         src_row = src_base + 0x100;

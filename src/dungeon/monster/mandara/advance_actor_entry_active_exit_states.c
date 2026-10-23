@@ -46,7 +46,7 @@ extern void *allocate_list_node(s32, void *);
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_8006649C(s32, s32);
+extern s32 GetClut(s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
@@ -147,7 +147,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
         }
         angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
         sprite->clut =
-            func_8006649C(
+            GetClut(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x100)) -
             ((S_8017382C_0 *)action)->unk_AC.s;
@@ -341,7 +341,7 @@ second_call:
         }
         angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
         sprite->clut =
-            func_8006649C(
+            GetClut(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x102)) -
             ((S_8017382C_0 *)action)->unk_AC.s;

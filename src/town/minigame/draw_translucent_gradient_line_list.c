@@ -43,10 +43,10 @@ typedef struct S_8002222C_4 {
 
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_800667D0(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetSemiTrans(void *, s32);
+extern void SetLineG2(void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
 s32 draw_translucent_gradient_line_list(void *first_entry) {
@@ -78,13 +78,13 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
             arena = arena_ptr->draw_buffer;
             mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
             ((S_8002222C_0 *)arena)->unk_8D0 = mode_packet + 0xC;
-            texture_page = func_80066460(0, 0, 0, 0);
+            texture_page = GetTPage(0, 0, 0, 0);
         }
-        func_80067F20(mode_packet, 0, 0, texture_page & 0xFFFF, 0);
+        SetDrawMode(mode_packet, 0, 0, texture_page & 0xFFFF, 0);
         ((S_8002222C_2 *)line_packet)->unk_04 = ((S_8002222C_1 *)entry)->unk_18;
         ((S_8002222C_2 *)line_packet)->unk_0C = ((S_8002222C_1 *)entry)->unk_1C;
-        func_800667D0(line_packet);
-        func_80066640(line_packet, 1);
+        SetLineG2(line_packet);
+        SetSemiTrans(line_packet, 1);
         ((S_8002222C_2 *)line_packet)->unk_08 = ((S_8002222C_3 *)screen_xy)->unk_00;
         ((S_8002222C_2 *)line_packet)->unk_10 = ((S_8002222C_3 *)screen_xy)->unk_04;
         {

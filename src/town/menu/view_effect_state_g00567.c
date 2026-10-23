@@ -7,9 +7,9 @@
 /* Updates state from global values and triggers a refresh every 15 calls. */
 void update_view_driven_state(State *state) {
 
-    state->field_8 = (func_80064584(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
-    state->field_0 = -func_80064584(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
-    state->field_2 = func_80065F90(state->field_0, 160);
+    state->field_8 = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
+    state->field_0 = -rcos(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
+    state->field_2 = ratan2(state->field_0, 160);
     state->field_4 = ((u16)g_game_work.view.camera_position.parts.camera_position_x);
     state->field_6 = ((u16)g_game_work.view.camera_position.parts.camera_position_y);
 

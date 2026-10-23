@@ -28,7 +28,7 @@ typedef struct S_80FC9000_4 {
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void func_800673A0(s16 *, s32, s32);
+extern void MoveImage(s16 *, s32, s32);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
@@ -133,13 +133,13 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
         values[1] = count;
         values[2] = 0x100;
         values[3] = 1;
-        func_800673A0(values, 0, count - 1);
+        MoveImage(values, 0, count - 1);
 
         values[2] = 0x10;
         values[0] = 0x30;
         values[1] -= 1;
         do {
-            func_800673A0(values, values[0] - 0x30, values[1]);
+            MoveImage(values, values[0] - 0x30, values[1]);
             values[0] += 0x40;
         } while (values[0] < 0x100);
 

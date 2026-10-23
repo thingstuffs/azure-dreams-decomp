@@ -93,8 +93,8 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
         object_state = object->position;
         *(B28_818B6954_Copy24 *)object_state = *(B28_818B6954_Copy24 *)source_state;
         offset_angle = rand() % 0x1000;
-        object_state[0] += (func_80064584(offset_angle) >> 4) * 0x1200;
-        object_state[1] += (func_800644B8(offset_angle) >> 4) * 0x1200;
+        object_state[0] += (rcos(offset_angle) >> 4) * 0x1200;
+        object_state[1] += (rsin(offset_angle) >> 4) * 0x1200;
         return (s32)object;
     }
     return 0;
@@ -286,7 +286,7 @@ s32 func_80024790(s32 texture_index, u8 *color_source)
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_00.at03.v = 0x0C;
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_07 = 0x3E;
 
-    texture_id = func_80066460(0, 3, 0x300, 0x100);
+    texture_id = GetTPage(0, 3, 0x300, 0x100);
     texture_u = (texture_index << 16) >> 13;
     texture_u += 0x80;
     screen_xy0 = scratch + 0x70;
@@ -335,7 +335,7 @@ s32 func_80024790(s32 texture_index, u8 *color_source)
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_24 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_58 >> 16;
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_2C = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_68 >> 16;
 
-    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_04.v = func_80065590(
+    ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_04.v = RotAverage4(
         scratch + 0x10, scratch + 0x18, scratch + 0x20, scratch + 0x28,
         screen_xy0, screen_xy1, screen_xy2, screen_xy3,
         depth_cue, transform_flags);
@@ -456,37 +456,37 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     ((B28_818B7264_S_80024A64_2 *)scratch)->unk_58 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_68 = center->unk_08;
     do {
         angle_step = segment * 512;
-        radial_offset = func_80069EF8() % jitter_limit;
+        radial_offset = rand() % jitter_limit;
         {
-            s32 wave_x = func_800644B8(effect->unk_0C + angle_step);
+            s32 wave_x = rsin(effect->unk_0C + angle_step);
             radial_offset = (s16)radial_offset;
             jittered_outer = (s16)outer_radius + radial_offset;
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_40 = center->unk_00 +
                 (((wave_x >> 4) * jittered_outer) << 8);
         }
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_44 = center->unk_04 +
-            (((func_80064584(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
+            (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
         {
-            s32 wave_x = func_800644B8(effect->unk_0C + angle_step);
+            s32 wave_x = rsin(effect->unk_0C + angle_step);
             jittered_inner = (s16)inner_radius + radial_offset;
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_50 = center->unk_00 +
                 (((wave_x >> 4) * jittered_inner) << 8);
         }
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_54 = center->unk_04 +
-            (((func_80064584(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
+            (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
         next_segment = segment + 1;
         next_angle = next_segment * 512;
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
-            (((func_800644B8(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
+            (((rsin(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
-            (((func_80064584(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
+            (((rcos(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         func_80024790((s16)segment, draw_arg);
         segment = next_segment;
     } while (segment < 8);
 
     segment = 0;
     {
-        s32 random_raw = func_80069EF8();
+        s32 random_raw = rand();
         s32 div5_magic = 0x66666667;
         union {
             long long full;
@@ -502,7 +502,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 wave_x;
         s32 scaled_x;
         s32 outer_x;
-        wave_x = func_800644B8(effect->unk_0E);
+        wave_x = rsin(effect->unk_0E);
         outer_x = center->unk_00 +
             (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
         outer_offset = (s16)outer_radius + (s16)outer_offset;
@@ -512,12 +512,12 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     {
         s32 outer_y;
         outer_y = center->unk_04 +
-            (((func_80064584(effect->unk_0E) >> 4) * outer_offset) << 8);
+            (((rcos(effect->unk_0E) >> 4) * outer_offset) << 8);
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = outer_y;
         first_outer_y = outer_y;
     }
     {
-        s32 wave_x = func_800644B8(effect->unk_0E + 512);
+        s32 wave_x = rsin(effect->unk_0E + 512);
         s32 inner_x;
         inner_x = center->unk_00 +
             (((wave_x >> 4) * (s16)inner_radius) << 8);
@@ -526,7 +526,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     }
     {
         s32 inner_y = center->unk_04 +
-            (((func_80064584(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
+            (((rcos(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = inner_y;
         first_inner_y = inner_y;
     }
@@ -543,7 +543,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = first_inner_y;
         } else {
             {
-                s32 random_raw = func_80069EF8();
+                s32 random_raw = rand();
                 s32 div5_magic = 0x66666667;
                 union {
                     long long full;
@@ -556,18 +556,18 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
                 arm_offset = arm_offset - quotient * 5;
             }
             {
-                scaled = func_800644B8(effect->unk_0E + (segment * 512)) >> 4;
+                scaled = rsin(effect->unk_0E + (segment * 512)) >> 4;
                 arm_radius = (s16)outer_radius + (s16)arm_offset;
                 ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
                     ((scaled * arm_radius) << 8);
             }
-            scaled = func_80064584(effect->unk_0E + (segment * 512)) >> 4;
+            scaled = rcos(effect->unk_0E + (segment * 512)) >> 4;
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
                 ((scaled * arm_radius) << 8);
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
-                (((func_800644B8(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
+                (((rsin(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
-                (((func_80064584(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
+                (((rcos(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
         func_80024790((s16)segment, draw_arg);
         segment = segment + 1;
@@ -751,7 +751,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;
         part->unk_0E.s16 = 0;
         part->unk_10 = 0;
-        roll = func_80069EF8();
+        roll = rand();
         model = &D_80025EE4;
         part->unk_12 = (s16)(roll % 7);
         part->unk_14 = (u16) owner->unk_12;
@@ -763,7 +763,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         render->clut = 0x7E00;
         render->flags = (u16) (render->flags | 0x100);
         select_record_entry_and_value(render, model, 0);
-        adjusted = func_80069EF8();
+        adjusted = rand();
         random = adjusted;
         if (random < 0) {
             adjusted = random + 0xFFF;

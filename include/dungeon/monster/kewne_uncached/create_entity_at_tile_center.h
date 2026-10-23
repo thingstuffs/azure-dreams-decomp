@@ -265,7 +265,7 @@ void clear_slots_of_type();
 void func_80042B68();                /* extern */
 void select_indirect_table_entry();              /* extern */
 void advance_sprite_animation_and_textures();                      /* extern */
-s32 func_800644B8();                             /* extern */
+s32 rsin();                             /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 s32 has_pending_actor_or_turn_action();                          /* extern */
 s16 set_or_clear_actor_status_slot();       /* extern */

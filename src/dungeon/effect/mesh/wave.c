@@ -10,15 +10,15 @@ const Copy24 D_80024014 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_800644B8(s32);
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
+extern s32 rsin(s32);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern u8 D_8006CD10[8];
 
@@ -130,7 +130,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     }
     view_matrix = (u8 *) (&D_8006CD10);
     *((s32 *) (view_matrix + 0x1C)) = (s32) (globals->view.projection_distance);
-    func_800649A0();
+    PushMatrix();
     *((s32 *) (((u8 *) scratch) + 0x30)) = globals->view.camera_rotation.parts.camera_rotation_x;
     *((s32 *) (((u8 *) scratch) + 0x34)) = globals->view.camera_rotation.parts.camera_rotation_y;
     *((s32 *) (((u8 *) scratch) + 0x38)) = globals->view.camera_rotation.parts.viewAngle;
@@ -145,14 +145,14 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     origin_y = *((u16 *) (((s8 *) sprite) + 0x22));
     *((s32 *) (((u8 *) scratch) + 0xE8)) = origin_y;
     *((u16 *) (((u8 *) scratch) + 0x10A)) = origin_y;
-    func_80065820((void *) 0x1F800100, (void *) 0x1F8000D0);
+    RotMatrix((void *) 0x1F800100, (void *) 0x1F8000D0);
     *((s32 *) (((u8 *) scratch) + 0x30)) = *((u16 *) (((s8 *) sprite) + 0x1C));
     *((s32 *) (((u8 *) scratch) + 0x34)) = *((u16 *) (((s8 *) sprite) + 0x1E));
     *((s32 *) (((u8 *) scratch) + 0x38)) = 0x1000;
-    func_80064BC0((void *) 0x1F8000D0, (void *) 0x1F800030);
-    func_80064840(view_matrix, (void *) 0x1F8000D0, (void *) 0x1F800050);
-    func_80064D80((void *) 0x1F800050);
-    func_80064CF0((void *) 0x1F800050);
+    ScaleMatrix((void *) 0x1F8000D0, (void *) 0x1F800030);
+    CompMatrix(view_matrix, (void *) 0x1F8000D0, (void *) 0x1F800050);
+    SetTransMatrix((void *) 0x1F800050);
+    SetRotMatrix((void *) 0x1F800050);
     *((u16 *) (((u8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
     for (;;) {
         if (!((*((u8 *) (((s8 *) part) + 0))) & 0x20)) {
@@ -192,7 +192,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                 *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
                 *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
             }
-            func_800654B0((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78),
+            RotTransPers4((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78),
                 (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88),
                 (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4),
                 (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC),
@@ -288,19 +288,19 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     *((s8 *) (((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
                     *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
-                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
+                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
                         + 0x38))))) >> 0x10));
                     *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10)))
-                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     row_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
                     if (row_phase >= 0x1001) {
                         row_phase -= 0x1000;
                     }
                     *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18)))
-                        + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                        + (((s32) (rsin(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     wave_index += 1;
                     *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
-                        + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                        + (((s32) (rsin(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     if (wave_index >= 0x60) {
                         wave_index = 0;
                     }
@@ -333,27 +333,27 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     *((s8 *) (((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
                     *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA)))
-                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
+                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
                         + 0x38))))) >> 0x10));
                     *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A)))
-                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        + (((s32) (rsin(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
                     if (column_phase >= 0x1001) {
                         column_phase -= 0x1000;
                         *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
-                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
                                >> 0x10));
                         wave_index += 1;
                         *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
-                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
                                >> 0x10));
                     } else {
                         *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
-                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
                                >> 0x10));
                         wave_index += 1;
                         *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
-                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            + (((s32) (rsin(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
                                >> 0x10));
                     }
                     if (wave_index >= 0x60) {
@@ -410,7 +410,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
         packet += 3;
         *end_link = ((*end_link) & 0xFF000000) | ((s32) end_packet);
     }
-    func_80064A40();
+    PopMatrix();
     *((s32 **) (((s8 *) (globals->draw_buffer)) + 0x8D0)) = packet;
 }
 
@@ -445,7 +445,7 @@ typedef struct Packet16 {
 } Packet16;
 
 extern u8 upper_draw_context[16];
-extern void func_80067E2C(void *, void *);
+extern void SetDrawArea(void *, void *);
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
 void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position *restore_area, Position *draw_pos,
@@ -468,7 +468,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
     state->next_packet = packet + 12;
     clear_enabled = clear_area;
 
-    func_80067E2C(packet, g_game_work.draw_buffer);
+    SetDrawArea(packet, g_game_work.draw_buffer);
     *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
                      (state->ordering_table & 0x00FFFFFF);
     state->ordering_table = (state->ordering_table & 0xFF000000) |
@@ -515,7 +515,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
         tail_state = state_ptr[0];
         packet = tail_state->next_packet;
         tail_state->next_packet = packet + 12;
-        func_80067E2C(packet, restore_area);
+        SetDrawArea(packet, restore_area);
     }
     *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
                      (*ordering_table & 0x00FFFFFF);
@@ -531,9 +531,9 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch80024EDC {
@@ -583,7 +583,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
         scratch->z = (u16)coords->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, &packet->data, &scratch->xy, &scratch->depth);
+        depth_index = RotTransPers(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
@@ -616,8 +616,8 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
             mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
-            color_or_tpage = func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
+            color_or_tpage = GetTPage(0, 1, 0, 0);
+            SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
             ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
@@ -1171,7 +1171,7 @@ extern u8 current_spell_effect_variant[256];
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
@@ -1547,7 +1547,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             s32 direction;
             s32 color;
             s32 intensity;
-            random_bits = func_80069EF8();
+            random_bits = rand();
             emitter = (u8 *)self - 0x20;
             color = 0x40E020;
             intensity = (random_bits & 0xFF) | 0x80;
@@ -1764,21 +1764,21 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 particle_data->unk_14 |= 0x0C;
                 target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
                 flash_pos = impact->position;
-                offset_radius = func_80069EF8();
+                offset_radius = rand();
                 offset_sign = advance_effect_sequence();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
                 flash_pos[0] = target_pos->unk_00.at00.v + angle;
-                offset_radius = func_80069EF8();
+                offset_radius = rand();
                 offset_sign = advance_effect_sequence();
                 offset_radius &= 0x1F;
                 offset_radius += 16;
                 reg_tmp = (u32)((u8 *)(offset_radius * offset_sign));
                 angle = (s32)((u8 *)reg_tmp) << 16;
                 flash_pos[1] = target_pos->unk_04.at00.v + angle;
-                height_random = func_80069EF8();
+                height_random = rand();
                 flash_pos[2] = target_pos->unk_08.at00.v
                 - (entity_height_offsets[parent->unk_60.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);

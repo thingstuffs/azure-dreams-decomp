@@ -165,17 +165,17 @@ typedef struct S_800CEFB8_9 {
     void * unk_8D0;
 } S_800CEFB8_9;
 
-s32 func_80064840(void *, void *, void *);
-s32 func_800649A0(void);
-s32 func_80064A40(void);
-s32 func_80064BC0(void *, void *);
-s32 func_80064CF0(void *);
-s32 func_80064D80(void *);
-s32 func_80065420();
-s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-s32 func_80065820(void *, void *);
-u16 func_80065F90();
-s32 func_8006658C(void *, void *);
+s32 CompMatrix(void *, void *, void *);
+s32 PushMatrix(void);
+s32 PopMatrix(void);
+s32 ScaleMatrix(void *, void *);
+s32 SetRotMatrix(void *);
+s32 SetTransMatrix(void *);
+s32 RotTransPers();
+s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+s32 RotMatrix(void *, void *);
+u16 ratan2();
+s32 AddPrim(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */

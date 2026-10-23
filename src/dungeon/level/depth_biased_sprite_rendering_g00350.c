@@ -92,7 +92,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;
 
-    projected_depth = func_80065420(scratch_base, screen_pos,
+    projected_depth = RotTransPers(scratch_base, screen_pos,
                               perspective, clip_flags);
     matrix = sprite_projection_matrix;
     ((S_800BC4D4_1 *)scratch)->unk_C0 = projected_depth;
@@ -102,7 +102,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     ((S_800BC4D4_1 *)scratch)->unk_C0 = ot_index;
 
     if (ot_index < 0x1E0U) {
-        func_800649A0();
+        PushMatrix();
 
         screen_x = ((S_800BC4D4_1 *)scratch)->unk_B8;
         sprite_z = ((S_800BC4D4_1 *)scratch)->unk_04;
@@ -117,17 +117,17 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
         clamped_scale = ((S_800BC4D4_1 *)scratch)->unk_38;
         ((S_800BC4D4_1 *)scratch)->unk_30.s = clamped_scale;
         ((S_800BC4D4_1 *)scratch)->unk_34.s = (s32)(clamped_scale + ((u32)clamped_scale >> 31)) >> 1;
-        func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
+        RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
 
-        func_80064840(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
-        func_80064BC0((void *)0x1F800050, (void *)0x1F800030);
+        CompMatrix(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
+        ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
 
         ((S_800BC4D4_1 *)scratch)->unk_30.u = ((S_800BC4D4_2 *)sprite)->unk_1C;
         ((S_800BC4D4_1 *)scratch)->unk_34.u = ((S_800BC4D4_2 *)sprite)->unk_1E;
         ((S_800BC4D4_1 *)scratch)->unk_38 = 0x1000;
-        func_80064BC0((void *)0x1F800050, (void *)0x1F800030);
-        func_80064D80((void *)0x1F800050);
-        func_80064CF0((void *)0x1F800050);
+        ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
+        SetTransMatrix((void *)0x1F800050);
+        SetRotMatrix((void *)0x1F800050);
 
         for (;;) {
             if (!(texture[0] & 0x20)) {
@@ -136,7 +136,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
                 ((S_800BC4D4_1 *)scratch)->unk_10.u32 = texture[10];
                 ((S_800BC4D4_1 *)scratch)->unk_14.u32 = texture[11];
                 func_80067EF4(packet, 0, 0);
-                                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
+                                AddPrim(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet_next = packet + 0xC;
@@ -176,7 +176,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
 
                 ((S_800BC4D4_1 *)scratch)->unk_70.u += 6;
                 ((S_800BC4D4_1 *)scratch)->unk_78.u += 6;
-                func_800654B0((s16 *)(scratch + 0x70), (s16 *)(scratch + 0x78),
+                RotTransPers4((s16 *)(scratch + 0x70), (s16 *)(scratch + 0x78),
                               (s16 *)(scratch + 0x80), (s16 *)(scratch + 0x88),
                               (s16 *)(scratch + 0xF0), (s16 *)(scratch + 0xF4),
                               (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
@@ -261,12 +261,12 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
 
                 (*(s32 *)(packet + 4)) = ((S_800BC4D4_2 *)sprite)->unk_0C;
                 ((S_800BC4D4_5 *)(packet + 7))->unk_00 = 0x2E;
-                                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
+                                AddPrim(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                                 packet += 0x28;
                 func_80067EF4(packet, 1, 0);
-                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
+                AddPrim(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet += 0xC;
@@ -279,7 +279,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
             }
             break;
         }
-        func_80064A40();
+        PopMatrix();
     }
 
     ((GpuContext *)(*root_ptr))->packetCursor = packet;

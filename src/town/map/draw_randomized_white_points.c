@@ -43,9 +43,9 @@ typedef struct S_800BB218_5 {
 } S_800BB218_5;   /* next in draw_randomized_white_points */
 
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 rand(void);
 
 /* Draws randomized white points around each object in the linked chain. */
@@ -92,7 +92,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             random_value = rand();
             angle = (s16)(random_value % 0x1000);
 
-            x_scale = func_800644B8(angle) >> 4;
+            x_scale = rsin(angle) >> 4;
             {
                 s32 base_radius = ((S_800BB218_2 *)object)->unk_97;
                 radius_offset = (point_index / 8) % 12 + 0x48;
@@ -102,15 +102,15 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
 
             ((S_800BB218_0 *)scratch)->unk_16 =
                 coords->unk_06 +
-                (((func_80064584(angle) >> 4) *
+                (((rcos(angle) >> 4) *
                   (((S_800BB218_2 *)object)->unk_97 + radius_offset)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_18 =
                 coords->unk_0A -
-                (((func_800644B8((point_index % 16) << 6) >> 4) *
+                (((rsin((point_index % 16) << 6) >> 4) *
                   (((S_800BB218_2 *)object)->unk_66 + 0x10)) >> 8);
 
-            ((S_800BB218_0 *)scratch)->unk_04 = func_80065420(
+            ((S_800BB218_0 *)scratch)->unk_04 = RotTransPers(
                 scratch + 0x14, scratch, scratch + 8, scratch + 0xC);
             ((S_800BB218_4 *)packet)->unk_08 = ((S_800BB218_0 *)scratch)->unk_00;
             ((S_800BB218_4 *)packet)->unk_0A = ((S_800BB218_0 *)scratch)->unk_02;

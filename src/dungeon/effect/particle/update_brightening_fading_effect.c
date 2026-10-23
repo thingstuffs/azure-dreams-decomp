@@ -569,7 +569,7 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     ((S_8195F43C_0 *)scratch)->unk_8C = (s16)((S_8195F43C_3 *)next_height_row)->unk_02 / 2;
 
     packet = ((GpuContext *)render_ctx)->packetCursor;
-    func_800649A0();
+    PushMatrix();
 
     VFIELD(scratch, u32, 0x30) = ((S_8195F43C_5 *)object)->unk_1C * 2;
     scale_y = ((S_8195F43C_5 *)object)->unk_1E;
@@ -578,12 +578,12 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     VFIELD(scratch, u16, 0x104) = 0;
     VFIELD(scratch, u16, 0x100) = 0;
     ((S_8195F43C_0 *)scratch)->unk_34 = scale_y * 2;
-    func_80065820(scratch + 0x100, scratch + 0xD0);
-    func_80064AE0(scratch + 0x11C);
-    func_80064840(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    ReadRotMatrix(scratch + 0x11C);
+    CompMatrix(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
 
     texture = ((S_8195F43C_5 *)object)->unk_08;
     left = (s8)((S_8195F43C_6 *)texture)->unk_02;
@@ -599,7 +599,7 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     ((S_8195F43C_0 *)scratch)->unk_8A = bottom;
     ((S_8195F43C_0 *)scratch)->unk_82 = bottom;
 
-    depth = func_80065590(scratch + 0x70, scratch + 0x78,
+    depth = RotAverage4(scratch + 0x70, scratch + 0x78,
                           scratch + 0x80, scratch + 0x88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
@@ -746,7 +746,7 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
         }
     }
 
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(*render_state))->packetCursor = packet;
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -929,7 +929,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     ((S_8195FD40_0 *)scratch)->unk_EC = position->unk_0A;
     packet = ((GpuContext *)(*render_context))->packetCursor;
     texture = quad->unk_08;
-    func_800649A0();
+    PushMatrix();
 
     ((S_8195FD40_0 *)scratch)->unk_30 = quad->unk_1C * 2;
     ((S_8195FD40_0 *)scratch)->unk_34 = quad->unk_1E * 2;
@@ -937,12 +937,12 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     ((S_8195FD40_0 *)scratch)->unk_100 = quad->unk_16;
     ((S_8195FD40_0 *)scratch)->unk_104 = quad->unk_1A;
     ((S_8195FD40_0 *)scratch)->unk_102 = quad->unk_18;
-    func_80065820(scratch + 0x100, scratch + 0xD0);
-    func_80064AE0(&view_matrix);
-    func_80064840(&view_matrix, scratch + 0xD0, scratch + 0x50);
-    func_80064BC0(scratch + 0x50, scratch + 0x30);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    ReadRotMatrix(&view_matrix);
+    CompMatrix(&view_matrix, scratch + 0xD0, scratch + 0x50);
+    ScaleMatrix(scratch + 0x50, scratch + 0x30);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
 
     ((S_8195FD40_0 *)scratch)->unk_78 = 0x20;
     ((S_8195FD40_0 *)scratch)->unk_88 = 0x200000;
@@ -952,7 +952,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
     ((S_8195FD40_0 *)scratch)->unk_84 = 0;
     ((S_8195FD40_0 *)scratch)->unk_7C = 0;
     ((S_8195FD40_0 *)scratch)->unk_74 = 0;
-    depth = func_80065590(scratch + 0x70, scratch + 0x78,
+    depth = RotAverage4(scratch + 0x70, scratch + 0x78,
                           scratch + 0x80, scratch + 0x88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
@@ -1009,7 +1009,7 @@ void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195F
             *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;
         }
     }
-    func_80064A40();
+    PopMatrix();
     ((GpuContext *)(*render_context))->packetCursor = packet;
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -1079,8 +1079,8 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
         render->unk_1E = 0x400;
         render->unk_1C = 0x400;
         random_angle = rand();
-        render->unk_20 = func_80064584(random_angle);
-        render->unk_22 = func_800644B8(random_angle);
+        render->unk_20 = rcos(random_angle);
+        render->unk_22 = rsin(random_angle);
         render->unk_10 = 0x20;
         primitive = (s8 *)object + 0x20;
         render->unk_14 = 0xC;
@@ -1372,14 +1372,14 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
-    func_80067E2C(start_packet, g_game_work.draw_buffer, draw_context);
+    SetDrawArea(start_packet, g_game_work.draw_buffer, draw_context);
     {
         void *packet_table;
         s32 packet_addr;
 
         packet_table = ordering_table;
         packet_addr = start_packet;
-        func_8006658C(packet_table, packet_addr);
+        AddPrim(packet_table, packet_addr);
     }
 
     if (draw_mode != 0) {
@@ -1407,8 +1407,8 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
     end_context = *draw_contexts;
     end_packet = *(s32 *)((u8 *)end_context + 0x8D0);
     *(s32 *)((u8 *)end_context + 0x8D0) = end_packet + 0xC;
-    func_80067E2C(end_packet, draw_data);
-    func_8006658C(ordering_table, end_packet);
+    SetDrawArea(end_packet, draw_data);
+    AddPrim(ordering_table, end_packet);
 }
 
 /* MECHANISM: The 0x30 frame holds s0-s5; D_80083160 stays in s5 and the long-lived OT base in s1.
@@ -1454,7 +1454,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->value = draw_depth;
     vertex_table = ((struct TableEntry *)globals->map.vertices);
-    func_800649A0();
+    PushMatrix();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
     scratch->w6C = 0;
@@ -1463,9 +1463,9 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     scratch->h2C = 0;
     scratch->h2A = 0;
     scratch->h28 = 0;
-    func_80065820(rotation, matrix);
-    func_80064D80(&scratch->w50);
-    func_80064CF0(&scratch->w50);
+    RotMatrix(rotation, matrix);
+    SetTransMatrix(&scratch->w50);
+    SetRotMatrix(&scratch->w50);
     scratch->h8C = 0x800;
     scratch->h84 = 0x800;
     scratch->h7C = 0x800;
@@ -1483,7 +1483,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         quad_packet = record;
         record->f4.w = neutral_color;
         record->f24.h[0] = corner_uv;
-        func_800666F4(record);
+        SetPolyFT4(record);
     } else {
         scratch->w78 = 0x40;
         scratch->w70 = 0;
@@ -1506,9 +1506,9 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         *(u8 *)&record->f4.b[0] = shade;
         *(u8 *)&record->f4.b[2] = shade;
         *(u8 *)&record->f4.b[1] = shade;
-        func_800666F4(record);
+        SetPolyFT4(record);
     }
-    func_800654B0((void *)((u32)scratch | 0x70),
+    RotTransPers4((void *)((u32)scratch | 0x70),
                   (void *)((u32)scratch | 0x78),
                   (void *)((u32)scratch | 0x80),
                   (void *)((u32)scratch | 0x88),
@@ -1538,8 +1538,8 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         coord_y += origin->index1 + saved_y_offset;
         record->f20.h[1] = coord_y;
     }
-    func_8006658C(scratch->value, record);
-    func_80064A40();
+    AddPrim(scratch->value, record);
+    PopMatrix();
     record = (Record *)((u8 *)record + 0x28);
     ((Root *)globals->draw_buffer)->record = record;
 }
@@ -1595,7 +1595,7 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
     terrain_effect_update_count = (u16)(update_count + 1);
     ((S_81960CD4_0 *)scratch)->unk_84 = vertex_z - center_z;
     ((S_81960CD4_0 *)scratch)->unk_8C = ((S_81960CD4_1 *)quad)->unk_2C - motion->unk_08.at02.v;
-    func_800649A0(center_z);
+    PushMatrix(center_z);
     rotation[0] = effect->unk_16;
     rotation[1] = effect->unk_18;
     rotation[2] = 0;
@@ -1605,14 +1605,14 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
     ((S_81960CD4_0 *)scratch)->unk_6C = 0;
     ((S_81960CD4_0 *)scratch)->unk_68 = 0;
     ((S_81960CD4_0 *)scratch)->unk_64 = 0;
-    func_80065820(rotation, scratch + 0x50);
-    func_80064D80(scratch + 0x50);
-    func_80064CF0(scratch + 0x50);
+    RotMatrix(rotation, scratch + 0x50);
+    SetTransMatrix(scratch + 0x50);
+    SetRotMatrix(scratch + 0x50);
     func_80065320(scratch + 0x70, scratch + 0x98, scratch + 0x94);
     func_80065320(scratch + 0x78, scratch + 0xA0, scratch + 0x94);
     func_80065320(scratch + 0x80, scratch + 0xA8, scratch + 0x94);
     func_80065320(scratch + 0x88, scratch + 0xB0, scratch + 0x94);
-    func_80064A40();
+    PopMatrix();
     motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v + motion->unk_0C);
     motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + motion->unk_10);
     motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v + motion->unk_14);
@@ -1712,7 +1712,7 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *mat
         scratch->v[2].z = z;
         z3 = quad->v[3].z;
         scratch->v[3].z = z3;
-        depth = func_800654B0(&scratch->v[0], &scratch->v[1], &scratch->v[2], &scratch->v[3],
+        depth = RotTransPers4(&scratch->v[0], &scratch->v[1], &scratch->v[2], &scratch->v[3],
                               &packet->x0, &packet->x1, &packet->x2, &packet->x3,
                               &scratch->out_a, &scratch->out_b) - 8;
         scratch->depth = depth;
@@ -1723,11 +1723,11 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *mat
             packet->v2 = packet->v3 = texture->v + texture->h;
             packet->tpage = texture->tpage;
             *(u32 *)&packet->r0 = material->color;
-            func_800666F4(packet);
+            SetPolyFT4(packet);
             draw_packet = packet;
             packet->code |= 2;
             packet++;
-            func_8006658C(scratch->ot_base + (scratch->depth << 2), draw_packet);
+            AddPrim(scratch->ot_base + (scratch->depth << 2), draw_packet);
         }
         link = ((QuadLink **)quad)[-2];
         if (link == 0) {

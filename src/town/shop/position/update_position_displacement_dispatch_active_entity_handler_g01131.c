@@ -8,7 +8,7 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
     s32 previous_pos;
 
     previous_pos = motion->unk_08;
-    motion->unk_08 = (u32) (entity->unk_A0 + (func_800644B8(entity->unk_6C) << 6) + 0xFFFC0000);
+    motion->unk_08 = (u32) (entity->unk_A0 + (rsin(entity->unk_6C) << 6) + 0xFFFC0000);
     entity->unk_6C = (s16) ((u16) entity->unk_6C + 0x40);
     motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
     if (((s32 *)town_target_record)[0] == entity_id) {
@@ -136,7 +136,7 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state, s32
     s32 active_event;
 
     target->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0
-        + (func_800644B8(((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16) << 7));
+        + (rsin(((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16) << 7));
     (*(s16 *)((u8 *)state + 0x6C)) = (s16) ((u16) ((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16 + 0x40);
     active_event = (*((s32 *)town_target_record));
     if ((active_event == event_id) && ((*((s32 *)scene_object_payload_alias)) == &D_800935BC)) {
@@ -154,9 +154,9 @@ void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *
     s32 scale_y_wave;
 
     position->z.v = (s32) (state->unk_A0 + (((scale_random_to_unsigned_halfword_limit(0x10) & 0xFFFF) - 8) << 0x10));
-    scale_x_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
+    scale_x_wave = rsin(state->unk_6C.as_s16 * 0x199);
     scale->unk_1C = (s16) ((scale_x_wave / 4) + 0x1000);
-    scale_y_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
+    scale_y_wave = rsin(state->unk_6C.as_s16 * 0x199);
     scale->unk_1E = (s16) (0x1000 - (scale_y_wave / 4));
     ticks_left = (u16) state->unk_6C.as_s16 - 1;
     state->unk_6C.as_s16 = ticks_left;

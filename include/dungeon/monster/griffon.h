@@ -490,7 +490,7 @@ s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-s32 func_800644B8();
+s32 rsin();
 void set_record_integer_tile_center();
 void on_actor_status_updated();
 void func_800A9A04();
@@ -528,7 +528,7 @@ void run_cd_image_commands();
 void func_80041588();
 s32 read_stream_cue_start_offset();
 s32 lookup_masked_byte_table();
-s32 func_80069EF8();
+s32 rand();
 void unlink_entity_node();
 void decrement_monster_entry_count();
 s32 advance_staged_entity_load();

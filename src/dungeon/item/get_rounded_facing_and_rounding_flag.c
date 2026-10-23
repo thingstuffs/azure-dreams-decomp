@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80065F90();
+extern s32 ratan2();
 
 /* Computes a rounded direction between two points and updates flag bit 1. */
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags) {
@@ -8,7 +8,7 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
     u16 new_flags;
     s32 direction;
 
-    direction = func_80065F90(end_y - start_y, end_x - start_x, end_x, end_y);
+    direction = ratan2(end_y - start_y, end_x - start_x, end_x, end_y);
     angle = direction;
     if ((direction & 0x1FF) >= 0x100) {
         new_flags = *flags | 2;

@@ -26,7 +26,7 @@ typedef struct S_80D29000_2 {
    /* other in damp_effect_motion_and_fade_sprite */
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
 
 extern s8 view_direction_depth_biases[8];
 
@@ -69,14 +69,14 @@ void damp_effect_motion_and_fade_sprite(void *effect, void *motion, SpriteFrameS
     projection.xyz[0] = ((S_80D29000_0 *)motion)->unk_00.at02.v;
     projection.xyz[1] = ((S_80D29000_0 *)motion)->unk_04.at02.v;
     projection.xyz[2] = ((S_80D29000_0 *)motion)->unk_08.at02.v;
-    motion_depth = func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
+    motion_depth = RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
 
     anchor_pos = ((S_80D29000_2 *)effect)->unk_A8;
     projection.xyz[0] = anchor_pos->unk_02;
     projection.xyz[1] = anchor_pos->unk_06;
     projection.xyz[2] = anchor_pos->unk_0A;
     sprite->unk_06 = motion_depth -
-        func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
+        RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
         view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((S_80D29000_2 *)effect)->unk_96.s;

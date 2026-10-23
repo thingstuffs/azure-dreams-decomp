@@ -3,8 +3,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s16 func_80066460();
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern s16 GetTPage();
 
 typedef struct {
     u32 addr : 24;
@@ -67,7 +67,7 @@ s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 col
     quad->bytes[3] = 0xC;
     quad->bytes[7] = 0x3E;
     vertex3 = (void *)0x100;
-    texture_page = func_80066460(vertex0, vertex1, vertex2, vertex3);
+    texture_page = GetTPage(vertex0, vertex1, vertex2, vertex3);
     screen0 = (u16 *)scratch;
     screen0 = (u16 *)((u32)screen0 | 0x70U);
     screen1 = (u16 *)scratch;
@@ -124,7 +124,7 @@ s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 col
     vertex3 = scratch;
     scratch->input[18] = (s16)((scratch->values[14] + offsets[2]) >> 0x10);
     vertex3 = (void *)((u32)vertex3 | 0x28U);
-    scratch->ordering_index = func_80065590(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+    scratch->ordering_index = RotAverage4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
         depth_cue, transform_flags);
     quad->halfwords[8 / 2] = scratch->output[0];
     quad->halfwords[0xA / 2] = scratch->output[1];

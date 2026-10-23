@@ -21,7 +21,7 @@ typedef struct S_80172998_0 {
     s16 unk_A4;
 } S_80172998_0;   /* arg0 in advance_actor_hop_to_tile */
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -65,7 +65,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
                     ((target_y - current_y) << 16) / motion->unk_A4;
             }
             motion->unk_A0 =
-                (-func_800644B8(motion->unk_A4 * 292)) << 9;
+                (-rsin(motion->unk_A4 * 292)) << 9;
         }
 
         motion->unk_90 += motion->unk_A0;

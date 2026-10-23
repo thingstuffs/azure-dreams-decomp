@@ -31,11 +31,11 @@ void init_dungeon_view(void) {
     view_state = render_data + 0x18;
     default_scale = 0x200;
     *(s32 *)(view_state + 0x88) = default_scale;
-    func_80064F20(default_scale);
+    SetGeomScreen(default_scale);
     *(s32 *)(view_state + 0x78) = 0;
     *(s32 *)(view_state + 0x7C) = 0;
     *(s32 *)(view_state + 0x80) = 0;
-    func_80064EE0(0, 0, 0);
+    SetFarColor(0, 0, 0);
     *(s16 *)(view_state + 0x58) = default_scale;
     *(s16 *)(view_state + 0x5E) = default_scale;
     *(s16 *)(view_state + 0x64) = default_scale;
@@ -45,22 +45,22 @@ void init_dungeon_view(void) {
     *(s16 *)(view_state + 0x5C) = 0;
     *(s16 *)(view_state + 0x62) = 0;
     *(s16 *)(view_state + 0x68) = 0;
-    func_80064D50(render_data + 0x70);
+    SetColorMatrix(render_data + 0x70);
 
     light_matrix = render_data + 0x50;
     set_light_vectors(view_state, -0x800, 0x800);
-    func_80064D20(light_matrix);
+    SetLightMatrix(light_matrix);
 
     *(s32 *)(view_state + 0x84) = 0x1000;
-    func_80064624(0x1000, *(s32 *)(view_state + 0x88));
-    func_80064EC0(0xA0, 0xA0, 0xA0);
+    SetFogFar(0x1000, *(s32 *)(view_state + 0x88));
+    SetBackColor(0xA0, 0xA0, 0xA0);
     upper_draw_context.red = 0;
     upper_draw_context.green = 0;
     upper_draw_context.blue = 0;
     lower_draw_context.red = 0;
     lower_draw_context.green = 0;
     lower_draw_context.blue = 0;
-    func_80064F00(0xA0, 0x78);
+    SetGeomOffset(0xA0, 0x78);
     *(s16 *)(render_data + 0x18) = -0xBC;
     *(s16 *)(render_data + 0x1A) = -0x88;
     *(s16 *)(render_data + 0x1C) = 0x172;
@@ -270,59 +270,61 @@ void initialize_dungeon_actor(void) {
     entity = obj;
     room = (u8 *)&runtime_dispatch_state;
 
-    if (!(((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_16 & 1)) {
+    do {
+        if (!(((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_16 & 1)) {
 retry_position:
-        do {
-        } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
-        if (D_80012090 != 0 || test_resident_bit(0x1389) != 0) {
-            goto position_selected;
+            do {
+            } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
+            if (D_80012090 != 0 || test_resident_bit(0x1389) != 0) {
+                call_target = actor;
+                break;
+            }
+            call_target = actor;
+            if (current_dungeon_floor != 0x1F) {
+                break;
+            }
+            bind_state = (u8 *)(-0x400);
+            first_height = sample_terrain_surface_height((pos_x << 6) | 0x20,
+                                         (pos_y << 6) | 0x20, (s32)bind_state);
+            entry_index = -1;
+            delta_x = dir_step_x;
+            delta_y = dir_step_y;
+            do {
+            get_offset_map_cell_value_and_flags(pos_x, pos_y, (s16)entry_index, &flags);
+            bind_state = (u8 *)(-0x400);
+            if (flags & 0x8000) {
+                goto retry_position;
+            }
+            offset_index = entry_index & 7;
+            {
+                u8 sample_tile_y;
+                s32 sample_y_sum;
+
+                sample_tile_y = pos_y;
+                sample_x = (pos_x << 6) + 0x20;
+                sample_x += delta_x[offset_index] << 6;
+                sample_x &= 0xFFE0;
+                sample_y = ((s32)sample_tile_y << 6) + 0x20;
+                sample_y_sum = sample_y + (delta_y[offset_index] << 6);
+                sample_y = sample_y_sum & 0xFFE0;
+            }
+            height = sample_terrain_surface_height(sample_x, sample_y, (s32)bind_state);
+            height_diff = (height & 0xFF) - (first_height & 0xFF);
+            if (height_diff < 0) {
+                height_diff = -height_diff;
+            }
+            entry_index++;
+            if (height_diff >= 0x21) {
+                goto retry_position;
+            }
+            } while (entry_index < 2);
+        } else {
+            pos_x = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_10;
+            pos_y = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_12;
         }
         call_target = actor;
-        if (current_dungeon_floor != 0x1F) {
-            goto initialize_position;
-        }
-        bind_state = (u8 *)(-0x400);
-        first_height = sample_terrain_surface_height((pos_x << 6) | 0x20,
-                                     (pos_y << 6) | 0x20, (s32)bind_state);
-        entry_index = -1;
-        delta_x = dir_step_x;
-        delta_y = dir_step_y;
-        do {
-        get_offset_map_cell_value_and_flags(pos_x, pos_y, (s16)entry_index, &flags);
-        bind_state = (u8 *)(-0x400);
-        if (flags & 0x8000) {
-            goto retry_position;
-        }
-        offset_index = entry_index & 7;
-        {
-            u8 sample_tile_y;
-            s32 sample_y_sum;
+    } while (0);
 
-            sample_tile_y = pos_y;
-            sample_x = (pos_x << 6) + 0x20;
-            sample_x += delta_x[offset_index] << 6;
-            sample_x &= 0xFFE0;
-            sample_y = ((s32)sample_tile_y << 6) + 0x20;
-            sample_y_sum = sample_y + (delta_y[offset_index] << 6);
-            sample_y = sample_y_sum & 0xFFE0;
-        }
-        height = sample_terrain_surface_height(sample_x, sample_y, (s32)bind_state);
-        height_diff = (height & 0xFF) - (first_height & 0xFF);
-        if (height_diff < 0) {
-            height_diff = -height_diff;
-        }
-        entry_index++;
-        if (height_diff >= 0x21) {
-            goto retry_position;
-        }
-        } while (entry_index < 2);
-    } else {
-        pos_x = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_10;
-        pos_y = ((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_12;
-    }
-position_selected:
-    call_target = actor;
-initialize_position:
     entry_index = 7;
     {
         u8 setup_x;
@@ -792,14 +794,14 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
     effect = &state->slot[0].unk_04;
     random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *((s16 *)&system_update_flags) & 2)) {
-        position_x = *(u16 *)&source->x.w.i + (func_80064584(random_angle) * 2);
+        position_x = *(u16 *)&source->x.w.i + (rcos(random_angle) * 2);
         state->camera_position.parts.camera_position_x = position_x;
         if (position_x < 0) {
             state->camera_position.parts.camera_position_x = 0;
         } else if (position_x >= bounds->unk_1C) {
             state->camera_position.parts.camera_position_x = (s16) ((u16) bounds->unk_1C - 1);
         }
-        position_y = *(u16 *)&source->y.w.i + (func_800644B8(random_angle) * 2);
+        position_y = *(u16 *)&source->y.w.i + (rsin(random_angle) * 2);
         state->camera_position.parts.camera_position_y = position_y;
         if (position_y < 0) {
             state->camera_position.parts.camera_position_y = 0;

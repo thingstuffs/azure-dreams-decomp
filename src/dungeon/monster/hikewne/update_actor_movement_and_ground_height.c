@@ -10,7 +10,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -148,7 +148,7 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
                         bob_phase = (*(u16 *)((u8 *)actor + 0x9E))++;
                         signed_phase = (s32)((u32)bob_phase << 16) >> 16;
                         bob_angle = signed_phase * 0xE3;
-                        (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
+                        (*(s32 *)((u8 *)actor + 0xA0)) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = D_801620E8;
                             select_sprite_entry(sprite, D_801620E8[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -158,7 +158,7 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
                         bob_phase = (*(u16 *)((u8 *)actor + 0x9E))++;
                         signed_phase = (s32)((u32)bob_phase << 16) >> 16;
                         bob_angle = signed_phase * 0xE3;
-                        (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
+                        (*(s32 *)((u8 *)actor + 0xA0)) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = D_801620E0;
                             select_sprite_entry(sprite, D_801620E0[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -215,7 +215,7 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
                     bob_phase = (*(u16 *)((u8 *)actor + 0x9E))++;
                     signed_phase = (s32)((u32)bob_phase << 16) >> 16;
                     bob_angle = signed_phase * 0xE3;
-                    (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
+                    (*(s32 *)((u8 *)actor + 0xA0)) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = D_801620E8;
                         select_sprite_entry(sprite, D_801620E8[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -225,7 +225,7 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
                     bob_phase = (*(u16 *)((u8 *)actor + 0x9E))++;
                     signed_phase = (s32)((u32)bob_phase << 16) >> 16;
                     bob_angle = signed_phase * 0xE3;
-                    (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
+                    (*(s32 *)((u8 *)actor + 0xA0)) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = D_801620E0;
                         select_sprite_entry(sprite, D_801620E0[((g_game_work.view.camera_rotation.parts.viewAngle

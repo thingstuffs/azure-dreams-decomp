@@ -1311,8 +1311,8 @@ s32 load_generation_resource_slot(s16 resource_index) {
     SD_Call(0x72, resource_id);
     drain_audio_commands_and_service_channels();
     *loaded_id = resource_index + 1;
-    func_80067014(0);
-    func_8005FE18(0);
+    DrawSync(0);
+    VSync(0);
     cd_data = resource->unk_08;
     (*(s32 *)gpu_scratch_write_pointer) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00))->unk_00;
     Control_CD(6, cd_data, 0);

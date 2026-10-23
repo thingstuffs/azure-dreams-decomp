@@ -132,9 +132,9 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
                 tile_rect.y = tile_y;
                 tile_rect.w = 0x18;
                 tile_rect.h = 0x15;
-                func_8006733C(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
+                StoreImage(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
                 do {
-                } while (func_80067014(1) != 0);
+                } while (DrawSync(1) != 0);
 
                 pixel = (u16 *)(buffer_base + 0x5EE8);
                 pixel_index = 0;
@@ -148,7 +148,7 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
                     pixel++;
                 } while (pixel_index < 0x1F8);
 
-                func_800672D8(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
+                LoadImage(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
                 tile_row++;
                 tile_y += 0x15;
             } while (tile_row < 4);

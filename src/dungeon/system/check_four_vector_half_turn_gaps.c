@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80065F90(s32, s32);
+extern s32 ratan2(s32, s32);
 
 /* Checks successive angular gaps between four vectors, accepting zero vectors. */
 s32 check_four_vector_half_turn_gaps(
@@ -39,10 +39,10 @@ s32 check_four_vector_half_turn_gaps(
         y_a_shifted = (s32)((u32)y_a << 16);
     }
 
-    base_angle = func_80065F90(y_a_shifted >> 16, (s16)x_a) & 0xFFF;
-    angle_b = func_80065F90((s16)y_b, (s16)x_b) & 0xFFF;
-    angle_c = func_80065F90((s16)y_c, (s16)x_c) & 0xFFF;
-    angle_d = func_80065F90((s16)y_d, (s16)x_d) & 0xFFF;
+    base_angle = ratan2(y_a_shifted >> 16, (s16)x_a) & 0xFFF;
+    angle_b = ratan2((s16)y_b, (s16)x_b) & 0xFFF;
+    angle_c = ratan2((s16)y_c, (s16)x_c) & 0xFFF;
+    angle_d = ratan2((s16)y_d, (s16)x_d) & 0xFFF;
     angle_d = (angle_d - base_angle) & 0xFFF;
     angle_c = (angle_c - base_angle) & 0xFFF;
     angle_b = (angle_b - base_angle) & 0xFFF;

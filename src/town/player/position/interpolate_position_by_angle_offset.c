@@ -3,8 +3,8 @@
 
 
 
-extern s32 func_800644B8(s32 value_a);
-extern s32 func_80064584(s32 value_b);
+extern s32 rsin(s32 value_a);
+extern s32 rcos(s32 value_b);
 extern void clear_entity_record_fields(void *record);
 extern s32 D_80098690;
 
@@ -30,11 +30,11 @@ void interpolate_position_by_angle_offset(void *motion, EntityRec *position) {
     ((S_80098764_0 *)motion)->unk_0A = ticks_left;
     if ((ticks_left << 0x10) > 0) {
         position->x.v =
-            ((func_800644B8(((S_80098764_0 *)motion)->unk_10) << 9)
+            ((rsin(((S_80098764_0 *)motion)->unk_10) << 9)
              + (((S_80098764_0 *)motion)->unk_30 << 0x10)
              + position->x.v) / 2;
         position->y.v =
-            ((func_80064584(((S_80098764_0 *)motion)->unk_10) << 9)
+            ((rcos(((S_80098764_0 *)motion)->unk_10) << 9)
              + (((S_80098764_0 *)motion)->unk_32 << 0x10)
              + (old_y = position->y.v)) / 2;
         return;

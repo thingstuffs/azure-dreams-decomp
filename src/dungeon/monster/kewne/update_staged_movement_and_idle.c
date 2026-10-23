@@ -8,7 +8,7 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -157,7 +157,7 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, Spr
         movement->velocity_x -= ((S_80172DDC_0 *)action)->unk_A8;
         movement->velocity_y -= ((S_80172DDC_0 *)action)->unk_AC;
         ((S_80172DDC_0 *)action)->unk_A0.at00.v =
-            func_800644B8(((S_80172DDC_0 *)action)->unk_96.s * 146) * 160 + 0x100000;
+            rsin(((S_80172DDC_0 *)action)->unk_96.s * 146) * 160 + 0x100000;
 
     case 5:
     {

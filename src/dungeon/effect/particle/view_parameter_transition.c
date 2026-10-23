@@ -37,25 +37,25 @@ extern s32 D_800E1C64;
 
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern s16 D_80025308;
 extern s32 rand(void);
 extern s32 begin_view_parameter_transition(PointRecord *, ObjectPosition *);
 extern void create_randomized_transform_effect();
 extern s16 D_80025308;
-s32 func_800644B8(s16);                          /* extern */
-s32 func_80064584(s16);                          /* extern */
+s32 rsin(s16);                          /* extern */
+s32 rcos(s16);                          /* extern */
 extern int abs(int);
 extern void *memcpy(void *, const void *, u32);
 extern s32 get_sprite_attachment_vector();
 extern void project_sprite_chain(void);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance();
-extern s32 func_800644B8();
-extern s32 func_80064584();
+extern s32 rsin();
+extern s32 rcos();
 extern void select_record_entry_and_value();
 extern const s16 D_80024038[8][2];
 extern void *D_80024058[9];
@@ -128,7 +128,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
         scratch->z = (u16)coords->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, &packet->data, &scratch->xy, &scratch->depth);
+        depth_index = RotTransPers(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
@@ -161,8 +161,8 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
 
             mode_packet = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)mode_packet + 0xC;
-            color_or_tpage = func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
+            color_or_tpage = GetTPage(0, 1, 0, 0);
+            SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
             ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
@@ -288,9 +288,9 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
     s32 first_angle = anim->angle;
 
 
-    position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((*(u16 *)&D_80025308 = 1,
+    position->unk_00 = (s32) (anim->base0 + (anim->count * rsin((*(u16 *)&D_80025308 = 1,
         first_angle)) * 0x10));
-    position->unk_04 = (s32) (anim->base1 + (anim->count * func_80064584(anim->angle) * 0x10));
+    position->unk_04 = (s32) (anim->base1 + (anim->count * rcos(anim->angle) * 0x10));
     advance_sprite_animation_and_textures(effect);
     phase = anim->state;
     switch (phase) {
@@ -565,7 +565,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
     {
         for (entity = 0; (s32)entity < 4; entity++) {
             {
-                s32 random = func_80069EF8();
+                s32 random = rand();
                 u8 *task;
                 s32 particle_color;
                 s32 particle_param;
@@ -683,10 +683,10 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             }
             display = PTR_AT(source, 0x08);
 
-            trig = func_800644B8(S16_AT(entity, 0x0C));
+            trig = rsin(S16_AT(entity, 0x0C));
             S32_AT(display, 0x00) = S32_AT(entity, 0x4C) +
                 (S16_AT(entity, 0x0A) * trig * 0x10);
-            trig = func_80064584(S16_AT(entity, 0x0C));
+            trig = rcos(S16_AT(entity, 0x0C));
             S32_AT(display, 0x04) = S32_AT(entity, 0x50) +
                 (S16_AT(entity, 0x0A) * trig * 0x10);
             S32_AT(display, 0x08) = S32_AT(effect_pos, 0x08) +
@@ -733,7 +733,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
 
             for (entity = 0; (s32)entity < 4; entity++) {
                 {
-                    s32 random = func_80069EF8();
+                    s32 random = rand();
                     u8 *task;
                     s32 particle_color;
                     s32 particle_param;

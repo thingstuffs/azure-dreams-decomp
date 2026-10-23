@@ -7,7 +7,7 @@
 typedef void (*Func4)(void *, void *, void *, void *);
 extern Func4 actor_brightness_callbacks[];
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 sample_terrain_surface_height();
 
 typedef struct S_800D4158_1 {
@@ -98,7 +98,7 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Spri
     pulse_phase %= 96;
     ((S_800D4158_2 *)entity)->unk_9E = pulse_phase;
     if ((s16)pulse_phase < 0x19) {
-        brightness = (func_800644B8((s16)pulse_phase * 0x55) >> 4) * 0x60;
+        brightness = (rsin((s16)pulse_phase * 0x55) >> 4) * 0x60;
         brightness = (brightness >> 8) + 0x80;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;

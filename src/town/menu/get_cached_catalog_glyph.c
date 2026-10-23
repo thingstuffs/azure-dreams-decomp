@@ -9,7 +9,7 @@ struct Entry {
 };
 
 extern s32 Krom2RawAdd(s32);
-extern void func_80067014(s32);
+extern void DrawSync(s32);
 extern s16 *build_filtered_catalog_glyph(s32, s16 *);
 
 extern s16 catalog_glyph_pixels[];
@@ -33,7 +33,7 @@ s16 *get_cached_catalog_glyph(s16 char_code)
     }
 
     if (catalog_lookup_count >= 30) {
-        func_80067014(0);
+        DrawSync(0);
         catalog_lookup_count = 0;
     }
 

@@ -148,17 +148,17 @@ extern u8 D_800DEC00[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 read_sound_mode_blocking_status(s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
 void update_directional_actor_effect(void *input, void *output);
 extern int abs(int);
 extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
-extern s32 func_800644B8(s32 angle);
-extern s32 func_80069EF8(void);
+extern s32 rsin(s32 angle);
+extern s32 rand(void);
 extern u8 D_800DED70[];
-s32 func_80069EF8();                          /* extern */
+s32 rand();                          /* extern */
 extern M2C_UNK D_800DE990;
 
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
@@ -317,7 +317,7 @@ void update_directional_actor_effect(void *input, void *output)
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
-                random_value = func_80069EF8();
+                random_value = rand();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
@@ -335,7 +335,7 @@ void update_directional_actor_effect(void *input, void *output)
                     result = jitter_coordinate_32(grid_coord, random_value);
                     position->x.w.i = result;
                 }
-                random_value = func_80069EF8();
+                random_value = rand();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
@@ -392,7 +392,7 @@ void update_directional_actor_effect(void *input, void *output)
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
-                random_value = func_80069EF8();
+                random_value = rand();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
@@ -410,7 +410,7 @@ void update_directional_actor_effect(void *input, void *output)
                     result = jitter_coordinate_64(grid_coord, random_value);
                     position->x.w.i = result;
                 }
-                random_value = func_80069EF8();
+                random_value = rand();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
@@ -428,10 +428,10 @@ void update_directional_actor_effect(void *input, void *output)
                     result = jitter_coordinate_64(grid_coord, random_value);
                     position->y.w.i = result;
                 }
-                result = func_80069EF8();
+                result = rand();
                 (particle->position)->z.w.i =
                     height - (result & 0x1F);
-                result = func_80069EF8();
+                result = rand();
                 {
                     u32 color;
                     void *sprite_template = 0;
@@ -582,7 +582,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
             target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 14);
             target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 14);
             target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 14);
-            target->z.word -= (func_800644B8(((s16)actor->counter << 11) / 10) << 9);
+            target->z.word -= (rsin(((s16)actor->counter << 11) / 10) << 9);
         }
         if ((s16)actor->counter >= 10) {
             sprite->flags = sprite->flags | 0x800;
@@ -661,7 +661,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     if (coord_magnitude == 0) {
                         coord_magnitude = 1;
                     }
-                    x_offset = func_80069EF8() % coord_magnitude;
+                    x_offset = rand() % coord_magnitude;
                     spawn->position->x.half.coord = (s16)((((s16)target->x.half.coord + (s16)start_pos[0]) >> 1)
                         + x_offset - (coord_magnitude >> 1));
                     target_y = (s16)target->y.half.coord;
@@ -674,9 +674,9 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                         ((Vec3 *)spawn->position)->y.half.coord =
                             (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
                     }
-                    spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
-                    spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
-                    z_jitter = func_80069EF8();
+                    spawn->position->x.word += (((rand() & 0x3FF) - 0x1FF) << 10);
+                    spawn->position->y.word += (((rand() & 0x3FF) - 0x1FF) << 10);
+                    z_jitter = rand();
                     spawn->position->z.word = target->z.word + (((z_jitter & 0x3FF) - 0x1FF) << 10);
                     state->scale_y = 0x1800;
                     state->scale_x = 0x1800;
@@ -817,7 +817,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
     case 0:
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        rise_random = func_80069EF8();
+        rise_random = rand();
         rise_velocity = motion->velocity_z + 0x1A000;
         rise_velocity += rise_random >> 1;
         motion->velocity_z = rise_velocity;
@@ -835,7 +835,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             sprite->tpage_abr = 0;
             sprite->source = sprite_frames;
             sprite->flags = (u16) (sprite_flags | 2);
-            ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
+            ((S_8197D468_0 *)effect)->unk_48 = (u16) ((rand() & 3) + 4);
             ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
             return;
         }
@@ -861,7 +861,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
         }
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        fall_random = func_80069EF8();
+        fall_random = rand();
         fall_velocity = motion->velocity_z + 0x1C000;
         fall_velocity += fall_random >> 1;
         motion->velocity_z = fall_velocity;
@@ -879,18 +879,18 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
                     register_node(particle, (s32)project_sprite_chain);
                     particle_sprite = particle->sprite;
                     (particle->position)->x.v =
-                        (s32) (motion->x.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->x.v + (((rand() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->y.v =
-                        (s32) (motion->y.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->y.v + (((rand() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->z.v =
-                        (s32) (motion->z.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                        (s32) (motion->z.v + (((rand() & 0x3FF) - 0x1FF) << 0xA));
                     (particle->position)->velocity_x =
-                        (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                        (s32) (((rand() & 0x3FF) - 0x1FF) << 0xA);
                     (particle->position)->velocity_y =
-                        (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                        (s32) (((rand() & 0x3FF) - 0x1FF) << 0xA);
                     particle_work = ((void *)particle) + 0x20;
                     (particle->position)->velocity_z =
-                        (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
+                        (s32) (0 - ((rand() & 0x3FF) << 8));
                     particle_color = 0xC00000;
                     particle_sprite->scale_y = 0xC00;
                     particle_sprite->scale_x = 0xC00;

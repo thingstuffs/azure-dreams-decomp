@@ -222,17 +222,17 @@ typedef struct S_func_800241A8_6 {
     } unk_24;
 } S_func_800241A8_6;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, EmptyArg);
-extern void func_80065820(void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u32, s32);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, EmptyArg);
+extern void RotMatrix(void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 typedef struct {
     u8 flags;
@@ -270,7 +270,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     scratch->unk_90 = transform->z.w.i;
     object->flags |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
@@ -278,12 +278,12 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     scratch->unk_A4 = object->angle_x;
     scratch->unk_A8 = object->angle_z;
     scratch->unk_A6 = object->angle_y;
-    func_80065820(&scratch->unk_A4, (u8 *)scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    func_80064BC0((u8 *)scratch + 0x54, &scratch->unk_34);
-    func_80064D80((u8 *)scratch + 0x54);
-    func_80064CF0((u8 *)scratch + 0x54);
+    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    ReadRotMatrix(&matrix);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     depth_offset = (s16)depth_bias;
     texture = object->source;
@@ -319,7 +319,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_C4.as_u16_C4 = mesh->unk_6C.as_u16_6C;
             scratch->unk_CC.as_u16_CC = mesh->unk_6E.as_u16_6E;
 
-            ot_index = func_80065590(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
+            ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
                                      &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
                                      &packet->unk_08.as_s16_08, &packet->unk_10,
                                      &packet->unk_18, &packet->unk_20.as_s16_20,
@@ -455,7 +455,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_CC.as_s16_CC = midpoint_z;
             scratch->unk_BC.as_s16_BC = midpoint_z;
 
-            ot_index = func_80065590(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
+            ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
                                      &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
                                      &line->unk_08.as_s16_08, &line->unk_0C,
                                      &line->unk_08.as_s16_08, &line->unk_0C,
@@ -482,7 +482,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             tpage_state = game_work->draw_buffer;
             tpage = tpage_state->unk_8D0;
             tpage_state->unk_8D0 = &tpage->unk_0C;
-            func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             setaddr(tpage, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
             setaddr((u32 *)scratch->unk_24 + scratch->unk_100, tpage);
         }
@@ -492,7 +492,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
         }
         texture++;
     }
-    func_80064A40();
+    PopMatrix();
 }
 #include "dungeon/effect/mesh.h"
 #include "shared/object_node.h"
@@ -573,17 +573,17 @@ typedef struct GlobalState {
     u8 *next;
 } GlobalState;
 
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern u32 func_80065420(void *, void *, void *, void *);
-extern void func_80065820(void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u32, s32);
+extern void CompMatrix(void *, void *, void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void ReadRotMatrix(void *);
+extern void ScaleMatrix(void *, void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
+extern u32 RotTransPers(void *, void *, void *, void *);
+extern void RotMatrix(void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 typedef struct GlobalRef {
     GlobalState *cur;
@@ -625,7 +625,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         VFIELD(scratch, s32, 0x88) = ((SignedPositionView *)position)->unk_02;
         VFIELD(scratch, s32, 0x8C) = ((SignedPositionView *)position)->unk_06;
         ((S_8187B1F4_1 *)scratch)->unk_90 = ((SignedPositionView *)position)->unk_0A;
-        func_800649A0();
+        PushMatrix();
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;
         VFIELD(scratch, s32, 0x34) = 0x1000;
@@ -633,12 +633,12 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         VFIELD(scratch, u16, 0xA8) = ((S_8187B1F4_2 *)orientation)->unk_1A;
         component = ((S_8187B1F4_2 *)orientation)->unk_18;
         ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
-        func_80065820(scratch + 0xA4, ((u8 *)model_matrix));
-        func_80064AE0(&view_matrix);
-        func_80064840(&view_matrix, model_matrix, transform_matrix);
-        func_80064BC0(transform_matrix, scratch + 0x34);
-        func_80064D80(transform_matrix);
-        func_80064CF0(transform_matrix);
+        RotMatrix(scratch + 0xA4, ((u8 *)model_matrix));
+        ReadRotMatrix(&view_matrix);
+        CompMatrix(&view_matrix, model_matrix, transform_matrix);
+        ScaleMatrix(transform_matrix, scratch + 0x34);
+        SetTransMatrix(transform_matrix);
+        SetRotMatrix(transform_matrix);
         state = global->cur;
         ordering_table = (u8 *)state;
         state = (GlobalState *)state->next;
@@ -659,7 +659,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                 point_packet = cur_state->next;
                 projection_flags = scratch + 0xD4;
                 cur_state->next = point_packet + 0xC;
-                depth = func_80065420(vertex, point_packet + 8,
+                depth = RotTransPers(vertex, point_packet + 8,
                                       depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
                 if (depth < 0x1E0U) {
@@ -683,8 +683,8 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                     ((PrimitiveTag *)tail)->addr = (u32)point_packet;
                     draw_mode_packet = global->cur->next;
                     global->cur->next = draw_mode_packet + 0xC;
-                    func_80067F20(draw_mode_packet, 0, 0,
-                                  func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+                    SetDrawMode(draw_mode_packet, 0, 0,
+                                  GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
                     ((PrimitiveTag *)draw_mode_packet)->addr =
                         ((PrimitiveTag *)((u8 *)VFIELD(scratch, void *, 0x24) +
                                VFIELD(scratch, u32, 0x100) * 4))->addr;
@@ -699,7 +699,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
                 point_index += 1;
             } while (point_index < point_count);
         }
-        func_80064A40();
+        PopMatrix();
         tail_2 = ((S_8187B1F4_3_pre *)points)[-1].unk_00;
         points = tail_2 + 0x20;
         if (tail_2 == 0) {
@@ -755,9 +755,9 @@ void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
 extern u8 resident_globals_page[];
-extern u32 func_80065420();
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u32, s32);
+extern u32 RotTransPers();
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
@@ -791,7 +791,7 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
         FIELD_U16(scratch, 4) = FIELD_U16(vertex, 0xA);
         FIELD_PTR(scratch, 0x18) = point_packet + 0xC;
 
-        depth_index = func_80065420(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
+        depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
         FIELD_U32(scratch, 0xC0) = depth_index;
         if (depth_index < 0x1E0U) {
             FIELD_U32(point_packet, 4) = FIELD_U32(render_data, 0);
@@ -819,7 +819,7 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
 
             mode_packet = FIELD_PTR(scratch, 0x18);
             FIELD_PTR(scratch, 0x18) = mode_packet + 0xC;
-            func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
             FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
                 (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
@@ -998,9 +998,9 @@ typedef struct S_8187B9E8_4 {
     s16 unk_A0;
 } S_8187B9E8_4;   /* q in func_800251E8 */
 
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern s32 func_80069EF8();
+extern s32 rsin();
+extern s32 rcos();
+extern s32 rand();
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
 void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 position_x_word, s32 position_y_word, s32 position_z_word) {
@@ -1023,14 +1023,14 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
         point_count = 0;
         state = (u8 *)effect + 0x20;
         do {
-            angle_a = func_80069EF8() & 0xFFF;
-            angle_b = func_80069EF8() & 0xFFF;
-            plane_radius = (radius * func_80064584(angle_a)) >> 12;
-            component = (plane_radius * func_800644B8(angle_b)) >> 12;
+            angle_a = rand() & 0xFFF;
+            angle_b = rand() & 0xFFF;
+            plane_radius = (radius * rcos(angle_a)) >> 12;
+            component = (plane_radius * rsin(angle_b)) >> 12;
             ((S_8187B9E8_0 *)state)->unk_16[point_count] = component;
-            component = (plane_radius * func_80064584(angle_b)) >> 12;
+            component = (plane_radius * rcos(angle_b)) >> 12;
             ((S_8187B9E8_0 *)state)->unk_44[point_count] = component;
-            component = (radius * func_800644B8(angle_a)) >> 12;
+            component = (radius * rsin(angle_a)) >> 12;
             ((S_8187B9E8_0 *)state)->unk_72[point_count] = component;
             point_count++;
         } while (point_count < 0x17);
@@ -1043,7 +1043,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
         scale->unk_1C = 0x1000;
         state->unk_14 = 0x17;
         effect->unk_10 = rotate_point_cloud_until_expired;
-        state->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
+        state->unk_A0 = (rand() & 0x3F) + 0x3C;
         state->unk_10 = extent;
         state->unk_12 = extent;
         register_node(effect, project_shaded_points_to_ordering_table);
@@ -1373,8 +1373,8 @@ typedef struct {
     u8 bytes[12];
 } Data12;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 
 extern u8 D_80026940[12];
 extern s16 D_8002694C[5];
@@ -1405,10 +1405,10 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             angle_offset = (vertex_index << 12) / 5;
             ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_1E =
                 (((S_8187BFE0_0 *)state_data)->unk_0A *
-                 func_80064584(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
+                 rcos(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
             ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_2A =
                 (((S_8187BFE0_0 *)state_data)->unk_0A *
-                 func_800644B8(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
+                 rsin(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
             vertex_index++;
         } while (vertex_index < 5);
 
@@ -1601,7 +1601,7 @@ extern u8 D_80026940[12];
 extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -1875,41 +1875,39 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
         fade_out_tick = (s16)next_tick;
         U16(effect, 0x82) = next_tick;
     }
-        if (fade_out_tick >= 0x14) {
-            goto finish_fade;
-        }
-
-        U8(sprite, 0xC) = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
-        U8(sprite, 0xD) = ((0x14 - S16(effect, 0x82)) * 0xE0) / 0x14;
-        U8(sprite, 0xE) = ((0x14 - S16(effect, 0x82)) * 0x20) / 0x14;
-        if (S16(effect, 0x96) == 0) {
-            U16(effect, 0x96) = 1;
-            U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
-        } else {
-            U16(effect, 0x96) = 0;
-            U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
-        }
-
-        particle_index = 0;
-loop_0:
-        {
-            particle_color = func_80069EF8();
-            {
-                s32 base_color;
-                s32 brightness;
-                target = (u8 *)effect - 0x20;
-                base_color = 0x0020E0E0;
-                particle_color &= 0xFF;
-                brightness = particle_color | 0x80;
-                create_terrain_seeking_colored_point(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
+        if (fade_out_tick < 0x14) {
+            U8(sprite, 0xC) = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
+            U8(sprite, 0xD) = ((0x14 - S16(effect, 0x82)) * 0xE0) / 0x14;
+            U8(sprite, 0xE) = ((0x14 - S16(effect, 0x82)) * 0x20) / 0x14;
+            if (S16(effect, 0x96) == 0) {
+                U16(effect, 0x96) = 1;
+                U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
+            } else {
+                U16(effect, 0x96) = 0;
+                U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
             }
-            particle_index += 1;
-        }
-        if (particle_index < 4)
-            goto loop_0;
-        return;
 
-finish_fade:
+            particle_index = 0;
+loop_0:
+            {
+                particle_color = rand();
+                {
+                    s32 base_color;
+                    s32 brightness;
+                    target = (u8 *)effect - 0x20;
+                    base_color = 0x0020E0E0;
+                    particle_color &= 0xFF;
+                    brightness = particle_color | 0x80;
+                    create_terrain_seeking_colored_point(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
+                }
+                particle_index += 1;
+            }
+            if (particle_index < 4)
+                goto loop_0;
+            return;
+
+        }
+
         U16(effect, 0x82) = 0;
         U16(effect, 0xA) += 1;
         return;

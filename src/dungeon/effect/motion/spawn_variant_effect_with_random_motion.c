@@ -32,8 +32,8 @@ struct S_80083178__jr {
 
 void select_record_entry_and_value();  /* extern */
 s32 register_node();           /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
@@ -74,30 +74,30 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     case 1:
         sprite->source = &D_8006E24C;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0x10 - (rand() & 0xF));
-        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
-        motion->velocity_y = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
+        motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
+        motion->velocity_y = (s32) (rsin(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
         effect_data->unk_12 = 1;
         break;
     case 2:
         sprite->source = &D_8006E258;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0xF));
-        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
-        motion->velocity_y = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
+        motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
+        motion->velocity_y = (s32) (rsin(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
         effect_data->unk_12 = 1;
         break;
     case 3:
         effect_data->unk_08 = &D_8006E51C;
         select_record_entry_and_value(sprite, &D_8006E51C, 0);
-        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle) << 7);
-        velocity_y = func_800644B8(game_state->camera_rotation.parts.viewAngle) << 7;
+        motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle) << 7);
+        velocity_y = rsin(game_state->camera_rotation.parts.viewAngle) << 7;
         motion->velocity_y = velocity_y;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
         break;
     case 4:
         effect_data->unk_08 = &D_8006E57C;
         select_record_entry_and_value(sprite, &D_8006E57C, 0);
-        motion->velocity_x = (s32) ((0 - func_80064584(game_state->camera_rotation.parts.viewAngle)) << 7);
-        velocity_y = (0 - func_800644B8(game_state->camera_rotation.parts.viewAngle)) << 7;
+        motion->velocity_x = (s32) ((0 - rcos(game_state->camera_rotation.parts.viewAngle)) << 7);
+        velocity_y = (0 - rsin(game_state->camera_rotation.parts.viewAngle)) << 7;
         motion->velocity_y = velocity_y;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
     }

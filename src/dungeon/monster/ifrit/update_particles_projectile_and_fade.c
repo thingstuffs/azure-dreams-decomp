@@ -83,7 +83,7 @@ extern u8 D_80174228[];
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s16, s16);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void distribute_experience_and_report_gains(void *);
@@ -124,15 +124,15 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                 register_node(spawned_object, project_sprite_chain);
                 spawned_object->unk_10 = particle_callback;
 
-                random_offset = func_80069EF8();
+                random_offset = rand();
                 ((MovingPosition *)(spawned_object->position))->unk_02 =
                     position->unk_02 + (random_offset & 0x3F) - 0x20;
 
-                random_offset = func_80069EF8();
+                random_offset = rand();
                 ((MovingPosition *)(spawned_object->position))->unk_06 =
                     position->unk_06 + (random_offset & 0x3F) - 0x20;
 
-                random_offset = func_80069EF8();
+                random_offset = rand();
                 {
                     u32 owner;
                     u16 source_z;

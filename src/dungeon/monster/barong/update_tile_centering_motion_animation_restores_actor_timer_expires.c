@@ -25,7 +25,7 @@ typedef struct S_80166B4C_0 {
 } S_80166B4C_0;   /* arg0 in update_tile_centering_motion_animation_restores_actor_timer_expires */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -93,7 +93,7 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
                 ((S_80166B4C_0 *)action)->unk_9E.s;
 
             ((S_80166B4C_0 *)action)->unk_A4 =
-                (-func_800644B8(((S_80166B4C_0 *)action)->unk_9E.s * 0x199)) << 10;
+                (-rsin(((S_80166B4C_0 *)action)->unk_9E.s * 0x199)) << 10;
         }
 
         height = ((S_80166B4C_0 *)action)->unk_90;

@@ -435,7 +435,7 @@ s32 open_twin_souko();
 extern void configure_the_set_mode_n_3();
 extern void initialize_entity_flags_transform_type_dependent_variant();
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
-extern s32 func_800644B8();
+extern s32 rsin();
 u32 scale_random_to_unsigned_halfword_limit();
 
 extern u8 D_80046398[];

@@ -238,7 +238,7 @@ extern void *actor_direction_sprites;
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
 extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, void *);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
@@ -361,7 +361,7 @@ loop_top:
             (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
         ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
             (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
-        arc_height = func_800644B8(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
+        arc_height = rsin(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
         ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
             (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
             (arc_height << 7);

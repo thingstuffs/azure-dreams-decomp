@@ -270,24 +270,24 @@ typedef struct Row_8194D354_S_80024B54_11 {
 } Row_8194D354_S_80024B54_11;   /* var_v1 in func_80024B54 */
 
 /* Updates a three-way effect, selects its target, and animates the target color. */
-s32 func_80065F90(s32, s32);
-s32 func_80064710(s32);
+s32 ratan2(s32, s32);
+s32 SquareRoot0(s32);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 func_800644B8(s32);
+s32 rsin(s32);
 void *allocate_list_node();
 void *func_8003FD64();
 M2C_UNK advance_sprite_animation_and_textures();
-s32 func_80064584();
-void func_800649A0();
-void func_80064A40();
-void * func_80064B30();
+s32 rcos();
+void PushMatrix();
+void PopMatrix();
+void * ApplyMatrixSV();
 void select_record_entry_and_value();
 
 s32 read_sound_mode_blocking_status();
-void * func_80065820();
-s32 func_80069EF8();
+void * RotMatrix();
+s32 rand();
 void apply_attack_power_and_element_effects();
 void *scan_actor_along_heading();
 s32 check_left_tile_and_center_height();

@@ -23,7 +23,7 @@ extern void register_node(void *, void *);
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
-extern void func_800673A0(Rect *, s32, s32);
+extern void MoveImage(Rect *, s32, s32);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void project_sprite_chain(void);
@@ -155,13 +155,13 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         rect.y = value;
         rect.w = 0x100;
         rect.h = 1;
-        func_800673A0(&rect, 0, value - 1);
+        MoveImage(&rect, 0, value - 1);
 
         rect.w = 0x10;
         rect.x = 0x30;
         rect.y--;
         do {
-            func_800673A0(&rect, rect.x - 0x30, rect.y);
+            MoveImage(&rect, rect.x - 0x30, rect.y);
             rect.x += 0x40;
         } while (rect.x < 0x100);
 

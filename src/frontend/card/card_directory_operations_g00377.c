@@ -116,7 +116,7 @@ s32 card_boot_format_card_and_wait(s32 card_slot) {
     do {
         status = card_boot_take_hardware_status();
         if (status == 0) {
-            func_8005FE18(0);
+            VSync(0);
         }
     } while (status == 0);
     if (status != 1) {

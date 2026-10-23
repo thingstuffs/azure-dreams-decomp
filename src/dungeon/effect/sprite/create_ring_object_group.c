@@ -4,8 +4,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 void register_node(void *, void *); /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 extern u8 D_800250B4[];
 extern u8 D_80028220[];
 extern u8 D_80045C34[];
@@ -62,9 +62,9 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             register_node(object, &D_80045C34);
             angle = ring_index << 8;
             position = object->position;
-            x_component = func_80064584(angle) >> 7;
+            x_component = rcos(angle) >> 7;
             x_offset = x_component + ((s32) ((s16) x_component * radius_scale) >> 2);
-            y_component = func_800644B8(angle) >> 7;
+            y_component = rsin(angle) >> 7;
             y_scale_product = (s16) y_component * radius_scale;
             state = ((void *)object) + 0x20;
             pos_x = center_x + x_offset;
@@ -79,9 +79,9 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             transform->source = &D_80028220;
             transform->scale_x = 0x1000;
             transform->angle_z = (u16) (angle + 0x400);
-            neg_y_fixed = 0 - (func_800644B8(angle) << 0xC);
+            neg_y_fixed = 0 - (rsin(angle) << 0xC);
             transform->angle_x = (s16) ((neg_y_fixed / 6) >> 0xC);
-            x_fixed = func_80064584(angle) << 0xC;
+            x_fixed = rcos(angle) << 0xC;
             transform->angle_y = (s16) ((x_fixed / 6) >> 0xC);
             state->unk_14 = pos_x;
             state->unk_16 = pos_y;

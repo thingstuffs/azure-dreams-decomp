@@ -7706,7 +7706,7 @@
 0x8005497C	func_8005497C	assign_sound_payload_and_release_channel	(high) src/engine/audio/sequence/sound_assign_sequence_payload_slot.c:7: Assigns the payload slot then maps events 0x11,0x12,0x14,0x18 to release channel zero through three.
 0x8005B4D0	func_8005B4D0	start_sound_effect_program_voices	(medium) src/engine/audio/sequence/sound_reset_indexed_voice_envelope_second.c:107: Walks the selected bank/program tones covering the requested note, allocates voices, computes sample offsets/stereo gain/pitch/envelope attributes and applies each voice's effect flag; sound_start_scaled_primary_and_secondary_voices is its sole caller.
 0x800552C8	func_800552C8	apply_scaled_sound_slot_volume	(high) src/engine/audio/slots/set_sound_slot_byte_pair.c:18: When slot playback flag 0x100 is set, multiplies volume by the global scale and task gain, clamps to seven bits and writes both slot channels.
-0x8005D7BC	func_8005D7BC	stop_spu_dma_event_service	(high) src/engine/audio/spu/SpuQuit.c:17: Inside a critical section clears SPU callback state, removes DMA channel four callback, closes/disables the event, then exits the section when the service is active.
+0x8005D7BC	func_8005D7BC	SpuQuit	Psy-Q masked whole-object equality: LIBSPU.LIB/S_Q.OBJ versions 370,400; object 0x8005d7bc +0
 0x8005D838	func_8005D838	initialize_sound_transfer_range	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
 0x8005D838	func_8005D838	SpuInitMalloc	Psy-Q masked whole-object equality: LIBSPU.LIB/S_M_INIT.OBJ versions 330,340,350,370,400,3610,3611; object 0x8005d838 +0
 0x8005CB88	func_8005CB88	start_spu_dma_event_service	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.

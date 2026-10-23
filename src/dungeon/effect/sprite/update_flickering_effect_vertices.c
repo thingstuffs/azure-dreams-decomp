@@ -164,7 +164,7 @@ next_effect:
         effect_data = (TrailParticleData *) ((u8 *) effect + 0x20);
         effect_data->unk_54 = coord_y;
         effect_data->unk_52 = duration;
-        effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);
+        effect_data->unk_4C = (s16) (rand() & 0xFFF);
         effect_data->unk_4E = (u16) motion->unk_14;
         effect_data->unk_04 = (s32) motion->unk_00.unk_00;
         effect_data->unk_08 = (s32) motion->unk_04.unk_04;
@@ -267,12 +267,12 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         if (height_or_index < 16) {
             height_or_index = 16;
         }
-        obj->red = (((func_80069EF8() & 15) + 0xBE) << 4) / height_or_index;
-        obj->green = (((func_80069EF8() & 15) + 0x91) << 4) / height_or_index;
-        obj->blue = (((func_80069EF8() & 15) + 10) << 4) / height_or_index;
+        obj->red = (((rand() & 15) + 0xBE) << 4) / height_or_index;
+        obj->green = (((rand() & 15) + 0x91) << 4) / height_or_index;
+        obj->blue = (((rand() & 15) + 10) << 4) / height_or_index;
     }
 
-    obj->angle = (obj->angle + ((func_80069EF8() & 0xFF)
+    obj->angle = (obj->angle + ((rand() & 0xFF)
                   - (*(u16 *)((u8 *)obj + 0x0E) << 2))) & 0xFFF;
 
     if (obj->z < (s32)0xFFD00000 || obj->state == 3) {
@@ -299,7 +299,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         obj->z += obj->dz;
 
         height_or_index = -*(s16 *)((u8 *)obj + 0x0E);
-        size_random = func_80069EF8();
+        size_random = rand();
         vertex_size = (height_or_index >> 1) + ((height_or_index >> 3) * (height_or_index >> 4));
         height_or_index = 3;
         size_random &= 7;
@@ -308,7 +308,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         obj->vy1 = vertex_extent;
         obj->vx0 = vertex_extent;
 
-        size_random = func_80069EF8();
+        size_random = rand();
         vertex_cursor = (u8 *)obj + 0x18;
         size_jitter = (size_random & 7) + 8;
         vertex_size += size_jitter;
@@ -322,7 +322,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         obj->angle2 += 0x100;
 
         do {
-            *(u16 *)(vertex_cursor + 0x2C) = func_80069EF8() & 15;
+            *(u16 *)(vertex_cursor + 0x2C) = rand() & 15;
             vertex_cursor -= 8;
         } while (--height_or_index >= 0);
 
@@ -332,10 +332,10 @@ void update_flickering_effect_vertices(DungeonObj *obj)
         packet.h8 = 0;
         packet.angle = obj->angle;
         packet.x = *(u16 *)((u8 *)obj + 6)
-        + (func_80064584(*(s16 *)((u8 *)obj + 0x4E)
+        + (rcos(*(s16 *)((u8 *)obj + 0x4E)
             + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         packet.y = *(u16 *)((u8 *)obj + 0x0A)
-        + (func_800644B8(*(s16 *)((u8 *)obj + 0x4E)
+        + (rsin(*(s16 *)((u8 *)obj + 0x4E)
             + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
             LocalPacket *packet_ptr = &packet;
@@ -398,26 +398,26 @@ s32 draw_jittered_triangle_trails(void *first_item)
             *(u8 **)(render_context->draw_buffer + 0x8D0) = triangle + 0x14;
 
             ((TrailTriangle *)triangle)->unk_04 = ((TrailRenderItem *)item_data)->unk_48;
-            func_80066690(triangle);
-            func_80066640(triangle, 1);
+            SetPolyF3(triangle);
+            SetSemiTrans(triangle, 1);
 
             blend_mode = 3;
             if (((TrailRenderItem *)item_data)->unk_54 > 0) {
                 blend_mode = 1;
             }
-            func_80067F20(draw_mode, 0, 0,
-                func_80066460(0, blend_mode, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(draw_mode, 0, 0,
+                GetTPage(0, blend_mode, 0, 0) & 0xFFFF, 0);
 
             byte_offset = (point_index * 8) + 0x28;
-            depth_index = func_80065420((u8 *)item_data + byte_offset,
+            depth_index = RotTransPers((u8 *)item_data + byte_offset,
                 screen_coords, &screen_coords[2], &screen_coords[2]) - 8;
 
-            ((TrailTriangle *)triangle)->unk_08 = screen_coords[0] + (func_80069EF8() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_0A = screen_coords[1] + (func_80069EF8() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_0C = screen_coords[0] - (func_80069EF8() & 1) - 1;
-            ((TrailTriangle *)triangle)->unk_0E = screen_coords[1] + (func_80069EF8() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_10 = screen_coords[0] + (func_80069EF8() & 4) - 2;
-            ((TrailTriangle *)triangle)->unk_12 = screen_coords[1] - (func_80069EF8() & 1) - 1;
+            ((TrailTriangle *)triangle)->unk_08 = screen_coords[0] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_0A = screen_coords[1] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_0C = screen_coords[0] - (rand() & 1) - 1;
+            ((TrailTriangle *)triangle)->unk_0E = screen_coords[1] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->unk_10 = screen_coords[0] + (rand() & 4) - 2;
+            ((TrailTriangle *)triangle)->unk_12 = screen_coords[1] - (rand() & 1) - 1;
 
             if (depth_index < 0x1E0U) {
                 u32 addr_mask = 0x00FFFFFF;

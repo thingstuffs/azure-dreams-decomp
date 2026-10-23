@@ -35,7 +35,7 @@ typedef struct S_801733B4_1 {
 } S_801733B4_1;   /* arg3 in advance_actor_hop_animation */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -86,7 +86,7 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
                 (((sprite->unk_25 << 6) - y_offset) << 16) /
                 ((S_801733B4_0 *)motion)->unk_AA.u;
             ((S_801733B4_0 *)motion)->unk_A4 =
-                (-func_800644B8(((S_801733B4_0 *)motion)->unk_AA.u * 0x199)) << 10;
+                (-rsin(((S_801733B4_0 *)motion)->unk_AA.u * 0x199)) << 10;
         }
         ((S_801733B4_0 *)motion)->unk_90.at00.v += ((S_801733B4_0 *)motion)->unk_A4;
         timer_value = ((S_801733B4_0 *)motion)->unk_AA.s - 1;

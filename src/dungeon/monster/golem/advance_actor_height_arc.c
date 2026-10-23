@@ -38,7 +38,7 @@ typedef struct S_80172D08_5 {
     u8 unk_13;
 } S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in advance_actor_height_arc */
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
@@ -143,7 +143,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
                 fall_step = entity_height_offsets[
                     ((S_80172D08_5 *)(actor->target))->unk_13] + 0x20;
                 scaled_arc = arc_sample * fall_step;
@@ -155,7 +155,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
                 s32 arc_sample;
 
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
                 ((S_80172D08_0 *)action)->unk_A0 = -((arc_sample * 3) << 13);
             } else {
                 s32 direction;
@@ -171,7 +171,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                     (((record->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 height_delta = (signed_terrain_height - actor->ground_height) << 13;
@@ -244,7 +244,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
 
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
                 height_delta = ((S_80172D08_4 *)owner)->unk_0A -
                            entity_height_offsets[((S_80172D08_5 *)(actor->target))->unk_13] -
                            actor->ground_height;
@@ -255,7 +255,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
                 s32 arc_sample;
 
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8) >> 4;
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8) >> 4;
                 ((S_80172D08_0 *)action)->unk_A0 =
                     -(((S_80172D08_0 *)action)->unk_96.s << 19) - (arc_sample << 13);
             } else {
@@ -273,7 +273,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                     (((record->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
-                arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
+                arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 base_height = actor->ground_height;

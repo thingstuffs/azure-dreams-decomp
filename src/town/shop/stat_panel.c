@@ -15,7 +15,7 @@ void complete_display_transfer(void *texture_state) {
     s16 *slot_table;
 
     if (((DisplayTransferState *)state)->transfer_pending != 0) {
-        func_80067014(0);
+        DrawSync(0);
         slot_table = display_resource_cache_keys;
         table_index = ((DisplayTransferState *)state)->slot_index;
         texture = ((DisplayTransferState *)state)->texture;
@@ -28,7 +28,7 @@ void complete_display_transfer(void *texture_state) {
         rect.y = ((S_800B5B20_0 *)texture)->unk_09 + ((((S_800B5B20_0 *)texture)->unk_04 * 0x10) & 0x100);
         rect.w = (s16) ((u8) ((S_800B5B20_0 *)texture)->unk_0A >> 2);
         rect.h = (s16) ((S_800B5B20_0 *)texture)->unk_0B;
-        func_800672D8(&rect, ((DisplayTransferState *)state)->data);
+        LoadImage(&rect, ((DisplayTransferState *)state)->data);
         if (((DisplayTransferState *)state)->slot_index != 0) {
             u16 palette_y;
             s32 palette_offset;
@@ -46,9 +46,9 @@ void complete_display_transfer(void *texture_state) {
             palette_offset <<= 5;
             palette_offset += 0x200;
 
-            func_800672D8(&rect, data_base + palette_offset);
+            LoadImage(&rect, data_base + palette_offset);
         }
-        func_80067014(0);
+        DrawSync(0);
     }
     ((DisplayTransferState *)state)->data = 0;
 }

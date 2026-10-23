@@ -28,11 +28,11 @@ typedef union PackedColor { u32 word; struct { u8 r; u8 g; u8 b; u8 code; } chan
 typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor color1; s16 x1; s16 y1; } LineG2;
 
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
-s32 func_80065420(void *, void *, void *, void *);
-s32 func_80066460(s32, s32, s32, s32);
-void func_80066640(LineG2 *, s32);
-void func_800667D0(LineG2 *);
-void func_80067F20(void *, s32, s32, s32, s32);
+s32 RotTransPers(void *, void *, void *, void *);
+s32 GetTPage(s32, s32, s32, s32);
+void SetSemiTrans(LineG2 *, s32);
+void SetLineG2(LineG2 *);
+void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Draw depth-sorted gradient lines for the linked nodes. */
 s32 draw_depth_sorted_gradient_lines(u8 *node)
@@ -55,13 +55,13 @@ s32 draw_depth_sorted_gradient_lines(u8 *node)
         line = (LineG2 *)((GpuContext *)town->draw_buffer)->packetCursor;
         ((GpuContext *)town->draw_buffer)->packetCursor = (u8 *)line + 0x14;
         init_line_colors(line, 0x202020, 0);
-        func_800667D0(line);
-        func_80066640(line, 1);
+        SetLineG2(line);
+        SetSemiTrans(line, 1);
         endpoint[0] = ((S_800BFFF4_0 *)node)->unk_1E;
         endpoint[1] = ((S_800BFFF4_0 *)node)->unk_22;
         endpoint[2] = ((S_800BFFF4_0 *)node)->unk_26;
-        start_depth = func_80065420(endpoint, &line->x0, &projection_param, &projection_flags);
-        mean_depth = (start_depth + func_80065420(node + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
+        start_depth = RotTransPers(endpoint, &line->x0, &projection_param, &projection_flags);
+        mean_depth = (start_depth + RotTransPers(node + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
@@ -69,7 +69,7 @@ s32 draw_depth_sorted_gradient_lines(u8 *node)
             render = ((GpuContext *)town->draw_buffer);
             draw_mode = render->packetCursor;
             render->packetCursor = draw_mode + 0xC;
-            func_80067F20(draw_mode, 0, 0, func_80066460(zero, 1, zero, zero) & 0xFFFF, 0);
+            SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);
             addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
         }
         next_node = ((S_800BFFF4_0_pre *)node)[-1].unk_00;

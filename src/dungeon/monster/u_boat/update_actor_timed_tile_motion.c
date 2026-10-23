@@ -33,7 +33,7 @@ typedef struct S_801730C4_2 {
 } S_801730C4_2;   /* arg3 in update_actor_timed_tile_motion */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
@@ -97,7 +97,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
             ((EntityRec *)motion)->unk_10 =
                 (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
             ((S_801730C4_0 *)action)->unk_A4 =
-                -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
+                -rsin(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
         }
 
         ((S_801730C4_0 *)action)->unk_90.at00.v += ((S_801730C4_0 *)action)->unk_A4;

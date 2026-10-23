@@ -108,8 +108,8 @@ extern u32 D_800814A0[];
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 read_sound_mode_blocking_status(s32);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern u16 func_8006649C(s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern u16 GetClut(s32, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
 void func_80024020(void *sequence, void *out_position);
@@ -258,8 +258,8 @@ void func_80024020(void *sequence, void *out_position)
                     effect_data->unk_32 = 0x1F;
                     effect_data->unk_30 = 0x1F;
                     effect_data->unk_34 = target_object;
-                    effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
-                    effect_data->unk_42 = func_8006649C(0x60, 0x1F8);
+                    effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
+                    effect_data->unk_42 = GetClut(0x60, 0x1F8);
                     effect_data->unk_38 = 0x00404040;
                     record->unk_20 = SELF;
                 }
@@ -381,8 +381,8 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 resolve_record_orientation_or_fallback();       /* extern */
-s32 func_800644B8(s32, s16 *); /* extern */
-extern u16 func_80066460(s32, s32, s32, s32); /* extern */
+s32 rsin(s32, s16 *); /* extern */
+extern u16 GetTPage(s32, s32, s32, s32); /* extern */
 s32 rand();                                /* extern */
 void update_randomized_intermediate_points(void *);
 
@@ -415,7 +415,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                 - position->unk_08.at02.v) << 0xE));
             effects_left = 0;
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
-                - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
+                - (rsin(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
                 effect_data = ((void *)effect) + 0x20;
@@ -425,7 +425,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
                     effect_data->unk_30 = 0x1F;
-                    effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
+                    effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     effect_data->unk_38 = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
                     effect_data->unk_24 = (u16) position->unk_00.at02.v;
@@ -575,9 +575,9 @@ void update_jittered_effect_points(void *effect) {
 #include "common.h"
 #include "shared/game_work.h"
 int abs(int);
-s32 func_80065420();
-s32 func_80066640(void *, s32);
-s32 func_800666F4(void *);
+s32 RotTransPers();
+s32 SetSemiTrans(void *, s32);
+s32 SetPolyFT4(void *);
 void transform_rotated_vertices();
 typedef struct
 {
@@ -635,14 +635,14 @@ s32 update_segment(void *node)
         obj = node;
         i = 4;
         do {
-            otz[i] = (s32) (func_80065420(((u8 *) obj) + ((i * 8) + 4), &sxy[i], &p, &p) - 8);
+            otz[i] = (s32) (RotTransPers(((u8 *) obj) + ((i * 8) + 4), &sxy[i], &p, &p) - 8);
             i -= 1;
         }
         while (i >= 0);
         scratch.x = *((u16 *) (((s8 *) obj) + 4));
         scratch.y = *((u16 *) (((s8 *) obj) + 6));
         scratch.z = (u16) ((*((u16 *) (((s8 *) obj) + 8))) + 0x30);
-        func_80065420(&scratch, &sxy[5], &p, &p);
+        RotTransPers(&scratch, &sxy[5], &p, &p);
         scratch.x = 0;
         scratch.z = 0;
         prim.p1 = &scratch;
@@ -663,8 +663,8 @@ s32 update_segment(void *node)
             poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));
             *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);
             *((s32 *) (((s8 *) poly) + 4)) = *((s32 *) (((s8 *) obj) + 0x38));
-            func_800666F4(poly);
-            func_80066640(poly, 1);
+            SetPolyFT4(poly);
+            SetSemiTrans(poly, 1);
             *((u16 *) (((s8 *) poly) + 0x16)) = (u16) (*((u16 *) (((s8 *) obj) + 0x40)));
             *((u16 *) (((s8 *) poly) + 0xE)) = (u16) (*((u16 *) (((s8 *) obj) + 0x42)));
             *((s16 *) (((s8 *) poly) + 8)) = (s16) (sxy[i].x - scratch.x);
@@ -753,8 +753,8 @@ typedef struct S_819A764C_2 {
 } S_819A764C_2;   /* dst in func_819A764C */
 
 s32 update_segment(void *);
-extern u16 func_8006649C(s32, s32);
-extern s32 func_80069EF8(void);
+extern u16 GetClut(s32, s32);
+extern s32 rand(void);
 
 /* Update randomized intermediate points and advance the effect state. */
 void update_randomized_intermediate_points(void *self)
@@ -776,11 +776,11 @@ void update_randomized_intermediate_points(void *self)
 
     do {
         ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
-        + (func_80069EF8() & 0x3F) - 0x20;
+        + (rand() & 0x3F) - 0x20;
         ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
-        + (func_80069EF8() & 0x3F) - 0x20;
+        + (rand() & 0x3F) - 0x20;
         ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index
-        - (func_80069EF8() & 0x3F);
+        - (rand() & 0x3F);
         point_index++;
     } while (point_index < 4);
 
@@ -795,9 +795,9 @@ void update_randomized_intermediate_points(void *self)
 
         register_node(object_base, message);
     case 1:
-        ((S_819A764C_0 *)self)->unk_3E = (func_80069EF8() & 3) + 2;
+        ((S_819A764C_0 *)self)->unk_3E = (rand() & 3) + 2;
         ((S_819A764C_0 *)self)->unk_38 += 0xFFF7F7F8;
-        ((S_819A764C_0 *)self)->unk_42 = func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8);
+        ((S_819A764C_0 *)self)->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
         ((S_819A764C_0 *)self)->unk_3C.u++;
         return;
     case 2:

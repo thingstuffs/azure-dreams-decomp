@@ -10,8 +10,8 @@
 
 extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
-extern s32 func_800644B8(s32 angle);
-extern s32 func_80064584(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 
 typedef struct {
     s32 unused;
@@ -63,11 +63,11 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPosi
         linked_entity = (S_func_800AA760_3 *)((u8 *)linked_record + 0x20);
         if (linked_record != 0) {
             linked_position = linked_record->unk_08;
-            x_offset = func_800644B8(linked_entity->unk_72);
+            x_offset = rsin(linked_entity->unk_72);
             out_position->unk_02 =
                 linked_position->unk_02 + (x_offset / 256);
 
-            y_offset = func_80064584(linked_entity->unk_72);
+            y_offset = rcos(linked_entity->unk_72);
             out_position->unk_06 =
                 linked_position->unk_06 + (y_offset / 256);
             out_position->unk_0A = linked_position->unk_0A - 0x20;

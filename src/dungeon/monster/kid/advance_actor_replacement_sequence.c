@@ -98,7 +98,7 @@ int read_stream_cue_start_offset(void);                           /* extern */
 s32 register_node();           /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
-s32 func_80069EF8();                          /* extern */
+s32 rand();                          /* extern */
 #include "dungeon/level/unlink_entity_node_api.h"                      /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 #include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
@@ -222,7 +222,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         style_index = lookup_masked_byte_table(actor) - 1;
         style = style_index;
         if ((style_index << 0x10) < 0) {
-            random_value = func_80069EF8();
+            random_value = rand();
             style = random_value % 3;
         }
         select_record_entry_and_value(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);

@@ -9,7 +9,7 @@ struct S_800799BC;
 struct SoundReverbParameters;
 
 /* SpuQuit.c */
-void stop_spu_dma_event_service(void);
+void SpuQuit(void);
 
 /* audio_get_whether_non_skipped_block_contains_address_starts_beyond.c */
 s32 SpuInitMalloc(s32 count, struct S_800799BC *record);

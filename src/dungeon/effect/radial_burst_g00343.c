@@ -36,8 +36,8 @@ void emit_scattered_effects_unless_blocked(void *source)
                    (rand() & 0x1F) - 0x10;
         effect.y = *(u16 *)((u8 *)source + 6) +
                    (rand() & 0x1F) - 0x10;
-        effect.field_C = func_80064584(angle) << 5;
-        effect.field_10 = func_800644B8(angle) << 5;
+        effect.field_C = rcos(angle) << 5;
+        effect.field_10 = rsin(angle) << 5;
         spawn_opposite_offset_effect(&effect, angle);
         angle += angle_step;
     }
@@ -70,12 +70,12 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 particle->unk_10 = &D_800B63A8;
                 register_node(particle, project_sprite_chain);
                 motion->x.w.i =
-                    origin->unk_02 + (func_80064584(angle) >> 11);
+                    origin->unk_02 + (rcos(angle) >> 11);
                 motion->y.w.i =
-                    origin->unk_06 + (func_800644B8(angle) >> 11);
+                    origin->unk_06 + (rsin(angle) >> 11);
                 motion->z.w.i = origin->unk_0A;
-                motion->velocity_x = func_80064584(angle) << 6;
-                motion->velocity_y = func_800644B8(angle) << 6;
+                motion->velocity_x = rcos(angle) << 6;
+                motion->velocity_y = rsin(angle) << 6;
                 motion->velocity_z = 0xFFFD0000;
                 ((S_800B6814_0 *)particle)->unk_20 = -motion->velocity_x >> 6;
                 velocity_y = motion->velocity_y;

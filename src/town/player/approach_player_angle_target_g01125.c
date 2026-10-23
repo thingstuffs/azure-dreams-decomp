@@ -9,8 +9,8 @@ void approach_player_angle_target(S_8009A724_0 *state, S_8009A724_1 *position) {
     s16 target_z;
     s16 frames_left;
 
-    target_x = state->unk_36 - (func_800644B8(state->unk_10 - 0x80) / 48);
-    target_z = state->unk_38 - (func_80064584(state->unk_10 - 0x80) / 48);
+    target_x = state->unk_36 - (rsin(state->unk_10 - 0x80) / 48);
+    target_z = state->unk_38 - (rcos(state->unk_10 - 0x80) / 48);
     frames_left = state->unk_0A - 1;
     state->unk_0A = (u16) frames_left;
     position->unk_02 = approach_scalar_target(frames_left, position->unk_02, target_x);

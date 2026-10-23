@@ -11,7 +11,7 @@ typedef struct S_800A9AFC_2 {
 
 
 s32 get_entity_effect_value();             /* extern */
-extern s32 func_80069F28(void *, void *, s32);     /* extern */
+extern s32 memmove(void *, void *, s32);     /* extern */
 void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 
@@ -61,7 +61,7 @@ void rotate_actor_movement_queue(MovingTile *position, void *state) {
         }
         next_x = ((S_800A9AFC_0 *)state)->unk_74;
         next_y = ((S_800A9AFC_0 *)state)->unk_7C;
-        func_80069F28(state + 0x74, state + 0x75, 0xF);
+        memmove(state + 0x74, state + 0x75, 0xF);
         ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_73 = (u8) position->unk_24;
         ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_7B = (u8) position->unk_25;
         position->unk_24 = next_x;

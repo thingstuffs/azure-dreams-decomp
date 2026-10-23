@@ -147,11 +147,11 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
                 position[0] = *(u16 *)&effect_motion->x.w.i;
                 position[1] = *(u16 *)&effect_motion->y.w.i;
                 position[2] = *(u16 *)&effect_motion->z.w.i;
-                effect_depth = func_80065420(position_ptr, screen_pos, &projection_aux, &projection_flags);
+                effect_depth = RotTransPers(position_ptr, screen_pos, &projection_aux, &projection_flags);
                 position[0] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
                 position[1] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;
                 position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
-                effect_sprite->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
+                effect_sprite->unk_06 = (s16) ((effect_depth - RotTransPers(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
                     - (view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
                     + 0x100) >> 9) & 7] * 2));

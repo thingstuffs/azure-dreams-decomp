@@ -992,7 +992,7 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
                 (((((SpriteFrameState *)actor)->unk_25 << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
                 ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s;
             ((E_801724E8_S_801724E8_0 *)anim)->unk_A0 =
-                (-func_800644B8(((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
+                (-rsin(((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
         }
 
         ((E_801724E8_S_801724E8_0 *)anim)->unk_90 += ((E_801724E8_S_801724E8_0 *)anim)->unk_A0;
@@ -1874,8 +1874,8 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);
             motion->unk_04.at02.v = offset_coord(motion->unk_04.at02.v, offsets[1]);
             motion->unk_08.at02.v = offset_coord(motion->unk_08.at02.v, offsets[2]);
-            motion->unk_0C = (s32)((func_80064584(owner->unk_2A) >> 4) << 0xB);
-            motion->unk_10 = (s32)((func_800644B8(owner->unk_2A) >> 4) << 0xB);
+            motion->unk_0C = (s32)((rcos(owner->unk_2A) >> 4) << 0xB);
+            motion->unk_10 = (s32)((rsin(owner->unk_2A) >> 4) << 0xB);
             motion->unk_14 = 0x9C40;
         }
         effect_index += 1;

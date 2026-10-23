@@ -14,7 +14,7 @@ typedef struct {
 
 extern s32 firstfile2(void *, void *);
 extern void *nextfile(void *);
-extern void func_8005FE18(s32);
+extern void VSync(s32);
 extern void format(s32);
 
 /* Functions defined in this translation unit. */

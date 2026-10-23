@@ -3,9 +3,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 RotTransPers(void *, void *, void *, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 
 
@@ -64,7 +64,7 @@ s32 FUNC_80AE9000_BODY(u8 *node_data, u16 *position)
         scratch->in2 = position[5];
 
         scratch->current = (u8 *)packet + 0xC;
-        depth_index = func_80065420(&scratch->in0, (u8 *)packet + 8,
+        depth_index = RotTransPers(&scratch->in0, (u8 *)packet + 8,
                               &scratch->out0, &scratch->out1);
         scratch->index = depth_index;
 
@@ -92,8 +92,8 @@ s32 FUNC_80AE9000_BODY(u8 *node_data, u16 *position)
 
             mode_packet = (Packet *)scratch->current;
             scratch->current = (u8 *)mode_packet + 0xC;
-            tpage = (u16)func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0, tpage, 0);
+            tpage = (u16)GetTPage(0, 1, 0, 0);
+            SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
             *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & addr_mask);

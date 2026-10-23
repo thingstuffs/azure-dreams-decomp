@@ -40,7 +40,7 @@ typedef struct S_80FD5000_4 {
 
 void *allocate_list_node();
 s32 register_node();
-s32 func_800673A0(void *, s32, s32);
+s32 MoveImage(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();
@@ -148,13 +148,13 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         palette_strip.y = palette_y;
         palette_strip.w = 0x100;
         palette_strip.h = 1;
-        func_800673A0(palette_rect, 0, palette_y - 1);
+        MoveImage(palette_rect, 0, palette_y - 1);
 
         palette_strip.w = 0x10;
         palette_strip.x = 0x30;
         palette_strip.y--;
         do {
-            func_800673A0(&palette_strip, palette_strip.x - 0x30, palette_strip.y);
+            MoveImage(&palette_strip, palette_strip.x - 0x30, palette_strip.y);
             palette_strip.x += 0x40;
         } while (palette_strip.x < 0x100);
 

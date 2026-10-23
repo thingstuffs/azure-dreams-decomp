@@ -33,8 +33,8 @@ typedef struct S_800A378C_0 {
 
 extern void select_record_entry_and_value(void *, s32, s32);
 extern void register_node(void *, void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
 extern s32 D_800D0B50[];

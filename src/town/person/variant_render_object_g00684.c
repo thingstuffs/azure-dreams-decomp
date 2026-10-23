@@ -46,8 +46,8 @@ void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos
         clear_object_slot_and_mark_removed(entity);
         return;
     }
-    out_pos->x = (s32) (base_pos->x + (func_800644B8(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
-    out_pos->y = (s32) (base_pos->y + (func_80064584(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->x = (s32) (base_pos->x + (rsin(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->y = (s32) (base_pos->y + (rcos(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
     out_pos->z = (s32) (base_pos->z + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
 }
 

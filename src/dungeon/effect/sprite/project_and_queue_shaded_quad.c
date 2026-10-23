@@ -25,7 +25,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     ((Row_81922998_S_80024198_0 *)scratch)->unk_90 = ((Row_81922998_S_80024198_1 *)position)->unk_0A;
     ((Row_81922998_S_80024198_2 *)render_state)->unk_14 |= 0x8000;
 
-    func_800649A0();
+    PushMatrix();
 
     ((Row_81922998_S_80024198_0 *)scratch)->unk_3C = 0x2000;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_38 = 0x2000;
@@ -33,19 +33,19 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     ((Row_81922998_S_80024198_0 *)scratch)->unk_A4 = ((Row_81922998_S_80024198_2 *)render_state)->unk_16;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_A8 = ((Row_81922998_S_80024198_2 *)render_state)->unk_1A;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_A6 = ((Row_81922998_S_80024198_2 *)render_state)->unk_18;
-    func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&current_matrix);
-    func_80064840(&current_matrix, scratch + 0x74, scratch + 0x54);
-    func_80064BC0(scratch + 0x54, scratch + 0x34);
-    func_80064D80(scratch + 0x54);
-    func_80064CF0(scratch + 0x54);
+    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    ReadRotMatrix(&current_matrix);
+    CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
+    ScaleMatrix(scratch + 0x54, scratch + 0x34);
+    SetTransMatrix(scratch + 0x54);
+    SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
     ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = ((Row_81922998_S_80024198_2 *)render_state)->unk_14;
 
     packet = ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
-    func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
+    SetDrawMode(packet, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
         (((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)(g_game_work.draw_buffer) + 0xB0)) =
@@ -73,7 +73,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     ((Row_81922998_S_80024198_0 *)scratch)->unk_C4 = ((Row_81922998_S_80024198_6 *)quad)->unk_30;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_CC = ((Row_81922998_S_80024198_6 *)quad)->unk_36;
 
-    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
                              packet + 8, packet + 0x10,
                              packet + 0x18, packet + 0x20,
@@ -115,7 +115,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
 
             packet = ((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0;
             ((Row_81922998_S_80024198_7 *)(*render_context_ptr))->unk_8D0 = packet + 0xC;
-            func_80067F20(packet, 0, 1, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            SetDrawMode(packet, 0, 1, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             ((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v = (((Row_81922998_S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((Row_81922998_S_80024198_0 *)scratch)->unk_24.p2)
                     + ((Row_81922998_S_80024198_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
@@ -126,7 +126,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
         }
     }
 
-    func_80064A40();
+    PopMatrix();
 }
 
 /* Draws a shaded quad for each linked effect node using that node's position and appearance. */
@@ -207,11 +207,11 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         elevation = rand() & 0xFFF;
-        planar_radius = (source->unk_56 * func_80064584(elevation)) >> 12;
-        state->unk_24.s = (source->unk_56 * func_800644B8(elevation)) >> 12;
+        planar_radius = (source->unk_56 * rcos(elevation)) >> 12;
+        state->unk_24.s = (source->unk_56 * rsin(elevation)) >> 12;
         azimuth = rand() & 0xFFF;
-        state->unk_20.s = ((s16)planar_radius * func_80064584(azimuth)) >> 12;
-        state->unk_22.s = ((s16)planar_radius * func_800644B8(azimuth)) >> 12;
+        state->unk_20.s = ((s16)planar_radius * rcos(azimuth)) >> 12;
+        state->unk_22.s = ((s16)planar_radius * rsin(azimuth)) >> 12;
 
         state->unk_26 = state->unk_20.u + project_and_queue_visible_shaded_quad(0x10) - 8;
         state->unk_28 = state->unk_22.u + project_and_queue_visible_shaded_quad(0x10) - 8;

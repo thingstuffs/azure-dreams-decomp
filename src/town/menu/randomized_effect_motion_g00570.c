@@ -46,17 +46,17 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
         scale_numerator = scale_sample + 0x101F;
     }
     scale = (s32)scale_numerator >> 5;
-    product = func_800644B8(direction_angle) * func_800644B8(tilt_angle);
+    product = rsin(direction_angle) * rsin(tilt_angle);
     if (product < 0) {
         product += 0xFFF;
     }
     vec[3] = product >> 12;
 
-    direction_term = func_80064584(direction_angle);
-    product = direction_term * func_800644B8(tilt_angle);
+    direction_term = rcos(direction_angle);
+    product = direction_term * rsin(tilt_angle);
     vec[4] = (product / 4096);
 
-    vec[5] = func_80064584(tilt_angle);
+    vec[5] = rcos(tilt_angle);
     vec[3] *= scale;
     vec[4] *= scale;
     vec[5] *= scale;

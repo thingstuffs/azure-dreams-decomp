@@ -1,8 +1,8 @@
 typedef signed short s16;
 typedef signed int s32;
 
-extern s32 func_80065F90(s32, s32);
-extern s32 func_80064710(s32);
+extern s32 ratan2(s32, s32);
+extern s32 SquareRoot0(s32);
 
 struct Delta {
     s32 x;
@@ -25,12 +25,12 @@ void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y,
     if (divisor == 0) {
         divisor = 1;
     }
-    angles[0] = -func_80065F90(delta.y, divisor);
+    angles[0] = -ratan2(delta.y, divisor);
 
-    divisor = func_80064710(delta.y * delta.y + delta.z * delta.z);
+    divisor = SquareRoot0(delta.y * delta.y + delta.z * delta.z);
     if (divisor == 0) {
         divisor = 1;
     }
-    angles[1] = func_80065F90(delta.x, divisor);
+    angles[1] = ratan2(delta.x, divisor);
     angles[2] = 0;
 }

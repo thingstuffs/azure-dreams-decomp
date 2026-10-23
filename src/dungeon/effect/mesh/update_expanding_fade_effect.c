@@ -23,8 +23,8 @@ typedef struct S_81977E0C_3 {
 } S_81977E0C_3;   /* D_80026208 in update_expanding_fade_effect */
 
 extern void advance_sprite_animation_and_textures(void *);
-s32 func_800644B8();
-s32 func_80064584();
+s32 rsin();
+s32 rcos();
 s32 rand();
 extern s32 *D_80026208;
 
@@ -58,10 +58,10 @@ void update_expanding_fade_effect(void *effect, ObjectPosition *position, Sprite
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    position->x.v = (s32) (*D_80026208 + (((func_800644B8((s16) ((S_81977E0C_0 *)effect)->unk_08)
+    position->x.v = (s32) (*D_80026208 + (((rsin((s16) ((S_81977E0C_0 *)effect)->unk_08)
         >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06) << 8));
     position->y.v = (s32) (D_80026208[1]
-        + (((func_80064584((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06)
+        + (((rcos((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06)
            << 8));
     position->z.w.i = (s16) (((S_81977E0C_3 *)D_80026208)->unk_0A
         + ((S_81977E0C_0 *)effect)->unk_0A);

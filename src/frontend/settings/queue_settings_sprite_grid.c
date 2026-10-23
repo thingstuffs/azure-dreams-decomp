@@ -77,20 +77,20 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
                 sprite = main_state->render_state->next_prim;
                 main_state->render_state->next_prim = sprite + 0x14;
                 ((S_8008896C_0 *)sprite)->unk_04 = 0x808080;
-                func_80066758(sprite);
-                func_80066668(sprite, 1);
+                SetSprt(sprite);
+                SetShadeTex(sprite, 1);
                 ((S_8008896C_0 *)sprite)->unk_08 = column << 8;
                 ((S_8008896C_0 *)sprite)->unk_0A = base_y - ((S_8008896C_1 *)scroll_data)->unk_06;
                 ((S_8008896C_0 *)sprite)->unk_10 = 0x100;
                 ((S_8008896C_0 *)sprite)->unk_12 = 0x100;
                 ((S_8008896C_0 *)sprite)->unk_0C = 0;
-                ((S_8008896C_0 *)sprite)->unk_0E = func_8006649C(0, 0x1F0);
+                ((S_8008896C_0 *)sprite)->unk_0E = GetClut(0, 0x1F0);
                 addPrim(&main_state->render_state->ordering_table, sprite);
 
                 draw_mode = main_state->render_state->next_prim;
                 main_state->render_state->next_prim = draw_mode + 0xC;
-                texture_page = func_80066460(1, 0, texture_x, base_y);
-                func_80067F20(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
+                texture_page = GetTPage(1, 0, texture_x, base_y);
+                SetDrawMode(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
                 column--;
                 addPrim(&main_state->render_state->ordering_table, draw_mode);
                 texture_x -= 0x80;

@@ -8,8 +8,8 @@
 
 void select_record_entry_and_value();      /* extern */
 s32 register_node();           /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                             /* extern */
 extern M2C_UNK D_800246AC;
 extern u8 D_800E0000[];
 
@@ -67,8 +67,8 @@ s32 create_indexed_color_sprite(MovingPosition *origin, u16 index) {
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
-        position->y.w.i = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));
+        position->x.w.i = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (rsin(state->unk_08) * 2) >> 8));
+        position->y.w.i = (s16) (state->unk_02 + ((s32) (rcos(state->unk_08) * 2) >> 8));
         index <<= 3;
         position->z.w.i = state->unk_04 - index;
         return (s32) effect;

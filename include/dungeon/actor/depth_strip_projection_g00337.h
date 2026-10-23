@@ -183,11 +183,11 @@ typedef struct TwelveByteEntry {
     u8 bytes[12];
 } TwelveByteEntry;
 
-extern s32 func_800644B8(s32 value);
-extern s32 func_80064584(s32 value);
+extern s32 rsin(s32 value);
+extern s32 rcos(s32 value);
 extern s32 func_80065610();
-extern void func_8006658C();
-extern void func_8006671C();
+extern void AddPrim();
+extern void SetPolyGT4();
 
 /* Functions defined in this translation unit. */
 s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment);

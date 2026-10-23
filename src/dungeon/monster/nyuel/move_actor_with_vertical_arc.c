@@ -24,7 +24,7 @@ typedef struct S_80172158_0 {
 } S_80172158_0;   /* arg0 in move_actor_with_vertical_arc */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
@@ -80,7 +80,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
                 (((sprite->unk_25 << 6) - axis_pos) << 16) /
                 (s16)((S_80172158_0 *)action)->unk_9E;
             ((S_80172158_0 *)action)->unk_A0 =
-                (-func_800644B8(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
+                (-rsin(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
         }
         ((S_80172158_0 *)action)->unk_90 += ((S_80172158_0 *)action)->unk_A0;
         next_move_ticks = --((S_80172158_0 *)action)->unk_9E;

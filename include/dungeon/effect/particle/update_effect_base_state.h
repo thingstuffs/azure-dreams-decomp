@@ -197,16 +197,16 @@ typedef struct {
 
 extern u8 secondary_sprite[];
 extern u8 D_800DECF8[];
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);
-extern s32 func_80065420(Packed8 *, Coord *, Coord *, Coord *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern s32 func_8006649C(s32, s32);
-extern void func_80066640(void *, s32);
-extern void func_800666F4(void *);
+extern s32 RotTransPers(Packed8 *, Coord *, Coord *, Coord *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 GetClut(s32, s32);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyFT4(void *);
 void func_80024020(void *effect, void *motion, void *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);

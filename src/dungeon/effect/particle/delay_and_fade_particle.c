@@ -13,7 +13,7 @@
 extern int abs(int);
 
 extern void *allocate_list_node(s32, void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void apply_attack_power_and_element_effects();
 extern s32 play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
@@ -183,7 +183,7 @@ void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsV
 extern s32 register_node(ObjectNodeHeader *, s32);
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Emits a ground-following particle trail and target burst, applies the attack, and waits for effect
    cleanup. */
@@ -379,9 +379,9 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             work->color.word = spawn_color;
             work->source = copy_value;
             obj->unk_20 = owner;
-            effect_data.pointer->unk_48.unk_48_s16 = func_80069EF8() & 3;
-            effect_data.pointer->unk_4E = (func_80069EF8() & 3) + 8;
-            effect_data.pointer->unk_4A = (func_80069EF8() & 7) + 0xC;
+            effect_data.pointer->unk_48.unk_48_s16 = rand() & 3;
+            effect_data.pointer->unk_4E = (rand() & 3) + 8;
+            effect_data.pointer->unk_4A = (rand() & 7) + 0xC;
             effect_data.pointer->unk_4C = 0;
         }
         if (owner->unk_50.unk_50_s16 <= 0) {
@@ -436,11 +436,11 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         work = obj->unk_0C;
                         obj->unk_10 = effect_flags;
                         ((S_81850800_5 *)obj->unk_08)->unk_00.unk_02_view_s16.unk_02_s16 =
-                            motion->unk_00.unk_02_view_u16.unk_02_u16 + (func_80069EF8() & 0x3F) - 0x20;
+                            motion->unk_00.unk_02_view_u16.unk_02_u16 + (rand() & 0x3F) - 0x20;
                         ((S_81850800_5 *)obj->unk_08)->unk_04.unk_06_view_s16.unk_06_s16 =
-                            motion->unk_04.unk_06_view_u16.unk_06_u16 + (func_80069EF8() & 0x3F) - 0x20;
+                            motion->unk_04.unk_06_view_u16.unk_06_u16 + (rand() & 0x3F) - 0x20;
                         ((S_81850800_5 *)obj->unk_08)->unk_08.unk_0A_view_s16.unk_0A_s16 =
-                            motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (func_80069EF8() & 0x1F);
+                            motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (rand() & 0x1F);
                         color = 0x800000;
                         work->scale_y = 0x800;
                         work->scale_x = 0x800;
@@ -454,15 +454,15 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         work->color.word = color;
                         work->source = copy_value;
                         ((S_81850800_5 *)obj->unk_08)->unk_0C =
-                            step_x * (func_80069EF8() << 3);
+                            step_x * (rand() << 3);
                         effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
                         ((S_81850800_5 *)obj->unk_08)->unk_10 =
-                            step_y * (func_80069EF8() << 3);
+                            step_y * (rand() << 3);
                         ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
-                            0xFFF7FFFF - func_80069EF8();
+                            0xFFF7FFFF - rand();
                         obj->unk_20 = owner;
                         effect_data.pointer->unk_48.unk_48_s16 = 2;
-                        effect_data.pointer->unk_4E = (func_80069EF8() & 7) + 8;
+                        effect_data.pointer->unk_4E = (rand() & 7) + 8;
                         effect_data.pointer->unk_4A = 0x10;
                         effect_data.pointer->unk_4C = 0;
                     }
@@ -564,7 +564,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
         motion->y += motion->vy;
         if (motion->vz != 0) {
             motion->z += motion->vz;
-            motion->vz += 0x8000 + (func_80069EF8() & 0xFFF);
+            motion->vz += 0x8000 + (rand() & 0xFFF);
         }
         if (--p->lifetime <= 0) {
             if (sprite->color.c.r >= p->fade_step) {

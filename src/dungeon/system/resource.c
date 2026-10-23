@@ -101,10 +101,10 @@ void move_resource_to_front(s32 entry_index) {
     saved_field_2 = entry->field_2;
     data_size = entry->field_4;
     scratch_buffer = alloc_gpu_scratch_ring(0x8000);
-    func_80069ED8(scratch_buffer, town_resource_context.field_2C + sum_resource_bytes(entry_index), data_size);
+    memcpy(scratch_buffer, town_resource_context.field_2C + sum_resource_bytes(entry_index), data_size);
     shift_resource_entries_and_data(entry_index, data_size);
     state = &town_resource_context;
-    func_80069ED8(state->field_2C, scratch_buffer, data_size);
+    memcpy(state->field_2C, scratch_buffer, data_size);
     resource_cache_records[0].field_0 = saved_field_0;
     entries->field_1 = saved_field_1;
     entries->field_2 = saved_field_2;

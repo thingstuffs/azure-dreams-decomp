@@ -6,7 +6,7 @@
 extern int abs(int);
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
@@ -17,11 +17,11 @@ extern void play_sound_if_enabled(s32);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern u8 secondary_sprite[];
-extern s32 func_80065420(SVECTOR *, s16 *, s32 *, s32 *);
-extern void func_800666F4(POLY_FT4 *);
-extern void func_80066640(POLY_FT4 *, s32);
-extern u16 func_80066460(s32, s32, s32, s32);
-extern u16 func_8006649C(s32, s32);
+extern s32 RotTransPers(SVECTOR *, s16 *, s32 *, s32 *);
+extern void SetPolyFT4(POLY_FT4 *);
+extern void SetSemiTrans(POLY_FT4 *, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
+extern u16 GetClut(s32, s32);
 void advance_sprite_animation_and_textures(void *);                 /* extern */
 extern u8 D_800DEC70[];
 extern SpriteSourceEntry D_800DED28;

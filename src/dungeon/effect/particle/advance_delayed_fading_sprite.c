@@ -49,12 +49,12 @@ void func_80024020(u8 *self, u8 *motion)
                 particle->unk_10 = advance_delayed_fading_sprite;
 
                 F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
-                    (((func_80069EF8() & 0x1ff) - 255) << 13);
+                    (((rand() & 0x1ff) - 255) << 13);
                 F(F(particle, u8 *, 8), u32, 4) = F(motion, u32, 4) +
-                    (((func_80069EF8() & 0x1ff) - 255) << 13);
+                    (((rand() & 0x1ff) - 255) << 13);
                 color = 0xf00000;
                 F(F(particle, u8 *, 8), u32, 8) = F(motion, u32, 8) +
-                    (((func_80069EF8() & 0x1ff) - 255) << 11);
+                    (((rand() & 0x1ff) - 255) << 11);
 
                 F(child_data, u16, 20) |= 0xc;
                 F(child_data, u16, 30) = 0x1000;
@@ -67,7 +67,7 @@ void func_80024020(u8 *self, u8 *motion)
                 child_data->unk_05 = 0;
                 F(child_data, u32, 12) = color;
                 F(particle, void *, 32) = self;
-                F(particle_data, u16, 72) = func_80069EF8() & 3;
+                F(particle_data, u16, 72) = rand() & 3;
                 F(particle_data, u16, 74) = 24;
                 F(particle_data, u16, 76) = 0;
             }
@@ -160,8 +160,8 @@ void func_80024020(u8 *self, u8 *motion)
                 register_node(particle, project_sprite_chain);
                 child_data = *(u8 * *)&particle->sprite;
 
-                spawn_coord = func_80069EF8();
-                random_sample = func_80069EF8();
+                spawn_coord = rand();
+                random_sample = rand();
                 spawn_coord &= 0x1ff;
                 spawn_coord += random_sample & 0x1ff;
                 spawn_coord -= 510;
@@ -170,8 +170,8 @@ void func_80024020(u8 *self, u8 *motion)
                 spawn_coord += F(motion, u32, 0);
                 F(F(particle, u8 *, 8), u32, 0) = spawn_coord;
 
-                spawn_coord = func_80069EF8();
-                random_sample = func_80069EF8();
+                spawn_coord = rand();
+                random_sample = rand();
                 spawn_coord &= 0x1ff;
                 spawn_coord += random_sample & 0x1ff;
                 spawn_coord -= 510;
@@ -345,15 +345,15 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_sprite = ((DelayObject *)particle)->unk_0C;
                     ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_00 = (s32) motion->unk_00;
                     ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_04 = (s32) motion->unk_04;
-                    random = func_80069EF8();
+                    random = rand();
                     {
                         DelayMotionZ *particle_motion = ((DelayObject *)particle)->unk_08;
                         particle_motion->unk_08 = (s32) (motion->unk_08 + ((random & 0x1F) << 0x10));
-                        random = func_80069EF8();
+                        random = rand();
                     }
                     ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_0C =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
-                    random = func_80069EF8();
+                    random = rand();
                     color = 0x800000;
                     ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_10 =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
@@ -369,7 +369,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_sprite->unk_0C = color;
                     particle_sprite->unk_08 = random;
                     particle_state = particle + 0x20;
-                    particle_state->unk_48 = (s16) (func_80069EF8() & 3);
+                    particle_state->unk_48 = (s16) (rand() & 3);
                     particle_state->unk_4A = 0xC;
                     particle_state->unk_4C = 0;
                     ((DelayObject *)particle)->unk_20 = (void *) ((DelayParticle *)effect_arg)->unk_00;

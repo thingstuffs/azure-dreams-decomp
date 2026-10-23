@@ -8,11 +8,11 @@ typedef struct HudCopyRect {
 } __attribute__((packed)) HudCopyRect;
 
 extern HudCopyRect D_80089498;
-extern s32 func_800673A0(const HudCopyRect *, s32, s32);
+extern s32 MoveImage(const HudCopyRect *, s32, s32);
 
 /* Copy the recorded rectangle to its fixed HUD buffer position. */
 void copy_cached_hud_rectangle_to_fixed_position(void)
 {
     HudCopyRect rectangle = D_80089498;
-    func_800673A0(&rectangle, 0x1C2, 0x19C);
+    MoveImage(&rectangle, 0x1C2, 0x19C);
 }

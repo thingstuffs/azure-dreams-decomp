@@ -9,7 +9,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_record_entry_and_value(void *, s32, s8);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
@@ -110,7 +110,7 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
             if (!(part->flags & 0x40)) {
                 u16 phase = (*(u16 *)((u8 *)state + (0x9E)));
                 (*(u16 *)((u8 *)state + (0x9E))) = phase + 1;
-                (*(s32 *)((u8 *)state + (0xA0))) += func_800644B8((s16)phase * 0xAA) << 5;
+                (*(s32 *)((u8 *)state + (0xA0))) += rsin((s16)phase * 0xAA) << 5;
             }
 
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {

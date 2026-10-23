@@ -83,9 +83,9 @@ typedef struct S_800C4F20_8 {
 } S_800C4F20_8;   /* temp_a0_7 in update_orbiting_teleport_effect */
 
 
-s32 func_800644B8();
-s32 func_80064584();
-s32 func_80069EF8();
+s32 rsin();
+s32 rcos();
+s32 rand();
 s32 play_sound_if_enabled();
 
 /* Updates an object's staged scale and position animation. */
@@ -158,21 +158,21 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
         break;
     case 1:
-        orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
+        orbit_offset = rcos(((S_800C4F20_0 *)anim)->unk_2E);
         orbit_center = &view_reference_entity;
         target_x = orbit_center->x.w.i + (orbit_offset >> 6);
-        target_y = orbit_center->y.w.i + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
+        target_y = orbit_center->y.w.i + (rsin(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
         x_delta = target_x - position->unk_02;
         if (x_delta < 0) {
             x_delta += 3;
         }
         position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
         position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
-        orbit_offset = (func_800644B8(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
+        orbit_offset = (rsin(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
         height_delta = orbit_center->z.w.i - position->unk_0A;
         position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
         ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40
-            + (func_80069EF8(height_delta) & 0x1F));
+            + (rand(height_delta) & 0x1F));
         exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
         if (exit_mode == 0) {
             break;

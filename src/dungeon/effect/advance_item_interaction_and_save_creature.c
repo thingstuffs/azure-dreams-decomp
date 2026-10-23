@@ -166,7 +166,7 @@ s32 func_8003E188(s32, s32);
 void apply_actor_template_and_class();
 s32 func_80042640(void *, s32);
 void set_sprite_animation_frame();
-s32 func_80069E78(void *, s32);
+s32 strcpy(void *, s32);
 void create_familiar_deployment_overlay();
 void clear_slot_and_update_linked_state();
 s16 find_table_value_index();
@@ -459,7 +459,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
         linked_creature = actor->unk_60;
         linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
-        func_80069E78((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
+        strcpy((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
         experience = level_experience_table[(*(u8 *)((u8 *)&dungeon_actor_ring_anchor->unk_10 + 1))];
         level_thresholds = level_experience_table + 1;
         creature->unk_18 = experience;

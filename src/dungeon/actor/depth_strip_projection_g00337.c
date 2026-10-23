@@ -56,8 +56,8 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
         s16 *call_scratch;
         s32 scaled_coord;
         s32 end_x;
-        start_x = func_80064584(angle) * 6 - offset_x;
-        scaled_coord = func_800644B8(angle) * 6;
+        start_x = rcos(angle) * 6 - offset_x;
+        scaled_coord = rsin(angle) * 6;
         coord = scaled_coord - offset_y;
         for (;;) {
             next_angle = angle_step;
@@ -67,10 +67,10 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             scratch[0x70 / 2] = start_x;
             scratch[0x82 / 2] = coord;
             scratch[0x72 / 2] = coord;
-            raw_x = func_80064584(angle);
+            raw_x = rcos(angle);
             call_value = angle;
             coord = (raw_x * 6) - offset_x;
-            raw_y = func_800644B8(call_value);
+            raw_y = rsin(call_value);
             call_scratch = scratch;
             call_value = (s32)shape;
             call_segment = segment;
@@ -89,9 +89,9 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             scratch[0x70 / 2] = coord;
             scratch[0x82 / 2] = end_y;
             scratch[0x72 / 2] = end_y;
-            end_x = func_80064584(next_angle) * 6 - offset_x;
+            end_x = rcos(next_angle) * 6 - offset_x;
             start_x = end_x;
-            scaled_coord = func_800644B8(next_angle) * 6 - offset_y;
+            scaled_coord = rsin(next_angle) * 6 - offset_y;
             coord = scaled_coord;
             scratch[0x88 / 2] = end_x;
             scratch[0x78 / 2] = end_x;
@@ -114,8 +114,8 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
         s32 scaled_coord;
         s32 end_x;
         angle = start_angle;
-        start_x = func_80064584(angle) * 6 - offset_x;
-        coord = func_800644B8(angle) * 6 - offset_y;
+        start_x = rcos(angle) * 6 - offset_x;
+        coord = rsin(angle) * 6 - offset_y;
 
         for (;;) {
             s32 end_y;
@@ -126,10 +126,10 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             scratch[0x78 / 2] = start_x;
             scratch[0x8a / 2] = coord;
             scratch[0x7a / 2] = coord;
-            raw_x = func_80064584(angle);
+            raw_x = rcos(angle);
             call_value = angle;
             coord = raw_x * 6 - offset_x;
-            raw_y = func_800644B8(call_value);
+            raw_y = rsin(call_value);
             call_scratch = scratch;
             call_previous = last_result;
             scaled_coord = raw_y * 6;
@@ -150,9 +150,9 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;
             scratch[0x7a / 2] = end_y;
-            end_x = func_80064584(next_angle) * 6 - offset_x;
+            end_x = rcos(next_angle) * 6 - offset_x;
             start_x = end_x;
-            scaled_coord = func_800644B8(next_angle) * 6 - offset_y;
+            scaled_coord = rsin(next_angle) * 6 - offset_y;
             coord = scaled_coord;
             call_scratch = scratch;
             call_value = (s32)shape;
@@ -338,7 +338,7 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                 ((StripPacket *)packet_buffer)->far_quad.unk_00 = clamp_vertex;
                 texture_entry = (TwelveByteEntry *)render_data_in->unk_118 + (((strip_index & 1) << 1) + ((s16)texture_index << 2));
                 do {
-                    func_8006671C(packet_buffer);
+                    SetPolyGT4(packet_buffer);
                     info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_04;
                     render_data_in->unk_08.s32 = info_byte;
                     info_byte = ((S_800AFFB4_3 *)((u8 *)texture_entry + 4))->unk_05;
@@ -395,7 +395,7 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
                     ((StripQuad *)packet_buffer)->uv3.b.v = coord_bits;
                     shade_uv = (u32)(texture_entry - (TwelveByteEntry *)render_data_in->unk_118) / 12;
                     texture_entry += 1;
-                    func_8006658C(render_data_in->unk_20 + ((u32)shade_uv * 4),
+                    AddPrim(render_data_in->unk_20 + ((u32)shade_uv * 4),
                         (void *)shade_u, texture_height);
                     packet_buffer += 0x34;
                     quad_index += 1;

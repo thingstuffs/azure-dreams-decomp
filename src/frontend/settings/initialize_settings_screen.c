@@ -108,15 +108,15 @@ void initialize_settings_screen(void) {
     }
     levels[2] = third_level;
     SD_Call(0x200);
-    func_8006733C(frame + 0x270, frame + 0x70);
-    func_80067014(0);
+    StoreImage(frame + 0x270, frame + 0x70);
+    DrawSync(0);
     index = 0xFF;
     palette_mask = ~0x7FFF;
     do {
         *(u16 *)(frame + index * 2 + 0x70) = *(u16 *)(frame + index * 2 + 0x70) | palette_mask;
         index -= 1;
     } while (index >= 0);
-    func_800672D8(frame + 0x270, frame + 0x70);
+    LoadImage(frame + 0x270, frame + 0x70);
     screen_object = allocate_flagged_object_node(0x11);
     if (screen_object != NULL) {
         screen_object->unk_10 = (void *)handle_settings_menu_input;

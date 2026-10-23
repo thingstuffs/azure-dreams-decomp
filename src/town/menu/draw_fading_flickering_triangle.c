@@ -48,13 +48,13 @@ typedef struct S_800A2690_3 {
 
    /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_8006658C(void *, void *);
-extern void func_80066640(void *, s32);
-extern void func_800666B8(void *);
-extern void func_80067F20(void *, s32, s32, u16, s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyG3(void *);
+extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 /* Advance the effect lifetime and draw a fading, flickering triangle. */
 void draw_fading_flickering_triangle(void *effect)
@@ -102,16 +102,16 @@ void draw_fading_flickering_triangle(void *effect)
         triangle = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = triangle + 0x24;
 
-        fade_wave = func_800644B8(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
+        fade_wave = rsin(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
                              ((S_800A2690_0 *)effect)->unk_06);
         intensity = fade_wave / 16;
 
-        wave_x2 = func_800644B8(phase_x * 2);
-        wave_x4 = func_800644B8(phase_x * 4);
-        wave_x8 = func_800644B8(phase_x * 8);
-        wave_y2 = func_800644B8(phase_y * 2);
-        wave_y4 = func_800644B8(phase_y * 4);
-        wave_y8 = func_800644B8(phase_y * 8);
+        wave_x2 = rsin(phase_x * 2);
+        wave_x4 = rsin(phase_x * 4);
+        wave_x8 = rsin(phase_x * 8);
+        wave_y2 = rsin(phase_y * 2);
+        wave_y4 = rsin(phase_y * 4);
+        wave_y8 = rsin(phase_y * 8);
         wave_sum = wave_x2 + wave_x4 + wave_x8;
         biased_wave_y2 = wave_y2 + 0x2400;
         wave_sum += biased_wave_y2;
@@ -133,32 +133,32 @@ void draw_fading_flickering_triangle(void *effect)
         ((S_800A2690_3 *)triangle)->unk_16 = 0;
         ((S_800A2690_3 *)triangle)->unk_15 = 0;
         ((S_800A2690_3 *)triangle)->unk_14 = 0;
-        func_800666B8(triangle);
-        func_80066640(triangle, 1);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
 
         ((S_800A2690_3 *)triangle)->unk_08 = center_x - ((S_800A2690_0 *)effect)->unk_10 / 32;
         ((S_800A2690_3 *)triangle)->unk_0A = 0;
         ((S_800A2690_3 *)triangle)->unk_10 = center_x + ((S_800A2690_0 *)effect)->unk_10 / 32;
         ((S_800A2690_3 *)triangle)->unk_12 = 0;
         ((S_800A2690_3 *)triangle)->unk_18 =
-            center_x - (((S_800A2690_0 *)effect)->unk_10 * func_800644B8((s16)angle)) / 4096;
+            center_x - (((S_800A2690_0 *)effect)->unk_10 * rsin((s16)angle)) / 4096;
         (*(s16 *)((u8 *)triangle + 0x1A)) =
-            (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
+            (((S_800A2690_0 *)effect)->unk_10 * rcos((s16)angle)) / 4096;
 
         render_state = *(u8 **)&g_game_work.draw_buffer;
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
-        draw_page = func_80066460(0, 0, 0x140, 0);
-        func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
+        draw_page = GetTPage(0, 0, 0x140, 0);
+        SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
+        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
 
-        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, triangle);
+        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, triangle);
 
         render_state = *(u8 **)&g_game_work.draw_buffer;
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
-        draw_page = func_80066460(0, 1, 0x140, 0);
-        func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
+        draw_page = GetTPage(0, 1, 0x140, 0);
+        SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
+        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
     }
 }

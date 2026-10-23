@@ -94,9 +94,9 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
     *((u16 *) (((s8 *) motion) + 4)) = (u16) ((*((u16 *) (((s8 *) motion) + 4))) + 1);
     advance_sprite_animation_and_textures(update_context);
     *((s32 *) (((s8 *) position) + 0)) = (s32) ((*((s32 *) (((s8 *) position) + 0)))
-        + ((func_80064584(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
+        + ((rcos(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
         - ((s16) (*((u16 *) (((s8 *) motion) + 4))))) << 8)));
-    y_step = (func_800644B8(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
+    y_step = (rsin(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
         - ((s16) (*((u16 *) (((s8 *) motion) + 4))))) << 8);
     *((s32 *) (((s8 *) position) + 8)) = (s32) ((*((s32 *) (((s8 *) position) + 8))) + 0xFFFE0000);
     motion_state = motion;
@@ -175,9 +175,9 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     x_value = -0x40 - step * 0x30;
     prim->x1 = x_value;
     prim->x0 = x_value;
-    func_800667A8(prim, step);
+    SetTile(prim, step);
     prim->flags |= 2;
-    func_8006658C((u8 *)g_game_work.draw_buffer + 0xB0, prim);
+    AddPrim((u8 *)g_game_work.draw_buffer + 0xB0, prim);
     remaining = (u8)countdown->count - 1;
     countdown->count = remaining;
     if ((remaining << 24) == 0) {
@@ -262,11 +262,11 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
 
     state = object->unk_00;
     state->unk_14 = (u16) (state->unk_14 + 1);
-    angle_scale_x = func_800644B8(object->unk_0E);
-    position->unk_00 = (s32) (position->unk_00 + ((angle_scale_x >> 4) * (func_800644B8(object->unk_10) >> 4) * 0x1C));
-    angle_scale_y = func_800644B8(object->unk_0E);
-    position->unk_04 = (s32) (position->unk_04 + ((angle_scale_y >> 4) * (func_80064584(object->unk_10) >> 4) * 0x1C));
-    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(object->unk_0E) >> 4) * 0x1C00));
+    angle_scale_x = rsin(object->unk_0E);
+    position->unk_00 = (s32) (position->unk_00 + ((angle_scale_x >> 4) * (rsin(object->unk_10) >> 4) * 0x1C));
+    angle_scale_y = rsin(object->unk_0E);
+    position->unk_04 = (s32) (position->unk_04 + ((angle_scale_y >> 4) * (rcos(object->unk_10) >> 4) * 0x1C));
+    position->unk_08 = (s32) (position->unk_08 + ((rcos(object->unk_0E) >> 4) * 0x1C00));
 }
 
 /* Creates a randomly rotated sprite behind the source along its radial direction, with size and color
@@ -307,7 +307,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         part->tpage_abr |= 0x0020;
         part->flags |= 0x0100;
 
-        random_value = func_80069EF8();
+        random_value = rand();
         effect_state = (u8 *)effect + 0x20;
         part->angle_z = random_value % 0x1000;
 
@@ -322,16 +322,16 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         ((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
         ((Row_81917004_S_80024804_3 *)effect_state)->unk_10.u = ((Row_81917004_S_80024804_1 *)source)->unk_10;
 
-        direction_factor = func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        direction_factor = rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
         position->word[0] -= (scaled_factor = direction_factor >> 4) *
-            (func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+            (rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
-        direction_factor_2 = func_800644B8(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
+        direction_factor_2 = rsin(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s);
         position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
-            (func_80064584(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+            (rcos(((Row_81917004_S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
 
         position->word[2] -=
-            ((func_80064584(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
+            ((rcos(((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
         return effect;
     }
 
@@ -395,11 +395,11 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
     azimuth_rand = rand();
     azimuth_biased = azimuth_rand;
     azimuth = (azimuth_rand % 4096);
-    radial_x = func_800644B8(polar_angle);
-    position->unk_00 = (s32) (position->unk_00 + ((radial_x >> 4) * (func_800644B8(azimuth) >> 4) * 0x10));
-    radial_y = func_800644B8(polar_angle);
-    position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (func_80064584(azimuth) >> 4) * 0x10));
-    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(polar_angle) >> 4) << 0xC));
+    radial_x = rsin(polar_angle);
+    position->unk_00 = (s32) (position->unk_00 + ((radial_x >> 4) * (rsin(azimuth) >> 4) * 0x10));
+    radial_y = rsin(polar_angle);
+    position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (rcos(azimuth) >> 4) * 0x10));
+    position->unk_08 = (s32) (position->unk_08 + ((rcos(polar_angle) >> 4) << 0xC));
     create_an_default_rendering_settings_copies_initial_data(object, position);
 }
 
@@ -427,15 +427,15 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
     switch (state) {
     case 0:
         effect->angle_z += 0x200;
-        sin_a = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_a >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        sin_a = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_a >> 4) * (rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
-        sin_b = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_b >> 4) * (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        sin_b = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_b >> 4) * (rcos(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
-        ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
-        sin_c = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_c >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
+        ((Rec_func_80024600_arg1 *)position)->unk_08 += (rcos(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
+        sin_c = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_c >> 4) * (rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
         state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_12;
         next_x = current_x + direction_scale * 0x1C;
@@ -529,11 +529,11 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
         dy = ((Row_81917680_S_80024E80_1 *)owner)->unk_24 - start_pos->unk_04.at00_s32.v;
         dz = ((Row_81917680_S_80024E80_1 *)owner)->unk_28 - start_pos->unk_08.at00_s32.v;
 
-        state->unk_0E = func_80065F90(
-            func_800647A0((((dx >> 12) * (dx >> 12)) +
+        state->unk_0E = ratan2(
+            SquareRoot12((((dx >> 12) * (dx >> 12)) +
                            ((dy >> 12) * (dy >> 12))) << 4),
             dz >> 4);
-        state->unk_10 = func_80065F90(dx >> 4, dy >> 4);
+        state->unk_10 = ratan2(dx >> 4, dy >> 4);
 
         if (dx < 0) {
             state->unk_12 = 1;
@@ -608,10 +608,10 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
     }
 
     ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E
-        + ((s32) ((func_80064584(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+        + ((s32) ((rcos(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
            >> 8));
     ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12
-        + ((s32) ((func_800644B8(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
+        + ((s32) ((rsin(((Row_81917894_S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((Row_81917894_S_80025094_0 *)effect)->unk_0A)
            >> 8));
 }
 
@@ -761,8 +761,8 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         action->phase++;
         break;
     case 2:
-        motion->x.v += ((func_80064584(actor->facing) >> 4) * (8 - action->ticks)) << 8;
-        motion->y.v += ((func_800644B8(actor->facing) >> 4) * (8 - action->ticks)) << 8;
+        motion->x.v += ((rcos(actor->facing) >> 4) * (8 - action->ticks)) << 8;
+        motion->y.v += ((rsin(actor->facing) >> 4) * (8 - action->ticks)) << 8;
         motion->z.v -= 0x20000;
         if (action->ticks == 5) {
             play_sound_if_enabled(0x300);

@@ -4,8 +4,8 @@
 #include "m2c_compat.h"
 
 void register_node(void *, void *);                /* extern */
-s32 func_800644B8(s32);                           /* extern */
-s32 func_80064584(s32);                           /* extern */
+s32 rsin(s32);                           /* extern */
+s32 rcos(s32);                           /* extern */
 extern M2C_UNK D_80025528;
 extern u8 D_800C95C0[12];
 
@@ -39,10 +39,10 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z) {
             part->x.w.i = x;
             part->y.w.i = y;
             part->z.w.i = z;
-            part->velocity_x = ((func_80064584(i * 0x80) & 0x800) ? (func_80064584(i * 0x80)
-                | sign_bits) : (func_80064584(i * 0x80) & 0x7FF)) << 0xB;
-            part->velocity_y = ((func_800644B8(i * 0x80) & 0x800) ? (func_800644B8(i * 0x80)
-                | sign_bits) : (func_800644B8(i * 0x80) & 0x7FF)) << 0xB;
+            part->velocity_x = ((rcos(i * 0x80) & 0x800) ? (rcos(i * 0x80)
+                | sign_bits) : (rcos(i * 0x80) & 0x7FF)) << 0xB;
+            part->velocity_y = ((rsin(i * 0x80) & 0x800) ? (rsin(i * 0x80)
+                | sign_bits) : (rsin(i * 0x80) & 0x7FF)) << 0xB;
             part->velocity_z = 0xFFFE0000;
             info = ((void *)obj) + 0x20;
             (*(s16 *)((u8 *)obj + 0x20)) = scale;

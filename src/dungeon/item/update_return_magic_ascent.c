@@ -60,10 +60,10 @@ extern u8 upper_draw_context[16];
 extern u8 D_800DD0F8[];
 extern s16 transition_runtime_slot_index;
 
-extern void func_8006658C();
-extern void func_800667BC();
-extern void func_80067E2C();
-extern s32 func_80069EF8();
+extern void AddPrim();
+extern void SetLineF2();
+extern void SetDrawArea();
+extern s32 rand();
 extern void begin_deferred_player_item_effect();
 extern s32 reserve_runtime_slot();
 extern void set_sprite_animation_frame();
@@ -95,8 +95,8 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     prim_list = (u8 *)render_state + 0x8B0;
     call_state = g_game_work.draw_buffer;
     use_alt_buffer = buffer_diff != 0;
-    func_80067E2C(prim, call_state, render_state);
-    func_8006658C(prim_list, prim);
+    SetDrawArea(prim, call_state, render_state);
+    AddPrim(prim_list, prim);
 
     if (obj->count > 0) {
         index_or_phase = 0;
@@ -105,10 +105,10 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             streak_state = *render_state_slot;
             prim = (Primitive *)streak_state->nextPrim;
             streak_state->nextPrim = (u8 *)prim + 0x10;
-            prim->fieldC = (func_80069EF8() & 0x3F) + 0x340;
+            prim->fieldC = (rand() & 0x3F) + 0x340;
             prim->field8 = prim->fieldC;
             {
-                s32 y_offset = func_80069EF8() & 0x3F;
+                s32 y_offset = rand() & 0x3F;
                 s32 bottom_y;
                 prim->fieldA = 0x180 - y_offset;
                 do {
@@ -122,8 +122,8 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                 }
             }
             prim->field4 = 0;
-            func_800667BC(prim);
-            func_8006658C(prim_list, prim);
+            SetLineF2(prim);
+            AddPrim(prim_list, prim);
             index_or_phase += 1;
         } while (index_or_phase < obj->count);
     }
@@ -137,8 +137,8 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
         area_state = *render_state_slot;
         prim = (Primitive *)area_state->nextPrim;
         area_state->nextPrim = (u8 *)prim + 0xC;
-        func_80067E2C(prim, &draw_data.field18);
-        func_8006658C(prim_list, prim);
+        SetDrawArea(prim, &draw_data.field18);
+        AddPrim(prim_list, prim);
     }
     draw_data.field20 = 0x360;
     draw_data.field22 = 0x1B8;

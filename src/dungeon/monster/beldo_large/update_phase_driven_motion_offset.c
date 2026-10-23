@@ -23,7 +23,7 @@ typedef struct S_8016F5D8_2 {
 } S_8016F5D8_2;   /* arg1 in update_phase_driven_motion_offset */
 
 
-s32 func_800644B8();                        /* extern */
+s32 rsin();                        /* extern */
 extern M2C_UNK D_80173DA4;
 extern M2C_UNK D_80173DB4;
 extern u8 *beldo_script_node;
@@ -49,12 +49,12 @@ void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output
             slow_count = state->unk_9E++;
             signed_count = slow_count;
             phase = signed_count * 0xAA;
-            state->unk_A0.at00.v += func_800644B8(phase) << 5;
+            state->unk_A0.at00.v += rsin(phase) << 5;
         } else {
             slow_count = state->unk_9E++;
             signed_count = slow_count;
             phase = signed_count * 0xAA;
-            state->unk_A0.at00.v += func_800644B8(phase) << 6;
+            state->unk_A0.at00.v += rsin(phase) << 6;
         }
     } else if (command_table == &D_80173DB4) {
         if (command->unk_04 == 0x100) {
@@ -67,13 +67,13 @@ void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output
             signed_count = fast_count;
             phase = signed_count * 0x155;
             fast_count++;
-            state->unk_A0.at00.v += func_800644B8(phase, fast_count) << 5;
+            state->unk_A0.at00.v += rsin(phase, fast_count) << 5;
         } else {
             fast_wide_count = state->unk_9E;
             signed_count = fast_wide_count++;
             phase = signed_count * 0x155;
             state->unk_9E = fast_wide_count;
-            state->unk_A0.at00.v += func_800644B8(phase) << 6;
+            state->unk_A0.at00.v += rsin(phase) << 6;
         }
     }
     output->unk_0A = (s16) ((((Rec_D_80175D54 *)beldo_script_node)->unk_A8 + state->unk_92) - state->unk_A0.at02.v);

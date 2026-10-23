@@ -440,15 +440,14 @@ process_queue:
                 sync_result = CdSync(1, sync_status);
                 if (sync_result == 0)
                     break;
-                if (sync_result != 5)
-                    goto check_drive_status;
-                func_8003E70C();
-                cd_command_phase[0] = 0xFF;
-                cd_driver_prefix[0].unk4 = 0;
-                cd_command_status_flags[0] = 0;
-                break;
+                if (sync_result == 5) {
+                    func_8003E70C();
+                    cd_command_phase[0] = 0xFF;
+                    cd_driver_prefix[0].unk4 = 0;
+                    cd_command_status_flags[0] = 0;
+                    break;
+                }
 
-    check_drive_status:
                 if (CdControl(1, 0, CDBUF) == 0)
                     break;
                 if ((cd_command_result.bytes[0] & 0xFD) != 0)

@@ -134,14 +134,14 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
                 frame.pos[0] = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02;
                 frame.pos[1] = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06;
                 frame.pos[2] = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v;
-                first_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
+                first_height = RotTransPers(frame.pos, frame.out0, &frame.out1, &frame.out2);
                 mesh_flags = *(u16 *)&anchor_pos->x.w.i;
                 frame.pos[0] = mesh_flags;
                 mesh_flags = *(u16 *)&anchor_pos->y.w.i;
                 frame.pos[1] = mesh_flags;
                 mesh_flags = *(u16 *)&anchor_pos->z.w.i;
                 frame.pos[2] = mesh_flags;
-                anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
+                anchor_height = RotTransPers(frame.pos, frame.out0, &frame.out1, &frame.out2);
                 lookup_value = view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
                     >> 9) & 7];
                 effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);

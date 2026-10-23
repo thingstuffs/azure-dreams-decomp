@@ -4,7 +4,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 
-extern s32 func_80064584(s32 wave_input);
+extern s32 rcos(s32 wave_input);
 extern void initialize_action_object(void *controller, void *object, s32 update_value);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *record);
 extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position, void *out_value);
@@ -80,7 +80,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
     }
 
     position = D_80100D60;
-    wave = func_80064584(*(s16 *)(position + 2) - 0x400);
+    wave = rcos(*(s16 *)(position + 2) - 0x400);
     *(s32 *)position += 0x500000 - (wave << 10);
     rise = town_orbit_radius;
     *(u16 *)((u8 *)controller + 0x10) = *(u16 *)(position + 2);

@@ -4,7 +4,7 @@
 
 extern s32 select_record_entry_and_value();
 extern void register_node();
-extern s32 func_80069EF8();
+extern s32 rand();
 
 extern u8 D_80025098[9];
 extern u8 D_80025AF0[9];
@@ -83,7 +83,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         sprite->flags |= 0x100;
         select_record_entry_and_value(sprite, effect_name, call_zero);
 
-        biased_random = func_80069EF8();
+        biased_random = rand();
         random_value = biased_random;
         if (random_value < 0) {
             biased_random = random_value + 0xFFF;

@@ -20,7 +20,7 @@ typedef struct S_800220A8_2 {
 } S_800220A8_2;   /* ((S_800220A8_0 *)arg0)->unk_04 in update_minigame_approach_motion */
 
 
-s32 func_800644B8(s32);
+s32 rsin(s32);
 
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void update_minigame_approach_motion(void *motion_state, void *motion) {
@@ -60,7 +60,7 @@ void update_minigame_approach_motion(void *motion_state, void *motion) {
         s32 position;
         phase = (((S_800220A8_0 *)motion_state)->unk_02 + 1) & 0x7F;
         ((S_800220A8_0 *)motion_state)->unk_02 = phase;
-        ((S_800220A8_1 *)motion)->unk_08 = (func_800644B8(phase << 6) << 7) - 0x700000;
+        ((S_800220A8_1 *)motion)->unk_08 = (rsin(phase << 6) << 7) - 0x700000;
         return;
     }
     case 3: {

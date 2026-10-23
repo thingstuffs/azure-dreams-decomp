@@ -52,8 +52,8 @@ typedef struct S_800B6814_3 {
     s16 unk_18;
 } S_800B6814_3;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s32 rand(void);
 extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern void spawn_opposite_offset_effect(DungeonEffect *, s16);

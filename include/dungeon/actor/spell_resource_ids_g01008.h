@@ -80,7 +80,7 @@ extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 void *allocate_list_node();
-s32 func_80069EF8(void);
+s32 rand(void);
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
 void *clear_byte_and_advance();

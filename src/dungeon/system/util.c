@@ -102,7 +102,7 @@ typedef struct GlobalState {
 } GlobalState;
 
 
-extern s32 func_800644B8(s32);
+extern s32 rsin(s32);
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -163,7 +163,7 @@ void update_pulsing_effect_brightness(void *effect, s32 unused, void *render_sta
     }
 
     U16_AT(effect, 0x68)++;
-    pulse_scale = (func_800644B8((s16)U16_AT(effect, 0x68) << 9) >> 4) + 0x1000;
+    pulse_scale = (rsin((s16)U16_AT(effect, 0x68) << 9) >> 4) + 0x1000;
     S16_AT(render_state, 0x1C) = pulse_scale;
     S16_AT(render_state, 0x1E) = pulse_scale;
 
@@ -566,10 +566,10 @@ typedef struct S_800A5FC0_5 {
 } S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_expanding_screen_rectangle */
 
 
-extern void func_8006658C(void *, void *);
-extern void func_80066640(void *, s32);
-extern void func_800666E0(void *);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void AddPrim(void *, void *);
+extern void SetSemiTrans(void *, s32);
+extern void SetPolyF4(void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Advance a rectangle's right edge toward 320 and queue it for rendering. */
 s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
@@ -586,10 +586,10 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0;
     ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
     render_ctx_ref = (void **)((void * *)(&g_game_work));
-    func_80067F20(draw_mode, 0, 0, state->unk_04, 0);
+    SetDrawMode(draw_mode, 0, 0, state->unk_04, 0);
     ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
-    func_800666E0(quad);
-    func_80066640(quad, 1);
+    SetPolyF4(quad);
+    SetSemiTrans(quad, 1);
     ((S_800A5FC0_3 *)quad)->unk_10 = 0xE00000;
     ((S_800A5FC0_3 *)quad)->unk_08 = 0;
     ((S_800A5FC0_3 *)quad)->unk_0E = 0;
@@ -606,8 +606,8 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     right_x = (u16) state->unk_0A.s;
     ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
     ((S_800A5FC0_3 *)quad)->unk_0C = right_x;
-    func_8006658C((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);
-    func_8006658C((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), draw_mode);
+    AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);
+    AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), draw_mode);
     return 0;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
@@ -718,10 +718,10 @@ typedef struct {
 } Work;
 
 
-extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_800666E0(void *);
-extern void func_80066640(void *, s32);
-extern void func_8006658C(void *, void *);
+extern void SetDrawMode(void *, s32, s32, s32, s32);
+extern void SetPolyF4(void *);
+extern void SetSemiTrans(void *, s32);
+extern void AddPrim(void *, void *);
 
 /* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
 s32 draw_fullscreen_grayscale_quad(Input *input) {
@@ -737,20 +737,20 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     quad = (Work *)arena->packetCursor;
     arena->packetCursor = (u8 *)quad + 0x18;
 
-    func_80067F20(draw_mode, 0, 0, 0x40, 0);
+    SetDrawMode(draw_mode, 0, 0, 0x40, 0);
 
     color = input->color;
     quad->color = color | (color << 8) | (color << 16);
-    func_800666E0(quad);
-    func_80066640(quad, 1);
+    SetPolyF4(quad);
+    SetSemiTrans(quad, 1);
 
     quad->width = 0x140;
     quad->unk8 = 0;
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
-    func_8006658C((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), quad);
-    func_8006658C((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), draw_mode);
+    AddPrim((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), quad);
+    AddPrim((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }
 #include "shared/object_node.h"
@@ -1249,7 +1249,7 @@ void restore_item_flag_400_bitmap(void)
    split addressing with +2/+0xC fields; index-first RAM arithmetic fixes addu. */
 #include "common.h"
 
-s32 func_800644B8();                             /* extern */
+s32 rsin();                             /* extern */
 
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];
@@ -1270,7 +1270,7 @@ void update_sine_pulse_color(S_800A6B70_0 *phase_state, s32 unused, S_800A6B70_1
 
     phase = phase_state->unk_0C + 1;
     phase_state->unk_0C = phase;
-    intensity = (func_800644B8(phase << 6) >> 7) + 0x60;
+    intensity = (rsin(phase << 6) >> 7) + 0x60;
     color->unk_0E = intensity;
     color->unk_0D = intensity;
     color->unk_0C = intensity;

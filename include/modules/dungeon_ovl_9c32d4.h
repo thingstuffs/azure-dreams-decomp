@@ -163,8 +163,8 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
 } ovl_9c32d4_809A38E4_RingRadii;
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
-extern void func_8006658C(void *, void *);
-extern void func_80067E2C(void *, void *);
+extern void AddPrim(void *, void *);
+extern void SetDrawArea(void *, void *);
 void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment);
@@ -179,11 +179,11 @@ extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 height);
 extern s32 D_800814A0;
 extern void project_sprite_chain(void);
 extern void func_80045340(void);
-extern u32 func_80069EF8(void);
+extern u32 rand(void);
 extern u8 D_80175F9C[12];
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern void func_8006671C(void *);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern void SetPolyGT4(void *);
 void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8 *effect_data);
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position);

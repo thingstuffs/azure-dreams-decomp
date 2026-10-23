@@ -7,15 +7,15 @@ typedef struct { u8 pad[0xC]; u8 r, g, b; u8 padF[5]; u16 flags; } Render;
 typedef struct { s32 flags; } GlobalFlags;
 extern GlobalFlags D_800814A0;
 extern void advance_sprite_animation_and_textures(Render *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 /* Randomize color and mark the owner complete when the render flags request it. */
 void randomize_color(SpriteOwner **action, void *unused, SpriteFrameState *render) {
     (*action)->flags |= 0x8000;
     advance_sprite_animation_and_textures(render);
-    render->color.c.r = (func_80069EF8() & 0x7F) + 0x20;
-    render->color.c.g = (func_80069EF8() & 0x7F) + 0x20;
-    render->color.c.b = (func_80069EF8() & 0x7F) + 0x20;
+    render->color.c.r = (rand() & 0x7F) + 0x20;
+    render->color.c.g = (rand() & 0x7F) + 0x20;
+    render->color.c.b = (rand() & 0x7F) + 0x20;
     if (render->flags & 0x6000) {
         GlobalFlags *status = &D_800814A0;
         ((OwnerLink *)((u8 *)action - 4))->unused |= 0x8000;

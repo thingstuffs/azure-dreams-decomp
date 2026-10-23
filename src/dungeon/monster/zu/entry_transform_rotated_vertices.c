@@ -35,11 +35,11 @@ typedef struct S_80F90E88_2 {
 
 
 
-s32 func_80065420();
-s32 func_80066460();
-s32 func_80066640(void *, s32);
-s32 func_80066708(void *);
-s32 func_80067F20(void *, s32, s32, s32, s32);
+s32 RotTransPers();
+s32 GetTPage();
+s32 SetSemiTrans(void *, s32);
+s32 SetPolyG4(void *);
+s32 SetDrawMode(void *, s32, s32, s32, s32);
 
 struct PackedPair {
     s32 first;
@@ -168,7 +168,7 @@ loop_0:
     max_xy &= hi_mask;
     max_xy |= 0x8AD0;
 loop_1:
-    depth = func_80065420(&points[side], &screen, z_ptr, z_ptr);
+    depth = RotTransPers(&points[side], &screen, z_ptr, z_ptr);
     depth -= 4;
     coord = screen.x;
     coord_bits = (u16) screen.x;
@@ -231,8 +231,8 @@ loop_1:
                 ((S_80F90E88_1 *)quad)->unk_20 = center_x;
                 ((S_80F90E88_1 *)quad)->unk_18 = center_x;
             }
-            func_80066708(quad);
-            func_80066640(quad, 1);
+            SetPolyG4(quad);
+            SetSemiTrans(quad, 1);
             ((S_80F90E88_1 *)quad)->unk_1A = 0;
             ((S_80F90E88_1 *)quad)->unk_0A = 0;
             ((S_80F90E88_1 *)quad)->unk_22 = bottom_y;
@@ -257,7 +257,7 @@ loop_1:
         } while (side >= 0);
         draw_mode = ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
         ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
-        func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+        SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
         mode_ot_offset = depth * 4;
         link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->draw_buffer))->unk_B0);
         setaddr(*draw_mode, link);

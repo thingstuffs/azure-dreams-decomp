@@ -212,7 +212,7 @@ extern s32 rand();
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 extern u16 get_surface_height_at_record(void *);
 extern u8 D_800DE9D0[];
-extern s32 func_80065420(void *, void *, void *, void *);
+extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 check_layer_offset_height();
 extern s32 sample_terrain_surface_height();

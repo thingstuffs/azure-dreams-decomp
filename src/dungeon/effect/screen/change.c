@@ -53,8 +53,8 @@ typedef struct S_8009BE2C_6 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-extern s32 func_8006658C(void *, void *);              /* extern */
-extern s32 func_800667A8(void *, s32);                  /* extern */
+extern s32 AddPrim(void *, void *);              /* extern */
+extern s32 SetTile(void *, s32);                  /* extern */
 
 /* Draw a full-screen fade and mark the effect complete when its countdown ends. */
 void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
@@ -81,14 +81,14 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     } else {
         ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = (s32) (s16) color_value;
     }
-    func_800667A8(packet, intensity);
+    SetTile(packet, intensity);
     ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
-    func_8006658C(render_context->draw_buffer + 0xB0, packet);
+    AddPrim(render_context->draw_buffer + 0xB0, packet);
     packet = ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0;
     ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = (void *) (packet + 0xC);
     ((S_8009BE2C_1 *)packet)->unk_03 = 1;
     ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = 0xE1000020;
-    func_8006658C(render_context->draw_buffer + 0xB0, packet);
+    AddPrim(render_context->draw_buffer + 0xB0, packet);
     frames_left = (u8) fade->unk_05 - 1;
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
@@ -1197,7 +1197,7 @@ void update_packed_map_levels(void) {
             }
         }
     }
-    func_800672D8(&map_params, packed_tile_heights);
+    LoadImage(&map_params, packed_tile_heights);
 }
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
@@ -1306,7 +1306,7 @@ void refresh_packed_grid_nibbles(void) {
             row_index = next_row;
         } while (next_row < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_16));
     }
-    func_800672D8(&saved_data, base);
+    LoadImage(&saved_data, base);
 }
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
@@ -1432,6 +1432,6 @@ void pack_and_submit_cell_height_levels(void) {
             width_shift = one << width_shift;
         } while (value_2 < width_shift);
     }
-    func_800672D8(&upload_pair, buffer);
+    LoadImage(&upload_pair, buffer);
     create_type_212_object(1, 0x20);
 }

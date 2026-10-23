@@ -36,37 +36,36 @@ void apply_selected_values_for_matching_flags(void) {
     if ((((u8 *)*(s8 **)((s8 *)entry_page - 0x75E4))[1] & 0xC0) != 0x80) {
         entry_offset = entry_index;
         value_id = D_8001888C;
-loop:
-        entry = (s8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4));
-        if (!((u8)entry[1] & 1)) {
-            condition_result = func_8001E670(*(u16 *)(entry + 2));
-            if (condition_result == 0) {
-                goto next;
-            }
-            root_page = (void **)0x80010000;
-            entry = selected_values + entry_index;
-        } else {
-            next_flags = func_8001E670(*(u16 *)(entry + 2));
-            if (next_flags == 1) {
-                goto next;
-            }
-            root_page = (void **)0x80010000;
-            entry = selected_values + entry_index;
-        }
-        context = *(void **)((s8 *)root_page + 0x6000);
-        callbacks = *(void **)((s8 *)context + 0x20);
-        apply_value = *(UseFunc *)((s8 *)callbacks + 0x304);
-        apply_value(*value_id, *entry);
+        do {
+            do {
+                entry = (s8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4));
+                if (!((u8)entry[1] & 1)) {
+                    condition_result = func_8001E670(*(u16 *)(entry + 2));
+                    if (condition_result == 0) {
+                        break;
+                    }
+                    root_page = (void **)0x80010000;
+                    entry = selected_values + entry_index;
+                } else {
+                    next_flags = func_8001E670(*(u16 *)(entry + 2));
+                    if (next_flags == 1) {
+                        break;
+                    }
+                    root_page = (void **)0x80010000;
+                    entry = selected_values + entry_index;
+                }
+                context = *(void **)((s8 *)root_page + 0x6000);
+                callbacks = *(void **)((s8 *)context + 0x20);
+                apply_value = *(UseFunc *)((s8 *)callbacks + 0x304);
+                apply_value(*value_id, *entry);
 
-next:
-        entry_offset += 0x14;
-        value_id++;
-        entry_index++;
-        first_index = (s8 **)0x80020000;
-        entry_page = first_index;
-        next_flags = ((u8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4)))[1];
-        if ((next_flags & 0xC0) != 0x80) {
-            goto loop;
-        }
+            } while (0);
+            entry_offset += 0x14;
+            value_id++;
+            entry_index++;
+            first_index = (s8 **)0x80020000;
+            entry_page = first_index;
+            next_flags = ((u8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4)))[1];
+        } while ((next_flags & 0xC0) != 0x80);
     }
 }

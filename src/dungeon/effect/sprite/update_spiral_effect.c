@@ -6,8 +6,8 @@
 #include "records/Rec_D_80082E80.h"
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s32 rand(void);
 
 
@@ -55,10 +55,10 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
         }
 
         motion->x.w.i = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
-            ((func_800644B8(((S_800D7D30_1 *)effect)->unk_18.s) *
+            ((rsin(((S_800D7D30_1 *)effect)->unk_18.s) *
               ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
         motion->y.w.i = (s16)(((S_800D7D30_1 *)effect)->unk_0E +
-            ((func_80064584(((S_800D7D30_1 *)effect)->unk_18.s) *
+            ((rcos(((S_800D7D30_1 *)effect)->unk_18.s) *
               ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
 
         motion->velocity_z += 0xFFFE0000 +

@@ -9,8 +9,8 @@ struct Elem;
 extern void func_8002421C();
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 func_800644B8();
-extern s32 func_80064584();
+extern s32 rsin();
+extern s32 rcos();
 extern u8 D_800DEAE0[];
 
 typedef struct S_8185CB30_0 {
@@ -69,14 +69,14 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
     motion->unk_20 = (u16)(motion->unk_20 + 4);
     position->unk_02 =
         (s16)(motion->unk_06 +
-              ((s32)((func_800644B8((s16)motion->unk_1C) >> 4) *
+              ((s32)((rsin((s16)motion->unk_1C) >> 4) *
                      (s16)motion->unk_20) >> 8));
     position->unk_06 =
         (s16)(motion->unk_0A +
-              ((s32)((func_80064584((s16)motion->unk_1C) >> 4) *
+              ((s32)((rcos((s16)motion->unk_1C) >> 4) *
                      (s16)motion->unk_20) >> 8));
     object->angle_z =
-        (s16)((s32)(0 - ((func_80064584((s16)motion->unk_1C -
+        (s16)((s32)(0 - ((rcos((s16)motion->unk_1C -
                                         angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {

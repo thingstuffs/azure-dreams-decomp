@@ -11,8 +11,8 @@ typedef struct S_800D6C18_2 S_800D6C18_2;
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *allocate_list_node(s32, void *);       /* extern */
 void register_node(void *, void *); /* extern */
-s32 func_800644B8(s32);                           /* extern */
-s32 func_80064584(s32);                           /* extern */
+s32 rsin(s32);                           /* extern */
+s32 rcos(s32);                           /* extern */
 void select_sprite_entry(void *, u8, s32);              /* extern */
 extern s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state);
 extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
@@ -114,16 +114,16 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             render_data->color.c.b = 0xFA;
             render_data->color.c.g = 0xFA;
             render_data->color.c.r = 0xFA;
-            start_x = (s32) (scale * func_80064584(start_angle)) >> 0xC;
+            start_x = (s32) (scale * rcos(start_angle)) >> 0xC;
             effect_state->unk_48 = (s16) start_x;
             effect_state->unk_44 = (s16) start_x;
-            end_x = (s32) (scale * func_80064584(end_angle)) >> 0xC;
+            end_x = (s32) (scale * rcos(end_angle)) >> 0xC;
             effect_state->unk_4A = (s16) end_x;
             effect_state->unk_46 = (s16) end_x;
-            start_y = (s32) (scale * func_800644B8(start_angle)) >> 0xC;
+            start_y = (s32) (scale * rsin(start_angle)) >> 0xC;
             effect_state->unk_50 = (s16) start_y;
             effect_state->unk_4C = (s16) start_y;
-            end_y_scaled = scale * func_800644B8(end_angle);
+            end_y_scaled = scale * rsin(end_angle);
             effect_state->unk_5A = 0;
             effect_state->unk_58 = 0;
             effect_state->unk_56 = 0;

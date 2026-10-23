@@ -37,8 +37,8 @@ typedef struct S_8016E998_1 {
 } S_8016E998_1;
 
 s32 register_node();           /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                        /* extern */
+s32 rsin();                             /* extern */
+s32 rcos();                        /* extern */
 void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
 extern void *D_80175D78;
 
@@ -89,16 +89,16 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             effect_data->unk_8A = 0;
             effect_data->unk_84 = 0;
             start_angle = segment_index << 8;
-            end_x = (s32) (func_80064584(end_angle) << 5) >> 0xC;
+            end_x = (s32) (rcos(end_angle) << 5) >> 0xC;
             effect_data->unk_80 = (s16) end_x;
             effect_data->unk_74 = (s16) end_x;
-            start_x = (s32) (func_80064584(start_angle) << 5) >> 0xC;
+            start_x = (s32) (rcos(start_angle) << 5) >> 0xC;
             effect_data->unk_86 = (s16) start_x;
             effect_data->unk_7A = (s16) start_x;
-            end_z = (s32) (func_800644B8(end_angle) << 5) >> 0xC;
+            end_z = (s32) (rsin(end_angle) << 5) >> 0xC;
             effect_data->unk_82 = (s16) end_z;
             effect_data->unk_76 = (s16) end_z;
-            unit_scale = (s32) (func_800644B8(start_angle) << 5) >> 0xC;
+            unit_scale = (s32) (rsin(start_angle) << 5) >> 0xC;
             effect_data->unk_88 = (s16) unit_scale;
             effect_data->unk_7C = (s16) unit_scale;
             appearance = effect->sprite;

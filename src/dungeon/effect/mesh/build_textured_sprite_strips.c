@@ -167,7 +167,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     length_mask = 0xFF000000;
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
     view_matrix->unk_1C = (s32) state_page->view.projection_distance;
-    func_800649A0((s32) setup_arg, matrix_arg);
+    PushMatrix((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
         s32 view_y;
@@ -194,7 +194,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
         scratch->unk_E8 = pivot_y;
         scratch->unk_10A = pivot_y;
     }
-    func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
+    RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
     {
         s32 scale_x;
         s32 scale_y;
@@ -204,10 +204,10 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
         scratch->unk_38 = (s32)0x1000;
         scratch->unk_34 = scale_y;
     }
-    func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
-    func_80064840(view_matrix, (void *)0x1F8000D0, (void *)0x1F800050);
-    func_80064D80((void *)0x1F800050);
-    func_80064CF0((void *)0x1F800050);
+    ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
+    CompMatrix(view_matrix, (void *)0x1F8000D0, (void *)0x1F800050);
+    SetTransMatrix((void *)0x1F800050);
+    SetRotMatrix((void *)0x1F800050);
     scratch->unk_24 = (u16) frame->unk_14;
     for (;;) {
         if (!(frame_header->unk_00 & 0x20)) {
@@ -251,7 +251,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
                     scratch->unk_82 = edge;
                 }
             }
-            func_800654B0(&scratch->unk_70, &scratch->unk_78, &scratch->unk_80, &scratch->unk_88,
+            RotTransPers4(&scratch->unk_70, &scratch->unk_78, &scratch->unk_80, &scratch->unk_88,
                 &scratch->unk_F0, &scratch->unk_F4, &scratch->unk_F8, &scratch->unk_FC,
                 (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
@@ -460,7 +460,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
         packet = (S_func_81904990_7 *)((u8 *)packet + 12);
         *restore_link = (*restore_link & 0xFF000000) | (s32) restore_packet;
     }
-    func_80064A40((s32) restore_packet);
+    PopMatrix((s32) restore_packet);
     {
         u8 *state_slot = (u8 *)state_page;
         u64 state_bits = *(u64 *)state_slot;
@@ -510,7 +510,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    func_80067E2C(clip_packet, g_game_work.draw_buffer);
+    SetDrawArea(clip_packet, g_game_work.draw_buffer);
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |
@@ -555,7 +555,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     packet_page = page_ptr->draw_buffer;
     clip_packet = packet_page->packetCursor;
     packet_page->packetCursor = clip_packet + 0xC;
-    func_80067E2C(clip_packet, clip_rect);
+    SetDrawArea(clip_packet, clip_rect);
     *(u32 *)clip_packet = (*(u32 *)clip_packet & 0xFF000000U) |
                             (*(u32 *)order_table & 0x00FFFFFFU);
     *(u32 *)order_table = (*(u32 *)order_table & 0xFF000000U) |
@@ -594,7 +594,7 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, &tile->data,
+        scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
@@ -625,8 +625,8 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
 
             draw_mode = (PointPacket *)scratch->cursor;
             scratch->cursor = (u8 *)draw_mode + 0xC;
-            draw_page = func_80066460(0, 1, 0, 0);
-            func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
+            draw_page = GetTPage(0, 1, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 
             ((GpuLinkTag *)&draw_mode->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
@@ -770,7 +770,7 @@ void update_effect_animation_slots(void *anim_state)
     slot_index = 1;
     while (slot_index < 9) {
         slot = (DungeonAnimSlot *)((u8 *)anim_state + slot_index * 2);
-        offset_delta = func_800644B8(slot->field_50) >> 9;
+        offset_delta = rsin(slot->field_50) >> 9;
         offset = slot->field_62;
         phase = (u16)slot->field_50;
         offset += offset_delta;
@@ -902,9 +902,9 @@ void build_inverted(void *context, void *unused, void *effect_data) {
                 mask_rect.x = mask_x;
                 mask_rect.y = tile_y;
                 mask_rect.h = 0x15;
-                func_8006733C(&mask_rect, pixel_page + 0x6820);
+                StoreImage(&mask_rect, pixel_page + 0x6820);
                 do {
-                } while (func_80067014(1) != 0);
+                } while (DrawSync(1) != 0);
                 pixel = (u16 *)(pixel_page + 0x6820);
                 pixel_index = 0;
                 do {
@@ -916,7 +916,7 @@ void build_inverted(void *context, void *unused, void *effect_data) {
                     pixel_index += 1;
                     pixel += 1;
                 } while (pixel_index < 0x1f8);
-                func_800672D8(&mask_rect, pixel_page + 0x6820);
+                LoadImage(&mask_rect, pixel_page + 0x6820);
                 tile_row += 1;
                 tile_y += 0x15;
             } while (tile_row < 4);
@@ -1116,7 +1116,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
     case 2:
         index = 0;
         while (1) {
-            random_bits = func_80069EF8();
+            random_bits = rand();
             get_half_byte_length((u8 *)effect - 0x20, effect->unk_7E.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
                 0, 0);
             index++;
@@ -1318,7 +1318,7 @@ update_coords:
                 *(Copy12 *)((u8 *)upper_effect + 0x40) = *(Copy12 *)D_8002676C;
                 child_render->unk_08 = (u8 *)upper_effect + 0x40;
                 ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
-                    func_80066460(2, 1, 832, 340);
+                    GetTPage(2, 1, 832, 340);
             }
             lower_effect = allocate_flagged_object_node(0x212);
             if (lower_effect != 0) {
@@ -1353,7 +1353,7 @@ update_coords:
                 *(Copy12 *)((u8 *)lower_effect + 0x40) = *(Copy12 *)D_80026778;
                 child_render->unk_08 = (u8 *)lower_effect + 0x40;
                 ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
-                    func_80066460(2, 1, 832, 424);
+                    GetTPage(2, 1, 832, 424);
             }
             ring_effect = allocate_flagged_object_node(0x212);
             if (ring_effect != 0) {

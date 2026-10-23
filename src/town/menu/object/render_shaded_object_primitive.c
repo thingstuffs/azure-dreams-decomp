@@ -2,10 +2,10 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
-void func_800649A0(void);                            /* extern */
-void func_80064A40(void);                            /* extern */
-void func_80064CF0(void *);                      /* extern */
-void func_80064D80(void *);                      /* extern */
+void PushMatrix(void);                            /* extern */
+void PopMatrix(void);                            /* extern */
+void SetRotMatrix(void *);                      /* extern */
+void SetTransMatrix(void *);                      /* extern */
 void func_80065320(void *, void *, void *);     /* extern */
 
 
@@ -99,13 +99,13 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;
     ((S_800A1D1C_4 *)scratch)->unk_30 = ((S_800A1D1C_0 *)object)->unk_2C;
     matrix_index = ((S_800A1D1C_0 *)object)->unk_22 != 0;
-    func_800649A0();
+    PushMatrix();
     matrix = render_state + ((matrix_index << 5) + 0x14);
-    func_80064CF0(matrix);
-    func_80064D80(matrix);
+    SetRotMatrix(matrix);
+    SetTransMatrix(matrix);
     position = scratch + 0x2C;
     func_80065320(position, position, (void *)((u32)scratch | 0x98));
-    func_80064A40();
+    PopMatrix();
     coords->unk_02 = ((S_800A1D1C_4 *)scratch)->unk_2C;
     coords->unk_06 = ((S_800A1D1C_4 *)scratch)->unk_2E;
     coords->unk_0A = ((S_800A1D1C_4 *)scratch)->unk_30;

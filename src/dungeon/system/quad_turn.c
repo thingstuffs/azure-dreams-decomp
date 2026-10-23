@@ -20,8 +20,8 @@ s32 check_scratch_quad_half_turn_gaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly
     if (poly->ovl_16b08_f6a8_7FFEF6A8_unk_78.ovl_16b08_f6a8_7FFEF6A8_at00.v == 0) {
         return 1;
     }
-    poly->unk_7C = func_80065F90(poly->ovl_16b08_f6a8_7FFEF6A8_unk_6C.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_6C.ovl_16b08_f6a8_7FFEF6A8_at00.v);
-    angle_1 = func_80065F90(poly->ovl_16b08_f6a8_7FFEF6A8_unk_78.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_78.ovl_16b08_f6a8_7FFEF6A8_at00.v);
+    poly->unk_7C = ratan2(poly->ovl_16b08_f6a8_7FFEF6A8_unk_6C.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_6C.ovl_16b08_f6a8_7FFEF6A8_at00.v);
+    angle_1 = ratan2(poly->ovl_16b08_f6a8_7FFEF6A8_unk_78.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_78.ovl_16b08_f6a8_7FFEF6A8_at00.v);
     poly->unk_88 = angle_1;
     delta_1 = angle_1 - poly->unk_7C;
     turn_1 = (0x1000 - delta_1) & 0xFFF;
@@ -33,7 +33,7 @@ s32 check_scratch_quad_half_turn_gaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly
     if (poly->ovl_16b08_f6a8_7FFEF6A8_unk_74.ovl_16b08_f6a8_7FFEF6A8_at00.v == 0) {
         return 1;
     }
-    angle_2 = func_80065F90(poly->ovl_16b08_f6a8_7FFEF6A8_unk_74.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_74.ovl_16b08_f6a8_7FFEF6A8_at00.v);
+    angle_2 = ratan2(poly->ovl_16b08_f6a8_7FFEF6A8_unk_74.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_74.ovl_16b08_f6a8_7FFEF6A8_at00.v);
     poly->unk_84 = angle_2;
     delta_2 = angle_2 - poly->unk_7C;
     turn_2 = (poly->unk_88 - delta_2) & 0xFFF;
@@ -45,7 +45,7 @@ s32 check_scratch_quad_half_turn_gaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly
     if (poly->ovl_16b08_f6a8_7FFEF6A8_unk_70.ovl_16b08_f6a8_7FFEF6A8_at00.v == 0) {
         return 1;
     }
-    angle_3 = func_80065F90(poly->ovl_16b08_f6a8_7FFEF6A8_unk_70.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_70.ovl_16b08_f6a8_7FFEF6A8_at00.v);
+    angle_3 = ratan2(poly->ovl_16b08_f6a8_7FFEF6A8_unk_70.ovl_16b08_f6a8_7FFEF6A8_at02.v, (s16) poly->ovl_16b08_f6a8_7FFEF6A8_unk_70.ovl_16b08_f6a8_7FFEF6A8_at00.v);
     poly->unk_80 = angle_3;
     delta_3 = (angle_3 - poly->unk_7C) & 0xFFF;
     poly->unk_80 = delta_3;

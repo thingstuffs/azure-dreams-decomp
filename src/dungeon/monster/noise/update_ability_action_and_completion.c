@@ -23,7 +23,7 @@ typedef struct S_8017364C_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void select_sprite_entry();         /* extern */
-s32 func_80069EF8();                                /* extern */
+s32 rand();                                /* extern */
 void *scan_actor_along_heading();      /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 advance_status_timers();                      /* extern */
@@ -191,7 +191,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         }
         effect_count = 0;
         do {
-            spawn_random_velocity_offset_effect(action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
+            spawn_random_velocity_offset_effect(action - 0x20, 0, 0xC0C0, (rand() & 0xFF) | 0x80, 0, 0, 0);
             next_effect = effect_count + 1;
             effect_count = next_effect;
         } while (next_effect < 0xA);

@@ -70,7 +70,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                     particle_z += 0x10;
                     ((Row_818E0800_S_818E0800_5 *)particle)->unk_10 = particle_z;
                 }
-                ((Row_818E0800_S_818E0800_5 *)particle)->unk_18 = func_80069EF8();
+                ((Row_818E0800_S_818E0800_5 *)particle)->unk_18 = rand();
                 render_state->scale_y = 0x1000;
                 render_state->scale_x = 0x1000;
                 render_state->tpage_abr = 0x60;
@@ -242,7 +242,7 @@ void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *pos
         height += 0x200;
         height += height_jitter;
         ((Row_818E0D94_S_818E0D94_0 *)effect)->unk_18 = height;
-        offset.x = func_800644B8(phase) / 80;
+        offset.x = rsin(phase) / 80;
     }
     offset.y = 0;
     {

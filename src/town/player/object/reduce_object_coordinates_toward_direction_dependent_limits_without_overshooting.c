@@ -8,8 +8,8 @@ typedef struct {
     s32 y;
 } TownObject;
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern s16 input_angle_with_offset(s32, s16);
 
 /* Reduce object coordinates toward direction-dependent limits without overshooting. */
@@ -36,14 +36,14 @@ void reduce_object_coordinates_toward_direction_dependent_limits_without_oversho
 
     direction = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
     if (direction != -1) {
-        component_x = func_800644B8(direction);
+        component_x = rsin(direction);
         current_abs_x = object->x;
         limit_x = component_x << 7;
         limit_abs_x = limit_x;
         limit_abs_x = abs(limit_abs_x);
         current_abs_x = abs(current_abs_x);
         if (limit_abs_x < current_abs_x) {
-            component_x = func_800644B8(direction);
+            component_x = rsin(direction);
             current_x = object->x;
             step_x = component_x << 6;
             if (((current_x < 0) && (step_x < 0)) ||
@@ -64,14 +64,14 @@ void reduce_object_coordinates_toward_direction_dependent_limits_without_oversho
         }
 
         y_direction = (s32)clamp_work_x >> 16;
-        component_y = func_80064584(y_direction);
+        component_y = rcos(y_direction);
         current_abs_y = object->y;
         limit_y = component_y << 7;
         limit_abs_y = limit_y;
         limit_abs_y = abs(limit_abs_y);
         current_abs_y = abs(current_abs_y);
         if (limit_abs_y < current_abs_y) {
-            component_y = func_80064584(y_direction);
+            component_y = rcos(y_direction);
             current_y = object->y;
             step_y = component_y << 6;
             if (((current_y < 0) && (step_y < 0)) ||

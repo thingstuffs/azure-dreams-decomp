@@ -5528,12 +5528,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -5639,12 +5639,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -5750,12 +5750,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -5861,12 +5861,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -5972,12 +5972,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -6083,12 +6083,12 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
     {
-     "symbol": "func_80064584",
+     "symbol": "rcos",
      "kind": "function",
      "vma": 2147894660
     },
@@ -6160,7 +6160,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6227,7 +6227,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6294,7 +6294,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6361,7 +6361,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6428,7 +6428,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6495,7 +6495,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6562,7 +6562,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6629,7 +6629,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6696,7 +6696,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6763,7 +6763,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -6830,7 +6830,7 @@
      "vma": 2147776696
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     }
@@ -8374,7 +8374,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -8496,7 +8496,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -8618,7 +8618,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -8740,7 +8740,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -8862,7 +8862,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -8984,7 +8984,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -9159,7 +9159,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -9334,7 +9334,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -9509,7 +9509,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -9684,7 +9684,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -9859,7 +9859,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -10034,7 +10034,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -10224,7 +10224,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -10429,7 +10429,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -10634,7 +10634,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -10839,7 +10839,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -11044,7 +11044,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -11249,7 +11249,7 @@
      "vma": 2147776388
     },
     {
-     "symbol": "func_80065420",
+     "symbol": "RotTransPers",
      "kind": "function",
      "vma": 2147898400
     },
@@ -11350,7 +11350,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -11436,7 +11436,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -11522,7 +11522,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -11608,7 +11608,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -11694,7 +11694,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },
@@ -11780,7 +11780,7 @@
      "declaration": "include/shared/dungeon_status.h"
     },
     {
-     "symbol": "func_800644B8",
+     "symbol": "rsin",
      "kind": "function",
      "vma": 2147894456
     },

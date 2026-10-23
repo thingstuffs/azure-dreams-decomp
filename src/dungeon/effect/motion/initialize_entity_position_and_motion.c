@@ -268,8 +268,8 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             angle_offset = (s16)((rand() & 0x7FF) - 0x400);
             angle_offset -= 0x800;
             move_angle = base_angle + angle_offset;
-            motion->velocity_x = func_80064584(move_angle) << 6;
-            motion->velocity_y = func_800644B8(move_angle) << 6;
+            motion->velocity_x = rcos(move_angle) << 6;
+            motion->velocity_y = rsin(move_angle) << 6;
             motion->velocity_z =
                 (rand() & 0x1FFFF) - 0x10000;
 
@@ -345,11 +345,11 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             motion->y.w.i = y;
             motion->z.w.i = z;
             ring_angle = particle_index << 7;
-            direction_x = func_80064584(direction_angle);
-            motion->velocity_x = (s32) ((s32) (direction_x * func_80064584(ring_angle)) >> 6);
-            direction_y = func_800644B8(direction_angle);
-            motion->velocity_y = (s32) ((s32) (direction_y * func_80064584(ring_angle)) >> 6);
-            motion->velocity_z = (s32) (func_800644B8(ring_angle) << 6);
+            direction_x = rcos(direction_angle);
+            motion->velocity_x = (s32) ((s32) (direction_x * rcos(ring_angle)) >> 6);
+            direction_y = rsin(direction_angle);
+            motion->velocity_y = (s32) ((s32) (direction_y * rcos(ring_angle)) >> 6);
+            motion->velocity_z = (s32) (rsin(ring_angle) << 6);
             effect_state.value = 0x808080;
             sprite = particle->sprite;
             size_texture.value = 0x400;
@@ -433,8 +433,8 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
             path_y = y + step_y;
             path_z = z + step_z;
             for (point_index = 0; point_index < 16; point_index++) {
-                spawn_effect_actor_or_curved_trail(path_x + ((func_80064584(angle) * func_800644B8(point_index << 7)) >> 21),
-                              path_y + ((func_800644B8(angle) * func_800644B8(point_index << 7)) >> 21),
+                spawn_effect_actor_or_curved_trail(path_x + ((rcos(angle) * rsin(point_index << 7)) >> 21),
+                              path_y + ((rsin(angle) * rsin(point_index << 7)) >> 21),
                               path_z, angle, 1);
                 path_x += step_x;
                 path_y += step_y;
@@ -574,8 +574,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + actor_direction_sprites), &reference_tile_object.unk_000, (u8 *) effect + 0x28, 0);
-            sin_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16);
-            cos_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
+            sin_x = rcos(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16);
+            cos_x = rcos(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
             state0_move = &view_reference_entity;
             sin_x >>= 4;
             state0_delta_x = ((u16)state0_move->x.w.i);
@@ -584,8 +584,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             state0_delta_x += cos_x;
             state0_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
             effect->unk_28.u16 += state0_delta_x;
-            sin_y = func_800644B8(state0_actor->unk_2A.s16);
-            cos_y = func_800644B8(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
+            sin_y = rsin(state0_actor->unk_2A.s16);
+            cos_y = rsin(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
             sin_y_shift = sin_y >> 4;
             cos_y >>= 4;
             step_y = ((u16)state0_move->y.w.i);
@@ -645,8 +645,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             } else {
                 effect->unk_38 = aim_angle;
             }
-            motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
+            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
+            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
             approach_ticks = effect->unk_34.u16 - 1;
             effect->unk_34.u16 = approach_ticks;
             if ((approach_ticks << 0x10) <= 0) {
@@ -740,8 +740,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             } else {
                 effect->unk_38 = aim_angle;
             }
-            motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
+            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
+            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
             travel_ticks = effect->unk_34.u16 - 1;
             effect->unk_34.u16 = travel_ticks;
             if ((travel_ticks << 0x10) <= 0) {
@@ -806,8 +806,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     (s16) (((u16)state34_emit->z.w.i) + (u16) emit_offset.z),
                     ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16, 0);
             }
-            motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
+            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
+            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
             motion->unk_14.half.unk_16 = 0x16;
             rise_speed = motion->unk_14.word;
             motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
@@ -837,8 +837,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             play_sound_if_enabled(tile_call_arg, rise_speed);
             break;
         case 5:
-            motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
+            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
+            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
             motion->unk_14.word = 0;
             motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
             world_x = motion->unk_00.half.unk_02.s16;
@@ -879,7 +879,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                             related_motion = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->position;
                             spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16,
                                 related_motion->unk_04.half.unk_06.s16, related_motion->unk_08.half.unk_0A.s16,
-                                (s16) effect->unk_38, (func_80069EF8() & 3) | 4);
+                                (s16) effect->unk_38, (rand() & 3) | 4);
                             actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
                         }
                     }
@@ -897,7 +897,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if ((tile_counter << 0x10) > 0) {
                 break;
             }
-            effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
+            effect->unk_8A = (u16) ((rand() & 0x1F) + 0x10);
             effect->unk_9C = 0;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
             break;
@@ -968,7 +968,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
 
                     state6_spin_arg >>= 9;
                     effect->unk_8A = bob_phase;
-                    motion->unk_14.half.unk_16 = (s16) (func_800644B8(state6_spin_arg) >> 9);
+                    motion->unk_14.half.unk_16 = (s16) (rsin(state6_spin_arg) >> 9);
                 }
                 target_gap_x = motion->unk_00.half.unk_02.s16;
                 target_coord = related_motion->unk_00.half.unk_02.s16;
@@ -990,14 +990,14 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         play_sound_if_enabled(0x300);
                         spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
                             (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
-                            (func_80069EF8() & 3) | 4);
+                            (rand() & 3) | 4);
                         actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
                         effect->unk_9C = 0;
-                        effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
+                        effect->unk_8A = (u16) ((rand() & 0x1F) + 0x10);
                     }
                 }
-                motion->unk_0C.word = func_80064584((s16) effect->unk_38) << 8;
-                motion->unk_10.word = func_800644B8((s16) effect->unk_38) << 8;
+                motion->unk_0C.word = rcos((s16) effect->unk_38) << 8;
+                motion->unk_10.word = rsin((s16) effect->unk_38) << 8;
 
                 if ((s16) effect->unk_38 == aim_angle) {
                     motion->unk_0C.word += motion->unk_0C.word >> 1;
@@ -1027,8 +1027,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 } else {
                     effect->unk_38 = (u16) (effect->unk_38 + 0x80);
                 }
-                motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
-                motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
+                motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
+                motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
             }
             motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
             motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);

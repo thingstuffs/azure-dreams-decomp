@@ -2,8 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern u8 D_800DEAE0[];
@@ -30,13 +30,13 @@ void update_expanding_spiral_sprite(void *state, void *position, SpriteFrameStat
     U16_AT(state, 0x20) = U16_AT(state, 0x20) + 4;
 
     S16_AT(position, 2) = U16_AT(state, 6) +
-        (((func_800644B8(S16_AT(state, 0x1C)) >> 4) *
+        (((rsin(S16_AT(state, 0x1C)) >> 4) *
           S16_AT(state, 0x20)) >> 8);
     S16_AT(position, 6) = U16_AT(state, 0xA) +
-        (((func_80064584(S16_AT(state, 0x1C)) >> 4) *
+        (((rcos(S16_AT(state, 0x1C)) >> 4) *
           S16_AT(state, 0x20)) >> 8);
     sprite->angle_z =
-        (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
+        (s32)(0 - ((rcos(S16_AT(state, 0x1C) - angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
 
     advance_sprite_animation_and_textures(sprite);
     if (sprite->flags & 0x6000) {

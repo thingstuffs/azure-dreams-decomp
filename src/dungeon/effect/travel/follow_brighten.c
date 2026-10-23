@@ -200,7 +200,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             s32 height_step = (((s32)((MovingEffectState *)self)->unk_10.s << 16) - height) >> 4;
             ((MovingMotion *)motion)->unk_08.at00.v = height + height_step;
         }
-        ((MovingMotion *)motion)->unk_08.at00.v += func_800644B8((s32)((MovingEffectState *)self)->unk_18.s
+        ((MovingMotion *)motion)->unk_08.at00.v += rsin((s32)((MovingEffectState *)self)->unk_18.s
             << 7) << 6;
         func_8002495C(motion, part);
         {
@@ -266,7 +266,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         break;
 
     case 3:
-        func_80065F90(((MovingMotion *)motion)->unk_0C.at02.v,
+        ratan2(((MovingMotion *)motion)->unk_0C.at02.v,
             ((MovingMotion *)motion)->unk_10.at02.v);
         ((MovingEffectState *)self)->unk_2C.i =
             create_effect_object_groups(((MovingMotion *)motion)->unk_00.at02u.v,

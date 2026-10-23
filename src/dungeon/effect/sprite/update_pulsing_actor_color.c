@@ -22,7 +22,7 @@ typedef struct S_800F62BC_1 {
 } S_800F62BC_1;   /* actor in update_pulsing_actor_color */
 
 
-s32 func_800644B8();                             /* extern */
+s32 rsin();                             /* extern */
 extern u8 D_80173AF8;
 
 /* Pulses the actor color, then fades it out and marks completion. */
@@ -35,7 +35,7 @@ void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data) 
     void *actor = actor_data;
 
     if (((S_800F62BC_0 *)state)->unk_00.s == 0) {
-        pulse = func_800644B8(((S_800F62BC_0 *)state)->unk_04 << 7) >> 6;
+        pulse = rsin(((S_800F62BC_0 *)state)->unk_04 << 7) >> 6;
         pulse_color = pulse + 0x80;
         pulse = (s32) (pulse << 0x10) >> 0x11;
         pulse_color += pulse;

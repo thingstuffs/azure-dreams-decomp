@@ -8,6 +8,5 @@
 s32 ResetCallback(void);
 s32 SetVideoMode(s32);
 s32 VSync(s32);
-s32 func_8005FE18(s32);
 
 #endif

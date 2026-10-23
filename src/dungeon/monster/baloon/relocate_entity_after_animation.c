@@ -53,7 +53,7 @@ extern u8 D_800E23C0[];
 extern s32 D_80171F1C;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
@@ -175,8 +175,8 @@ void relocate_entity_after_animation(void *motion, void *position, SpriteFrameSt
         if (((S_80175594_0 *)motion)->unk_96 < 2) {
             particle_index = 0;
             do {
-                scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
-                random_y = (func_80069EF8() & 0x1F) - 0x10;
+                scatter_x = (s16)((rand() & 0x1F) - 0x10);
+                random_y = (rand() & 0x1F) - 0x10;
                 create_origin_motion_effect(motion, position, entity, scatter_x, random_y, 0x1E);
                 particle_index++;
             } while (particle_index < 4);

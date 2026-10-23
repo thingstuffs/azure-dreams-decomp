@@ -46,7 +46,7 @@ typedef struct {
 } Cell;
 
 extern void register_node(void *, void *);
-extern s32 func_80069EF8(void);
+extern s32 rand(void);
 
 extern u8 D_800255E8[];
 extern u8 D_800259DC[];
@@ -106,13 +106,13 @@ void spawn_randomized_quad_effects(void) {
             motion->unk_06 = right_y;
             motion->unk_0A = below_y;
 
-            motion->unk_0C = ((func_80069EF8() & 0xF) - 8) << 0x10;
-            motion->unk_10 = ((func_80069EF8() & 0xF) - 8) << 0x10;
-            motion->unk_14 = ((func_80069EF8() & 0xF) - 8) << 0x10;
+            motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
+            motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
+            motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
 
             angles = effect->sprite;
-            angles->angle_x = (func_80069EF8() & 0x1FF) - 0x100;
-            angles->angle_y = (func_80069EF8() & 0x1FF) - 0x100;
+            angles->angle_x = (rand() & 0x1FF) - 0x100;
+            angles->angle_y = (rand() & 0x1FF) - 0x100;
 
             quad_data = (S_func_80025BA0_3 *)((u8 *)effect + 0x20);
             quad_data->unk_1A = 0x20;
