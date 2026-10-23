@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -70,8 +71,6 @@ extern u8 D_80020360[];
 extern u8 D_800203F4[];
 extern u8 D_80020488[];
 extern u8 D_80020510[];
-extern void update_snowball_minigame_actor(void *);
-extern void count_entries_matching_search_path(void *);
 extern u8 D_80026DC8[];
 extern void *D_80026EE0[];
 extern void *D_80026F04[];

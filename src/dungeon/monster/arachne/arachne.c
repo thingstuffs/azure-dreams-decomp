@@ -1027,18 +1027,18 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
     void *effect;
     u8 *effect_data;
 
-    state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.s;
+    state = ((R12_80172654_S_80172654_0 *)action)->phase.s;
     dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    timer = ((R12_80172654_S_80172654_0 *)action)->unk_96.s - 1;
-    ((R12_80172654_S_80172654_0 *)action)->unk_96.s = timer;
+    timer = ((R12_80172654_S_80172654_0 *)action)->timer.s - 1;
+    ((R12_80172654_S_80172654_0 *)action)->timer.s = timer;
 
     switch (state) {
     case 0:
         action_actor = actor;
         if (((SpriteFrameState *)entity)->flags & 0x8000) {
-            ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
+            ((R12_80172654_S_80172654_0 *)action)->phase.s = 0xFF;
             ((SpriteFrameState *)entity)->flags |= 0x6000;
             resolve_attack_damage_and_effects(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
             return;
@@ -1049,11 +1049,11 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
         select_sprite_entry(entity,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
+        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
         timer = 8;
-        ((R12_80172654_S_80172654_0 *)action)->unk_96.s = timer;
+        ((R12_80172654_S_80172654_0 *)action)->timer.s = timer;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = next_state;
+        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
         return;
     case 1:
         shifted_timer = timer << 16;
@@ -1064,16 +1064,16 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A8C);
         select_sprite_entry(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
+        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = next_state;
+        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
         return;
     case 2:
         if (((((SpriteFrameState *)entity)->unk_04 == 4) &&
              (((SpriteFrameState *)entity)->flags & 0x1000)) ||
             (((SpriteFrameState *)entity)->flags & 0x8000)) {
             ((SpriteFrameState *)entity)->flags |= 0x800;
-            ((R12_80172654_S_80172654_0 *)action)->unk_96.s = 0x10;
+            ((R12_80172654_S_80172654_0 *)action)->timer.s = 0x10;
             if (resolve_record_orientation_or_fallback(*(s32 *)&((SpriteFrameState *)entity)->source, entity, effect_offset,(s16)(0)) == 0) {
                 effect_offset[2] = 0;
                 effect_offset[1] = 0;
@@ -1095,9 +1095,9 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
                     ((R12_80172654_S_80172654_4 *)motion)->unk_0A;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
             }
-            next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
+            next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
             next_state += 1;
-            ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = next_state;
+            ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
             return;
         }
         return;
@@ -1106,13 +1106,13 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
             resolve_attack_damage_and_effects(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
             play_sound_if_enabled(0x813);
         }
-        if (((R12_80172654_S_80172654_0 *)action)->unk_96.u > 0)
+        if (((R12_80172654_S_80172654_0 *)action)->timer.u > 0)
             return;
-        ((R12_80172654_S_80172654_0 *)action)->unk_96.s = 8;
+        ((R12_80172654_S_80172654_0 *)action)->timer.s = 8;
         ((SpriteFrameState *)entity)->flags &= 0xF7FF;
-        next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
+        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = next_state;
+        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
         return;
     case 4:
         if ((timer << 16) > 0)
@@ -1120,8 +1120,8 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
         ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
         select_sprite_entry(entity,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        ((R12_80172654_S_80172654_0 *)action)->unk_96.s = state;
-        ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
+        ((R12_80172654_S_80172654_0 *)action)->timer.s = state;
+        ((R12_80172654_S_80172654_0 *)action)->phase.s = 0xFF;
         return;
     case 0xFF:
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C =
@@ -1131,7 +1131,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
             (s32)((((((SpriteFrameState *)entity)->tile_y << 6) + 0x20) << 16) -
                   ((R12_80172654_S_80172654_4 *)motion)->unk_04.at00.v) >> 1;
         if ((((SpriteFrameState *)entity)->flags & 0xE000) ||
-            (((R12_80172654_S_80172654_0 *)action)->unk_96.u <= 0)) {
+            (((R12_80172654_S_80172654_0 *)action)->timer.u <= 0)) {
             ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
@@ -1323,14 +1323,14 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
     s32 tracked_addr;
 
     direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
-    switch (action->unk_9B) {
+    switch (action->phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
-        action->unk_9B++;
+        action->phase++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1340,8 +1340,8 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             return;
         }
         if (entity->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            action->timer.s = 0;
+            action->phase = 2;
             return;
         }
         if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -1349,7 +1349,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->timer.s = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -1359,12 +1359,12 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
         motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->timer.s > 0) {
+            action->timer.s = action->timer.u - 1;
         } else if (entity->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             return;
         }
         if (((EntityRec *)source)->unk_28 == 0) {
@@ -1374,13 +1374,13 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             begin_actor_display_action(action, motion, entity, ((s32 *)arachne_reset_frames));
             return;
         } else {
-            action->unk_96.s = 8;
-            action->unk_9B++;
+            action->timer.s = 8;
+            action->phase++;
         }
         return;
 
     case 2:
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             {
                 s32 target_x = entity->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
@@ -1394,8 +1394,8 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
                 motion->velocity_y = ((target_y - current_y) << 15) >> 1;
             }
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->timer.u - 1;
+        action->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -2643,18 +2643,18 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
     s32 next_state;
     s16 effect_index;
 
-    state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n;
+    state = ((R12_80175470_S_80175470_0 *)sequence)->phase.n;
     switch (state) {
 
     case 0:
-        next_state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.v + 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n = next_state;
+        next_state = ((R12_80175470_S_80175470_0 *)sequence)->phase.v + 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n = next_state;
         return;
 
     case 1:
         run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)D_80175B24), 0);
         ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
         return;
 
@@ -2674,32 +2674,32 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         (*(u8 *)D_80175B25) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175B25));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         create_offset_effect(sequence, position, record);
 
     case 3:
-        timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u;
+        timer = ((R12_80175470_S_80175470_0 *)sequence)->timer.u;
         next_timer = timer - 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = next_timer;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
         if ((s16)next_timer <= 0) {
             cd_ready = (*(u8 *)D_80175B25);
-            ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = timer;
+            ((R12_80175470_S_80175470_0 *)sequence)->timer.u = timer;
             if (cd_ready == 0) {
                 return;
             }
-            ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+            ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)actor_effect_color_targets)[color_index];
         scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
-            - scene_color->view.tint.parts.tint_r) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.tint.parts.tint_r) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
         scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
-            - scene_color->view.tint.parts.tint_g) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.tint.parts.tint_g) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
         scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
-            - scene_color->view.tint.parts.tint_b) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.tint.parts.tint_b) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
         return;
 
     case 4:
@@ -2726,18 +2726,18 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         }
         select_record_entry_and_value(model, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->flags |= 0x80;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0;
-        next_state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n + 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0;
+        next_state = ((R12_80175470_S_80175470_0 *)sequence)->phase.n + 1;
 store_next_state:
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n = next_state;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n = next_state;
         return;
 
     case 5:
         node = ((R12_80175470_S_80175470_0 *)sequence)->unk_A8;
         model = node->unk_0C;
         if (model->flags & 0xE000) {
-            ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
-            ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+            ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
+            ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
             decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
             update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
             unlink_entity_node(actor);
@@ -2746,14 +2746,14 @@ store_next_state:
         }
 
     case 6:
-        if (((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n != 6) {
+        if (((R12_80175470_S_80175470_0 *)sequence)->phase.n != 6) {
             return;
         }
         if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)staged_spawn_count))) {
             return;
         }
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2766,8 +2766,8 @@ store_next_state:
         if (((R12_80175470_S_80175470_1 *)actor)->unk_60 == 0) {
             return;
         }
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
         model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
         node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
@@ -2777,8 +2777,8 @@ store_next_state:
         model->flags &= 0xFFFE;
 
     case 8:
-        next_timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u - 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = next_timer;
+        next_timer = ((R12_80175470_S_80175470_0 *)sequence)->timer.u - 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
         if ((s16)next_timer > 0) {
             return;
         }

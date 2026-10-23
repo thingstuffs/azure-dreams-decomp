@@ -14,7 +14,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 pulunpa_action_resume_address;
-extern u8 pulunpa_advance_actor_state_and_dispatch_address;
+extern u8 pulunpa_variant_action_address;
 extern Callback D_80176380[];
 extern Callback D_801763E0[];
 
@@ -59,7 +59,7 @@ void update_monster_facing_and_ground(void *entity, S_80170AE0_2 *motion, Sprite
 
         special_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (special_callback == (Callback)&pulunpa_action_resume_address ||
-            special_callback == (Callback)&pulunpa_advance_actor_state_and_dispatch_address) {
+            special_callback == (Callback)&pulunpa_variant_action_address) {
             special_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;

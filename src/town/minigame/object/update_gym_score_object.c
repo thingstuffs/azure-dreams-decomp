@@ -4,55 +4,30 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 
-typedef struct {
-    void *child;
-    u8 pad04[0x4C];
-    s16 state;
-    s16 timer;
-    s16 target;
-} TownObject;
-
-typedef struct {
-    s32 x;
-    s32 z;
-    s32 y;
-    s32 dx;
-    s32 dz;
-    s32 dy;
-} TownMotion;
-
-typedef struct {
-    u8 pad00[6];
-    u16 flags;
-    s16 count;
-} TownChild;
-
-typedef struct {
-    u8 pad00[4];
-    s32 z;
-    s32 y;
-} TownTarget;
 
 
 
 
-extern TownTarget view_reference_entity[];
+
+
+
+extern ObjectPosition view_reference_entity;
 
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void SD_Call(s32);
 extern void apply_global_scene_value(void *);
 
 /* Update object motion, scoring, and timed state transitions. */
-void update_gym_score_object(TownObject *obj, TownMotion *motion)
+void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)
 {
-    TownChild *child;
+    GymState *child;
     s16 ticks_left;
     u16 state;
 
     child = obj->child;
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->dy += motion->dz;
+    motion->x.v += motion->velocity_x;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_z += motion->velocity_y;
 
     ticks_left = obj->timer - 1;
     obj->timer = ticks_left;
@@ -65,11 +40,11 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
         u16 score;
         s16 signed_score;
 
-        if (motion->dy < 0) {
+        if (motion->velocity_z < 0) {
             break;
         }
 
-        y = motion->y;
+        y = motion->z.v;
         if (y > (s32)0xFFF00000) {
             if (!(child->flags & 1)) {
                 SD_Call(0x506);
@@ -93,12 +68,12 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
         }
 
         SD_Call(0x512);
-        signed_score = child->count;
-        score = child->count;
+        signed_score = child->score.s;
+        score = child->score.s;
         if (signed_score < 9999) {
             if (obj->state == 0) {
                 score++;
-                child->count = score;
+                child->score.s = score;
                 if ((gym_high_score[0] << 16) < (score << 16)) {
                     gym_high_score[0] = score;
                 }
@@ -110,9 +85,9 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
             obj->timer = 4;
         }
         apply_global_scene_value(countdown_action_handler_table);
-        motion->dz = 0;
-        motion->dy = 0;
-        motion->dx = 0;
+        motion->velocity_y = 0;
+        motion->velocity_z = 0;
+        motion->velocity_x = 0;
         obj->state = obj->state + 1;
         return;
     }
@@ -122,8 +97,8 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
             break;
         }
         obj->timer = 8;
-        motion->dx = ((s32)0x02A00000 - motion->x) / obj->timer;
-        motion->dy = ((s32)0xFFC00000 - motion->y) / obj->timer;
+        motion->velocity_x = ((s32)0x02A00000 - motion->x.v) / obj->timer;
+        motion->velocity_z = ((s32)0xFFC00000 - motion->z.v) / obj->timer;
         obj->state = obj->state + 1;
         return;
 
@@ -133,7 +108,7 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
         }
         SD_Call(0x525);
         obj->timer = 6;
-        motion->dx = motion->dy = motion->dz;
+        motion->velocity_x = motion->velocity_z = motion->velocity_y;
         obj->state = 0xFF;
         return;
 
@@ -147,13 +122,13 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
 
     case 0x21:
     {
-        ObjectPosition *target = view_reference_entity;
+        ObjectPosition *target = &view_reference_entity;
         s32 target_z = target->y.v;
-        s32 z = motion->z;
-        s32 y = motion->y;
+        s32 z = motion->y.v;
+        s32 y = motion->z.v;
         s32 offset_y = y + 0x600000;
-        motion->z = z + ((target_z - z) >> 1);
-        motion->y = y + ((target->z.v - offset_y) >> 1);
+        motion->y.v = z + ((target_z - z) >> 1);
+        motion->z.v = y + ((target->z.v - offset_y) >> 1);
         if ((s16)obj->timer <= 0) {
             obj->state = 1;
         }
@@ -167,7 +142,7 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
             break;
         }
 
-        if (*(s16 *)0x800135C2 == child->count) {
+        if (*(s16 *)0x800135C2 == child->score.s) {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
             state = obj->state + 1;
@@ -187,13 +162,13 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
     {
         child->flags |= 2;
         {
-            s32 x = motion->x;
-            s32 z = motion->z;
-            s32 y = motion->y;
+            s32 x = motion->x.v;
+            s32 z = motion->y.v;
+            s32 y = motion->z.v;
 
-            motion->x = x + (((s32)0x03800000 - x) >> 1);
-            motion->z = z + (((s32)0x03C00000 - z) >> 1);
-            motion->y = y + ((-y) >> 1);
+            motion->x.v = x + (((s32)0x03800000 - x) >> 1);
+            motion->y.v = z + (((s32)0x03C00000 - z) >> 1);
+            motion->z.v = y + ((-y) >> 1);
             if ((s16)obj->timer > 0) {
                 break;
             }

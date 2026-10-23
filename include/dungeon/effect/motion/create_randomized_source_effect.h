@@ -160,41 +160,41 @@ typedef struct {
 } Row_8191CD78_Coord;
 
 typedef struct Row_8191CD78_S_func_80024578_1 {
-    void *unk_00;
-    void *unk_04;
+    void *caster;
+    void *launch_flags;
     u8 pad_08[0x1];
-    u8 unk_09;
+    u8 variant;
     union {
         s16 s16;
         u16 u16;
-    } unk_0A;
+    } phase;
     u8 pad_0C[0x2];
-    u16 unk_0E;
+    u16 direction;
     union {
         s16 s16;
         u16 u16;
-    } unk_10;
+    } timer;
     s16 unk_12;
     union {
         s16 s16;
         u16 u16;
-    } unk_14;
+    } child_updates;
     union {
         s16 s16;
         u16 u16;
-    } unk_16;
-    u16 unk_18;
+    } target_ground_height;
+    u16 saved_facing;
     union {
         s16 s16;
         u16 u16;
-    } unk_1A;
-    void *unk_1C;
-    void *unk_20;
-    void *unk_24;
+    } added_property_flag;
+    void *target;
+    void *target_position;
+    void *target_sprite;
     union {
         s32 s32;
         void *ptr;
-    } unk_28;
+    } saved_z;
 } Row_8191CD78_S_func_80024578_1;
 
 typedef struct Row_8191CD78_S_func_80024578_2 {
@@ -207,7 +207,7 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
                 u16 u16;
             } unk_02;
         } parts_02;
-    } unk_00;
+    } x;
     union {
         s32 s32;
         struct {
@@ -217,7 +217,7 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
                 u16 u16;
             } unk_06;
         } parts_06;
-    } unk_04;
+    } y;
     union {
         s32 s32;
         void *ptr;
@@ -228,32 +228,32 @@ typedef struct Row_8191CD78_S_func_80024578_2 {
                 u16 u16;
             } unk_0A;
         } parts_0A;
-    } unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
+    } z;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
 } Row_8191CD78_S_func_80024578_2;
 
 typedef struct Row_8191CD78_S_func_80024578_3 {
     u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
+    u8 species;
+    s32 property_flags;
     u8 pad_18[0x12];
-    u16 unk_2A;
+    u16 facing;
     u8 pad_2C[0x34];
-    void *unk_60;
+    void *target;
     u8 pad_64[0x24];
     union {
         s16 s16;
         u16 u16;
-    } unk_88;
+    } ground_height;
 } Row_8191CD78_S_func_80024578_3;
 
 typedef struct Row_8191CD78_S_func_80024578_4 {
     u8 pad_00[0xC];
-    s32 unk_0C;
+    s32 color;
     u8 pad_10[0xA];
-    u16 unk_1A;
+    u16 angle_z;
 } Row_8191CD78_S_func_80024578_4;
 
 typedef struct Row_8191CD78_S_func_80024578_5 {
@@ -290,25 +290,25 @@ typedef struct Row_8191CD78_S_func_80024578_5 {
 
 typedef struct Row_8191CD78_S_func_80024578_6 {
     u8 pad_00[0x8];
-    void *unk_08;
+    void *source;
     u8 pad_0C[0x8];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
+    u8 tile_x;
+    u8 tile_y;
 } Row_8191CD78_S_func_80024578_6;
 
 typedef struct Row_8191CD78_S_func_80024578_7 {
     u8 pad_00[0x2];
-    u16 unk_02;
+    u16 x;
     u8 pad_04[0x2];
-    u16 unk_06;
+    u16 y;
     u8 pad_08[0x2];
-    u16 unk_0A;
+    u16 z;
 } Row_8191CD78_S_func_80024578_7;
 
 typedef struct Row_8191CD78_S_func_80024578_8 {
-    u16 unk_00;
+    u16 flags;
 } Row_8191CD78_S_func_80024578_8;
 
 typedef struct Row_8191CD78_S_func_80024578_9 {
@@ -325,12 +325,12 @@ typedef struct Row_8191CD78_S_func_80024578_10 {
 
 typedef struct Row_8191CD78_S_func_80024578_11 {
     u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
+    void *position;
+    void *sprite;
 } Row_8191CD78_S_func_80024578_11;
 
 typedef struct Row_8191CD78_S_func_80024578_12 {
-    u16 unk_00;
+    u16 flags;
 } Row_8191CD78_S_func_80024578_12;
 
 typedef struct Row_8191CD78_S_func_80024578_13 {

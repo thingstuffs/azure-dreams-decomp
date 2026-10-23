@@ -81,7 +81,7 @@ int load_indexed_resource_package(short table_index);
 s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index);
 
 /* load_scene_record.c */
-void load_scene_record(struct S_800510A0 *record);
+void *load_scene_record(struct S_800510A0 *record);
 
 /* load_scene_resource_group.c */
 void load_scene_resource_group(s16 entry_index);

@@ -1,3 +1,4 @@
+#include "dungeon/effect/mesh.h"
 #include "shared/audio_commands.h"
 /* Timed target tinting, source-relative arcing motion, and linked effect setup. */
 #include "shared/sprite_frame_state.h"
@@ -24,35 +25,35 @@ extern u8 resident_globals_page[];
 
 #define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&primary_actor_record)), 0))
 
-void update_directional_actor_effect(void *state_data);
+
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19ba800_entry)(void *) = update_directional_actor_effect;
+void (*const dungeon_19ba800_entry)(TargetTintWork *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, updates the entry tint, and draws the animation. */
-void update_directional_actor_effect(void *state_data)
+void update_directional_actor_effect(TargetTintWork *state_data)
 {
-    u8 *state = (u8 *)state_data;
+    TargetTintWork *state = state_data;
     GameWork *effect_flags;
     s32 phase;
     s32 result;
-    void *entry;
-    ObjectNodeHeader *child;
+    ActorRecord *entry;
+    SpriteFrameState *child;
 
-    U16_AT(state, 0x16)++;
-    phase = S16_AT(state, 0x0A);
+    state->elapsed++;
+    phase = state->phase.s;
     effect_flags = &g_game_work;
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
-        create_linked_effect_controller((ObjectNodeHeader *)((u8 *)PTR_AT(state, 0) - 0x20), PTR_AT(state, 4));
-        result = U16_AT(state, 0x0A);
+        create_linked_effect_controller((ObjectNodeHeader *)((u8 *)state->owner - 0x20), state->animation);
+        result = state->phase.u;
         result++;
-        U16_AT(state, 0x0A) = result;
+        state->phase.u = result;
     case 1:
-        result = (s32)PTR_AT(state, 4);
+        result = (s32)state->animation;
         if ((U16_AT((void *)result, 0) & 0x80) == 0) {
             break;
         }
@@ -60,7 +61,7 @@ void update_directional_actor_effect(void *state_data)
             void *manager =
                 *(void **)(resident_globals_page + 0x14A8);
 
-            U16_AT(state, 0x18) = 0x12;
+            state->timer.u = 0x12;
             result = U16_AT(manager, 0xA6) - 1;
             U16_AT(manager, 0xA6) = result;
         }
@@ -70,36 +71,36 @@ void update_directional_actor_effect(void *state_data)
         } else {
             play_sound_if_enabled(AUDIO_RESUME_CD);
         }
-        U8_AT(MANAGER_PTR(), 0xA8) = U8_AT(state, 8);
-        U16_AT(state, 0x14) = U16_AT(MANAGER_PTR(), 0x2A);
-        U16_AT(state, 0x0A)++;
+        U8_AT(MANAGER_PTR(), 0xA8) = state->variant;
+        state->facing = U16_AT(MANAGER_PTR(), 0x2A);
+        state->phase.u++;
         break;
 
     case 2:
-        U16_AT(state, 0x18)--;
-        if ((s16)U16_AT(state, 0x18) > 0) {
+        state->timer.u--;
+        if ((s16)state->timer.u > 0) {
             break;
         }
-        U16_AT(state, 0x18) = 0x10;
-        U16_AT(state, 0x0A)++;
+        state->timer.u = 0x10;
+        state->phase.u++;
         break;
 
     case 3:
         entry = PTR_AT(MANAGER_PTR(), 0x60);
         if (entry != 0) {
-            s32 entry_flags = (s32)U32_AT(entry, 0x1C) | 0x10000000;
+            s32 entry_flags = entry->flags1C | 0x10000000;
             u32 tint = 0;
 
-            U32_AT(entry, 0x1C) = entry_flags;
+            entry->flags1C = entry_flags;
             child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
             if ((effect_flags->unk_004 & 1) != 0) {
                 tint = 0x0080FF80;
             }
-            child->sprite = tint;
+            child->color.word = tint;
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            U16_AT(state, 0x18)--;
-            if ((s16)U16_AT(state, 0x18) >= 0) {
+            state->timer.u--;
+            if ((s16)state->timer.u >= 0) {
                 break;
             }
         }
@@ -110,11 +111,11 @@ void update_directional_actor_effect(void *state_data)
             s32 entry_flags;
 
             child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
-            entry_flags = (s32)U32_AT(entry, 0x1C) & clear_effect_mask;
-            U32_AT(entry, 0x1C) = entry_flags;
-            child->sprite = tint;
+            entry_flags = entry->flags1C & clear_effect_mask;
+            entry->flags1C = entry_flags;
+            child->color.word = tint;
         }
-        U16_AT(state, 0x0A)++;
+        state->phase.u++;
         break;
 
     case 4:
@@ -128,7 +129,7 @@ void update_directional_actor_effect(void *state_data)
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
-    if (S16_AT(state, 0x0A) >= 2) {
+    if (state->phase.s >= 2) {
         u8 *draw_data = (u8 *)&D_80024A70[2];
         s32 draw_params[2];
 

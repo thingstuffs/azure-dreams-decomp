@@ -38,7 +38,7 @@ s32 draw_linked_effect_quads_slot_f(void *point, void *position, void *color);
 void update_flashing_effect_segment_slot_f(u8 *effect, s32 *position, s32 effect_param);
 void create_segmented_effect_rings_slot_f(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
 void begin_block_action_23_slot_f(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CB9000_80174B3C_S_80174B3C_0 *entity);
-void restore_scene_tint_after_animation_slot_f(u8 *task, void *context, u8 *input);
+void restore_scene_tint_slot_f(u8 *task, void *context, u8 *input);
 void update_block_replacement_slot_f(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
 void finish_block_floor_trap_slot_f(CL_CB9000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void finish_block_action_flag_slot_f(CL_CB9000_80175274_CallbackState *state,void *position,void *sprite,void *entity);

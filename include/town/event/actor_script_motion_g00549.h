@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 
 #include "common.h"
+#include "town/scene/collision.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/position_query.h"
 
@@ -54,7 +55,6 @@ extern s32 D_800CFDD8[];
 extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(void *, void *, s16);
 extern void call_the_same_context_both_processing_routines(void *, void *);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern void set_actor_drop_state(void *, void *, void *, void *);
 extern u8 actor_surface_callback_address[];
 extern u8 actor_output_update_address[];

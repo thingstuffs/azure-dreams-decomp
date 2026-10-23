@@ -22,13 +22,13 @@ struct SpriteFrameState;
 typedef struct ObjectNodeHeader {
     /* 0x00 */ struct ObjectNodeHeader *next; /* next object in this list, or null at the end */
     /* 0x04 */ struct ObjectNodeHeader **pprev; /* address of the list slot that points to this node; supports constant-time unlinking */
-    /* 0x08 */ struct ObjectPosition *position; /* separate position/motion record; allocator reserves 0x18 bytes before the sprite payload */
-    /* 0x0C */ struct SpriteFrameState *sprite; /* sprite/render payload selected by the allocation flags */
+    /* 0x08 */ struct ObjectPosition *position; /* optional 0x18-byte motion record; allocator leaves null unless flags include 0x157; lifetime follows the node */
+    /* 0x0C */ struct SpriteFrameState *sprite; /* optional sprite/render part; flags 0x100, 0x6 or 0x41 select its payload offset; lifetime follows the node */
     /* 0x10 */ void *update_callback; /* update callback address; active-node dispatch passes body, position and sprite pointers */
     /* 0x14 */ int unk_14; /* draw-registration backlink, stored as an integer address */
     /* 0x18 */ struct ObjectNodeHeader *chain_next; /* next object registered for the same draw callback, or null */
     /* 0x1C */ unsigned char pad_1C[2];
-    /* 0x1E */ unsigned short flags; /* allocation flags with 0x4000 set; bit 0x8000 marks completed/retired objects */
+    /* 0x1E */ unsigned short flags; /* allocation/control bits: 0x400 skips update, 0x4000 marks active, 0x8000 requests unlink/removal */
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader scene_object_list_anchor;

@@ -1,3 +1,4 @@
+#include "shared/sprite_source.h"
 #include "shared/audio_commands.h"
 /* Targeted effect movement, delayed sprite fading, and accelerating particle emission. */
 #include "modules/dungeon_ovl_185e800.h"
@@ -18,13 +19,13 @@ void (*const dungeon_185e800_entry)(DelayedTargetEffect *, ObjectPosition *) = r
 /* Move the effect toward its target, emit particles, and apply the delayed target effect. */
 void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *motion)
 {
-    u8 *owner;
-    u8 *owner_record;
-    u8 *owner_object;
+    ActorRecord *owner;
+    SpriteFrameState *owner_record;
+    ObjectNodeHeader *owner_object;
     ObjectNodeHeader *particle;
     DelayParticle *particle_data;
     SpriteFrameState *child_data;
-    u8 *animation;
+    u16 *animation;
     u8 *particle_texture;
     s16 state;
     s16 timer;
@@ -36,7 +37,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     s16 origin_offset[3];
 
     owner = self->owner;
-    owner_object = owner - 32;
+    owner_object = (ObjectNodeHeader *)((u8 *)owner - 32);
     state = self->state.s;
     owner_record = F(owner, u8 *, -20);
     if (state != 0 && state < 5) {
@@ -67,10 +68,10 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 child_data->unk_04 = 0;
                 child_data->frame_ticks = 0;
                 F(child_data, u32, 12) = color;
-                particle_data->unk_00 = self;
-                particle_data->unk_48 = rand() & 3;
+                particle_data->owner = self;
+                particle_data->timer = rand() & 3;
                 particle_data->fade_step.u = 24;
-                particle_data->unk_4C.u = 0;
+                particle_data->phase.u = 0;
             }
             particles_left--;
         } while (particles_left >= 0);
@@ -142,7 +143,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         self->timer.u = timer;
         if (timer > 0)
             return;
-        if (F(owner, s32, 96) == 0) {
+        if (owner->target == 0) {
             self->timer.u = 8;
             self->state.u = 5;
             return;
@@ -169,7 +170,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 spawn_coord <<= 13;
                 spawn_coord >>= 1;
                 spawn_coord += (u32)motion->x.v;
-                F(F(particle, u8 *, 8), u32, 0) = spawn_coord;
+                particle->position->x.v = spawn_coord;
 
                 spawn_coord = rand();
                 random_sample = rand();
@@ -194,9 +195,9 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 child_data->unk_04 = 0;
                 child_data->frame_ticks = 0;
                 F(child_data, u32, 12) = 0;
-                particle_data->unk_00 = self;
-                particle_data->unk_48 = 8;
-                particle_data->unk_4C.u = 0;
+                particle_data->owner = self;
+                particle_data->timer = 8;
+                particle_data->phase.u = 0;
             }
         }
         timer = self->timer.u - 1;
@@ -213,9 +214,9 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         self->timer.u = timer;
         if (timer > 0)
             return;
-        if (F(owner, s32, 96) != 0) {
-            apply_attack_power_and_element_effects(F(owner, void *, 96), 10, self->variant, 2,
-                          F(owner, s16, 42), owner, 2);
+        if (owner->target != 0) {
+            apply_attack_power_and_element_effects(owner->target, 10, self->variant, 2,
+                          owner->facing, owner, 2);
         }
         self->timer.u = 16;
         state = self->state.s + 1;
@@ -232,7 +233,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         if (timer > 0)
             return;
         g_dungeon_status.active_actor = 0;
-        F(self, u16, -2) |= 0x8000;
+        ((ObjectNodeHeader *)((u8 *)self - 0x20))->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
@@ -251,16 +252,16 @@ void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion,
     u8 shade;
     DelayPosition *position = motion;
 
-    owner = effect->unk_00;
-    owner->unk_52 |= 0x8000;
-    phase = effect->unk_4C.s;
+    owner = effect->owner;
+    owner->child_activity |= 0x8000;
+    phase = effect->phase.s;
     switch (phase) {
     case 0:
-        delay = effect->unk_48 - 1;
-        effect->unk_48 = delay;
+        delay = effect->timer - 1;
+        effect->timer = delay;
         if ((delay << 0x10) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->unk_4C.u += 1;
+            effect->phase.u += 1;
         }
         break;
 
@@ -312,10 +313,10 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
     DelayParticleTimers *particle_state;
     void *particle_data;
 
-    owner = ((DelayParticle *)effect_arg)->unk_00;
-    owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
+    owner = ((DelayParticle *)effect_arg)->owner;
+    owner->child_activity = (u16) (owner->child_activity | 0x8000);
     phase = *(s16 *)((s8 *)effect_arg + 0x4C);
-    ((DelayParticle *)effect_arg)->unk_48 = (u16) (((DelayParticle *)effect_arg)->unk_48 - 1);
+    ((DelayParticle *)effect_arg)->timer = (u16) (((DelayParticle *)effect_arg)->timer - 1);
     switch (phase) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
@@ -325,55 +326,55 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
             sprite->color.at01.v = bright_level;
             sprite->color.at00.v = bright_level;
         }
-        if ((s16) ((DelayParticle *)effect_arg)->unk_48 <= 0) {
-            ((DelayParticle *)effect_arg)->unk_48 = 0x10U;
-            ((DelayParticle *)effect_arg)->unk_4C.u = (u16) (((DelayParticle *)effect_arg)->unk_4C.u + 1);
+        if ((s16) ((DelayParticle *)effect_arg)->timer <= 0) {
+            ((DelayParticle *)effect_arg)->timer = 0x10U;
+            ((DelayParticle *)effect_arg)->phase.u = (u16) (((DelayParticle *)effect_arg)->phase.u + 1);
             return;
         }
         return;
     case 1:
-        z_velocity = motion->unk_14 + 0x8000;
-        motion->unk_14 = z_velocity;
-        motion->unk_08 = (s32) (motion->unk_08 + z_velocity);
+        z_velocity = motion->velocity_z + 0x8000;
+        motion->velocity_z = z_velocity;
+        motion->z = (s32) (motion->z + z_velocity);
         count_or_step = 0x14;
-        if ((s16) ((DelayParticle *)effect_arg)->unk_48 <= 0) {
+        if ((s16) ((DelayParticle *)effect_arg)->timer <= 0) {
             particle_data = advance_delayed_fading_sprite;
-            ((DelayParticle *)effect_arg)->unk_4C.s = (s16) ((u16) ((DelayParticle *)effect_arg)->unk_4C.s + 1);
+            ((DelayParticle *)effect_arg)->phase.s = (s16) ((u16) ((DelayParticle *)effect_arg)->phase.s + 1);
             do {
                 particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
                 if (particle != NULL) {
-                    ((DelayObject *)particle)->unk_10 = particle_data;
-                    particle_sprite = ((DelayObject *)particle)->unk_0C;
-                    ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_00 = (s32) motion->unk_00;
-                    ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_04 = (s32) motion->unk_04;
+                    ((DelayObject *)particle)->update_callback = particle_data;
+                    particle_sprite = ((DelayObject *)particle)->sprite;
+                    ((DelayVelocity *)(((DelayObject *)particle)->position))->x = (s32) motion->x;
+                    ((DelayVelocity *)(((DelayObject *)particle)->position))->y = (s32) motion->y;
                     random = rand();
                     {
-                        DelayMotionZ *particle_motion = ((DelayObject *)particle)->unk_08;
-                        particle_motion->unk_08 = (s32) (motion->unk_08 + ((random & 0x1F) << 0x10));
+                        DelayMotionZ *particle_motion = ((DelayObject *)particle)->position;
+                        particle_motion->unk_08 = (s32) (motion->z + ((random & 0x1F) << 0x10));
                         random = rand();
                     }
-                    ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_0C =
+                    ((DelayVelocity *)(((DelayObject *)particle)->position))->velocity_x =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     random = rand();
                     color = 0x800000;
-                    ((DelayVelocity *)(((DelayObject *)particle)->unk_08))->unk_10 =
+                    ((DelayVelocity *)(((DelayObject *)particle)->position))->velocity_y =
                         (s32) (((random & 0xFFF) - 0x7FF) << 8);
-                    particle_sprite->unk_1E = 0x1000;
-                    particle_sprite->unk_1C = 0x1000;
-                    particle_sprite->unk_10 = 0x20;
-                    particle_sprite->unk_00 = fading_sprite_entries;
-                    particle_sprite->unk_14 = (u16) (particle_sprite->unk_14 | 0xC);
+                    particle_sprite->scale_y = 0x1000;
+                    particle_sprite->scale_x = 0x1000;
+                    particle_sprite->tpage_abr = 0x20;
+                    particle_sprite->frame_entry = fading_sprite_entries;
+                    particle_sprite->flags = (u16) (particle_sprite->flags | 0xC);
                     random = (s32) ((SpriteSourceEntry *)fading_sprite_entries)->source;
                     color |= 0x8080;
-                    particle_sprite->unk_04 = 0;
-                    particle_sprite->unk_05 = 0;
-                    particle_sprite->unk_0C = color;
-                    particle_sprite->unk_08 = random;
+                    particle_sprite->frame_index = 0;
+                    particle_sprite->frame_ticks = 0;
+                    particle_sprite->color = color;
+                    particle_sprite->source = random;
                     particle_state = particle + 0x20;
-                    particle_state->unk_48 = (s16) (rand() & 3);
-                    particle_state->unk_4A = 0xC;
-                    particle_state->unk_4C = 0;
-                    ((DelayObject *)particle)->unk_20 = (void *) ((DelayParticle *)effect_arg)->unk_00;
+                    particle_state->timer = (s16) (rand() & 3);
+                    particle_state->fade_step = 0xC;
+                    particle_state->phase = 0;
+                    ((DelayObject *)particle)->owner = (void *) ((DelayParticle *)effect_arg)->owner;
                 }
                 count_or_step -= 1;
             } while (count_or_step >= 0);
@@ -384,7 +385,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
         count_or_step = 0x10;
         if (count_or_step >= (s32) sprite->color.at00.v) {
             sprite->color.at00u.v = 0;
-            ((DelayStatusPrefix *)effect_arg)[-1].unk_00 = (u16) (((DelayStatusPrefix *)effect_arg)[-1].unk_00 | 0x8000);
+            ((DelayStatusPrefix *)effect_arg)[-1].flags = (u16) (((DelayStatusPrefix *)effect_arg)[-1].flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

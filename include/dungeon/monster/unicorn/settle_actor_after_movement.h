@@ -22,10 +22,10 @@ typedef struct T_80172664_S_80172664_1 {
     u8 * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    union { u16 s; s16 u; } timer;   /* accessed as both */
     u16 unk_98;
     u8 pad_9A[0x1];
-    u8 unk_9B;
+    u8 phase;
 } T_80172664_S_80172664_1;   /* arg0 in func_80172664 */
 
 typedef struct T_80172664_S_80172664_2 {

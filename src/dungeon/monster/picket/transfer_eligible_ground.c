@@ -44,7 +44,7 @@ extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
 
 extern s32 dungeon_actor_ring_anchor[];
-extern s32 picket_slot_a_ground_item[];
+extern s32 picket_slot_a_item_result[];
 
 
 
@@ -66,9 +66,9 @@ extern s32 picket_slot_a_ground_item[];
         (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_88);
     if (ground_slot >= 0) {
-        picket_slot_a_ground_item[0] = ((s32 *)dungeon_ground_items)[ground_slot];
+        picket_slot_a_item_result[0] = ((s32 *)dungeon_ground_items)[ground_slot];
         ((s32 *)dungeon_ground_items)[ground_slot] = 0;
-        return (s32)picket_slot_a_ground_item;
+        return (s32)picket_slot_a_item_result;
     }
 
     target = probe_directional_neighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
@@ -117,9 +117,9 @@ scan_loop:
                     item_ptr = (u8 *)0x80010248;
                     item_ptr += slot_offset;
                     item_word = *(s32 *)item_ptr;
-                    picket_slot_a_ground_item[0] = item_word;
+                    picket_slot_a_item_result[0] = item_word;
                     clear_slot_and_update_linked_state(item_ptr);
-                    return (s32)picket_slot_a_ground_item;
+                    return (s32)picket_slot_a_item_result;
                 }
             }
         }
@@ -133,9 +133,9 @@ scan_loop:
             s32 item_word;
 
             item_word = ((TargetFieldView_80EAF000 *)target)->field_48.s32;
-            picket_slot_a_ground_item[0] = item_word;
+            picket_slot_a_item_result[0] = item_word;
             ((TargetFieldView_80EAF000 *)target)->field_48.s32 = 0;
-            return (s32)picket_slot_a_ground_item;
+            return (s32)picket_slot_a_item_result;
         }
     }
     return 0;

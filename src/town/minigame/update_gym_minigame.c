@@ -13,13 +13,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80022F60_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u16 unk_08;
-} S_80022F60_0;   /* state_obj in update_gym_minigame */
 
 typedef struct S_80022F60_1 {
     u8 pad_00[0x4];
@@ -102,7 +95,7 @@ extern s32 town_position_callback_address[3];
 extern s32 gym_sprite_source;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
-void update_gym_minigame(u8 *state_obj) {
+void update_gym_minigame(GymState *state_obj) {
     u8 *secondary = NULL;
     u8 *main_state = scene_object_payload_alias;
     s32 state;
@@ -113,9 +106,9 @@ void update_gym_minigame(u8 *state_obj) {
     s32 *position;
     SpriteFrameState *image;
 
-    state = ((S_80022F60_0 *)state_obj)->unk_00.s;
-    timer = ((S_80022F60_0 *)state_obj)->unk_02.s - 1;
-    ((S_80022F60_0 *)state_obj)->unk_02.s = timer;
+    state = state_obj->state.s;
+    timer = state_obj->timer.u - 1;
+    state_obj->timer.u = timer;
     switch (state) {
     case 0:
         if (test_resident_bit(0x524) != 0) {
@@ -127,8 +120,8 @@ void update_gym_minigame(u8 *state_obj) {
             ((S_80022F60_1 *)main_state)->unk_10.u = angle;
             SD_Call(0xB1);
             clear_resident_bit(0x524);
-            ((S_80022F60_0 *)state_obj)->unk_02.s = 4;
-            ((S_80022F60_0 *)state_obj)->unk_06 = 0;
+            state_obj->timer.u = 4;
+            state_obj->flags = 0;
             (*(u16 *)((u8 *)state_obj + 0))++;
             motion = (u8 *)(&view_reference_entity);
             motion->velocity_y = 0;
@@ -136,25 +129,25 @@ void update_gym_minigame(u8 *state_obj) {
             motion->velocity_z = 0xFFE00000;
             *(void **)scene_object_payload_alias = town_position_callback_address;
             ((S_80022F60_1 *)main_state)->unk_04 = gym_object_state_address;
-            ((S_80022F60_0 *)state_obj)->unk_08 = 0;
+            state_obj->score.u = 0;
         }
         break;
 
     case 1:
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
-        if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
+        if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (u8 *)(&view_reference_entity);
             s32 value;
 
-            (*(u16 *)((u8 *)state_obj + 2)) = 8;
+            state_obj->timer.u = 8;
             motion->velocity_x =
-                (0x03800000 - motion->x.v) / ((S_80022F60_0 *)state_obj)->unk_02.u;
+                (0x03800000 - motion->x.v) / state_obj->timer.s;
             value = (0x03800000 - motion->y.v) /
-                ((S_80022F60_0 *)state_obj)->unk_02.u;
+                state_obj->timer.s;
             motion->velocity_z = 0xFFF40000;
             motion->velocity_y = value;
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+            state_obj->state.u++;
         }
         break;
 
@@ -166,13 +159,13 @@ void update_gym_minigame(u8 *state_obj) {
         raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
         masked_angle = raw & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = masked_angle;
-        if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
+        if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (u8 *)(&view_reference_entity);
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             if (masked_angle == 0) {
-                ((S_80022F60_0 *)state_obj)->unk_00.u++;
+                state_obj->state.u++;
             }
         }
     }
@@ -244,7 +237,7 @@ loop_0:
                         ((S_80022F60_5 *)sprite)->unk_10 = 0x808080;
                         ((S_80022F60_5 *)sprite)->unk_0C = state_obj;
                         ((S_80022F60_5 *)sprite)->unk_08 =
-                            (s32)secondary ? (void *)(state_obj + 8)
+                            (s32)secondary ? &state_obj->score
                         : (void *)0x800135C2;
                         ((S_80022F60_5 *)sprite)->unk_04 = *table_cursor;
                     }
@@ -278,7 +271,7 @@ loop_0:
                     ((S_80022F60_5 *)sprite)->unk_52 = 4;
                 }
                 apply_global_scene_value(counted_action_handler_table);
-                ((S_80022F60_0 *)state_obj)->unk_00.u++;
+                state_obj->state.u++;
             }
         }
     }
@@ -287,7 +280,7 @@ loop_0:
     case 4:
         if (reference_tile_object.sprite_flags & 0x6000) {
             apply_global_scene_value(movement_action_handler_table);
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+            state_obj->state.u++;
         }
         break;
 
@@ -299,17 +292,17 @@ loop_0:
         ((S_80022F60_1 *)main_state)->unk_10.u = angle;
         if (angle == 0xC00) {
             apply_global_scene_value(countdown_action_handler_table);
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+            state_obj->state.u++;
         }
     }
         break;
 
     case 6:
         if (reference_tile_object.sprite_flags & 0x6000) {
-            ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
+            state_obj->timer.u = 1;
             apply_global_scene_value(counted_action_handler_table);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
-            ((S_80022F60_0 *)state_obj)->unk_00.u = 0x20;
+            state_obj->state.u = 0x20;
         }
         break;
 
@@ -352,14 +345,14 @@ loop_0:
                 ((S_80022F60_3 *)obj)->unk_20 = state_obj;
             }
         }
-        if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
+        if (state_obj->flags & 1) {
             ((S_80022F60_1 *)main_state)->unk_04 = gym_object_state_address;
             apply_global_scene_value(countdown_action_handler_table);
             gym_lane_delay = 0;
             gym_lane = 1;
             view_reference_entity.velocity_x = 0;
-            ((S_80022F60_0 *)state_obj)->unk_02.s = 0x40;
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+            state_obj->timer.u = 0x40;
+            state_obj->state.u++;
         }
     }
         break;
@@ -372,7 +365,7 @@ loop_0:
         current = ((ObjectPosition *)(((MotionState *)&view_reference_entity)))->x.v;
         ((ObjectPosition *)(((MotionState *)&view_reference_entity)))->x.v =
             current + ((two - current) >> 1);
-        if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
+        if (state_obj->timer.s <= 0) {
             obj = allocate_flagged_object_node(0x136);
 
             if (obj != NULL) {
@@ -442,7 +435,7 @@ loop_0:
                 ((S_80022F60_5 *)sprite)->unk_04 = base;
                 ((S_80022F60_5 *)sprite)->unk_16 = second;
             }
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+            state_obj->state.u++;
         }
     }
         break;
@@ -452,17 +445,17 @@ loop_0:
             ((S_80022F60_1 *)main_state)->unk_10.u =
                 (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
         }
-        if (((S_80022F60_0 *)state_obj)->unk_06 & 2) {
-            ((S_80022F60_0 *)state_obj)->unk_02.s = 6;
-            ((S_80022F60_0 *)state_obj)->unk_00.u++;
+        if (state_obj->flags & 2) {
+            state_obj->timer.u = 6;
+            state_obj->state.u++;
         }
         break;
 
     case 0x23:
         if ((s16)timer <= 0) {
             SD_Call(0xB1);
-            ((S_80022F60_0 *)state_obj)->unk_02.s = 0x3C;
-            ((S_80022F60_0 *)state_obj)->unk_00.u = 0xFF;
+            state_obj->timer.u = 0x3C;
+            state_obj->state.u = 0xFF;
         }
         break;
 
@@ -470,7 +463,7 @@ loop_0:
         if ((s16)timer <= 0) {
             SD_Call(0x200);
             initialize_scene_action_record(main_state, ((MotionState *)&view_reference_entity), ((u8 *)(&reference_tile_object)));
-            ((S_80022F60_0 *)state_obj)->unk_00.s = 0;
+            state_obj->state.s = 0;
         }
         break;
 

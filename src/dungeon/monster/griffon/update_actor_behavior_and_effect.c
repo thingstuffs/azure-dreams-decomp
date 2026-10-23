@@ -1076,12 +1076,12 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
     s32 vertical_speed;
     u16 ticks_left;
 
-    state = ((R08_80172830_S_80172830_0 *)action)->unk_9B;
+    state = ((R08_80172830_S_80172830_0 *)action)->phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((R08_80172830_S_80172830_0 *)action)->unk_9B = 3;
-            ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0;
+            ((R08_80172830_S_80172830_0 *)action)->phase = 3;
+            ((R08_80172830_S_80172830_0 *)action)->timer = 0;
             sprite->flags |= 0x6000;
             return;
         }
@@ -1099,10 +1099,10 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         {
             s32 next_state;
 
-            next_state = ((R08_80172830_S_80172830_0 *)action)->unk_9B;
-            ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0;
+            next_state = ((R08_80172830_S_80172830_0 *)action)->phase;
+            ((R08_80172830_S_80172830_0 *)action)->timer = 0;
             next_state++;
-            ((R08_80172830_S_80172830_0 *)action)->unk_9B = next_state;
+            ((R08_80172830_S_80172830_0 *)action)->phase = next_state;
             return;
         }
 
@@ -1119,10 +1119,10 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         {
             s32 next_state;
 
-            next_state = ((R08_80172830_S_80172830_0 *)action)->unk_9B;
-            ((R08_80172830_S_80172830_0 *)action)->unk_96 = 4;
+            next_state = ((R08_80172830_S_80172830_0 *)action)->phase;
+            ((R08_80172830_S_80172830_0 *)action)->timer = 4;
             next_state++;
-            ((R08_80172830_S_80172830_0 *)action)->unk_9B = next_state;
+            ((R08_80172830_S_80172830_0 *)action)->phase = next_state;
             return;
         }
 
@@ -1135,24 +1135,24 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         select_sprite_entry(sprite,
             ((u8 *)griffon_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0x14;
+        ((R08_80172830_S_80172830_0 *)action)->timer = 0x14;
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         {
             s32 next_state;
 
-            next_state = ((R08_80172830_S_80172830_0 *)action)->unk_9B;
+            next_state = ((R08_80172830_S_80172830_0 *)action)->phase;
             next_state++;
-            ((R08_80172830_S_80172830_0 *)action)->unk_9B = next_state;
+            ((R08_80172830_S_80172830_0 *)action)->phase = next_state;
             return;
         }
 
     case 3:
-        ticks_left = ((R08_80172830_S_80172830_0 *)action)->unk_96;
+        ticks_left = ((R08_80172830_S_80172830_0 *)action)->timer;
         vertical_speed = motion->velocity_z;
         ticks_left--;
-        ((R08_80172830_S_80172830_0 *)action)->unk_96 = ticks_left;
+        ((R08_80172830_S_80172830_0 *)action)->timer = ticks_left;
         if ((s16)ticks_left < 12) {
             vertical_speed += 0x1400;
         } else {
@@ -1161,7 +1161,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         motion->velocity_z = vertical_speed;
         ((R08_80172830_S_80172830_0 *)action)->unk_90 += vertical_speed;
 
-        if ((s16)((R08_80172830_S_80172830_0 *)action)->unk_96 == 0x11) {
+        if ((s16)((R08_80172830_S_80172830_0 *)action)->timer == 0x11) {
             s32 direction_step;
             s16 *x_steps;
             s16 *x_step;
@@ -1193,13 +1193,13 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / (s16)((R08_80172830_S_80172830_0 *)action)->unk_96;
+                 motion->x.v) / (s16)((R08_80172830_S_80172830_0 *)action)->timer;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / (s16)((R08_80172830_S_80172830_0 *)action)->unk_96;
+                 motion->y.v) / (s16)((R08_80172830_S_80172830_0 *)action)->timer;
         }
 
-        if (((s16)((R08_80172830_S_80172830_0 *)action)->unk_96 > 0) &&
+        if (((s16)((R08_80172830_S_80172830_0 *)action)->timer > 0) &&
             !(sprite->flags & 0x8000)) {
             return;
         }
@@ -1420,7 +1420,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
     s16 move_timer;
     s32 tracked_entity;
 
-    state = ((R08_80173234_S_80173234_0 *)action)->unk_9B;
+    state = ((R08_80173234_S_80173234_0 *)action)->phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -1428,7 +1428,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             -((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         ((R08_80173234_S_80173234_1 *)motion)->unk_10 =
             -((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-        ((R08_80173234_S_80173234_0 *)action)->unk_9B++;
+        ((R08_80173234_S_80173234_0 *)action)->phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
@@ -1438,8 +1438,8 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((R08_80173234_S_80173234_0 *)action)->unk_96.s = 0;
-            ((R08_80173234_S_80173234_0 *)action)->unk_9B = 3;
+            ((R08_80173234_S_80173234_0 *)action)->timer.s = 0;
+            ((R08_80173234_S_80173234_0 *)action)->phase = 3;
             return;
         }
 
@@ -1448,7 +1448,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
         } else {
             move_timer = -1;
         }
-        ((R08_80173234_S_80173234_0 *)action)->unk_96.s = move_timer;
+        ((R08_80173234_S_80173234_0 *)action)->timer.s = move_timer;
 
         ((R08_80173234_S_80173234_1 *)motion)->unk_0C -= ((R08_80173234_S_80173234_1 *)motion)->unk_0C / 4;
         ((R08_80173234_S_80173234_1 *)motion)->unk_10 -= ((R08_80173234_S_80173234_1 *)motion)->unk_10 / 4;
@@ -1460,13 +1460,13 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
         ((R08_80173234_S_80173234_1 *)motion)->unk_10 +=
             ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
 
-        if (((R08_80173234_S_80173234_0 *)action)->unk_96.s > 0) {
-            ((R08_80173234_S_80173234_0 *)action)->unk_96.s = ((R08_80173234_S_80173234_0 *)action)->unk_96.u - 1;
+        if (((R08_80173234_S_80173234_0 *)action)->timer.s > 0) {
+            ((R08_80173234_S_80173234_0 *)action)->timer.s = ((R08_80173234_S_80173234_0 *)action)->timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((R08_80173234_S_80173234_0 *)action)->unk_96.s = 0;
+            ((R08_80173234_S_80173234_0 *)action)->timer.s = 0;
         }
 
-        if (((R08_80173234_S_80173234_0 *)action)->unk_96.s != 0) {
+        if (((R08_80173234_S_80173234_0 *)action)->timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -1481,7 +1481,7 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             sprite,
             ((u8 *)griffon_frame_set_6)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        ((R08_80173234_S_80173234_0 *)action)->unk_9B++;
+        ((R08_80173234_S_80173234_0 *)action)->phase++;
         return;
 
     case 2:
@@ -1498,12 +1498,12 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             sprite,
             ((u8 *)griffon_frame_set_6)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        ((R08_80173234_S_80173234_0 *)action)->unk_96.s = 8;
-        ((R08_80173234_S_80173234_0 *)action)->unk_9B++;
+        ((R08_80173234_S_80173234_0 *)action)->timer.s = 8;
+        ((R08_80173234_S_80173234_0 *)action)->phase++;
         return;
 
     case 3:
-        move_timer = ((R08_80173234_S_80173234_0 *)action)->unk_96.s;
+        move_timer = ((R08_80173234_S_80173234_0 *)action)->timer.s;
         if (move_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -1514,12 +1514,12 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = ((R08_80173234_S_80173234_1 *)motion)->unk_04.at02.v - 0x20;
                 ((R08_80173234_S_80173234_1 *)motion)->unk_10 =
-                    ((target_y - current_y) << 15) / ((R08_80173234_S_80173234_0 *)action)->unk_96.s;
+                    ((target_y - current_y) << 15) / ((R08_80173234_S_80173234_0 *)action)->timer.s;
             }
         }
 
-        move_timer = ((R08_80173234_S_80173234_0 *)action)->unk_96.u - 1;
-        ((R08_80173234_S_80173234_0 *)action)->unk_96.s = move_timer;
+        move_timer = ((R08_80173234_S_80173234_0 *)action)->timer.u - 1;
+        ((R08_80173234_S_80173234_0 *)action)->timer.s = move_timer;
         if ((s32)(move_timer << 16) > 0) {
             return;
         }
@@ -2094,19 +2094,19 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
     u16 angle;
     u16 saved_angle;
     R08_80174648_S_80174648_2 *effect_work = ((u8 *)(&g_game_work));
-    state = ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B;
+    state = ((R08_80174648_S_80174648_0 *)effect_state)->phase;
     if (state >= 9) {
         return;
     }
     switch (state) {
     case 0:
-        ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+        ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
         return;
 
     case 1:
         run_cd_image_commands(((u8 *)D_80174CF4), ((u8 *)D_80174D18), 0);
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_B0 = 0;
-        ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+        ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
         saved_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
         ((R08_80174648_S_80174648_1 *)actor)->unk_8A = saved_angle;
         /* fallthrough */
@@ -2129,8 +2129,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         ((u8 *)D_80174D19)[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80174D19));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-        ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+        ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
+        ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
 
     case 3:
         {
@@ -2138,13 +2138,13 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             u8 effect_ready;
             u8 *target_color;
 
-            frames_left = ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.u;
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.u = frames_left - 1;
+            frames_left = ((R08_80174648_S_80174648_0 *)effect_state)->timer.u;
+            ((R08_80174648_S_80174648_0 *)effect_state)->timer.u = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_ready = ((u8 *)D_80174D19)[0];
-                ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.u = frames_left;
+                ((R08_80174648_S_80174648_0 *)effect_state)->timer.u = frames_left;
                 if (effect_ready != 0) {
-                    ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+                    ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                     return;
                 }
@@ -2152,11 +2152,11 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             }
             target_color = ((void * *)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
             effect_work->unk_A8 += (((R08_80174648_S_80174648_3 *)target_color)->unk_00
-                - effect_work->unk_A8) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
+                - effect_work->unk_A8) / ((R08_80174648_S_80174648_0 *)effect_state)->timer.s;
             effect_work->unk_A9 += (((R08_80174648_S_80174648_3 *)target_color)->unk_01
-                - effect_work->unk_A9) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
+                - effect_work->unk_A9) / ((R08_80174648_S_80174648_0 *)effect_state)->timer.s;
             effect_work->unk_AA += (((R08_80174648_S_80174648_3 *)target_color)->unk_02
-                - effect_work->unk_AA) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
+                - effect_work->unk_AA) / ((R08_80174648_S_80174648_0 *)effect_state)->timer.s;
             return;
         }
 
@@ -2188,8 +2188,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             }
             select_record_entry_and_value(effect_work, ((u8 *)dungeon_resource_buffer) + (s32)((void * *)D_80174CFC)[variant], 0);
             entity->flags |= 0x80;
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0;
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+            ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0;
+            ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
             create_positioned_sprite_effect(effect_state, position, entity);
             return;
         }
@@ -2199,8 +2199,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             effect_work = ((R08_80174648_S_80174648_0 *)effect_state)->unk_AC;
             effect_work = effect_work->unk_0C.p;
             if (effect_work->unk_14 & 0xE000) {
-                ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-                ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+                ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
+                ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
                 decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
                 update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
                 unlink_entity_node(actor);
@@ -2208,7 +2208,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
                 effect_work->unk_10.i |= 0x80000000;
             }
     case 6:
-            if (((R08_80174648_S_80174648_0 *)effect_state)->unk_9B != 6) {
+            if (((R08_80174648_S_80174648_0 *)effect_state)->phase != 6) {
                 return;
             }
         }
@@ -2217,8 +2217,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             if (create_status_linked_render_effect(position, ((void * *)D_80174D1C)[0], ((s16 *)D_80174D14)[0], ((s32 *)staged_spawn_count)) == 0) {
                 return;
             }
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+            ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
+            ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
             decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
@@ -2236,8 +2236,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
             }
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
+            ((R08_80174648_S_80174648_0 *)effect_state)->timer.s = 0x10;
+            ((R08_80174648_S_80174648_0 *)effect_state)->phase++;
             ((R08_80174648_S_80174648_10 *)(((R08_80174648_S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
@@ -2252,8 +2252,8 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
     case 8:
         {
 
-            ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.u--;
-            if (((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s > 0) {
+            ((R08_80174648_S_80174648_0 *)effect_state)->timer.u--;
+            if (((R08_80174648_S_80174648_0 *)effect_state)->timer.s > 0) {
                 return;
             }
             ((R08_80174648_S_80174648_10 *)(((R08_80174648_S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;

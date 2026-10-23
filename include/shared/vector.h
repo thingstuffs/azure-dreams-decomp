@@ -19,7 +19,8 @@ typedef struct GteTranslationVector {
     int vz; /* transformed Z translation component */
 } GteTranslationVector;
 
-/* Three signed coordinate/vector words; units remain defined by the caller. */
+/* Three signed words used as coordinates or vectors in caller-owned storage.
+ * This type supplies no allocation or common scale: read each producer for world/fixed-point units and lifetime. */
 typedef struct IntVector3 {
     int x;
     int y;

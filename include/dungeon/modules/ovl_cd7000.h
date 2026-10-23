@@ -4,7 +4,7 @@
 /* Contracts owned by src/dungeon/modules/ovl_cd7000.c. */
 #include "modules/dungeon_ovl_cd7000.h"
 
-void init_gray_sprite_slot_a(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD7000_8017087C_CopyFields *source_coords);
+void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD7000_8017087C_CopyFields *source_coords);
 void update_growing_rotating_fade_slot_a(void *effect, void *unused, void *visual);
 void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_height);
 void update_block_motion_and_facing_slot_a(void *entity, CL_CD7000_80170C24_S_80170C24_2 *motion, void *monster);
@@ -39,7 +39,7 @@ s32 draw_linked_effect_quads_slot_a(void *point, void *position, void *color);
 void update_flashing_effect_segment_slot_a(u8 *effect, s32 *position, s32 effect_param);
 void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
 void begin_block_action_23_slot_a(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CD7000_80174B3C_S_80174B3C_0 *entity);
-void restore_scene_tint_after_animation_slot_a(u8 *task, void *context, u8 *input);
+void restore_scene_tint_slot_a(u8 *task, void *context, u8 *input);
 void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
 void finish_block_floor_trap_slot_a(CL_CD7000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void finish_block_action_flag_slot_a(CL_CD7000_80175274_CallbackState *state,void *position,void *sprite,void *entity);

@@ -44,7 +44,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];
 extern u8 pulunpa_action_resume_address[];
-extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
+extern u8 pulunpa_variant_action_address[];
 extern u8 pulunpa_frame_set_1[];
 #include "dungeon/monster/pulunpa.h"
 extern u8 pulunpa_frame_set_2[];
@@ -110,7 +110,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 state->frameTable = pulunpa_frame_set_1;
             } else {
                 ((S_80CBD000_4 *)actor)->unk_A7 = 1;
-                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
+                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_variant_action_address;
                 state->frameTable = pulunpa_frame_set_2;
             }
         } else {

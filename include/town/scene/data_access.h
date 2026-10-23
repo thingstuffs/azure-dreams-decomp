@@ -8,7 +8,7 @@ s32 *get_scene_entry_data_b(void);
 s32 *get_scene_entry_data_c(void);
 s32 *get_scene_entry_data_d(void);
 s32 *get_scene_entry_data_e(void);
-s32 get_null_scene_entry_data(void);
+s32 scene_condition_false_a(void);
 u8 *get_scene_entry_bytes(void);
 void initialize_scene_entry_data_a(void);
 void initialize_scene_entry_data_b(void);

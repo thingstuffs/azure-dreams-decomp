@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_moving_views.h"
 
 
 
@@ -14,6 +15,22 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
 
 void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, SpriteFrameState *part);
 void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+
+struct S_800AC480_0;
+struct S_800AC480_3;
+s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *state, ObjectPosition *motion, MovingTile *tile, struct S_800AC480_3 *height);
+void run_terrain_tile_interpolation(void *owner, ObjectPosition *motion, MovingTile *tile, void *height);
+
+struct CallbackOwner;
+struct Rec_func_800A9E70_arg0;
+struct Rec_D_80082E80;
+s32 update_actor_transform_from_parent(struct Rec_func_800A9E70_arg0 *state, ObjectPosition *position, struct Rec_D_80082E80 *tile, void *actor);
+void install_actor_action_handler_after_floor_trap_check(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
+
+s32 update_thrown_actor_travel(void *state, ObjectPosition *position, SpriteFrameState *tile, ActorRecord *actor);
+void install_actor_action_handler_after_thrown_travel(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
+
+s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
 
 
 /* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion

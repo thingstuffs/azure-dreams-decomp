@@ -14,7 +14,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 nyuel_action_resume_address;
-extern u8 pulunpa_advance_actor_state_and_dispatch_address;
+extern u8 pulunpa_variant_action_address;
 extern Callback nyuel_callbacks[];
 extern Callback D_80176380[];
 extern Callback D_801763E0[];

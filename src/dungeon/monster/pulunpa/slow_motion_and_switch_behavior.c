@@ -24,7 +24,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 pulunpa_action_resume_address[];
-extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
+extern u8 pulunpa_variant_action_address[];
 extern u8 D_80176318[];
 extern u8 D_80176378[];
 
@@ -146,7 +146,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         if (state->unk_A7 != 0) {
-            state->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
+            state->unk_8C = pulunpa_variant_action_address;
         } else {
             state->unk_8C = pulunpa_action_resume_address;
         }

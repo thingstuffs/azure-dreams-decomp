@@ -244,70 +244,70 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     s32 expanded_floor;
     Row_8191CD78_S_func_80024578_4 *finished_render;
 
-    frame = effect->unk_10.u16;
-    state = effect->unk_0A.s16;
-    actor = effect->unk_00;
-    effect->unk_10.u16 = (u16)(frame + 1);
+    frame = effect->timer.u16;
+    state = effect->phase.s16;
+    actor = effect->caster;
+    effect->timer.u16 = (u16)(frame + 1);
     switch (state) {
     case 0:
-        effect->unk_10.u16 = 0;
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_0E = (u16)((actor->unk_2A >> 9) & 7);
-        render->unk_0C = 0x808080;
+        effect->timer.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->direction = (u16)((actor->facing >> 9) & 7);
+        render->color = 0x808080;
     case 1:
         work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
-        if (resolve_record_orientation_or_fallback(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
-            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
+        if (resolve_record_orientation_or_fallback(motion_data->source, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
+            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->flags & 0x8000) == 0) {
                 break;
             }
         }
         origin_pos = work_base->unk_08.ptr;
-        position->unk_00.parts_02.unk_02.u16 = origin_pos->unk_02;
-        position->unk_04.parts_06.unk_06.u16 = origin_pos->unk_06;
-        copied_z = origin_pos->unk_0A;
-        position->unk_08.parts_0A.unk_0A.u16 = copied_z;
+        position->x.parts_02.unk_02.u16 = origin_pos->x;
+        position->y.parts_06.unk_06.u16 = origin_pos->y;
+        copied_z = origin_pos->z;
+        position->z.parts_0A.unk_0A.u16 = copied_z;
         {
             u16 next_z;
 
-            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
-                position->unk_00.parts_02.unk_02.u16 = (u16)(position->unk_00.parts_02.unk_02.u16 + DELTA(0));
-                position->unk_04.parts_06.unk_06.u16 = (u16)(position->unk_04.parts_06.unk_06.u16 + DELTA(1));
+            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->flags & 0x8000) == 0) {
+                position->x.parts_02.unk_02.u16 = (u16)(position->x.parts_02.unk_02.u16 + DELTA(0));
+                position->y.parts_06.unk_06.u16 = (u16)(position->y.parts_06.unk_06.u16 + DELTA(1));
                 {
                     u16 position_z;
                     s32 offset_z;
 
-                    position_z = position->unk_08.parts_0A.unk_0A.u16;
+                    position_z = position->z.parts_0A.unk_0A.u16;
                     offset_z = (u16)DELTA(2);
                     next_z = (u16)(position_z + offset_z);
                 }
-                position->unk_08.parts_0A.unk_0A.u16 = next_z;
+                position->z.parts_0A.unk_0A.u16 = next_z;
             } else {
                 next_z = (u16)(copied_z - 64);
-                position->unk_08.parts_0A.unk_0A.u16 = next_z;
+                position->z.parts_0A.unk_0A.u16 = next_z;
             }
         }
-        if ((((Row_8191CD78_S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((Row_8191CD78_S_func_80024578_8 *)(effect->launch_flags))->flags & 0x80) == 0) {
             break;
         }
-        target = actor->unk_60;
+        target = actor->target;
         index = 1;
         if (target != 0) {
-            work_base = ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_08;
-            effect->unk_20 = work_base;
-            effect->unk_1C = actor->unk_60;
-            effect->unk_24 =
-                ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_0C;
-            effect->unk_16.u16 = ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_88.u16;
-            effect->unk_18 = ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A;
+            work_base = ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->target) - 0x20))->position;
+            effect->target_position = work_base;
+            effect->target = actor->target;
+            effect->target_sprite =
+                ((Row_8191CD78_S_func_80024578_11 *)((u8 *)(actor->target) - 0x20))->sprite;
+            effect->target_ground_height.u16 = ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->ground_height.u16;
+            effect->saved_facing = ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing;
 
-            abs_delta_x = abs((work_base->unk_00.parts_02.unk_02.s16) - (position->unk_00.parts_02.unk_02.s16));
+            abs_delta_x = abs((work_base->unk_00.parts_02.unk_02.s16) - (position->x.parts_02.unk_02.s16));
             DELTA(0) = (s16)abs_delta_x;
             {
                 s32 distance_y;
                 s32 position_y;
                 distance_y = work_base->unk_04.parts_06.unk_06.s16;
-                position_y = position->unk_04.parts_06.unk_06.s16;
+                position_y = position->y.parts_06.unk_06.s16;
                 distance_y -= position_y;
                 distance_y = abs(distance_y);
                 DELTA(1) = (s16)distance_y;
@@ -315,8 +315,8 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             {
                 s32 distance_z;
                 s32 position_z;
-                position_z = position->unk_08.parts_0A.unk_0A.s16;
-                distance_z = ((Row_8191CD78_S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
+                position_z = position->z.parts_0A.unk_0A.s16;
+                distance_z = ((Row_8191CD78_S_func_80024578_3 *)(actor->target))->ground_height.s16;
 
                 delta_cursor = (s16 *)(scratch + 2);
                 distance_z -= position_z;
@@ -339,14 +339,14 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             if (travel_frames == 0) {
                 effect->unk_12 = 1;
             }
-            position->unk_0C =
-                (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
-            position->unk_10 =
-                (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
-            position->unk_14 =
-                (((s32)((Row_8191CD78_S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
-                 position->unk_08.s32) / effect->unk_12;
-            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+            position->velocity_x =
+                (work_base->unk_00.s32 - position->x.s32) / effect->unk_12;
+            position->velocity_y =
+                (work_base->unk_04.s32 - position->y.s32) / effect->unk_12;
+            position->velocity_z =
+                (((s32)((Row_8191CD78_S_func_80024578_3 *)(actor->target))->ground_height.s16 << 16) -
+                 position->z.s32) / effect->unk_12;
+            effect->phase.u16 = (u16)(effect->phase.u16 + 1);
         } else {
             index = 0;
             map_data = work_base->unk_0C;
@@ -365,28 +365,28 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                 s32 y_adjust;
                 s16 *x_adjust_table;
 
-                tile_y = map_data->unk_25;
-                tile_x = map_data->unk_24;
+                tile_y = map_data->tile_y;
+                tile_x = map_data->tile_x;
                 last_tile_y = (u16)tile_y;
                 last_tile_x = tile_x;
                 do {
                     signed_tile_x = (s16)tile_x;
                     signed_tile_y = (s16)tile_y;
                     if ((check_layer_offset_height((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
-                                       actor->unk_88.s16,
-                                       (s16)(effect->unk_0E << 9)) << 16) == 0) {
+                                       actor->ground_height.s16,
+                                       (s16)(effect->direction << 9)) << 16) == 0) {
                         s16 floor = sample_terrain_surface_height(
-                            ((signed_tile_x + ((s16 *)((u8 *)dir_step_x))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                            ((signed_tile_y + ((s16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                            (s16)(actor->unk_88.s16 - 0x20));
-                        if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
+                            ((signed_tile_x + ((s16 *)((u8 *)dir_step_x))[(s16)effect->direction]) << 6) + 0x20 & 0xFFE0,
+                            ((signed_tile_y + ((s16 *)((u8 *)dir_step_y))[(s16)effect->direction]) << 6) + 0x20 & 0xFFE0,
+                            (s16)(actor->ground_height.s16 - 0x20));
+                        if ((floor < 513) && ((s16)(floor - actor->ground_height.s16) >= -63)) {
                             u16 next_tile_x;
                             s32 next_tile_y;
 
                             index++;
-                            next_tile_x = tile_x + ((u16 *)((u8 *)dir_step_x))[(s16)effect->unk_0E];
+                            next_tile_x = tile_x + ((u16 *)((u8 *)dir_step_x))[(s16)effect->direction];
                             tile_x = next_tile_x;
-                            next_tile_y = tile_y + ((u16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E];
+                            next_tile_y = tile_y + ((u16 *)((u8 *)dir_step_y))[(s16)effect->direction];
                             last_tile_y = (u16)next_tile_y;
                             tile_y = next_tile_y;
                             last_tile_x = next_tile_x;
@@ -409,9 +409,9 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                 y_base = (s32)tile_y_bits << 16;
                 y_base >>= 10;
                 floor_y = y_base + 0x20;
-                x_adjust = x_adjust_table[(s16)effect->unk_0E];
+                x_adjust = x_adjust_table[(s16)effect->direction];
                 work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
-                y_adjust = ((s16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E];
+                y_adjust = ((s16 *)((u8 *)dir_step_y))[(s16)effect->direction];
                 floor_y &= 0xFFE0;
                 work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
                 final_floor = sample_terrain_surface_height(floor_x, floor_y, floor_limit);
@@ -423,17 +423,17 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
 
                     work_base->unk_08.parts_0A.unk_0A = final_floor;
                     expanded_floor = (s32)final_floor << 16;
-                    abs_delta_x_2 = abs((s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16);
+                    abs_delta_x_2 = abs((s16)work_base->unk_00.parts_02.unk_02.u16 - position->x.parts_02.unk_02.s16);
                     DELTA(0) = (s16)abs_delta_x_2;
                     widened_y = work_base->unk_04.parts_06.unk_06.u16;
-                    position_y = position->unk_04.parts_06.unk_06.s16;
+                    position_y = position->y.parts_06.unk_06.s16;
                     widened_y <<= 16;
                     widened_y >>= 16;
                     widened_y -= position_y;
                     widened_y = abs(widened_y);
                     DELTA(1) = (s16)widened_y;
                     expanded_floor >>= 16;
-                    expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
+                    expanded_floor -= position->z.parts_0A.unk_0A.s16;
                     DELTA(2) = (s16)(abs(expanded_floor));
                     effect->unk_12 = DELTA(0);
                     do {
@@ -450,74 +450,74 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             if (travel_frames == 0) {
                 effect->unk_12 = 1;
             }
-            position->unk_0C =
-                (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
-            position->unk_10 =
-                (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
-            position->unk_14 =
-                (work_base->unk_08.s32 - position->unk_08.s32) / effect->unk_12;
+            position->velocity_x =
+                (work_base->unk_00.s32 - position->x.s32) / effect->unk_12;
+            position->velocity_y =
+                (work_base->unk_04.s32 - position->y.s32) / effect->unk_12;
+            position->velocity_z =
+                (work_base->unk_08.s32 - position->z.s32) / effect->unk_12;
 
-            effect->unk_0A.u16 = 11;
+            effect->phase.u16 = 11;
         }
-        effect->unk_10.u16 = 0;
+        effect->timer.u16 = 0;
 
         create_scaled_rotating_effect(effect, position);
         break;
 
     case 3:
-        position->unk_00.s32 += position->unk_0C;
-        position->unk_04.s32 += position->unk_10;
-        position->unk_08.s32 += position->unk_14;
-        if (effect->unk_10.s16 < effect->unk_12) {
+        position->x.s32 += position->velocity_x;
+        position->y.s32 += position->velocity_y;
+        position->z.s32 += position->velocity_z;
+        if (effect->timer.s16 < effect->unk_12) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         {
-            Row_8191CD78_S_func_80024578_3 *owner = effect->unk_1C;
+            Row_8191CD78_S_func_80024578_3 *owner = effect->target;
             s32 flags;
 
-            effect->unk_1A.u16 = 0;
-            flags = owner->unk_14;
+            effect->added_property_flag.u16 = 0;
+            flags = owner->property_flags;
             if ((flags & 0x100000) == 0) {
-                owner->unk_14 = flags | 0x100000;
-                effect->unk_1A.u16 = 1;
+                owner->property_flags = flags | 0x100000;
+                effect->added_property_flag.u16 = 1;
             }
         }
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 4:
         if (read_sound_mode_blocking_status(4) == 1) {
-            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-            effect->unk_10.u16 = 0;
+            effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+            effect->timer.u16 = 0;
             break;
         }
         break;
 
     case 6:
-        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
-            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 - effect->unk_10.u16);
-        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
-        if (effect->unk_10.s16 >= 28) {
-            finished_render = effect->unk_24;
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A.u16 =
+            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A.u16 - effect->timer.u16);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
+        if (effect->timer.s16 >= 28) {
+            finished_render = effect->target_sprite;
 
-            state = finished_render->unk_1A;
+            state = finished_render->angle_z;
             state += 0x800;
-            finished_render->unk_1A = state;
-            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-            effect->unk_10.u16 = 0;
+            finished_render->angle_z = state;
+            effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+            effect->timer.u16 = 0;
             break;
         }
         break;
 
     case 7:
-        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
-            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 + effect->unk_10.s16 * 4);
-        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A.u16 =
+            (u16)(((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.parts_0A.unk_0A.u16 + effect->timer.s16 * 4);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
         {
             u8 *height_base;
             Row_8191CD78_S_func_80024578_2 *target_pos;
@@ -527,15 +527,15 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             s32 effect_size;
 
             height_base = entity_height_offsets;
-            owner = effect->unk_1C;
-            target_pos = effect->unk_20;
-            height_entry = (Row_8191CD78_S_func_80024578_10 *)(height_base + owner->unk_13);
+            owner = effect->target;
+            target_pos = effect->target_position;
+            height_entry = (Row_8191CD78_S_func_80024578_10 *)(height_base + owner->species);
             effect_size = 16;
-            if (target_pos->unk_08.parts_0A.unk_0A.s16 >=
-                effect->unk_16.s16 - height_entry->unk_00) {
+            if (target_pos->z.parts_0A.unk_0A.s16 >=
+                effect->target_ground_height.s16 - height_entry->unk_00) {
                 delta_x = 8;
-                max_height = effect->unk_16.u16;
-                target_pos->unk_08.parts_0A.unk_0A.u16 =
+                max_height = effect->target_ground_height.u16;
+                target_pos->z.parts_0A.unk_0A.u16 =
                     (u16)(max_height - height_entry->unk_00);
                 initialize_timed_motion_step(delta_x, effect_size);
                 index = 0;
@@ -543,109 +543,109 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                     create_randomized_source_effect(effect);
                     index++;
                 } while (index < 8);
-                effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-                effect->unk_10.u16 = 0;
+                effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+                effect->timer.u16 = 0;
                 break;
             }
         }
         break;
 
     case 8:
-        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
-            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing =
+            (u16)(((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing + 0x200);
         index = 0;
-        if (effect->unk_10.s16 == 2) {
+        if (effect->timer.s16 == 2) {
             do {
                 create_randomized_source_effect(effect);
                 index++;
             } while (index < 8);
         }
-        if (effect->unk_10.s16 < 12) {
+        if (effect->timer.s16 < 12) {
             break;
         }
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 9:
-        if (effect->unk_10.s16 < 4) {
+        if (effect->timer.s16 < 4) {
             break;
         }
-        ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.s32 = effect->unk_28.s32;
-        ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_2A = effect->unk_18;
-        if (effect->unk_1A.s16 != 0) {
-            ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_14 &= 0xFFEFFFFF;
+        ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.s32 = effect->saved_z.s32;
+        ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->facing = effect->saved_facing;
+        if (effect->added_property_flag.s16 != 0) {
+            ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->property_flags &= 0xFFEFFFFF;
         }
-        ((Row_8191CD78_S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
-        apply_attack_power_and_element_effects(actor->unk_60, 24, effect->unk_09, 4,
-                      (s16)(effect->unk_0E << 9), actor, 1);
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        ((Row_8191CD78_S_func_80024578_4 *)(effect->target_sprite))->angle_z -= 0x800;
+        apply_attack_power_and_element_effects(actor->target, 24, effect->variant, 4,
+                      (s16)(effect->direction << 9), actor, 1);
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 10:
-        if (effect->unk_14.s16 != 0) {
+        if (effect->child_updates.s16 != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
-        ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
+        ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 2:
     case 11:
         create_scaled_rotating_effect(effect, position);
-        if (effect->unk_10.s16 < 15) {
+        if (effect->timer.s16 < 15) {
             break;
         }
         {
-            void *saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->unk_20))->unk_08.ptr;
+            void *saved_height = ((Row_8191CD78_S_func_80024578_2 *)(effect->target_position))->z.ptr;
 
-            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-            effect->unk_10.u16 = 0;
-            effect->unk_28.ptr = saved_height;
+            effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+            effect->timer.u16 = 0;
+            effect->saved_z.ptr = saved_height;
         }
         break;
 
     case 12:
-        position->unk_00.s32 += position->unk_0C;
-        position->unk_04.s32 += position->unk_10;
-        position->unk_08.s32 += position->unk_14;
-        if (effect->unk_10.s16 < effect->unk_12) {
+        position->x.s32 += position->velocity_x;
+        position->y.s32 += position->velocity_y;
+        position->z.s32 += position->velocity_z;
+        if (effect->timer.s16 < effect->unk_12) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 13:
         if (read_sound_mode_blocking_status(4) != 1) {
             break;
         }
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 5:
     case 14:
-        if (effect->unk_10.s16 < 7) {
+        if (effect->timer.s16 < 7) {
             break;
         }
 
-        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-        effect->unk_10.u16 = 0;
+        effect->phase.u16 = (u16)(effect->phase.u16 + 1);
+        effect->timer.u16 = 0;
         break;
 
     case 15:
-        if (effect->unk_10.s16 >= 28) {
+        if (effect->timer.s16 >= 28) {
             play_sound_if_enabled(116);
-            effect->unk_0A.u16 = 10;
-            effect->unk_10.u16 = 0;
+            effect->phase.u16 = 10;
+            effect->timer.u16 = 0;
         }
         break;
     }
 
-    effect->unk_14.u16 = 0;
+    effect->child_updates.u16 = 0;
 }

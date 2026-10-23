@@ -1272,11 +1272,11 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, Sprit
     u16 timer;
     s32 state;
 
-    state = ((R10_80173080_S_80173080_0 *)action)->unk_9B;
+    state = ((R10_80173080_S_80173080_0 *)action)->phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((R10_80173080_S_80173080_0 *)action)->unk_9B = 3;
+            ((R10_80173080_S_80173080_0 *)action)->phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
@@ -1284,12 +1284,12 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, Sprit
         ((R10_80173080_S_80173080_3 *)motion)->unk_14 = 0;
         ((R10_80173080_S_80173080_3 *)motion)->unk_10 = 0;
         ((R10_80173080_S_80173080_3 *)motion)->unk_0C = 0;
-        ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
-        ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
+        ((R10_80173080_S_80173080_0 *)action)->timer.u = 0;
+        ((R10_80173080_S_80173080_0 *)action)->phase++;
         return;
     case 1:
-        timer = ((R10_80173080_S_80173080_0 *)action)->unk_96.u + 1;
-        ((R10_80173080_S_80173080_0 *)action)->unk_96.u = timer;
+        timer = ((R10_80173080_S_80173080_0 *)action)->timer.u + 1;
+        ((R10_80173080_S_80173080_0 *)action)->timer.u = timer;
         if (((s16)timer == 4) || (sprite->flags & 0x8000)) {
             u8 *direction_table = ((u8 *)snowman_attack_frames);
 
@@ -1297,20 +1297,20 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, Sprit
             select_sprite_entry(sprite,
                           direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
-            ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
-            ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
+            ((R10_80173080_S_80173080_0 *)action)->timer.u = 0;
+            ((R10_80173080_S_80173080_0 *)action)->phase++;
             return;
         }
         return;
     case 2:
-        timer = ((R10_80173080_S_80173080_0 *)action)->unk_96.u + 1;
-        ((R10_80173080_S_80173080_0 *)action)->unk_96.u = timer;
+        timer = ((R10_80173080_S_80173080_0 *)action)->timer.u + 1;
+        ((R10_80173080_S_80173080_0 *)action)->timer.u = timer;
         if (((s16)timer == 7) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
-            ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
-            ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
+            ((R10_80173080_S_80173080_0 *)action)->timer.u = 0;
+            ((R10_80173080_S_80173080_0 *)action)->phase++;
         }
-        if (((R10_80173080_S_80173080_0 *)action)->unk_96.s == 5) {
+        if (((R10_80173080_S_80173080_0 *)action)->timer.s == 5) {
             play_sound_if_enabled(0x808);
             return;
         }
@@ -1340,7 +1340,7 @@ void advance_actor_spell_effect_sequence(void *actor, ObjectPosition *motion, Sp
     s16 effect_flags;
     s16 action_dep;
 
-    state = ((R10_80173280_S_80173280_0 *)actor)->unk_9B;
+    state = ((R10_80173280_S_80173280_0 *)actor)->phase;
     effect_flags = 0;
     switch (state) {
     case 0:
@@ -1430,9 +1430,9 @@ use_kind:
             }
         }
         if (create_actor_spell_effect(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
-            ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0x18;
+            ((R10_80173280_S_80173280_0 *)actor)->timer.s = 0x18;
             ((R10_80173280_S_80173280_0 *)actor)->unk_9E = 4;
-            ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
+            ((R10_80173280_S_80173280_0 *)actor)->phase++;
             return;
         }
         return;
@@ -1461,7 +1461,7 @@ case 1:
         return;
     }
     tile_arg->flags &= 0xF7FF;
-    ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
+    ((R10_80173280_S_80173280_0 *)actor)->phase++;
     play_sound_if_enabled(0x703);
 
 case 2:
@@ -1480,27 +1480,27 @@ case 2:
     if ((s16)((R10_80173280_S_80173280_0 *)actor)->unk_9E == 1) {
         tile_arg->flags |= 0x800;
     }
-    if (((R10_80173280_S_80173280_0 *)actor)->unk_96.u == 5) {
+    if (((R10_80173280_S_80173280_0 *)actor)->timer.u == 5) {
         tile_arg->flags &= 0xF7FF;
     }
-    ((R10_80173280_S_80173280_0 *)actor)->unk_96.s--;
-    if ((s16)((R10_80173280_S_80173280_0 *)actor)->unk_96.s > 0 &&
+    ((R10_80173280_S_80173280_0 *)actor)->timer.s--;
+    if ((s16)((R10_80173280_S_80173280_0 *)actor)->timer.s > 0 &&
         !(tile_arg->flags & 0xE000)) {
         return;
     }
     ((R10_80173280_S_80173280_0 *)actor)->unk_98 |= 0x80;
-    ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
+    ((R10_80173280_S_80173280_0 *)actor)->phase++;
     tile_arg->flags |= 0x800;
-    ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0x14;
+    ((R10_80173280_S_80173280_0 *)actor)->timer.s = 0x14;
     return;
 
 case 3:
     kind_data = ((u8 *)(&g_dungeon_status));
     if (((R10_80173280_S_80173280_7 *)kind_data)->unk_0C == 0) {
-        ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0;
+        ((R10_80173280_S_80173280_0 *)actor)->timer.s = 0;
     }
-    ((R10_80173280_S_80173280_0 *)actor)->unk_96.s--;
-    if ((s16)((R10_80173280_S_80173280_0 *)actor)->unk_96.s <= 0) {
+    ((R10_80173280_S_80173280_0 *)actor)->timer.s--;
+    if ((s16)((R10_80173280_S_80173280_0 *)actor)->timer.s <= 0) {
         *(u16 *)((u8 *)actor + 0x96) = 0;
         tile_arg->flags &= 0xF7FF;
     }
@@ -1562,12 +1562,12 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
 {
     s32 state;
 
-    state = ((R10_8017380C_S_8017380C_0 *)action)->unk_9B;
+    state = ((R10_8017380C_S_8017380C_0 *)action)->phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = 4;
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_9B++;
+        ((R10_8017380C_S_8017380C_0 *)action)->timer.s = 4;
+        ((R10_8017380C_S_8017380C_0 *)action)->phase++;
         if (actor->unk_28 == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1578,16 +1578,16 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
         if (!(entity->flags & 0x8000)) {
             return;
         }
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = 0;
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_9B = 3;
+        ((R10_8017380C_S_8017380C_0 *)action)->timer.s = 0;
+        ((R10_8017380C_S_8017380C_0 *)action)->phase = 3;
         return;
 
     case 1:
     {
         s16 frames_left;
 
-        frames_left = ((R10_8017380C_S_8017380C_0 *)action)->unk_96.u - 1;
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = frames_left;
+        frames_left = ((R10_8017380C_S_8017380C_0 *)action)->timer.u - 1;
+        ((R10_8017380C_S_8017380C_0 *)action)->timer.s = frames_left;
         if (frames_left > 0) {
             motion->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
@@ -1606,8 +1606,8 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((actor->unk_6A >> 8) & 0xE)) << 18;
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = 6;
-        ((R10_8017380C_S_8017380C_0 *)action)->unk_9B++;
+        ((R10_8017380C_S_8017380C_0 *)action)->timer.s = 6;
+        ((R10_8017380C_S_8017380C_0 *)action)->phase++;
         return;
     }
 
@@ -1624,24 +1624,24 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
             s32 origin_y;
             u16 previous_frames;
 
-            return_frames = ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s;
+            return_frames = ((R10_8017380C_S_8017380C_0 *)action)->timer.s;
             if (return_frames != 0) {
                 motion->velocity_x =
                     (((entity->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / return_frames;
                 origin_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     (((entity->tile_y << 6) - origin_y) << 16) /
-                    ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s;
+                    ((R10_8017380C_S_8017380C_0 *)action)->timer.s;
             }
-            previous_frames = ((R10_8017380C_S_8017380C_0 *)action)->unk_96.u;
-            ((R10_8017380C_S_8017380C_0 *)action)->unk_96.s = previous_frames - 1;
+            previous_frames = ((R10_8017380C_S_8017380C_0 *)action)->timer.u;
+            ((R10_8017380C_S_8017380C_0 *)action)->timer.s = previous_frames - 1;
             if ((s32)(previous_frames << 16) > 0) {
                 return;
             }
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((R10_8017380C_S_8017380C_0 *)action)->unk_9B++;
+            ((R10_8017380C_S_8017380C_0 *)action)->phase++;
             return;
         }
 
@@ -2500,18 +2500,18 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
     u8 state;
     u32 next_state;
 
-    state = ((R10_80175398_S_80175398_0 *)transition)->unk_9B;
+    state = ((R10_80175398_S_80175398_0 *)transition)->phase;
     switch (state) {
 
     case 0:
-        next_state = ((R10_80175398_S_80175398_0 *)transition)->unk_9B + 1;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B = next_state;
+        next_state = ((R10_80175398_S_80175398_0 *)transition)->phase + 1;
+        ((R10_80175398_S_80175398_0 *)transition)->phase = next_state;
         return;
 
     case 1:
         run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)D_80175A80), 0);
         ((R10_80175398_S_80175398_0 *)transition)->unk_AC = 0;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+        ((R10_80175398_S_80175398_0 *)transition)->phase++;
         ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
 
     case 2:
@@ -2534,24 +2534,24 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         (*(u8 *)D_80175A81) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175A81));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
+        ((R10_80175398_S_80175398_0 *)transition)->phase++;
     }
 
     case 3:
     {
-        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->unk_96.u;
+        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u;
         u16 timer = old_timer - 1;
         u8 *target_color;
 
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = timer;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
             u8 cd_finished = (*(u8 *)D_80175A81);
-            ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = old_timer;
+            ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer;
             if (cd_finished == 0) {
                 return;
             }
-            ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+            ((R10_80175398_S_80175398_0 *)transition)->phase++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
@@ -2559,13 +2559,13 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         target_color = ((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A8 +=
             (((R10_80175398_S_80175398_3 *)target_color)->unk_00 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
-            ((R10_80175398_S_80175398_0 *)transition)->unk_96.s;
+            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A9 +=
             (((R10_80175398_S_80175398_3 *)target_color)->unk_01 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A9) /
-            ((R10_80175398_S_80175398_0 *)transition)->unk_96.s;
+            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_AA +=
             (((R10_80175398_S_80175398_3 *)target_color)->unk_02 - ((R10_80175398_S_80175398_2 *)object_data)->unk_AA) /
-            ((R10_80175398_S_80175398_0 *)transition)->unk_96.s;
+            ((R10_80175398_S_80175398_0 *)transition)->timer.s;
         return;
     }
 
@@ -2600,15 +2600,15 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             select_record_entry_and_value(object_data, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175A00)[resource_index], 0);
         }
         record->flags |= 0x80;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0;
-        next_state = ((R10_80175398_S_80175398_0 *)transition)->unk_9B + 1;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B = next_state;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0;
+        next_state = ((R10_80175398_S_80175398_0 *)transition)->phase + 1;
+        ((R10_80175398_S_80175398_0 *)transition)->phase = next_state;
         return;
 
     case 5:
     {
-        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->unk_96.u;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = old_timer + 1;
+        u16 old_timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer + 1;
         if ((s16)old_timer < 30) {
             s16 update_count = 0;
             do {
@@ -2620,18 +2620,18 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         object_data = ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p2;
         object_data = ((R10_80175398_S_80175398_2 *)object_data)->unk_0C;
         if (((R10_80175398_S_80175398_2 *)object_data)->unk_14 & 0xE000) {
-            ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+            ((R10_80175398_S_80175398_0 *)transition)->phase++;
         }
 
     case 6:
-        if (((R10_80175398_S_80175398_0 *)transition)->unk_9B != 6) {
+        if (((R10_80175398_S_80175398_0 *)transition)->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), ((u8 *)staged_spawn_count)) == 0) {
             return;
         }
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
+        ((R10_80175398_S_80175398_0 *)transition)->phase++;
         decrement_monster_entry_count(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2646,8 +2646,8 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         if (linked_actor == NULL) {
             return;
         }
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
+        ((R10_80175398_S_80175398_0 *)transition)->phase++;
         ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
         {
             u8 *linked_state = ((R10_80175398_S_80175398_1 *)actor)->unk_60;
@@ -2664,8 +2664,8 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
     case 8:
     {
-        u16 timer = ((R10_80175398_S_80175398_0 *)transition)->unk_96.u - 1;
-        ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = timer;
+        u16 timer = ((R10_80175398_S_80175398_0 *)transition)->timer.u - 1;
+        ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

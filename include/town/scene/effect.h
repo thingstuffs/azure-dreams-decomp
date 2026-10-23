@@ -2,9 +2,11 @@
 #define TOWN_SCENE_EFFECT_H
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 
 
 /* advance_effect_and_reduce_scale.c */
-void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale);
+void advance_effect_and_reduce_scale(void *effect, ObjectPosition *motion, SpriteFrameState *scale);
 
 #endif

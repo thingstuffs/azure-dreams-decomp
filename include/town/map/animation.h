@@ -1,0 +1,57 @@
+#ifndef TOWN_MAP_ANIMATION_H
+#define TOWN_MAP_ANIMATION_H
+
+#include "common.h"
+#include "shared/entity.h"
+#include "shared/dungeon_delay_views.h"
+
+typedef union TownMapAnimHalf { s16 s; u16 u; } TownMapAnimHalf;
+
+/* The randomized spawner seeds the three anchor halves at +0C and the
+ * integer halves of the embedded motion at +1C. The animation callback
+ * updates both representations before spawning the impact sprite. */
+typedef struct TownMapEffectMotion {
+    Fixed1616 x, y, z;
+    Fixed1616 velocity_x, velocity_y, velocity_z;
+} TownMapEffectMotion;
+
+typedef struct TownMapFallingObject {
+    u8 pad_00[0xC];
+    TownMapAnimHalf unk_0C;
+    s16 unk_0E;
+    TownMapAnimHalf unk_10;
+    u8 pad_12[0xA];
+    TownMapEffectMotion motion;
+    u8 pad_34[0x14];
+    TownMapAnimHalf timer;
+    u8 pad_4A[2];
+    TownMapAnimHalf state;
+} TownMapFallingObject;
+
+typedef struct TownMapSpawnState {
+    u8 pad_00[8];
+    s16 base_y;
+    s16 span_y;
+    TownMapAnimHalf state;
+    u16 count;
+} TownMapSpawnState;
+
+/* initialize_object_header_and_state installs the phase callback and
+ * clears these fields; completion clears the linked activity byte. */
+typedef struct TownMapPhaseObject {
+    u8 pad_00[0x66];
+    s16 unk_66;
+    TownMapAnimHalf phase;
+    u8 pad_6A[2];
+    TownMapAnimHalf ticks;
+    u8 pad_6E[0x29];
+    s8 radius_bias;
+    s8 *activity;
+} TownMapPhaseObject;
+
+void advance_object_animation_and_effect(TownMapFallingObject *object);
+void spawn_randomized_timed_objects(TownMapSpawnState *source);
+void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
+void initialize_object_header_and_state(TownMapPhaseObject *objectState, DelayMotionZ *associatedState);
+
+#endif

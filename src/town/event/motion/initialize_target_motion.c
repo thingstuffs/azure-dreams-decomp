@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/scene/collision.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 
-void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis();              /* extern */
 extern void actor_target_motion_address();
 extern s32 town_target_height_offset[];
 

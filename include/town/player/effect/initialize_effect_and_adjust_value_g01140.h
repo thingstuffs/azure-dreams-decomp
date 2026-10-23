@@ -6,6 +6,7 @@ struct ObjectPosition;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134. */
 
 #include "common.h"
+#include "town/scene/collision.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
@@ -110,7 +111,6 @@ extern void register_node_if_unregistered(void *object, void *setup_data);
 void initialize_actor_action_state(void *object, EntityRec *state, s32 initData);
 extern u8 player_motion_draw_address[];
 extern s32 D_800D0CC0[];
-void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 /* extern */
 void process_scene_record_update(void *,struct ObjectPosition *, void *);
 /* extern */

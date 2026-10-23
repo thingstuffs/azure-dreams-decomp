@@ -250,9 +250,9 @@ typedef struct R16_801729D8_S_80173294_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; s16 p; } unk_96;   
+    union { s16 s; u16 u; s16 p; } timer;   
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } R16_801729D8_S_80173294_0;
 typedef struct R16_80172CCC_S_80173588_0 {
     u8 pad_00[0xA2];
@@ -551,7 +551,7 @@ void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource
 void update_overlay_object_action(void *owner, void *motion, struct SpriteFrameState *actor, void *object_in);
 void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
-void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, void *data);
+void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
 void advance_clown_removal(void *state, void *motion, void *position, void *actor);
 void finish_actor_hop_and_grow_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor);
 void advance_clown_status_action(void *actor, void *context, struct SpriteFrameState *render_record, ActorRecord *actor_state);

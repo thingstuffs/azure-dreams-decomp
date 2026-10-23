@@ -1077,12 +1077,12 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
     s32 facing;
     s32 state;
 
-    state = action->unk_9B;
+    state = action->phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            action->unk_9B = 3;
-            action->unk_96.s = 0;
+            action->phase = 3;
+            action->timer.s = 0;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1104,8 +1104,8 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
         select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
-        action->unk_96.s = 0;
-        action->unk_9B += 1;
+        action->timer.s = 0;
+        action->phase += 1;
         return;
 
     case 1:
@@ -1118,16 +1118,16 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
             select_sprite_entry(sprite,
                 (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
-            action->unk_96.s = 0x14;
-            action->unk_9B += 1;
+            action->timer.s = 0x14;
+            action->phase += 1;
             return;
         }
         return;
 
     case 2:
-        timer = action->unk_96.u - 1;
+        timer = action->timer.u - 1;
         z_velocity = motion->velocity_z;
-        action->unk_96.s = timer;
+        action->timer.s = timer;
         if (timer < 12) {
             z_velocity += 0x1400;
         } else {
@@ -1136,7 +1136,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
         motion->velocity_z = z_velocity;
         action->unk_90 += z_velocity;
 
-        if (action->unk_96.s == 0x11) {
+        if (action->timer.s == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x30000;
@@ -1156,21 +1156,21 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Obj
             (sprite->flags & 0x8000)) {
             motion->velocity_x =
                 ((((sprite->tile_x << 6) + 0x20) << 16) -
-                 motion->x.v) / action->unk_96.s;
+                 motion->x.v) / action->timer.s;
             motion->velocity_y =
                 ((((sprite->tile_y << 6) + 0x20) << 16) -
-                 motion->y.v) / action->unk_96.s;
+                 motion->y.v) / action->timer.s;
         }
 
-        if ((action->unk_96.s <= 0) ||
+        if ((action->timer.s <= 0) ||
             (sprite->flags & 0x8000)) {
-            action->unk_9B += 1;
+            action->phase += 1;
             return;
         }
         return;
 
     case 3:
-        if ((action->unk_96.s <= 0) ||
+        if ((action->timer.s <= 0) ||
             (sprite->flags & 0x8000)) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1421,12 +1421,12 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
     s32 tracked_entity;
 
     direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
-    switch (((R07_80173238_S_80173238_1 *)motion_state)->unk_9B) {
+    switch (((R07_80173238_S_80173238_1 *)motion_state)->phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         ((R07_80173238_S_80173238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
         ((R07_80173238_S_80173238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
+        ((R07_80173238_S_80173238_1 *)motion_state)->phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((R07_80173238_S_80173238_2 *)motion)->unk_14 = 0;
@@ -1436,8 +1436,8 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
             return;
         }
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-            ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = 0;
-            ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B = 3;
+            ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = 0;
+            ((R07_80173238_S_80173238_1 *)motion_state)->phase = 3;
             return;
         }
 
@@ -1446,7 +1446,7 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
         } else {
             timer = -1;
         }
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = timer;
+        ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = timer;
 
         ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((R07_80173238_S_80173238_2 *)motion)->unk_0C / 4;
         ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((R07_80173238_S_80173238_2 *)motion)->unk_10 / 4;
@@ -1455,13 +1455,13 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
         ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s > 0) {
-            ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.u - 1;
+        if (((R07_80173238_S_80173238_1 *)motion_state)->timer.s > 0) {
+            ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = ((R07_80173238_S_80173238_1 *)motion_state)->timer.u - 1;
         } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
-            ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = 0;
+            ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = 0;
         }
 
-        if (((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s != 0) {
+        if (((R07_80173238_S_80173238_1 *)motion_state)->timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -1476,7 +1476,7 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
             sprite,
             ((u8 *)grineut_frame_set_4)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
+        ((R07_80173238_S_80173238_1 *)motion_state)->phase++;
         return;
 
     case 2:
@@ -1491,12 +1491,12 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
             sprite,
             ((u8 *)grineut_frame_set_4)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = 8;
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
+        ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = 8;
+        ((R07_80173238_S_80173238_1 *)motion_state)->phase++;
         return;
 
     case 3:
-        timer = ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s;
+        timer = ((R07_80173238_S_80173238_1 *)motion_state)->timer.s;
         if (timer != 0) {
             {
                 s32 target_x = ((SpriteFrameState *)sprite)->tile_x << 6;
@@ -1507,12 +1507,12 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
                 s32 target_y = ((SpriteFrameState *)sprite)->tile_y << 6;
                 s32 current_y = ((R07_80173238_S_80173238_2 *)motion)->unk_04.at02.v - 0x20;
                 ((R07_80173238_S_80173238_2 *)motion)->unk_10 =
-                    ((target_y - current_y) << 15) / ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s;
+                    ((target_y - current_y) << 15) / ((R07_80173238_S_80173238_1 *)motion_state)->timer.s;
             }
         }
 
-        timer = ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.u - 1;
-        ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = timer;
+        timer = ((R07_80173238_S_80173238_1 *)motion_state)->timer.u - 1;
+        ((R07_80173238_S_80173238_1 *)motion_state)->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

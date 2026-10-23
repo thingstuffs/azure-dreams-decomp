@@ -14,8 +14,8 @@ extern short audio_command_queue[5];
 extern int   audio_slot_service_word[3];
 
 /* Initialize memory card services and disable automatic pad interrupt clearing. */
-void initialize_memory_card_services(void) {
-    InitCARD();
+void initialize_memory_card_services(s32 enable_pad) {
+    InitCARD(enable_pad);
     StartCARD();
     _bu_init();
     ChangeClearPAD(0);

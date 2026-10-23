@@ -606,7 +606,7 @@ void render_shaded_map_tiles(void) {
 /* Draw textured quads for empty cells in the visible map region. */
 void draw_empty_map_cell_quads(u32 packet_limit)
 {
-    u8 *scratch;
+    MapQuadScratch *scratch;
     u8 *state;
     u8 *map_bounds;
     u8 *render_state;
@@ -668,52 +668,52 @@ void draw_empty_map_cell_quads(u32 packet_limit)
 
     edge_buffer = (u8 *)0;
     edge_count_addr = (s32)edge_buffer;
-    scratch = (u8 *)0x1F800000;
+    scratch = (MapQuadScratch *)0x1F800000;
 
-    ((MapQuadScratch *)scratch)->normal_z = -0x1000;
+    scratch->normal_z = -0x1000;
 
     state = ((u8 *)(&g_game_work));
     map_bounds = state + 0x1DC;
-    ((MapQuadScratch *)scratch)->normal_x = 0;
-    ((MapQuadScratch *)scratch)->normal_y = 0;
+    scratch->normal_x = 0;
+    scratch->normal_y = 0;
     render_state = g_game_work.draw_buffer;
     x_shift = ((S_800AD138_0 *)map_bounds)->unk_14;
     initial_size = 0x01000100;
     y_shift = ((S_800AD138_0 *)map_bounds)->unk_16;
     chain_addr = (s32)(render_state + 0x8AC);
-    ((MapQuadScratch *)scratch)->chain_address = chain_addr;
-    ((MapQuadScratch *)scratch)->y_shift = y_shift;
-    ((MapQuadScratch *)scratch)->x_shift = x_shift;
-    ((MapQuadScratch *)scratch)->step_x = 0x40 << x_shift;
+    scratch->chain_address = chain_addr;
+    scratch->y_shift = y_shift;
+    scratch->x_shift = x_shift;
+    scratch->step_x = 0x40 << x_shift;
     bound_x = ((S_800AD138_0 *)map_bounds)->unk_18;
     bound_y = ((S_800AD138_0 *)map_bounds)->unk_1A;
     uv_scroll = (((S_800AD138_1 *)state)->unk_04 >> 1) & 0x3F;
     map_height = 0x40 << y_shift;
-    ((MapQuadScratch *)scratch)->step_y = map_height;
-    ((MapQuadScratch *)scratch)->map_width = bound_x;
-    ((MapQuadScratch *)scratch)->map_height = bound_y;
-    ((MapQuadScratch *)scratch)->uv_scroll.value = uv_scroll;
+    scratch->step_y = map_height;
+    scratch->map_width = bound_x;
+    scratch->map_height = bound_y;
+    scratch->uv_scroll.value = uv_scroll;
 
     packet = ((S_800AD138_5 *)render_state)->unk_8D0;
-    ((MapQuadScratch *)scratch)->color = ((S_800AD138_1 *)state)->unk_A8;
+    scratch->color = ((S_800AD138_1 *)state)->unk_A8;
     draw_rect[0] = 0;
     draw_rect[1] = initial_size;
     cell_table = ((S_800AD138_1 *)state)->unk_1DC;
     SetDrawMode(packet, (s32)edge_buffer, edge_count_addr, 0x20, draw_rect);
-    AddPrim((void *)((MapQuadScratch *)scratch)->chain_address, packet);
+    AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
-    ((MapQuadScratch *)scratch)->edge_count = 4;
+    scratch->edge_count = 4;
     clip_vertices = (s16 *)(state + 0x20);
     edge_buffer = scratch;
     edge_buffer = (u8 *)((u32)edge_buffer | 0x1C);
     edge_count_addr = (s32)scratch;
     edge_count_addr |= 0x170;
-    ((MapQuadScratch *)scratch)->scan_y.value =
+    scratch->scan_y.value =
         (s16)runtime_initialize_polygon_edges((s32)clip_vertices,
                       (s32 *)edge_buffer,
                       (u16 *)edge_count_addr);
 
-    if (((MapQuadScratch *)scratch)->edge_count != 0) {
+    if (scratch->edge_count != 0) {
         edge_active = 1;
         vertices = scratch;
         vertices = (u8 *)((u32)vertices | 0xE0);
@@ -722,32 +722,32 @@ void draw_empty_map_cell_quads(u32 packet_limit)
         do {
             edge_index = 3;
             do {
-                if ((((MapQuadScratch *)scratch)->edges[edge_index].active == 0) &&
-                    (((MapQuadScratch *)scratch)->edges[edge_index].start_y <= ((MapQuadScratch *)scratch)->scan_y.value)) {
-                    ((MapQuadScratch *)scratch)->edges[edge_index].active = edge_active;
+                if ((scratch->edges[edge_index].active == 0) &&
+                    (scratch->edges[edge_index].start_y <= scratch->scan_y.value)) {
+                    scratch->edges[edge_index].active = edge_active;
                 }
                 edge_index--;
             } while (edge_index >= 0);
 
             edge_index = 3;
-            ((MapQuadScratch *)scratch)->min_x.value = 0x7FFF;
-            ((MapQuadScratch *)scratch)->max_x = -0x7FFF;
+            scratch->min_x.value = 0x7FFF;
+            scratch->max_x = -0x7FFF;
             do {
-                if (((MapQuadScratch *)scratch)->edges[edge_index].active > 0) {
-                    x = ((MapQuadScratch *)scratch)->edges[edge_index].position;
-                    ((MapQuadScratch *)scratch)->edge_x = x;
-                    if (x < ((MapQuadScratch *)scratch)->min_x.value) {
-                        ((MapQuadScratch *)scratch)->min_x.value = x;
+                if (scratch->edges[edge_index].active > 0) {
+                    x = scratch->edges[edge_index].position;
+                    scratch->edge_x = x;
+                    if (x < scratch->min_x.value) {
+                        scratch->min_x.value = x;
                     }
-                    x = ((MapQuadScratch *)scratch)->edge_x;
-                    if (((MapQuadScratch *)scratch)->max_x < x) {
-                        ((MapQuadScratch *)scratch)->max_x = x;
+                    x = scratch->edge_x;
+                    if (scratch->max_x < x) {
+                        scratch->max_x = x;
                     }
-                    edge_error = ((MapQuadScratch *)scratch)->edges[edge_index].error + ((MapQuadScratch *)scratch)->edges[edge_index].error_step;
-                    ((MapQuadScratch *)scratch)->edges[edge_index].error = edge_error;
+                    edge_error = scratch->edges[edge_index].error + scratch->edges[edge_index].error_step;
+                    scratch->edges[edge_index].error = edge_error;
                     if (edge_error >= 0) {
 
-                        edge_base = scratch + edge_index * 0x28;
+                        edge_base = (u8 *)scratch + edge_index * 0x28;
                         edge = (Slot800AF9D8 *)edge_base;
                         x_step = edge->increment;
                         error_step = edge->decrement;
@@ -758,80 +758,80 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                         } while ((edge->phase > 0) &&
                                  (edge->remaining >= 0));
                     }
-                    x = ((MapQuadScratch *)scratch)->edges[edge_index].position;
-                    ((MapQuadScratch *)scratch)->edge_x = x;
-                    if (x < ((MapQuadScratch *)scratch)->min_x.value) {
-                        ((MapQuadScratch *)scratch)->min_x.value = x;
+                    x = scratch->edges[edge_index].position;
+                    scratch->edge_x = x;
+                    if (x < scratch->min_x.value) {
+                        scratch->min_x.value = x;
                     }
-                    x = ((MapQuadScratch *)scratch)->edge_x;
-                    if (((MapQuadScratch *)scratch)->max_x < x) {
-                        ((MapQuadScratch *)scratch)->max_x = x;
+                    x = scratch->edge_x;
+                    if (scratch->max_x < x) {
+                        scratch->max_x = x;
                     }
                 }
                 edge_index--;
             } while (edge_index >= 0);
 
-            ((MapQuadScratch *)scratch)->min_x.value =
-                (((MapQuadScratch *)scratch)->min_x.value - 0x20) & ~0x3F;
-            ((MapQuadScratch *)scratch)->max_x =
-                (((MapQuadScratch *)scratch)->max_x + 0x20) & ~0x3F;
-            min_x = ((MapQuadScratch *)scratch)->min_x.value;
+            scratch->min_x.value =
+                (scratch->min_x.value - 0x20) & ~0x3F;
+            scratch->max_x =
+                (scratch->max_x + 0x20) & ~0x3F;
+            min_x = scratch->min_x.value;
             if (min_x < 0) {
                 min_x += 0x3F;
             }
-            row = ((MapQuadScratch *)scratch)->scan_y.value;
-            ((MapQuadScratch *)scratch)->cell_x = min_x >> 6;
+            row = scratch->scan_y.value;
+            scratch->cell_x = min_x >> 6;
             if (row < 0) {
                 row += 0x3F;
             }
             row >>= 6;
-            ((MapQuadScratch *)scratch)->row_base = row;
+            scratch->row_base = row;
             if (row < 0) {
-                ((MapQuadScratch *)scratch)->row_base = 0;
+                scratch->row_base = 0;
             } else {
-                row_bound = ((MapQuadScratch *)scratch)->map_height;
+                row_bound = scratch->map_height;
                 if (row >= row_bound) {
-                    row_base = row_bound << ((MapQuadScratch *)scratch)->x_shift;
+                    row_base = row_bound << scratch->x_shift;
                 } else {
-                    row_base = row << ((MapQuadScratch *)scratch)->x_shift;
+                    row_base = row << scratch->x_shift;
                 }
-                ((MapQuadScratch *)scratch)->row_base = row_base;
+                scratch->row_base = row_base;
             }
 
             edge_index = 3;
-            if (((MapQuadScratch *)scratch)->min_x.value <= ((MapQuadScratch *)scratch)->max_x) {
+            if (scratch->min_x.value <= scratch->max_x) {
                 do {
                     packet_fields = (u8 *)packet + 7;
-                    cell_x = ((MapQuadScratch *)scratch)->cell_x;
+                    cell_x = scratch->cell_x;
                     if (cell_x < 0) {
-                        cell_index = ((MapQuadScratch *)scratch)->row_base;
+                        cell_index = scratch->row_base;
                         cell_x &= 3;
                         cell_index += cell_x;
-                        ((MapQuadScratch *)scratch)->cell_index = cell_index;
+                        scratch->cell_index = cell_index;
                     } else {
-                        col_bound = ((MapQuadScratch *)scratch)->map_width;
+                        col_bound = scratch->map_width;
                         if (cell_x >= col_bound) {
-                            cell_index = ((MapQuadScratch *)scratch)->row_base;
+                            cell_index = scratch->row_base;
                             cell_x &= 3;
                             cell_index += col_bound;
                             cell_index += cell_x;
                             cell_index -= 3;
-                            ((MapQuadScratch *)scratch)->cell_index = cell_index;
+                            scratch->cell_index = cell_index;
                         } else {
-                            cell_index = ((MapQuadScratch *)scratch)->row_base;
+                            cell_index = scratch->row_base;
                             cell_index += cell_x;
-                            ((MapQuadScratch *)scratch)->cell_index = cell_index;
+                            scratch->cell_index = cell_index;
                         }
                     }
-                    cell_id = cell_table[((MapQuadScratch *)scratch)->cell_index];
-                    ((MapQuadScratch *)scratch)->shade = cell_id;
+                    cell_id = cell_table[scratch->cell_index];
+                    scratch->shade = cell_id;
                     if (cell_id == 0) {
-                        vertex_x = ((MapQuadScratch *)scratch)->min_x.low_half;
-                        top_y = ((MapQuadScratch *)scratch)->scan_y.low_half;
-                        ((MapQuadScratch *)scratch)->vertices[3].z = 0;
-                        ((MapQuadScratch *)scratch)->vertices[2].z = 0;
-                        ((MapQuadScratch *)scratch)->vertices[1].z = 0;
-                        ((MapQuadScratch *)scratch)->vertices[0].z = 0;
+                        vertex_x = scratch->min_x.low_half;
+                        top_y = scratch->scan_y.low_half;
+                        scratch->vertices[3].z = 0;
+                        scratch->vertices[2].z = 0;
+                        scratch->vertices[1].z = 0;
+                        scratch->vertices[0].z = 0;
                         bottom_y = top_y;
                         coord_copy = top_y;
                         top_y = coord_copy;
@@ -842,49 +842,49 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                         vertex_x = coord_copy;
                         vertex_x = coord_copy;
                         coord_copy = 0;
-                        ((MapQuadScratch *)scratch)->vertices[2].x = vertex_x;
-                        ((MapQuadScratch *)scratch)->vertices[0].x = vertex_x;
+                        scratch->vertices[2].x = vertex_x;
+                        scratch->vertices[0].x = vertex_x;
                         vertex_x += 0x40;
                         bottom_y += 0x40;
-                        ((MapQuadScratch *)scratch)->vertices[3].x = vertex_x;
-                        ((MapQuadScratch *)scratch)->vertices[1].x = vertex_x;
-                        ((MapQuadScratch *)scratch)->vertices[3].y = bottom_y;
-                        ((MapQuadScratch *)scratch)->vertices[2].y = bottom_y;
-                        ((MapQuadScratch *)scratch)->vertices[1].y = top_y;
-                        ((MapQuadScratch *)scratch)->vertices[0].y = top_y;
+                        scratch->vertices[3].x = vertex_x;
+                        scratch->vertices[1].x = vertex_x;
+                        scratch->vertices[3].y = bottom_y;
+                        scratch->vertices[2].y = bottom_y;
+                        scratch->vertices[1].y = top_y;
+                        scratch->vertices[0].y = top_y;
 
-                        gte_ldv3(vertices, scratch + 0xE8, scratch + 0xF0);
+                        gte_ldv3(vertices, (u8 *)scratch + 0xE8, (u8 *)scratch + 0xF0);
                         gte_rtpt();
                         gte_nclip();
-                        gte_stopz(scratch + 0xDC);
-                        if (((MapQuadScratch *)scratch)->clip_area > 0) {
+                        gte_stopz((u8 *)scratch + 0xDC);
+                        if (scratch->clip_area > 0) {
                             gte_stsxy3_g3(packet);
-                            gte_stdp(scratch + 0xC0);
+                            gte_stdp((u8 *)scratch + 0xC0);
                             gte_avsz3();
-                            gte_stotz(scratch + 0xC8);
-                            gte_ldv0(scratch + 0xF8);
+                            gte_stotz((u8 *)scratch + 0xC8);
+                            gte_ldv0((u8 *)scratch + 0xF8);
                             gte_rtps();
                             gte_stsxy((u8 *)packet + 0x20);
-                            gte_stdp(scratch + 0xC4);
-                            gte_stszotz(scratch + 0xD4);
+                            gte_stdp((u8 *)scratch + 0xC4);
+                            gte_stszotz((u8 *)scratch + 0xD4);
 
-                            tri_avg = ((MapQuadScratch *)scratch)->depth;
-                            last_value = ((MapQuadScratch *)scratch)->last_depth;
+                            tri_avg = scratch->depth;
+                            last_value = scratch->last_depth;
                             twice_avg = tri_avg << 1;
-                            ((MapQuadScratch *)scratch)->depth =
+                            scratch->depth =
                                 (tri_avg + twice_avg + last_value + 3) >> 2;
-                            if ((u32)((MapQuadScratch *)scratch)->depth >= 0x1E0U) {
-                                ((MapQuadScratch *)scratch)->depth = 0x1DF;
+                            if ((u32)scratch->depth >= 0x1E0U) {
+                                scratch->depth = 0x1DF;
                             }
-                            tri_avg = ((MapQuadScratch *)scratch)->shade;
-                            last_value = ((MapQuadScratch *)scratch)->last_shade;
+                            tri_avg = scratch->shade;
+                            last_value = scratch->last_shade;
                             twice_avg = tri_avg << 1;
-                            ((MapQuadScratch *)scratch)->shade =
+                            scratch->shade =
                                 (tri_avg + twice_avg + last_value) >> 2;
 
-                            gte_ldv0(scratch + 0x17C);
+                            gte_ldv0((u8 *)scratch + 0x17C);
                             gte_ldrgb(scratch);
-                            vertex_z = ((MapQuadScratch *)scratch)->vertices[3].z;
+                            vertex_z = scratch->vertices[3].z;
                             vertex_z = (s16)vertex_z;
                             shade_factor = 0;
                             if (vertex_z > 0) {
@@ -895,17 +895,17 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                             gte_ncds_nn();
                             gte_strgb((u8 *)packet + 4);
 
-                            uv_left = ((MapQuadScratch *)scratch)->uv_scroll.low_byte;
+                            uv_left = scratch->uv_scroll.low_byte;
                             ((S_800AD138_2 *)packet_fields)->unk_15 = uv_left;
                             ((S_800AD138_2 *)packet_fields)->unk_05 = uv_left;
-                            uv_right = ((MapQuadScratch *)scratch)->uv_scroll.low_byte + 0x3F;
+                            uv_right = scratch->uv_scroll.low_byte + 0x3F;
                             ((S_800AD138_2 *)packet_fields)->unk_1D = uv_right;
                             ((S_800AD138_2 *)packet_fields)->unk_0D = uv_right;
-                            uv_top = -(s32)((MapQuadScratch *)scratch)->uv_scroll.low_byte;
+                            uv_top = -(s32)scratch->uv_scroll.low_byte;
                             red = ((S_800AD138_2_pre *)packet_fields)[-1].unk_01;
                             ((S_800AD138_2 *)packet_fields)->unk_0E = uv_top;
                             ((S_800AD138_2 *)packet_fields)->unk_06 = uv_top;
-                            v_scroll = ((MapQuadScratch *)scratch)->uv_scroll.low_byte;
+                            v_scroll = scratch->uv_scroll.low_byte;
                             ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->texture_page = 0x2D;
                             ((MapQuadTextureWords *)((u8 *)packet_fields - 7))->palette = 0x75C1;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_01 = red >> 1;
@@ -914,25 +914,25 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                             ((S_800AD138_2 *)packet_fields)->unk_1E = uv_bottom;
                             ((S_800AD138_2 *)packet_fields)->unk_16 = uv_bottom;
                             ((S_800AD138_2_pre *)packet_fields)[-1].unk_03 >>= 1;
-                            chain_tag = ((S_800AD138_4 *)((void *)((MapQuadScratch *)scratch)->chain_address))->unk_00;
+                            chain_tag = ((S_800AD138_4 *)((void *)scratch->chain_address))->unk_00;
                             packet_tag = ((S_800AD138_3 *)((u8 *)packet))->unk_00;
                             ((S_800AD138_3 *)((u8 *)packet))->unk_00 =
                                 (packet_tag & length_mask) |
                                 (chain_tag & addr_mask);
                             packet_addr = (s32)packet & addr_mask;
                             packet += 10;
-                            ((S_800AD138_4 *)((void *)((MapQuadScratch *)scratch)->chain_address))->unk_00 =
-                                (((S_800AD138_4 *)((void *)((MapQuadScratch *)scratch)->chain_address))->unk_00 & length_mask) |
+                            ((S_800AD138_4 *)((void *)scratch->chain_address))->unk_00 =
+                                (((S_800AD138_4 *)((void *)scratch->chain_address))->unk_00 & length_mask) |
                                 packet_addr;
                             if (packet_limit < (u32)packet) {
                                 goto done;
                             }
                         }
                     }
-                    ((MapQuadScratch *)scratch)->cell_x += 1;
-                    next_x = ((MapQuadScratch *)scratch)->min_x.value + 0x40;
-                    ((MapQuadScratch *)scratch)->min_x.value = next_x;
-                    if (((MapQuadScratch *)scratch)->max_x < next_x) {
+                    scratch->cell_x += 1;
+                    next_x = scratch->min_x.value + 0x40;
+                    scratch->min_x.value = next_x;
+                    if (scratch->max_x < next_x) {
                         break;
                     }
                 } while (1);
@@ -940,27 +940,27 @@ void draw_empty_map_cell_quads(u32 packet_limit)
 
             edge_index = 3;
             edge_done = -1;
-            ((MapQuadScratch *)scratch)->scan_y.value += 0x40;
+            scratch->scan_y.value += 0x40;
             do {
-                if (((MapQuadScratch *)scratch)->edges[edge_index].active > 0) {
-                    rows_left = ((MapQuadScratch *)scratch)->edges[edge_index].rows_left - 0x40;
-                    ((MapQuadScratch *)scratch)->edges[edge_index].rows_left = rows_left;
+                if (scratch->edges[edge_index].active > 0) {
+                    rows_left = scratch->edges[edge_index].rows_left - 0x40;
+                    scratch->edges[edge_index].rows_left = rows_left;
                     if (rows_left <= 0) {
-                        ((MapQuadScratch *)scratch)->edges[edge_index].active = edge_done;
-                        ((MapQuadScratch *)scratch)->edge_count -= 1;
+                        scratch->edges[edge_index].active = edge_done;
+                        scratch->edge_count -= 1;
                     }
                 }
                 edge_index--;
             } while (edge_index >= 0);
             edge_index = 3;
-        } while (((MapQuadScratch *)scratch)->edge_count != 0);
+        } while (scratch->edge_count != 0);
     }
 
 done:
     draw_rect[1] = 0x400040;
     draw_rect[0] = 0;
     SetDrawMode(packet, 0, 0, 0x20, draw_rect);
-    AddPrim((void *)((MapQuadScratch *)scratch)->chain_address, packet);
+    AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
     ((S_800AD138_5 *)(((S_800AD138_1 *)state)->unk_00))->unk_8D0 = packet;
     return;

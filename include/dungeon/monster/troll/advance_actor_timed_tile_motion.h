@@ -11,9 +11,9 @@ typedef struct T_80174C44_S_80174C44_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    union { s16 s; u16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } T_80174C44_S_80174C44_0;   /* arg0 in func_80174C44 */
 
 

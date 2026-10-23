@@ -990,90 +990,90 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
     S_func_81905FD0_4 *owner;
     S_func_81905FD0_5 *owner_object;
     S_func_81905FD0_2 *owner_motion;
-    owner = effect->unk_00;
+    owner = effect->owner;
     *(Copy8 *)(scratch + 8) = *(Copy8 *)rect_template;
     *(Copy32 *)(scratch + 24) = *(Copy32 *)strip_direction_steps;
-    state = effect->unk_0A.s16;
+    state = effect->phase.s16;
     owner_object = (S_func_81905FD0_5 *)((u8 *)owner - 0x20);
-    owner_motion = owner_object->unk_08;
+    owner_motion = owner_object->position;
 
     switch (state) {
         void *effect_object;
         S_func_81905FD0_2 *target_motion_m;
     case 0:
-        render->unk_0C.u32 = 0x00808080;
+        render->color.u32 = 0x00808080;
         *(Copy12 *)((u8 *)effect + 0xA2) = *(Copy12 *)D_800267A8;
-        render->unk_08 = (u8 *)effect + 0xA2;
+        render->source = (u8 *)effect + 0xA2;
         {
-            u16 direction = (owner->unk_2A >> 9) & 7;
+            u16 direction = (owner->facing >> 9) & 7;
             ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.u16 = 1;
-            effect->unk_7E.u16 = direction;
+            effect->direction.u16 = direction;
         }
-        effect->unk_0A.u16++;
+        effect->phase.u16++;
 
     case 1:
-        result = get_sprite_attachment_vector(((S_func_81905FD0_3 *)owner_object->unk_0C)->unk_08,
-                               owner_object->unk_0C,
+        result = get_sprite_attachment_vector(((S_func_81905FD0_3 *)owner_object->sprite)->source,
+                               owner_object->sprite,
                                (Vec3 *)scratch, 0);
         if (result == 0) {
-            if ((((S_func_81905FD0_3 *)owner_object->unk_0C)->unk_14 & 0x8000) == 0) {
+            if ((((S_func_81905FD0_3 *)owner_object->sprite)->flags & 0x8000) == 0) {
                 return;
             }
         }
         {
             u16 owner_height;
 
-            motion->unk_00.u16_02.unk_02 = owner_motion->unk_00.u16_02.unk_02;
-            motion->unk_04.u16_06.unk_06 = owner_motion->unk_04.u16_06.unk_06;
-            owner_height = owner_motion->unk_08.u16_0A.unk_0A;
-            motion->unk_08.u16_0A.unk_0A = owner_height;
-            if ((((S_func_81905FD0_3 *)owner_object->unk_0C)->unk_14 & 0x8000) == 0) {
-                motion->unk_00.u16_02.unk_02 += ((S_func_81905FD0_8 *)scratch)->unk_00;
-                motion->unk_04.u16_06.unk_06 += ((S_func_81905FD0_8 *)scratch)->unk_02;
-                motion->unk_08.u16_0A.unk_0A = motion->unk_08.u16_0A.unk_0A + ((S_func_81905FD0_8 *)scratch)->unk_04;
+            motion->x.u16_02.unk_02 = owner_motion->x.u16_02.unk_02;
+            motion->y.u16_06.unk_06 = owner_motion->y.u16_06.unk_06;
+            owner_height = owner_motion->z.u16_0A.unk_0A;
+            motion->z.u16_0A.unk_0A = owner_height;
+            if ((((S_func_81905FD0_3 *)owner_object->sprite)->flags & 0x8000) == 0) {
+                motion->x.u16_02.unk_02 += ((S_func_81905FD0_8 *)scratch)->unk_00;
+                motion->y.u16_06.unk_06 += ((S_func_81905FD0_8 *)scratch)->unk_02;
+                motion->z.u16_0A.unk_0A = motion->z.u16_0A.unk_0A + ((S_func_81905FD0_8 *)scratch)->unk_04;
             } else {
-                motion->unk_08.u16_0A.unk_0A = owner_height - 0x40;
+                motion->z.u16_0A.unk_0A = owner_height - 0x40;
             }
         }
-        if ((((S_func_81905FD0_12 *)effect->unk_04)->unk_00 & 0x80) == 0) {
+        if ((((S_func_81905FD0_12 *)effect->launch_flags)->flags & 0x80) == 0) {
             return;
         }
-        if ((effect->unk_7A & 4) == 0) {
+        if ((effect->flags & 4) == 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            render->unk_10.u16 = 32;
-            render->unk_0C.u8_0E.unk_0E = 128;
-            render->unk_0C.u8_0D.unk_0D = 128;
-            render->unk_0C.u8 = 128;
-            render->unk_1E.u16 = 2000;
-            render->unk_1C.u16 = 2000;
-            render->unk_14 |= 0xC;
-            effect->unk_7A |= 4;
+            render->tpage_abr.u16 = 32;
+            render->color.u8_0E.unk_0E = 128;
+            render->color.u8_0D.unk_0D = 128;
+            render->color.u8 = 128;
+            render->scale_y.u16 = 2000;
+            render->scale_x.u16 = 2000;
+            render->flags |= 0xC;
+            effect->flags |= 4;
         }
         {
-            S_func_81905FD0_6 *target = owner->unk_60;
+            S_func_81905FD0_6 *target = owner->target;
             if (target != 0) {
                 S_func_81905FD0_3 *owner_info;
                 s32 tile_distance;
 
                 s32 target_height;
 
-                target_motion_m = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08;
-                kind_or_shade = target->unk_13;
+                target_motion_m = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->position;
+                kind_or_shade = target->species;
                 target_height = entity_height_offsets[kind_or_shade] + 64;
-                effect->unk_78.u16 = target_motion_m->unk_08.u16_0A.unk_0A - target_height;
-                owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
-                effect->unk_BA = owner_info->unk_24 +
-                    ((u8 *)dir_step_x)[effect->unk_7E.s16 * 2];
-                effect->unk_BB = owner_info->unk_25 +
-                    ((u8 *)dir_step_y)[effect->unk_7E.s16 * 2];
+                effect->target_height.u16 = target_motion_m->z.u16_0A.unk_0A - target_height;
+                owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->sprite;
+                effect->unk_BA = owner_info->tile_x +
+                    ((u8 *)dir_step_x)[effect->direction.s16 * 2];
+                effect->unk_BB = owner_info->tile_y +
+                    ((u8 *)dir_step_y)[effect->direction.s16 * 2];
                 {
                     s32 target_tile;
 
-                    random_bits = owner->unk_72;
-                    target_tile = owner_info->unk_24;
+                    random_bits = owner->target_tile_x;
+                    target_tile = owner_info->tile_x;
                     if (random_bits == target_tile) {
-                        random_bits = owner->unk_73;
-                        target_tile = owner_info->unk_25;
+                        random_bits = owner->target_tile_y;
+                        target_tile = owner_info->tile_y;
                         tile_distance = random_bits - target_tile;
                     } else {
                         tile_distance = random_bits - target_tile;
@@ -1082,12 +1082,12 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 if (tile_distance < 0) {
                     tile_distance = -tile_distance;
                 }
-                effect->unk_7B = tile_distance * 2 - 1;
+                effect->travel_ticks = tile_distance * 2 - 1;
             } else {
-                u16 owner_height = owner->unk_88;
+                u16 owner_height = owner->ground_height;
 
-                effect->unk_7B = 32;
-                effect->unk_78.u16 = owner_height - 80;
+                effect->travel_ticks = 32;
+                effect->target_height.u16 = owner_height - 80;
             }
         }
         {
@@ -1095,133 +1095,133 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
             u8 *x_step;
             u8 *y_step;
 
-            x_step = direction_steps + effect->unk_7E.s16 * 4;
-            motion->unk_0C = (s32)((S_func_81905FD0_9 *)x_step)->unk_00 << 16;
-            y_step = direction_steps + effect->unk_7E.s16 * 4;
-            motion->unk_10 = (s32)((S_func_81905FD0_9 *)y_step)->unk_02 << 16;
+            x_step = direction_steps + effect->direction.s16 * 4;
+            motion->velocity_x = (s32)((S_func_81905FD0_9 *)x_step)->unk_00 << 16;
+            y_step = direction_steps + effect->direction.s16 * 4;
+            motion->velocity_y = (s32)((S_func_81905FD0_9 *)y_step)->unk_02 << 16;
         }
-        motion->unk_14.s32 =
-            (((s32)effect->unk_78.s16 << 16) - motion->unk_08.s32) /
-            (s8)effect->unk_7B;
-        effect->unk_82.u16 = 0;
-        effect->unk_90.u16 = 0;
-        effect->unk_92 = 0;
-        effect->unk_94.u16 = 5;
-        effect->unk_96 = 200;
-        effect->unk_0A.u16++;
-        effect->unk_88 = (s8)effect->unk_7B;
+        motion->velocity_z.s32 =
+            (((s32)effect->target_height.s16 << 16) - motion->z.s32) /
+            (s8)effect->travel_ticks;
+        effect->timer.u16 = 0;
+        effect->scale_shrinking.u16 = 0;
+        effect->scale_timer = 0;
+        effect->scale_period.u16 = 5;
+        effect->scale_step = 200;
+        effect->phase.u16++;
+        effect->unk_88 = (s8)effect->travel_ticks;
         effect->unk_8A =
-            (s8)effect->unk_7B * (s8)effect->unk_7B;
+            (s8)effect->travel_ticks * (s8)effect->travel_ticks;
         return;
 
     case 2:
         index = 0;
         while (1) {
             random_bits = rand();
-            get_half_byte_length((u8 *)effect - 0x20, effect->unk_7E.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
+            get_half_byte_length((u8 *)effect - 0x20, effect->direction.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
                 0, 0);
             index++;
             if (index >= 4) {
                 break;
             }
         }
-        result = check_adjacent_tile_height_clearance(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
-                               motion->unk_08.s16_0A.unk_0A, owner->unk_60);
+        result = check_adjacent_tile_height_clearance(motion->x.u16_02.unk_02, motion->y.u16_06.unk_06,
+                               motion->z.s16_0A.unk_0A, owner->target);
         if ((s16)result == 0) {
             {
-                u16 previous_angle = render->unk_1A;
+                u16 previous_angle = render->angle_z;
                 u16 angle = previous_angle + 0x190;
-                render->unk_1A = angle;
+                render->angle_z = angle;
                 if (angle >= 0x1001) {
-                    render->unk_1A = previous_angle - 0xE70;
+                    render->angle_z = previous_angle - 0xE70;
                 }
             }
-            if (effect->unk_90.s16 == 0) {
-                render->unk_1C.u16 += effect->unk_96;
-                render->unk_1E.u16 += effect->unk_96;
+            if (effect->scale_shrinking.s16 == 0) {
+                render->scale_x.u16 += effect->scale_step;
+                render->scale_y.u16 += effect->scale_step;
             } else {
-                render->unk_1C.u16 -= effect->unk_96;
-                render->unk_1E.u16 -= effect->unk_96;
+                render->scale_x.u16 -= effect->scale_step;
+                render->scale_y.u16 -= effect->scale_step;
             }
             {
-                u16 timer = effect->unk_92 + 1;
-                effect->unk_92 = timer;
-                if ((s16)timer >= effect->unk_94.s16) {
-                    effect->unk_92 = 0;
-                    effect->unk_90.u16 = effect->unk_90.u16 ^ 1;
+                u16 timer = effect->scale_timer + 1;
+                effect->scale_timer = timer;
+                if ((s16)timer >= effect->scale_period.s16) {
+                    effect->scale_timer = 0;
+                    effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
                 }
             }
-            effect->unk_7B = effect->unk_7B - 1;
-            if ((s8)effect->unk_7B > 0) {
+            effect->travel_ticks = effect->travel_ticks - 1;
+            if ((s8)effect->travel_ticks > 0) {
                 goto update_coords;
             }
-            if (owner->unk_60 != 0) {
-                effect->unk_0A.u16 = 3;
-                effect->unk_82.u16 = 0;
+            if (owner->target != 0) {
+                effect->phase.u16 = 3;
+                effect->timer.u16 = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 {
-                    S_func_81905FD0_6 *target = owner->unk_60;
-                    kind_or_shade = target->unk_13;
-                    target_render = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_0C;
+                    S_func_81905FD0_6 *target = owner->target;
+                    kind_or_shade = target->species;
+                    target_render = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->sprite;
                     if ((u32)(kind_or_shade - 0x33) >= 4) {
-                        target_render->unk_14 |= 0x800;
-                        ((S_func_81905FD0_6 *)owner->unk_60)->unk_14 |= 0x100000;
+                        target_render->flags |= 0x800;
+                        ((S_func_81905FD0_6 *)owner->target)->property_flags |= 0x100000;
                     }
                 }
                 {
 
-                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    motion->unk_00.u16_02.unk_02 = target_motion_m->unk_00.u16_02.unk_02;
-                    motion->unk_04.u16_06.unk_06 = target_motion_m->unk_04.u16_06.unk_06;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->position;
+                    motion->x.u16_02.unk_02 = target_motion_m->x.u16_02.unk_02;
+                    motion->y.u16_06.unk_06 = target_motion_m->y.u16_06.unk_06;
                 }
-                motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
+                motion->z.u16_0A.unk_0A = effect->target_height.u16;
                 return;
             }
         }
-        effect->unk_0A.u16 = 8;
-        effect->unk_82.u16 = 0;
-        render->unk_0C.u8_0E.unk_0E = 0;
-        render->unk_0C.u8_0D.unk_0D = 0;
-        render->unk_0C.u8 = 0;
+        effect->phase.u16 = 8;
+        effect->timer.u16 = 0;
+        render->color.u8_0E.unk_0E = 0;
+        render->color.u8_0D.unk_0D = 0;
+        render->color.u8 = 0;
         return;
 
 update_coords:
-        motion->unk_00.u32 += motion->unk_0C;
-        motion->unk_04.u32 += motion->unk_10;
-        motion->unk_08.u32 += motion->unk_14.u32;
+        motion->x.u32 += motion->velocity_x;
+        motion->y.u32 += motion->velocity_y;
+        motion->z.u32 += motion->velocity_z.u32;
         return;
 
     case 3:
     {
         {
-            u16 previous_angle = render->unk_1A;
+            u16 previous_angle = render->angle_z;
             u16 angle = previous_angle + 0x190;
-            render->unk_1A = angle;
+            render->angle_z = angle;
             if (angle >= 0x1001) {
-                render->unk_1A = previous_angle - 0xE70;
+                render->angle_z = previous_angle - 0xE70;
             }
         }
-        if (effect->unk_90.s16 == 0) {
-            render->unk_1C.u16 += effect->unk_96;
-            render->unk_1E.u16 += effect->unk_96;
+        if (effect->scale_shrinking.s16 == 0) {
+            render->scale_x.u16 += effect->scale_step;
+            render->scale_y.u16 += effect->scale_step;
         } else {
-            render->unk_1C.u16 -= effect->unk_96;
-            render->unk_1E.u16 -= effect->unk_96;
+            render->scale_x.u16 -= effect->scale_step;
+            render->scale_y.u16 -= effect->scale_step;
         }
         {
-            u16 timer = effect->unk_92 + 1;
-            effect->unk_92 = timer;
-            if ((s16)timer >= effect->unk_94.s16) {
-                effect->unk_92 = 0;
-                effect->unk_90.u16 = effect->unk_90.u16 ^ 1;
+            u16 timer = effect->scale_timer + 1;
+            effect->scale_timer = timer;
+            if ((s16)timer >= effect->scale_period.s16) {
+                effect->scale_timer = 0;
+                effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
             }
         }
         {
             s16 frame;
             u8 *tex_dest;
 
-            effect->unk_82.u16 = effect->unk_82.u16 + 1;
-            frame = (s16)effect->unk_82.u16;
+            effect->timer.u16 = effect->timer.u16 + 1;
+            frame = (s16)effect->timer.u16;
             if (frame == 1) {
                 s32 rect_value;
                 u16 second_y;
@@ -1250,7 +1250,7 @@ update_coords:
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = 410;
-                draw_transformed_sprite_with_clip_rect(owner->unk_60, rect_arg,
+                draw_transformed_sprite_with_clip_rect(owner->target, rect_arg,
                               dest_arg, 1, frame);
                 rect_arg = tex_rect;
                 dest_arg = tex_dest;
@@ -1263,10 +1263,10 @@ update_coords:
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = second_dest_y;
-                draw_transformed_sprite_with_clip_rect(owner->unk_60, rect_arg,
+                draw_transformed_sprite_with_clip_rect(owner->target, rect_arg,
                               dest_arg, 1, frame);
             }
-            if (effect->unk_82.s16 != 4) {
+            if (effect->timer.s16 != 4) {
                 return;
             }
         }
@@ -1289,36 +1289,36 @@ update_coords:
                 {
                     u16 flags;
 
-                    child_render->unk_14 |= 0xC;
-                    child_render->unk_10.u16 = 64;
-                    child_render->unk_06 = 0;
-                    flags = child_render->unk_14;
-                    child_render->unk_14 = flags | 0x80;
+                    child_render->flags |= 0xC;
+                    child_render->tpage_abr.u16 = 64;
+                    child_render->depth_bias = 0;
+                    flags = child_render->flags;
+                    child_render->flags = flags | 0x80;
                 }
                 child_motion = upper_effect->position;
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
 
-                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->x.v = target_motion_m->unk_00.u32;
-                    child_motion->y.v = target_motion_m->unk_04.u32;
-                    child_motion->z.v = target_motion_m->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->position;
+                    child_motion->x.v = target_motion_m->x.u32;
+                    child_motion->y.v = target_motion_m->y.u32;
+                    child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = upper_effect->sprite;
-                child_render->unk_1C.s16 = 4100;
-                child_render->unk_1E.s16 = 4100;
+                child_render->scale_x.s16 = 4100;
+                child_render->scale_y.s16 = 4100;
                 {
-                    u8 target_height = entity_height_offsets[((S_func_81905FD0_6 *)owner->unk_60)->unk_13];
+                    u8 target_height = entity_height_offsets[((S_func_81905FD0_6 *)owner->target)->species];
 
-                    child_render->unk_0C.u8_0E.unk_0E = 128;
-                    child_render->unk_0C.u8_0D.unk_0D = 128;
-                    child_render->unk_0C.u8 = 128;
-                    child_render->unk_22 = (-target_height) / 2;
+                    child_render->color.u8_0E.unk_0E = 128;
+                    child_render->color.u8_0D.unk_0D = 128;
+                    child_render->color.u8 = 128;
+                    child_render->offset_y = (-target_height) / 2;
                 }
                 *(Copy12 *)((u8 *)upper_effect + 0x40) = *(Copy12 *)D_8002676C;
-                child_render->unk_08 = (u8 *)upper_effect + 0x40;
-                ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
+                child_render->source = (u8 *)upper_effect + 0x40;
+                ((S_func_81905FD0_13 *)child_render->source)->tpage =
                     GetTPage(2, 1, 832, 340);
             }
             lower_effect = allocate_flagged_object_node(0x212);
@@ -1328,32 +1328,32 @@ update_coords:
                 lower_effect->update_callback = (void *)update_effect_brightness_pulse;
                 register_node(lower_effect, project_sprite_chain);
                 child_render = lower_effect->sprite;
-                child_render->unk_14 &= 0xFFF3;
-                child_render->unk_10.s16 = 32;
-                child_render->unk_14 |= 0x80;
+                child_render->flags &= 0xFFF3;
+                child_render->tpage_abr.s16 = 32;
+                child_render->flags |= 0x80;
                 child_data->unk_38 = owner;
-                child_data->unk_3C = owner->unk_60;
+                child_data->unk_3C = owner->target;
                 child_data->unk_40 = effect;
-                child_render->unk_06 = 0;
+                child_render->depth_bias = 0;
                 child_motion = lower_effect->position;
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
 
-                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->x.v = target_motion_m->unk_00.u32;
-                    child_motion->y.v = target_motion_m->unk_04.u32;
-                    child_motion->z.v = target_motion_m->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->position;
+                    child_motion->x.v = target_motion_m->x.u32;
+                    child_motion->y.v = target_motion_m->y.u32;
+                    child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = lower_effect->sprite;
-                child_render->unk_1E.s16 = 4096;
-                child_render->unk_1C.s16 = 4096;
-                child_render->unk_0C.u8_0E.unk_0E = 128;
-                child_render->unk_0C.u8_0D.unk_0D = 128;
-                child_render->unk_0C.u8 = 128;
+                child_render->scale_y.s16 = 4096;
+                child_render->scale_x.s16 = 4096;
+                child_render->color.u8_0E.unk_0E = 128;
+                child_render->color.u8_0D.unk_0D = 128;
+                child_render->color.u8 = 128;
                 *(Copy12 *)((u8 *)lower_effect + 0x40) = *(Copy12 *)D_80026778;
-                child_render->unk_08 = (u8 *)lower_effect + 0x40;
-                ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
+                child_render->source = (u8 *)lower_effect + 0x40;
+                ((S_func_81905FD0_13 *)child_render->source)->tpage =
                     GetTPage(2, 1, 832, 424);
             }
             ring_effect = allocate_flagged_object_node(0x212);
@@ -1366,11 +1366,11 @@ update_coords:
                 {
                     u16 flags;
 
-                    child_render->unk_14 &= 0xFFF3;
-                    child_render->unk_10.s16 = 32;
-                    child_render->unk_06 = 0;
-                    flags = child_render->unk_14;
-                    child_render->unk_14 = flags | 0x80;
+                    child_render->flags &= 0xFFF3;
+                    child_render->tpage_abr.s16 = 32;
+                    child_render->depth_bias = 0;
+                    flags = child_render->flags;
+                    child_render->flags = flags | 0x80;
                 }
                 child_motion = ring_effect->position;
                 child_data->unk_0A = 0;
@@ -1378,17 +1378,17 @@ update_coords:
                 index = 0;
                 {
 
-                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->x.v = target_motion_m->unk_00.u32;
-                    child_motion->y.v = target_motion_m->unk_04.u32;
-                    child_motion->z.v = target_motion_m->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->position;
+                    child_motion->x.v = target_motion_m->x.u32;
+                    child_motion->y.v = target_motion_m->y.u32;
+                    child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = ring_effect->sprite;
-                child_render->unk_1C.s16 = 4096;
-                child_render->unk_1E.s16 = 4096;
-                child_render->unk_0C.u8_0E.unk_0E = 128;
-                child_render->unk_0C.u8_0D.unk_0D = 128;
-                child_render->unk_0C.u8 = 128;
+                child_render->scale_x.s16 = 4096;
+                child_render->scale_y.s16 = 4096;
+                child_render->color.u8_0E.unk_0E = 128;
+                child_render->color.u8_0D.unk_0D = 128;
+                child_render->color.u8 = 128;
                 {
                     u8 *descriptor_src = D_80026784;
                     u8 *descriptor_dest = (u8 *)child_data;
@@ -1411,7 +1411,7 @@ update_coords:
                         angle_slot++;
                     } while (index < 9);
                 }
-                child_render->unk_08 = (u8 *)child_data + 0x20;
+                child_render->source = (u8 *)child_data + 0x20;
             }
             control_effect = allocate_flagged_object_node(0x212);
             if (control_effect != 0) {
@@ -1423,7 +1423,7 @@ update_coords:
                 effect_object = control_effect;
                 render_template = project_sprite_chain;
                 child_data->unk_38 = owner;
-                owner_target = owner->unk_60;
+                owner_target = owner->target;
                 child_data->unk_44 = (void *)((u32)((u32)((u8 *)upper_effect + 0x20)));
                 child_data->unk_48 = (u8 *)ring_effect + 0x20;
                 child_data->unk_4C = (u8 *)lower_effect + 0x20;
@@ -1436,35 +1436,35 @@ update_coords:
                 {
                     u16 flags;
 
-                    child_render->unk_14 |= 0xC;
-                    child_render->unk_10.s16 = 32;
-                    child_render->unk_06 = 0;
-                    flags = child_render->unk_14;
-                    child_render->unk_14 = flags | 0x80;
+                    child_render->flags |= 0xC;
+                    child_render->tpage_abr.s16 = 32;
+                    child_render->depth_bias = 0;
+                    flags = child_render->flags;
+                    child_render->flags = flags | 0x80;
                 }
                 child_motion = control_effect->position;
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
 
-                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->x.v = target_motion_m->unk_00.u32;
-                    child_motion->y.v = target_motion_m->unk_04.u32;
-                    child_motion->z.v = target_motion_m->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->position;
+                    child_motion->x.v = target_motion_m->x.u32;
+                    child_motion->y.v = target_motion_m->y.u32;
+                    child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = control_effect->sprite;
-                child_render->unk_1E.s16 = 4096;
-                child_render->unk_1C.s16 = 4096;
-                child_render->unk_0C.u8_0E.unk_0E = 128;
-                child_render->unk_0C.u8_0D.unk_0D = 128;
-                child_render->unk_0C.u8 = 128;
+                child_render->scale_y.s16 = 4096;
+                child_render->scale_x.s16 = 4096;
+                child_render->color.u8_0E.unk_0E = 128;
+                child_render->color.u8_0D.unk_0D = 128;
+                child_render->color.u8 = 128;
                 *(Copy12 *)((u8 *)control_effect + 0x40) = *(Copy12 *)D_80026760;
-                child_render->unk_08 = (u8 *)control_effect + 0x40;
+                child_render->source = (u8 *)control_effect + 0x40;
             }
-            if (effect->unk_82.s16 == 4) {
-                effect->unk_0A.u16 = 4;
-                effect->unk_82.u16 = 0;
-                effect->unk_9C.u16 = 0;
+            if (effect->timer.s16 == 4) {
+                effect->phase.u16 = 4;
+                effect->timer.u16 = 0;
+                effect->child_done.u16 = 0;
                 return;
             }
         }
@@ -1472,96 +1472,96 @@ update_coords:
     }
 
     case 4:
-        effect->unk_82.u16++;
+        effect->timer.u16++;
         index = 4;
         do {
             index--;
         } while (index >= 0);
         index++;
         {
-            u16 previous_angle = render->unk_1A;
+            u16 previous_angle = render->angle_z;
             u16 angle = previous_angle + 0x190;
-            render->unk_1A = angle;
+            render->angle_z = angle;
             if (angle >= 0x1001) {
-                render->unk_1A = previous_angle - 0xE70;
+                render->angle_z = previous_angle - 0xE70;
             }
         }
-        if (effect->unk_90.s16 == 0) {
-            render->unk_1C.u16 += effect->unk_96;
-            render->unk_1E.u16 += effect->unk_96;
+        if (effect->scale_shrinking.s16 == 0) {
+            render->scale_x.u16 += effect->scale_step;
+            render->scale_y.u16 += effect->scale_step;
         } else {
-            render->unk_1C.u16 -= effect->unk_96;
-            render->unk_1E.u16 -= effect->unk_96;
+            render->scale_x.u16 -= effect->scale_step;
+            render->scale_y.u16 -= effect->scale_step;
         }
         {
-            u16 timer = effect->unk_92 + 1;
-            effect->unk_92 = timer;
-            if ((s16)timer >= effect->unk_94.s16) {
-                effect->unk_92 = 0;
-                effect->unk_90.u16 = effect->unk_90.u16 ^ 1;
+            u16 timer = effect->scale_timer + 1;
+            effect->scale_timer = timer;
+            if ((s16)timer >= effect->scale_period.s16) {
+                effect->scale_timer = 0;
+                effect->scale_shrinking.u16 = effect->scale_shrinking.u16 ^ 1;
             }
         }
-        if ((u32)(effect->unk_82.u16 - 11) < 20) {
-            kind_or_shade = render->unk_0C.u8_0E.unk_0E - 3;
-            render->unk_0C.u8_0E.unk_0E = kind_or_shade;
-            render->unk_0C.u8_0D.unk_0D = kind_or_shade;
-            render->unk_0C.u8 = kind_or_shade;
+        if ((u32)(effect->timer.u16 - 11) < 20) {
+            kind_or_shade = render->color.u8_0E.unk_0E - 3;
+            render->color.u8_0E.unk_0E = kind_or_shade;
+            render->color.u8_0D.unk_0D = kind_or_shade;
+            render->color.u8 = kind_or_shade;
         }
-        if (effect->unk_82.s16 >= 100 && render->unk_0C.u8 >= 6) {
-            kind_or_shade = render->unk_0C.u8_0E.unk_0E - 4;
-            render->unk_0C.u8_0E.unk_0E = kind_or_shade;
-            render->unk_0C.u8_0D.unk_0D = kind_or_shade;
-            render->unk_0C.u8 = kind_or_shade;
+        if (effect->timer.s16 >= 100 && render->color.u8 >= 6) {
+            kind_or_shade = render->color.u8_0E.unk_0E - 4;
+            render->color.u8_0E.unk_0E = kind_or_shade;
+            render->color.u8_0D.unk_0D = kind_or_shade;
+            render->color.u8 = kind_or_shade;
         }
-        if (effect->unk_82.s16 >= 120) {
-            effect->unk_82.u16 = 0;
-            effect->unk_0A.u16 = effect->unk_0A.u16 + 1;
+        if (effect->timer.s16 >= 120) {
+            effect->timer.u16 = 0;
+            effect->phase.u16 = effect->phase.u16 + 1;
         }
         return;
 
     case 5:
-        if (effect->unk_9C.s16 == 0) {
+        if (effect->child_done.s16 == 0) {
             return;
         }
         result = 0xFF;
         if (((S_func_81905FD0_11 *)current_spell_effect_variant)->unk_00 != result) {
             result = effect->unk_09;
         }
-        try_halve_actor_counter(owner->unk_60, result, owner);
+        try_halve_actor_counter(owner->target, result, owner);
 
-        effect->unk_82.u16 = 0;
-        effect->unk_0A.u16 = effect->unk_0A.u16 + 1;
+        effect->timer.u16 = 0;
+        effect->phase.u16 = effect->phase.u16 + 1;
         return;
 
     case 6:
-        effect->unk_82.u16 = effect->unk_82.u16 + 1;
-        if (effect->unk_82.s16 < 11) {
+        effect->timer.u16 = effect->timer.u16 + 1;
+        if (effect->timer.s16 < 11) {
             return;
         }
-        target_render = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_0C;
-        target_render->unk_14 &= 0xF7FF;
-        ((S_func_81905FD0_6 *)owner->unk_60)->unk_14 &= 0xFFEFFFFF;
-        ((S_func_81905FD0_6 *)owner->unk_60)->unk_1C &= 0xEFFFFFFF;
-        target_render->unk_0C.u8_0E.unk_0E = 128;
-        target_render->unk_0C.u8_0D.unk_0D = 128;
-        target_render->unk_0C.u8 = 128;
-        effect->unk_0A.u16 = 8;
-        effect->unk_82.u16 = 30;
+        target_render = ((S_func_81905FD0_5 *)((u8 *)owner->target - 0x20))->sprite;
+        target_render->flags &= 0xF7FF;
+        ((S_func_81905FD0_6 *)owner->target)->property_flags &= 0xFFEFFFFF;
+        ((S_func_81905FD0_6 *)owner->target)->state_flags &= 0xEFFFFFFF;
+        target_render->color.u8_0E.unk_0E = 128;
+        target_render->color.u8_0D.unk_0D = 128;
+        target_render->color.u8 = 128;
+        effect->phase.u16 = 8;
+        effect->timer.u16 = 30;
         return;
 
     case 8:
     {
-        u16 previous_timer = effect->unk_82.u16;
+        u16 previous_timer = effect->timer.u16;
         u16 timer = previous_timer + 1;
 
-        effect->unk_82.u16 = timer;
+        effect->timer.u16 = timer;
         if ((s16)timer < 31) {
             return;
         }
         {
             s32 active_flag = ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.s16;
 
-            effect->unk_82.u16 = previous_timer;
+            effect->timer.u16 = previous_timer;
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
                 ((ObjectNodeHeader *)((u8 *)effect - 0x20) )->flags|= NODE_REMOVE;

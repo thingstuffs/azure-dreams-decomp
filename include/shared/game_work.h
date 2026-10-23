@@ -7,16 +7,16 @@
  * function there together with the record's data (+0x24 / +0x04); w_8004D294 hands &slot[0].unk_04 (position) and
  * &slot[2].unk_04 (rotation) to func_8004D1EC as transition targets.  Field widths are slot 0's retail accesses
  * (slots 1..3 are reached only at +0x00).  Other fields stay unk_. */
-/* One view callback/interpolation slot; GameView owns four and move_view_record copies whole slots.
- * initialize_three_component_interpolation installs the callback and target data in slots 0 or 2. */
+/* Embedded camera callback work: slots 0/2 run position/rotation, slots 1/3 hold queued records.
+ * move_view_record transfers all 0x44 bytes and clears the source callback; no separate allocation. */
 typedef struct ViewSlot {
     /* 0x000 */ void * callback; /* active view callback, called with the address of unk_04; null when idle */
-    /* 0x004 */ void * unk_04; /* callback data; destination three-halfword vector during three-component interpolation */
+    /* 0x004 */ void * unk_04; /* callback-specific data; interpolation stores the destination vector pointer here, with deltas in the following bytes */
     /* 0x008 */ unsigned char pad_08[0x8];
     /* 0x010 */ int unk_10; /* packed target X/Y halfwords in three-component interpolation mode */
     /* 0x014 */ int unk_14; /* target Z halfword at +0x14 in three-component interpolation mode */
-    /* 0x018 */ int unk_18; /* interpolation progress; starts at 0 and clamps at 0x1000 */
-    /* 0x01C */ int unk_1C; /* progress increment per callback; duration != 0 gives 0x400 / duration */
+    /* 0x018 */ int unk_18; /* three-component interpolation progress, initialized to 0; callback clamps completion at 0x1000 */
+    /* 0x01C */ int unk_1C; /* interpolation step: 0x400 / duration when nonzero, otherwise 0x1000; duration is not a direct frame count */
     /* 0x020 */ unsigned char pad_20[0x4];
     /* 0x024 */ void * position_source; /* position source read at +2/+6/+0xA by copy_view_halfword_triplet */
     /* 0x028 */ short transition_frames_left;        /* lh 1, sh 4 (4 rows, slot 0) */
@@ -40,8 +40,8 @@ typedef struct ViewSlot {
  *   `(viewAngle + obj->angle + 0x100) >> 9 & 7` picks an object's 8-way directional sprite (0x1000 = one turn).
  *   0x090..0x092: three bytes read as an r, g, b triple into primitives and faded in/out by +-2/4 (unnamed).
  * gcc 2.7.2 has no anonymous structs, so every field here is spelled gameWork.view.<field>. */
-/* Current camera, projection, lighting and clipping state, embedded in GameWork.
- * init_dungeon_view and reset_camera_transition_fields establish the view defaults. */
+/* Camera/projection/lighting work embedded in resident GameWork, reused across scene setup.
+ * init_dungeon_view sets render defaults; reset_camera_transition_fields clears transitions and binds the position source. */
 typedef struct GameView {
     /* 0x000 */ short clip_x; /* horizontal origin of the render clipping rectangle, in screen coordinates */
     /* 0x002 */ short clip_y; /* vertical origin of the render clipping rectangle, in screen coordinates */
@@ -139,7 +139,7 @@ typedef struct GameView {
             unsigned char pad_0B2[0x2];
         } parts;
     } camera_rotation;
-    /* 0x0B4 */ ViewSlot slot[4]; /* four view callback/interpolation records; slots 0 and 2 target position and rotation */
+    /* 0x0B4 */ ViewSlot slot[4]; /* position active/queued pair [0,1] and rotation active/queued pair [2,3]; runner restores queued work when active is idle */
 } GameView;
 
 /* MapGrid: gameWork+0x1DC..0x1FB (0x20 bytes; r78 phase 10), the current map's cell grid.  A real sub-object like
@@ -149,10 +149,10 @@ typedef struct GameView {
  * for y); cells are 6 bytes and cell (x, y) is cells + (x + (y << shiftX)) * 6 (func_80017EBC counts free cells,
  * the cell's flags word is at +4); func_800A0548 bounds-checks x < 1 << shiftX and y < 1 << shiftY.  World
  * coordinates are 64 units per cell (EntityRec: tile * 64 + 32), so span is the map size in world units. */
-/* Current map cell grid and geometry sources, embedded in GameWork.
- * load_dungeon_layout sets dimensions; terrain and tile queries read the map setup tables. */
+/* Current map descriptor embedded in GameWork; scene setup binds its borrowed cell/geometry data.
+ * Width/height shifts give cell bounds; cells span 64 world units and use a six-byte stride. */
 typedef struct MapGrid {
-    /* 0x00 */ void * cells; /* six-byte map cells; cell index = x + (y << shiftX) */
+    /* 0x00 */ void * cells; /* borrowed six-byte map cells; index = x + (y << shiftX), flag halfword at byte +4 (see dungeon/level/tile_flags.h) */
     /* 0x04 */ void * cell_faces; /* table of face-list pointers indexed by a map cell */
     /* 0x08 */ void * vertices; /* map vertex table used for surface-height queries */
     /* 0x0C */ void * surface_planes; /* surface-normal vectors indexed by map faces */
@@ -175,15 +175,15 @@ typedef struct MapGrid {
  *   Union sites (a wider or narrower access than the field; reached through a view at the use): 0x004 (2 lbu),
  *   0x008 (1 lhu), view.0x090 (lw/sw over the three bytes), view.0x094/0x098/0x0AC/0x0B0 (a word copy).
  * Size: at least 0x200 (last access 0x1FC); never small data at any -G. */
-/* Resident render, input, camera and map work shared by all overlays.
- * init_frame_buffers installs the draw context; controller, view and map initializers own their subrecords. */
+/* Resident singleton shared by overlays; scene setup rebinds its draw/map pointers and embedded view.
+ * Controller polling replaces input samples, frame rendering selects the current draw context. */
 typedef struct GameWork {
-    /* 0x000 */ void * draw_buffer; /* current draw context; its +0x8D0 word is the next packet cursor */
-    /* 0x004 */ unsigned short unk_004;  /* lbu 2, lhu 15 (14 rows) */
+    /* 0x000 */ void * draw_buffer; /* borrowed current frame draw context; packet allocation advances its +0x8D0 cursor */
+    /* 0x004 */ unsigned short unk_004; /* texture-pack generation token; narrow/wide VRAM packers reset their cursors when their cached token differs */
     /* 0x006 */ unsigned char pad_006[0x2];
     /* 0x008 */ int buttons; /* currently held controller buttons, in the PS1 pad bit layout */
     /* 0x00C */ int previous_buttons; /* previous held-button sample saved before polling the controller */
-    /* 0x010 */ void * pressed_buttons; /* newly pressed button bits: (buttons ^ previous_buttons) & buttons */
+    /* 0x010 */ void * pressed_buttons; /* new button bits, (buttons ^ previous_buttons) & buttons; pointer-typed storage is used as a bit mask */
     /* 0x014 */ unsigned char pad_014[0x4];
     /* 0x018 */ GameView view; /* camera, lighting, clipping and view-transition state */
     /* 0x1DC */ MapGrid map; /* current map cell grid and geometry tables */

@@ -20,7 +20,7 @@ struct Struct_C_next;
 struct VtableObj;
 
 /* code.c */
-void initialize_memory_card_services(void);
+void initialize_memory_card_services(s32 enable_pad);
 void zero_words(int *dst, int count);
 void copy_words_forward(int *dst, int *src, int count);
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);

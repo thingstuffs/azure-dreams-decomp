@@ -3,7 +3,8 @@
 /* DMA/GPU packet tag: addr is the next packet's low 24-bit address,
  * len is the command-word count in the high byte. The existing bitfield
  * consumers in the layered renderer and text renderer use this layout. */
-/* DMA chain header embedded in render packets; packet builders fill it while linking the ordering table. */
+/* DMA tag embedded in a render packet; builders set its count and link it into the ordering table.
+ * It has the containing packet's frame lifetime; changing addr must preserve the high length byte. */
 typedef struct GpuLinkTag {
     unsigned int addr : 24; /* next packet address, low 24 bits */
     unsigned int len : 8; /* number of following GPU command words, in 32-bit words */
@@ -13,8 +14,8 @@ typedef struct GpuLinkTag {
  * 0x28, copies four packed XY words, sets four UV pairs and fills the CLUT
  * and texture-page words. The high tag byte is preserved while linking.
  * Word members retain the demonstrated access widths and alignment. */
-/* GPU textured-quad command allocated at the current draw context packet cursor.
- * render_rotated_grid_surface advances the cursor by 0x28 bytes per packet. */
+/* Textured quad built in the current frame context's packet storage, then linked into its ordering table.
+ * The grid renderer advances by 0x28 bytes; the packet is valid until that draw context is reused. */
 typedef struct PolyFT4 {
     /* 0x00 */ int tag; /* DMA link address/count word; link updates preserve the high length byte */
     /* 0x04 */ int colorCode; /* packed RGB modulation and GPU primitive command byte */
@@ -39,8 +40,8 @@ typedef struct PolyFT4 {
 /* Current render state reached through gameWork.unk_000. The grid renderer
  * inserts packets into the low 24 bits of +B0 and advances +8D0 after each
  * allocation. This is a partial observed layout; full allocation unknown. */
-/* Partial view of one frame draw context, selected by init_frame_buffers.
- * render_scene_frame_with_timing swaps contexts, clears ordering tags and resets the packet cursor each frame. */
+/* Partial frame draw context owned by the frame-buffer setup, borrowed through GameWork.draw_buffer.
+ * render_scene_frame_with_timing reuses contexts, clears ordering tags and resets packet storage each frame. */
 typedef struct GpuContext {
     /* 0x000 */ unsigned char pad_000[0x70];
     /* 0x070 */ unsigned int orderTag070; /* ordering-table tag used by text sprites and draw-mode packets */
@@ -54,7 +55,7 @@ typedef struct GpuContext {
     /* 0x830 */ unsigned char pad_830[0x80];
     /* 0x8B0 */ unsigned int orderTag8B0; /* ordering-table tag used by clipped draw/fill packets */
     /* 0x8B4 */ unsigned char pad_8B4[0x1C];
-    /* 0x8D0 */ unsigned char *packetCursor; /* next free packet byte; reset to context + 0x8D4 each frame */
+    /* 0x8D0 */ unsigned char *packetCursor; /* next free packet byte; reset to context +0x8D4 when reused, then advanced by each packet builder */
 } GpuContext;
 
 /* Exact access views shared across registered binary consumers. */

@@ -16,14 +16,6 @@ struct SpriteFrameState;
 #include "shared/object_node.h"
 #include "shared/entity.h"
 
-typedef struct S_800BCE78_1 {
-    s32 unk_00;
-    u8 pad_04[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s32 unk_14;
-} S_800BCE78_1;
 
 typedef struct Func800BFE50Object {
     u8 pad00[0x48];
@@ -186,7 +178,7 @@ extern s32 register_node(struct RegistrationNode *, s32);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
-void update_randomized_actor_movement(void *actor, void *motion,struct SpriteFrameState *sprite, s32 update_mode);
+void update_randomized_actor_movement(void *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *params, void *dispatch_context);
 void randomize_paired_object_motion(void *pair_in);
 void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id);

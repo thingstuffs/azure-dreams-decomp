@@ -13,9 +13,9 @@ typedef struct T_80172FFC_S_80172FFC_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
     u8 pad_90[0x6];
-    u16 unk_96;
+    u16 timer;
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } T_80172FFC_S_80172FFC_0;   /* arg0 in func_80172FFC */
 
 typedef struct T_80172FFC_S_80172FFC_3 {

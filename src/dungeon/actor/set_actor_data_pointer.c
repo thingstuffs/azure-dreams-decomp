@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 resolve_actor_floor_trap_once();                                /* extern */
+#include "dungeon/actor/state.h"
 extern u8 actor_default_action_address;
 
 typedef struct S_800D491C_0 {
@@ -9,8 +9,8 @@ typedef struct S_800D491C_0 {
 } S_800D491C_0;   /* arg0 in set_actor_data_pointer */
 
 /* Sets the object data pointer when the status check is positive. */
-void set_actor_data_pointer(S_800D491C_0 *object) {
-    if (resolve_actor_floor_trap_once() > 0) {
+void set_actor_data_pointer(S_800D491C_0 *object, s32 context, void *source, void *target) {
+    if (resolve_actor_floor_trap_once(object, context, source, target) > 0) {
         object->unk_8C = &actor_default_action_address;
     }
 }

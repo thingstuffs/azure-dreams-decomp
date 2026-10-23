@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 /* Clown actor spawning, action updates, movement, and transition effects. */
+#include "dungeon/actor/motion.h"
 #include "dungeon/monster/clown.h"
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
@@ -1131,7 +1132,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
     s32 state;
     s32 countdown;
 
-    switch (motion_state->unk_9B) {
+    switch (motion_state->phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
@@ -1140,7 +1141,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
         motion->velocity_y =
             -*(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
-        motion_state->unk_9B++;
+        motion_state->phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1150,15 +1151,15 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             return;
         }
         if (tile_state->flags & 0x8000) {
-            motion_state->unk_96.s = 0;
-            motion_state->unk_9B = 2;
+            motion_state->timer.s = 0;
+            motion_state->phase = 2;
             return;
         }
         timer = -1;
         if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        motion_state->unk_96.s = timer;
+        motion_state->timer.s = timer;
                         /* fall through */
 
     case 1:
@@ -1173,13 +1174,13 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
         rounded_velocity = velocity_z;
         motion->velocity_y = velocity_z - (rounded_velocity / 4);
 
-        if (motion_state->unk_96.s > 0) {
-            motion_state->unk_96.u = motion_state->unk_96.u - 1;
+        if (motion_state->timer.s > 0) {
+            motion_state->timer.u = motion_state->timer.u - 1;
         } else if (tile_state->flags & 0x6000) {
-            motion_state->unk_96.s = 0;
+            motion_state->timer.s = 0;
         }
 
-        if (motion_state->unk_96.s != 0) {
+        if (motion_state->timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -1189,12 +1190,12 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
             return;
         }
-        motion_state->unk_96.s = 8;
-        motion_state->unk_9B++;
+        motion_state->timer.s = 8;
+        motion_state->phase++;
         return;
 
     case 2:
-        timer = motion_state->unk_96.s;
+        timer = motion_state->timer.s;
         if (timer != 0) {
             s32 tile_coord;
             s32 offset_coord;
@@ -1208,11 +1209,11 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             offset_coord -= 0x20;
             tile_coord = tile_state->tile_y << 6;
             motion->velocity_y =
-                ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
+                ((tile_coord - offset_coord) << 15) / motion_state->timer.s;
         }
 
-        countdown = motion_state->unk_96.u - 1;
-        motion_state->unk_96.p = countdown;
+        countdown = motion_state->timer.u - 1;
+        motion_state->timer.p = countdown;
         if ((countdown << 16) > 0) {
             return;
         }
@@ -1243,8 +1244,8 @@ void remove_defeated_clown(void *state, void *motion, void *position, void *acto
 }
 
 /* Runs the shared hop and shrink update, then clears the halfword at offset 0xA2. */
-void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, void *data) {
-    update_actor_hop_and_shrink(state, context, data);
+void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render) {
+    update_actor_hop_and_shrink(state, context, data, render);
     state->unk_A2 = 0;
 }
 

@@ -4,7 +4,7 @@
 extern void set_event_state_and_dispatch_a_2(void);
 extern s32 check_event_value_in_list(u8);
 extern u8 find_first_enabled_entry_id(void);
-extern u8 *resolve_event_response_key(s32, s32, s32);
+#include "town/scene.h"
 
 extern u8 scene_mode_response_data[];
 extern u8 D_8001914C[];

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-s16 read_scene_counter_a(void);
-s16 read_scene_counter_b(void);
+s16 get_scene_value_35be(void);
+s16 get_scene_value_35c0(void);
 
 #endif

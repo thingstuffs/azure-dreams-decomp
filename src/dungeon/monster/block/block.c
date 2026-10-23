@@ -1037,15 +1037,15 @@ void complete_timed_actor_animation(void *action, void *motion, SpriteFrameState
     s32 start_state;
     u16 timer;
 
-    state = ((CB_801729A8_S_801729A8_0 *)action)->unk_9B;
+    state = ((CB_801729A8_S_801729A8_0 *)action)->phase;
     start_state = 1;
     switch (state) {
     case 0:
-        ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = start_state;
+        ((CB_801729A8_S_801729A8_0 *)action)->phase = start_state;
                         /* fall through */
     case 1:
         if (sprite->flags & 0x8000) {
-            ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
+            ((CB_801729A8_S_801729A8_0 *)action)->phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1058,29 +1058,29 @@ void complete_timed_actor_animation(void *action, void *motion, SpriteFrameState
         select_sprite_entry(sprite,
             D_801752DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        next_state = ((CB_801729A8_S_801729A8_0 *)action)->unk_9B;
-        ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s = 0;
+        next_state = ((CB_801729A8_S_801729A8_0 *)action)->phase;
+        ((CB_801729A8_S_801729A8_0 *)action)->timer.s = 0;
         next_state++;
-        ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = next_state;
+        ((CB_801729A8_S_801729A8_0 *)action)->phase = next_state;
         return;
     case 2:
-        timer = ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
-        ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
+        timer = ((CB_801729A8_S_801729A8_0 *)action)->timer.s + 1;
+        ((CB_801729A8_S_801729A8_0 *)action)->timer.s = timer;
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
+        if (((CB_801729A8_S_801729A8_0 *)action)->timer.u == 6) {
             play_sound_if_enabled(0x808);
         }
-        if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 8) {
+        if (((CB_801729A8_S_801729A8_0 *)action)->timer.u == 8) {
             sprite->flags |= 0x0800;
         }
-        if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 15 ||
+        if (((CB_801729A8_S_801729A8_0 *)action)->timer.u == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            next_state = ((CB_801729A8_S_801729A8_0 *)action)->unk_9B;
+            next_state = ((CB_801729A8_S_801729A8_0 *)action)->phase;
             next_state++;
-            ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = next_state;
+            ((CB_801729A8_S_801729A8_0 *)action)->phase = next_state;
         }
         return;
     case 3:
@@ -1290,7 +1290,7 @@ void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition
     s16 wait_ticks;
     u8 *next_script;
 
-    phase = state->unk_9B;
+    phase = state->phase;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -1301,17 +1301,17 @@ void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition
         emit_scattered_effects_unless_blocked(motion);
         emit_scattered_effects_unless_blocked(motion);
         initialize_timed_motion_step(4, 6);
-        state->unk_9B = state->unk_9B + 1;
+        state->phase = state->phase + 1;
         if (entity->unk_28 != 0) {
             if (((SpriteFrameState *)action)->flags & 0x8000) {
-                state->unk_96.s = 0;
-                state->unk_9B = 2;
+                state->timer.s = 0;
+                state->phase = 2;
                 return;
             }
             wait_ticks = -1U;
             if (entity->flags1C & 0x228)
                 wait_ticks = 8;
-            state->unk_96.s = wait_ticks;
+            state->timer.s = wait_ticks;
         } else {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1320,14 +1320,14 @@ void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition
             return;
         }
     case 1:
-        if (state->unk_96.u > 0) {
-            ticks_left = state->unk_96.s - 1;
-            state->unk_96.s = ticks_left;
+        if (state->timer.u > 0) {
+            ticks_left = state->timer.s - 1;
+            state->timer.s = ticks_left;
         } else {
             if (((SpriteFrameState *)action)->flags & 0x6000)
-                state->unk_96.s = 0;
+                state->timer.s = 0;
         }
-        if (state->unk_96.u != 0)
+        if (state->timer.u != 0)
             return;
         if (entity->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1337,12 +1337,12 @@ void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition
             return;
         }
         initialize_timed_motion_step(1, 1);
-        state->unk_96.s = 8;
-        state->unk_9B = state->unk_9B + 1;
+        state->timer.s = 8;
+        state->phase = state->phase + 1;
         return;
     case 2:
-        ticks_left = state->unk_96.s - 1;
-        state->unk_96.s = ticks_left;
+        ticks_left = state->timer.s - 1;
+        state->timer.s = ticks_left;
         if ((ticks_left << 0x10) > 0)
             return;
         motion->velocity_z = 0;
@@ -2274,16 +2274,16 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
     void *new_model;
     void *model;
 
-    status = ((CB_80174D14_S_80C97514_0 *)state)->unk_9B;
+    status = ((CB_80174D14_S_80C97514_0 *)state)->phase;
     switch (status) {
     case 0:
-        next_state = ((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;
+        next_state = ((CB_80174D14_S_80C97514_0 *)state)->phase + 1;
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = next_state;
         return;
     case 1:
         run_cd_image_commands(&block_image_commands, &D_801753A8, 0);
         ((CB_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
@@ -2302,30 +2302,30 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         (*(s8 *)&D_801753A9) = 0;
         Control_CD(0xFF, &resource_completion_callback_address, &D_801753A9);
         select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
         create_radial_effect_bands(state, position, entity);
     case 3:
-        previous_ticks = ((CB_80174D14_S_80C97514_0 *)state)->unk_96;
+        previous_ticks = ((CB_80174D14_S_80C97514_0 *)state)->timer;
         fade_ticks = previous_ticks - 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = fade_ticks;
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             status = ((CB_80174D14_S_80C97514_2 *)(&D_801753A9))->unk_00;
-            ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = previous_ticks;
+            ((CB_80174D14_S_80C97514_0 *)state)->timer = previous_ticks;
             if (status == 0) {
                 return;
             }
-            ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+            ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         effect_data = ((void **)&actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_r) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_g) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_b) / (s16) ((CB_80174D14_S_80C97514_0 *)state)->timer));
         return;
     case 4:
     {
@@ -2354,26 +2354,26 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         effect_data = (void *)(*((s32 *)&D_80175318 + (s16) effect_index) + (s32)&dungeon_resource_buffer);
         select_record_entry_and_value(render_obj, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = 0U;
-        next_state = ((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0U;
+        next_state = ((CB_80174D14_S_80C97514_0 *)state)->phase + 1;
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = next_state;
         return;
     }
     case 5:
         render_obj = ((CB_80174D14_S_80C97514_0 *)state)->unk_AC;
         render_obj = render_obj->unk_0C.u;
         if (render_obj->unk_14 & 0xE000) {
-            ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+            ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
         }
     case 6:
-        if (((CB_80174D14_S_80C97514_0 *)state)->unk_9B != 6) {
+        if (((CB_80174D14_S_80C97514_0 *)state)->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_801753AC, D_80175314, &staged_spawn_count) == 0) {
             return;
         }
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2386,8 +2386,8 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         if (new_model == NULL) {
             return;
         }
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CB_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CB_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CB_80174D14_S_80C97514_0 *)state)->phase + 1);
         ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
@@ -2396,8 +2396,8 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
             + (s16) ((CB_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
     case 8:
-        finish_ticks = ((CB_80174D14_S_80C97514_0 *)state)->unk_96 - 1;
-        ((CB_80174D14_S_80C97514_0 *)state)->unk_96 = finish_ticks;
+        finish_ticks = ((CB_80174D14_S_80C97514_0 *)state)->timer - 1;
+        ((CB_80174D14_S_80C97514_0 *)state)->timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }

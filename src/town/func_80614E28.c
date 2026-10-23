@@ -2,6 +2,6 @@
 #include "town/scene/data_access.h"
 
 /* Returns zero. */
-s32 get_null_scene_entry_data(void) {
+s32 scene_condition_false_a(void) {
     return 0;
 }

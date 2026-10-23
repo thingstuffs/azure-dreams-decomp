@@ -5,99 +5,50 @@
 
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_800B0C68_arg0.h"
-#include "shared/widget_views.h"
 
-typedef struct S_800B1188_2 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0x10];
-    void * unk_24;
-    u8 pad_28[0x10];
-    void * unk_38;
-    u8 pad_3C[0x10];
-    void * unk_4C;
-    u8 pad_50[0x10];
-    void * unk_60;
-} S_800B1188_2;
+/* Five pointer planes begin at +0x10, +0x24, +0x38, +0x4C and +0x60.
+ * The layout routine positions all five rows; the population routine stores
+ * each row's lookup result, text handle and item handle through those pointers. */
+typedef struct ShopWidgetData {
+    u8 pad_00[8];
+    s16 x;
+    union { s16 s; u16 u; } y;
+} ShopWidgetData;
 
-typedef struct S_800B1188_3 {
-    s32 ** unk_00;
-    void ** unk_04;
-    s32 unk_08;
-    s32 ** unk_0C;
-} S_800B1188_3;
+typedef struct ShopWidget {
+    union { s32 word; void *pointer; } value;
+    ShopWidgetData *data;
+} ShopWidget;
 
-/* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in initialize_shop_window_layout */
-typedef struct S_800B1188_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_4;
+typedef struct ShopWindowWidgets {
+    /* 0x00 */ ShopWidget *unk_00;
+    /* 0x04 */ ShopWidget *record_widget;
+    /* 0x08 */ ShopWidget *cursor;
+    /* 0x0C */ ShopWidget *unk_0C;
+    /* 0x10 */ ShopWidget *rows[5][5];
+    /* 0x74 */ ShopWidget *left_child;
+    /* 0x78 */ ShopWidget *right_child;
+} ShopWindowWidgets;
 
-typedef struct S_800B1188_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_5;
+/* Shop window state passed by the setup routine to its positioning and row
+ * population helpers. Only fields used by those helpers are described here. */
+typedef struct ShopWindow {
+    /* 0x00 */ u8 pad_00[8];
+    /* 0x08 */ s32 selected_entry;
+    /* 0x0C */ s32 entry_count;
+    /* 0x10 */ s32 page;
+    /* 0x14 */ u8 pad_14[4];
+    /* 0x18 */ s32 price_mode;
+    /* 0x1C */ u8 pad_1C[8];
+    /* 0x24 */ s32 item_address;
+    /* 0x28 */ u8 cursor_record[0xC];
+    /* 0x34 */ u8 header_record[0x98];
+    /* 0xCC */ ShopWindowWidgets *widgets;
+} ShopWindow;
 
-typedef struct S_800B1188_6 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_6;
-
-typedef struct S_800B1188_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_7;
-
-typedef struct S_800B1188_8 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_8;
-
-typedef struct S_800B1188_9 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B1188_9;
-
-/* ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04 in initialize_shop_window_layout */
-typedef struct S_800B1188_10 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800B1188_10;
-
-typedef struct S_800B1188_11 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800B1188_11;
-
-typedef struct S_800B1188_12 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800B1188_12;
-
-typedef struct S_800B1188_13 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800B1188_13;
-
-typedef struct S_800B1188_14 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800B1188_14;
-
-/* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in initialize_shop_window_layout */
 struct S8004CBFC_a0;
 
 struct S8004CBFC_a1;
-
-struct Rec_func_800B0C68_arg0;
-
-struct S_800B0FD4_0;
 
 typedef struct S_800B1390_0 {
     s32 *unk_m10;
@@ -119,9 +70,9 @@ typedef struct S_800B1390_1 {
 
 void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *, int *);
 void process_shop_record_and_subrecord(s32);
-void position_shop_row_widgets(struct Rec_func_800B0C68_arg0 *);
-void position_shop_child_elements(struct Rec_func_800B0C68_arg0 *);
-void populate_shop_item_rows(struct S_800B0FD4_0 *);
+void position_shop_row_widgets(ShopWindow *menu);
+void position_shop_child_elements(ShopWindow *parentObject);
+void populate_shop_item_rows(ShopWindow *ctx);
 extern M2C_UNK D_800788E0;
 struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 extern M2C_UNK D_800D15F4;
@@ -129,7 +80,7 @@ extern s32 D_800B0824[];
 extern void initialize_shop_parts(void *, void *, void *);
 
 /* Functions defined in this translation unit. */
-void initialize_shop_window_layout(void *ui);
+void initialize_shop_window_layout(ShopWindow *ui);
 void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10, s32 value_14, s32 value_24, s32 value_18);
 void configure_shop_object_and_finalize(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
 

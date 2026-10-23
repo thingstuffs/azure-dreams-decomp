@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 #include "shared/record_ptrs.h"
 
 typedef struct S_8001640C_0 {
@@ -27,17 +28,17 @@ typedef struct S_8001640C_3 {
 
 extern s32 scene_cell_dispatch_code;
 
-s32 func_80018618(void);
+s32 func_80018618(void *context, s32 entry_index);
 
 /* Pass the selected entry byte to func_80018618 and clear it if the call returns nonzero. */
-s32 pass_and_clear_selected_entry_byte(void) {
+s32 pass_and_clear_selected_entry_byte(void *context, s32 entry_index) {
     void **pageSlot;
     s32 handlerResult;
 
     pageSlot = (void **)((s8 *)(&town_scene_root));
     scene_cell_dispatch_code = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
             ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04;
-    handlerResult = func_80018618();
+    handlerResult = func_80018618(context, entry_index);
     if (handlerResult != 0) {
         ((S_8001640C_3 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
                 ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04 = 0;

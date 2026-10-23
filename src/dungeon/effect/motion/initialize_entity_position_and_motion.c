@@ -564,12 +564,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         history = (ovl_19a332c_819835AC_S_819835AC_4 *) ((u8 *) effect + history_index * 8);
         history->unk_50 = history->unk_48;
     }
-    owner_ref = effect->unk_20;
-    effect->unk_48 = motion->unk_00.half.unk_02.u16;
-    effect->unk_4A = motion->unk_04.half.unk_06.u16;
-    effect->unk_4C = motion->unk_08.half.unk_0A.u16;
+    owner_ref = effect->parent_link;
+    effect->previous_x = motion->x.half.unk_02.u16;
+    effect->previous_y = motion->y.half.unk_06.u16;
+    effect->previous_z = motion->z.half.unk_0A.u16;
     if (owner_ref == 0) {
-        state = effect->unk_30;
+        state = effect->phase;
         switch (state) {
         case 0:
             resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -584,39 +584,39 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             state0_delta_x -= sin_x;
             state0_delta_x += cos_x;
             state0_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
-            effect->unk_28.u16 += state0_delta_x;
+            effect->target_x.u16 += state0_delta_x;
             sin_y = rsin(state0_actor->unk_2A.s16);
             cos_y = rsin(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
             sin_y_shift = sin_y >> 4;
             cos_y >>= 4;
             step_y = ((u16)state0_move->y.w.i);
-            coord_delta = effect->unk_2A.u16;
+            coord_delta = effect->target_y.u16;
             step_y -= sin_y_shift;
             step_y += cos_y;
             state0_height_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
             coord_delta += step_y;
-            effect->unk_2A.u16 = (u16) coord_delta;
-            coord_delta = effect->unk_2C.u16;
+            effect->target_y.u16 = (u16) coord_delta;
+            coord_delta = effect->target_z.u16;
             step_y = state0_height_actor->unk_88.u16;
             approach_frames = 0x10U;
             coord_delta -= 0x50;
             step_y += coord_delta;
-            effect->unk_2C.u16 = (u16) step_y;
-            effect->unk_34.u16 = approach_frames;
-            height_numerator_2 = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
+            effect->target_z.u16 = (u16) step_y;
+            effect->timer.u16 = approach_frames;
+            height_numerator_2 = (effect->target_z.s16 - motion->z.half.unk_0A.s16) << 0x10;
             height_frames = 16;
-            motion->unk_14.word = height_numerator_2 / height_frames;
-            effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
+            motion->velocity_z.word = height_numerator_2 / height_frames;
+            effect->phase = (s16) ((u16) effect->phase + 1);
         case 1:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
-                (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
-            approach_heading = effect->unk_38;
+            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+                (s16) effect->target_x.u16, (s16) effect->target_y.u16);
+            approach_heading = effect->heading;
             if (approach_heading & 0x800) {
                 approach_signed_angle = approach_heading | 0xF800;
             } else {
                 approach_signed_angle = approach_heading & 0x7FF;
             }
-            effect->unk_38 = approach_signed_angle;
+            effect->heading = approach_signed_angle;
             if (aim_angle & 0x800) {
                 angle_mask = ~0x7FF;
                 normalized_angle = aim_angle | angle_mask;
@@ -624,65 +624,65 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 normalized_angle = aim_angle & 0x7FF;
             }
             aim_angle = normalized_angle;
-            approach_wrap_gap = (s16) effect->unk_38 - aim_angle;
+            approach_wrap_gap = (s16) effect->heading - aim_angle;
             if (approach_wrap_gap < 0) {
                 approach_wrap_gap = 0 - approach_wrap_gap;
             }
             if (approach_wrap_gap >= 0x801) {
-                effect->unk_38 = (u16) ((aim_angle & ~0xFFF) | (effect->unk_38 & 0xFFF));
+                effect->heading = (u16) ((aim_angle & ~0xFFF) | (effect->heading & 0xFFF));
             }
-            approach_angle = (s16) effect->unk_38;
+            approach_angle = (s16) effect->heading;
             approach_turn_gap = aim_angle - approach_angle;
             if (approach_turn_gap < 0) {
                 approach_turn_gap = 0 - approach_turn_gap;
             }
             if (approach_turn_gap >= 0x81) {
-                if (effect->unk_96 != 0) {
+                if (effect->turn_direction != 0) {
                     approach_next_angle = approach_angle + 0x80;
                 } else {
                     approach_next_angle = approach_angle - 0x80;
                 }
-                effect->unk_38 = approach_next_angle;
+                effect->heading = approach_next_angle;
             } else {
-                effect->unk_38 = aim_angle;
+                effect->heading = aim_angle;
             }
-            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
-            approach_ticks = effect->unk_34.u16 - 1;
-            effect->unk_34.u16 = approach_ticks;
+            motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
+            motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
+            approach_ticks = effect->timer.u16 - 1;
+            effect->timer.u16 = approach_ticks;
             if ((approach_ticks << 0x10) <= 0) {
-                motion->unk_08.half.unk_0A.u16 = effect->unk_2C.u16;
-                effect->unk_34.u16 = 0U;
-                motion->unk_14.word = 0;
+                motion->z.half.unk_0A.u16 = effect->target_z.u16;
+                effect->timer.u16 = 0U;
+                motion->velocity_z.word = 0;
             }
             state1_global = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
             state1_global->unk_96 = 2;
-            boost_speed_x = motion->unk_00.word;
-            coord_delta = motion->unk_0C.word;
-            step_y = motion->unk_10.word;
-            step_z = motion->unk_14.word;
+            boost_speed_x = motion->x.word;
+            coord_delta = motion->velocity_x.word;
+            step_y = motion->velocity_y.word;
+            step_z = motion->velocity_z.word;
             boost_speed_x += coord_delta;
-            motion->unk_00.word = boost_speed_x;
-            boost_speed_x = motion->unk_04.word;
-            coord_delta = motion->unk_08.word;
+            motion->x.word = boost_speed_x;
+            boost_speed_x = motion->y.word;
+            coord_delta = motion->z.word;
             boost_speed_x += step_y;
-            motion->unk_04.word = boost_speed_x;
-            boost_speed_x = motion->unk_00.half.unk_02.s16;
+            motion->y.word = boost_speed_x;
+            boost_speed_x = motion->x.half.unk_02.s16;
             coord_delta += step_z;
-            motion->unk_08.word = coord_delta;
-            coord_delta = effect->unk_28.s16;
+            motion->z.word = coord_delta;
+            coord_delta = effect->target_x.s16;
             boost_speed_x -= coord_delta;
             if (__builtin_abs(boost_speed_x) >= 0x40) {
                 break;
             }
-            approach_gap_y = motion->unk_04.half.unk_06.s16;
-            target_coord = effect->unk_2A.s16;
+            approach_gap_y = motion->y.half.unk_06.s16;
+            target_coord = effect->target_y.s16;
             approach_gap_y -= target_coord;
             if (__builtin_abs(approach_gap_y) >= 0x40) {
                 break;
             }
-            approach_gap_z = motion->unk_08.half.unk_0A.s16;
-            target_coord = effect->unk_2C.s16;
+            approach_gap_z = motion->z.half.unk_0A.s16;
+            target_coord = effect->target_z.s16;
             approach_gap_z -= target_coord;
             if (__builtin_abs(approach_gap_z) >= 0x40) {
                 break;
@@ -691,27 +691,27 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + actor_direction_sprites), &reference_tile_object.frame_entry, (u8 *) effect + 0x28, 0);
             state1_move = &view_reference_entity;
-            effect->unk_28.u16 += (u16)state1_move->x.w.i;
+            effect->target_x.u16 += (u16)state1_move->x.w.i;
             state1_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
-            effect->unk_2A.u16 += (u16)state1_move->y.w.i;
-            coord_delta = effect->unk_2C.u16;
+            effect->target_y.u16 += (u16)state1_move->y.w.i;
+            coord_delta = effect->target_z.u16;
             boost_speed_x = ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.u16;
             coord_delta -= 0x50;
             boost_speed_x += coord_delta;
-            effect->unk_2C.u16 = boost_speed_x;
+            effect->target_z.u16 = boost_speed_x;
             state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
-            effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
+            effect->phase = (s16) ((u16) effect->phase + 1);
             break;
         case 2:
-            aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
-                (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
-            travel_heading = effect->unk_38;
+            aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+                (s16) effect->target_x.u16, (s16) effect->target_y.u16);
+            travel_heading = effect->heading;
             if (travel_heading & 0x800) {
                 travel_signed_angle = travel_heading | 0xF800;
             } else {
                 travel_signed_angle = travel_heading & 0x7FF;
             }
-            effect->unk_38 = travel_signed_angle;
+            effect->heading = travel_signed_angle;
             if (aim_angle & 0x800) {
                 angle_mask = ~0x7FF;
                 normalized_angle = aim_angle | angle_mask;
@@ -719,53 +719,53 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 normalized_angle = aim_angle & 0x7FF;
             }
             aim_angle = normalized_angle;
-            travel_wrap_gap = (s16) effect->unk_38 - aim_angle;
+            travel_wrap_gap = (s16) effect->heading - aim_angle;
             if (travel_wrap_gap < 0) {
                 travel_wrap_gap = 0 - travel_wrap_gap;
             }
             if (travel_wrap_gap >= 0x801) {
-                effect->unk_38 = (u16) ((aim_angle & ~0xFFF) | (effect->unk_38 & 0xFFF));
+                effect->heading = (u16) ((aim_angle & ~0xFFF) | (effect->heading & 0xFFF));
             }
-            travel_angle = (s16) effect->unk_38;
+            travel_angle = (s16) effect->heading;
             travel_turn_gap = aim_angle - travel_angle;
             if (travel_turn_gap < 0) {
                 travel_turn_gap = 0 - travel_turn_gap;
             }
             if (travel_turn_gap >= 0x81) {
-                if (effect->unk_96 != 0) {
+                if (effect->turn_direction != 0) {
                     travel_next_angle = travel_angle + 0x80;
                 } else {
                     travel_next_angle = travel_angle - 0x80;
                 }
-                effect->unk_38 = travel_next_angle;
+                effect->heading = travel_next_angle;
             } else {
-                effect->unk_38 = aim_angle;
+                effect->heading = aim_angle;
             }
-            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
-            travel_ticks = effect->unk_34.u16 - 1;
-            effect->unk_34.u16 = travel_ticks;
+            motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
+            motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
+            travel_ticks = effect->timer.u16 - 1;
+            effect->timer.u16 = travel_ticks;
             if ((travel_ticks << 0x10) <= 0) {
-                motion->unk_08.half.unk_0A.u16 = effect->unk_2C.u16;
-                effect->unk_34.u16 = 0U;
-                motion->unk_14.word = 0;
+                motion->z.half.unk_0A.u16 = effect->target_z.u16;
+                effect->timer.u16 = 0U;
+                motion->velocity_z.word = 0;
             }
-            boost_speed_x = motion->unk_00.word;
-            coord_delta = motion->unk_0C.word;
-            step_y = motion->unk_10.word;
-            step_z = motion->unk_14.word;
+            boost_speed_x = motion->x.word;
+            coord_delta = motion->velocity_x.word;
+            step_y = motion->velocity_y.word;
+            step_z = motion->velocity_z.word;
             boost_speed_x += coord_delta;
-            motion->unk_00.word = boost_speed_x;
-            boost_speed_x = motion->unk_04.word;
-            coord_delta = motion->unk_08.word;
+            motion->x.word = boost_speed_x;
+            boost_speed_x = motion->y.word;
+            coord_delta = motion->z.word;
             boost_speed_x += step_y;
             coord_delta += step_z;
-            motion->unk_04.word = boost_speed_x;
+            motion->y.word = boost_speed_x;
             state2_stage = (*(void **)((u8 *)&primary_actor_record + 0));
-            motion->unk_08.word = coord_delta;
+            motion->z.word = coord_delta;
             state2_stage->unk_96 = 2;
-            travel_gap_x = motion->unk_00.half.unk_02.s16;
-            target_coord = effect->unk_28.s16;
+            travel_gap_x = motion->x.half.unk_02.s16;
+            target_coord = effect->target_x.s16;
             travel_gap_x -= target_coord;
             if (travel_gap_x < 0) {
                 travel_gap_x = 0 - travel_gap_x;
@@ -773,8 +773,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (travel_gap_x >= 0x20) {
                 break;
             }
-            travel_gap_y = motion->unk_04.half.unk_06.s16;
-            target_coord = effect->unk_2A.s16;
+            travel_gap_y = motion->y.half.unk_06.s16;
+            target_coord = effect->target_y.s16;
             travel_gap_y -= target_coord;
             if (travel_gap_y < 0) {
                 travel_gap_y = 0 - travel_gap_y;
@@ -782,24 +782,24 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (travel_gap_y >= 0x20) {
                 break;
             }
-            effect->unk_34.u16 = 4U;
+            effect->timer.u16 = 4U;
             state2_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00;
-            effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
+            effect->phase = (s16) ((u16) effect->phase + 1);
             ((ovl_19a332c_819835AC_S_819835AC_6 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00)->unk_96 = 0;
-            effect->unk_38 = (u16) state2_actor->unk_2A.s16;
+            effect->heading = (u16) state2_actor->unk_2A.s16;
             state2_angle = state2_actor->unk_2A.u16;
             curved_trail_sample_count = 0;
-            effect->unk_44 = (u16) ((state2_angle >> 9) & 7);
+            effect->attack_direction = (u16) ((state2_angle >> 9) & 7);
             break;
         case 3:
         case 4:
             state34_base = &reference_tile_object;
             if (resolve_record_orientation_or_fallback(state34_base->sprite_source, state34_base, &emit_offset, 0) != 0) {
-                if (effect->unk_30 == 3) {
+                if (effect->phase == 3) {
                     state34_move = &view_reference_entity;
                     spawn_blinking_sprite_flash(state34_move->x.w.i + emit_offset.x, state34_move->y.w.i + emit_offset.y,
                         state34_move->z.w.i + emit_offset.z);
-                    effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
+                    effect->phase = (s16) ((u16) effect->phase + 1);
                 }
                 state34_emit = &view_reference_entity;
                 spawn_effect_actor_or_curved_trail((s16) (((u16)state34_emit->x.w.i) + (u16) emit_offset.x),
@@ -807,54 +807,54 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     (s16) (((u16)state34_emit->z.w.i) + (u16) emit_offset.z),
                     ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16, 0);
             }
-            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
-            motion->unk_14.half.unk_16 = 0x16;
-            rise_speed = motion->unk_14.word;
-            motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
-            motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
-            motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
-            if ((s16) motion->unk_08.half.unk_0A.u16 > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
+            motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
+            motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
+            motion->velocity_z.half.unk_16 = 0x16;
+            rise_speed = motion->velocity_z.word;
+            motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
+            motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
+            motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
+            if ((s16) motion->z.half.unk_0A.u16 > ((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)((u8 *)&dungeon_actor_ring_anchor
                 + 0)))->unk_88.s16) {
-                motion->unk_08.half.unk_0A.u16 =
+                motion->z.half.unk_0A.u16 =
                     (u16) ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_88.s16;
             }
-            launch_ticks = effect->unk_34.u16 - 1;
-            effect->unk_34.u16 = launch_ticks;
+            launch_ticks = effect->timer.u16 - 1;
+            effect->timer.u16 = launch_ticks;
             if ((launch_ticks << 0x10) > 0) {
                 break;
             }
             tile_base = &reference_tile_object;
             tile_coord = tile_base->tile_position.parts.tile_x;
             tile_call_arg = 0x300;
-            effect->unk_40 = (s16) tile_coord;
-            effect->unk_98 = (u8) tile_coord;
+            effect->tile_x = (s16) tile_coord;
+            effect->previous_tile_x = (u8) tile_coord;
             tile_coord = tile_base->tile_position.parts.tile_y;
-            effect->unk_30 = 5;
-            effect->unk_46 = 3U;
-            effect->unk_34.u16 = 0U;
-            effect->unk_42 = (s16) tile_coord;
-            effect->unk_99 = (u8) tile_coord;
+            effect->phase = 5;
+            effect->tiles_left = 3U;
+            effect->timer.u16 = 0U;
+            effect->tile_y = (s16) tile_coord;
+            effect->previous_tile_y = (u8) tile_coord;
             play_sound_if_enabled(tile_call_arg, rise_speed);
             break;
         case 5:
-            motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
-            motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
-            motion->unk_14.word = 0;
-            motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
-            world_x = motion->unk_00.half.unk_02.s16;
-            motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
-            motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
+            motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
+            motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
+            motion->velocity_z.word = 0;
+            motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
+            world_x = motion->x.half.unk_02.s16;
+            motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
+            motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
             if (world_x < 0) {
                 world_x += 0x3F;
             }
             tile_div = world_x >> 6;
-            effect->unk_40 = (s16) tile_div;
-            world_y = motion->unk_04.half.unk_06.s16;
+            effect->tile_x = (s16) tile_div;
+            world_y = motion->y.half.unk_06.s16;
             next_tile_y = (world_y / 64);
-            effect->unk_42 = (s16) next_tile_y;
-            if (effect->unk_98 == effect->unk_40) {
-                if (effect->unk_99 == next_tile_y) {
+            effect->tile_y = (s16) next_tile_y;
+            if (effect->previous_tile_x == effect->tile_x) {
+                if (effect->previous_tile_y == next_tile_y) {
                     break;
                 }
             }
@@ -865,22 +865,22 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (hit_actor != (void *)hit_origin) {
                 do {
                     actor_data = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->sprite;
-                    if ((actor_data->unk_24 == effect->unk_40) &&
-                        (actor_data->unk_25 == effect->unk_42)) {
+                    if ((actor_data->unk_24 == effect->tile_x) &&
+                        (actor_data->unk_25 == effect->tile_y)) {
                         hit_height_gap = hit_actor->unk_88;
-                        target_coord = motion->unk_08.half.unk_0A.s16;
+                        target_coord = motion->z.half.unk_0A.s16;
                         hit_height_gap -= target_coord;
                         if (hit_height_gap < 0) {
                             hit_height_gap = -hit_height_gap;
                         }
                         actor_data = (u8 *) hit_actor - 0x20;
                         if ((hit_height_gap < 0x80) && !(actor_data->unk_1E & 0x2000)) {
-                            apply_attack_power_and_element_effects(hit_actor, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                            apply_attack_power_and_element_effects(hit_actor, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->attack_direction << 9),
                                 tint_transition_source, 2);
                             related_motion = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->position;
-                            spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16,
-                                related_motion->unk_04.half.unk_06.s16, related_motion->unk_08.half.unk_0A.s16,
-                                (s16) effect->unk_38, (rand() & 3) | 4);
+                            spawn_thirty_two_angled_particles(related_motion->x.half.unk_02.s16,
+                                related_motion->y.half.unk_06.s16, related_motion->z.half.unk_0A.s16,
+                                (s16) effect->heading, (rand() & 3) | 4);
                             actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
                         }
                     }
@@ -888,33 +888,33 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     hit_actor = coord_delta + 0x20;
                 } while (hit_actor != ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00);
             }
-            tile_x = (u8) effect->unk_40;
-            tile_counter = effect->unk_46;
-            tile_y = (u8) effect->unk_42;
+            tile_x = (u8) effect->tile_x;
+            tile_counter = effect->tiles_left;
+            tile_y = (u8) effect->tile_y;
             tile_counter -= 1;
-            effect->unk_46 = tile_counter;
-            effect->unk_98 = tile_x;
-            effect->unk_99 = tile_y;
+            effect->tiles_left = tile_counter;
+            effect->previous_tile_x = tile_x;
+            effect->previous_tile_y = tile_y;
             if ((tile_counter << 0x10) > 0) {
                 break;
             }
-            effect->unk_8A = (u16) ((rand() & 0x1F) + 0x10);
-            effect->unk_9C = 0;
-            effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
+            effect->phase_counter = (u16) ((rand() & 0x1F) + 0x10);
+            effect->target = 0;
+            effect->phase = (s16) ((u16) effect->phase + 1);
             break;
         case 6:
-            target = effect->unk_9C;
+            target = effect->target;
             if (target != 0) {
                 related_motion = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
-                aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
-                    related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
-                homing_heading = effect->unk_38;
+                aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+                    related_motion->x.half.unk_02.s16, related_motion->y.half.unk_06.s16);
+                homing_heading = effect->heading;
                 if (homing_heading & 0x800) {
                     homing_signed_angle = homing_heading | 0xF800;
                 } else {
                     homing_signed_angle = homing_heading & 0x7FF;
                 }
-                effect->unk_38 = homing_signed_angle;
+                effect->heading = homing_signed_angle;
                 if (aim_angle & 0x800) {
                     angle_mask = ~0x7FF;
                     normalized_angle = aim_angle | angle_mask;
@@ -922,138 +922,138 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     normalized_angle = aim_angle & 0x7FF;
                 }
                 aim_angle = normalized_angle;
-                homing_wrap_gap = (s16) effect->unk_38 - aim_angle;
+                homing_wrap_gap = (s16) effect->heading - aim_angle;
                 if (homing_wrap_gap < 0) {
                     homing_wrap_gap = 0 - homing_wrap_gap;
                 }
                 if (homing_wrap_gap >= 0x801) {
-                    effect->unk_38 = (u16) ((aim_angle & ~0xFFF) | (effect->unk_38 & 0xFFF));
+                    effect->heading = (u16) ((aim_angle & ~0xFFF) | (effect->heading & 0xFFF));
                 }
-                aim_ticks = effect->unk_9A - 1;
-                effect->unk_9A = aim_ticks;
+                aim_ticks = effect->aim_timer - 1;
+                effect->aim_timer = aim_ticks;
                 if ((aim_ticks << 0x10) <= 0) {
-                    effect->unk_9A = 0x1EU;
-                    effect->unk_38 = aim_angle;
+                    effect->aim_timer = 0x1EU;
+                    effect->heading = aim_angle;
                 }
-                homing_angle = (s16) effect->unk_38;
+                homing_angle = (s16) effect->heading;
                 homing_turn_gap = aim_angle - homing_angle;
                 if (homing_turn_gap < 0) {
                     homing_turn_gap = 0 - homing_turn_gap;
                 }
                 if (homing_turn_gap >= 0x81) {
-                    if (effect->unk_96 != 0) {
+                    if (effect->turn_direction != 0) {
                         homing_next_angle = homing_angle + 0x80;
                     } else {
                         homing_next_angle = homing_angle - 0x80;
                     }
-                    effect->unk_38 = homing_next_angle;
+                    effect->heading = homing_next_angle;
                 } else {
-                    effect->unk_38 = aim_angle;
+                    effect->heading = aim_angle;
                 }
-                state6_timer_signed = effect->unk_34.s16;
+                state6_timer_signed = effect->timer.s16;
 
-                state6_timer = effect->unk_34.u16;
+                state6_timer = effect->timer.u16;
                 if (state6_timer_signed != 0) {
                     state6_next = state6_timer - 1;
-                    effect->unk_34.u16 = state6_next;
+                    effect->timer.u16 = state6_next;
                     if ((state6_next << 0x10) == 0) {
-                        state6_height = related_motion->unk_08.half.unk_0A.u16;
-                        motion->unk_14.word = 0;
+                        state6_height = related_motion->z.half.unk_0A.u16;
+                        motion->velocity_z.word = 0;
                         state6_height -= 0x40;
-                        motion->unk_08.half.unk_0A.u16 = state6_height;
-                        effect->unk_8A = 0U;
+                        motion->z.half.unk_0A.u16 = state6_height;
+                        effect->phase_counter = 0U;
                     }
                 } else {
-                    bob_phase = effect->unk_8A + 1;
+                    bob_phase = effect->phase_counter + 1;
                     state6_spin_arg = (s32) (bob_phase << 0x10);
 
                     state6_spin_arg >>= 9;
-                    effect->unk_8A = bob_phase;
-                    motion->unk_14.half.unk_16 = (s16) (rsin(state6_spin_arg) >> 9);
+                    effect->phase_counter = bob_phase;
+                    motion->velocity_z.half.unk_16 = (s16) (rsin(state6_spin_arg) >> 9);
                 }
-                target_gap_x = motion->unk_00.half.unk_02.s16;
-                target_coord = related_motion->unk_00.half.unk_02.s16;
+                target_gap_x = motion->x.half.unk_02.s16;
+                target_coord = related_motion->x.half.unk_02.s16;
                 target_gap_x -= target_coord;
                 if (target_gap_x < 0) {
                     target_gap_x = 0 - target_gap_x;
                 }
                 if (target_gap_x < 0x20) {
-                    target_gap_y = motion->unk_04.half.unk_06.s16;
-                    target_coord = related_motion->unk_04.half.unk_06.s16;
+                    target_gap_y = motion->y.half.unk_06.s16;
+                    target_coord = related_motion->y.half.unk_06.s16;
                     target_gap_y -= target_coord;
                     if (target_gap_y < 0) {
                         target_gap_y = 0 - target_gap_y;
                     }
                     if (target_gap_y < 0x20) {
-                        actor_data = effect->unk_9C - 0x20;
-                        apply_attack_power_and_element_effects(effect->unk_9C, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                        actor_data = effect->target - 0x20;
+                        apply_attack_power_and_element_effects(effect->target, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->attack_direction << 9),
                             tint_transition_source, 2);
                         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                        spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
-                            (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
+                        spawn_thirty_two_angled_particles(related_motion->x.half.unk_02.s16, related_motion->y.half.unk_06.s16,
+                            (s16) related_motion->z.half.unk_0A.u16, (s16) effect->heading,
                             (rand() & 3) | 4);
                         actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
-                        effect->unk_9C = 0;
-                        effect->unk_8A = (u16) ((rand() & 0x1F) + 0x10);
+                        effect->target = 0;
+                        effect->phase_counter = (u16) ((rand() & 0x1F) + 0x10);
                     }
                 }
-                motion->unk_0C.word = rcos((s16) effect->unk_38) << 8;
-                motion->unk_10.word = rsin((s16) effect->unk_38) << 8;
+                motion->velocity_x.word = rcos((s16) effect->heading) << 8;
+                motion->velocity_y.word = rsin((s16) effect->heading) << 8;
 
-                if ((s16) effect->unk_38 == aim_angle) {
-                    motion->unk_0C.word += motion->unk_0C.word >> 1;
-                    motion->unk_10.word += motion->unk_10.word >> 1;
+                if ((s16) effect->heading == aim_angle) {
+                    motion->velocity_x.word += motion->velocity_x.word >> 1;
+                    motion->velocity_y.word += motion->velocity_y.word >> 1;
                 }
             } else {
-                motion->unk_14.word = 0;
-                search_ticks = effect->unk_8A - 1;
-                effect->unk_8A = search_ticks;
+                motion->velocity_z.word = 0;
+                search_ticks = effect->phase_counter - 1;
+                effect->phase_counter = search_ticks;
                 if ((search_ticks << 0x10) <= 0) {
                     new_target = find_eligible_nearby_entity(&reference_tile_object.frame_entry);
-                    effect->unk_9C = new_target;
+                    effect->target = new_target;
                     if (new_target == 0) {
-                        effect->unk_30 = 0x10;
-                        effect->unk_8A = 8U;
+                        effect->phase = 0x10;
+                        effect->phase_counter = 8U;
                     } else {
                         related_motion = ((ObjectNodeHeader *)((u8 *)new_target - 0x20))->position;
-                        effect->unk_34.u16 = 0x10U;
-                        state6_target_base = motion->unk_08.half.unk_0A.s16;
-                        height_value = related_motion->unk_08.half.unk_0A.s16;
+                        effect->timer.u16 = 0x10U;
+                        state6_target_base = motion->z.half.unk_0A.s16;
+                        height_value = related_motion->z.half.unk_0A.s16;
                         state6_target_base += 0x40;
                         height_numerator = (height_value - state6_target_base) << 0x10;
                         height_frames = 16;
-                        motion->unk_14.word = height_numerator / height_frames;
-                        effect->unk_9A = 0x3CU;
+                        motion->velocity_z.word = height_numerator / height_frames;
+                        effect->aim_timer = 0x3CU;
                     }
                 } else {
-                    effect->unk_38 = (u16) (effect->unk_38 + 0x80);
+                    effect->heading = (u16) (effect->heading + 0x80);
                 }
-                motion->unk_0C.word = (s32) (rcos((s16) effect->unk_38) << 8);
-                motion->unk_10.word = (s32) (rsin((s16) effect->unk_38) << 8);
+                motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);
+                motion->velocity_y.word = (s32) (rsin((s16) effect->heading) << 8);
             }
-            motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
-            motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
-            motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
+            motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
+            motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
+            motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
             break;
         case 16:
-            fade_speed_x = motion->unk_0C.word;
-            fade_speed_y = motion->unk_10.word;
-            motion->unk_0C.word = (s32) (fade_speed_x - (fade_speed_x >> 3));
-            motion->unk_10.word = (s32) (fade_speed_y - (fade_speed_y >> 3));
-            if ((effect->unk_3E - 0x10) < (s16) motion->unk_08.half.unk_0A.u16) {
-                motion->unk_08.half.unk_0A.u16 = (u16) ((u16) effect->unk_3E - 0x10);
+            fade_speed_x = motion->velocity_x.word;
+            fade_speed_y = motion->velocity_y.word;
+            motion->velocity_x.word = (s32) (fade_speed_x - (fade_speed_x >> 3));
+            motion->velocity_y.word = (s32) (fade_speed_y - (fade_speed_y >> 3));
+            if ((effect->unk_3E - 0x10) < (s16) motion->z.half.unk_0A.u16) {
+                motion->z.half.unk_0A.u16 = (u16) ((u16) effect->unk_3E - 0x10);
             }
-            motion->unk_00.word = (s32) (motion->unk_00.word + motion->unk_0C.word);
-            motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
-            motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
-            fade_red = visual->unk_0C.half.unk_0C;
-            visual->unk_0C.half.unk_0C = (u8) (fade_red - ((s32) fade_red / (s16) effect->unk_8A));
-            fade_green = visual->unk_0C.half.unk_0D;
-            visual->unk_0C.half.unk_0D = (u8) (fade_green - ((s32) fade_green / (s16) effect->unk_8A));
-            fade_blue = visual->unk_0C.half.unk_0E;
-            visual->unk_0C.half.unk_0E = (u8) (fade_blue - ((s32) fade_blue / (s16) effect->unk_8A));
-            fade_ticks = effect->unk_8A - 1;
-            effect->unk_8A = fade_ticks;
+            motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
+            motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
+            motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
+            fade_red = visual->color.half.unk_0C;
+            visual->color.half.unk_0C = (u8) (fade_red - ((s32) fade_red / (s16) effect->phase_counter));
+            fade_green = visual->color.half.unk_0D;
+            visual->color.half.unk_0D = (u8) (fade_green - ((s32) fade_green / (s16) effect->phase_counter));
+            fade_blue = visual->color.half.unk_0E;
+            visual->color.half.unk_0E = (u8) (fade_blue - ((s32) fade_blue / (s16) effect->phase_counter));
+            fade_ticks = effect->phase_counter - 1;
+            effect->phase_counter = fade_ticks;
             if ((fade_ticks << 0x10) > 0) {
                 return;
             }
@@ -1065,44 +1065,44 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 return;
             } while (0);
         }
-        visual->unk_1A = (u16) ((s16)calculate_planar_heading(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
-        boost_speed_x = motion->unk_14.half.unk_16;
-        step_y = (visual->unk_1C);
-        coord_delta = visual->unk_0C.half.unk_0C;
+        visual->angle_z = (u16) ((s16)calculate_planar_heading(0, 0, motion->velocity_x.half.unk_0E, motion->velocity_y.half.unk_12) - 0x400);
+        boost_speed_x = motion->velocity_z.half.unk_16;
+        step_y = (visual->scale_x);
+        coord_delta = visual->color.half.unk_0C;
         aim_angle = boost_speed_x * 4;
         boost_speed_x = aim_angle + 0x400;
-        visual->unk_16 = (u16) boost_speed_x;
+        visual->angle_x = (u16) boost_speed_x;
         boost_speed_x = 0x2000;
         boost_speed_x -= step_y;
         boost_speed_x >>= 2;
         step_y += boost_speed_x;
         coord_delta += 8;
-        visual->unk_0C.half.unk_0C = coord_delta;
-        visual->unk_1C = (u16) step_y;
+        visual->color.half.unk_0C = coord_delta;
+        visual->scale_x = (u16) step_y;
         visual->unk_20 = (u16) step_y;
-        visual->unk_1E = (u16) step_y;
+        visual->scale_y = (u16) step_y;
         coord_delta &= 0xFF;
         coord_delta = (u32)coord_delta < 0x81U;
         if (!coord_delta) {
-            visual->unk_0C.word = 0x808080;
+            visual->color.word = 0x808080;
         } else {
-            visual->unk_0C.half.unk_0D = (u8) (visual->unk_0C.half.unk_0D + 8);
-            visual->unk_0C.half.unk_0E = (u8) (visual->unk_0C.half.unk_0E + 8);
+            visual->color.half.unk_0D = (u8) (visual->color.half.unk_0D + 8);
+            visual->color.half.unk_0E = (u8) (visual->color.half.unk_0E + 8);
         }
         inventory_reset_shared_state_mode_13((u8 *) effect - 0x20, motion, 8, 0x300);
-        step_and_clamp_entry_index(visual, (u8 *) effect + 0x36, effect->unk_3C, effect->unk_3A);
-        inventory_copy_and_sign_extend_record_fields(effect, visual->unk_00);
-        frame = visual->unk_04;
-        if ((s8) frame == effect->unk_3A) {
+        step_and_clamp_entry_index(visual, (u8 *) effect + 0x36, effect->min_frame, effect->max_frame);
+        inventory_copy_and_sign_extend_record_fields(effect, visual->frame_entry);
+        frame = visual->frame_index;
+        if ((s8) frame == effect->max_frame) {
             frame_step = -1;
-            effect->unk_36 = frame_step;
-        } else if ((s8) frame == effect->unk_3C) {
+            effect->frame_step = frame_step;
+        } else if ((s8) frame == effect->min_frame) {
             frame_step = 1;
-            effect->unk_36 = frame_step;
+            effect->frame_step = frame_step;
         }
-        spawn_random_motion_particles((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
-            (s16) motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38, D_80026BD4[(s8) visual->unk_04]);
-        effect->unk_94 = (u16) (effect->unk_94 + 1);
+        spawn_random_motion_particles((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
+            (s16) motion->z.half.unk_0A.u16, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
+        effect->update_count = (u16) (effect->update_count + 1);
         return;
     }
     owner_ptr = owner_ref | 0x80000000;
@@ -1117,39 +1117,39 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->unk_1A = (u16) ((s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16,
-            (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
-            related_motion->unk_04.half.unk_06.s16) - 0x400);
-        alternate_delta = related_motion->unk_08.half.unk_0A.s16;
-        alternate_value = motion->unk_08.half.unk_0A.s16;
+        visual->angle_z = (u16) ((s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16,
+            (s16) motion->y.half.unk_06.u16, related_motion->x.half.unk_02.s16,
+            related_motion->y.half.unk_06.s16) - 0x400);
+        alternate_delta = related_motion->z.half.unk_0A.s16;
+        alternate_value = motion->z.half.unk_0A.s16;
         alternate_delta -= alternate_value;
         alternate_scale = alternate_delta << 2;
         alternate_scale += alternate_delta;
         aim_angle = alternate_scale << 1;
         alternate_value = aim_angle + 0x400;
-        visual->unk_16 = (u16) alternate_value;
-        visual->unk_14 = (u16) actor_data->unk_14;
-        motion->unk_00.half.unk_02.u16 = (u16) owner_state->unk_50;
-        motion->unk_04.half.unk_06.u16 = (u16) owner_state->unk_52;
-        motion->unk_08.half.unk_0A.u16 = (u16) owner_state->unk_54;
+        visual->angle_x = (u16) alternate_value;
+        visual->flags = (u16) actor_data->unk_14;
+        motion->x.half.unk_02.u16 = (u16) owner_state->unk_50;
+        motion->y.half.unk_06.u16 = (u16) owner_state->unk_52;
+        motion->z.half.unk_0A.u16 = (u16) owner_state->unk_54;
     } else {
-        motion->unk_00.half.unk_02.u16 = (u16) related_motion->unk_00.half.unk_02.s16;
-        motion->unk_04.half.unk_06.u16 = (u16) related_motion->unk_04.half.unk_06.s16;
-        motion->unk_08.half.unk_0A.u16 = (u16) related_motion->unk_08.half.unk_0A.s16;
-        visual->unk_16 = (u16) actor_data->unk_16;
-        visual->unk_18 = (u16) actor_data->unk_18;
-        visual->unk_1A = (u16) actor_data->unk_1A;
-        visual->unk_14 = (u16) actor_data->unk_14;
+        motion->x.half.unk_02.u16 = (u16) related_motion->x.half.unk_02.s16;
+        motion->y.half.unk_06.u16 = (u16) related_motion->y.half.unk_06.s16;
+        motion->z.half.unk_0A.u16 = (u16) related_motion->z.half.unk_0A.s16;
+        visual->angle_x = (u16) actor_data->unk_16;
+        visual->angle_y = (u16) actor_data->unk_18;
+        visual->angle_z = (u16) actor_data->unk_1A;
+        visual->flags = (u16) actor_data->unk_14;
     }
-    visual->unk_1C = actor_data->unk_1C;
-    visual->unk_1E = actor_data->unk_1E;
+    visual->scale_x = actor_data->unk_1C;
+    visual->scale_y = actor_data->unk_1E;
     visual->unk_20 = (u16) actor_data->unk_20;
-    visual->unk_0C.word = actor_data->unk_0C;
-    if (D_80026BC8[effect->unk_88] != 0) {
+    visual->color.word = actor_data->unk_0C;
+    if (D_80026BC8[effect->part_index] != 0) {
         inventory_set_object_entry_address(visual, actor_data->unk_04);
-        inventory_copy_and_sign_extend_record_fields(effect, visual->unk_00);
+        inventory_copy_and_sign_extend_record_fields(effect, visual->frame_entry);
     }
-    effect->unk_94 = (u16) (effect->unk_94 + 1);
+    effect->update_count = (u16) (effect->update_count + 1);
     return;
 }
 

@@ -44,61 +44,61 @@ typedef struct TrailMotion {
  * The trail callback selects a target actor and records its map tile. */
 typedef struct TrailActor {
     u8 pad_00[0x2A];
-    u16 unk_2A; /* caster facing angle for the heading scan; 0x1000 units per turn */
+    u16 facing; /* caster facing angle for the heading scan; 0x1000 units per turn */
     u8 pad_2C[0x34];
-    void *unk_60; /* target actor work pointer returned by the heading scan, or zero */
+    void *target; /* target actor work pointer returned by the heading scan, or zero */
     u8 pad_64[0xE];
-    u8 unk_72; /* target map column, interpreted as signed when calculating travel distance */
-    u8 unk_73; /* target map row, interpreted as signed when calculating travel distance */
+    u8 target_tile_x; /* target map column, interpreted as signed when calculating travel distance */
+    u8 target_tile_y; /* target map row, interpreted as signed when calculating travel distance */
 } TrailActor;
 
 /* Part-pointer slice of a pooled actor node; allocate_list_node fills the position and sprite pointers.
  * The trail controller reaches this header by subtracting 0x20 from caster work. */
 typedef struct TrailObject {
     u8 pad_00[8];
-    void *unk_08; /* position/motion part pointer */
-    void *unk_0C; /* sprite/frame part pointer */
+    void *position; /* position/motion part pointer */
+    void *sprite; /* sprite/frame part pointer */
 } TrailObject;
 
 /* Sprite tile/status slice borrowed from the caster and target node parts.
  * The trail controller reads it to choose travel distance and the offscreen hit shortcut. */
 typedef struct TrailSprite {
     u8 pad_00[0x14];
-    u16 unk_14; /* sprite status/render flags; bit 0x8000 participates in the offscreen hit shortcut */
+    u16 flags; /* sprite status/render flags; bit 0x8000 participates in the offscreen hit shortcut */
     u8 pad_16[0xE];
-    u8 unk_24; /* map column in 64-world-unit tiles */
-    u8 unk_25; /* map row in 64-world-unit tiles */
+    u8 tile_x; /* map column in 64-world-unit tiles */
+    u8 tile_y; /* map row in 64-world-unit tiles */
 } TrailSprite;
 
 /* Header/leading-work view of trail child nodes allocated with flags 0x201.
  * The trail controller installs update_flickering_effect_vertices and supplies the parent work pointer. */
 typedef struct TrailSpawnedObject {
     u8 pad_00[0x10];
-    s32 unk_10; /* child update callback, installed as update_flickering_effect_vertices */
+    s32 update_callback; /* child update callback, installed as update_flickering_effect_vertices */
     u8 pad_14[0xC];
-    void *unk_20; /* parent trail-controller work pointer stored at payload +0 */
+    void *parent; /* parent trail-controller work pointer stored at payload +0 */
 } TrailSpawnedObject;
 
 /* Initialization view of trail child work at pooled node +0x20.
  * The spell trail callback seeds it for update_flickering_effect_vertices, whose fuller view is DungeonObj. */
 typedef struct TrailParticleData {
     u8 pad_00[4];
-    s32 unk_04; /* initial child X in 16.16 world units */
-    s32 unk_08; /* initial child Y in 16.16 world units */
-    s32 unk_0C; /* vertical motion offset in 16.16 units, initially zero */
-    s32 unk_10; /* initial X increment per update, copied from the trail motion */
-    s32 unk_14; /* initial Y increment per update, copied from the trail motion */
-    s32 unk_18; /* initial vertical-offset increment, -3 in 16.16 units */
-    s32 unk_1C; /* saved copy of the initial X motion increment */
-    s32 unk_20; /* saved copy of the initial Y motion increment */
-    s32 unk_24; /* saved copy of the initial vertical-offset increment */
+    s32 x; /* initial child X in 16.16 world units */
+    s32 y; /* initial child Y in 16.16 world units */
+    s32 z; /* vertical motion offset in 16.16 units, initially zero */
+    s32 velocity_x; /* initial X increment per update, copied from the trail motion */
+    s32 velocity_y; /* initial Y increment per update, copied from the trail motion */
+    s32 velocity_z; /* initial vertical-offset increment, -3 in 16.16 units */
+    s32 initial_velocity_x; /* saved copy of the initial X motion increment */
+    s32 initial_velocity_y; /* saved copy of the initial Y motion increment */
+    s32 initial_velocity_z; /* saved copy of the initial vertical-offset increment */
     u8 pad_28[0x24];
-    s16 unk_4C; /* initial vertex-rotation angle, randomized to 0..0xFFF */
-    u16 unk_4E; /* initial orbit angle copied from the trail angle seed */
-    u16 unk_50; /* initial terrain height reference, in integer world units */
-    u16 unk_52; /* initial phase countdown copied from the controller */
-    s16 unk_54; /* target/blend selector: initially -1 without a target, zero with a target */
-    s16 unk_56; /* initial child phase, parent trail phase minus one */
+    s16 angle; /* initial vertex-rotation angle, randomized to 0..0xFFF */
+    u16 orbit_angle; /* initial orbit angle copied from the trail angle seed */
+    u16 height; /* initial terrain height reference, in integer world units */
+    u16 timer; /* initial phase countdown copied from the controller */
+    s16 blend_control; /* target/blend selector: initially -1 without a target, zero with a target */
+    s16 phase; /* initial child phase, parent trail phase minus one */
 } TrailParticleData;
 
 typedef struct TrailHeightView {
@@ -190,41 +190,41 @@ typedef struct {
 /* Twenty-byte flat triangle allocated at the frame packet cursor by draw_jittered_triangle_trails.
  * Each of the four child points produces one jittered screen-space triangle. */
 typedef struct TrailTriangle {
-    u32 unk_00; /* DMA chain address/count word */
-    s32 unk_04; /* packed RGB/command word copied from the child before primitive setup */
-    s16 unk_08; /* vertex 0 jittered screen X, in pixels */
-    s16 unk_0A; /* vertex 0 jittered screen Y, in pixels */
-    s16 unk_0C; /* vertex 1 jittered screen X, in pixels */
-    s16 unk_0E; /* vertex 1 jittered screen Y, in pixels */
-    s16 unk_10; /* vertex 2 jittered screen X, in pixels */
-    s16 unk_12; /* vertex 2 jittered screen Y, in pixels */
+    u32 tag; /* DMA chain address/count word */
+    s32 color; /* packed RGB/command word copied from the child before primitive setup */
+    s16 x0; /* vertex 0 jittered screen X, in pixels */
+    s16 y0; /* vertex 0 jittered screen Y, in pixels */
+    s16 x1; /* vertex 1 jittered screen X, in pixels */
+    s16 y1; /* vertex 1 jittered screen Y, in pixels */
+    s16 x2; /* vertex 2 jittered screen X, in pixels */
+    s16 y2; /* vertex 2 jittered screen Y, in pixels */
 } TrailTriangle;   /* packet1 in func_80024A1C */
 
 /* Color/blend slice borrowed from a trail child by draw_jittered_triangle_trails.
  * The child updater supplies the channels and blend-control value. */
 typedef struct TrailRenderItem {
     u8 pad_00[0x48];
-    s32 unk_48; /* packed red/green/blue bytes copied to the flat triangle color word */
+    s32 color; /* packed red/green/blue bytes copied to the flat triangle color word */
     u8 pad_4C[0x8];
-    s16 unk_54; /* blend selector: positive uses GPU blend mode 1, otherwise mode 3 */
+    s16 blend_control; /* blend selector: positive uses GPU blend mode 1, otherwise mode 3 */
 } TrailRenderItem;   /* item in func_80024A1C */
 
 /* Depth-indexed view into the current frame ordering table; the renderer borrows the draw context.
  * draw_jittered_triangle_trails offsets the base by depth * 4 before using +0xB0. */
 typedef struct TrailOrderEntry {
     u8 pad_00[0xB0];
-    u32 unk_B0; /* ordering-table tag at draw context +0xB0 + depth * 4 */
+    u32 tag; /* ordering-table tag at draw context +0xB0 + depth * 4 */
 } TrailOrderEntry;   /* entry in func_80024A1C */
 
 /* Leading tag of a twelve-byte draw-mode packet allocated by draw_jittered_triangle_trails. */
 typedef struct TrailDrawMode {
-    u32 unk_00; /* DMA chain address/count word, linked ahead of the triangle at the same depth */
+    u32 tag; /* DMA chain address/count word, linked ahead of the triangle at the same depth */
 } TrailDrawMode;   /* packet0 in func_80024A1C */
 
 /* Eight-byte slice immediately before trail work; register_node initializes its chain link.
  * The [-1] view reaches the owning node header at +0x18. */
 typedef struct TrailChainPrefix {
-    s32 unk_00; /* next registered node header address, or zero at the end of the render chain */
+    s32 chain_next; /* next registered node header address, or zero at the end of the render chain */
     u8 pad_04[0x4];
 } TrailChainPrefix;   /* the 0x8 bytes before outer in func_80024A1C, addressed as outer[-1] */
 

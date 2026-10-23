@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame.h"
 #include "shared/position_views.h"
 #include "shared/entity.h"
 #include "shared/town_handler_entries.h"
@@ -8,19 +9,6 @@
 #include "shared/object_payload.h"
 #include "shared/town_pointees.h"
 
-typedef struct S_8002191C_0 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x20];
-    union { u16 s; s16 u; } unk_28;   /* accessed as both */
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    union { u16 s; s16 u; } unk_2C;   /* accessed as both */
-    union { u16 s; s16 u; } unk_2E;   /* accessed as both */
-    union { u16 s; s16 u; } unk_30;   /* accessed as both */
-    union { s16 s; u16 u; } unk_32;   /* accessed as both */
-    union { s16 s; u16 u; } unk_34;   /* accessed as both */
-    union { s16 s; u16 u; } unk_36;   /* accessed as both */
-} S_8002191C_0;   /* scene in count_entries_matching_search_path */
 
    /* root in count_entries_matching_search_path */
 
@@ -114,17 +102,17 @@ extern void tw_sd_sq_ld_call(s32, s32);
 extern s16 query_lowered_transform_position(void *);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
-void count_entries_matching_search_path(void *scene)
+void count_entries_matching_search_path(TownCollectionSequence *scene)
 {
     TownDraw32 draw;
     TownPos pos;
     s32 color[2];
     u8 *global = (u8 *)&scene_object_payload_alias;
     u8 *work;
-    void *root = ((S_8002191C_0 *)scene)->unk_04;
+    void *root = scene->owner;
     void *compare = ((ObjectPayloadView *)root)->unk_08;
     u8 *part = (u8 *)root + 0x20;
-    s16 mode = ((S_8002191C_0 *)scene)->unk_36.s;
+    s16 mode = scene->state.s;
     u16 value;
     u16 flags;
     s32 i;
@@ -138,10 +126,10 @@ void count_entries_matching_search_path(void *scene)
 
         SD_Call(0xB1);
         motion = ((u8 *)(&view_reference_entity));
-        ((S_8002191C_0 *)scene)->unk_30.s = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
+        scene->saved_x.u = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
-        ((S_8002191C_0 *)scene)->unk_28.s = 4;
-        ((S_8002191C_0 *)scene)->unk_36.s = 1;
+        scene->unk_28.u = 4;
+        scene->state.s = 1;
         (*(u16 *)((u8 *)scene + 0x32)) = t6;
         ((ObjectPosition *)motion)->velocity_z = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
@@ -158,20 +146,20 @@ void count_entries_matching_search_path(void *scene)
         u8 *motion;
 
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
-        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
-        ((S_8002191C_0 *)scene)->unk_28.s = value;
+        value = scene->unk_28.u - 1;
+        scene->unk_28.u = value;
         if ((s16)value > 0) {
             break;
         }
-        ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
-        ((S_8002191C_0 *)scene)->unk_36.s = 2;
+        scene->unk_28.u = 0x10;
+        scene->state.s = 2;
         motion = ((u8 *)(&view_reference_entity));
         ((ObjectPosition *)motion)->velocity_x =
-            ((0x420 - ((S_8002191C_0 *)scene)->unk_30.u) << 16) /
-            ((S_8002191C_0 *)scene)->unk_28.u;
+            ((0x420 - scene->saved_x.s) << 16) /
+            scene->unk_28.s;
         {
-            s32 n2 = (0x460 - ((S_8002191C_0 *)scene)->unk_32.s) << 16;
-            s32 d2 = ((S_8002191C_0 *)scene)->unk_28.u;
+            s32 n2 = (0x460 - scene->saved_y.s) << 16;
+            s32 d2 = scene->unk_28.s;
 
             ((ObjectPosition *)motion)->velocity_z = (s32)0xFFF40000;
             ((ObjectPosition *)motion)->velocity_y = n2 / d2;
@@ -192,14 +180,14 @@ void count_entries_matching_search_path(void *scene)
         if (h2 < 0x420) {
             ((ObjectPosition *)motion)->x.w.i = 0x420;
         }
-        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
-        ((S_8002191C_0 *)scene)->unk_28.s = value;
+        value = scene->unk_28.u - 1;
+        scene->unk_28.u = value;
         if ((s16)value > 0) {
             break;
         }
         ((ObjectPosition *)motion)->velocity_y = 0;
         ((ObjectPosition *)motion)->velocity_x = 0;
-        ((S_8002191C_0 *)scene)->unk_36.s = 3;
+        scene->state.s = 3;
         break;
     }
 
@@ -226,14 +214,14 @@ void count_entries_matching_search_path(void *scene)
             break;
         }
         tw_sd_sq_ld_call(0x24, 0x200);
-        ((S_8002191C_0 *)scene)->unk_36.s = 4;
+        scene->state.s = 4;
         create_eight_linked_scene_sprites(scene);
         initialize_scene_action_record(global, work, ((u8 *)(&reference_tile_object)));
         break;
 
     case 4:
         if (((S_8002191C_5 *)part)->unk_68 == 7) {
-            ((S_8002191C_0 *)scene)->unk_36.s = 5;
+            scene->state.s = 5;
         }
         break;
 
@@ -257,11 +245,11 @@ void count_entries_matching_search_path(void *scene)
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(movement_action_handler_table);
         motion = ((u8 *)(&view_reference_entity));
-        ((S_8002191C_0 *)scene)->unk_30.s = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
-        ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
-        ((S_8002191C_0 *)scene)->unk_2C.s = 0;
-        ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
-        ((S_8002191C_0 *)scene)->unk_36.s = 6;
+        scene->saved_x.u = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
+        scene->saved_y.u = ((S_8002191C_2 *)motion)->unk_06;
+        scene->angle.u = 0;
+        scene->flags.u &= 0x7FFF;
+        scene->state.s = 6;
         break;
     }
 
@@ -271,45 +259,45 @@ void count_entries_matching_search_path(void *scene)
         u16 old_flags;
         u16 selected_flags;
 
-        if (((S_8002191C_0 *)scene)->unk_2A.u & 0x8000) {
-            ((S_8002191C_0 *)scene)->unk_2C.s -= 0x20;
+        if (scene->flags.s & 0x8000) {
+            scene->angle.u -= 0x20;
         } else {
-            ((S_8002191C_0 *)scene)->unk_2C.s += 0x20;
+            scene->angle.u += 0x20;
         }
-        magnitude = ((S_8002191C_0 *)scene)->unk_2C.u;
+        magnitude = scene->angle.s;
         if (magnitude < 0) {
             magnitude = -magnitude;
         }
         if (magnitude >= 0x200) {
-            old_flags = ((S_8002191C_0 *)scene)->unk_2A.s;
-            if ((s16)((S_8002191C_0 *)scene)->unk_2A.s & 0x8000) {
+            old_flags = scene->flags.u;
+            if ((s16)scene->flags.u & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            ((S_8002191C_0 *)scene)->unk_2A.s = selected_flags;
+            scene->flags.u = selected_flags;
         }
         pos.h0C = 0;
         pos.h04 = 0;
-        pos.h00 = ((S_8002191C_0 *)scene)->unk_30.s;
-        pos.h02 = ((S_8002191C_0 *)scene)->unk_32.u;
-        pos.h08 = ((S_8002191C_0 *)scene)->unk_30.s +
-                  rsin(((S_8002191C_0 *)scene)->unk_2C.u) / 24;
+        pos.h00 = scene->saved_x.u;
+        pos.h02 = scene->saved_y.u;
+        pos.h08 = scene->saved_x.u +
+                  rsin(scene->angle.s) / 24;
         {
-            s32 t = rcos(((S_8002191C_0 *)scene)->unk_2C.u);
+            s32 t = rcos(scene->angle.s);
 
             color[1] = 0x202020;
             color[0] = 0x202020;
-            pos.h0A = ((S_8002191C_0 *)scene)->unk_32.u - t / 24;
+            pos.h0A = scene->saved_y.u - t / 24;
         }
         if (((S_8002191C_5 *)part)->unk_68 == 9) {
             create_familiar_deployment_effect_with_owner_state();
             apply_global_scene_value(movement_action_handler_table);
             create_paired_vector_color_effect(D_80022454, &pos, color, scene);
-            ((S_8002191C_0 *)scene)->unk_28.s = 0x200;
-            ((S_8002191C_0 *)scene)->unk_2E.s = 0;
-            ((S_8002191C_0 *)scene)->unk_36.s = 7;
-            ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
+            scene->unk_28.u = 0x200;
+            scene->angle_step.u = 0;
+            scene->state.s = 7;
+            scene->flags.u &= 0x7FFF;
         } else {
             create_paired_vector_color_effect(D_8002241C, &pos, color, scene);
         }
@@ -322,45 +310,45 @@ void count_entries_matching_search_path(void *scene)
         u16 old_flags;
         u16 selected_flags;
 
-        if (((S_8002191C_0 *)scene)->unk_2A.u & 0x8000) {
-            ((S_8002191C_0 *)scene)->unk_2E.s -= 4;
+        if (scene->flags.s & 0x8000) {
+            scene->angle_step.u -= 4;
         } else {
-            ((S_8002191C_0 *)scene)->unk_2E.s += 4;
+            scene->angle_step.u += 4;
         }
-        magnitude = ((S_8002191C_0 *)scene)->unk_2E.u;
+        magnitude = scene->angle_step.s;
         if (magnitude < 0) {
             magnitude = -magnitude;
         }
         if (magnitude >= 0x100) {
-            old_flags = ((S_8002191C_0 *)scene)->unk_2A.s;
-            if ((s16)((S_8002191C_0 *)scene)->unk_2A.s & 0x8000) {
+            old_flags = scene->flags.u;
+            if ((s16)scene->flags.u & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            ((S_8002191C_0 *)scene)->unk_2A.s = selected_flags;
+            scene->flags.u = selected_flags;
         }
-        ((S_8002191C_0 *)scene)->unk_28.s =
-            (((S_8002191C_0 *)scene)->unk_28.s + ((S_8002191C_0 *)scene)->unk_2E.s + 0x1000) & 0xFFF;
+        scene->unk_28.u =
+            (scene->unk_28.u + scene->angle_step.u + 0x1000) & 0xFFF;
         create_rotating_layered_line_cage(scene);
         if (((S_8002191C_5 *)part)->unk_68 != 0xA) {
             break;
         }
         initialize_town_context_action();
         ((S_8002191C_3 *)global)->unk_00 = town_interaction_action_address;
-        draw.h14 = ((S_8002191C_0 *)scene)->unk_34.s * 0x10 + 0x64;
+        draw.h14 = scene->round_index.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
         draw.h18 = 3;
         draw.w10 = 0x808080;
         draw.h1A = 0x7C80;
         draw.h1C &= 0xFFFE;
-        draw.p04 = &D_800272B0[((S_8002191C_0 *)scene)->unk_34.s];
-        draw.p08 = &D_800272A0[((S_8002191C_0 *)scene)->unk_34.s];
+        draw.p04 = &D_800272B0[scene->round_index.s];
+        draw.p08 = &D_800272A0[scene->round_index.s];
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
         create_scene_object_with_48_byte_payload(D_80020618, &draw);
-        ((S_8002191C_0 *)scene)->unk_36.s = 8;
+        scene->state.s = 8;
         break;
     }
 
@@ -382,8 +370,8 @@ void count_entries_matching_search_path(void *scene)
                 delta1 = abs(((SignedPositionView *)node_pos)->y - ((SignedPositionView *)compare)->y);
                 if (delta0 + delta1 < 0x20) {
                     ((S_8002191C_6 *)node_part)->unk_08 = node_flags | 1;
-                    ((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s]++;
-                    if (((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s] < 7) {
+                    ((s16 *)global)[scene->round_index.s]++;
+                    if (((s16 *)global)[scene->round_index.s] < 7) {
                         SD_Call(0x702);
                     } else {
                         SD_Call(0x703);
@@ -394,45 +382,45 @@ void count_entries_matching_search_path(void *scene)
             work -= 4;
         } while (i >= 0);
         if (((S_8002191C_5 *)part)->unk_68 == 0xB) {
-            ((S_8002191C_0 *)scene)->unk_28.s = 0x1E;
-            ((S_8002191C_0 *)scene)->unk_36.s = 9;
+            scene->unk_28.u = 0x1E;
+            scene->state.s = 9;
         }
         break;
 
     case 9:
-        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
-        ((S_8002191C_0 *)scene)->unk_28.s = value;
+        value = scene->unk_28.u - 1;
+        scene->unk_28.u = value;
         if ((s16)value <= 0) {
-            ((S_8002191C_0 *)scene)->unk_36.s = 0xA;
+            scene->state.s = 0xA;
         }
         break;
 
     case 10:
-        flags = ((S_8002191C_0 *)scene)->unk_2A.s;
+        flags = scene->flags.u;
         if ((flags & 2) == 0) {
             break;
         }
-        ((S_8002191C_0 *)scene)->unk_2A.s = flags & 0xFFFD;
+        scene->flags.u = flags & 0xFFFD;
         initialize_town_context_action();
-        value = ((S_8002191C_0 *)scene)->unk_34.u + 1;
-        ((S_8002191C_0 *)scene)->unk_34.u = value;
+        value = scene->round_index.u + 1;
+        scene->round_index.u = value;
         if ((s16)value == 8) {
             SD_Call(0xB1);
-            ((S_8002191C_0 *)scene)->unk_28.s = 0x78;
-            ((S_8002191C_0 *)scene)->unk_36.s = 0xFF;
+            scene->unk_28.u = 0x78;
+            scene->state.s = 0xFF;
         } else {
             create_eight_linked_scene_sprites(scene);
-            ((S_8002191C_0 *)scene)->unk_36.s = 4;
+            scene->state.s = 4;
         }
         break;
 
     case 0xFF:
-        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
-        ((S_8002191C_0 *)scene)->unk_28.s = value;
+        value = scene->unk_28.u - 1;
+        scene->unk_28.u = value;
         if ((s16)value <= 0) {
             tw_sd_sq_ld_call(0x20, 0x200);
-            ((S_8002191C_0 *)scene)->unk_2A.s |= 1;
-            ((S_8002191C_0 *)scene)->unk_36.u++;
+            scene->flags.u |= 1;
+            scene->state.u++;
         }
         break;
 
@@ -444,7 +432,7 @@ void count_entries_matching_search_path(void *scene)
 
     }
 
-    if (((S_8002191C_0 *)scene)->unk_36.s >= 4) {
+    if (scene->state.s >= 4) {
         s32 *motion = (s32 *)((u8 *)(&view_reference_entity));
 
         if (motion[0] <= 0x03CFFFFF) {

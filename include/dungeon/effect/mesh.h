@@ -44,6 +44,23 @@ s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 s
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual);
 void update_expanding_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
+/* Work passed to the target-tint sequence. The elapsed counter advances on
+ * entry, phase selects the callback state and timer controls its two waits.
+ * create_linked_effect_controller receives the same owner and animation. */
+typedef struct TargetTintWork {
+    void *owner;
+    struct { u16 flags; } *animation;
+    u8 variant;
+    u8 pad_09;
+    union { s16 s; u16 u; } phase;
+    u8 pad_0C[8];
+    u16 facing;
+    u16 elapsed;
+    union { s16 s; u16 u; } timer;
+} TargetTintWork;
+
+void update_directional_actor_effect(TargetTintWork *state);
+
 s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin_y);
 void process_current_facing_directions(void);
 

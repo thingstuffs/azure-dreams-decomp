@@ -390,9 +390,9 @@ typedef struct CL_CC5000_801729A8_S_801729A8_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    union { u16 s; s16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } CL_CC5000_801729A8_S_801729A8_0;   /* arg0 in func_801609A8 */
 
 typedef struct CL_CC5000_801729A8_S_801729A8_3 {
@@ -512,9 +512,9 @@ typedef struct CL_CC5000_801730E0_S_801730E0_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    union { u16 s; s16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } CL_CC5000_801730E0_S_801730E0_0;   /* arg0 in func_801610E0 */
 
 /* Advance the action wait states, then reset motion and switch scripts. */
@@ -932,9 +932,9 @@ typedef struct CL_CC5000_80174D14_S_80C97514_0_pre {
 
 typedef struct CL_CC5000_80174D14_S_80C97514_0 {
     u8 pad_00[0x96];
-    u16 unk_96;
+    u16 timer;
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
     u8 pad_9C[0x8];
     s16 unk_A4;
     u8 pad_A6[0x6];

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 
 
 typedef struct Copy12 {
@@ -34,21 +36,7 @@ typedef struct S_8080DF94_1 {
     s16 unk_36;
 } S_8080DF94_1;   /* owner in step_cutscene_actor */
 
-typedef struct S_8080DF94_2 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_8080DF94_2;   /* part in step_cutscene_actor */
 
-typedef struct S_8080DF94_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8080DF94_3;   /* motion in step_cutscene_actor */
 
 typedef struct S_8080DF94_4 {
     u8 pad_00[0x10];
@@ -56,7 +44,7 @@ typedef struct S_8080DF94_4 {
 } S_8080DF94_4;   /* target in step_cutscene_actor */
 
 /* Per-frame step for the town cutscene actor: dispatch its state and drive its motion, colour fade and timers. */
-void step_cutscene_actor(void *obj, void *motion, void *part) {
+void step_cutscene_actor(void *obj, ObjectPosition *motion, SpriteFrameState *part) {
     Copy12 scratch;
     s16 state;
     s32 result;
@@ -81,10 +69,10 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
 
     switch (state) {
     case 0:
-        ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0x101010);
-        if ((u8)((S_8080DF94_2 *)part)->unk_0C >= 0xA0U) {
-            ((S_8080DF94_2 *)part)->unk_0C = 0x808080;
-            ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 & 0xFFF3);
+        part->color.word = (s32)(part->color.word + 0x101010);
+        if ((u8)part->color.word >= 0xA0U) {
+            part->color.word = 0x808080;
+            part->flags = (u16)(part->flags & 0xFFF3);
             ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
         }
         break;
@@ -92,12 +80,12 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
         if (((S_8080DF94_0 *)obj)->unk_08 & 1) {
             result = func_80071494();
             flag = scratch_words[result % 3];
-            ((S_8080DF94_3 *)motion)->unk_0C = (s32)(((func_80071494() & 0x7F) - 0x40) << 0xF);
-            ((S_8080DF94_3 *)motion)->unk_14 = (s32)((0 - ((func_80071494() & 0xF) + 8)) << 0x10);
-            if (((S_8080DF94_3 *)motion)->unk_0C > 0) {
-                ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 1);
+            motion->velocity_x = (s32)(((func_80071494() & 0x7F) - 0x40) << 0xF);
+            motion->velocity_z = (s32)((0 - ((func_80071494() & 0xF) + 8)) << 0x10);
+            if (motion->velocity_x > 0) {
+                part->flags = (u16)(part->flags | 1);
             }
-            ((S_8080DF94_3 *)motion)->unk_10 = (s32)((S_8080DF94_4 *)target)->unk_10;
+            motion->velocity_y = (s32)((S_8080DF94_4 *)target)->unk_10;
             ((S_8080DF94_0 *)obj)->unk_04 = 0x20;
         }
         if (((S_8080DF94_1 *)owner)->unk_36 == 0xA) {
@@ -116,17 +104,17 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
     {
         s16 floor_y;
 
-        ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
+        motion->velocity_z = (s32)(motion->velocity_z + 0x40000);
         floor_y = func_8025E01C(motion);
-        if (floor_y < ((S_8080DF94_3 *)motion)->unk_08) {
-            ((S_8080DF94_3 *)motion)->unk_08 = (s32)floor_y;
-            ((S_8080DF94_3 *)motion)->unk_14 = (s32)((s32)(0 - ((S_8080DF94_3 *)motion)->unk_14) >> 3);
+        if (floor_y < motion->z.v) {
+            motion->z.v = (s32)floor_y;
+            motion->velocity_z = (s32)((s32)(0 - motion->velocity_z) >> 3);
         }
-        if (((S_8080DF94_2 *)part)->unk_14 & 0x6000) {
+        if (part->flags & 0x6000) {
             ((S_8080DF94_0 *)obj)->unk_06 = 0xA;
-            if (((S_8080DF94_2 *)part)->unk_00 == (s32)D_80288FF0) {
-                ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
-                ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
+            if (part->unk_00 == D_80288FF0) {
+                part->color.word = 0xA0A0A0;
+                part->flags = (u16)(part->flags | 0xC);
                 ((S_8080DF94_0 *)obj)->unk_04 = 0x22;
                 break;
             }
@@ -137,50 +125,50 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
             }
             ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
         }
-        pos_x = ((S_8080DF94_3 *)motion)->unk_0C;
-        vel_x = ((S_8080DF94_3 *)motion)->unk_10;
+        pos_x = motion->velocity_x;
+        vel_x = motion->velocity_y;
         step_x = pos_x >> 3;
         pos_x -= step_x;
-        ((S_8080DF94_3 *)motion)->unk_0C = pos_x;
+        motion->velocity_x = pos_x;
         pos_x = vel_x >> 3;
         vel_x -= pos_x;
-        ((S_8080DF94_3 *)motion)->unk_10 = vel_x;
+        motion->velocity_y = vel_x;
         break;
     }
     case 0x21:
     {
         s16 floor_y;
 
-        ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
+        motion->velocity_z = (s32)(motion->velocity_z + 0x40000);
         floor_y = func_8025E01C(motion);
-        if (floor_y < ((S_8080DF94_3 *)motion)->unk_08) {
-            ((S_8080DF94_3 *)motion)->unk_08 = (s32)floor_y;
-            ((S_8080DF94_3 *)motion)->unk_14 = (s32)((s32)(0 - ((S_8080DF94_3 *)motion)->unk_14) >> 3);
+        if (floor_y < motion->z.v) {
+            motion->z.v = (s32)floor_y;
+            motion->velocity_z = (s32)((s32)(0 - motion->velocity_z) >> 3);
         }
-        pos_x = ((S_8080DF94_3 *)motion)->unk_0C;
-        vel_x = ((S_8080DF94_3 *)motion)->unk_10;
+        pos_x = motion->velocity_x;
+        vel_x = motion->velocity_y;
         step_x = pos_x >> 3;
         pos_x -= step_x;
-        ((S_8080DF94_3 *)motion)->unk_0C = pos_x;
+        motion->velocity_x = pos_x;
         pos_x = vel_x >> 3;
         vel_x -= pos_x;
-        ((S_8080DF94_3 *)motion)->unk_10 = vel_x;
-        count = ((S_8080DF94_2 *)part)->unk_14;
+        motion->velocity_y = vel_x;
+        count = part->flags;
         if (count & 0x6000) {
-            ((S_8080DF94_2 *)part)->unk_14 = (u16)(count | 0xC);
-            ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
+            part->flags = (u16)(count | 0xC);
+            part->color.word = 0xA0A0A0;
             ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
         }
         break;
     }
     case 0x22:
-        ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
-        if (((S_8080DF94_3 *)motion)->unk_08 > 0) {
-            ((S_8080DF94_3 *)motion)->unk_14 = 0;
-            ((S_8080DF94_3 *)motion)->unk_08 = 0;
+        part->color.word = (s32)(part->color.word + 0xFFDFDFE0);
+        if (motion->z.v > 0) {
+            motion->velocity_z = 0;
+            motion->z.v = 0;
         }
-        if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
-            ((S_8080DF94_2 *)part)->unk_0C = 0;
+        if ((u8)part->color.word < 0x20U) {
+            part->color.word = 0;
         }
         if ((((S_8080DF94_1 *)owner)->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1,
             ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
@@ -188,14 +176,14 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
         }
         break;
     case 0x100:
-        ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
-        ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
+        part->color.word = 0xA0A0A0;
+        part->flags = (u16)(part->flags | 0xC);
         ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
                         /* fall through */
     case 0x101:
-        ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
-        if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
-            ((S_8080DF94_2 *)part)->unk_0C = 0;
+        part->color.word = (s32)(part->color.word + 0xFFDFDFE0);
+        if ((u8)part->color.word < 0x20U) {
+            part->color.word = 0;
             ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         }
         break;
@@ -213,6 +201,6 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
 
     if (flag != 0) {
         func_80034A1C(part, flag, 0);
-        ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 & 0x9FFF);
+        part->flags = (u16)(part->flags & 0x9FFF);
     }
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/collection.h"
+#include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
@@ -12,37 +14,8 @@ extern int abs(int);
 #define NULL 0
 #endif
 
-typedef struct S_80020DF0_0 {
-    u8 pad_00[0x15];
-    s8 unk_15;
-    u8 pad_16[0x52];
-    union { s16 s; u16 u; } unk_68;   /* accessed as both */
-    u8 pad_6A[0x2];
-    union { u16 s; s16 u; } unk_6C;   /* accessed as both */
-    u8 pad_6E[0x3A];
-    s32 unk_A8;
-    void * unk_AC;
-} S_80020DF0_0;   /* arg0 in update_snowball_minigame_actor */
 
-typedef struct S_80020DF0_1 {
-    s32 unk_00;
-    u8 pad_04[0x26];
-    u16 unk_2A;
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u16 unk_2E;
-    u8 pad_30[0x4];
-    s16 unk_34;
-    s16 unk_36;
-} S_80020DF0_1;   /* actor in update_snowball_minigame_actor */
 
-typedef struct S_80020DF0_2 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80020DF0_2;   /* arg1 in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_8 {
     u8 pad_00[0x2];
@@ -83,10 +56,10 @@ extern void add_motion_deltas_to_position(void *);
 extern s32 query_lowered_transform_position(void *);
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
-void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState *sprite)
+void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     u8 *effect;
-    void *actor;
+    TownCollectionSequence *actor;
     s32 ground_height;
     s16 state;
     u16 state_bits;
@@ -100,53 +73,53 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
     music = &scene_object_payload_alias;
 
     ground_height = (s16)query_lowered_transform_position(motion);
-    if (((S_80020DF0_0 *)object)->unk_68.s < 0xFF) {
+    if (object->state.s < 0xFF) {
         s32 actor_state;
 
-        actor = ((S_80020DF0_0 *)object)->unk_AC;
-        actor_state = ((S_80020DF0_1 *)actor)->unk_36;
+        actor = object->sequence;
+        actor_state = actor->state.s;
         if (actor_state == 0xFF) {
-            ((S_80020DF0_0 *)object)->unk_68.s = actor_state;
+            object->state.s = actor_state;
         }
     }
     add_motion_deltas_to_position(motion);
-    if (((S_80020DF0_2 *)motion)->unk_08.at02.v >= ground_height) {
-        ((S_80020DF0_2 *)motion)->unk_08.at02.v = ground_height;
+    if (motion->z.w.i >= ground_height) {
+        motion->z.w.i = ground_height;
     }
     advance_sprite_animation_and_textures(sprite);
 
-    state = ((S_80020DF0_0 *)object)->unk_68.s;
-    state_bits = ((S_80020DF0_0 *)object)->unk_68.u;
+    state = object->state.s;
+    state_bits = object->state.u;
     switch (state) {
     case 0:
-        ((S_80020DF0_2 *)motion)->unk_00 = 0x03A00000;
-        ((S_80020DF0_2 *)motion)->unk_04 = 0x01E00000;
-        ((S_80020DF0_2 *)motion)->unk_08.at02.v = query_lowered_transform_position(motion);
-        ((S_80020DF0_0 *)object)->unk_15 = 0;
-        ((S_80020DF0_0 *)object)->unk_6C.s = 0x40;
-        ((S_80020DF0_0 *)object)->unk_68.s = 1;
+        motion->x.v = 0x03A00000;
+        motion->y.v = 0x01E00000;
+        motion->z.w.i = query_lowered_transform_position(motion);
+        object->unk_15 = 0;
+        object->timer.u = 0x40;
+        object->state.s = 1;
                         /* fall through */
 
     case 1:
         if (sprite->flags & 0x6000) {
-            ((S_80020DF0_2 *)motion)->unk_10 = 0x80000;
+            motion->velocity_y = 0x80000;
             effect = D_800F2DC0;
         }
-        if (((S_80020DF0_0 *)object)->unk_A8 & 1) {
+        if (object->flags & 1) {
             u16 timer;
 
-            timer = ((S_80020DF0_0 *)object)->unk_6C.s - 1;
-            ((S_80020DF0_0 *)object)->unk_6C.s = timer;
+            timer = object->timer.u - 1;
+            object->timer.u = timer;
             if ((s16)timer >= 0) {
-                ((S_80020DF0_2 *)motion)->unk_00 =
+                motion->x.v =
                     (rsin((s16)timer << 7) << 7) + 0x03A00000;
             }
         }
-        if (((S_80020DF0_2 *)motion)->unk_04 > 0x0477FFFF) {
+        if (motion->y.v > 0x0477FFFF) {
             effect = D_800F2E08;
             sprite->flags |= 1;
-            ((S_80020DF0_2 *)motion)->unk_0C = 0x80000;
-            ((S_80020DF0_0 *)object)->unk_68.s = 2;
+            motion->velocity_x = 0x80000;
+            object->state.s = 2;
         }
         break;
 
@@ -154,10 +127,10 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
         if (sprite->flags & 0x6000) {
             effect = D_800F2E98;
         }
-        if (((S_80020DF0_2 *)motion)->unk_04 > 0x048FFFFF) {
+        if (motion->y.v > 0x048FFFFF) {
             effect = D_800F2E50;
-            ((S_80020DF0_2 *)motion)->unk_10 = 0;
-            ((S_80020DF0_0 *)object)->unk_68.s = 3;
+            motion->velocity_y = 0;
+            object->state.s = 3;
         }
         break;
 
@@ -165,10 +138,10 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
         if (sprite->flags & 0x6000) {
             effect = D_800F2E98;
         }
-        if (((S_80020DF0_2 *)motion)->unk_00 > 0x03DFFFFF) {
+        if (motion->x.v > 0x03DFFFFF) {
             effect = D_800F2F28;
-            ((S_80020DF0_2 *)motion)->unk_14 = -0x100000;
-            ((S_80020DF0_0 *)object)->unk_68.s = 4;
+            motion->velocity_z = -0x100000;
+            object->state.s = 4;
         }
         break;
 
@@ -176,23 +149,23 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
     {
         s32 x;
 
-        x = ((S_80020DF0_2 *)motion)->unk_00;
-        ((S_80020DF0_2 *)motion)->unk_14 += 0x48000;
+        x = motion->x.v;
+        motion->velocity_z += 0x48000;
         if (x > 0x041FFFFF) {
-            ((S_80020DF0_2 *)motion)->unk_14 = 0;
-            ((S_80020DF0_2 *)motion)->unk_0C = 0;
-            ((S_80020DF0_0 *)object)->unk_15 = 1;
-            ((S_80020DF0_0 *)object)->unk_68.s = 5;
+            motion->velocity_z = 0;
+            motion->velocity_x = 0;
+            object->unk_15 = 1;
+            object->state.s = 5;
         }
     }
         break;
 
     case 5:
         if (*music == D_80092698) {
-            ((S_80020DF0_0 *)object)->unk_6C.s = 7;
+            object->timer.u = 7;
             *music = tracked_actor_callback_address;
-            ((S_80020DF0_0 *)object)->unk_15 = 0;
-            ((S_80020DF0_0 *)object)->unk_68.s = 6;
+            object->unk_15 = 0;
+            object->state.s = 6;
         }
         break;
 
@@ -204,21 +177,21 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
 
         target = &view_reference_entity;
         (*(s32 *)((u8 *)motion + 0xC)) =
-            (target->x.v - ((S_80020DF0_2 *)motion)->unk_00) >> 1;
+            (target->x.v - motion->x.v) >> 1;
         (*(s32 *)((u8 *)motion + 0x10)) =
-            (target->y.v - ((S_80020DF0_2 *)motion)->unk_04) >> 1;
+            (target->y.v - motion->y.v) >> 1;
         target_height = target->z.v + town_target_height_offset;
-        base_height = ((S_80020DF0_2 *)motion)->unk_08.at00.v + 0x80000;
-        ((S_80020DF0_2 *)motion)->unk_14 = (target_height - base_height) >> 1;
+        base_height = motion->z.v + 0x80000;
+        motion->velocity_z = (target_height - base_height) >> 1;
         add_motion_deltas_to_position(motion);
         *music = tracked_actor_callback_address;
         (*(u16 *)((u8 *)object + 0x6C))--;
-        if ((s16)((S_80020DF0_0 *)object)->unk_6C.s <= 0) {
+        if ((s16)object->timer.u <= 0) {
             *music = tracked_actor_callback_address;
-            ((S_80020DF0_2 *)motion)->unk_14 = 0;
-            ((S_80020DF0_2 *)motion)->unk_10 = 0;
-            ((S_80020DF0_2 *)motion)->unk_0C = 0;
-            ((S_80020DF0_0 *)object)->unk_68.s = 7;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            object->state.s = 7;
         }
     }
         break;
@@ -236,19 +209,19 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
             target->z.v + town_target_height_offset - 0x80000;
         if (((s32)world->pressed_buttons) & 0x40) {
             if (target->z.w.i == 0) {
-                if (((S_80020DF0_0 *)object)->unk_68.s == 9) {
-                    ((S_80020DF0_1 *)actor)->unk_00 = 0x100000;
+                if (object->state.s == 9) {
+                    actor->speed = 0x100000;
                     effect = D_800F2FE0;
                 } else {
                     *music = town_actor_interaction_address;
-                    ((S_80020DF0_2 *)motion)->unk_14 = 0x100000;
+                    motion->velocity_z = 0x100000;
                 }
-                ((S_80020DF0_1 *)actor)->unk_2A &= 0xFFFB;
-                ((S_80020DF0_0 *)object)->unk_68.u++;
+                actor->flags.u &= 0xFFFB;
+                object->state.u++;
             } else {
                 *music = tracked_actor_callback_address;
             }
-            if (((S_80020DF0_0 *)object)->unk_68.s == 0xA) {
+            if (object->state.s == 0xA) {
                 SD_Call(0x700);
             }
         }
@@ -260,52 +233,52 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
         s32 velocity_y;
         s32 x;
 
-        ((S_80020DF0_2 *)motion)->unk_0C =
-            (((S_80020DF0_1 *)actor)->unk_00 >> 12) *
-            rsin(((S_80020DF0_1 *)actor)->unk_2C.s);
-        velocity_y = ((-((S_80020DF0_1 *)actor)->unk_00) >> 12) *
-            rcos(((S_80020DF0_1 *)actor)->unk_2C.s);
-        ((S_80020DF0_2 *)motion)->unk_10 = velocity_y;
+        motion->velocity_x =
+            (actor->speed >> 12) *
+            rsin(actor->angle.s);
+        velocity_y = ((-actor->speed) >> 12) *
+            rcos(actor->angle.s);
+        motion->velocity_y = velocity_y;
         if (velocity_y > -0x40000) {
-            ((S_80020DF0_2 *)motion)->unk_10 = -0x40000;
+            motion->velocity_y = -0x40000;
         }
-        ((S_80020DF0_1 *)actor)->unk_2C.s =
-            ((S_80020DF0_1 *)actor)->unk_2C.u - ((s16)((S_80020DF0_1 *)actor)->unk_2E >> 4);
+        actor->angle.s =
+            actor->angle.u - ((s16)actor->angle_step.u >> 4);
 
-        if (((S_80020DF0_2 *)motion)->unk_08.at00.v > 0) {
+        if (motion->z.v > 0) {
             u16 flags;
 
-            flags = ((S_80020DF0_1 *)actor)->unk_2A;
+            flags = actor->flags.u;
             if (!(flags & 4)) {
-                ((S_80020DF0_1 *)actor)->unk_2A = flags | 4;
+                actor->flags.u = flags | 4;
                 SD_Call(0x701);
             }
-            x = ((S_80020DF0_2 *)motion)->unk_00;
-            ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
+            x = motion->x.v;
+            motion->z.v = 0x200000;
             if (x <= 0x041FFFFF) {
                 if (x <= 0x03BFFFFF) {
                     if (x <= 0x03800000) {
-                        ((S_80020DF0_2 *)motion)->unk_00 = 0x03880000;
+                        motion->x.v = 0x03880000;
                     }
                 } else {
-                    ((S_80020DF0_2 *)motion)->unk_00 = 0x03B80000;
+                    motion->x.v = 0x03B80000;
                 }
             } else {
                 if (x > 0x04BFFFFF) {
-                    ((S_80020DF0_2 *)motion)->unk_00 = 0x04B80000;
+                    motion->x.v = 0x04B80000;
                 } else if (x <= 0x04800000) {
-                    ((S_80020DF0_2 *)motion)->unk_00 = 0x04880000;
+                    motion->x.v = 0x04880000;
                 }
             }
-            ((S_80020DF0_1 *)actor)->unk_2C.s = -((S_80020DF0_1 *)actor)->unk_2C.s >> 1;
+            actor->angle.s = -actor->angle.s >> 1;
         }
 
-        if (((S_80020DF0_2 *)motion)->unk_04 <= 0x01E00000) {
+        if (motion->y.v <= 0x01E00000) {
             s32 terrain;
 
             SD_Call(0x1700);
             SD_Call(0x1701);
-            terrain = D_800272A0[((S_80020DF0_1 *)actor)->unk_34];
+            terrain = D_800272A0[actor->round_index.s];
             if (terrain == 8) {
                 s32 scale;
                 u8 *particle_data;
@@ -314,7 +287,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
                 index = 1;
                 scale = 0x1000;
                 particle_data = D_80022B80;
-                ((S_80020DF0_0 *)object)->unk_A8 |= 1;
+                object->flags |= 1;
                 do {
                     ObjectNodeHeader *particle;
 
@@ -337,14 +310,14 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
                     index--;
                 } while (index >= 0);
             } else {
-                ((S_80020DF0_0 *)object)->unk_A8 &= -2;
+                object->flags &= -2;
             }
             effect = D_800F2F80;
-            ((S_80020DF0_2 *)motion)->unk_14 = 0;
-            ((S_80020DF0_2 *)motion)->unk_10 = 0;
-            ((S_80020DF0_2 *)motion)->unk_0C = 0;
-            ((S_80020DF0_0 *)object)->unk_6C.s = 0x14;
-            ((S_80020DF0_0 *)object)->unk_68.s = 0xB;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            object->timer.u = 0x14;
+            object->state.s = 0xB;
         }
     }
         break;
@@ -356,54 +329,54 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
         s32 x;
 
         flags = sprite->flags;
-        if ((flags & 0x6000) && ((S_80020DF0_0 *)object)->unk_6C.u > 0) {
+        if ((flags & 0x6000) && object->timer.s > 0) {
             effect = D_800F2DC0;
             sprite->flags = flags | 0x800;
         }
-        if (((S_80020DF0_2 *)motion)->unk_00 > 0x03A00000) {
+        if (motion->x.v > 0x03A00000) {
             sprite->flags &= 0xFFFE;
         } else {
             sprite->flags |= 1;
         }
-        y = ((S_80020DF0_2 *)motion)->unk_04;
-        ((S_80020DF0_2 *)motion)->unk_04 = y + ((0x01E00000 - y) >> 1);
+        y = motion->y.v;
+        motion->y.v = y + ((0x01E00000 - y) >> 1);
         {
-            s16 timer = ((S_80020DF0_0 *)object)->unk_6C.s - 1;
+            s16 timer = object->timer.u - 1;
 
-            ((S_80020DF0_0 *)object)->unk_6C.u = timer;
+            object->timer.s = timer;
             if (timer == 0) {
                 s32 x;
 
                 sprite->flags &= 0xF7FF;
-                x = ((S_80020DF0_2 *)motion)->unk_00;
+                x = motion->x.v;
                 if (x > 0x03A80000) {
-                    ((S_80020DF0_2 *)motion)->unk_0C = -0x80000;
+                    motion->velocity_x = -0x80000;
                 } else if (x <= 0x0397FFFF) {
-                    ((S_80020DF0_2 *)motion)->unk_0C = 0x80000;
+                    motion->velocity_x = 0x80000;
                 } else {
                     effect = D_800F2E50;
-                    ((S_80020DF0_2 *)motion)->unk_0C = 0;
-                    ((S_80020DF0_2 *)motion)->unk_00 = 0x03A00000;
+                    motion->velocity_x = 0;
+                    motion->x.v = 0x03A00000;
                 }
             }
         }
-        if ((u32)(((S_80020DF0_2 *)motion)->unk_00 - 0x03BC0000) <= 0xC80000) {
-            ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0;
+        if ((u32)(motion->x.v - 0x03BC0000) <= 0xC80000) {
+            motion->z.v = 0;
         } else {
-            ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
+            motion->z.v = 0x200000;
         }
         {
             s32 center_dist;
 
-            center_dist = ((S_80020DF0_2 *)motion)->unk_00;
+            center_dist = motion->x.v;
             center_dist = center_dist - 0x03A00000;
             center_dist = abs(center_dist);
-            if (center_dist <= 0x80000 && ((S_80020DF0_0 *)object)->unk_6C.u < 0) {
-                ((S_80020DF0_1 *)actor)->unk_2A |= 2;
-                ((S_80020DF0_2 *)motion)->unk_14 = 0;
-                ((S_80020DF0_2 *)motion)->unk_10 = 0;
-                ((S_80020DF0_2 *)motion)->unk_0C = 0;
-                ((S_80020DF0_0 *)object)->unk_68.s = 0;
+            if (center_dist <= 0x80000 && object->timer.s < 0) {
+                actor->flags.u |= 2;
+                motion->velocity_z = 0;
+                motion->velocity_y = 0;
+                motion->velocity_x = 0;
+                object->state.s = 0;
             }
         }
     }
@@ -441,19 +414,19 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
             }
         }
         effect = D_800F2DC0;
-        ((S_80020DF0_2 *)motion)->unk_10 = 0x80000;
-        ((S_80020DF0_0 *)object)->unk_6C.s = 0x1E;
-        ((S_80020DF0_0 *)object)->unk_68.u++;
+        motion->velocity_y = 0x80000;
+        object->timer.u = 0x1E;
+        object->state.u++;
     }
                         /* fall through */
 
     case 0x100:
     case 0x102:
-        ((S_80020DF0_0 *)object)->unk_6C.s--;
-        if ((s16)((S_80020DF0_0 *)object)->unk_6C.s <= 0) {
-            ((S_80020DF0_2 *)motion)->unk_10 = 0;
-            ((S_80020DF0_2 *)motion)->unk_14 = -0x100000;
-            ((S_80020DF0_0 *)object)->unk_68.u++;
+        object->timer.u--;
+        if ((s16)object->timer.u <= 0) {
+            motion->velocity_y = 0;
+            motion->velocity_z = -0x100000;
+            object->state.u++;
         }
         break;
 
@@ -462,44 +435,44 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
     {
         s32 height;
 
-        height = ((S_80020DF0_2 *)motion)->unk_08.at00.v;
-        ((S_80020DF0_2 *)motion)->unk_14 += 0x20000;
+        height = motion->z.v;
+        motion->velocity_z += 0x20000;
         if (height > 0x1FFFFF) {
-            ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
-            ((S_80020DF0_2 *)motion)->unk_14 = 0;
-            ((S_80020DF0_0 *)object)->unk_68.u++;
+            motion->z.v = 0x200000;
+            motion->velocity_z = 0;
+            object->state.u++;
         }
     }
         break;
 
     case 0x104:
         effect = D_800F2E08;
-        ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
+        object->state.s = state_bits + 1;
         break;
 
     case 0x105:
         effect = D_800F2E50;
-        ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
+        object->state.s = state_bits + 1;
         break;
 
     case 0x106:
         effect = D_800F2E98;
-        ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
+        object->state.s = state_bits + 1;
         break;
 
     case 0x107:
-        ((S_80020DF0_2 *)motion)->unk_10 = -0x80000;
+        motion->velocity_y = -0x80000;
         sprite->tpage_abr = 0x60;
         sprite->color.word = 0x00C0C0C0;
         sprite->flags |= 0xC;
         effect = D_800F2EE0;
-        ((S_80020DF0_0 *)object)->unk_68.u++;
+        object->state.u++;
         break;
 
     case 0x108:
         sprite->color.word += -0x80808;
         if ((u8)*(u32 *)&sprite->color.word < 0x11) {
-            ((S_80020DF0_0 *)object)->unk_68.u++;
+            object->state.u++;
         }
         break;
 

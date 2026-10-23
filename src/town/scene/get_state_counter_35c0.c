@@ -3,6 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
-s16 read_scene_counter_b(void) {
+s16 get_scene_value_35c0(void) {
     return town_scene_root->town_state->unk_35C0;
 }

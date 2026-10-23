@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map/animation.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
@@ -9,26 +10,7 @@
 #define NULL 0
 #endif
 
-typedef struct S_800BFB8C_0 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-    u16 unk_0E;
-} S_800BFB8C_0;
 
-typedef struct S_800BFB8C_3 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0xC];
-    s16 unk_1E;
-    u8 pad_20[0x2];
-    s16 unk_22;
-    u8 pad_24[0x2];
-    s16 unk_26;
-} S_800BFB8C_3;
 
 s32 test_resident_bit();
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
@@ -38,7 +20,7 @@ extern void D_800BFD14();
 extern s32 D_800BFFF4();
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
-void spawn_randomized_timed_objects(void *source)
+void spawn_randomized_timed_objects(TownMapSpawnState *source)
 {
     s16 fixed_coord = 0;
     s16 state;
@@ -51,14 +33,14 @@ void spawn_randomized_timed_objects(void *source)
     u16 next_value;
     GameWork *town;
     u8 *kind;
-    void *coords;
+    TownMapFallingObject *coords;
     void *new_object;
     ObjectNodeHeader *object;
     void *callback;
 
     object = source;
     source = object;
-    count_bits = ((S_800BFB8C_0 *)source)->unk_0E;
+    count_bits = source->count;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
     town = &g_game_work;
@@ -75,35 +57,35 @@ void spawn_randomized_timed_objects(void *source)
                 random_value = rand();
                 coord_term = town->view.camera_position.parts.camera_position_x;
                 random_coord = coord_term + random_value % 1024 - 512;
-                ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
-                ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;
+                coords->unk_0C.s = random_coord;
+                coords->motion.x.w.i = random_coord;
                 coord_term = rand()
-                % (s16)((S_800BFB8C_0 *)source)->unk_0A;
-                base_coord = ((S_800BFB8C_0 *)source)->unk_08;
+                % (s16)source->span_y;
+                base_coord = source->base_y;
                 fixed_coord = -0x180;
-                ((S_800BFB8C_3 *)coords)->unk_10 = fixed_coord;
-                ((S_800BFB8C_3 *)coords)->unk_26 = fixed_coord;
+                coords->unk_10.s = fixed_coord;
+                coords->motion.z.w.i = fixed_coord;
                 count_bits = base_coord;
                 count_bits += coord_term;
-                ((S_800BFB8C_3 *)coords)->unk_0E = count_bits;
-                ((S_800BFB8C_3 *)coords)->unk_22 = count_bits;
+                coords->unk_0E = count_bits;
+                coords->motion.y.w.i = count_bits;
             }
             spawn_count -= 1;
             object = (void *)0x202;
         } while (spawn_count >= 0);
     }
-    state = ((S_800BFB8C_0 *)source)->unk_0C.s;
+    state = source->state.s;
     switch (state) {
     case 0:
         if (test_resident_bit(0xA1) == 0) {
             return;
         }
-        next_value = ((S_800BFB8C_0 *)source)->unk_0C.u + 1;
-        ((S_800BFB8C_0 *)source)->unk_0C.u = next_value;
+        next_value = source->state.u + 1;
+        source->state.u = next_value;
         return;
     case 1:
-    next_value = ((S_800BFB8C_0 *)source)->unk_0E - 1;
-    ((S_800BFB8C_0 *)source)->unk_0E = next_value;
+    next_value = source->count - 1;
+    source->count = next_value;
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
             (u16)(((ObjectStatusPrefix16 *)source)[-1].flags | NODE_REMOVE);

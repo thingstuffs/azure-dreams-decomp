@@ -1,41 +1,9 @@
 #include "common.h"
+#include "town/scene/collision.h"
 #include "shared/entity.h"
 extern int abs(int);
 
 
-extern void apply_the_entry_adjustment_increment_slot_count_store_slot(void *, void *, void *);
-extern void update_first_axis_slot_value(void *, void *, void *);
-extern void update_second_axis_slot_value(void *, void *, void *);
-
-typedef struct CollisionBounds {
-    s32 offset_x, offset_y, offset_z;
-    s32 size_x, size_y, size_z;
-} CollisionBounds;
-
-typedef struct ColliderView {
-    void *unused_00;
-    void *linked;
-    void *position;
-    void *bounds;
-    u8 pad_10[5];
-    u8 enabled;
-    u8 pad_16[0x1E];
-    u8 response_flags[6];
-    u8 pending_flags[6];
-} ColliderView;
-
-typedef struct CollisionScratch {
-    void *self_bounds;
-    void *other;
-    void *other_position;
-    void *other_bounds;
-    s32 x_near, x_far;
-    s32 y_near, y_far;
-    s32 z_near, z_far;
-    u8 face_x, face_y, face_z, pad_2B;
-    s32 axis_x, axis_y, axis_z;
-    s32 face_index;
-} CollisionScratch;
 
 /*
  * Walks the collider ring, rejects disabled or separated boxes, and dispatches overlapping boxes
@@ -43,10 +11,10 @@ typedef struct CollisionScratch {
  * motion covers its separation; otherwise chooses the least penetration, then clears the per-face
  * response flags.
  */
-void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *collider, void *position) {
-    u8 *scratch;
-    void *bounds;
-    void *other_bounds;
+void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(ColliderView *collider, ObjectPosition *position) {
+    CollisionScratch *scratch;
+    CollisionBounds *bounds;
+    CollisionBounds *other_bounds;
     s32 shift_x;
     s32 shift_y;
     s32 shift_z;
@@ -56,52 +24,52 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
     void *box_operand;
     register s32 axis_operand;
 
-    bounds = ((ColliderView *)(collider))->bounds;
-    scratch = (u8 *)0x1F800000;
-    ((CollisionScratch *)scratch)->face_index = 0;
-    ((CollisionScratch *)scratch)->self_bounds = bounds;
+    bounds = collider->bounds;
+    scratch = (CollisionScratch *)0x1F800000;
+    scratch->face_index = 0;
+    scratch->self_bounds = bounds;
     do {
-        ((ColliderView *)collider)->pending_flags[((CollisionScratch *)scratch)->face_index] = 0;
-        face_index = ((CollisionScratch *)scratch)->face_index + 1;
-        ((CollisionScratch *)scratch)->face_index = face_index;
+        collider->pending_flags[scratch->face_index] = 0;
+        face_index = scratch->face_index + 1;
+        scratch->face_index = face_index;
     } while (face_index < 6);
 
-    ((CollisionScratch *)scratch)->other = ((ColliderView *)(collider))->linked;
-    for (; ((CollisionScratch *)scratch)->other != collider; ((CollisionScratch *)scratch)->other = ((ColliderView *)(((CollisionScratch *)scratch)->other))->linked) {
+    scratch->other = collider->linked;
+    for (; scratch->other != collider; scratch->other = scratch->other->linked) {
         {
-            void *other;
-            void *object_ref;
+            ColliderView *other;
+            ColliderView *object_ref;
 
-            ((CollisionScratch *)scratch)->other_position = ((ColliderView *)(((CollisionScratch *)scratch)->other))->position;
-            other = ((CollisionScratch *)scratch)->other;
-            other_bounds = ((ColliderView *)(other))->bounds;
-            ((CollisionScratch *)scratch)->other_bounds = other_bounds;
-            object_ref = ((CollisionScratch *)scratch)->other;
-            if (((ColliderView *)(object_ref))->enabled == 0) {
+            scratch->other_position = scratch->other->position;
+            other = scratch->other;
+            other_bounds = other->bounds;
+            scratch->other_bounds = other_bounds;
+            object_ref = scratch->other;
+            if (object_ref->enabled == 0) {
                 continue;
             }
         }
 
         {
-            void *self_box;
+            CollisionBounds *self_box;
             s32 self_offset;
             s32 other_edge;
             s32 other_offset;
 
-            self_box = ((CollisionScratch *)scratch)->self_bounds;
+            self_box = scratch->self_bounds;
             do {
-                min_separation = ((EntityRec *)(position))->x.v;
+                min_separation = position->x.v;
             } while (0);
-            self_offset = ((CollisionBounds *)(self_box))->offset_x;
-            axis_operand = (s32)((CollisionScratch *)scratch)->other_position;
+            self_offset = self_box->offset_x;
+            axis_operand = (s32)scratch->other_position;
             min_separation += self_offset;
             other_edge = ((EntityRec *)(axis_operand))->x.v;
-            other_offset = ((CollisionBounds *)(other_bounds))->offset_x;
-            box_operand = (void *)((CollisionBounds *)(other_bounds))->size_x;
+            other_offset = other_bounds->offset_x;
+            box_operand = (void *)other_bounds->size_x;
             other_edge += other_offset;
             other_edge += (s32)box_operand;
             min_separation -= other_edge;
-            ((CollisionScratch *)scratch)->x_near = min_separation;
+            scratch->x_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -112,46 +80,46 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
             s32 separation;
             s32 other_edge;
 
-            box_operand = ((CollisionScratch *)scratch)->self_bounds;
-            separation = ((EntityRec *)(position))->x.v;
+            box_operand = scratch->self_bounds;
+            separation = position->x.v;
             other_pos = (void *)((CollisionBounds *)(box_operand))->offset_x;
             self_size = ((CollisionBounds *)(box_operand))->size_x;
-            box_operand = ((CollisionScratch *)scratch)->other_bounds;
+            box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
-            other_pos = ((CollisionScratch *)scratch)->other_position;
+            other_pos = scratch->other_position;
             box_operand = (void *)((CollisionBounds *)(box_operand))->offset_x;
             other_edge = ((EntityRec *)(other_pos))->x.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            ((CollisionScratch *)scratch)->x_far = separation;
+            scratch->x_far = separation;
             if (separation < 0) {
                 continue;
             }
         }
 
         {
-            void *self_box;
+            CollisionBounds *self_box;
             void *other_pos;
-            void *other_box;
+            CollisionBounds *other_box;
             s32 self_offset;
             s32 other_edge;
 
-            self_box = ((CollisionScratch *)scratch)->self_bounds;
+            self_box = scratch->self_bounds;
             do {
-                min_separation = ((EntityRec *)(position))->y.v;
-                self_offset = ((CollisionBounds *)(self_box))->offset_y;
+                min_separation = position->y.v;
+                self_offset = self_box->offset_y;
             } while (0);
-            other_box = ((CollisionScratch *)scratch)->other_bounds;
+            other_box = scratch->other_bounds;
             min_separation += self_offset;
-            other_pos = ((CollisionScratch *)scratch)->other_position;
-            box_operand = (void *)((CollisionBounds *)(other_box))->offset_y;
+            other_pos = scratch->other_position;
+            box_operand = (void *)other_box->offset_y;
             other_edge = ((EntityRec *)(other_pos))->y.v;
-            axis_operand = ((CollisionBounds *)(other_box))->size_y;
+            axis_operand = other_box->size_y;
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
             min_separation -= other_edge;
-            ((CollisionScratch *)scratch)->y_near = min_separation;
+            scratch->y_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -162,46 +130,46 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
             s32 separation;
             s32 other_edge;
 
-            box_operand = ((CollisionScratch *)scratch)->self_bounds;
-            separation = ((EntityRec *)(position))->y.v;
+            box_operand = scratch->self_bounds;
+            separation = position->y.v;
             other_pos = (void *)((CollisionBounds *)(box_operand))->offset_y;
             self_size = ((CollisionBounds *)(box_operand))->size_y;
-            box_operand = ((CollisionScratch *)scratch)->other_bounds;
+            box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
-            other_pos = ((CollisionScratch *)scratch)->other_position;
+            other_pos = scratch->other_position;
             box_operand = (void *)((CollisionBounds *)(box_operand))->offset_y;
             other_edge = ((EntityRec *)(other_pos))->y.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            ((CollisionScratch *)scratch)->y_far = separation;
+            scratch->y_far = separation;
             if (separation < 0) {
                 continue;
             }
         }
 
         {
-            void *self_box;
+            CollisionBounds *self_box;
             void *other_pos;
-            void *other_box;
+            CollisionBounds *other_box;
             s32 self_offset;
             s32 other_edge;
 
-            self_box = ((CollisionScratch *)scratch)->self_bounds;
+            self_box = scratch->self_bounds;
             do {
-                min_separation = ((EntityRec *)(position))->z.v;
-                self_offset = ((CollisionBounds *)(self_box))->offset_z;
+                min_separation = position->z.v;
+                self_offset = self_box->offset_z;
             } while (0);
-            other_box = ((CollisionScratch *)scratch)->other_bounds;
+            other_box = scratch->other_bounds;
             min_separation += self_offset;
-            other_pos = ((CollisionScratch *)scratch)->other_position;
-            box_operand = (void *)((CollisionBounds *)(other_box))->offset_z;
+            other_pos = scratch->other_position;
+            box_operand = (void *)other_box->offset_z;
             other_edge = ((EntityRec *)(other_pos))->z.v;
-            axis_operand = ((CollisionBounds *)(other_box))->size_z;
+            axis_operand = other_box->size_z;
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
             min_separation -= other_edge;
-            ((CollisionScratch *)scratch)->z_near = min_separation;
+            scratch->z_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -212,19 +180,19 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
             s32 separation;
             s32 other_edge;
 
-            box_operand = ((CollisionScratch *)scratch)->self_bounds;
-            separation = ((EntityRec *)(position))->z.v;
+            box_operand = scratch->self_bounds;
+            separation = position->z.v;
             other_pos = (void *)((CollisionBounds *)(box_operand))->offset_z;
             self_size = ((CollisionBounds *)(box_operand))->size_z;
-            box_operand = ((CollisionScratch *)scratch)->other_bounds;
+            box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
-            other_pos = ((CollisionScratch *)scratch)->other_position;
+            other_pos = scratch->other_position;
             box_operand = (void *)((CollisionBounds *)(box_operand))->offset_z;
             other_edge = ((EntityRec *)(other_pos))->z.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            ((CollisionScratch *)scratch)->z_far = separation;
+            scratch->z_far = separation;
             if (separation < 0) {
                 continue;
             }
@@ -234,67 +202,67 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
             s32 max_shift;
             s32 max_depth;
 
-            axis_operand = ((CollisionScratch *)scratch)->x_near;
-            max_shift = ((CollisionScratch *)scratch)->x_far;
+            axis_operand = scratch->x_near;
+            max_shift = scratch->x_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                ((CollisionScratch *)scratch)->face_x = ((ColliderView *)(collider))->response_flags[3];
-                ((CollisionScratch *)scratch)->axis_x = 2;
+                scratch->face_x = collider->response_flags[3];
+                scratch->axis_x = 2;
             } else {
-                ((CollisionScratch *)scratch)->x_near = max_shift;
-                ((CollisionScratch *)scratch)->face_x = ((ColliderView *)(collider))->response_flags[2];
-                ((CollisionScratch *)scratch)->axis_x = 3;
+                scratch->x_near = max_shift;
+                scratch->face_x = collider->response_flags[2];
+                scratch->axis_x = 3;
             }
 
-            axis_operand = ((CollisionScratch *)scratch)->y_near;
-            max_shift = ((CollisionScratch *)scratch)->y_far;
+            axis_operand = scratch->y_near;
+            max_shift = scratch->y_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                ((CollisionScratch *)scratch)->face_y = ((ColliderView *)(collider))->response_flags[5];
-                ((CollisionScratch *)scratch)->axis_y = 4;
+                scratch->face_y = collider->response_flags[5];
+                scratch->axis_y = 4;
             } else {
-                ((CollisionScratch *)scratch)->y_near = max_shift;
-                ((CollisionScratch *)scratch)->face_y = ((ColliderView *)(collider))->response_flags[4];
-                ((CollisionScratch *)scratch)->axis_y = 5;
+                scratch->y_near = max_shift;
+                scratch->face_y = collider->response_flags[4];
+                scratch->axis_y = 5;
             }
 
-            axis_operand = ((CollisionScratch *)scratch)->z_near;
-            max_shift = ((CollisionScratch *)scratch)->z_far;
+            axis_operand = scratch->z_near;
+            max_shift = scratch->z_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                ((CollisionScratch *)scratch)->face_z = ((ColliderView *)(collider))->response_flags[1];
-                ((CollisionScratch *)scratch)->axis_z = 0;
+                scratch->face_z = collider->response_flags[1];
+                scratch->axis_z = 0;
             } else {
-                ((CollisionScratch *)scratch)->z_near = max_shift;
-                ((CollisionScratch *)scratch)->face_z = ((ColliderView *)(collider))->response_flags[0];
-                ((CollisionScratch *)scratch)->axis_z = 1;
+                scratch->z_near = max_shift;
+                scratch->face_z = collider->response_flags[0];
+                scratch->axis_z = 1;
             }
         }
 
-        shift_x = ((CollisionScratch *)scratch)->x_near;
+        shift_x = scratch->x_near;
         if (shift_x == 0) {
-            if (((CollisionScratch *)scratch)->y_near == 0) {
+            if (scratch->y_near == 0) {
                 continue;
             }
-            if (((CollisionScratch *)scratch)->z_near == 0) {
+            if (scratch->z_near == 0) {
                 continue;
             }
         }
-        shift_y = ((CollisionScratch *)scratch)->y_near;
-        if (shift_y == 0 && ((CollisionScratch *)scratch)->z_near == 0) {
+        shift_y = scratch->y_near;
+        if (shift_y == 0 && scratch->z_near == 0) {
             continue;
         }
-        shift_z = ((CollisionScratch *)scratch)->z_near;
-        if (shift_z > 0 && ((EntityRec *)(position))->flags14 >= shift_z && shift_x != 0 && shift_y != 0) {
+        shift_z = scratch->z_near;
+        if (shift_z > 0 && position->velocity_z >= shift_z && shift_x != 0 && shift_y != 0) {
             update_second_axis_slot_value(collider, position, scratch);
             continue;
         }
@@ -304,10 +272,10 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
             s32 z_depth;
             s32 abs_z;
 
-            abs_x = abs(((CollisionScratch *)scratch)->x_near);
-            y_depth = abs(((CollisionScratch *)scratch)->y_near);
+            abs_x = abs(scratch->x_near);
+            y_depth = abs(scratch->y_near);
             if (abs_x < y_depth) {
-                z_depth = ((CollisionScratch *)scratch)->z_near;
+                z_depth = scratch->z_near;
                 abs_z = z_depth;
                 abs_z = abs(abs_z);
                 z_depth = y_depth < abs_z;
@@ -321,7 +289,7 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
                 apply_the_entry_adjustment_increment_slot_count_store_slot(collider, position, scratch);
                 continue;
             }
-            z_depth = ((CollisionScratch *)scratch)->z_near;
+            z_depth = scratch->z_near;
             z_depth = abs(z_depth);
             if (y_depth >= z_depth) {
                 update_second_axis_slot_value(collider, position, scratch);
@@ -331,10 +299,10 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
         }
     }
 
-    ((CollisionScratch *)scratch)->face_index = 0;
+    scratch->face_index = 0;
     do {
-        ((ColliderView *)collider)->response_flags[((CollisionScratch *)scratch)->face_index] = 0;
-        face_index = ((CollisionScratch *)scratch)->face_index + 1;
-        ((CollisionScratch *)scratch)->face_index = face_index;
+        collider->response_flags[scratch->face_index] = 0;
+        face_index = scratch->face_index + 1;
+        scratch->face_index = face_index;
     } while (face_index < 6);
 }

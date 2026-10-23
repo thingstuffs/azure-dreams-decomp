@@ -1,4 +1,5 @@
 #include "shared/gpu_packets.h"
+#include "town/menu/line_effects.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
@@ -17,59 +18,9 @@ extern u16 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 
-typedef struct S_800A1354_1 {
-    u8 pad_00[0x24];
-    u8 * unk_24;
-    u8 pad_28[0x9C];
-    s32 unk_C4;
-    u8 pad_C8[0x20];
-    u16 unk_E8;
-    u16 unk_EA;
-    u16 unk_EC;
-    u16 unk_EE;
-    u16 unk_F0;
-    u16 unk_F2;
-    u16 unk_F4;
-    u16 unk_F6;
-} S_800A1354_1;   /* scratch in draw_random_tinted_quad_pair */
 
    /* ctx in draw_random_tinted_quad_pair */
 
-typedef struct S_800A1354_3 {
-    u8 pad_00[0x4];
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_04;   /* overlapping accesses */
-    u16 unk_08;
-    u16 unk_0A;
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u16 unk_12;
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_14;   /* overlapping accesses */
-    u16 unk_18;
-    u16 unk_1A;
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_1C;   /* overlapping accesses */
-    u16 unk_20;
-    u16 unk_22;
-} S_800A1354_3;   /* poly in draw_random_tinted_quad_pair */
 
 typedef struct S_800A1354_4 {
     u8 pad_00[0x54];
@@ -81,76 +32,76 @@ typedef struct S_800A1354_4 {
    /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
 void draw_random_tinted_quad_pair(u8 *effect)
 {
-    u8 **render_ctx_addr = (u8 **)((u8 *)(&g_game_work));
+    GpuContext **render_ctx_addr = (GpuContext **)&g_game_work.draw_buffer;
     s32 vertex_index = 0;
     u32 rgb_mask = 0xFFFFFF;
-    u8 *scratch = (u8 *)0x1F800000;
+    MenuLineScratch *scratch = (MenuLineScratch *)0x1F800000;
     u8 *vertex_group;
     s32 intensity;
-    u8 *quad;
+    MenuLineG4 *quad;
     s32 random_value;
     s32 random_color;
 
     intensity = ((Rec_D_80100B70 *)effect)->unk_10;
-    ((S_800A1354_1 *)scratch)->unk_24 = *render_ctx_addr + 0xB0;
+    scratch->order_table.bytes = &(*render_ctx_addr)->orderTag;
     do {
-        u8 *render_ctx = *render_ctx_addr;
+        GpuContext *render_ctx = *render_ctx_addr;
         u8 *draw_mode;
         vertex_group = effect + (vertex_index * 4);
 
-        quad = ((GpuContext *)render_ctx)->packetCursor;
-        ((GpuContext *)render_ctx)->packetCursor = quad + 0x28;
+        quad = render_ctx->packetCursor;
+        render_ctx->packetCursor = (u8 *)(quad + 1);
         random_value = rand();
-        ((S_800A1354_3 *)quad)->unk_04.at00.v = (random_value * rand()) & rgb_mask;
+        quad->vertices[0].color.word = (random_value * rand()) & rgb_mask;
         random_value = rand();
-        ((S_800A1354_3 *)quad)->unk_0C.at00.v = (random_value * rand()) & rgb_mask;
+        quad->vertices[1].color.word = (random_value * rand()) & rgb_mask;
         random_value = rand();
-        ((S_800A1354_3 *)quad)->unk_14.at00.v = (random_value * rand()) & rgb_mask;
+        quad->vertices[2].color.word = (random_value * rand()) & rgb_mask;
         random_value = rand();
         random_color = random_value * rand();
-        ((S_800A1354_3 *)quad)->unk_1C.at00.v = random_color & rgb_mask;
+        quad->vertices[3].color.word = random_color & rgb_mask;
 
-        ((S_800A1354_3 *)quad)->unk_04.at00u.v = SCALE255(((S_800A1354_3 *)quad)->unk_04.at00u.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_04.at01.v = SCALE255(((S_800A1354_3 *)quad)->unk_04.at01.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_04.at02.v = SCALE255(((S_800A1354_3 *)quad)->unk_04.at02.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_0C.at00u.v = SCALE255(((S_800A1354_3 *)quad)->unk_0C.at00u.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_0C.at01.v = SCALE255(((S_800A1354_3 *)quad)->unk_0C.at01.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_0C.at02.v = SCALE255(((S_800A1354_3 *)quad)->unk_0C.at02.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_14.at00u.v = SCALE255(((S_800A1354_3 *)quad)->unk_14.at00u.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_14.at01.v = SCALE255(((S_800A1354_3 *)quad)->unk_14.at01.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_14.at02.v = SCALE255(((S_800A1354_3 *)quad)->unk_14.at02.v * intensity);
-        ((S_800A1354_3 *)quad)->unk_1C.at00u.v = ((S_800A1354_3 *)quad)->unk_04.at00u.v;
-        ((S_800A1354_3 *)quad)->unk_1C.at01.v = ((S_800A1354_3 *)quad)->unk_04.at01.v;
-        ((S_800A1354_3 *)quad)->unk_1C.at02.v = ((S_800A1354_3 *)quad)->unk_04.at02.v;
+        quad->vertices[0].color.c.r = SCALE255(quad->vertices[0].color.c.r * intensity);
+        quad->vertices[0].color.c.g = SCALE255(quad->vertices[0].color.c.g * intensity);
+        quad->vertices[0].color.c.b = SCALE255(quad->vertices[0].color.c.b * intensity);
+        quad->vertices[1].color.c.r = SCALE255(quad->vertices[1].color.c.r * intensity);
+        quad->vertices[1].color.c.g = SCALE255(quad->vertices[1].color.c.g * intensity);
+        quad->vertices[1].color.c.b = SCALE255(quad->vertices[1].color.c.b * intensity);
+        quad->vertices[2].color.c.r = SCALE255(quad->vertices[2].color.c.r * intensity);
+        quad->vertices[2].color.c.g = SCALE255(quad->vertices[2].color.c.g * intensity);
+        quad->vertices[2].color.c.b = SCALE255(quad->vertices[2].color.c.b * intensity);
+        quad->vertices[3].color.c.r = quad->vertices[0].color.c.r;
+        quad->vertices[3].color.c.g = quad->vertices[0].color.c.g;
+        quad->vertices[3].color.c.b = quad->vertices[0].color.c.b;
         SetLineG4(quad);
         SetSemiTrans(quad, 1);
 
-        copy_odd_halfwords_3(scratch + 0x74, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
-        copy_odd_halfwords_3(scratch + 0x7C, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
-        copy_odd_halfwords_3(scratch + 0x84, ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
-        copy_menu_vector_halfwords(scratch + 0x8C, scratch + 0x74);
-        ((S_800A1354_1 *)scratch)->unk_C4 = RotTransPers4(
-            scratch + 0x74, scratch + 0x7C, scratch + 0x84, scratch + 0x8C, scratch + 0xE8, scratch + 0xEC,
-            scratch + 0xF0, scratch + 0xF4, scratch + 0x94, scratch + 0x98) - 0x30;
+        copy_odd_halfwords_3(scratch->vertices[0], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_54))->unk_08);
+        copy_odd_halfwords_3(scratch->vertices[1], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_58))->unk_08);
+        copy_odd_halfwords_3(scratch->vertices[2], ((ObjectPayloadView *)(((S_800A1354_4 *)vertex_group)->unk_5C))->unk_08);
+        copy_menu_vector_halfwords(scratch->vertices[3], scratch->vertices[0]);
+        scratch->depth = RotTransPers4(
+            scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], scratch->screen[0], scratch->screen[1],
+            scratch->screen[2], scratch->screen[3], &scratch->interp, &scratch->flag) - 0x30;
 
-        ((S_800A1354_3 *)quad)->unk_08 = ((S_800A1354_1 *)scratch)->unk_E8;
-        ((S_800A1354_3 *)quad)->unk_0A = ((S_800A1354_1 *)scratch)->unk_EA;
-        ((S_800A1354_3 *)quad)->unk_10 = ((S_800A1354_1 *)scratch)->unk_EC;
-        ((S_800A1354_3 *)quad)->unk_12 = ((S_800A1354_1 *)scratch)->unk_EE;
-        ((S_800A1354_3 *)quad)->unk_18 = ((S_800A1354_1 *)scratch)->unk_F0;
-        ((S_800A1354_3 *)quad)->unk_1A = ((S_800A1354_1 *)scratch)->unk_F2;
-        ((S_800A1354_3 *)quad)->unk_20 = ((S_800A1354_1 *)scratch)->unk_F4;
-        ((S_800A1354_3 *)quad)->unk_22 = ((S_800A1354_1 *)scratch)->unk_F6;
-        if (((S_800A1354_1 *)scratch)->unk_C4 >= 0x1E0)
-            ((S_800A1354_1 *)scratch)->unk_C4 = 0x1DF;
-        if (((S_800A1354_1 *)scratch)->unk_C4 < 0)
-            ((S_800A1354_1 *)scratch)->unk_C4 = 0;
-        AddPrim(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, quad);
+        quad->vertices[0].x = scratch->screen[0][0];
+        quad->vertices[0].y = scratch->screen[0][1];
+        quad->vertices[1].x = scratch->screen[1][0];
+        quad->vertices[1].y = scratch->screen[1][1];
+        quad->vertices[2].x = scratch->screen[2][0];
+        quad->vertices[2].y = scratch->screen[2][1];
+        quad->vertices[3].x = scratch->screen[3][0];
+        quad->vertices[3].y = scratch->screen[3][1];
+        if (scratch->depth >= 0x1E0)
+            scratch->depth = 0x1DF;
+        if (scratch->depth < 0)
+            scratch->depth = 0;
+        AddPrim(scratch->order_table.bytes + scratch->depth * 4, quad);
         vertex_index += 3;
         render_ctx = *render_ctx_addr;
-        draw_mode = ((GpuContext *)render_ctx)->packetCursor;
-        ((GpuContext *)render_ctx)->packetCursor = draw_mode + 0xC;
+        draw_mode = render_ctx->packetCursor;
+        render_ctx->packetCursor = draw_mode + 0xC;
         SetDrawMode(draw_mode, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
-        AddPrim(((S_800A1354_1 *)scratch)->unk_24 + ((S_800A1354_1 *)scratch)->unk_C4 * 4, draw_mode);
+        AddPrim(scratch->order_table.bytes + scratch->depth * 4, draw_mode);
     } while (vertex_index < 6);
 }

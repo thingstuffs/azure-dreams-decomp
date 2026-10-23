@@ -3,52 +3,53 @@
 #include "town/shop/shop_window_layout_g00610.h"
 
 /* Initialize UI resources and position five rows of display elements. */
-void initialize_shop_window_layout(void *ui) {
+void initialize_shop_window_layout(ShopWindow *ui) {
     s32 lower_y;
     s32 left_y;
     s32 right_y;
     s32 row_offset;
     s32 row;
     void *header;
+    ShopWindowWidgets *row_widgets;
 
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_00 = &D_800788E0;
-    header = ui + 0x34;
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
-    ((SignedWidgetYView *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
-        0x2F;
+    ui->widgets->unk_00->value.pointer = &D_800788E0;
+    header = ui->header_record;
+    ui->widgets->record_widget->value.pointer = header;
+    ui->widgets->record_widget->data->y.s = 0x2F;
     process_shop_record_and_subrecord((s32)(header));
     position_shop_row_widgets(ui);
-    initialize_scaled_entry_cursor(ui + 0x28, (struct S8004CBFC_a1 *)(&shop_cursor_template), (int *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08));
+    initialize_scaled_entry_cursor(ui->cursor_record, (struct S8004CBFC_a1 *)(&shop_cursor_template), (int *)ui->widgets->cursor);
     row = 4;
     lower_y = 0xC8;
     right_y = 0x55;
     left_y = 0x58;
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_0C = &D_800D15F4;
+    ui->widgets->unk_0C->value.pointer = &D_800D15F4;
     do {
         row_offset = row * 4;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_08 = -0x50;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_0A = left_y;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_08 = 0x56;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_0A = right_y;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_08 = 0x3C;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_0A = lower_y;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_08 = 0x8C;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_0A = lower_y;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_08 = 0x34;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[0][0]->data->x = -0x50;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[0][0]->data->y.s = left_y;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[1][0]->data->x = 0x56;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[1][0]->data->y.s = right_y;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[2][0]->data->x = 0x3C;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[2][0]->data->y.s = lower_y;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[3][0]->data->x = 0x8C;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[3][0]->data->y.s = lower_y;
+        row_widgets = row_offset + (s32)ui->widgets;
+        row_widgets->rows[4][0]->data->x = 0x34;
         row -= 1;
         left_y -= 0x10;
         right_y -= 0x10;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset
-            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
+        row_offset += (s32)ui->widgets;
+        row_widgets = row_offset;
+        row_widgets->rows[4][0]->data->y.s = lower_y;
         lower_y -= 0x10;
     } while (row >= 0);
     position_shop_child_elements(ui);

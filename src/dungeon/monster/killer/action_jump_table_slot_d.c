@@ -3,7 +3,7 @@
 extern void func_801609A0(void);
 
 /* jump_table; owner: dungeon/func_80FEF1A0. */
-const u32 killer_slot_d_action_targets_b[7] __attribute__((aligned(4))) = {
+const u32 killer_slot_d_action_targets[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)func_801609A0 + 0x124),
     (u32)((u8 *)func_801609A0 + 0x11C),
     (u32)((u8 *)func_801609A0 + 0x114),

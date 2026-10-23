@@ -19,7 +19,7 @@ extern s32 sample_terrain_surface_height();
 
 extern u8 D_800F8BBC[9];
 extern u8 ghosh_motion_resume_address[9];
-extern Callback ghosh_attack_handlers[];
+extern Callback ghosh_action_handlers[];
 
 typedef struct S_8016F2E0_0 {
     u8 pad_00[0xAC];
@@ -113,7 +113,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
             update_callback(entity, motion, sprite, actor);
         }
     }
-    ghosh_attack_handlers[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
+    ghosh_action_handlers[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
     if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, sprite, actor);

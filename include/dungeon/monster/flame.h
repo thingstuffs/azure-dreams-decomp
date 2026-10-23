@@ -316,9 +316,9 @@ typedef struct R06_80172DD0_S_80172DD0_1 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   
+    union { s16 s; u16 u; } timer;   
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } R06_80172DD0_S_80172DD0_1;
 typedef struct R06_801734B0_S_801734B0_0 {
     u8 pad_00[0x8C];
@@ -763,9 +763,9 @@ typedef struct R06_80175270_S_80175270_0_pre {
 } R06_80175270_S_80175270_0_pre;
 typedef struct R06_80175270_S_80175270_0 {
     u8 pad_00[0x96];
-    union { s16 s; u16 u; } unk_96;   
+    union { s16 s; u16 u; } timer;   
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
     u8 pad_9C[0x1E];
     s16 unk_BA;
 } R06_80175270_S_80175270_0;

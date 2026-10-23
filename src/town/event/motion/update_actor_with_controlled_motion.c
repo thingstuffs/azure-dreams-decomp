@@ -1,4 +1,5 @@
 #include "shared/position_query.h"
+#include "town/scene/collision.h"
 #include "common.h"
 #include "shared/town_state.h"
 
@@ -54,7 +55,6 @@ typedef struct MotionDelta {
 extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(Motion *, void *);
 extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(Subject *, Motion *, s16);
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(Subject *, Motion *);
 extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);
 

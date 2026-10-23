@@ -58,7 +58,7 @@ extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
 extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
 extern u8 map_particle_owner_update_address[];
-extern u8 town_initialize_effect_with_child_sprites_address[];
+extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
 extern u8 map_random_particle_update_address[];
 extern void *map_particle_part_parameters[];
@@ -127,7 +127,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     do {
         child_obj = allocate_list_node(0x36, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
-            child_obj->update_callback = town_initialize_effect_with_child_sprites_address;
+            child_obj->update_callback = town_child_sprite_callback_address;
             register_node(child_obj, clipped_sprite_renderer_address);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -157,7 +157,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     parent_obj = (u8 *)effect - 0x20;
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update_callback = town_initialize_effect_with_child_sprites_address;
+        child_obj->update_callback = town_child_sprite_callback_address;
         register_node(child_obj, clipped_sprite_renderer_address);
         child_value = effect->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);

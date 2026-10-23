@@ -48,7 +48,7 @@ typedef struct SpriteFrameState {
     /* 0x26 */ unsigned char room_index; /* room lookup result for the sprite tile */
     /* 0x27 */ unsigned char pad_27;
     /* 0x28 */ int animation_resource; /* animation/resource table handle; frame selection follows it to the frame-group tables */
-    /* 0x2C */ void *frameTable; /* direction-indexed animation table installed by actor state handlers */
+    /* 0x2C */ void *frameTable; /* borrowed action/direction table; handlers index it with ((viewAngle + facing + 0x100) >> 9) & 7 */
 } SpriteFrameState;
 
 /* Exact partial view used by the actor callback/facing handlers. The table

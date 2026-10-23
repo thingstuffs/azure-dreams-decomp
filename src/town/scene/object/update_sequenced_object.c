@@ -1,5 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "town/scene/collection.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
@@ -7,17 +9,6 @@ extern int abs(int);
 
    /* the 0x2 bytes before in0 in update_sequenced_object, addressed as in0[-1] */
 
-typedef struct S_8080C650_0 {
-    u8 pad_00[0x15];
-    s8 unk_15;
-    u8 pad_16[0x52];
-    union { s16 s; u16 u; } unk_68;   /* accessed as both */
-    u8 pad_6A[0x2];
-    u16 unk_6C;
-    u8 pad_6E[0x3A];
-    s32 unk_A8;
-    void * unk_AC;
-} S_8080C650_0;   /* in0 in update_sequenced_object */
 
 typedef struct S_8080C650_1 {
     s32 unk_00;
@@ -36,13 +27,6 @@ typedef struct S_8080C650_1 {
 } S_8080C650_1;   /* sequence in update_sequenced_object */
 
 
-typedef struct S_8080C650_3 {
-    u8 pad_00[0xC];
-    union { s32 s32; u8 u8; } unk_0C;   /* accessed as both */
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_8080C650_3;   /* primitive in update_sequenced_object */
 
 typedef struct S_8080C650_4 {
     u8 pad_00[0xC];
@@ -92,7 +76,7 @@ extern s32 D_8029070C[3];
 extern u8 D_80529080[12];
 extern s16 D_80530658[];
 /* Advances the object's motion sequence, switches animations, spawns effects, and handles its exit. */
-void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
+void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, SpriteFrameState *in2) {
     s16 *count_cursor;
     s16 raw_s1;
     s32 slot_count;
@@ -123,9 +107,9 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     u16 sequence_flags;
     u16 primitive_flags;
     void *floor_height_or_spawned_object;
-    void *sequence;
+    TownCollectionSequence *sequence;
     void *spawned_primitive;
-    void *primitive = in2;
+    SpriteFrameState *primitive = in2;
     s32 *global_s7;
     s32 *global_s5;
 
@@ -135,10 +119,10 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     global_s7 = D_8012F130;
     global_s5 = collection_round_work;
     floor_height_or_spawned_object = (void *)raw_s1;
-    if (((S_8080C650_0 *)in0)->unk_68.s < 0xFF) {
-        sequence = ((S_8080C650_0 *)in0)->unk_AC;
-        if (((S_8080C650_1 *)sequence)->unk_36 == 0xFF) {
-            ((S_8080C650_0 *)in0)->unk_68.s = 0xFF;
+    if (in0->state.s < 0xFF) {
+        sequence = in0->sequence;
+        if (sequence->state.s == 0xFF) {
+            in0->state.s = 0xFF;
         }
         func_80245C10(motion);
     } else {
@@ -150,56 +134,56 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     } else {
         func_8003EA54(primitive);
     }
-    phase = ((S_8080C650_0 *)in0)->unk_68.s;
+    phase = in0->state.s;
     switch (phase) {
     case 0:
         motion->x.v = 0x03A00000;
         motion->y.v = 0x01E00000;
         motion->z.w.i = func_8025E01C(motion);
-        ((S_8080C650_0 *)in0)->unk_6C = 0x40U;
-        ((S_8080C650_0 *)in0)->unk_15 = 0;
-        ((S_8080C650_0 *)in0)->unk_68.s = 1;
+        in0->timer.u = 0x40U;
+        in0->unk_15 = 0;
+        in0->state.s = 1;
     case 1:
-        if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
+        if (primitive->flags & 0x6000) {
             motion->velocity_y = 0x80000;
             animation_descriptor = (s32)D_802892EC;
         }
-        if (((S_8080C650_0 *)in0)->unk_A8 & 1) {
-            orbit_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
-            ((S_8080C650_0 *)in0)->unk_6C = orbit_ticks;
+        if (in0->flags & 1) {
+            orbit_ticks = in0->timer.u - 1;
+            in0->timer.u = orbit_ticks;
             if ((s16) orbit_ticks >= 0) {
                 motion->x.v = (s32) ((func_8006A3A4((s16) orbit_ticks << 7) << 7) + 0x03A00000);
             }
         }
         if (motion->y.v > 0x0477FFFF) {
-            ((S_8080C650_3 *)primitive)->unk_14 = (u16) (((S_8080C650_3 *)primitive)->unk_14 | 1);
+            primitive->flags = (u16) (primitive->flags | 1);
             motion->velocity_x = 0x80000;
             animation_descriptor = (s32)D_80289334;
-            ((S_8080C650_0 *)in0)->unk_68.s = 2;
+            in0->state.s = 2;
         }
         if (animation_descriptor != 0) {
             func_80034A1C(primitive, animation_descriptor, 0);
         }
         return;
     case 2:
-        if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
+        if (primitive->flags & 0x6000) {
             animation_descriptor = (s32)D_802893C4;
         }
         if (motion->y.v > 0x048FFFFF) {
             tmpx = 3;
             animation_descriptor = (s32)D_8028937C;
             motion->velocity_y = 0;
-            ((S_8080C650_0 *)in0)->unk_68.s = tmpx;
+            in0->state.s = tmpx;
         }
         break;
     case 3:
-        if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
+        if (primitive->flags & 0x6000) {
             animation_descriptor = (s32)D_802893C4;
         }
         if (motion->x.v > 0x03DFFFFF) {
             motion->velocity_z = -0x100000;
             animation_descriptor = (s32)D_80289454;
-            ((S_8080C650_0 *)in0)->unk_68.s = 4;
+            in0->state.s = 4;
         }
         break;
     case 4:
@@ -210,16 +194,16 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         if (x_before_acceleration > 0x041FFFFF) {
             motion->velocity_z = 0;
             motion->velocity_x = 0;
-            ((S_8080C650_0 *)in0)->unk_15 = 1;
-            ((S_8080C650_0 *)in0)->unk_68.s = 5;
+            in0->unk_15 = 1;
+            in0->state.s = 5;
         }
         break;
     case 5:
         if (global_s5[0] == (s32)D_802430A8) {
-            ((S_8080C650_0 *)in0)->unk_6C = 7U;
+            in0->timer.u = 7U;
             global_s5[0] = (s32)D_80243200;
-            ((S_8080C650_0 *)in0)->unk_15 = 0;
-            ((S_8080C650_0 *)in0)->unk_68.s = 6;
+            in0->unk_15 = 0;
+            in0->state.s = 6;
         }
         break;
     case 6:
@@ -231,14 +215,14 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         motion->velocity_z = state6_v0 >> 1;
         func_80245C10(motion);
         global_s5[0] = (s32)D_80243200;
-        approach_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
-        ((S_8080C650_0 *)in0)->unk_6C = approach_ticks;
+        approach_ticks = in0->timer.u - 1;
+        in0->timer.u = approach_ticks;
         if ((approach_ticks << 0x10) <= 0) {
             global_s5[0] = (s32)D_80243200;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_8080C650_0 *)in0)->unk_68.s = 7;
+            in0->state.s = 7;
         }
         break;
     case 7:
@@ -250,10 +234,10 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         global_s7 += 4;
         if (*global_s7 & 0x20) {
             if (D_80132AF2[0] == 0) {
-                if (((S_8080C650_0 *)in0)->unk_68.s == 9) {
+                if (in0->state.s == 9) {
                     tmpx = 0x100000;
                     animation_descriptor = (s32)D_8028950C;
-                    ((S_8080C650_1 *)sequence)->unk_00 = tmpx;
+                    sequence->speed = tmpx;
                 } else {
                     global_s5[0] = (s32)D_802434B0;
                     motion->velocity_z = 0x100000;
@@ -261,30 +245,30 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
             } else {
                 global_s5[0] = (s32)D_80243200;
             }
-            if (((S_8080C650_0 *)in0)->unk_68.s == 9) {
+            if (in0->state.s == 9) {
                 func_80058F88(0x700);
             }
-            ((S_8080C650_1 *)sequence)->unk_2A = (u16)(((S_8080C650_1 *)sequence)->unk_2A & ~4);
-            phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
-            ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
+            sequence->flags.u = (u16)(sequence->flags.u & ~4);
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
         }
         break;
     case 10:
-        velocity_component = (s32) (((s32) ((S_8080C650_1 *)sequence)->unk_00
-            >> 0xC) * func_8006A3A4(((S_8080C650_1 *)sequence)->unk_2C));
+        velocity_component = (s32) (((s32) sequence->speed
+            >> 0xC) * func_8006A3A4(sequence->angle.s));
         motion->velocity_x = velocity_component;
-        velocity_component = ((s32) (0 - ((S_8080C650_1 *)sequence)->unk_00)
-            >> 0xC) * func_8006A470(((S_8080C650_1 *)sequence)->unk_2C);
+        velocity_component = ((s32) (0 - sequence->speed)
+            >> 0xC) * func_8006A470(sequence->angle.s);
         motion->velocity_y = velocity_component;
         if (velocity_component > -0x40000) {
             motion->velocity_y = -0x40000;
         }
-        ((S_8080C650_1 *)sequence)->unk_2C = (s16) ((u16) ((S_8080C650_1 *)sequence)->unk_2C
-            - ((s32) (((S_8080C650_1 *)sequence)->unk_2E << 0x10) >> 0x14));
+        sequence->angle.s = (s16) ((u16) sequence->angle.s
+            - ((s32) (sequence->angle_step.u << 0x10) >> 0x14));
         if (motion->z.v > 0) {
-            sequence_flags = ((S_8080C650_1 *)sequence)->unk_2A;
+            sequence_flags = sequence->flags.u;
             if (!(sequence_flags & 4)) {
-                ((S_8080C650_1 *)sequence)->unk_2A = (u16) (sequence_flags | 4);
+                sequence->flags.u = (u16) (sequence_flags | 4);
                 func_80058F88(0x701);
             }
             x_before_clamp = motion->x.v;
@@ -303,15 +287,15 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
                 clamped_x = 0x04880000;
                 motion->x.v = clamped_x;
             }
-            ((S_8080C650_1 *)sequence)->unk_2C = (s16) ((s32) (0 - ((S_8080C650_1 *)sequence)->unk_2C) >> 1);
+            sequence->angle.s = (s16) ((s32) (0 - sequence->angle.s) >> 1);
         }
         if (motion->y.v <= 0x01E00000) {
             func_80058F88(0x1700);
             func_80058F88(0x1701);
-            if (D_80530658[((S_8080C650_1 *)sequence)->unk_34] == 8) {
+            if (D_80530658[sequence->round_index.s] == 8) {
                 loop_index = 1;
                 global_s5 = (s32 *)0x1000;
-                ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 | 1);
+                in0->flags = (s32) (in0->flags | 1);
                 {
                     do {
                         floor_height_or_spawned_object = func_800374FC(0x136, scene_object_factory_data);
@@ -329,36 +313,36 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
                     } while (--loop_index >= 0);
                 }
             } else {
-                ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 & ~1);
+                in0->flags = (s32) (in0->flags & ~1);
             }
             animation_descriptor = (s32)D_802894AC;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_8080C650_0 *)in0)->unk_6C = 0x14U;
-            ((S_8080C650_0 *)in0)->unk_68.s = 0xB;
+            in0->timer.u = 0x14U;
+            in0->state.s = 0xB;
         }
         break;
     case 11:
-        primitive_flags = ((S_8080C650_3 *)primitive)->unk_14;
-        if ((primitive_flags & 0x6000) && ((s16) ((S_8080C650_0 *)in0)->unk_6C > 0)) {
+        primitive_flags = primitive->flags;
+        if ((primitive_flags & 0x6000) && ((s16) in0->timer.u > 0)) {
             animation_descriptor = (s32)D_802892EC;
-            ((S_8080C650_3 *)primitive)->unk_14 = (u16) (primitive_flags | 0x800);
+            primitive->flags = (u16) (primitive_flags | 0x800);
         }
         current_x = motion->x.v;
         x_limit_flags_or_phase = 0x03A00000;
         if (current_x > x_limit_flags_or_phase) {
-            x_limit_flags_or_phase = ((S_8080C650_3 *)primitive)->unk_14 & 0xFFFE;
+            x_limit_flags_or_phase = primitive->flags & 0xFFFE;
         } else {
-            x_limit_flags_or_phase = ((S_8080C650_3 *)primitive)->unk_14 | 1;
+            x_limit_flags_or_phase = primitive->flags | 1;
         }
-        ((S_8080C650_3 *)primitive)->unk_14 = (u16)x_limit_flags_or_phase;
+        primitive->flags = (u16)x_limit_flags_or_phase;
         current_y = motion->y.v;
         motion->y.v = (s32) (((s32) (0x01E00000 - current_y) >> 1) + current_y);
-        return_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
-        ((S_8080C650_0 *)in0)->unk_6C = return_ticks;
+        return_ticks = in0->timer.u - 1;
+        in0->timer.u = return_ticks;
         if ((return_ticks << 0x10) == 0) {
-            ((S_8080C650_3 *)primitive)->unk_14 = (u16) (((S_8080C650_3 *)primitive)->unk_14 & 0xF7FF);
+            primitive->flags = (u16) (primitive->flags & 0xF7FF);
             current_x = motion->x.v;
             if (current_x > 0x03A80000) {
                 motion->velocity_x = -0x80000;
@@ -378,12 +362,12 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         abs_v1 = 0xFC600000;
         delta = motion->x.v + abs_v1;
         if ((abs(delta)) <= 0x80000) {
-            if (((s32) (s16) ((S_8080C650_0 *)in0)->unk_6C) < 0) {
-                ((S_8080C650_1 *)sequence)->unk_2A = (u16) (((S_8080C650_1 *)sequence)->unk_2A | 2);
+            if (((s32) (s16) in0->timer.u) < 0) {
+                sequence->flags.u = (u16) (sequence->flags.u | 2);
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
                 motion->velocity_x = 0;
-                ((S_8080C650_0 *)in0)->unk_68.s = 0;
+                in0->state.s = 0;
                 break;
             }
         }
@@ -406,17 +390,17 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         }
         animation_descriptor = (s32)D_802892EC;
         motion->velocity_y = 0x80000;
-        ((S_8080C650_0 *)in0)->unk_6C = 0x1EU;
-        ((S_8080C650_0 *)in0)->unk_68.s = (s16) ((u16) ((S_8080C650_0 *)in0)->unk_68.s + 1);
+        in0->timer.u = 0x1EU;
+        in0->state.s = (s16) ((u16) in0->state.s + 1);
     case 0x100:
     case 0x102:
-        high_phase_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
-        ((S_8080C650_0 *)in0)->unk_6C = high_phase_ticks;
+        high_phase_ticks = in0->timer.u - 1;
+        in0->timer.u = high_phase_ticks;
         if ((high_phase_ticks << 0x10) <= 0) {
             motion->velocity_y = 0;
             motion->velocity_z = -0x100000;
-            phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
-            ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
         }
         break;
     case 0x101:
@@ -426,43 +410,43 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         if (motion->z.v > 0x1FFFFF) {
             motion->z.v = 0x200000;
             motion->velocity_z = 0;
-            phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
-            ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
         }
         break;
     case 0x104:
         animation_descriptor = (s32)D_80289334;
         raw_s1 = phase + 1;
-        ((S_8080C650_0 *)in0)->unk_68.s = raw_s1;
+        in0->state.s = raw_s1;
         break;
     case 0x105:
         animation_descriptor = (s32)D_8028937C;
         raw_s1 = phase + 1;
-        ((S_8080C650_0 *)in0)->unk_68.s = raw_s1;
+        in0->state.s = raw_s1;
         break;
     case 0x106:
         animation_descriptor = (s32)D_802893C4;
         raw_s1 = phase + 1;
-        ((S_8080C650_0 *)in0)->unk_68.s = raw_s1;
+        in0->state.s = raw_s1;
         break;
     case 0x107:
         count_sum_or_color = 0xC0C0C0;
         motion->velocity_y = -0x80000;
-        primitive_flags = ((S_8080C650_3 *)primitive)->unk_14;
-        ((S_8080C650_3 *)primitive)->unk_10 = 0x60;
-        ((S_8080C650_3 *)primitive)->unk_0C.s32 = count_sum_or_color;
+        primitive_flags = primitive->flags;
+        primitive->tpage_abr = 0x60;
+        primitive->color.word = count_sum_or_color;
         primitive_flags |= 0xC;
-        ((S_8080C650_3 *)primitive)->unk_14 = primitive_flags;
-        x_limit_flags_or_phase = (u16) ((S_8080C650_0 *)in0)->unk_68.u;
+        primitive->flags = primitive_flags;
+        x_limit_flags_or_phase = (u16) in0->state.u;
         animation_descriptor = (s32)D_8028940C;
         x_limit_flags_or_phase += 1;
-        ((S_8080C650_0 *)in0)->unk_68.s = (s16) x_limit_flags_or_phase;
+        in0->state.s = (s16) x_limit_flags_or_phase;
         break;
     case 0x108:
-        ((S_8080C650_3 *)primitive)->unk_0C.s32 = (s32) (((S_8080C650_3 *)primitive)->unk_0C.s32 + 0xFFF7F7F8);
-        if (((S_8080C650_3 *)primitive)->unk_0C.u8 < 0x11U) {
-            phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
-            ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
+        primitive->color.word = (s32) (primitive->color.word + 0xFFF7F7F8);
+        if (primitive->color.c.r < 0x11U) {
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
         }
         break;
     case 0x109:

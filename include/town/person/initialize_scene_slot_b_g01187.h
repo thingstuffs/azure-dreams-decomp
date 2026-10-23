@@ -6,10 +6,10 @@
 #include "common.h"
 
 extern void initialize_object_and_register_slot(void *, s32, s32, s32, s32, s32);
-extern u8 scene_slot_b_data_c[];
-extern u8 scene_slot_b_data_d[];
-extern u8 scene_slot_b_data_a[];
-extern u8 scene_slot_b_data_b[];
+extern u8 scene_slot_b_value_7c[];
+extern u8 scene_slot_b_value_80[];
+extern u8 scene_slot_b_value_58[];
+extern u8 scene_slot_b_value_5c[];
 extern void func_800C3050(void *object, u32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
 
 /* Functions defined in this translation unit. */

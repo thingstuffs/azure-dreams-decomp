@@ -1,8 +1,9 @@
 #include "common.h"
+#include "town/minigame.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
-#include "records/Rec_func_800206D0_arg1.h"
 #include "shared/town_state.h"
 
 typedef struct S_800206D0_0 {
@@ -37,7 +38,7 @@ extern s32 D_8007947C[];
 extern u8 D_800D0420[];
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
-void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite)
+void update_bouncing_pickup(void *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     TownRewardValues reward_units = D_80020020;
@@ -100,17 +101,17 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
 
     case 2:
         advance_sprite_animation_and_textures(sprite);
-        ((Rec_func_800206D0_arg1 *)motion)->unk_00 += ((Rec_func_800206D0_arg1 *)motion)->unk_0C;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_04 += ((Rec_func_800206D0_arg1 *)motion)->unk_10;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
+        motion->velocity_z += 0x30000;
         timer = --((S_800206D0_0 *)pickup)->unk_02.s;
         if ((s16)timer > 0) {
             return;
         }
         SD_Call(0x501);
-        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0xFFC00000;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
+        motion->z.v = 0xFFC00000;
+        motion->velocity_z = ((rand() & 0xFF) << 11) + 0xFFE80000;
         ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
         ((S_800206D0_0 *)pickup)->unk_00 = 3;
         return;
@@ -121,12 +122,12 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
         s32 idle_frame;
 
         advance_sprite_animation_and_textures(sprite);
-        ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
-        if (floor_z < ((Rec_func_800206D0_arg1 *)motion)->unk_08) {
+        motion->z.v += motion->velocity_z;
+        motion->velocity_z += 0x30000;
+        if (floor_z < motion->z.v) {
             SD_Call(0x501);
-            ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
-            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
+            motion->z.v = floor_z;
+            motion->velocity_z = -motion->velocity_z >> 1;
         }
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
@@ -146,7 +147,7 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;
         sprite->source = idle_frame;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
+        motion->z.v = floor_z;
         return;
     }
 

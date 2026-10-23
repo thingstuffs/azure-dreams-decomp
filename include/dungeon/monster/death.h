@@ -21,4 +21,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
 
 void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity);
 
+struct S_80173C40_0;
+void initialize_object_and_clear_state(struct S_80173C40_0 *object, void *init_data, SpriteFrameState *init_context, void *render);
+
 #endif

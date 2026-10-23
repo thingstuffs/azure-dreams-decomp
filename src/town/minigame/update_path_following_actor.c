@@ -1,47 +1,15 @@
 #include "common.h"
+#include "town/minigame/keima.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_80023260_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    union { s32 s; s32 u; } unk_0C;   /* accessed as both */
-    union { s32 s; s32 u; } unk_10;   /* accessed as both */
-    u8 pad_14[0x4];
-    union { u16 s; s16 u; u16 p; } unk_18;   /* accessed as both */
-    u16 unk_1A;
-    s16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x2];
-    s16 unk_22;
-    s16 unk_24;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-} S_80023260_0;   /* arg0 in update_path_following_actor */
 
 
-typedef struct S_80023260_3 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-    u16 unk_06;
-    u8 pad_08[0x6];
-    u16 unk_0E;
-} S_80023260_3;
 
-typedef struct S_80023260_4 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80023260_4;
 
-typedef struct S_80023260_5 {
-    u8 pad_00[0x3C];
-    s16 unk_3C;
-} S_80023260_5;
 
 void update_directional_record();      /* extern */
 void advance_bounded_entry_index();              /* extern */
@@ -54,13 +22,6 @@ s32 rand();              /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 void spawn_person_radial_effects();                 /* extern */
 s16 query_lowered_transform_position();                      /* extern */
-typedef struct {
-    void *ptr;
-    s16 field4;
-    u16 flags;
-    s16 field8;
-    s16 padA;
-} Record12;
 
 typedef struct {
     s32 field0;
@@ -71,12 +32,11 @@ typedef struct {
     s32 field14;
 } Stack24;
 
-extern Record12 town_minigame_path_records[];
 extern s32 loaded_town_resource_attributes[];
 extern u8 path_actor_direction_frames[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
-void update_path_following_actor(void *actor, ObjectPosition *motion, void *sprite) {
+void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite) {
     s16 target_x;
     s16 steer_y;
     s16 target_y;
@@ -92,7 +52,7 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
     s32 abs_bias;
     s32 bias_step;
     s32 heading_error;
-    s32 model_base;
+    KeimaState *model_base;
     s32 path_flag;
     s32 path_speed;
     s32 speed;
@@ -112,68 +72,68 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
     u16 path_ticks;
     s32 path_flags;
     s16 clamp_value;
-    Record12 *paths;
+    KeimaPath *paths;
     void *position_ref;
-    void *waypoint;
-    void *actor_ref;
+    KeimaPathPoint *waypoint;
+    KeimaPathActor *actor_ref;
     u8 *directions;
 
     actor_ref = actor;
     paths = town_minigame_path_records;
-    model_base = ((S_80023260_0 *)actor)->unk_00;
-    waypoint = paths[((S_80023260_0 *)actor)->unk_22].ptr + (((S_80023260_0 *)actor)->unk_1C * 8);
+    model_base = actor->owner;
+    waypoint = paths[actor->path_index].points + actor->waypoint_index;
     advance_sprite_animation_and_textures(sprite);
-    position_ref = actor + 0x14;
+    position_ref = &actor->cycles;
     advance_bounded_entry_index(motion, position_ref);
-    fill_eligible_negative_slots(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);
+    fill_eligible_negative_slots(model_base, position_ref, actor->lane);
     add_motion_deltas_to_position(motion);
     reached_point = 0;
     motion->x.v = (s32) (motion->x.v
-        + ((S_80023260_0 *)actor)->unk_0C.s);
+        + actor->impulse_x);
     motion->y.v = (s32) (motion->y.v
-        + ((S_80023260_0 *)actor)->unk_10.s);
-    offset_x = ((S_80023260_0 *)actor)->unk_0C.u;
-    offset_y = ((S_80023260_0 *)actor)->unk_10.u;
-    old_state = ((S_80023260_0 *)actor)->unk_18.s;
-    ((S_80023260_0 *)actor)->unk_0C.s = offset_x >> 1;
-    ((S_80023260_0 *)actor)->unk_10.s = offset_y >> 1;
-    state = ((S_80023260_0 *)actor)->unk_18.u;
+        + actor->impulse_y);
+    offset_x = actor->impulse_x;
+    offset_y = actor->impulse_y;
+    old_state = actor->state.u;
+    actor->impulse_x = offset_x >> 1;
+    actor->impulse_y = offset_y >> 1;
+    state = actor->state.s;
     idle_state = 2;
     switch (state) {
     case 0:
-        ((S_80023260_0 *)actor)->unk_18.p = old_state + 1;
+        actor->state.u = old_state + 1;
         return;
     case 1:
-        ((S_80023260_0 *)actor)->unk_2A = 0x800;
+        actor->facing.s = 0x800;
         sprite_config = loaded_town_resource_attributes[0];
         directions = path_actor_direction_frames;
-        ((SpriteFrameState *)sprite)->frameTable = directions;
-        ((SpriteFrameState *)sprite)->animation_resource = sprite_config;
-        select_sprite_entry(sprite, path_actor_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        sprite->frameTable = directions;
+        sprite->animation_resource = sprite_config;
+        select_sprite_entry(sprite, path_actor_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing.s + 0x100) >> 9) & 7],
             0);
-        ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
+        actor->state.u = (u16) (actor->state.u + 1);
         break;
     case 3:
-        ((SpriteFrameState *)sprite)->frameTable = path_actor_direction_frames - 8;
-        select_sprite_entry(sprite, (path_actor_direction_frames - 8)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
+        sprite->frameTable = path_actor_direction_frames - 8;
+        select_sprite_entry(sprite, (path_actor_direction_frames - 8)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing.s + 0x100)
             >> 9) & 7], 0);
-        ((S_80023260_0 *)actor)->unk_18.p = idle_state;
+        actor->state.u = idle_state;
         break;
     case 0x100:
-        path_ticks = ((S_80023260_0 *)actor)->unk_1A + 1;
-        ((S_80023260_0 *)actor)->unk_1A = path_ticks;
-        if ((((S_80023260_0 *)actor)->unk_04 <= 0x200000) && (((S_80023260_3 *)waypoint)->unk_06 & 2)) {
-            if (((s16) path_ticks % (s16) paths[((S_80023260_0 *)actor)->unk_22].flags) == 0) {
+        path_ticks = actor->path_ticks + 1;
+        actor->path_ticks = path_ticks;
+        if ((actor->speed <= 0x200000) && (waypoint->flags & 2)) {
+            if (((s16) path_ticks % (s16) paths[actor->path_index].effect_period) == 0) {
                 spawn_person_radial_effects(motion);
-                ((S_80023260_0 *)actor)->unk_04 = (s32) (((S_80023260_0 *)actor)->unk_04 + 0x80000);
+                actor->speed = (s32) (actor->speed + 0x80000);
             }
         }
-        path_speed = ((S_80023260_0 *)actor)->unk_04;
-        if ((path_speed <= 0xFFFFF) && (((S_80023260_3 *)waypoint)->unk_06 & 1)) {
-            ((S_80023260_0 *)actor)->unk_04 = (s32) (path_speed + 0x20000);
+        path_speed = actor->speed;
+        if ((path_speed <= 0xFFFFF) && (waypoint->flags & 1)) {
+            actor->speed = (s32) (path_speed + 0x20000);
         }
-        heading = ((S_80023260_4 *)actor_ref)->unk_2A;
-        path_heading = ((S_80023260_3 *)waypoint)->unk_04;
+        heading = actor_ref->facing.s;
+        path_heading = waypoint->heading;
         angle_delta = heading - path_heading;
         turn_step = 0;
         while (angle_delta >= 0x801) {
@@ -183,23 +143,23 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
             angle_delta += 0x1000;
         }
         heading_error = angle_delta;
-        path_flags = ((S_80023260_3 *)waypoint)->unk_06;
+        path_flags = waypoint->flags;
         path_flag = path_flags & 8;
         if (path_flag != 0) {
             path_flag = path_flags & 0x10;
             if (path_flag != 0) {
-                target_x = ((S_80023260_3 *)waypoint)->unk_00;
-                turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
+                target_x = waypoint->x;
+                turn_limit = town_minigame_path_records[actor->path_index].turn_limit;
                 if (motion->x.w.i >= target_x) {
                     reached_point = 1;
                 }
             } else {
-                turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (motion->x.w.i <= ((S_80023260_3 *)waypoint)->unk_00) {
+                turn_limit = 0 - town_minigame_path_records[actor->path_index].turn_limit;
+                if (motion->x.w.i <= waypoint->x) {
                     reached_point = 1;
                 }
             }
-            steer_y = ((S_80023260_3 *)waypoint)->unk_02;
+            steer_y = waypoint->y;
             pos_y = motion->y.w.i;
             distance_y = steer_y - pos_y;
             if (distance_y < 0) {
@@ -218,18 +178,18 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
         } else {
             path_flag = path_flags & 0x10;
             if (path_flag != 0) {
-                target_y = ((S_80023260_3 *)waypoint)->unk_02;
-                turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
+                target_y = waypoint->y;
+                turn_limit = town_minigame_path_records[actor->path_index].turn_limit;
                 if (motion->y.w.i >= target_y) {
                     reached_point = 1;
                 }
             } else {
-                turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (motion->y.w.i <= ((S_80023260_3 *)waypoint)->unk_02) {
+                turn_limit = 0 - town_minigame_path_records[actor->path_index].turn_limit;
+                if (motion->y.w.i <= waypoint->y) {
                     reached_point = 1;
                 }
             }
-            steer_x = ((S_80023260_3 *)waypoint)->unk_00;
+            steer_x = waypoint->x;
             pos_x = motion->x.w.i;
             distance_x = steer_x - pos_x;
             if (distance_x < 0) {
@@ -246,86 +206,86 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
                 }
             }
         }
-        if ((((S_80023260_3 *)waypoint)->unk_06 & 4) && (reached_point != 0)) {
+        if ((waypoint->flags & 4) && (reached_point != 0)) {
             motion->velocity_z = -0x140000;
         }
         bias_step = turn_step >> 4;
-        ((S_80023260_4 *)actor_ref)->unk_2A = (s16) ((u16) ((S_80023260_4 *)actor_ref)->unk_2A + turn_step);
-        ((S_80023260_0 *)actor)->unk_1E = (u16) (((S_80023260_0 *)actor)->unk_1E + bias_step);
-        ((S_80023260_0 *)actor)->unk_1C = (s16) ((u16) ((S_80023260_0 *)actor)->unk_1C + reached_point);
-        if ((reached_point != 0) && (((S_80023260_3 *)waypoint)->unk_06 & 0x20)) {
+        actor_ref->facing.s = (s16) ((u16) actor_ref->facing.s + turn_step);
+        actor->turn_bias = (u16) (actor->turn_bias + bias_step);
+        actor->waypoint_index = (s16) ((u16) actor->waypoint_index + reached_point);
+        if ((reached_point != 0) && (waypoint->flags & 0x20)) {
             if (rand(bias_step, heading_error, turn_limit, turn_step) & 1) {
-                ((S_80023260_3 *)waypoint)->unk_0E = (u16) (((S_80023260_3 *)waypoint)->unk_0E | 2);
+                waypoint[1].flags = (u16) (waypoint[1].flags | 2);
             } else {
-                ((S_80023260_3 *)waypoint)->unk_0E = (u16) (((S_80023260_3 *)waypoint)->unk_0E & 0xFFFD);
+                waypoint[1].flags = (u16) (waypoint[1].flags & 0xFFFD);
             }
         }
-        if (((S_80023260_0 *)actor)->unk_1C >= 0xF) {
-            ((S_80023260_0 *)actor)->unk_1A = 0U;
-            ((S_80023260_0 *)actor)->unk_1C = 0;
+        if (actor->waypoint_index >= 0xF) {
+            actor->path_ticks = 0U;
+            actor->waypoint_index = 0;
         }
         break;
     case 2:
     case 0x101: /* states with no per-frame setup */
         break;
     }
-    turn_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
+    turn_bias = (s16) actor->turn_bias;
     if (turn_bias > 0) {
-        ((S_80023260_0 *)actor)->unk_1E = (u16) (((S_80023260_0 *)actor)->unk_1E - 1);
+        actor->turn_bias = (u16) (actor->turn_bias - 1);
     } else if (turn_bias < 0) {
-        ((S_80023260_0 *)actor)->unk_1E = (u16) (((S_80023260_0 *)actor)->unk_1E + 1);
+        actor->turn_bias = (u16) (actor->turn_bias + 1);
     }
-    damped_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
+    damped_bias = (s16) actor->turn_bias;
     if (damped_bias < -9) {
         clamp_value = -9;
-        ((S_80023260_0 *)actor)->unk_1E = clamp_value;
+        actor->turn_bias = clamp_value;
     } else {
         clamp_value = damped_bias < 0xA;
         if (clamp_value == 0) {
             clamp_value = 9;
-            ((S_80023260_0 *)actor)->unk_1E = clamp_value;
+            actor->turn_bias = clamp_value;
         }
     }
-    abs_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
+    abs_bias = (s16) actor->turn_bias;
     if (abs_bias < 0) {
         abs_bias = 0 - abs_bias;
     }
-    if ((abs_bias >= 6) && (((u16) ((S_80023260_0 *)actor)->unk_1A >> 1) & 1)) {
+    if ((abs_bias >= 6) && (((u16) actor->path_ticks >> 1) & 1)) {
         spawn_person_radial_effects(motion);
     }
     {
         Stack24 ground_probe = *(Stack24 *)motion;
-        surface_kind = ((S_80023260_5 *)(((((S_80023260_0 *)actor)->unk_24 * 2) + model_base)))->unk_3C;
+        surface_kind = model_base->slot[actor->lane];
         if ((surface_kind == 2) || (surface_kind == 6)) {
             ground_probe.field8 = 0xFE000000;
         }
         ground_height = query_lowered_transform_position(&ground_probe);
         motion->velocity_x =
-            (s32) (rcos(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+            (s32) (rcos(actor_ref->facing.s) * ((s32) actor->speed >> 0xC));
         motion->velocity_y =
-            (s32) (rsin(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+            (s32) (rsin(actor_ref->facing.s) * ((s32) actor->speed >> 0xC));
         if (ground_height < motion->z.w.i) {
             motion->z.w.i = ground_height;
             if (motion->velocity_z >= 0) {
                 motion->velocity_z = 0;
             }
-            if (((S_80023260_0 *)actor)->unk_08 & 1) {
+            if (actor->flags & 1) {
                 spawn_person_radial_effects(motion);
             }
-            ((S_80023260_0 *)actor)->unk_08 = (s32) (((S_80023260_0 *)actor)->unk_08 & -2);
+            actor->flags = (s32) (actor->flags & -2);
         } else {
-            ((S_80023260_0 *)actor)->unk_08 = (s32) (((S_80023260_0 *)actor)->unk_08 | 1);
+            actor->flags = (s32) (actor->flags | 1);
         }
-        speed = ((S_80023260_0 *)actor)->unk_04;
+        speed = actor->speed;
         if (speed < -0x10000) {
-            ((S_80023260_0 *)actor)->unk_04 = speed + 0x10000;
+            actor->speed = speed + 0x10000;
         } else if (speed > 0x10000) {
-            ((S_80023260_0 *)actor)->unk_04 = speed - 0x10000;
+            actor->speed = speed - 0x10000;
         } else {
-            ((S_80023260_0 *)actor)->unk_04 = 0;
+            actor->speed = 0;
         }
         motion->velocity_z = (s32) (motion->velocity_z + 0x20000);
-        final_state = ((S_80023260_0 *)actor)->unk_18.u;
+        final_state = actor->state.s;
         if (final_state != 0) {
             update_directional_record(actor_ref, actor, sprite);
         }

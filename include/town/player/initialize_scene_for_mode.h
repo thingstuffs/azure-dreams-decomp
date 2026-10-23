@@ -4,6 +4,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "town/scene/collision.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/entity_objects.h"
@@ -149,7 +150,6 @@ extern s32 service_script_controller(void);
 extern s32 func_800352FC(void);
 extern void submit_object_resource_data(void *owner);
 extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *owner, void *node_in);
 extern void add_motion_deltas_to_position(void *owner);
 extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(void *owner);
 extern void store_position_and_compute_delta(void *owner);

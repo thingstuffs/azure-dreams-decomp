@@ -1,14 +1,15 @@
 #include "common.h"
+#include "dungeon/actor/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
+typedef struct StructArg0 {
     u8 pad[0x9B];
     u8 unk9B;
 } StructArg0;
 
-typedef struct {
+typedef struct StructArg2 {
     u8 pad[0xC];
     u8 unk0C;
     u8 unk0D;

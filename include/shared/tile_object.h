@@ -49,8 +49,8 @@ typedef struct TileObject {
     /* 0x027 */ unsigned char pad_027[0x1];
     /* 0x028 */ int render_attributes; /* loaded sprite-bundle attributes installed by town scene setup */
     /* 0x02C */ int frame_table; /* animation-frame table address, retained in an integer leaf */
-    /* 0x030 */ int selected_item;              /* lh 1, lw 42, sw 12 (14 rows) */
-    /* 0x034 */ int secondary_item;              /* lw 10, sw 3 (6 rows) */
+    /* 0x030 */ int selected_item; /* selected item/egg record address, stored as an integer; item dispatch and familiar summoning replace it */
+    /* 0x034 */ int secondary_item; /* optional second item record address for combined item actions; dispatch sets zero when no second ID is supplied */
     /* 0x038 */ int unk_038;              /* lhu 1, lw 1, sw 9 (5 rows) */
     /* 0x03C */ unsigned char pad_03C[0x4];
 } TileObject;                             /* 0x40: bounded by the separate table at 0x80082EC0 (below) */

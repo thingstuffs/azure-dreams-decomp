@@ -37,11 +37,11 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
 
     effect_work.copy = *direction_source;
     owner = action - 0x20;
-    state = ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B;
+    state = ((T_80172FFC_S_80172FFC_0 *)action)->phase;
     switch (state) {
     case 0:
     if (sprite->flags & 0x8000) {
-        ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = 3U;
+        ((T_80172FFC_S_80172FFC_0 *)action)->phase = 3U;
         sprite->flags = (u16) (sprite->flags | 0x6000);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         return;
@@ -49,38 +49,38 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_14 = 0;
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_10 = 0;
     ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0C = 0;
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);
+    ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
+    ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
     return;
 
     case 1:
-    wait_tick = ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 + 1;
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = wait_tick;
+    wait_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer + 1;
+    ((T_80172FFC_S_80172FFC_0 *)action)->timer = wait_tick;
     if (((s16) wait_tick != 4) && !(sprite->flags & 0x8000)) {
         return;
     }
     (sprite->frameTable) = &noise_frame_set_1;
     select_sprite_entry(sprite, noise_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);
+    ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
+    ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
     return;
 
     case 2:
-    effect_tick = ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 + 1;
-    ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = effect_tick;
+    effect_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer + 1;
+    ((T_80172FFC_S_80172FFC_0 *)action)->timer = effect_tick;
     if (((s16) effect_tick == 0x11) || (sprite->flags & 0x8000)) {
-        ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
-        ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);
+        ((T_80172FFC_S_80172FFC_0 *)action)->timer = 0U;
+        ((T_80172FFC_S_80172FFC_0 *)action)->phase = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->phase + 1);
     }
-    if (((s16) ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 == 0xB) || (sprite->flags & 0x8000)) {
+    if (((s16) ((T_80172FFC_S_80172FFC_0 *)action)->timer == 0xB) || (sprite->flags & 0x8000)) {
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
     }
     if (sprite->flags & 0xE000) {
         (sprite->frameTable) = &D_80174E90;
         select_sprite_entry(sprite, D_80174E90[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     }
-    spawn_tick = ((T_80172FFC_S_80172FFC_0 *)action)->unk_96;
+    spawn_tick = ((T_80172FFC_S_80172FFC_0 *)action)->timer;
     if ((u32) (spawn_tick - 9) < 5U) {
         if ((s16) spawn_tick == 9) {
             play_sound_if_enabled(0x810);
@@ -122,7 +122,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
                     effect_motion->z.w.i = (u16) (*(u16 *)&effect_motion->z.w.i
                         + spawn_offset[2]);
                 }
-                effect_motion->velocity_z = (s32) (((0xD - (s16) ((T_80172FFC_S_80172FFC_0 *)action)->unk_96)
+                effect_motion->velocity_z = (s32) (((0xD - (s16) ((T_80172FFC_S_80172FFC_0 *)action)->timer)
                     << 0x11) + 0xFFE80000);
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_B4 = 0xC000;
                 effect_motion->velocity_x =

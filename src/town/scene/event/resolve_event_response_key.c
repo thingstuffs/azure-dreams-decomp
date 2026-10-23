@@ -1,5 +1,6 @@
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
@@ -14,7 +15,7 @@ extern u8 D_80020F85[];
 extern u8 D_80020FC7[];
 
 /* Resolve the key to its table entry, using the slot-4 special case or the paged lookup table. */
-void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
+void *resolve_event_response_key(s32 unused_a, void *unused_b, s32 key)
 {
     s32 index;
     TownEventState *state0;

@@ -10,11 +10,11 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
     s32 axis_pos;
     s32 axis_step;
 
-    switch (controller->unk_9B) {
+    switch (controller->phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        controller->unk_96.s = 6;
-        controller->unk_9B = controller->unk_9B + 1;
+        controller->timer.s = 6;
+        controller->phase = controller->phase + 1;
         if (((EntityRec *)actor)->unk_28 == 0) {
             transform->velocity_z = 0;
             transform->velocity_y = 0;
@@ -35,13 +35,13 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
             if ((entity->flags & 0x8000) == 0) {
                 return;
             }
-            controller->unk_96.s = 0;
-            controller->unk_9B = 3;
+            controller->timer.s = 0;
+            controller->phase = 3;
         }
         break;
     case 1:
-        timer = (u16)controller->unk_96.u - 1;
-        controller->unk_96.s = timer;
+        timer = (u16)controller->timer.u - 1;
+        controller->timer.s = timer;
         if (timer > 0) {
             transform->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
@@ -56,8 +56,8 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
             transform->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-            controller->unk_96.s = 12;
-            controller->unk_9B = controller->unk_9B + 1;
+            controller->timer.s = 12;
+            controller->phase = controller->phase + 1;
         }
         break;
     case 2:
@@ -78,7 +78,7 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
                 break;
             }
         } else {
-            timer = controller->unk_96.s;
+            timer = controller->timer.s;
             if (timer != 0) {
                 axis_step = entity->tile_x;
                 axis_pos = transform->x.w.i;
@@ -90,17 +90,17 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
                 transform->velocity_x = axis_step;
                 axis_pos -= 0x20;
                 axis_step = (entity->tile_y << 6) - axis_pos;
-                axis_step = (axis_step << 16) / controller->unk_96.s;
+                axis_step = (axis_step << 16) / controller->timer.s;
                 transform->velocity_y = axis_step;
             }
 
-            old_timer = controller->unk_96.u;
-            controller->unk_96.s = old_timer - 1;
+            old_timer = controller->timer.u;
+            controller->timer.s = old_timer - 1;
             if ((s32)(old_timer << 16) <= 0) {
                 transform->velocity_z = 0;
                 transform->velocity_y = 0;
                 transform->velocity_x = 0;
-                controller->unk_9B = controller->unk_9B + 1;
+                controller->phase = controller->phase + 1;
             }
         }
         break;

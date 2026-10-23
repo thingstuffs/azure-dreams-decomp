@@ -1345,14 +1345,14 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
     s32 tracked_entity;
 
     direction = (entity->unk_6A >> 9) & 7;
-    switch (action->unk_9B) {
+    switch (action->phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
-        action->unk_9B++;
+        action->phase++;
 
         if (entity->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1362,8 +1362,8 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
             return;
         }
         if (tile_state->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            action->timer.s = 0;
+            action->phase = 2;
             return;
         }
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -1371,7 +1371,7 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->timer.s = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -1381,28 +1381,28 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
         motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->timer.s > 0) {
+            action->timer.s = action->timer.u - 1;
         } else if (tile_state->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             return;
         }
         if (entity->unk_28 == 0) {
-            action->unk_9B = 0;
+            action->phase = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile_state, ((u8 *)flame_frame_set_1));
             return;
         }
-        action->unk_96.s = 8;
-        action->unk_9B++;
+        action->timer.s = 8;
+        action->phase++;
         return;
 
     case 2:
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             {
                 s32 target_coord = tile_state->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
@@ -1418,8 +1418,8 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
             motion->velocity_x += motion->velocity_x >> 1;
             motion->velocity_y += motion->velocity_y >> 1;
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->timer.u - 1;
+        action->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -2678,19 +2678,19 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
     s32 raw_direction;
     u16 angle;
 
-    state = ((R06_80175270_S_80175270_0 *)action)->unk_9B;
+    state = ((R06_80175270_S_80175270_0 *)action)->phase;
     if (state >= 9) {
         return;
     }
     switch (state) {
     case 0:
-        ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+        ((R06_80175270_S_80175270_0 *)action)->phase++;
         return;
 
     case 1:
         run_cd_image_commands(((u8 *)D_801758FC), ((u8 *)D_80175920), 0);
         ((R06_80175270_S_80175270_0 *)action)->unk_BA = 0;
-        ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+        ((R06_80175270_S_80175270_0 *)action)->phase++;
         ((R06_80175270_S_80175270_1 *)actor)->unk_8A = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
         ((R06_80175270_S_80175270_1 *)actor)->unk_1C &= 0xFFFBFFFF;
         /* fallthrough */
@@ -2713,8 +2713,8 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         ((u8 *)D_80175921)[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175921));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
-        ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+        ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;
+        ((R06_80175270_S_80175270_0 *)action)->phase++;
         /* fallthrough */
 
     case 3:
@@ -2723,22 +2723,22 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             u8 *target_color;
             u8 effect_done;
 
-            frames_left = ((R06_80175270_S_80175270_0 *)action)->unk_96.u;
-            ((R06_80175270_S_80175270_0 *)action)->unk_96.u = frames_left - 1;
+            frames_left = ((R06_80175270_S_80175270_0 *)action)->timer.u;
+            ((R06_80175270_S_80175270_0 *)action)->timer.u = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
                 effect_done = ((u8 *)D_80175921)[0];
-                ((R06_80175270_S_80175270_0 *)action)->unk_96.u = frames_left;
+                ((R06_80175270_S_80175270_0 *)action)->timer.u = frames_left;
                 if (effect_done != 0) {
-                    ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+                    ((R06_80175270_S_80175270_0 *)action)->phase++;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                     return;
                 }
                 return;
             }
             target_color = ((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            work->unk_A8 += (((R06_80175270_S_80175270_3 *)target_color)->unk_00 - work->unk_A8) / ((R06_80175270_S_80175270_0 *)action)->unk_96.s;
-            work->unk_A9 += (((R06_80175270_S_80175270_3 *)target_color)->unk_01 - work->unk_A9) / ((R06_80175270_S_80175270_0 *)action)->unk_96.s;
-            work->unk_AA += (((R06_80175270_S_80175270_3 *)target_color)->unk_02 - work->unk_AA) / ((R06_80175270_S_80175270_0 *)action)->unk_96.s;
+            work->unk_A8 += (((R06_80175270_S_80175270_3 *)target_color)->unk_00 - work->unk_A8) / ((R06_80175270_S_80175270_0 *)action)->timer.s;
+            work->unk_A9 += (((R06_80175270_S_80175270_3 *)target_color)->unk_01 - work->unk_A9) / ((R06_80175270_S_80175270_0 *)action)->timer.s;
+            work->unk_AA += (((R06_80175270_S_80175270_3 *)target_color)->unk_02 - work->unk_AA) / ((R06_80175270_S_80175270_0 *)action)->timer.s;
             return;
         }
 
@@ -2777,8 +2777,8 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             }
             select_record_entry_and_value(work, ((u8 *)dungeon_resource_buffer) + ((s32 *)D_80175904)[asset_index], 0);
             entity->flags |= 0x80;
-            ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0;
-            ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+            ((R06_80175270_S_80175270_0 *)action)->timer.s = 0;
+            ((R06_80175270_S_80175270_0 *)action)->phase++;
             create_sixteen_segment_ring(action, position, entity);
             return;
         }
@@ -2788,8 +2788,8 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             work = ((void **)D_80175924)[0];
             work = work->unk_0C.p;
             if (work->unk_14 & 0xE000) {
-                ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
-                ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+                ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;
+                ((R06_80175270_S_80175270_0 *)action)->phase++;
                 decrement_monster_entry_count(((R06_80175270_S_80175270_1 *)actor)->unk_13, 3);
                 update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
                 unlink_entity_node(actor);
@@ -2800,14 +2800,14 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
 
     case 6:
         {
-            if (((R06_80175270_S_80175270_0 *)action)->unk_9B != 6) {
+            if (((R06_80175270_S_80175270_0 *)action)->phase != 6) {
                 return;
             }
             if (create_status_linked_render_effect(position, ((s32 *)D_80175928)[0], (s16)((s16 *)D_8017591C)[0], ((u8 *)staged_spawn_count)) == 0) {
                 return;
             }
-            ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
-            ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+            ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;
+            ((R06_80175270_S_80175270_0 *)action)->phase++;
             decrement_monster_entry_count(((R06_80175270_S_80175270_1 *)actor)->unk_13, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
@@ -2825,8 +2825,8 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             if ((((R06_80175270_S_80175270_1 *)actor)->unk_60 = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
             }
-            ((R06_80175270_S_80175270_0 *)action)->unk_96.s = 0x10;
-            ((R06_80175270_S_80175270_0 *)action)->unk_9B++;
+            ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;
+            ((R06_80175270_S_80175270_0 *)action)->phase++;
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
             child = ((R06_80175270_S_80175270_1 *)actor)->unk_60;
             child_obj = ((R06_80175270_S_80175270_6_pre *)child)[-1].unk_00;
@@ -2839,8 +2839,8 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
     case 8:
         {
 
-            ((R06_80175270_S_80175270_0 *)action)->unk_96.u--;
-            if (((R06_80175270_S_80175270_0 *)action)->unk_96.s > 0) {
+            ((R06_80175270_S_80175270_0 *)action)->timer.u--;
+            if (((R06_80175270_S_80175270_0 *)action)->timer.s > 0) {
                 return;
             }
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_8A;

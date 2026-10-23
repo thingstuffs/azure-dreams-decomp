@@ -42,7 +42,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern s32 pulunpa_advance_actor_state_and_dispatch_address;
+extern s32 pulunpa_variant_action_address;
 extern u8 D_80176338[];
 extern u8 D_80176340[];
 
@@ -170,7 +170,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80174F24_0 *)action)->unk_8C = &pulunpa_advance_actor_state_and_dispatch_address;
+            ((S_80174F24_0 *)action)->unk_8C = &pulunpa_variant_action_address;
             on_actor_status_updated(actor);
         }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/state.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {

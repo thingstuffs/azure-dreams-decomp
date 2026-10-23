@@ -229,9 +229,9 @@ typedef struct R12_80172654_S_80172654_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   
+    union { u16 s; s16 u; } timer;   
     u8 pad_98[0x3];
-    union { u8 s; u8 u; } unk_9B;   
+    union { u8 s; u8 u; } phase;   
 } R12_80172654_S_80172654_0;
 typedef struct R12_80172654_S_80172654_1 {
     u8 pad_00[0x2A];
@@ -299,9 +299,9 @@ typedef struct R12_80172FE8_S_801730B8_1 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   
+    union { s16 s; u16 u; } timer;   
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } R12_80172FE8_S_801730B8_1;
 typedef struct {
     u8 pad0[0x96];
@@ -729,9 +729,9 @@ typedef struct R12_80175470_S_80175470_0_pre {
 } R12_80175470_S_80175470_0_pre;
 typedef struct R12_80175470_S_80175470_0 {
     u8 pad_00[0x96];
-    union { u16 u; s16 s; } unk_96;   
+    union { u16 u; s16 s; } timer;   
     u8 pad_98[0x3];
-    union { u8 n; u8 v; } unk_9B;   
+    union { u8 n; u8 v; } phase;   
     u8 pad_9C[0xC];
     void * unk_A8;
     s16 unk_AC;

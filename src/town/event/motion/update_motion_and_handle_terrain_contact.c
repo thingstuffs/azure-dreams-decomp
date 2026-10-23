@@ -1,4 +1,5 @@
 #include "shared/position_query.h"
+#include "town/scene/collision.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
@@ -20,7 +21,6 @@ extern void add_motion_deltas_to_position(void *);
 extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(void *, void *, s16);
 extern s32 call_the_same_context_both_processing_routines(void *, void *);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(u32);

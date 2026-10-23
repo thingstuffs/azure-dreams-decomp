@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/scene/collision.h"
 #include "shared/entity_objects.h"
 
 
 extern void add_motion_deltas_to_position(void *motion);
 extern void call_the_same_context_both_processing_routines(void *value, void *context);
-extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *collider, void *position);
 extern void initialize_object_and_maybe_play_sound(void *context, s32 object, void *state, s32 extra);
 
 /* Update target-relative motion and advance when the countdown expires. */

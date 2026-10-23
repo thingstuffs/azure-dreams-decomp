@@ -5,7 +5,7 @@
 
 s32 *run_scene_helper_and_get_result(void);
 s32 dispatch_scene_entry_value(s32 entry_id, s32 unused, s32 value);
-s32 dispatch_scene_request_with_alternate_tables(s32 request, s32 unused, s32 mode);
+s32 dispatch_scene_alt_tables(s32 request, s32 unused, s32 mode);
 s32 dispatch_scene_request_with_fixed_data(s32 request, s32 unused, s32 value);
 s32 dispatch_scene_request_with_tables(s32 request, s32 unused, s32 value);
 s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 selector);

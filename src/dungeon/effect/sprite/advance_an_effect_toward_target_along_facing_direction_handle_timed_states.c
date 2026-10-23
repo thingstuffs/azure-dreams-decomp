@@ -1,3 +1,6 @@
+#include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -6,25 +9,10 @@
 #include "shared/dir_step.h"
 extern int abs(int);
 
-typedef struct Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
-
 typedef struct MotionWork {
-    Motion destination;
+    ObjectPosition destination;
     s16 probe_delta[3];
 } MotionWork;
-
-typedef struct Vec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3;
 
 typedef struct Position16 {
     u16 pad0;
@@ -36,7 +24,7 @@ typedef struct Position16 {
 } Position16;
 
 typedef struct EffectState {
-    void *owner;
+    ActorRecord *owner;
     void *image;
     u8 unk8;
     u8 id;
@@ -50,35 +38,28 @@ typedef struct EffectState {
     void *target;
 } EffectState;
 
-typedef struct ColorPart {
-    u8 pad[0xC];
-    u32 color;
-} ColorPart;
-
 #define U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
 #define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
-#define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
-#define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
 extern u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
-extern void func_80025344(EffectState *, Motion *);
-extern void advance_grayscale_fade(EffectState *, Motion *);
+extern void func_80025344(EffectState *, ObjectPosition *);
+extern void advance_grayscale_fade(EffectState *, ObjectPosition *);
 extern void play_sound_if_enabled(s32);
 extern void interpolate_view_parameters(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, Motion *motion, register ColorPart *part) {
-    void *owner;
-    u8 *color_part = (u8 *)part;
-    void *owner_meta;
-    void *owner_node;
+s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, ObjectPosition *motion, register SpriteFrameState *part) {
+    ActorRecord *owner;
+    u8 *color_part;
+    ObjectNodeHeader *owner_meta;
+    SpriteFrameState *owner_node;
     void *source_motion;
-    void *target_pos;
+    ObjectPosition *target_pos;
     Position16 *table_x_entry;
     MotionWork work;
     s32 index;
@@ -112,57 +93,57 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
     color = 0x00808080;
     state->timer = 0;
     state->state++;
-    state->direction = (U16_AT(owner, 0x2A) >> 9) & 7;
-    S32_AT(color_part, 0xC) = color;
+    state->direction = ((u16)owner->facing >> 9) & 7;
+    part->color.word = color;
 
     case 1:
-    owner_meta = (u8 *)owner - 0x20;
-    owner_node = PTR_AT(owner_meta, 0xC);
-    if (!resolve_record_orientation_or_fallback(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
-        if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
+    owner_meta = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+    owner_node = owner_meta->sprite;
+    if (!resolve_record_orientation_or_fallback(owner_node->source, owner_node, work.probe_delta, 0)) {
+        if (!(owner_meta->sprite->flags & 0x8000)) {
             break;
         }
     }
 
-    source_motion = PTR_AT(owner_meta, 8);
+    source_motion = owner_meta->position;
     table_x_entry = (Position16 *)source_motion;
-    S16_AT(motion, 2) = table_x_entry->x;
-    S16_AT(motion, 6) = table_x_entry->y;
+    motion->x.w.i = table_x_entry->x;
+    motion->y.w.i = table_x_entry->y;
     source_z = table_x_entry->z;
-    S16_AT(motion, 0xA) = source_z;
+    motion->z.w.i = source_z;
 
-    if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
-        S16_AT(motion, 2) += work.probe_delta[0];
-        S16_AT(motion, 6) += work.probe_delta[1];
-        S16_AT(motion, 0xA) = S16_AT(motion, 0xA) + work.probe_delta[2];
+    if (!(owner_meta->sprite->flags & 0x8000)) {
+        motion->x.w.i += work.probe_delta[0];
+        motion->y.w.i += work.probe_delta[1];
+        motion->z.w.i = motion->z.w.i + work.probe_delta[2];
     } else {
-        S16_AT(motion, 0xA) = source_z - 0x40;
+        motion->z.w.i = source_z - 0x40;
     }
     if (!(U16_AT(state->image, 0) & 0x80)) {
         break;
     }
 
     index = 1;
-    if (PTR_AT(owner, 0x60) != 0) {
-        state->target = PTR_AT(owner, 0x60);
-        target_pos = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+    if (owner->target != 0) {
+        state->target = owner->target;
+        target_pos = ((ObjectNodeHeader *)((u8 *)owner->target - 0x20))->position;
 
-        motion_x = S16_AT(motion, 2);
-        x_distance = S16_AT(target_pos, 2) - motion_x;
+        motion_x = motion->x.w.i;
+        x_distance = target_pos->x.w.i - motion_x;
         x_distance = abs(x_distance);
         work.probe_delta[0] = x_distance;
 
         {
-            s32 y_delta = S16_AT(target_pos, 6);
-            s32 motion_y = S16_AT(motion, 6);
+            s32 y_delta = target_pos->y.w.i;
+            s32 motion_y = motion->y.w.i;
             color_part = (u8 *)&work.destination + 2;
             y_delta -= motion_y;
             y_delta = abs(y_delta);
             work.probe_delta[1] = y_delta;
         }
 
-        z_distance = S16_AT(target_pos, 0xA) -
-                entity_height_offsets[U8_AT(state->target, 0x13)] - S16_AT(motion, 0xA);
+        z_distance = target_pos->z.w.i -
+                entity_height_offsets[U8_AT(state->target, 0x13)] - motion->z.w.i;
         z_distance = abs(z_distance);
         work.probe_delta[2] = z_distance;
 
@@ -177,20 +158,20 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
             state->duration = 1;
         }
 
-        motion->dx = (S32_AT(target_pos, 0) - motion->x) / state->duration;
-        motion->dy = (S32_AT(target_pos, 4) - motion->y) / state->duration;
-        motion->dz = (S32_AT(target_pos, 8) -
+        motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
+        motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
+        motion->velocity_z = (target_pos->z.v -
                       (((entity_height_offsets[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
-                      motion->z) / state->duration;
+                      motion->z.v) / state->duration;
         func_80025344(state, motion);
         next_state = (u16)state->state + 1;
     } else {
         index = 0;
         {
-            void *tile_node;
-            tile_node = PTR_AT(owner_meta, 0xC);
-            tile_x = U8_AT(tile_node, 0x24);
-            tile_y = U8_AT(tile_node, 0x25);
+            SpriteFrameState *tile_node;
+            tile_node = owner_meta->sprite;
+            tile_x = tile_node->tile_x;
+            tile_y = tile_node->tile_y;
         }
         end_tile_x = tile_x;
         end_tile_y = tile_y;
@@ -200,12 +181,12 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
             grid_y = (s16)tile_y;
             if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0,
                                    (grid_y << 6) & 0xFFC0,
-                                   S16_AT(owner, 0x88),
+                                   owner->ground_height,
                                    (s16)(state->direction << 9)) != 0) {
                 break;
             }
             table_x_entry = (Position16 *)&dir_step_x[state->direction];
-            probe_z = U16_AT(owner, 0x88);
+            probe_z = (u16)owner->ground_height;
             probe_z -= 0x20;
             probe_z = (u32)probe_z << 16;
             probe_z >>= 16;
@@ -214,7 +195,7 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
                 ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
                 ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
                 probe_z);
-            if ((s16)ground_z >= 0x201 || (s16)(ground_z - U16_AT(owner, 0x88)) < -0x3F) {
+            if ((s16)ground_z >= 0x201 || (s16)(ground_z - (u16)owner->ground_height) < -0x3F) {
                 break;
             }
             index++;
@@ -224,17 +205,17 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
             end_tile_x = tile_x;
         }
 
-        target_pos = (void *)((Position16 *)&work.destination);
+        target_pos = &work.destination;
         index = 1;
         color_part = (u8 *)&work.destination + 2;
         dest_x = ((end_tile_x << 16) >> 10) + ((dir_step_x[state->direction] + 1) << 5);
-        ((Position16 *)target_pos)->x = dest_x;
+        target_pos->x.w.i = dest_x;
         dest_y = ((end_tile_y << 16) >> 10) + ((dir_step_y[state->direction] + 1) << 5);
-        ((Position16 *)target_pos)->y = dest_y;
-        ((Position16 *)target_pos)->z = S16_AT(motion, 0xA) + 0x20;
-        work.probe_delta[0] = abs(((Position16 *)target_pos)->x - S16_AT(motion, 2));
-        work.probe_delta[1] = abs(((Position16 *)target_pos)->y - S16_AT(motion, 6));
-        work.probe_delta[2] = abs(((Position16 *)target_pos)->z - S16_AT(motion, 0xA));
+        target_pos->y.w.i = dest_y;
+        target_pos->z.w.i = motion->z.w.i + 0x20;
+        work.probe_delta[0] = abs(target_pos->x.w.i - motion->x.w.i);
+        work.probe_delta[1] = abs(target_pos->y.w.i - motion->y.w.i);
+        work.probe_delta[2] = abs(target_pos->z.w.i - motion->z.w.i);
 
         state->duration = work.probe_delta[0];
         for (; index < 3; index++, color_part += 2) {
@@ -247,9 +228,9 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
             state->duration = 1;
         }
 
-        motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
-        motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
-        motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
+        motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
+        motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
+        motion->velocity_z = (target_pos->z.v - motion->z.v) / state->duration;
         advance_grayscale_fade(state, motion);
         next_state = 6;
     }
@@ -258,9 +239,9 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
     break;
 
     case 2:
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
     if (state->timer < state->duration) {
         break;
     }
@@ -281,7 +262,7 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
     if (state->timer < 0x30) {
         break;
     }
-    interpolate_view_parameters(PTR_AT(owner, 0x60), state->id, owner);
+    interpolate_view_parameters(owner->target, state->id, owner);
     state->state++;
     state->timer = 0;
     break;
@@ -296,9 +277,9 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
     break;
 
     case 6:
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
     if (state->timer >= state->duration) {
         state->state = 5;
         state->timer = 0;

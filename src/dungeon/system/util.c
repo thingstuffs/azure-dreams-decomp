@@ -106,80 +106,76 @@ typedef struct GlobalState {
 
 extern s32 rsin(s32);
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
-void update_pulsing_effect_brightness(void *effect, s32 unused, void *render_state)
+void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, SpriteFrameState *render_state)
 {
     s32 fade_step;
     s32 brightness;
     s32 pulse_scale;
     s16 current_brightness;
     u16 tilt;
-    void *linked_prim;
+    SpriteFrameState *linked_prim;
     GameWork *global_state = &g_game_work;
 
-    if (S16_AT(effect, 0x64) == 0) {
+    if (effect->phase.s == 0) {
         if (global_state->unk_004 & 1) {
-            brightness = (s16)U16_AT(effect, 0x6A) >> 1;
+            brightness = (s16)effect->brightness.u >> 1;
         } else {
-            current_brightness = U16_AT(effect, 0x6A);
-            U16_AT(effect, 0x6A) =
-                U16_AT(effect, 0x6A) + (192 - current_brightness) / S16_AT(effect, 0x66);
-            brightness = U8_AT(effect, 0x6A);
+            current_brightness = effect->brightness.u;
+            effect->brightness.u =
+                effect->brightness.u + (192 - current_brightness) / effect->timer.s;
+            brightness = effect->brightness.bytes.low;
         }
-        U8_AT(render_state, 0xE) = brightness;
-        U8_AT(render_state, 0xD) = brightness;
-        U8_AT(render_state, 0xC) = brightness;
+        render_state->color.c.b = brightness;
+        render_state->color.c.g = brightness;
+        render_state->color.c.r = brightness;
 
-        U16_AT(effect, 0x66)--;
-        if (S16_AT(effect, 0x66) <= 0) {
-            U16_AT(effect, 0x66) = 16;
-            U16_AT(effect, 0x64)++;
+        effect->timer.u--;
+        if (effect->timer.s <= 0) {
+            effect->timer.u = 16;
+            effect->phase.u++;
         }
     } else {
         if (global_state->unk_004 & 1) {
-            S32_AT(render_state, 0xC) = 0;
+            render_state->color.word = 0;
         } else {
-            fade_step = S16_AT(effect, 0x6A) / S16_AT(effect, 0x66);
-            U16_AT(effect, 0x6A) -= fade_step;
-            brightness = U8_AT(effect, 0x6A);
-            U8_AT(render_state, 0xE) = brightness;
-            U8_AT(render_state, 0xD) = brightness;
-            U8_AT(render_state, 0xC) = brightness;
+            fade_step = effect->brightness.s / effect->timer.s;
+            effect->brightness.u -= fade_step;
+            brightness = effect->brightness.bytes.low;
+            render_state->color.c.b = brightness;
+            render_state->color.c.g = brightness;
+            render_state->color.c.r = brightness;
         }
 
-        U16_AT(effect, 0x66)--;
-        if (S16_AT(effect, 0x66) <= 0) {
-            linked_prim = *(void **)((u8 *)(*(void **)((u8 *)effect + 4)) - 0x14);
-            U8_AT(linked_prim, 0xC) = 0x80;
-            U8_AT(linked_prim, 0xD) = 0x80;
-            U8_AT(linked_prim, 0xE) = 0x80;
-            U16_AT(effect, -2) |= NODE_REMOVE;
+        effect->timer.u--;
+        if (effect->timer.s <= 0) {
+            linked_prim = ((ObjectNodeHeader *)((u8 *)effect->target - 0x20))->sprite;
+            linked_prim->color.c.r = 0x80;
+            linked_prim->color.c.g = 0x80;
+            linked_prim->color.c.b = 0x80;
+            ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
 
-    U16_AT(effect, 0x68)++;
-    pulse_scale = (rsin((s16)U16_AT(effect, 0x68) << 9) >> 4) + 0x1000;
-    S16_AT(render_state, 0x1C) = pulse_scale;
-    S16_AT(render_state, 0x1E) = pulse_scale;
+    effect->tick.u++;
+    pulse_scale = (rsin((s16)effect->tick.u << 9) >> 4) + 0x1000;
+    render_state->scale_x = pulse_scale;
+    render_state->scale_y = pulse_scale;
 
     tilt = 0xFFC0;
-    if (U16_AT(effect, 0x68) & 1) {
+    if (effect->tick.u & 1) {
         tilt = 64;
     }
-    S16_AT(render_state, 0x1A) = tilt;
+    render_state->angle_z = tilt;
 
-    brightness = ((U16_AT(effect, 0x68) & 3) << 4) + 64;
-    linked_prim = *(void **)((u8 *)(*(void **)((u8 *)effect + 4)) - 0x14);
-    U8_AT(linked_prim, 0xC) = brightness;
-    U8_AT(linked_prim, 0xD) = brightness;
-    U8_AT(linked_prim, 0xE) = brightness;
+    brightness = ((effect->tick.u & 3) << 4) + 64;
+    linked_prim = ((ObjectNodeHeader *)((u8 *)effect->target - 0x20))->sprite;
+    linked_prim->color.c.r = brightness;
+    linked_prim->color.c.g = brightness;
+    linked_prim->color.c.b = brightness;
 }
 #include "common.h"
 #include "shared/object_node.h"
@@ -194,47 +190,25 @@ extern void D_800A5828();
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
-typedef struct S_800A5A18_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800A5A18_0;
-
-typedef struct S_800A5A18_1 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A5A18_1;
-
-typedef struct S_800A5A18_2 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x5E];
-    s16 unk_66;
-} S_800A5A18_2;
-
 /* Creates an object and initializes its attached data and resources. */
 void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
     s32 resource_params[2];
-    void *object;
-    S_800A5A18_1 *render_data;
-    S_800A5A18_2 *state_data;
+    ObjectNodeHeader *object;
+    SpriteFrameState *render_data;
+    PulsingEffectWork *state_data;
 
     object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        ((S_800A5A18_0 *)object)->unk_10 = &D_800A5828;
+        object->update_callback = &D_800A5828;
         register_node(object, project_sprite_chain);
-        render_data = ((S_800A5A18_0 *)object)->unk_0C;
-        ((S_800A5A18_0 *)object)->unk_08 = object_id;
-        render_data->unk_08 = &D_800DD854;
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
-        state_data = object + 0x20;
-        state_data->unk_04 = state_value;
-        state_data->unk_66 = 4;
+        render_data = object->sprite;
+        object->position = (ObjectPosition *)object_id;
+        render_data->source = &D_800DD854;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
+        state_data = (PulsingEffectWork *)((u8 *)object + 0x20);
+        state_data->target = (void *)state_value;
+        state_data->timer.s = 4;
         resource_params[0] = 0x01800340;
         resource_params[1] = 0x400040;
         draw_textured_ellipse(&D_800DD860, resource_params, 1, 0);

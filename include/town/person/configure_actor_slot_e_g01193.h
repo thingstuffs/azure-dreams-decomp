@@ -7,10 +7,10 @@
 #include "common.h"
 
 extern void func_800C3050(void *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
-extern u8 scene_slot_e_data_c[];
-extern u8 scene_slot_e_data_d[];
-extern u8 scene_slot_e_data_a[];
-extern u8 scene_slot_e_data_b[];
+extern u8 scene_slot_e_value_7c[];
+extern u8 scene_slot_e_value_80[];
+extern u8 scene_slot_e_value_58[];
+extern u8 scene_slot_e_value_5c[];
 
 /* Functions defined in this translation unit. */
 void configure_actor_slot_34(void *actor);

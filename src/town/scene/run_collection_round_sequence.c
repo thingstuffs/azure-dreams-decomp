@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "shared/position_views.h"
 #include "shared/dungeon_trail_views.h"
 #include "shared/object_links.h"
@@ -32,19 +33,6 @@ void set_bit_preceding_flags_global();                      /* extern */
 s32 func_80243A38();
    /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 
-typedef struct S_80527D5C_0 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x20];
-    u16 unk_28;
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    union { u16 u; s16 s; } unk_2C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_2E;   /* accessed as both */
-    u16 unk_30;
-    u16 unk_32;
-    s16 unk_34;
-    union { s16 s; u16 u; } unk_36;   /* accessed as both */
-} S_80527D5C_0;   /* arg0 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_1 {
     u8 pad_00[0x8];
@@ -107,7 +95,7 @@ typedef struct S_80527D5C_8 {
 /* extern */
 
 /* Advances the animation and item collection sequence and clamps its position. */
-void run_collection_round_sequence(void *sequence) {
+void run_collection_round_sequence(TownCollectionSequence *sequence) {
     u8 record_params[0x30];
     u8 line_params[0x28];
     s32 coord_or_sound;
@@ -148,19 +136,19 @@ void run_collection_round_sequence(void *sequence) {
     s32 eased_y;
     s32 item_slot;
 
-    owner = ((S_80527D5C_0 *)sequence)->unk_04;
-    state = ((S_80527D5C_0 *)sequence)->unk_36.s;
+    owner = sequence->owner;
+    state = sequence->state.s;
     position = ((S_80527D5C_1 *)owner)->unk_08;
     render_or_counts = collection_round_work;
     phase_data = (u8 *) owner + 0x20;
     switch (state) {
     case 0:
         start_x = ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
-        ((S_80527D5C_0 *)sequence)->unk_30 = start_x;
+        sequence->saved_x.u = start_x;
         start_y = ((TrailMotion *)(&town_motion_state))->y.unk_06.unk_06;
-        ((S_80527D5C_0 *)sequence)->unk_28 = 4U;
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 1;
-        ((S_80527D5C_0 *)sequence)->unk_32 = start_y;
+        sequence->unk_28.u = 4U;
+        sequence->state.s = 1;
+        sequence->saved_y.u = start_y;
         ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFE00000;
         ((TrailMotion *)(&town_motion_state))->velocity_y = -0x200000;
         ((TrailMotion *)(&town_motion_state))->velocity_x = -0x200000;
@@ -170,15 +158,15 @@ void run_collection_round_sequence(void *sequence) {
     case 1:
         (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10)))
             + 0x200) & 0xFFF);
-        start_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-        ((S_80527D5C_0 *)sequence)->unk_28 = start_ticks;
+        start_ticks = sequence->unk_28.u - 1;
+        sequence->unk_28.u = start_ticks;
         if ((start_ticks << 0x10) <= 0) {
-            ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
-            ((TrailMotion *)(&town_motion_state))->velocity_x = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
-                << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((TrailMotion *)(&town_motion_state))->velocity_y = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
-                << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
+            sequence->unk_28.u = 0x10U;
+            sequence->state.s = 2;
+            ((TrailMotion *)(&town_motion_state))->velocity_x = (s32) ((0x420 - (s16) sequence->saved_x.u)
+                << 0x10) / (s16) sequence->unk_28.u;
+            ((TrailMotion *)(&town_motion_state))->velocity_y = (s32) ((0x460 - (s16) sequence->saved_y.u)
+                << 0x10) / (s16) sequence->unk_28.u;
             ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFF40000;
         }
         break;
@@ -189,12 +177,12 @@ void run_collection_round_sequence(void *sequence) {
         if ((s16) *position_x < 0x420) {
             *position_x = 0x420;
         }
-        move_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-        ((S_80527D5C_0 *)sequence)->unk_28 = move_ticks;
+        move_ticks = sequence->unk_28.u - 1;
+        sequence->unk_28.u = move_ticks;
         if ((move_ticks << 0x10) <= 0) {
             ((TrailMotion *)(&town_motion_state))->velocity_y = 0;
             ((TrailMotion *)(&town_motion_state))->velocity_x = 0;
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 3;
+            sequence->state.s = 3;
         }
         break;
 
@@ -218,7 +206,7 @@ void run_collection_round_sequence(void *sequence) {
         height_or_index = (s16) func_8025E01C(position);
         if (!(((TrailMotion *)(&town_motion_state))->z < height_or_index)) {
             if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
-                ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
+                sequence->state.s = 4;
                 create_initialize_eight_objects_table(sequence);
                 func_80244660(render_or_counts, position, D_80095AA0);
             }
@@ -228,7 +216,7 @@ void run_collection_round_sequence(void *sequence) {
 
     case 4:
         if (((S_80527D5C_1 *)owner)->unk_88 == 7) {
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 5;
+            sequence->state.s = 5;
         }
         break;
 
@@ -245,27 +233,27 @@ void run_collection_round_sequence(void *sequence) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
+            sequence->saved_x.u = (u16) ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
             center_y = (u16) ((TrailMotion *)(&town_motion_state))->y.unk_06.unk_06;
-            ((S_80527D5C_0 *)sequence)->unk_2C.u = 0U;
-            ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (((S_80527D5C_0 *)sequence)->unk_2A.u & 0x7FFF);
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 6;
-            ((S_80527D5C_0 *)sequence)->unk_32 = center_y;
+            sequence->angle.u = 0U;
+            sequence->flags.u = (u16) (sequence->flags.u & 0x7FFF);
+            sequence->state.s = 6;
+            sequence->saved_y.u = center_y;
         }
         break;
 
     case 6:
-        if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
-            ((S_80527D5C_0 *)sequence)->unk_2C.u -= 0x20;
+        if ((s16) sequence->flags.u & 0x8000) {
+            sequence->angle.u -= 0x20;
         } else {
-            ((S_80527D5C_0 *)sequence)->unk_2C.u += 0x20;
+            sequence->angle.u += 0x20;
         }
-        angle_magnitude = ((S_80527D5C_0 *)sequence)->unk_2C.s;
+        angle_magnitude = sequence->angle.s;
         if (angle_magnitude < 0) {
             angle_magnitude = 0 - angle_magnitude;
         }
         if (angle_magnitude >= 0x200) {
-            direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
+            direction_flags = sequence->flags.s;
             saved_flags = direction_flags;
             direction_flags &= 0x8000;
             if (direction_flags) {
@@ -273,44 +261,44 @@ void run_collection_round_sequence(void *sequence) {
             } else {
                 direction_flags = saved_flags | 0x8000;
             }
-            ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
+            sequence->flags.u = direction_flags;
         }
         ((S_80527D5C_5 *)line_params)->unk_0C = 0;
         ((S_80527D5C_5 *)line_params)->unk_04 = 0;
-        ((S_80527D5C_5 *)line_params)->unk_00 = ((S_80527D5C_0 *)sequence)->unk_30;
-        ((S_80527D5C_5 *)line_params)->unk_02 = ((S_80527D5C_0 *)sequence)->unk_32;
-        orbit_offset = func_8006A3A4((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u) / 24;
-        ((S_80527D5C_5 *)line_params)->unk_08 = ((S_80527D5C_0 *)sequence)->unk_30 + orbit_offset;
-        cosine = func_8006A470((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u);
+        ((S_80527D5C_5 *)line_params)->unk_00 = sequence->saved_x.u;
+        ((S_80527D5C_5 *)line_params)->unk_02 = sequence->saved_y.u;
+        orbit_offset = func_8006A3A4((s16) sequence->angle.u) / 24;
+        ((S_80527D5C_5 *)line_params)->unk_08 = sequence->saved_x.u + orbit_offset;
+        cosine = func_8006A470((s16) sequence->angle.u);
         orbit_offset = cosine / 24;
         ((S_80527D5C_5 *)line_params)->unk_14 = 0x202020;
         ((S_80527D5C_5 *)line_params)->unk_10 = 0x202020;
-        ((S_80527D5C_5 *)line_params)->unk_0A = ((S_80527D5C_0 *)sequence)->unk_32 - orbit_offset;
+        ((S_80527D5C_5 *)line_params)->unk_0A = sequence->saved_y.u - orbit_offset;
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
             create_object_pair_word((s32) &set_record_global_flags_object, line_params, line_params + 0x10, sequence);
-            ((S_80527D5C_0 *)sequence)->unk_28 = 0x200U;
-            ((S_80527D5C_0 *)sequence)->unk_2E.u = 0U;
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 7;
-            ((S_80527D5C_0 *)sequence)->unk_2A.u &= 0x7FFF;
+            sequence->unk_28.u = 0x200U;
+            sequence->angle_step.u = 0U;
+            sequence->state.s = 7;
+            sequence->flags.u &= 0x7FFF;
             break;
         }
         create_object_pair_word((s32) &set_bit_preceding_flags_global, line_params, line_params + 0x10, sequence);
         break;
 
     case 7:
-        if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
-            ((S_80527D5C_0 *)sequence)->unk_2E.u -= 4;
+        if ((s16) sequence->flags.u & 0x8000) {
+            sequence->angle_step.u -= 4;
         } else {
-            ((S_80527D5C_0 *)sequence)->unk_2E.u += 4;
+            sequence->angle_step.u += 4;
         }
-        speed_magnitude = ((S_80527D5C_0 *)sequence)->unk_2E.s;
+        speed_magnitude = sequence->angle_step.s;
         if (speed_magnitude < 0) {
             speed_magnitude = 0 - speed_magnitude;
         }
         if (speed_magnitude >= 0x100) {
-            direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
+            direction_flags = sequence->flags.s;
             saved_flags = direction_flags;
             direction_flags &= 0x8000;
             if (direction_flags) {
@@ -318,32 +306,32 @@ void run_collection_round_sequence(void *sequence) {
             } else {
                 direction_flags = saved_flags | 0x8000;
             }
-            ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
+            sequence->flags.u = direction_flags;
         }
-        ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28
-            + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
+        sequence->unk_28.u = (u16) ((sequence->unk_28.u
+            + sequence->angle_step.u + 0x1000) & 0xFFF);
         draw_rotating_collection_frame(sequence);
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
             func_802441A4();
             record_color = 0x808080;
             (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
-            round_index = ((S_80527D5C_0 *)sequence)->unk_34;
+            round_index = sequence->round_index.s;
             ((S_80527D5C_6 *)record_params)->unk_16 = 0xB6;
             ((S_80527D5C_6 *)record_params)->unk_18 = 3;
             ((S_80527D5C_6 *)record_params)->unk_10 = record_color;
             ((S_80527D5C_6 *)record_params)->unk_1A = 0x7C80;
             ((S_80527D5C_6 *)record_params)->unk_14 = (round_index * 0x10) + 0x64;
             ((S_80527D5C_6 *)record_params)->unk_1C &= 0xFFFE;
-            record_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+            record_addr = sequence->round_index.s * 2;
             record_addr += (s32) D_805306C8;
             ((S_80527D5C_6 *)record_params)->unk_04 = record_addr;
-            round_count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+            round_count_addr = sequence->round_index.s * 2;
             ((S_80527D5C_6 *)record_params)->unk_00 = 0;
             ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
             round_count_addr += (s32) D_80530658;
             ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
             allocate_record_and_store_three_blocks((s32) &tick_timed_object_and_mark_complete, record_params);
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 8;
+            sequence->state.s = 8;
         }
         break;
 
@@ -371,12 +359,12 @@ void run_collection_round_sequence(void *sequence) {
                     }
                     if ((distance_x + coord_delta) < 0x20) {
                         ((S_80527D5C_8 *)item)->unk_28 = (u16) (item_flags | 1);
-                        count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+                        count_addr = sequence->round_index.s * 2;
                         count_addr += (s32) render_or_counts;
                         round_count = (u16 *)count_addr;
                         *round_count = (u16) (*round_count + 1);
                         coord_or_sound = 0x703;
-                        if ((*(s16 *)((u8 *)render_or_counts + ((((S_80527D5C_0 *)sequence)->unk_34 * 2)))) < 7) {
+                        if ((*(s16 *)((u8 *)render_or_counts + ((sequence->round_index.s * 2)))) < 7) {
                             coord_or_sound = 0x702;
                         }
                         func_80058F88(coord_or_sound, item, item_flags);
@@ -385,46 +373,46 @@ void run_collection_round_sequence(void *sequence) {
             }
         }
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xB) {
-            ((S_80527D5C_0 *)sequence)->unk_28 = 0x1EU;
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 9;
+            sequence->unk_28.u = 0x1EU;
+            sequence->state.s = 9;
         }
         break;
 
     case 9:
-        round_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-        ((S_80527D5C_0 *)sequence)->unk_28 = round_ticks;
+        round_ticks = sequence->unk_28.u - 1;
+        sequence->unk_28.u = round_ticks;
         if ((round_ticks << 0x10) <= 0) {
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 0xA;
+            sequence->state.s = 0xA;
         }
         break;
 
     case 0xA:
-        round_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
+        round_flags = sequence->flags.u;
         if (round_flags & 2) {
-            ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (round_flags & 0xFFFD);
+            sequence->flags.u = (u16) (round_flags & 0xFFFD);
             func_802441A4();
-            next_round = (u16) ((S_80527D5C_0 *)sequence)->unk_34 + 1;
-            ((S_80527D5C_0 *)sequence)->unk_34 = next_round;
+            next_round = (u16) sequence->round_index.s + 1;
+            sequence->round_index.s = next_round;
             if (next_round == 8) {
-                ((S_80527D5C_0 *)sequence)->unk_28 = 0x1EU;
-                ((S_80527D5C_0 *)sequence)->unk_36.s = 0xFF;
+                sequence->unk_28.u = 0x1EU;
+                sequence->state.s = 0xFF;
                 break;
             }
             create_initialize_eight_objects_table(sequence);
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
+            sequence->state.s = 4;
         }
         break;
 
     case 0xFF:
-        finish_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-        ((S_80527D5C_0 *)sequence)->unk_28 = finish_ticks;
+        finish_ticks = sequence->unk_28.u - 1;
+        sequence->unk_28.u = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
-            next_state = ((S_80527D5C_0 *)sequence)->unk_36.u;
-            finish_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
+            next_state = sequence->state.u;
+            finish_flags = sequence->flags.u;
             next_state++;
             finish_flags |= 1;
-            ((S_80527D5C_0 *)sequence)->unk_2A.u = finish_flags;
-            ((S_80527D5C_0 *)sequence)->unk_36.u = next_state;
+            sequence->flags.u = finish_flags;
+            sequence->state.u = next_state;
         }
         break;
 
@@ -434,7 +422,7 @@ void run_collection_round_sequence(void *sequence) {
         break;
     }
 
-    if (((S_80527D5C_0 *)sequence)->unk_36.s >= 4) {
+    if (sequence->state.s >= 4) {
         if (((TrailMotion *)(&town_motion_state))->x.unk_00 <= 0x03CFFFFF) {
             ((TrailMotion *)(&town_motion_state))->x.unk_00 = 0x03D00000;
         }

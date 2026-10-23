@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 #include "shared/entity.h"
 void advance_player_state(s32 context, EntityRec *state, s32 updateData);
 

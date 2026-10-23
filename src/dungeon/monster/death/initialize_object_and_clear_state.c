@@ -1,6 +1,7 @@
 
-struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/monster/death.h"
 
 typedef struct S_80173C40_0 {
     u8 pad_00[0xA4];
@@ -11,14 +12,14 @@ typedef struct S_80173C40_0 {
 } S_80173C40_0;   /* arg0 in initialize_object_and_clear_state */
 
 
-extern void update_actor_hop_and_shrink(S_80173C40_0 *, void *,struct SpriteFrameState *);
+
 
 
 /* Initialize the object, save its A4 value, and clear its trailing state. */
-void initialize_object_and_clear_state(S_80173C40_0 *object, void *init_data, void *init_context) {
+void initialize_object_and_clear_state(S_80173C40_0 *object, void *init_data, SpriteFrameState *init_context, void *render) {
     s32 saved_a4;
 
-    update_actor_hop_and_shrink(object, init_data, init_context);
+    update_actor_hop_and_shrink(object, init_data, init_context, render);
     saved_a4 = object->unk_A4.at00.v;
     object->unk_A4.at02.v = 0;
     object->unk_AC = 0;

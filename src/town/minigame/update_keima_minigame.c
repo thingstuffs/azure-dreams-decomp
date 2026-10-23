@@ -1,4 +1,5 @@
 #include "shared/minigame_body.h"
+#include "town/minigame/keima.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -11,21 +12,6 @@ extern int abs(int);
 
 
 /* The minigame state: four parallel pointer arrays (object 0 is the base record, 1..3 the balls) and the stage timers. */
-typedef struct MinigameState {
-    ObjectPosition *rec[4];              /* 0x00 */
-    s16 *angle[4];                  /* 0x10: angle[0] = base record + 0x10, angle[i] = the node record's facing */
-    ObjectNodeHeader *node[3];      /* 0x20: the node of ball i+1 (rec[i + 1]); angle[3] ends at 0x20 */
-    union { s16 s; u16 u; u16 p; } stage;   /* 0x2C (accessed as both) */
-    union { u16 s; s16 u; } timer;  /* 0x2E (accessed as both) */
-    s16 flag[4];                    /* 0x30 */
-    u8 pad_38[0x2];
-    u16 flags;                      /* 0x3A */
-    s16 slot[4];                    /* 0x3C */
-    s16 unk_44;
-    s16 unk_46;
-    u16 unk_48;
-    union { u16 s; s16 u; } unk_4A; /* (accessed as both) */
-} MinigameState;
 
 /* The same arrays walked with a stride of one pointer: the walker's rec/angle/node are its own index. */
 typedef struct MinigameSlot {
@@ -72,7 +58,7 @@ typedef struct DialogArgs {
 
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-s32 update_keima_minigame(MinigameState *game) {
+s32 update_keima_minigame(KeimaState *game) {
     DialogArgs dialog_args;
     s32 motion_mode;
     s32 init_flags;
@@ -129,7 +115,7 @@ s32 update_keima_minigame(MinigameState *game) {
     EntityRec *object_xy;
     ObjectNodeHeader *fall_object;
     ObjectPosition **init_slot;
-    MinigameState *angle_slot;
+    KeimaState *angle_slot;
     MinigameSlot *object_slot;
     MinigameSlot *position_slot;
     MinigameSlot *motion_slot;
@@ -165,7 +151,7 @@ s32 update_keima_minigame(MinigameState *game) {
         base_object->unk_08 = 0;
         object_index = 3;
         init_flags = 0x10000000;
-        angle_slot = (MinigameState *) ((u8 *) game + 6);
+        angle_slot = (KeimaState *) ((u8 *) game + 6);
         init_slot = &game->rec[3];
         init_value = 0x04A00000;
 loop_3:
@@ -180,7 +166,7 @@ loop_3:
             init_position->velocity_x = 0;
             init_position->z.v = 0;
             angle_slot->slot[0] = 0;
-            angle_slot = (MinigameState *) ((u8 *) angle_slot - 2);
+            angle_slot = (KeimaState *) ((u8 *) angle_slot - 2);
         if (object_index >= 0)
             goto loop_3;
         game->stage.s = (s16) ((u16) game->stage.s + 1);

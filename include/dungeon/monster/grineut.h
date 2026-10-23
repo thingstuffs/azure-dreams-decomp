@@ -242,10 +242,10 @@ typedef struct R07_8017284C_S_8017284C_0 {
     void * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   
+    union { s16 s; u16 u; } timer;   
     u16 unk_98;
     u8 pad_9A[0x1];
-    u8 unk_9B;
+    u8 phase;
 } R07_8017284C_S_8017284C_0;
 typedef struct R07_80172CC0_S_80172CC0_1_pre {
     u8 * unk_00;
@@ -260,9 +260,9 @@ typedef struct R07_80173238_S_80173238_1 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   
+    union { s16 s; u16 u; } timer;   
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } R07_80173238_S_80173238_1;
 typedef struct R07_80173238_S_80173238_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   

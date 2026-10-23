@@ -50,17 +50,17 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     source = source_data;
     actor = state_obj->caster;
     owner = (void *) ((u8 *) actor - 0x20);
-    header_raw = actor->unk_2A;
+    header_raw = actor->facing;
     coord_x = header_raw >> 8;
     dir_offset = coord_x & 0xE;
-    actor_data = ((TrailObject *) ((u8 *) actor - 0x20))->unk_0C;
+    actor_data = ((TrailObject *) ((u8 *) actor - 0x20))->sprite;
     step_x = *(s16 *)((u8 *)dir_step_x + dir_offset);
     step_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
     if (state_obj->phase == 1) {
         motion->x.unk_00 = (s32) (motion->x.unk_00 + motion->velocity_x);
         motion->y.unk_04 = (s32) (motion->y.unk_04 + motion->velocity_y);
         coord_x = (s16)sample_terrain_surface_height(motion->x.unk_02.unk_02, motion->y.unk_06.unk_06,
-            (s16) (((TrailHeightView *) owner->unk_08)->unk_0A - 0x30));
+            (s16) (((TrailHeightView *) owner->position)->unk_0A - 0x30));
         if (coord_x < 0x200) {
             motion->z = coord_x;
         }
@@ -78,10 +78,10 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
         start_y = (s16)get_definition_entry_byte_13(3);
         search_mode = start_y << 0x10;
         tile_data = actor_data;
-        end_x = tile_data->unk_24;
-        header_raw = (u32)scan_actor_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        end_x = tile_data->tile_x;
+        header_raw = (u32)scan_actor_along_heading(actor, end_x, tile_data->tile_y, (s16) actor->facing, search_mode >> 0x10);
     }
-    actor->unk_60 = (TrailActor *)header_raw;
+    actor->target = (TrailActor *)header_raw;
     if (((TrailActor *)header_raw) == 0) {
         distance_or_script = 0;
         offset_y = 0;
@@ -92,14 +92,14 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
                 s32 tile_left;
                 s32 tile_left_2;
                 s32 tile_top;
-                tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
+                tile_left_2 = (tile_data->tile_x + offset_x) << 6;
                 coord_x = tile_left_2 + 0x20;
-                tile_top = (tile_data->unk_25 + offset_y) << 6;
+                tile_top = (tile_data->tile_y + offset_y) << 6;
                 coord_y = tile_top + 0x20;
             }
             effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
             if ((check_enabled_neighbor_height((u32)effect, (u16)coord_y, (s16)sample_terrain_surface_height((u32)effect, (u16)coord_y, -0x400),
-                (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
+                (s16)actor->facing, actor->target) << 0x10) != 0) {
                 break;
             }
             distance_or_script += 1;
@@ -108,15 +108,15 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
         } while (distance_or_script < 2);
         {
             TrailSprite *tile_data = actor_data;
-            actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
-            actor->unk_73 = (u8) (tile_data->unk_25 + (step_y * distance_or_script));
+            actor->target_tile_x = (u8) (tile_data->tile_x + (step_x * distance_or_script));
+            actor->target_tile_y = (u8) (tile_data->tile_y + (step_y * distance_or_script));
         }
     } else {
-        target_data = ((TrailObject *) ((u8 *) ((TrailActor *)header_raw) - 0x20))->unk_0C;
-        actor->unk_72 = (u8) target_data->unk_24;
-        actor->unk_73 = (u8) target_data->unk_25;
-        if (target_data->unk_14 & 0x8000) {
-            if (source->unk_14 & 0x8000) {
+        target_data = ((TrailObject *) ((u8 *) ((TrailActor *)header_raw) - 0x20))->sprite;
+        actor->target_tile_x = (u8) target_data->tile_x;
+        actor->target_tile_y = (u8) target_data->tile_y;
+        if (target_data->flags & 0x8000) {
+            if (source->flags & 0x8000) {
                 goto start_hit;
             }
         }
@@ -125,10 +125,10 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
         TrailSprite *tile_data;
 
         tile_data = actor_data;
-        end_x = (s8)actor->unk_72;
-        abs_y = (s8)actor->unk_73;
-        phase = tile_data->unk_24;
-        start_y = tile_data->unk_25;
+        end_x = (s8)actor->target_tile_x;
+        abs_y = (s8)actor->target_tile_y;
+        phase = tile_data->tile_x;
+        start_y = tile_data->tile_y;
         coord_x = end_x - phase;
         coord_y = abs_y - start_y;
     }
@@ -139,8 +139,8 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
         distance_or_script = abs_y;
     }
     state_obj->phase_ticks = (u16) (distance_or_script * 0xC);
-    motion->x.unk_00 = (s32) (((actor_data->unk_24 << 6) + 0x20) << 0x10);
-    motion->y.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
+    motion->x.unk_00 = (s32) (((actor_data->tile_x << 6) + 0x20) << 0x10);
+    motion->y.unk_04 = (s32) (((actor_data->tile_y << 6) + 0x20) << 0x10);
     motion->velocity_x = (s32) ((step_x << 0x16) / 12);
     motion->velocity_y = (s32) ((step_y << 0x16) / 12);
     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -151,7 +151,7 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     case 2:
     motion->unk_14 = (s32) (motion->unk_14 + 0x100);
     coord_y = 0;
-    if (actor->unk_60 == 0) {
+    if (actor->target == 0) {
         coord_y = -1;
     }
     coord_x = 2;
@@ -159,28 +159,28 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
 next_effect:
     effect = allocate_list_node(0x201, ((s32 *)&scene_object_list_anchor.next));
     if (effect != 0) {
-        effect->unk_10 = distance_or_script;
+        effect->update_callback = distance_or_script;
         register_node(effect, draw_jittered_triangle_trails);
         duration = state_obj->phase_ticks;
         effect_data = (TrailParticleData *) ((u8 *) effect + 0x20);
-        effect_data->unk_54 = coord_y;
-        effect_data->unk_52 = duration;
-        effect_data->unk_4C = (s16) (rand() & 0xFFF);
-        effect_data->unk_4E = (u16) motion->unk_14;
-        effect_data->unk_04 = (s32) motion->x.unk_00;
-        effect_data->unk_08 = (s32) motion->y.unk_04;
-        effect_data->unk_0C = 0;
+        effect_data->blend_control = coord_y;
+        effect_data->timer = duration;
+        effect_data->angle = (s16) (rand() & 0xFFF);
+        effect_data->orbit_angle = (u16) motion->unk_14;
+        effect_data->x = (s32) motion->x.unk_00;
+        effect_data->y = (s32) motion->y.unk_04;
+        effect_data->z = 0;
         velocity_x = motion->velocity_x;
-        effect_data->unk_1C = velocity_x;
-        effect_data->unk_10 = velocity_x;
+        effect_data->initial_velocity_x = velocity_x;
+        effect_data->velocity_x = velocity_x;
         velocity_y = motion->velocity_y;
-        effect_data->unk_24 = 0xFFFD0000;
-        effect_data->unk_18 = 0xFFFD0000;
-        effect_data->unk_20 = velocity_y;
-        effect_data->unk_14 = velocity_y;
-        effect_data->unk_50 = (u16) motion->z;
-        effect->unk_20 = state_obj;
-        effect_data->unk_56 = (s16) ((u16) state_obj->phase - 1);
+        effect_data->initial_velocity_z = 0xFFFD0000;
+        effect_data->velocity_z = 0xFFFD0000;
+        effect_data->initial_velocity_y = velocity_y;
+        effect_data->velocity_y = velocity_y;
+        effect_data->height = (u16) motion->z;
+        effect->parent = state_obj;
+        effect_data->phase = (s16) ((u16) state_obj->phase - 1);
     }
     coord_x -= 1;
     if (coord_x >= 0) {
@@ -191,15 +191,15 @@ next_effect:
     }
     state_obj->phase_ticks = 5U;
     state_obj->phase = (s16) ((u16) state_obj->phase + 1);
-    if (actor->unk_60 != 0) {
+    if (actor->target != 0) {
         return;
     }
 start_hit:
     state_obj->phase = 3;
     return;
     case 3:
-    if (actor->unk_60 != 0) {
-        apply_attack_power_and_element_effects(actor->unk_60, 0x10, state_obj->spell_variant, 4, (s32) (s16) actor->unk_2A, actor, 2);
+    if (actor->target != 0) {
+        apply_attack_power_and_element_effects(actor->target, 0x10, state_obj->spell_variant, 4, (s32) (s16) actor->facing, actor, 2);
     }
     state_obj->phase_ticks = 0x10U;
     state_obj->phase = (s16) ((u16) state_obj->phase + 1);
@@ -398,12 +398,12 @@ s32 draw_jittered_triangle_trails(void *first_item)
             triangle = *(u8 **)(render_context->draw_buffer + 0x8D0);
             *(u8 **)(render_context->draw_buffer + 0x8D0) = triangle + 0x14;
 
-            ((TrailTriangle *)triangle)->unk_04 = ((TrailRenderItem *)item_data)->unk_48;
+            ((TrailTriangle *)triangle)->color = ((TrailRenderItem *)item_data)->color;
             SetPolyF3(triangle);
             SetSemiTrans(triangle, 1);
 
             blend_mode = 3;
-            if (((TrailRenderItem *)item_data)->unk_54 > 0) {
+            if (((TrailRenderItem *)item_data)->blend_control > 0) {
                 blend_mode = 1;
             }
             SetDrawMode(draw_mode, 0, 0,
@@ -413,12 +413,12 @@ s32 draw_jittered_triangle_trails(void *first_item)
             depth_index = RotTransPers((u8 *)item_data + byte_offset,
                 screen_coords, &screen_coords[2], &screen_coords[2]) - 8;
 
-            ((TrailTriangle *)triangle)->unk_08 = screen_coords[0] + (rand() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_0A = screen_coords[1] + (rand() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_0C = screen_coords[0] - (rand() & 1) - 1;
-            ((TrailTriangle *)triangle)->unk_0E = screen_coords[1] + (rand() & 1) + 1;
-            ((TrailTriangle *)triangle)->unk_10 = screen_coords[0] + (rand() & 4) - 2;
-            ((TrailTriangle *)triangle)->unk_12 = screen_coords[1] - (rand() & 1) - 1;
+            ((TrailTriangle *)triangle)->x0 = screen_coords[0] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->y0 = screen_coords[1] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->x1 = screen_coords[0] - (rand() & 1) - 1;
+            ((TrailTriangle *)triangle)->y1 = screen_coords[1] + (rand() & 1) + 1;
+            ((TrailTriangle *)triangle)->x2 = screen_coords[0] + (rand() & 4) - 2;
+            ((TrailTriangle *)triangle)->y2 = screen_coords[1] - (rand() & 1) - 1;
 
             if (depth_index < 0x1E0U) {
                 u32 addr_mask = 0x00FFFFFF;
@@ -427,12 +427,12 @@ s32 draw_jittered_triangle_trails(void *first_item)
                 byte_offset = depth_index * 4;
                 ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->draw_buffer + 0xB0))[depth_index])->addr;
                 ot_entry_base = (u32 *)(byte_offset + (s32) render_context->draw_buffer);
-                ot_tag = ((TrailOrderEntry *)ot_entry_base)->unk_B0;
+                ot_tag = ((TrailOrderEntry *)ot_entry_base)->tag;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);
 
                 (*(u32 *)((u8 *)draw_mode + 0)) =
-                    (((TrailDrawMode *)draw_mode)->unk_00 & length_mask) |
+                    (((TrailDrawMode *)draw_mode)->tag & length_mask) |
                     (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & addr_mask);
                 ((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] =
                     (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & length_mask) |
@@ -441,8 +441,8 @@ s32 draw_jittered_triangle_trails(void *first_item)
             point_index--;
         } while (point_index >= 0);
 
-        if (((TrailChainPrefix *)list_item)[-1].unk_00 == 0) break;
-        list_item = (void *)(((TrailChainPrefix *)list_item)[-1].unk_00 + 0x20);
+        if (((TrailChainPrefix *)list_item)[-1].chain_next == 0) break;
+        list_item = (void *)(((TrailChainPrefix *)list_item)[-1].chain_next + 0x20);
     } while (1);
 
     return 0;

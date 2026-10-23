@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"

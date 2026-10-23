@@ -19,7 +19,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void display_record_name_message(void *);
 
-extern u8 pulunpa_advance_actor_state_and_dispatch_address;
+extern u8 pulunpa_variant_action_address;
 
 typedef struct S_80176028_0 {
     u8 pad_00[0x4];
@@ -142,7 +142,7 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             work[0x12] = state;
             display_record_name_message(*(void **)(work + 0x60));
             ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;
-            ((S_80176028_6 *)owner)->unk_8C = &pulunpa_advance_actor_state_and_dispatch_address;
+            ((S_80176028_6 *)owner)->unk_8C = &pulunpa_variant_action_address;
             advance_status_timers(work);
             work[0x6D]--;
         }

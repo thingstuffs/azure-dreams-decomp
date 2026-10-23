@@ -16,4 +16,9 @@ void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameS
 
 void update_dropped_object_motion(void *object, register ObjectPosition *motion, void *tile);
 
+struct StructArg0;
+struct StructArg2;
+s32 update_actor_fade_in(struct StructArg0 *object, s32 unused, struct StructArg2 *effect);
+void run_actor_fade_in(void *owner, s32 context, void *effect);
+
 #endif

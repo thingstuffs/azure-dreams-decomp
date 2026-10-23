@@ -1265,7 +1265,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
     s16 timer;
     s32 tracked_entity;
 
-    switch (action->unk_9B) {
+    switch (action->phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
@@ -1274,7 +1274,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
-        action->unk_9B++;
+        action->phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1284,7 +1284,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             return;
         }
         if (tile_state->flags & 0x8000) {
-            action->unk_9B = 2;
+            action->phase = 2;
             return;
         }
         if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -1292,7 +1292,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->timer.s = timer;
                         /* fall through */
 
     case 1:
@@ -1304,17 +1304,17 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             s32 velocity_y = motion->velocity_y;
             motion->velocity_y = velocity_y - velocity_y / 4;
         }
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->timer.s > 0) {
+            action->timer.s = action->timer.u - 1;
         } else if (tile_state->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 != 0) {
-            action->unk_96.s = 8;
-            action->unk_9B++;
+            action->timer.s = 8;
+            action->phase++;
             return;
         }
         motion->velocity_z = 0;
@@ -1324,7 +1324,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         return;
 
     case 2:
-        timer = action->unk_96.s;
+        timer = action->timer.s;
         if (timer > 0) {
             {
                 s32 target_x = tile_state->tile_x << 6;
@@ -1336,11 +1336,11 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
                 s32 target_y = tile_state->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / action->unk_96.s;
+                    ((target_y - current_y) << 16) / action->timer.s;
             }
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->timer.u - 1;
+        action->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

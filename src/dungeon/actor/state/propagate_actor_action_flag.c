@@ -1,8 +1,9 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/actor/state.h"
 
 /* Tests flag 0x08000000 and propagates flag 0x40000 when it is set. */
-s32 propagate_actor_action_flag(s32 unused_0, s32 unused_1, s32 unused_2, s32 *record) {
+s32 propagate_actor_action_flag(void *unused_0, s32 unused_1, s32 unused_2, s32 *record) {
     s32 flags = record[7];
 
     if (flags & ACTOR_GROUNDED) {

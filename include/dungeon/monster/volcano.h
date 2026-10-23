@@ -351,9 +351,9 @@ typedef struct E_80172ED0_S_80172ED0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    union { s16 s; u16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase;
 } E_80172ED0_S_80172ED0_0;   /* arg0 in func_80172ED0 */
 
 /* Damp entity movement and align it to its tile before starting an action or resetting state. */

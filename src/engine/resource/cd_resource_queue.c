@@ -3,14 +3,14 @@
 #include "engine/resource.h"
 #include "engine/texture.h"
 
-extern void create_callback_pair_payload(int a0, int a1, int a2, int a3);
+extern void *create_callback_pair_payload(int a0, int a1, int a2, int a3);
 
-/* Forwards two values to create_callback_pair_payload with two leading zero arguments. */
-void create_callback_pair_default(int value, int unused_1, int unused_2, int extra_value)
+/* Forward the values with two leading zeros and return the allocated node. */
+void *create_callback_pair_default(int value, int unused_1, int unused_2, int extra_value)
 {
     int saved_value = value;
     value = 0;
-    create_callback_pair_payload(value, value, saved_value, extra_value);
+    return create_callback_pair_payload(value, value, saved_value, extra_value);
 }
 
 

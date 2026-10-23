@@ -1,6 +1,7 @@
 /* Directional sprite effect (G00644). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
 #include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "town/map/directional_sprite_effect_g00644.h"
 #include "shared/object_flags.h"
 
@@ -63,10 +64,10 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
 }
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
-void advance_coordinates_and_propagate_flags(void *object_data, void *motion, SpriteFrameState *status) {
+void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion, SpriteFrameState *status) {
     advance_sprite_animation_and_textures(status);
-    ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
-    ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
+    motion->x.v = (s32) (motion->x.v + motion->velocity_x);
+    motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     if (status->flags & 0x6000) {
         (*(u16 *)((u8 *)object_data + -2)) = (u16) (((ObjectStatusPrefix16 *)object_data)[-1].flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

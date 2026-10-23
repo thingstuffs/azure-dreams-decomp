@@ -1,11 +1,8 @@
-
-struct SpriteFrameState;
 #include "common.h"
-#include "m2c_compat.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/effect/state.h"
 
-s32 update_actor_hop_and_shrink(void *, void *,struct SpriteFrameState *);                            /* extern */
-
-/* Forward the state, context, and data to update_actor_hop_and_shrink. */
-void forward_actor_effect_state(void *state, void *context, void *data) {
-    update_actor_hop_and_shrink(state, context, data);
+/* Forward the motion, sprite and render state to the hop update. */
+void forward_actor_effect_state(void *state, void *context, SpriteFrameState *data, void *render) {
+    update_actor_hop_and_shrink(state, context, data, render);
 }

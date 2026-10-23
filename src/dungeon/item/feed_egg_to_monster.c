@@ -4,7 +4,7 @@
 
 extern u8 D_800E1035[];
 
-extern void display_actor_item_status_message(void *actor);
+extern void display_actor_item_status_message(void *actor, s32 item);
 typedef struct {
     u8 pad00[0x1C];
     s32 unk1C;
@@ -24,7 +24,7 @@ s32 feed_egg_to_monster(void *target, s32 item) {
     u32 type_flags;
 
     if ((u32) target <= 0x9FFFFFFFU) {
-        display_actor_item_status_message(target);
+        display_actor_item_status_message(target, item);
         type_flags = entity_action_selectors[((u8 *) target)[0x13]];
         if (feed_actor_restore_mp(target, (type_flags >> 2) & 3, 0) == 0) {
             place_actor_item(target, item);

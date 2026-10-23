@@ -6,37 +6,37 @@
 /* Registers the object in scene slot 46 using the four local setup tables. */
 void initialize_scene_slot_46(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 46, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 46, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 38 using the four local setup tables. */
 void initialize_scene_slot_38(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 38, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 38, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 30 using the four local setup tables. */
 void initialize_scene_slot_30(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 30, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 30, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 57 using the four local setup tables. */
 void initialize_scene_slot_57_context(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 57, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 57, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 62 using the four local setup tables. */
 void initialize_scene_slot_62_context(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 62, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 62, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 24 using the four local setup tables. */
 void initialize_scene_slot_24(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 24, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 24, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }
 
 /*
@@ -44,8 +44,8 @@ void initialize_scene_slot_24(void *object, s32 unused, void *context)
  * clears flag 0x100 in halfword 10.
  */
 void configure_actor_slot_25_and_render_state(void *context, s32 unused, u16 *stateWords) {
-    func_800C3050(context, 0x19, scene_slot_b_data_a, scene_slot_b_data_b, scene_slot_b_data_c,
-                  scene_slot_b_data_d);
+    func_800C3050(context, 0x19, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c,
+                  scene_slot_b_value_80);
     stateWords[9] = 0x240;
     stateWords[10] &= ~0x100;
 }
@@ -53,5 +53,5 @@ void configure_actor_slot_25_and_render_state(void *context, s32 unused, u16 *st
 /* Registers the object in scene slot 69 using the four local setup tables. */
 void initialize_scene_slot_69(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 69, (s32)scene_slot_b_data_a, (s32)scene_slot_b_data_b, (s32)scene_slot_b_data_c, (s32)scene_slot_b_data_d);
+    initialize_object_and_register_slot(object, 69, (s32)scene_slot_b_value_58, (s32)scene_slot_b_value_5c, (s32)scene_slot_b_value_7c, (s32)scene_slot_b_value_80);
 }

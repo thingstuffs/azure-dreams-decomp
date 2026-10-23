@@ -27,7 +27,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_object_or_select_directional_data(void *, void *, void *, void *);
 
 extern u8 pulunpa_action_resume_address[];
-extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
+extern u8 pulunpa_variant_action_address[];
 #include "dungeon/monster/pulunpa.h"
 extern u8 D_80176308[];
 extern u8 pulunpa_frame_set_3[];
@@ -143,7 +143,7 @@ increment_state:
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         entity->flags1C &= ~ACTOR_ASLEEP;
         if (actor->unk_A7 != 0) {
-            actor->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
+            actor->unk_8C = pulunpa_variant_action_address;
         } else {
             actor->unk_8C = pulunpa_action_resume_address;
         }

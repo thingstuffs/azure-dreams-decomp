@@ -59,24 +59,6 @@ typedef struct TownGlobals {
     u16 angle;
 } TownGlobals;
 
-typedef struct Scratch {
-    u8 pad00[0x20];
-    void *data20;
-    u8 pad24[0x4C];
-    s16 data70;
-    s16 data72;
-    u8 pad74[4];
-    s16 data78;
-    s16 data7A;
-    u8 pad7C[4];
-    s16 data80;
-    s16 data82;
-    u8 pad84[4];
-    s16 data88;
-    s16 data8A;
-    u8 pad8C[0x8C];
-    void *data118;
-} Scratch;
 
 typedef struct S_800A41D8_0 {
     u8 pad_00[0x8];
@@ -85,22 +67,33 @@ typedef struct S_800A41D8_0 {
     u16 unk_16;
 } S_800A41D8_0;
 
-/* arg0 in project_visible_textured_strips */
-typedef struct S_800A41D8_1 {
+/* Scratchpad shared by the angular-segment emitter and strip projector.
+ * The emitter supplies four 8-byte vertices at +70..+8F and the texture
+ * table at +118. The projector reuses +08..+14 for UV work and +F0..+FF
+ * for packed screen coordinates. Keep the existing volatile UV read. */
+typedef struct TownStripScratch {
     u8 pad_00[0x8];
     union { s32 n; s32 v; } unk_08;   /* accessed as both */
     union { s32 n; volatile s32 v; } unk_0C;   /* accessed as both */
     s32 unk_10;
     union { s32 n; s32 v; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
-    s32 unk_20;
-    u8 pad_24[0x50];
+    union { s32 n; void *p; } unk_20;
+    u8 pad_24[0x4C];
+    s16 data70;
+    s16 data72;
     u16 unk_74;
-    u8 pad_76[0x6];
+    u8 pad_76[0x2];
+    s16 data78;
+    s16 data7A;
     u16 unk_7C;
-    u8 pad_7E[0x6];
+    u8 pad_7E[0x2];
+    s16 data80;
+    s16 data82;
     u16 unk_84;
-    u8 pad_86[0x6];
+    u8 pad_86[0x2];
+    s16 data88;
+    s16 data8A;
     u16 unk_8C;
     u8 pad_8E[0x2];
     s32 unk_90;
@@ -126,8 +119,8 @@ typedef struct S_800A41D8_1 {
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_FC;   /* overlapping accesses */
     u8 pad_100[0x18];
-    s32 unk_118;
-} S_800A41D8_1;
+    union { s32 n; void *p; } unk_118;
+} TownStripScratch;
 
 /* state in project_visible_textured_strips */
 typedef struct S_800A41D8_2 {
@@ -245,7 +238,7 @@ extern u16 town_display_offset;
 /* Functions defined in this translation unit. */
 s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2);
 s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *context);
-void *project_visible_textured_strips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
+void *project_visible_textured_strips(void *origin, void *render_flags, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index);
 void create_resource_display_object(s16 resource_index);
 
 #endif

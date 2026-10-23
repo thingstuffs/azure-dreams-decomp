@@ -2,18 +2,22 @@
 #include "engine/graphics.h"
 #include "engine/scene.h"
 
-extern s32 allocate_and_initialize_node_2(void *a0);
+extern void *allocate_and_initialize_node_2(void *a0);
 
 typedef struct S_800510A0 {
     s32 unk0;
     void *unk4;
-    s32 unk8;
+    void *unk8;
     s32 unkC;
 } S_800510A0;
 
-/* Processes the record's unkC field and stores the result for unk4 in unk8. */
-void load_scene_record(S_800510A0 *record)
+/* Load the scene data, store the allocated node, and return it to the task dispatcher. */
+void *load_scene_record(S_800510A0 *record)
 {
+    void *node;
+
     scene_load_texture_and_data_pair(&record->unkC);
-    record->unk8 = allocate_and_initialize_node_2(record->unk4);
+    node = allocate_and_initialize_node_2(record->unk4);
+    record->unk8 = node;
+    return node;
 }

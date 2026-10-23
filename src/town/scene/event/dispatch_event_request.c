@@ -17,7 +17,7 @@ extern void advance_dispatch_state_to_two(void);
 extern s8 find_first_enabled_entry_id(void);
 extern s32 check_event_value_in_list(s32);
 extern void *clear_event_resource_state_and_get_buffer(s32);
-extern void *resolve_event_response_key();
+#include "town/scene.h"
 extern void func_8001E5F0(s32);
 
 extern s32 scene_event_data;
@@ -62,5 +62,5 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
     if (mode == 4) {
         return &scene_event_data;
     }
-    return resolve_event_response_key(request, data);
+    return resolve_event_response_key(request, data, mode);
 }

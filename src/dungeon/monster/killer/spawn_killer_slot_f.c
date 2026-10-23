@@ -37,7 +37,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA7C[];
 extern u8 killer_slot_f_default_frames[];
 extern u8 killer_frame_set_1[];
-extern u8 killer_spawn_killer_slot_f_address[];
+extern u8 killer_slot_f_action_address[];
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
 /* Creates Killer with default frames at D_8016E038, applies spawn flags, and attempts valid tile
@@ -102,7 +102,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &killer_spawn_killer_slot_f_address;
+        actor->unk_8C = &killer_slot_f_action_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

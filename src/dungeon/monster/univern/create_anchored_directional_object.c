@@ -1426,7 +1426,7 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
 
     direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
 
-    switch (((R17_80173244_S_80173354_1 *)action)->unk_9B) {
+    switch (((R17_80173244_S_80173354_1 *)action)->phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
         if (((EntityRec *)actor)->unk_28 == 0) {
@@ -1438,8 +1438,8 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
         }
 
         if (sprite->flags & 0x8000) {
-            ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
-            ((R17_80173244_S_80173354_1 *)action)->unk_9B = 2;
+            ((R17_80173244_S_80173354_1 *)action)->timer.s = 0;
+            ((R17_80173244_S_80173354_1 *)action)->phase = 2;
             return;
         }
 
@@ -1449,13 +1449,13 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
         ((R17_80173244_S_80173354_1 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
-        ((R17_80173244_S_80173354_1 *)action)->unk_9B++;
+        ((R17_80173244_S_80173354_1 *)action)->phase++;
 
         flight_timer = -1;
         if (((u32)((EntityRec *)actor)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
-        ((R17_80173244_S_80173354_1 *)action)->unk_96.s = flight_timer;
+        ((R17_80173244_S_80173354_1 *)action)->timer.s = flight_timer;
 
         velocity_x = ((EntityRec *)motion)->unk_0C;
         rounded_velocity_x = velocity_x;
@@ -1472,29 +1472,29 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
         ((EntityRec *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
         ((EntityRec *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
-        if (((R17_80173244_S_80173354_1 *)action)->unk_96.s > 0) {
-            ((R17_80173244_S_80173354_1 *)action)->unk_96.u--;
+        if (((R17_80173244_S_80173354_1 *)action)->timer.s > 0) {
+            ((R17_80173244_S_80173354_1 *)action)->timer.u--;
         } else if (sprite->flags & 0x6000) {
-            ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
+            ((R17_80173244_S_80173354_1 *)action)->timer.s = 0;
         }
-        if (((R17_80173244_S_80173354_1 *)action)->unk_96.s != 0) {
+        if (((R17_80173244_S_80173354_1 *)action)->timer.s != 0) {
             return;
         }
         if (((EntityRec *)actor)->unk_28 == 0) {
-            ((R17_80173244_S_80173354_1 *)action)->unk_9B = 0;
+            ((R17_80173244_S_80173354_1 *)action)->phase = 0;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
             begin_actor_display_action(action, motion, sprite, ((u8 *)D_801744AC));
             return;
         }
-        ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 8;
-        ((R17_80173244_S_80173354_1 *)action)->unk_9B++;
+        ((R17_80173244_S_80173354_1 *)action)->timer.s = 8;
+        ((R17_80173244_S_80173354_1 *)action)->phase++;
         return;
 
     case 2:
         ((EntityRec *)motion)->flags14 = 0xFFFE0000;
-        if (((R17_80173244_S_80173354_1 *)action)->unk_96.s != 0) {
+        if (((R17_80173244_S_80173354_1 *)action)->timer.s != 0) {
             s32 tile_delta;
             s32 position;
 
@@ -1515,9 +1515,9 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
         }
 
         {
-            s16 landing_timer = (u16)((R17_80173244_S_80173354_1 *)action)->unk_96.s - 1;
+            s16 landing_timer = (u16)((R17_80173244_S_80173354_1 *)action)->timer.s - 1;
 
-            ((R17_80173244_S_80173354_1 *)action)->unk_96.s = landing_timer;
+            ((R17_80173244_S_80173354_1 *)action)->timer.s = landing_timer;
             if (landing_timer > 0) {
                 return;
             }
@@ -1694,7 +1694,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
     u32 entity_flags;
     u8 state;
 
-    state = ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B;
+    state = ((R17_801738E0_S_801738E0_0 *)actor)->phase;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
@@ -1705,7 +1705,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
                     ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B = 2;
+            ((R17_801738E0_S_801738E0_0 *)actor)->phase = 2;
             return;
         }
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 8;
@@ -1724,7 +1724,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
             sprite,(u8)(*(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
                     + (u32)anim_table)),
             0);
-        ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B++;
+        ((R17_801738E0_S_801738E0_0 *)actor)->phase++;
         return;
 
     case 1:
@@ -1747,7 +1747,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
             struct R17_801738E0_GlobalStruct *globals = ((struct R17_801738E0_GlobalStruct *)&g_dungeon_status);
             globals->counter--;
         }
-        ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B = 2;
+        ((R17_801738E0_S_801738E0_0 *)actor)->phase = 2;
         return;
 
     case 2:
@@ -1771,7 +1771,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
                 entity_flags = globals->counter + 1;
                 globals->counter = entity_flags;
             }
-            ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B++;
+            ((R17_801738E0_S_801738E0_0 *)actor)->phase++;
             return;
         } else {
             global_state = &g_dungeon_status;
@@ -1847,7 +1847,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
             struct R17_801738E0_GlobalStruct *globals = ((struct R17_801738E0_GlobalStruct *)&g_dungeon_status);
             globals->counter++;
         }
-        ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B++;
+        ((R17_801738E0_S_801738E0_0 *)actor)->phase++;
         return;
 
     case 3:
@@ -1862,7 +1862,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
             0);
 
 advance_state:
-        ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B++;
+        ((R17_801738E0_S_801738E0_0 *)actor)->phase++;
         return;
 
     case 4:
@@ -1879,7 +1879,7 @@ advance_state:
             0);
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 8;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B = 0x10;
+        ((R17_801738E0_S_801738E0_0 *)actor)->phase = 0x10;
         return;
 
     case 16:

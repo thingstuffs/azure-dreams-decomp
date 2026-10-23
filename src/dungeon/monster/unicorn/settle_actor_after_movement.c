@@ -15,13 +15,13 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
     direction_offset = ((u16)((T_80172664_S_80172664_0 *)actor)->unk_2A >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
-    ((T_80172664_S_80172664_1 *)animation)->unk_96.s--;
-    state = ((T_80172664_S_80172664_1 *)animation)->unk_9B;
+    ((T_80172664_S_80172664_1 *)animation)->timer.s--;
+    state = ((T_80172664_S_80172664_1 *)animation)->phase;
 
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
+            ((T_80172664_S_80172664_1 *)animation)->phase = 0xFF;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
             return;
@@ -43,15 +43,15 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
         }
         ((T_80172664_S_80172664_1 *)animation)->unk_98 |= 8;
         ((T_80172664_S_80172664_0 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 4;
+        ((T_80172664_S_80172664_1 *)animation)->timer.s = 4;
         ((T_80172664_S_80172664_3 *)motion)->unk_14 = (s32)0xFFFC0000;
-        ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
+        ((T_80172664_S_80172664_1 *)animation)->phase = ((T_80172664_S_80172664_1 *)animation)->phase + 1;
         return;
 
     case 1:
         ((T_80172664_S_80172664_1 *)animation)->unk_90 += ((T_80172664_S_80172664_3 *)motion)->unk_14;
         ((T_80172664_S_80172664_3 *)motion)->unk_14 += ((T_80172664_S_80172664_3 *)motion)->unk_14 >> 2;
-        if (((T_80172664_S_80172664_1 *)animation)->unk_96.u > 0) {
+        if (((T_80172664_S_80172664_1 *)animation)->timer.u > 0) {
             return;
         }
 
@@ -61,9 +61,9 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
             *(&D_80174D84 +
               (((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
             0);
-        next_state = ((T_80172664_S_80172664_1 *)animation)->unk_9B;
-        ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 8;
-        ((T_80172664_S_80172664_1 *)animation)->unk_9B = next_state + 1;
+        next_state = ((T_80172664_S_80172664_1 *)animation)->phase;
+        ((T_80172664_S_80172664_1 *)animation)->timer.s = 8;
+        ((T_80172664_S_80172664_1 *)animation)->phase = next_state + 1;
         return;
 
     case 2:
@@ -76,30 +76,30 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = velocity_y - (velocity_y >> 3);
         ((T_80172664_S_80172664_3 *)motion)->unk_14 = velocity_z - (velocity_z >> 3);
     }
-        if (((T_80172664_S_80172664_1 *)animation)->unk_96.u == 4) {
+        if (((T_80172664_S_80172664_1 *)animation)->timer.u == 4) {
             ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
             ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
             ((T_80172664_S_80172664_3 *)motion)->unk_14 = 0;
         }
-        if (((T_80172664_S_80172664_1 *)animation)->unk_96.u > 0) {
+        if (((T_80172664_S_80172664_1 *)animation)->timer.u > 0) {
             return;
         }
-        ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 4;
+        ((T_80172664_S_80172664_1 *)animation)->timer.s = 4;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = direction_x << 18;
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = direction_y << 18;
         play_sound_if_enabled(0x809);
-        ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
+        ((T_80172664_S_80172664_1 *)animation)->phase = ((T_80172664_S_80172664_1 *)animation)->phase + 1;
         return;
 
     case 3:
         ((T_80172664_S_80172664_1 *)animation)->unk_90 += 0xC0000;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C += direction_x << 18;
         ((T_80172664_S_80172664_3 *)motion)->unk_10 += direction_y << 18;
-        if (((T_80172664_S_80172664_1 *)animation)->unk_96.u > 0) {
+        if (((T_80172664_S_80172664_1 *)animation)->timer.u > 0) {
             return;
         }
         resolve_attack_damage_and_effects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
-        ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
+        ((T_80172664_S_80172664_1 *)animation)->phase = ((T_80172664_S_80172664_1 *)animation)->phase + 1;
         return;
 
     case 4:
@@ -117,7 +117,7 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
         ((T_80172664_S_80172664_1 *)animation)->unk_90 = 0;
         ((T_80172664_S_80172664_1 *)animation)->unk_98 &= 0xFFF7;
         ((T_80172664_S_80172664_0 *)actor)->unk_1C |= ACTOR_GROUNDED;
-        ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
+        ((T_80172664_S_80172664_1 *)animation)->phase = 0xFF;
         return;
 
     case 0xFF:

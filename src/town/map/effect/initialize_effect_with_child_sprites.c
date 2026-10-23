@@ -13,7 +13,7 @@ extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
 extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];
-extern u8 town_initialize_effect_with_child_sprites_address[];
+extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
 extern void *map_particle_part_parameters[];
 extern u8 map_particle_first_sprite_entries[];
@@ -136,7 +136,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_callback = town_initialize_effect_with_child_sprites_address;
+    sprite_callback = town_child_sprite_callback_address;
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
@@ -179,7 +179,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
     parent_obj = (u8 *)parent - 0x20;
     obj = allocate_list_node(0x36, parent_obj);
     if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = town_initialize_effect_with_child_sprites_address;
+        ((S_800BA00C_1 *)obj)->unk_10 = town_child_sprite_callback_address;
         register_node(obj, clipped_sprite_renderer_address);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;

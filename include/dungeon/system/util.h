@@ -9,6 +9,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
 #include "shared/object_flags.h"
@@ -20,4 +21,24 @@
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
+/* Cleared object work for create_textured_ellipse_effect and its pulsing
+ * callback. The constructor stores the linked actor at +4 and seeds a
+ * four-tick brightening phase; the callback then fades over sixteen ticks. */
+typedef union PulseHalf {
+    s16 s;
+    u16 u;
+    struct { u8 low, high; } bytes;
+} PulseHalf;
+typedef struct PulsingEffectWork {
+    u8 pad_00[4];
+    void *target;
+    u8 pad_08[0x5C];
+    PulseHalf phase;
+    PulseHalf timer;
+    PulseHalf tick;
+    PulseHalf brightness;
+} PulsingEffectWork;
+
+void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, SpriteFrameState *sprite);
+
 #endif

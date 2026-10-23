@@ -1033,15 +1033,15 @@ void update_block_attack_slot_d(void *action, void *motion, SpriteFrameState *sp
     s32 start_state;
     u16 timer;
 
-    state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B;
+    state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase;
     start_state = 1;
     switch (state) {
     case 0:
-        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B = start_state;
+        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase = start_state;
                         /* fall through */
     case 1:
         if (sprite->flags & 0x8000) {
-            ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
+            ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase = 3;
             sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -1054,29 +1054,29 @@ void update_block_attack_slot_d(void *action, void *motion, SpriteFrameState *sp
         select_sprite_entry(sprite,
             D_801632DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        next_state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B;
-        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.s = 0;
+        next_state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase;
+        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.s = 0;
         next_state++;
-        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B = next_state;
+        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase = next_state;
         return;
     case 2:
-        timer = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
-        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
+        timer = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.s + 1;
+        ((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.s = timer;
         if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
-        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
+        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.u == 6) {
             play_sound_if_enabled(0x808);
         }
-        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.u == 8) {
+        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.u == 8) {
             sprite->flags |= 0x0800;
         }
-        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_96.u == 15 ||
+        if (((CL_CC5000_801729A8_S_801729A8_0 *)action)->timer.u == 15 ||
             (sprite->flags & 0x8000)) {
             sprite->flags &= 0xF7FF;
-            next_state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B;
+            next_state = ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase;
             next_state++;
-            ((CL_CC5000_801729A8_S_801729A8_0 *)action)->unk_9B = next_state;
+            ((CL_CC5000_801729A8_S_801729A8_0 *)action)->phase = next_state;
         }
         return;
     case 3:
@@ -1286,7 +1286,7 @@ void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectP
     s16 wait_ticks;
     u8 *next_script;
 
-    phase = state->unk_9B;
+    phase = state->phase;
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -1297,17 +1297,17 @@ void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectP
         emit_scattered_effects_unless_blocked(motion);
         emit_scattered_effects_unless_blocked(motion);
         initialize_timed_motion_step(4, 6);
-        state->unk_9B = state->unk_9B + 1;
+        state->phase = state->phase + 1;
         if (entity->unk_28 != 0) {
             if (action->flags & 0x8000) {
-                state->unk_96.s = 0;
-                state->unk_9B = 2;
+                state->timer.s = 0;
+                state->phase = 2;
                 return;
             }
             wait_ticks = -1U;
             if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP))
                 wait_ticks = 8;
-            state->unk_96.s = wait_ticks;
+            state->timer.s = wait_ticks;
         } else {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1316,14 +1316,14 @@ void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectP
             return;
         }
     case 1:
-        if (state->unk_96.u > 0) {
-            ticks_left = state->unk_96.s - 1;
-            state->unk_96.s = ticks_left;
+        if (state->timer.u > 0) {
+            ticks_left = state->timer.s - 1;
+            state->timer.s = ticks_left;
         } else {
             if (action->flags & 0x6000)
-                state->unk_96.s = 0;
+                state->timer.s = 0;
         }
-        if (state->unk_96.u != 0)
+        if (state->timer.u != 0)
             return;
         if (entity->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1333,12 +1333,12 @@ void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectP
             return;
         }
         initialize_timed_motion_step(1, 1);
-        state->unk_96.s = 8;
-        state->unk_9B = state->unk_9B + 1;
+        state->timer.s = 8;
+        state->phase = state->phase + 1;
         return;
     case 2:
-        ticks_left = state->unk_96.s - 1;
-        state->unk_96.s = ticks_left;
+        ticks_left = state->timer.s - 1;
+        state->timer.s = ticks_left;
         if ((ticks_left << 0x10) > 0)
             return;
         motion->velocity_z = 0;
@@ -2223,7 +2223,7 @@ void begin_block_action_23_slot_d(S_80174B3C_1 *state, void *unused_position, vo
 
 /* Waits for sprite animation to finish, then restores the scene tint over 16 updates and removes the
    effect. */
-void restore_scene_tint_after_animation_slot_d(u8 *task, void *context, u8 *input)
+void restore_scene_tint_slot_d(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;
@@ -2269,16 +2269,16 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
     void *new_model;
     void *model;
 
-    status = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B;
+    status = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase;
     switch (status) {
     case 0:
-        next_state = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;
+        next_state = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = next_state;
         return;
     case 1:
         run_cd_image_commands(&D_8016330C, &D_801633A8, 0);
         ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
@@ -2297,30 +2297,30 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
         (*(s8 *)&D_801633A9) = 0;
         Control_CD(0xFF, &resource_completion_callback_address, &D_801633A9);
         select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
         create_segmented_effect_rings_slot_d(state, position, entity);
     case 3:
-        previous_ticks = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96;
+        previous_ticks = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer;
         fade_ticks = previous_ticks - 1;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = fade_ticks;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             status = ((CL_CC5000_80174D14_S_80C97514_2 *)(&D_801633A9))->unk_00;
-            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = previous_ticks;
+            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = previous_ticks;
             if (status == 0) {
                 return;
             }
-            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         effect_data = ((void **)&actor_effect_color_targets)[lookup_masked_byte_table(actor)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
-            - scene_color->view.tint.parts.tint_r) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_r) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
-            - scene_color->view.tint.parts.tint_g) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_g) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
-            - scene_color->view.tint.parts.tint_b) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96));
+            - scene_color->view.tint.parts.tint_b) / (s16) ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer));
         return;
     case 4:
     {
@@ -2331,7 +2331,7 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = restore_scene_tint_after_animation_slot_d;
+        effect->unk_10 = restore_scene_tint_slot_d;
         register_node(effect, project_sprite_chain);
         ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
         ((ObjectPosition *)((CL_CC5000_80174D14_S_80C97514_12 *)effect)->unk_08)->x.v = (s32) position->x.v;
@@ -2349,26 +2349,26 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
         effect_data = (void *)(*((s32 *)&D_80163318 + (s16) effect_index) + (s32)&dungeon_resource_buffer);
         select_record_entry_and_value(render_obj, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = 0U;
-        next_state = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = next_state;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = 0U;
+        next_state = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = next_state;
         return;
     }
     case 5:
         render_obj = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_AC;
         render_obj = render_obj->unk_0C.u;
         if (render_obj->unk_14 & 0xE000) {
-            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+            ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
         }
     case 6:
-        if (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B != 6) {
+        if (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, D_801633AC, D_80163314, &staged_spawn_count) == 0) {
             return;
         }
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
@@ -2381,8 +2381,8 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
         if (new_model == NULL) {
             return;
         }
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = 0x10U;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_9B + 1);
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CC5000_80174D14_S_80C97514_0 *)state)->phase + 1);
         ((CL_CC5000_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
@@ -2391,8 +2391,8 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
             + (s16) ((CL_CC5000_80174D14_S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
         render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
     case 8:
-        finish_ticks = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 - 1;
-        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->unk_96 = finish_ticks;
+        finish_ticks = ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer - 1;
+        ((CL_CC5000_80174D14_S_80C97514_0 *)state)->timer = finish_ticks;
         if ((finish_ticks << 0x10) > 0) {
             return;
         }

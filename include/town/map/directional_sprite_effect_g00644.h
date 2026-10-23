@@ -6,6 +6,7 @@ struct SpriteFrameState;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
 
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -31,13 +32,6 @@ typedef struct S_800BC574_5 {
     s32 unk_0C;
 } S_800BC574_5;
 
-typedef struct S_800BC6CC_0 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} S_800BC6CC_0;
 
 struct Dst;
 
@@ -80,7 +74,7 @@ extern s32 D_800D20E4;
 extern void advance_sprite_animation_and_textures(void *);
 /* Functions defined in this translation unit. */
 s32 create_directional_sprite_effect(void *position, s16 angle);
-void advance_coordinates_and_propagate_flags(void *object_data, void *motion,struct SpriteFrameState *status);
+void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion,struct SpriteFrameState *status);
 void wait_then_process_record(S_800BC764_0 *context, void *unused, struct SpriteFrameState *record);
 void initialize_record_resources(void *record, s32 init_context, s32 resource_target);
 

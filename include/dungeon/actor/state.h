@@ -5,5 +5,12 @@
 #include "common.h"
 void create_default_state_object(s16 new_state);
 
+s32 resolve_actor_floor_trap_once(void *action, s32 unused, void *source, void *target);
+struct S_800D491C_0;
+void set_actor_data_pointer(struct S_800D491C_0 *object, s32 context, void *source, void *target);
+
+s32 propagate_actor_action_flag(void *unused_0, s32 unused_1, s32 unused_2, s32 *record);
+void install_trap_handler_after_action_flag_propagation(void *owner, s32 context, s32 sprite, s32 *record);
+
 
 #endif

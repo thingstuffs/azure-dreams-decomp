@@ -215,49 +215,49 @@ typedef struct { s16 x, y, z; } ovl_19a332c_819835AC_M2C_VEC3S;
 typedef struct { s32 sf; } ovl_19a332c_819835AC_M2C_S32F;
 typedef struct ovl_19a332c_819835AC_S_819835AC_1 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    s32 parent_link;
     u8 pad_24[0x4];
     union {
         s16 s16;
         u16 u16;
-    } unk_28;
+    } target_x;
     union {
         s16 s16;
         u16 u16;
-    } unk_2A;
+    } target_y;
     union {
         s16 s16;
         u16 u16;
-    } unk_2C;
+    } target_z;
     u8 pad_2E[0x2];
-    s16 unk_30;
+    s16 phase;
     u8 pad_32[0x2];
     union {
         s16 s16;
         u16 u16;
-    } unk_34;
-    s16 unk_36;
-    u16 unk_38;
-    s16 unk_3A;
-    s16 unk_3C;
+    } timer;
+    s16 frame_step;
+    u16 heading;
+    s16 max_frame;
+    s16 min_frame;
     s16 unk_3E;
-    s16 unk_40;
-    s16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-    u16 unk_4A;
-    u16 unk_4C;
+    s16 tile_x;
+    s16 tile_y;
+    u16 attack_direction;
+    u16 tiles_left;
+    u16 previous_x;
+    u16 previous_y;
+    u16 previous_z;
     u8 pad_4E[0x3A];
-    s16 unk_88;
-    u16 unk_8A;
+    s16 part_index;
+    u16 phase_counter;
     u8 pad_8C[0x8];
-    u16 unk_94;
-    s16 unk_96;
-    u8 unk_98;
-    u8 unk_99;
-    u16 unk_9A;
-    void * unk_9C;
+    u16 update_count;
+    s16 turn_direction;
+    u8 previous_tile_x;
+    u8 previous_tile_y;
+    u16 aim_timer;
+    void * target;
 } ovl_19a332c_819835AC_S_819835AC_1;
 typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
     union {
@@ -269,7 +269,7 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
                 u16 u16;
             } unk_02;
         } half;
-    } unk_00;
+    } x;
     union {
         s32 word;
         struct {
@@ -279,7 +279,7 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
                 u16 u16;
             } unk_06;
         } half;
-    } unk_04;
+    } y;
     union {
         s32 word;
         struct {
@@ -289,32 +289,32 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
                 u16 u16;
             } unk_0A;
         } half;
-    } unk_08;
+    } z;
     union {
         s32 word;
         struct {
             u8 pad_0C[0x2];
             s16 unk_0E;
         } half;
-    } unk_0C;
+    } velocity_x;
     union {
         s32 word;
         struct {
             u8 pad_10[0x2];
             s16 unk_12;
         } half;
-    } unk_10;
+    } velocity_y;
     union {
         s32 word;
         struct {
             u8 pad_14[0x2];
             s16 unk_16;
         } half;
-    } unk_14;
+    } velocity_z;
 } ovl_19a332c_819835AC_S_819835AC_2;
 typedef struct ovl_19a332c_819835AC_S_819835AC_3 {
-    s32 unk_00;
-    u8 unk_04;
+    s32 frame_entry;
+    u8 frame_index;
     u8 pad_05[0x7];
     union {
         s32 word;
@@ -323,14 +323,14 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_3 {
             u8 unk_0D;
             u8 unk_0E;
         } half;
-    } unk_0C;
+    } color;
     u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 flags;
+    u16 angle_x;
+    u16 angle_y;
+    u16 angle_z;
+    u16 scale_x;
+    u16 scale_y;
     u16 unk_20;
 } ovl_19a332c_819835AC_S_819835AC_3;
 typedef struct ovl_19a332c_819835AC_S_819835AC_4 {

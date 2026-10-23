@@ -1010,11 +1010,11 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
     void *effect_transform;
 
     ((R03_80172620_S_80172620_0 *)action)->unk_96--;
-    state = ((R03_80172620_S_80172620_0 *)action)->unk_9B;
+    state = ((R03_80172620_S_80172620_0 *)action)->phase;
     switch (state) {
     case 0:
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-            ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
+            ((R03_80172620_S_80172620_0 *)action)->phase = 0xFF;
             ((SpriteFrameState *)sprite)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
@@ -1027,14 +1027,14 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
                 (*(u8 **)&((SpriteFrameState *)sprite)->frameTable)
                     [((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((R03_80172620_S_80172620_0 *)action)->unk_9B = 3;
+            ((R03_80172620_S_80172620_0 *)action)->phase = 3;
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = ((u8 *)dragon_frame_set_1);
         select_sprite_entry(sprite,
             ((u8 *)dragon_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
+        ((R03_80172620_S_80172620_0 *)action)->phase++;
         return;
 
     case 1:
@@ -1077,7 +1077,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         select_sprite_entry(sprite,
             ((u8 *)D_80173CAC)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
+        ((R03_80172620_S_80172620_0 *)action)->phase++;
         return;
 
     case 2:
@@ -1093,7 +1093,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
                 ((R03_80172620_S_80172620_5 *)active_effect)->unk_BB = 0xFF;
                 ((R03_80172620_S_80172620_0 *)action)->unk_A4.u = 0;
             }
-            ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
+            ((R03_80172620_S_80172620_0 *)action)->phase++;
         }
 
     case 3:
@@ -1102,7 +1102,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             (((SpriteFrameState *)sprite)->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
             resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
-            ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
+            ((R03_80172620_S_80172620_0 *)action)->phase = 0xFF;
         }
         return;
 
@@ -1299,14 +1299,14 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
 
     direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
 
-    switch (controller->unk_9B) {
+    switch (controller->phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + direction * 2) << 19;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + direction * 2) << 19;
-        controller->unk_9B++;
+        controller->phase++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -1316,8 +1316,8 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             return;
         }
         if (entity->flags & 0x8000) {
-            controller->unk_96.s = 0;
-            controller->unk_9B = 2;
+            controller->timer.s = 0;
+            controller->phase = 2;
             return;
         }
 
@@ -1325,7 +1325,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
         if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        controller->unk_96.s = timer;
+        controller->timer.s = timer;
 
         {
             s32 velocity = motion->velocity_x;
@@ -1360,11 +1360,11 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             }
         }
 
-        if (controller->unk_96.s > 0) {
-            controller->unk_96.s = controller->unk_96.u - 1;
+        if (controller->timer.s > 0) {
+            controller->timer.s = controller->timer.u - 1;
         } else {
             if (entity->flags & 0x6000) {
-                controller->unk_96.s = 0;
+                controller->timer.s = 0;
             }
 
             if (((EntityRec *)source)->unk_28 != 0) {
@@ -1386,7 +1386,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             }
         }
 
-        if (controller->unk_96.s != 0) {
+        if (controller->timer.s != 0) {
             return;
         }
         if (((EntityRec *)source)->unk_28 == 0) {
@@ -1394,12 +1394,12 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             begin_actor_display_action(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
-        controller->unk_96.s = 8;
-        controller->unk_9B++;
+        controller->timer.s = 8;
+        controller->phase++;
         return;
 
     case 2:
-        if (controller->unk_96.s != 0) {
+        if (controller->timer.s != 0) {
             {
                 s32 tile_pos = entity->tile_x << 6;
                 s32 current_pos = motion->x.w.i - 0x20;
@@ -1414,8 +1414,8 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
             }
         }
 
-        timer = controller->unk_96.u - 1;
-        controller->unk_96.s = timer;
+        timer = controller->timer.u - 1;
+        controller->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
