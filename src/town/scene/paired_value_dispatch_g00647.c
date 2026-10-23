@@ -22,37 +22,37 @@ void dispatch_paired_table_values(void)
     u8 *table_base;
     u8 entry_kind;
 
-    if (D_800D253C[0] != 0) {
+    if (paired_scene_flag_ids[0] != 0) {
         table_base = (u8 *)0x80010000U;
         do {
             entry_kind = table_base[i * 4 + 0x981];
             if (entry_kind != 0) {
                 if (entry_kind == 0x13 && table_base[i * 0x54 + 0xAC4] != 0) {
-                    clear_resident_bitmap_bit(D_800D253C[i]);
+                    clear_resident_bitmap_bit(paired_scene_flag_ids[i]);
                     set_resident_bitmap_bit(D_800D25C0[i]);
                 } else {
-                    set_resident_bitmap_bit(D_800D253C[i]);
+                    set_resident_bitmap_bit(paired_scene_flag_ids[i]);
                     clear_resident_bitmap_bit(D_800D25C0[i]);
                 }
             } else {
-                clear_resident_bitmap_bit(D_800D253C[i]);
+                clear_resident_bitmap_bit(paired_scene_flag_ids[i]);
                 clear_resident_bitmap_bit(D_800D25C0[i]);
             }
             i++;
-        } while (D_800D253C[i] != 0);
+        } while (paired_scene_flag_ids[i] != 0);
     }
 }
 
 /* Processes paired array entries until the first array's zero terminator. */
 void process_paired_arrays_until_terminator(void) {
 
-    if (D_800D253C[0] != 0) {
+    if (paired_scene_flag_ids[0] != 0) {
         s32 entryIndex = 0;
 
         do {
-            clear_resident_bitmap_bit(D_800D253C[entryIndex]);
+            clear_resident_bitmap_bit(paired_scene_flag_ids[entryIndex]);
             clear_resident_bitmap_bit(D_800D25C0[entryIndex]);
             entryIndex++;
-        } while (D_800D253C[entryIndex] != 0);
+        } while (paired_scene_flag_ids[entryIndex] != 0);
     }
 }

@@ -69,5 +69,5 @@ void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *sourc
     display_state->unk_12 = 0x7DCF;
     display_state->unk_0C = source_value;
     display_state->unk_14 |= 0x100;
-    func_7003A7C4(display_state, D_800E2BB8, 0);
+    func_7003A7C4(display_state, positioned_effect_source, 0);
 }

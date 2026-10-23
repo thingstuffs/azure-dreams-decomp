@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 extern s32 get_unused_text_buffer(void);
@@ -27,7 +30,7 @@ u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
 
     status = -1;
     if (is_linked_entity_flagged_100000(target) != 0) {
-        if (*(s32 *)((s8 *)target + 0x14) & 0x4000) {
+        if (*(s32 *)((s8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, &D_800E196F);
         }
         return 0;
@@ -41,12 +44,12 @@ u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
     }
     if (chance >= 0x30) {
         if (*(s32 *)((s8 *)attacker + 0x1C) & 0x2000) {
-            if (!(*(s32 *)((s8 *)target + 0x1C) & 0x2000)) {
-                if ((get_entity_effect_value(target, 0xC) << 0x10) != 0) {
-                    clear_slots_of_type(target, 0xC);
+            if (!(*(s32 *)((s8 *)target + 0x1C) & ACTOR_PLAYER_SIDE)) {
+                if ((get_entity_effect_value(target, STATUS_BRAINWASH) << 0x10) != 0) {
+                    clear_slots_of_type(target, STATUS_BRAINWASH);
                     status = 0;
                 } else {
-                    status = set_or_clear_actor_status_slot(target, 0xB, 0x10);
+                    status = set_or_clear_actor_status_slot(target, STATUS_PLAYER_SIDE, 0x10);
                     if ((status << 0x10) < 0) {
                         goto block_error;
                     }
@@ -59,12 +62,12 @@ u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
                     }
                 }
             }
-        } else if (*(s32 *)((s8 *)target + 0x1C) & 0x2000) {
-            if ((get_entity_effect_value(target, 0xB) << 0x10) != 0) {
-                clear_slots_of_type(target, 0xB);
+        } else if (*(s32 *)((s8 *)target + 0x1C) & ACTOR_PLAYER_SIDE) {
+            if ((get_entity_effect_value(target, STATUS_PLAYER_SIDE) << 0x10) != 0) {
+                clear_slots_of_type(target, STATUS_PLAYER_SIDE);
                 status = 0;
             } else {
-                status = set_or_clear_actor_status_slot(target, 0xC, 0x10);
+                status = set_or_clear_actor_status_slot(target, STATUS_BRAINWASH, 0x10);
                 if ((status << 0x10) < 0) {
                     goto block_error;
                 }
@@ -75,7 +78,7 @@ u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
     shifted = status << 0x10;
     if (shifted < 0) {
 block_error:
-        if (*(s32 *)((s8 *)target + 0x14) & 0x4000) {
+        if (*(s32 *)((s8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, &D_800E19AA);
         }
         shifted = status << 0x10;

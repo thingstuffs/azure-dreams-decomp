@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -62,7 +63,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
             }
         }
 
-        if ((*(u32 *)((u8 *)entity + 0x14) & 0x4000) != 0) {
+        if ((*(u32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) != 0) {
             if (match_state == 0) {
                 if (((u8 *)entity)[0x25] != ((u8 *)entity)[0x66]) {
                     match_state = -1;

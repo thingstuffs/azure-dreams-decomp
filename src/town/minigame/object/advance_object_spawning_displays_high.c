@@ -22,7 +22,7 @@ extern u8 D_800200C0[];
 extern u8 D_80024AC0[];
 extern u8 D_80024B04[];
 extern u8 D_80024B48[];
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 extern s32 display_registration_tag;
 extern u8 D_800F7DFC[];
 
@@ -151,7 +151,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->unk_10 = D_80024AC0;
-            register_node(object, D_80053858);
+            register_node(object, text_sprite_builder_address);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x7C;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
             ((S_800243D8_2 *)object_data)->unk_1A = 0x7C80;
@@ -182,7 +182,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->unk_10 = D_80024AC0;
-            register_node(object, D_80053858);
+            register_node(object, text_sprite_builder_address);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x80;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
             ((S_800243D8_2 *)object_data)->unk_1A = 0x7C80;

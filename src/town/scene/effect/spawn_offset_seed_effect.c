@@ -23,7 +23,7 @@ typedef struct SpawnSeed {
 void *func_800373DC();                       /* extern */
 s32 func_8003BC18(void *, void *);
 s32 func_80071494();                                /* extern */
-extern u8 D_8003C558[];
+extern u8 score_sprite_draw_callback_address[];
 extern u8 D_802843E8[];
 extern s32 D_802843EC[];
 extern u8 D_8052FA64[];
@@ -40,7 +40,7 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
     slot = func_800373DC(0x136);
     if (slot != 0) {
         slot->unk_10 = D_8052FA64;
-        func_8003BC18(slot, &D_8003C558);
+        func_8003BC18(slot, &score_sprite_draw_callback_address);
         motion = slot->unk_08;
         sprite = slot->unk_0C;
         motion->unk_00 = (s32) (seed->unk_00 + 0xFFF90000);

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -110,23 +113,23 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
 
         kind = (s32)mode & 3;
         if (kind == 1) {
-            flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x6000;
-            flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x6000;
+            flags0 = ((S_80FB1000_0 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags1 = ((S_80FB1000_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80FB1000_0 *)work)->unk_14 = flags0;
             ((S_80FB1000_0 *)work)->unk_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x2000;
-            flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x2000;
+            flags0 = ((S_80FB1000_0 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            flags1 = ((S_80FB1000_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_80FB1000_0 *)work)->unk_14 = flags0;
             ((S_80FB1000_0 *)work)->unk_1C = flags1;
         } else {
             if ((s16)((s32)mode & -4) == 0 &&
-                !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
+                !(((S_80FB1000_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                 value = generate_random_value();
                 if (value & 1) {
-                    ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
+                    ((S_80FB1000_0 *)work)->unk_1C |= ACTOR_ASLEEP;
                     value = generate_random_value();
-                    set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP, (value & 0x3F) | 0x20);
                     monster->frameTable = func_80175298;
                 }
             }

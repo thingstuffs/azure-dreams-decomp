@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -102,7 +103,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *posi
                 }
                 target = action->unk_124;
                 ((S_8008C5C4_5 *)target)->unk_1C |= 0x80000;
-                actor->flags1C |= 0x100000;
+                actor->flags1C |= ACTOR_CARRYING;
                 ((S_8008C5C4_6 *)(action->unk_124))->unk_60 = actor;
                 append_packed_action_record(actor, 0x20, 0, 0);
                 play_sound_if_enabled(0x511);

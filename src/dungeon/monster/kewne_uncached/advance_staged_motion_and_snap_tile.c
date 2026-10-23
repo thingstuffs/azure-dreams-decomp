@@ -7,7 +7,7 @@ typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s3
 typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S_C;
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
-extern u8 D_80171FA4[];
+extern u8 kewne_uncached_action_resume_address[];
 extern void set_record_integer_tile_center(S_B *, u8, u8);
 extern void apply_clamped_actor_value_delta(S_D *);
 
@@ -72,9 +72,9 @@ void advance_staged_motion_and_snap_tile(S_A *motion_state, S_B *motion, S_C *ta
             set_record_integer_tile_center(motion, target->x24, target->y25);
             if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
-                motion_state->field8c = D_80171FA4;
+                motion_state->field8c = kewne_uncached_action_resume_address;
             } else {
-                motion_state->field8c = D_80171FA4;
+                motion_state->field8c = kewne_uncached_action_resume_address;
             }
         }
         return;

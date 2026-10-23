@@ -63,7 +63,7 @@ extern PairTable18 D_800200AC;
 extern u8 D_800200C4[];
 extern u8 D_800200D0[];
 extern u8 D_800203D8[];
-extern u8 D_800204AC[];
+extern u8 betting_ticket_text[];
 extern u8 D_80021028[];
 extern s32 town_money;
 extern s32 D_80024300[];
@@ -144,7 +144,7 @@ void update_keima_selection_menu(TownEntity *menu)
         text_record.data = D_800200D0;
         text_record.active = 0;
         text_record.owner = entity;
-        func_800201C8(D_800204AC, &text_record);
+        func_800201C8(betting_ticket_text, &text_record);
 
         option_index = 5;
         first_factor = &text_record;
@@ -152,7 +152,7 @@ void update_keima_selection_menu(TownEntity *menu)
         do {
             text_record.y = option_index * 12 + 0x20;
             text_record.data = (void *)option_labels.word[option_index];
-            func_800201C8(D_800204AC, first_factor);
+            func_800201C8(betting_ticket_text, first_factor);
             option_index--;
         } while (option_index >= 0);
         entity->state = (u16)entity->state + 1;

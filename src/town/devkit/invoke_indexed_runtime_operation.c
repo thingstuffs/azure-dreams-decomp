@@ -11,10 +11,10 @@ typedef struct RuntimeMethods {
 
 extern SceneEntry D_80702BA8[];
 extern u8 D_80702C00[];
-extern RuntimeMethods *D_807030B8;
+extern RuntimeMethods *devkit_runtime_methods;
 
 /* Invoke runtime operation 6 for the scene entry mapped from the index. */
 void invoke_indexed_runtime_operation(s32 scene_index)
 {
-    D_807030B8->invoke(6, &D_80702BA8[D_80702C00[scene_index]], 0);
+    devkit_runtime_methods->invoke(6, &D_80702BA8[D_80702C00[scene_index]], 0);
 }

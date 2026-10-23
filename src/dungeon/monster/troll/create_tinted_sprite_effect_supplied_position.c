@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -22,7 +23,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     switch (state) {
     case 0:
         animation->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         animation->unk_9E.s = 5;
         animation->unk_A0 = 0;
         animation->unk_9B++;
@@ -59,12 +60,12 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
         if ((next_arc_ticks << 16) < 0) {
             animation->unk_90 = 0;
             animation->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             animation->unk_9B++;
         }
                         /* fall through */
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             animation->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

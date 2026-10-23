@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/saber.h"
@@ -66,7 +67,7 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, SpriteFram
             D_80162E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80160BAC_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80160BAC_0 *)action)->unk_9E.s = 5;
         ((S_80160BAC_0 *)action)->unk_A4 = 0;
         ((S_80160BAC_0 *)action)->unk_9B++;
@@ -102,12 +103,12 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, SpriteFram
         if ((next_move_ticks << 16) < 0) {
             ((S_80160BAC_0 *)action)->unk_90 = 0;
             ((S_80160BAC_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80160BAC_0 *)action)->unk_9B++;
         }
 
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80160BAC_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;

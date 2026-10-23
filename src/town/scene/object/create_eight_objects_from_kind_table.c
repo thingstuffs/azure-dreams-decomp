@@ -41,10 +41,10 @@ typedef struct TableEntry {
     u16 field_02;
 } TableEntry;
 
-extern u8 D_801328C8[9];
+extern u8 scene_object_factory_data[9];
 extern u8 D_80528B94[];
 extern TableEntry D_8052FF9C[][8];
-extern u8 D_8003C558[];
+extern u8 score_sprite_draw_callback_address[];
 extern u8 D_80288EE0[];
 
 extern Object *func_800374FC(s32 type, void *descriptor);
@@ -57,14 +57,14 @@ void create_eight_objects_from_kind_table(Owner *owner)
     s32 slot;
 
     for (slot = 7; slot >= 0; slot--) {
-        Object *object = func_800374FC(0x136, D_801328C8);
+        Object *object = func_800374FC(0x136, scene_object_factory_data);
         owner->objects[slot] = object;
         if (object != 0) {
             ObjectData *data;
             Primitive *primitive;
 
             object->field_10 = D_80528B94;
-            func_8003BC18(object, D_8003C558);
+            func_8003BC18(object, score_sprite_draw_callback_address);
             object->owner = owner;
             data = object->data;
             primitive = object->primitive;

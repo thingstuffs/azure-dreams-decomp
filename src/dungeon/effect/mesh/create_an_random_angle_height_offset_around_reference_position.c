@@ -7,7 +7,7 @@
 typedef s32 M2C_UNK;
 
 struct TargetVec;
-extern struct TargetVec *D_80026208[];
+extern struct TargetVec *effect_position_source[];
 void *allocate_list_node();
 s32 register_node();
 s32 rsin();
@@ -96,10 +96,10 @@ void create_an_random_angle_height_offset_around_reference_position(void)
             s32 origin_y;
             position = obj->field8;
             axis_offset = (rsin(motion->field8) >> 4) * motion->field6;
-            position->x.v = D_80026208[0]->field0 + (axis_offset << 8);
+            position->x.v = effect_position_source[0]->field0 + (axis_offset << 8);
             axis_factor = rcos(motion->field8);
             axis_offset = (axis_factor >> 4) * motion->field6;
-            origin = D_80026208[0];
+            origin = effect_position_source[0];
             origin_y = origin->field4;
             position->y.v = origin_y + (axis_offset << 8);
             position->z.w.i = (s16) (origin->fieldA + motion->fieldA);

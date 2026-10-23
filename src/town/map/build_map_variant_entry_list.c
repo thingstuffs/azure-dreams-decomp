@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u8 D_800136B8;
-extern void *D_800718E4[];
+extern void *town_map_entry_list[];
 extern u8 D_80082E78;
 extern u8 D_800D1A0C[];
 extern u8 D_800D1D1C[];
@@ -33,40 +33,40 @@ void build_map_variant_entry_list(void) {
     u8 *map_records;
 
     count = 1;
-    D_800718E4[0] = D_800D1D1C;
+    town_map_entry_list[0] = D_800D1D1C;
     if ((u32)(D_80082E78 - 0x16) >= 2U) {
         count = 3;
-        D_800718E4[1] = D_800D1D24;
-        D_800718E4[2] = D_800D1D2C;
+        town_map_entry_list[1] = D_800D1D24;
+        town_map_entry_list[2] = D_800D1D2C;
     }
     map_records = town_map_variants;
     switch (map_records[town_map_selection_state[6] << 5]) {
     case 5:
         switch ((*(u8 *)0x800136B8)) {
-        default: D_800718E4[count++] = D_800D1D54; break;
-        case 0xB: D_800718E4[count++] = D_800D1D5C; break;
-        case 0xC: D_800718E4[count++] = D_800D1D64; break;
-        case 0xD: D_800718E4[count++] = D_800D1D6C; break;
+        default: town_map_entry_list[count++] = D_800D1D54; break;
+        case 0xB: town_map_entry_list[count++] = D_800D1D5C; break;
+        case 0xC: town_map_entry_list[count++] = D_800D1D64; break;
+        case 0xD: town_map_entry_list[count++] = D_800D1D6C; break;
         }
-        D_800718E4[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = D_800D1E7C;
         break;
     case 0xF:
         switch ((*(u8 *)0x800136B8)) {
-        default: D_800718E4[count++] = D_800D1DB4; break;
-        case 0xB: D_800718E4[count++] = D_800D1DBC; break;
-        case 0xC: D_800718E4[count++] = D_800D1DC4; break;
-        case 0xD: D_800718E4[count++] = D_800D1DCC; break;
+        default: town_map_entry_list[count++] = D_800D1DB4; break;
+        case 0xB: town_map_entry_list[count++] = D_800D1DBC; break;
+        case 0xC: town_map_entry_list[count++] = D_800D1DC4; break;
+        case 0xD: town_map_entry_list[count++] = D_800D1DCC; break;
         }
-        D_800718E4[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = D_800D1E7C;
         break;
     case 0x10:
         switch ((*(u8 *)0x800136B8)) {
-        default: D_800718E4[count++] = D_800D1DD4; break;
-        case 0xB: D_800718E4[count++] = D_800D1DDC; break;
-        case 0xC: D_800718E4[count++] = D_800D1DE4; break;
-        case 0xD: D_800718E4[count++] = D_800D1DEC; break;
+        default: town_map_entry_list[count++] = D_800D1DD4; break;
+        case 0xB: town_map_entry_list[count++] = D_800D1DDC; break;
+        case 0xC: town_map_entry_list[count++] = D_800D1DE4; break;
+        case 0xD: town_map_entry_list[count++] = D_800D1DEC; break;
         }
-        D_800718E4[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = D_800D1E7C;
         break;
     default:
         i = 0;
@@ -74,10 +74,10 @@ void build_map_variant_entry_list(void) {
         state = town_map_selection_state;
         table = (u32)D_800D1A0C;
         do {
-            D_800718E4[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
+            town_map_entry_list[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
             i++;
         } while (i < 2);
         break;
     }
-    D_800718E4[count] = 0;
+    town_map_entry_list[count] = 0;
 }

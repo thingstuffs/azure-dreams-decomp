@@ -18,8 +18,8 @@ typedef struct Func80039470Block {
     u8 pad_14[0xC];
 } Func80039470Block;
 
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 
 /* Activates an unused entry and stores its pair of values according to the block type. */
 s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {
@@ -40,8 +40,8 @@ s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_v
                 entry->field_2 = entry_value;
 
                 if (entry_index == 1 &&
-                    (type = header->type) != (void *)D_800C3174 &&
-                    type != (void *)D_800C321C) {
+                    (type = header->type) != (void *)message_motion_type_a &&
+                    type != (void *)message_motion_type_b) {
                     *(s16 *)((u8 *)block + 0x36) = first_value;
                     *(s16 *)((u8 *)block + 0x38) = second_value;
                 } else {

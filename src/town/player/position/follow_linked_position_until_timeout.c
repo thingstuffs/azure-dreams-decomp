@@ -22,16 +22,16 @@ typedef struct CopyGlobal {
 } CopyGlobal;
 
 
-extern CopyGlobal D_800CFCB4;
+extern CopyGlobal town_actor_control;
 extern void init_target_tile_action(UnsignedCountdownView *, IntVector3 *, s32);
 
 /* Copy source coordinates, decrement the counter, and call the handler when it becomes negative. */
 void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, s32 handler_arg) {
     s16 remaining;
 
-    out->x = D_800CFCB4.middle->source->x;
-    out->y = D_800CFCB4.middle->source->y;
-    out->z = D_800CFCB4.middle->source->z;
+    out->x = town_actor_control.middle->source->x;
+    out->y = town_actor_control.middle->source->y;
+    out->z = town_actor_control.middle->source->z;
     remaining = state->unk_0A - 1;
     state->unk_0A = remaining;
     if (remaining < 0) {

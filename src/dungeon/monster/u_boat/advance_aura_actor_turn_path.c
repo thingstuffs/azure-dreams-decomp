@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -79,7 +81,7 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
         }
         old_x_early = entity->unk_24;
         old_y = entity->unk_25;
-        effect_status = get_entity_effect_value(state, 0x1B);
+        effect_status = get_entity_effect_value(state, STATUS_NO_TILE_OCCUPANCY);
         old_x = old_x_early;
         if ((effect_status << 0x10) == 0) {
             s32 tile_x;
@@ -111,7 +113,7 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
             tile_flags = 0x3000;
             new_x = entity->unk_24;
             new_y = entity->unk_25;
-            if (((S_80172144_0 *)state)->unk_1C & 0x2000) {
+            if (((S_80172144_0 *)state)->unk_1C & ACTOR_PLAYER_SIDE) {
                 tile_flags = 0x300;
             }
             cycle_map_cell_flags(new_x, new_y, tile_flags);
@@ -121,11 +123,11 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
             !(entity->flags & 0x8000)) {
             advance_arcing_actor_move(actor, actor_slot, entity, state);
             ((S_80172144_1 *)actor)->unk_8C = 0;
-            ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
+            ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         } else {
             ((S_80172144_1 *)actor)->unk_9A = 0xF;
             ((S_80172144_1 *)actor)->unk_8C = 0;
-            ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
+            ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
         }
         if (g_dungeon_status.flags & 0x80) {
             ((S_80172144_1 *)actor)->unk_96 = 0;

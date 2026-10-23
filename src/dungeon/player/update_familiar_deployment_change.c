@@ -40,10 +40,10 @@ s32 display_text_with_fullwidth_adjustment();                         /* extern 
 extern s32 loaded_entity_sprite_resource;
 extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
-extern u8 D_800DD138[];
-extern u8 D_800DD140[];
+extern u8 familiar_save_restore_frames[];
+extern u8 familiar_save_frames[];
 extern u8 D_800DD260;
-extern struct S_8009345C_4 D_800DD262;
+extern struct S_8009345C_4 familiar_deployment_slots;
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];
 extern u8 D_800E06FA[26];
@@ -195,8 +195,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
             return;
         }
-        (*(void **)((u8 *)entity + (0x2C))) = D_800DD138;
-        set_sprite_animation_frame(entity, D_800DD138[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        (*(void **)((u8 *)entity + (0x2C))) = familiar_save_restore_frames;
+        set_sprite_animation_frame(entity, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
@@ -207,7 +207,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
         slot_bits = ((S_8009345C_2 *)context)->unk_8A.u;
         selected_object = (void *) ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
-        D_800DD262.slot.u = slot_bits;
+        familiar_deployment_slots.slot.u = slot_bits;
         ((S_8009345C_2 *)context)->unk_60 = selected_object;
         ((S_8009345C_0 *)actor)->phase++;
         return;
@@ -230,7 +230,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         }
         message_or_list.value = get_unused_text_buffer();
         remove_message = write_text_byte_and_advance(8, message_or_list.value);
-        if (D_800DD262.slot.s != 0) {
+        if (familiar_deployment_slots.slot.s != 0) {
             remove_text = D_800E05F0;
         } else {
             remove_text = D_800E05E1;
@@ -241,7 +241,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         old_object = ((S_8009345C_2 *)context)->unk_60;
         D_800DD260 = 1;
         mark_owned_linked_actor_actions(old_object);
-        ((S_8009345C_16 *)(((D_800DD262.slot.s * 4) + actor)))->unk_AC = 0;
+        ((S_8009345C_16 *)(((familiar_deployment_slots.slot.s * 4) + actor)))->unk_AC = 0;
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
         unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
         removed_object = ((S_8009345C_2 *)context)->unk_60;
@@ -287,7 +287,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73,
                 (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
             if (new_object != NULL) {
-                (*(void **)((u8 *)(((D_800DD262.slot.s * 4) + actor)) + (0xAC))) = new_object;
+                (*(void **)((u8 *)(((familiar_deployment_slots.slot.s * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
@@ -299,7 +299,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
-                object_slot = D_800DD262.slot.s;
+                object_slot = familiar_deployment_slots.slot.s;
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
@@ -308,7 +308,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 if (D_800DD260 == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
-                if (D_800DD262.slot.s != 0) {
+                if (familiar_deployment_slots.slot.s != 0) {
                     create_text = D_800E05F0;
                 } else {
                     create_text = D_800E05E1;
@@ -316,7 +316,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.value);
-                cleanup_slot = D_800DD262.slot.s;
+                cleanup_slot = familiar_deployment_slots.slot.s;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
                 retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
                 replay_actor_status_slots(new_object);
@@ -334,8 +334,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         if ((end_ticks << 0x10) > 0) {
             return;
         }
-        (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
-        set_sprite_animation_frame(entity, D_800DD140[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        (*(void **)((u8 *)entity + (0x2C))) = familiar_save_frames;
+        set_sprite_animation_frame(entity, familiar_save_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
         ((S_8009345C_0 *)actor)->phase++;
         return;

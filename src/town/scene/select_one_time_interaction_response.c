@@ -13,7 +13,7 @@ s32 select_one_time_interaction_response(void *object, s32 check_value, s32 sele
     }
 
     response_table = &D_8001A99C;
-    default_response = func_80019ABC(response_table, &D_8001B1F8, object, selection);
+    default_response = func_80019ABC(response_table, &scene_override_context, object, selection);
     response = default_response;
     if (func_80019A04(response_table, object, selection) != 0) {
         if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) != 0) {

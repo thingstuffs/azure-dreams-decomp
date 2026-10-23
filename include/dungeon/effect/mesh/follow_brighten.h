@@ -276,7 +276,7 @@ extern s32 D_800814A0;
 extern void select_record_entry_and_value(void *, void *, s32, ...);
 extern void register_node(ovl_18d0850_818B09F8_MainObj *, void *);
 extern void func_8004491C(ovl_18d0850_818B09F8_MainObj *, void *);
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);

@@ -111,7 +111,7 @@ s32 register_node();
 s32 play_sound_if_enabled();
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 void create_ribbon_head_sprite();
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 extern void D_80166D14();
 extern u8 D_80167C30[];
 extern PositionTableEntry ribbon_vertices[];
@@ -426,7 +426,7 @@ copy_pairs:
                     history_index += 1;
                 } while (history_index < 4);
                 object_render->unk_06 = 0;
-                select_record_entry_and_value(object_render, D_800DEAE0, 0);
+                select_record_entry_and_value(object_render, ribbon_sprite_entries, 0);
                 object_pair = 0;
                 object_offset = history_offset;
                 copy_row_offset = object_data;

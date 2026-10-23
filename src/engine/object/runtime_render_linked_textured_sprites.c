@@ -10,7 +10,7 @@
 typedef struct { s32 v; } SpS32;
 typedef struct { u16 v; } SpU16;
 
-extern u8 D_8006CD10[32];
+extern u8 effect_view_matrix[32];
 extern u8 sprite_projection_matrix[32];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
@@ -71,7 +71,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     fixed_matrix = (void *) 0x1F8000C8;
     do {
         copy_matrix_a = sprite_fixed_transform_matrix;
-        copy_matrix_b = D_8006CD10;
+        copy_matrix_b = effect_view_matrix;
         (((SpU16 *) (scratch + 0x04))->v) = *((u16 *) (position + 2));
         (((SpU16 *) (scratch + 0x06))->v) = *((u16 *) (position + 6));
         (((SpU16 *) (scratch + 0x08))->v) = *((u16 *) (position + 10));
@@ -133,7 +133,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
                         CompMatrix(sprite_fixed_transform_matrix, fixed_matrix, scratch + 0x54);
                     }
                     else {
-                        CompMatrix(D_8006CD10, fixed_matrix, scratch + 0x54);
+                        CompMatrix(effect_view_matrix, fixed_matrix, scratch + 0x54);
                     }
                 }
                 else {

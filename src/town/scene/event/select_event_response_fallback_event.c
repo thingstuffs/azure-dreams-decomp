@@ -1,10 +1,10 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern void *D_8001B16C[];
-extern u8 D_8001B14C[];
+extern void *scene_event_results[];
+extern u8 scene_string_fallback[];
 extern u8 D_8001B9E0[];
-extern u8 D_8001C6D0[];
+extern u8 event_string_fallback[];
 extern u8 D_80020934[];
 
 extern void *select_address_based_input(s32, s32);
@@ -22,14 +22,14 @@ void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b,
         do {
             result = select_address_based_input(handler_arg_a, handler_arg_b);
         } while (0);
-        D_8001B16C[0] = result;
+        scene_event_results[0] = result;
         if (result != 0) {
             return result;
         }
         return D_8001B9E0;
     case 6:
         result = get_local_global_table();
-        D_8001B16C[0] = result;
+        scene_event_results[0] = result;
         if (result != 0) {
             return result;
         }
@@ -40,8 +40,8 @@ void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b,
     case 42:
         return award_next_unearned_milestone(selector);
     case 0:
-        return D_8001C6D0;
+        return event_string_fallback;
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Launched tile effects, randomized rotating particles, and actor creation at the destination. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -434,7 +435,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
             break;
         }
         create_counted_sprite_effect(state, motion);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state->timer = 0;
         state->state++;
         break;

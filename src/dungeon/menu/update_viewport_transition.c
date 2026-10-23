@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -137,7 +138,7 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
             transition->unk_1A = 0x30;
         }
     }
-    if (transition->unk_1A != 0 || (dungeon_actor_ring_anchor->flags1C & 0x10)) {
+    if (transition->unk_1A != 0 || (dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         transition->unk_2C = 0U;
         dungeon_floor_flags &= 0xFEFFFFFF;
     }

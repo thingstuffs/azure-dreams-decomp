@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -44,11 +47,11 @@ s32 use_item_to_wake_actor(void *entity, s32 event, s16 event_type)
     }
 
     create_timed_paired_particle_emitter(((S_800BD72C_0_pre *)entity)[-1].unk_00, 0xC0C0C0, entity);
-    if ((((EntityRec *)entity)->flags14 & 0x4000) &&
-        !(((EntityRec *)entity)->flags1C & 0x200)) {
+    if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) &&
+        !(((EntityRec *)entity)->flags1C & ACTOR_ASLEEP)) {
         display_formatted_context_message(D_800E0E9B);
     }
-    clear_slots_of_type(entity, 1);
+    clear_slots_of_type(entity, STATUS_SLEEP);
     clear_slot_and_update_linked_state(event);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;

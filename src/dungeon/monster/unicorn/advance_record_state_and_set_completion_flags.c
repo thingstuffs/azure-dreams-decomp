@@ -52,7 +52,7 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
         ((T_8017406C_S_8017406C_1 *)effect)->unk_20 = 0xFFU;
         effect_state->unk_01 = (u8)sprite->color.c.g;
         effect_state->unk_02 = (u8)sprite->color.c.b;
-        select_record_entry_and_value(sprite, &D_800DEC70, rand() & 1);
+        select_record_entry_and_value(sprite, &shared_sprite_entries, rand() & 1);
         sprite->clut = 0x7DCF;
         sprite->flags = (u16)(sprite->flags | 0x100);
     }
@@ -134,7 +134,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         effect_state->unk_01 = sprite->color.c.g;
         effect_state->unk_02 = sprite->color.c.b;
 
-        select_record_entry_and_value(sprite, &D_800DEC00, rand() & 1);
+        select_record_entry_and_value(sprite, &directional_sprite_entries, rand() & 1);
         sprite->clut = 0x7DCF;
         sprite->flags |= 0x100;
     }

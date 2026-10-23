@@ -5,12 +5,12 @@
 
 /* Insert a nonnull node immediately after the list head. */
 s32 prepend_scene_list_node(Node *node) {
-    extern Node D_800CFCB4[];
+    extern Node town_actor_control[];
     u32 page = 0x800D0000;
 
     if (node != NULL) {
         Node *head;
-        head = D_800CFCB4;
+        head = town_actor_control;
         node->prev = head;
         node->next = head->next;
         head->next->prev = node;
@@ -22,15 +22,15 @@ s32 prepend_scene_list_node(Node *node) {
 
 /* Insert a non-null node before the global list sentinel. */
 s32 append_scene_list_node(Node *node) {
-    extern u8 D_800CFCB4[];
+    extern u8 town_actor_control[];
     Node *head;
 
     if (node != NULL) {
-        head = ((List *)D_800CFCB4)->head;
-        node->next = (Node *)D_800CFCB4;
+        head = ((List *)town_actor_control)->head;
+        node->next = (Node *)town_actor_control;
         node->prev = head;
-        ((List *)D_800CFCB4)->head->next = node;
-        ((List *)D_800CFCB4)->head = node;
+        ((List *)town_actor_control)->head->next = node;
+        ((List *)town_actor_control)->head = node;
         return 1;
     }
     return 0;

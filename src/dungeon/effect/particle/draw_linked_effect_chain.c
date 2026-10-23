@@ -152,7 +152,7 @@ void update_effect_countdown_fields(void *object_data)
     Row_819A0DB8_S_func_819A0DB8_0 *object = object_data;
 
     phase_index = (s16)(object->unk_3A - 3);
-    (*(s16 *)D_800261B0) = 1;
+    (*(s16 *)linked_effect_update_flag) = 1;
     switch (phase_index) {
     case 3:
     case 7:
@@ -220,7 +220,7 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     s32 ticks_left;
 
     ticks_left = ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s;
-    ((s16 *)D_800261B0)[0] = 1;
+    ((s16 *)linked_effect_update_flag)[0] = 1;
     ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
     brightness = ((s16)((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s << 7) /
@@ -249,7 +249,7 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
     remainingTicks = fadeState->unk_3A - 1;
     brightness = (s32)((s32)(remainingTicks << 0x10) >> 9) /
                  (s16)fadeState->unk_3C;
-    (*(s16 *)D_800261B0) = 1;
+    (*(s16 *)linked_effect_update_flag) = 1;
     fadeState->unk_3A = remainingTicks;
     primitive->unk_0E = (s8)brightness;
     primitive->unk_0D = (s8)brightness;
@@ -271,7 +271,7 @@ void fade_quad_vertex_colors(void *fade_data)
 
     fade = fade_data;
     ticks_left = ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s;
-    (*(s16 *)D_800261B0) = 1;
+    (*(s16 *)linked_effect_update_flag) = 1;
     ticks_left--;
     ((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
@@ -300,7 +300,7 @@ void advance_object_motion_and_animation(void *effect) {
     void *color_ptr;
 
     ticks_left = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A - 1;
-    ((s16 *)D_800261B0)[0] = 1;
+    ((s16 *)linked_effect_update_flag)[0] = 1;
     blend_ticks = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E;
     ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A = ticks_left;
     elapsed_ticks = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C - (s16) ticks_left;
@@ -348,7 +348,7 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
     ticks_left = *(u16 *)((u8 *)effect + 0x3A) - 1;
     intensity = ((s32)(ticks_left << 16) >> 9) /
             *(s16 *)((u8 *)effect + 0x3C);
-    (*(s16 *)D_800261B0) = 1;
+    (*(s16 *)linked_effect_update_flag) = 1;
     *(u16 *)((u8 *)effect + 0x3A) = ticks_left;
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
@@ -371,7 +371,7 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A1
     scaled_count = (s32)((s32)(count << 16) >> 9) / work->divisor;
     work->count = count;
     angle = obj->angle;
-    ((s16 *)D_800261B0)[0] = 1;
+    ((s16 *)linked_effect_update_flag)[0] = 1;
     obj->angle = angle + 0x190;
     obj->c2 = scaled_count;
     obj->c1 = scaled_count;
@@ -431,7 +431,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
         part->color.c.b = 0x80;
         part->color.c.g = 0x80;
         part->color.c.r = 0x80;
-        select_record_entry_and_value(part, D_800DEC00, 0);
+        select_record_entry_and_value(part, directional_sprite_entries, 0);
     }
 }
 
@@ -585,7 +585,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                         sprite->b = 0x80;
                         sprite->g = 0x80;
                         sprite->r = 0x80;
-                        *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                        *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                         (sprite->data) = task->data;
                     }
                 }
@@ -657,7 +657,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->b = 0x80;
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                                     (sprite->data) = task->data;
                                 }
                             }
@@ -706,7 +706,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->b = 0x80;
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                                     (sprite->data) = task->data;
                                 }
                             }
@@ -756,7 +756,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->b = 0x80;
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                                     (sprite->data) = task->data;
                                 }
 
@@ -809,7 +809,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                         sprite->b = 0x80;
                                         sprite->g = 0x80;
                                         sprite->r = 0x80;
-                                        *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                                        *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                                         (sprite->data) = task->data;
                                     }
 
@@ -862,7 +862,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                             sprite->b = 0x80;
                                             sprite->g = 0x80;
                                             sprite->r = 0x80;
-                                            *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
+                                            *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
                                             (sprite->data) = task->data;
                                         }
 
@@ -960,7 +960,7 @@ loop_1:
             /* fallthrough */
 
         case 4:
-            if (((s16 *)D_800261B0)[0] == 0) {
+            if (((s16 *)linked_effect_update_flag)[0] == 0) {
                 g_dungeon_status.active_actor = 0;
                 D_80082E86[0] = 0;
                 (*(u16 *)&g_dungeon_status.activity_counts.parts.pending_action_count)--;
@@ -968,7 +968,7 @@ loop_1:
                 D_800814A0[0].flags |= 0x8000;
                 break;
             }
-            ((s16 *)D_800261B0)[0] = 0;
+            ((s16 *)linked_effect_update_flag)[0] = 0;
             break;
 
         default:

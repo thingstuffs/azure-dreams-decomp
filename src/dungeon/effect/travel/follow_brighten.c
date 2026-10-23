@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Staged effect travel and impact with timed fading and owner completion tracking. */
 #include "modules/dungeon_ovl_18ac800.h"
 #include "shared/entity_height_offsets.h"
@@ -56,11 +57,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         ((MovingSprite *)part)->unk_1E = 0x555;
         ((MovingSprite *)part)->unk_1C = 0x555;
         ((MovingSprite *)part)->unk_08 = D_80026490;
-        ((SignedWordView *)D_80026470)->unk_00 = 0;
+        ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
         ((UnsignedWordView *)D_80026476)->unk_00 = 0;
-        ((UnsignedHalfView *)D_800265C0)->unk_00 = 0;
-        ((UnsignedByteView *)D_800265C4)->unk_00 = 0;
+        ((UnsignedHalfView *)row_quad_top_color)->unk_00 = 0;
+        ((UnsignedByteView *)row_quad_bottom_color)->unk_00 = 0;
         {
             u16 owner_flags = ((MovingActor *)owner)->unk_2A;
             *(u16 *)D_80026484 = 0x1010;
@@ -276,7 +277,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             break;
         }
         if (((MovingActor *)owner)->unk_60.p2 != 0) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
         ((MovingEffectState *)self)->unk_0A.u++;
     case 4:
@@ -314,7 +315,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         break;
 
     case 17:
-        if (D_80026472.value.s != 0) {
+        if (staged_fade_count.value.s != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -323,7 +324,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
     }
     {
         u16 frame = ((MovingEffectState *)self)->unk_18.u;
-        D_80026472.value.u = 0;
+        staged_fade_count.value.u = 0;
         ((MovingEffectState *)self)->unk_18.u = frame + 1;
     }
 }
@@ -338,11 +339,11 @@ void advance_object_and_global_counters(u16 *object)
     u16 object_count;
     s32 counter;
 
-    counter = D_80026472.value.u;
+    counter = staged_fade_count.value.u;
     object_count = object[13] + 1;
     counter++;
     object[13] = object_count;
-    D_80026472.value.u = counter;
+    staged_fade_count.value.u = counter;
     if ((s16)object_count >= 0x101) {
         object[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -15,7 +15,7 @@ extern s32 register_node();
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern M2C_UNK D_80024330[];
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CE28_0 {
     u8 pad_00[0x8];
@@ -90,7 +90,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
         component->unk_0E = 0x80;
         component->unk_0D = 0x80;
         component->unk_0C = 0x80;
-        select_record_entry_and_value(component, D_800DEAE0, 0);
+        select_record_entry_and_value(component, ribbon_sprite_entries, 0);
         component->unk_1E = 0x1800;
         component->unk_1C = 0x1800;
         component->unk_12 = 0x7E0B;

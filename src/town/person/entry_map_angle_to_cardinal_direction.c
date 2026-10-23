@@ -7,8 +7,8 @@ typedef struct {
 } Entry;
 
 extern s32 runtime_script_state[];
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 
 extern s32 map_angle_to_cardinal_direction(s32, void *);
 
@@ -27,7 +27,7 @@ void anyone_now_ang_get(s32 object_slot) {
             if (object_slot == 1) {
                 void *kind = *(void **)((u8 *)entry + 0x10);
 
-                if (kind != D_800C3174 && kind != D_800C321C) {
+                if (kind != message_motion_type_a && kind != message_motion_type_b) {
                     angle_raw = *(u16 *)(data + 0x10);
                 } else {
                     angle_raw = *(u16 *)(data + 0x72);

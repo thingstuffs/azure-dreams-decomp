@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
 #include "shared/entity.h"
@@ -645,7 +646,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(Ef
     owner->flags |= 0x8000;
     advance_sprite_animation_and_textures(sprite);
     if (sprite->flags & 0x6000) {
-        ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

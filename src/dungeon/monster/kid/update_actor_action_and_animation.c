@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
@@ -23,10 +25,10 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174218(void *, void *, void *, void *);
 
-extern u8 D_80171400[];
-extern u8 D_80175140[];
-extern u8 D_80175188[];
-extern u8 D_80175190[];
+extern u8 kid_action_resume_address[];
+extern u8 kid_direction_frames[];
+extern u8 kid_alt_spawn_direction_frames[];
+extern u8 kid_frame_set_4[];
 
 typedef struct S_80173A2C_0 {
     u8 pad_00[0x8C];
@@ -55,10 +57,10 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_80175188;
+        sprite->frameTable = kid_alt_spawn_direction_frames;
         actor = (EntityRec *)((u8 *)actor + 0x2A);
         select_sprite_entry(sprite,
-            D_80175188[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
+            kid_alt_spawn_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
             0);
         {
 
@@ -68,17 +70,17 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
         return;
 
     case 1:
-        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
-            sprite->frameTable = D_80175190;
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
+            sprite->frameTable = kid_frame_set_4;
             select_sprite_entry(sprite,
-                D_80175190[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kid_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
             if (sprite->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
                 controller_in = (u8 *)controller_in + 0x8C;
-                *(void **)controller_in = D_80171400;
+                *(void **)controller_in = kid_action_resume_address;
                 return;
             }
         } else {
@@ -124,30 +126,30 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
             }
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(actor, 1);
+                        clear_slots_of_type(actor, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
-            sprite->frameTable = D_80175190;
+            sprite->frameTable = kid_frame_set_4;
             select_sprite_entry(sprite,
-                D_80175190[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kid_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
             if (sprite->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
                 controller_in = (u8 *)controller_in + 0x8C;
-                *(void **)controller_in = D_80171400;
+                *(void **)controller_in = kid_action_resume_address;
                 return;
             }
         }
@@ -172,18 +174,18 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
         }
         motion->flags14 = 0;
         ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
-        sprite->frameTable = D_80175140;
+        sprite->frameTable = kid_direction_frames;
         select_sprite_entry(sprite,
-            D_80175140[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kid_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        actor->flags1C &= ~0x200;
+        actor->flags1C &= ~ACTOR_ASLEEP;
 
         controller_in = (u8 *)controller_in + 0x8C;
-        *(void **)controller_in = D_80171400;
+        *(void **)controller_in = kid_action_resume_address;
 
         return;
     }

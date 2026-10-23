@@ -27,7 +27,7 @@ typedef struct S_800A3918_2 {
 
 extern void *D_8008274C;
 extern s32 D_800C5100;
-extern union { s16 s; u16 u; } D_80100D8A;
+extern union { s16 s; u16 u; } town_display_offset;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
 void advance_animation_phase_and_frame(S_800A3918_0 *anim, s32 unused) {
@@ -55,16 +55,16 @@ void advance_animation_phase_and_frame(S_800A3918_0 *anim, s32 unused) {
         }
         break;
     case 1:
-        offset = D_80100D8A.s;
-        offset_bits = D_80100D8A.u;
+        offset = town_display_offset.s;
+        offset_bits = town_display_offset.u;
         if (offset < -0x1FFF) {
-            D_80100D8A.s = -0x2000;
+            town_display_offset.s = -0x2000;
         } else {
             anim->unk_12 -= 0x20;
             offset = offset_bits + anim->unk_12;
-            D_80100D8A.s = offset;
+            town_display_offset.s = offset;
             if (offset < -0x1FFF) {
-                D_80100D8A.s = -0x2000;
+                town_display_offset.s = -0x2000;
             }
         }
         if (anim->unk_14.s < 0x200) {

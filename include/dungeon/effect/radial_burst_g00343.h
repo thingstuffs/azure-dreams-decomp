@@ -61,7 +61,7 @@ extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s16);
 extern s32 D_800B63A8;
-extern s32 D_800DEC00;
+extern s32 directional_sprite_entries;
 
 /* Functions defined in this translation unit. */
 void spawn_randomized_radial_burst(MovingPosition *origin);

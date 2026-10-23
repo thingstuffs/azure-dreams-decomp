@@ -9,7 +9,7 @@ typedef struct {
 } S_80047EEC_D8;
 
 extern S_80047EEC_D8 sprite_resource_slots[6];
-extern u8 D_8014A000[];
+extern u8 dungeon_resource_buffer[];
 
 extern void *func_80047AB0(void *a0, s32 a1, s32 a2, s32 a3, void *a4);
 
@@ -29,6 +29,6 @@ void register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity)
 
     {
         s32 load_offset = (slot_index * 3 + 0x1D2) * 64;
-        func_80047AB0(entity, slot_index + 5, load_offset, 0xD, &D_8014A000);
+        func_80047AB0(entity, slot_index + 5, load_offset, 0xD, &dungeon_resource_buffer);
     }
 }

@@ -25,7 +25,7 @@ typedef struct {
 
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 extern LocalTable D_8016482C;
 void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
 extern s32 beldo_actor_nodes;
@@ -106,7 +106,7 @@ void create_forward_layered_sprite_pulse(void)
             sprite->clut = 0x7DCF;
             sprite->flags =
                 (u16)(sprite->flags | 0x100);
-            select_record_entry_and_value(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, ribbon_sprite_entries, 0);
         }
         effect_index += 1;
     } while (effect_index < 0x10);

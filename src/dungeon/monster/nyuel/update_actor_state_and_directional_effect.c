@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/nyuel.h"
 #include "shared/sprite_frame_state.h"
@@ -24,9 +25,9 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_801737C4(void *, void *, void *, void *);
 
-extern u8 D_80170E9C[];
-extern u8 D_80174EE0[];
-extern u8 D_80174F00[];
+extern u8 nyuel_action_resume_address[];
+extern u8 nyuel_frame_set_2[];
+extern u8 nyuel_frame_set_1[];
 
 /* Updates the actor state and selects its directional effect. */
 void update_actor_state_and_directional_effect(void *controller, void *context, SpriteFrameState *sprite, ActorRecord *actor)
@@ -45,7 +46,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
             return;
         }
 
-        initial_effects = D_80174F00;
+        initial_effects = nyuel_frame_set_1;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->frameTable = initial_effects;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
@@ -68,12 +69,12 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
                 return;
             }
 
-            if (((u32)actor->flags1C) & 0x100) {
+            if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(controller, context, sprite, actor);
                 return;
             }
 
-            if (((u32)actor->flags1C) & 0x80000) {
+            if (((u32)actor->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(controller, context, sprite, actor);
                 func_801737C4(controller, context, sprite, actor);
                 return;
@@ -99,12 +100,12 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
             }
         }
 
-        effect_table = D_80174EE0;
+        effect_table = nyuel_frame_set_2;
         sprite->frameTable = effect_table;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect_table[direction & 7], 0);
-        actor->flags1C &= ~0x200;
-        ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;
+        actor->flags1C &= ~ACTOR_ASLEEP;
+        ((S_80173564_0 *)controller)->unk_8C = nyuel_action_resume_address;
         break;
     default:
         return;

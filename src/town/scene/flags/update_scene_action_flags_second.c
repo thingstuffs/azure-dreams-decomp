@@ -14,14 +14,14 @@ extern s32 store_supplied_values(s32, s32);
 extern s32 call_helper_with_fixed_id_0x118a(s32);
 extern s32 func_800188CC(s32);
 extern s32 func_8001894C(s32);
-extern s16 D_80018AEA;
+extern s16 scene_request_flag_id;
 
 /* Update action flags from the active entry and check whether the action is allowed. */
 s32 update_scene_action_flags(s32 object, s32 context) {
     s32 action_allowed;
 
     store_supplied_values(object, context);
-    if (func_8001894C(D_80018AEA) == 0) {
+    if (func_8001894C(scene_request_flag_id) == 0) {
         call_helper_with_fixed_id_0x118a(F_sbs07_pad26);
         if (((S_func_804B80D0_1 *)
              ((D_80016000->unk_08 * 8) +

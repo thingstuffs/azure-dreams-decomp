@@ -8,7 +8,7 @@
 
 typedef struct RegistrationNode RegistrationNode;
 
-extern s32 D_80044BB0[3];
+extern s32 linked_sprite_renderer_address[3];
 
 typedef struct S_7FDD3A2C_0 {
     u8 pad_00[0xC];
@@ -33,7 +33,7 @@ void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s3
         object->unk_10 = object_value;
         ((ObjectNodeHeader *)object)->position->x.v = (s32) position->unk_00;
         ((ObjectNodeHeader *)object)->position->y.v = (s32) position->unk_04;
-        register_node(object, &D_80044BB0);
+        register_node(object, &linked_sprite_renderer_address);
         render_state = object->unk_0C;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;

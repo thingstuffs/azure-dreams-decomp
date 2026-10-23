@@ -7,7 +7,7 @@ struct ObjectPosition;
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
 
-extern u8  D_800DD0F8[];
+extern u8  return_magic_frames[];
 extern s8  D_80080AA0;
 extern s8  scene_music_hold;
 
@@ -27,8 +27,8 @@ s32 begin_selected_target_level_up(void *actor_state, s32 action_arg, void *spri
         *(s32 *)((char *)actor_state + 0x8C) = 0;
         select_nearby_target_and_initialize_slot((char *)actor_state - 0x20, action_arg, 8, 0x300);
         if (!(*(s32 *)((char *)target + 0x1C) & 0x100000)) {
-            *(u8 **)((char *)sprite + 0x2C) = D_800DD0F8;
-            set_sprite_animation_frame(sprite, D_800DD0F8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((char *)target + 0x2A) + 0x100)
+            *(u8 **)((char *)sprite + 0x2C) = return_magic_frames;
+            set_sprite_animation_frame(sprite, return_magic_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((char *)target + 0x2A) + 0x100)
                 >> 9) & 7], 1, 1);
         }
         play_sound_if_enabled(0x201);

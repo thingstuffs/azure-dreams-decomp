@@ -17,7 +17,7 @@ typedef struct S_80810F00_1 {
 } S_80810F00_1;
 void func_80058588(s32 value, s32 query, s32 key);               /* extern */
 s32 func_80071424();                             /* extern */
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Process an entry in state zero and propagate its linked status flag. */
 void process_entry_and_raise_object_flag(void *entry) {
@@ -32,7 +32,7 @@ void process_entry_and_raise_object_flag(void *entry) {
         if (((S_80810F00_1 *)flag_data)->unk_0C & 2) {
             flags = &entry_view[-1].unk_00;
             *flags = (u16) (entry_view[-1].unk_00 | 0x8000);
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
     }
 }

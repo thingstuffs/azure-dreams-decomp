@@ -25,12 +25,12 @@ void process_pending_resource_load(void)
 }
 
 void write_resource_command(s32 value, s32 command) {
-    D_800CFC24[3] = (s8)(value >> 8);
-    D_800CFC24[2] = value;
-    D_800CFC24[4] = (s8)(value >> 0x10);
-    D_800CFC24[5] = (s8)(value >> 0x18);
-    D_800CFC24[6] = command;
-    call_script(&D_800CFC24);
+    town_resource_command[3] = (s8)(value >> 8);
+    town_resource_command[2] = value;
+    town_resource_command[4] = (s8)(value >> 0x10);
+    town_resource_command[5] = (s8)(value >> 0x18);
+    town_resource_command[6] = command;
+    call_script(&town_resource_command);
 }
 
 void send_resource_command_23(s32 entry_index) {
@@ -140,7 +140,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     u32 mode_entry;
 
 
-    *(Callback *)(context + 0x10) = func_8008B9D8;
+    *(Callback *)(context + 0x10) = run_map_object_callback;
     register_node(context, &town_map_tag);
     transform = *(u8 **)(context + 8);
     display = *(u8 **)(context + 0xC);
@@ -187,7 +187,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
 }
 
-void func_8008B9D8(town_map_7FFEE278_S_8008B9D8_0 *object) {
+void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object) {
     object->unk_68((struct Struct_7FFEE2A0 *)object);
 }
 
@@ -212,8 +212,8 @@ void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA
     if ((s16) checked_object->unk_0A < 0) {
         checked_object->unk_0A = 0U;
         state->unk_68 = (s32 *)handle_town_map_input;
-        state->town_map_7FFEE2E4_unk_64.s = (s16) (s8) D_800CFC70[state->unk_66];
-        next_value = D_800CFC7C[state->unk_66];
+        state->town_map_7FFEE2E4_unk_64.s = (s16) (s8) town_map_state_ids[state->unk_66];
+        next_value = town_map_state_values[state->unk_66];
         state->town_map_7FFEE2E4_unk_64.u = 0x16;
         state->unk_6C = next_value;
     }
@@ -224,8 +224,8 @@ void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *s
     if ((s16)state->sub->unkA < 0) {
         state->sub->unkA = 0;
         state->unk68 = (void *)handle_town_map_input;
-        state->unk64 = (s8)D_800CFC70[state->unk66];
-        state->unk6C = D_800CFC7C[state->unk66];
+        state->unk64 = (s8)town_map_state_ids[state->unk66];
+        state->unk6C = town_map_state_values[state->unk66];
     }
 }
 
@@ -236,8 +236,8 @@ void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) 
     if ((s16)actor->sub->unk8 > 0) {
         actor->sub->unk8 = 0;
         actor->unk68 = (void *)handle_town_map_input;
-        actor->unk64 = D_800CFC70[actor->unk66];
-        actor->unk6C = D_800CFC7C[actor->unk66];
+        actor->unk64 = town_map_state_ids[actor->unk66];
+        actor->unk6C = town_map_state_values[actor->unk66];
     }
 }
 
@@ -246,8 +246,8 @@ void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object)
     if ((s16)object->sub->unk8 < 0) {
         object->sub->unk8 = 0;
         object->unk68 = (void *)handle_town_map_input;
-        object->unk64 = (s8)D_800CFC70[object->unk66];
-        object->unk6c = D_800CFC7C[object->unk66];
+        object->unk64 = (s8)town_map_state_ids[object->unk66];
+        object->unk6c = town_map_state_values[object->unk66];
     }
 }
 

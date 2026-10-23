@@ -28,12 +28,12 @@ extern void apply_conditional_actor_effect(void *, void *, void *, void *);
 extern s32 func_80172B8C(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
-extern s32 D_801719DC;
-extern u8 D_80174634[];
+extern s32 death_action_resume_address;
+extern u8 death_direction_frames[];
 extern u8 D_80174644[];
 extern u8 D_80174674[];
-extern u8 D_8017467C[];
-extern u8 D_80174684[];
+extern u8 death_frame_set_1[];
+extern u8 death_frame_set_2[];
 
 typedef struct S_801719DC_0 {
     u8 pad_00[0x8C];
@@ -90,10 +90,10 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         void *anim_table;
 
         advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);
-        if (entity_in->frameTable == D_80174684) {
+        if (entity_in->frameTable == death_frame_set_2) {
             return;
         }
-        anim_table = D_8017467C;
+        anim_table = death_frame_set_1;
         (entity_in->frameTable) = anim_table;
         select_sprite_entry(entity_in,
             ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
@@ -102,14 +102,14 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
     }
 
     if (((S_801719DC_1 *)actor_in)->unk_1C & 0x200) {
-        if (entity_in->frameTable == D_80174684) {
+        if (entity_in->frameTable == death_frame_set_2) {
             ((S_801719DC_0 *)motion_in)->unk_9A = 0xD;
             ((S_801719DC_0 *)motion_in)->unk_9B = 1;
             ((S_801719DC_0 *)motion_in)->unk_8C = 0;
             ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(motion_in, context_in, entity_in, D_8017467C) != 0) {
+        if (reset_actor_action_state(motion_in, context_in, entity_in, death_frame_set_1) != 0) {
             return;
         }
     }
@@ -132,7 +132,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             next_state = 0xE;
             if (current_state != next_state) {
                 current_anim = entity_in->frameTable;
-                anim_table = D_80174634;
+                anim_table = death_direction_frames;
                 if (current_anim != anim_table) {
                     (entity_in->frameTable) = anim_table;
                     select_sprite_entry(entity_in,
@@ -239,7 +239,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             player = primary_actor_record;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
             if (player->unk_9A == 0x11) {
-                begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+                begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &death_action_resume_address);
                 return;
             }
         }
@@ -251,7 +251,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+            begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &death_action_resume_address);
             return;
 
         case 3:
@@ -289,7 +289,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         return;
     }
     {
-        void *anim_table = D_80174634;
+        void *anim_table = death_direction_frames;
         s32 motion_value;
 
         if (entity_in->frameTable != anim_table) {

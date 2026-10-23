@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -79,7 +80,7 @@ void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *
         appearance->unk_1E = next_scale;
         appearance->unk_1C = next_scale;
     }
-    if ((get_entity_effect_value(source, 0x1D) << 0x10) == 0) {
+    if ((get_entity_effect_value(source, STATUS_DAMAGE_GUARD) << 0x10) == 0) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

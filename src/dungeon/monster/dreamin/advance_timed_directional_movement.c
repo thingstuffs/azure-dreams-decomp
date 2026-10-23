@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/dreamin.h"
 #include "shared/sprite_frame_state.h"
@@ -22,7 +23,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 D_80170E68;
-extern u8 D_80173874[];
+extern u8 dreamin_frame_set_1[];
 
 /* Updates timed directional movement and settles the entity at its grid position. */
 void advance_timed_directional_movement(void *action, void *motion, SpriteFrameState *sprite, void *entity)
@@ -56,7 +57,7 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            begin_actor_display_action(action, motion, sprite, D_80173874);
+            begin_actor_display_action(action, motion, sprite, dreamin_frame_set_1);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -73,9 +74,9 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
             return;
         }
 
-        sprite->frameTable = D_80173874;
+        sprite->frameTable = dreamin_frame_set_1;
         select_sprite_entry(sprite,
-            D_80173874[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            dreamin_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
 
         direction_x_table = (s16 *)((s8 *)dir_step_x);
@@ -86,7 +87,7 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
             *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 19;
 
         duration = -1;
-        if (((EntityRec *)entity)->flags1C & 0x228) {
+        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             duration = 8;
         }
         ((S_80172D24_1 *)action)->unk_96.s = duration;
@@ -123,7 +124,7 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            begin_actor_display_action(action, motion, sprite, D_80173874);
+            begin_actor_display_action(action, motion, sprite, dreamin_frame_set_1);
         } else {
             duration = 8;
             timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;

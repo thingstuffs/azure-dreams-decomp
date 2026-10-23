@@ -4,7 +4,7 @@ extern s32 count_free_item_slots();
 extern void resolve_entry_flag();
 extern s32 apply_entry_position();
 extern s32 D_8001BB4C[];
-extern s32 D_8001C354;
+extern s32 scene_dispatch_context;
 extern s32 D_8001FAE8[];
 
 /* Processes a request by mode, returning a fallback pointer if the mode 7 check fails. */
@@ -16,7 +16,7 @@ s32 dispatch_request_by_mode(s32 request, s32 unused, s32 mode) {
 
     saved_mode = mode;
     data_base = D_8001BB4C;
-    result = apply_entry_position(data_base, &D_8001C354, saved_request, saved_mode);
+    result = apply_entry_position(data_base, &scene_dispatch_context, saved_request, saved_mode);
     if (saved_mode == 7) {
         if (count_free_item_slots() != 0) {
             return result;

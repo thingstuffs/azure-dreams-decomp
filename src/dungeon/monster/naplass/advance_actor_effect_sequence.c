@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -108,7 +110,7 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
         }
         if (g_dungeon_status.flags & 0x1000)
             return;
-        if ((get_entity_effect_value(actor_state, 1) << 0x10) == 0) {
+        if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 0x10) == 0) {
             sprite->frameTable = D_801741E4;
             select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
@@ -119,7 +121,7 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
                     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
                     return;
                 }
-                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~ACTOR_ASLEEP);
                 ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
                 return;
             }
@@ -167,30 +169,30 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
         }
         update_actor_status_and_mp(actor_state);
         on_actor_status_updated(actor_state);
-        if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0) {
+        if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 0x10) != 0) {
             player_sprite = &reference_tile_object;
             region_id = *(s8 *)&sprite->unk_26;
             if (region_id == player_sprite->room_index && region_id >= 0) {
                 if (!(generate_random_value() & 7)) {
-                    clear_slots_of_type(actor_state, 1);
+                    clear_slots_of_type(actor_state, STATUS_SLEEP);
                 }
             } else if (get_tile_chebyshev_distance(player_sprite, sprite) < 2) {
                 if (!(generate_random_value() & 7)) {
-                    clear_slots_of_type(actor_state, 1);
+                    clear_slots_of_type(actor_state, STATUS_SLEEP);
                 }
             }
             if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
-                clear_slots_of_type(actor_state, 1);
+                clear_slots_of_type(actor_state, STATUS_SLEEP);
             }
         }
-        if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0)
+        if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 0x10) != 0)
             return;
         sprite->frameTable = D_801741E4;
         select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         if (sprite->flags & 0x8000) {
             if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) {
-                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+                ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~ACTOR_ASLEEP);
                 ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
                 return;
             }
@@ -254,7 +256,7 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
             ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = NULL;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
+        ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~ACTOR_ASLEEP);
         effect_flags = ((Rec_func_801732A4_arg0 *)actor)->unk_98;
         if (effect_flags & 0x8000) {
             ((Rec_func_801732A4_arg0 *)actor)->unk_98 = (u16)(effect_flags & 0x7FFF);

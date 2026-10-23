@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -66,8 +68,8 @@ extern void create_actor_linked_effect(void *);
 extern void *create_directional_render_object(void *, void *, void *);
 
 extern s32 D_800814A0;
-extern u8 D_80171094[];
-extern u8 D_80176460[];
+extern u8 cyclone_action_resume_address[];
+extern u8 cyclone_move_direction_frames[];
 extern u8 D_80176490[];
 extern u8 D_80176498[];
 
@@ -88,7 +90,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
     is_special = 0;
     switch (state) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             s32 effect_kind;
 
             effect_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
@@ -183,7 +185,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
+        ((S_80172FC0_0 *)anim)->unk_8C = cyclone_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -260,7 +262,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
                 }
             }
             ((S_80172FC0_0 *)anim)->unk_98 |= 8;
-            actor->flags1C &= 0xBFFFFFFF;
+            actor->flags1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
             sprite->frameTable = D_80176490;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             frame = D_80176490[direction];
@@ -378,13 +380,13 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
         set_record_integer_tile_center(transform_arg, sprite->unk_24, sprite->unk_25);
         ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x40000000;
-        if (sprite->frameTable != D_80176460) {
+        actor->flags1C |= ACTOR_REFRESH_GROUND;
+        if (sprite->frameTable != cyclone_move_direction_frames) {
             s32 direction;
 
-            (sprite->frameTable) = D_80176460;
+            (sprite->frameTable) = cyclone_move_direction_frames;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-            select_sprite_entry(sprite, D_80176460[direction], 0);
+            select_sprite_entry(sprite, cyclone_move_direction_frames[direction], 0);
         }
         {
 
@@ -393,7 +395,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
+        ((S_80172FC0_0 *)anim)->unk_8C = cyclone_action_resume_address;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         advance_status_timers(actor);
@@ -401,7 +403,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         actor->target_tile_x = 0;
         actor->pending_turn_updates--;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     default:
         return;
     }

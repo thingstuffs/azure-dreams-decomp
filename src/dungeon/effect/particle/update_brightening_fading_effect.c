@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
 #include "modules/dungeon_ovl_197e800.h"
 #include "shared/object_node.h"
@@ -56,7 +57,7 @@ void update_directional_actor_effect(void *object)
     switch (state) {
     case 0:
         row_index = 0;
-        D_800273BC.value = 1;
+        brightening_effect_update_count.value = 1;
         config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
         D_80027328 = 0;
         source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
@@ -114,12 +115,12 @@ void update_directional_actor_effect(void *object)
         if (((S_8002401C_0 *)object_bytes)->unk_1C.s >= 0) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
                             /* fallthrough */
 
     case 3:
-        if ((s16)D_800273BC.value == 0) {
+        if ((s16)brightening_effect_update_count.value == 0) {
             restore_saved_map_tile_region();
             ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         }
@@ -1659,12 +1660,12 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
         fade_out_ticks = (u16)((S_81960CD4_1 *)quad)->unk_4C - 1;
         ((S_81960CD4_1 *)quad)->unk_4C = fade_out_ticks;
         if ((fade_out_ticks << 0x10) <= 0) {
-            remaining_count = *(s16 *)((u16 *)&D_800273BC);
+            remaining_count = *(s16 *)((u16 *)&brightening_effect_update_count);
             if (remaining_count != 0) {
-                effect_count = D_800273BC.value - 1;
-                (*(u16 *)((u16 *)&D_800273BC)) = effect_count;
+                effect_count = brightening_effect_update_count.value - 1;
+                (*(u16 *)((u16 *)&brightening_effect_update_count)) = effect_count;
                 if ((s16)effect_count == 1) {
-                    (*(u16 *)((u16 *)&D_800273BC)) = 0U;
+                    (*(u16 *)((u16 *)&brightening_effect_update_count)) = 0U;
                 }
             }
             ((S_81960CD4_1_pre *)quad)[-1].unk_00 = (u16)(((S_81960CD4_1_pre *)quad)[-1].unk_00 | 0x8000);
@@ -1884,7 +1885,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         ((TempOutput *)quad)->fieldB = height_tr;
         ((TempChild *)height_or_child)->field8 = quad;
         ((TempOutput *)quad)->field4C = 8;
-        (*(s16 *)((s16 *)&D_800273BC)) = (s16) ((*(u16 *)((s16 *)&D_800273BC)) + 1);
+        (*(s16 *)((s16 *)&brightening_effect_update_count)) = (s16) ((*(u16 *)((s16 *)&brightening_effect_update_count)) + 1);
     }
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -2048,7 +2049,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
 #endif
 
 extern s32 D_800273B0;
-extern u8 D_800CEEFC[];
+extern u8 linked_mesh_processor_address[];
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
 void *allocate_nine_position_objects(void *position)
@@ -2078,7 +2079,7 @@ void *allocate_nine_position_objects(void *position)
         object = allocate_flagged_object_node(2);
         if (object != NULL) {
             object->unk_10 = object_handler;
-            register_node(object, &D_800CEEFC);
+            register_node(object, &linked_mesh_processor_address);
             positions = object->position;
             pos_x = source_pos->unk_02;
             state = ((void *)object) + 0x20;

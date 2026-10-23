@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern char D_8001B14C[];
+extern char scene_string_fallback[];
 extern char D_8001BCB4[];
-extern char D_8001C6D0[];
+extern char event_string_fallback[];
 extern char D_80021484[];
 
 extern char *award_next_unearned_milestone(s32, s32, s32, s32);
@@ -28,8 +28,8 @@ char *select_response_string_triggers_event(s32 unused, s32 passthru_1, s32 sele
     case 42:
         return award_next_unearned_milestone(selector_id, passthru_1, arg2_val, passthru_3);
     case 0:
-        return D_8001C6D0;
+        return event_string_fallback;
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

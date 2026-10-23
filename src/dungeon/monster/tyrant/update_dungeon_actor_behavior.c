@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -31,8 +32,8 @@ extern s32 func_80172228(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
 extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, void *, void *, void *);
 
-extern s32 D_80170F68;
-extern u8 D_80173FB8[];
+extern s32 tyrant_action_resume_address;
+extern u8 tyrant_direction_frames[];
 extern u8 D_80173FC0[];
 extern u8 D_80173FF0[];
 extern u8 D_80173FF8[];
@@ -84,7 +85,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
         return;
     }
 
-    if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x200) {
+    if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_ASLEEP) {
         if (map_object_arg->frameTable == D_80174000) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
@@ -98,7 +99,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x100) {
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
@@ -106,7 +107,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
         if (((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 != 0xE) {
             u8 next_state = 0xE;
 
-            anim_table = D_80173FB8;
+            anim_table = tyrant_direction_frames;
             if (map_object_arg->frameTable != anim_table) {
                 (map_object_arg->frameTable) = anim_table;
                 select_sprite_entry(map_object_arg,
@@ -124,7 +125,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
             }
         }
 
-        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x80000) {
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, map_object_arg, actor_state_arg);
             func_80173900(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
@@ -140,7 +141,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
     map_object_arg->unk_26 = tile_id;
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
-        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x20) {
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_state_arg);
             return;
         }
@@ -189,7 +190,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
                 player = primary_actor_record;
                 ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
+                    begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
                     return;
                 }
             }
@@ -200,17 +201,17 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
+            begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
             return;
         default:
             update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
-    } else if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x2000)) {
+    } else if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_PLAYER_SIDE)) {
         s32 record_index = (s8)tile_id;
 
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
-            if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x430)) {
+            if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((s16)test_neighbor_position_relation(map_object_arg->unk_24,
                         map_object_arg->unk_25, reference_tile_object.tile_position.parts.tile_x,
@@ -231,7 +232,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
     if (map_object_arg->flags & 0x40) {
         return;
     }
-    anim_table = D_80173FB8;
+    anim_table = tyrant_direction_frames;
     if (map_object_arg->frameTable == anim_table) {
         return;
     }

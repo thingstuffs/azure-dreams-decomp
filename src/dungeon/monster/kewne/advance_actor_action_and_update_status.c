@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -16,9 +17,9 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_actor_state_after_map_check(void *, void *, SpriteFrameState *, void *);
 
-extern s32 D_801710EC;
-extern u8 D_80175EA0[];
-extern u8 D_80175EC0[];
+extern s32 kewne_action_resume_address;
+extern u8 kewne_frame_set_1[];
+extern u8 kewne_frame_set_2[];
 
 typedef struct S_80174214_0 {
     u8 pad_00[0x8C];
@@ -50,7 +51,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_anims = D_80175EA0;
+        direction_anims = kewne_frame_set_1;
         if (animation->frameTable != direction_anims) {
             (animation->frameTable) = direction_anims;
             select_sprite_entry(animation,
@@ -66,9 +67,9 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
 
         if (((ActorRecord *)entity)->mp != 0) {
 
-            (animation->frameTable) = D_80175EC0;
+            (animation->frameTable) = kewne_frame_set_2;
             select_sprite_entry(animation,
-                D_80175EC0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
+                kewne_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((ActorRecord *)entity)->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -126,9 +127,9 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
             return;
         }
 
-        (animation->frameTable) = D_80175EC0;
+        (animation->frameTable) = kewne_frame_set_2;
         select_sprite_entry(animation,
-            D_80175EC0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
+            kewne_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((ActorRecord *)entity)->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -139,8 +140,8 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
         if (animation->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((ActorRecord *)entity)->flags1C &= ~8;
-            ((S_80174214_0 *)actor)->unk_8C = &D_801710EC;
+            ((ActorRecord *)entity)->flags1C &= ~ACTOR_MP_EMPTY;
+            ((S_80174214_0 *)actor)->unk_8C = &kewne_action_resume_address;
         }
 
         return;

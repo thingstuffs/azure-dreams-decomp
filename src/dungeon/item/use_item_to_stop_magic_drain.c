@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -43,8 +45,8 @@ s32 use_item_to_stop_magic_drain(void *target, s32 item, s16 message_kind)
          * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
          * test.
          */
-        if (set_or_clear_actor_status_slot(target, 0x20, 0x10) << 16) {
-            if (*(s32 *)((u8 *)target + 0x14) & 0x4000) {
+        if (set_or_clear_actor_status_slot(target, STATUS_NO_MP_DRAIN, 0x10) << 16) {
+            if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(target, D_800E104E);
             }
         }

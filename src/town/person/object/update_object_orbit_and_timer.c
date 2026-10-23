@@ -6,7 +6,7 @@ extern s32 rcos(s32 angle);
 extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
 extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
 
-extern u8 D_800CFCB4[];
+extern u8 town_actor_control[];
 
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -33,7 +33,7 @@ void update_object_orbit_and_timer(void *object, void *position, s32 update_arg,
         rcos(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84)) -
         U16_AT(object, 0x84);
 
-    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, D_800CFCB4);
+    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, town_actor_control);
     if (motion_entry != 0 && (axis = motion_entry[0]) != 2) {
         if (axis == 0) {
             S32_AT(position, 0) -= motion_entry[1];

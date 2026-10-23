@@ -19,7 +19,7 @@ typedef struct S_80814610_1 {
 
    /* the 0x2 bytes before arg0 in update_motion_and_brightness, addressed as arg0[-1] */
 void func_8003EA54(void *);                 /* extern */
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Updates motion and brightness, processes the visual, and marks flagged objects. */
 void update_motion_and_brightness(void *object, void *motion, void *visual) {
@@ -40,6 +40,6 @@ void update_motion_and_brightness(void *object, void *motion, void *visual) {
     func_8003EA54(visual);
     if (((S_80814610_1 *)visual)->unk_14 & 0x6000) {
         (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

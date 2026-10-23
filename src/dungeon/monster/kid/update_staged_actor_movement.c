@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
@@ -64,11 +65,11 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 D_800DEC28[];
+extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
-extern u8 D_80171400[];
+extern u8 kid_action_resume_address[];
 extern u8 D_801743EC[];
-extern u8 D_80175148[];
+extern u8 kid_alt_direction_frames[];
 extern u8 D_80175160[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
@@ -159,7 +160,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
                 (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
                 (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
                 (*(s16 *)((u8 *)sprite + 0x10)) = 0x60;
-                sprite_data = D_800DEC28;
+                sprite_data = directional_effect_entries;
                 (*(void **)((u8 *)sprite + 0)) = sprite_data;
                 (*(u16 *)((u8 *)sprite + 0x14)) |= 0xC;
                 sprite_params = *(s32 *)(sprite_data + 4);
@@ -192,7 +193,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
             motion->velocity_x = (-x_step) << 0x12;
             motion->velocity_y = (-y_step) << 0x12;
             ((S_80172790_1 *)action)->unk_98 |= 8;
-            ((S_80172790_0 *)actor)->unk_1C &= 0xF7FFFFFF;
+            ((S_80172790_0 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
             ((S_80172790_0 *)actor)->unk_1C &= 0xFFFBFFFF;
             ((S_80172790_1 *)action)->unk_96.s = 4;
             motion->velocity_z = 0xFFFC0000;
@@ -274,14 +275,14 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_80172790_1 *)action)->unk_8C = D_80171400;
+        ((S_80172790_1 *)action)->unk_8C = kid_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         motion->velocity_z = 0;
         ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;
-        ((S_80172790_0 *)actor)->unk_1C |= 0x08000000;
+        ((S_80172790_0 *)actor)->unk_1C |= ACTOR_GROUNDED;
         ((S_80172790_1 *)action)->unk_A8 = 7;
-        idle_frames = D_80175148;
+        idle_frames = kid_alt_direction_frames;
         (tile->frameTable) = idle_frames;
         idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;

@@ -24,7 +24,7 @@ typedef struct S_8016F5D8_2 {
 
 
 s32 rsin();                        /* extern */
-extern M2C_UNK D_80173DA4;
+extern M2C_UNK beldo_large_frame_set_8;
 extern M2C_UNK D_80173DB4;
 extern u8 *beldo_script_node;
 
@@ -40,7 +40,7 @@ void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output
     s16 signed_count;
 
     command_table = command->unk_2C;
-    if (command_table == &D_80173DA4) {
+    if (command_table == &beldo_large_frame_set_8) {
         if (command->unk_04 == 0x100) {
             state->unk_9E = 0U;
             state->unk_A0.at00.v = 0;

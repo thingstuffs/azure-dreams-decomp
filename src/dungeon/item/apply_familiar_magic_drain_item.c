@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -42,7 +44,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
         }
         flag_test = saved_flag;
         if (flag_test != 0) {
-            entity->flags1C = (u32) (((u32)entity->flags1C) | 8);
+            entity->flags1C = (u32) (((u32)entity->flags1C) | ACTOR_MP_EMPTY);
         }
         flags = ((u32)entity->flags1C);
         (*(s16 *)&entity->tileX) = 0;
@@ -57,7 +59,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
             counter_page->activity_counts.parts.pending_action_count = (u16) (*(u16 *)&counter_page->activity_counts.parts.pending_action_count + 1);
         }
         play_sound_if_enabled(0x51E);
-        if (entity->flags14 & 0x4000) {
+        if (entity->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E17C6);
         }
         clear_slot_and_update_linked_state(action);

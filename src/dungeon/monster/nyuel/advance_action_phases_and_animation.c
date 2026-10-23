@@ -16,7 +16,7 @@ void spend_actor_mp();
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);
 extern u8 D_80174F30;
 extern u8 D_80174F38;
-extern u8 D_80174F40;
+extern u8 nyuel_frame_set_4;
 
 typedef struct S_80172524_0 {
     u8 pad_00[0x8C];
@@ -91,9 +91,9 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = &D_80174F40;
+        sprite->frameTable = &nyuel_frame_set_4;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-            + &D_80174F40), 0);
+            + &nyuel_frame_set_4), 0);
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         ((S_80172524_0 *)action)->unk_9B.n = 5U;
         ((S_80172524_0 *)action)->unk_96.u = 0;
@@ -120,9 +120,9 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = (u8 *)&D_80174F40;
+        sprite->frameTable = (u8 *)&nyuel_frame_set_4;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
-            >> 9) & 7) + (u32)&D_80174F40), 0);
+            >> 9) & 7) + (u32)&nyuel_frame_set_4), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
     case 5:

@@ -21,7 +21,7 @@ typedef struct {
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
 extern u8 D_80174AA4[];
-extern u8 D_80174AAC[];
+extern u8 viper_frame_set_3[];
 extern u8 D_80170E94[];
 extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
@@ -221,8 +221,8 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         if (!(animation->flags & 0xE000)) {
             return;
         }
-        animation->frameTable = D_80174AAC;
-        select_sprite_entry(animation, D_80174AAC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        animation->frameTable = viper_frame_set_3;
+        select_sprite_entry(animation, viper_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
@@ -230,8 +230,8 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         if (!(animation->flags & 0xE000)) {
             return;
         }
-        animation->frameTable = D_80174AAC;
-        select_sprite_entry(animation, D_80174AAC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        animation->frameTable = viper_frame_set_3;
+        select_sprite_entry(animation, viper_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->flags & 0x8000) {
             set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         }

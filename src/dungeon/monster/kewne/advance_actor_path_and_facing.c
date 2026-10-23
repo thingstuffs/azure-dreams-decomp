@@ -29,7 +29,7 @@ extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
-extern u8 D_80175E40[];
+extern u8 kewne_direction_frames[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
 void advance_actor_path_and_facing(void *motion, s32 unused, SpriteFrameState *actor, void *path_state)
@@ -49,11 +49,11 @@ void advance_actor_path_and_facing(void *motion, s32 unused, SpriteFrameState *a
     }
 
     direction_table = *(u8 **)&actor->frameTable;
-    if (direction_table != D_80175E40) {
-        (actor->frameTable) = D_80175E40;
+    if (direction_table != kewne_direction_frames) {
+        (actor->frameTable) = kewne_direction_frames;
         select_sprite_entry(
             actor,
-            D_80175E40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            kewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

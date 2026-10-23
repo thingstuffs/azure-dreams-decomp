@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 /* Projectile launch and impact sequencing, damped motion, and delayed sprite fading. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -267,7 +268,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
         return;
     case 1:
         distance_x = 0x14;
-        trail_texture = D_800DEC28;
+        trail_texture = directional_effect_entries;
 spawn_trail:
         object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
         if (object != 0) {
@@ -359,7 +360,7 @@ spawn_trail:
             sprite_flags = ((S_8182C800_6 *)sprite_or_step_x)->unk_14;
             if (sprite_flags & 0x6000) {
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = (u16) (sprite_flags & 0x9FFF);
-                flight_texture = D_800DEC00;
+                flight_texture = directional_sprite_entries;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = flight_texture;
                 flight_tpage = ((S_8182C800_16 *)flight_texture)->unk_04;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
@@ -434,7 +435,7 @@ spawn_trail:
                         burst_sprite->scale_y = 0x800;
                         burst_sprite->scale_x = 0x800;
                         burst_sprite->tpage_abr = 0x20;
-                        burst_texture = D_800DEC28;
+                        burst_texture = directional_effect_entries;
                         burst_sprite->unk_00 = burst_texture;
                         burst_sprite->flags = (u16) (burst_sprite->flags | 0xC);
                         burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
@@ -467,7 +468,7 @@ spawn_trail:
             return;
         }
         g_dungeon_status.active_actor = 0;
-        ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags | 0x8000);
+        ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags | NODE_REMOVE);
         ((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 =
             (s32) (((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
         return;

@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
@@ -28,7 +29,7 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
             return;
         }
 
-        if ((get_entity_effect_value(target, 1) << 16) == 0) {
+        if ((get_entity_effect_value(target, STATUS_SLEEP) << 16) == 0) {
             if (!(flags->flags & 0x2000)) {
                 if (*(s32 *)(target + 0x1C) & 0x100) {
                     begin_pushed_actor_move(actor, action_context, destination, target);

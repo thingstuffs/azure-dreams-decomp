@@ -44,7 +44,7 @@ extern void set_linked_object_and_global_flags(void);
 
 extern u8 D_800D231C[];
 extern u8 D_800D2324[];
-extern u8 D_800F15AC[];
+extern u8 map_animation_sprite_entries[];
 extern u16 D_80113138[];
 
 /* Update motion, spawn particles, and flash then restore the palette. */
@@ -90,7 +90,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
                 sprite->flags |= 0xC;
-                select_record_entry_and_value(sprite, D_800F15AC, 0);
+                select_record_entry_and_value(sprite, map_animation_sprite_entries, 0);
                 sprite->color.word = 0x606060;
             }
             index--;

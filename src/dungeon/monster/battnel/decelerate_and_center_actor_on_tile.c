@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -20,7 +21,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170E5C[];
+extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 extern s32 D_80173D24;
 
@@ -70,7 +71,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
         }
 
         timer = -1;
-        if (actor->flags1C & 0x228) {
+        if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         ((S_80172EF4_1 *)action)->unk_96.s = timer;
@@ -143,7 +144,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
         if (actor_ref == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = actor_ref & 0x7FFFFFFF;
         }
-        ((S_80172EF4_1 *)action)->unk_8C = D_80170E5C;
+        ((S_80172EF4_1 *)action)->unk_8C = battnel_action_resume_address;
         return;
 
     default:

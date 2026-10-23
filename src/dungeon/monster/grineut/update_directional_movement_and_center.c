@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/grineut.h"
 #include "shared/sprite_frame_state.h"
@@ -55,7 +56,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
             break;
         }
 
-        if (((u32)entity->flags1C) & 0x228) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

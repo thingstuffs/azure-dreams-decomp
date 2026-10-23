@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/level/scripted_boundary.h"
 #include "shared/dungeon_floor.h"
@@ -37,7 +38,7 @@ extern u8 D_800E2358[];
 extern u8 baloon_attack_frames;
 extern u8 D_800E23A0[];
 extern u8 D_800E23A8[];
-extern s32 D_80171F1C;
+extern s32 baloon_action_resume_address;
 
 typedef struct S_80171F1C_0 {
     u8 pad_00[0x8C];
@@ -86,7 +87,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         return;
     }
 
-    if (((u32)move_data->flags1C) & 0x200) {
+    if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
         if (actor_arg->frameTable == D_800E23A8) {
             ((S_80171F1C_0 *)motion_arg)->unk_9A = 0xD;
             ((S_80171F1C_0 *)motion_arg)->unk_9B = 1;
@@ -100,7 +101,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)move_data->flags1C) & 0x100) {
+        if (((u32)move_data->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
         }
@@ -136,7 +137,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
             }
         }
 
-        if (((u32)move_data->flags1C) & 0x80000) {
+        if (((u32)move_data->flags1C) & ACTOR_LIFTED) {
             s16 base_height;
 
             begin_actor_move_to_target_facing(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -157,7 +158,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
     actor_arg->unk_26 = room_id;
 
     if (move_data->unk_6D > 0) {
-        if (((u32)move_data->flags1C) & 0x20) {
+        if (((u32)move_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(move_data);
             return;
         }
@@ -198,7 +199,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 return;
 
             case 9:
-                if (!(((u32)move_data->flags1C) & 0x20000)) {
+                if (!(((u32)move_data->flags1C) & ACTOR_PLAYER_AWARE)) {
                     update_actor_status_and_mp(move_data);
                     return;
                 }
@@ -219,7 +220,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 player = primary_actor_record;
                 move_data->facing = heading;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &D_80171F1C);
+                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &baloon_action_resume_address);
                     return;
                 }
             }
@@ -231,7 +232,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &D_80171F1C);
+                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &baloon_action_resume_address);
                 return;
 
             case 4:
@@ -244,11 +245,11 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         return;
     }
 
-    if (!(((u32)move_data->flags1C) & 0x2000)) {
+    if (!(((u32)move_data->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)move_data->flags1C) & 0x430)) {
+            if (!(((u32)move_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         actor_arg->unk_24, actor_arg->unk_25,

@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 /* Kewne actor creation, script triggers, movement, and animation. */
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 #include "shared/entity.h"
@@ -16,8 +17,8 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     entity = NULL;
     parent = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (parent != NULL) {
-        if (D_800FBE1C[0] == 0) {
-            D_800FBE1C[0] = parent;
+        if (active_action_object[0] == 0) {
+            active_action_object[0] = parent;
         }
         entity = (Func812A5000Entity *)((u8 *)parent + 0x20);
         parent->unk_10 = update_actor_scripts_and_motion;
@@ -27,7 +28,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         position = *(Func812A5000Child * *)&parent->position;
         tile_state->unk_24 = tile_x;
         tile_state->unk_25 = tile_y;
-        tile_state->frameTable = D_80175C30;
+        tile_state->frameTable = kewne_uncached_frame_set_1;
         position->x.w.i = (s16)((tile_state->unk_24 << 6) + 0x20);
         position->y.w.i = (s16)((tile_state->unk_25 << 6) + 0x20);
         position->z.w.i = height;
@@ -38,7 +39,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
         entity->field9A = 0xFF;
         entity->field9C = -1;
-        entity->field8C = D_80171FA4;
+        entity->field8C = kewne_uncached_action_resume_address;
         entity->field92 = -0x20;
         entity->field13 = 0x39;
         entity->field1C |= 0x40000;
@@ -141,12 +142,12 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
     facing_map = *facing_map_src;
     flag_base = &g_game_work;
     facing_lookup = (u16 *)&facing_map;
-    if (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s != ((S_812A524C_1 *)(&D_800FBE20))->unk_00.s) {
-        ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u;
+    if (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s != ((S_812A524C_1 *)(&script_motion_phase))->unk_00.s) {
+        ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&script_motion_phase))->unk_00.u;
     }
-    if (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s
+    if (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s
         != ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A) {
-        ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u =
+        ((S_812A524C_1 *)(&script_motion_phase))->unk_00.u =
             (u16) ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
     }
     action_state = ((S_812A524C_3 *)actor_in)->unk_B8;
@@ -173,14 +174,14 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
         ((S_812A524C_3 *)actor_in)->unk_B0 = (s32) (((S_812A524C_3 *)actor_in)->unk_B0 | 0x20000);
     }
     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20000)) {
-        if (((S_812A524C_5 *)(&D_800FBE54))->unk_00 != NULL) {
-            set_or_clear_actor_status_slot(((S_812A524C_5 *)(&D_800FBE54))->unk_00 + 0x20, 1, 0xA);
+        if (((S_812A524C_5 *)(&scripted_status_target))->unk_00 != NULL) {
+            set_or_clear_actor_status_slot(((S_812A524C_5 *)(&scripted_status_target))->unk_00 + 0x20, STATUS_SLEEP, 0xA);
         }
     } else {
-        object_addr = (s32) ((S_812A524C_5 *)(&D_800FBE54))->unk_00;
+        object_addr = (s32) ((S_812A524C_5 *)(&scripted_status_target))->unk_00;
         if (object_addr != 0) {
-            clear_slots_of_type(object_addr + 0x20, 1);
-            ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = NULL;
+            clear_slots_of_type(object_addr + 0x20, STATUS_SLEEP);
+            ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = NULL;
         }
     }
     if (!(((S_812A524C_6 *)(&system_update_flags))->unk_00 & 1)) {
@@ -203,7 +204,7 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                         if (facing_actor->unk_9A == 0xE) {
                             facing_actor->unk_2A = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
                         }
-                        ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = find_linked_entity_of_type_21(entity);
+                        ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_linked_entity_of_type_21(entity);
                     }
                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20)) {
@@ -227,9 +228,9 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                                 && ((((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1B)
                                     || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
                                     || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x20)
-                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1B)
-                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1F)
-                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x20))) {
+                                    || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x1B)
+                                    || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x1F)
+                                    || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x20))) {
                                 enqueue_runtime_pool_script(&D_8006F9D0);
                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -526,17 +527,17 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                                                                             if (((S_812A524C_3 *)actor_in)->unk_B8
                                                                                 == 0) {
                                                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x10000)) {
-                                                                                    if (((S_812A524C_5 *)(&D_800FBE54))->unk_00
+                                                                                    if (((S_812A524C_5 *)(&scripted_status_target))->unk_00
                                                                                         == NULL) {
                                                                                         nearby_object =
                                                                                             find_linked_entity_of_type_21(entity);
-                                                                                        ((S_812A524C_5 *)(&D_800FBE54))->unk_00 =
+                                                                                        ((S_812A524C_5 *)(&scripted_status_target))->unk_00 =
                                                                                             nearby_object;
                                                                                     }
-                                                                                    if (((S_812A524C_5 *)(&D_800FBE54))->unk_00
+                                                                                    if (((S_812A524C_5 *)(&scripted_status_target))->unk_00
                                                                                         != NULL) {
                                                                                         nearby_tile =
-                                                                                            ((S_812A524C_40 *)(((S_812A524C_5 *)(&D_800FBE54))->unk_00))->unk_0C;
+                                                                                            ((S_812A524C_40 *)(((S_812A524C_5 *)(&scripted_status_target))->unk_00))->unk_0C;
                                                                                         nearby_event = &reference_tile_object;
                                                                                         event_x = nearby_event->tile_position.parts.tile_x;
                                                                                         distance_x =
@@ -596,7 +597,7 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
     }
     if (g_dungeon_status.flags & 0x2000) {
         update_special = ((S_812A524C_3 *)actor_in)->unk_8C;
-        if (update_special == &D_80171FA4) {
+        if (update_special == &kewne_uncached_action_resume_address) {
             update_special(actor_in, motion_in, sprite, entity);
             return;
         }
@@ -659,7 +660,7 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
             ((S_812A524C_4 *)entity)->unk_1C = moving_flags;
             if (moving_flags & 0x40000) {
                 if (!(((S_812A524C_38 *)sprite)->unk_14.n & 0x40)
-                    && (((S_812A524C_38 *)sprite)->unk_2C.i == &D_80175C30)) {
+                    && (((S_812A524C_38 *)sprite)->unk_2C.i == &kewne_uncached_frame_set_1)) {
                     if (((S_812A524C_38 *)sprite)->unk_04.u16 == 0x100) {
                         ((S_812A524C_3 *)actor_in)->unk_9E = 0U;
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v = 0;
@@ -741,7 +742,7 @@ void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, 
                 }
             } else {
                 if (!(((S_812A524C_38 *)sprite)->unk_14.n & 0x40)
-                    && (((S_812A524C_38 *)sprite)->unk_2C.i == &D_80175C30)) {
+                    && (((S_812A524C_38 *)sprite)->unk_2C.i == &kewne_uncached_frame_set_1)) {
                     if (((S_812A524C_38 *)sprite)->unk_04.u16 == 0x100) {
                         ((S_812A524C_3 *)actor_in)->unk_9E = 0U;
                         ((S_812A524C_3 *)actor_in)->unk_A0.at00.v = 0;

@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -69,7 +71,7 @@ s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 extern M2C_UNK effect_update_tag;
-extern void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state);
+extern void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
 extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
@@ -94,7 +96,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
     use_player = 0;
     switch (state) {
     case 0:
-        if (action->flags1C & 0x2000) {
+        if (action->flags1C & ACTOR_PLAYER_SIDE) {
             action_id = action->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_id - 1) {
             case 6:
@@ -195,7 +197,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
             advance_status_timers(action);
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
-            ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
+            ((S_801728B4_0 *)actor)->unk_8C = &dispatch_monster_move_attack_spell;
             action->target_tile_y = 0;
             action->target_tile_x = 0;
             action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
@@ -246,7 +248,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
+        ((S_801728B4_0 *)actor)->unk_8C = &dispatch_monster_move_attack_spell;
         advance_status_timers(action);
         if ((s8) ((u8)action->pending_turn_updates) > 0) {
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
@@ -254,7 +256,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
         action->target_tile_y = 0;
         action->target_tile_x = 0;
         action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:
         return;

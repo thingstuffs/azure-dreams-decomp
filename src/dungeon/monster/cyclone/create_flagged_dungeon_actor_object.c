@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -39,11 +42,11 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void LoadImage(void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern s32 D_80045340;
+extern s32 sprite_chain_projector_address;
 extern u8 D_80170AE8[];
-extern u8 D_80176460[];
+extern u8 cyclone_move_direction_frames[];
 #include "dungeon/monster/cyclone.h"
-extern u8 D_80171094[];
+extern u8 cyclone_action_resume_address[];
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -68,7 +71,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80170AE8;
         ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
-        register_node(obj, &D_80045340);
+        register_node(obj, &sprite_chain_projector_address);
 
         part_a = obj->position;
         part_a->z.w.i = saved_spawn;
@@ -77,23 +80,23 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         part_b->unk_25 = saved_variant;
         part_b->unk_24 = saved_kind_id;
         actor = work;
-        part_b->frameTable = D_80176460;
+        part_b->frameTable = cyclone_move_direction_frames;
 
         if (kind == 1) {
-            left = ((S_80170890_1 *)work)->unk_14 | 0x6000;
-            right = ((S_80170890_1 *)work)->unk_1C | 0x6000;
+            left = ((S_80170890_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_80170890_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80170890_1 *)work)->unk_14 = left;
             ((S_80170890_1 *)work)->unk_1C = right;
         } else if (kind >= 2) {
-            left = ((S_80170890_1 *)work)->unk_14 | 0x2000;
-            right = ((S_80170890_1 *)work)->unk_1C | 0x2000;
+            left = ((S_80170890_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            right = ((S_80170890_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_80170890_1 *)work)->unk_14 = left;
             ((S_80170890_1 *)work)->unk_1C = right;
         } else {
             if (((flags & ~3) << 16) == 0) {
-                if (!(((S_80170890_1 *)work)->unk_14 & 0x200)) {
+                if (!(((S_80170890_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        set_or_clear_actor_status_slot(work, 1,
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = cyclone_direction_frames;
                     }
@@ -104,7 +107,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = D_80171094;
+        actor->unk_8C = cyclone_action_resume_address;
         ((S_80170890_1 *)work)->unk_1C |= 0x00040000;
         actor->unk_92 = -32;
 

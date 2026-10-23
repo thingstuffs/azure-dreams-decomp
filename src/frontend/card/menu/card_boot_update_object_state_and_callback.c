@@ -9,7 +9,7 @@ extern void submit_stored_and_queried_boot_values(void);
 extern s32 func_804010E0(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
 extern void func_8003FA78(void *descriptor, s32 value, s32 item);
-extern u8 D_804081AC[];
+extern u8 frontend_action_resume_address[];
 
 /* Updates the object's state and callback and performs a one-time transition. */
 void card_boot_update_object_state_and_callback(void *object_data)
@@ -23,7 +23,7 @@ void card_boot_update_object_state_and_callback(void *object_data)
     if ((boot_pad_state.held != 0) && ((boot_pad_state.pressed & 0x40) != 0)) {
         func_80400948();
         object[14] = 0;
-        object[-4] = (s32)(unsigned long)D_804081AC;
+        object[-4] = (s32)(unsigned long)frontend_action_resume_address;
         return;
     }
 

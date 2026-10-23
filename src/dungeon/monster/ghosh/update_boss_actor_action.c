@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -43,7 +44,7 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
         return;
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (entity->flags1C & 0x100) {
+        if (entity->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
@@ -60,7 +61,7 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
         if (!((((ActorRecord *)entity)->unk_64 == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }
-        if (entity->flags1C & 0x80000) {
+        if (entity->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             func_8017092C(actor, context, sprite, entity);
             sprite->frameTable = ghosh_direction_frames;
@@ -72,7 +73,7 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
     sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24,
         sprite->unk_25);
     if (entity->pending_turn_updates > 0) {
-        if (entity->flags1C & 0x20) {
+        if (entity->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }

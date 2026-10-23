@@ -1,6 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/entity.h"
-#include "common.h"
+#include "dungeon/monster/mandara/spawn_api_slot_d.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -18,9 +18,9 @@ extern u8 D_8015EF6C[];
 extern u8 D_80163258[];
 extern u8 D_80163298[];
 
-extern void *func_8015E8A4(s16, s16, s16, s16);
+extern void *spawn_mandara_in_slot_d(s16, s16, s16, s16);
 
-void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 ;
 
 typedef void (*Callback)(void);
@@ -40,12 +40,12 @@ typedef struct S_80FB1000_2 {
 } S_80FB1000_2;   
 
 /* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
-void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_height)
 {
     s16 saved_flags;
-    s16 saved_kind_id;
-    s8 saved_variant;
-    s16 saved_spawn_value;
+    s16 saved_tile_x;
+    s8 saved_tile_y;
+    s16 saved_height;
     ObjectNodeHeader *created;
     u8 *work = 0;
     ObjectPosition *position;
@@ -54,9 +54,9 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s32 kind;
     Rect rect;
 
-    saved_kind_id = kind_id;
-    saved_spawn_value = spawn_value;
-    saved_variant = variant;
+    saved_tile_x = kind_id;
+    saved_height = spawn_height;
+    saved_tile_y = tile_y;
     kind_id = 0x112;
     created = allocate_list_node(kind_id, ((u8 *)(&scene_object_list_anchor)));
     saved_flags = (s32)flags;
@@ -75,12 +75,12 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         register_node(created, project_sprite_chain);
 
         position = (*(u8 * *)&created ->position);
-        position->z.w.i = saved_spawn_value;
+        position->z.w.i = saved_height;
         monster = (*(u8 * *)&created ->sprite);
-        monster->unk_25 = saved_variant;
+        monster->unk_25 = saved_tile_y;
         actor = work;
         monster->frameTable = D_80163258;
-        monster->unk_24 = saved_kind_id;
+        monster->unk_24 = saved_tile_x;
 
         kind = (s32)flags & 3;
         if (kind == 1) {

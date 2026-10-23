@@ -51,7 +51,7 @@ void unlink_entity_node();                         /* extern */
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 beldo_actor_nodes;
-extern s32 D_80175DC4;
+extern s32 encounter_script_cursor;
 extern s16 beldo_script_timer;
 
 /* Reset shared state and update the two occupied object slots. */
@@ -77,7 +77,7 @@ void begin_multi_form_ring_script(void) {
     ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);
     ((S_8016EE8C_2 *)page_8001)->unk_371C = (s32) D_80173C94;
-    D_80175DC4 = D_80173D5C;
+    encounter_script_cursor = D_80173D5C;
     ((S_8016EE8C_0 *)active_data)->unk_AB = 0;
     do {
         slot_offset = slot_index * 4;

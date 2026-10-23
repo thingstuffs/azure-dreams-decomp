@@ -20,7 +20,7 @@ void dispatch_active_code(s32 value, s32 special_value, s32 code) {
         D_8001B920[0] = 1;
     }
     if (code != 0x3E) {
-        apply_entry_position(active_table, D_8001C358, value, code);
+        apply_entry_position(active_table, active_scene_dispatch_context, value, code);
     } else {
         select_data_for_condition_d_83(value, special_value, 0x3E);
     }

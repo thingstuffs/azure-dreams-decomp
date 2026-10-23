@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/unicorn.h"
 #include "shared/object_node.h"
@@ -76,7 +78,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
     use_player = 0;
     switch (state) {
     case 0:
-        if (((S_80172AB4_1 *)actor)->unk_1C & 0x2000) {
+        if (((S_80172AB4_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
             move_kind = (((S_80172AB4_1 *)actor)->unk_46 & 0x3FFF) - 1;
             switch (move_kind) {
             case 6:
@@ -182,7 +184,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
             D_80174D9C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 |= 8;
-        ((S_80172AB4_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+        ((S_80172AB4_1 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172AB4_0 *)action)->unk_96 = 8;
         motion->velocity_z = 0xFFF00000;
         ((S_80172AB4_0 *)action)->unk_9B++;
@@ -229,7 +231,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
             D_80174D9C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 &= 0xFFF7;
-        ((S_80172AB4_1 *)actor)->unk_1C |= 0x08000000;
+        ((S_80172AB4_1 *)actor)->unk_1C |= ACTOR_GROUNDED;
 
         ((S_80172AB4_0 *)action)->unk_9B++;
         return;
@@ -277,7 +279,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         ((S_80172AB4_1 *)actor)->unk_73.s = 0;
         ((S_80172AB4_1 *)actor)->unk_72.s = 0;
         ((S_80172AB4_1 *)actor)->unk_46 &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 
         return;
     }

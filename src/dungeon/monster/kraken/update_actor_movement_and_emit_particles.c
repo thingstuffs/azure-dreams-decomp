@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/kraken.h"
 #include "shared/sprite_frame_state.h"
@@ -54,7 +55,7 @@ extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_801711A4[];
 extern u8 D_8017406C[];
-extern u8 D_8017418C[];
+extern u8 kraken_frame_set_1[];
 extern u8 D_80174194[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
@@ -143,7 +144,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
         motion->velocity_y = dir_step_y[particle_or_dir_index] << 18;
         ((ActorActionTimerView *)actor)->unk_9B++;
         state_timer = -1;
-        if (((EntityRec *)entity)->flags1C & 0x228) {
+        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             state_timer = 8;
         }
         ((ActorActionTimerView *)actor)->unk_96.s = state_timer;
@@ -213,9 +214,9 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-            sprite->frameTable = D_8017418C;
+            sprite->frameTable = kraken_frame_set_1;
             select_sprite_entry(sprite,
-                          D_8017418C[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                          kraken_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);
             if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;

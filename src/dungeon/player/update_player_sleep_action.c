@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -34,7 +36,7 @@ typedef struct {
     u16 flagsa2;
 } Arg0Struct;
 
-extern u8 D_800DD0F8[];
+extern u8 return_magic_frames[];
 extern void *D_8008B870;
 extern u8 player_sleep_frames;
 
@@ -73,9 +75,9 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
             if ((scene->buttons & 0x20) && (check_action_available_without_nearby_actor() != 0)) {
                 g_dungeon_status.flags |= 0x80;
             }
-            if ((get_entity_effect_value(actor, 1) << 0x10) == 0) {
-                animation->table = D_800DD0F8;
-                set_sprite_animation_frame(animation, D_800DD0F8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7],
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 0x10) == 0) {
+                animation->table = return_magic_frames;
+                set_sprite_animation_frame(animation, return_magic_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7],
                     0, 1);
                 controller->handler = NULL;
                 g_dungeon_status.activity_counts.parts.pending_action_count += 1;
@@ -90,7 +92,7 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
 
     case 2:
         if (animation->flags14 & 0xE000) {
-            actor->flags1c &= ~0x200;
+            actor->flags1c &= ~ACTOR_ASLEEP;
             process_unflagged_linked_entries_alt(actor->val5c);
             process_unflagged_linked_entries(actor->val5c);
             g_dungeon_status.flags |= 0x812;

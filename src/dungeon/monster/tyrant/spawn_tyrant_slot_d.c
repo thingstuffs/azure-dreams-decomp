@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -79,24 +82,24 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
         child_0C->unk_24 = saved_input1;
         if (value == 1) {
             flags98 = record->unk_98;
-            record->unk_14 = (s32) (record->unk_14 | 0x6000);
+            record->unk_14 = (s32) (record->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
             record->unk_98 = (u16) (flags98 | 0x4000);
-            record->unk_1C = (s32) (record->unk_1C | 0x6000);
+            record->unk_1C = (s32) (record->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (value >= 2) {
             flags98 = record->unk_98;
-            record->unk_14 = (s32) (record->unk_14 | 0x2000);
+            record->unk_14 = (s32) (record->unk_14 | ACTOR_CLASS_ENABLED);
             record->unk_98 = (u16) (flags98 | 0x4000);
-            record->unk_1C = (s32) (record->unk_1C | 0x2000);
+            record->unk_1C = (s32) (record->unk_1C | ACTOR_PLAYER_SIDE);
         } else {
             call_a0 = allocation;
             if (((input0 & ~3) << 0x10) == 0) {
-                if (!(record->unk_14 & 0x200)) {
+                if (!(record->unk_14 & ACTOR_RESIST_SLEEP)) {
                     call_a1 = child_08;
                     value = generate_random_value();
                     call_a0 = allocation;
                     if (value & 1) {
-                        record->unk_1C = (s32) (record->unk_1C | 0x200);
-                        set_or_clear_actor_status_slot(record, 1, (generate_random_value() & 0x3F) | 0x20);
+                        record->unk_1C = (s32) (record->unk_1C | ACTOR_ASLEEP);
+                        set_or_clear_actor_status_slot(record, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         child_0C->frameTable = &D_80162000;
                     }
                 }

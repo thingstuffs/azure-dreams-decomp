@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -48,7 +49,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
     case 0:
         ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 | 8);
         transform->velocity_z = 0xFFF00000;
-        actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
+        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         ((S_800D991C_0 *)motion_state)->unk_A4 = 0;
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
     case 1:
@@ -73,11 +74,11 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
         if (((S_800D991C_0 *)motion_state)->unk_96 < 2) {
             ((S_800D991C_0 *)motion_state)->unk_90 = 0;
             ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 & 0xFFF7);
-            actor->flags1C = (s32) (actor->flags1C | 0x08000000);
+            actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
         }
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 & 0xFFF7);
             transform->velocity_z = 0;
             transform->velocity_y = 0;
@@ -103,9 +104,9 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
             }
             actor_flags = actor->flags1C;
-            if (!(actor_flags & 0x2000)) {
-                if (!(actor_flags & 0x410)) {
-                    if (actor_flags & 0x20000) {
+            if (!(actor_flags & ACTOR_PLAYER_SIDE)) {
+                if (!(actor_flags & (ACTOR_BLIND | ACTOR_CONFUSED))) {
+                    if (actor_flags & ACTOR_PLAYER_AWARE) {
                         actor->facing = get_rounded_facing_and_rounding_flag(map_entity->unk_24,
                             map_entity->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     }

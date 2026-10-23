@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -39,7 +40,7 @@ extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern void *actor_update_node_cursor;
-extern s32 D_80170E5C;
+extern s32 battnel_action_resume_address;
 extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
@@ -98,7 +99,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         }
 
         ((S_801725D0_1 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801725D0_1 *)action)->unk_90.at02u.v = -0x18;
         ((S_801725D0_1 *)action)->unk_96.s = 4;
         motion->velocity_x =
@@ -146,7 +147,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_801725D0_1 *)action)->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x08000000;
+        actor->flags1C |= ACTOR_GROUNDED;
         ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
         sprite->frameTable = D_80173D04;
         select_sprite_entry(
@@ -155,7 +156,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
             0);
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
+        ((S_801725D0_1 *)action)->unk_8C = &battnel_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {

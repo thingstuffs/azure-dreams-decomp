@@ -43,7 +43,7 @@ extern s32 D_80024558[3];
 extern s32 camera_height_mode[3];
 extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
-extern u8 D_80097D2C[];
+extern u8 town_position_callback_address[];
 extern void draw_translucent_gradient_line_list(void);
 
 extern s32 service_script_controller(void);
@@ -237,7 +237,7 @@ void update_betting_effect(TownEffect *input)
             motion->velocity_x = 0;
             ((S_800211A4_5 *)primitive)->unk_10 = 0;
             apply_global_scene_value(town_scene_record_handlers);
-            ((S_800211A4_5 *)primitive)->unk_00 = D_80097D2C;
+            ((S_800211A4_5 *)primitive)->unk_00 = town_position_callback_address;
             ((S_800211A4_5 *)primitive)->unk_04 = draw_translucent_gradient_line_list;
         }
         ((S_800211A4_6 *)child)->unk_70 = 1;
@@ -369,7 +369,7 @@ void update_betting_effect(TownEffect *input)
             break;
         }
         SD_Call(0x50A);
-        apply_global_scene_value(D_800D00A0);
+        apply_global_scene_value(type_three_action_handler_table);
         motion = &view_reference_entity;
         motion->velocity_y = 0x48000;
         motion->velocity_z = (s32)0xFFF40000;
@@ -400,7 +400,7 @@ void update_betting_effect(TownEffect *input)
             apply_global_scene_value(D_800D00A8);
             break;
         case 5:
-            apply_global_scene_value(D_800D00B8);
+            apply_global_scene_value(action_object_handler_table);
             break;
         case 20:
             SD_Call(0x508);
@@ -417,7 +417,7 @@ void update_betting_effect(TownEffect *input)
         case 25:
         case 41:
         case 53:
-            apply_global_scene_value(D_800D00B8);
+            apply_global_scene_value(action_object_handler_table);
             break;
         case 21:
         case 37:
@@ -489,7 +489,7 @@ void update_betting_effect(TownEffect *input)
             apply_global_scene_value(D_800D00A8);
             break;
         case 5:
-            apply_global_scene_value(D_800D00B8);
+            apply_global_scene_value(action_object_handler_table);
             break;
         case 10:
             SD_Call(0x508);

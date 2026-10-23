@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -41,7 +42,7 @@ s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
     create_timed_paired_particle_emitter(((S_800BDA44_0_pre *)target)[-1].unk_00, 0x2020C0, target);
     ((EntityRec *)target)->unk_26 = (u8) ((EntityRec *)target)->unk_68;
     apply_entity_effects(target);
-    if (((EntityRec *)target)->flags14 & 0x4000) {
+    if (((EntityRec *)target)->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(target, D_800E0EE1);
     }
     clear_slot_and_update_linked_state(item);

@@ -3,7 +3,7 @@
 extern void initialize_scene_action_record(void *, s32, s32);
 extern void initialize_actor_movement_interaction_action(void *, s32, s32);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, s32 *);
-extern s32 D_800CFCB4[];
+extern s32 town_actor_control[];
 
 /* Dispatch the actor's action using its cached entry or the entry lookup result. */
 void dispatch_actor_action(void *actor, s32 position, s32 context) {
@@ -12,11 +12,11 @@ void dispatch_actor_action(void *actor, s32 position, s32 context) {
 
     cached_entry = *(s32 *)((u8 *)actor + 0x2C);
     if (cached_entry != 0) {
-        D_800CFCB4[4] = cached_entry;
-        D_800CFCB4[6] = 0;
+        town_actor_control[4] = cached_entry;
+        town_actor_control[6] = 0;
         initialize_actor_movement_interaction_action(actor, position, context);
     } else {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(actor, position, context);

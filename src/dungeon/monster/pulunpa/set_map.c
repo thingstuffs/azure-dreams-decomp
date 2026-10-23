@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 /* Pulunpa map selection and actor action and animation updates. */
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -53,7 +54,7 @@ void func_80174924(void);
 extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override);
 extern s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor);
 
-extern u8 D_80176320[];
+extern u8 pulunpa_frame_set_2[];
 extern M2C_UNK D_80176358;
 extern M2C_UNK D_80176360;
 extern M2C_UNK D_80176370;
@@ -86,7 +87,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
         set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
-    if (creature->flags1C & 0x200) {
+    if (creature->flags1C & ACTOR_ASLEEP) {
         if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
@@ -99,13 +100,13 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
         }
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (creature->flags1C & 0x100) {
+        if (creature->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, creature);
             return;
         }
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 14) {
-            if (((S_80173B98_2 *)sprite)->unk_2C != (void *)D_80176320) {
-                set_map(sprite, creature, D_80176320);
+            if (((S_80173B98_2 *)sprite)->unk_2C != (void *)pulunpa_frame_set_2) {
+                set_map(sprite, creature, pulunpa_frame_set_2);
             }
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         }
@@ -115,7 +116,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
                 return;
             }
         }
-        if (creature->flags1C & 0x80000) {
+        if (creature->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
             update_object_or_select_directional_data(actor, context, sprite, creature);
             return;
@@ -127,7 +128,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     tile_index = find_active_rect_containing_point(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v);
     ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
     if (creature->pending_turn_updates > 0) {
-        if (creature->flags1C & 0x20) {
+        if (creature->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature);
             return;
         }
@@ -193,8 +194,8 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     if (((S_80173B98_2 *)sprite)->unk_14 & 0x40) {
         return;
     }
-    if (((S_80173B98_2 *)sprite)->unk_2C == (void *)D_80176320) {
+    if (((S_80173B98_2 *)sprite)->unk_2C == (void *)pulunpa_frame_set_2) {
         return;
     }
-    set_map(sprite, creature, D_80176320);
+    set_map(sprite, creature, pulunpa_frame_set_2);
 }

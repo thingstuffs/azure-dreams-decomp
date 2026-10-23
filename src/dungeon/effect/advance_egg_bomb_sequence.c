@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -142,7 +143,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
             apply_actor_template_and_class(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
             ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
-            set_or_clear_actor_status_slot(monster, 0x1B, 0);
+            set_or_clear_actor_status_slot(monster, STATUS_NO_TILE_OCCUPANCY, 0);
             {
                 s32 clamp_value;
                 u32 first_call_arg;

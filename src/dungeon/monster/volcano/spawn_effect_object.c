@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "dungeon/monster/volcano/spawn_effect_object.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -55,7 +56,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                 if ((*(u32 *)(work + 0x14) & 0x200) == 0) {
                     if ((generate_random_value() & 1) != 0) {
                         random = generate_random_value();
-                        set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP, (random & 0x3F) | 0x20);
                         ((SpriteFrameState *)part_b)->frameTable = D_80150538;
                     }
                 }

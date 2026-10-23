@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern char D_8001B14C[];
-extern char D_8001C018[];
+extern char scene_string_fallback[];
+extern char scene_choice_text[];
 extern char D_8001D6B5[];
 extern char D_8001D7A5[];
 extern char D_800227FB[];
@@ -17,7 +17,7 @@ char *select_string_state_dependent_choice(s32 unused_0, s32 unused_1, s32 text_
 
     switch (selector - 12) {
     case 7:
-        return D_8001C018;
+        return scene_choice_text;
     case 6:
         return D_800227FB;
     case 0:
@@ -30,6 +30,6 @@ char *select_string_state_dependent_choice(s32 unused_0, s32 unused_1, s32 text_
     case 42:
         return award_next_unearned_milestone(selector);
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

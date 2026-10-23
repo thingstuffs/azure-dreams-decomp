@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -81,18 +83,18 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         do {
 
             if (kind == 1) {
-                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | 0x6000;
+                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             pending_flags = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x6000;
             ((ObjectNodeHeader *)work)->unk_14 = flags_or_roll;
             *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = pending_flags;
             } else if (kind >= 2) {
-                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | 0x2000;
+                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | ACTOR_CLASS_ENABLED;
             pending_flags = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x2000;
             ((ObjectNodeHeader *)work)->unk_14 = flags_or_roll;
             *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = pending_flags;
             } else {
                 saved_part_a = obj;
-                if (((spawn_flags & ~3) << 16) == 0 && !(((ObjectNodeHeader *)work)->unk_14 & 0x200)) {
+                if (((spawn_flags & ~3) << 16) == 0 && !(((ObjectNodeHeader *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     saved_part_a = part_a;
                     flags_or_roll = generate_random_value();
                     saved_part_a = obj;
@@ -100,7 +102,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
                         break;
                     }
                     *(s32 *)&((ObjectNodeHeader *)work)->pad_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value(obj) & 0x3F) | 0x20);
                     part_b->frameTable = D_80161D4C;
                 }

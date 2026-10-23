@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Moving target effects, tint changes, radial sprite emission, and shaded point rendering. */
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -236,7 +237,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
                                      F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
                     F(self, s16, 0x28) = 1;
-                    play_sound_if_enabled(0x300);
+                    play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
             }
         }
@@ -317,13 +318,13 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         break;
 
     case 17:
-        if (*(s16 *)D_800257CE == 0) {
+        if (*(s16 *)tint_effect_update_count == 0) {
             g_dungeon_status.active_actor = 0;
             F(self, u16, -2) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
-    D_800257CE[0] = 0;
+    tint_effect_update_count[0] = 0;
 }
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -357,7 +358,7 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
     s16 state;
     s32 channel_value;
 
-    D_800257CE[0]++;
+    tint_effect_update_count[0]++;
     state = ((S_81880F28_0 *)effect)->unk_0A.s;
 
     switch (state) {
@@ -387,7 +388,7 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
             color->blue = 0x40;
         }
 
-        if (D_800257CC[0] < 14) {
+        if (tint_effect_phase_counts[0] < 14) {
             ((S_81880F28_0 *)effect)->unk_0A.u++;
         }
         break;
@@ -412,7 +413,7 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
             color->blue = 0x80;
         }
 
-        if (D_800257CC[0] == 0) {
+        if (tint_effect_phase_counts[0] == 0) {
             ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -474,7 +475,7 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
 {
     u16 flags = *(u16 *)((u8 *)record + 0x1C);
 
-    D_800257CE[0] = D_800257CE[0] + 1;
+    tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
     if (flags & 1) {
         advance_sprite_animation_and_textures(target);
         if (*(u16 *)((u8 *)target + 0x14) & 0x4000) {
@@ -555,7 +556,7 @@ void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primi
     s32 wave_value;
     u16 frame_count;
 
-    D_800257CE[0]++;
+    tint_effect_update_count[0]++;
     state = ((S_80024B98_0 *)effect)->unk_0A.s;
     if (state != 2) {
         if (state == 0) {
@@ -574,7 +575,7 @@ void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primi
     } else {
         primitive->color.word += 0xFFFBFBFC;
         if (primitive->color.c.r < 4) {
-            D_800257CC[0]--;
+            tint_effect_phase_counts[0]--;
             (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
@@ -702,7 +703,7 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     effect = (Func818816E0Arg0 *)effect_data;
     position = (Func818816E0Arg1 *)position_data;
     angle = effect->field24 << 8;
-    D_800257CE[0] = D_800257CE[0] + 1;
+    tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
     position->field0 = position->field0 + (rcos(angle) * 8);
     position->field4 = position->field4 + (rsin(effect->field24 << 8) * 8);
     brightness = visual->field0E - 2;
@@ -710,7 +711,7 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     visual->field0D = brightness;
     visual->field0C = brightness;
     if ((u32)(brightness & 0xFF) < 0x20U) {
-        D_800257CC[0] = (s16)((u16)D_800257CC[0] - 1);
+        tint_effect_phase_counts[0] = (s16)((u16)tint_effect_phase_counts[0] - 1);
         ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -764,12 +765,12 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         render_code = 0x60;
         effect_state = (u8 *)object + 0x20;
         render_state->tpage_abr = render_code;
-        object_count = (*(u16 *)D_800257CC);
+        object_count = (*(u16 *)tint_effect_phase_counts);
         render_state->angle_x = 0x400;
         effect_state->unk_24 = size;
         effect_state->unk_14 = effect_param;
         effect_state->unk_1E = signed_size * 2;
-        (*(u16 *)D_800257CC) = object_count + 1;
+        (*(u16 *)tint_effect_phase_counts) = object_count + 1;
     }
     return object;
 }
@@ -829,7 +830,7 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     u16 *counter_ptr;
 
     owner_state = owner;
-    counter_ptr = D_800257CE;
+    counter_ptr = tint_effect_update_count;
     x = motion->unk_00.at02.v;
     counter = counter_ptr[0];
     probe_z = motion->unk_08.at02.v;
@@ -1083,7 +1084,7 @@ void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *co
     u8 green;
     u8 blue;
 
-    D_800257CE[0]++;
+    tint_effect_update_count[0]++;
 
     red = color->red;
     green = color->green;

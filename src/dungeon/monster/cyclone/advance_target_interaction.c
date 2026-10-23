@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
@@ -37,8 +38,8 @@ extern void format_entity_message(s32, void *);
 extern void func_80176330(s32, void *);
 extern void func_801763CC(s32, void *);
 
-extern u8 D_80171094;
-extern u8 D_80176460[8];
+extern u8 cyclone_action_resume_address;
+extern u8 cyclone_move_direction_frames[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
 void advance_target_interaction(void *action, void *scene, SpriteFrameState *sprite, ActorRecord *actor)
@@ -52,7 +53,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             sprite->flags = sprite_flags | 0x6000;
-            if (actor->flags14 & 0x4000) {
+            if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
                 if (check_object_code_19(target)) {
                     func_801763CC(1, actor->target);
@@ -86,7 +87,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         }
 
         spawn_312_effect_object(action, scene, sprite);
-        if (actor->flags14 & 0x4000) {
+        if (actor->flags14 & ACTOR_PARTY_MEMBER) {
             format_entity_message(1, actor);
         } else if (((S_80174764_4 *)(actor->target))->unk_14 & 0x4000) {
             format_entity_message(0, actor);
@@ -101,7 +102,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
-            if (actor->flags14 & 0x4000) {
+            if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
                 if (check_object_code_19(target)) {
                     func_801763CC(1, actor->target);
@@ -131,7 +132,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, sprite->unk_24, sprite->unk_25);
-            ((S_80174764_0 *)action)->unk_8C = &D_80171094;
+            ((S_80174764_0 *)action)->unk_8C = &cyclone_action_resume_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
         }
@@ -141,9 +142,9 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
     if (sprite->flags & 0xE000) {
         s32 direction;
 
-        sprite->frameTable = D_80176460;
+        sprite->frameTable = cyclone_move_direction_frames;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
-        select_sprite_entry(sprite, D_80176460[direction & 7], 0);
+        select_sprite_entry(sprite, cyclone_move_direction_frames[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }
 }

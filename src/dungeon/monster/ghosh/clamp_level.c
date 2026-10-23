@@ -23,7 +23,7 @@ void clear_actor_action_markers(u8 *state);                         /* extern */
 extern u8 D_80013610[0x3612];
 extern u32 level_experience_table[64];
 extern u8 D_800F927E[16];
-extern void D_8016B778(void);
+extern void ghosh_action_resume_address(void);
 extern void (*ghosh_callbacks[256])(void *, void *, void *, void *);
 
 typedef struct S_8016B0E8_0 {
@@ -277,7 +277,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
     }
     if (((S_8016B0E8_13 *)resident_globals_page)->unk_3462 & 0x2000) {
         paused_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
-        if (paused_callback == &D_8016B778) {
+        if (paused_callback == &ghosh_action_resume_address) {
             paused_callback(entity, motion, sprite, actor);
             return;
         }

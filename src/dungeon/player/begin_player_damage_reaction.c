@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -44,9 +45,9 @@ void begin_player_damage_reaction(void *action, s32 unused, void *sprite, Entity
     ((Rec_func_8008ACDC_arg0 *)action)->unk_8C.as_s32 = 0;
     clear_player_linked_action_flags();
     if (!(generate_random_value() & 1)) {
-        clear_slots_of_type(actor, 1);
-        clear_slots_of_type(actor, 4);
-        clear_slots_of_type(actor, 2);
+        clear_slots_of_type(actor, STATUS_SLEEP);
+        clear_slots_of_type(actor, STATUS_PARALYSIS);
+        clear_slots_of_type(actor, STATUS_CONFUSION);
     }
     {
         s32 mode_mask = 0x20000000;

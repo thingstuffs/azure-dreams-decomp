@@ -5,7 +5,7 @@
 #include "m2c_compat.h"
 
 extern void func_80017670(s32);
-extern M2C_UNK D_8001601C;
+extern M2C_UNK scene_event_data;
 extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;
 extern s32 *D_80017760;
@@ -31,7 +31,7 @@ void toggle_active_scene_event(void) {
         dispatch_base_2->unk_40 = &D_8001605E;
     } else {
         dispatch_base = state->unk_1C;
-        dispatch_base->unk_40 = &D_8001601C;
+        dispatch_base->unk_40 = &scene_event_data;
     }
     event = 0x7E;
     *toggle = (*toggle + 1) & 1;

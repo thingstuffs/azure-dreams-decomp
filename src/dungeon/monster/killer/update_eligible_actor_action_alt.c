@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -22,7 +23,7 @@ void update_eligible_actor_action_alt(void *action_state, s32 context, SpriteFra
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         if (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
-            if (((EntityRec *)actor)->flags1C & 0x1000) {
+            if (((EntityRec *)actor)->flags1C & ACTOR_ANGRY) {
                 ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 =
                     (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 | 0x4000);
             } else {

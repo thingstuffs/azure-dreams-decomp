@@ -122,7 +122,7 @@ extern u8 D_800DEC50[];
 extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
-extern u8 D_80170F6C[];
+extern u8 mandara_action_resume_address[];
 extern u8 D_80174B20[];
 extern u8 D_80174B98[];
 extern u8 D_80175174[];
@@ -280,7 +280,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         {
             void *actor_to_reset;
             actor_to_reset = actor;
-            effect->unk_8C = D_80170F6C;
+            effect->unk_8C = mandara_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor_to_reset);
         }

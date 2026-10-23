@@ -11,8 +11,8 @@ s32 rsin(s16);
 s32 rcos(s16);
 void draw_textured_ellipse(void *, s32 *, s32, s32);
 
-extern Counter D_80026472;
-extern u8 D_80026478[];
+extern Counter staged_fade_count;
+extern u8 staged_glow_data[];
 
 
 typedef struct S_80025E48_0_pre {
@@ -69,7 +69,7 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
 
     base_angle = ((S_80025E48_0 *)effect)->unk_22 << 8;
     held_angle = base_angle;
-    D_80026472.value++;
+    staged_fade_count.value++;
     if (((S_80025E48_0 *)effect)->unk_24 != 0) {
         angle = base_angle + ((S_80025E48_0 *)effect)->unk_18.s * 0x10;
     } else {
@@ -146,7 +146,7 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
 
             if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
                 (((S_80025E48_0 *)effect)->unk_22 == 0)) {
-                glow = D_80026478;
+                glow = staged_glow_data;
                 glow_color = glow[0xC];
                 color_step = (0x14 - glow_color) / ((S_80025E48_0 *)effect)->unk_1A.s;
                 draw_params[0] = 0x01000340;
@@ -189,7 +189,7 @@ void update_staged_effect_fade(void *effect, S_80025E48_1 *points, S_80025E48_2 
 
             if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
                 (((S_80025E48_0 *)effect)->unk_22 == 0)) {
-                glow = D_80026478;
+                glow = staged_glow_data;
                 glow_color = glow[0xC];
                 color_step = (0x10 - glow_color) /
                     ((S_80025E48_0 *)effect)->unk_1A.s;

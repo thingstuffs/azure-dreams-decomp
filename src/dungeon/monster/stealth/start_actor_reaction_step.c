@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -30,7 +31,7 @@ void start_actor_reaction_step(S_801721A4_1 *owner, void *unused, SpriteFrameSta
     actor->unk_71 &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((has_pending_dungeon_activity(actor) << 16) == 0)) {
-        if (((u32)actor->flags1C) & 0x400) {
+        if (((u32)actor->flags1C) & ACTOR_CONFUSED) {
             s32 link;
 
             link = actor->flags14;

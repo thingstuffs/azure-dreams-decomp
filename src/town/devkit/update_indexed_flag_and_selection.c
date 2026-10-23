@@ -7,7 +7,7 @@ typedef struct {
     s32 (*callback)(s32);
 } CallbackOwner;
 
-extern u8 D_A0700000[0x1000];
+extern u8 devkit_overlay_page[0x1000];
 extern CallbackOwner *D_A0700F58[4];
 
 extern s32 func_80700304(s32, s32, s32, s32);
@@ -30,7 +30,7 @@ s32 update_flagged_selection_index(s32 initial_index, s32 input1, s32 input2, s3
 
     index = initial_index;
     if (func_80700304(initial_index, input1, input2, input3) > 0) {
-        value = *(s16 *)(D_A0700000 + (index * 2) + 0xF34);
+        value = *(s16 *)(devkit_overlay_page + (index * 2) + 0xF34);
         offset = value;
         offset /= 32;
         byte_ptr = *(u8 **)0xA0700F40;

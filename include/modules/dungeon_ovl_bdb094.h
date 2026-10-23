@@ -41,7 +41,7 @@ typedef struct {
 } Func80BBB094Object;
 
 extern u8 D_8014CE9C[];
-extern u8 D_80150ED8[];
+extern u8 nyuel_frame_set_5[];
 extern u8 D_80150F00[];
 extern u8 D_8014CA98[];
 

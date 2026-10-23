@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -65,7 +68,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         }
     }
     create_timed_paired_particle_emitter(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
-    if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x400)) {
+    if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) && !(((EntityRec *)entity)->flags1C & ACTOR_CONFUSED)) {
         effect_result = get_unused_text_buffer();
         call_arg = &confusion_cure_text;
         context_arg = effect_result;
@@ -74,7 +77,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         clear_byte_and_advance(effect_result);
         display_text_with_fullwidth_adjustment(saved_context);
     }
-    clear_slots_of_type(entity, 2);
+    clear_slots_of_type(entity, STATUS_CONFUSION);
     clear_slot_and_update_linked_state(update_value);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;

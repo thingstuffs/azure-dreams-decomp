@@ -3,6 +3,6 @@
 
 /* The effect initializer clears this byte through signed-char storage; the
  * staged entity loader also writes it. No larger allocation is claimed. */
-extern signed char D_800DCF5C;
+extern signed char staged_spawn_count;
 
 #endif

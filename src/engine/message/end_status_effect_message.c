@@ -1,3 +1,7 @@
+#include "shared/actor_property_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "slus/jtbl_80042BDC.h"
 #include "shared/object_flags.h"
@@ -19,25 +23,25 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
     s32 action_index;
     action_index = (s16)(action - 1);
     switch (action_index) {
-    case 0:
-        ent->x1C &= ~0x200;
-        if (ent->x14 & 0x4000) {
+    case STATUS_SLEEP - 1:
+        ent->x1C &= ~ACTOR_ASLEEP;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_1_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 1:
-        ent->x1C &= ~0x400;
-        if (ent->x14 & 0x4000) {
+    case STATUS_CONFUSION - 1:
+        ent->x1C &= ~ACTOR_CONFUSED;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_2_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 2:
-        ent->x1C &= ~0x10;
-        if (ent->x14 & 0x4000) {
+    case STATUS_BLIND - 1:
+        ent->x1C &= ~ACTOR_BLIND;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_3_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
@@ -46,49 +50,49 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             refresh_actor_proximity_state(ent);
         }
         break;
-    case 3:
-        ent->x1C &= ~0x20;
-        if (ent->x14 & 0x4000) {
+    case STATUS_PARALYSIS - 1:
+        ent->x1C &= ~ACTOR_PARALYZED;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_4_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 4:
-        ent->x1C &= ~0x40;
-        if (ent->x14 & 0x4000) {
+    case STATUS_POISON - 1:
+        ent->x1C &= ~ACTOR_POISONED;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_5_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 5:
-        ent->x1C &= ~0x80;
-        if (ent->x14 & 0x4000) {
+    case STATUS_MAGIC_BIND - 1:
+        ent->x1C &= ~ACTOR_MAGIC_BOUND;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_6_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 6:
-        if (ent->x14 & 0x4000) {
+    case STATUS_SPEED - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_7_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 7:
-        ent->x1C &= ~0x800;
+    case STATUS_CURSE - 1:
+        ent->x1C &= ~ACTOR_CURSED;
         break;
-    case 8:
-        ent->x1C &= ~0x1000;
-        if (ent->x14 & 0x4000) {
+    case STATUS_ANGER - 1:
+        ent->x1C &= ~ACTOR_ANGRY;
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_9_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 9:
+    case STATUS_FROG - 1:
     {
         s32 spawn_mode;
         int is_registered;
@@ -97,12 +101,12 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         Ctor_80042BDC create_entity;
         u32 entity_flags;
 
-        if (ent->x13 == 0x2E || ent->x13 == 0) {
+        if (ent->x13 == MONSTER_FROG || ent->x13 == 0) {
             create_colored_effect_with_event((u8 *)ent - 0x20, 0x20A0A0, 0x613);
         }
         if (ent->x13 != 0) {
             spawn_mode = 1;
-            if (ent->x13 == 0x2E) {
+            if (ent->x13 == MONSTER_FROG) {
             child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
             entity_flags = ent->x14;
             ent->x13 = ent->xA8;
@@ -121,7 +125,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             {
                 int tile_x = child->x24;
                 int tile_y = child->x25;
-                if (ent->x1C & 0x2000) {
+                if (ent->x1C & ACTOR_PLAYER_SIDE) {
                     tile_mask = 0x300;
                 }
                 update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
@@ -146,7 +150,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             update_actor_status_and_mp(spawn_result_2);
             spawn_result_2->x1C &= ~0x10000;
 
-            if (ent->x14 & 0x4000) {
+            if (ent->x14 & ACTOR_PARTY_MEMBER) {
                 u8 *slot_base;
                 u8 *slot_data;
                 int entity_index;
@@ -166,7 +170,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                     owner_data = ((u8 *)dungeon_actor_ring_anchor);
                     *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
                     spawn_result_2->x60 = owner_data;
-                    spawn_result_2->x1C |= 0x80000;
+                    spawn_result_2->x1C |= ACTOR_LIFTED;
                     /*
                      * Original bug: the lifted replacement shares Koh's tile. This lift setup clears that tile again
                      * after the constructor marked it occupied. Reattach without clearing Koh's occupancy.
@@ -180,7 +184,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 } else {
                     if (spawn_result_2->x25 == 0) {
                         g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-                        spawn_result_2->x1C &= ~0x8;
+                        spawn_result_2->x1C &= ~ACTOR_MP_EMPTY;
                     }
                 }
             }
@@ -193,47 +197,47 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         }
         }
 L_print4B:
-        if (ent->x14 & 0x4000) {
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_10_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
     }
-    case 26:
+    case STATUS_NO_TILE_OCCUPANCY - 1:
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
-        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
+        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         try_move_actor_to_valid_position(ent, *(s32 *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->position, child, ent);
         break;
-    case 10:
+    case STATUS_PLAYER_SIDE - 1:
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
-        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
-        ent->x1C &= ~0x2000;
-        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
+        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+        ent->x1C &= ~ACTOR_PLAYER_SIDE;
+        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         break;
-    case 11:
-        if (ent->x14 & 0x4000) {
+    case STATUS_BRAINWASH - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_12_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
-        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
-        ent->x1C |= 0x2000;
-        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
+        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+        ent->x1C |= ACTOR_PLAYER_SIDE;
+        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         break;
     case 25:
         child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         ent->x98 &= 0x7FFF;
-        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
+        update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         if (ent->x98 & 0x4000) {
-            ent->x1C |= 0x2000;
+            ent->x1C |= ACTOR_PLAYER_SIDE;
         }
-        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
+        cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         child->x12 = ent->xA6;
         break;
-    case 31:
-        if (ent->x14 & 0x4000) {
+    case STATUS_NO_MP_DRAIN - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_32_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
@@ -242,28 +246,28 @@ L_print4B:
     case 20:
     case 21:
     case 22:
-        if (ent->x14 & 0x4000) {
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_21_to_23_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 17:
-        if (ent->x14 & 0x4000) {
+    case STATUS_FIRE_PROTECT - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_18_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 18:
-        if (ent->x14 & 0x4000) {
+    case STATUS_WATER_PROTECT - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_19_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
-    case 19:
-        if (ent->x14 & 0x4000) {
+    case STATUS_WIND_PROTECT - 1:
+        if (ent->x14 & ACTOR_PARTY_MEMBER) {
             message_ctx = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(status_end_action_20_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);

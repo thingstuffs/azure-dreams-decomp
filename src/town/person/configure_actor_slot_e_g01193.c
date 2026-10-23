@@ -4,25 +4,25 @@
 #include "town/person/configure_actor_slot_e_g01193.h"
 
 void configure_actor_slot_34(void *actor) {
-    func_800C3050(actor, 0x22, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0x22, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }
 
 void configure_actor_slot_14(void *actor) {
-    func_800C3050(actor, 0xE, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0xE, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }
 
 void configure_actor_slot_20(void *actor) {
-    func_800C3050(actor, 0x14, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0x14, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }
 
 void configure_actor_slot_58(void *actor) {
-    func_800C3050(actor, 0x3A, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0x3A, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }
 
 void configure_actor_slot_43(void *actor) {
-    func_800C3050(actor, 0x2B, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0x2B, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }
 
 void configure_actor_slot_80(void *actor) {
-    func_800C3050(actor, 0x50, D_800D7268, D_800D726C, D_800D7238, D_800D7240);
+    func_800C3050(actor, 0x50, scene_slot_e_data_a, scene_slot_e_data_b, scene_slot_e_data_c, scene_slot_e_data_d);
 }

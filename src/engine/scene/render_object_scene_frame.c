@@ -16,7 +16,7 @@ typedef struct S_80083160_ctx
     void *cur;
 }
 S_80083160_ctx;
-extern S_80083160_ctx *D_80083160[3];
+extern S_80083160_ctx *g_game_work[3];
 extern u8 upper_draw_context[];
 typedef struct S_80081480
 {
@@ -42,9 +42,9 @@ void render_object_scene_frame(void)
     u32 skip_vsync;
     u32 vsync_mode;
 
-    PutDispEnv(((u8 *) D_80083160[0]) + 0x5C);
-    PutDrawEnv(D_80083160[0]);
-    DrawOTag(&D_80083160[0]->ot[8]);
+    PutDispEnv(((u8 *) g_game_work[0]) + 0x5C);
+    PutDrawEnv(g_game_work[0]);
+    DrawOTag(&g_game_work[0]->ot[8]);
     service_cd_command_queue();
     drain_audio_commands_and_service_channels();
     saved_value = gpu_scratch_buffer_base.field_0;
@@ -52,15 +52,15 @@ void render_object_scene_frame(void)
     run_runtime_callbacks();
     update_controller_buttons_and_triggers();
     next_buffer = upper_draw_context;
-    if (D_80083160[0] == ((S_80083160_ctx *) next_buffer)) {
+    if (g_game_work[0] == ((S_80083160_ctx *) next_buffer)) {
         next_buffer = next_buffer + 0x108D4;
     }
     else {
         next_buffer = upper_draw_context;
     }
-    D_80083160[0] = (S_80083160_ctx *) next_buffer;
+    g_game_work[0] = (S_80083160_ctx *) next_buffer;
     ClearOTagR((s32 *) (((u8 *) next_buffer) + 0x70), 0x218);
-    D_80083160[0]->cur = ((u8 *) D_80083160[0]) + 0x8D4;
+    g_game_work[0]->cur = ((u8 *) g_game_work[0]) + 0x8D4;
     tick_screen_fade_slots();
     update_active_nodes();
     dispatch_and_clear_four_pointer_slots();

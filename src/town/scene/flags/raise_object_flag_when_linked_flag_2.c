@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Set record and global flags when the record is zero and linked flag 2 is set. */
 void raise_object_flag_when_linked_flag_2(void *record) {
@@ -11,7 +11,7 @@ void raise_object_flag_when_linked_flag_2(void *record) {
         if (*(u16 *)((u8 *)linked_record + 0xC) & 2) {
             *(u16 *)((u8 *)record - 2) =
                 (u16)(*(u16 *)((u8 *)record - 2) | 0x8000);
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
     }
 }

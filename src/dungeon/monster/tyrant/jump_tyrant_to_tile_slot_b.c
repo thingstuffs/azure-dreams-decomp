@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 /* Relinked copy of dungeon/func_80B1AA58 (func_80B1AA58.c); this jump variant keeps its counter at +0xA0 (twin +0xA8) and uses launch speed 0xFFE80000 / gravity 0x60000 (twin 0xFFEE0000 / 0x40000); otherwise retail differs only at relocation sites. */
 #include "common.h"
 #include "dungeon/actor.h"
@@ -57,7 +58,7 @@ void jump_tyrant_to_tile_slot_b(void *jump, void *motion, void *sprite, void *ac
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFE80000;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172258_0 *)jump)->unk_A0 = 0;
         ((S_80172258_0 *)jump)->unk_9B++;
 
@@ -85,12 +86,12 @@ void jump_tyrant_to_tile_slot_b(void *jump, void *motion, void *sprite, void *ac
         if (((S_80172258_0 *)jump)->unk_96.s < 2) {
             ((S_80172258_0 *)jump)->unk_90 = 0;
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
             ((S_80172258_0 *)jump)->unk_9B++;
         }
 
     case 2:
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((EntityRec *)actor)->flags1C) & ACTOR_GROUNDED) {
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;

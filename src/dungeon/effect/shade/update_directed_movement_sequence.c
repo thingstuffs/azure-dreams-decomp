@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -253,7 +254,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
         if (action->timer >= action->duration) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             action->timer = 0;
             action->state++;
         }

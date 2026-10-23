@@ -11,7 +11,7 @@ typedef struct SceneActionReset {
      s16 unkA;
 } SceneActionReset;
 
-extern u8 D_80098078[];
+extern u8 target_action_update_address[];
 extern u8 D_800D01D8[];
 
 extern void clear_entity_record_fields(void *record);
@@ -20,7 +20,7 @@ void initialize_scene_state_twenty_one(SceneActionReset *object, void *position,
     call_the_handler_selects_nonzero_entry((s32 *) D_800D01D8, (Rec_func_80094268_arg0 *) object, handler_context);
     object_index_slots[1].unk_00 = 0;
     object_index_slots[1].unk_01 = 0;
-    object->unk4 = D_80098078;
+    object->unk4 = target_action_update_address;
     object->unkA = 0x15;
     clear_entity_record_fields(position);
 }

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct SpriteFrameState;
 
@@ -27,7 +28,7 @@ extern void apply_clamped_actor_value_delta(void *);
 extern void create_knockback_travel_object(void *,struct ObjectPosition *, void *, void *);
 extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);
 
-extern u8 D_80170EE4[];
+extern u8 manoeva_action_resume_address[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
@@ -73,7 +74,7 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
             return;
         }
         timer = -1;
-        if (actor->flags1C & 0x228) {
+        if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         script->unk_96.s = timer;
@@ -158,6 +159,6 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
                 g_dungeon_status.pending_display_owner = value & 0x7FFFFFFF;
             }
         }
-        script->unk_8C = D_80170EE4;
+        script->unk_8C = manoeva_action_resume_address;
     }
 }

@@ -16,7 +16,7 @@ s32 try_move_actor_to_valid_position();
 s32 sample_terrain_surface_height();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];
-extern M2C_UNK D_8017418C[];
+extern M2C_UNK kraken_frame_set_1[];
 extern u8 D_801741D4[];
 
 
@@ -153,7 +153,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             if (animated_flags & 0x40000) {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
-                    if (animation_table == (s32)&D_8017418C) {
+                    if (animation_table == (s32)&kraken_frame_set_1) {
                         ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                     } else if (animation_table == (s32)&D_80174174) {
                         ((S_80170B64_0 *)actor)->unk_A0.u++;
@@ -229,7 +229,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             } else {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
-                    if (static_animation_table == (s32)&D_8017418C) {
+                    if (static_animation_table == (s32)&kraken_frame_set_1) {
                         ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                     } else if (static_animation_table == (s32)&D_80174174) {
                         ((S_80170B64_0 *)actor)->unk_A0.u++;

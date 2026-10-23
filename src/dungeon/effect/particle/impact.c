@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Map surface queries, particle bursts, owner-following effects, and linked mesh rendering. */
 
 struct ObjectPosition;
@@ -270,7 +271,7 @@ void scale_effect_by_phase(void *effect)
     S_80024398_2 *node;
 
     ticks_left = ((S_80024398_0 *)effect)->unk_28.s;
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
 
     {
         S_80024398_1 *parent;
@@ -454,7 +455,7 @@ void advance_effect_motion_and_animation(void *effect, void *position, SpriteFra
     visual->scale_x -= 0xC8;
     visual->scale_y -= 0xC8;
     frame_count = *(u16 *)((u8 *)effect + 0x2A);
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
     frame_count += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
@@ -543,7 +544,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     SpriteFrameState *sprite;
     void *object;
 
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
     offset_x = (rand() & 0x3F) - 0x20;
     offset_y = (rand() & 0x3F) - 0x20;
     random_bits = rand();
@@ -983,7 +984,7 @@ void advance_rotating_ballistic_particle_and_expire(void *state, void *position,
     u16 frame_count;
 
     frame_count = *(u16 *)((u8 *)state + 0x2A);
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
     frame_count = frame_count + 1;
     *(u16 *)((u8 *)state + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
@@ -1420,7 +1421,7 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
     copy_src = (u8 *)&D_80024004;
     offsets = *(LocalPoints *)copy_src;
 
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
     half_tile = 0x20;
     S16_AT(visual_in, 0x10) = half_tile;
     U16_AT(visual_in, 0x14) |= 0xC;
@@ -1885,7 +1886,7 @@ void update_effect_motion_and_visual(void *effect, void *position, SpriteFrameSt
     visual->scale_x -= 500;
     visual->scale_y -= 500;
     frame = *(u16 *)((u8 *)effect + 0x2A);
-    D_8002992E = 1;
+    impact_effect_update_flag = 1;
     frame += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame;
     if (!(frame & 1)) {
@@ -2067,7 +2068,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         owner->unk_F4 = 0;
         owner->unk96 = 30;
         next_state = effect->unk_0A.u;
-        D_8002992E = 1;
+        impact_effect_update_flag = 1;
         effect->unk_2A = 0;
         effect->unk_0A.u = next_state + 1;
     case 1:
@@ -2075,7 +2076,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         if ((child->flags & 0x80) == 0) {
             return;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
@@ -2187,14 +2188,14 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
                 return;
             }
         }
-        dungeon_mode = D_8002992E;
+        dungeon_mode = impact_effect_update_flag;
         effect->unk_1C.s = 0;
         if (dungeon_mode == 0) {
             effect->unk_28.u = 0;
             effect->unk_0A.u = effect->unk_0A.u + 1;
             return;
         } else {
-            D_8002992E = 0;
+            impact_effect_update_flag = 0;
             return;
         }
     }

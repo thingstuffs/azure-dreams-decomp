@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 /* Directional item effects, moving sprite copies, and target completion messages. */
 #include "common.h"
 #include "shared/entity.h"
@@ -28,14 +29,14 @@ extern DirectionTable D_80024004;
 extern u8 D_80024024[];
 extern u8 D_80024E5C[];
 extern u8 D_80025B40[];
-extern s16 D_80025B60;
-extern u8 D_80045340[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
+extern s16 shaded_effect_update_flag;
+extern u8 sprite_chain_projector_address[];
+extern u8 dir_step_x[];
+extern u8 dir_step_y[];
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 
 typedef struct {
     void * owner;
@@ -147,9 +148,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         (((ResolvedSprite *)sprite)->color) = 0x808080;
         (((ResolvedSprite *)sprite)->scale_y) = 0x1000;
         (((ResolvedSprite *)sprite)->scale_x) = 0x1000;
-        select_record_entry_and_value(sprite, ((u32)D_800DEC00), 0);
+        select_record_entry_and_value(sprite, ((u32)directional_sprite_entries), 0);
         direction = (((ResolvedActor *)owner)->facing);
-        D_80025B60 = 1;
+        shaded_effect_update_flag = 1;
         (((ResolvedEffect *)effect_state)->direction) = (direction >> 9) & 7;
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
@@ -177,8 +178,8 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             (((ResolvedSpawn *)spawn_state)->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
             (((ResolvedSpawn *)spawn_state)->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
             owner_sprite = (((ObjectNodeHeader *)(owner))[-1].sprite);
-            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_x) + D_8006CCD8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
-            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_y) + D_8006CCE8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_x) + dir_step_x[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_y) + dir_step_y[((((ResolvedEffect *)effect_state)->direction) * 2)]);
             if ((((ResolvedActor *)owner)->target) != 0) {
                 (((ResolvedSpawn *)spawn_state)->target_x) = (s16) (s8) (((ResolvedActor *)owner)->tile_x);
                 (((ResolvedSpawn *)spawn_state)->target_y) = (s16) (s8) (((ResolvedActor *)owner)->tile_y);
@@ -186,7 +187,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
                 (((ResolvedSpawn *)spawn_state)->origin_y) = (s16) (((ResolvedSprite *)owner_sprite)->tile_y);
                 (((ResolvedSpawn *)spawn_state)->has_target) = 1;
                 (((ResolvedSpawn *)spawn_state)->timer) = 0;
-                set_or_clear_actor_status_slot((((ResolvedActor *)owner)->target), 0x1D, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (generate_random_value() & 3)));
+                set_or_clear_actor_status_slot((((ResolvedActor *)owner)->target), STATUS_DAMAGE_GUARD, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (generate_random_value() & 3)));
                 packet_source = source_sprite;
             } else {
                 (((ResolvedSpawn *)spawn_state)->range) = 0x20;
@@ -207,7 +208,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             spawn_sprite->tpage_abr = 0x20;
             spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
             (spawned->unk_10) = ((u32)D_80024E5C);
-            register_node(spawned, ((u32)D_80045340));
+            register_node(spawned, ((u32)sprite_chain_projector_address));
             spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (spawned->position);
@@ -256,7 +257,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         next_frame = frame + 1;
         (((ResolvedEffect *)effect_state)->frame) = next_frame;
         if ((s16) next_frame >= 0xB) {
-            done_flag = D_80025B60;
+            done_flag = shaded_effect_update_flag;
             (((ResolvedEffect *)effect_state)->frame) = frame;
             if (done_flag == 0) {
                 g_dungeon_status.active_actor = 0;
@@ -264,7 +265,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
-            D_80025B60 = 0;
+            shaded_effect_update_flag = 0;
         }
         break;
     }

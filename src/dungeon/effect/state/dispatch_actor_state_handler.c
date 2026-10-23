@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/effect/state.h"
 #include "shared/sprite_frame_state.h"
@@ -22,7 +23,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Sp
     if (state_value > 0) {
         apply_pending_byte_increase(actor, context, object, state);
     }
-    if ((actor->unk_9A.as_u8 != 0xD) && (state->flags1C & 0x200)) {
+    if ((actor->unk_9A.as_u8 != 0xD) && (state->flags1C & ACTOR_ASLEEP)) {
         object->flags = (u16) (object->flags & 0xF7FF);
         begin_player_sleep_action(actor, context, object, state);
     }

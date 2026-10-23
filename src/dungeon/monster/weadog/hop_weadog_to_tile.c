@@ -1,3 +1,7 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -30,8 +34,8 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern s32 D_80171CE8;
-extern u8 D_80174EB8[];
+extern s32 weadog_action_resume_address;
+extern u8 weadog_frame_set_3[];
 extern u8 D_80174ED0[];
 extern u8 D_80174ED8[];
 
@@ -64,7 +68,7 @@ void func_801730E0(void *action, ObjectPosition *motion, void *sprite, EntityRec
             D_80174ED0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801730E0_0 *)action)->unk_98 |= 8;
-        (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
+        (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801730E0_0 *)action)->unk_9E.u = 5;
         ((S_801730E0_0 *)action)->unk_A0 = 0;
         ((S_801730E0_0 *)action)->unk_9B++;
@@ -94,12 +98,12 @@ void func_801730E0(void *action, ObjectPosition *motion, void *sprite, EntityRec
         if (phase_timer < 0) {
             ((S_801730E0_0 *)action)->unk_90 = 0;
             ((S_801730E0_0 *)action)->unk_98 &= 0xFFF7;
-            (*(u32 *)&actor->flags1C) |= 0x08000000;
+            (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
             ((S_801730E0_0 *)action)->unk_9B++;
         }
 
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             ((S_801730E0_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -116,7 +120,7 @@ void func_801730E0(void *action, ObjectPosition *motion, void *sprite, EntityRec
         break;
 
     case 3:
-        anim_table = D_80174EB8;
+        anim_table = weadog_frame_set_3;
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(
@@ -160,7 +164,7 @@ void func_801730E0(void *action, ObjectPosition *motion, void *sprite, EntityRec
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_801730E0_0 *)action)->unk_8C = &D_80171CE8;
+        ((S_801730E0_0 *)action)->unk_8C = &weadog_action_resume_address;
         on_actor_status_updated(actor);
     }
 }

@@ -56,7 +56,7 @@ extern s16 D_800272A0[];
 extern void *scene_object_payload_alias;
 extern s32 town_target_height_offset;
 extern u8 D_80092698[];
-extern u8 D_800927EC[];
+extern u8 tracked_actor_callback_address[];
 extern u8 D_80092A84[];
 extern u8 D_800F2DC0[];
 extern u8 D_800F2E08[];
@@ -190,7 +190,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
     case 5:
         if (*music == D_80092698) {
             ((S_80020DF0_0 *)object)->unk_6C.s = 7;
-            *music = D_800927EC;
+            *music = tracked_actor_callback_address;
             ((S_80020DF0_0 *)object)->unk_15 = 0;
             ((S_80020DF0_0 *)object)->unk_68.s = 6;
         }
@@ -211,10 +211,10 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
         base_height = ((S_80020DF0_2 *)motion)->unk_08.at00.v + 0x80000;
         ((S_80020DF0_2 *)motion)->unk_14 = (target_height - base_height) >> 1;
         add_motion_deltas_to_position(motion);
-        *music = D_800927EC;
+        *music = tracked_actor_callback_address;
         (*(u16 *)((u8 *)object + 0x6C))--;
         if ((s16)((S_80020DF0_0 *)object)->unk_6C.s <= 0) {
-            *music = D_800927EC;
+            *music = tracked_actor_callback_address;
             ((S_80020DF0_2 *)motion)->unk_14 = 0;
             ((S_80020DF0_2 *)motion)->unk_10 = 0;
             ((S_80020DF0_2 *)motion)->unk_0C = 0;
@@ -246,7 +246,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
                 ((S_80020DF0_1 *)actor)->unk_2A &= 0xFFFB;
                 ((S_80020DF0_0 *)object)->unk_68.u++;
             } else {
-                *music = D_800927EC;
+                *music = tracked_actor_callback_address;
             }
             if (((S_80020DF0_0 *)object)->unk_68.s == 0xA) {
                 SD_Call(0x700);

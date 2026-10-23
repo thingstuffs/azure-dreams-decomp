@@ -15,8 +15,8 @@ typedef struct S_func_8133A3F0_0 {
 } S_func_8133A3F0_0;
 
 extern s32 register_node();
-extern s32 D_80170F68;
-extern s8 D_80175DC1;
+extern s32 encounter_actor_update_address;
+extern s8 encounter_recovery_flag;
 
 /* Creates object 0x112 and initializes its position and render state. */
 void create_encounter_actor_object(void) {
@@ -28,7 +28,7 @@ void create_encounter_actor_object(void) {
     if (object != 0) {
         render_state = object->unk_0C;
         object->unk_38 = 0;
-        object->unk_10 = &D_80170F68;
+        object->unk_10 = &encounter_actor_update_address;
         register_node(object, project_sprite_chain);
         position = object->unk_08;
         render_state->flags = (u16)(render_state->flags | 0x80);
@@ -40,6 +40,6 @@ void create_encounter_actor_object(void) {
         render_state->color.c.b = 0x80;
         render_state->color.c.g = 0x80;
         render_state->color.c.r = 0x80;
-        D_80175DC1 = 0;
+        encounter_recovery_flag = 0;
     }
 }

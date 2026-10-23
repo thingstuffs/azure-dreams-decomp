@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct S_800C8ABC_0 {
@@ -33,7 +34,7 @@ s32 roll_chance_and_run_action(void *record, s16 chance, s8 action)
     value = saved_chance;
     divisor = value / 2;
     if ((remainder < divisor) || (value == 0xFF)) {
-        if ((s16)set_or_clear_actor_status_slot(((S_800C8ABC_0 *)(record)), 1, saved_action) >= 0) {
+        if ((s16)set_or_clear_actor_status_slot(((S_800C8ABC_0 *)(record)), STATUS_SLEEP, saved_action) >= 0) {
             return 1;
         }
     }

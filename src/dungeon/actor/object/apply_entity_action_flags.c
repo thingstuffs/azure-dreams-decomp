@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/tile_object.h"
@@ -44,75 +46,75 @@ void apply_entity_action_flags(void *object, s32 action) {
 
     action_index = (s16) (action - 1);
     switch (action_index) {
-    case 0:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x200);
+    case STATUS_SLEEP - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_ASLEEP);
         break;
-    case 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x400);
+    case STATUS_CONFUSION - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_CONFUSED);
         break;
-    case 2:
-        ((ActorRecord *)object)->flags1C = (s32) ((((ActorRecord *)object)->flags1C & 0xFFFDFFFF) | 0x10);
+    case STATUS_BLIND - 1:
+        ((ActorRecord *)object)->flags1C = (s32) ((((ActorRecord *)object)->flags1C & ACTOR_PLAYER_AWARE_CLEAR_MASK) | 0x10);
         break;
-    case 3:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x20);
+    case STATUS_PARALYSIS - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_PARALYZED);
         break;
-    case 4:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x40);
+    case STATUS_POISON - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_POISONED);
         break;
-    case 5:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x80);
+    case STATUS_MAGIC_BIND - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_MAGIC_BOUND);
         break;
-    case 7:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x800);
+    case STATUS_CURSE - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_CURSED);
         break;
-    case 8:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | 0x1000);
+    case STATUS_ANGER - 1:
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_ANGRY);
         break;
-    case 26:
+    case STATUS_NO_TILE_OCCUPANCY - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
         tile_x = ((MovingTile *)position)->unk_24;
         tile_y = ((MovingTile *)position)->unk_25;
         clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & 0x2000) {
+        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
         break;
-    case 10:
+    case STATUS_PLAYER_SIDE - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
         tile_x = ((MovingTile *)position)->unk_24;
         tile_y = ((MovingTile *)position)->unk_25;
         enable_clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & 0x2000) {
+        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             enable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
-        updated_flags = ((ActorRecord *)object)->flags1C | 0x2000;
+        updated_flags = ((ActorRecord *)object)->flags1C | ACTOR_PLAYER_SIDE;
         ((ActorRecord *)object)->flags1C = updated_flags;
         tile_x = ((MovingTile *)position)->unk_24;
         tile_y = ((MovingTile *)position)->unk_25;
         set_mask = 0x3000;
-        if (updated_flags & 0x2000) {
+        if (updated_flags & ACTOR_PLAYER_SIDE) {
             set_mask = 0x300;
         }
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
-    case 11:
+    case STATUS_BRAINWASH - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
         tile_x = ((MovingTile *)position)->unk_24;
         tile_y = ((MovingTile *)position)->unk_25;
         disable_clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & 0x2000) {
+        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             disable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C & ~0x2000);
+        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C & ~ACTOR_PLAYER_SIDE);
         tile_x = ((MovingTile *)position)->unk_24;
         tile_y = ((MovingTile *)position)->unk_25;
         set_mask = 0x3000;
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
-    case 9:
+    case STATUS_FROG - 1:
         func_8003E188(0x2E, 0);
         if (((ActorRecord *)object)->flags14 & 0x20000000) {
             begin_actor_flagged_action(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,

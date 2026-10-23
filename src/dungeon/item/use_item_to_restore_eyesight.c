@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -50,16 +53,16 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
     }
 
     create_timed_paired_particle_emitter(*(s32 *)((u8 *)entity_arg - 0x18), 0xC02020, entity_arg);
-    if (*(s32 *)((u8 *)entity_arg + 0x14) & 0x4000) {
+    if (*(s32 *)((u8 *)entity_arg + 0x14) & ACTOR_PARTY_MEMBER) {
         initial_id = get_unused_text_buffer();
         selected_id = initial_id;
-        if (!(*(s32 *)((u8 *)entity_arg + 0x1C) & 0x10)) {
+        if (!(*(s32 *)((u8 *)entity_arg + 0x1C) & ACTOR_BLIND)) {
             selected_id = expand_text_control_codes(D_800E188B, initial_id);
         }
         clear_byte_and_advance(selected_id);
         display_text_with_fullwidth_adjustment(initial_id);
     }
-    clear_slots_of_type(entity_arg, 3);
+    clear_slots_of_type(entity_arg, STATUS_BLIND);
     clear_slot_and_update_linked_state(amount);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;

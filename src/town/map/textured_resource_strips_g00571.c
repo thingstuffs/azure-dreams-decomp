@@ -59,7 +59,7 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     output = ((S_800A3B80_0 *)town)->unk_8D0;
     scratch->data20 = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
-    origin_x = D_80100D8A;
+    origin_x = town_display_offset;
     context_view = context;
     context_data = context_view->unk_08;
     scratch->data118 = context_data;
@@ -524,7 +524,7 @@ void create_resource_display_object(s16 resource_index) {
         ((LargeS16 *)&D_80100D88)->value = 0;
         component->unk_02 = 0;
         component = object->position;
-        ((LargeS16 *)&D_80100D8A)->value = 0;
+        ((LargeS16 *)&town_display_offset)->value = 0;
         component->unk_06 = 0;
         component = object->position;
         component->unk_0A = 0x4000;

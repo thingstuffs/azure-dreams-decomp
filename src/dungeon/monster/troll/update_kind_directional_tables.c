@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/monster/troll/update_kind_directional_tables.h"
 #include "shared/sprite_frame_state.h"
 
@@ -14,7 +15,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
     kind = state->kind48;
     switch (kind) {
     case 13:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80157E54;
         } else {
@@ -28,7 +29,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
         }
         break;
     case 14:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80157E5C;
         } else {
@@ -42,7 +43,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
         }
         break;
     case 15:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80157E64;
         } else {
@@ -69,7 +70,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
     switch (state->kind48) {
     case 13:
         if (*(u8 **)&display->frameTable != D_80157E54 ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u32)&D_80157DC4;
@@ -78,7 +79,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
         return;
     case 14:
         if (*(u8 **)&display->frameTable != D_80157E5C ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u32)&D_80157DCC;
@@ -87,7 +88,7 @@ void update_kind_directional_tables(Obj0 *owner, void *context, Obj2 *display_ar
         return;
     case 15:
         if (*(u8 **)&display->frameTable != D_80157E64 ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u32)&D_80157DD4;

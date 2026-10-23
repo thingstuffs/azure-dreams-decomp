@@ -24,7 +24,7 @@ void update_alternate_menu_page_bounds(Object *obj)
     if (state->current < state->limit) {
         flag_bits = -2;
         obj->flags &= flag_bits;
-        *obj->outputs->secondary = D_800786E8;
+        *obj->outputs->secondary = card_selection_display_data;
         return;
     }
 

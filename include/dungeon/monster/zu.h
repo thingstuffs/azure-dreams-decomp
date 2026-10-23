@@ -8,7 +8,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/dungeon_moving_views.h"
 struct SpriteFrameState;
-extern u8 D_80174AD4[];
+extern u8 zu_default_frames[];
 void select_sprite_entry();
 void func_80047784();
 s32 test_neighbor_position_relation();

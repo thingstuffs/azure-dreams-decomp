@@ -51,7 +51,7 @@ typedef struct S_func_800D7FB8_7 {
     u16 unk_00;
 } S_func_800D7FB8_7;
 
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 extern s32 D_800D81D4;
 
 extern void *allocate_list_node(void *, void *);
@@ -89,9 +89,9 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->scale_y = 0x400;
                 sub_data->scale_x = 0x400;
                 sub_data->tpage_abr = 0x20;
-                sub_data->unk_00 = D_800DEC00;
+                sub_data->unk_00 = directional_sprite_entries;
                 sub_data->flags = (u16)(sub_data->flags | 0xC);
-                resource_word = ((S_func_800D7FB8_4 *)D_800DEC00)->unk_04;
+                resource_word = ((S_func_800D7FB8_4 *)directional_sprite_entries)->unk_04;
                 sub_data->unk_04 = 0;
                 sub_data->unk_05 = 0;
                 sub_data->color.word = 0;

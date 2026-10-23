@@ -14,7 +14,7 @@ extern int abs(int);
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
 
-extern u8 D_8003C558[16];
+extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_8028DFD8[16];
 extern u8 D_8052E40C[0x2000];
 
@@ -74,7 +74,7 @@ void animate_paired_threshold_indicators(void *hud) {
             obj = func_800373DC(0x136);
             if (obj != NULL) {
                 S32_AT(obj, 0x10) = (s32)D_8052E40C;
-                func_8003BC18(obj, D_8003C558);
+                func_8003BC18(obj, score_sprite_draw_callback_address);
                 part = PTR_AT(obj, 0xC);
                 S16_AT(part, 0x1E) = 0x800;
                 S16_AT(part, 0x1C) = 0x800;

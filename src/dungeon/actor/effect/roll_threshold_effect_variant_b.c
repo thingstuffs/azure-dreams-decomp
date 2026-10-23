@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct State {
@@ -43,7 +44,7 @@ s32 roll_threshold_effect_variant_b(State *state_ptr, s16 limit_input, s8 byte_i
                 }
             }
             dispatch_v1 =
-                (s32)((u32)set_or_clear_actor_status_slot(state, 3, byte_value) << 16);
+                (s32)((u32)set_or_clear_actor_status_slot(state, STATUS_BLIND, byte_value) << 16);
             result = 1;
             if (dispatch_v1 >= 0) {
                 goto done;

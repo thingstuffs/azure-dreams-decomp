@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -211,7 +213,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
                 ((s32 *)0x80010980)[object_slot] = 0;
             }
         }
-        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
+        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             release_object = ((S_800C2824_0 *)effect)->unk_00;
             release_status = ((S_800C2824_6 *)release_object)->unk_1C;
             release_coord = (u32)((ObjectNodeHeader *)((u8 *)release_object - 0x20))->sprite;
@@ -241,7 +243,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         flags_page = (u8 *)0x80080000;
         marked_object = ((S_800C2824_0 *)effect)->unk_00;
         ((ObjectNodeHeader *)((u8 *)marked_object - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)marked_object - 0x20))->flags
-            | 0x8000);
+            | NODE_REMOVE);
         effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
         effect_flags |= 0x8000;
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
@@ -269,10 +271,10 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
             return;
         }
         detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
-        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
+        if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) != 0) {
             unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
-            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | 0x8000);
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | NODE_REMOVE);
             final_object = D_800DF560;
             flags_page = (u8 *)0x80080000;
             effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
@@ -290,7 +292,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
             update_map_cell_flags_with_item_limit(expired_x, expired_coord, tile_flags);
             unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
-            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | 0x8000);
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | NODE_REMOVE);
             final_object = D_800DF560;
             flags_page = (u8 *)0x80080000;
             effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;

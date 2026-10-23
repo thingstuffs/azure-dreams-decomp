@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
 #include "shared/monster_ids.h"
@@ -34,16 +37,16 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         modeBits = mode & 3;
         data0C->unk_24 = value24;
         if (modeBits == 1) {
-            result->unk_14 |= 0x6000;
-            result->unk_1C |= 0x6000;
+            result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (modeBits >= 2) {
-            result->unk_14 |= 0x2000;
-            result->unk_1C |= 0x2000;
+            result->unk_14 |= ACTOR_CLASS_ENABLED;
+            result->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((mode & ~3) << 16) == 0) {
-            if (!(result->unk_14 & 0x200)) {
+            if (!(result->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    result->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    result->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     data0C->frameTable = D_80161D78;
                 }
             }

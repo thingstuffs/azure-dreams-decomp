@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -30,12 +31,12 @@ extern void clear_entity_flag_and_advance_action(void *, void *, void *, void *)
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
-extern u8 D_801740E0[];
+extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 extern u8 D_801740F0[];
 extern u8 D_80174140[];
-extern u8 D_80174150[];
-extern u8 D_80174158[];
+extern u8 hikewne_frame_set_1[];
+extern u8 hikewne_frame_set_2[];
 
 typedef struct S_801714D4_0 {
     u8 pad_00[0x8C];
@@ -79,19 +80,19 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
 
     if (stats->tileY == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, stats);
-        if (*(u8 **)&sprite->frameTable == D_80174158) {
+        if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             return;
         }
-        (sprite->frameTable) = D_80174150;
+        (sprite->frameTable) = hikewne_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80174150[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
+            hikewne_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((u32)stats->flags1C) & 0x200) {
-        if (*(u8 **)&sprite->frameTable == D_80174158) {
+    if (((u32)stats->flags1C) & ACTOR_ASLEEP) {
+        if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             ((S_801714D4_0 *)actor_arg)->unk_9A = 13;
             ((S_801714D4_0 *)actor_arg)->unk_9B = 1;
             ((S_801714D4_0 *)actor_arg)->unk_8C = 0;
@@ -104,7 +105,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((u32)stats->flags1C) & 0x100) {
+        if (((u32)stats->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -113,12 +114,12 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             ((S_801714D4_0 *)actor_arg)->unk_9A = 14;
         }
 
-        if ((*(u8 **)&sprite->frameTable != D_801740E0) &&
+        if ((*(u8 **)&sprite->frameTable != hikewne_direction_frames) &&
             (*(u8 **)&sprite->frameTable != hikewne_alt_direction_frames)) {
-            (sprite->frameTable) = D_801740E0;
+            (sprite->frameTable) = hikewne_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
+                hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
             sprite->unk_05 = 1;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
@@ -134,7 +135,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             }
         }
 
-        if (((u32)stats->flags1C) & 0x80000) {
+        if (((u32)stats->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, stats);
             ((S_801714D4_0 *)actor_arg)->unk_92 -= ((S_801714D4_0 *)actor_arg)->unk_A2.u;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
@@ -155,7 +156,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     sprite->unk_26 = tile_index;
 
     if (stats->unk_6D > 0) {
-        if (((u32)stats->flags1C) & 0x20) {
+        if (((u32)stats->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
         }

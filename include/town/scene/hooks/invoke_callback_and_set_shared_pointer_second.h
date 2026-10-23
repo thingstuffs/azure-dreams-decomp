@@ -6,7 +6,7 @@
 #include "m2c_compat.h"
 M2C_UNK func_80017398();             /* extern */
 extern M2C_UNK D_80017500;
-extern s16 D_800175B4;
+extern s16 scene_threshold_counter;
 extern M2C_UNK *D_800175B8;
 void invoke_callback_and_set_shared_pointer(void);
 #endif

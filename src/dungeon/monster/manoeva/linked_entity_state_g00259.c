@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 /* Linked entity state (G00259).
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00259 - CL:dungeon/func_80E3A540@dungeon/bank_e56c58, CL:dungeon/func_80E3A540@dungeon/bank_e5d000, CL:dungeon/func_80E3A540@dungeon/bank_e63000, CL:dungeon/func_80E3A540@dungeon/bank_e69000, CL:dungeon/func_80E3A540@dungeon/bank_e6f000, CL:dungeon/func_80E3A540@dungeon/bank_e75000.
  */
@@ -61,7 +62,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
         *(s32 *)(dest_state + 0x1C) = 0;
         copy_entity_record(dest_state, linked_state);
         *(u32 *)(dest_state + 0x14) &= 0xDFFFFFFF;
-        call_result = get_entity_effect_value(dest_state, 1);
+        call_result = get_entity_effect_value(dest_state, STATUS_SLEEP);
         if ((call_result << 16) != 0) {
             *(u32 *)(dest_state + 0x1C) |= 0x200;
         } else {

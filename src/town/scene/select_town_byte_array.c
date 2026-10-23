@@ -6,7 +6,7 @@ extern s32 get_script_flag_mask(s32);
 
 extern u8 D_8001C350[];
 extern s32 D_8001C360;
-extern u8 D_8001DCD4[];
+extern u8 scene_event_buffer[];
 extern u8 D_8001DDA4[];
 extern u8 D_8001E1AB[];
 
@@ -21,5 +21,5 @@ u8 *select_town_byte_array(void) {
         }
         return D_8001C350;
     }
-    return D_8001DCD4;
+    return scene_event_buffer;
 }

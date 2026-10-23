@@ -19,7 +19,7 @@ typedef struct S_8081508C_1 {
 } S_8081508C_1;   /* arg0 in advance_three_component_motion */
 
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Advance the three motion components and set completion flags when the countdown expires. */
 void advance_three_component_motion(void *timer_state, void *motion) {
@@ -32,6 +32,6 @@ void advance_three_component_motion(void *timer_state, void *motion) {
     ((S_8081508C_1 *)timer_state)->unk_0E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)timer_state + -2)) = (u16) (((ObjectStatusPrefix16 *)timer_state)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

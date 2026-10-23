@@ -14,7 +14,7 @@ typedef struct {
     s32 value;
 } WordField;
 
-extern s32 D_800C3174;
+extern s32 message_motion_type_a;
 extern s32 D_800C3438;
 
 /* Initializes object fields and registers the object in its slot. */
@@ -23,7 +23,7 @@ void initialize_object_and_register_slot(void *object, s32 slot_index, s32 field
 {
     s32 registered_slot;
 
-    ((PointerField *)((u8 *)object - 0x10))->value = &D_800C3174;
+    ((PointerField *)((u8 *)object - 0x10))->value = &message_motion_type_a;
     ((PointerField *)((u8 *)object + 0x50))->value = &D_800C3438;
     ((WordField *)((u8 *)object + 0x60))->value = slot_index;
     ((WordField *)((u8 *)object + 0x58))->value = field_58_value;

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
 #include "shared/monster_ids.h"
@@ -43,26 +46,26 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            flag_bits = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
+            flag_bits = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = flag_bits;
             work->unk_1C = secondary_flags;
         } else if (kind >= 2) {
-            flag_bits = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
+            flag_bits = work->unk_14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = flag_bits;
             work->unk_1C = secondary_flags;
         } else {
             init_obj = obj;
             if (((flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
+                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                     query_part = part_a;
                     init_obj = (void *)generate_random_value();
                     flag_bits = (s32)init_obj;
                     init_obj = obj;
                     if (flag_bits & 1) {
-                        work->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(work, 1,
+                        work->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_80161CDC;
                     }

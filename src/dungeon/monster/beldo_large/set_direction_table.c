@@ -48,13 +48,13 @@ typedef struct {
     u8 unk_73;
 } DungeonInput;
 
-extern u8 D_801739E0[];
+extern u8 beldo_large_frame_set_6[];
 extern u8 D_801739E8[];
 extern u8 D_801739F0[];
-extern u8 D_801739A0[];
-extern u8 D_801739A8[];
-extern u8 D_801739B0[];
-extern u8 D_8016A36C[];
+extern u8 beldo_large_frame_set_2[];
+extern u8 beldo_large_frame_set_5[];
+extern u8 beldo_large_frame_set_1[];
+extern u8 beldo_large_action_resume_address[];
 
 extern void select_sprite_entry(DungeonObject *, u8, s32);
 extern void set_record_integer_tile_center(DungeonWork *, u8, u8);
@@ -82,7 +82,7 @@ void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
         mode = state->mode;
         switch (mode) {
         case 0:
-            set_direction_table(object, input, D_801739E0);
+            set_direction_table(object, input, beldo_large_frame_set_6);
             break;
         case 1:
             set_direction_table(object, input, D_801739E8);
@@ -91,7 +91,7 @@ void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
             set_direction_table(object, input, D_801739F0);
             break;
         case 3:
-            set_direction_table(object, input, D_801739E0 + 0x18);
+            set_direction_table(object, input, beldo_large_frame_set_6 + 0x18);
             break;
         }
     }
@@ -151,19 +151,19 @@ void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
         switch (mode) {
         case 0:
             previous_table = object->unk_2C;
-            direction_table = D_801739A0;
+            direction_table = beldo_large_frame_set_2;
             break;
         case 1:
             previous_table = object->unk_2C;
-            direction_table = D_801739A8;
+            direction_table = beldo_large_frame_set_5;
             break;
         case 2:
             previous_table = object->unk_2C;
-            direction_table = D_801739B0;
+            direction_table = beldo_large_frame_set_1;
             break;
         case 3:
             previous_table = object->unk_2C;
-            direction_table = D_801739A0 + 0x18;
+            direction_table = beldo_large_frame_set_2 + 0x18;
             break;
         default:
             goto case0;
@@ -195,7 +195,7 @@ case0:
     case 6:
         input->unk_73 = 0;
         input->unk_72 = 0;
-        state->unk_8C = D_8016A36C;
+        state->unk_8C = beldo_large_action_resume_address;
         g_dungeon_status.active_actor = 0;
         input->unk_46 = input->unk_46 & 0x7FFF;
 

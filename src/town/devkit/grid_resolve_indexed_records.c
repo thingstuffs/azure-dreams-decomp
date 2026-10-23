@@ -20,7 +20,7 @@ extern u8 D_80700B94[];
 extern u8 D_80700BBC[];
 extern s32 D_80700B04[];
 extern s32 *D_807013B0[];
-extern CallbackTable *D_807013B4[];
+extern CallbackTable *devkit_trace_methods[];
 extern GlobalState *D_807013A8[];
 extern void advance_table_index_by_eight_byte_stride(void);
 
@@ -29,8 +29,8 @@ void grid_resolve_indexed_records(s32 list_index) {
     void *records;
 
     if (D_80700B0C != 0) {
-        D_807013B4[0]->callback68(D_80700B94, D_80700BBC, 0x59);
-        D_807013B4[0]->callback74(1);
+        devkit_trace_methods[0]->callback68(D_80700B94, D_80700BBC, 0x59);
+        devkit_trace_methods[0]->callback74(1);
     }
     D_80700B0C = 1;
     advance_table_index_by_eight_byte_stride();

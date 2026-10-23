@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -17,9 +18,9 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
-extern s32 D_801714D4;
-extern u8 D_80174158[];
-extern u8 D_80174160[];
+extern s32 hikewne_action_resume_address;
+extern u8 hikewne_frame_set_2[];
+extern u8 hikewne_frame_set_3[];
 
 /* Advance actor states, select directional animations, and process entity actions. */
 void advance_actor_states_and_process_actions(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
@@ -37,7 +38,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_anims = D_80174158;
+        direction_anims = hikewne_frame_set_2;
         (animation->frameTable) = direction_anims;
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -51,9 +52,9 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
 
         if (entity->mp != 0) {
 
-            (animation->frameTable) = D_80174160;
+            (animation->frameTable) = hikewne_frame_set_3;
             select_sprite_entry(animation,
-                D_80174160[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                hikewne_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -111,9 +112,9 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
             return;
         }
 
-        (animation->frameTable) = D_80174160;
+        (animation->frameTable) = hikewne_frame_set_3;
         select_sprite_entry(animation,
-            D_80174160[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            hikewne_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -124,8 +125,8 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
         if (animation->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            entity->flags1C &= ~8;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &D_801714D4;
+            entity->flags1C &= ~ACTOR_MP_EMPTY;
+            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &hikewne_action_resume_address;
         }
 
         return;

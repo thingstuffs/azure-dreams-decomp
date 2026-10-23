@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/monster/troll/update_direction_table_for_entity_kinds.h"
 #include "shared/sprite_frame_state.h"
 
@@ -14,7 +15,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
     kind = entity->kind48;
     switch (kind) {
     case 13:
-        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+        if ((entity->flags1c & ACTOR_ASLEEP) != 0 || entity->flag25 == 0) {
             current_table = (u32)*(u8 **)&sprite->frameTable;
             selected_table = (u32)D_80169E54;
         } else {
@@ -28,7 +29,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         }
         break;
     case 14:
-        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+        if ((entity->flags1c & ACTOR_ASLEEP) != 0 || entity->flag25 == 0) {
             current_table = (u32)*(u8 **)&sprite->frameTable;
             selected_table = (u32)D_80169E5C;
         } else {
@@ -42,7 +43,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         }
         break;
     case 15:
-        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+        if ((entity->flags1c & ACTOR_ASLEEP) != 0 || entity->flag25 == 0) {
             current_table = (u32)*(u8 **)&sprite->frameTable;
             selected_table = (u32)D_80169E64;
         } else {
@@ -68,7 +69,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
     switch (entity->kind48) {
     case 13:
         if (*(u8 **)&sprite->frameTable != D_80169E54 ||
-            (entity->flags1c & 0x208) != 0) {
+            (entity->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         sprite->frameTable = (u32)&D_80169DC4;
@@ -77,7 +78,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         return;
     case 14:
         if (*(u8 **)&sprite->frameTable != D_80169E5C ||
-            (entity->flags1c & 0x208) != 0) {
+            (entity->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         sprite->frameTable = (u32)&D_80169DCC;
@@ -86,7 +87,7 @@ void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *s
         return;
     case 15:
         if (*(u8 **)&sprite->frameTable != D_80169E64 ||
-            (entity->flags1c & 0x208) != 0) {
+            (entity->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         sprite->frameTable = (u32)&D_80169DD4;

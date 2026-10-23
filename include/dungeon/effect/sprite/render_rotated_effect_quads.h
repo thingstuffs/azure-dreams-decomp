@@ -91,7 +91,7 @@ void RotTransPers4();
 void RotMatrix();
 void func_80067EF4();
 void SetDrawArea(void *, void *);
-extern u8 D_8006CD10[3];
+extern u8 effect_view_matrix[3];
 extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);

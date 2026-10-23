@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -61,17 +62,17 @@ extern void play_sound_if_enabled(s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
-extern u8 D_8016A36C[];
-extern u8 D_801739A0[];
-extern u8 D_801739A8[];
-extern u8 D_801739B0[];
-extern u8 D_801739B8[];
+extern u8 beldo_large_action_resume_address[];
+extern u8 beldo_large_frame_set_2[];
+extern u8 beldo_large_frame_set_5[];
+extern u8 beldo_large_frame_set_1[];
+extern u8 beldo_large_frame_set_3[];
 extern u8 D_80173A20[];
 extern u8 D_80173A28[];
 extern u8 D_80173A30[];
 extern u8 D_80173A38[];
 extern u8 D_80175DC0;
-extern u8 D_80175DC1;
+extern u8 encounter_recovery_flag;
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
 void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
@@ -89,7 +90,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
     case 0:
         actor->unk_64 = 0;
         action->unk_9B++;
-        D_80175DC1 = 0;
+        encounter_recovery_flag = 0;
         action->unk_96.s16_value = 6;
         if (action->unk_B0 < 2) {
             return;
@@ -144,7 +145,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
 
         switch (action->unk_AC) {
         case 0:
-            anim_table = D_801739A0;
+            anim_table = beldo_large_frame_set_2;
             if (sprite->unk_2C == anim_table) {
                 return;
             }
@@ -156,7 +157,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             return;
         case 1:
             current_anim = sprite->unk_2C;
-            anim_table = D_801739A8;
+            anim_table = beldo_large_frame_set_5;
             if (current_anim == anim_table) {
                 return;
             }
@@ -168,7 +169,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             return;
         case 2:
             current_anim = sprite->unk_2C;
-            anim_table = D_801739B0;
+            anim_table = beldo_large_frame_set_1;
             if (current_anim == anim_table) {
                 return;
             }
@@ -179,7 +180,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
                 0);
             return;
         case 3:
-            anim_table = D_801739B8;
+            anim_table = beldo_large_frame_set_3;
             if (sprite->unk_2C == anim_table) {
                 return;
             }
@@ -194,7 +195,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
         }
 
     case 3:
-        if (D_80175DC1 != 0) {
+        if (encounter_recovery_flag != 0) {
             if (D_80175DC0 == 0) {
                 return;
             }
@@ -205,7 +206,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             }
             action->unk_96.s16_value = 0;
             action->unk_9B++;
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         action->unk_9B += 2;
@@ -250,7 +251,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
         if (((u8 *)world_state->pending_display_owner) == (u8 *)actor - 0x20) {
             (*(u32 *)&world_state->pending_display_owner) &= 0x7FFFFFFF;
         }
-        action->unk_8C = D_8016A36C;
+        action->unk_8C = beldo_large_action_resume_address;
         return;
     }
 }

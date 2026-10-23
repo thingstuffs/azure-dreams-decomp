@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_80162004[];
+extern u8 town_tile_grid[];
 extern void *no_op_building_callback();
 
 /* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
@@ -22,6 +22,6 @@ void initialize_building_shared_buffer(void)
     map->shiftY = setting;
     map->maskY = limit;
     map->spanY = size;
-    base->map.cells = D_80162004;
+    base->map.cells = town_tile_grid;
     no_op_building_callback(base, size, limit);
 }

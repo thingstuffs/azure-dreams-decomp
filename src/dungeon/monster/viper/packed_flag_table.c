@@ -3,7 +3,7 @@
 
 
 /* numeric; owner-unresolved. */
-const u32 D_8015E838[10] __attribute__((aligned(4))) = {
+const u32 viper_slot_d_action_targets_b[10] __attribute__((aligned(4))) = {
     0x08000000,
     0x00200080,
     0x00800800,

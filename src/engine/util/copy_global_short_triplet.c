@@ -21,14 +21,14 @@ extern struct {
     short field_BC;
     short field_BE;
     short field_C0;
-} D_80083160;
+} g_game_work;
 
 /* Copies the nested position into the global state. */
 void copy_global_short_triplet(struct S_Src *object)
 {
     struct Vec3s *position = object->ptr;
 
-    D_80083160.field_BC = position->x;
-    D_80083160.field_BE = position->y;
-    D_80083160.field_C0 = position->z;
+    g_game_work.field_BC = position->x;
+    g_game_work.field_BE = position->y;
+    g_game_work.field_C0 = position->z;
 }

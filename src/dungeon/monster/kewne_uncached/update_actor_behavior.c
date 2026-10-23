@@ -18,7 +18,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 D_80171FA4[];
+extern u8 kewne_uncached_action_resume_address[];
 extern u8 D_80175C78[];
 extern u8 resident_globals_page[];
 
@@ -142,7 +142,7 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
         }
         spend_actor_mp(actor, 0x100);
         actor_arg = actor;
-        PTR(action, 0x8C) = D_80171FA4;
+        PTR(action, 0x8C) = kewne_uncached_action_resume_address;
         S32(resident_globals_page, 0x346C) = 0;
         advance_status_timers(actor_arg);
         U16(actor, 0x46) &= 0x7FFF;

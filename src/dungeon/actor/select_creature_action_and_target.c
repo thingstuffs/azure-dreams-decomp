@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/monster_ids.h"
 #include "common.h"
@@ -141,7 +144,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         }
                         *(u16 *)(creature + 0x24) = hp;
                         if (creature[0x25] != 0) {
-                            ((ActorRecord *)creature)->flags1C &= ~8;
+                            ((ActorRecord *)creature)->flags1C &= ~ACTOR_MP_EMPTY;
                         }
                         {
                             u8 max_hp = creature[0x66];
@@ -170,12 +173,12 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
 
     update_actor_proximity_flag(position, creature, (s16)saved_lower_limit, (s16)upper_limit, status_out_addr);
-    if ((((ActorRecord *)creature)->flags1C & 0x2410) == 0x2000) {
+    if ((((ActorRecord *)creature)->flags1C & (ACTOR_BLIND | ACTOR_CONFUSED | ACTOR_PLAYER_SIDE)) == 0x2000) {
         {
             ActorRecord *player = dungeon_actor_ring_anchor;
             behavior_byte = creature[0x12];
-            if ((player->flags1C & 0x220) || (get_entity_effect_value(player, 0xA) << 16) != 0) {
-                if (((ActorRecord *)creature)->flags1C & 0x20000) {
+            if ((player->flags1C & (ACTOR_PARALYZED | ACTOR_ASLEEP)) || (get_entity_effect_value(player, STATUS_FROG) << 16) != 0) {
+                if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                     if (behavior_byte != 0) {
                         behavior_byte = 1;
                     }
@@ -188,11 +191,11 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                 return -1;
             }
-            if ((get_entity_effect_value(creature, 6) << 16) == 0) {
+            if ((get_entity_effect_value(creature, STATUS_MAGIC_BIND) << 16) == 0) {
                 s32 found_slot = find_slot_by_definition_kind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (((ActorRecord *)creature)->flags1C & 0x20000) {
+                    if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                         idle_player_pos = &reference_tile_object;
                         idle_player_dist = get_tile_chebyshev_distance(position, idle_player_pos);
                         idle_player_range = get_definition_field_from_triple(creature, slot_or_distance);
@@ -276,11 +279,11 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                 return -1;
             }
-            if ((get_entity_effect_value(creature, 6) << 16) == 0) {
+            if ((get_entity_effect_value(creature, STATUS_MAGIC_BIND) << 16) == 0) {
                 s32 found_slot = find_slot_by_definition_kind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (((ActorRecord *)creature)->flags1C & 0x20000) {
+                    if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                         follow_player_pos = &reference_tile_object;
                         follow_player_dist = get_tile_chebyshev_distance(position, follow_player_pos);
                         follow_player_range = get_definition_field_from_triple(creature, slot_or_distance);
@@ -359,11 +362,11 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             }
 
         case 2:
-            if ((get_entity_effect_value(creature, 6) << 16) == 0) {
+            if ((get_entity_effect_value(creature, STATUS_MAGIC_BIND) << 16) == 0) {
                 s32 found_slot = find_slot_by_definition_kind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (((ActorRecord *)creature)->flags1C & 0x20000) {
+                    if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                         assist_player_pos = &reference_tile_object;
                         assist_player_dist = get_tile_chebyshev_distance(position, assist_player_pos);
                         assist_player_range = get_definition_field_from_triple(creature, slot_or_distance);
@@ -424,13 +427,13 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                         ally_index ^= 1;
                     } while (scan_index < 2);
                 }
-                if (((ActorRecord *)creature)->flags1C & 0x20000) {
+                if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                     if ((check_active_object_state_567() << 16) == 0) {
                         ActorRecord *player = primary_actor_record;
                         if (player->unk_9A == 0x11) {
                             ActorRecord *player_target = player->target;
                             if (player_target != NULL) {
-                                if (!(player_target->flags14 & 0x2000)) {
+                                if (!(player_target->flags14 & ACTOR_CLASS_ENABLED)) {
                                     {
                                         s32 action_code;
                                         u16 checked_action;
@@ -488,7 +491,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
         return -1;
     }
-    if (((ActorRecord *)creature)->flags1C & 0x10) {
+    if (((ActorRecord *)creature)->flags1C & ACTOR_BLIND) {
         delta_or_result = default_action << 16;
         return (u32)delta_or_result >> 16;
     }
@@ -502,7 +505,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         }
     }
 
-    if ((get_entity_effect_value(creature, 6) << 16) == 0) {
+    if ((get_entity_effect_value(creature, STATUS_MAGIC_BIND) << 16) == 0) {
         s32 found_slot = find_slot_by_definition_kind(creature, 0x1E);
         slot_or_distance = found_slot;
         if ((found_slot << 16) >= 0) {
@@ -536,7 +539,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (creature[0x48] != 0xF) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     near_player_pos = &reference_tile_object;
@@ -560,7 +563,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     ranged_player_pos = &reference_tile_object;
@@ -601,7 +604,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         if (!(ability_flags & 0x100)) {
             break;
         }
-        if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+        if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
             break;
         }
         if (ability_flags & 0x8000) {
@@ -619,7 +622,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     if ((s8)position[0x26] < 0) {
@@ -701,7 +704,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((check_entity_interaction_compatibility(creature, target) << 16) == 0) {
         break;
     }
-    if ((get_entity_effect_value(target, 1) << 16) != 0) {
+    if ((get_entity_effect_value(target, STATUS_SLEEP) << 16) != 0) {
         break;
     }
     ((ActorRecord *)creature)->unk_98 |= 0x8000;
@@ -712,7 +715,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     if (*(s16 *)(creature + 0xA6) != 0) {
@@ -738,7 +741,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (neighbor_check == 0) {
         break;
     }
-    if ((get_entity_effect_value(target, 4) << 16) != 0) {
+    if ((get_entity_effect_value(target, STATUS_PARALYSIS) << 16) != 0) {
         break;
     }
     ((ActorRecord *)creature)->action_flags = 0x8009;
@@ -761,7 +764,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((check_entity_interaction_compatibility(creature, target) << 16) == 0) {
         break;
     }
-    if ((get_entity_effect_value(target, 2) << 16) != 0) {
+    if ((get_entity_effect_value(target, STATUS_CONFUSION) << 16) != 0) {
         break;
     }
     {
@@ -783,11 +786,11 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         ((ActorRecord *)creature)->action_flags = 0x8009;
         return 5;
     }
-    if (((ActorRecord *)creature)->flags1C & 0x410) {
+    if (((ActorRecord *)creature)->flags1C & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         break;
     }
     refresh_actor_proximity_state(creature);
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
@@ -875,7 +878,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (neighbor == NULL) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         ((ActorRecord *)creature)->action_flags = 0x800B;
         return 2;
     }
@@ -889,7 +892,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     {
@@ -966,7 +969,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             height_delta = abs(height_delta);
             if (height_delta < 0x21) {
                 if ((check_entity_eligibility(target) << 16) != 0) {
-                    if ((get_entity_effect_value(target, 0xC) << 16) == 0) {
+                    if ((get_entity_effect_value(target, STATUS_BRAINWASH) << 16) == 0) {
                         target_pos = *(void **)(target - 0x14);
                         if ((s16)get_tile_chebyshev_distance(target_pos, position) == 1) {
                             ((ActorRecord *)creature)->action_flags = 0x8009;
@@ -1017,7 +1020,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     return 5;
 
     case 28:
-    if (!(((ActorRecord *)creature)->flags1C & 0x20000)) {
+    if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
     roll_actor_flag_once(creature, 0x20);
@@ -1070,7 +1073,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         if (neighbor_check == 0) {
             break;
         }
-        if ((get_entity_effect_value(target, 4) << 16) != 0) {
+        if ((get_entity_effect_value(target, STATUS_PARALYSIS) << 16) != 0) {
             break;
         }
         ((ActorRecord *)creature)->action_flags = 0x8009;

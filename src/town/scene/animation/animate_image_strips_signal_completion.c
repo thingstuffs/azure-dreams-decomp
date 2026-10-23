@@ -9,7 +9,7 @@ typedef struct S_8052DC78_0 {
 
 extern void func_8006E854(s16 *rect, u8 *image);
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern u8 D_805305B8[];
 extern u8 D_805305D8[];
 extern u8 D_805305F8[];
@@ -97,6 +97,6 @@ void animate_image_strips_signal_completion(CallbackState *callback)
         CallbackOwner *owner = (CallbackOwner *)((u8 *)callback - 2);
 
         *(u16 *)owner |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

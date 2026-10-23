@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -119,7 +120,7 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern LocalPoints D_80024004;
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 extern s16 D_80025338[5];
 s32 get_sprite_attachment_vector(s32, void *, Offset *, s32);     /* extern */
 s32 play_sound_if_enabled();                     /* extern */
@@ -155,7 +156,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
         sprite->color.word = 0x00808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        select_record_entry_and_value(sprite, D_800DEC00, 0);
+        select_record_entry_and_value(sprite, directional_sprite_entries, 0);
         angle = ((S_818154FC_3 *)parent)->unk_2A;
         D_80025338[0] = 1;
         ((S_818154FC_0 *)effect)->unk_7E.s = (s16) ((angle >> 9) & 7);
@@ -198,7 +199,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                 if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
                     ((S_818154FC_0 *)effect)->unk_84.s = 0U;
                     ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
-                    play_sound_if_enabled(0x300);
+                    play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
             }
             return;

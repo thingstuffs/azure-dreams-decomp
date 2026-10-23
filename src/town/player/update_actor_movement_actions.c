@@ -22,7 +22,7 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-extern M2C_UNK D_800CFCB4;
+extern M2C_UNK town_actor_control;
 
 
 typedef struct S_80092320_1 {
@@ -65,7 +65,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
         return;
     }
     if (((s32)state->pressed_buttons) & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action, &D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(action, actor, context);
@@ -78,7 +78,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
             init_threshold_countdown_action(action, actor, context);
             return;
         }
-    } else if (select_an_available_entry_matching_direction_returns_status(&D_800CFCB4) <= 0) {
+    } else if (select_an_available_entry_matching_direction_returns_status(&town_actor_control) <= 0) {
         initialize_action_handler_with_count_six(action, actor, context);
     }
     return;

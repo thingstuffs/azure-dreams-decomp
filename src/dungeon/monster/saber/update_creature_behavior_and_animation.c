@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -65,7 +66,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         return;
     }
 
-    if (((u32)creature_in->flags1C) & 0x200) {
+    if (((u32)creature_in->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == saber_direction_frames_2) {
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9B.as_u8 = 1;
@@ -79,7 +80,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)creature_in->flags1C) & 0x100) {
+        if (((u32)creature_in->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -110,7 +111,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             }
         }
 
-        if (((u32)creature_in->flags1C) & 0x80000) {
+        if (((u32)creature_in->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_in, context_in, sprite, creature_in);
             update_timed_effect_size_and_position(actor_in, context_in, sprite, creature_in);
             (sprite->frameTable) = saber_direction_frames;
@@ -130,7 +131,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     sprite->unk_26 = room_id;
 
     if (creature_in->pending_turn_updates > 0) {
-        if (((u32)creature_in->flags1C) & 0x20) {
+        if (((u32)creature_in->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature_in);
             return;
         }
@@ -205,12 +206,12 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         }
     }
 
-    if (!(((u32)creature_in->flags1C) & 0x2000)) {
+    if (!(((u32)creature_in->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)creature_in->flags1C) & 0x430)) {
+            if (!(((u32)creature_in->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                     sprite->unk_24, sprite->unk_25,

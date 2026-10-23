@@ -13,8 +13,8 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern s32 D_80171CE8;
-extern u8 D_80174EE0[];
+extern s32 weadog_action_resume_address;
+extern u8 weadog_frame_set_2[];
 
 typedef struct S_80173514_0 {
     u8 pad_00[0x8C];
@@ -54,9 +54,9 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
         ((MotionDeltaView *)motion)->unk_14 = 0;
         ((MotionDeltaView *)motion)->unk_10 = 0;
         ((MotionDeltaView *)motion)->unk_0C = 0;
-        sprite->frameTable = D_80174EE0;
+        sprite->frameTable = weadog_frame_set_2;
         select_sprite_entry(sprite,
-            D_80174EE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            weadog_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173514_0 *)action)->unk_96.u = 0;
         ((S_80173514_0 *)action)->unk_9B++;
@@ -106,7 +106,7 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
+            ((S_80173514_0 *)action)->unk_8C = &weadog_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

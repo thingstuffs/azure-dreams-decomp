@@ -48,7 +48,7 @@ typedef struct S_8017558C_5 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 uboat_aura_start_frames[];
 extern u8 D_80170A84[];
-extern s32 D_80045C34[3];
+extern s32 clipped_sprite_renderer_address[3];
 extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2448[];
 extern u8 uboat_default_frames[];
@@ -138,7 +138,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         }
         ((S_8017558C_0 *)action)->unk_AC = effect;
         effect->unk_10 = D_80170A84;
-        register_node(effect, D_80045C34);
+        register_node(effect, clipped_sprite_renderer_address);
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_38 = 5;
         effect_state->unk_40 = action;

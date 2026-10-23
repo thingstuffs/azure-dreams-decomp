@@ -112,18 +112,18 @@ void func_80244588();                            /* extern */
 void func_802445FC(s32, ...);    /* extern */
 void func_80244660(void *, ...); /* extern */
 void func_80529438(void *, ...);           /* extern */
-extern u32 D_80012BCC[3];
+extern u32 scene_value_total[3];
 extern u32 D_80012BC8[4];
-extern u8 D_8003C558[16];
+extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_80095AA0[16];
 extern u8 D_8012F130[0x14];
-extern u8 D_801328C8[16];
-extern u8 D_801328E8[0x20];
+extern u8 scene_object_factory_data[16];
+extern u8 collection_round_work[0x20];
 extern s32 town_motion_state[6];
 extern s32 D_802BC5C8[3];
 extern s32 D_80530588[3];
 extern u8 D_802483B8[];
-extern u8 D_80290268[];
+extern u8 betting_sprite_animation[];
 extern u8 D_80290270[];
 extern u8 D_80290290[];
 extern u8 D_80290298[];
@@ -197,7 +197,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
     S_func_8080F4A4_5 *sprite;
 
     input = (S_func_8080F4A4_3 *)&D_8012F130;
-    animated_sprite = (S_func_8080F4A4_4 *)&D_801328E8;
+    animated_sprite = (S_func_8080F4A4_4 *)&collection_round_work;
     state_or_buttons = game->unk_18;
     game_data = (S_func_8080F4A4_7 *)(game->unk_00 + 0x20);
     switch (state_or_buttons) {
@@ -240,11 +240,11 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         sprite_scale = 0x1000;
         sprite_entry = (s32 *)D_8053012C;
         do {
-            sprite = func_800374FC(0x112, &D_801328C8);
+            sprite = func_800374FC(0x112, &scene_object_factory_data);
             if (sprite != NULL) {
                 sprite_data = sprite->unk_0C;
                 sprite->unk_10 = (s32 *)D_8052B054;
-                func_8003BC18(sprite, &D_8003C558);
+                func_8003BC18(sprite, &score_sprite_draw_callback_address);
                 ((IntVector3 *)sprite->unk_08)->x = (s32) ((sprite_index << 0x17) + 0x04600000);
                 ((IntVector3 *)sprite->unk_08)->y = 0x03600000;
                 ((IntVector3 *)sprite->unk_08)->z = 0xFE000000;
@@ -272,7 +272,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
                 town_motion_state[4] = 0;
                 town_motion_state[3] = 0;
                 animated_sprite->unk_10 = 0U;
-                func_802445FC((s32)D_80290268);
+                func_802445FC((s32)betting_sprite_animation);
                 animated_sprite->unk_00 = (s32)D_802483B8;
                 animated_sprite->unk_04 = (s32)D_8052B1EC;
             }
@@ -294,13 +294,13 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             game->unk_1A = 5U;
         }
         if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0)))
-            && (game->unk_14 <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
-            D_80012BC8[1] = D_80012BCC[0] - 0x3E8;
+            && (game->unk_14 <= 0x1869F) && ((u32) scene_value_total[0] >= 0x3E8U)) {
+            D_80012BC8[1] = scene_value_total[0] - 0x3E8;
             new_bet = game->unk_14 + 0x3E8;
             game->unk_14 = new_bet;
         } else if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0)))
             && (game->unk_14 >= 0x3E8)) {
-            D_80012BC8[1] = D_80012BCC[0] + 0x3E8;
+            D_80012BC8[1] = scene_value_total[0] + 0x3E8;
             new_bet = game->unk_14 - 0x3E8;
             game->unk_14 = new_bet;
         }
@@ -388,7 +388,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             break;
         case 0x14:
             bounce_y_speed = 0x18000;
-            bounce_anim = (s32)D_80290268;
+            bounce_anim = (s32)betting_sprite_animation;
             town_motion_state[5] = -0xC0000;
             town_motion_state[4] = bounce_y_speed;
             func_802445FC(bounce_anim);
@@ -407,7 +407,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             func_802445FC(bounce_anim);
             break;
         case 0x24:
-            bounce_anim = (s32)D_80290268;
+            bounce_anim = (s32)betting_sprite_animation;
             town_motion_state[5] = -0x80000;
             town_motion_state[4] = 0x20000;
             func_802445FC(bounce_anim);
@@ -415,13 +415,13 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         case 0x30:
             bounce_speed = -0x40000;
             town_motion_state[5] = bounce_speed;
-            bounce_anim = (s32)D_80290268;
+            bounce_anim = (s32)betting_sprite_animation;
             func_802445FC(bounce_anim);
             break;
         case 0x3D:
             bounce_speed = -0x38000;
             town_motion_state[5] = bounce_speed;
-            bounce_anim = (s32)D_80290268;
+            bounce_anim = (s32)betting_sprite_animation;
             func_802445FC(bounce_anim);
             break;
         }
@@ -430,7 +430,7 @@ bounce_done:
             town_motion_state[5] = -0x50000;
             town_motion_state[4] = 0;
             town_motion_state[2] = -0x400000;
-            func_802445FC((s32)D_80290268);
+            func_802445FC((s32)betting_sprite_animation);
             game->unk_1C = 0U;
             game->unk_18 = 6;
         }
@@ -454,14 +454,14 @@ bounce_done:
         case 10:
             settle_speed = -0x40000;
             town_motion_state[5] = settle_speed;
-            settle_anim = (s32)D_80290268;
+            settle_anim = (s32)betting_sprite_animation;
             func_802445FC(settle_anim);
             break;
         case 18:
             settle_speed = -0x30000;
             town_motion_state[5] = settle_speed;
         case 26:
-            settle_anim = (s32)D_80290268;
+            settle_anim = (s32)betting_sprite_animation;
             func_802445FC(settle_anim);
             break;
         }
@@ -470,7 +470,7 @@ settle_done:
             game_data->unk_70 = 4;
             town_motion_state[5] = 0;
             town_motion_state[2] = -0x400000;
-            func_802445FC((s32)D_80290268);
+            func_802445FC((s32)betting_sprite_animation);
             game->unk_1C = 3U;
             game->unk_18 = 7;
         }
@@ -578,7 +578,7 @@ settle_done:
         if (game->unk_14 != 0) {
             u32 refunded_gold;
             refund_units = (s16) game->unk_1E;
-            refunded_gold = D_80012BCC[0] + ((refund_units >= 2) ? 0x7D0 : 0x3E8);
+            refunded_gold = scene_value_total[0] + ((refund_units >= 2) ? 0x7D0 : 0x3E8);
             D_80012BC8[1] = refunded_gold;
         }
         refund_steps = game->unk_1E - 2;

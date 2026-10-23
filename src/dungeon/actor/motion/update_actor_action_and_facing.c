@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -42,7 +43,7 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            clear_slots_of_type(actor, 10);
+            clear_slots_of_type(actor, STATUS_FROG);
             reset_actor_motion_at_sprite_tile(state, motion, sprite, actor);
             return;
         }

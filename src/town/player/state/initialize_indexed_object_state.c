@@ -9,7 +9,7 @@ typedef struct {
     /* 0x0A */ s16 unkA;
 } Struct_func_8009BDDC_arg0;
 
-extern u8 D_80098078[];
+extern u8 target_action_update_address[];
 extern u8 D_800D01C8[];
 
 extern void clear_entity_record_fields(void *record);
@@ -19,7 +19,7 @@ void initialize_indexed_object_state(Struct_func_8009BDDC_arg0 *object, void *co
     call_the_handler_selects_nonzero_entry((s32 *) D_800D01C8, (Rec_func_80094268_arg0 *) object, ptr2);
     object_index_slots[1].unk_00 = 0;
     object_index_slots[1].unk_01 = 0;
-    object->unk4 = D_80098078;
+    object->unk4 = target_action_update_address;
     object->unkA = 4;
     clear_entity_record_fields(context);
 }

@@ -6,7 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 
 typedef struct { u8 pad0[2]; u16 field2; s16 field4; u8 pad6[6]; } D_80083460_t;
-extern u8 D_80096384[];
+extern u8 destination_motion_resume_address[];
 extern void begin_player_trap_trigger(void *, void *, void *, void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
@@ -71,7 +71,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
             begin_player_trap_trigger(action, motion, destination, actor);
             return;
         }
-        action->unk_8C.as_pv = D_80096384;
+        action->unk_8C.as_pv = destination_motion_resume_address;
         return;
     case 12:
         if (destination->flags & 0x6000) {
@@ -80,7 +80,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
                 begin_player_trap_trigger(action, motion, destination, actor);
                 return;
             }
-            action->unk_8C.as_pv = D_80096384;
+            action->unk_8C.as_pv = destination_motion_resume_address;
         }
         return;
     default:

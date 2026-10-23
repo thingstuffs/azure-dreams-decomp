@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct Entity800B4194
@@ -23,7 +25,7 @@ typedef struct Context800B4194
     u16 value64;
 }
 Context800B4194;
-extern s32 D_80012090[];
+extern s32 dungeon_mode_state[];
 extern s16 current_dungeon_floor[];
 extern u8 D_800892C4[];
 extern u8 D_800892C8[];
@@ -87,7 +89,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         case 0x12:
         case 0x15:
         {
-            if (!(blocked || (entityp->flags1C & 0x20))) {
+            if (!(blocked || (entityp->flags1C & ACTOR_PARALYZED))) {
                 value = generate_random_value();
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 2;
                 if (roll_chance_and_apply_effect_four(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
@@ -128,7 +130,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
     }
     case 4:
     {
-        if (blocked || (entityp->flags1C & 0x20)) {
+        if (blocked || (entityp->flags1C & ACTOR_PARALYZED)) {
             return 0;
         }
         if (roll_chance_and_apply_effect_four(entityp, 8, 8) == 0) {
@@ -158,14 +160,14 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             return 0;
         }
         saved[1] = 0xE;
-        if ((D_80012090[0] != 2) && (current_dungeon_floor[0] < 0xC)) {
+        if ((dungeon_mode_state[0] != 2) && (current_dungeon_floor[0] < 0xC)) {
             low = 0x10;
             high = 0x18;
             saved[0] = 1;
             saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
-        else if ((D_80012090[0] != 2) && (current_dungeon_floor[0] < 0x16)) {
+        else if ((dungeon_mode_state[0] != 2) && (current_dungeon_floor[0] < 0x16)) {
             low = 0x50;
             high = 0x78;
             saved[0] = 2;
@@ -184,13 +186,13 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         if (blocked) {
             return 0;
         }
-        if (get_entity_effect_value(entityp, 6) != 0) {
+        if (get_entity_effect_value(entityp, STATUS_MAGIC_BIND) != 0) {
             return 0;
         }
         if ((generate_random_value() & 7) != 0) {
             return 0;
         }
-        if (set_or_clear_actor_status_slot(entityp, 6, 0x10) < 0) {
+        if (set_or_clear_actor_status_slot(entityp, STATUS_MAGIC_BIND, 0x10) < 0) {
             return 0;
         }
         play_sound_if_enabled(0x700);

@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -80,11 +82,11 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         part_b->unk_24 = saved_config_24;
 
         if (mode_kind == 1) {
-            ((S_8016F160_1 *)work)->unk_14 |= 0x6000;
-            ((S_8016F160_1 *)work)->unk_1C |= 0x6000;
+            ((S_8016F160_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_8016F160_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (mode_kind >= 2) {
-            ((S_8016F160_1 *)work)->unk_14 |= 0x2000;
-            ((S_8016F160_1 *)work)->unk_1C |= 0x2000;
+            ((S_8016F160_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_8016F160_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
         }
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);

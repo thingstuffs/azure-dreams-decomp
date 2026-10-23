@@ -20,7 +20,7 @@ typedef struct {
 typedef struct {
     Copy4 entries[8];
 } __attribute__((packed)) Copy24;
-extern s16 D_800266BC;
+extern s16 wave_effect_update_flag;
 extern const PackedVector D_80024004;
 extern const PackedVector D_8002400C;
 extern const Copy24 D_80024014;

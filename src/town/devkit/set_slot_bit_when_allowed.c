@@ -10,7 +10,7 @@ typedef struct {
     void (*callback)(s32);
 } CallbackOwner;
 
-extern s32 D_A0700000[];
+extern s32 devkit_overlay_page[];
 
 typedef struct S_808B2CB0_0 {
     u8 pad_00[0xE];
@@ -26,14 +26,14 @@ s32 set_slot_bit_when_allowed(s32 slot, s32 query_b, s32 query_c, s32 query_d) {
     u8 status_byte;
 
     if (func_80700304(slot, query_b, query_c, query_d) >= 2) {
-        raw_bit = *(s16 *)((u8 *)D_A0700000 + (slot * 2) + 0xF34);
+        raw_bit = *(s16 *)((u8 *)devkit_overlay_page + (slot * 2) + 0xF34);
         if (raw_bit >= 0) {
             scratch = raw_bit;
         } else {
             scratch = raw_bit + 0x1F;
         }
         scratch >>= 5;
-        byte_ptr = *(u8 **)((u8 *)D_A0700000 + 0xF40);
+        byte_ptr = *(u8 **)((u8 *)devkit_overlay_page + 0xF40);
         byte_ptr += scratch;
         scratch <<= 5;
         scratch = raw_bit - scratch;
@@ -41,8 +41,8 @@ s32 set_slot_bit_when_allowed(s32 slot, s32 query_b, s32 query_c, s32 query_d) {
         return func_80700590(scratch, byte_ptr);
     }
 
-    (*(CallbackOwner **)((u8 *)D_A0700000 + 0xF58))->callback(2);
-    status = *(void **)((u8 *)D_A0700000 + 0xF40);
+    (*(CallbackOwner **)((u8 *)devkit_overlay_page + 0xF58))->callback(2);
+    status = *(void **)((u8 *)devkit_overlay_page + 0xF40);
     status_byte = status->unk_0E;
     status->unk_0E = status_byte;
     do {

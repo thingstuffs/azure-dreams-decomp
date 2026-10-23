@@ -6,7 +6,7 @@ extern s32 get_person_lookup_step(void *);
 extern void load_record_halfwords_3(void *, s32);
 extern s32 advance_person_lookup_value(void *);
 extern u8 D_800AB408[];
-extern u8 D_800AB708[];
+extern u8 person_approach_state_address[];
 
 
 typedef struct S_800AB5C0_1 {
@@ -31,7 +31,7 @@ void approach_person_sample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords)
     u16 ticks_left;
 
     if (state->unk_90 < 100) {
-        state->unk_50 = D_800AB708;
+        state->unk_50 = person_approach_state_address;
     }
     load_record_halfwords_3(sampled_coords, 4);
     z_offset = get_person_lookup_step(coords);

@@ -11,7 +11,7 @@ extern u8 D_8002744C[9];
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
 extern s16 view_facing_angle_alias;
-extern s32 D_800CEEFC[3];
+extern s32 linked_mesh_processor_address[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
 {
@@ -48,7 +48,7 @@ spawn:
     effect = allocate_flagged_object_node(0x202);
     if (effect != 0) {
         effect->unk_10 = callback;
-        data = D_800CEEFC;
+        data = linked_mesh_processor_address;
         register_node(effect, data);
         positions = *(u8 * *)&effect->position;
         positions->x.w.i = pos_x;

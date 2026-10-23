@@ -156,8 +156,8 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         return;
     case 2:
         if (source_mesh->flags & 0xE000) {
-            if (source_mesh->frameTable != D_80174E88) {
-                source_mesh->frameTable = D_80174E88;
+            if (source_mesh->frameTable != noise_direction_frames) {
+                source_mesh->frameTable = noise_direction_frames;
                 source_mesh->flags &= 0xF7FF;
                 select_sprite_entry(source_mesh, ((u8 *)source_mesh->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle
                     + actor->facing + 0x100) >> 9) & 7], 0);
@@ -174,8 +174,8 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         position->velocity_y = 0;
         position->velocity_x = 0;
         set_record_integer_tile_center(position, source_mesh->unk_24, source_mesh->unk_25);
-        if (source_mesh->frameTable != D_80174E88) {
-            source_mesh->frameTable = D_80174E88;
+        if (source_mesh->frameTable != noise_direction_frames) {
+            source_mesh->frameTable = noise_direction_frames;
             source_mesh->flags &= 0xF7FF;
             select_sprite_entry(source_mesh, ((u8 *)source_mesh->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);

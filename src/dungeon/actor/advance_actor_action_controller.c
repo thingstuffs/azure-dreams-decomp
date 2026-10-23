@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -30,7 +32,7 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
 
-extern u8 D_800D8C64[];
+extern u8 actor_action_resume_address[];
 extern u8 actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
@@ -108,7 +110,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
 
-        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             TileObject *reference_sprite;
             s8 coordinate;
 
@@ -118,11 +120,11 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
                         (coordinate >= 0)) ||
                  (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&
                 ((generate_random_value() & 7) == 0)) {
-                clear_slots_of_type(actor, 1);
+                clear_slots_of_type(actor, STATUS_SLEEP);
             }
         }
 
-        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
             u8 *direction_table;
 
             direction_table = actor_action_frames;
@@ -156,6 +158,6 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
         return;
     }
 
-    actor->flags1C &= ~0x200;
-    ((S_800DA014_0 *)controller)->unk_8C = D_800D8C64;
+    actor->flags1C &= ~ACTOR_ASLEEP;
+    ((S_800DA014_0 *)controller)->unk_8C = actor_action_resume_address;
 }

@@ -13,7 +13,7 @@ typedef struct {
 } State;
 
 extern ValueHolder *D_80701988[3];
-extern State *D_80701968[3];
+extern State *devkit_state_slots[3];
 
 extern s32 func_80700C9C(s32 entry);
 extern void shift_index_and_add_offset(s32 entry);
@@ -25,7 +25,7 @@ s32 set_stage_flag_one_if_ready(s32 fallback_result) {
 
     if ((func_80700C9C(1) != 0) && (*D_80701988[0]->value >= 1)) {
         shift_index_and_add_offset(1);
-        D_80701968[0]->flags |= 1;
+        devkit_state_slots[0]->flags |= 1;
         return func_80701404();
     }
     pass_indexed_table(1);

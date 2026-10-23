@@ -29,7 +29,7 @@ typedef struct S_func_80016D74_2 {
 
 extern s32 D_80018FB4;
 extern s32 D_80018FB8;
-extern s32 D_8001925C;
+extern s32 scene_request_context;
 extern void func_800181C8();
 extern s32 func_80018BD0(s32);
 

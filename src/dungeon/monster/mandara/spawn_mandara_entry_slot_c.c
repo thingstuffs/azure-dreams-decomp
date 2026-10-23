@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_801588A4(void);
+extern void spawn_mandara_in_slot_c(void);
 
 /* entry; owner: dungeon/func_80FC9000. */
-const u32 D_80158800[1] __attribute__((aligned(4))) = {
-    (u32)func_801588A4
+const u32 mandara_slot_c_spawn_entry[1] __attribute__((aligned(4))) = {
+    (u32)spawn_mandara_in_slot_c
 };

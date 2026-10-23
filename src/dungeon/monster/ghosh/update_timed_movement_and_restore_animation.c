@@ -39,9 +39,9 @@ typedef struct S_func_81325A04_3 {
     u16 unk_6A;
 } S_func_81325A04_3;
 
-extern u8 D_8016B778[];
-extern u8 D_8017467C[];
-extern u8 D_80174684[];
+extern u8 ghosh_action_resume_address[];
+extern u8 ghosh_frame_set_3[];
+extern u8 ghosh_frame_set_4[];
 #include "dungeon/monster/ghosh.h"
 extern u8 D_801746CC[];
 
@@ -86,7 +86,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
             motion->unk_0C = 0;
             if (action->unk_B4 != 0) {
                 action->unk_9B = 0;
-                action->unk_8C = D_8016B778;
+                action->unk_8C = ghosh_action_resume_address;
                 return;
             }
             action->unk_9B = 0;
@@ -181,7 +181,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
                 begin_actor_display_action(action, motion, entity, D_801746CC);
                 return;
             } else {
-                u8 *result_bits = D_8016B778;
+                u8 *result_bits = ghosh_action_resume_address;
                 action->unk_9B = 0;
                 action->unk_8C = result_bits;
                 return;
@@ -190,9 +190,9 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
         anim_addr = *(s32 *)&entity->frameTable;
         if (anim_addr == (s32)ghosh_ready_action_frames) {
             if (action->unk_B3 == 0) {
-                anim_table = D_8017467C;
+                anim_table = ghosh_frame_set_3;
             } else {
-                anim_table = D_80174684;
+                anim_table = ghosh_frame_set_4;
             }
             if (anim_addr != (s32)anim_table) {
                 entity->frameTable = (s32)anim_table;
@@ -203,7 +203,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        action->unk_8C = D_8016B778;
+        action->unk_8C = ghosh_action_resume_address;
         return;
     }
 }

@@ -38,9 +38,9 @@ typedef struct {
 } ActorFieldView_81336BB4;
 
 
-extern u8 D_8016A36C[];
+extern u8 beldo_large_action_resume_address[];
 extern s16 D_801760D8[];
-extern u8 D_801739A0[];
+extern u8 beldo_large_frame_set_2[];
 
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);
@@ -118,19 +118,19 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         switch (anim_mode) {
         case 0:
             current_anim_table = ((SpriteFieldView_81336BB4 *)sprite)->field_2C;
-            anim_table = D_801739A0;
+            anim_table = beldo_large_frame_set_2;
             break;
         case 1:
             current_anim_table = ((SpriteFieldView_81336BB4 *)sprite)->field_2C;
-            anim_table = D_801739A0 + 0x8;
+            anim_table = beldo_large_frame_set_2 + 0x8;
             break;
         case 2:
             current_anim_table = ((SpriteFieldView_81336BB4 *)sprite)->field_2C;
-            anim_table = D_801739A0 + 0x10;
+            anim_table = beldo_large_frame_set_2 + 0x10;
             break;
         case 3:
             current_anim_table = ((SpriteFieldView_81336BB4 *)sprite)->field_2C;
-            anim_table = D_801739A0 + 0x18;
+            anim_table = beldo_large_frame_set_2 + 0x18;
             break;
         default:
             state = sequence[0x9B];
@@ -161,7 +161,7 @@ advance:
     case 5:
         actor[0x73] = 0;
         actor[0x72] = 0;
-        ((SequenceFieldView_81336BB4 *)sequence)->field_8C = D_8016A36C;
+        ((SequenceFieldView_81336BB4 *)sequence)->field_8C = beldo_large_action_resume_address;
         g_dungeon_status.active_actor = 0;
         ((ActorFieldView_81336BB4 *)actor)->field_46 &= 0x7FFF;
 

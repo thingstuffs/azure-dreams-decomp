@@ -33,8 +33,8 @@ typedef struct EmptyCallArg {
 } EmptyCallArg;
 
 extern s16 D_80026476;
-extern u32 D_800265C0;
-extern u32 D_800265C4;
+extern u32 row_quad_top_color;
+extern u32 row_quad_bottom_color;
 extern u32 D_800265C8[];
 
 extern u32 RotTransPers4(
@@ -114,15 +114,15 @@ s32 draw_adjacent_row_quads(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        *(u32 *)((u8 *)quad + 12) = D_800265C0;
-                        *(u32 *)((u8 *)quad + 4) = D_800265C0;
-                        *(u32 *)((u8 *)quad + 28) = D_800265C4;
-                        *(u32 *)((u8 *)quad + 20) = D_800265C4;
+                        *(u32 *)((u8 *)quad + 12) = row_quad_top_color;
+                        *(u32 *)((u8 *)quad + 4) = row_quad_top_color;
+                        *(u32 *)((u8 *)quad + 28) = row_quad_bottom_color;
+                        *(u32 *)((u8 *)quad + 20) = row_quad_bottom_color;
                     } else {
-                        *(u32 *)((u8 *)quad + 28) = D_800265C0;
-                        *(u32 *)((u8 *)quad + 20) = D_800265C0;
-                        *(u32 *)((u8 *)quad + 12) = D_800265C4;
-                        *(u32 *)((u8 *)quad + 4) = D_800265C4;
+                        *(u32 *)((u8 *)quad + 28) = row_quad_top_color;
+                        *(u32 *)((u8 *)quad + 20) = row_quad_top_color;
+                        *(u32 *)((u8 *)quad + 12) = row_quad_bottom_color;
+                        *(u32 *)((u8 *)quad + 4) = row_quad_bottom_color;
                     }
 
                     SetPolyG4(quad);

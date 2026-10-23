@@ -15,8 +15,8 @@ extern struct {
     Node *head;
     s32 pad[2];
 } active_node_list_head;
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 
 extern s32 runtime_is_record_field_set(void *);
 
@@ -32,8 +32,8 @@ Node *psn_lookable_get(s16 target_id)
 
     node = active_node_list_head.head;
     if (node != 0) {
-        kind_a = D_800C3174;
-        kind_b = D_800C321C;
+        kind_a = message_motion_type_a;
+        kind_b = message_motion_type_b;
         do {
             kind = node->kind;
             next = node->next;

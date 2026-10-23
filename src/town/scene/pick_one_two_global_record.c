@@ -4,13 +4,13 @@
  * function only at that base).  Same shape as the matched selector select_record_by_mode
  * (src/town/func_8032BAA4.c): reads only the third argument.  Evidence: docs/evidence/r121_rem_opus.md. */
 
-extern u8 D_80017774[];
-extern u8 D_8001601C[];
+extern u8 scene_mode_event_data[];
+extern u8 scene_event_data[];
 
 /* Pick one of two global records by the selector. */
 u8 *pick_one_two_global_records(s32 unused_a, s32 unused_b, s32 selector) {
     if (selector == 4) {
-        return D_8001601C;
+        return scene_event_data;
     }
-    return D_80017774;
+    return scene_mode_event_data;
 }

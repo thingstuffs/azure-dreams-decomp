@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -42,7 +44,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern u8 D_801714B8;
+extern u8 glacier_action_resume_address;
 extern Callback glacier_callbacks[];
 
 typedef struct S_8017103C_1 {
@@ -86,7 +88,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         Callback first_callback;
 
         first_callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
-        if (first_callback == (Callback)&D_801714B8) {
+        if (first_callback == (Callback)&glacier_action_resume_address) {
             first_callback(entity_arg, motion_arg, monster_arg, entity_arg);
             return;
         } else {
@@ -142,7 +144,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
             monster->flags &= 0xFFFE;
         }
 
-        if (!(actor->unk_1C & 0x20)) {
+        if (!(actor->unk_1C & ACTOR_PARALYZED)) {
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
@@ -151,7 +153,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         }
 
         if (!(actor->unk_1C & 0x10000000)) {
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 s32 monster_state = monster->unk_04;
                 s32 shade;
                 if (monster_state == 0) {
@@ -200,20 +202,20 @@ flags_done:
                               (s16)(actor->unk_88.u - 0x20))) < 0x200) {
         actor_height = actor->unk_88.s;
         if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) + actor_height < floor_height) {
-            actor->unk_1C &= 0xF7FFFFFF;
+            actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         } else if (floor_height >= actor_height) {
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s32) = 0;
             motion->unk_14 = 0;
-            actor->unk_1C |= 0x08000000;
+            actor->unk_1C |= ACTOR_GROUNDED;
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
         } else {
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) = floor_height - actor->unk_88.u;
             motion->unk_14 = 0;
-            actor->unk_1C |= 0x08000000;
+            actor->unk_1C |= ACTOR_GROUNDED;
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
         }
-        if (actor->unk_1C & 0x40000000) {
-            actor->unk_1C &= 0xBFFFFFFF;
+        if (actor->unk_1C & ACTOR_REFRESH_GROUND) {
+            actor->unk_1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
             floor_height = sample_terrain_surface_height(
                 (monster->unk_24 << 6) | 0x20,
                 (monster->unk_25 << 6) | 0x20,
@@ -223,7 +225,7 @@ flags_done:
             actor->unk_88.u = floor_height;
         }
     } else {
-        actor->unk_1C &= 0xF7FFFFFF;
+        actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
     motion->unk_0A =
         actor->unk_88.u + (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.u16_at_2.value);

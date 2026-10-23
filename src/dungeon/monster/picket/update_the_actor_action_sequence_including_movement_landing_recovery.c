@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -44,9 +46,9 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void select_sprite_entry(void *, u8, s32);
 
-extern u8 D_801710F4[];
-extern u8 D_80174EF8[];
-extern u8 D_80174F00[];
+extern u8 picket_action_resume_address[];
+extern u8 picket_frame_set_2[];
+extern u8 picket_frame_set_1[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
 /* Starts a targeted spell with two effect groups, animates a backward leap and landing squash, then
@@ -81,7 +83,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
 
     case 0:
         ((S_80172C90_1 *)action)->unk_AC.s = ((u16)motion->z.w.i);
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             u16 action_kind;
 
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
@@ -209,7 +211,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
+        ((S_80172C90_1 *)action)->unk_8C = picket_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -261,7 +263,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
 
     case 4:
         motion->velocity_z += 0x20000;
-        if (!((((u32)actor->flags1C) & 0x08000000) && (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u))) {
+        if (!((((u32)actor->flags1C) & ACTOR_GROUNDED) && (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u))) {
             if (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u) {
                 return;
             }
@@ -275,7 +277,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             ((S_80172C90_1 *)action)->unk_96.s = 4;
             sprite->scale_x = 0x1400;
             sprite->scale_y = 0x0C00;
-            effect = D_80174F00;
+            effect = picket_frame_set_1;
             sprite->frameTable = effect;
             select_sprite_entry(sprite,
                 effect[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -299,9 +301,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         if (((S_80172C90_1 *)action)->unk_96.u > 0) {
             return;
         }
-        sprite->frameTable = D_80174EF8;
+        sprite->frameTable = picket_frame_set_2;
         select_sprite_entry(sprite,
-            D_80174EF8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172C90_1 *)action)->unk_96.s = 10;
         ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
@@ -353,10 +355,10 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (*(u8 **)&sprite->frameTable != D_80174F00) {
-            sprite->frameTable = D_80174F00;
+        if (*(u8 **)&sprite->frameTable != picket_frame_set_1) {
+            sprite->frameTable = picket_frame_set_1;
             select_sprite_entry(sprite,
-                D_80174F00[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         if (((s32)g_dungeon_status.active_actor) != 0) {
@@ -364,7 +366,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
-        ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
+        ((S_80172C90_1 *)action)->unk_8C = picket_action_resume_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;
@@ -372,7 +374,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
     default:
         return;

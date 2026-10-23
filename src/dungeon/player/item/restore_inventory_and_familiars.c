@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
@@ -25,7 +26,7 @@ typedef struct {
 extern s32 familiar_record_slots[];
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_turn_counters_alias;
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern u8 D_800E045C[];
 
 extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
@@ -257,7 +258,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             ((s32 *)&familiar_turn_counters_alias)[slot_index] = 0;
                             if (spawned->unk_25 == 0) {
                                 spawned->unk_1C =
-                                    (s32)(spawned->unk_1C | 8);
+                                    (s32)(spawned->unk_1C | ACTOR_MP_EMPTY);
                             }
                             familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;
@@ -266,7 +267,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             replay_actor_status_slots(spawned);
                             create_orbiting_teleport_effect(
                                 spawned,
-                                D_800DCED4[(scratch = get_entity_class(spawned))],
+                                actor_event_values[(scratch = get_entity_class(spawned))],
                                 slot_index, 1);
                         }
                     }

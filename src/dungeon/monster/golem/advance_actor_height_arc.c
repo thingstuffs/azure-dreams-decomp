@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/entity_height_offsets.h"
 #include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
@@ -118,7 +119,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                 (((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8;
         }
         ((S_80172D08_0 *)action)->unk_98 |= 0xC;
-        (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
+        (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172D08_0 *)action)->unk_A0 = 0;
         ((S_80172D08_0 *)action)->unk_96.s = 0x10;
         ((S_80172D08_0 *)action)->unk_9B++;
@@ -303,7 +304,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
-            (*(u32 *)&actor->flags1C) |= 0x08000000;
+            (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
             advance_status_timers(actor);
         }
     }

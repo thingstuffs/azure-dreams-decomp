@@ -464,7 +464,7 @@ void D_80024C50(void *, void *, void *, s32, s32, s32);
 
 extern const Row_819A1450_LocalTable D_80024034;
 extern u8 D_800246F0[];
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 extern Row_819A1654_GlobalState D_800814A0[];
 extern Row_819A1654_LookupGlobal reference_tile_object[];
 extern s16 D_80082E86[6];
@@ -473,7 +473,7 @@ extern Row_819A1654_Coord view_reference_entity[];
 
 extern const Row_819A1654_PointTable D_80024054[1];
 extern Row_819A1654_Blob12 D_80026180[];
-extern Row_819A1654_Blob12 D_8002618C[];
+extern Row_819A1654_Blob12 linked_effect_task_values[];
 extern Row_819A1654_Blob24 D_80026198[];
 void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance);
@@ -487,5 +487,5 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A1
 void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data);
-extern u8 D_800261B0[];
+extern u8 linked_effect_update_flag[];
 #endif

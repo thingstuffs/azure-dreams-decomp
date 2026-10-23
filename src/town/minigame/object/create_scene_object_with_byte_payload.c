@@ -7,7 +7,7 @@
 
 extern void *allocate_list_node();
 extern void register_node(void *, void *);
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 
 typedef struct CopyBlock {
     s32 words[12];
@@ -22,6 +22,6 @@ void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data)
     if (obj != NULL) {
         *(CopyBlock *)((s8 *)obj + 0x20) = *(CopyBlock *)init_data;
         obj->unk_10 = init_value;
-        register_node(obj, &D_80053858);
+        register_node(obj, &text_sprite_builder_address);
     }
 }

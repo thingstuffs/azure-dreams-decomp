@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -19,7 +20,7 @@ s32 copy_selected_text_without_terminator(s32 text_id, s32 dest) {
     s32 text;
     s32 length;
 
-    if (((u32)dungeon_actor_ring_anchor->flags1C) & 0x10) {
+    if (((u32)dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND) {
         text = (s32)D_800DD724[0];
     } else {
         text = select_item_data(text_id, &text_info);

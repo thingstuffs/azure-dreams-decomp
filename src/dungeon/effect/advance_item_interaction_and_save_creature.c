@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
@@ -199,12 +200,12 @@ extern u32 level_experience_table[];
 extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
-extern u8 D_800DD118[];
+extern u8 familiar_save_alt_frames[];
 extern u8 D_800DD130[];
-extern u8 D_800DD138[];
+extern u8 familiar_save_restore_frames[];
 extern s32 D_800814A0;
-extern u8 D_800DD140[];
-extern M2C_UNK D_800E0458;
+extern u8 familiar_save_frames[];
+extern M2C_UNK familiar_defeat_text;
 extern u8 D_800E0A2A[9];
 extern u8 D_800E0A33[15];
 extern s8 entity_spawn_variant_code;
@@ -327,8 +328,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             active_actor_command_code = command;
             if (command != 0x60) {
                 read_monster_script_entry();
-                sprite->unk_2C = D_800DD118;
-                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                sprite->unk_2C = familiar_save_alt_frames;
+                set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
                 action->unk_8C = NULL;
@@ -351,8 +352,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             worn_item = (S_func_800B1364_12 *)action->unk_BC;
             if ((s8) worn_item->unk_02 <= 0) {
                 worn_item->unk_02 = 0U;
-                sprite->unk_2C = D_800DD118;
-                set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                sprite->unk_2C = familiar_save_alt_frames;
+                set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
                 action->unk_9B = 5U;
@@ -373,8 +374,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             }
         }
         append_packed_action_record(actor, 0xA8, 0, 0);
-        sprite->unk_2C = D_800DD118;
-        set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        sprite->unk_2C = familiar_save_alt_frames;
+        set_sprite_animation_frame(sprite, familiar_save_alt_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
         play_sound_if_enabled(0x515);
         action->unk_8C = NULL;
@@ -455,7 +456,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         apply_actor_template_and_class(creature, creature->unk_13, 0);
         creature->unk_43 = 0xFF;
         creature->unk_60 = actor;
-        creature->unk_1C = (s32) (creature->unk_1C | 0x80000);
+        creature->unk_1C = (s32) (creature->unk_1C | ACTOR_LIFTED);
         creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
         linked_creature = actor->unk_60;
         linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
@@ -485,7 +486,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
         if (!((*(u16 *)(&system_update_flags)) & 1)) {
-            message_end = copy_four_text_bytes(&D_800E0458, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
+            message_end = copy_four_text_bytes(&familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
@@ -527,8 +528,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        sprite->unk_2C = D_800DD138;
-        set_sprite_animation_frame(sprite, D_800DD138[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        sprite->unk_2C = familiar_save_restore_frames;
+        set_sprite_animation_frame(sprite, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
         create_familiar_deployment_effect_with_owner_state(action, position, sprite);
         create_familiar_deployment_overlay(action, position, sprite);
@@ -561,8 +562,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =
             (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
         D_800814A0 |= OBJECT_REMOVE_PENDING;
-        sprite->unk_2C = D_800DD140;
-        direction_anim = D_800DD140 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        sprite->unk_2C = familiar_save_frames;
+        direction_anim = familiar_save_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
 read_next_state:
         action->unk_9B = (u8) (action->unk_9B + 1);

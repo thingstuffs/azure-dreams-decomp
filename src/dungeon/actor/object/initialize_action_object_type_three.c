@@ -3,7 +3,7 @@
 
 
 void initialize_action_object_type_three(Rec_func_80094268_arg0 *object) {
-    call_the_handler_selects_nonzero_entry(&D_800D00A0, object);
+    call_the_handler_selects_nonzero_entry(&type_three_action_handler_table, object);
     object->unk_00.as_pm = (void *)update_movement_and_expire_state;
     object->unk_0A.as_s16 = 3;
 }
@@ -28,7 +28,7 @@ void initialize_action_object_type_six(Rec_func_80094268_arg0 *object) {
 }
 
 void initialize_action_object(s32 **object) {
-    call_the_handler_selects_nonzero_entry(&D_800D00B8, object);
+    call_the_handler_selects_nonzero_entry(&action_object_handler_table, object);
     *object = (void *)update_threshold_bound_object;
 }
 
@@ -54,13 +54,13 @@ void initialize_action_handler_with_count_six(ovl_16b08_local_7FFF6D14_InitState
 
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *object, s32 unused, s32 context) {
     SD_Call(0x511);
-    call_the_handler_selects_nonzero_entry(&D_800D0120, object, context);
+    call_the_handler_selects_nonzero_entry(&counted_action_handler_table, object, context);
     object->unk_00.as_pm = (void *)update_actor_with_interaction_state;
     object->unk_0A.as_s16 = 6;
 }
 
 void initialize_actor_movement_interaction_action(ovl_16b08_local_7FFF6DBC_InitState *state, void *unused, void *context) {
-    call_the_handler_selects_nonzero_entry(D_800D0128, state, context);
+    call_the_handler_selects_nonzero_entry(movement_action_handler_table, state, context);
     state->callback = (void *)update_actor_movement_and_interaction;
 }
 
@@ -84,13 +84,13 @@ void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState 
 }
 
 void initialize_action_callback_from_entry(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context) {
-    call_the_handler_selects_nonzero_entry(D_800D00B8, state, context);
+    call_the_handler_selects_nonzero_entry(action_object_handler_table, state, context);
     state->callback = (void *)update_actor_movement_with_radial_effects;
 }
 
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context) {
     store_the_valid_shared_angle_in_offset_hex_10(state, argument, context);
-    call_the_handler_selects_nonzero_entry(D_800D0138, state, context);
+    call_the_handler_selects_nonzero_entry(countdown_action_handler_table, state, context);
     state->callback = (void *)update_threshold_countdown_with_busy_check;
     state->count = 6;
 }

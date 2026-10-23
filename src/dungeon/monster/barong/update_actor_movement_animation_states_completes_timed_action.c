@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/barong.h"
@@ -71,7 +72,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             0);
         sprite->scale_y = 0x1000;
         ((S_80154B4C_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80154B4C_0 *)action)->unk_9E.s = 5;
         ((S_80154B4C_0 *)action)->unk_A4 = 0;
         ((S_80154B4C_0 *)action)->unk_9B++;
@@ -107,7 +108,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         if ((move_count << 16) < 0) {
             ((S_80154B4C_0 *)action)->unk_90 = 0;
             ((S_80154B4C_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80154B4C_0 *)action)->unk_9B++;
         }
                         /* fall through */
@@ -115,7 +116,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     {
         u8 *state_anims;
 
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80154B4C_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -26,7 +27,7 @@ u8 *append_entity_display_text(void *record, u8 *out)
     u8 ch;
     do {
 
-        if ((((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->flags1C & 0x10) &&
+        if ((((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->flags1C & ACTOR_BLIND) &&
             ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
             src = (u8 *)D_800DD728;
         } else if (((EntityRec *)record)->flags14 & 0x4000) {

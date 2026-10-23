@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/killer.h"
 #include "shared/sprite_frame_state.h"
@@ -45,7 +46,7 @@ extern void spend_actor_mp(void *, s32);
 extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
 extern u8 D_80170874[];
-extern u8 D_80170EA8;
+extern u8 killer_action_resume_address;
 extern u8 D_80174090[];
 extern u8 D_80174098[];
 extern u8 D_801740A0[];
@@ -122,14 +123,14 @@ void advance_directional_lift_effect(void *action_record, ObjectPosition *motion
             motion_data->velocity_y = 0;
             motion_data->velocity_x = 0;
             spend_actor_mp(entity_data, 0x1000);
-            ((S_80173C20_0 *)action_record)->unk_8C = &D_80170EA8;
+            ((S_80173C20_0 *)action_record)->unk_8C = &killer_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity_data);
 
             if (((S_80173C20_0 *)action_record)->unk_98 & 0x4000) {
-                ((S_80173C20_1 *)entity_data)->unk_1C |= 0x1000;
+                ((S_80173C20_1 *)entity_data)->unk_1C |= ACTOR_ANGRY;
             } else {
-                ((S_80173C20_1 *)entity_data)->unk_1C &= ~0x1000;
+                ((S_80173C20_1 *)entity_data)->unk_1C &= ~ACTOR_ANGRY;
             }
             ((S_80173C20_1 *)entity_data)->unk_03 = ((S_80173C20_0 *)action_record)->unk_AC;
             if (((S_80173C20_1 *)entity_data)->unk_6D == 0) {

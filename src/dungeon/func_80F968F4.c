@@ -2,7 +2,7 @@
 #define D_80170854 D_80164854
 #define D_80174B0C D_80168B0C
 #include "modules/dungeon_ovl_fa7000.h"
-#include "common.h"
+#include "dungeon/actor/hit_reaction_slot_e.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -33,7 +33,7 @@ extern const u8 D_80164854[20];
 extern u8 D_80168B0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
-void func_801680F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
+void begin_actor_hit_reaction_slot_e(void *work, void *part_a, void *part_b, EntityRec *actor) {
     s32 flags;
     void *call_arg;
     u32 pass_result;

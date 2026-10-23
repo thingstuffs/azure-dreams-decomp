@@ -18,7 +18,7 @@ extern void clear_entity_record_fields(s32 record);
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
 
 extern Entity scene_object_payload_alias;
-extern s32 D_80097D2C[3];
+extern s32 town_position_callback_address[3];
 extern s32 D_8009A81C;
 
 /* Initializes the scene entity's handlers, masked ID, position, and 16-tick timer. */
@@ -28,8 +28,8 @@ void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     s32 context_value = context[3];
 
     clear_entity_record_fields(context[2]);
-    call_the_handler_selects_nonzero_entry(D_800D0090, entity, context_value);
-    scene_object_payload_alias.callback0 = D_80097D2C;
+    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, context_value);
+    scene_object_payload_alias.callback0 = town_position_callback_address;
     entity->callback4 = &D_8009A81C;
     entity->id = entity_id & 0xFFF;
     entity->x = x;

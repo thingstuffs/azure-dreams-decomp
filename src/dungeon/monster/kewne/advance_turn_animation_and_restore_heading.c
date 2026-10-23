@@ -6,7 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 
 extern void select_sprite_entry();
-extern u8 D_801710EC[];
+extern u8 kewne_action_resume_address[];
 extern u8 D_80175EB8[];
 extern u8 D_80175EC8[];
 extern u8 D_80175ED0[];
@@ -151,7 +151,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
                 select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
-            actor->unk_8C = D_801710EC;
+            actor->unk_8C = kewne_action_resume_address;
             transform->unk_2A = (u16) actor->unk_B0;
             actor->unk_B2 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

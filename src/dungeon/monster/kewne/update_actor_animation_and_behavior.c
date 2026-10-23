@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -48,10 +50,10 @@ extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, v
 extern s32 func_8017266C(void *, void *, void *, s32);
 extern void update_actor_state_after_map_check(void *, void *, void *, void *);
 
-extern u8 D_80175E40[];
+extern u8 kewne_direction_frames[];
 extern u8 D_80175E48[];
 extern u8 D_80175E98[];
-extern u8 D_80175EA0[];
+extern u8 kewne_frame_set_1[];
 extern u8 D_80175EB0[];
 extern u8 D_80175EB8[];
 
@@ -74,7 +76,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable == D_80175EA0) {
+        if (sprite->frameTable == kewne_frame_set_1) {
             return;
         }
         anim_table = D_80175EB0;
@@ -85,8 +87,8 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
         return;
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
-        if (sprite->frameTable == D_80175EA0) {
+    if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
+        if (sprite->frameTable == kewne_frame_set_1) {
             ((S_801710EC_0 *)actor)->unk_9A = 0xD;
             ((S_801710EC_0 *)actor)->unk_9B = 1;
             ((S_801710EC_0 *)actor)->unk_8C = 0;
@@ -99,7 +101,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
@@ -116,7 +118,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
             current_anim = sprite->frameTable;
             if (current_anim == D_80175EB8) {
                 if (sprite->flags & 0xE000) {
-                    u8 *reset_anim = D_80175E40;
+                    u8 *reset_anim = kewne_direction_frames;
 
                     (sprite->frameTable) = reset_anim;
                     select_sprite_entry(sprite,
@@ -127,7 +129,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
                     ((S_801710EC_0 *)actor)->unk_9E = 0;
                 }
             } else {
-                anim_table = D_80175E40;
+                anim_table = kewne_direction_frames;
                 if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
@@ -149,7 +151,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
             }
         }
 
-        if (((u32)entity->flags1C) & 0x80000) {
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
@@ -170,7 +172,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
     sprite->unk_26 = room_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -248,12 +250,12 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
         }
     }
 
-    if (!(((u32)entity->flags1C) & 0x2000)) {
+    if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity->flags1C) & 0x430)) {
+            if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->unk_24, sprite->unk_25,
@@ -266,7 +268,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
                 }
             }
         }
-    } else if ((get_entity_effect_value(entity, 4) << 16) == 0) {
+    } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
         if (primary_actor_record->unk_9A == 0x17) {
             advance_counter_unblocked_and_reset_action(actor, context, sprite, entity);
         }

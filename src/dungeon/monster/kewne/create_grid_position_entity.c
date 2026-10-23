@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -13,8 +16,8 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void update_actor_callbacks_and_ground(void);
 extern void update_actor_animation_and_behavior(void);
 
-extern u8 D_80175E40[];
-extern u8 D_80175EA0[];
+extern u8 kewne_direction_frames[];
+extern u8 kewne_frame_set_1[];
 
 typedef struct S_801708B4_1 {
     u8 pad_00[0x13];
@@ -73,17 +76,17 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         actor = entity_data;
-        placement->frameTable = D_80175E40;
+        placement->frameTable = kewne_direction_frames;
         placement->unk_24 = saved_x;
 
         if (spawn_mode == 1) {
-            ((S_801708B4_1 *)entity_data)->unk_14 |= 0x6000;
-            ((S_801708B4_1 *)entity_data)->unk_1C |= 0x6000;
+            ((S_801708B4_1 *)entity_data)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_801708B4_1 *)entity_data)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (spawn_mode >= 2) {
-            ((S_801708B4_1 *)entity_data)->unk_14 |= 0x2000;
-            ((S_801708B4_1 *)entity_data)->unk_1C |= 0x2000;
+            ((S_801708B4_1 *)entity_data)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_801708B4_1 *)entity_data)->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((spawn_flags & -4) << 16) == 0) {
-            if (!(((S_801708B4_1 *)entity_data)->unk_14 & 0x200)) {
+            if (!(((S_801708B4_1 *)entity_data)->unk_14 & ACTOR_RESIST_SLEEP)) {
                 void *call_entity = entity;
                 void *call_position = position;
 
@@ -93,8 +96,8 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
 
                     random_value = generate_random_value();
 
-                    set_or_clear_actor_status_slot(entity_data, 1, (random_value & 0x3F) | 0x20);
-                    placement->frameTable = D_80175EA0;
+                    set_or_clear_actor_status_slot(entity_data, STATUS_SLEEP, (random_value & 0x3F) | 0x20);
+                    placement->frameTable = kewne_frame_set_1;
                 }
             }
         }

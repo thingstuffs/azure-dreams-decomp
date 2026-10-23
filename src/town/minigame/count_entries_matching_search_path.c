@@ -105,7 +105,7 @@ extern s16 D_800272A0[];
 extern s16 D_800272B0[];
 extern s32 scene_object_payload_alias;
 extern u8 D_800930E4[];
-extern s32 D_80097D2C[3];
+extern s32 town_position_callback_address[3];
 
 extern int abs(int);
 extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
@@ -158,7 +158,7 @@ void count_entries_matching_search_path(void *scene)
         ((ObjectPosition *)motion)->velocity_z = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
-        scene_object_payload_alias = (s32)D_80097D2C;
+        scene_object_payload_alias = (s32)town_position_callback_address;
         ((S_8002191C_3 *)global)->unk_04 = D_80022C2C;
         t10 = ((S_8002191C_3 *)global)->unk_10.s;
         ((S_8002191C_3 *)global)->unk_10.s = (t10 + 0x1000) & 0xFE00;
@@ -267,7 +267,7 @@ void count_entries_matching_search_path(void *scene)
         }
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
         create_familiar_deployment_effect_with_owner_state();
-        apply_global_scene_value(D_800D0128);
+        apply_global_scene_value(movement_action_handler_table);
         motion = ((u8 *)(&view_reference_entity));
         ((S_8002191C_0 *)scene)->unk_30.s = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
@@ -316,7 +316,7 @@ void count_entries_matching_search_path(void *scene)
         }
         if (((S_8002191C_5 *)part)->unk_68 == 9) {
             create_familiar_deployment_effect_with_owner_state();
-            apply_global_scene_value(D_800D0128);
+            apply_global_scene_value(movement_action_handler_table);
             create_paired_vector_color_effect(D_80022454, &pos, color, scene);
             ((S_8002191C_0 *)scene)->unk_28.s = 0x200;
             ((S_8002191C_0 *)scene)->unk_2E.s = 0;

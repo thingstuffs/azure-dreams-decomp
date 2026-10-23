@@ -68,7 +68,7 @@ s32 initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
-    register_node(object - 0x20, &D_80046398);
+    register_node(object - 0x20, &lit_mesh_renderer_address);
     placement->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->x;
     placement->unk_04 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->y;
     placement->unk_08 = (s32) ((IntVector3 *)(((S_800A21EC_2 *)object)->unk_14))->z;

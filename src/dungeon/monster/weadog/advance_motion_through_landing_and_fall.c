@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 #include "common.h"
 #include "shared/object_links.h"
 
@@ -217,7 +218,7 @@ void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_8
                               position->unk_16, animation->unk_08, command);
                 ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
                 ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-                D_800814A0.value |= 0x8000;
+                D_800814A0.value |= OBJECT_REMOVE_PENDING;
                 return;
             }
             if (animation->unk_14 & 0x8000)
@@ -242,7 +243,7 @@ fall:
                 position->unk_08.half.unk_08 = 0;
                 ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
                 ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-                D_800814A0.value |= 0x8000;
+                D_800814A0.value |= OBJECT_REMOVE_PENDING;
                 return;
             }
             if (animation->unk_14 & 0x8000)

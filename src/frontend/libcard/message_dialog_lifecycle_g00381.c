@@ -48,7 +48,7 @@ void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 va
     record->unk_20 = value_20;
     record->unk_08 = entry_index;
     record->unk_0C = value_0c;
-    card_boot_measure_five_line_message((entry_index * 0x18) + &((u8 *)D_800280B4)[0]);
+    card_boot_measure_five_line_message((entry_index * 0x18) + &((u8 *)card_menu_entry_values)[0]);
 }
 
 /* Sets record fields, processes its embedded data, and updates the record. */
@@ -67,7 +67,7 @@ void card_boot_activate_message_dialog(void *object)
     card_boot_build_message_window_packets((u8 *)object + 0x24, object);
     card_boot_layout_five_entry_list(object);
     entry_index = ((S_80022CD8_0 *)object)->unk_08;
-    ((S_80022CD8_0 *)object)->unk_00 = D_800280B4[entry_index].unk_15;
+    ((S_80022CD8_0 *)object)->unk_00 = card_menu_entry_values[entry_index].unk_15;
     card_boot_update_message_choice_highlight(object);
     if (((S_80022CD8_0 *)object)->unk_0C == 2) {
         callback = D_800226A8;

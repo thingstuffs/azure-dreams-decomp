@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Homing attack movement, linked visual copies, and particle creation. */
 #include "shared/object_node.h"
 #include "shared/entity.h"
@@ -55,7 +56,7 @@ void advance_image_tint_transition(void *transition) {
         }
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_20 = -1;
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_22 = 0x20;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         result_or_state = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p;
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
         break;
@@ -84,7 +85,7 @@ void advance_image_tint_transition(void *transition) {
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
         break;
     case 4:
-        if (*(s16 *)&D_800269F8 != 0) {
+        if (*(s16 *)&image_tint_update_count != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -106,7 +107,7 @@ update_dimming:
             ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_20 = 0;
         }
     }
-    D_800269F8 = 0;
+    image_tint_update_count = 0;
     return;
 }
 /* Warning: struct S_8003E2D8 is not defined (only forward-declared) */
@@ -117,7 +118,7 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
     void *actor;
     u16 *base_coords;
 
-    D_800269F8++;
+    image_tint_update_count++;
     state = entity->state;
 
     if (state == 0) {
@@ -216,9 +217,9 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     int zero;
     u8 brightness;
     u8 faded_brightness;
-    count_or_scale = D_800269F8 + 1;
+    count_or_scale = image_tint_update_count + 1;
     next_x = motion->f0 + motion->fc;
-    D_800269F8 = (u16) count_or_scale;
+    image_tint_update_count = (u16) count_or_scale;
     motion->f0 = next_x;
     zero = 0;
     motion->f4 = motion->f4 + motion->f10;
@@ -298,10 +299,10 @@ void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_8
     u8 faded_brightness;
     u16 life_left;
 
-    update_count = D_800269F8;
+    update_count = image_tint_update_count;
     velocity_x = motion->unk_0C;
     velocity_y = motion->unk_10;
-    D_800269F8 = update_count + 1;
+    image_tint_update_count = update_count + 1;
     motion->unk_00 = motion->unk_00 + velocity_x;
     motion->unk_04 = motion->unk_04 + velocity_y;
     motion->unk_08 = motion->unk_08 + motion->unk_14;
@@ -376,7 +377,7 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
     u8 green;
     u8 blue;
 
-    D_800269F8++;
+    image_tint_update_count++;
 
     red = color->red;
     green = color->green;
@@ -558,7 +559,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     s32 alternate_scale;
     u16 approach_frames;
 
-    (*(s16 *)&D_800269F8) = (s16) (((ovl_19a332c_819835AC_S_819835AC_10 *) &D_800269F8)->unk_00 + 1);
+    (*(s16 *)&image_tint_update_count) = (s16) (((ovl_19a332c_819835AC_S_819835AC_10 *) &image_tint_update_count)->unk_00 + 1);
     for (history_index = 0; history_index >= 0; history_index--) {
         history = (ovl_19a332c_819835AC_S_819835AC_4 *) ((u8 *) effect + history_index * 8);
         history->unk_50 = history->unk_48;
@@ -987,7 +988,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         actor_data = effect->unk_9C - 0x20;
                         apply_attack_power_and_element_effects(effect->unk_9C, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->unk_44 << 9),
                             tint_transition_source, 2);
-                        play_sound_if_enabled(0x300);
+                        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                         spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
                             (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
                             (rand() & 3) | 4);

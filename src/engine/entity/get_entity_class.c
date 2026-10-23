@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 
 #include "common.h"
@@ -22,7 +23,7 @@ s32 get_entity_class(Entity *entity)
     s32 flags = entity->flags;
     s32 class_id = 0;
 
-    if (flags & 0x2000) {
+    if (flags & ACTOR_CLASS_ENABLED) {
         s32 entity_id = entity->id;
         s32 stats_offset = entity_id << 1;
         s32 shared_flags;

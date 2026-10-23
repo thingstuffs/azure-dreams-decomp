@@ -6,7 +6,7 @@
 typedef struct Bytes4 { u8 bytes[4]; } Bytes4;
 typedef struct Bytes24 { u8 bytes[24]; } Bytes24;
 extern u8 D_800200A0[];
-extern s32 D_800280B4[];
+extern s32 card_menu_entry_values[];
 
 
 typedef struct S_80022774_0 {
@@ -42,7 +42,7 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout)
     group_index = 0;
     record_tag = 0x48;
     texture_data = 0x104058;
-    table_sum = (unsigned long)D_800280B4;
+    table_sum = (unsigned long)card_menu_entry_values;
     entry_index = ((S_80022774_0 *)layout)->unk_08;
     entry_addr = entry_index * 0x18 + table_sum;
     row_count = *(u8 *)(entry_addr + 0x17);

@@ -1,3 +1,7 @@
+#include "shared/actor_property_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/player/object/can_entity_gain_level.h"
@@ -29,10 +33,10 @@ s32 can_entity_gain_level(void *entity) {
     if (F(entity, u8, 0x11) >= 0x63) {
         return 0;
     }
-    if ((get_entity_effect_value(entity,  10) << 16) != 0) {
+    if ((get_entity_effect_value(entity,  STATUS_FROG) << 16) != 0) {
         return 0;
     }
-    if (F(entity, u32, 0x1C) & 0x80000) {
+    if (F(entity, u32, 0x1C) & ACTOR_LIFTED) {
         return can_level_up;
     }
     if (F(entity, u8, 0x13) == 0) {
@@ -41,7 +45,7 @@ s32 can_entity_gain_level(void *entity) {
             return can_level_up;
         }
     }
-    if (F(entity, u32, 0x1C) & 0x228) {
+    if (F(entity, u32, 0x1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
         return can_level_up;
     }
          /* Required for byte-exact code generation. */
@@ -414,7 +418,7 @@ loop_0:
             if (!(system_update_flags & 1)) {
                 text_end = write_text_byte_and_advance(0x11, text_end);
                 text_end = write_text_byte_and_advance(0x4C, text_end);
-                text_end = copy_four_text_bytes(D_800E0458, text_end);
+                text_end = copy_four_text_bytes(familiar_defeat_text, text_end);
             }
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(message);
@@ -748,7 +752,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         if (!(system_update_flags & 1)) {
             message_end = write_text_byte_and_advance(0x11, message_end);
             message_end = write_text_byte_and_advance(0x4C, message_end);
-            message_end = copy_four_text_bytes(&D_800E0458, message_end);
+            message_end = copy_four_text_bytes(&familiar_defeat_text, message_end);
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
@@ -888,16 +892,16 @@ u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_ent
     if (other_entity == NULL) {
         return 0;
     }
-    if (((u32)((ActorRecord *)entity)->flags1C) & 0x410) {
+    if (((u32)((ActorRecord *)entity)->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         return 1;
     }
-    if ((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) == 0x2B &&
+    if ((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) == MONSTER_TYRANT &&
         (((ActorRecord *)entity)->unk_98 & 0x8000)) {
         return 1;
     }
     if ((other_entity->unk_14 & 0x4000) &&
-        (((u32)((ActorRecord *)entity)->flags14) & 0x4000)) {
-        return ((u16)get_entity_effect_value(entity, 0xC) << 16) != 0;
+        (((u32)((ActorRecord *)entity)->flags14) & ACTOR_PARTY_MEMBER)) {
+        return ((u16)get_entity_effect_value(entity, STATUS_BRAINWASH) << 16) != 0;
     }
     return (((((u32)((ActorRecord *)entity)->flags1C) ^
               other_entity->unk_1C) & 0x2000) << 16) >> 16;
@@ -1147,7 +1151,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
     targetEntity = entity->target;
     hasFlag = 0;
     if ((targetEntity != NULL) && (targetEntity->flags14 & 0x4000)) {
-        flagBits = entity->flags14 & 0x4000;
+        flagBits = entity->flags14 & ACTOR_PARTY_MEMBER;
         hasFlag = flagBits != 0;
     }
     if (hasFlag == 0) {
@@ -1155,7 +1159,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
     }
     flags14 = entity->flags14;
     if (!(flags14 & 0x20000000)) {
-        if (!(flags14 & 0x4000)) {
+        if (!(flags14 & ACTOR_PARTY_MEMBER)) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = get_unused_text_buffer();
@@ -1165,7 +1169,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
         }
         if ((result != 0) && (targetData = entity->target, (targetData != NULL))) {
             if (targetData->unk_14 & 0x4000) {
-                if (!(entity->flags14 & 0x4000)) {
+                if (!(entity->flags14 & ACTOR_PARTY_MEMBER)) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;
                     currentValue = selectionInputThird;
@@ -1332,7 +1336,7 @@ s32 detach_record_and_update_slot_state(void *record) {
     entry = 0;
     clear_slots_of_type(record, 0x1A);
     clear_slots_of_type(record, 0x1C);
-    clear_slots_of_type(record, 0x1D);
+    clear_slots_of_type(record, STATUS_DAMAGE_GUARD);
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
         mark_owned_linked_actor_actions(record);
         slot_index = 0;

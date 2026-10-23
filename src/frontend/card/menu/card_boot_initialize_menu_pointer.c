@@ -20,12 +20,12 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
  * EXE-side code addresses that are not yet named func_ symbols in this repo.
  * Bind them locally as opaque objects at their real linked addresses so the
  * store compiles to the same %hi/%lo(addiu) address computation. */
-extern void *D_804081AC;
+extern void *frontend_action_resume_address;
 
 /* Chooses the next menu callback and, when needed, initializes its message and active-state flags. */
 void card_boot_initialize_menu_pointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
-        ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_804081AC;
+        ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &frontend_action_resume_address;
         return;
     }
     ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_50 = 1;

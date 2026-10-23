@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7ce800.h"
@@ -18,7 +19,7 @@ void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 
 #include "shared/game_work.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 
 /* Creates and initializes an object at the given coordinates with adjusted height. */
 void create_positioned_view_marker(s16 x, s16 y) {
@@ -36,7 +37,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.word = render_config;
-        select_record_entry_and_value(render_state, D_800DEAE0, 0);
+        select_record_entry_and_value(render_state, ribbon_sprite_entries, 0);
         render_state->tpage_abr = 0x20;
         render_state->flags = 0xC;
         position = object->position;
@@ -125,7 +126,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
             return;
         }
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
         ((S_807AE960_1 *)state)->unk_00.u = 3;
         break;
@@ -1365,7 +1366,7 @@ extern s8 spell_effect_selector_cache;
 
 /* Set the current entity state to one, reset the global status, increment the counter, and set flag 8. */
 void begin_active_object_action(void) {
-    *((s8 *)D_800FBE1C + 0xD8) = 1;
+    *((s8 *)active_action_object + 0xD8) = 1;
     spell_effect_selector_cache = -1;
     g_dungeon_status.activity_counts.parts.pending_action_count++;
     system_update_flags |= 8;
@@ -1377,8 +1378,8 @@ void begin_active_object_action(void) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Calls play_sound_if_enabled with the fixed argument 0xB4. */
-void func_800F7BA0(void) {
-    play_sound_if_enabled(0xB4);
+void play_b4_sound(void) {
+    play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -1396,7 +1397,7 @@ typedef struct {
 void finish_active_object_action(void) {
     Entity *entity;
 
-    entity = (Entity *)((u8 *)D_800FBE1C + 0x20);
+    entity = (Entity *)((u8 *)active_action_object + 0x20);
     entity->state = 3;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     system_update_flags &= 0xFFF7;
@@ -1454,7 +1455,7 @@ extern s32 check_left_tile_and_center_height(s32, s32, s16);
 s32 update_special_actor_transition(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
-    ObjectNodeHeader *root = (u8 *)D_800FBE1C;
+    ObjectNodeHeader *root = (u8 *)active_action_object;
     u8 *entity = ((u8 *)root) + 0x20;
     s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
@@ -1674,7 +1675,7 @@ typedef struct S_807B08D4_0 {
 void reset_active_object_action(void) {
     S_807B08D4_0 *state;
 
-    state = D_800FBE1C + 0x20;
+    state = active_action_object + 0x20;
     state->unk_96 = 0;
     state->unk_9B = 0;
 }
@@ -1697,7 +1698,7 @@ typedef struct S_807B08F0_1 {
 } S_807B08F0_1;
 
 /* Allocate and initialize an object at the center of the specified tile. */
-void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {
+void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) {
     S_807B08F0_1 *state;
     ObjectNodeHeader *object;
 
@@ -2323,6 +2324,6 @@ void move_sprite_until_animation_finishes(u16 *object_data, UnkStruct807B11B8 *m
     if (update_state->flags & 0x6000) {
         u16 *object_flags = (u16 *)((u8 *)object_data - 2);
         *object_flags = (u16)(*object_flags | 0x8000);
-        D_800814A0.v = D_800814A0.v | 0x8000;
+        D_800814A0.v = D_800814A0.v | OBJECT_REMOVE_PENDING;
     }
 }

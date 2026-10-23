@@ -401,5 +401,5 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
 void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
 void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState *sprite);
-extern u8 D_80025B60[];
+extern u8 shaded_effect_update_flag[];
 #endif

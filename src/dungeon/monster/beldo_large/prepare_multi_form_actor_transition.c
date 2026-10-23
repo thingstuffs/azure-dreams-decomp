@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -27,7 +28,7 @@ void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, 
     set_monster_data_pointer();
     p[0xAF] = 0;
     p[0xB0] = 1;
-    set_or_clear_actor_status_slot(p, 7, 1);
+    set_or_clear_actor_status_slot(p, STATUS_SPEED, 1);
     p[0xAE] = 2;
     do {
         item = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + i * 4);

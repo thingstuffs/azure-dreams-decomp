@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor/callback.h"
 #include "shared/def_table.h"
@@ -22,7 +24,7 @@ extern void create_actor_linked_effect(void *);
 extern void create_offset_actor_object(void *, void *, void *);
 
 extern void D_80170E94(void *, void *, void *, void *);
-extern u8 D_80175F10[8];
+extern u8 golem_direction_frames[8];
 
 typedef struct S_801738B4_0 {
     u8 pad_00[0x8C];
@@ -61,7 +63,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
     action_state = ((S_801738B4_0 *)action_ctx)->phase;
     switch (action_state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
+        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
             item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
             switch (item_selector) {
             case 6:
@@ -194,10 +196,10 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
         scene_object->velocity_y = 0;
         scene_object->velocity_x = 0;
         set_record_integer_tile_center(scene_object, entity->unk_24, entity->unk_25);
-        if (*(unsigned char **)&entity->frameTable != D_80175F10) {
-            (entity->frameTable) = D_80175F10;
+        if (*(unsigned char **)&entity->frameTable != golem_direction_frames) {
+            (entity->frameTable) = golem_direction_frames;
             select_sprite_entry(entity,
-                D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -212,7 +214,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u8 *)((u8 *)actor + 0x6D))--;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 
     }
 

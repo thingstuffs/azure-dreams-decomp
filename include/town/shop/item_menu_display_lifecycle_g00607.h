@@ -33,7 +33,7 @@ extern M2C_UNK D_800B0490;
 /* arg0 in finish_item_menu_child_and_release_list */
 void release_item_menu_list_object(s32);
 /* extern */
-extern struct { s32 v; s32 pad[2]; } D_800814A0;
+extern struct { s32 v; s32 pad[2]; } object_flag_block;
 
 /* Functions defined in this translation unit. */
 void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config);

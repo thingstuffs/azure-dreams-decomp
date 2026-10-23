@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Directional particle travel, target impact geometry, and timed status effects. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -26,7 +27,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
     s32 frames;
     s32 velocity_y;
     u8 *spawn_callback = D_800249DC;
-    u8 *template_data = D_800DECF8;
+    u8 *template_data = fading_sprite_entries;
 
     {
         actor = (u8 *)S32(effect, 0);
@@ -184,7 +185,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                     S32(motion, 20) = velocity_z << 16;
                 }
                 U16(effect, 82) = 0;
-                play_sound_if_enabled(768);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }

@@ -93,7 +93,7 @@ extern void toggle_attacker_target_status_pair(void *, void *);
 extern u8 D_80170854[];
 extern u8 D_80171040[];
 extern u8 D_8017142C[];
-extern u8 D_80171E20[];
+extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 extern u8 D_8017541C[];
 
@@ -347,7 +347,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
             ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
             if ((s16)timer <= 0 || (source_render->flags & 0xE000)) {
                 spend_actor_mp(actor, 0x1000);
-                ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
+                ((S_80174BEC_0 *)state)->unk_8C = blume_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 (actor->action_flags) &= 0x7FFF;
             }

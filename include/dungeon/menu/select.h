@@ -757,7 +757,7 @@ extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
-extern s16 D_8002715C[5];
+extern s16 selection_animation_counters[5];
 s32 register_node();
 s32 func_8004491C();
 void AddPrim(void *, void *);

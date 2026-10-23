@@ -19,9 +19,9 @@ extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(void *, void *, void *);
 
 extern void D_80170E94;
-extern u8 D_80175F10[8];
+extern u8 golem_direction_frames[8];
 extern u8 D_80175F40[8];
-extern u8 D_80175F68[8];
+extern u8 golem_frame_set_1[8];
 
 typedef struct S_801735BC_0 {
     u8 pad_00[0x96];
@@ -100,9 +100,9 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if (!(object->flags & 0xE000)) {
             return;
         }
-        object->frameTable = D_80175F68;
+        object->frameTable = golem_frame_set_1;
         select_sprite_entry(object,
-            D_80175F68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         object->flags |= 0x0800;
         ((S_801735BC_0 *)state_work)->unk_9B++;
@@ -111,9 +111,9 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
     case 3:
         flags3 = object->flags;
         if (flags3 & 0x8000) {
-            object->frameTable = D_80175F68;
+            object->frameTable = golem_frame_set_1;
             select_sprite_entry(object,
-                D_80175F68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             object->flags |= 0x0800;
             return;
@@ -121,9 +121,9 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if (!(flags3 & 0x6000)) {
             return;
         }
-        object->frameTable = D_80175F10;
+        object->frameTable = golem_direction_frames;
         select_sprite_entry(object,
-            D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801735BC_0 *)state_work)->unk_AE = 0;
         ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;
@@ -141,9 +141,9 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if (!(object->flags & 0xE000)) {
             return;
         }
-        object->frameTable = D_80175F10;
+        object->frameTable = golem_direction_frames;
         select_sprite_entry(object,
-            D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801735BC_0 *)state_work)->unk_AE = 0;
         ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;

@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -26,7 +29,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
-extern extern M2C_UNK D_80083460[3];
+extern extern M2C_UNK g_dungeon_status[3];
 extern u8 poison_cure_text[25];
 
 
@@ -64,7 +67,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         }
     }
     create_timed_paired_particle_emitter(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
-    if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x40)) {
+    if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) && !(((EntityRec *)entity)->flags1C & ACTOR_POISONED)) {
         void *message_text;
         s32 message_pos;
         s32 message_start;
@@ -78,9 +81,9 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }
-    clear_slots_of_type(entity, 5);
+    clear_slots_of_type(entity, STATUS_POISON);
     clear_slot_and_update_linked_state(item);
-    item_counts = D_80083460;
+    item_counts = g_dungeon_status;
     ((S_800BD45C_1 *)item_counts)->unk_0A = (u16) (((S_800BD45C_1 *)item_counts)->unk_0A - 1);
     return 1;
 }

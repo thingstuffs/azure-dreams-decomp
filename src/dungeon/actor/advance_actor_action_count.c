@@ -13,7 +13,7 @@ extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
 extern void install_actor_action_handler_after_floor_trap_check();
 
-extern u8 D_800D8C64[];
+extern u8 actor_action_resume_address[];
 extern void *actor_action_frames[];
 
 #define U8_AT(p, n)  (*(u8 *)((u8 *)(p) + (n)))
@@ -93,7 +93,7 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         S32_AT(actor, 0x1C) &= ~0x208;
-        PTR_AT(controller, 0x8C) = D_800D8C64;
+        PTR_AT(controller, 0x8C) = actor_action_resume_address;
         return;
     default:
         return;

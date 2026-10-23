@@ -4,9 +4,9 @@ s32 query_state_with_selector_10(s32 context, s32 check_value, s32 selector) {
     s32 result;
 
     if (check_table_result_below_minus_47(context, check_value) != 0) {
-        return (s32)&D_8001B63C;
+        return (s32)&scene_result_fallback;
     }
-    result = func_80019ABC(&D_8001A93C, &D_8001B1F8, context, selector);
+    result = func_80019ABC(&D_8001A93C, &scene_override_context, context, selector);
     if (func_80019A04(&D_8001A93C, context, selector) != 0) {
         result = select_state_result_with_lookup_overrides(context, check_value, selector);
     }

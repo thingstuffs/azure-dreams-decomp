@@ -17,7 +17,7 @@ typedef struct S_80815160_1 {
 } S_80815160_1;
 void func_80058588(s32 value, s32 query, s32 key);               /* extern */
 s32 func_80071424();                             /* extern */
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
 void process_state_zero_record(void *record) {
@@ -32,7 +32,7 @@ void process_state_zero_record(void *record) {
         if (((S_80815160_1 *)linked_record)->unk_1A & 8) {
             flags = &record_view[-1].unk_00;
             *flags = (u16) (record_view[-1].unk_00 | 0x8000);
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
     }
 }

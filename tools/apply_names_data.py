@@ -109,10 +109,69 @@ def proposals(path):
             if len(cols) >= 4 and cols[1]:
                 yield tuple(cols[:4])
 
+def scoped_mappings(root, texts, proposed, scopes):
+    """Bind each data object to explicit files, permitting overlay address reuse.
+
+    A new-name key identifies one object when several proposals share an old
+    address. Old-name keys are accepted only for a unique proposal. An omitted
+    key retains the legacy global rewrite, also only for a unique proposal.
+    No file may assign two meanings to the same original identifier.
+    """
+    if not isinstance(scopes, dict):
+        raise ValueError('data scope map must be an object')
+    counts = {}
+    for _, old, _, _ in proposed:
+        counts[old] = counts.get(old, 0) + 1
+    known = {r[1] for r in proposed} | {r[2] for r in proposed}
+    if set(scopes) - known:
+        raise ValueError('data scope does not name a proposal')
+    per_path = {}
+    present = {}
+    def consumes(path, text, old, new):
+        if old not in text and new not in text:
+            return False
+        if path not in present:
+            present[path] = set(identifiers(text))
+        return old in present[path] or new in present[path]
+    for _, old, new, _ in proposed:
+        if old in scopes and new in scopes:
+            raise ValueError('choose one data scope key: ' + new)
+        if old in scopes and counts[old] != 1:
+            raise ValueError('reused data address needs new-name scope keys: ' + old)
+        paths = scopes.get(new, scopes.get(old))
+        if paths is None:
+            if counts[old] != 1:
+                raise ValueError('reused data address needs explicit scopes: ' + old)
+            selected = texts
+        else:
+            if not isinstance(paths, list) or not paths or not all(isinstance(p, str) for p in paths):
+                raise ValueError('data scope needs nonempty path lists: ' + new)
+            selected = {}
+            for rel in paths:
+                p = Path(rel)
+                if (p.is_absolute() or '..' in p.parts or not p.parts or
+                        p.parts[0] not in ('src', 'include') or p.as_posix() != rel):
+                    raise ValueError('invalid data scope path: ' + rel)
+                p = root / p
+                if p not in texts:
+                    raise ValueError('unknown data scope source/header: ' + rel)
+                selected[p] = texts[p]
+        if not any(consumes(p, t, old, new) for p, t in selected.items()):
+            raise ValueError('data scope has no source consumer: ' + new)
+        for p, text in selected.items():
+            if old not in text and new not in text:
+                continue
+            local = per_path.setdefault(p, {})
+            if old in local and local[old] != new:
+                raise ValueError('overlapping data scopes: ' + old + ': ' + p.relative_to(root).as_posix())
+            local[old] = new
+    return per_path
+
 def main(a, N):
     if not a.rewrite or not a.defer_verification:
         raise ValueError('data batches require --rewrite --defer-verification; this path stages only, and an independent complete-TU proof is mandatory')
     proposed = list(proposals(a.tsv))
+    complete_proposals = proposed[:]
     if a.only:
         proposed = [p for p in proposed if p[1] in set(a.only.split(','))]
     if a.limit:
@@ -126,46 +185,63 @@ def main(a, N):
         raise ValueError('source symlink or oversized source: refuses incomplete inventory')
     texts = {p: p.read_bytes().decode('utf-8') for p in paths}
     idents = {i for t in texts.values() for i in identifiers(t)}
-    configured = {r[1]: r[2] for r in N.read_names()}
-    taken = set(configured.values())
-    mapping = {}
+    configured = {(r[1], r[2]) for r in N.read_names()}
+    taken = {new for _, new in configured}
+    scopes_path = getattr(a, 'symbol_scope_map', None) or getattr(a, 'scope_map', None)
+    scopes = json.loads(Path(scopes_path).read_text()) if scopes_path else {}
+    per_path = scoped_mappings(root, texts, complete_proposals, scopes)
+    selected = {p[2] for p in proposed}
+    per_path = {p: {old:new for old,new in local.items() if new in selected}
+                for p, local in per_path.items()}
+    per_path = {p:local for p,local in per_path.items() if local}
+    mapping = {}  # new -> old is injective even when overlay addresses repeat
     additions = []
     for addr, old, new, evidence in proposed:
         if not N.DATA_NAME.fullmatch(old) or addr.lower() != '0x' + old[2:].lower():
             raise ValueError('data address mismatch: ' + old)
         if not new or not re.fullmatch(r'[a-z][a-z0-9_]*', new) or not evidence or '\n' in evidence or '\t' in evidence:
             raise ValueError('invalid snake_case name/evidence: ' + old)
-        if old in mapping:
-            raise ValueError('duplicate original symbol: ' + old)
-        if old in configured and configured[old] != new:
-            raise ValueError('existing alias differs: ' + old)
-        if old not in configured:
+        if new in mapping:
+            raise ValueError('duplicate new data name: ' + new)
+        if any(o == old and n != new for o, n in configured) and new not in scopes and old not in scopes:
+            raise ValueError('existing alias differs; additional object needs explicit scope: ' + old)
+        if (old, new) not in configured:
             if new in taken or new in idents:
                 raise ValueError('identifier collision: ' + new)
             additions.append((addr, old, new, evidence))
         if old not in idents and new not in idents:
             raise ValueError('symbol has no source consumer: ' + old)
-        if new in mapping.values():
-            raise ValueError('non-injective data map: ' + new)
-        mapping[old] = new
+        mapping[new] = old
         taken.add(new)
-    pattern = re.compile(r'\b(?:' + '|'.join(map(re.escape, mapping)) + r')\b')
+    pattern = re.compile(r'\b(?:' + '|'.join(map(re.escape, mapping.values())) + r')\b')
     prefixes = getattr(a, 'path_prefix', [])
     scoped = N.scoped_texts(texts, prefixes, root) if prefixes else texts
-    changed = {p: rewrite(t, pattern, mapping) for p, t in scoped.items() if pattern.search(t)}
+    per_path = {p: local for p, local in per_path.items() if p in scoped}
+    changed = {}
+    for p, local in per_path.items():
+        if pattern.search(texts[p]):
+            pat = re.compile(r'\b(?:' + '|'.join(map(re.escape, local)) + r')\b')
+            changed[p] = rewrite(texts[p], pat, local)
     changed = {p: t for p, t in changed.items() if t != texts[p]}
     guards = [{'path': p.relative_to(root).as_posix(),
                'before_sha256': hashlib.sha256(texts[p].encode()).hexdigest(),
                'after_sha256': hashlib.sha256(t.encode()).hexdigest()}
               for p, t in changed.items()]
-    metadata, rebases = inline_plan(root, texts, changed, pattern, mapping)
+    metadata, rebases = inline_plan(root, texts, changed, pattern, {}, path_mappings=per_path)
     metadata_guards = [{'path': p.relative_to(root).as_posix(),
         'before_sha256': hashlib.sha256(pair[0]).hexdigest(),
         'after_sha256': hashlib.sha256(pair[1]).hexdigest()}
         for p, pair in metadata.items()]
+    # Preserve the legacy receipt map for ordinary batches. Reused addresses
+    # cannot be represented by one old -> new map; their aliases and scopes are
+    # explicit instead of silently choosing one overlay's name.
+    legacy_map = {old: new for _, old, new, _ in proposed}
+    if len(legacy_map) != len(proposed):
+        legacy_map = None
     plan = {'status': 'UNVERIFIED', 'new_aliases': len(additions), 'files': guards,
             'metadata_files': metadata_guards, 'inline_rebases': rebases,
-            'map': mapping, 'required': 'complete-TU object and dependency proof, row verification, final scoped gate and SLUS SHA-1'}
+            'map': legacy_map, 'aliases': mapping, 'scopes': scopes,
+            'required': 'complete-TU object and dependency proof, row verification, final scoped gate and SLUS SHA-1'}
     print(f'data batch: {len(additions)} new aliases; {len(changed)} physical files; UNVERIFIED staging', flush=True)
     if a.dry_run:
         return plan

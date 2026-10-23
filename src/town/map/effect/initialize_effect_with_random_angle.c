@@ -55,10 +55,10 @@ extern void register_node();
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
 
-extern u8 D_80045C34[];
-extern u8 D_80046398[];
+extern u8 clipped_sprite_renderer_address[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800B9CB8[];
-extern u8 D_800B9EDC[];
+extern u8 town_initialize_effect_with_child_sprites_address[];
 extern u8 D_800B9F74[];
 extern u8 D_800BA8C4[];
 extern void *D_800D1BCC[];
@@ -97,7 +97,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         child_obj = allocate_list_node(0x136, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
             child_obj->unk_10 = D_800BA8C4;
-            register_node(child_obj, D_80046398);
+            register_node(child_obj, lit_mesh_renderer_address);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
             child_core->parent = effect;
@@ -127,8 +127,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     do {
         child_obj = allocate_list_node(0x36, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
-            child_obj->unk_10 = D_800B9EDC;
-            register_node(child_obj, D_80045C34);
+            child_obj->unk_10 = town_initialize_effect_with_child_sprites_address;
+            register_node(child_obj, clipped_sprite_renderer_address);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
             child_core->parent = effect;
@@ -157,8 +157,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     parent_obj = (u8 *)effect - 0x20;
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->unk_10 = D_800B9EDC;
-        register_node(child_obj, D_80045C34);
+        child_obj->unk_10 = town_initialize_effect_with_child_sprites_address;
+        register_node(child_obj, clipped_sprite_renderer_address);
         child_value = effect->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = effect;
@@ -184,7 +184,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     child_obj = allocate_list_node(0x136, parent_obj);
     if (child_obj != NULL) {
         child_obj->unk_10 = D_800B9F74;
-        register_node(child_obj, D_80046398);
+        register_node(child_obj, lit_mesh_renderer_address);
         child_value = effect->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = effect;

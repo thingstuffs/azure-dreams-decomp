@@ -27,7 +27,7 @@ void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s3
     add_motion_deltas_to_position(record);
     update_object_and_clear_status_fields(record);
     store_position_and_compute_delta((s32 *)(record));
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&D_800CFCB4, record);
+    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, record);
     ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, context);
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
         if (record->y.v <= 0x06500000) {

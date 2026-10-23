@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Terrain-colliding sprites, shaded particles, timed display slots, and staged projectile effects. */
 #include "dungeon/effect/particle/propagate_target_flags_effect.h"
 #include "shared/sprite_frame_state.h"
@@ -28,8 +29,8 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern s32 func_80024124(PointRecord *, ObjectPosition *);
 extern void advance_counter_and_propagate_target_flags(void *);
-extern u8 D_800DEC70[];
-extern u8 D_800DECF8[];
+extern u8 shared_sprite_entries[];
+extern u8 fading_sprite_entries[];
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 extern s16 D_80082E86[6];
 extern Template12 D_80026990;
@@ -512,7 +513,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
             sprite->color.c.b = 0x80;
         sprite->clut = 0x7DCE;
         sprite->flags |= 0x100;
-        select_record_entry_and_value(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, shared_sprite_entries, 0);
     }
 }
 
@@ -598,7 +599,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
             sprite->color.c.b = 0x80;
         sprite->clut = 0x7DCE;
         sprite->flags |= 0x100;
-        select_record_entry_and_value(sprite, D_800DECF8, 0);
+        select_record_entry_and_value(sprite, fading_sprite_entries, 0);
     }
 }
 
@@ -1058,7 +1059,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         work->counter = 0;
         work->table_index = direction_index;
         func_8002553C(work, position_arg, sprite_arg);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         return;
 

@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "shared/entity.h"
@@ -299,7 +301,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     ((S_func_81886800_4 *)(D_80026324))->unk_00 = 0;
     ((S_func_81886800_5 *)(D_80026328))->unk_00 = 0;
     ((S_func_81886800_6 *)(&D_8002632A))->unk_00 = 0;
-    ((S_func_81886800_7 *)(D_80026470))->unk_00 = 0;
+    ((S_func_81886800_7 *)(radial_effect_colors))->unk_00 = 0;
     owner_flags = owner->unk_2A;
     ((S_func_81886800_9 *)(D_80026474))->unk_00 = 0;
     effect->unk_16.u16 = (owner_flags >> 9) & 7;
@@ -474,7 +476,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
                 effect->unk_58 = 1;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             }
         }
     }
@@ -677,8 +679,8 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         u8 *secondary_rgb;
 
         effect->timer++;
-        D_80026470[0] = effect->timer * 2;
-        primary_rgb = D_80026470;
+        radial_effect_colors[0] = effect->timer * 2;
+        primary_rgb = radial_effect_colors;
         primary_rgb[1] = effect->timer * 4;
         primary_rgb[2] = effect->timer * 14;
         D_80026474[0] = effect->timer * 10;
@@ -717,8 +719,8 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         u8 *primary_rgb;
         u8 *secondary_rgb;
 
-        D_80026470[0] += -(s32)D_80026470[0] / effect->timer;
-        primary_rgb = D_80026470;
+        radial_effect_colors[0] += -(s32)radial_effect_colors[0] / effect->timer;
+        primary_rgb = radial_effect_colors;
         primary_rgb[1] += -(s32)primary_rgb[1] / effect->timer;
         primary_rgb[2] += -(s32)primary_rgb[2] / effect->timer;
         D_80026474[0] += -(s32)D_80026474[0] / effect->timer;
@@ -823,7 +825,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
     color->blue = blue - (blue >> 3);
 
     if (color->red < 8) {
-        ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -835,7 +837,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
 #include "shared/object_node.h"
 
 extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark();
-extern u8 D_800CEEFC[];
+extern u8 linked_mesh_processor_address[];
 
 /* One 4-byte slot of the fade record: only the second halfword is used. */
 typedef struct FadeChannel {
@@ -882,7 +884,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
-        register_node(object, (s32)&D_800CEEFC);
+        register_node(object, (s32)&linked_mesh_processor_address);
         transition = object->position;
         transition->start[0].value = endpoints->start[0].value;
         transition->start[1].value = endpoints->start[1].value;
@@ -956,7 +958,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
         u8 **state_slot = &g_game_work.draw_buffer;
 
         if (D_8002632A > 0) {
-            vertices = D_80026478;
+            vertices = staged_glow_data;
             vertex_record = (u8 *)vertices;
 
             do {
@@ -1007,13 +1009,13 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        *(u32 *)((u8 *)quad + 12) = (*(u32 *)D_80026470);
-                        *(u32 *)((u8 *)quad + 4) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 12) = (*(u32 *)radial_effect_colors);
+                        *(u32 *)((u8 *)quad + 4) = (*(u32 *)radial_effect_colors);
                         *(u32 *)((u8 *)quad + 28) = (*(u32 *)D_80026474);
                         *(u32 *)((u8 *)quad + 20) = (*(u32 *)D_80026474);
                     } else {
-                        *(u32 *)((u8 *)quad + 28) = (*(u32 *)D_80026470);
-                        *(u32 *)((u8 *)quad + 20) = (*(u32 *)D_80026470);
+                        *(u32 *)((u8 *)quad + 28) = (*(u32 *)radial_effect_colors);
+                        *(u32 *)((u8 *)quad + 20) = (*(u32 *)radial_effect_colors);
                         *(u32 *)((u8 *)quad + 12) = (*(u32 *)D_80026474);
                         *(u32 *)((u8 *)quad + 4) = (*(u32 *)D_80026474);
                     }
@@ -1230,7 +1232,7 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
                         - (*(s16 *)((u8 *) vertex_data + 0x16))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
                 point_index = (*(s16 *)((u8 *) owner + 0x22)) + 0x10;
                 if (D_8002632A < point_index) {
-                    register TableEntry *point_table = (TableEntry *) D_80026478;
+                    register TableEntry *point_table = (TableEntry *) staged_glow_data;
                     s32 table_index;
                     u16 coord;
                     point_table[point_index].x = *(u16 *)(scratch + 0);
@@ -1305,7 +1307,7 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 extern s16 D_8002632A;
-extern u8 D_80026478[];
+extern u8 staged_glow_data[];
 extern u8 D_80026878[];
 
 
@@ -1371,7 +1373,7 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
         object_data->unk_18 = radius;
         object_data->unk_22 = slot_index;
         if ((s16) slot_index < 0x71) {
-            position_table = D_80026478;
+            position_table = staged_glow_data;
             position_slot = &position_table[(s16) slot_index * 8];
             origin_x = *((u16 *)&positions->velocity_x + 1);
             paired_slot = &position_table[((s16) slot_index + 0x10) * 8];
@@ -1776,9 +1778,9 @@ typedef struct {
 extern s32 rand(void);
 
 extern s16 D_8002632A;
-extern u8 D_80026470[];
+extern u8 radial_effect_colors[];
 extern u8 D_80026474[];
-extern u8 D_80026478[];
+extern u8 staged_glow_data[];
 extern Cell D_800264F8[];
 
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_8002632A)
@@ -1810,7 +1812,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
     u8 *count_page;
 
     for (quad_index = 0; quad_index < (s16)D_8002632A; quad_index++) {
-        vertices = (Cell *)D_80026478;
+        vertices = (Cell *)staged_glow_data;
         fragment = allocate_flagged_object_node(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
@@ -1851,10 +1853,10 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             quad->unk_4C = lower_right->z;
 
             if ((quad_index % 32) < 0x10) {
-                *(s32 *)((u8 *)quad + 0x50) = (*(s32 *)D_80026470);
+                *(s32 *)((u8 *)quad + 0x50) = (*(s32 *)radial_effect_colors);
                 quad->unk_54 = (*(s32 *)D_80026474);
             } else {
-                *(s32 *)((u8 *)quad + 0x54) = (*(s32 *)D_80026470);
+                *(s32 *)((u8 *)quad + 0x54) = (*(s32 *)radial_effect_colors);
                 quad->unk_50 = (*(s32 *)D_80026474);
             }
         }

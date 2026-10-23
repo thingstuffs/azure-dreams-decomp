@@ -16,8 +16,8 @@ extern void strcpy(void *, s32);
 extern s32 strlen(void *);
 extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern s16 query_lowered_transform_position(s32 *);
-extern s16 D_8006CCD8[][2];
-extern s16 D_8006CCE8[][2];
+extern s16 dir_step_x[][2];
+extern s16 dir_step_y[][2];
 extern u8 *D_80073600[];
 extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
@@ -81,8 +81,8 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         if (direction == 1) {
             y_or_state.coord++;
         }
-        position.w[0] = ((x_or_object.coord << 6) - (D_8006CCE8[direction][0] << 3)) << 16;
-        position.w[1] = ((y_or_state.coord << 6) + (D_8006CCD8[direction][0] << 3)) << 16;
+        position.w[0] = ((x_or_object.coord << 6) - (dir_step_y[direction][0] << 3)) << 16;
+        position.w[1] = ((y_or_state.coord << 6) + (dir_step_x[direction][0] << 3)) << 16;
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
         x_or_object.object = create_positioned_visual_object(position.w, update_record_output_grid, direction << 10, *variant_row);

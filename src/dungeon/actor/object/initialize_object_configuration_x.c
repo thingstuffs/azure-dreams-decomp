@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -5,7 +6,7 @@
 /* Tests the flag on this entity, or on either linked entity for aggregate records. */
 s32 initialize_object_configuration_x(EntityRec *entity)
 {
-    if (entity->flags14 & 0x4000) {
+    if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         s32 index;
         for (index = 1; index >= 0; index--) {
             EntityRec *linked = ((EntityRec **)&dungeon_actor_ring_anchor->unk_AC)[index];

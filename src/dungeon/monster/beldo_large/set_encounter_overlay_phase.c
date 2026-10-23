@@ -7,16 +7,16 @@ typedef struct {
     s16 timer;
 } Obj;
 
-extern Obj *D_80175D58[];
+extern Obj *encounter_object_slots[];
 
 /* Sets the selected object value and clears its timer. */
 void set_encounter_overlay_phase(s32 state_selector, s16 value) {
     Obj *obj;
 
     if (state_selector == 0) {
-        obj = (Obj *)((u8 *)D_80175D58[0] + 0x20);
+        obj = (Obj *)((u8 *)encounter_object_slots[0] + 0x20);
     } else {
-        obj = (Obj *)((u8 *)D_80175D58[1] + 0x20);
+        obj = (Obj *)((u8 *)encounter_object_slots[1] + 0x20);
     }
     obj->value = value;
     obj->timer = 0;

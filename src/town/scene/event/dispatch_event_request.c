@@ -20,8 +20,8 @@ extern void *clear_event_resource_state_and_get_buffer(s32);
 extern void *resolve_event_response_key();
 extern void func_8001E5F0(s32);
 
-extern s32 D_8001601C;
-extern u8 D_80017774[];
+extern s32 scene_event_data;
+extern u8 scene_mode_event_data[];
 extern u8 D_8001914C[];
 
 
@@ -57,10 +57,10 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
         return resolve_event_response_key(request, data, 1);
     }
     if (mode == 5) {
-        return D_80017774;
+        return scene_mode_event_data;
     }
     if (mode == 4) {
-        return &D_8001601C;
+        return &scene_event_data;
     }
     return resolve_event_response_key(request, data);
 }

@@ -507,7 +507,7 @@ typedef struct Resource {
     void *data;
 } Resource;
 
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 rsin(s32);
@@ -594,7 +594,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     }
 
     callback = mark_referenced_object_and_update_flags;
-    resource = (Resource *)D_800DEC00;
+    resource = (Resource *)directional_sprite_entries;
     do {
         effect = (EffectObject *)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != (EffectObject *)0) {

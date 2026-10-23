@@ -5,7 +5,7 @@ extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, 
 extern void clear_entity_record_fields(s32 record);
 
 extern u8 scene_object_payload_alias[];
-extern u8 D_80097D2C[];
+extern u8 town_position_callback_address[];
 extern u8 D_8009ACFC[];
 extern u8 town_scene_record_handlers[];
 extern s32 town_player_target_adjustment;
@@ -23,6 +23,6 @@ void initialize_global_player_object(void)
     clear_entity_record_fields(*(s32 *)&object_header->position);
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, object, init_value);
     town_player_target_adjustment = 0;
-    *(void **)scene_object_payload_alias = D_80097D2C;
+    *(void **)scene_object_payload_alias = town_position_callback_address;
     *(void **)((u8 *)object + 4) = D_8009ACFC;
 }

@@ -26,15 +26,15 @@ void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object
     *(s32 *)((u8 *)object + 0) = 0;
     *(s8 *)((u8 *)object + 4) = 0;
     *(s8 *)((u8 *)object + 5) = 0;
-    register_node(slot_id - 0x20, D_80046398);
+    register_node(slot_id - 0x20, lit_mesh_renderer_address);
     *(s32 *)((u8 *)object + 8) = object_id;
 }
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
 s32 *initialize_shared_script_data(void) {
-    D_801007F4 = D_80100900;
-    D_80100900[0] = 0;
-    return D_80100900;
+    D_801007F4 = town_script_state_slots;
+    town_script_state_slots[0] = 0;
+    return town_script_state_slots;
 }
 
 /* Scale a coordinate pair by 64 and append it to the null-terminated pointer list. */
@@ -59,7 +59,7 @@ void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX
 /* Create a record, assign its handler, and run the remaining initialization routines. */
 void create_entry_builder_controller(void) {
     ((func_8009F6D4_S_8009CE34_0 *)(initialize_scene_object_in_buffer(0x11, &D_801006D0, 0x49)))->unk_10 = &build_entries_and_update_state;
-    dispatch_parameterized_or_default(&D_80100900);
+    dispatch_parameterized_or_default(&town_script_state_slots);
     update_map_world_extents();
 }
 
@@ -71,7 +71,7 @@ void build_entries_and_update_state(void) {
 
 /* Run both update routines on the shared state and clear the global flag. */
 void update_shared_state_and_clear_flag(void) {
-    void *state = D_80100900;
+    void *state = town_script_state_slots;
 
     init_and_publish_script_state(state);
     process_zero_terminated_entry_lists(state);
@@ -91,7 +91,7 @@ void build_entry_list_and_process_items(void) {
 
     base = scaled_window_quad_points;
     compute_four_point_coordinate_bounds(base, setup_a, setup_b);
-    collect_overlapping_rectangles(setup_a, setup_b, D_80100900, D_801007F8);
+    collect_overlapping_rectangles(setup_a, setup_b, town_script_state_slots, D_801007F8);
     entry_cursor = (void **)D_801007F8;
     if (D_801007F8[0] != 0) {
         do {
@@ -742,7 +742,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x12) {
-        render_state->source = &D_8006E240;
+        render_state->source = &item_effect_descriptor;
     } else if (type == 0x13) {
         set_object_state_for_mode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
     } else {
@@ -893,7 +893,7 @@ void set_object_types_and_resource(void *object, s32 index, void *output)
 
     type = BU(object, 0x4D);
     if (type == 0x12) {
-        resource = (u32)&D_8006E240;
+        resource = (u32)&item_effect_descriptor;
     } else if (type == 0x13) {
         u8 *data_base = (u8 *)0x80010000;
 
@@ -976,7 +976,7 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
     entry_type = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x981];
     ((Rec_func_80094268_arg0 *)entity)->unk_4D = entry_type;
     if (entry_type == 0x12) {
-        state->unk_08 = &D_8006E240;
+        state->unk_08 = &item_effect_descriptor;
     } else {
         set_object_state_for_mode(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C,
             ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4)

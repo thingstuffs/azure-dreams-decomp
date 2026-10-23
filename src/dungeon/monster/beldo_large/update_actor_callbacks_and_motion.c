@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/sys_flags.h"
@@ -22,7 +24,7 @@ struct Owner_800A48F0; s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height();
-extern void D_8016A36C();
+extern void beldo_large_action_resume_address();
 
 extern Callback beldo_large_callbacks[];
 extern u8 D_80173DDC[];
@@ -98,13 +100,13 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
     }
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB0))) == 1) {
-        set_or_clear_actor_status_slot(actor, 7, 1);
+        set_or_clear_actor_status_slot(actor, STATUS_SPEED, 1);
     } else {
-        clear_slots_of_type(actor, 7);
+        clear_slots_of_type(actor, STATUS_SPEED);
     }
     if (g_dungeon_status.flags & 0x2000) {
         special_callback = (*(Callback *)((u8 *)owner_arg + (0x8C)));
-        if (special_callback == (Callback)D_8016A36C) {
+        if (special_callback == (Callback)beldo_large_action_resume_address) {
             special_callback(owner_arg, motion, data, actor);
             return;
         } else {
@@ -151,7 +153,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
         frame_status = data->flags;
         cleared_status = frame_status & 0xFFFE;
         data->flags = cleared_status;
-        if (!(((S_80169EC0_3 *)actor)->unk_1C & 0x20)) {
+        if (!(((S_80169EC0_3 *)actor)->unk_1C & ACTOR_PARALYZED)) {
             if (!(frame_status & 0x40)) {
                 advance_sprite_animation_and_textures(data);
             }
@@ -183,7 +185,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
         signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
         height = ((S_80169EC0_3 *)actor)->unk_88.u;
         if (height_offset + signed_height < (s16)terrain_height) {
-            ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
+            ((S_80169EC0_3 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         } else {
             if ((s16)terrain_height >= signed_height) {
                 (*(s32 *)((u8 *)owner_arg + (0x90))) = 0;
@@ -191,7 +193,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
                 (*(s16 *)((u8 *)owner_arg + (0x92))) = terrain_height - height;
             }
             motion->velocity_z = 0;
-            ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
+            ((S_80169EC0_3 *)actor)->unk_1C |= ACTOR_GROUNDED;
             (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
         }
         actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
@@ -204,7 +206,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
             ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
         }
     } else {
-        ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
+        ((S_80169EC0_3 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
 
     motion->z.w.i = (*(s8 *)((u8 *)owner_arg + (0xAA))) +

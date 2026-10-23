@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 
 extern s8 D_80018EBC[];
-extern s32 D_800190B4;
+extern s32 scene_state_dispatch_context;
 
 extern void func_800182E4(void *, s32 *, s32, s32);
 extern s32 func_80018D6C(s32);
@@ -19,5 +19,5 @@ void select_event_table_entry(s32 forwarded_first, s32 unused, s32 forwarded_las
         entry_index = ((*(s32 (**)(s32))((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20)
             + 0x54))(4) & 3) * 2;
     }
-    func_800182E4(D_80018EBC + (entry_index * 8), &D_800190B4, forwarded_first, forwarded_last);
+    func_800182E4(D_80018EBC + (entry_index * 8), &scene_state_dispatch_context, forwarded_first, forwarded_last);
 }

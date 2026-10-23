@@ -14,7 +14,7 @@ extern u8 D_8001E891;
 s32 dispatch_entry_or_process_fallback(s32 context, s32 unused, s32 entry_key) {
     s32 result;
 
-    result = apply_entry_position(&D_8001BB94, D_8001C358, context, entry_key);
+    result = apply_entry_position(&D_8001BB94, active_scene_dispatch_context, context, entry_key);
     if (resolve_entry_flag(&D_8001BB94, context, entry_key) != 0) {
         return (s32)&D_8001E891;
     }

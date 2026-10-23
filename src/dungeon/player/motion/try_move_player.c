@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -38,13 +39,13 @@ typedef struct S_8008B9FC_7_pre {
 } S_8008B9FC_7_pre;   /* the 0x23C bytes before D_80083464 in try_move_player, addressed as D_80083464[-1] */
 
 
-extern u16 D_80083460[];
+extern u16 g_dungeon_status[];
 extern s16 D_80083464[];
 extern u8 player_wait_frames[];
 extern u8 D_800DCFB8[];
-extern u8 D_800DCFC0[];
+extern u8 player_move_frames[];
 extern u8 D_800DCFE8[];
-extern u8 D_800DD030[];
+extern u8 actor_attack_frames[];
 extern u8 D_800DD0D0[];
 extern u8 active_actor_command_code[];
 
@@ -86,7 +87,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         sprite->unk_25 =
             (u8)(sprite->unk_25 + ((u8 *)dir_step_y)[direction_index]);
         cycle_map_cell_flags(sprite->unk_24, sprite->unk_25, 0x300);
-        flags = D_80083460;
+        flags = g_dungeon_status;
         flags[1] |= 8;
         move_state->unk_8C.s = 0;
 
@@ -96,18 +97,18 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  check_action_available_without_nearby_actor())) {
                 flags[1] |= 0x80;
-                if (sprite->unk_2C.as_pu8 != D_800DCFC0) {
-                    sprite->unk_2C.as_pu8 = D_800DCFC0;
+                if (sprite->unk_2C.as_pu8 != player_move_frames) {
+                    sprite->unk_2C.as_pu8 = player_move_frames;
                     set_sprite_animation_frame(
                         sprite,
-                        D_800DCFC0[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
+                        player_move_frames[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
                                           actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
         }
 
-        check_flags = D_80083460;
+        check_flags = g_dungeon_status;
         if ((check_flags[1] & 0x80) || (move_result == 1)) {
             process_unflagged_linked_entries_alt(actor->unk_5C);
             process_unflagged_linked_entries(actor->unk_5C);
@@ -139,10 +140,10 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                 sprite->unk_14.at00_u16.v |= 0x6000;
                 update_player_height_step(move_state, actor_id, sprite, actor);
             } else {
-                sprite->unk_2C.as_pu8 = D_800DD030;
+                sprite->unk_2C.as_pu8 = actor_attack_frames;
                 set_sprite_animation_frame(
                     sprite,
-                    D_800DD030[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
+                    actor_attack_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                                       0x100) >> 9) & 7],
                     0, 1);
             }
@@ -150,7 +151,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             {
                 register EntityRec *flag_actor;
                 flag_actor = actor;
-                flag_actor->flags1C |= 0x40000000;
+                flag_actor->flags1C |= ACTOR_REFRESH_GROUND;
             }
             append_packed_action_record(actor, 8, 0, 0);
             return;
@@ -165,7 +166,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
                  (s16)blocked_ticks >= 0x15)) {
                 begin_player_push(move_state, actor_id, sprite, actor, (s32)move_result);
                 if (move_state->unk_9B >= 0x10) {
-                    actor->flags1C |= 0x40000000;
+                    actor->flags1C |= ACTOR_REFRESH_GROUND;
                     return;
                 }
             }
@@ -187,7 +188,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
     actor_flags = actor->flags1C | update_mask;
     actor->flags1C = actor_flags;
-    flags_2 = D_80083460;
+    flags_2 = g_dungeon_status;
     flags_2[1] |= 0x812;
     clear_pending_item_action_state();
     check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
@@ -196,17 +197,17 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xF0) {
-        if (sprite->unk_2C.as_pu8 == D_800DCFC0) {
+        if (sprite->unk_2C.as_pu8 == player_move_frames) {
             flags_2[2] = (s16)flags_2[2] >> 1;
             return;
         }
         {
             void *turn_sprite;
             turn_sprite = sprite;
-            ((S_8008B9FC_6 *)turn_sprite)->unk_2C = D_800DCFC0;
+            ((S_8008B9FC_6 *)turn_sprite)->unk_2C = player_move_frames;
             set_sprite_animation_frame(
                 turn_sprite,
-                *(u8 *)(D_800DCFC0 +
+                *(u8 *)(player_move_frames +
                         (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
                                 actor->facing + 0x100) >> 9) & 7)),
                 0, 1);

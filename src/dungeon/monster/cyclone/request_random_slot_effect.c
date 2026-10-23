@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -33,7 +34,7 @@ s32 request_random_slot_effect(S_801761AC_0 *actor) {
         slot = 0;
     }
     if (slot < 16) {
-        if ((s16)set_or_clear_actor_status_slot(actor, 0x19,
+        if ((s16)set_or_clear_actor_status_slot(actor, STATUS_ANOREXIA,
                 (s8)((actor->unk_11 >> 2) + 0x20 + (generate_random_value() & 3))) >= 0) {
             return 1;
         }

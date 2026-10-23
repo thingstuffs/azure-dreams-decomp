@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Projectile movement and impact sequencing with projected textured sprite animation. */
 #include "modules/dungeon_ovl_1858800.h"
 #include "common.h"
@@ -202,7 +203,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                                  effect->unk_50.s;
         effect->unk_0C.s = 8;
         effect->unk_50.u = effect->unk_50.u + effect->unk_0C.u;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         effect->unk_0A.u = effect->unk_0A.u + 1;
         return;
 
@@ -437,8 +438,8 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
             ((ProjectileSprite *)sprite)->unk_1C = 0xC00U;
             ((ProjectileSprite *)sprite)->unk_0C.at00u.v = ((ProjectileSprite *)sprite)->unk_0C.at00u.v * 4;
             if (((ProjectileParticle *)effect)->unk_48 & 1) {
-                ((ProjectileSprite *)sprite)->unk_00 = D_800DEC70;
-                sprite_word = ((SpriteSourceEntry *)D_800DEC70)->unk_04;
+                ((ProjectileSprite *)sprite)->unk_00 = shared_sprite_entries;
+                sprite_word = ((SpriteSourceEntry *)shared_sprite_entries)->unk_04;
             } else {
                 ((ProjectileSprite *)sprite)->unk_00 = &D_800DED28;
                 sprite_word = ((SpriteSourceEntry *)(&D_800DED28))->unk_04;

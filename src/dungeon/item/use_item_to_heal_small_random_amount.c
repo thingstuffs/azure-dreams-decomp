@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -66,7 +67,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
     }
     ((EntityRec *)target)->unk_64 = stat_gain;
 
-    if (((EntityRec *)target)->flags14 & 0x4000) {
+    if (((EntityRec *)target)->flags14 & ACTOR_PARTY_MEMBER) {
         effect_text = get_unused_text_buffer();
         {
             void *message_target;

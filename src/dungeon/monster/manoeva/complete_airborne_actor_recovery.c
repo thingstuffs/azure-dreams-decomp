@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -31,7 +32,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_80170EE4[];
+extern u8 manoeva_action_resume_address[];
 extern u8 D_801765F0[];
 extern u8 D_801765F8[];
 
@@ -62,7 +63,7 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
             D_801765F0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_801722BC_0 *)action)->unk_9E.s = 5;
         ((S_801722BC_0 *)action)->unk_A0 = 0;
         ((S_801722BC_0 *)action)->unk_9B++;
@@ -94,13 +95,13 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         if ((s16)timer_next < 0) {
             ((S_801722BC_0 *)action)->unk_90 = 0;
             ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_801722BC_0 *)action)->unk_9B++;
         }
                         /* fallthrough */
 
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -149,7 +150,7 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_801722BC_0 *)action)->unk_8C = D_80170EE4;
+            ((S_801722BC_0 *)action)->unk_8C = manoeva_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

@@ -43,7 +43,7 @@ extern void spend_actor_mp(void *, s32);
 extern s32 D_80159CE8;
 extern u8 D_8015CEB8[];
 extern u8 D_8015CED0[];
-extern u8 D_8015CED8[];
+extern u8 weadog_frame_set_5[];
 
 /* Updates timed movement and animation, then finalizes the actor's action. */
 void update_weadog_timed_move(void *action, void *motion, SpriteFrameState *sprite, void *actor)
@@ -116,10 +116,10 @@ void update_weadog_timed_move(void *action, void *motion, SpriteFrameState *spri
             ((EntityRec *)motion)->unk_0C = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-            sprite->frameTable = D_8015CED8;
+            sprite->frameTable = weadog_frame_set_5;
             select_sprite_entry(
                 sprite,
-                D_8015CED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                weadog_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80EF98E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80EF98E0_0 *)action)->unk_9B++;
         }

@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -59,9 +61,9 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern u8 D_80170F6C[];
+extern u8 mandara_action_resume_address[];
 extern u8 D_80174424[];
-extern u8 D_80175298[];
+extern u8 mandara_frame_set_1[];
 
 /* Advances the actor action through its entry, active, and exit animation states. */
 /* Animates entry and exit palette changes for status slot 1, processes turns while active, and restores
@@ -105,7 +107,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
         ((S_8017382C_0 *)action)->unk_AC.s =
             ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
 
-        direction_table = D_80175298;
+        direction_table = mandara_frame_set_1;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(
             sprite,
@@ -194,8 +196,8 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
                 ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
         }
 
-        if ((s16)get_entity_effect_value(actor, 1) == 0) {
-            direction_table = D_80175298;
+        if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) == 0) {
+            direction_table = mandara_frame_set_1;
             (sprite->frameTable) = direction_table;
             select_sprite_entry(
                 sprite,
@@ -272,7 +274,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
 
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if ((s16)get_entity_effect_value(actor, 1) != 0) {
+        if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
             s8 tile;
 
             check_actor = ((u8 *)(&reference_tile_object));
@@ -287,17 +289,17 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
                 }
             }
             if (!(generate_random_value(check_actor) & 7)) {
-                clear_slots_of_type(actor, 1);
+                clear_slots_of_type(actor, STATUS_SLEEP);
             }
         }
 
         check_actor = actor;
 second_call:
-        if ((s16)get_entity_effect_value(check_actor, 1) != 0) {
+        if ((s16)get_entity_effect_value(check_actor, STATUS_SLEEP) != 0) {
             return;
         }
 
-        exit_table = D_80175298;
+        exit_table = mandara_frame_set_1;
         (sprite->frameTable) = exit_table;
         select_sprite_entry(
             sprite,
@@ -355,8 +357,8 @@ second_call:
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        actor->flags1C &= ~0x200;
-        ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
+        actor->flags1C &= ~ACTOR_ASLEEP;
+        ((S_8017382C_0 *)action)->unk_8C = mandara_action_resume_address;
         sprite->clut = ((S_8017382C_0 *)action)->unk_AE;
     }
     }

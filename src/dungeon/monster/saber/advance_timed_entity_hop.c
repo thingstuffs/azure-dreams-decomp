@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/saber.h"
@@ -66,7 +67,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
             D_80168E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80166BAC_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80166BAC_0 *)action)->unk_9E.s = 5;
         ((S_80166BAC_0 *)action)->unk_A4 = 0;
         ((S_80166BAC_0 *)action)->unk_9B++;
@@ -103,13 +104,13 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
         if ((hop_timer << 16) < 0) {
             ((S_80166BAC_0 *)action)->unk_90 = 0;
             ((S_80166BAC_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80166BAC_0 *)action)->unk_9B++;
         }
                         /* fall through */
 
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80166BAC_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

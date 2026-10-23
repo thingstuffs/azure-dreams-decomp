@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
@@ -50,7 +53,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
         {
             void *part_callback;
 
-            part_callback = D_80175140;
+            part_callback = kid_direction_frames;
             copy = root->position;
             ((S_801708DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
             stable_object = object;
@@ -65,24 +68,24 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
             s32 secondary_flags;
 
             if ((saved_kind & 3) == 1) {
-                primary_flags = ((S_801708DC_1 *)object)->unk_14 | 0x6000;
-                secondary_flags = ((S_801708DC_1 *)object)->unk_1C | 0x6000;
+                primary_flags = ((S_801708DC_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                secondary_flags = ((S_801708DC_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 ((S_801708DC_1 *)object)->unk_14 = primary_flags;
                 ((S_801708DC_1 *)object)->unk_1C = secondary_flags;
             } else if ((saved_kind & 3) >= 2) {
-                primary_flags = ((S_801708DC_1 *)object)->unk_14 | 0x2000;
-                secondary_flags = ((S_801708DC_1 *)object)->unk_1C | 0x2000;
+                primary_flags = ((S_801708DC_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
+                secondary_flags = ((S_801708DC_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_801708DC_1 *)object)->unk_14 = primary_flags;
                 ((S_801708DC_1 *)object)->unk_1C = secondary_flags;
             } else {
                 primary_flags = saved_kind & ~3;
                 if ((s16)primary_flags == 0) {
-                    if ((((S_801708DC_1 *)object)->unk_14 & 0x200) == 0) {
+                    if ((((S_801708DC_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((S_801708DC_1 *)object)->unk_1C |= 0x200;
-                            set_or_clear_actor_status_slot(object, 1,
+                            ((S_801708DC_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
-                            part->frameTable = D_80175188;
+                            part->frameTable = kid_alt_spawn_direction_frames;
                         }
                     }
                 }
@@ -95,7 +98,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
         outer_index = 0;
         ((S_801708DC_4 *)stable_object)->unk_9A = 0xFF;
         ((S_801708DC_4 *)stable_object)->unk_9C = -1;
-        ((S_801708DC_4 *)stable_object)->unk_8C = D_80171400;
+        ((S_801708DC_4 *)stable_object)->unk_8C = kid_action_resume_address;
         ((S_801708DC_1 *)object)->unk_1C |= 0x40000;
         ((S_801708DC_4 *)stable_object)->unk_92 = -0x20;
         ((S_801708DC_4 *)stable_object)->unk_A8 = 0;
@@ -118,7 +121,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
                 ((S_801708DC_6 *)(void *)saved_kind)->unk_02 = 1;
                 item_index = 0;
                 outer_base = outer;
-                table = D_80175140 + 0x28;
+                table = kid_direction_frames + 0x28;
                 item_offset = 8;
                 do {
                     SpriteFrameState *item;
@@ -135,7 +138,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
                     item->unk_28 = part_value;
                     outer_child = ((S_801708DC_8 *)outer_base)->unk_A4;
                     zero = 0;
-                    outer_child->unk_10 = D_800D78C0;
+                    outer_child->unk_10 = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = ((view_facing_angle_alias +
                         ((S_801708DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
@@ -144,7 +147,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
                     item_offset += 0x30;
                     item_index++;
                     ((S_801708DC_6 *)(void *)saved_kind)->unk_06 = 1;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, D_800D71A8, 1);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, child_texture_entries, 1);
                     more_items = item_index < ((S_801708DC_6 *)(void *)saved_kind)->unk_02;
                     ((S_801708DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

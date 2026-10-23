@@ -1,6 +1,6 @@
-#include "common.h"
+#include "dungeon/actor/no_op_hook.h"
 #include "m2c_compat.h"
 
-void func_8001E108(void) {
+void empty_dungeon_hook(void) {
 
 }

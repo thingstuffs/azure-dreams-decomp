@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Targeted effect movement, particle spawning, sprite growth, and fading. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_18fa800.h"
@@ -135,7 +136,7 @@ extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern void try_apply_effect_four_by_chance(void *, s32, s32);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 #define D_80024684 ((u8 *)create_coordinate_sprite_object)
 
 extern u8 current_spell_effect_variant[];
@@ -221,7 +222,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
               0x30)) - motion->unk_08.half.unk_0A.as_s16;
     motion->unk_14.as_s32 = motion->unk_14.as_s32 /
         effect_state->unk_50.as_s16;
-    play_sound_if_enabled(0x300);
+    play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     effect_state->unk_0A.as_u16++;
     break;
 
@@ -235,7 +236,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
     {
         actor_or_corner = 3;
         image_base = D_80024538;
-        resource_base = D_800DEAE0;
+        resource_base = ribbon_sprite_entries;
         do {
             ObjectNodeHeader *burst_obj;
             s32 center_coord;

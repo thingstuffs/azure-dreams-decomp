@@ -97,6 +97,73 @@ class DataNamesTests(unittest.TestCase):
         for p, text in original.items():
             self.assertEqual(p.read_bytes(), text)
 
+    def scoped_proposals(self, scopes):
+        other = self.root / 'src/town/second.c'
+        other.write_text('extern int D_80001234;\nint second(void){return D_80001234;}\n')
+        self.proposed.write_text('0x80001234\tD_80001234\tfirst_data\tfirst object\n'
+                                 '0x80001234\tD_80001234\tsecond_data\tsecond object\n')
+        path = self.root / 'scopes.json'
+        path.write_text(json.dumps(scopes))
+        return other, path
+
+    def test_reused_data_address_has_independent_scopes_and_replays(self):
+        other, path = self.scoped_proposals({'first_data': ['src/town/func_80000000.c'],
+                                            'second_data': ['src/town/second.c']})
+        for option in ('--symbol-scope-map', '--scope-map'):
+            self.run_names('--batch', '--rewrite', '--defer-verification', option, str(path))
+        self.assertIn('return first_data;', self.source.read_text())
+        self.assertIn('return second_data;', other.read_text())
+        self.assertEqual(self.table.read_text().count('\tD_80001234\t'), 2)
+
+    def test_reused_address_with_overlapping_or_missing_scopes_refuses_atomically(self):
+        for scopes in ({}, {'D_80001234': ['src/town/second.c']},
+                       {'first_data': ['src/town/func_80000000.c'],
+                        'second_data': ['src/town/func_80000000.c']}):
+            other, path = self.scoped_proposals(scopes)
+            before = {p:p.read_bytes() for p in (self.table, self.source, other)}
+            with self.assertRaises(ValueError):
+                self.run_names('--batch', '--rewrite', '--defer-verification', '--symbol-scope-map', str(path))
+            self.assertEqual(before, {p:p.read_bytes() for p in before})
+
+    def test_limit_keeps_the_other_overlay_untouched(self):
+        other, path = self.scoped_proposals({'first_data': ['src/town/func_80000000.c'],
+                                            'second_data': ['src/town/second.c']})
+        before = other.read_bytes()
+        self.run_names('--batch', '--rewrite', '--defer-verification', '--limit', '1',
+                       '--symbol-scope-map', str(path))
+        self.assertIn('return first_data;', self.source.read_text())
+        self.assertEqual(other.read_bytes(), before)
+        self.assertNotIn('\tsecond_data\t', self.table.read_text())
+
+    def test_limit_does_not_hide_an_ambiguous_unscoped_address(self):
+        self.scoped_proposals({})
+        with self.assertRaisesRegex(ValueError, 'explicit scopes'):
+            self.run_names('--batch', '--rewrite', '--defer-verification', '--limit', '1')
+
+    def test_data_scope_refuses_unknown_escaping_and_empty_paths(self):
+        self.proposed.write_text('0x80001234\tD_80001234\tfirst_data\tevidence\n')
+        path = self.root / 'scopes.json'
+        for paths in ([], ['../src/a.c'], ['/src/a.c'], ['src/missing.c']):
+            path.write_text(json.dumps({'first_data': paths}))
+            with self.assertRaises(ValueError):
+                self.run_names('--batch', '--rewrite', '--defer-verification', '--symbol-scope-map', str(path))
+
+    def test_ordinary_data_receipt_keeps_the_original_map_field(self):
+        self.proposed.write_text('0x80001234\tD_80001234\tfirst_data\tevidence\n')
+        proof = self.root / 'proof.json'
+        self.run_names('--batch', '--rewrite', '--defer-verification', '--proof-log', str(proof))
+        self.assertEqual(json.loads(proof.read_text())['map'], {'D_80001234': 'first_data'})
+
+    def test_reused_address_receipt_does_not_pick_an_arbitrary_global_alias(self):
+        _, path = self.scoped_proposals({'first_data': ['src/town/func_80000000.c'],
+                                        'second_data': ['src/town/second.c']})
+        proof = self.root / 'proof.json'
+        self.run_names('--batch', '--rewrite', '--defer-verification', '--proof-log', str(proof),
+                       '--symbol-scope-map', str(path))
+        receipt = json.loads(proof.read_text())
+        self.assertIsNone(receipt['map'])
+        self.assertEqual(receipt['aliases'], {'first_data': 'D_80001234', 'second_data': 'D_80001234'})
+
 
 if __name__ == "__main__":
     unittest.main()

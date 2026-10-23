@@ -19,7 +19,7 @@ typedef struct S_8080BE0C_1 {
 } S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
 void func_80058588(s32 total, s32 query, s32 key);               /* extern */
 s32 func_80071424();                             /* extern */
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern s16 D_80530000[];
 
 /* Waits for a delay, passes the eight-entry sum to func_80058588, and handles a linked cleanup flag. */
@@ -61,7 +61,7 @@ void update_panel_aggregate_value(void *entry) {
         func_80058588(total, func_80071424(((S_8080BE0C_0 *)entry)->unk_04), ((S_8080BE0C_0 *)entry)->unk_04);
         if (((S_8080BE0C_1 *)data_ptr)->unk_2A & 1) {
             (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
         return;
     default:

@@ -1042,16 +1042,16 @@ typedef struct {
 } CB_80175274_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */
-extern s32 D_8003E140[];
+extern s32 resource_completion_callback_address[];
 extern s16 actor_turn_angle_offsets[];
 extern s32 cd_cue_base;
 extern u16 reference_tile_position_alias;
 extern M2C_UNK D_80083460;
 extern u16 dungeon_status_flags_alias;
 extern void *actor_effect_color_targets[];
-extern s8 D_800DCF5C;
-extern s16 D_800DCF5E;
-extern u8 D_8014A000[];
+extern s8 staged_spawn_count;
+extern s16 actor_action_reset_value;
+extern u8 dungeon_resource_buffer[];
 extern u8 D_801752AC[];
 extern u8 D_801752B4[];
 extern u8 D_801752BC[8];
@@ -1062,8 +1062,8 @@ extern u8 D_801752DC[];
 extern M2C_UNK D_801752E4;
 extern u8 D_801752EC[8];
 extern u8 D_801752F4[8];
-extern u8 D_801752FC[];
-extern u8 D_80175304[];
+extern u8 block_frame_set_1[];
+extern u8 block_status_frames[];
 extern s32 block_image_commands;
 extern s16 D_80175314;
 extern u8 D_80175318[];
@@ -1199,7 +1199,7 @@ void finish_linked_motion_and_trap(S_80172944_0 *state,void *position,void *rend
 
 void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80172BCC_S_func_80C953CC_2 *position, CB_80172BCC_S_func_80C953CC_3 *entity,
     CB_80172BCC_S_func_80C953CC_4 *actor);
-void func_801730E0(CB_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity);
+void update_block_value_reaction(CB_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity);
 void remove_defeated_block(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_block(void *state,void *position,void *render_state,void *entity);
 void advance_block_removal(void *state,void *position,void *render_state,void *entity);
@@ -1208,7 +1208,7 @@ void wait_actor_status_and_animate(void *action, void *context, void *sprite_in,
 void wait_actor_mp_and_animate(void *actor_in, s32 actor_index, void *target, void *entity_in);
 void update_transformed_actor_and_trap(S_80173A38_0 *state, void *position, CB_80173A38_S_80173A38_1 *sprite, CB_80173A38_S_80173A38_2 *actor);
 void finish_actor_throw_and_trap(S_80173B00_0 *state,void *position,void *render_state,void *entity);
-void func_80173B64(S_80173B64_0 *state,void *position,void *render_state,void *entity);
+void finish_block_terrain_move(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void resume_actor_after_spinning_fall(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void resume_actor_after_fade(S_80173BD4_0 *state,void *position,void *render_state,void *entity);
 void fade_timed_primitive_effect(void *effect, s32 unused, void *primitive);

@@ -11,7 +11,7 @@ extern u8 D_807007B4[];
 extern u8 D_807007C0[];
 extern u8 D_807007C8[];
 extern u8 D_807007D0[];
-extern TownCallbackOwner *D_80700E4C[];
+extern TownCallbackOwner *devkit_list_methods[];
 extern s32 D_80700710[];
 extern s32 D_8070070C[];
 
@@ -20,10 +20,10 @@ void dev_report_kind_mode_sno_alt(s32 kind) {
     u8 *callback_data = D_807007B4;
     TownCallback callback;
 
-    callback = D_80700E4C[0]->func68;
+    callback = devkit_list_methods[0]->func68;
     callback(callback_data, D_807007C0, kind);
-    callback = D_80700E4C[0]->func68;
+    callback = devkit_list_methods[0]->func68;
     callback(callback_data, D_807007C8, D_80700710[0]);
-    callback = D_80700E4C[0]->func68;
+    callback = devkit_list_methods[0]->func68;
     callback(callback_data, D_807007D0, D_8070070C[0]);
 }

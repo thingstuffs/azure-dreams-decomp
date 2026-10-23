@@ -23,7 +23,7 @@ void create_indexed_effect_object(s32 index, s32 kind) {
             s32 dispatch_result;
 
             if ((saved_kind & 0xFF) == 0x12) {
-                dispatch_result = (s32)&D_8006E240;
+                dispatch_result = (s32)&item_effect_descriptor;
             } else {
                 dispatch_result = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
             }
@@ -39,7 +39,7 @@ void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector, void *un
 {
     s32 *state_refs = scene_object_payload_alias;
 
-    if ((state_refs[0] != (s32)&D_80097D2C) ||
+    if ((state_refs[0] != (s32)&town_position_callback_address) ||
         (state_refs[1] != (s32)&D_80097EA0)) {
         unlink_node_if_registered(object);
         *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;

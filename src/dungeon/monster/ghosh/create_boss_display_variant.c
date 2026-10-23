@@ -41,7 +41,7 @@ typedef struct {
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 register_node();
 
-extern s32 D_800DEDB0[3];
+extern s32 rising_sprite_entries[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */
@@ -85,7 +85,7 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
         if (variant == 0) {
             select_record_entry_and_value(display_sub, effect_sprite_sources, 0);
         } else {
-            select_record_entry_and_value(display_sub, D_800DEDB0, 0);
+            select_record_entry_and_value(display_sub, rising_sprite_entries, 0);
         }
     }
 }

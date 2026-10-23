@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -37,7 +38,7 @@ s32 use_item_to_lower_attack(void *entity, s32 item, s16 action)
         play_sound_if_enabled(0x615);
         (*((u8 *)entity + 0x26))--;
         apply_entity_effects(entity);
-        if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
+        if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E17A1);
         }
     }

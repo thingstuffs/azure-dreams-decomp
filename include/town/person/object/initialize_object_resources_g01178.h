@@ -88,7 +88,7 @@ extern Rec_D_80100D98 town_position_reference_state;
 extern s32 service_script_controller(void);
 extern void tcame_chase_fix(s32 *chase_fix);
 extern s32 D_80113208[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_b[];
 extern s32 D_800C5100;
 /* object in create_user_data_object_b */
 extern s32 register_node();

@@ -8,7 +8,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
     s32 state;
     s32 frames_left;
 
-    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, D_800CFCB4);
+    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, town_actor_control);
     if (motion_entry != 0) {
         state = motion_entry[0];
         if (state != 2) {

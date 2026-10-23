@@ -8,7 +8,7 @@ typedef struct {
 
 extern s32 func_800198D0(u32);
 extern u8 *D_80019BBC[];
-extern Entry D_80016470[];
+extern Entry town_indexed_values[];
 extern u8 D_80016520[];
 
 /* Selects and returns the next eligible entry in the wrapping order list. */
@@ -23,7 +23,7 @@ s32 select_next_eligible_wrapped_entry(void)
     start_index = D_80019BBC[0][4];
     order_index = start_index + 1;
     if (order_index != start_index) {
-        entries = D_80016470;
+        entries = town_indexed_values;
         order = D_80016520;
         order_cursor = &order[order_index];
         do {

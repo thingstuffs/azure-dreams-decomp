@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "dungeon/monster/kid/allocate_object_with_child_render_data.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
@@ -66,22 +69,22 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
             s32 state_flags;
 
             if ((saved_kind & 3) == 1) {
-                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x6000;
-                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x6000;
+                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
                 ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
             } else if ((saved_kind & 3) >= 2) {
-                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x2000;
-                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x2000;
+                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
+                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
                 ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
             } else {
                 object_flags = saved_kind & ~3;
                 if ((s16)object_flags == 0) {
-                    if ((((S_8016A8DC_1 *)object)->unk_14 & 0x200) == 0) {
+                    if ((((S_8016A8DC_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((S_8016A8DC_1 *)object)->unk_1C |= 0x200;
-                            set_or_clear_actor_status_slot(object, 1,
+                            ((S_8016A8DC_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             part->frameTable = D_8016F188;
                         }
@@ -136,7 +139,7 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
                     item->unk_28 = part_value;
                     outer_child = ((S_8016A8DC_8 *)outer_base)->unk_A4;
                     call_zero = 0;
-                    outer_child->unk_10 = D_800D78C0;
+                    outer_child->unk_10 = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = ((view_facing_angle_alias +
                         ((S_8016A8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
@@ -145,7 +148,7 @@ void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s
                     item_offset += 0x30;
                     item_index++;
                     ((S_8016A8DC_6 *)(void *)saved_kind)->unk_06 = 1;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, D_800D71A8, 1);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, child_texture_entries, 1);
                     more_items = item_index < ((S_8016A8DC_6 *)(void *)saved_kind)->unk_02;
                     ((S_8016A8DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

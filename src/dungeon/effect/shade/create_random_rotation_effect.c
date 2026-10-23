@@ -26,7 +26,7 @@ extern s32 rcos();
 extern s32 rand();
 
 extern u8 D_80024710[];
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 
 typedef struct S_818C2FAC_0 {
     u8 pad_00[0x8];
@@ -110,7 +110,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             s32 render_arg;
             u8 *render_table;
             render_arg = (s32)render_or_radius;
-            render_table = D_800DEC70;
+            render_table = shared_sprite_entries;
             select_record_entry_and_value(render_arg, render_table, 0);
         }
         random_value = rand();

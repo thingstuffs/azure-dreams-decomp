@@ -43,12 +43,12 @@ typedef struct State {
 extern TownRewardValues D_80526448;
 extern s32 D_80530130[];
 extern u8 D_805300F4[];
-extern u8 D_80290704[];
+extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
 extern u8 D_80077C64[];
 extern s32 D_80077C68[3];
-extern s32 D_80012BCC;
-extern s32 D_80084D5C;
+extern s32 scene_value_total;
+extern s32 scene_object_flags;
 
 extern s32 func_80071494(void);
 extern void func_8003EA54(Actor *);
@@ -168,13 +168,13 @@ case 2:
             mot->z = floor;
             mot->dz = (-mot->dz) >> 1;
         }
-        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
+        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
-            D_80012BCC = product * 8 + D_80012BCC;
+            scene_value_total = product * 8 + scene_value_total;
             (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
@@ -192,13 +192,13 @@ case 2:
     }
 
     case 4:
-        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
+        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
-            D_80012BCC = product * 8 + D_80012BCC;
+            scene_value_total = product * 8 + scene_value_total;
             (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
@@ -218,13 +218,13 @@ case 2:
             result_v0 = act->flags & 0xff7f;
         }
         act->flags = result_v0;
-        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
+        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
-            D_80012BCC = product * 8 + D_80012BCC;
+            scene_value_total = product * 8 + scene_value_total;
             (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
@@ -238,7 +238,7 @@ case 2:
     case 6:
         func_8023FB18(&st->work[0]);
         *(u16 *)((u8 *)st - 2) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         return;
 
     default:

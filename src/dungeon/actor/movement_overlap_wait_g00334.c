@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 /* Movement overlap wait (G00334). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800A4DA8. */
 #include "dungeon/actor/movement_overlap_wait_g00334.h"
@@ -13,7 +14,7 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
     u8 player_state;
 
     if (((has_pending_dungeon_activity(entity) << 16) == 0) &&
-        ((*(u16 *)((u8 *)action - 2) & 0x8000) == 0) &&
+        ((*(u16 *)((u8 *)action - 2) & NODE_REMOVE) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x1C) & 0x80000) == 0) &&
         ((*(u32 *)((u8 *)entity + 0x14) & 0x100000) == 0) &&
         ((player_state = *(u8 *)((u8 *)primary_actor_record + 0x9A)) != 0x18) &&

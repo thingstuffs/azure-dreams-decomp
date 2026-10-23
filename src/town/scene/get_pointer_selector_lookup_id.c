@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern u8 D_800227FB[];
-extern u8 D_8001B14C[];
-extern u8 D_8001C018[];
+extern u8 scene_string_fallback[];
+extern u8 scene_choice_text[];
 
 extern u8 *award_next_unearned_milestone(u32);
 extern u8 *select_response_selector_status_flags(s32);
@@ -14,7 +14,7 @@ u8 *get_pointer_selector_lookup_id(long long lookup_id, s32 data_selector)
     case 0:
         return select_response_selector_status_flags((s32)lookup_id);
     case 7:
-        return D_8001C018;
+        return scene_choice_text;
     case 6:
         return D_800227FB;
     case 40:
@@ -22,6 +22,6 @@ u8 *get_pointer_selector_lookup_id(long long lookup_id, s32 data_selector)
     case 42:
         return award_next_unearned_milestone(data_selector);
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

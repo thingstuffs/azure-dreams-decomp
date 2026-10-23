@@ -15,7 +15,7 @@ s16 call_callee_8008_c_610_global_800_d_0418_parameter(s32 input_value, s32 para
 s16 call_callee_8008_c_6_b_8_global_800_d_041_c_parameter(s32 input_value, s32 parameter);
 void call_the_callee_80096208_callee_800962_b_8(void *);                 /* extern */
 void call_the_callee_800962_b_8_callee_80096208(void *);                 /* extern */
-extern Motion D_800FE5C0;
+extern Motion town_collision_motion;
 #define D_80100000 ((s32 *)0x80100000)
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
@@ -45,7 +45,7 @@ void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_ti
     s32 pos_x_neg_y_test;
     s32 axis_test;
 
-    motion = &D_800FE5C0;
+    motion = &town_collision_motion;
     if (motion->dx > 0) {
         if (motion->dy > 0) {
             s32 boundary_test;
@@ -149,7 +149,7 @@ void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_ti
     }
     {
         Motion *neg_x_motion;
-        neg_x_motion = &D_800FE5C0;
+        neg_x_motion = &town_collision_motion;
         if (neg_x_motion->dx < 0) {
             if (neg_x_motion->dy > 0) {
                 s32 y_test;
@@ -261,7 +261,7 @@ void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_ti
     }
     {
         Motion *axis_motion;
-        axis_motion = &D_800FE5C0;
+        axis_motion = &town_collision_motion;
         if (axis_motion->dx != 0) {
             if (axis_motion->dy != 0) {
                 return;

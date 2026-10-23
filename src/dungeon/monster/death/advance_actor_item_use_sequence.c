@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/def_table.h"
@@ -28,8 +30,8 @@ extern void create_parent_return_effect(void *, s32, s32, s32, s32, s32, s32);
 extern void spawn_parent_offset_random_motion_effect(void *, s32, s32, s32, s32, s32, s32);
 
 extern u8 D_80171080[];
-extern s32 D_801719DC;
-extern u8 D_80174634[];
+extern s32 death_action_resume_address;
+extern u8 death_direction_frames[];
 extern Packet12 D_80174694;
 
 
@@ -103,7 +105,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
     state = ((S_801732C4_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if ((((u32)actor->flags1C)) & 0x2000) {
+        if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = ((actor->action_flags) & 0x3FFF) - 1;
@@ -205,7 +207,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (((u8)actor->pending_turn_updates))--;
-        ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
+        ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
         (((u8)actor->target_tile_y)) = 0;
         (((u8)actor->target_tile_x)) = 0;
         (actor->action_flags) &= 0x7FFF;
@@ -360,12 +362,12 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174634) {
+        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != death_direction_frames) {
             u8 *anim_table;
             s32 direction;
             s32 saved_a4;
 
-            anim_table = D_80174634;
+            anim_table = death_direction_frames;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (actor->facing) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction], 2);
@@ -383,13 +385,13 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
+            ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
             advance_status_timers(actor);
             (((u8)actor->target_tile_y)) = 0;
             (((u8)actor->target_tile_x)) = 0;
             (((u8)actor->pending_turn_updates))--;
             (actor->action_flags) &= 0x7FFF;
-            play_sound_if_enabled(0xB4);
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
 
         return;

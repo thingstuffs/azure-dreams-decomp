@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 /* Unicorn directional movement, tile recentering, and sprite removal. */
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
@@ -34,7 +35,7 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & 0x228) {
+        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

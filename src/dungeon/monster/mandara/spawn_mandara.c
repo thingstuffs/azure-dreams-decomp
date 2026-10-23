@@ -1,5 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
+#include "dungeon/monster/mandara/spawn_api_slot_c.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -38,12 +38,12 @@ extern u8 D_80158F6C[];
 extern u8 D_8015D258[];
 extern u8 D_8015D298[];
 
-void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
+void *spawn_mandara_in_slot_c(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 
 ;
 
 /* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
-void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
+void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     void *work;
     ObjectNodeHeader *obj;
@@ -51,7 +51,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     ObjectNodeHeader *call_target;
     SpriteFrameState *part_b;
     void *part_a;
-    s16 saved_arg0;
+    s16 saved_spawn_flags;
     s32 kind;
     s32 left;
     s32 right;
@@ -61,18 +61,18 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     s32 double_index;
     s16 values[4];
     u8 *entry;
-    s16 pin_arg1;
-    s16 pin_arg3;
+    s16 saved_tile_x;
+    s16 saved_height;
     ObjectPosition *pin_part_a;
     void *pin_actor;
 
     work = 0;
     call_id = 0x112;
-    pin_arg1 = part_b_value;
-    pin_arg3 = part_a_value;
+    saved_tile_x = tile_x;
+    saved_height = spawn_height;
     call_target = &scene_object_list_anchor;
     obj = allocate_list_node(call_id, call_target);
-    saved_arg0 = (s16)input_value;
+    saved_spawn_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80158B40;
@@ -80,13 +80,13 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
         register_node(obj, project_sprite_chain);
 
         pin_part_a = obj->position;
-        pin_part_a->z.w.i = pin_arg3;
+        pin_part_a->z.w.i = saved_height;
         part_b = obj->sprite;
-        kind = input_value & 3;
-        part_b->unk_25 = part_b_value2;
+        kind = spawn_flags & 3;
+        part_b->unk_25 = tile_y;
         pin_actor = work;
         part_b->frameTable = D_8015D258;
-        part_b->unk_24 = pin_arg1;
+        part_b->unk_24 = saved_tile_x;
         if (kind == 1) {
             left = ((S_80FC9000_1 *)work)->unk_14 | 0x6000;
             right = ((S_80FC9000_1 *)work)->unk_1C | 0x6000;
@@ -98,7 +98,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
             ((S_80FC9000_1 *)work)->unk_14 = left;
             ((S_80FC9000_1 *)work)->unk_1C = right;
         } else {
-            if (((input_value = (s16)(input_value & ~3)) << 16) == 0) {
+            if (((spawn_flags = (s16)(spawn_flags & ~3)) << 16) == 0) {
                 if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
                     if (generate_random_value() & 1) {
                         ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
@@ -110,7 +110,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
                 }
             }
         }
-        initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_arg0);
+        initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_spawn_flags);
         index = 0;
         actor_value = part_b->clut;
         ((S_80FC9000_4 *)pin_actor)->unk_9A = 0xFF;

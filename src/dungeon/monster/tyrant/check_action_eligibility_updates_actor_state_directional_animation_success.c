@@ -54,9 +54,9 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
         target_direction = 0;
     }
-    (sprite->frameTable) = D_80173FB8;
+    (sprite->frameTable) = tyrant_direction_frames;
     select_sprite_entry(sprite,
-        D_80173FB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        tyrant_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

@@ -1,4 +1,7 @@
-#include "shared/object_node.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
+#include "dungeon/monster/viper/spawn_factory_slot_f.h"
 #include "modules/dungeon_ovl_7f211800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -6,7 +9,7 @@
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Viper with default frames at D_8016EA7C, applies spawn flags, and attempts valid tile placement. */
-void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -16,15 +19,15 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     S_8016A894_4 *actor;
     s32 left;
     s32 right;
-    s8 saved_kind_id;
-    s16 saved_spawn;
-    s8 saved_variant;
+    s8 saved_tile_x;
+    s16 saved_height;
+    s8 saved_tile_y;
     void *call_a1;
 
     work = 0;
-    saved_kind_id = kind_id;
-    saved_spawn = spawn_value;
-    saved_variant = variant;
+    saved_tile_x = tile_x;
+    saved_height = spawn_height;
+    saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -33,33 +36,33 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_spawn;
+        part_a->unk_0A = saved_height;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->unk_25 = saved_tile_y;
         actor = work;
         part_b->frameTable = D_8016EA7C;
-        part_b->unk_24 = saved_kind_id;
+        part_b->unk_24 = saved_tile_x;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = left;
             work->unk_1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | 0x2000;
-            right = work->unk_1C | 0x2000;
+            left = work->unk_14 | ACTOR_CLASS_ENABLED;
+            right = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = left;
             work->unk_1C = right;
         } else {
             call_a1 = obj;
-            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+            if (((flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 call_a1 = part_a;
                 left = generate_random_value();
                 call_a1 = obj;
                 if (left & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8016EAD4;
                 }

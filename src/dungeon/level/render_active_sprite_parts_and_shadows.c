@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 
 #include "m2c_compat.h"
-extern u8 D_8006CD10[];
+extern u8 effect_view_matrix[];
 typedef struct S_SCRATCH {
     union {
         s16 s16;
@@ -212,7 +212,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     view_matrix = (u8 *) 0x1F800050;
     depth_cue = (u8 *) 0x1F800090;
     transform_flags = (u8 *) 0x1F800094;
-    matrix_base = (u8 *)&D_8006CD10 + 32;
+    matrix_base = (u8 *)&effect_view_matrix + 32;
     do {
     entry_table = (u8 *) (&floor_objects);
 

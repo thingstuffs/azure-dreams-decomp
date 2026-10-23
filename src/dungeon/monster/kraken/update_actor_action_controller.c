@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -73,12 +76,12 @@ extern void select_sprite_entry();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 extern void try_move_actor_to_valid_position();
 
-extern u8 D_800D71A8[];
-extern u8 D_800D78C0[];
+extern u8 child_texture_entries[];
+extern u8 child_object_update_address[];
 extern u8 D_80170B64[];
 extern u8 D_801711A4[];
-extern u8 D_8017418C[];
-extern u8 D_801741CC[];
+extern u8 kraken_frame_set_1[];
+extern u8 kraken_frame_set_2[];
 
 /* Creates a Kraken actor with a linked display object and initializes its status and tile placement. */
 void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
@@ -121,29 +124,29 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         part_a->unk_0A = value_0A;
         part_b = ((ProjectileObject *)obj)->unk_0C;
         kind = mode & 3;
-        part_b->unk_2C = D_8017418C;
+        part_b->unk_2C = kraken_frame_set_1;
         part_b->unk_24 = saved_value_24;
         part_b->unk_25 = saved_value_25;
 
         if (kind == 1) {
-            left = ((S_8017086C_1 *)work)->unk_14 | 0x6000;
-            right = ((S_8017086C_1 *)work)->unk_1C | 0x6000;
+            left = ((S_8017086C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_8017086C_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_8017086C_1 *)work)->unk_14 = left;
             ((S_8017086C_1 *)work)->unk_1C = right;
         } else if (kind >= 2) {
-            left = ((S_8017086C_1 *)work)->unk_14 | 0x2000;
-            right = ((S_8017086C_1 *)work)->unk_1C | 0x2000;
+            left = ((S_8017086C_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            right = ((S_8017086C_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_8017086C_1 *)work)->unk_14 = left;
             ((S_8017086C_1 *)work)->unk_1C = right;
         } else {
             if (((mode & ~3) << 16) == 0) {
-                if (!(((S_8017086C_1 *)work)->unk_14 & 0x200)) {
+                if (!(((S_8017086C_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((S_8017086C_1 *)work)->unk_1C |= 0x200;
+                        ((S_8017086C_1 *)work)->unk_1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
-                        set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
-                        part_b->unk_2C = D_801741CC;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
+                        part_b->unk_2C = kraken_frame_set_2;
                     }
                 }
             }
@@ -187,13 +190,13 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
 
                     elem->clut = part_b->unk_12 - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = D_800D78C0;
+                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = child_object_update_address;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8017086C_6 *)child)->unk_06 = 0;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, D_800D71A8, 0);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, child_texture_entries, 0);
                     ((S_8017086C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }

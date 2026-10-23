@@ -61,11 +61,11 @@ typedef struct WorldStatePage {
     s32 actionMode;
 } WorldStatePage;
 
-extern s32 D_80012090;
+extern s32 dungeon_mode_state;
 extern s16 floor_generation_state[3];
 extern s16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern u8 baloon_default_frames[];
 extern u8 baloon_hop_frames[];
 extern u8 D_80170940[];
@@ -73,7 +73,7 @@ extern u8 D_80170950[];
 extern u8 D_80170988[];
 extern u8 D_80170994[];
 extern u8 D_801709B8[];
-extern s32 D_80171F1C;
+extern s32 baloon_action_resume_address;
 
 extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
@@ -160,14 +160,14 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             }
             (*(s16 *)((u8 *)actor + 0x2A)) = direction << 9;
 
-            if ((D_80012090 != 0) || (current_dungeon_floor != 0x28)) {
+            if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
                     slot = 0;
                     do {
                         companion = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
                         if ((companion != 0) && (companion != (u8 *)actor)) {
                             companion_type = get_entity_class(companion);
-                            create_orbiting_teleport_effect(companion, D_800DCED4[companion_type], (s16)slot, 0);
+                            create_orbiting_teleport_effect(companion, actor_event_values[companion_type], (s16)slot, 0);
                         }
                         slot++;
                     } while (slot < 2);
@@ -337,7 +337,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;
             ((S_80175CD8_0 *)action)->unk_9B++;
 
-            if ((D_80012090 != 0) || (current_dungeon_floor != 0x28)) {
+            if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 text_start = get_unused_text_buffer();
                 text_end = expand_text_control_codes(D_80170940, text_start);
                 text_end = write_text_byte_and_advance(0xA, text_end);
@@ -403,7 +403,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_80175CD8_0 *)action)->unk_8C = &D_80171F1C;
+            ((S_80175CD8_0 *)action)->unk_8C = &baloon_action_resume_address;
             ((S_80175CD8_0 *)action)->unk_9A = 0xE;
             g_dungeon_status.active_actor = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;

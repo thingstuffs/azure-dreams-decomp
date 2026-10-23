@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -175,7 +176,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
         *pickup_slot = *(u32 *) consumed_item;
         consumed_item->unk_00 = 0;
         consumed_item->kind = ITEM_KIND_NONE;
-        update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].a, dungeon_ground_item_positions[consumed_id].b, 0x800);
+        update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].a, dungeon_ground_item_positions[consumed_id].b, TILE_HAS_ITEM);
         ctx->link = pickup_slot;
     } else {
         slot_index = free_slot;
@@ -194,7 +195,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
             ctx->flags |= 0x80;
             stored_item->unk_00 = 0;
             stored_item->kind = ITEM_KIND_NONE;
-            update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].a, dungeon_ground_item_positions[stored_id].b, 0x800);
+            update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].a, dungeon_ground_item_positions[stored_id].b, TILE_HAS_ITEM);
             ctx->link = inventory_slot;
         }
     }

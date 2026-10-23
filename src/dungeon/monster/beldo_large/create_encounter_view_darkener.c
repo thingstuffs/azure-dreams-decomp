@@ -10,7 +10,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 
-extern u8 D_80044BB0[];
+extern u8 linked_sprite_renderer_address[];
 extern Copy12 D_80173B1C;
 extern u8 D_801701CC[];
 
@@ -45,7 +45,7 @@ void create_encounter_view_darkener(void)
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (object->unk_10) = D_801701CC;
-        register_node(object, D_80044BB0);
+        register_node(object, linked_sprite_renderer_address);
 
         axis_state = (object->position);
         axis_state->unk_0A = 0;

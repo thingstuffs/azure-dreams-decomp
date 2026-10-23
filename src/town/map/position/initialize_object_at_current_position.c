@@ -17,7 +17,7 @@ extern M2C_UNK map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
 void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data);
 #include "records/Rec_D_800CFCB4.h"
-extern Rec_D_800CFCB4 D_800CFCB4;
+extern Rec_D_800CFCB4 town_actor_control;
 extern u8 D_800D0420[];
 extern s32 D_800D0438;
 #include "records/Rec_D_800FE490.h"
@@ -43,7 +43,7 @@ void initialize_object_at_current_position(void) {
     object->unk_0C = &reference_tile_object.unk_000;
     object->unk_08 = &view_reference_entity.x.v;
     initialize_circular_list_head();
-    handle_insert_initialize_two_values_status_flags(&D_800CFCB4, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
+    handle_insert_initialize_two_values_status_flags(&town_actor_control, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     initialize_pointer_table_self_links();
     initialize_the_store_two_values_set_state_flags(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {

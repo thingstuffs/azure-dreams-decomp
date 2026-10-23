@@ -18,7 +18,7 @@ typedef struct S_80016714_2 {
 
 
 extern u8 D_800189DC[16];
-extern u8 D_80018B94[16];
+extern u8 scene_event_lookup_context[16];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 
@@ -34,7 +34,7 @@ void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
     u8 *event_table;
 
     event_table = D_800189DC;
-    event_data = func_80017960(event_table, D_80018B94, entry_id, event_id);
+    event_data = func_80017960(event_table, scene_event_lookup_context, entry_id, event_id);
     if (event_id == 0xB) {
         initialize_state_two_entries_pointer(F_s34_sero_start);
         if (func_800178A8(event_table, entry_id, 0xB) != 0) {

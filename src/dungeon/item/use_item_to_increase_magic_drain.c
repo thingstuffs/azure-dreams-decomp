@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -41,8 +43,8 @@ s32 use_item_to_increase_magic_drain(void *target, s32 item, s16 message_kind)
         }
 
         random_value = generate_random_value();
-        set_or_clear_actor_status_slot(target, 15, (random_value & 0x1F) | 0x20);
-        if (*(s32 *)((u8 *)target + 0x14) & 0x4000) {
+        set_or_clear_actor_status_slot(target, STATUS_MP_DRAIN, (random_value & 0x1F) | 0x20);
+        if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, D_800E10C0);
         }
         create_colored_effect_with_event((u8 *)target - 0x20, 0x804040, 0x612);

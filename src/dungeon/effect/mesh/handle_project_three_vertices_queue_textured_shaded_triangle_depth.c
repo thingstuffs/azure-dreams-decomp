@@ -74,7 +74,7 @@ typedef struct Scratch81976F70 {
     u16 out5;
 } Scratch81976F70;
 
-extern s32 *D_80026208;
+extern s32 *effect_position_source;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
@@ -125,7 +125,7 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
     packet->x1_lo = vertex_color1;
     packet->x2_lo = vertex_color2;
 
-    vertex_offset = D_80026208;
+    vertex_offset = effect_position_source;
     scratch->x0 = (scratch->vx0 + vertex_offset[0]) >> 16;
     scratch->x1 = (scratch->vx1 + vertex_offset[0]) >> 16;
     scratch->x2 = (scratch->vx2 + vertex_offset[0]) >> 16;

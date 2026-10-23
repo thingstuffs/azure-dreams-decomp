@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -36,8 +39,8 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80170A78[];
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
-extern u8 D_80174880[];
-extern u8 D_801748E0[];
+extern u8 garuda_walk_direction_frames[];
+extern u8 garuda_frame_set_2[];
 
 /* Creates a Garuda actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -73,28 +76,28 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
         kind = mask & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        part_b->frameTable = D_80174880;
+        part_b->frameTable = garuda_walk_direction_frames;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = left;
             work->unk_1C = right;
         } else if (kind > 1) {
-            left = work->unk_14 | 0x2000;
-            right = work->unk_1C | 0x2000;
+            left = work->unk_14 | ACTOR_CLASS_ENABLED;
+            right = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = left;
             work->unk_1C = right;
         } else if (((mask & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 call_a1 = part_a;
                 left = generate_random_value();
                 if (left & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_801748E0;
+                    part_b->frameTable = garuda_frame_set_2;
                 }
             }
         }

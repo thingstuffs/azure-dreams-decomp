@@ -8,7 +8,7 @@ typedef struct DungeonState {
     s32 field_10;
 } DungeonState;
 
-extern u8 D_8016B778[];
+extern u8 ghosh_action_resume_address[];
 extern void allocate_type_12_object(void);
 
 /* Advances the object's counter and switches its script when the dungeon is ready. */
@@ -36,7 +36,7 @@ void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, 
             *(s8 *)((u8 *)object + 0xB4) = 1;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
             *(u8 *)((u8 *)object + 0x9B) = 0;
-            *(u8 **)((u8 *)object + 0x8C) = D_8016B778;
+            *(u8 **)((u8 *)object + 0x8C) = ghosh_action_resume_address;
         }
     }
 }

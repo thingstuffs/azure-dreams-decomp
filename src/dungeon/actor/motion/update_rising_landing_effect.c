@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Actor-relative motion effects, trailing particles, and rising and landing sprite sequences. */
 #include "modules/dungeon_ovl_199c800.h"
 #include "dungeon/actor/motion.h"
@@ -142,9 +143,9 @@ typedef struct S_FUNC_8197C800_BODY_25 {
     s32 unk_14;
 } S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in update_directional_actor_effect */
 
-extern u8 D_800DEDB0[];
-extern u8 D_800DE9D0[];
-extern u8 D_800DEC00[];
+extern u8 rising_sprite_entries[];
+extern u8 countdown_sprite_entries[];
+extern u8 directional_sprite_entries[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 read_sound_mode_blocking_status(s32);
@@ -159,7 +160,7 @@ extern s32 rsin(s32 angle);
 extern s32 rand(void);
 extern u8 D_800DED70[];
 s32 rand();                          /* extern */
-extern M2C_UNK D_800DE990;
+extern M2C_UNK landing_sprite_entries;
 
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 {
@@ -271,9 +272,9 @@ void update_directional_actor_effect(void *input, void *output)
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->tpage_abr = 0x20;
-        sprite->unk_00 = D_800DEDB0;
+        sprite->unk_00 = rising_sprite_entries;
         sprite->flags |= 0xC;
-        sprite->source = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
+        sprite->source = ((S_FUNC_8197C800_BODY_9 *)rising_sprite_entries)->unk_04;
         random_value |= 0x8080u;
         sprite->unk_04 = 0;
         sprite->unk_05 = 0;
@@ -292,9 +293,9 @@ void update_directional_actor_effect(void *input, void *output)
     }
     result = read_sound_mode_blocking_status(4);
     if (result != 2) {
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     } else {
-        play_sound_if_enabled(0x4300);
+        play_sound_if_enabled(AUDIO_RESUME_CD);
     }
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
 
@@ -359,7 +360,7 @@ void update_directional_actor_effect(void *input, void *output)
                     ObjectPosition *position;
                     color = 0x00600000u;
                     position = particle->position;
-                    sprite_template = D_800DE9D0;
+                    sprite_template = countdown_sprite_entries;
                     position->z.w.i = height;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x2000;
@@ -444,7 +445,7 @@ void update_directional_actor_effect(void *input, void *output)
                     {
                         u16 flags;
                         flags = sprite->flags;
-                        sprite_template = D_800DEC00;
+                        sprite_template = directional_sprite_entries;
                         sprite->unk_00 = sprite_template;
                         flags |= 0xC;
                         sprite->flags = flags;
@@ -825,8 +826,8 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
         if (motion->velocity_z > 0) {
-            sprite->unk_00 = &D_800DE990;
-            sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+            sprite->unk_00 = &landing_sprite_entries;
+            sprite_frames = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite_flags = sprite->flags;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
@@ -853,8 +854,8 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
         break;
     case 2:
         if (sprite->flags & 0x6000) {
-            sprite->unk_00 = &D_800DE990;
-            effect_data = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+            sprite->unk_00 = &landing_sprite_entries;
+            effect_data = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
             sprite->source = effect_data;

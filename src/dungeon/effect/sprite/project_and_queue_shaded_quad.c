@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Shaded effect quad rendering and randomized radial effect creation. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -149,7 +150,7 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
     s16 color_index;
     Row_81922EC4_DungeonColor *color;
 
-    (*(s16 *)D_80025B60) = 1;
+    (*(s16 *)shaded_effect_update_flag) = 1;
     work->remaining--;
 
     for (color_index = 0; color_index < 4; color_index++) {
@@ -249,7 +250,7 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
 
     effect->unk_1A += 0x2BC;
     ticks_left = ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s;
-    ((s16 *)D_80025B60)[0] = 1;
+    ((s16 *)shaded_effect_update_flag)[0] = 1;
 
     if (ticks_left >= 0x29) {
         paired_value = effect->unk_1E + 0xC8;
@@ -322,7 +323,7 @@ void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState
     s32 fade_level;
 
     ticks_left = *(u16 *)(entity_data + 0x5A);
-    *(s16 *)((u8 *)&(*(Row_8192340C_DungeonActive *)D_80025B60)) = 1;
+    *(s16 *)((u8 *)&(*(Row_8192340C_DungeonActive *)shaded_effect_update_flag)) = 1;
     if (!(ticks_left & 3)) {
         advance_sprite_animation_and_textures(effect_data);
     }
@@ -446,7 +447,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
     void *target_position;
 
     initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u;
-    (*(s16 *)D_80025B60) = 1;
+    (*(s16 *)shaded_effect_update_flag) = 1;
     if (initial_state < 3U) {
         sprite->color.c.b = 0x3C;
         sprite->color.c.g = 0x3C;
@@ -607,7 +608,7 @@ update_impact:
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = impact_frame;
         if ((s16) impact_frame == impact_state) {
             create_positioned_render_effect(effect, motion, sprite);
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0xA) {
             scale = sprite->scale_x;

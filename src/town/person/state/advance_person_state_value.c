@@ -12,14 +12,14 @@ typedef struct {
 } State;
 
 extern u8 D_800AB50C[];
-extern u8 D_800AB708[];
+extern u8 person_approach_state_address[];
 
 /* Update the state from its value and countdown, advancing unk72 until timeout. */
 void advance_person_state_value(State *state) {
     u16 timer;
 
     if (state->value < 100) {
-        state->state = D_800AB708;
+        state->state = person_approach_state_address;
     }
     timer = state->timer - 1;
     state->timer = timer;

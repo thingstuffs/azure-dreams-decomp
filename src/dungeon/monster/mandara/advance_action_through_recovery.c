@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -35,7 +37,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_effect_groups(void *, void *, void *, s32);
 
-extern u8 D_80170F6C[];
+extern u8 mandara_action_resume_address[];
 #include "dungeon/monster/mandara.h"
 
 /* Advances an actor action through motion selection, execution, and recovery. */
@@ -54,7 +56,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
     use_global_target = 0;
     switch (((S_80172DEC_0 *)action_state)->unk_9B) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_global_target = 1;
@@ -143,7 +145,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
+        ((S_80172DEC_0 *)action_state)->unk_8C = mandara_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -193,7 +195,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
+        ((S_80172DEC_0 *)action_state)->unk_8C = mandara_action_resume_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
@@ -201,7 +203,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
     }
 }

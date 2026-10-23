@@ -20,11 +20,11 @@ typedef struct {
     s16 field_2A;
 } DungeonInput;
 
-extern u8 D_801739A0[];
-extern u8 D_801739A8[];
-extern u8 D_801739B0[];
-extern u8 D_801739B8[];
-extern u8 D_8016A36C[];
+extern u8 beldo_large_frame_set_2[];
+extern u8 beldo_large_frame_set_5[];
+extern u8 beldo_large_frame_set_1[];
+extern u8 beldo_large_frame_set_3[];
+extern u8 beldo_large_action_resume_address[];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
@@ -42,24 +42,24 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, S
     switch (mode) {
     case 0:
         current_table = *(u8 **)&state->frameTable;
-        mode_table = D_801739A0;
+        mode_table = beldo_large_frame_set_2;
         break;
     case 1:
         current_table = *(u8 **)&state->frameTable;
-        mode_table = D_801739A8;
+        mode_table = beldo_large_frame_set_5;
         break;
     case 2:
         current_table = *(u8 **)&state->frameTable;
-        mode_table = D_801739B0;
+        mode_table = beldo_large_frame_set_1;
         break;
     case 3:
         current_table = *(u8 **)&state->frameTable;
-        mode_table = D_801739B8;
+        mode_table = beldo_large_frame_set_3;
         break;
     default:
         if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
             if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
-                object->field_8C = D_8016A36C;
+                object->field_8C = beldo_large_action_resume_address;
             }
         }
         return;
@@ -73,7 +73,7 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, S
 
     if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
         if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
-            object->field_8C = D_8016A36C;
+            object->field_8C = beldo_large_action_resume_address;
         }
     }
     return;

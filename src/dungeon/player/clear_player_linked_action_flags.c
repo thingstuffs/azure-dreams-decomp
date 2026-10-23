@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -20,10 +21,10 @@ void clear_player_linked_action_flags(void) {
     s32 rootFlags;
 
     root = dungeon_actor_ring_anchor;
-    if (root->flags1C & 0x100000) {
+    if (root->flags1C & ACTOR_CARRYING) {
         linkedObject = ((PlayerRecord *)root)->unk_124;
         if (linkedObject != 0) {
-            linkedObject->unk_1C = (s32)(linkedObject->unk_1C & 0xFFF7FFFF);
+            linkedObject->unk_1C = (s32)(linkedObject->unk_1C & ACTOR_LIFTED_CLEAR_MASK);
         }
         rootFlags = root->flags1C;
         savedGlobalValue = held_item_record;

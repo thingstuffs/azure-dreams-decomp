@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "dungeon/monster/nyuel/allocate_actor_parts.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -39,25 +42,25 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
 
         if (attr_b == 1) {
             body->callback_8C = D_8015EE9C;
-            body->flags_14 |= 0x6000;
-            body->flags_1C |= 0x6000;
-            child_b->frameTable = D_80162ED8;
+            body->flags_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            body->flags_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            child_b->frameTable = nyuel_frame_set_7;
         } else if (attr_b >= 2) {
             body->callback_8C = D_8015EE9C;
-            body->flags_14 |= 0x2000;
-            body->flags_1C |= 0x2000;
-            child_b->frameTable = D_80162ED8;
+            body->flags_14 |= ACTOR_CLASS_ENABLED;
+            body->flags_1C |= ACTOR_PLAYER_SIDE;
+            child_b->frameTable = nyuel_frame_set_7;
         } else {
             if (((held_flags & ~3) << 16) == 0) {
-                if (!(body->flags_14 & 0x200) && (generate_random_value() & 1)) {
-                    set_or_clear_actor_status_slot(body, 1, (generate_random_value() & 0x3F) | 0x20);
+                if (!(body->flags_14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
+                    set_or_clear_actor_status_slot(body, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     child_b->frameTable = D_80162F00;
                 }
                 body_alias->callback_8C = D_8015EE9C;
-                child_b->frameTable = D_80162ED8;
+                child_b->frameTable = nyuel_frame_set_7;
             } else {
                 body->callback_8C = D_8015EE9C;
-                child_b->frameTable = D_80162ED8;
+                child_b->frameTable = nyuel_frame_set_7;
             }
         }
         object->field_10 = D_8015EA98;

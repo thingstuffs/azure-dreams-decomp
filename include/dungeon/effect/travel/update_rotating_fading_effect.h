@@ -141,7 +141,7 @@ extern void func_8004491C(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern s32 rand(void);
-extern M2C_UNK D_800DECF8;
+extern M2C_UNK fading_sprite_entries;
 extern s32 rcos(s32);
 extern s32 rand(void);
 extern u8 D_800777DC[];

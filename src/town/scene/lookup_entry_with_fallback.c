@@ -5,9 +5,9 @@ s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 s
     s32 result;
 
     if (check_table_result_below_minus_47(context, check_value) != 0) {
-        return (s32)&D_8001B63C;
+        return (s32)&scene_result_fallback;
     }
-    result = func_80019ABC(&D_8001A9A4, &D_8001B1FC, context, selector);
+    result = func_80019ABC(&D_8001A9A4, &scene_response_context, context, selector);
     if (func_80019A04(&D_8001A9A4, context, selector) != 0) {
         result = select_state_result_with_lookup_overrides(context, check_value, selector);
     }

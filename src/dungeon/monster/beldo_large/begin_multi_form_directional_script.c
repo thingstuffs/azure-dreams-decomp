@@ -28,7 +28,7 @@ extern u16 D_800834E2;
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
 extern u8 *beldo_actor_nodes;
-extern s32 D_80175DC4;
+extern s32 encounter_script_cursor;
 extern s16 beldo_script_timer;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
@@ -74,7 +74,7 @@ void begin_multi_form_directional_script(void)
 
         direction_table = D_80173D74;
         direction &= 0x1C;
-        D_80175DC4 = *(s32 *)(direction_table + direction);
+        encounter_script_cursor = *(s32 *)(direction_table + direction);
     }
 
     do {

@@ -11,7 +11,7 @@ extern s32 func_80018868(s32, s32);
 extern void func_800188E8(s32, s32, s32);
 
 extern u8 D_80018A0C[16];
-extern u8 D_80018B94[16];
+extern u8 scene_event_lookup_context[16];
 extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
@@ -32,7 +32,7 @@ s32 select_event_11_response(s32 context, s32 unused, s32 event_id)
     }
 
     event_table = D_80018A0C;
-    result = func_80017960(event_table, D_80018B94, context, event_id);
+    result = func_80017960(event_table, scene_event_lookup_context, context, event_id);
     state_index = func_80018868(F_sbs34_pad16, 2);
 
     if (event_id != 0xB) {

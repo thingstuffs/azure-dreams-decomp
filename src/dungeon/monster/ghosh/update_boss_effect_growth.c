@@ -58,7 +58,7 @@ typedef struct S_80172874_7 {
 } S_80172874_7;   /* global_base in update_boss_effect_growth */
 
 
-extern u8 D_80174C8C[];
+extern u8 ghosh_frame_set_5[];
 
 /* Advances the effect through growth, position tracking, and shrinkage. */
 void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *transform)
@@ -115,7 +115,7 @@ void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *
             ((S_80172874_0 *)base)->unk_18 = 0x14;
             ((S_80172874_0 *)base)->unk_16.s = 0x14;
         }
-        if (owner->unk_2C == D_80174C8C) {
+        if (owner->unk_2C == ghosh_frame_set_5) {
             ((S_80172874_0 *)base)->unk_18 = 0x14;
             ((S_80172874_0 *)base)->unk_16.s = 0x14;
             ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;

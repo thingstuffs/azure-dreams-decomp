@@ -23,7 +23,7 @@ extern void SetSemiTrans(POLY_FT4 *, s32);
 extern u16 GetTPage(s32, s32, s32, s32);
 extern u16 GetClut(s32, s32);
 void advance_sprite_animation_and_textures(void *);                 /* extern */
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 extern SpriteSourceEntry D_800DED28;
 void func_80024020(ProjectileState *, ProjectileMotion *, ProjectileSprite *);
 s32 func_800248F8(RenderRecord *, EntityRec *);

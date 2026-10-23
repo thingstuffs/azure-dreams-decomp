@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -122,7 +123,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameSt
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        actor->flags1C &= ~8;
+        actor->flags1C &= ~ACTOR_MP_EMPTY;
         ((S_80174788_0 *)action)->unk_8C = uboat_behavior_entry;
 
         return;

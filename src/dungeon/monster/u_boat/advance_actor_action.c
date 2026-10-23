@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -113,18 +114,18 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
         }
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
             s8 tile = *(s8 *)&sprite->unk_26;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                 if (!(generate_random_value() & 7)) {
-                    clear_slots_of_type(entity, 1);
+                    clear_slots_of_type(entity, STATUS_SLEEP);
                 }
             }
         }
-        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             return;
         }
         sprite->frameTable = D_800E2430;

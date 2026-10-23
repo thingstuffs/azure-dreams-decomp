@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sys_flags.h"
@@ -20,7 +21,7 @@ void update_actor_status_and_mp(ActorRecord *entity) {
         if (entity->pending_turn_updates != 0) {
             do {
                 if (!(*(u16 *)0x80013714 & 8)) {
-                    if (!(entity->flags1C & 8) && ((entity_type = (*(u8 *)((u8 *)&entity->unk_10 + 3)), ((entity_type
+                    if (!(entity->flags1C & ACTOR_MP_EMPTY) && ((entity_type = (*(u8 *)((u8 *)&entity->unk_10 + 3)), ((entity_type
                         < 0x2FU) != 0)) || (entity_type == 0x39))) {
                         spend_actor_mp(entity, 4);
                     }

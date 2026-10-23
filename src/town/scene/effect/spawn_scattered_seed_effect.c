@@ -8,7 +8,7 @@ extern void func_8003BC18(void *, void *);
 extern s32 func_80071494(void);
 extern void func_8028E170(void);
 extern void func_8052FC8C(void);
-extern u8 D_8003C558[];
+extern u8 score_sprite_draw_callback_address[];
 
 
 typedef struct SpawnMotion {
@@ -42,7 +42,7 @@ void spawn_scattered_seed_effect(SpawnSeed *seed) {
     slot = func_800373DC(0x136);
     if (slot != 0) {
         (*(Callback *)((u8 *)slot + 0x10)) = func_8052FC8C;
-        func_8003BC18(slot, D_8003C558);
+        func_8003BC18(slot, score_sprite_draw_callback_address);
         motion = (*(void * *)((u8 *)slot + 8));
         sprite = (*(void * *)((u8 *)slot + 0xC));
         motion->unk_02 =

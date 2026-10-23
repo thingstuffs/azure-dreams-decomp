@@ -30,8 +30,8 @@ extern s32 dispatch_actor_action_state(void *, void *, void *, s32);
 extern void func_801737B8(void *, void *, void *, void *);
 extern void initialize_object_and_clear_state(void *, void *, void *, void *);
 
-extern u8 D_80170EE4[];
-extern u8 D_801765D8[];
+extern u8 manoeva_action_resume_address[];
+extern u8 manoeva_frame_set_1[];
 extern u8 D_801765E0[];
 extern u8 D_80176650[];
 extern u8 D_80176660[];
@@ -116,11 +116,11 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
         {
             u8 default_state = 14;
             if (((S_80170EE4_0 *)actor_state_in)->unk_9A != default_state) {
-                if (*(u8 **)&map_object->frameTable != D_801765D8) {
-                    (map_object->frameTable) = D_801765D8;
+                if (*(u8 **)&map_object->frameTable != manoeva_frame_set_1) {
+                    (map_object->frameTable) = manoeva_frame_set_1;
                     select_sprite_entry(
                         map_object,
-                        D_801765D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+                        manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170EE4_0 *)actor_state_in)->unk_9A = default_state;
@@ -203,7 +203,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
             target_actor = primary_actor_record;
             ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
             if (target_actor->unk_9A == 0x11) {
-                begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
+                begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
                 return;
             }
 
@@ -214,7 +214,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
+            begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
             return;
 
         case 11:
@@ -246,7 +246,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
     if (map_object->flags & 0x40) {
         return;
     }
-    animation_table = D_801765D8;
+    animation_table = manoeva_frame_set_1;
     if (*(u8 **)&map_object->frameTable == animation_table) {
         return;
     }

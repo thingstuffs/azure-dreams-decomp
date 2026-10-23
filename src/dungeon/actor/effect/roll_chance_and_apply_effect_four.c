@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct State {
@@ -24,7 +25,7 @@ s32 roll_chance_and_apply_effect_four(State *state, s16 value, s8 flag) {
         chance = 0;
     }
     if (chance < value || value == 255) {
-        if ((s32)((u32)set_or_clear_actor_status_slot(state, 4, flag) << 16) >= 0) {
+        if ((s32)((u32)set_or_clear_actor_status_slot(state, STATUS_PARALYSIS, flag) << 16) >= 0) {
             return 1;
         }
     }

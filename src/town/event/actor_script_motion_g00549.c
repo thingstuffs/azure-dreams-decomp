@@ -11,7 +11,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
     u8 *entry;
     s32 active_script;
 
-    control = &D_800CFCB4;
+    control = &town_actor_control;
 
     if (control->field_10 == owner) {
         s32 index = control->index;
@@ -27,7 +27,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
                 initialize_target_motion_state(object, owner, context, extra_ptr);
                 return 1;
             }
-            if (scene_object_payload_alias == (s32)&D_800927EC) {
+            if (scene_object_payload_alias == (s32)&tracked_actor_callback_address) {
                 if (D_800CFCCC == 0) {
                     initialize_target_motion(object, owner, context, extra_ptr);
                     return 1;
@@ -74,7 +74,7 @@ void update_actor_surface_motion(void *actor, void *subject, void *motion, void 
     }
     dispatch_active_town_object_script(actor, subject, motion, context);
     actor_callback = *(void **)((u8 *)actor + 0x50);
-    if (actor_callback != D_8009B454 && actor_callback != D_8009B594 && actor_callback != D_8009BDC0) {
+    if (actor_callback != actor_surface_callback_address && actor_callback != D_8009B594 && actor_callback != D_8009BDC0) {
         actor_value = *(s32 **)((u8 *)actor + 0x7C);
         if (actor_value != 0)
             *(s32 *)((u8 *)context + 8) = *actor_value;
@@ -88,7 +88,7 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
     s32 *stored_value;
 
     for (slot = 0; slot < 6; slot++) {
-        u8 *slot_flags = (u8 *)&D_800CFCB4 + slot;
+        u8 *slot_flags = (u8 *)&town_actor_control + slot;
 
         if (slot_flags[0x3A] != 0 || slot_flags[0x40] != 0) {
             break;
@@ -102,7 +102,7 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
         dispatch_active_town_object_script(state_owner, update_target, update_context, output);
     }
     current_state = *(void **)((u8 *)state_owner + 0x50);
-    if (current_state != D_8009B454 && current_state != D_8009B594 && current_state != D_8009BDC0) {
+    if (current_state != actor_surface_callback_address && current_state != D_8009B594 && current_state != D_8009BDC0) {
         stored_value = *(s32 **)((u8 *)state_owner + 0x7C);
         if (stored_value != 0) {
             *(s32 *)((u8 *)output + 8) = *stored_value;

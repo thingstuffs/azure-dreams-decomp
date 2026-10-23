@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -18,8 +19,8 @@ void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *dis
             >> 9 & 7], 0);
     }
     *(s32 *) ((u8 *) actor + 0x1C) = *(s32 *) ((u8 *) actor + 0x1C) | 0x04000000;
-    clear_slots_of_type(actor, 4);
-    if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
+    clear_slots_of_type(actor, STATUS_PARALYSIS);
+    if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
         *((u8 *) actor + 0x13) = *((u8 *) actor + 0xA8);
         func_80042518(actor, 0xA);
     }

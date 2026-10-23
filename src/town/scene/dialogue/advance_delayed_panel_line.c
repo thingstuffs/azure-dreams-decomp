@@ -15,7 +15,7 @@ typedef struct S_8080BCD4_1 {
 } S_8080BCD4_1;   /* context in advance_delayed_panel_line */
 
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Clears panel flag 2 after a delay, then marks the panel for removal when the linked flag is set. */
 void advance_delayed_panel_line(void *ptr) {
@@ -44,7 +44,7 @@ void advance_delayed_panel_line(void *ptr) {
     case 1:
         if (context->unk_2A & 1) {
             *(u16 *)((u8 *)ptr - 2) |= 0x8000;
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
     default:
         return;

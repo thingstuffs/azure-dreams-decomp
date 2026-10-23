@@ -1,5 +1,7 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity.h"
-#include "common.h"
+#include "dungeon/monster/nyuel/spawn_factory_default.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -39,15 +41,15 @@ extern void func_80174F00(void);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Nyuel with spawn-mode flags and frames at func_80174ED8, then initializes its callbacks and tile
  * placement. */
-void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     void *work;
-    s16 held_c;
+    s16 saved_height;
     s32 held_flags;
     ObjectNodeHeader *obj;
-    s8 held_b;
-    s8 held_a;
+    s8 saved_tile_y;
+    s8 saved_tile_x;
     ObjectPosition *part_a;
     s16 flags_copy;
     s32 call_id;
@@ -56,10 +58,10 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     held_flags = spawn_flags;
     work = 0;
     call_id = 0x112;
-    held_a = attr_a;
+    saved_tile_x = tile_x;
     call_target = &scene_object_list_anchor;
-    held_c = attr_c;
-    held_b = attr_b;
+    saved_height = spawn_height;
+    saved_tile_y = tile_y;
     obj = allocate_list_node(call_id, call_target);
     flags_copy = held_flags;
     if (obj != 0) {
@@ -72,19 +74,19 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->z.w.i = held_c;
+        part_a->z.w.i = saved_height;
         part_b = obj->sprite;
         kind = held_flags & 3;
-        part_b->unk_25 = held_b;
+        part_b->unk_25 = saved_tile_y;
         actor = work;
-        part_b->unk_24 = held_a;
+        part_b->unk_24 = saved_tile_x;
 
         if (kind == 1) {
             s32 left_one;
             s32 right_one;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_one = ((ObjectNodeHeader *)work)->unk_14 | 0x6000;
+            left_one = ((ObjectNodeHeader *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             right_one = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x6000;
             ((ObjectNodeHeader *)work)->unk_14 = left_one;
             *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_one;
@@ -94,7 +96,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 right_many;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_many = ((ObjectNodeHeader *)work)->unk_14 | 0x2000;
+            left_many = ((ObjectNodeHeader *)work)->unk_14 | ACTOR_CLASS_ENABLED;
             right_many = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x2000;
             ((ObjectNodeHeader *)work)->unk_14 = left_many;
             *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_many;
@@ -108,12 +110,12 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             if (test != 0) {
                 callback_page = (u8 *)0x80170000;
             } else {
-                if (((ObjectNodeHeader *)work)->unk_14 & 0x200) {
+                if (((ObjectNodeHeader *)work)->unk_14 & ACTOR_RESIST_SLEEP) {
                     callback_page = (u8 *)0x80170000;
                 } else if (!(generate_random_value() & 1)) {
                     callback_page = (u8 *)0x80170000;
                 } else {
-                    set_or_clear_actor_status_slot(work, 1,
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = func_80174F00;
                     callback_page = (u8 *)0x80170000;

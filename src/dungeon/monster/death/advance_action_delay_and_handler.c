@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern s32 D_801719DC;
+extern s32 death_action_resume_address;
 extern s32 D_8017466C;
 
 /* Advance the action delay, reset motion, and select the next handler. */
@@ -45,7 +46,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *moti
             action->unk_9B = 2;
             return;
         }
-        if (actor_data->flags1C & 0x228) {
+        if (actor_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             delay = 8;
         } else {
             delay = -1;
@@ -95,7 +96,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *moti
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_801719DC;
+        action->unk_8C = &death_action_resume_address;
         return;
 
     default:

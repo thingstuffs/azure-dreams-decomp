@@ -14,7 +14,7 @@ extern s32 register_node();
 
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
-extern s32 D_800CEEFC[3];
+extern s32 linked_mesh_processor_address[3];
 
 typedef struct S_80026C88_0 {
     u8 pad_00[0x8];
@@ -96,7 +96,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             void *self_link;
 
             object->unk_10 = callback;
-            register_node(object, D_800CEEFC);
+            register_node(object, linked_mesh_processor_address);
             state = ((void *)object) + 0x20;
             state->unk_1A = (s16) (x + position_offset[0]);
             state->unk_1E = (s16) (y + position_offset[1]);

@@ -49,7 +49,7 @@ typedef struct {
 
 void func_8002522C();
 void create_effect_object_groups();
-extern Counter D_80026472;
+extern Counter staged_fade_count;
 extern Flag D_80026474;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
@@ -63,7 +63,7 @@ void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_8002
     void *call_transform;
     s32 base_value;
 
-    D_80026472.value++;
+    staged_fade_count.value++;
     state = ((S_80024CD4_0 *)effect)->unk_0A.s;
     switch (state) {
     case 0:

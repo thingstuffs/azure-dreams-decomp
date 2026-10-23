@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -22,7 +23,7 @@ s32 begin_ready_actor_directional_action(void *, s32, void *, void *);
 void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 void func_8016DAA4(void *, s32, void *, void *);
 
-extern u8 D_8016B778[];
+extern u8 ghosh_action_resume_address[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];
 #include "dungeon/monster/ghosh.h"
@@ -89,7 +90,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
         actor->unk_9B++;
         return;
     case 1:
-        if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 0x10) != 0) {
             if (((S_8016D6F0_2 *)resident_globals_page)->unk_3462 & 0x1000) {
                 return;
             }
@@ -135,16 +136,16 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             }
             update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
-            if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 0x10) != 0) {
                 reference_pos = &reference_tile_object;
                 room_id = *(s8 *)&sprite->unk_26;
                 if (((room_id == reference_pos->room_index && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&
                     (generate_random_value() & 7) == 0) {
-                    clear_slots_of_type(entity, 1);
+                    clear_slots_of_type(entity, STATUS_SLEEP);
                 }
             }
-            if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 0x10) != 0) {
                 return;
             }
         }
@@ -158,7 +159,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
                 0);
         }
         if (sprite->flags & 0x8000) {
-            actor->unk_8C = D_8016B778;
+            actor->unk_8C = ghosh_action_resume_address;
             return;
         }
         {
@@ -175,7 +176,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             DungeonGlobalStatus *counter_update = &g_dungeon_status;
             counter_update->activity_counts.parts.pending_action_count--;
         }
-        actor->unk_8C = D_8016B778;
+        actor->unk_8C = ghosh_action_resume_address;
         break;
     default:
         return;

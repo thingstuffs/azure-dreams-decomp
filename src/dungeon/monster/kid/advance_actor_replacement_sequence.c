@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -109,7 +110,7 @@ s32 create_status_linked_render_effect();     /* extern */
 void create_randomly_rotated_offset_effect(); /* extern */
 extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
-extern u8 D_8014A000[];
+extern u8 dungeon_resource_buffer[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
 extern M2C_UNK kid_image_commands;
@@ -188,7 +189,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
                 return;
             }
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         color_index = lookup_masked_byte_table(actor);
@@ -225,7 +226,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
             random_value = rand();
             style = random_value % 3;
         }
-        select_record_entry_and_value(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+        select_record_entry_and_value(sprite, &dungeon_resource_buffer[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
         entity->flags = (u16) (entity->flags | 0x80);
         ray_index = 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
@@ -252,7 +253,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
+        if (create_status_linked_render_effect(position, D_80175220, D_80175218, &staged_spawn_count) == 0) {
             return;
         }
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;

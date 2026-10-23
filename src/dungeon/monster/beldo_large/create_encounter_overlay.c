@@ -14,11 +14,11 @@ typedef struct PackedVec3 {
 
 extern void register_node(void *, void *);
 
-extern u8 D_80044BB0[];
+extern u8 linked_sprite_renderer_address[];
 extern u8 D_8016F99C[];
 extern u8 D_80173B1C[];
 extern u8 D_80173B28[];
-extern u8 D_80170000[];
+extern u8 encounter_overlay_work[];
 
 typedef struct S_8016FAFC_0 {
     u8 pad_00[0x18];
@@ -64,7 +64,7 @@ void create_encounter_overlay(s32 variant)
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = variant;
         (obj->unk_10) = D_8016F99C;
-        register_node(call_obj, D_80044BB0);
+        register_node(call_obj, linked_sprite_renderer_address);
 
         sprite = (*(u8 * *)&obj->sprite);
         ((S_8016FAFC_1 *)sprite)->unk_14 &= 0xFFF3;
@@ -86,13 +86,13 @@ void create_encounter_overlay(s32 variant)
             copy_src = D_80173B1C;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ((S_8016FAFC_3 *)D_80170000)->unk_5D58 = obj;
+            ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D58 = obj;
         } else {
 
             copy_src = D_80173B28;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ((S_8016FAFC_3 *)D_80170000)->unk_5D5C = obj;
+            ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D5C = obj;
         }
         sprite_vector = part + 0x28;
         ((S_8016FAFC_1 *)sprite)->unk_08 = sprite_vector;

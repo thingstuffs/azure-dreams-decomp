@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Particle rendering, timed display slots, and an actor tint and particle sequence. */
 #include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
@@ -278,7 +279,7 @@ void lower_timed_effect_position(Entity *entity, State *state)
 }
 
 /* Spawn and initialize an object at a randomized offset from its parent. */
-void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
+void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     Object *parent = source;
     s16 held_x_offset = x_offset;
@@ -512,9 +513,9 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
         }
         if (F(effect, s16, 0x20) == 0x13) {
             if (read_sound_mode_blocking_status(4) != 2) {
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
-                play_sound_if_enabled(0x4300);
+                play_sound_if_enabled(AUDIO_RESUME_CD);
             }
         }
         if (F(effect, s16, 0x20) < 11) {
@@ -530,7 +531,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                     particle_level = F(effect, s16, 0x26);
                     particle_x = F(effect, s16, 0xC);
                     particle_color |= 0x20F0;
-                    func_80024798((u8 *)primary_actor_record - 0x20,
+                    handle_spawn_initialize_randomized_offset_parent((u8 *)primary_actor_record - 0x20,
                                   particle_level, particle_color,
                                   sprite_rgb,
                                   particle_x, F(effect, s16, 0xE),
@@ -618,7 +619,7 @@ void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect
                         particle_level = F(effect, s16, 0x26);
                         particle_x = F(effect, s16, 0x18);
                         particle_color |= 0x20F0;
-                        func_80024798((u8 *)primary_actor_record - 0x20,
+                        handle_spawn_initialize_randomized_offset_parent((u8 *)primary_actor_record - 0x20,
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),

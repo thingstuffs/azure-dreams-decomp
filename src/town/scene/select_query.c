@@ -3,7 +3,7 @@
 
 extern s32 D_80018E1C;
 extern s32 D_80018E34;
-extern s32 D_8001925C;
+extern s32 scene_request_context;
 
 extern void func_800181C8();
 extern s32 func_80018C50();
@@ -12,8 +12,8 @@ extern s32 func_80018C50();
 void select_query(s32 primaryValue, s32 unusedValue, s32 secondaryValue) {
 
     if (func_80018C50(F_chriru_hospital_trg) != 0) {
-        func_800181C8(&D_80018E34, &D_8001925C, primaryValue, secondaryValue);
+        func_800181C8(&D_80018E34, &scene_request_context, primaryValue, secondaryValue);
     } else {
-        func_800181C8(&D_80018E1C, &D_8001925C, primaryValue, secondaryValue);
+        func_800181C8(&D_80018E1C, &scene_request_context, primaryValue, secondaryValue);
     }
 }

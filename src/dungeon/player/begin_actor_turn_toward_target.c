@@ -11,7 +11,7 @@ typedef struct S_80048A44_Obj S_80048A44_Obj;
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
-extern u8 D_800DD030[];
+extern u8 actor_attack_frames[];
 
 
 typedef struct S_80091B5C_1 {
@@ -46,8 +46,8 @@ void begin_actor_turn_toward_target(void *action, void *unused, void *actor, voi
     (*(s32 *)((u8 *)action + (0x8C))) = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = 0x10;
-    (*(u8 **)((u8 *)actor + (0x2C))) = D_800DD030;
-    set_sprite_animation_frame(actor, D_800DD030[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
+    (*(u8 **)((u8 *)actor + (0x2C))) = actor_attack_frames;
+    set_sprite_animation_frame(actor, actor_attack_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
         >> 9) & 7], 0, 1);
     target = ((SpriteLinkPrefixView *)(g_dungeon_status.active_actor))[-1].unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((S_80091B5C_1 *)motion)->unk_2A;

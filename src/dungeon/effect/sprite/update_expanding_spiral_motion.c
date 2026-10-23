@@ -11,7 +11,7 @@ extern void select_record_entry_and_value(struct Dst *state, struct Elem *entrie
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 rsin();
 extern s32 rcos();
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CB30_0 {
     void * unk_00;
@@ -80,6 +80,6 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
                                         angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        select_record_entry_and_value(object, D_800DEAE0, 0);
+        select_record_entry_and_value(object, ribbon_sprite_entries, 0);
     }
 }

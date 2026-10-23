@@ -14,8 +14,8 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_and_initializes_display_source_position_appearance(void *, void *, void *);
 
-extern u8 D_801710F4[];
-extern u8 D_80174F00[];
+extern u8 picket_action_resume_address[];
+extern u8 picket_frame_set_1[];
 
 typedef struct S_80174BF8_0 {
     u8 pad_00[0x8C];
@@ -60,12 +60,12 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0
 
     entity_arg = entity;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    animation->frameTable = D_80174F00;
+    animation->frameTable = picket_frame_set_1;
     spend_actor_mp(entity_arg, 0x200);
     select_sprite_entry(animation,
         (*(u8 **)&animation->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
-    action->unk_8C = D_801710F4;
+    action->unk_8C = picket_action_resume_address;
     advance_status_timers(entity);
     entity->pending_turn_updates = 0;
     entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

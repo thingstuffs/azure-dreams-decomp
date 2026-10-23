@@ -47,7 +47,7 @@ typedef struct Func80813E14Input {
     u16 flags;
 } Func80813E14Input;
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern u8 D_8028E194[];
 extern u8 D_8028E214[];
 extern u8 D_80530220[];
@@ -211,7 +211,7 @@ void advance_shop_item_panel(Func80813E14Object *object,
         }
         func_8023FB18((u8 *)object + 4);
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 
 cleanup:

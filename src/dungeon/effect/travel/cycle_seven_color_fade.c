@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Color-cycling radial bands, rotating spark effects, and movement toward reachable tiles. */
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/sprite_frame_state.h"
@@ -38,7 +39,7 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_
    /* arg1 in func_800240B8 */
 
 /* Increment counters, reduce the stored value, and propagate status flags. */
-void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
+void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
     linked_counter = ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_00;
@@ -62,10 +63,10 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
 
 extern s32 rand();
 
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 
 /* Create an object with randomized rotation and a radial position offset. */
-s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
+s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
     s16 offset_angle;
     SpriteFrameState *render_state;
     s32 *object_state;
@@ -74,7 +75,7 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = func_800240B8;
+        object->unk_10 = lower_animated_sprite;
         object_data = (B28_818B6954_S_818B6954_1 *)((u8 *)object + 0x20);
         ((B28_818B6954_S_818B6954_0 *)object)->unk_20 = context_value;
         object_data->unk_04 = 0;
@@ -85,7 +86,7 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
         render_state->flags |= 0xC;
         render_state->tpage_abr |= 0x20;
         render_state->flags |= 0x100;
-        select_record_entry_and_value(render_state, D_800DEC70, 0);
+        select_record_entry_and_value(render_state, shared_sprite_entries, 0);
         render_state->angle_z = rand() % 0x1000;
         render_state->scale_y = 0xC00;
         render_state->scale_x = 0xC00;
@@ -197,7 +198,7 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
         color_out->rgb.at02.v = blue;
         target_color->b = blue;
         render_owner = effect->owner;
-        func_80024154(render_owner, render_arg, color_out->rgb.at00u.v, effect);
+        create_colored_offset_sprite(render_owner, render_arg, color_out->rgb.at00u.v, effect);
     } else {
         union { s32 v; } fade_out_red = {0};
 
@@ -784,7 +785,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
 #include "shared/object_flags.h"
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
-void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity)
+void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity)
 {
     owner->child->counter++;
     owner->counter++;
@@ -825,7 +826,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         sub = (u8 *)obj + 0x20;
-        obj->update = func_8002553C;
+        obj->update = advance_spinning_effect_motion;
         obj->owner = owner;
         *(s16 *)(sub + 0x10) = 0;
         *(u16 *)(sub + 0x14) = *(u16 *)((u8 *)owner + 0x12);
@@ -1062,7 +1063,7 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         goto advance_phase;
     case 3:
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 >= 0x10) {

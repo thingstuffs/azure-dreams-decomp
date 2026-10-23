@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 D_80174CE0;
+extern s32 ghosh_scripted_actor;
 
 typedef struct S_80170CBC_0 {
     u8 pad_00[0x96];
@@ -14,7 +14,7 @@ typedef struct S_80170CBC_0 {
 void advance_boss_effect_counter(void) {
     S_80170CBC_0 *object;
 
-    object = D_80174CE0 + 0x20;
+    object = ghosh_scripted_actor + 0x20;
     object->unk_96 = 0;
     object->unk_9A = (u8) (object->unk_9A + 1);
 }

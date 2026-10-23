@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -54,7 +55,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
             0);
         ((S_80172288_0 *)jump)->unk_98 |= 8;
         motion->velocity_z = 0xFFEE0000;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172288_0 *)jump)->unk_A4 = 0;
         ((S_80172288_0 *)jump)->unk_9B++;
 
@@ -82,12 +83,12 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
         if (((S_80172288_0 *)jump)->unk_96.s < 2) {
             ((S_80172288_0 *)jump)->unk_90 = 0;
             ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172288_0 *)jump)->unk_9B++;
         }
 
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

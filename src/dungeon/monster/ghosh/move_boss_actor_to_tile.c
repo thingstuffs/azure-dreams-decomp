@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -57,7 +58,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
     switch (action->unk_9B) {
     case 0:
         action->unk_98 = (u16) (action->unk_98 | 8);
-        entity->flags1C = (s32) (entity->flags1C & 0xF7FFFFFF);
+        entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E.s = 5;
         action->unk_A4 = 0;
         action->unk_9B = (u8) (action->unk_9B + 1);
@@ -88,12 +89,12 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
         if ((next_frame << 0x10) < 0) {
             action->unk_90 = 0;
             action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-            entity->flags1C = (s32) (entity->flags1C | 0x08000000);
+            entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
             action->unk_9B = (u8) (action->unk_9B + 1);
         }
                         /* fall through */
     case 2:
-        if (entity->flags1C & 0x08000000) {
+        if (entity->flags1C & ACTOR_GROUNDED) {
             action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
             motion->velocity_z = 0;
             motion->velocity_y = 0;

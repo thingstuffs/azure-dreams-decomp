@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -28,7 +29,7 @@ void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unus
     tile_x = position->unk_24;
     tile_y = position->unk_25;
     update_mask = 0x3000;
-    if (entity->flags1C & 0x2000) {
+    if (entity->flags1C & ACTOR_PLAYER_SIDE) {
         update_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(tile_x, tile_y, update_mask);

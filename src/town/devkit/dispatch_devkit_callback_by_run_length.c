@@ -7,7 +7,7 @@ typedef struct {
 
 extern u8 devkit_globals_page[];
 extern u8 D_80700BB4[];
-extern s32 *D_80701968[];
+extern s32 *devkit_state_slots[];
 
 /* Dispatch a callback based on the number of consecutive set flags in the list. */
 void dispatch_devkit_callback_by_run_length(void) {
@@ -24,7 +24,7 @@ void dispatch_devkit_callback_by_run_length(void) {
     flag_ids = (s16 *)(D_80700BB4 + 8);
     matched_count = 0;
     if (*flag_ids != 0) {
-        flag_words = D_80701968[0];
+        flag_words = devkit_state_slots[0];
         one = 1;
         flag_cursor = flag_ids;
         do {

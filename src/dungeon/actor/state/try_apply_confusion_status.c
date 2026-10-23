@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 extern s32 generate_random_value(void);
@@ -29,7 +30,7 @@ s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input) {
 
     signed_threshold = ((s32)((u32)threshold << 16)) >> 16;
     if ((((s32)(roll < signed_threshold)) != 0) || (signed_threshold == 0xFF)) {
-        if ((s16)set_or_clear_actor_status_slot(ptr, 2, (s8)kind) >= 0) {
+        if ((s16)set_or_clear_actor_status_slot(ptr, STATUS_CONFUSION, (s8)kind) >= 0) {
             adjust_source_value_and_finalize(ptr, D_800E1A55);
             if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
                 wrap_position_and_set_state_value(D_800DCF10[0]);

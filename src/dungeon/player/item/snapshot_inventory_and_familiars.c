@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct { u8 bytes[4]; } WordCopy;
@@ -44,7 +45,7 @@ void snapshot_inventory_and_familiars(void *input_state) {
                 if ((entry_flags & 0x20) != 0) {
                     record_index = entry_flags & 0x1F;
                     src_cursor = (u8 *)record_table[record_index];
-                    if ((get_entity_effect_value(src_cursor, 0xA) << 0x10) != 0) {
+                    if ((get_entity_effect_value(src_cursor, STATUS_FROG) << 0x10) != 0) {
                         src_cursor[0x13] = src_cursor[0xA8];
                     }
                     record_offset = record_index * 0x8C;

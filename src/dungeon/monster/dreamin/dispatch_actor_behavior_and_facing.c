@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -32,7 +33,7 @@ extern void func_80173478(void *, void *, void *, void *);
 
 extern u8 D_80170E68[];
 #include "dungeon/monster/dreamin.h"
-extern u8 D_80173874[];
+extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];
 
 typedef struct S_80170E68_4 {
@@ -90,12 +91,12 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             actor->unk_98 &= 0xFFF3;
 
             if (state->unk_64 != 0) {
-                if (begin_ready_actor_directional_action(actor, context, sprite, D_80173874) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, dreamin_frame_set_1) != 0) {
                     return;
                 }
             }
 
-            if (((u32)state->flags1C) & 0x80000) {
+            if (((u32)state->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(actor, context, sprite, state);
                 func_80173478(actor, context, sprite, state);
                 return;
@@ -110,7 +111,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         sprite->unk_26 = result;
 
         if (state->pending_turn_updates > 0) {
-            if (((u32)state->flags1C) & 0x20) {
+            if (((u32)state->flags1C) & ACTOR_PARALYZED) {
                 update_actor_status_and_mp(state);
                 return;
             }
@@ -143,7 +144,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 actor->unk_98 |= 0x8000;
                                         /* fallthrough */
             case 8:
-                if ((((u32)state->flags1C) & 0x2000) &&
+                if ((((u32)state->flags1C) & ACTOR_PLAYER_SIDE) &&
                     ((state->action_flags & ACTOR_ACTION_CODE_MASK) == 8)) {
                     actor->unk_98 &= 0x7FFF;
                 }

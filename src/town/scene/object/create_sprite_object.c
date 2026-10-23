@@ -18,7 +18,7 @@ typedef struct ObjectWithInitialWords {
 
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
-extern u8 D_8003C558[12];
+extern u8 score_sprite_draw_callback_address[12];
 extern u8 D_8052F2C8[];
 extern u8 D_8028E170[];
 
@@ -33,7 +33,7 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
     if (object != NULL) {
         ((ObjectWithInitialWords *)object)->initial_words = *init_data;
         object->unk_10 = D_8052F2C8;
-        func_8003BC18(object, D_8003C558);
+        func_8003BC18(object, score_sprite_draw_callback_address);
         position = object->position;
         sprite = object->sprite;
         position->x = 0x05380000;

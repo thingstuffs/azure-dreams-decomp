@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/noise/update_timed_actor_movement_and_scale.h"
 #include "shared/sprite_frame_state.h"
@@ -21,7 +22,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
                       D_80174EA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->flags_98 |= 8;
-        actor->flags_1c &= 0xf7ffffff;
+        actor->flags_1c &= ACTOR_GROUNDED_CLEAR_MASK;
         state->count_9e.u = 5;
         state->value_a4 = 0;
         state->state_9b += 1;
@@ -74,13 +75,13 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         if ((next_count << 16) < 0) {
             state->value_90 = 0;
             state->flags_98 &= 0xfff7;
-            actor->flags_1c |= 0x08000000;
+            actor->flags_1c |= ACTOR_GROUNDED;
             state->state_9b += 1;
         }
     }
                     /* fall through */
     case 2:
-        if (actor->flags_1c & 0x08000000) {
+        if (actor->flags_1c & ACTOR_GROUNDED) {
             state->flags_98 &= 0xfff7;
             motion->value_14 = 0;
             motion->value_10 = 0;

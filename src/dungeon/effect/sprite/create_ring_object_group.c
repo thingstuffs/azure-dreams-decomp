@@ -8,7 +8,7 @@ s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 extern u8 D_800250B4[];
 extern u8 D_80028220[];
-extern u8 D_80045C34[];
+extern u8 clipped_sprite_renderer_address[];
 
 typedef struct S_81959B44_2 {
     u8 pad_00[0x14];
@@ -59,7 +59,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
         object = allocate_flagged_object_node(object_flags);
         if (object != 0) {
             object->unk_10 = &D_800250B4;
-            register_node(object, &D_80045C34);
+            register_node(object, &clipped_sprite_renderer_address);
             angle = ring_index << 8;
             position = object->position;
             x_component = rcos(angle) >> 7;

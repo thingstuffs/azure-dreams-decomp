@@ -32,7 +32,7 @@ typedef struct {
     u16 value;
 } Entry;
 
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern u8 D_800C1EC4;
 
 extern s32 get_entity_class(void *);
@@ -60,7 +60,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
     task = allocate_flagged_object_node(2);
     if (task != NULL) {
         object_index = get_entity_class(object);
-        create_orbiting_teleport_effect(object, D_800DCED4[object_index], action_arg, 3);
+        create_orbiting_teleport_effect(object, actor_event_values[object_index], action_arg, 3);
         tile_mask = 0x3000;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         position = *(u8 **)((u8 *)object - 0x14);

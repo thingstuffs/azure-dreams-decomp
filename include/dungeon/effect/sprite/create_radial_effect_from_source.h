@@ -29,9 +29,9 @@ extern u16 D_80026324[];
 extern u16 D_80026326;
 extern s16 D_80026328[];
 extern s16 D_8002632A;
-extern u8 D_80026470[];
+extern u8 radial_effect_colors[];
 extern u8 D_80026474[];
-extern u8 D_80026478[];
+extern u8 staged_glow_data[];
 
 void create_radial_effect_from_source();
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void);

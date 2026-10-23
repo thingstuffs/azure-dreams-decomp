@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/object_flags.h"
@@ -94,7 +96,7 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
         }
     }
 
-    if ((((u32)((ActorRecord *)entity)->flags14) & 0x4000) == 0) {
+    if ((((u32)((ActorRecord *)entity)->flags14) & ACTOR_PARTY_MEMBER) == 0) {
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
         if (((ActorRecord *)entity)->unk_49 != 0 &&
@@ -102,7 +104,7 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
             create_effect_or_fallback(position->x.w.i, position->y.w.i,
                           ((ActorRecord *)entity)->ground_height, (u8 *)entity + 0x48);
         }
-        if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {
+        if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
             s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
             s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
@@ -123,7 +125,7 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
     }
     distribute_experience_and_report_gains(entity);
     detach_record_and_update_slot_state(entity);
-    if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {
+    if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
         s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
         s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
         s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;

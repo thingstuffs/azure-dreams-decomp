@@ -11,7 +11,7 @@ typedef struct {
     u8 pad3;
 } S_80081508;
 
-extern S_80081508 *D_80081508;
+extern S_80081508 *tile_coordinate_records;
 
 /* Returns whether the terminated record array contains both input values truncated to 16 bits. */
 

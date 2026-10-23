@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -48,7 +50,7 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174890(void *, void *, void *, void *);
 
-extern u8 D_80171E20[];
+extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 extern u8 D_8017540C[];
 
@@ -81,7 +83,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
         break;
 
     case 1:
-        if ((s16)get_entity_effect_value(actor, 1) != 0) {
+        if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
         global_state = &g_dungeon_status;
         if (global_state->flags & 0x1000) {
             break;
@@ -105,7 +107,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             break;
         }
 
-        if (((S_801741D8_2 *)actor)->unk_1C & 0x100) {
+        if (((S_801741D8_2 *)actor)->unk_1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(controller, context, sprite, actor);
             break;
         }
@@ -114,7 +116,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             break;
         }
 
-        if (((S_801741D8_2 *)actor)->unk_1C & 0x80000) {
+        if (((S_801741D8_2 *)actor)->unk_1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(controller, context, sprite, actor);
             func_80174890(controller, context, sprite, actor);
             break;
@@ -134,7 +136,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
         do {
-            if ((s16)get_entity_effect_value(actor, 1) != 0) {
+            if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
                 check_target = ((u8 *)(&reference_tile_object));
                 tile = *(s8 *)&sprite->unk_26;
             if (tile != reference_tile_object.room_index || tile < 0) {
@@ -148,14 +150,14 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
                     check_target = active_actor;
                 }
                 if ((generate_random_value(check_target) & 7) == 0) {
-                    clear_slots_of_type(actor, 1);
+                    clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }
             active_actor = actor;
 
         } while (0);
 
-        if ((s16)get_entity_effect_value(active_actor, 1) != 0) {
+        if ((s16)get_entity_effect_value(active_actor, STATUS_SLEEP) != 0) {
             break;
         }
         }
@@ -165,7 +167,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite->flags & 0x8000) {
-            ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
+            ((S_801741D8_0 *)controller)->unk_8C = blume_action_resume_address;
             break;
         } else {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
@@ -181,7 +183,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
             counter_m->activity_counts.parts.pending_action_count--;
 
-            ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
+            ((S_801741D8_0 *)controller)->unk_8C = blume_action_resume_address;
         }
         break;
 

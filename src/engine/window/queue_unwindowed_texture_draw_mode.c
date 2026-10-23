@@ -16,7 +16,7 @@ typedef struct {
     u16 r3;
 } Func80036A70_DrawMode;
 
-extern Func80036A70_State *D_80083160[3];
+extern Func80036A70_State *g_game_work[3];
 
 /* Adds a draw-mode primitive for the texture page at (448, 256) to the ordering table. */
 void queue_unwindowed_texture_draw_mode(s32 ot_index)
@@ -24,13 +24,13 @@ void queue_unwindowed_texture_draw_mode(s32 ot_index)
     void *draw_mode;
     Func80036A70_DrawMode texture_window;
 
-    draw_mode = D_80083160[0]->nextPrim;
-    D_80083160[0]->nextPrim = (u8 *)draw_mode + 0xC;
+    draw_mode = g_game_work[0]->nextPrim;
+    g_game_work[0]->nextPrim = (u8 *)draw_mode + 0xC;
 
     texture_window.r0 = 0;
     texture_window.r1 = 0;
     texture_window.r2 = 0;
     texture_window.r3 = 0;
     SetDrawMode(draw_mode, 0, 0, GetTPage(0, 0, 0x1C0, 0x100), &texture_window);
-    AddPrim((u8 *)D_80083160[0] + 0x70 + (ot_index << 2), draw_mode);
+    AddPrim((u8 *)g_game_work[0] + 0x70 + (ot_index << 2), draw_mode);
 }

@@ -48,7 +48,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
         state->unk_0C = &D_800D0754;
     }
     if (type == 0x12 && type == state->unk_4D) {
-        render->unk_08 = (s32) &D_8006E240;
+        render->unk_08 = (s32) &item_effect_descriptor;
     } else {
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
@@ -142,7 +142,7 @@ void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value) {
 /* Process active type-4 town links that have no associated object. */
 void process_unlinked_type_four_entries(void)
 {
-    TownLink *sentinel = (TownLink *)&D_800CFCB4;
+    TownLink *sentinel = (TownLink *)&town_actor_control;
     TownLink *link = sentinel->next;
 
     if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() != 0) {

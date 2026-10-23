@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -30,8 +31,8 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_801737C4(void *, void *, void *, void *);
 
-extern u8 D_80170E9C[];
-extern u8 D_80174F00[];
+extern u8 nyuel_action_resume_address[];
+extern u8 nyuel_frame_set_1[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
 void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, SpriteFrameState *sprite, ActorRecord *entity)
@@ -51,7 +52,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_80174F00;
+        sprite->frameTable = nyuel_frame_set_1;
         sprite->color.c.b = 0x40;
         sprite->color.c.g = 0x40;
         sprite->color.c.r = 0x40;
@@ -71,7 +72,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         }
 
     case 1:
-        if ((get_entity_effect_value(entity, 1) << 16) == 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) == 0) {
             if (sprite->flags & 0x8000) {
                 s32 cleared_flags;
 
@@ -80,7 +81,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
-                controller->unk_8C = D_80170E9C;
+                controller->unk_8C = nyuel_action_resume_address;
                 return;
             }
         } else {
@@ -125,18 +126,18 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             }
             update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
-            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(entity, 1);
+                        clear_slots_of_type(entity, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
 
@@ -148,7 +149,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
-                controller->unk_8C = D_80170E9C;
+                controller->unk_8C = nyuel_action_resume_address;
                 return;
             }
         }
@@ -186,7 +187,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
         sprite->color.c.r = 0x80;
         cleared_flags = entity->flags1C & 0xEFFFFFFF;
         entity->flags1C = cleared_flags & ~0x200;
-        controller->unk_8C = D_80170E9C;
+        controller->unk_8C = nyuel_action_resume_address;
     }
 
         return;

@@ -31,8 +31,8 @@ typedef struct {
     void *object;
 } TownEntry;
 
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 extern u16 town_facing_angles[];
 
 extern void initialize_object_entries(void *, s32, s32);
@@ -59,7 +59,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
         if (object_index == object_data->unk_60) {
             if (object_index == 1) {
                 object_kind = entry->unk_10;
-                if (object_kind != D_800C3174 && object_kind != D_800C321C) {
+                if (object_kind != message_motion_type_a && object_kind != message_motion_type_b) {
                     object_data->unk_10 = angle;
                     return;
                 }

@@ -24,7 +24,7 @@ extern s32 town_actor_scratch;
 extern u32 find_target_byte_index_in_list(void);
 extern void set_resident_bitmap_bit(s32 bit_id);
 extern s32 town_record_capacities[];
-extern s16 D_800D253C[];
+extern s16 paired_scene_flag_ids[];
 extern void *town_item_list;
 
 /* Functions defined in this translation unit. */

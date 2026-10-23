@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
@@ -42,21 +45,21 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
 
             if (kind == 1) {
                 ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
-                ((S_8016A800_0 *)result)->unk_14 |= 0x6000;
-                ((S_8016A800_0 *)result)->unk_1C |= 0x6000;
+                ((S_8016A800_0 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                ((S_8016A800_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 arg3_part->frameTable = D_8016E510;
             } else {
                 if (kind >= 2) {
                     ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
-                    ((S_8016A800_0 *)result)->unk_14 |= 0x2000;
-                    ((S_8016A800_0 *)result)->unk_1C |= 0x2000;
+                    ((S_8016A800_0 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
+                    ((S_8016A800_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
                     arg3_part->frameTable = D_8016E510;
                 } else {
                     if ((s16)(spawn_flags & ~3) == 0) {
-                        if (!(((S_8016A800_0 *)result)->unk_14 & 0x200)) {
+                        if (!(((S_8016A800_0 *)result)->unk_14 & ACTOR_RESIST_SLEEP)) {
                             spawn_flags = generate_random_value();
                             if (spawn_flags & 1) {
-                                set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                                set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                                 arg3_part->frameTable = D_8016E538;
                             }
                         }

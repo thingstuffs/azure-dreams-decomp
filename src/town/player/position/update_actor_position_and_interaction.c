@@ -30,7 +30,7 @@ void dispatch_actor_action(void *actor, s32 position, s32 context);
 void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 D_8009B9BC[];
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 extern s32 *town_player_action_callback;
 
 typedef struct S_80092A84_1 {
@@ -88,11 +88,11 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         return;
     }
 
-    interaction_ctrl = &D_800CFCB4;
+    interaction_ctrl = &town_actor_control;
     if ((get_status_active_entry_matching_direction(interaction_ctrl) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
         select_an_available_entry_matching_direction_returns_status(interaction_ctrl);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
-        call_the_handler_selects_nonzero_entry(D_800D0128, actor, (void *)(context));
+        call_the_handler_selects_nonzero_entry(movement_action_handler_table, actor, (void *)(context));
         init_motion_action_callback(actor, body, context);
 
         entity = actor->unk_2C;
@@ -103,7 +103,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
             }
         }
 
-        interaction_state = &D_800CFCB4;
+        interaction_state = &town_actor_control;
         action_result = select_response_for_source_and_target(interaction_state->unk_10, actor->unk_2C);
         if (action_result != 0) {
             call_script(action_result);

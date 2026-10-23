@@ -53,7 +53,7 @@ extern s32 rand();
 extern void register_node();
 
 extern u8 D_80024BB0[];
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 
 /* Creates an effect node with phase-based color, random rotation, and offset coordinates. */
 void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s32 effect_param)
@@ -101,7 +101,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         part->flags |= 0xC;
         part->tpage_abr |= 0x20;
         part->flags |= 0x100;
-        select_record_entry_and_value(part, D_800DEC70, 0);
+        select_record_entry_and_value(part, shared_sprite_entries, 0);
 
         random_angle = rand();
         part->angle_z = random_angle % 0x1000;

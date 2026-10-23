@@ -100,7 +100,7 @@ extern void spend_actor_mp(void *, s32);
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
 extern s8 view_direction_depth_biases[];
-extern u8 D_80174E88[];
+extern u8 noise_direction_frames[];
 extern u8 D_80174ED0[];
 void start_directional_action_and_record_tile(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);

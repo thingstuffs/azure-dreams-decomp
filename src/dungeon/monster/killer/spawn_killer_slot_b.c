@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -93,23 +96,23 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            flags_14 = work->unk_14 | 0x6000;
-            flags_1c = work->unk_1C | 0x6000;
+            flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = flags_14;
             work->unk_1C = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = work->unk_14 | 0x2000;
-            flags_1c = work->unk_1C | 0x2000;
+            flags_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = flags_14;
             work->unk_1C = flags_1c;
         } else {
             extra_flags = (spawn_flags & ~3) << 0x10;
             if (extra_flags == 0) {
-                if (!(work->unk_14 & 0x200)) {
+                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                     random_bits = generate_random_value();
                     if (random_bits & 1) {
-                        work->unk_1C = (s32) (work->unk_1C | 0x200);
-                        set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
+                        work->unk_1C = (s32) (work->unk_1C | ACTOR_ASLEEP);
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = &D_80156088;
                     }
                 }

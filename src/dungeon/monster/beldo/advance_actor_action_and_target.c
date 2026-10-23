@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/def_table.h"
@@ -24,7 +26,7 @@ extern s32 create_actor_spell_effect();
 extern void create_effect_from_sprite_and_facing();
 
 void update_object_animation(void *obj, void *motion, void *part, void *state);
-extern u8 D_80173E8C[8];
+extern u8 beldo_frame_set_1[8];
 extern u8 D_80173EDC[8];
 
 typedef struct S_8017256C_0 {
@@ -90,7 +92,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
     state = ((S_8017256C_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (((S_8017256C_1 *)actor)->unk_1C & 0x2000) {
+        if (((S_8017256C_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
             kind_index = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
             switch (kind_index) {
             case 7:
@@ -276,13 +278,13 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         ((S_8017256C_0 *)action)->unk_9B++;
-        if (*(u8 **)&sprite->frameTable == D_80173E8C) {
+        if (*(u8 **)&sprite->frameTable == beldo_frame_set_1) {
             return;
         }
-        (sprite->frameTable) = D_80173E8C;
+        (sprite->frameTable) = beldo_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8017256C_0 *)action)->unk_9E = 0;
         ((S_8017256C_0 *)action)->unk_92 = -0x20;
@@ -301,7 +303,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
             ((S_8017256C_1 *)actor)->unk_73.u = 0;
             ((S_8017256C_1 *)actor)->unk_72.u = 0;
             ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
-            play_sound_if_enabled(0xB4);
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
         return;
     default:

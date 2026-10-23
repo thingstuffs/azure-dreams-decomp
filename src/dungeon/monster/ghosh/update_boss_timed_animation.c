@@ -7,8 +7,8 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 rsin(s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
-extern u8 D_80174A7C[];
-extern u8 D_80170000[];
+extern u8 ghosh_frame_set_8[];
+extern u8 ghosh_frame_bank[];
 
 typedef struct S_801740F8_0 {
     u8 pad_00[0x90];
@@ -41,7 +41,7 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteF
     state = ((S_801740F8_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        anim_table = D_80170000 + 0x4A7C;
+        anim_table = ghosh_frame_bank + 0x4A7C;
         if (*(u8 **)&animation->frameTable != anim_table) {
             (animation->frameTable) = anim_table;
             select_sprite_entry(
@@ -83,11 +83,11 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteF
         ((S_801740F8_0 *)actor)->unk_9B++;
         return;
     case 3:
-        if (*(u8 **)&animation->frameTable != D_80174A7C - 0x50) {
-            (animation->frameTable) = D_80174A7C - 0x50;
+        if (*(u8 **)&animation->frameTable != ghosh_frame_set_8 - 0x50) {
+            (animation->frameTable) = ghosh_frame_set_8 - 0x50;
             select_sprite_entry(
                 animation,
-                (D_80174A7C - 0x50)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
+                (ghosh_frame_set_8 - 0x50)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
     }

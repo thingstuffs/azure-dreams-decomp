@@ -18,7 +18,7 @@ typedef struct DevCallbacks {
 } DevCallbacks;
 
 extern OvWork D_000045F8;            /* ov_work */
-extern DevCallbacks *D_00004610;
+extern DevCallbacks *overlay_trace_methods;
 extern char D_000034D0[];            /* "%s = %d\n" */
 extern char D_000034DC[];            /* "p->kind" */
 extern char D_000034E4[];            /* "ov_work.kind" */
@@ -28,8 +28,8 @@ extern char D_00003508[];            /* "sn_main.c" */
 /* Copy the overlay work record, trace both kind fields, mark sn_main.c line 47 and flush. */
 void copy_overlay_work_record_trace(OvWork *p) {
     D_000045F8 = *p;
-    D_00004610->print(D_000034D0, D_000034DC, p->kind);
-    D_00004610->print(D_000034D0, D_000034E4, D_000045F8.kind);
-    D_00004610->print(D_000034F4, D_00003508, 47);
-    D_00004610->flush(0);
+    overlay_trace_methods->print(D_000034D0, D_000034DC, p->kind);
+    overlay_trace_methods->print(D_000034D0, D_000034E4, D_000045F8.kind);
+    overlay_trace_methods->print(D_000034F4, D_00003508, 47);
+    overlay_trace_methods->flush(0);
 }

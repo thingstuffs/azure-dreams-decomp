@@ -6,8 +6,8 @@
 extern void select_sprite_entry();
 
 extern u8 D_80170E94[];
-extern u8 D_80175F10[];
-extern u8 D_80175F28[];
+extern u8 golem_direction_frames[];
+extern u8 golem_alt_direction_frames[];
 
 typedef struct S_func_810870DC_0 {
     u8 pad_00[0x8C];
@@ -33,9 +33,9 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
     switch (state) {
     case 0:
         if (animation->flags & 0xE000) {
-            animation->frameTable = D_80175F28;
+            animation->frameTable = golem_alt_direction_frames;
             select_sprite_entry(animation,
-                D_80175F28[((scene_data->view.camera_rotation.parts.viewAngle +
+                golem_alt_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_9B++;
         }
@@ -51,9 +51,9 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
          * enter its tile. Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).
          */
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-            animation->frameTable = D_80175F10;
+            animation->frameTable = golem_direction_frames;
             select_sprite_entry(animation,
-                D_80175F10[((scene_data->view.camera_rotation.parts.viewAngle +
+                golem_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_8C = D_80170E94;
             entity->unk_A6 = 0;

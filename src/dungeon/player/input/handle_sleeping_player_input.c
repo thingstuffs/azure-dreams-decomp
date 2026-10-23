@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -42,7 +43,7 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
         controller->unk_104 = 0;
         return;
     }
-    if ((controller->unk_9A.as_u8 != 0xD) && (actor->flags1C & 0x200)) {
+    if ((controller->unk_9A.as_u8 != 0xD) && (actor->flags1C & ACTOR_ASLEEP)) {
         entity->flags = (u16)(entity->flags & 0xF7FF);
         begin_player_sleep_action(controller, move_state, entity, actor);
     }

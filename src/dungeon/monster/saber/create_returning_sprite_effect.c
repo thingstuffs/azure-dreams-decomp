@@ -52,7 +52,7 @@ typedef struct S_80AC55DC_5 {
 extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 extern u8 D_80170A84[];
 
 /* Creates a sprite effect offset from its origin and initializes its return motion. */
@@ -115,7 +115,7 @@ void create_returning_sprite_effect(
         sprite->flags = sprite_flags | 0xC;
         ((S_80AC55DC_0 *)node)->unk_20 = effect_value;
         work->unk_08 = effect_value;
-        select_record_entry_and_value(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, shared_sprite_entries, 0);
     }
 }
 

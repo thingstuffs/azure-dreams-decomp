@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -66,7 +67,7 @@ void begin_actor_spell_action(void *actor, s32 effect_param, SpriteFrameState *t
     special_action = 0;
 
     if (!(input_flags & 0x2008)) {
-        if ((((S_800AAF00_0 *)object)->unk_1C & 0x2000) &&
+        if ((((S_800AAF00_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) &&
             ((((S_800AAF00_0 *)object)->unk_46 & 0x3FFF) >= 5)) {
             special_action = 1;
             if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.s32 & 0x3000) == 0x2000) &&
@@ -91,7 +92,7 @@ void begin_actor_spell_action(void *actor, s32 effect_param, SpriteFrameState *t
             }
         }
         if (!special_action) {
-            if (((S_800AAF00_0 *)object)->unk_1C & 0x400) {
+            if (((S_800AAF00_0 *)object)->unk_1C & ACTOR_CONFUSED) {
                 s32 object_flags;
                 object_flags = ((S_800AAF00_0 *)object)->unk_14;
                 if (!(object_flags & 0x80000000)) {

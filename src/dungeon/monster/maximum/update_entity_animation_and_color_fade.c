@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,7 +31,7 @@ extern void advance_actor_state_with_child(void *, s32, void *, void *);
 
 extern u8 D_80170E54;
 extern u8 D_80173C9C[];
-extern u8 D_80173CA4[];
+extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
 void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, SpriteFrameState *sprite, ActorRecord *entity)
@@ -67,14 +69,14 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         return;
 
     case 1:
-        if ((get_entity_effect_value(entity, 1) << 16) == 0) {
-            sprite->frameTable = D_80173CA4;
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) == 0) {
+            sprite->frameTable = maximum_frame_set_1;
             select_sprite_entry(
                 sprite,
-                D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                maximum_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite->flags & 0x8000) {
-                entity->flags1C &= ~0x200;
+                entity->flags1C &= ~ACTOR_ASLEEP;
                 entity->flags1C &= 0xEFFFFFFF;
                 sprite->color.word = 0x808080;
                 controller->unk_8C.as_pu8 = &D_80170E54;
@@ -126,27 +128,27 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         }
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             floor_base = &reference_tile_object;
             floor = *(s8 *)&sprite->unk_26;
             if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {
                 if ((generate_random_value() & 7) == 0) {
-                    clear_slots_of_type(entity, 1);
+                    clear_slots_of_type(entity, STATUS_SLEEP);
                 }
             }
         }
 
-        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             return;
         }
-        sprite->frameTable = D_80173CA4;
+        sprite->frameTable = maximum_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            maximum_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->flags & 0x8000) {
-            entity->flags1C &= ~0x200;
+            entity->flags1C &= ~ACTOR_ASLEEP;
             entity->flags1C &= 0xEFFFFFFF;
             sprite->color.word = 0x808080;
             controller->unk_8C.as_pu8 = &D_80170E54;
@@ -174,7 +176,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         }
         entity->flags1C &= 0xEFFFFFFF;
         sprite->color.word = 0x808080;
-        entity->flags1C &= ~0x200;
+        entity->flags1C &= ~ACTOR_ASLEEP;
         controller->unk_8C.as_pu8 = &D_80170E54;
 
         return;

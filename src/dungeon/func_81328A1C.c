@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/system/reserved_hook.h"
 
 /* Reserved callback slot. */
-void func_8017021C(void) { }
+void empty_reserved_callback(void) { }

@@ -168,5 +168,5 @@ void finish_timed_visual_effect(void *object);
 void advance_timed_visual_effect(void *state, void *position, void *visual);
 void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state);
 void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance);
-extern u8 D_80025E80[];
+extern u8 particle_update_flag[];
 #endif

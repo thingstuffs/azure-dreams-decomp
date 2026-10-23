@@ -27,7 +27,7 @@ typedef struct {
 } S_800814A0;
 
 extern void release_null_terminated_entries(s32 *a0);
-extern S_800814A0 D_800814A0;
+extern S_800814A0 object_flag_block;
 
 /* Releases the attachment and effect parts, restores the saved value, and sets completion flags. */
 void destroy_selection_menu_and_release_owner(S_80050E20 *object)
@@ -41,7 +41,7 @@ void destroy_selection_menu_and_release_owner(S_80050E20 *object)
     selection_menu_saved_value = object_state->unk1C;
     release_null_terminated_entries((s32 *)(((u8 *)object) + 0x8C));
     object_state->unkA0->unk1E |= 0x8000;
-    global_flags = D_800814A0.val;
+    global_flags = object_flag_block.val;
     object_flags = object->unk1E;
     *(s32 *)0x800814A0 = global_flags | 0x8000;
     object->unk1E = object_flags | 0x8000;

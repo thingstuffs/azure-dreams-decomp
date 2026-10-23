@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -34,7 +35,7 @@ s32 use_item_to_increase_luck(void *entity, s32 event, s16 event_type) {
     entity_count = (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
     if (entity_count < 0xFFU) {
         (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) = (u8) (entity_count + 1);
-        if (((EntityRec *)entity)->flags14 & 0x4000) {
+        if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E1843);
         }
     }

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -70,11 +71,11 @@ extern void func_80172190(void *action_state, void *context, void *sprite, Actor
 s32 func_801722B8();
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
-extern M2C_UNK D_8017418C;
+extern M2C_UNK kraken_frame_set_1;
 extern M2C_UNK D_80174194;
 extern M2C_UNK D_801741AC;
 extern M2C_UNK D_801741C4;
-extern M2C_UNK D_801741CC;
+extern M2C_UNK kraken_frame_set_2;
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state
@@ -98,7 +99,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     }
     if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
-        if (((S_801711A4_2 *)sprite)->unk_2C == &D_801741CC) {
+        if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
             return;
         }
         (*(void **)((u8 *)sprite + 0x2C)) = &D_801741C4;
@@ -106,10 +107,10 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
             >> 9) & 7)), 0);
         return;
     }
-    if (status->flags1C & 0x200) {
+    if (status->flags1C & ACTOR_ASLEEP) {
         {
             void *action_actor = actor;
-            if (((S_801711A4_2 *)sprite)->unk_2C == &D_801741CC) {
+            if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
                 {
                     void *reset_actor = actor;
                     ActorRecord *reset_status = status;
@@ -131,16 +132,16 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         }
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (status->flags1C & 0x100) {
+        if (status->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, status);
             return;
         }
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
         }
-        if (((S_801711A4_2 *)sprite)->unk_2C != &D_8017418C) {
-            (*(void **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-            select_sprite_entry(sprite, *(((u8 *)&D_8017418C) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
+        if (((S_801711A4_2 *)sprite)->unk_2C != &kraken_frame_set_1) {
+            (*(void **)((u8 *)sprite + 0x2C)) = &kraken_frame_set_1;
+            select_sprite_entry(sprite, *(((u8 *)&kraken_frame_set_1) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
                 >> 9) & 7)), 0);
             ((S_801711A4_2 *)sprite)->unk_05 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
@@ -153,7 +154,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                 return;
             }
         }
-        if (status->flags1C & 0x80000) {
+        if (status->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
             func_80173D10(actor, context, sprite, status);
@@ -166,7 +167,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     room_id = find_active_rect_containing_point(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v);
     ((S_801711A4_2 *)sprite)->unk_26 = room_id;
     if (status->pending_turn_updates > 0) {
-        if (status->flags1C & 0x20) {
+        if (status->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(status);
             return;
         }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_00003F50[];
+extern s32 scene_captured_value[];
 extern s32 D_00003FCC[];
 extern s32 D_000045F8[];
 
@@ -12,7 +12,7 @@ s32 get_mode_three_adjusted_value(void) {
     s32 entry_index;
     s32 entry_value;
 
-    entry_index = D_00003F50[0];
+    entry_index = scene_captured_value[0];
     entry_value = D_00003FCC[entry_index * 8];
     set_flag_entry_has_bit(entry_index, 3);
     print_scene_sequence_number_sno(3);

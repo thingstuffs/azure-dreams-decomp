@@ -22,7 +22,7 @@ extern s32 register_node();
 
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
-extern s32 D_800CEEFC[3];
+extern s32 linked_mesh_processor_address[3];
 
 typedef struct S_80026A84_1 {
     u8 pad_00[0x8];
@@ -90,7 +90,7 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
         effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));
         if (effect != NULL) {
             effect->unk_10 = callback;
-            register_node(effect, D_800CEEFC);
+            register_node(effect, linked_mesh_processor_address);
             effect_pos = effect->position;
             coord_xz = origin->unk_02 + offset[0];
             effect_pos->x.w.i = coord_xz;

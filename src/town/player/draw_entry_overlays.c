@@ -115,7 +115,7 @@ extern s32 check_masked_value_in_current_range(s32);
 extern u8 scene_object_payload_alias[];
 extern u8 view_reference_entity[];
 extern s32 overlay_height_in_range[3];
-extern u8 D_800D04D0[];
+extern u8 player_overlay_texture_rect[];
 extern u8 D_800D04D8[];
 extern u8 D_800D04E0[];
 extern u8 town_overlay_rotation_offset[];
@@ -201,21 +201,21 @@ s32 draw_entry_overlays(void) {
                 SetPolyFT4(primitive);
                 texture_depth = 2;
                 color = texture_depth;
-                texture_rect = D_800D04D0;
+                texture_rect = player_overlay_texture_rect;
                 page_mask = ~0xFF;
                 ((S_800970FC_4 *)primitive)->unk_16 = GetTPage(texture_depth, color,
-                    (s16) (((S_800970FC_5 *)D_800D04D0)->unk_00.u & page_mask),
+                    (s16) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.u & page_mask),
                     (s16) (((S_800970FC_6 *)texture_rect)->unk_02.u & page_mask));
                 SetSemiTrans(primitive, 1);
-                ((S_800970FC_4 *)primitive)->unk_0C = (s8) (((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_0C = (s8) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_0D = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100)
+                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100)
                     + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
                 ((S_800970FC_4 *)primitive)->unk_15 = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1C = (s8) (((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_1C = (s8) (((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100)
                     + ((S_800970FC_6 *)texture_rect)->unk_06.u8);
-                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100)
+                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((((S_800970FC_5 *)player_overlay_texture_rect)->unk_00.s % 0x100)
                     + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
                 texture_y = ((S_800970FC_6 *)texture_rect)->unk_02.s;
                 if (texture_y < 0) {

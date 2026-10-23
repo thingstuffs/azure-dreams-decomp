@@ -48,7 +48,7 @@ extern u8 D_8009204C[];
 extern u8 D_800920F4[];
 extern u8 D_800924EC[];
 extern u8 D_80092698[];
-extern u8 D_800927EC[];
+extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
 extern s16 get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
@@ -56,12 +56,12 @@ extern void set_the_state_flag_initialize_s_fixed_point_clear_paired_field(void 
 extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern void set_actor_drop_state(void *, void *, void *, void *);
-extern u8 D_8009B454[];
+extern u8 actor_surface_callback_address[];
 extern u8 D_8009B594[];
 extern u8 D_8009BDC0[];
 extern void set_actor_motion_state(void *, void *, void *, void *);
 
-extern TownControl D_800CFCB4;
+extern TownControl town_actor_control;
 
 /* Functions defined in this translation unit. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr);

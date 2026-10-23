@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -40,11 +43,11 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];
-extern u8 D_80170F20[];
-extern u8 D_80173B98[];
-extern u8 D_801762C0[];
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
+extern u8 pulunpa_frame_set_1[];
 #include "dungeon/monster/pulunpa.h"
-extern u8 D_80176320[];
+extern u8 pulunpa_frame_set_2[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Pulunpa, selecting its normal or alternate callback and sprite table from the global spawn
@@ -84,35 +87,35 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         state->unk_24 = kind_id;
 
         if (kind == 1) {
-            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-            ((S_80CBD000_0 *)work)->unk_14 |= 0x6000;
-            ((S_80CBD000_0 *)work)->unk_1C |= 0x6000;
-            state->frameTable = D_801762C0;
+            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
+            ((S_80CBD000_0 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_80CBD000_0 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            state->frameTable = pulunpa_frame_set_1;
         } else if (kind >= 2) {
-            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-            ((S_80CBD000_0 *)work)->unk_14 |= 0x2000;
-            ((S_80CBD000_0 *)work)->unk_1C |= 0x2000;
-            state->frameTable = D_801762C0;
+            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
+            ((S_80CBD000_0 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_80CBD000_0 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
+            state->frameTable = pulunpa_frame_set_1;
         } else if (((flags & -4) << 16) == 0) {
-            if (!(((S_80CBD000_0 *)work)->unk_14 & 0x200)) {
+            if (!(((S_80CBD000_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                 random = generate_random_value();
                 if (random & 1) {
                     random = generate_random_value();
-                    set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP, (random & 0x3F) | 0x20);
                     state->frameTable = pulunpa_direction_frames;
                 }
             }
             if (entity_spawn_variant_code < 10) {
-                ((S_80CBD000_4 *)actor)->unk_8C = D_80170F20;
-                state->frameTable = D_801762C0;
+                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_action_resume_address;
+                state->frameTable = pulunpa_frame_set_1;
             } else {
                 ((S_80CBD000_4 *)actor)->unk_A7 = 1;
-                ((S_80CBD000_4 *)actor)->unk_8C = D_80173B98;
-                state->frameTable = D_80176320;
+                ((S_80CBD000_4 *)actor)->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
+                state->frameTable = pulunpa_frame_set_2;
             }
         } else {
-            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-            state->frameTable = D_801762C0;
+            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
+            state->frameTable = pulunpa_frame_set_1;
         }
 
         part->unk_10 = D_80170AE0;

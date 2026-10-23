@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
 #include "common.h"
@@ -5,24 +7,24 @@
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 
-extern s16 D_800E3CCE;
+extern s16 bounded_runtime_counter;
 
 /* Increment the counter up to 32 and report whether it advanced. */
 s32 increment_bounded_counter(void) {
-    if (D_800E3CCE < 0x20) {
-        D_800E3CCE++;
+    if (bounded_runtime_counter < 0x20) {
+        bounded_runtime_counter++;
         return 1;
     }
     return 0;
 }
 #include "common.h"
 
-extern s16 D_800E3CCE;
+extern s16 bounded_runtime_counter;
 
 /* Decrement the counter if it is nonzero. */
 void decrement_bounded_counter(void) {
-    if (D_800E3CCE != 0) {
-        D_800E3CCE = (u16) D_800E3CCE - 1;
+    if (bounded_runtime_counter != 0) {
+        bounded_runtime_counter = (u16) bounded_runtime_counter - 1;
     }
 }
 #include "common.h"
@@ -478,7 +480,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
     s32 damage;
     u8 max_hp;
 
-    if ((entity->flags1C & 0x40) && ((entity->hp + entity->unk_64) >= 2)) {
+    if ((entity->flags1C & ACTOR_POISONED) && ((entity->hp + entity->unk_64) >= 2)) {
         max_hp = entity->max_hp;
         rounded_hp = max_hp + 0xF;
         entity->movement_facing = (s16) (((u16)entity->facing) + 0x800);
@@ -872,7 +874,7 @@ s32 select_object_state_value(void *object) {
             selected_value = D_800DCF44;
             return selected_value;
         }
-        if (!(*(s32 *)((u8 *)object + 0x1C) & 0x20000)) {
+        if (!(*(s32 *)((u8 *)object + 0x1C) & ACTOR_PLAYER_AWARE)) {
             selected_value = D_800DCF3C;
             return selected_value;
         }
@@ -972,12 +974,12 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
             ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
         }
 
-        if ((get_entity_effect_value(object, 0x1B) << 16) == 0) {
+        if ((get_entity_effect_value(object, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             owner = ((S_800A6620_1_pre *)object)[-1].unk_00;
             sound_x = ((S_800A6620_3 *)owner)->unk_24;
             sound_y = ((S_800A6620_3 *)owner)->unk_25;
             sound_mode = 0x3000;
-            if (((S_800A6620_1 *)object)->unk_1C & 0x2000) {
+            if (((S_800A6620_1 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
                 sound_mode = 0x300;
             }
             update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_mode);
@@ -1063,7 +1065,7 @@ s32 get_random_scaled_value(s16 input_value) {
 /* Save and clear bit 4 of the current record flags. */
 void save_and_clear_entity_flag_ten(void) {
     D_800DD878 = ((u32) ((u32)dungeon_actor_ring_anchor->flags1C) >> 4) & 1;
-    dungeon_actor_ring_anchor->flags1C = (u32) (((u32)dungeon_actor_ring_anchor->flags1C) & ~0x10);
+    dungeon_actor_ring_anchor->flags1C = (u32) (((u32)dungeon_actor_ring_anchor->flags1C) & ~ACTOR_BLIND);
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
@@ -1076,7 +1078,7 @@ void save_and_clear_entity_flag_ten(void) {
 /* Restore bit 4 of the current record flags when it was saved as set. */
 void restore_entity_flag_ten(void) {
     if (D_800DD878 != 0) {
-        dungeon_actor_ring_anchor->flags1C = (s32) (dungeon_actor_ring_anchor->flags1C | 0x10);
+        dungeon_actor_ring_anchor->flags1C = (s32) (dungeon_actor_ring_anchor->flags1C | ACTOR_BLIND);
     }
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"

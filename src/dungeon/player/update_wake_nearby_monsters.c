@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -127,8 +128,8 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
             do {
                 if ((reference_tile_object.room_index ==
                      ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
-                    ((get_entity_effect_value(node, 1) << 16) != 0)) {
-                    clear_slots_of_type(node, 1);
+                    ((get_entity_effect_value(node, STATUS_SLEEP) << 16) != 0)) {
+                    clear_slots_of_type(node, STATUS_SLEEP);
                     found_match = 1;
                 }
                 node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;

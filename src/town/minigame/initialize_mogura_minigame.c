@@ -40,7 +40,7 @@ extern s32 D_800243D8;
 extern s32 D_80024954;
 extern s32 D_800249A0;
 extern s32 D_80024A30;
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 extern s32 display_registration_tag;
 
 extern void set_resident_bit(s32);
@@ -98,7 +98,7 @@ s32 initialize_mogura_minigame(void)
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             object->unk_10 = update_callback;
-            register_node(object, D_80053858);
+            register_node(object, text_sprite_builder_address);
             element->unk_16.s = 0xB4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;
@@ -119,7 +119,7 @@ s32 initialize_mogura_minigame(void)
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             object->unk_10 = update_callback;
-            register_node(object, D_80053858);
+            register_node(object, text_sprite_builder_address);
             element->unk_16.s = 0xC4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;

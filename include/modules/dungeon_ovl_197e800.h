@@ -903,7 +903,7 @@ extern u8 D_80027398[];
 extern u16 terrain_effect_height_grid[8][8];
 extern s32 D_800274DC[7][8];
 extern s32 D_800273A8;
-extern Bank56Counter D_800273BC;
+extern Bank56Counter brightening_effect_update_count;
 s32 draw_linked_lit_meshes(void *, void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void draw_textured_ellipse(s32, void *, u16, u16);

@@ -96,7 +96,7 @@ void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
         render_data->unk_12 = 0x7DCE;
         render_data->unk_14 =
             (u16)(render_data->unk_14 | 0x100);
-        func_7003A7C4(render_data, D_800E2BB8, 0);
+        func_7003A7C4(render_data, positioned_effect_source, 0);
         emitted_effect_counter[0] += 1;
     }
 }

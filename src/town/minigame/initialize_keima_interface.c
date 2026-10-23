@@ -67,7 +67,7 @@ extern u8 D_80023260[];
 extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800F15E4[];
 
 extern void func_8002108C();
@@ -184,7 +184,7 @@ s32 initialize_keima_interface(void) {
         do {
             obj = (u8 *)allocate_flagged_object_node(0x136);
             if (obj != 0) {
-                register_node(obj, D_80046398);
+                register_node(obj, lit_mesh_renderer_address);
                 grid_sprite = *(u8 * *)&obj->sprite;
                 obj->unk_10 = sprite_handler;
                 grid_sprite->color.word = 0x808080;

@@ -11,7 +11,7 @@ extern u8 D_8001E891;
 s32 dispatch_entry_or_return_override(s32 context, s32 unused, s32 entry_id) {
     s32 entry_result;
 
-    entry_result = apply_entry_position(&D_8001BB7C, D_8001C358, context, entry_id);
+    entry_result = apply_entry_position(&D_8001BB7C, active_scene_dispatch_context, context, entry_id);
     return resolve_entry_flag(&D_8001BB7C, context, entry_id) != 0
         ? (s32)&D_8001E891
     : entry_result;

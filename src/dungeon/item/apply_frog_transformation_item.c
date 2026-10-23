@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -111,7 +112,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
-                result = set_or_clear_actor_status_slot(entity, 10, 0x20);
+                result = set_or_clear_actor_status_slot(entity, STATUS_FROG, 0x20);
                 if ((s16)result >= 0) {
                     saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
                     message_handle = get_unused_text_buffer();

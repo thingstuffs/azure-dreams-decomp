@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-extern s32 D_800250E8[3];
+extern s32 status_name_separator[3];
 extern u8 D_800251E8[9];
 s32 expand_text_control_codes();
 s32 write_text_byte_and_advance();
@@ -40,126 +40,126 @@ s32 build_status_effect_name_list(void *obj, s32 fallback)
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 2) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_800250F4, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 4) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025110, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 8) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_8002512C, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x10) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025154, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x20) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025160, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x80) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025184, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x100) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_800251B4, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x8000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes((s32 *) D_800251E8, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x100000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025208, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x10000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_8002522C, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x02000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025244, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x04000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025260, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x08000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025284, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x10000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_800252A4, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x20000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_800252C8, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x40000000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_800252E4, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x200000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025300, write_text_byte_and_advance(0xA, text));
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x4000) {
         if ((count << 0x10) != 0) {
-            text = expand_text_control_codes(D_800250E8, text);
+            text = expand_text_control_codes(status_name_separator, text);
         }
         text = expand_text_control_codes(&D_80025318, write_text_byte_and_advance(0xA, text));
         count += 1;

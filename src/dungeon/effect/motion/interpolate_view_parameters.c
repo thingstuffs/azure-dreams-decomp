@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Moving attack visuals, linked particle creation, and timed view parameter updates. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -138,7 +140,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
         visual->flags |= 0xC;
         visual->tpage_abr |= 0x20;
         visual->flags |= 0x100;
-        select_record_entry_and_value(visual, &D_800DEC70, 0);
+        select_record_entry_and_value(visual, &shared_sprite_entries, 0);
         visual->scale_y = 0x1000;
         visual->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -373,7 +375,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
         node_index += 1;
         node_slot += 1;
     } while (node_index < 3);
-    select_record_entry_and_value(visual, D_800DEDB0, 0);
+    select_record_entry_and_value(visual, rising_sprite_entries, 0);
     visual->color.c.b = 0xC0;
     visual->color.c.g = 0xC0;
     visual->color.c.r = 0xC0;
@@ -765,7 +767,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         motion->y.v += ((rsin(actor->facing) >> 4) * (8 - action->ticks)) << 8;
         motion->z.v -= 0x20000;
         if (action->ticks == 5) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             for (steps = 0; steps < 8; steps++)
                 create_an_attached_effect_copied_transform_data_randomized_angle(action, motion, (s16)steps);
         }
@@ -820,7 +822,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
     case 6:
         if (!action->pending) {
             D_8008346C.value = 0;
-            ((ObjectNodeHeader *)action)[-1].flags |= 0x8000;
+            ((ObjectNodeHeader *)action)[-1].flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

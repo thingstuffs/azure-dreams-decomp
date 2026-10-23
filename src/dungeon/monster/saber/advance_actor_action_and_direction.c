@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -43,7 +44,7 @@ extern void update_timed_effect_size_and_position(void *, void *, void *, void *
 
 #include "dungeon/monster/saber.h"
 
-extern u8 D_80174E54[];
+extern u8 saber_action_direction_frames[];
 
 /* Advances the actor_in action state and updates its directional animation. */
 void advance_actor_action_and_direction(void *action, void *context, SpriteFrameState *sprite_in, void *actor_in)
@@ -74,7 +75,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
         return;
 
     case 1:
-        if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
             status = &g_dungeon_status;
             if (status->flags & 0x1000) {
                 return;
@@ -115,7 +116,7 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
             }
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
-            if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
                 s8 coordinate = *(s8 *)&sprite_in->unk_26;
                 TileObject *origin = &reference_tile_object;
                 s32 probe_result;
@@ -125,26 +126,26 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
                     actor_to_check = actor_in;
                     if (probe_result < 2) {
                         if (!(generate_random_value(actor_in) & 7)) {
-                            clear_slots_of_type(actor_in, 1);
+                            clear_slots_of_type(actor_in, STATUS_SLEEP);
                         }
                         actor_to_check = actor_in;
                     }
                 } else {
                     if (!(generate_random_value(origin) & 7)) {
-                        clear_slots_of_type(actor_in, 1);
+                        clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
                     actor_to_check = actor_in;
                 }
             } else {
                 actor_to_check = actor_in;
             }
-            if ((get_entity_effect_value(actor_to_check, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_to_check, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
 
-            (sprite_in->frameTable) = D_80174E54;
+            (sprite_in->frameTable) = saber_action_direction_frames;
             select_sprite_entry(sprite_in,
-                D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
                 ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
@@ -155,9 +156,9 @@ void advance_actor_action_and_direction(void *action, void *context, SpriteFrame
             ((S_80173D4C_0 *)action)->unk_9B++;
             return;
         }
-        (sprite_in->frameTable) = D_80174E54;
+        (sprite_in->frameTable) = saber_action_direction_frames;
         select_sprite_entry(sprite_in,
-            D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            saber_action_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
             ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;

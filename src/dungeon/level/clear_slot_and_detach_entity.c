@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -39,13 +41,13 @@ void clear_slot_and_detach_entity(s32 slot_index) {
     slot_offset = slot_index * 0x18;
 
     slot = (EntitySlot *)((u8 *)slot_base + slot_offset);
-    update_map_cell_flags_with_item_limit(slot->x, slot->y, 0x20);
+    update_map_cell_flags_with_item_limit(slot->x, slot->y, TILE_HAS_OBJECT);
     entity = slot->entity;
     if (entity != 0) {
         entity_flags = entity->flags;
         global_flags = object_flag_block.flags;
-        entity->flags = entity_flags | 0x8000;
-        object_flag_block.flags = global_flags | 0x8000;
+        entity->flags = entity_flags | NODE_REMOVE;
+        object_flag_block.flags = global_flags | OBJECT_REMOVE_PENDING;
         slot->entity = 0;
     }
 }

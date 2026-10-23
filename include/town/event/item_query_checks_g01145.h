@@ -73,8 +73,8 @@ extern u8 D_8006C8F7[];
 extern u8 D_8006C982[];
 extern u8 D_8006C9E4[];
 extern u8 D_800C25C0[];
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 extern void *D_80100E38[];
 
 /* Functions defined in this translation unit. */

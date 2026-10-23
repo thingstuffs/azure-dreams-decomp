@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -90,9 +92,9 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             result->unk_1C = flags1;
         } else {
             if (((spawn_flags & -4) << 16) == 0) {
-                if ((result->unk_14 & 0x200) == 0) {
+                if ((result->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                     if ((generate_random_value() & 1) != 0) {
-                        set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         part1->frameTable = saber_direction_frames_2;
                     }
                 }

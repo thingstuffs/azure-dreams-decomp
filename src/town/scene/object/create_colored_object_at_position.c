@@ -37,7 +37,7 @@ typedef struct S_808138C0_2 {
 
 extern void *func_800373DC();
 extern void func_8003BC18();
-extern u8 D_8003C558[12];
+extern u8 score_sprite_draw_callback_address[12];
 extern u8 D_8052F210[];
 extern u8 D_80284430[];
 extern s32 D_80284434[];
@@ -51,7 +51,7 @@ void create_colored_object_at_position(s32 color, s32 x, s32 y, s32 z) {
     object = func_800373DC(0x136);
     if (object != NULL) {
         object->unk_10 = (s32)D_8052F210;
-        func_8003BC18(object, D_8003C558);
+        func_8003BC18(object, score_sprite_draw_callback_address);
         render_data = object->unk_0C;
         ((S_808138C0_2 *)(object->unk_08))->unk_00 = x;
         ((S_808138C0_2 *)(object->unk_08))->unk_04 = y;

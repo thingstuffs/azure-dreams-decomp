@@ -1,4 +1,5 @@
-#include "modules/dungeon_ovl_bbd094.h"
+#include "shared/actor_status_ids.h"
+#include "dungeon/monster/nyuel/spawn_factory_slot_f.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -6,11 +7,11 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
+u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 spawn_height)
 {
-    u8 byte_kind_id = kind_id;
-    s16 half_spawn = spawn_value;
-    u8 byte_variant = variant;
+    u8 saved_tile_x = tile_x;
+    s16 saved_height = spawn_height;
+    u8 saved_tile_y = tile_y;
     u8 *result;
     ObjectNodeHeader *allocation;
     ObjectPosition *part_a;
@@ -27,10 +28,10 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
         register_node(allocation, project_sprite_chain);
 
         part_a = *(u8 * *)&allocation->position;
-        part_a->z.w.i = half_spawn;
+        part_a->z.w.i = saved_height;
         part_b = *(u8 * *)&allocation->sprite;
-        part_b[36] = byte_kind_id;
-        part_b[37] = byte_variant;
+        part_b[36] = saved_tile_x;
+        part_b[37] = saved_tile_y;
         secondary = result;
 
         if ((flags & 3) == 1) {
@@ -48,7 +49,7 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
                 if ((s16)(flags & -4) == 0) {
                     if ((*(u32 *)(result + 20) & 0x200) == 0) {
                         if ((generate_random_value() & 1) != 0) {
-                            set_or_clear_actor_status_slot(result, 1,
+                            set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) | 0x20);
                             ((SpriteFrameState *)part_b)->frameTable = func_8016EF00;
                         }

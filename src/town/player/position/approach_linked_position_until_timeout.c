@@ -17,15 +17,15 @@ typedef struct TownObject {
     s16 timer;
 } TownObject;
 
-extern TownState D_800CFCB4;
+extern TownState town_actor_control;
 extern void init_linked_position_action(TownObject *, IntVector3 *, void *);
 
 /* Move halfway toward the linked position and call func_80094834 when the timer expires. */
 void approach_linked_position_until_timeout(TownObject *object, IntVector3 *position, void *context)
 {
-    position->x = (D_800CFCB4.link->position->x + position->x) / 2;
-    position->y = (D_800CFCB4.link->position->y + position->y) / 2;
-    position->z = (D_800CFCB4.link->position->z + position->z) / 2;
+    position->x = (town_actor_control.link->position->x + position->x) / 2;
+    position->y = (town_actor_control.link->position->y + position->y) / 2;
+    position->z = (town_actor_control.link->position->z + position->z) / 2;
 
     if (--object->timer < 0) {
         init_linked_position_action(object, position, context);

@@ -17,8 +17,8 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern void D_801534D4(void);
-extern u8 D_801560E0[];
-extern u8 D_801560E8[];
+extern u8 hikewne_frame_set_6[];
+extern u8 hikewne_frame_set_7[];
 extern Callback D_80156168[];
 
 
@@ -141,7 +141,7 @@ void update_entity_ground_animation(void *entity, ObjectPosition *motion, Sprite
                 }
             } else {
                 if (!(sprite->flags & 0x40)) {
-                    if (*(u8 **)&sprite->frameTable == D_801560E0) {
+                    if (*(u8 **)&sprite->frameTable == hikewne_frame_set_6) {
                         if (*(u16 *)&sprite->unk_04 == 0x100) {
                             (*(u16 *)((u8 *)entity + 0x9E)) = 0;
                         }
@@ -150,18 +150,18 @@ void update_entity_ground_animation(void *entity, ObjectPosition *motion, Sprite
                         bob_angle = bob_step * 0xE3;
                         (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
-                            (sprite->frameTable) = D_801560E8;
-                            select_sprite_entry(sprite, D_801560E8[((g_game_work.view.camera_rotation.parts.viewAngle
+                            (sprite->frameTable) = hikewne_frame_set_7;
+                            select_sprite_entry(sprite, hikewne_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + ((S_80152DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
-                    } else if (*(u8 **)&sprite->frameTable == D_801560E8) {
+                    } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_7) {
                         bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                         bob_step = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_step * 0xE3;
                         (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
-                            (sprite->frameTable) = D_801560E0;
-                            select_sprite_entry(sprite, D_801560E0[((g_game_work.view.camera_rotation.parts.viewAngle
+                            (sprite->frameTable) = hikewne_frame_set_6;
+                            select_sprite_entry(sprite, hikewne_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + ((S_80152DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
                     }
@@ -208,7 +208,7 @@ void update_entity_ground_animation(void *entity, ObjectPosition *motion, Sprite
             }
         } else {
             if (!(sprite->flags & 0x40)) {
-                if (*(u8 **)&sprite->frameTable == D_801560E0) {
+                if (*(u8 **)&sprite->frameTable == hikewne_frame_set_6) {
                     if (*(u16 *)&sprite->unk_04 == 0x100) {
                         (*(u16 *)((u8 *)entity + 0x9E)) = 0;
                     }
@@ -217,18 +217,18 @@ void update_entity_ground_animation(void *entity, ObjectPosition *motion, Sprite
                     bob_angle = bob_step * 0xE3;
                     (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
-                        (sprite->frameTable) = D_801560E8;
-                        select_sprite_entry(sprite, D_801560E8[((g_game_work.view.camera_rotation.parts.viewAngle
+                        (sprite->frameTable) = hikewne_frame_set_7;
+                        select_sprite_entry(sprite, hikewne_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle
                             + ((S_80152DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
-                } else if (*(u8 **)&sprite->frameTable == D_801560E8) {
+                } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_7) {
                     bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                     bob_step = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_step * 0xE3;
                     (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
-                        (sprite->frameTable) = D_801560E0;
-                        select_sprite_entry(sprite, D_801560E0[((g_game_work.view.camera_rotation.parts.viewAngle
+                        (sprite->frameTable) = hikewne_frame_set_6;
+                        select_sprite_entry(sprite, hikewne_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle
                             + ((S_80152DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
                 }

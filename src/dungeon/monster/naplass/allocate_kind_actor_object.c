@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -75,19 +78,19 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
         part_b->unk_24 = saved_value_24;
 
         if (kind == 1) {
-            flags_14 = work->unk_14 | 0x6000;
-            flags_1c = work->unk_1C | 0x6000;
+            flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = flags_14;
             work->unk_1C = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = work->unk_14 | 0x2000;
-            flags_1c = work->unk_1C | 0x2000;
+            flags_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = flags_14;
             work->unk_1C = flags_1c;
         } else {
-            if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
-                work->unk_1C |= 0x200;
-                set_or_clear_actor_status_slot(work, 1,
+            if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+                work->unk_1C |= ACTOR_ASLEEP;
+                set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
                 part_b->frameTable = D_8016E1DC;
             }

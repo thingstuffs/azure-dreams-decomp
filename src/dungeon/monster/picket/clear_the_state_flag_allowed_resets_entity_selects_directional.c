@@ -27,7 +27,7 @@ typedef struct {
 
 extern s32 has_pending_dungeon_activity(State *state);
 extern void select_sprite_entry(Object *object, u8 value, s32 entry_index);
-extern u8 D_80174F08[];
+extern u8 picket_frame_set_4[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
 void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, s32 unused, SpriteFrameState *object, State *state) {
@@ -38,9 +38,9 @@ void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *enti
         entity->unk9A = 0x18;
         entity->unk8C = 0;
         entity->unk9B = 0;
-        object->frameTable = D_80174F08;
+        object->frameTable = picket_frame_set_4;
         select_sprite_entry(object,
-                      D_80174F08[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk2A + 0x100) >> 9) & 7],
+                      picket_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);
         state->unk6D--;
         flags->activity_counts.parts.pending_action_count++;

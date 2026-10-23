@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/barong.h"
@@ -71,7 +72,7 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
             0);
         sprite->scale_y = 0x1000;
         ((S_80166B4C_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80166B4C_0 *)action)->unk_9E.s = 5;
         ((S_80166B4C_0 *)action)->unk_A4 = 0;
         ((S_80166B4C_0 *)action)->unk_9B++;
@@ -106,14 +107,14 @@ void update_tile_centering_motion_animation_restores_actor_timer_expires(void *a
         if ((next_frames << 16) < 0) {
             ((S_80166B4C_0 *)action)->unk_90 = 0;
             ((S_80166B4C_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80166B4C_0 *)action)->unk_9B++;
         }
     case 2:
     {
         u8 *direction_anims;
 
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80166B4C_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;

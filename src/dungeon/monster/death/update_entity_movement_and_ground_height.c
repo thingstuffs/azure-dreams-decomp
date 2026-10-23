@@ -15,8 +15,8 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern s32 D_801719DC;
-extern u8 D_80174634[8];
+extern s32 death_action_resume_address;
+extern u8 death_direction_frames[8];
 extern u8 D_80174644[8];
 extern u8 D_80174654[8];
 extern u8 D_8017465C[8];
@@ -58,7 +58,7 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
         Callback entry_callback;
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (entry_callback == (Callback)&D_801719DC) {
+        if (entry_callback == (Callback)&death_action_resume_address) {
             entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
@@ -140,7 +140,7 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
             if (!(sprite_flags & 0x40)) {
                 u8 *frame_table = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
 
-                if (frame_table == D_80174634) {
+                if (frame_table == death_direction_frames) {
                     if (((SpriteFrameState *)sprite)->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         (*(s32 *)((u8 *)entity + 0xAC)) = 0x60000;
                         (*(s32 *)((u8 *)entity + 0xB0)) = (s32)0xFFFF3000;
@@ -232,7 +232,7 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
             if (!(((SpriteFrameState *)sprite)->flags & 0x40)) {
                 u8 *frame_table = *(u8 * *)&((SpriteFrameState *)sprite)->frameTable;
 
-                if (frame_table == D_80174634) {
+                if (frame_table == death_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 } else if (frame_table == D_80174644 || frame_table == D_8017466C) {

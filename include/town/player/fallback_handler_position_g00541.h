@@ -18,7 +18,7 @@ typedef struct Record {
     s8 height;
 } Record;
 
-extern s32 D_80097D2C[3];
+extern s32 town_position_callback_address[3];
 extern s32 D_800D04A4[];
 extern s32 D_800D04B8[];
 extern Record *find_flagged_record_by_id(void *entry, u32 target_id);
@@ -27,7 +27,7 @@ extern s32 rsin(s32 angle);
 extern IntVector3 D_800D0AE4;
 extern IntVector3 computed_position;
 
-extern IntVector3 *D_80100D20;
+extern IntVector3 *town_overlap_origin;
 
 /* Functions defined in this translation unit. */
 void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor);

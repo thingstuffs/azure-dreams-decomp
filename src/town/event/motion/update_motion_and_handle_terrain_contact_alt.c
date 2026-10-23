@@ -13,7 +13,7 @@ extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);
 
-extern u8 D_8009B454[];
+extern u8 actor_surface_callback_address[];
 extern s16 terrain_height_limits[];
 
 /* Update motion, handle contact callbacks, and play the terrain height sound. */
@@ -40,7 +40,7 @@ void update_motion_and_handle_terrain_contact_alt(void *entity, void *collision,
         ((Callback *)(*(void **)((u8 *)entity + 0x58)))[1](entity, collision, motion, callback_arg);
     }
     if ((*(u16 *)((u8 *)entity - 2) & 0x8000) == 0 &&
-        *(void **)((u8 *)entity + 0x50) == D_8009B454) {
+        *(void **)((u8 *)entity + 0x50) == actor_surface_callback_address) {
         s32 terrain_index;
 
         terrain_index = check_masked_value_in_current_range((u16)read_map_cell_at_world_position(

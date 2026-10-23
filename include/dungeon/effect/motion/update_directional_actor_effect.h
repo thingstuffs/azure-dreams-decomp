@@ -15,7 +15,7 @@ void create_timed_model_effect(s32, void *, s32, s32);
 s32 rsin(s32);
 s32 rcos(s32);
 extern u8 D_800DF334[];
-extern u8 D_800CEEFC[];
+extern u8 linked_mesh_processor_address[];
 extern u8 D_80024980[];
 extern u8 D_80024998[];
 extern s16 D_800249A4;

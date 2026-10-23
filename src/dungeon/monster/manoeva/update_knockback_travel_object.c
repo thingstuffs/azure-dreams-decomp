@@ -83,7 +83,7 @@ typedef struct S_80174CCC_11 {
 } S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in update_knockback_travel_object */
 
 extern s8 entity_spawn_variant_code;
-extern u8 D_80176668[];
+extern u8 manoeva_frame_set_2[];
 
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void func_80042640(void *, s32);
@@ -229,7 +229,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                 }
 
                 owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
-                owner->frameTable = D_80176668;
+                owner->frameTable = manoeva_frame_set_2;
                 owner->flags |= 0x4000;
                 owner->clut = ((S_80174CCC_0 *)motion)->unk_3A;
                 select_sprite_entry(owner,

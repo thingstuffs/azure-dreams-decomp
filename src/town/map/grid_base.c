@@ -1,9 +1,9 @@
 /* Copies nonzero cells from a size-prefixed block into the shared map grid. */
 #include "common.h"
 
-extern u16 D_80162004[];
+extern u16 town_tile_grid[];
 
-static __inline__ u16 *grid_base(void) { return D_80162004; }
+static __inline__ u16 *grid_base(void) { return town_tile_grid; }
 
 /* Copies a width-and-height-prefixed block to the destination grid, skipping zero entries. */
 void blit_nonzero_u16_block_to_grid(s16 dst_x, s16 dst_y, u16 *src) {

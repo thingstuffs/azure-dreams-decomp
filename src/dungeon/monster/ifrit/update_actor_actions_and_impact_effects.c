@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
@@ -70,7 +72,7 @@ typedef struct S_801728C4_8 {
     s32 unk_A4;
 } S_801728C4_8;   /* part in update_actor_actions_and_impact_effects */
 
-extern u8 D_80170E84[];
+extern u8 ifrit_action_resume_address[];
 #include "dungeon/monster/ifrit.h"
 extern u8 D_80174850[];
 
@@ -121,7 +123,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     state = ((S_801728C4_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             dispatch_index = action_kind - 1;
             switch (dispatch_index) {
@@ -212,7 +214,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             ((S_801728C4_6 *)player_state)->unk_A6--;
             advance_status_timers(actor);
             (*(u8 *)&actor->pending_turn_updates)--;
-            ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
+            ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -336,7 +338,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
         if (((s32)g_dungeon_status.active_actor) == 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
-            ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
+            ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;
             advance_status_timers(actor);
             if (actor->pending_turn_updates > 0) {
                 (*(u8 *)&actor->pending_turn_updates)--;
@@ -344,7 +346,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-            play_sound_if_enabled(0xB4);
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
 
         return;

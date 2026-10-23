@@ -11,18 +11,18 @@ struct TownLink {
     s8 state;
 };
 
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 
 /* Count type 4 links whose state is not -1. */
 s32 count_type_n_4_links_whose_state_not_n_1(void)
 {
-    TownLink *link = ((TownLink *)&D_800CFCB4)->next;
+    TownLink *link = ((TownLink *)&town_actor_control)->next;
     s32 count = 0;
 
-    if (link != (TownLink *)&D_800CFCB4) {
+    if (link != (TownLink *)&town_actor_control) {
         s32 type = 4;
         s32 state = -1;
-        TownLink *sentinel = (TownLink *)&D_800CFCB4;
+        TownLink *sentinel = (TownLink *)&town_actor_control;
 
         do {
             if (link->type == type && link->state != state) {

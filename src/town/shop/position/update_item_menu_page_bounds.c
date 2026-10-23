@@ -21,7 +21,7 @@ typedef struct {
 } Object;
 
 extern u8 D_800786DC[];
-extern u8 D_800786E8[];
+extern u8 card_selection_display_data[];
 
 /* Updates both outputs and their flags from the current state and limit. */
 void update_item_menu_page_bounds(Object *obj)
@@ -44,7 +44,7 @@ void update_item_menu_page_bounds(Object *obj)
     if (state->current < state->limit) {
         clear_mask = -2;
         obj->flags &= clear_mask;
-        *obj->outputs->secondary = D_800786E8;
+        *obj->outputs->secondary = card_selection_display_data;
         return;
     }
 

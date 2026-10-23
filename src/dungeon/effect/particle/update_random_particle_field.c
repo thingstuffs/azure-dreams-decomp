@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Falling particle fields, terrain impacts, nearby attacks, and linked item amount reduction. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -82,7 +83,7 @@ void update_random_particle_field(void *self, void *output)
         ((S_81934928_0 *)self)->unk_0C.s = 0x3C;
         ((S_81934928_0 *)self)->unk_0A.u++;
         ((S_81934928_0 *)self)->unk_14 = page_value;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     }
         /* fallthrough */
     case 1:
@@ -244,9 +245,9 @@ void draw_red(void *effect) {
                 s32 *animation;
 
                 if (rand() & 1) {
-                    animation = &D_800DEDB0;
+                    animation = &rising_sprite_entries;
                 } else {
-                    animation = &D_800DEE38;
+                    animation = &moving_sprite_entries;
                 }
                 impact_sprite->unk_00 = animation;
                 impact_sprite->source = (s32) ((S_81934C5C_4 *)animation)->unk_04;

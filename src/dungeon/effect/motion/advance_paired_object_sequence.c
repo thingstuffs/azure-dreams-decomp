@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -339,7 +340,7 @@ case 4:
         if (timer > 0) {
             return;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         {
             GameWork *snap_scene;
             s16 *snap_x;

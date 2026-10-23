@@ -16,10 +16,10 @@ extern s32 func_80071494();
 extern void func_8023FB18();
 extern s32 func_80240810();
 
-extern s32 D_80012BCC;
-extern s32 D_80084D5C;
+extern s32 scene_value_total;
+extern s32 scene_object_flags;
 extern u8 town_motion_state[16];
-extern u8 D_80290704[16];
+extern u8 score_bounce_motion_data[16];
 extern Copy12 D_80526760;
 extern u8 D_8053016C[16];
 extern s32 D_805301C0[4];
@@ -99,9 +99,9 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
                 S32_AT(motion, 0x14) = -S32_AT(motion, 0x14) >> 1;
             }
         }
-        call_result = func_80240810(D_8053016C, motion, D_80290704, town_motion_state);
+        call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
-            D_80012BCC = values.v[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
+            scene_value_total = values.v[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
             return;
         }
@@ -114,16 +114,16 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
             U16_AT(obj, 6) = 31;
             U16_AT(obj, 4)++;
         }
-        call_result = func_80240810(D_8053016C, motion, D_80290704, town_motion_state);
+        call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
-            D_80012BCC = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
+            scene_value_total = valuep[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
             return;
         }
         return;
     case 4:
-        if (func_80240810(D_8053016C, motion, D_80290704, town_motion_state) != 0) {
-            D_80012BCC = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
+        if (func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state) != 0) {
+            scene_value_total = valuep[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
             S16_AT(obj, 4) = 255;
         }
         if ((U16_AT(obj, 6) >> 2) & 1) {
@@ -142,7 +142,7 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
     case 255:
         func_8023FB18((u8 *)obj + 8);
         U16_AT(obj, -2) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         return;
     }
 }

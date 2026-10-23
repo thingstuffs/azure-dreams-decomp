@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 
 extern s32 get_entity_class(void *);
 extern s32 create_linked_actor_fade_effect(s32 *);
@@ -22,7 +22,7 @@ s32 begin_return_magic_for_player_and_familiars(void)
 
     slot_index = 1;
     object_page = (u8 *)0x800E0000;
-    height_table = D_800DCED4;
+    height_table = actor_event_values;
     do {
         object = *(void **)(*(u8 **)(object_page + 0x3D7C) + 0xAC + slot_index * 4);
         if (object != 0) {

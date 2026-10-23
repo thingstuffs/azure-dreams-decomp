@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
 #include "shared/object_node.h"
 #include "dungeon/effect/sprite/advance_fading_effect.h"
@@ -50,7 +51,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         } else {
-            select_record_entry_and_value(effect, D_800DEDB0, 4);
+            select_record_entry_and_value(effect, rising_sprite_entries, 4);
             state->unk04 = 1;
         }
     }
@@ -73,7 +74,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         *((s8 *) (((s8 *) render) + 0xE)) = white;
         *((s8 *) (((s8 *) render) + 0xD)) = white;
         *((s8 *) (((s8 *) render) + 0xC)) = white;
-        select_record_entry_and_value(render, D_800DEDB0, 0);
+        select_record_entry_and_value(render, rising_sprite_entries, 0);
         *((s16 *) (((s8 *) render) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) render) + 0x1C)) = 0x1000;
         *((s16 *) (((s8 *) render) + 0x12)) = 0x7E0B;
@@ -133,7 +134,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
             effect_data->unk_0E = 0x80;
             effect_data->unk_0D = 0x80;
             effect_data->unk_0C = 0x80;
-            select_record_entry_and_value(effect_data, D_800DE9D0, 0);
+            select_record_entry_and_value(effect_data, countdown_sprite_entries, 0);
             effect_data->unk_1C = 0x1000;
             effect_data->unk_1E = 0x3000;
             effect_data->unk_12 = 0x7E0B;
@@ -169,7 +170,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
                     effect_data->unk_0E = 0x40;
                     effect_data->unk_0D = 0x40;
                     effect_data->unk_0C = 0x40;
-                    select_record_entry_and_value(effect_data, D_800DE9D0, 0);
+                    select_record_entry_and_value(effect_data, countdown_sprite_entries, 0);
                     effect_data->unk_1C = 0x1000;
                     effect_data->unk_1E = 0x1800;
                     effect_data->unk_12 = 0x7E0B;
@@ -582,7 +583,7 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         }
         ctrl->timer = 0;
         ctrl->state++;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
 
     case 2:

@@ -35,7 +35,7 @@ s32 select_record_entry_and_value();
 s32 advance_sprite_animation_and_textures();
 s32 rsin();
 s32 rcos();
-extern M2C_UNK D_800DEC70[3];
+extern M2C_UNK shared_sprite_entries[3];
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
 void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, SpriteFrameState *object) {
@@ -65,7 +65,7 @@ void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, 
     position->y = (s32) (position->center_y + (((rsin((s16) motion->angle) >> 4) * motion->wave_offset) << 8));
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        select_record_entry_and_value(object, &D_800DEC70, 0);
+        select_record_entry_and_value(object, &shared_sprite_entries, 0);
     }
 }
 

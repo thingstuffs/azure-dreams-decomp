@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -106,7 +108,7 @@ extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
 extern u8 D_80170838[16];
-extern u8 D_80170EA8;
+extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 extern u8 D_80174078[];
 
@@ -127,7 +129,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
     phase = actor->unk_9B;
     switch (phase) {
     case 0:
-        if (actor_data->unk_1C & 0x2000) {
+        if (actor_data->unk_1C & ACTOR_PLAYER_SIDE) {
             kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
@@ -284,7 +286,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor_data);
         actor_data->unk_6D.u--;
-        actor->unk_8C = &D_80170EA8;
+        actor->unk_8C = &killer_action_resume_address;
         actor_data->unk_73.u = 0;
         actor_data->unk_72.u = 0;
         actor_data->unk_46 &= 0x7FFF;
@@ -331,7 +333,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
-        actor->unk_8C = &D_80170EA8;
+        actor->unk_8C = &killer_action_resume_address;
         advance_status_timers(actor_data);
         if (actor_data->unk_6D.s > 0) {
             actor_data->unk_6D.u--;
@@ -339,7 +341,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         actor_data->unk_73.u = 0;
         actor_data->unk_72.u = 0;
         actor_data->unk_46 &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
 
     default:

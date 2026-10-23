@@ -213,7 +213,7 @@ extern void func_8004A7D8();
 extern void strcpy();
 extern s32 check_object_byte_pairs_content(s32);
 extern u8 inventory_default_entry_data[];
-extern ovl_1830850_81810A0C_DungeonState D_80083160[];
+extern ovl_1830850_81810A0C_DungeonState g_game_work[];
 extern void SD_Call(s32 value);
 extern s32 set_object_data_pointer(s32 unk14);
 extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 value);

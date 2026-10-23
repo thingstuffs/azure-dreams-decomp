@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -49,7 +50,7 @@ typedef struct {
     u16 field46;
 } Entity;
 
-extern u8 D_80170EA8[];
+extern u8 killer_action_resume_address[];
 extern u8 D_80174050[];
 extern u8 D_80174058[];
 
@@ -80,7 +81,7 @@ void move_toward_actor_tile_center(State *action, Motion *motion, SpriteFrameSta
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_80174050[direction_index & 7], 0);
         action->flags98 |= 8;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->timerA4 = 5;
         action->velocityA0 = 0;
         action->state9B++;
@@ -108,12 +109,12 @@ void move_toward_actor_tile_center(State *action, Motion *motion, SpriteFrameSta
         if (action->timerA4 < 0) {
             action->flags98 &= 0xFFF7;
             action->position90 = 0;
-            entity->flags1C |= 0x08000000;
+            entity->flags1C |= ACTOR_GROUNDED;
             action->state9B++;
         }
                         /* fallthrough */
     case 2:
-        if ((entity->flags1C & 0x08000000) == 0) {
+        if ((entity->flags1C & ACTOR_GROUNDED) == 0) {
             break;
         }
         action->flags98 &= 0xFFF7;
@@ -163,7 +164,7 @@ void move_toward_actor_tile_center(State *action, Motion *motion, SpriteFrameSta
     }
 
     if ((check_actor_floor_trap(actor, entity) << 16) > 0) {
-        action->field8C = D_80170EA8;
+        action->field8C = killer_action_resume_address;
         on_actor_status_updated(entity);
     }
 }

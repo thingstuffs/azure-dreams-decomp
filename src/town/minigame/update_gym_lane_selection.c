@@ -51,7 +51,7 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
             gym_lane_delay = 3;
             apply_global_scene_value(D_800D00C0);
         } else if (reference_tile_object.sprite_flags & 0x6000) {
-            apply_global_scene_value(D_800D0128);
+            apply_global_scene_value(movement_action_handler_table);
         }
     }
 

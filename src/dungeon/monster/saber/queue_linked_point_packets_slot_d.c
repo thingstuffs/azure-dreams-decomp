@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/gpu_packets.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"

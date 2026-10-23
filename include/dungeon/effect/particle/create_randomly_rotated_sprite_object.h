@@ -309,7 +309,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
 void expire_counted_child_effect(void *counterState);
 s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center);
 void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta);
-void func_800248F8(void *state, M2C_UNK draw_context, M2C_UNK update_context);
+void emit_animated_transform_copies(void *state, M2C_UNK draw_context, M2C_UNK update_context);
 void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
 void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);

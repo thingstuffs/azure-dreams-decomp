@@ -44,7 +44,7 @@ void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 s32 check_movement_clearance_and_height(); /* extern */
 s16 get_rounded_facing_and_rounding_flag();             /* extern */
-extern u8 D_80176460[8];
+extern u8 cyclone_move_direction_frames[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
 void advance_path_motion(void *motion, void *unused, SpriteFrameState *entity, void *path_state) {
@@ -62,9 +62,9 @@ void advance_path_motion(void *motion, void *unused, SpriteFrameState *entity, v
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
         > ((S_801716D8_0 *)state)->unk_8A)) {
-        if (entity->frameTable != D_80176460) {
-            (entity->frameTable) = D_80176460;
-            select_sprite_entry(entity, D_80176460[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
+        if (entity->frameTable != cyclone_move_direction_frames) {
+            (entity->frameTable) = cyclone_move_direction_frames;
+            select_sprite_entry(entity, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
         old_x = entity->unk_24;

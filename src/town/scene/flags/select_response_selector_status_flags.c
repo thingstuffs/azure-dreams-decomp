@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern char D_8001B14C[];
-extern char D_8001C018[];
-extern char D_8001C6D0[];
+extern char scene_string_fallback[];
+extern char scene_choice_text[];
+extern char event_string_fallback[];
 extern char D_8001D000[];
 extern char D_8001D3CC[];
 extern char D_80022694[];
@@ -24,7 +24,7 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
     arg2_val = selector;
     switch (table_index) {
     case 7:
-        return D_8001C018;
+        return scene_choice_text;
     case 6:
         return D_80022694;
     case 0:
@@ -72,12 +72,12 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
                 return D_8001D3CC;
             }
         }
-        return D_8001C6D0;
+        return event_string_fallback;
     case 40:
     case 41:
     case 42:
         return award_next_unearned_milestone(selector, value, arg2_val, extra);
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

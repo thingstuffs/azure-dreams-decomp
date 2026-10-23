@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 
 typedef struct {
@@ -15,7 +16,7 @@ void apply_clamped_actor_value_delta(void *entity) {
     FuncState *state = (FuncState *)entity;
     s32 value;
 
-    if ((state->delta < 0) && ((get_entity_effect_value(entity, 0x1D) << 16) != 0)) {
+    if ((state->delta < 0) && ((get_entity_effect_value(entity, STATUS_DAMAGE_GUARD) << 16) != 0)) {
         state->delta = 0;
     }
 

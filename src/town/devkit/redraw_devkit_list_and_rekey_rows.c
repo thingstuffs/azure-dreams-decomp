@@ -19,7 +19,7 @@ typedef struct Func808816D8Rec {
 } Func808816D8Rec;
 
 extern s32 D_807007B0[3];
-extern Func808816D8Callbacks *D_80700E4C[3];
+extern Func808816D8Callbacks *devkit_list_methods[3];
 extern Func808816D8Owner *D_80700E40[3];
 extern s32 * D_80700E48[];
 extern u8 D_807007D4[16];
@@ -34,8 +34,8 @@ void redraw_devkit_list_and_rekey_rows(void) {
     u8 *row_base;
 
     if (D_807007B0[0] != 0) {
-        D_80700E4C[0]->func68(D_807007D4, D_807007FC, 0x4B);
-        D_80700E4C[0]->func74(1);
+        devkit_list_methods[0]->func68(D_807007D4, D_807007FC, 0x4B);
+        devkit_list_methods[0]->func74(1);
     }
     *(s32 *)0x807007B0 = 1;
     shift_index_and_add_offset();

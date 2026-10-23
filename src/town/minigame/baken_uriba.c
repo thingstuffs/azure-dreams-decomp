@@ -53,7 +53,7 @@ extern WordBlock6 D_80020050;
 extern u8 D_80020068[];
 extern u8 D_800203D8[];
 extern u8 D_80020468[];
-extern u8 D_800204AC[];
+extern u8 betting_ticket_text[];
 extern u8 D_80020900[];
 extern s16 keima_payout_factors[];
 extern s16 D_8002430A[];
@@ -97,14 +97,14 @@ void baken_uriba(void)
     screen.text.source = D_80020068;
     screen.text.unk0 = 0;
     screen.text.buffer = buffer;
-    func_800201C8(D_800204AC, &screen.text);
+    func_800201C8(betting_ticket_text, &screen.text);
 
     grid_index = 2;
     header_screen = &screen;
     do {
         screen.text.x = (grid_index * 0x28) + 0x48;
         screen.text.source = (void *)header_screen->text_words.words[grid_index];
-        func_800201C8(D_800204AC, &header_screen->text);
+        func_800201C8(betting_ticket_text, &header_screen->text);
         grid_index--;
     } while (grid_index >= 0);
 
@@ -113,7 +113,7 @@ void baken_uriba(void)
     do {
         screen.text.y = (grid_index * 0x10) + 0x24;
         screen.text.source = (void *)screen.text_words.words[grid_index + 1];
-        func_800201C8(D_800204AC, &screen.text);
+        func_800201C8(betting_ticket_text, &screen.text);
         grid_index--;
     } while (grid_index >= 0);
 
@@ -198,7 +198,7 @@ void baken_uriba(void)
                 format_decimal_field_space_padded(*column_factor * *row_factor,
                               strlen(screen.text.source), screen.text.source);
                 row_factor++;
-                func_800201C8(D_800204AC, value_screen);
+                func_800201C8(betting_ticket_text, value_screen);
             } while (row_index < 3);
         }
         column_factor++;

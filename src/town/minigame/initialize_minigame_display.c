@@ -41,7 +41,7 @@ extern u8 D_800223E0[8];
 extern u8 D_800223E8[8];
 extern void *D_80024468;
 extern void *D_8002446C;
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 extern s32 display_registration_tag;
 extern u8 D_800782EC[8];
 
@@ -77,7 +77,7 @@ void initialize_minigame_display(void *context)
     if (image_obj != NULL) {
         image_data = ((void *)image_obj) + 0x20;
         image_obj->unk_10 = D_800223E8;
-        register_node(image_obj, D_80053858);
+        register_node(image_obj, text_sprite_builder_address);
         image_data->unk_14 = 0xF0;
         image_data->unk_16 = 0x20;
         image_data->unk_18 = 3;

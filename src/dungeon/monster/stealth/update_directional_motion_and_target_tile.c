@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -64,7 +65,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         }
 
         initial_timer = -1;
-        if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
+        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             initial_timer = 8;
         }
         action->unk_96.s = initial_timer;

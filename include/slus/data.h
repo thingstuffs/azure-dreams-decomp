@@ -43,7 +43,7 @@ extern u8 D_80084548[ ];
 extern short D_800847F6[ 8 ];
 extern s32 D_8008485C[ 3 ];
 extern int sequence_tempo_step[ 4 ];
-extern u8 D_800C321C[ ];
+extern u8 message_motion_type_b[ ];
 extern u32 D_800D0858[ 3 ];
 extern u8 D_800DCF54[ ];
 extern u8 D_800F26F8[ 12 ];

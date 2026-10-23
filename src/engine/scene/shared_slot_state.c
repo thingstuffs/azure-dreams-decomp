@@ -7,7 +7,7 @@
 /* Swaps draw buffers on a new video field, advances the CD-wait path and draws four trail layers. */
 void render_cd_wait_animation_on_new_field(void)
 {
-    void **draw_buffer = &D_80083160[0];
+    void **draw_buffer = &g_game_work[0];
 
     if ((runtime_dispatch_state.field_0 & 3) == 1) {
         u8 field_id = (u8)((u32)VSync(1) >> 8);
@@ -20,14 +20,14 @@ void render_cd_wait_animation_on_new_field(void)
             s32 center_offset;
 
             scene_sprite_last_field = field_id;
-            PutDispEnv((u8 *)D_80083160[0] + 0x5C);
+            PutDispEnv((u8 *)g_game_work[0] + 0x5C);
             PutDrawEnv(*draw_buffer);
 
             next_buffer = upper_draw_context[0];
             if (*draw_buffer == upper_draw_context[0]) {
                 next_buffer += 0x108D4;
             }
-            D_80083160[0] = next_buffer;
+            g_game_work[0] = next_buffer;
             *(u32 *)(next_buffer + 0x8D0) = (u32)next_buffer + 0x8D4;
 
             if (scene_sprite_cached_mode != scene_sprite_mode_word[0]) {
@@ -108,7 +108,7 @@ void draw_cd_wait_sprite_trail(s32 blend_step)
     s32 colour;
 
     scratch = (u8 *)0x1F800000;
-    render_state = (u8 **)D_80083160;
+    render_state = (u8 **)g_game_work;
 
     if (scene_sprite_list_initialized == 0) {
         u8 *sprite_slot;

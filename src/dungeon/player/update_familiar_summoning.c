@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
@@ -106,8 +107,8 @@ s32 find_or_retain_sprite_resource_slot();
 s32 play_sound_if_enabled();
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
-extern u8 D_800DD138[];
-extern u8 D_800DD140[];
+extern u8 familiar_save_restore_frames[];
+extern u8 familiar_save_frames[];
 extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
 
@@ -134,9 +135,9 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
             return;
         }
-        (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD138;
+        (*(s32 **)((u8 *)animation + 0x2C)) = familiar_save_restore_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
-            >> 9) & 7) + D_800DD138), 0, 1);
+            >> 9) & 7) + familiar_save_restore_frames), 0, 1);
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
         create_familiar_deployment_effect_with_owner_state(actor, position, animation);
         create_familiar_deployment_overlay(actor, position, animation);
@@ -192,8 +193,8 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             ((S_80095A10_5 *)object)->unk_1C = object_flags;
             replay_actor_status_slots(object);
             play_sound_if_enabled(0x704);
-            clear_slots_of_type(object, 3);
-            clear_slots_of_type(object, 1);
+            clear_slots_of_type(object, STATUS_BLIND);
+            clear_slots_of_type(object, STATUS_SLEEP);
             if (((S_80095A10_5 *)object)->unk_25 == 0) {
                 ((S_80095A10_5 *)object)->unk_25 = 1U;
             }
@@ -211,9 +212,9 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         if ((ticks_left << 0x10) > 0) {
             return;
         }
-        (*(s32 **)((u8 *)animation + 0x2C)) = D_800DD140;
+        (*(s32 **)((u8 *)animation + 0x2C)) = familiar_save_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
-            >> 9) & 7) + D_800DD140), 0, 1);
+            >> 9) & 7) + familiar_save_frames), 0, 1);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;

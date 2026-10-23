@@ -50,14 +50,14 @@ extern void advance_multi_form_ring_phase(void);
 extern void advance_secondary_object_state(void);
 extern void func_80170838(void);
 
-extern u8 D_801739A0[];
-extern u8 D_801739A8[];
-extern u8 D_801739B0[];
-extern u8 D_801739B8[];
+extern u8 beldo_large_frame_set_2[];
+extern u8 beldo_large_frame_set_5[];
+extern u8 beldo_large_frame_set_1[];
+extern u8 beldo_large_frame_set_3[];
 extern u8 D_80173A60[];
 extern u8 D_80173A88[];
 extern u8 D_80173AF8;
-extern u8 *D_80175DC4;
+extern u8 *encounter_script_cursor;
 extern s16 beldo_script_timer;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
@@ -89,7 +89,7 @@ top:
     if (aux->flags & 0x40) {
         return 0;
     }
-    script = D_80175DC4;
+    script = encounter_script_cursor;
     command = script[1];
     command_byte = (u8) command;
     if (command_byte == 0) {
@@ -99,7 +99,7 @@ top:
         timer = (u16)(beldo_script_timer + 1);
         beldo_script_timer = (s16)timer;
         if (duration < (s16)timer) {
-            D_80175DC4 = script + 2;
+            encounter_script_cursor = script + 2;
             beldo_script_timer = 0;
         }
         old_flags = actor->flags46;
@@ -108,10 +108,10 @@ top:
         opcode = command_byte & 0xF8;
         switch (opcode) {
         case 0xD0:
-            jump_script = D_80175DC4;
+            jump_script = encounter_script_cursor;
             beldo_script_timer = 0;
             jump_script += *(s8 *)jump_script * 2;
-            D_80175DC4 = jump_script;
+            encounter_script_cursor = jump_script;
             goto top;
 
         case 0x08:
@@ -133,19 +133,19 @@ top:
             switch (animation) {
             case 0:
                 old_sequence = aux->frameTable;
-                sequence = D_801739A0;
+                sequence = beldo_large_frame_set_2;
                 break;
             case 1:
                 old_sequence = aux->frameTable;
-                sequence = D_801739A8;
+                sequence = beldo_large_frame_set_5;
                 break;
             case 2:
                 old_sequence = aux->frameTable;
-                sequence = D_801739B0;
+                sequence = beldo_large_frame_set_1;
                 break;
             case 3:
                 old_sequence = aux->frameTable;
-                sequence = D_801739B8;
+                sequence = beldo_large_frame_set_3;
                 break;
             default:
                 update_actor_status_and_mp(actor);
@@ -200,7 +200,7 @@ top:
                 }
                 entity->animation = 2;
                 angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
-                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
+                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = beldo_large_frame_set_1);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
                 select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -254,7 +254,7 @@ top:
                 }
                 entity->animation = 3;
                 angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
-                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
+                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = beldo_large_frame_set_3);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
                 select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -309,7 +309,7 @@ top:
                     entity->state = (u8)(entity->state + 1);
                     actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
-                    idle_sequence = D_801739A0;
+                    idle_sequence = beldo_large_frame_set_2;
                     angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                     entity->animation = 0;
                     (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;

@@ -7,7 +7,7 @@ void attach_global_data_and_invoke_callback(void)
     Rec_D_80016000 *state = D_80016000;
     void *callback_base;
 
-    ((TownPositionState *)state->unk_1C)->unk_40 = &D_8001601C;
+    ((TownPositionState *)state->unk_1C)->unk_40 = &scene_event_data;
     callback_base = state->unk_20;
     D_80017508 = &D_80016084;
     do {

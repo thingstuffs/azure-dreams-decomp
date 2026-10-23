@@ -62,7 +62,7 @@ typedef struct S_7FFE89B0_6 {
 void *func_7003CF18();
 s32 func_700750E0();
 M2C_UNK func_7010B864();
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010B4EC;
@@ -112,7 +112,7 @@ void emit_parent_relative_particles(void *emitter, ObjectPosition *position, M2C
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE89B0_0_pre *)emitter)[-1].unk_00 | 0x8000);
         next_active_count = *active_count - 1;
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
         *active_count = next_active_count;
     }
 }

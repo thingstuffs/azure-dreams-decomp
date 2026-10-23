@@ -26,7 +26,7 @@ extern s32 display_text_with_fullwidth_adjustment();
 
 extern u8 D_80170838[16];
 extern u8 garuda_walk_text[16];
-extern u8 D_80174880[9];
+extern u8 garuda_walk_direction_frames[9];
 
 #line 1 "a"
 /* Step the actor's walk animation: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, arm state 0x17, point the part at the direction table and advance the shared counters. */
@@ -38,7 +38,7 @@ void advance_actor_walk_animation(void *owner, void *unused, SpriteFrameState *p
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
-        u8 *table = D_80174880;
+        u8 *table = garuda_walk_direction_frames;
 
         ((S_801722E0_2 *)owner)->unk_9A = 0x17;
         ((S_801722E0_2 *)owner)->unk_8C = 0;

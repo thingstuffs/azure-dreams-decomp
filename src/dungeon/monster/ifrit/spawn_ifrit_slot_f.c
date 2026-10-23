@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -88,21 +91,21 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         part_b->unk_24 = value_24_input;
 
         if (kind == 1) {
-            value_14 = work->unk_14 | 0x6000;
-            value_1C = work->unk_1C | 0x6000;
+            value_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            value_1C = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = value_14;
             work->unk_1C = value_1C;
         } else if (kind >= 2) {
-            value_14 = work->unk_14 | 0x2000;
-            value_1C = work->unk_1C | 0x2000;
+            value_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
+            value_1C = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = value_14;
             work->unk_1C = value_1C;
         } else if (((mask & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 value_14 = generate_random_value();
                 if (value_14 & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8016E860;
                 }

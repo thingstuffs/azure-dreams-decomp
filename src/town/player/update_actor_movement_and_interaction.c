@@ -32,7 +32,7 @@ extern M2C_UNK D_80093B00;
 extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
 extern M2C_UNK D_8009B9BC;
-extern M2C_UNK D_800CFCB4;
+extern M2C_UNK town_actor_control;
 extern void *town_target_record;
 extern s32 town_interaction_pending[];
 extern s32 *town_player_action_callback;
@@ -101,8 +101,8 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             initialize_busy_checked_countdown_action(actor, position, context);
             return;
         }
-        if ((get_status_active_entry_matching_direction(&D_800CFCB4) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
-            select_an_available_entry_matching_direction_returns_status(&D_800CFCB4);
+        if ((get_status_active_entry_matching_direction(&town_actor_control) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
+            select_an_available_entry_matching_direction_returns_status(&town_actor_control);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
             init_motion_action_callback(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
@@ -111,7 +111,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
                     ((Rec_func_80094268_arg0 *)actor)->unk_2C = NULL;
                 }
             }
-            interaction = &D_800CFCB4;
+            interaction = &town_actor_control;
             interaction_result = select_response_for_source_and_target(((S_800927EC_4 *)interaction)->unk_10,
                 ((Rec_func_80094268_arg0 *)actor)->unk_2C);
             if (interaction_result != 0) {

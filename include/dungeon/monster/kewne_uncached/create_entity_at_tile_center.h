@@ -52,7 +52,7 @@ s32 register_node();
 s32 func_8004491C();                /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
-extern void *D_800FBE1C[];
+extern void *active_action_object[];
 void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, void *sprite_in);
 
 /* Creates and initializes an entity at the center of the specified tile. */
@@ -291,15 +291,15 @@ extern u8 D_800FB3C8[16];
 extern u8 D_800FB8DF[16];
 extern u8 D_800FBAD7[16];
 extern u8 D_800FBD96[16];
-extern u8 D_800FBE20[16];
+extern u8 script_motion_phase[16];
 extern u8 D_800FBE22[16];
-extern u8 D_800FBE54[16];
+extern u8 scripted_status_target[16];
 typedef struct {
     u8 bytes[16];
 } __attribute__((packed)) Packed16;
 extern Packed16 D_80170804;
-extern u8 D_80171FA4[16];
-extern u8 D_80175C30[16];
+extern u8 kewne_uncached_action_resume_address[16];
+extern u8 kewne_uncached_frame_set_1[16];
 extern void (*kewne_uncached_callbacks[])(void *, void *, void *, void *);
 
 #define event_base ((u8 *)((u8 *)(&reference_tile_object)))

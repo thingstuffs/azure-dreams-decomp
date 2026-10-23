@@ -3,6 +3,6 @@
 
 /* Callers pass this byte address to func_8003A7C4 (or its banked alias)
  * at index zero. They do not establish the data layout or allocation extent. */
-extern unsigned char D_800E2BB8[];
+extern unsigned char positioned_effect_source[];
 
 #endif

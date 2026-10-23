@@ -11,7 +11,7 @@ typedef struct S_808152DC_0 {
 
 
 extern s32 func_80058F88();
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Step the record's two-state timer, raising the finished bit when it runs out. */
 void play_timed_sound_sequence(void *record) {
@@ -32,6 +32,6 @@ void play_timed_sound_sequence(void *record) {
     if ((timer << 0x10) <= 0) {
         func_80058F88(0x1603);
         (*(u16 *)((u8 *)record + -2)) = ((ObjectStatusPrefix16 *)record)[-1].unk_00 | 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

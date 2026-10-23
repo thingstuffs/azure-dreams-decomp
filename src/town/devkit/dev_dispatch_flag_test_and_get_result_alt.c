@@ -16,22 +16,22 @@ void func_80700244(s32);
 s32 func_8070042C();
 void func_80700488(void);
 void func_807008D0(s32 first, s32 second);
-extern u8 D_A0700000[];
+extern u8 devkit_overlay_page[];
 extern u8 D_A0700120[];
 extern u8 D_A0700134[];
 
 /* Initializes flag-test state, emits a source mark, and returns the setup result. */
 s32 dev_dispatch_flag_test_and_get_result_alt(void) {
-    s32 *setup_context = (s32 *)(D_A0700000 + 0xB40);
+    s32 *setup_context = (s32 *)(devkit_overlay_page + 0xB40);
 
     func_807001B4(*setup_context);
     func_80700244(0);
     func_80700488();
-    *(s32 *)(D_A0700000 + 0x9D4) = func_8070042C();
-    ((S_808B94E0_1 *)(*(void **)(D_A0700000 + 0xB50)))->unk_64(
+    *(s32 *)(devkit_overlay_page + 0x9D4) = func_8070042C();
+    ((S_808B94E0_1 *)(*(void **)(devkit_overlay_page + 0xB50)))->unk_64(
         (s32)D_A0700120, (s32)D_A0700134, 0xC9);
-    ((S_808B94E0_0 *)(*(s32 *)(D_A0700000 + 0xB50)))->unk_6C(0);
+    ((S_808B94E0_0 *)(*(s32 *)(devkit_overlay_page + 0xB50)))->unk_6C(0);
     func_807001B4(*setup_context);
-    func_807008D0(*(s32 *)(D_A0700000 + 0x9D4), *(s32 *)(D_A0700000 + 0x9D8));
-    return *(s32 *)(D_A0700000 + 0x9D4);
+    func_807008D0(*(s32 *)(devkit_overlay_page + 0x9D4), *(s32 *)(devkit_overlay_page + 0x9D8));
+    return *(s32 *)(devkit_overlay_page + 0x9D4);
 }

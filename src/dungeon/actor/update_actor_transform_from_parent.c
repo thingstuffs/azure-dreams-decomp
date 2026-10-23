@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -105,7 +106,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
     parent_position = ((S_800AC82C_2_pre *)parent)[-1].unk_00;
     ((SpriteFrameState *)tile)->unk_24 = (u8) parent_data->unk_24;
     ((SpriteFrameState *)tile)->unk_25 = (u8) parent_data->unk_25;
-    if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x80000)) {
+    if (!((*(s32 *)((u8 *)actor + 0x1C)) & ACTOR_LIFTED)) {
         position->velocity_y = 0;
         position->velocity_x = 0;
         state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
@@ -124,12 +125,12 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
             ((SpriteFrameState *)tile)->unk_24 = dest_x;
             ((SpriteFrameState *)tile)->unk_25 = dest_y;
             set_record_integer_tile_center(position, ((SpriteFrameState *)tile)->unk_24, ((SpriteFrameState *)tile)->unk_25);
-            flags = (*(s32 *)((u8 *)actor + 0x1C)) | 0x40000000;
+            flags = (*(s32 *)((u8 *)actor + 0x1C)) | ACTOR_REFRESH_GROUND;
             (*(s32 *)((u8 *)actor + 0x1C)) = flags;
             tile_x = ((SpriteFrameState *)tile)->unk_24;
             tile_y = ((SpriteFrameState *)tile)->unk_25;
             tile_mask = 0x3000;
-            if (flags & 0x2000) {
+            if (flags & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;
             }
             cycle_map_cell_flags(tile_x, tile_y, tile_mask);
@@ -147,7 +148,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         (*(u16 *)((u8 *)actor + 0x88)) = parent_height;
         state->unk_90.at02_s16.v = (s16) (((parent_position->unk_0A + offset[2]) - parent_height) + 8);
         ((SpriteFrameState *)tile)->unk_06 = 0x10;
-        (*(s32 *)((u8 *)actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)actor + 0x1C)) | 0x40000000);
+        (*(s32 *)((u8 *)actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)actor + 0x1C)) | ACTOR_REFRESH_GROUND);
         parent_rotation = (*(void **)((u8 *)actor + 0x60));
         prev_parent_angle = (*(s16 *)((u8 *)actor + 0x6A));
         parent_angle_raw = parent_rotation->unk_2A.v;

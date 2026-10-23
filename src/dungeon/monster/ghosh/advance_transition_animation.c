@@ -44,7 +44,7 @@ typedef struct {
     u8 *unkac;
 } DungeonEntry;
 
-extern u8 D_8016B778[];
+extern u8 ghosh_action_resume_address[];
 extern u16 system_update_flags;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
@@ -98,7 +98,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
 
                 allocate_type_12_object();
                 effect = D_800F93AA;
-                state->unk8c = D_8016B778;
+                state->unk8c = ghosh_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
@@ -128,7 +128,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
                     }
                 }
             } else {
-                state->unk8c = D_8016B778;
+                state->unk8c = ghosh_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 advance_status_timers(actor);
                 actor->flags46 = actor->flags46 & 0x7FFF;

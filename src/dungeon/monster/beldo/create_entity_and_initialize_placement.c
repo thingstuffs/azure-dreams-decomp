@@ -14,8 +14,8 @@ s32 try_move_actor_to_valid_position();
 s32 func_80173C30(void);
 void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
 void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
-extern M2C_UNK D_80173E8C;
-extern void *D_80174710;
+extern M2C_UNK beldo_frame_set_1;
+extern void *beldo_active_entity;
 
 typedef struct S_80170F84_1 {
     u8 pad_00[0x13];
@@ -59,7 +59,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     entity = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (entity != NULL) {
         entity_state = ((void *)entity) + 0x20;
-        D_80174710 = entity;
+        beldo_active_entity = entity;
         entity->unk_10 = &update_actor_movement_and_height;
         entity_state->unk_13 = MONSTER_BELDO;
         register_node(entity, project_sprite_chain);
@@ -68,7 +68,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         tile_state = entity->sprite;
         tile_state->unk_24 = saved_tile_x;
         tile_state->unk_25 = saved_tile_y;
-        tile_state->frameTable = &D_80173E8C;
+        tile_state->frameTable = &beldo_frame_set_1;
         entity_state->unk_9E = 0;
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
         entity_state->unk_9A = 0xFF;

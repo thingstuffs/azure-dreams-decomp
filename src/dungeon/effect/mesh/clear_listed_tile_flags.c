@@ -4,7 +4,7 @@
 
 extern s16 sound_idle_vsync_frame_alias[8];
 extern u8 D_800E6000[16400];
-extern u8 *D_80081508;
+extern u8 *tile_coordinate_records;
 
 /* Clear flag 0x80 on the listed tiles and reset the list. */
 void clear_listed_tile_flags(void) {
@@ -14,7 +14,7 @@ void clear_listed_tile_flags(void) {
     MapGrid *map_config;
 
     map_config = &g_game_work.map;
-    entry = D_80081508;
+    entry = tile_coordinate_records;
     if (*entry != 0) {
         do {
             tile = &D_800E6000[0x4000 + (entry[0] + (entry[1] << map_config->shiftX)) * 6];
@@ -24,5 +24,5 @@ void clear_listed_tile_flags(void) {
         } while (*entry != 0);
     }
     *(s16 *)((u8 *)sound_idle_vsync_frame_alias + 4) = 0;
-    *D_80081508 = 0;
+    *tile_coordinate_records = 0;
 }

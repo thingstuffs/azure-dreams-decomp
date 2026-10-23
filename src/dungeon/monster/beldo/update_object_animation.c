@@ -29,7 +29,7 @@ extern void func_801736B8(void *, void *, void *, void *);
 extern void advance_repeated_command_stream_direction(void *, void *, void *);
 
 extern u8 D_80171514;
-extern u8 D_80173E8C[8];
+extern u8 beldo_frame_set_1[8];
 extern u8 D_80173E94[];
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
@@ -98,11 +98,11 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
         if ((*(u8 *)((u8 *)obj + (0x9A))) != 14) {
             (*(u8 *)((u8 *)obj + (0x9A))) = 14;
         }
-        if (*(u8 **)&part->frameTable != D_80173E8C) {
-            (part->frameTable) = D_80173E8C;
+        if (*(u8 **)&part->frameTable != beldo_frame_set_1) {
+            (part->frameTable) = beldo_frame_set_1;
             select_sprite_entry(
                 part,
-                D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             part->unk_05 = 1;
             (*(s16 *)((u8 *)obj + (0xA2))) = 0;

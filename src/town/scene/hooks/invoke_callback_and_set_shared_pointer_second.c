@@ -15,6 +15,6 @@ void invoke_callback_and_set_shared_pointer(void) {
     }
     func_80017398(F_sbs12_pad11, activeState);
     func_80017398(F_sbs12_pad12);
-    D_800175B4 = 0;
+    scene_threshold_counter = 0;
     func_80017398(F_sbs12_pad13);
 }

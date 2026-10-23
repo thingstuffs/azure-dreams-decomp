@@ -1,8 +1,8 @@
 #include "common.h"
 
-#define COUNT_VALUE (D_80012BCC)
-#define COUNT_STORE(x) (D_80012BCC = (x))
-#define COUNT_RELOAD (D_80012BCC)
+#define COUNT_VALUE (scene_value_total)
+#define COUNT_STORE(x) (scene_value_total = (x))
+#define COUNT_RELOAD (scene_value_total)
 #define DIGIT0 (D_80530590[0])
 #define DIGIT1 (D_80530590[1])
 #define DIGIT2 (D_80530590[2])
@@ -15,8 +15,8 @@ extern void func_802441A4(void *);
 extern void func_80244588(void);
 extern void *func_80252550(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
-extern u8 D_8003C558[];
-extern u32 D_80012BCC;
+extern u8 score_sprite_draw_callback_address[];
+extern u32 scene_value_total;
 extern u32 D_80077C68[4];
 extern u8 D_80077C64[];
 extern u8 D_8012F130[0x20];
@@ -162,7 +162,7 @@ void update_slot_machine(void *machine, void *position)
                 }
                 ++*(u16 *)((u8 *)self + 0x64);
                 {
-                    u32 *balance = &D_80012BCC;
+                    u32 *balance = &scene_value_total;
                     COUNT_STORE(*balance - 1000);
                 }
                 return;
@@ -533,7 +533,7 @@ matrix_outer:
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_14 = 0x40000;
-            func_8003BC18(effect_obj, D_8003C558);
+            func_8003BC18(effect_obj, score_sprite_draw_callback_address);
             sprite = effect_obj->unk_0C;
             sprite->unk_1E = 0x1000;
             sprite->unk_1C = 0x1000;

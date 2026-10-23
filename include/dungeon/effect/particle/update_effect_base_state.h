@@ -196,7 +196,7 @@ typedef struct {
 } VecState;
 
 extern u8 secondary_sprite[];
-extern u8 D_800DECF8[];
+extern u8 fading_sprite_entries[];
 extern s32 rand(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);

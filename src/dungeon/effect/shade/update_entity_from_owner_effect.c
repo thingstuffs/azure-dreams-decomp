@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -112,7 +113,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
             U8(saved_effect, 0xB0)--;
             return;
         }
-        if ((get_entity_effect_value(effect, 0xA) << 16) == 0) {
+        if ((get_entity_effect_value(effect, STATUS_FROG) << 16) == 0) {
             return;
         }
     }

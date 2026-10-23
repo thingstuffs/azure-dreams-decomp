@@ -4,7 +4,7 @@
 void func_8003D548(s32);                     /* extern */
 void func_80400EF8(void);                            /* extern */
 extern s32 D_80010208;
-extern s8 D_8008CA34;
+extern s8 card_dev_effect_mode;
 
 typedef struct S_8001EC4C_0 {
     u8 pad_00[0x44];
@@ -16,7 +16,7 @@ void card_dev_start_next_screen(S_8001EC4C_0 *object) {
     s32 actionId;
     s16 state;
 
-    D_8008CA34 = 2;
+    card_dev_effect_mode = 2;
     func_80400EF8();
     state = 1;
     if (object->unk_44 == 0) {

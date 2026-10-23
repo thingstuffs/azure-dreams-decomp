@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -29,9 +30,9 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
 
-extern s32 D_80171094;
+extern s32 cyclone_action_resume_address;
 #include "dungeon/monster/cyclone.h"
-extern u8 D_80176478[];
+extern u8 cyclone_frame_set_1[];
 
 /* Update the actor action state, directional animation, and entity flags. */
 void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameState *anim, ActorRecord *entity)
@@ -64,9 +65,9 @@ void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameSta
 
         if (entity->mp != 0) {
 
-            (anim->frameTable) = D_80176478;
+            (anim->frameTable) = cyclone_frame_set_1;
             select_sprite_entry(anim,
-                D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -124,9 +125,9 @@ void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameSta
             return;
         }
 
-        (anim->frameTable) = D_80176478;
+        (anim->frameTable) = cyclone_frame_set_1;
         select_sprite_entry(anim,
-            D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -138,8 +139,8 @@ void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameSta
         if (anim->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            entity->flags1C &= ~8;
-            ((S_801741CC_0 *)actor)->unk_8C = &D_80171094;
+            entity->flags1C &= ~ACTOR_MP_EMPTY;
+            ((S_801741CC_0 *)actor)->unk_8C = &cyclone_action_resume_address;
         }
 
         return;

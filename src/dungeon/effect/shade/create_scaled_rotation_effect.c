@@ -8,7 +8,7 @@ extern s32 rand();
 
 extern u8 D_80025098[9];
 extern u8 D_80025AF0[9];
-extern u8 D_80045C34[9];
+extern u8 clipped_sprite_renderer_address[9];
 
 typedef struct S_818C3A3C_0 {
     u8 pad_00[0x8];
@@ -93,7 +93,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         scale = 0x1400 / ((S_818C3A3C_1 *)effect_state)->unk_14;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
-        register_node(effect, D_80045C34);
+        register_node(effect, clipped_sprite_renderer_address);
 
         effect_data = effect->position;
         *effect_data = *(S_818C3A3C_5 *)initial_data;

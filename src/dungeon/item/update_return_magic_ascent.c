@@ -57,7 +57,7 @@ typedef struct {
 } StackData;
 
 extern u8 upper_draw_context[16];
-extern u8 D_800DD0F8[];
+extern u8 return_magic_frames[];
 extern s16 transition_runtime_slot_index;
 
 extern void AddPrim();
@@ -155,10 +155,10 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                     begin_deferred_player_item_effect(obj->handle, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
                     dungeon_actor_ring_anchor->unk_9B = 0x11;
                     dungeon_state = dungeon_actor_ring_anchor;
-                    reference_tile_object.frame_table = (s32)D_800DD0F8;
+                    reference_tile_object.frame_table = (s32)return_magic_frames;
                     set_sprite_animation_frame(
                         ((u8 *)(&reference_tile_object)),
-                        D_800DD0F8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
+                        return_magic_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }

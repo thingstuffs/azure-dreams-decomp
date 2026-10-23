@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 #include "common.h"
 #include "shared/object_links.h"
 
@@ -219,7 +220,7 @@ update_travel:
                           position->unk_16, sprite->unk_08, command);
             ((S_func_80EF1000_4 *)motion->unk_40)->unk_A4 = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (sprite->unk_14 & 0x8000)
@@ -244,7 +245,7 @@ update_fall:
             position->unk_08.half.unk_08 = 0;
             ((S_func_80EF1000_4 *)motion->unk_40)->unk_A4 = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (sprite->unk_14 & 0x8000)

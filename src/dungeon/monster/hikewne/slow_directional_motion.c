@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_801714D4;
+extern u8 hikewne_action_resume_address;
 extern u8 D_80174148;
 
 /* Slows directional motion, then recenters the entity on its tile. */
@@ -55,7 +56,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             return;
         }
         timer = -1;
-        if (((EntityRec *)entity)->flags1C & 0x228) {
+        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         motion_state->unk_96.s = timer;
@@ -129,7 +130,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
                 g_dungeon_status.pending_display_owner = x_speed_or_entity & 0x7FFFFFFF;
             }
         }
-        motion_state->unk_8C = &D_801714D4;
+        motion_state->unk_8C = &hikewne_action_resume_address;
         return;
 
     default:

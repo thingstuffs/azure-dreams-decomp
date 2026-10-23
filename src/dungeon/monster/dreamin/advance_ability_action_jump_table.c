@@ -3,7 +3,7 @@
 extern void advance_ability_action(void);
 
 /* jump_table; owner: dungeon/func_80DA9070. */
-const u32 D_80158838[7] __attribute__((aligned(4))) = {
+const u32 dreamin_slot_c_action_targets_b[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)advance_ability_action + 0x11C),
     (u32)((u8 *)advance_ability_action + 0x114),
     (u32)((u8 *)advance_ability_action + 0x10C),

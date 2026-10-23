@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
@@ -74,8 +76,8 @@ s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 void * allocate_boss_actor(s16, s16, s16, s16);
 
 extern u8 D_8016B0E8[];
-extern s32 D_8016B778;
-extern u8 D_8017467C[];
+extern s32 ghosh_action_resume_address;
+extern u8 ghosh_frame_set_3[];
 extern u8 *ghosh_actor_node;
 
 /* Initialize an actor and its companion, then return the actor work area. */
@@ -108,7 +110,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         ((S_8016AEDC_1 *)work)->unk_13 = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 
-        callback = D_8017467C;
+        callback = ghosh_frame_set_3;
         part_a = ((S_8016AEDC_0 *)object)->unk_08;
         work_copy = work;
         ((S_8016AEDC_2 *)part_a)->unk_0A = config_0a;
@@ -119,11 +121,11 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
 
         ((S_8016AEDC_3 *)part_b)->unk_25 = saved_config_25;
         if (mode_kind == 1) {
-            ((S_8016AEDC_1 *)work)->unk_14 |= 0x6000;
-            ((S_8016AEDC_1 *)work)->unk_1C |= 0x6000;
+            ((S_8016AEDC_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_8016AEDC_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (mode_kind >= 2) {
-            ((S_8016AEDC_1 *)work)->unk_14 |= 0x2000;
-            ((S_8016AEDC_1 *)work)->unk_1C |= 0x2000;
+            ((S_8016AEDC_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_8016AEDC_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, (s16)mode_flags);
@@ -131,7 +133,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
 
             ((S_8016AEDC_4 *)work_copy)->unk_9A = 0xFF;
             ((S_8016AEDC_4 *)work_copy)->unk_9C = -1;
-            ((S_8016AEDC_4 *)work_copy)->unk_8C = &D_8016B778;
+            ((S_8016AEDC_4 *)work_copy)->unk_8C = &ghosh_action_resume_address;
             ((S_8016AEDC_4 *)work_copy)->unk_AE = 0;
             ((S_8016AEDC_4 *)work_copy)->unk_B4 = 0;
             ((S_8016AEDC_4 *)work_copy)->unk_B0 = 0;

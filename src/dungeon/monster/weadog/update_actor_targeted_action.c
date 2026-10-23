@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -28,8 +30,8 @@ typedef struct S_801737B0_0 {
 
    /* desc in update_actor_targeted_action */
 
-extern u8 D_80171CE8[];
-extern u8 D_80174EB8[];
+extern u8 weadog_action_resume_address[];
+extern u8 weadog_frame_set_3[];
 
 extern Any select_sprite_entry();
 extern s32 rand();
@@ -65,7 +67,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
     use_player_target = 0;
     switch (state) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             raw_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             kind_index = raw_kind - 1;
             switch (kind_index) {
@@ -167,7 +169,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
+        ((S_801737B0_0 *)action)->unk_8C = weadog_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -258,22 +260,22 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-        if (sprite->frameTable != D_80174EB8) {
-            sprite->frameTable = D_80174EB8;
+        if (sprite->frameTable != weadog_frame_set_3) {
+            sprite->frameTable = weadog_frame_set_3;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-            select_sprite_entry(sprite, D_80174EB8[direction], 0);
+            select_sprite_entry(sprite, weadog_frame_set_3[direction], 0);
         }
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
+        ((S_801737B0_0 *)action)->unk_8C = weadog_action_resume_address;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->pending_turn_updates--;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
 }

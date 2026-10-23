@@ -32,7 +32,7 @@ void initialize_scene_for_mode(void)
     initialize_circular_list_head();
 
     shared_data = D_800D0420;
-    handle_insert_initialize_two_values_status_flags(D_800CFCB4, scene, shared_data);
+    handle_insert_initialize_two_values_status_flags(town_actor_control, scene, shared_data);
     initialize_pointer_table_self_links();
     initialize_the_store_two_values_set_state_flags(town_motion_list, scene, shared_data);
 
@@ -179,13 +179,13 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     s16 value;
 
     handler = (*(void **)((u8 *)owner + (0)));
-    if (handler != D_80097D2C || handler != noop_player_scene_action) {
+    if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
     handler = (*(void **)((u8 *)owner + (0)));
-    if (handler != D_80097D2C || handler != noop_player_scene_action) {
+    if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         update_object_and_clear_status_fields(node_in);
     }
 
@@ -209,7 +209,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
         (*(func_80092C9C_ObjectCallback *)((u8 *)object + (0x10)))(object + 0x20, 0, 0);
 
         if (service_script_controller() != 0) {
-            base = (u8 *)&D_800CFCB4;
+            base = (u8 *)&town_actor_control;
             if (((func_80092C9C_S_800903FC_2 *)base)->unk_3B == 0 ||
                 (node = ((func_80092C9C_S_800903FC_4 *)(((func_80092C9C_S_800903FC_2 *)base)->unk_20))->unk_08)->unk_0C != 0 ||
                 node->unk_10 != 0 || node->unk_14 != 0) {
@@ -222,13 +222,13 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
                 }
             }
             run_the_three_update_routines_context(node_in);
-            if ((*(void **)((u8 *)owner + (0))) != D_80097D2C) {
+            if ((*(void **)((u8 *)owner + (0))) != town_position_callback_address) {
                 initialize_record_and_select_active_data(owner, node_in, mode);
             }
         }
     }
 
-    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&D_800CFCB4, node_in);
+    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, node_in);
     (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, mode);
 
     if ((*(void **)((u8 *)owner + (-0x10))) == D_800A5638) {
@@ -260,7 +260,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
 
         callback = *(void **)context;
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
-        if (callback == (void *)D_80097D2C || callback == (void *)&noop_player_scene_action ||
+        if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
             if (map_scene_selector_alias[0] == 12) {
                 to_camera_zero_00();

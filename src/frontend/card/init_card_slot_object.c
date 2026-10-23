@@ -45,7 +45,7 @@ void *init_card_slot_object(s32 init_option)
             func_8007C040(card_slot_assert_format, card_slot_filename, 0x136);
             func_8007BEF0(1);
         }
-        func_80040560((s32)(unsigned long)base, D_8040861C);
+        func_80040560((s32)(unsigned long)base, card_status_query_address);
     } else {
         assert_card_slot_and_set_high_bit(base);
         D_8040C336 &= 0x7FFF;

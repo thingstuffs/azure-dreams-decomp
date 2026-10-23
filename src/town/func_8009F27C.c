@@ -3,12 +3,12 @@
 
 extern void select_object_state_by_mode(void *record, s32 context, s32 state, void *default_value, void *alternate_value, void *update_value);
 
-extern s32 D_800CFD00[];
+extern s32 town_object_resource_table[];
 extern s32 D_800D071C[];
 extern s32 D_800F8D10[];
 extern s32 D_800F8D1C[];
 
 void select_object_state_by_mode_2(void *object, s32 setup_arg1, s32 setup_arg2) {
     *(void **)((u8 *)object + 0x7C) = D_800D071C;
-    select_object_state_by_mode(object, setup_arg1, setup_arg2, D_800F8D10, D_800F8D1C, D_800CFD00);
+    select_object_state_by_mode(object, setup_arg1, setup_arg2, D_800F8D10, D_800F8D1C, town_object_resource_table);
 }

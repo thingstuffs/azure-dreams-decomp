@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -10,10 +11,10 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
 
 
-extern u8 D_801714D4;
-extern u8 D_801740E0[];
+extern u8 hikewne_action_resume_address;
+extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
-extern u8 D_80174158[];
+extern u8 hikewne_frame_set_2[];
 
 /* Updates the directional sprite state and signals the controller after the actor update. */
 /* Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback after a
@@ -23,7 +24,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
     u8 *direction_table;
 
     direction_table = *(u8 **)&sprite->frameTable;
-    if (direction_table == D_801740E0) {
+    if (direction_table == hikewne_direction_frames) {
         if (*(u16 *)&sprite->unk_04 == 0x103) {
             (sprite->frameTable) = hikewne_alt_direction_frames;
             select_sprite_entry(
@@ -34,10 +35,10 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
         }
     } else if (direction_table == hikewne_alt_direction_frames) {
         if (*(u16 *)&sprite->unk_04 == 0x103) {
-            (sprite->frameTable) = D_801740E0;
+            (sprite->frameTable) = hikewne_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_801740E0[
+                hikewne_direction_frames[
                     ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
@@ -45,14 +46,14 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
 
     if (update_actor_transform_from_parent(controller, update_arg, sprite, actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = &D_801714D4;
+            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = &hikewne_action_resume_address;
         }
-    } else if ((*(u8 **)&sprite->frameTable == D_80174158) &&
-               !(actor->flags1C & 0x208)) {
-        (sprite->frameTable) = D_801740E0;
+    } else if ((*(u8 **)&sprite->frameTable == hikewne_frame_set_2) &&
+               !(actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP))) {
+        (sprite->frameTable) = hikewne_direction_frames;
         select_sprite_entry(
             sprite,
-            D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 }

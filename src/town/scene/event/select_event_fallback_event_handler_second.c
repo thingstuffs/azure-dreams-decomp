@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern char D_8001B14C[];
-extern s32 D_8001B16C[];
+extern char scene_string_fallback[];
+extern s32 scene_event_results[];
 extern char D_8001B9E0[];
-extern char D_8001C6D0[];
+extern char event_string_fallback[];
 extern char D_80020E44[];
 
 extern s32 select_address_based_input(long long);
@@ -18,14 +18,14 @@ char *select_event_fallback_event_handler(long long forwarded_arg, s32 event_id)
     switch (event_id - 12) {
     case 7:
         result_addr = select_address_based_input(forwarded_arg);
-        D_8001B16C[0] = result_addr;
+        scene_event_results[0] = result_addr;
         if (result_addr == 0) {
             return D_8001B9E0;
         }
         return (char *)result_addr;
     case 6:
         result_addr = get_local_global_table();
-        D_8001B16C[0] = result_addr;
+        scene_event_results[0] = result_addr;
         if (result_addr != 0) {
             return (char *)result_addr;
         }
@@ -35,8 +35,8 @@ char *select_event_fallback_event_handler(long long forwarded_arg, s32 event_id)
     case 42:
         return award_next_unearned_milestone(event_id);
     case 0:
-        return D_8001C6D0;
+        return event_string_fallback;
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

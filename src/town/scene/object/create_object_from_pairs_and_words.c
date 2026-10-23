@@ -17,7 +17,7 @@ typedef struct {
     PackedWord words[2];
 } Object;
 
-extern u8 D_801328C8[];
+extern u8 scene_object_factory_data[];
 extern u8 D_805286B8[];
 extern Object *func_800374FC(s32, void *);
 extern void func_8003BC18(void *, void *);
@@ -32,7 +32,7 @@ void create_object_from_pairs_and_words(void *owner, PackedPair *pairs, PackedWo
     PackedPair *src_pair;
     u8 *pair_dst_base;
 
-    object = func_800374FC(1, D_801328C8);
+    object = func_800374FC(1, scene_object_factory_data);
     copy_index = 1;
     if (object != 0) {
         object->value = value;

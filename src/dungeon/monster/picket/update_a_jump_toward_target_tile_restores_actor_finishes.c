@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/picket.h"
@@ -30,9 +31,9 @@ extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
 
-extern u8 D_801710F4;
+extern u8 picket_action_resume_address;
 extern u8 D_80174F20[];
-extern u8 D_80174F28[];
+extern u8 picket_frame_set_5[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
 void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
@@ -55,7 +56,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             0);
         ((S_80172540_0 *)jump_state)->unk_98 |= 8;
         motion->velocity_z = 0xFFEE0000;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172540_0 *)jump_state)->unk_A0 = 0;
         ((S_80172540_0 *)jump_state)->unk_9B++;
     case 1:
@@ -82,20 +83,20 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         if (((S_80172540_0 *)jump_state)->unk_96.s < 2) {
             ((S_80172540_0 *)jump_state)->unk_90 = 0;
             ((S_80172540_0 *)jump_state)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172540_0 *)jump_state)->unk_9B++;
         }
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             ((S_80172540_0 *)jump_state)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
-            map_entity->frameTable = D_80174F28;
+            map_entity->frameTable = picket_frame_set_5;
             select_sprite_entry(
                 map_entity,
-                D_80174F28[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                picket_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172540_0 *)jump_state)->unk_9B++;
         }
@@ -132,7 +133,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         }
 
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            ((S_80172540_0 *)jump_state)->unk_8C = &D_801710F4;
+            ((S_80172540_0 *)jump_state)->unk_8C = &picket_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

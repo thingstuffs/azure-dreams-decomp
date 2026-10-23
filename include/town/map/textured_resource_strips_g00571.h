@@ -240,7 +240,7 @@ extern s32 D_800A3B1C[];
 extern s32 D_800D0C40[];
 
 extern u16 D_80100D88;
-extern u16 D_80100D8A;
+extern u16 town_display_offset;
 
 /* Functions defined in this translation unit. */
 s32 process_linked_state_chain(void *initial_state);

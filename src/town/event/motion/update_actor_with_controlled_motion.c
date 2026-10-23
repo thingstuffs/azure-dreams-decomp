@@ -59,12 +59,12 @@ extern void select_object_value_by_height_band(Actor *, Subject *, Motion *, Tow
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern void D_800924EC(Actor *, Subject *, Motion *, TownMovementOutput *);
-extern void D_8009B454(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void actor_surface_callback_address(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void D_8009B594(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState scene_object_list_anchor;
-extern TownControl D_800CFCB4;
+extern TownControl town_actor_control;
 extern MotionDelta D_800CFDF0[];
 extern MotionDelta D_800CFE08[];
 
@@ -72,7 +72,7 @@ extern MotionDelta D_800CFE08[];
 void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion *motion,
                    TownMovementOutput *context)
 {
-    TownControl *control = &D_800CFCB4;
+    TownControl *control = &town_actor_control;
     TownState *town_state;
     TownCallback *town_callback;
     MotionDelta *x_deltas;
@@ -106,7 +106,7 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     }
 
     actor_callback = actor->state;
-    if ((actor_callback != D_8009B454) &&
+    if ((actor_callback != actor_surface_callback_address) &&
         (actor_callback != D_8009B594) &&
         (actor_callback != update_actor_with_controlled_motion)) {
         actor_value = actor->value;

@@ -23,7 +23,7 @@ extern void register_node(void *, void *);
 
 extern s32 D_80025E48;
 extern s32 D_80026490;
-extern s32 D_800CEEFC[3];
+extern s32 linked_mesh_processor_address[3];
 
 /* Creates three groups of sixteen objects at the supplied coordinates. */
 void *create_effect_object_groups(s16 x, s16 y, s16 z)
@@ -58,7 +58,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
             object = allocate_flagged_object_node(object_flags);
             if (object != 0) {
                 object->unk_10 = callback;
-                register_node(object, &D_800CEEFC);
+                register_node(object, &linked_mesh_processor_address);
                 coords = object->position;
                 *((s16 *)&coords->velocity_x + 1) = x;
                 coords->x.w.i = x;

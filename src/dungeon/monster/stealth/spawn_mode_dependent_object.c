@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -79,16 +82,16 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         kind = flags & 3;
         part1->unk_24 = kind_id;
         if (kind == 1) {
-            result->unk_14 |= 0x6000;
-            result->unk_1C |= 0x6000;
+            result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            result->unk_14 |= 0x2000;
-            result->unk_1C |= 0x2000;
+            result->unk_14 |= ACTOR_CLASS_ENABLED;
+            result->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((flags & ~3) << 16) == 0) {
-            if (!(result->unk_14 & 0x200)) {
+            if (!(result->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    result->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    result->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_80173D78;
                 }
             }

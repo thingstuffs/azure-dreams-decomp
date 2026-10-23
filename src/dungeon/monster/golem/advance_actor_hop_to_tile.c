@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -42,7 +43,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
     switch (phase) {
     case 0:
         motion->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         motion->unk_A4 = 7;
         motion->unk_A0 = 0;
         motion->unk_9B++;
@@ -69,17 +70,17 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
         }
 
         motion->unk_90 += motion->unk_A0;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         motion->unk_A4--;
         if (motion->unk_A4 < 0) {
             motion->unk_90 = 0;
             motion->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             motion->unk_9B++;
         }
 
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             motion->unk_98 &= 0xFFF7;
             transform->velocity_z = 0;
             transform->velocity_y = 0;

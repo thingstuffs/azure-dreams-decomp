@@ -7,7 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern u8 D_80096384[];
+extern u8 destination_motion_resume_address[];
 extern u8 actor_default_frames[];
 
 extern s32 select_record_entry_and_value();
@@ -130,7 +130,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameSt
         actor->frameTable = idle_anim;
         facing_offset = (globals->view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
         select_record_entry_and_value(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
-        S32(obj, 0x8C) = (s32)D_80096384;
+        S32(obj, 0x8C) = (s32)destination_motion_resume_address;
         return;
     }
 

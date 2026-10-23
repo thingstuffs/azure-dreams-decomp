@@ -33,7 +33,7 @@ extern void pack_tagged_resource_descriptor();
 extern void decompress_lz();
 extern void LoadImage();
 
-extern s32 D_8003E140[];
+extern s32 resource_completion_callback_address[];
 extern s32 *catalog_texture_resources[];
 extern u8 catalog_texture_buffer[];
 extern u8 catalog_texture_pixels[];
@@ -60,7 +60,7 @@ void load_catalog_detail_texture(void *loader)
                       catalog_texture_resources[((S_80124DB0_0 *)loader)->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
         ((S_80124DB0_0 *)loader)->unk_0D = 0;
-        Control_CD(0xFF, D_8003E140, (u8 *)loader + 0xD);
+        Control_CD(0xFF, resource_completion_callback_address, (u8 *)loader + 0xD);
         ((S_80124DB0_0 *)loader)->unk_0B++;
     }
     if (((S_80124DB0_0 *)loader)->unk_0D == 0) {

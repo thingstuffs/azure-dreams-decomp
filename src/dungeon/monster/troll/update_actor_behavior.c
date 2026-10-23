@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -33,15 +34,15 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
 extern M2C_UNK D_80175E04;
-extern M2C_UNK D_80175E24;
-extern M2C_UNK D_80175E2C;
-extern M2C_UNK D_80175E34;
+extern M2C_UNK troll_frame_set_1;
+extern M2C_UNK troll_frame_set_2;
+extern M2C_UNK troll_frame_set_3;
 extern M2C_UNK D_80175E3C;
 extern M2C_UNK D_80175E44;
 extern M2C_UNK D_80175E4C;
-extern M2C_UNK D_80175E54;
-extern M2C_UNK D_80175E5C;
-extern M2C_UNK D_80175E64;
+extern M2C_UNK troll_kind13_direction_frames;
+extern M2C_UNK troll_kind14_direction_frames;
+extern M2C_UNK troll_kind15_direction_frames;
 extern M2C_UNK D_80175E84;
 extern M2C_UNK D_80175E8C;
 extern M2C_UNK D_80175E94;
@@ -77,21 +78,21 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
         anim_mode = state->unk_48;
         switch (anim_mode) {
         case 0xD:
-            if (*(s32 **)&sprite->frameTable == &D_80175E54) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
                 return;
             }
             (sprite->frameTable) = &D_80175E84;
             select_sprite_entry(sprite, ((u8 *)&D_80175E84)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xE:
-            if (*(s32 **)&sprite->frameTable == &D_80175E5C) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind14_direction_frames) {
                 return;
             }
             (sprite->frameTable) = &D_80175E8C;
             select_sprite_entry(sprite, ((u8 *)&D_80175E8C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xF:
-            if (*(s32 **)&sprite->frameTable == &D_80175E64) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind15_direction_frames) {
                 return;
             }
             (sprite->frameTable) = &D_80175E94;
@@ -100,11 +101,11 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
         }
         return;
     }
-    if (state->flags1C & 0x200) {
+    if (state->flags1C & ACTOR_ASLEEP) {
         transition_mode = state->unk_48;
         switch (transition_mode) {
         case 0xD:
-            if (*(s32 **)&sprite->frameTable == &D_80175E54) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = transition_mode;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -116,7 +117,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             }
             break;
         case 0xE:
-            if (*(s32 **)&sprite->frameTable == &D_80175E5C) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind14_direction_frames) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -128,7 +129,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             }
             break;
         case 0xF:
-            if (*(s32 **)&sprite->frameTable == &D_80175E64) {
+            if (*(s32 **)&sprite->frameTable == &troll_kind15_direction_frames) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -145,7 +146,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
         flags_page = (u16 *)0x80080000;
     }
     if (!(flags_page[0x1A31] & 0x2000)) {
-        if (state->flags1C & 0x100) {
+        if (state->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, state);
             return;
         }
@@ -153,23 +154,23 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             idle_mode = state->unk_48;
             switch (idle_mode) {
             case 0xD:
-                if (*(s32 **)&sprite->frameTable != &D_80175E24) {
-                    (sprite->frameTable) = &D_80175E24;
-                    select_sprite_entry(sprite, ((u8 *)&D_80175E24)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
+                if (*(s32 **)&sprite->frameTable != &troll_frame_set_1) {
+                    (sprite->frameTable) = &troll_frame_set_1;
+                    select_sprite_entry(sprite, ((u8 *)&troll_frame_set_1)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xE:
-                if (*(s32 **)&sprite->frameTable != &D_80175E2C) {
-                    (sprite->frameTable) = &D_80175E2C;
-                    select_sprite_entry(sprite, ((u8 *)&D_80175E2C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
+                if (*(s32 **)&sprite->frameTable != &troll_frame_set_2) {
+                    (sprite->frameTable) = &troll_frame_set_2;
+                    select_sprite_entry(sprite, ((u8 *)&troll_frame_set_2)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xF:
-                if (*(s32 **)&sprite->frameTable != &D_80175E34) {
-                    (sprite->frameTable) = &D_80175E34;
-                    select_sprite_entry(sprite, ((u8 *)&D_80175E34)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
+                if (*(s32 **)&sprite->frameTable != &troll_frame_set_3) {
+                    (sprite->frameTable) = &troll_frame_set_3;
+                    select_sprite_entry(sprite, ((u8 *)&troll_frame_set_3)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
@@ -197,7 +198,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
                 break;
             }
         }
-        if (state->flags1C & 0x80000) {
+        if (state->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, state);
             update_directional_action_display(actor, context, sprite, state);
             return;
@@ -209,7 +210,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
     room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
     sprite->unk_26 = room_id;
     if (state->pending_turn_updates > 0) {
-        if (state->flags1C & 0x20) {
+        if (state->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(state);
             return;
         }
@@ -302,15 +303,15 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
     switch (rest_mode) {
     case 0xD:
         current_row = *(s32 **)&sprite->frameTable;
-        next_row = (u8 *)&D_80175E24;
+        next_row = (u8 *)&troll_frame_set_1;
         break;
     case 0xE:
         current_row = *(s32 **)&sprite->frameTable;
-        next_row = (u8 *)&D_80175E2C;
+        next_row = (u8 *)&troll_frame_set_2;
         break;
     case 0xF:
         current_row = *(s32 **)&sprite->frameTable;
-        next_row = (u8 *)&D_80175E34;
+        next_row = (u8 *)&troll_frame_set_3;
         break;
     default:
         return;

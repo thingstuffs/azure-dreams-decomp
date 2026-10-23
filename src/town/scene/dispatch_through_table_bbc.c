@@ -7,5 +7,5 @@ extern u8 D_8001BBC4[];
 /* Dispatch through D_8001BBC4 and D_8001C358 and return the result. */
 s32 dispatch_through_table_bbc_4(s32 dispatch_value, s32 unused, s32 dispatch_context)
 {
-    return apply_entry_position(D_8001BBC4, D_8001C358, dispatch_value, dispatch_context);
+    return apply_entry_position(D_8001BBC4, active_scene_dispatch_context, dispatch_value, dispatch_context);
 }

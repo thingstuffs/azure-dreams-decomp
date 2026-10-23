@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Visible shaded quad and point rendering, jittered sprites, and timed emission sequences. */
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
 #include "shared/sprite_frame_state.h"
@@ -394,7 +396,7 @@ void func_800247E8(Bank1990800_1990fe8_EffectState *state, ObjectPosition *posit
     countdown = (u16)state->countdown - 4;
     state->countdown = countdown;
     if ((countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -747,7 +749,7 @@ struct Bank1990800_19915d4_Object {
 
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 rand();
-extern u8 D_800DECF8[];
+extern u8 fading_sprite_entries[];
 
 typedef struct S_819715D4_0 {
     u8 pad_00[0x38];
@@ -812,7 +814,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
         render_sprite->color.c.r = 0x80;
         render_sprite->clut = 0x7DCE;
         render_sprite->flags |= 0x100;
-        select_record_entry_and_value(render_sprite, D_800DECF8, 0);
+        select_record_entry_and_value(render_sprite, fading_sprite_entries, 0);
     }
 }
 
@@ -1146,9 +1148,9 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         }
         if ((s16)((S_8197192C_0 *)effect)->unk_2C.s == 26) {
             if (read_sound_mode_blocking_status(4) != 2) {
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
-                play_sound_if_enabled(0x4300);
+                play_sound_if_enabled(AUDIO_RESUME_CD);
             }
         }
 

@@ -1,5 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "common.h"
+#include "dungeon/monster/tyrant/spawn_api_slot_a.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -45,7 +45,7 @@ extern M2C_UNK D_80150000;
 
 /* Creates a Tyrant actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *func_8014C898(s16 input0, s16 input1, s16 input2, s16 input3) {
+void *spawn_tyrant_in_slot_a(s16 input0, s16 input1, s16 input2, s16 input3) {
     S_8107D000_1 *record;
     s32 value;
     u16 flags98;

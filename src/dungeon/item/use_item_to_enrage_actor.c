@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -51,8 +53,8 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
      * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
      * test.
      */
-    if ((set_or_clear_actor_status_slot(object, 9, 0x60) << 16) != 0) {
-        if (object->flags_14 & 0x4000) {
+    if ((set_or_clear_actor_status_slot(object, STATUS_ANGER, 0x60) << 16) != 0) {
+        if (object->flags_14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_end = append_entity_display_text(object, message);
             message_end = expand_text_control_codes(D_800E15BB, message_end);

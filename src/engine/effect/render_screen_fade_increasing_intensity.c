@@ -45,7 +45,7 @@ typedef struct
     char pad0[0x1C];
 }
 S_80053604_Main;
-extern S_80053604_Main D_80083160;
+extern S_80053604_Main g_game_work;
 /* Draws a full-screen additive or subtractive fade, advances its timer, and reports completion. */
 s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
 {
@@ -60,12 +60,12 @@ s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
     s32 elapsed;
     s16 duration;
     s32 scaled_elapsed;
-    tpage = (S_80053604_TPage *) D_80083160.renderState->nextPrim;
-    D_80083160.renderState->nextPrim = (void *) (((u8 *) tpage) + (sizeof(S_80053604_TPage)));
+    tpage = (S_80053604_TPage *) g_game_work.renderState->nextPrim;
+    g_game_work.renderState->nextPrim = (void *) (((u8 *) tpage) + (sizeof(S_80053604_TPage)));
     done = 0;
-    main_state = &D_80083160;
-    poly = (S_80053604_PolyF4 *) D_80083160.renderState->nextPrim;
-    D_80083160.renderState->nextPrim = (void *) (((u8 *) poly) + (sizeof(S_80053604_PolyF4)));
+    main_state = &g_game_work;
+    poly = (S_80053604_PolyF4 *) g_game_work.renderState->nextPrim;
+    g_game_work.renderState->nextPrim = (void *) (((u8 *) poly) + (sizeof(S_80053604_PolyF4)));
     blend_mode = 1;
     if (fade->semiTransSel == 0) {
         blend_mode = 2;

@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -42,12 +44,12 @@ extern s32 create_actor_spell_effect();
 extern void spawn_random_color_burst_particle();
 extern void spawn_growing_rotating_flash();
 
-extern s32 D_80083460;
+extern s32 g_dungeon_status;
 extern s32 D_8008346C;
 extern u8 D_801724BC[];
-extern u8 D_80175E24[];
-extern u8 D_80175E2C[];
-extern u8 D_80175E34[];
+extern u8 troll_frame_set_1[];
+extern u8 troll_frame_set_2[];
+extern u8 troll_frame_set_3[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 /* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the
@@ -72,7 +74,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
     use_player_target = 0;
     switch (state) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             kind = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (kind) {
             case 6:
@@ -217,39 +219,39 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
         switch (kind) {
         case 0xD:
             current_anim = sprite->frameTable;
-            anim_table = D_80175E24;
+            anim_table = troll_frame_set_1;
             if (current_anim != anim_table) {
                 (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&D_80083460;
+            control = (u8 *)&g_dungeon_status;
             break;
         case 0xE:
             current_anim = sprite->frameTable;
-            anim_table = D_80175E2C;
+            anim_table = troll_frame_set_2;
             if (current_anim != anim_table) {
                 (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&D_80083460;
+            control = (u8 *)&g_dungeon_status;
             break;
         case 0xF:
             current_anim = sprite->frameTable;
-            anim_table = D_80175E34;
+            anim_table = troll_frame_set_3;
             if (current_anim != anim_table) {
                 (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
 
-            control = (u8 *)&D_80083460;
+            control = (u8 *)&g_dungeon_status;
             break;
         default:
-            current_anim = (u8 *)&D_80083460;
+            current_anim = (u8 *)&g_dungeon_status;
             control = current_anim;
             break;
         }
@@ -263,7 +265,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
         actor->target_tile_x = 0;
         (*(u8 *)&actor->pending_turn_updates)--;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
     default:
         break;

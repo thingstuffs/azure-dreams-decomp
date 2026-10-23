@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -54,7 +55,7 @@ s32 use_item_to_increase_defense(void *entity, s32 update_value, s16 update_mode
         ((EntityRec *)entity)->unk_27 = progress + 1;
     }
 
-    if (((EntityRec *)entity)->flags14 & 0x4000) {
+    if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E2056);
     }
     create_colored_effect_with_sound((u8 *)entity - 0x20, 0x20F020, 0x616);

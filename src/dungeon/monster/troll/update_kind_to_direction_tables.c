@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/monster/troll/update_kind_to_direction_tables.h"
 #include "shared/sprite_frame_state.h"
 
@@ -14,7 +15,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
     kind = state->kind48;
     switch (kind) {
     case 13:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80163E54;
         } else {
@@ -29,7 +30,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         break;
 
     case 14:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80163E5C;
         } else {
@@ -44,7 +45,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         break;
 
     case 15:
-        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+        if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
             current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80163E64;
         } else {
@@ -72,7 +73,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
     switch (state->kind48) {
     case 13:
         if (*(u8 **)&display->frameTable != D_80163E54 ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u8 *)&D_80163DC4;
@@ -81,7 +82,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         return;
     case 14:
         if (*(u8 **)&display->frameTable != D_80163E5C ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u8 *)&D_80163DCC;
@@ -90,7 +91,7 @@ void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *dis
         return;
     case 15:
         if (*(u8 **)&display->frameTable != D_80163E64 ||
-            (state->flags1c & 0x208) != 0) {
+            (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
         display->frameTable = (u8 *)&D_80163DD4;

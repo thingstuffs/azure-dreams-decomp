@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/def_table.h"
@@ -11,8 +12,8 @@ extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
-extern u8 D_801710EC[];
-extern u8 D_80175E40[];
+extern u8 kewne_action_resume_address[];
+extern u8 kewne_direction_frames[];
 extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
@@ -181,7 +182,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         if (get_cd_command_queue_depth() != 0) {
             return;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         {
             s32 slot;
 
@@ -241,11 +242,11 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     motion->velocity_y = 0;
     motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-    resource = D_80175E40;
+    resource = kewne_direction_frames;
     if (sprite->frameTable != resource) {
         (sprite->frameTable) = resource;
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        select_sprite_entry(sprite, D_80175E40[direction], 0);
+        select_sprite_entry(sprite, kewne_direction_frames[direction], 0);
     }
     {
         if (((s32)g_dungeon_status.active_actor) != 0) {
@@ -253,13 +254,13 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     }
-    ((S_80173560_0 *)action)->unk_8C = D_801710EC;
+    ((S_80173560_0 *)action)->unk_8C = kewne_action_resume_address;
     advance_status_timers(actor);
     ((S_80173560_1 *)actor)->unk_6D--;
     ((S_80173560_1 *)actor)->unk_46 &= 0x7FFF;
     ((S_80173560_0 *)action)->unk_98 &= 0xFFBF;
     ((S_80173560_1 *)actor)->unk_73.u = 0;
     ((S_80173560_1 *)actor)->unk_72.u = 0;
-    play_sound_if_enabled(0xB4);
+    play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
 }

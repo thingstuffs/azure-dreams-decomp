@@ -13,7 +13,7 @@ typedef struct {
 
 extern void *func_7003CF18();
 extern void func_7010D230();
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 extern u16 emitted_effect_counter;
 extern u8 emitter_height_offsets[16];
 extern M2C_UNK D_8010CEE0;
@@ -91,7 +91,7 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
 
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         remaining_count = *active_count - 1;
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
         *active_count = remaining_count;
     }
 }

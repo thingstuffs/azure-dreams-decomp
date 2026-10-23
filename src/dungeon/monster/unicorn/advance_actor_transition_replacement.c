@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 
 struct ObjectPosition;
 #include "shared/object_node.h"
@@ -18,7 +19,7 @@ struct ObjectPosition;
 
 extern s32 cd_cue_base[];
 extern u8 *actor_effect_color_targets[];
-extern u8 D_8014A000[200000];
+extern u8 dungeon_resource_buffer[200000];
 extern u8 D_80173F68[];
 extern u8 D_801745D8[];
 extern u8 D_80174E24[];
@@ -194,7 +195,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
                 return;
             }
             ((S_80174704_0 *)action)->unk_9B++;
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
 
@@ -240,7 +241,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             if (effect_index < 0) {
                 effect_index = rand() % 3;
             }
-            select_record_entry_and_value(object, D_8014A000 + D_80174E2C[effect_index], 0);
+            select_record_entry_and_value(object, dungeon_resource_buffer + D_80174E2C[effect_index], 0);
         }
         entity->flags |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;
@@ -276,7 +277,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         if (((S_80174704_0 *)action)->unk_9B != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &D_800DCF5C) == 0) {
+        if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &staged_spawn_count) == 0) {
             return;
         }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;

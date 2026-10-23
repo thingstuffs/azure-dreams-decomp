@@ -8,11 +8,11 @@ extern s32 rsin(s32);
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(void *, void *, void *);
 
-extern u8 D_80045C34[];
-extern u8 D_80046398[];
+extern u8 clipped_sprite_renderer_address[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800B9CB8[];
 extern u8 D_800B9D64[];
-extern u8 D_800B9EDC[];
+extern u8 town_initialize_effect_with_child_sprites_address[];
 extern u8 D_800B9F74[];
 extern void *D_800D1BCC[];
 extern u8 D_800F8A1C[];
@@ -105,7 +105,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         obj = allocate_list_node(0x136, (u8 *)parent - 0x20);
         if (obj != 0) {
             ((S_800BA00C_1 *)obj)->unk_10 = part_callback;
-            register_node(obj, D_80046398);
+            register_node(obj, lit_mesh_renderer_address);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -139,14 +139,14 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_callback = D_800B9EDC;
+    sprite_callback = town_initialize_effect_with_child_sprites_address;
     sprite_texture = D_800F8A1C;
     brightness = 0x80;
     do {
         obj = allocate_list_node(0x36, (u8 *)parent - 0x20);
         if (obj != 0) {
             ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
-            register_node(obj, D_80045C34);
+            register_node(obj, clipped_sprite_renderer_address);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -182,8 +182,8 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     parent_obj = (u8 *)parent - 0x20;
     obj = allocate_list_node(0x36, parent_obj);
     if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = D_800B9EDC;
-        register_node(obj, D_80045C34);
+        ((S_800BA00C_1 *)obj)->unk_10 = town_initialize_effect_with_child_sprites_address;
+        register_node(obj, clipped_sprite_renderer_address);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -214,7 +214,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     obj = allocate_list_node(0x136, parent_obj);
     if (obj != 0) {
         ((S_800BA00C_1 *)obj)->unk_10 = D_800B9F74;
-        register_node(obj, D_80046398);
+        register_node(obj, lit_mesh_renderer_address);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;

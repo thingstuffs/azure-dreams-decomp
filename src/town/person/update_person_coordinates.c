@@ -6,14 +6,14 @@ typedef struct {
 
 extern s32 advance_person_lookup_value();
 extern StateHandler D_800AB4A8;
-extern StateHandler D_800AB708;
+extern StateHandler person_approach_state_address;
 
 /* Updates coordinates and selects the state handler based on the threshold and timer. */
 void update_person_coordinates(void *state, void *coords) {
     u16 timer;
 
     if (*(s16 *)((s8 *)state + 0x90) < 100) {
-        *(StateHandler **)((s8 *)state + 0x50) = &D_800AB708;
+        *(StateHandler **)((s8 *)state + 0x50) = &person_approach_state_address;
     }
     *(u16 *)((s8 *)coords + 2) = *(u16 *)((s8 *)coords + 0xE);
     *(u16 *)((s8 *)coords + 6) = *(u16 *)((s8 *)coords + 0x12);

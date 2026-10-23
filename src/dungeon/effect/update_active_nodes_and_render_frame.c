@@ -8,7 +8,7 @@ typedef struct {
 extern s32 D_800814A0;
 extern u8 node_update_mode;
 extern u16 system_update_flags;
-extern u8 D_80083160[];
+extern u8 g_game_work[];
 extern DungeonControl *primary_actor_record;
 extern void run_active_node_callbacks(void);
 extern void remove_marked_active_nodes(void);
@@ -23,7 +23,7 @@ extern void queue_framebuffer_strip_quads(void);
 /* Updates and cleans active nodes, advances motion and the view, then dispatches object and
    framebuffer rendering. */
 void update_active_nodes_and_render_frame(void) {
-    u8 *work = D_80083160;
+    u8 *work = g_game_work;
     run_active_node_callbacks();
     if (D_800814A0 & OBJECT_REMOVE_PENDING) {
         remove_marked_active_nodes();

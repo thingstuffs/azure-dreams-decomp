@@ -66,9 +66,9 @@ extern void func_80171B58(void *);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 complete_timed_tile_movement();
 extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
-extern u8 D_80174EE0[];
-extern M2C_UNK D_80174EF8;
-extern M2C_UNK D_80174F00;
+extern u8 nyuel_frame_set_2[];
+extern M2C_UNK nyuel_frame_set_3;
+extern M2C_UNK nyuel_frame_set_1;
 extern M2C_UNK D_80174F08;
 extern M2C_UNK D_80174F10;
 
@@ -95,17 +95,17 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
     }
     if (((S_80170E9C_1 *)state)->unk_25 == 0) {
         advance_actor_pending_action(entity, context, sprite, state);
-        if (sprite->frameTable == &D_80174F00) {
+        if (sprite->frameTable == &nyuel_frame_set_1) {
             return;
         }
-        (sprite->frameTable) = &D_80174EF8;
+        (sprite->frameTable) = &nyuel_frame_set_3;
         select_sprite_entry(sprite, *(u8 *)((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
-            >> 9) & 7) + (u32)&D_80174EF8), 0);
+            >> 9) & 7) + (u32)&nyuel_frame_set_3), 0);
         return;
     }
     state_flags = ((S_80170E9C_1 *)state)->unk_1C;
     if (state_flags & 0x200) {
-        if (sprite->frameTable == &D_80174F00) {
+        if (sprite->frameTable == &nyuel_frame_set_1) {
             ((S_80170E9C_0 *)entity)->unk_9A = 0xDU;
             ((S_80170E9C_0 *)entity)->unk_9B = 1;
             ((S_80170E9C_0 *)entity)->unk_8C = 0;
@@ -115,7 +115,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
             sprite->color.c.r = 0x40;
             return;
         }
-        if (reset_actor_action_state(entity, context, sprite, &D_80174EF8) == 0) {
+        if (reset_actor_action_state(entity, context, sprite, &nyuel_frame_set_3) == 0) {
             return;
         }
         ((S_80170E9C_1 *)state)->unk_1C |= 0x10000000;
@@ -129,9 +129,9 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
         current_mode = ((S_80170E9C_0 *)entity)->unk_9A;
         idle_mode = 0xE;
         if (current_mode != idle_mode) {
-            if (sprite->frameTable != D_80174EE0) {
-                (sprite->frameTable) = D_80174EE0;
-                select_sprite_entry(sprite, D_80174EE0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E9C_1 *)state)->unk_2A
+            if (sprite->frameTable != nyuel_frame_set_2) {
+                (sprite->frameTable) = nyuel_frame_set_2;
+                select_sprite_entry(sprite, nyuel_frame_set_2[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E9C_1 *)state)->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
             ((S_80170E9C_0 *)entity)->unk_9A = idle_mode;
@@ -235,11 +235,11 @@ block_59:
     if (sprite->flags & 0x40) {
         return;
     }
-    if (sprite->frameTable == (void *)D_80174EE0) {
+    if (sprite->frameTable == (void *)nyuel_frame_set_2) {
         return;
     }
-    (sprite->frameTable) = (void *)D_80174EE0;
-    select_sprite_entry(sprite, D_80174EE0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
+    (sprite->frameTable) = (void *)nyuel_frame_set_2;
+    select_sprite_entry(sprite, nyuel_frame_set_2[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
         >> 9) & 7], 0);
     return;
 }

@@ -6,7 +6,7 @@
 #include "common.h"
 
 
-extern void *D_80083160[3];
+extern void *g_game_work[3];
 extern u8 upper_draw_context[2][0x108D4];
 extern u16 scene_sprite_mode_word[5];
 extern s16 scene_sprite_wave_tick;
@@ -60,7 +60,7 @@ extern u8 scene_sprite_glyph_ids[14];
 extern u8 scene_sprite_object_storage[];
 extern s16 scene_sprite_x_history[64];
 extern s16 scene_sprite_y_history[64];
-extern void *D_80083160[3];
+extern void *g_game_work[3];
 
 typedef union { struct { u8 u, v; } c; u16 word; } UVPair;
 typedef struct {

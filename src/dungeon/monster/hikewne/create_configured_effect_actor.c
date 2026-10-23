@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -38,9 +41,9 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80170DA8[16];
-extern u8 D_801714D4[16];
-extern u8 D_801740E0[16];
-extern u8 D_80174158[16];
+extern u8 hikewne_action_resume_address[16];
+extern u8 hikewne_direction_frames[16];
+extern u8 hikewne_frame_set_2[16];
 
 /* Creates a Hikewne actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -66,7 +69,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
-        handler = D_801740E0;
+        handler = hikewne_direction_frames;
         part_a->unk_0A = value_at_0A;
         part_b = object->sprite;
         kind = mask & 3;
@@ -77,24 +80,24 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor->unk_9E = 0;
 
         if (kind == 1) {
-            flags14 = actor->unk_14 | 0x6000;
-            flags1c = actor->unk_1C | 0x6000;
+            flags14 = actor->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags1c = actor->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             actor->unk_14 = flags14;
             actor->unk_1C = flags1c;
         } else if (kind >= 2) {
-            flags14 = actor->unk_14 | 0x2000;
-            flags1c = actor->unk_1C | 0x2000;
+            flags14 = actor->unk_14 | ACTOR_CLASS_ENABLED;
+            flags1c = actor->unk_1C | ACTOR_PLAYER_SIDE;
             actor->unk_14 = flags14;
             actor->unk_1C = flags1c;
-        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (generate_random_value() & 1)) {
-            set_or_clear_actor_status_slot(actor, 1, (generate_random_value() & 0x3F) | 0x20);
-            part_b->frameTable = D_80174158;
+        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
+            set_or_clear_actor_status_slot(actor, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
+            part_b->frameTable = hikewne_frame_set_2;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
-        actor2->unk_8C = D_801714D4;
+        actor2->unk_8C = hikewne_action_resume_address;
         actor->unk_1C |= 0x40000;
         actor2->unk_92 = -0x20;
         part_b->tpage_abr = 0x20;

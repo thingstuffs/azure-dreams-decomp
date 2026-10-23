@@ -6,7 +6,7 @@
 #define D_80174B14 D_80162B14
 #define create_cylindrical_effect func_801625E0
 #include "modules/dungeon_ovl_fa7000.h"
-#include "common.h"
+#include "dungeon/actor/timed_visual_slot_d.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -44,7 +44,7 @@ extern u8 D_80162ACC[];
 extern u8 D_80162B14[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
-void func_80162260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
+void update_actor_timed_visual_slot_d(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
     void *motion = motion_input;
     u16 spawn_offset[3];
     Record10 effect_values_1c = D_8015E868.values;

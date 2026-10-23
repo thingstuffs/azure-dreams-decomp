@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/dragon/spawn_effect_object.h"
 #include "shared/monster_ids.h"
@@ -41,20 +44,20 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            flags = work->unk_14 | 0x6000;
-            extra_flags = work->unk_1C | 0x6000;
+            flags = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            extra_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = flags;
             work->unk_1C = extra_flags;
         } else if (kind >= 2) {
-            flags = work->unk_14 | 0x2000;
-            extra_flags = work->unk_1C | 0x2000;
+            flags = work->unk_14 | ACTOR_CLASS_ENABLED;
+            extra_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = flags;
             work->unk_1C = extra_flags;
         } else if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8014FCDC;
                 }

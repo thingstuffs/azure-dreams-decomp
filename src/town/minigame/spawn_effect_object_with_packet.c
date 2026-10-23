@@ -15,7 +15,7 @@ typedef struct S_800BF654_2 {
 extern void register_node(void *entry, void *registration_id);
 extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800BF4CC[];
 extern u8 D_800D2348[];
 extern s32 D_800D2360;
@@ -30,7 +30,7 @@ void spawn_effect_object_with_packet(void *caller_data)
 
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
-        register_node(obj, D_80046398);
+        register_node(obj, lit_mesh_renderer_address);
         obj->unk_10 = D_800BF4CC;
         part = obj->sprite;
         part->scale_x = 0x1000;

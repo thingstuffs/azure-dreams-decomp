@@ -28,9 +28,9 @@ extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
 
 extern u8 D_80170B48[];
-extern u8 D_801714B8;
+extern u8 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
-extern u8 D_801760A4[];
+extern u8 glacier_frame_set_1[];
 extern Pair16 D_8017610C[];
 
 typedef struct S_801757E0_0_pre {
@@ -285,9 +285,9 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
         ((S_801757E0_0 *)actor)->unk_9B++;
-        (animation->frameTable) = D_801760A4;
+        (animation->frameTable) = glacier_frame_set_1;
         select_sprite_entry(animation,
-            D_801760A4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            glacier_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -345,7 +345,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
 
     case 9:
         spend_actor_mp(entity, 0x800);
-        ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
+        ((S_801757E0_0 *)actor)->unk_8C = &glacier_action_resume_address;
         g_dungeon_status.active_actor = 0;
         (entity->action_flags) &= 0x7FFF;
 

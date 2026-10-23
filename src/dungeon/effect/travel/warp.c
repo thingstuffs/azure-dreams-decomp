@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Warp sequencing, camera effects, linked sprite pieces, particle trails, and color fades. */
 #include "modules/dungeon_ovl_19cc800.h"
 #include "shared/sprite_frame_state.h"
@@ -90,7 +92,7 @@ void func_80024020(EventState *event) {
         event->timer1C = 0x10;
         ((DungeonObject *)primary_actor_record)->countA6--;
         event->state++;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
 
     case 2:
@@ -131,7 +133,7 @@ void func_80024020(EventState *event) {
         break;
 
     case 5:
-        if (*(s16 *)D_80027452 == 0) {
+        if (*(s16 *)warp_effect_counters == 0) {
             {
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -151,7 +153,7 @@ void func_80024020(EventState *event) {
             event->mode20 = 0;
         }
     }
-    *(s16 *)D_80027452 = 0;
+    *(s16 *)warp_effect_counters = 0;
 }
 
 #include "modules/dungeon_ovl_19cc800.h"
@@ -216,7 +218,7 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
     MovingPosition *offsets;
     S_819ACB28_1 *data_ptr;
 
-    D_80027452[0] = D_80027452[0] + 1;
+    warp_effect_counters[0] = warp_effect_counters[0] + 1;
     mode = ((S_819ACB28_0 *)object)->unk_2C.s;
     mode_value = ((S_819ACB28_0 *)object)->unk_2C.u;
 
@@ -384,7 +386,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
     u16 final_state;
     s32 index;
 
-    *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
+    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
 
     switch (motion->state) {
     case 0:
@@ -590,12 +592,12 @@ void *move_effect_toward_target(MovingPosition *src)
 void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *position)
 {
     s16 next_speed;
-    u16 update_count = D_80027452[0];
+    u16 update_count = warp_effect_counters[0];
     u16 z = position->z.w.i;
     u16 x = position->x.w.i;
     u16 y = position->y.w.i;
 
-    D_80027452[0] = update_count + 1;
+    warp_effect_counters[0] = update_count + 1;
     if (position->z.w.i < (s16)sample_terrain_surface_height(x, y, z + 2)) {
         position->x.v -= (dir_step_x[motion->direction] * motion->speed) << 11;
         position->y.v -= (dir_step_y[motion->direction] * motion->speed) << 11;
@@ -605,7 +607,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
     next_speed = (u16)motion->speed - 8;
     motion->speed = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((ObjectNodeHeader *)motion - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)motion - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -700,9 +702,9 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
 
     owner = record->owner;
     owner_done = owner->flags & 0x8000;
-    D_80027452[0]++;
+    warp_effect_counters[0]++;
     if (owner_done != 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -1396,7 +1398,7 @@ void fade_color_to_black(void *owner, s32 unused, void *color_data) {
     u8 green;
     u8 blue;
 
-    *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
+    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
     red = *((u8 *)color_data + 0xC);
     green = *((u8 *)color_data + 0xD);
     *((u8 *)color_data + 0xC) = red - (red >> 1);
@@ -1567,7 +1569,7 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
 
     phase_step = ((Rec_func_80025D28_arg0 *)state)->unk_38;
     phase_angle = (s16)(phase_step << 6);
-    *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
+    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
     start_wave_x = rsin(phase_angle);
     ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
         ((s32)(start_wave_x * rcos(((Rec_func_80025D28_arg0 *)state)->unk_36
@@ -1693,7 +1695,7 @@ void fade_effect_color_to_black(void *record, s32 unused, EffectColor *color) {
     u8 green;
     u8 blue;
 
-    D_80027452[0]++;
+    warp_effect_counters[0]++;
 
     red = color->red;
     green = color->green;
@@ -1703,7 +1705,7 @@ void fade_effect_color_to_black(void *record, s32 unused, EffectColor *color) {
     color->blue = blue - (blue >> 2);
 
     if (color->red < 4) {
-        ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1749,7 +1751,7 @@ typedef struct Actor {
     s16 unk50;
 } Actor;
 
-extern Coord D_800287B0;
+extern Coord warp_motion_target;
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);
@@ -1788,9 +1790,9 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
         }
     } else {
         if (D_80027450 == 3) {
-            step_x = (D_800287B0.x - x) / 16;
-            step_y = (D_800287B0.y - y) / 16;
-            step_z = (D_800287B0.z - z) / 16;
+            step_x = (warp_motion_target.x - x) / 16;
+            step_y = (warp_motion_target.y - y) / 16;
+            step_z = (warp_motion_target.z - z) / 16;
             trail_x = x + step_x;
             trail_y = y + step_y;
             trail_z = z + step_z;
@@ -1804,9 +1806,9 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             }
         }
         if (D_80027450 == 0) {
-            D_800287B0.x = x;
-            D_800287B0.y = y;
-            D_800287B0.z = z;
+            warp_motion_target.x = x;
+            warp_motion_target.y = y;
+            warp_motion_target.z = z;
         }
         D_80027450 = D_80027450 + 1;
     }

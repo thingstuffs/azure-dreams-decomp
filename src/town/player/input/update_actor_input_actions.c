@@ -23,7 +23,7 @@ extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associate
 extern void compute_and_clamps_vector_based_adjustment_updates_town(void *, s16, void *);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
 void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg)
@@ -52,7 +52,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
         return;
     }
     if (state_flags & 0x40) {
-        check_result = select_an_eligible_source_entry_stores_pointer_in_destination(context, &D_800CFCB4);
+        check_result = select_an_eligible_source_entry_stores_pointer_in_destination(context, &town_actor_control);
         if (check_result != 0) {
             if (check_result == 2) {
                 initialize_actor_movement_interaction_action(context, entity, update_arg);
@@ -69,7 +69,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
     else {
         if (state->buttons & 0xF000) {
             store_the_valid_shared_angle_in_offset_hex_10(context);
-            if (select_an_available_entry_matching_direction_returns_status(&D_800CFCB4) > 0) {
+            if (select_an_available_entry_matching_direction_returns_status(&town_actor_control) > 0) {
                 return;
             }
         }

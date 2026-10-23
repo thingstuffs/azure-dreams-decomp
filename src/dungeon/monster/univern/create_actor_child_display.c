@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/univern/create_actor_child_display.h"
 #include "shared/monster_ids.h"
@@ -68,22 +71,22 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             s32 flags_1c;
 
             if ((saved_kind & 3) == 1) {
-                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | 0x6000;
-                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | 0x6000;
+                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 ((S_8014C89C_1 *)object)->unk_14 = flags_14;
                 ((S_8014C89C_1 *)object)->unk_1C = flags_1c;
             } else if ((saved_kind & 3) >= 2) {
-                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | 0x2000;
-                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | 0x2000;
+                flags_14 = ((S_8014C89C_1 *)object)->unk_14 | ACTOR_CLASS_ENABLED;
+                flags_1c = ((S_8014C89C_1 *)object)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_8014C89C_1 *)object)->unk_14 = flags_14;
                 ((S_8014C89C_1 *)object)->unk_1C = flags_1c;
             } else {
                 flags_14 = saved_kind & ~3;
                 if ((s16)flags_14 == 0) {
-                    if ((((S_8014C89C_1 *)object)->unk_14 & 0x200) == 0) {
+                    if ((((S_8014C89C_1 *)object)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                         if (generate_random_value() & 1) {
-                            ((S_8014C89C_1 *)object)->unk_1C |= 0x200;
-                            set_or_clear_actor_status_slot(object, 1,
+                            ((S_8014C89C_1 *)object)->unk_1C |= ACTOR_ASLEEP;
+                            set_or_clear_actor_status_slot(object, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             part->frameTable = D_801504FC;
                         }

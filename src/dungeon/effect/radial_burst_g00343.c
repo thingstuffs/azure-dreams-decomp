@@ -82,7 +82,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 effect_state = (u8 *)particle + 0x20;
                 effect_state->unk_08 = 0x2000;
                 effect_state->unk_04 = -velocity_y >> 6;
-                select_record_entry_and_value(sprite, &D_800DEC00, 0);
+                select_record_entry_and_value(sprite, &directional_sprite_entries, 0);
                 sprite->color.word = 0x808080;
                 sprite->scale_y = 0x400;
                 sprite->scale_x = 0x400;

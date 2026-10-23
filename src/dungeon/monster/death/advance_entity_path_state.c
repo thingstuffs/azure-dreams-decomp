@@ -45,7 +45,7 @@ extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
-extern u8 D_80174634[];
+extern u8 death_direction_frames[];
 
 /* Advance the entity along its path and update its movement state. */
 void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState *entity, void *path_state)
@@ -67,10 +67,10 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != D_80174634) {
-        (entity->frameTable) = D_80174634;
+    if (*(u8 **)&entity->frameTable != death_direction_frames) {
+        (entity->frameTable) = death_direction_frames;
         select_sprite_entry(entity,
-                      D_80174634[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      death_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 

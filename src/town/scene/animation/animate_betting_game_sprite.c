@@ -20,7 +20,7 @@ typedef struct S_80810454_2 {
 
 
 extern s32 func_8006A3A4();
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Moves the sprite into place, bobs it, and marks it for removal after it moves out. */
 void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
@@ -105,7 +105,7 @@ void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
         motion_data->unk_08.s = position;
         if (position <= (s32)0xFE000000) {
             *(u16 *)((u8 *)state_data - 2) |= 0x8000;
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
         return;
     }

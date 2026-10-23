@@ -14,7 +14,7 @@ s32 advance_status_timers();                     /* extern */
 s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
-void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state);
+void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
 
 /* Process an interaction and reset the object's state when the checks allow it. */
 void process_interaction_and_reset_state(S_801722DC_0 *state, s32 context, s32 source, s32 target) {
@@ -24,7 +24,7 @@ void process_interaction_and_reset_state(S_801722DC_0 *state, s32 context, s32 s
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = &func_80170E54;
+        state->unk_8C = &dispatch_monster_move_attack_spell;
         state->unk_90.at00.v = 0;
     }
     if (g_dungeon_status.flags & 0x80) {

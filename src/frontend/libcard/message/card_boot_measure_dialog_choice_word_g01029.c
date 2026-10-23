@@ -132,7 +132,7 @@ void card_boot_update_message_choice_highlight(void *object) {
     s32 table_index;
     s32 table_base;
 
-    table_base = (s32)D_800280B4;
+    table_base = (s32)card_menu_entry_values;
     table_index = *(s32 *)((u8 *)object + 8);
     entry = (EntryT *)(table_index * 0x18 + table_base);
     last_index = entry->count17 - 1;

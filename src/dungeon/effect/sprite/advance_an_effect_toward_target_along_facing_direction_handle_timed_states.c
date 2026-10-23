@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -263,7 +264,7 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
     if (state->timer < state->duration) {
         break;
     }
-    play_sound_if_enabled(0x300);
+    play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     state->state++;
     state->timer = 0;
     break;

@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Three-way target effects, arcing sprites, orbiting particles, and target tint and damage. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -472,11 +473,11 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
             if (read_sound_mode_blocking_status(4) != 2) {
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
                 return;
             }
-            play_sound_if_enabled(0x4300);
+            play_sound_if_enabled(AUDIO_RESUME_CD);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
             return;
         }

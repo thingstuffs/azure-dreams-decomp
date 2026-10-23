@@ -11,7 +11,7 @@ extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 func_8016C698();
 
-extern u8 D_80174674[];
+extern u8 ghosh_frame_set_7[];
 
 typedef struct S_8016BD14_0 {
     u8 pad_00[0x1C];
@@ -85,11 +85,11 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != D_80174674) {
-        (entity->frameTable) = D_80174674;
+    if (*(u8 **)&entity->frameTable != ghosh_frame_set_7) {
+        (entity->frameTable) = ghosh_frame_set_7;
         select_sprite_entry(
             entity,
-            D_80174674[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            ghosh_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

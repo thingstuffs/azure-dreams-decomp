@@ -15,8 +15,8 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 extern u8 D_80099B18[];
-extern s32 D_800DEDB0[3];
-extern M2C_UNK D_800DEE38;
+extern s32 rising_sprite_entries[3];
+extern M2C_UNK moving_sprite_entries;
 
 typedef struct S_80099C58_2 {
     u8 pad_00[0xE];
@@ -59,11 +59,11 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
         effect_state->unk_10 = 0;
         sprite = particle->sprite;
         if (flags & 2) {
-            texture = D_800DEDB0;
+            texture = rising_sprite_entries;
             sprite->unk_00 = texture;
             color = 0x808080;
         } else if (flags & 4) {
-            texture = &D_800DEE38;
+            texture = &moving_sprite_entries;
             sprite->unk_00 = texture;
             color = 0x808080;
         } else {
@@ -101,11 +101,11 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
             effect_state->unk_10 = 0;
             sprite = particle->sprite;
             if (flags & 2) {
-                texture = D_800DEDB0;
+                texture = rising_sprite_entries;
                 sprite->unk_00 = texture;
                 color = 0x808080;
             } else if (flags & 4) {
-                texture = &D_800DEE38;
+                texture = &moving_sprite_entries;
                 sprite->unk_00 = texture;
                 color = 0x808080;
             } else {

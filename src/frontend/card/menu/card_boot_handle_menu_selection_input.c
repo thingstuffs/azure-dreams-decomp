@@ -9,7 +9,7 @@ typedef struct StatePair {
     s32 second;
 } StatePair;
 
-extern s8 D_8008CA34;
+extern s8 card_dev_effect_mode;
 
 extern void func_8003FA78(void *display_object, s32 state_entry);
 extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
@@ -48,7 +48,7 @@ void card_boot_handle_menu_selection_input(void *menu)
 
             func_80063FF8(0x515);
             memory_process_handles_and_mark_object((u8 *)menu - 0x20);
-            D_8008CA34 = 2;
+            card_dev_effect_mode = 2;
             func_80400EF8();
             func_8003FD58(0, 0xF, 0, 0);
             linked_object = (*(s32 * *)((u8 *)menu + 0x14));

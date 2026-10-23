@@ -1017,16 +1017,16 @@ typedef struct {
 } CL_CD7000_80175274_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */
-extern s32 D_8003E140[];
+extern s32 resource_completion_callback_address[];
 extern s16 actor_turn_angle_offsets[];
 extern s32 cd_cue_base;
 extern u16 reference_tile_position_alias;
 extern M2C_UNK D_80083460;
 extern u16 dungeon_status_flags_alias;
 extern void *actor_effect_color_targets[];
-extern s8 D_800DCF5C;
-extern s16 D_800DCF5E;
-extern u8 D_8014A000[];
+extern s8 staged_spawn_count;
+extern s16 actor_action_reset_value;
+extern u8 dungeon_resource_buffer[];
 extern u8 D_801512AC[];
 extern u8 D_801512B4[];
 extern u8 D_801512BC[8];
@@ -1037,8 +1037,8 @@ extern u8 D_801512DC[];
 extern M2C_UNK D_801512E4;
 extern u8 D_801512EC[8];
 extern u8 D_801512F4[8];
-extern u8 D_801512FC[];
-extern u8 D_80151304[];
+extern u8 cd7000_frame_set_1[];
+extern u8 cd7000_status_frames[];
 extern s32 D_8015130C;
 extern s16 D_80151314;
 extern u8 D_80151318[];

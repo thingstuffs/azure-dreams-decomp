@@ -98,13 +98,13 @@ void configure_the_set_mode_n_4();
 /* extern */
 void initialize_optional_object_state();
 /* extern */
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 extern u8 D_800D073C[];
 extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 extern TownRecord shop_record_queue[20];
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 
 /* Functions defined in this translation unit. */

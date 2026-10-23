@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -38,8 +40,8 @@ s32 use_item_to_apply_speed_boost(void *entity, s32 event_id, s16 event_param) {
     if (update_count < 0xFFU) {
         (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_00 + 2)) = (u8) (update_count + 1);
     }
-    set_or_clear_actor_status_slot(entity, 7, 8);
-    if (((ActorRecord *)entity)->flags14 & 0x4000) {
+    set_or_clear_actor_status_slot(entity, STATUS_SPEED, 8);
+    if (((ActorRecord *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E206A);
     }
     create_colored_effect_with_sound(entity - 0x20, 0xF02020, 0x616);

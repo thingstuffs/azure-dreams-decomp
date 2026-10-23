@@ -74,7 +74,7 @@ extern void advance_sprite_animation_and_textures(void *);
 extern void apply_monster_koyaw_data(void *, void *);
 
 extern s8 view_direction_depth_biases[];
-extern u8 D_80174C6C[];
+extern u8 ghosh_frame_set_2[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
 void update_boss_actor_direction_state(void *actor_data, void *output_data, void *context_data)
@@ -115,7 +115,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
         advance_sprite_animation_and_textures(context);
     }
 
-    if (((S_80172610_3 *)linked)->unk_2C == D_80174C6C) {
+    if (((S_80172610_3 *)linked)->unk_2C == ghosh_frame_set_2) {
         advance_sprite_animation_and_textures(context);
         advance_sprite_animation_and_textures(context);
     }

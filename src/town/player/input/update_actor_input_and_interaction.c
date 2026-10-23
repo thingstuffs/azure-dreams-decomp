@@ -33,7 +33,7 @@ extern void compute_and_clamps_vector_based_adjustment_updates_town(void *actor,
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *actor);
 extern void spawn_directional_effects(void *actor, s32 value);
 extern void initialize_record_and_select_active_data(void *action_state, void *actor, s32 context);
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void update_actor_input_and_interaction(void *action_state, void *actor, s32 context)
 {
@@ -72,7 +72,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
         return;
     }
     if (buttons & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action_state, &D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action_state, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(action_state, actor, context);
@@ -87,7 +87,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
         }
         return;
     }
-    menu_state = (u8 *) (&D_800CFCB4);
+    menu_state = (u8 *) (&town_actor_control);
     action_result = select_an_available_entry_matching_direction_returns_status(menu_state);
     if (action_result != 0) {
         if (action_result == (-1)) {

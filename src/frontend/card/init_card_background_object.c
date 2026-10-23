@@ -47,7 +47,7 @@ s32 init_card_background_object(s32 init_value, s32 config_value) {
             func_8007C040(D_8040062C, D_80400654, 0x17A);
             func_8007BEF0(1);
         }
-        func_80040560(base, D_8040861C);
+        func_80040560(base, card_status_query_address);
     } else {
         func_80404DBC(base);
         {

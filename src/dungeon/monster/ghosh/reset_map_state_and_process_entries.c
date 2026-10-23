@@ -39,8 +39,8 @@ extern s8 spell_effect_selector_cache;
 extern u8 * ghosh_actor_node;
 extern s32 D_801748C8[];
 extern s32 D_801749E0[];
-extern s32 *D_80174CCC;
-extern s16 D_80174CD0;
+extern s32 *ghosh_script_cursor;
+extern s16 ghosh_script_repeat_count;
 
 /* Reset map state, update coordinate lookup values, and process both active entries. */
 void reset_map_state_and_process_entries(void) {
@@ -71,8 +71,8 @@ void reset_map_state_and_process_entries(void) {
     coord_result = get_rounded_facing_and_rounding_flag(map_object[0x24], map_object[0x25],
                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_aux);
     ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
-    D_80174CD0 = 0;
-    D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
+    ghosh_script_repeat_count = 0;
+    ghosh_script_cursor = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
     for (entry_slot = 0; entry_slot < 2; entry_slot++) {
         entry = (&dungeon_actor_ring_anchor->unk_AC)[entry_slot];

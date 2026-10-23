@@ -17,9 +17,14 @@ def setUpModule():
     # Tests assume default switches; a landing may export AZURE_* overrides.
     for key in [k for k in os.environ if k.startswith('AZURE_')]:
         _SAVED_ENV[key] = os.environ.pop(key)
+    # Exercise the lane configuration (the launcher switches both on).
+    os.environ['AZURE_OBJECT_CACHE'] = '1'
+    os.environ['AZURE_COMPILE_LIMIT_ENABLED'] = '1'
 
 
 def tearDownModule():
+    os.environ.pop('AZURE_OBJECT_CACHE', None)
+    os.environ.pop('AZURE_COMPILE_LIMIT_ENABLED', None)
     os.environ.update(_SAVED_ENV)
 
 

@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 /* Timed display slots, parent-linked sprites, and a palette and particle transition. */
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -32,7 +33,7 @@ typedef struct S_81994800_2 {
     s16 unk_46;
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
-extern s16 D_80025384;
+extern s16 parent_effect_update_flag;
 void func_8002405C(void *effect, void *unused_context, void *effect_params);
 /* Advance the effect countdown, update its parameters, and flag completion. */
 void func_8002405C(void *effect, void *unused_context, void *effect_params) {
@@ -41,7 +42,7 @@ void func_8002405C(void *effect, void *unused_context, void *effect_params) {
 
     ticks_left = ((u16)((EntityRec *)effect)->facing) - 1;
     scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)((EntityRec *)effect)->unk_2C;
-    D_80025384 = 1;
+    parent_effect_update_flag = 1;
     ((EntityRec *)effect)->facing = ticks_left;
     ((S_81994800_1 *)effect_params)->unk_0D = (u8)(((S_81994800_1 *)effect_params)->unk_0D - 4);
     ((S_81994800_1 *)effect_params)->unk_0E = (s8)scale;
@@ -98,10 +99,10 @@ typedef struct {
 } Display;
 
 extern PackedVec3 D_8002533C;
-extern s16 D_80025384;
+extern s16 parent_effect_update_flag;
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
-void func_80024104(void *owner) {
+void spawn_free_slot_display_effect(void *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -135,7 +136,7 @@ void func_80024104(void *owner) {
         } while (copy_src != copy_end);
     }
 
-    D_80025384 = 1;
+    parent_effect_update_flag = 1;
 
     slot = 0;
     while (slot < 8 && (*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) != 0) {
@@ -246,7 +247,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
         state = ((void *)object) + 0x20;
         state->unk_2A = 0x9;
         state->unk_60 = parent;
-        (object->unk_10) = (s32 *)func_80024104;
+        (object->unk_10) = (s32 *)spawn_free_slot_display_effect;
         register_node(object, (s32)project_sprite_chain);
         part = (*(Part * *)&object->sprite);
         part->field10 = 0x20;
@@ -271,13 +272,13 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 D_80025384;
+extern s16 parent_effect_update_flag;
 
 /* Fade the primitive and flag the effect when its countdown expires. */
 void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2A);
 
-    D_80025384 = 1;
+    parent_effect_update_flag = 1;
     ticks_left -= 1;
     *(u16 *)((u8 *)effect + 0x2A) = ticks_left;
 
@@ -386,7 +387,7 @@ enum TransitionPhase {
 extern u8 D_80025330[];
 extern PackedResource D_80025348, D_80025360;
 extern PaletteControl ellipse_palette_channel_limits;
-extern s16 D_80025384;
+extern s16 parent_effect_update_flag;
 extern u16 D_80082E94;
 extern AnimationState reference_tile_object;
 
@@ -446,7 +447,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         upload_rect.xy = 0x01000340;
         upload_rect.wh = 0x400040;
         draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
-        D_80025384 = 1;
+        parent_effect_update_flag = 1;
         state->phase++;
         /* fallthrough */
     case PHASE_WAIT_CONFIRM: /* wait for the trigger bit, then snapshot facing and start the effect */
@@ -750,7 +751,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         }
         break;
     case PHASE_FINISH: /* restore tints and release the transition */
-        if (D_80025384 == 0) {
+        if (parent_effect_update_flag == 0) {
             target = primary_actor_record->target;
             if (target != 0) {
                 target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
@@ -763,10 +764,10 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
             primary_actor_record->unk_98 = primary_actor_record->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.rgb = TINT_NEUTRAL;
-            ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | 0x8000);
+            ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
-            D_80025384 = 0;
+            parent_effect_update_flag = 0;
         }
         break;
     }

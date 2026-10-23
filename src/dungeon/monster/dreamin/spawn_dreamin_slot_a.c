@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -78,21 +81,21 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
         placement->frameTable = &D_8014F86C;
         placement->unk_24 = saved_x;
         if (spawn_mode == 1) {
-            flags_14 = state->unk_14 | 0x6000;
-            flags_1c = state->unk_1C | 0x6000;
+            flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             state->unk_14 = flags_14;
             state->unk_1C = flags_1c;
         } else if (spawn_mode >= 2) {
-            flags_14 = state->unk_14 | 0x2000;
-            flags_1c = state->unk_1C | 0x2000;
+            flags_14 = state->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = state->unk_1C | ACTOR_PLAYER_SIDE;
             state->unk_14 = (s32) flags_14;
             state->unk_1C = (s32) flags_1c;
         } else {
             if (((spawn_flags & ~3) << 0x10) == 0) {
-                if (!(state->unk_14 & 0x200)) {
+                if (!(state->unk_14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        state->unk_1C = (s32) (state->unk_1C | 0x200);
-                        set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
+                        state->unk_1C = (s32) (state->unk_1C | ACTOR_ASLEEP);
+                        set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }
             }

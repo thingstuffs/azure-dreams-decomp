@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -79,15 +82,15 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         part_b->unk_25 = held_value_25;
 
         if (kind == 1) {
-            work->unk_14 |= 0x6000;
-            work->unk_1C |= 0x6000;
+            work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            work->unk_14 |= 0x2000;
-            work->unk_1C |= 0x2000;
+            work->unk_14 |= ACTOR_CLASS_ENABLED;
+            work->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((mode & -4) << 16) == 0) {
-            if ((work->unk_14 & 0x200) == 0) {
+            if ((work->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if (generate_random_value() & 1) {
-                    set_or_clear_actor_status_slot(work, 1,
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = uboat_action_frames;
                 }

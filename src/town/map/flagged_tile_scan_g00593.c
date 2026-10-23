@@ -9,7 +9,7 @@ void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell) {
 
     if (tile_key_pair_count[0] < 64) {
         if ((s16)has_runtime_key_pair((u16)first_value, (u16)second_value) == 0) {
-            entry = &D_80081508[0][tile_key_pair_count[0]];
+            entry = &tile_coordinate_records[0][tile_key_pair_count[0]];
             entry->a = (u8)first_value;
             entry->b = (u8)second_value;
             tile_key_pair_count[0]++;
@@ -251,7 +251,7 @@ void clear_flagged_cells_and_reset_list(void) {
     u8 *gridBase;
 
     gridDescriptor = &g_game_work.map;
-    coordinateEntry = (u8 *)D_80081508[0];
+    coordinateEntry = (u8 *)tile_coordinate_records[0];
     gridBase = ((u8 *)gridDescriptor->cells);
     if (*coordinateEntry != 0) {
         do {
@@ -263,7 +263,7 @@ void clear_flagged_cells_and_reset_list(void) {
         } while (*coordinateEntry != 0);
     }
     tile_key_pair_count[0] = 0;
-    *(u8 *)D_80081508[0] = 0;
+    *(u8 *)tile_coordinate_records[0] = 0;
 }
 
 /* Clears visited tile flags, then scans from the camera's tile in a direction selected by the view angle. */

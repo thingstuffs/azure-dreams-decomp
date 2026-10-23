@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/glacier.h"
@@ -33,7 +34,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_801714B8;
+extern u8 glacier_action_resume_address;
 extern u8 D_801760BC;
 extern u8 D_801760C4;
 
@@ -65,7 +66,7 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
               (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172AD8_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172AD8_0 *)action)->unk_9E.s = 5;
         ((S_80172AD8_0 *)action)->unk_A4 = 0;
         ((S_80172AD8_0 *)action)->unk_9B++;
@@ -100,12 +101,12 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
         if ((frame_count << 16) < 0) {
             ((S_80172AD8_0 *)action)->unk_90 = 0;
             ((S_80172AD8_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172AD8_0 *)action)->unk_9B++;
         }
                         /* fallthrough */
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80172AD8_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -162,7 +163,7 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_80172AD8_0 *)action)->unk_8C = &D_801714B8;
+        ((S_80172AD8_0 *)action)->unk_8C = &glacier_action_resume_address;
         on_actor_status_updated(actor);
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/nyuel.h"
@@ -32,8 +33,8 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_80170E9C[];
-extern u8 D_80174EE0[];
+extern u8 nyuel_action_resume_address[];
+extern u8 nyuel_frame_set_2[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
 void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -58,7 +59,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
             break;
         }
         ((S_80172158_0 *)action)->unk_98 |= 8;
-        (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
+        (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
         ((S_80172158_0 *)action)->unk_9B++;
@@ -87,22 +88,22 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
         if (next_move_ticks < 0) {
             ((S_80172158_0 *)action)->unk_90 = 0;
             ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-            (*(u32 *)&actor->flags1C) |= 0x08000000;
+            (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
             ((S_80172158_0 *)action)->unk_9B++;
         }
 
                         /* fall through */
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-            sprite->frameTable = D_80174EE0;
+            sprite->frameTable = nyuel_frame_set_2;
             select_sprite_entry(
                 sprite,
-                D_80174EE0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                nyuel_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172158_0 *)action)->unk_9B++;
         }
@@ -139,7 +140,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
             }
         }
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_80172158_0 *)action)->unk_8C = D_80170E9C;
+            ((S_80172158_0 *)action)->unk_8C = nyuel_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

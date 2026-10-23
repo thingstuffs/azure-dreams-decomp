@@ -15,7 +15,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 baloon_default_frames[];
-extern void D_80171F1C(void *, void *, void *, void *);
+extern void baloon_action_resume_address(void *, void *, void *, void *);
 extern Callback baloon_callbacks[];
 
 typedef struct S_80171964_0 {
@@ -54,7 +54,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
 
     if (g_dungeon_status.flags & 0x2000) {
         first_callback = (*(Callback *)((u8 *)object_arg + (0x8C)));
-        if (first_callback == (Callback)D_80171F1C) {
+        if (first_callback == (Callback)baloon_action_resume_address) {
             {
                 void *entry_obj = object_arg;
 

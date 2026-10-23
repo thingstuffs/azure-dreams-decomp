@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 #include "common.h"
 #include "dungeon/effect/sprite.h"
 
@@ -14,7 +15,7 @@ void process_effect_block_entries(void *block) {
 
     if (*(*(u16 **)((u8 *)block + 0x98)) & 0x8000) {
         *((u16 *)block - 1) |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        D_800814A0.value |= OBJECT_REMOVE_PENDING;
     }
 
     for (entry_index = 0; entry_index < *(s16 *)((u8 *)block + 2); entry_index++) {

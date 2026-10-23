@@ -33,7 +33,7 @@ extern void register_node(void *, void *);
 
 extern Palette D_800201B4;
 extern u8 D_80023FA8[];
-extern u8 D_80044BB0[];
+extern u8 linked_sprite_renderer_address[];
 
 /* Create an object with a signed position, selected palette, and supplied settings. */
 void create_paletted_position_object(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
@@ -54,7 +54,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     if (object != 0) {
         palette_entries = palette.value;
         object->unk_10 = D_80023FA8;
-        register_node(object, D_80044BB0);
+        register_node(object, linked_sprite_renderer_address);
 
         primitive = object->sprite;
         negative = signed_position < 0;

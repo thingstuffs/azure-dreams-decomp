@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -65,7 +66,7 @@ void update_hop_movement_and_animation(void *action, void *motion, void *sprite,
             D_8016F9A8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016CC54_0 *)action)->unk_98 |= 8;
-        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_8016CC54_0 *)action)->unk_9E.s = 5;
         ((S_8016CC54_0 *)action)->unk_A4 = 0;
         ((S_8016CC54_0 *)action)->unk_9B++;
@@ -101,12 +102,12 @@ void update_hop_movement_and_animation(void *action, void *motion, void *sprite,
         if ((next_hop_ticks << 16) < 0) {
             ((S_8016CC54_0 *)action)->unk_90 = 0;
             ((S_8016CC54_0 *)action)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
             ((S_8016CC54_0 *)action)->unk_9B++;
         }
 
     case 2:
-        if (((ActorRecord *)actor)->flags1C & 0x08000000) {
+        if (((ActorRecord *)actor)->flags1C & ACTOR_GROUNDED) {
             ((S_8016CC54_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;

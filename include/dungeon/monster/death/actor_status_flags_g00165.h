@@ -102,9 +102,9 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
-extern s32 D_801719DC;
-extern u8 D_80174684[];
-extern u8 D_8017468C[];
+extern s32 death_action_resume_address;
+extern u8 death_frame_set_2[];
+extern u8 death_frame_set_3[];
 
 /* Functions defined in this translation unit. */
 void advance_actor_action_state_handle_status(void *action_in, void *context_in, SpriteFrameState *sprite_in, void *actor_in);

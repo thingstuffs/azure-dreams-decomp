@@ -171,8 +171,8 @@ void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, o
     s16 speed;
     height = sample_terrain_surface_height(position->x.ovl_9c32d4_809A3698_half.high, position->y.ovl_9c32d4_809A3698_half.high, (s16)(position->z.ovl_9c32d4_809A3698_half.high + 2));
     if ((s16)position->z.ovl_9c32d4_809A3698_half.high < height) {
-        position->x.word -= (D_8006CCD8[state->direction] * state->speed) << 11;
-        position->y.word -= (D_8006CCE8[state->direction] * state->speed) << 11;
+        position->x.word -= (dir_step_x[state->direction] * state->speed) << 11;
+        position->y.word -= (dir_step_y[state->direction] * state->speed) << 11;
         position->z.word += (0xC0 - state->speed) << 10;
     }
     speed = state->speed - 8;

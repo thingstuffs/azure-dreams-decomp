@@ -13,8 +13,8 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern u8 D_80170E9C;
-extern u8 D_80173B98;
+extern u8 nyuel_action_resume_address;
+extern u8 pulunpa_advance_actor_state_and_dispatch_address;
 extern Callback nyuel_callbacks[];
 extern Callback D_80176380[];
 extern Callback D_801763E0[];
@@ -58,7 +58,7 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, Sprit
         Callback early_callback;
 
         early_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (early_callback == (Callback)&D_80170E9C) {
+        if (early_callback == (Callback)&nyuel_action_resume_address) {
             early_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;

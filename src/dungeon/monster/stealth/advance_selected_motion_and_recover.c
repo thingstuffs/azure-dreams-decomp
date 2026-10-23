@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -59,7 +61,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
     use_player_target = 0;
     switch (((S_80172AA8_0 *)motion_state)->unk_9B) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player_target = 1;
@@ -206,7 +208,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
     }
 }

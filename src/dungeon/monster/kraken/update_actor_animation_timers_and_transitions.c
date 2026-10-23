@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/kraken.h"
 #include "shared/tile_object.h"
@@ -65,7 +66,7 @@ extern void func_80173D10(void *, void *, void *, void *);
 
 extern u8 D_801711A4[];
 extern u8 D_80174184[];
-extern u8 D_801741CC[];
+extern u8 kraken_frame_set_2[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
 void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
@@ -92,9 +93,9 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        (sprite->frameTable) = D_801741CC;
+        (sprite->frameTable) = kraken_frame_set_2;
         select_sprite_entry(sprite,
-            D_801741CC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            kraken_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         state_zero_counter_base = &g_dungeon_status;
         ((S_8017352C_0 *)entity)->unk_96 = 0;
@@ -103,7 +104,7 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
         ((S_8017352C_0 *)entity)->unk_9B++;
         return;
     case 1:
-        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             global_base = &g_dungeon_status;
             if (global_base->flags & 0x1000) {
                 return;
@@ -158,18 +159,18 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
             }
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(actor, 1);
+                        clear_slots_of_type(actor, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
             (sprite->frameTable) = D_80174184;

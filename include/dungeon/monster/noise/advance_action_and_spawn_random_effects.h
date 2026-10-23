@@ -97,7 +97,7 @@ extern void spend_actor_mp(void *, s32);
 extern s8 view_direction_depth_biases[];
 extern Packed32 D_80170838;
 extern u8 D_80174E90[];
-extern u8 D_80174EB8[];
+extern u8 noise_frame_set_1[];
 extern u8 D_80174EC0;
 void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_behavior_and_direction();

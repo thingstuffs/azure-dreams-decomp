@@ -18,12 +18,12 @@ typedef struct {
     s16 unk0A;
 } State_D_80083460;
 
-extern s32 D_8016B778;
+extern s32 ghosh_action_resume_address;
 
 /* Set the object state pointer, decrement the shared count, and clear the target flag. */
 void complete_actor_motion_and_clear_action(S_func_813259CC_0 *object, void *unused_1, void *unused_2, S_func_813259CC_1 *target) {
 
-    object->unk_8C = &D_8016B778;
+    object->unk_8C = &ghosh_action_resume_address;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     target->unk_46 = (u16)(target->unk_46 & 0x7FFF);
 }

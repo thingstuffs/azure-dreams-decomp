@@ -369,7 +369,7 @@ def compile_recipe(root, recipe_path, build):
     if not recipe_path.is_absolute():
         recipe_path = root/recipe_path
     spec = json.loads(recipe_path.read_text())
-    enabled = os.environ.get('AZURE_OBJECT_CACHE', '1') != '0'
+    enabled = os.environ.get('AZURE_OBJECT_CACHE', '0') != '0'
     # Library tests/legacy hand-written recipes do not have fastland3 witnesses.
     enabled = enabled and (root/'build/.state/compiletools.list').is_file()
     with compile_slots.acquire():

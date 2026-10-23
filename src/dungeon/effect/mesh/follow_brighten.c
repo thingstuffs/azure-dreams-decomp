@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Moving radial effects, their line geometry, and timed brightness changes. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -74,7 +75,7 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
         sub->color.c.b = 128;
         sub->color.c.g = 128;
         sub->color.c.r = 128;
-        select_record_entry_and_value(sub, D_800DEC70, 0);
+        select_record_entry_and_value(sub, shared_sprite_entries, 0);
 
         sub->scale_y = 4096;
         sub->scale_x = 4096;
@@ -116,7 +117,7 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
     position->unk_0A = (s16)(state->unk_0C + state->unk_04);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        select_record_entry_and_value(object, D_800DEC70, 0);
+        select_record_entry_and_value(object, shared_sprite_entries, 0);
     }
 }
 
@@ -153,7 +154,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         sprite->flags = (u16) (sprite->flags | 0xC);
         sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x20);
         sprite->flags = (u16) (sprite->flags | 0x100);
-        select_record_entry_and_value(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
+        select_record_entry_and_value(sprite, &shared_sprite_entries, (s16)frame_index % 16, (s16)frame_index);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);
@@ -727,7 +728,7 @@ loop_0:
         if (state_arg->timer < state_arg->duration) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         goto increment_reset;
 
     case 3:

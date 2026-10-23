@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Troll color flashes, moving effects, attachments, and actor creation. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -557,9 +560,9 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
             position->unk_0A += position_delta.z;
         }
 
-        if (part->unk_2C == D_80175E54 ||
-            part->unk_2C == D_80175E5C ||
-            part->unk_2C == D_80175E64) {
+        if (part->unk_2C == troll_kind13_direction_frames ||
+            part->unk_2C == troll_kind14_direction_frames ||
+            part->unk_2C == troll_kind15_direction_frames) {
             return;
         }
     }
@@ -651,7 +654,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         *(s8 *)((u8 *)result + 0x13) = 0x16;
         register_node(object, project_sprite_chain);
 
-        default_frames = (s32)D_80175E24;
+        default_frames = (s32)troll_frame_set_1;
         call_position = 0xE;
         position = object->position;
         alternate_kind = 0xF;
@@ -669,7 +672,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         mode = spawn_flags & 3;
 
         if (mode == 1) {
-            (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
+            (*(u32 *)((u8 *)result + 0x14)) |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             branch_flags = result->flags1C;
             global_kind = (u8)entity_spawn_variant_code;
             result->flags1C = branch_flags | 0x6000;
@@ -682,8 +685,8 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
             }
         } else {
             if (mode >= 2) {
-                result->flags14 |= 0x2000;
-                result->flags1C |= 0x2000;
+                result->flags14 |= ACTOR_CLASS_ENABLED;
+                result->flags1C |= ACTOR_PLAYER_SIDE;
             } else {
                 global_kind = (u8)entity_spawn_variant_code;
                 if (global_kind < 0xA) {
@@ -695,30 +698,30 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
                 }
 
                 if (((init_flags & ~3) << 16) == 0) {
-                    if (!(result->flags14 & 0x200)) {
+                    if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
                         state_flags = generate_random_value();
                         if (state_flags & 1) {
-                            set_or_clear_actor_status_slot(result, 1,
+                            set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
                             kind = result->unk_48;
                             switch (kind) {
                             case 0xD:
                                 current_frames = sprite->frameTable;
-                                new_frames = D_80175E54;
+                                new_frames = troll_kind13_direction_frames;
                                 if (current_frames != new_frames) {
                                     sprite->frameTable = new_frames;
                                 }
                                 break;
                             case 0xE:
                                 current_frames = sprite->frameTable;
-                                new_frames = D_80175E5C;
+                                new_frames = troll_kind14_direction_frames;
                                 if (current_frames != new_frames) {
                                     sprite->frameTable = new_frames;
                                 }
                                 break;
                             case 0xF:
                                 current_frames = sprite->frameTable;
-                                new_frames = D_80175E64;
+                                new_frames = troll_kind15_direction_frames;
                                 if (current_frames != new_frames) {
                                     sprite->frameTable = new_frames;
                                 }
@@ -743,15 +746,15 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         switch (kind) {
         case 0xD:
             current_frames = sprite->frameTable;
-            frame_table = D_80175E24;
+            frame_table = troll_frame_set_1;
             break;
         case 0xE:
             current_frames = sprite->frameTable;
-            frame_table = D_80175E2C;
+            frame_table = troll_frame_set_2;
             break;
         case 0xF:
             current_frames = sprite->frameTable;
-            frame_table = D_80175E34;
+            frame_table = troll_frame_set_3;
             break;
         default:
             return result;

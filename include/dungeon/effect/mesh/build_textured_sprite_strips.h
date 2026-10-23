@@ -543,7 +543,7 @@ extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
 extern void func_80067EF4();
-extern u8 D_8006CD10[3];
+extern u8 effect_view_matrix[3];
 extern u8 upper_draw_context[16];
 extern void SetDrawArea(void *, void *);
 extern u32 RotTransPers(void *, void *, void *, void *);

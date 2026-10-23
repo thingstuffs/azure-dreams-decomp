@@ -227,8 +227,8 @@ void *select_response_for_source_and_target(void *source, void *target) {
         if (((*(u8 *)((u8 *)target + 0x14) == 4) ||
              (*(u8 *)((u8 *)target + 0x4D) != 0)) &&
             ((data_base = *(void **)((u8 *)source - 0x10),
-              (data_base == D_800C3174)) ||
-             (data_base == D_800C321C) ||
+              (data_base == message_motion_type_a)) ||
+             (data_base == message_motion_type_b) ||
              ((data_base == D_800C25C0) &&
               (*(s32 *)((u8 *)source + 0x60) != 0)))) {
             response_kind = *(s32 *)((u8 *)source + 0x60);

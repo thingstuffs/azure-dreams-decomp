@@ -33,7 +33,7 @@ extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associate
 void initialize_record_and_select_active_data(s32, s32, s32);
 s32 check_masked_value_in_current_range(s32);
 
-extern s32 D_800CFCB4[];
+extern s32 town_actor_control[];
 
 
 typedef struct S_80091260_2 {
@@ -75,7 +75,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     }
 
     if (input_flags & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action((s32 * *)(actor), position, (void *)(context));
@@ -91,7 +91,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         return;
     }
 
-    action_data = D_800CFCB4;
+    action_data = town_actor_control;
     action_result = select_an_available_entry_matching_direction_returns_status(action_data);
     if (action_result != 0) {
         if (action_result == -1) {

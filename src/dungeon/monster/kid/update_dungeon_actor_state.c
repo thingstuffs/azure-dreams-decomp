@@ -45,14 +45,14 @@ extern s16 func_80172554(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
 extern void initialize_counted_entity_action(void *, void *, void *, void *);
 
-extern u8 D_80175140[];
-extern u8 D_80175148[];
+extern u8 kid_direction_frames[];
+extern u8 kid_alt_direction_frames[];
 extern u8 D_80175150[];
-extern u8 D_80175170[];
-extern u8 D_80175178[];
-extern u8 D_80175180[];
-extern u8 D_80175188[];
-extern u8 D_80175190[];
+extern u8 kid_frame_set_1[];
+extern u8 kid_frame_set_2[];
+extern u8 kid_frame_set_3[];
+extern u8 kid_alt_spawn_direction_frames[];
+extern u8 kid_frame_set_4[];
 
 /* Updates a dungeon actor's state, animation, and facing direction. */
 void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sprite_in, void *entity)
@@ -72,10 +72,10 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite_in, entity);
-        if (sprite_in->frameTable == D_80175188) {
+        if (sprite_in->frameTable == kid_alt_spawn_direction_frames) {
             return;
         }
-        anim_table = D_80175180;
+        anim_table = kid_frame_set_3;
         (sprite_in->frameTable) = anim_table;
         select_sprite_entry(sprite_in,
             anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
@@ -84,14 +84,14 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
     }
 
     if (((S_80171400_1 *)entity)->unk_1C & 0x200) {
-        if (sprite_in->frameTable == D_80175190) {
+        if (sprite_in->frameTable == kid_frame_set_4) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             ((S_80171400_1 *)entity)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor, context, sprite_in, D_80175180) != 0) {
+        if (reset_actor_action_state(actor, context, sprite_in, kid_frame_set_3) != 0) {
             return;
         }
     }
@@ -106,9 +106,9 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         }
 
-        if ((sprite_in->frameTable != D_80175140) &&
-            (sprite_in->frameTable != D_80175148)) {
-            u8 *anim_table = D_80175140;
+        if ((sprite_in->frameTable != kid_direction_frames) &&
+            (sprite_in->frameTable != kid_alt_direction_frames)) {
+            u8 *anim_table = kid_direction_frames;
 
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
             (sprite_in->frameTable) = anim_table;
@@ -207,10 +207,10 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
         {
             void *anim_table;
 
-            if (sprite_in->frameTable == D_80175140) {
-                anim_table = D_80175170;
+            if (sprite_in->frameTable == kid_direction_frames) {
+                anim_table = kid_frame_set_1;
             } else {
-                anim_table = D_80175178;
+                anim_table = kid_frame_set_2;
             }
             begin_actor_spell_action(actor, context, sprite_in, anim_table, update_dungeon_actor_state);
             return;

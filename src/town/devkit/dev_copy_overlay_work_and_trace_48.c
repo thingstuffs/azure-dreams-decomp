@@ -16,7 +16,7 @@ typedef struct S_808B3620_3 {
     M2C_UNK (*unk_6C)(s32);
 } S_808B3620_3;   /* *(volatile void **)(D_A0700000 + 0xF58) in dev_copy_overlay_work_and_trace_48 */
 
-extern u8 D_A0700000[];
+extern u8 devkit_overlay_page[];
 extern u8 D_A0700150[];
 extern u8 D_A0700158[];
 extern u8 D_A0700168[];
@@ -32,10 +32,10 @@ void dev_copy_overlay_work_and_trace_48(s8 *overlay_state) {
     s8 *kind_format;
     s8 *p = overlay_state;
 
-    *(OverlayWork *)(D_A0700000 + 0xF40) = *(OverlayWork *)p;
-    kind_format = D_A0700000 + 0x144;
-    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(kind_format, D_A0700150, ((TownFormatKindView *)p)->unk_08);
-    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(D_A0700000 + 0xF48));
-    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(D_A0700168, D_A070017C, 0x30);
-    ((S_808B3620_3 *)(*(void **)(D_A0700000 + 0xF58)))->unk_6C(0);
+    *(OverlayWork *)(devkit_overlay_page + 0xF40) = *(OverlayWork *)p;
+    kind_format = devkit_overlay_page + 0x144;
+    ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(kind_format, D_A0700150, ((TownFormatKindView *)p)->unk_08);
+    ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(devkit_overlay_page + 0xF48));
+    ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(D_A0700168, D_A070017C, 0x30);
+    ((S_808B3620_3 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_6C(0);
 }

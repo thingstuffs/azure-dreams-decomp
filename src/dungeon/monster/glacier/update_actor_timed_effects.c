@@ -38,9 +38,9 @@ extern void func_801756E0(void *, void *, void *, void *);
 extern u8 secondary_sprite[];
 extern void *D_80170808[];
 extern u8 D_80170A0C[];
-extern u8 D_801714B8;
+extern u8 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
-extern u8 D_801760A4[];
+extern u8 glacier_frame_set_1[];
 extern u8 D_801760AC[];
 extern u8 D_801760DC[];
 extern u8 D_801760E4[];
@@ -232,7 +232,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
                 player = primary_actor_record;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_801760DC, &D_801714B8);
+                    begin_actor_spell_action(actor, context, sprite, D_801760DC, &glacier_action_resume_address);
                     return;
                 }
                 break;
@@ -252,7 +252,7 @@ special_cleanup:
         return;
 
 aaf_cleanup:
-        begin_actor_spell_action(actor, context, sprite, D_801760DC, &D_801714B8);
+        begin_actor_spell_action(actor, context, sprite, D_801760DC, &glacier_action_resume_address);
         return;
 
 ordinary_cleanup:
@@ -290,7 +290,7 @@ ordinary_cleanup:
         u8 *main_table = glacier_direction_frames;
 
         if (sprite->frameTable != main_table) {
-            if (sprite->frameTable != D_801760A4) {
+            if (sprite->frameTable != glacier_frame_set_1) {
                 (sprite->frameTable) = main_table;
                 select_sprite_entry(sprite,
                     main_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
@@ -308,7 +308,7 @@ ordinary_cleanup:
                 ObjectNodeHeader *object;
                 u8 *object_data;
 
-                u8 *alt_table = D_801760A4;
+                u8 *alt_table = glacier_frame_set_1;
 
                 (sprite->frameTable) = alt_table;
                 select_sprite_entry(sprite,
@@ -348,7 +348,7 @@ ordinary_cleanup:
         }
     }
 
-    if (sprite->frameTable == D_801760A4 &&
+    if (sprite->frameTable == glacier_frame_set_1 &&
         (sprite->flags & 0x6000)) {
         u8 *state_table = glacier_direction_frames;
 

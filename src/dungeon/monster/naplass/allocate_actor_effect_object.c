@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "dungeon/monster/naplass/allocate_actor_effect_object.h"
 #include "shared/monster_ids.h"
 
@@ -35,23 +38,23 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
         kind = kind_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
-        part_b->unk_2C = D_80174194;
+        part_b->unk_2C = naplass_frame_set_1;
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            primary_flags = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
+            primary_flags = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = primary_flags;
             work->unk_1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_flags = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
+            primary_flags = work->unk_14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = primary_flags;
             work->unk_1C = secondary_flags;
         } else {
-            if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
-                work->unk_1C |= 0x200;
-                set_or_clear_actor_status_slot(work, 1,
+            if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
+                work->unk_1C |= ACTOR_ASLEEP;
+                set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
                 part_b->unk_2C = D_801741DC;
             }

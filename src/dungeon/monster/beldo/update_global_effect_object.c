@@ -1,8 +1,9 @@
+#include "shared/object_node_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 
-extern u8 *D_80174710;
+extern u8 *beldo_active_entity;
 
 extern void detach_record_and_update_slot_state(void *record);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, s32 flag_mask);
@@ -13,7 +14,7 @@ void update_global_effect_object(void) {
     u8 **active_slot;
     ObjectNodeHeader *active_obj;
 
-    active_slot = &D_80174710;
+    active_slot = &beldo_active_entity;
     active_obj = *active_slot;
     if (active_obj != 0) {
         u8 *obj_state = ((u8 *)active_obj) + 0x20;
@@ -31,7 +32,7 @@ void update_global_effect_object(void) {
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, effect_id);
         unlink_entity_node(obj_state);
-        ((ObjectNodeHeader *)((u8 *)obj_state - 0x20))->flags |= 0x8000;
+        ((ObjectNodeHeader *)((u8 *)obj_state - 0x20))->flags |= NODE_REMOVE;
         *active_slot = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

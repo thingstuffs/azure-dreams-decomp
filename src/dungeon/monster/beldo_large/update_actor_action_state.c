@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -43,9 +44,9 @@ s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 void advance_actor_pending_action(void *, s32, void *, void *);
 void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 void update_multi_form_actor_movement(void *, s32, void *, void *);
-extern M2C_UNK D_8016A36C;
-extern u8 D_80173AC8[];
-extern u8 D_80173AD0[];
+extern M2C_UNK beldo_large_action_resume_address;
+extern u8 beldo_large_frame_set_4[];
+extern u8 beldo_large_frame_set_7[];
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
 void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameState *target_arg, void *actor_arg) {
@@ -69,8 +70,8 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameStat
         }
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-            (target_arg->frameTable) = D_80173AC8;
-            select_sprite_entry(target_arg, D_80173AC8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+            (target_arg->frameTable) = beldo_large_frame_set_4;
+            select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
         counter_base = &g_dungeon_status;
@@ -83,18 +84,18 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameStat
     case 1:
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-            if (*(u8 **)&target_arg->frameTable != D_80173AC8) {
-                (target_arg->frameTable) = D_80173AC8;
-                select_sprite_entry(target_arg, D_80173AC8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+            if (*(u8 **)&target_arg->frameTable != beldo_large_frame_set_4) {
+                (target_arg->frameTable) = beldo_large_frame_set_4;
+                select_sprite_entry(target_arg, beldo_large_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
         }
         target = target_arg;
-        if ((get_entity_effect_value(actor_arg, 1) << 0x10) == 0) {
+        if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) == 0) {
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-                (target->frameTable) = D_80173AD0;
-                select_sprite_entry(target, D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+                (target->frameTable) = beldo_large_frame_set_7;
+                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
         } else {
@@ -137,23 +138,23 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameStat
             }
             update_actor_status_and_mp(actor_arg);
             on_actor_status_updated(actor_arg);
-            if ((get_entity_effect_value(actor_arg, 1) << 0x10) != 0) {
+            if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) != 0) {
                 room_base = &reference_tile_object;
                 target_room = *(s8 *)&target->unk_26;
                 if (!(((target_room != room_base->room_index) || (target_room < 0))
                       && get_tile_chebyshev_distance(room_base, target) >= 2)) {
                     if ((generate_random_value() & 7) == 0) {
-                        clear_slots_of_type(actor_arg, 1);
+                        clear_slots_of_type(actor_arg, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor_arg, 1) << 0x10) != 0) {
+            if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) != 0) {
                 return;
             }
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-                (target->frameTable) = D_80173AD0;
-                select_sprite_entry(target, D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
+                (target->frameTable) = beldo_large_frame_set_7;
+                select_sprite_entry(target, beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
         }
@@ -181,6 +182,6 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameStat
     default:
         return;
     }
-    callback = &D_8016A36C;
+    callback = &beldo_large_action_resume_address;
     ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
 }

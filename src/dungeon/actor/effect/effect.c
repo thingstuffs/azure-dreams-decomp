@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 
 struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
@@ -107,7 +108,7 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
                 entry_y = entry->unk1;
                 if (entry_y == y) {
                     *entry_state = 0;
-                    update_map_cell_flags_with_item_limit(entry_x, entry_y, 0x800);
+                    update_map_cell_flags_with_item_limit(entry_x, entry_y, TILE_HAS_ITEM);
                 }
             }
         }
@@ -449,7 +450,7 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value2 = height;
             entry->value4 = height;
             entry->value8 = target->z;
-            cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, 0x800);
+            cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, TILE_HAS_ITEM);
             select_position_data_and_update_owner(&reference_tile_object.unk_000, ((s32)dungeon_actor_ring_anchor));
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -512,7 +513,7 @@ s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *pa
     return (s32)object;
 }
 #include "common.h"
-extern u8 D_8006E240[];
+extern u8 item_effect_descriptor[];
 
 extern s32 lookup_item_category_mapped_value(s32, s32);
 
@@ -523,7 +524,7 @@ s32 get_item_category_value(u8 *item)
 
     if (item[1] == 0x12) {
 
-        result = D_8006E240;
+        result = item_effect_descriptor;
     } else {
         result = lookup_item_category_mapped_value(item[1], item[0]);
     }
@@ -590,7 +591,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
                 record->w4 = (u16)tile_value;
                 record->w2 = (u16)tile_value;
                 record->value = get_item_category_value(object_data);
-                cycle_map_cell_flags(tile_x, tile_y, 0x800);
+                cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
                 select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), ((u8 *)dungeon_actor_ring_anchor));
             }
             return 1;
@@ -1625,7 +1626,7 @@ extern s32 has_recorded_value_pair(s32, s32);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 
-extern s32 D_80012090[];
+extern s32 dungeon_mode_state[];
 extern s16 current_dungeon_floor;
 extern s8 random_pickup_enabled;
 extern s16 pickup_event_latch;

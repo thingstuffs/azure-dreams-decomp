@@ -22,7 +22,7 @@ typedef struct {
 
 extern u8 D_807030AC[];
 extern IntGlobal D_807030A8;
-extern CallbackGlobal D_807030B8;
+extern CallbackGlobal devkit_runtime_methods;
 extern u8 D_807028B0[];
 extern u8 D_807028BC[];
 extern u8 D_807028C4[];
@@ -33,7 +33,7 @@ extern u8 D_807028E8[];
 void dev_copy_overlay_work_and_trace_47(s32 *p) {
     *(SceneRecord *)(D_807030AC - 0xC) = *(SceneRecord *)p;
 
-    D_807030B8.value->func68(D_807028B0, D_807028BC, ((SceneRecord *)p)->kind);
-    D_807030B8.value->func68(D_807028B0, D_807028C4, D_807030A8.value);
-    D_807030B8.value->func68(D_807028D4, D_807028E8, 0x2F);
+    devkit_runtime_methods.value->func68(D_807028B0, D_807028BC, ((SceneRecord *)p)->kind);
+    devkit_runtime_methods.value->func68(D_807028B0, D_807028C4, D_807030A8.value);
+    devkit_runtime_methods.value->func68(D_807028D4, D_807028E8, 0x2F);
 }

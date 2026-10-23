@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/def_table.h"
@@ -571,7 +572,7 @@ merge_donor_primary:
         }
         ((S_800277F4_0 *)result)->unk_24.at00u.v = 0xFF;
         if (((S_800277F4_0 *)result)->unk_24.at01.v != 0) {
-            ((S_800277F4_0 *)result)->unk_1C = (s32) (((S_800277F4_0 *)result)->unk_1C & ~8);
+            ((S_800277F4_0 *)result)->unk_1C = (s32) (((S_800277F4_0 *)result)->unk_1C & ~ACTOR_MP_EMPTY);
         }
         if (destination == 0) {
             update_owner_class_bits(result);

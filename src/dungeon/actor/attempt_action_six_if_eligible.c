@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -37,7 +39,7 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
             } else {
                 remainder = 0;
             }
-            if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(entity, 6, action_arg) >= 0) {
+            if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(entity, STATUS_MAGIC_BIND, action_arg) >= 0) {
                 adjust_source_value_and_finalize(entity, D_800E1937);
                 if (entity->unk_13 == 0) {
                     wrap_position_and_set_state_value(D_800DCF20);
@@ -46,7 +48,7 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
             }
         }
     }
-    if (entity->unk_14 & 0x4000) {
+    if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E1A6D);
     }
     return 0;

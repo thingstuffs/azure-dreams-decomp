@@ -21,8 +21,8 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 extern s32 register_node();
 extern void configure_the_set_mode_n_1();
 
-extern u8 D_80045340[];
-extern u8 D_80046398[];
+extern u8 sprite_chain_projector_address[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800BF72C[];
 extern u8 D_800BF8DC[];
 extern u8 D_800D2364[];
@@ -38,7 +38,7 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
 
     ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
     ((Rec_func_8008F074_arg0 *)object)->unk_50 = 0;
-    register_node(object - 0x20, &D_80045340[0]);
+    register_node(object - 0x20, &sprite_chain_projector_address[0]);
     position->x = 0x0F200000;
     position->y = 0x02600000;
     position->z = 0;
@@ -48,7 +48,7 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
     child = allocate_flagged_object_node(0x136);
     if (child != 0) {
         child_data = ((void *)child) + 0x20;
-        register_node(child, &D_80046398[0]);
+        register_node(child, &lit_mesh_renderer_address[0]);
         child_visual = child->sprite;
         child->unk_10 = &D_800BF72C[0];
         child_visual->scale_x = 0x1000;

@@ -229,8 +229,8 @@ typedef struct {
     u16 flags;
 } Effect;
 
-extern u8 D_800DEC28[];
-extern u8 D_800DEC00[];
+extern u8 directional_effect_entries[];
+extern u8 directional_sprite_entries[];
 extern s32 D_800DEB70;
 s32 resolve_record_orientation_or_fallback();
 s32 rand(void);

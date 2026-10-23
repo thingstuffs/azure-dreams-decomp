@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -78,26 +81,26 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
         do {
 
             if (kind == 1) {
-                flags_or_roll = work->unk_14 | 0x6000;
-                state_flags = work->unk_1C | 0x6000;
+                flags_or_roll = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                state_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 work->unk_14 = flags_or_roll;
                 work->unk_1C = state_flags;
             } else if (kind >= 2) {
-                flags_or_roll = work->unk_14 | 0x2000;
-                state_flags = work->unk_1C | 0x2000;
+                flags_or_roll = work->unk_14 | ACTOR_CLASS_ENABLED;
+                state_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
                 work->unk_14 = flags_or_roll;
                 work->unk_1C = state_flags;
             } else {
                 init_part = obj;
-                if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+                if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                     init_part = part_a;
                     flags_or_roll = generate_random_value();
                     init_part = obj;
                     if (!(flags_or_roll & 1)) {
                         break;
                     }
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value(obj) & 0x3F) | 0x20);
                     part_b->frameTable = D_80150C8C;
                 }

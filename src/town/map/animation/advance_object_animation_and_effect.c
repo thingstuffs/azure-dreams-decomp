@@ -7,7 +7,7 @@
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(void *, void *);
 extern u8 D_800BFF7C[9];
-extern u8 D_800F15AC[9];
+extern u8 map_animation_sprite_entries[9];
 
 /* Moves the object through its animation states, spawns an effect, and marks completion. */
 void advance_object_animation_and_effect(void *object)
@@ -58,9 +58,9 @@ void advance_object_animation_and_effect(void *object)
             *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
             *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
             *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
-            *((void **) (((u8 *) effect_sprite) + 0)) = D_800F15AC;
+            *((void **) (((u8 *) effect_sprite) + 0)) = map_animation_sprite_entries;
             *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
-            effect_sprite->source = *((s32 *) (D_800F15AC + 4));
+            effect_sprite->source = *((s32 *) (map_animation_sprite_entries + 4));
             effect_sprite->unk_04 = 0;
             effect_sprite->unk_05 = 0;
         }

@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
@@ -37,9 +38,9 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_actor_state_after_map_check(void *, void *, void *, void *);
 extern void create_randomized_motion_object(void *, void *);
 
-extern u8 D_801710EC[];
-extern u8 D_80175EA0[];
-extern u8 D_80175EC0[];
+extern u8 kewne_action_resume_address[];
+extern u8 kewne_frame_set_1[];
+extern u8 kewne_frame_set_2[];
 
 /* Advances the actor action state, updating its directional animation and callback. */
 void advance_actor_action_and_refresh_animation(void *actor, void *context, SpriteFrameState *render_record, ActorRecord *actor_state)
@@ -56,9 +57,9 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
         if (!(render_record->flags & 0xE000)) {
             return;
         }
-        render_record->frameTable = D_80175EA0;
+        render_record->frameTable = kewne_frame_set_1;
         select_sprite_entry(render_record,
-            D_80175EA0[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+            kewne_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         do {
@@ -67,7 +68,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
         return;
 
     case 1:
-        if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
             global_base = &g_dungeon_status;
             if (global_base->flags & 0x1000) {
                 return;
@@ -115,28 +116,28 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
             }
             update_actor_status_and_mp(actor_state);
             on_actor_status_updated(actor_state);
-            if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&render_record->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(actor_state, 1);
+                        clear_slots_of_type(actor_state, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
-        render_record->frameTable = D_80175EC0;
+        render_record->frameTable = kewne_frame_set_2;
         select_sprite_entry(render_record,
-            D_80175EC0[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+            kewne_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;
         if (render_record->flags & 0x8000) {
-            ((S_80173E50_0 *)actor)->unk_8C = D_801710EC;
+            ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
             return;
         }
         ((S_80173E50_0 *)actor)->unk_9B++;
@@ -149,7 +150,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((S_80173E50_0 *)actor)->unk_8C = D_801710EC;
+        ((S_80173E50_0 *)actor)->unk_8C = kewne_action_resume_address;
         return;
     }
 }

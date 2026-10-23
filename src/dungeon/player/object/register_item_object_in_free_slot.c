@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -79,7 +80,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
             entry_base_s = (s32)dungeon_ground_item_positions;
             entry = (u8 *)(found * 12);
             entry += entry_base_s;
-            update_map_cell_flags_with_item_limit(entry[0], entry[1], 0x800);
+            update_map_cell_flags_with_item_limit(entry[0], entry[1], TILE_HAS_ITEM);
             ((void **)0x80010248)[index] = *(void **)temporary_item_record;
         } else {
             ((void **)0x80010248)[index] = *(void **)temporary_item_record;

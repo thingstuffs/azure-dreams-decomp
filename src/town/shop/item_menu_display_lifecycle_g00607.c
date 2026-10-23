@@ -38,8 +38,8 @@ void finish_item_menu_child_and_release_list(void *record) {
     s32 global_flags;
 
     ((ObjectRetirementFlags *)record)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)record)[-1].unk_00 | 0x8000);
-    global_flags = D_800814A0.v | 0x8000;
+    global_flags = object_flag_block.v | 0x8000;
     record_value = ((S_800B06C4_0 *)record)->child;
-    D_800814A0.v = global_flags;
+    object_flag_block.v = global_flags;
     release_item_menu_list_object(record_value);
 }

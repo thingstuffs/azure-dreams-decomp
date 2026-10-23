@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -25,8 +26,8 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_object_or_select_directional_data(void *, void *, void *, void *);
 
-extern u8 D_80170F20[];
-extern u8 D_80173B98[];
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
 #include "dungeon/monster/pulunpa.h"
 extern u8 D_80176308[];
 extern u8 D_80176360[];
@@ -81,12 +82,12 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Sprite
                 return;
             }
 
-            if (((u32)entity->flags1C) & 0x100) {
+            if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(actor, context, sprite, entity);
                 return;
             }
 
-            if (((u32)entity->flags1C) & 0x80000) {
+            if (((u32)entity->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(actor, context, sprite, entity);
                 update_object_or_select_directional_data(actor, context, sprite, entity);
                 return;
@@ -140,11 +141,11 @@ increment_state:
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        entity->flags1C &= ~0x200;
+        entity->flags1C &= ~ACTOR_ASLEEP;
         if (actor->unk_A7 != 0) {
-            actor->unk_8C = D_80173B98;
+            actor->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
         } else {
-            actor->unk_8C = D_80170F20;
+            actor->unk_8C = pulunpa_action_resume_address;
         }
         return;
     }

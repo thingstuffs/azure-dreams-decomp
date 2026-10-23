@@ -37,7 +37,7 @@ s32 init_card_options_object(s32 option_param) {
             func_8007C040(D_804005A0, D_804005C8, 0x151);
             func_8007BEF0(1);
         }
-        func_80040560((s32)object, D_8040861C);
+        func_80040560((s32)object, card_status_query_address);
     } else {
         process_embedded_data_and_propagate_flags(object);
         D_80409CAE &= 0x7FFF;

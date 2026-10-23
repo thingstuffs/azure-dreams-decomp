@@ -28,7 +28,7 @@ extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 rand(void);
 
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 extern s32 D_80174300;
 extern Pair16 D_8017610C[];
 
@@ -80,6 +80,6 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
         sprite->color.c.r = 0x80;
         sprite->flags |= 0x100;
         sprite->clut = 0x7DCE;
-        select_record_entry_and_value(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, shared_sprite_entries, 0);
     }
 }

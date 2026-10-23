@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Rotating sprites, vertical motion, ring rendering, and staged particle bursts and impacts. */
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "shared/sprite_frame_state.h"
@@ -359,7 +360,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
    /* arg0 in func_800248F8 */
 
 /* Advance the object counters, apply the initial frame offset, and flag completion. */
-void func_800248F8(void *state, s32 draw_context, s32 update_context) {
+void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_context) {
     s16 frame;
     B22_818930F8_S_818930F8_1 *object;
 
@@ -421,7 +422,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
     effect = (B22_81893244_Func81893244Object *)allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         status = &effect->status;
-        effect->field10 = func_800248F8;
+        effect->field10 = emit_animated_transform_copies;
         status->field20 = source;
         status->field24 = 0;
         status->field26 = status_param;
@@ -648,7 +649,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         if (state->timer < 8) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state->timer = 0;
         state->state++;
         break;

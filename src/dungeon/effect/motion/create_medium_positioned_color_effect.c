@@ -96,7 +96,7 @@ void create_medium_positioned_color_effect(S_7FFEAC44_3 *source, s32 color) {
         sprite->unk_12 = 0x7DCE;
         sprite->unk_14 =
             (u16)(sprite->unk_14 | 0x100);
-        func_8003A7C4(sprite, D_800E2BB8, 0);
+        func_8003A7C4(sprite, positioned_effect_source, 0);
         emitted_effect_counter[0] += 1;
     }
 }

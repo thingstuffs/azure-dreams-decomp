@@ -51,8 +51,8 @@ extern s32 rand(void);
 extern u8 D_800255E8[];
 extern u8 D_800259DC[];
 extern s16 D_80026476;
-extern s32 D_800265C0;
-extern s32 D_800265C4;
+extern s32 row_quad_top_color;
+extern s32 row_quad_bottom_color;
 extern Cell D_800265C8[];
 extern Cell D_80026648[];
 
@@ -126,11 +126,11 @@ void spawn_randomized_quad_effects(void) {
             quad_data->unk_50 = diagonal->z;
 
             if ((quad_index % 32) < 0x10) {
-                *(s32 *)((u8 *)quad_data + 0x54) = D_800265C0;
-                quad_data->unk_58 = D_800265C4;
+                *(s32 *)((u8 *)quad_data + 0x54) = row_quad_top_color;
+                quad_data->unk_58 = row_quad_bottom_color;
             } else {
-                *(s32 *)((u8 *)quad_data + 0x58) = D_800265C0;
-                quad_data->unk_54 = D_800265C4;
+                *(s32 *)((u8 *)quad_data + 0x58) = row_quad_top_color;
+                quad_data->unk_54 = row_quad_bottom_color;
             }
         }
     }

@@ -15,7 +15,7 @@ typedef struct S_800D4BD4_0 {
 
 extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 D_800DECF8;
+extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */
 void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
@@ -47,5 +47,5 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     flags |= 0x100;
     render_data->color.word = source_value;
     render_data->flags = flags;
-    select_record_entry_and_value(render_data, &D_800DECF8, 0);
+    select_record_entry_and_value(render_data, &fading_sprite_entries, 0);
 }

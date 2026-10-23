@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -105,16 +108,16 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         monster->unk_24 = tile_x;
 
         if (kind == 1) {
-            actor_state->unk_14 |= 0x6000;
-            actor_state->unk_1C |= 0x6000;
+            actor_state->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            actor_state->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            actor_state->unk_14 |= 0x2000;
-            actor_state->unk_1C |= 0x2000;
+            actor_state->unk_14 |= ACTOR_CLASS_ENABLED;
+            actor_state->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((spawn_flags & -4) << 16) == 0) {
-            if ((actor_state->unk_14 & 0x200) == 0) {
+            if ((actor_state->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
-                    actor_state->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
+                    actor_state->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(actor_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     monster->frameTable = &D_80151298;
                 }
             }

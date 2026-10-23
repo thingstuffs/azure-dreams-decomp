@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -32,10 +33,10 @@ typedef struct S_8016B778_5 {
 } S_8016B778_5;   /* entry in update_main_actor_action_and_facing */
 
 extern u8 D_801746A4[];
-extern u8 D_80174684[];
+extern u8 ghosh_frame_set_4[];
 #include "dungeon/monster/ghosh.h"
-extern u8 D_8017467C[];
-extern u8 D_8016B778[];
+extern u8 ghosh_frame_set_3[];
+extern u8 ghosh_action_resume_address[];
 s8 find_active_rect_containing_point();
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s32 can_entity_gain_level();
@@ -78,7 +79,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         advance_entity_along_path(actor, (void *)(context), map_actor, entity);
         return;
     }
-    if (entity->flags1C & 0x200) {
+    if (entity->flags1C & ACTOR_ASLEEP) {
         if (*(u8 **)&map_actor->frameTable == D_801746A4) {
             flag_mask_hi = (s32)0xFFFB0000;
             actor->unk_9A.as_u8 = 0xDU;
@@ -102,10 +103,10 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         if (actor->unk_9A.as_u8 != 0xE) {
             if (actor->unk_B3 == 0) {
                 current_anim = map_actor->frameTable;
-                idle_anim = (u8 *)&D_8017467C;
+                idle_anim = (u8 *)&ghosh_frame_set_3;
             } else {
                 current_anim = map_actor->frameTable;
-                idle_anim = D_80174684;
+                idle_anim = ghosh_frame_set_4;
             }
             if (current_anim != idle_anim) {
                 map_actor->frameTable = idle_anim;
@@ -137,11 +138,11 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 }
             }
         }
-        if (entity->flags1C & 0x80000) {
+        if (entity->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, (void *)(context), (struct Rec_func_800AA258_arg2 *)(map_actor), entity);
             func_8016DAA4(actor, context, map_actor, entity);
-            map_actor->frameTable = D_8017467C;
-            select_sprite_entry(map_actor, D_8017467C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            map_actor->frameTable = ghosh_frame_set_3;
+            select_sprite_entry(map_actor, ghosh_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             actor->unk_90.at00_s32.v = 0;
             return;
         }
@@ -153,7 +154,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     tile_index = find_active_rect_containing_point(map_actor->unk_24, map_actor->unk_25);
     map_actor->unk_26 = tile_index;
     if (entity->pending_turn_updates > 0) {
-        if (entity->flags1C & 0x20) {
+        if (entity->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -211,7 +212,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 1:
         case 2:
         case 3:
-            action_data = D_8016B778;
+            action_data = ghosh_action_resume_address;
             begin_actor_spell_action(actor, context, map_actor, (u8 *)(&D_801746BC), (s32)(action_data));
             return;
         case 11:

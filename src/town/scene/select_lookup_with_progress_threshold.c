@@ -5,9 +5,9 @@ void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 l
     void *result;
 
     if (check_table_result_below_minus_47(selector, check_value) != 0) {
-        return &D_8001B63C;
+        return &scene_result_fallback;
     }
-    result = func_80019ABC(&D_8001A94C, &D_8001B1F8, selector, lookup_value);
+    result = func_80019ABC(&D_8001A94C, &scene_override_context, selector, lookup_value);
     if (func_8001A7F8() >= 5) {
         func_80019880();
         result = &D_80020E5C;

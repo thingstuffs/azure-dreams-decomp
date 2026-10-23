@@ -360,7 +360,7 @@ extern u8 D_80024048[];
 extern u8 D_800DED70[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
-extern M2C_UNK D_80045C34;
+extern M2C_UNK clipped_sprite_renderer_address;
 void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);

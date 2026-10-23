@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Shaded particle rendering, scattered sprite motion, and projectile burst and impact effects. */
 #include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "dungeon/effect/particle.h"
@@ -22,7 +24,7 @@ void render_textured_effect_parts(void *record_data, void *unused, void *update_
     s16 remaining;
     s16 *update_flag;
 
-    update_flag = &D_80025914;
+    update_flag = &textured_effect_update_flag;
     remaining = (s16)((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 - 1;
     update_flag[0] = 1;
     ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 = remaining;
@@ -179,7 +181,7 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFram
     state->z = state->z + state->dz;
     sum[0] = sum[0] + state->x;
     sum[1] = sum[1] + state->y;
-    D_80025914 = 1;
+    textured_effect_update_flag = 1;
     sum[2] = sum[2] + state->z;
 
     switch (state->mode) {
@@ -209,11 +211,11 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFram
     }
 
     if ((s16) state->frames_left <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (flags->flags & 0x8000) {
-        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -228,7 +230,7 @@ void advance_scattered_directional_particle(void *object_data, s16 *position)
     s32 delta_x;
     s32 delta_y;
 
-    D_80025914 = 1;
+    textured_effect_update_flag = 1;
     if (position[5] < (s16)sample_terrain_surface_height((u16)position[1], (u16)position[3], position[5] + 2)) {
         delta_x = ((dir_step_x[object[10]] * object[25]) << 10) +
             (rand() & 0xFFFF);
@@ -312,7 +314,7 @@ void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_
     s32 one;
     s16 phase;
 
-    D_80025914 = 1;
+    textured_effect_update_flag = 1;
     ((S_8181B078_0 *)object)->unk_02.s--;
 
     if (++((S_8181B078_0 *)object)->unk_1C >= 2) {
@@ -389,7 +391,7 @@ void grow_timed_sprite_effect(void *state_data, s32 unused, void *target) {
     u8 *state = state_data;
 
     timer = *(u16 *)(state + 2) + 2;
-    D_80025914 = 1;
+    textured_effect_update_flag = 1;
     *(u16 *)(state + 2) = timer;
     if ((s16)timer < 40) {
         *(s16 *)((u8 *)target + 0x1C) = (s16)timer * 204;
@@ -420,7 +422,7 @@ extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
 extern u8 effect_sprite_sources[];
-extern u8 D_800DE9D0[];
+extern u8 countdown_sprite_entries[];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
 void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
@@ -464,7 +466,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         ((S_80024BE8_0 *)effect)->unk_84 = 0;
         select_record_entry_and_value(sprite, effect_sprite_sources, 2);
         source_flags = ((S_80024BE8_3 *)source)->unk_2A;
-        D_80025914 = 1;
+        textured_effect_update_flag = 1;
         ((S_80024BE8_0 *)effect)->unk_7E.s = (source_flags >> 9) & 7;
         ((S_80024BE8_0 *)effect)->unk_0A.s++;
 
@@ -598,7 +600,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 ((S_80024BE8_10 *)target_graphics)->unk_0D = random_intensity;
                 ((S_80024BE8_10 *)target_graphics)->unk_0E = random_intensity;
                 initialize_timed_motion_step(color_mode, 8, target_graphics);
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
 
                 impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
@@ -796,7 +798,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 break;
             }
 
-            animation = D_800DE9D0;
+            animation = countdown_sprite_entries;
             height = (motion->z.v);
             animation_mode = 0;
             particle_position->z.v = height;
@@ -892,14 +894,14 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         elapsed = ((S_80024BE8_0 *)effect)->unk_82;
         ((S_80024BE8_0 *)effect)->unk_82 = elapsed + 1;
         if ((s16)(elapsed + 1) >= 0x1F) {
-            active = D_80025914;
+            active = textured_effect_update_flag;
             ((S_80024BE8_0 *)effect)->unk_82 = elapsed;
             if (active == 0) {
                 g_dungeon_status.active_actor = 0;
-                ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags |= 0x8000;
+                ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags |= NODE_REMOVE;
                 D_800814A0[0] |= 0x8000;
             } else {
-                D_80025914 = 0;
+                textured_effect_update_flag = 0;
             }
         }
         break;

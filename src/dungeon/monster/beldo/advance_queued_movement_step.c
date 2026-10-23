@@ -8,7 +8,7 @@ extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
-extern u8 D_80173E8C[8];
+extern u8 beldo_frame_set_1[8];
 
 typedef struct S_801719C0_0 {
     u8 pad_00[0x1C];
@@ -67,11 +67,11 @@ void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sp
         return;
     }
 
-    if (*(u8 **)&sprite->frameTable != D_80173E8C) {
-        (sprite->frameTable) = D_80173E8C;
+    if (*(u8 **)&sprite->frameTable != beldo_frame_set_1) {
+        (sprite->frameTable) = beldo_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
         sprite->unk_05 = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;

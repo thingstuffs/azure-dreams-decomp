@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -42,11 +44,11 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, void *, s32, void *);
 extern void create_source_positioned_object(void *, s32);
 
-extern u8 D_80171400[];
-extern u8 D_80175140[];
-extern u8 D_80175148[];
+extern u8 kid_action_resume_address[];
+extern u8 kid_direction_frames[];
+extern u8 kid_alt_direction_frames[];
 extern u8 D_80175168[];
-extern u8 D_80175170[];
+extern u8 kid_frame_set_1[];
 
 /* Advances an item action through setup, animation, movement, and cleanup. */
 /* Starts a targeted spell and source effect, animates a backward step, then returns to its tile and
@@ -78,7 +80,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
     ((S_80172D74_1 *)action)->unk_96.s--;
     switch (((S_80172D74_1 *)action)->unk_9B) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             s32 kind_index = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
 
             switch (kind_index) {
@@ -180,7 +182,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_80172D74_1 *)action)->unk_8C = D_80171400;
+        ((S_80172D74_1 *)action)->unk_8C = kid_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -246,15 +248,15 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         {
             u8 *animation = *(u8 **)&sprite->frameTable;
-            u8 *next_animation = D_80175140;
+            u8 *next_animation = kid_direction_frames;
 
-            if (animation != D_80175140) {
-                u8 *alternate_animation = D_80175148;
+            if (animation != kid_direction_frames) {
+                u8 *alternate_animation = kid_alt_direction_frames;
 
                 if (animation != alternate_animation && (sprite->flags & 0x6000)) {
                     ((S_80172D74_5 *)owner_flags)->unk_04 |= 0x8000;
                     ((S_80172D74_1 *)action)->unk_A8 = 0;
-                    if (*(u8 **)&sprite->frameTable == D_80175170) {
+                    if (*(u8 **)&sprite->frameTable == kid_frame_set_1) {
                         next_animation = alternate_animation;
                     }
                     (sprite->frameTable) = next_animation;
@@ -272,7 +274,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172D74_1 *)action)->unk_8C = D_80171400;
+        ((S_80172D74_1 *)action)->unk_8C = kid_action_resume_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;
@@ -280,6 +282,6 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
 }

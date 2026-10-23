@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -135,7 +136,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
             return;
         }
 
-        if (!(actor->flags1C & 0x100000)) {
+        if (!(actor->flags1C & ACTOR_CARRYING)) {
             void *owner_obj = (u8 *)action - 0x20;
             s32 zero = 0;   /* Pin: removal changes the whole function shape. */
                            /* Pin: removal reorders the instructions (same instructions, different order). */

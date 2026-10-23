@@ -24,7 +24,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern s32 D_80170E84;
+extern s32 ifrit_action_resume_address;
 extern u8 D_80174840[];
 
 /* Advance the actor animation action and restore actor state when it finishes. */
@@ -62,7 +62,7 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, SpriteFrame
         if (sprite->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, sprite->unk_24, sprite->unk_25);
             spend_actor_mp(actor, 0x100);
-            ((S_801726D4_0 *)action)->unk_8C = &D_80170E84;
+            ((S_801726D4_0 *)action)->unk_8C = &ifrit_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

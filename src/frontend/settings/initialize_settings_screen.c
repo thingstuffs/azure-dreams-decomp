@@ -32,7 +32,7 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
 }
 
 s32 render_screen_fade_decreasing_intensity();                      /* extern */
-extern M2C_UNK D_800786E8;
+extern M2C_UNK card_selection_display_data;
 extern s8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;
 extern s32 saved_sequence_volume_scale;
@@ -151,7 +151,7 @@ void initialize_settings_screen(void) {
     heading_y = 0x44;
     *(s16 *)(frame + 0x2) = heading_x;
     *(s16 *)(frame + 0x6) = heading_y;
-    create_type(frame, set_output, &D_800786E8, settings);
+    create_type(frame, set_output, &card_selection_display_data, settings);
     label_y = 0xD0;
     label_style = 1;
     label_extra = 0;

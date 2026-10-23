@@ -36,7 +36,7 @@ extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
-extern u8 D_801740E0[];
+extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 
 /* Advances the actor along its queued path and updates movement timing. */
@@ -59,11 +59,11 @@ void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState 
     }
 
     anim_table = *(u8 **)&actor->frameTable;
-    if (anim_table != D_801740E0 && anim_table != hikewne_alt_direction_frames) {
-        (actor->frameTable) = D_801740E0;
+    if (anim_table != hikewne_direction_frames && anim_table != hikewne_alt_direction_frames) {
+        (actor->frameTable) = hikewne_direction_frames;
         select_sprite_entry(
             actor,
-            D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171A18_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
+            hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171A18_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

@@ -16,7 +16,7 @@ void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue) {
 
     func_800181C8(
         (thriceEntryIndex << 3) + (u8 *)&D_80018FB8,
-        &D_8001925C,
+        &scene_request_context,
         firstValue,
         secondValue);
 }

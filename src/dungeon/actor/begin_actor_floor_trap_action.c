@@ -4,7 +4,7 @@
 extern struct {
     s8 pad[0x14];
     u16 field_0x14;
-} D_80083460;
+} g_dungeon_status;
 
 typedef struct S_800AAA28_0 {
     u8 pad_00[0x8C];
@@ -19,5 +19,5 @@ void begin_actor_floor_trap_action(void *unused, S_800AAA28_0 *object) {
     object->unk_9A = 0x15;
     object->unk_9B = 0;
     object->unk_8C = 0;
-    D_80083460.field_0x14 = D_80083460.field_0x14 + 1;
+    g_dungeon_status.field_0x14 = g_dungeon_status.field_0x14 + 1;
 }

@@ -7,7 +7,7 @@ typedef struct DungeonState {
     u16 field18;
 } DungeonState;
 
-extern DungeonState *D_80175D58[];
+extern DungeonState *encounter_object_slots[];
 extern DungeonState *D_80175D5C[];
 
 /* Increments the selected state counter and clears its timer. */
@@ -15,7 +15,7 @@ void advance_encounter_overlay_phase(s32 state_selector) {
     if (state_selector == 0) {
         DungeonState *state_zero;
 
-        state_zero = (DungeonState *)((u8 *)D_80175D58[0] + 0x20);
+        state_zero = (DungeonState *)((u8 *)encounter_object_slots[0] + 0x20);
         state_zero->field18 = 0;
         state_zero->field12++;
         return;

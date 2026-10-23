@@ -66,7 +66,7 @@ s32 func_7006DC5C();
 s32 func_7006DD28();
 s32 func_700750E0();
 M2C_UNK func_7010AE28();
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010AA44;
 
@@ -129,7 +129,7 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE79F4_0_pre *)emitter)[-1].unk_00 | 0x8000);
         next_counter = *counter - 1;
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
         *counter = next_counter;
     }
 }

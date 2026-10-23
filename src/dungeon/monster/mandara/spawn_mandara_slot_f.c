@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -89,13 +92,13 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
         part_b->unk_24 = pos_x;
 
         if (kind == 1) {
-            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x6000;
-            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x6000;
+            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
             ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x2000;
-            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x2000;
+            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
             ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
         } else {
@@ -103,10 +106,10 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
                 s32 non_kind_mask;
                 non_kind_mask = -4;
                 if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) == 0) {
-                    if (!(((S_80FB7000_1 *)work)->unk_14 & 0x200)) {
+                    if (!(((S_80FB7000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
-                            ((S_80FB7000_1 *)work)->unk_1C |= 0x200;
-                            set_or_clear_actor_status_slot(work, 1,
+                            ((S_80FB7000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                            set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) |
                                           0x20);
                             part_b->frameTable = D_8016F298;

@@ -3,7 +3,7 @@
 
 
 /* numeric; owner-unresolved. */
-const u32 D_8014C838[8] __attribute__((aligned(4))) = {
+const u32 ifrit_slot_a_sprite_scales_table[8] __attribute__((aligned(4))) = {
     0x10001000,
     0x0DAC1194,
     0x10001000,

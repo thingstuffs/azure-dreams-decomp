@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -80,22 +83,22 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
-            left = ((S_80FA5000_1 *)work)->unk_14 | 0x6000;
-            right = ((S_80FA5000_1 *)work)->unk_1C | 0x6000;
+            left = ((S_80FA5000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_80FA5000_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80FA5000_1 *)work)->unk_14 = left;
             ((S_80FA5000_1 *)work)->unk_1C = right;
         } else if (kind >= 2) {
-            left = ((S_80FA5000_1 *)work)->unk_14 | 0x2000;
-            right = ((S_80FA5000_1 *)work)->unk_1C | 0x2000;
+            left = ((S_80FA5000_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            right = ((S_80FA5000_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_80FA5000_1 *)work)->unk_14 = left;
             ((S_80FA5000_1 *)work)->unk_1C = right;
         } else {
             if (((mask & ~3) << 16) == 0) {
-                if (!(((S_80FA5000_1 *)work)->unk_14 & 0x200)) {
+                if (!(((S_80FA5000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((S_80FA5000_1 *)work)->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(work, 1,
+                        ((S_80FA5000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_80156AFC;
                     }

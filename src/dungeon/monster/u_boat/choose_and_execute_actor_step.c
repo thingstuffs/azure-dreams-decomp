@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -33,8 +34,8 @@ extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern s32 try_turn_actor_toward_target();
 
-extern u8 D_8006CCD8[16];
-extern u8 D_8006CCE8[16];
+extern u8 dir_step_x[16];
+extern u8 dir_step_y[16];
 extern s16 actor_turn_angle_offsets[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
@@ -126,9 +127,9 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             path_center = &reference_tile_object;
             direction = (U8_AT(actor, 0x45) + (S16_AT(primary_actor_record, 0x2A) >> 9)) & 7;
             target_x = path_center->tile_position.parts.tile_x +
-                       *(u16 *)(D_8006CCD8 + (direction * 2));
+                       *(u16 *)(dir_step_x + (direction * 2));
             target_y = path_center->tile_position.parts.tile_y +
-                       *(u16 *)(D_8006CCE8 + (direction * 2));
+                       *(u16 *)(dir_step_y + (direction * 2));
 
             if ((U8_AT(position, 0x24) == (u16)target_x) &&
                 (U8_AT(position, 0x25) == (u16)target_y)) {
@@ -239,7 +240,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 U8_AT(position, 0x25);
             U8_AT(actor, 0x71)++;
 
-            call_result = get_entity_effect_value(actor, 0x1B);
+            call_result = get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY);
             if ((call_result << 16) == 0) {
                 s32 old_x;
                 s32 old_y;
@@ -259,11 +260,11 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
 
                 direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
                 position_x = U8_AT(position, 0x24);
-                table = D_8006CCD8;
+                table = dir_step_x;
                 table += direction_offset;
                 position_x += *table;
                 U8_AT(position, 0x24) = position_x;
-                U8_AT(position, 0x25) += D_8006CCE8[direction_offset];
+                U8_AT(position, 0x25) += dir_step_y[direction_offset];
             }
 
             if ((call_result << 16) == 0) {

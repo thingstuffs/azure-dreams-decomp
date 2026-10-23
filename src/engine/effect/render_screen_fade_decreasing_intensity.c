@@ -15,7 +15,7 @@ typedef struct {
     char pad4[0x1C0];
 } D80083160_t;
 
-extern D80083160_t D_80083160;
+extern D80083160_t g_game_work;
 
 typedef struct {
     char pad0[2];
@@ -57,14 +57,14 @@ s32 render_screen_fade_decreasing_intensity(Param *fade)
     u16 tpage;
     s32 color;
 
-    render_state = &D_80083160;
+    render_state = &g_game_work;
     if (fade->field_2 >= fade->field_4) {
         return 1;
     }
-    tpage_pkt = (TPagePkt *)D_80083160.ctx->field_8D0;
-    D_80083160.ctx->field_8D0 = (u8 *)tpage_pkt + 0xC;
-    poly = (PolyF4 *)D_80083160.ctx->field_8D0;
-    D_80083160.ctx->field_8D0 = (u8 *)poly + 0x18;
+    tpage_pkt = (TPagePkt *)g_game_work.ctx->field_8D0;
+    g_game_work.ctx->field_8D0 = (u8 *)tpage_pkt + 0xC;
+    poly = (PolyF4 *)g_game_work.ctx->field_8D0;
+    g_game_work.ctx->field_8D0 = (u8 *)poly + 0x18;
     blend_mode = (fade->field_6 == 0) ? 2 : 1;
     tpage = GetTPage(0, blend_mode, 0, 0);
     SetDrawMode(tpage_pkt, 0, 0, tpage, 0);

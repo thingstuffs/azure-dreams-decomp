@@ -12,7 +12,7 @@ typedef struct Entity {
     s32 unk_110;
 } Entity;
 
-extern s32 D_80012090;
+extern s32 dungeon_mode_state;
 extern s16 current_dungeon_floor;
 extern u8 D_80089384[];
 extern u8 D_800E15FE[];
@@ -41,7 +41,7 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
     }
     if (entity->flags & 0x4000) {
         if ((u32)(entity->unk_13 - 3) < 0x2B) {
-            if (D_80012090 == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
+            if (dungeon_mode_state == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
                 DungeonGlobalStatus *counter;
                 display_formatted_context_message(D_800E15FE);
                 counter = &g_dungeon_status;

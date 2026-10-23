@@ -5,7 +5,7 @@
 
 s32 func_7006DC5C();                             /* extern */
 s32 func_7006DD28();                             /* extern */
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 
 
 typedef struct S_7FFE7804_0_pre {
@@ -81,6 +81,6 @@ void advance_centered_fading_effect(void *effect, ObjectPosition *position, void
     ((S_7FFE7804_0 *)effect)->unk_1E.s = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_7FFE7804_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
     }
 }

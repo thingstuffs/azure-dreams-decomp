@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -10,7 +11,7 @@
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
-extern s32 D_80171CE8;
+extern s32 weadog_action_resume_address;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
 void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity_data)
@@ -43,7 +44,7 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
         }
 
         timer_init = -1;
-        if (entity_data->flags1C & 0x228) {
+        if (entity_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_init = 8;
         }
         controller->unk_96.u = timer_init;
@@ -84,7 +85,7 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity_data - 0x20)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        controller->unk_8C = &D_80171CE8;
+        controller->unk_8C = &weadog_action_resume_address;
 
         return;
     default:

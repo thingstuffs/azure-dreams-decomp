@@ -13,7 +13,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 D_80171650[];
+extern u8 metal_action_resume_address[];
 extern u8 D_801742F0[];
 
 typedef struct S_80172E04_0 {
@@ -88,7 +88,7 @@ void advance_timed_actor_animation_and_restore(void *action, ObjectPosition *mot
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_80172E04_0 *)action)->unk_8C = D_80171650;
+            ((S_80172E04_0 *)action)->unk_8C = metal_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

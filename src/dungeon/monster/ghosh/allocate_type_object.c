@@ -10,7 +10,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 
-extern u8 D_80044BB0[];
+extern u8 linked_sprite_renderer_address[];
 extern Copy12 D_80077818;
 extern u8 D_8016ABC8[];
 
@@ -47,7 +47,7 @@ void allocate_type_12_object(void)
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (object->unk_10) = D_8016ABC8;
-        register_node(object, D_80044BB0);
+        register_node(object, linked_sprite_renderer_address);
 
         primary_state = (object->position);
         primary_state->unk_0A = 0;

@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern s32 D_80018DFC;
-extern s32 D_800190B4;
+extern s32 scene_state_dispatch_context;
 
 extern s32 func_800182E4(s32 *, s32 *, s32, s32);
 extern void func_80018C74(s32);
@@ -16,5 +16,5 @@ s32 run_event_prerequisite_forwarder(s32 primary_input, s32 unused, s32 secondar
         (func_80018D6C(F_cheriru_first_nadia2) == 0)) {
         return 0;
     }
-    return func_800182E4(&D_80018DFC, &D_800190B4, primary_input, secondary_input);
+    return func_800182E4(&D_80018DFC, &scene_state_dispatch_context, primary_input, secondary_input);
 }

@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
@@ -68,7 +69,7 @@ typedef struct {
 
 extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
-extern u8 D_80174AE4[];
+extern u8 viper_frame_set_1[];
 extern u8 D_80174AEC[];
 extern void *actor_update_node_cursor[];
 
@@ -116,7 +117,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
             }
             record->bytes[0] = 0;
             record->bytes[1] = 0;
-            update_map_cell_flags_with_item_limit(tile->x, tile->y, 0x800);
+            update_map_cell_flags_with_item_limit(tile->x, tile->y, TILE_HAS_ITEM);
         }
         if (effect->flags & 0x8000) {
             entity->state = 3;
@@ -125,8 +126,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
         }
         motion->velocity_x = (dir_step_x[direction] << 16) + (dir_step_x[direction] << 15);
         motion->velocity_y = (dir_step_y[direction] << 16) + (dir_step_y[direction] << 15);
-        effect->frameTable = (void (*)(void))D_80174AE4;
-        select_sprite_entry(effect, D_80174AE4[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        effect->frameTable = (void (*)(void))viper_frame_set_1;
+        select_sprite_entry(effect, viper_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x51E);
         entity->timer = 2000;
         entity->state++;

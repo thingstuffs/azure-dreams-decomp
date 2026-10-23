@@ -33,7 +33,7 @@ typedef struct {
     s32 field48;
 } Obj;
 
-extern void D_80045340(void);
+extern void sprite_chain_projector_address(void);
 extern void register_node(void *, void (*)(void));
 
 /* Initialize object rendering and copy the three supplied parameter fields. */
@@ -43,7 +43,7 @@ void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *
     ObjectPosition *dest_params;
 
     object->field48 = state_value;
-    register_node(object, D_80045340);
+    register_node(object, sprite_chain_projector_address);
     render_state = object->sub1;
     render_state->tpage_abr = 0x20;
     render_state->flags |= 0xC;

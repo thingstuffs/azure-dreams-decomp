@@ -27,7 +27,7 @@ typedef struct S_800B4AB0_3 {
 
 
 extern u8 D_800786DC[];
-extern u8 D_800786E8[];
+extern u8 card_selection_display_data[];
 
 /* Update control indicators and flags based on the current value and its limits. */
 void update_control_indicators_and_flags(S_800B4AB0_0 *control)
@@ -45,7 +45,7 @@ void update_control_indicators_and_flags(S_800B4AB0_0 *control)
     range_state = control->unk_00;
     if (range_state->unk_2C < range_state->unk_30) {
         control->unk_0C = control->unk_0C & -2;
-        *((S_800B4AB0_3 *)(control->unk_5C))->unk_9C = D_800786E8;
+        *((S_800B4AB0_3 *)(control->unk_5C))->unk_9C = card_selection_display_data;
     } else {
         control->unk_0C = control->unk_0C | 1;
         *((S_800B4AB0_3 *)(control->unk_5C))->unk_9C = 0;

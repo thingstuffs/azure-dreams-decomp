@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 /* Actor status flags (G00165).
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C.
  */
@@ -23,7 +24,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
         if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        direction_anims = D_80174684;
+        direction_anims = death_frame_set_2;
         (sprite_in->frameTable) = direction_anims;
         select_sprite_entry(sprite_in,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
@@ -38,7 +39,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
         u32 world_page;
         u32 actor_flags;
 
-        if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
             world_page = 0x80080000;
             world_state = (u8 *)((u32)&g_dungeon_status.turn_scale);
             if (world_state->flags & 0x1000) {
@@ -100,7 +101,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
 
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
-            if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
                 TileObject *reference_pos;
                 s8 room_id;
 
@@ -110,24 +111,24 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
                       (room_id >= 0)) ||
                      (get_tile_chebyshev_distance(reference_pos, sprite_in) < 2)) &&
                     !(generate_random_value() & 7)) {
-                    clear_slots_of_type(actor_in, 1);
+                    clear_slots_of_type(actor_in, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
             {
                 u8 *direction_anims;
 
-                direction_anims = D_8017468C;
+                direction_anims = death_frame_set_3;
                 (sprite_in->frameTable) = direction_anims;
                 select_sprite_entry(sprite_in,
                     direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                     0);
                 ((S_80173CD4_2 *)actor_in)->unk_1C |= 0x40000;
                 if (sprite_in->flags & 0x8000) {
-                    ((S_80173CD4_0 *)action_in)->unk_8C = &D_801719DC;
+                    ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
                     return;
                 }
 
@@ -143,14 +144,14 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
             {
                 u8 *direction_anims;
 
-                direction_anims = D_8017468C;
+                direction_anims = death_frame_set_3;
                 (sprite_in ->frameTable) = direction_anims;
                 select_sprite_entry(sprite_in,
                     direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                     0);
                 ((S_80173CD4_2 *)actor_in)->unk_1C |= 0x40000;
                 if (sprite_in->flags & 0x8000) {
-                    ((S_80173CD4_0 *)action_in)->unk_8C = &D_801719DC;
+                    ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
                     return;
                 }
 
@@ -172,7 +173,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
         } else {
             return;
         }
-        ((S_80173CD4_0 *)action_in)->unk_8C = &D_801719DC;
+        ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
         return;
     }
 }
@@ -195,7 +196,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
 
         dungeon_state = &g_dungeon_status.turn_scale;
         ((S_8017409C_2 *)dungeon_state)->unk_0A--;
-        direction_frames = D_80174684;
+        direction_frames = death_frame_set_2;
         (animation->frameTable) = direction_frames;
         select_sprite_entry(animation,
             direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -211,9 +212,9 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         if (entity->mp != 0) {
             s32 *dungeon_state;
 
-            (animation->frameTable) = D_8017468C;
+            (animation->frameTable) = death_frame_set_3;
             select_sprite_entry(animation,
-                D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
             dungeon_state = &g_dungeon_status.turn_scale;
@@ -278,9 +279,9 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             return;
         }
 
-        (animation->frameTable) = D_8017468C;
+        (animation->frameTable) = death_frame_set_3;
         select_sprite_entry(animation,
-            D_8017468C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;
@@ -293,7 +294,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
 
             dungeon_state = &g_dungeon_status.turn_scale;
             ((S_8017409C_2 *)dungeon_state)->unk_0A--;
-            ((S_8017409C_0 *)actor)->unk_8C = &D_801719DC;
+            ((S_8017409C_0 *)actor)->unk_8C = &death_action_resume_address;
         }
 
         return;

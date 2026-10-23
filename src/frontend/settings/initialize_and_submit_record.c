@@ -31,6 +31,6 @@ void initialize_and_submit_record(s32 value, void *data) {
             dst++;
         } while (src != end);
         record[4] = value;
-        register_node(record, &D_80053858);
+        register_node(record, &text_sprite_builder_address);
     }
 }

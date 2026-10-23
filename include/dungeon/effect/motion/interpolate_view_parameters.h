@@ -380,13 +380,13 @@ void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, 
 extern u8 D_80025B1C[16];
 
 extern Row_81916AEC_unk32 D_800241E4;
-extern Row_81916AEC_unk32 D_800DEC70;
+extern Row_81916AEC_unk32 shared_sprite_entries;
 extern M2C_UNK D_8002441C;
 extern M2C_UNK D_8002457C;
 extern M2C_UNK D_800DEC50;
 extern s32 D_80024710;
 extern s32 D_80025B10;
-extern s32 D_800DEDB0[3];
+extern s32 rising_sprite_entries[3];
 extern u8 D_80024C0C[];
 extern u8 D_800DE39C[];
 extern s32 D_800DEB70;

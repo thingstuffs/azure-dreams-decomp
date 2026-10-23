@@ -1,3 +1,7 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 /* Volcano actor spawning, movement, attacks, spell sequences, and sprite effects. */
 #include "dungeon/system.h"
 #include "engine/cd.h"
@@ -36,18 +40,18 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
   state=(E_80170854_SpawnState *)actor;
   if(kind==1) {
    actor->handler=update_actor_behavior_facing_and_animation_2;
-   actor->flags14|=0x6000;
-   actor->flags1C|=0x6000;
+   actor->flags14|=(ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+   actor->flags1C|=(ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
    sprite->frameTable=D_80174510;
   } else if(kind>=2) {
    actor->handler=update_actor_behavior_facing_and_animation_2;
-   actor->flags14|=0x2000;
-   actor->flags1C|=0x2000;
+   actor->flags14|=ACTOR_CLASS_ENABLED;
+   actor->flags1C|=ACTOR_PLAYER_SIDE;
    sprite->frameTable=D_80174510;
   } else if((s16)(flags&~3)==0) {
-   if(!(actor->flags14&0x200) && (generate_random_value()&1)) {
-    set_or_clear_actor_status_slot(actor,1,(generate_random_value()&0x3F)|0x20);
-    sprite->frameTable=D_80174538;
+   if(!(actor->flags14&ACTOR_RESIST_SLEEP) && (generate_random_value()&1)) {
+    set_or_clear_actor_status_slot(actor,STATUS_SLEEP,(generate_random_value()&0x3F)|0x20);
+    sprite->frameTable=volcano_frame_set_2;
    }
    state->handler=update_actor_behavior_facing_and_animation_2;
    sprite->frameTable=D_80174510;
@@ -219,7 +223,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
 
     if (((E_80170E5C_S_80170E5C_1 *)status)->unk_25 == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite_in, status);
-        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == D_80174538) {
+        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == volcano_frame_set_2) {
             return;
         }
         (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174530;
@@ -230,7 +234,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
     }
 
     if (((E_80170E5C_S_80170E5C_1 *)status)->unk_1C & 0x200) {
-        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == D_80174538) {
+        if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == volcano_frame_set_2) {
             ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9A = 0xD;
             ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_9B = 1;
             ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_8C = 0;
@@ -256,7 +260,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             next_state = 0xE;
 
             if (actor_state != next_state) {
-                anim_table = D_80174520;
+                anim_table = volcano_frame_set_1;
                 if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
                     select_sprite_entry(sprite_in,
@@ -397,7 +401,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
     if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_14 & 0x40) {
         return;
     }
-    anim_table = D_80174520;
+    anim_table = volcano_frame_set_1;
     if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == anim_table) {
         return;
     }
@@ -665,11 +669,11 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
         return;
     }
 
-    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != D_80174518) {
-        ((SpriteFrameState *)entity)->frameTable = D_80174518;
+    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != volcano_frame_set_3) {
+        ((SpriteFrameState *)entity)->frameTable = volcano_frame_set_3;
         select_sprite_entry(
             entity,
-            D_80174518[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80171B68_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            volcano_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80171B68_S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -977,7 +981,7 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
             break;
         }
         ((E_801724E8_S_801724E8_0 *)anim)->unk_98 |= 8;
-        (*(u32 *)&actor_state->flags1C) &= 0xF7FFFFFF;
+        (*(u32 *)&actor_state->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
         ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s = 5;
         ((E_801724E8_S_801724E8_0 *)anim)->unk_A0 = 0;
         ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
@@ -1001,21 +1005,21 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
         if (next_hop_frames < 0) {
             ((E_801724E8_S_801724E8_0 *)anim)->unk_90 = 0;
             ((E_801724E8_S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-            (*(u32 *)&actor_state->flags1C) |= 0x08000000;
+            (*(u32 *)&actor_state->flags1C) |= ACTOR_GROUNDED;
             ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
         }
                         /* fall through */
     case 2:
-        if (((u32)actor_state->flags1C) & 0x08000000) {
+        if (((u32)actor_state->flags1C) & ACTOR_GROUNDED) {
             ((E_801724E8_S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
-            ((SpriteFrameState *)actor)->frameTable = D_80174520;
+            ((SpriteFrameState *)actor)->frameTable = volcano_frame_set_1;
             select_sprite_entry(
                 actor,
-                D_80174520[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                volcano_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
         }
@@ -1140,7 +1144,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
     use_player_target = 0;
     switch (phase) {                              /* switch 1; irregular */
     case 0:                                         /* switch 1 */
-        if (((E_80172A58_S_80172A58_1 *)actor)->unk_1C & 0x2000) {
+        if (((E_80172A58_S_80172A58_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x3FFF) {
             case 7: use_player_target=1;
             case 3: action_entry=(u8 *)actor+0xE; break;
@@ -1222,9 +1226,9 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             position->unk_10 = 0;
             position->unk_0C = 0;
             set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
-            if (sprite->unk_2C != D_80174520) {
-                sprite->unk_2C = D_80174520;
-                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((E_80172A58_S_80172A58_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + D_80174520), 0);
+            if (sprite->unk_2C != volcano_frame_set_1) {
+                sprite->unk_2C = volcano_frame_set_1;
+                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((E_80172A58_S_80172A58_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + volcano_frame_set_1), 0);
             }
             if (g_dungeon_status.active_actor == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
@@ -1234,7 +1238,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
                 ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = 0;
                 ((E_80172A58_S_80172A58_1 *)actor)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
                 ((E_80172A58_S_80172A58_1 *)actor)->unk_46 = (u16) (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x7FFF);
-                play_sound_if_enabled(0xB4);
+                play_sound_if_enabled(AUDIO_FADE_CD_FAST);
             }
         }
         break;
@@ -1271,7 +1275,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)entity)->flags1C & 0x228) {
+        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -1394,7 +1398,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
             u8 *direction_anims;
 
-            direction_anims = D_80174538;
+            direction_anims = volcano_frame_set_2;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -1404,7 +1408,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
         }
         return;
     case 1:
-        if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             s32 entity_flags;
 
             if (g_dungeon_status.flags & 0x1000) {
@@ -1454,7 +1458,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
             update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
 
-            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin;
                 s8 coordinate;
 
@@ -1464,11 +1468,11 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
-                    clear_slots_of_type(entity, 1);
+                    clear_slots_of_type(entity, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(entity, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
@@ -1476,12 +1480,12 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
         {
             u8 *direction_anims;
 
-            direction_anims = D_80174520;
+            direction_anims = volcano_frame_set_1;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            entity->flags1C &= ~0x200;
+            entity->flags1C &= ~ACTOR_ASLEEP;
             ((E_80173254_S_80173254_0 *)action)->unk_8C = update_actor_behavior_facing_and_animation_2;
         }
     }
@@ -1512,7 +1516,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
             return;
         }
 
-        initial_effect = D_80174538;
+        initial_effect = volcano_frame_set_2;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
@@ -1538,14 +1542,14 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
             {
                 void *call_controller = controller;
 
-                if (((u32)actor->flags1C) & 0x100) {
+                if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
                     do {
                         begin_pushed_actor_move(call_controller, context, sprite, actor);
                     } while (0);
                     return;
                 }
 
-                if (((u32)actor->flags1C) & 0x80000) {
+                if (((u32)actor->flags1C) & ACTOR_LIFTED) {
                     begin_actor_move_to_target_facing(call_controller, context, sprite, actor);
                     update_actor_landing_and_trap(controller, context, sprite, actor);
                     return;
@@ -1572,12 +1576,12 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
             }
         }
 
-        effect = D_80174520;
+        effect = volcano_frame_set_1;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = effect;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = update_actor_behavior_facing_and_animation_2;
-        actor->flags1C &= ~0x200;
+        actor->flags1C &= ~ACTOR_ASLEEP;
     }
 }
 #include "dungeon/monster/volcano.h"
@@ -1585,9 +1589,9 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
 void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_801737DC_RenderState *sprite,E_801737DC_RenderActor *actor) {
  if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
   if((check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
- } else if(sprite->frames==D_80174538 && !(actor->flags&0x208)) {
-  sprite->frames=D_80174518;
-  select_sprite_entry(sprite,D_80174518[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ } else if(sprite->frames==volcano_frame_set_2 && !(actor->flags&0x208)) {
+  sprite->frames=volcano_frame_set_3;
+  select_sprite_entry(sprite,volcano_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
  }
 }
 #include "dungeon/monster/volcano.h"
@@ -1694,7 +1698,7 @@ void advance_actor_state_with_child(void *actor, void *context, void *entity, vo
             spawn_height = ((E_80173A20_S_80173A20_3 *)creature)->unk_88.s;
         }
 
-        object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & 0x2000;
+        object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & ACTOR_PLAYER_SIDE;
         object = create_actor_with_tile_flags(
             object_flag != 0,
             (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*x_offset),

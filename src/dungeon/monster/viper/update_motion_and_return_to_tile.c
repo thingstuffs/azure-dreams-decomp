@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -49,7 +50,7 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
             action->unk_9B = 2;
             return;
         }
-        if (entity->flags1C & 0x228) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

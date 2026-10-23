@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -153,12 +155,12 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         spell_effect_selector_cache = -1;
         read_vram_blocks_to_buffer();
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
-            if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
                 sprite->frameTable = &actor_default_frames;
                 select_record_entry_and_value(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
-                if (actor->flags1C & 0x100000) {
+                if (actor->flags1C & ACTOR_CARRYING) {
                     anim_table = player_carry_frames;
                 } else {
                     anim_table = player_wait_frames;

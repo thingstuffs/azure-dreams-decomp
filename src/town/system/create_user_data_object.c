@@ -7,7 +7,7 @@
 
 s32 register_node();           /* extern */
 extern M2C_UNK D_80023E64;
-extern s32 D_80044BB0[3];
+extern s32 linked_sprite_renderer_address[3];
 extern M2C_UNK D_80079438;
 
 typedef struct S_80956DA0_1 {
@@ -27,7 +27,7 @@ void create_user_data_object(s32 user_data) {
         object->unk_10 = &D_80023E64;
         color = 0x800000;
         instance_data = (u8 *)object + 0x20;
-        register_node(object, &D_80044BB0);
+        register_node(object, &linked_sprite_renderer_address);
         render_state = object->sprite;
         instance_data->unk_04 = user_data;
         ((SignedPositionView *)(object->position))->unk_02 = 0xF0;

@@ -25,7 +25,7 @@ extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(u32);
 
-extern u8 D_8009B454[];
+extern u8 actor_surface_callback_address[];
 extern s16 terrain_height_limits[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
@@ -50,7 +50,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
     if ((((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000) == 0 &&
-        D_8009B454 == ((S_8009B6B4_2 *)object)->unk_50) {
+        actor_surface_callback_address == ((S_8009B6B4_2 *)object)->unk_50) {
         s32 tile_type;
 
         tile_type = check_masked_value_in_current_range((u16)read_map_cell_at_world_position(

@@ -24,9 +24,9 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_action_sprite_effect(void *);
 
-extern u8 D_80170EE4[];
+extern u8 manoeva_action_resume_address[];
 extern u8 D_80176600[];
-extern u8 D_80176668[];
+extern u8 manoeva_frame_set_2[];
 
 /* Advances an actor's animation sequence and handles its completion. */
 void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -75,9 +75,9 @@ void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFra
         }
 
         if (sprite->flags & 0xE000) {
-            sprite->frameTable = D_80176668;
+            sprite->frameTable = manoeva_frame_set_2;
             select_sprite_entry(sprite,
-                D_80176668[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                manoeva_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801726A4_0 *)action)->unk_9B++;
             ((S_801726A4_0 *)action)->unk_98 &= 0xFFFE;
@@ -87,7 +87,7 @@ void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFra
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_801726A4_0 *)action)->unk_8C = D_80170EE4;
+            ((S_801726A4_0 *)action)->unk_8C = manoeva_action_resume_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);

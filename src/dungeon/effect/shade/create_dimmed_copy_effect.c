@@ -46,7 +46,7 @@ extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern u8 D_80024A08[9];
 extern u8 D_80025B38[9];
-extern u8 D_80045C34[9];
+extern u8 clipped_sprite_renderer_address[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
@@ -78,7 +78,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         visual->flags = visual->flags | 0xC;
         visual->tpage_abr = visual->tpage_abr | 0x60;
         select_record_entry_and_value(visual, D_80025B38, 0);
-        init_data = D_80045C34;
+        init_data = clipped_sprite_renderer_address;
         angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
         visual->scale_y = 0x1400;
         visual->scale_x = 0x1400;

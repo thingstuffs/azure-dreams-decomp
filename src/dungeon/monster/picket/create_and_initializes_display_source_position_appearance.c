@@ -24,7 +24,7 @@ extern void register_node(void *entry, void *registration_id);
 extern s32 lookup_item_category_mapped_value(s32, s32);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
-extern u8 D_8006E240[9];
+extern u8 item_effect_descriptor[9];
 extern u8 D_80174978[9];
 
 
@@ -100,7 +100,7 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
         sprite->unk_1C = sprite_size;
         data_base = object_data;
         if ((((AppearanceFieldView_80E8F548 *)appearance)->field_49) == 0x12) {
-            texture = D_8006E240;
+            texture = item_effect_descriptor;
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {

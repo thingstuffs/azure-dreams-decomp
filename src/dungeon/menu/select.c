@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
 #include "dungeon/level.h"
 #include "dungeon/menu.h"
@@ -23,7 +24,7 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 
     owner = (*(void **)((u8 *)motion_state + 0));
     node_index = ((S_81809800_0 *)owner)->unk_26;
-    update_counts = D_8002715C;
+    update_counts = selection_animation_counters;
     target_node = ((S_81809800_1 *)(((node_index * 4) + owner)))->unk_0C;
     current_y = position->x.w.i;
     target_pos = ((S_81809800_3 *)target_node)->unk_08;
@@ -132,8 +133,8 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
     void *menu = menu_in;
     void *motion_data = motion_in;
 
-    entry_counter = D_8002715C[0];
-    D_8002715C[0] = entry_counter + 1;
+    entry_counter = selection_animation_counters[0];
+    selection_animation_counters[0] = entry_counter + 1;
     motion = motion_data;
     appearance = appearance_in;
     state_base = &g_game_work;
@@ -467,10 +468,10 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
     s16 direction;
     void *owner;
 
-    update_count = (*(u16 *)D_8002715C);
+    update_count = (*(u16 *)selection_animation_counters);
     state = state_arg;
     update_count++;
-    (*(u16 *)D_8002715C) = update_count;
+    (*(u16 *)selection_animation_counters) = update_count;
     phase = ((S_80025A14_0 *)state)->unk_72.s;
     switch (phase) {
     case 0:
@@ -587,13 +588,13 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     void *object_ptr;
     void *fade_in_ticks;
 
-    update_count = (*(u16 *)D_8002715C);
+    update_count = (*(u16 *)selection_animation_counters);
     object_ptr = object_arg;
     motion = object_ptr;
     position = position_arg;
     sprite = sprite_arg;
     object = motion;
-    (*(u16 *)D_8002715C) = update_count + 1;
+    (*(u16 *)selection_animation_counters) = update_count + 1;
     render_context = &g_game_work;
     state = object->unk_72.s;
     switch (state) {
@@ -791,11 +792,11 @@ void initialize_children_or_shutdown(void *owner)
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
-        if ((*(s16 *)D_8002715C) == 0) {
+        if ((*(s16 *)selection_animation_counters) == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
-        (*(s16 *)D_8002715C) = 0;
+        (*(s16 *)selection_animation_counters) = 0;
         return;
     }
 
@@ -811,7 +812,7 @@ void initialize_children_or_shutdown(void *owner)
         }
         selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
-        (*(s16 *)D_8002715C) = 0;
+        (*(s16 *)selection_animation_counters) = 0;
         enqueue_script_message_command();
         return;
     }
@@ -898,7 +899,7 @@ void initialize_children_or_shutdown(void *owner)
 
         if (entity == NULL) {
             spawn_container = ((S_80026190_0 *)owner)->unk_00;
-            ((ObjectNodeHeader *)((u8 *)spawn_container - 0x20))->flags |= 0x8000;
+            ((ObjectNodeHeader *)((u8 *)spawn_container - 0x20))->flags |= NODE_REMOVE;
             ((S_80026190_0 *)owner)->unk_00 = NULL;
 
             spawn_child = ((S_80026190_5 *)child)->unk_08;

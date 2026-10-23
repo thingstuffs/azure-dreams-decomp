@@ -14,7 +14,7 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
-extern u8 D_80170EE4[];
+extern u8 manoeva_action_resume_address[];
 extern Callback manoeva_callbacks[];
 
 typedef struct S_80170AD0_0 {
@@ -56,7 +56,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
         Callback early_callback;
 
         early_callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
-        if (early_callback == (Callback)D_80170EE4) {
+        if (early_callback == (Callback)manoeva_action_resume_address) {
             early_callback(entity_arg, motion_arg, monster_arg, entity_arg);
         } else {
             (*(u8 *)((u8 *)entity_arg + 0x71)) &= 0x7F;

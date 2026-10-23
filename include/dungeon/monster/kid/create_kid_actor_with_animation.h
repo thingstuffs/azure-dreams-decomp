@@ -78,12 +78,12 @@ extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
 extern s16 view_facing_angle_alias;
-extern u8 D_800D71A8[];
-extern u8 D_800D78C0[];
+extern u8 child_texture_entries[];
+extern u8 child_object_update_address[];
 extern u8 D_80170BF8[];
-extern u8 D_80171400[];
-extern u8 D_80175140[];
-extern u8 D_80175188[];
+extern u8 kid_action_resume_address[];
+extern u8 kid_direction_frames[];
+extern u8 kid_alt_spawn_direction_frames[];
 
 /* Allocate and initialize an object and its child entries. */
 

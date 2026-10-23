@@ -24,7 +24,7 @@ s32 probe_directional_neighbor();             /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 check_entity_interaction_compatibility();                     /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
-extern u8 D_80174F28;
+extern u8 nyuel_frame_set_8;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
 /* Starts Nyuel's attack against a compatible neighbor within 63 height units; returns 1, 0 if unsuitable,
@@ -66,7 +66,7 @@ s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, S
         ((S_80171E00_3 *)action_state)->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        direction_table = &D_80174F28;
+        direction_table = &nyuel_frame_set_8;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);

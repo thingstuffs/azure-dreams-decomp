@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -30,7 +31,7 @@ extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 D_80171058[];
+extern u8 garuda_action_resume_address[];
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
 extern u8 D_801748B0[];
@@ -64,7 +65,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80173A08_0 *)action)->unk_B0.s = 5;
         ((S_80173A08_0 *)action)->unk_A0 = 0;
         ((S_80173A08_0 *)action)->unk_9B++;
@@ -78,7 +79,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A8[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80173A08_0 *)action)->unk_B0.s = 5;
         ((S_80173A08_0 *)action)->unk_A0 = 0;
         ((S_80173A08_0 *)action)->unk_90 -= 0x400000;
@@ -124,7 +125,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
         }
                         /* fall through */
     case 3:
-        if (!(entity->flags1C & 0x08000000)) {
+        if (!(entity->flags1C & ACTOR_GROUNDED)) {
             break;
         }
         ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
@@ -172,6 +173,6 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }
-    ((S_80173A08_0 *)action)->unk_8C = D_80171058;
+    ((S_80173A08_0 *)action)->unk_8C = garuda_action_resume_address;
     on_actor_status_updated(entity);
 }

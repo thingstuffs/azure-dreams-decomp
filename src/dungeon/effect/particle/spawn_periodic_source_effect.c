@@ -53,7 +53,7 @@ typedef struct S_7FFEA1CC_4 {
 void *func_7003CF18();
 s32 func_7010C7A8(void *, void *, s32, s32);
 void *memcpy(void *, const void *, unsigned int);
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[0x100];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C460;
@@ -96,7 +96,7 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
 
         (*(u16 *)((u8 *)source + -2)) = (u16) (((S_7FFEA1CC_0_pre *)source)[-1].unk_00 | 0x8000);
         next_count = *active_count - 1;
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
         *active_count = next_count;
     }
 }

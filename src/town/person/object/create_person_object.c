@@ -16,7 +16,7 @@ extern void register_node_if_unregistered(void *state, void *callback);
 
 extern s32 loaded_town_resource_attributes[];
 extern u8 D_800AB1E0[];
-extern u8 D_800AB708[];
+extern u8 person_approach_state_address[];
 extern u8 D_800D1200[];
 
 /* Creates an object and initializes its state, rendering data, and position. */
@@ -37,7 +37,7 @@ void create_person_object(void) {
         register_node_if_unregistered(state, project_sprite_chain);
         fill_person_records();
         *(s16 *)(state + 0x90) = 0;
-        *(void **)(state + 0x50) = D_800AB708;
+        *(void **)(state + 0x50) = person_approach_state_address;
         *(s16 *)(state + 0x6A) = 0;
         position->x.w.i = (u16) ((u16)view_reference_entity.x.w.i);
         position->y.w.i = (u16) ((u16)view_reference_entity.y.w.i);

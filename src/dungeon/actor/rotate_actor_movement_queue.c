@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
@@ -44,7 +45,7 @@ void rotate_actor_movement_queue(MovingTile *position, void *state) {
     u8 next_y;
 
     if (((S_800A9AFC_0 *)state)->unk_71 & 0x7F) {
-        status_result = (s16) get_entity_effect_value(state, 0x1B);
+        status_result = (s16) get_entity_effect_value(state, STATUS_NO_TILE_OCCUPANCY);
         if (status_result == 0) {
             s32 flags;
             u8 tile_x;

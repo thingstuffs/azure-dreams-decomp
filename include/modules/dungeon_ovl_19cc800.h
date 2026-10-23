@@ -28,7 +28,7 @@ typedef struct EffectSprite {
     union { s32 color; s32 unk_0C; } shade;
     u8 pad_10[10]; s16 angle; s16 size; s16 size_max;
 } EffectSprite;
-extern u16 D_80027452[8];
+extern u16 warp_effect_counters[8];
 extern s16 D_80027450;
 extern u8 D_80027460[12];
 

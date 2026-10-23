@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -39,7 +40,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern u8 D_80170838[16];
-extern s32 D_80170E84;
+extern s32 ifrit_action_resume_address;
 #include "dungeon/monster/ifrit.h"
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
@@ -63,7 +64,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         if (((S_80172288_0 *)motion)->unk_96 < 8) {
             ((S_80172288_0 *)motion)->unk_98 |= 8;
             position->velocity_z = 0xFFEE0000;
-            actor->flags1C &= 0xF7FFFFFF;
+            actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             phase_value = ((S_80172288_0 *)motion)->unk_9B;
             ((S_80172288_0 *)motion)->unk_A0 = 0;
             ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
@@ -95,12 +96,12 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         if (((S_80172288_0 *)motion)->unk_96 < 3) {
             ((S_80172288_0 *)motion)->unk_90 = 0;
             ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172288_0 *)motion)->unk_9B++;
         }
                         /* fall through */
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
             position->velocity_z = 0;
             position->velocity_y = 0;
@@ -148,7 +149,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         if ((check_actor_floor_trap(sprite, actor) << 16) <= 0) {
             return;
         }
-        ((S_80172288_0 *)motion)->unk_8C = &D_80170E84;
+        ((S_80172288_0 *)motion)->unk_8C = &ifrit_action_resume_address;
         on_actor_status_updated(actor);
     }
     ((SpriteFrameState *)sprite)->scale_x = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;

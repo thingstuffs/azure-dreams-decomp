@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -81,7 +82,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
         return;
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
+    if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FC90) {
             ((S_8016BFA4_0 *)actor)->unk_9A = 0xD;
             ((S_8016BFA4_0 *)actor)->unk_9B = 1;
@@ -95,7 +96,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
@@ -146,7 +147,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
             }
         }
 
-        if (((u32)entity->flags1C) & 0x80000) {
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
             s16 base_height;
 
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
@@ -167,7 +168,7 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
     sprite->unk_26 = area_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -238,12 +239,12 @@ void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *
         return;
     }
 
-    if (!(((u32)entity->flags1C) & 0x2000)) {
+    if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 area_index = area_id;
 
         if ((area_index < 0) ||
             !(dungeon_rooms[area_index].flags & 2)) {
-            if (!(((u32)entity->flags1C) & 0x430)) {
+            if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->unk_24, sprite->unk_25,

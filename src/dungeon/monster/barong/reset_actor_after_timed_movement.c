@@ -30,7 +30,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_801716F4[];
+extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 D_80175564[];
 extern u8 D_8017558C[];
@@ -143,7 +143,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         if (room_ref == (s32)((u8 *)room - 0x20)) {
             g_dungeon_status.pending_display_owner = room_ref & 0x7FFFFFFF;
         }
-        ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
+        ((S_801738B8_0 *)object)->unk_8C = barong_action_resume_address;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;
         return;
 

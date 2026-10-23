@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
 #include "shared/object_node.h"
 #include "dungeon/effect/particle/update_effect_base_state.h"
@@ -152,7 +153,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     (((S_81844800_3 *)motion)->unk_08.at02.v + 176);
             }
             ((S_81844800_3 *)motion)->unk_14.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             ((S_81844800_0 *)effect)->unk_0A.u++;
             return;
         }
@@ -243,10 +244,10 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
                     sprite->tpage_abr = 0x60;
-                    sprite->unk_00 = D_800DECF8;
+                    sprite->unk_00 = fading_sprite_entries;
                     sprite->flags = flags | 0xC;
                     {
-                        u32 texture_page = ((u32)((SpriteSourceEntry *)D_800DECF8)->unk_04);
+                        u32 texture_page = ((u32)((SpriteSourceEntry *)fading_sprite_entries)->unk_04);
                         sprite->unk_04 = 0;
                         sprite->unk_05 = 0;
                         sprite->color.word = 0x00404040;

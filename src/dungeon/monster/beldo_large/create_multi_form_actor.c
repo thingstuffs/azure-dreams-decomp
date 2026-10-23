@@ -6,7 +6,7 @@
 #include "m2c_compat.h"
 
 extern u8 *beldo_actor_nodes[3];
-extern u8 D_8016A36C[];
+extern u8 beldo_large_action_resume_address[];
 extern u8 *allocate_list_node(s32, u8 *);
 extern void register_node(u8 *, u8 *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
@@ -85,7 +85,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
             initialize_actor_sprite_and_animation(obj, first, second, saved_init_flags);
             ((S_80169D28_1 *)child)->unk_9A = 0xFF;
             ((S_80169D28_1 *)child)->unk_9C = -1;
-            ((S_80169D28_1 *)child)->unk_8C = D_8016A36C;
+            ((S_80169D28_1 *)child)->unk_8C = beldo_large_action_resume_address;
             ((S_80169D28_1 *)child)->unk_AA = 0;
             second->flags = second->flags | 0x80;
             try_move_actor_to_valid_position(child, first, second, result);

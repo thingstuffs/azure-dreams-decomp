@@ -27,7 +27,7 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
                     target->unk_24,
                     target->unk_25,
                     &distance);
-                direction_frames = D_801764A0;
+                direction_frames = cyclone_frame_set_2;
                 action_state->unk_9A = 0x17;
                 action_state->unk_9B = 0;
                 action_state->unk_8C = 0;
@@ -146,9 +146,9 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, Spri
     ((S_80172438_2 *)action_state)->unk_9B = 0;
     ((S_80172438_2 *)action_state)->unk_8C = 0;
     ((S_80172438_2 *)action_state)->unk_9A = 0x17;
-    (sprite->frameTable) = D_801764A0;
+    (sprite->frameTable) = cyclone_frame_set_2;
     select_sprite_entry(sprite,
-                  D_801764A0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  cyclone_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);
     (*(u8 *)&actor->pending_turn_updates)--;
@@ -170,7 +170,7 @@ void update_action_state_direction_specific(void *action_state, s32 action_param
             *((s8 *)action_state + 0x9A) = 0x17;
             *(s32 *)((u8 *)action_state + 0x8C) = 0;
             *((s8 *)action_state + 0x9B) = 0;
-            frame_table = &D_8014A000[D_801764A0_OFF];
+            frame_table = &dungeon_resource_buffer[D_801764A0_OFF];
             sprite->frameTable = frame_table;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, frame_table[direction], 0);
@@ -190,8 +190,8 @@ void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_
             action_state->unk_9A = 0x18;
             action_state->unk_8C = 0;
             action_state->unk_9B = 0;
-            animation->frameTable = D_801764A0;
-            select_sprite_entry(animation, D_801764A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            animation->frameTable = cyclone_frame_set_2;
+            select_sprite_entry(animation, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);
@@ -208,8 +208,8 @@ void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx
             action_state->unk_9A = 0x19;
             action_state->unk_8C = 0;
             action_state->unk_9B = 0;
-            sprite->frameTable = D_801764A0;
-            select_sprite_entry(sprite, D_801764A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            sprite->frameTable = cyclone_frame_set_2;
+            select_sprite_entry(sprite, cyclone_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);

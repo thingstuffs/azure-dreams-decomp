@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -43,7 +45,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 
 extern u8 D_80170E94[];
-extern u8 D_80174A7C[];
+extern u8 viper_frame_set_2[];
 
 /* Advances an actor motion, waits for completion, and resets its action state. */
 void advance_motion_and_reset_action(void *state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
@@ -62,7 +64,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
     use_player = 0;
     switch (((S_80172F5C_0 *)state)->unk_9B) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player = 1;
@@ -185,7 +187,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         {
-            u8 *direction_frames = D_80174A7C;
+            u8 *direction_frames = viper_frame_set_2;
 
             if (*(unsigned char **)&sprite->frameTable != direction_frames) {
                 (sprite->frameTable) = direction_frames;
@@ -208,7 +210,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
     }
 }

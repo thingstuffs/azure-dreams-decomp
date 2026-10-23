@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/clown/create_flagged_actor_object.h"
 #include "shared/monster_ids.h"
@@ -39,19 +42,19 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
         placement->frameTable = &D_8016E20C;
         placement->unk_24 = saved_x;
         if (mode == 1) {
-            flags_14 = state->unk_14 | 0x6000;
-            flags_1c = state->unk_1C | 0x6000;
+            flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             state->unk_14 = flags_14;
             state->unk_1C = flags_1c;
         } else if (mode >= 2) {
-            flags_14 = state->unk_14 | 0x2000;
-            flags_1c = state->unk_1C | 0x2000;
+            flags_14 = state->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = state->unk_1C | ACTOR_PLAYER_SIDE;
             state->unk_14 = flags_14;
             state->unk_1C = flags_1c;
         } else if (((init_flags & ~3) << 0x10) == 0) {
-            if (!(state->unk_14 & 0x200)) {
+            if (!(state->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     placement->frameTable = &D_8016E25C;
                 }
             }

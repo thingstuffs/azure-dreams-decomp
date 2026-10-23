@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Directional actor effects and their spiraling particle animation. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -51,7 +52,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         }
 
         particles_left = 5;
-        sprite_set = D_800DEC28;
+        sprite_set = directional_effect_entries;
         do {
             entity = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (entity != 0) {
@@ -141,7 +142,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
     case 1:

@@ -17,7 +17,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_parent_attached_effect(void *, void *, void *);
 
-extern u8 D_80171FA4[9];
+extern u8 kewne_uncached_action_resume_address[9];
 extern u8 D_80175C68[8];
 extern u8 D_80175C70[8];
 
@@ -174,7 +174,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         velocity->velocity_x = 0;
         set_record_integer_tile_center(velocity, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
+        ((S_80173930_0 *)motion)->unk_8C = kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

@@ -621,9 +621,9 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 extern u8 floor_generation_state[];
 extern u16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern u8 dungeon_event_pending_flag;
-extern u8 D_800E0458[];
+extern u8 familiar_defeat_text[];
 extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
@@ -752,7 +752,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
             if (!(*(u16 *)(sys + 0x3714) & 1)) {
                 r = write_text_byte_and_advance(0x11, r);
                 r = write_text_byte_and_advance(0x4C, r);
-                r = copy_four_text_bytes(D_800E0458, r);
+                r = copy_four_text_bytes(familiar_defeat_text, r);
             }
             clear_byte_and_advance(r);
             display_text_with_fullwidth_adjustment(hnd);
@@ -766,7 +766,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             r = write_text_byte_and_advance(0x11, r);
             r = write_text_byte_and_advance(0x4C, r);
-            r = copy_four_text_bytes(D_800E0458, r);
+            r = copy_four_text_bytes(familiar_defeat_text, r);
         }
         clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
@@ -789,7 +789,7 @@ L_third:
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             r = write_text_byte_and_advance(0x11, r);
             r = write_text_byte_and_advance(0x4C, r);
-            r = copy_four_text_bytes(D_800E0458, r);
+            r = copy_four_text_bytes(familiar_defeat_text, r);
         }
         clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
@@ -857,7 +857,7 @@ L_zero:
                 x = x + 1;
             } while (x < x1);
         }
-        tbl = D_800DCED4;
+        tbl = actor_event_values;
         phase = *(s16 *)(w + 6);
         e = ((u8 *)dungeon_actor_ring_anchor);
         *(s16 *)(w + 18) = 0;

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 #include "shared/monster_ids.h"
@@ -53,23 +56,23 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         part_b->unk_25 = held_b;
 
         if (kind == 1) {
-            left = ((S_8014C86C_1 *)work)->unk_14 | 0x6000;
-            right = ((S_8014C86C_1 *)work)->unk_1C | 0x6000;
+            left = ((S_8014C86C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_8014C86C_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_8014C86C_1 *)work)->unk_14 = left;
             ((S_8014C86C_1 *)work)->unk_1C = right;
         } else if (kind >= 2) {
-            left = ((S_8014C86C_1 *)work)->unk_14 | 0x2000;
-            right = ((S_8014C86C_1 *)work)->unk_1C | 0x2000;
+            left = ((S_8014C86C_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            right = ((S_8014C86C_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_8014C86C_1 *)work)->unk_14 = left;
             ((S_8014C86C_1 *)work)->unk_1C = right;
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((S_8014C86C_1 *)work)->unk_14 & 0x200)) {
+                if (!(((S_8014C86C_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((S_8014C86C_1 *)work)->unk_1C |= 0x200;
+                        ((S_8014C86C_1 *)work)->unk_1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
-                        set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
                         part_b->frameTable = D_801501CC;
                     }
                 }

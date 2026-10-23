@@ -54,7 +54,7 @@ typedef struct S_func_81331914_4 {
 extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];
 extern u8 D_80167C30[];
 extern s16 ribbon_vertices[][8][2][3];
@@ -136,7 +136,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             }
 
             sprite->unk_06 = 0;
-            select_record_entry_and_value(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, ribbon_sprite_entries, 0);
 
             vertex_index = 0;
             do {

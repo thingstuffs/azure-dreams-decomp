@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -17,7 +18,7 @@ typedef struct S_801720D8_1 {
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 has_pending_dungeon_activity(void *);
 extern s32 generate_random_value(void);
-extern u8 D_80174AE4[];
+extern u8 viper_frame_set_1[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
 void start_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b, EntityRec *actor) {
@@ -28,7 +29,7 @@ void start_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b
         ((S_801720D8_1 *)work)->unk_8C = 0;
         ((S_801720D8_1 *)work)->unk_9A = 0x17;
         ((S_801720D8_1 *)work)->unk_9B = 0;
-        if (actor->flags1C & 0x400) {
+        if (actor->flags1C & ACTOR_CONFUSED) {
             value = actor->flags14;
             if (!(value & 0x80000000)) {
                 value |= 0x80000000;
@@ -39,7 +40,7 @@ void start_actor_hit_reaction(void *work, void *part_a, SpriteFrameState *part_b
         ((S_801720D8_1 *)work)->unk_96 = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
-        (part_b->frameTable) = D_80174AE4;
-        select_sprite_entry(part_b, D_80174AE4[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
+        (part_b->frameTable) = viper_frame_set_1;
+        select_sprite_entry(part_b, viper_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
     }
 }

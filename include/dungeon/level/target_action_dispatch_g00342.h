@@ -52,7 +52,7 @@ extern void clear_slots_of_type(void *object, s32 value);
 extern void adjust_source_value_and_finalize(void *object, void *value);
 extern s8 D_800E0DF5[];
 extern D_800DF2A8_fn D_800DF2A8[];
-extern u8 D_800E3D40[16];
+extern u8 trap_request_blocked[16];
 extern void process_unflagged_linked_entries_alt(s32);
 extern void process_unflagged_linked_entries(s32);
 extern s32 select_record_entry_and_value(void *, s32, s32);

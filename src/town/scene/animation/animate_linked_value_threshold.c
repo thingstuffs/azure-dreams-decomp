@@ -20,7 +20,7 @@ typedef struct S_808127A4_1 {
 
 
 s32 func_80058588(s32, s32, s32);
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Passes the linked value times 1000 to func_80058588, then moves field +0x16 until removal. */
 void animate_linked_value_threshold(void *record_ptr) {
@@ -51,7 +51,7 @@ void animate_linked_value_threshold(void *record_ptr) {
         if (threshold_value >= 0xF9U) {
             flags = &((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00;
             *flags = (u16) (((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00 | 0x8000);
-            *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
+            *(s32 *) 0x80084D5C = scene_object_flags | 0x8000;
         }
     }
 }

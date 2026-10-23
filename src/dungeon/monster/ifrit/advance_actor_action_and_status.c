@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -41,7 +43,7 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80173F28(void *, void *, void *, void *);
 
-extern u8 D_80170E84[];
+extern u8 ifrit_action_resume_address[];
 extern u8 D_80174860[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
@@ -70,7 +72,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFr
         return;
 
     case 1:
-        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             s32 actor_flags;
             DungeonGlobalStatus *system_base;
 
@@ -122,7 +124,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFr
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin;
                 s8 coordinate;
 
@@ -132,11 +134,11 @@ void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFr
                     (coordinate >= 0)) ||
                     (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
-                    clear_slots_of_type(actor, 1);
+                    clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
@@ -163,7 +165,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFr
     default:
         return;
     }
-    ((S_8017388C_2 *)actor)->unk_1C &= ~0x200;
+    ((S_8017388C_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
     in_action = (u8 *)in_action + 0x8C;
-    *(void **)in_action = D_80170E84;
+    *(void **)in_action = ifrit_action_resume_address;
 }

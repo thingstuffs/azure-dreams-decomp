@@ -1,3 +1,6 @@
+#include "shared/item_ids.h"
+#include "dungeon/level/tile_flags.h"
+#include "shared/actor_status_ids.h"
 /* Target action dispatch (G00342). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. */
 #include "dungeon/level/target_action_dispatch_g00342.h"
@@ -26,13 +29,13 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
     clear_slot_and_detach_entity(slot);
     entries = (D_800E3648_entry *)floor_objects;
     entry = &entries[slot];
-    entry->field1 = 0x15;
+    entry->field1 = ITEM_KIND_TRAP;
     entry->field3 = 0xC0;
     entry->field0 = entry_type;
     entry->field2 = 0;
     dungeon_floor_object_positions[slot].field6 = (s8) x;
     dungeon_floor_object_positions[slot].field7 = (s8) y;
-    cycle_map_cell_flags(x, y, 0x20);
+    cycle_map_cell_flags(x, y, TILE_HAS_OBJECT);
     dungeon_floor_object_positions[slot].field10 = z;
     dungeon_floor_object_positions[slot].field14 = 0;
     dungeon_floor_object_positions[slot].fieldC = entry_value;
@@ -42,14 +45,14 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
 
 /* Process the target with parameters 7 and 0x10 and report success. */
 s32 process_target_with_action_seven(s32 target) {
-    set_or_clear_actor_status_slot(target, 7, 0x10);
+    set_or_clear_actor_status_slot(target, STATUS_SPEED, 0x10);
     return 1;
 }
 
 /* Handle a nonzero type 2 query result and always return success. */
 s32 handle_type_two_query_result(void *object) {
-    if ((get_entity_effect_value(object, 2) << 16) != 0) {
-        clear_slots_of_type(object, 2);
+    if ((get_entity_effect_value(object, STATUS_CONFUSION) << 16) != 0) {
+        clear_slots_of_type(object, STATUS_CONFUSION);
         adjust_source_value_and_finalize(object, D_800E0DF5);
         return 1;
     }
@@ -58,7 +61,7 @@ s32 handle_type_two_query_result(void *object) {
 
 /* Calls the selected handler and updates object and slot status on success. */
 s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state) {
-    u8 *state = D_800E3D40;
+    u8 *state = trap_request_blocked;
     s32 result;
     StatusEntry *status;
     Arg1Struct *object = (Arg1Struct *) object_ptr;

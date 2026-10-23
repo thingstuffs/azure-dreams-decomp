@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -79,23 +82,23 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         placement->frameTable = &D_8016220C;
         placement->unk_24 = saved_x;
         if (kind_or_bits == 1) {
-            flags_14 = actor_state->unk_14 | 0x6000;
-            flags_1c = actor_state->unk_1C | 0x6000;
+            flags_14 = actor_state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = actor_state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             actor_state->unk_14 = flags_14;
             actor_state->unk_1C = flags_1c;
         } else if (kind_or_bits >= 2) {
-            flags_14 = actor_state->unk_14 | 0x2000;
-            flags_1c = actor_state->unk_1C | 0x2000;
+            flags_14 = actor_state->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = actor_state->unk_1C | ACTOR_PLAYER_SIDE;
             actor_state->unk_14 = flags_14;
             actor_state->unk_1C = flags_1c;
         } else {
             if (((spawn_flags & ~3) << 0x10) == 0) {
                 query_object = object;
-                if (!(actor_state->unk_14 & 0x200)) {
+                if (!(actor_state->unk_14 & ACTOR_RESIST_SLEEP)) {
                     query_attributes = attributes;
                     kind_or_bits = generate_random_value();
                     if (kind_or_bits & 1) {
-                        set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(actor_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         placement->frameTable = &D_8016225C;
                     }
                 }

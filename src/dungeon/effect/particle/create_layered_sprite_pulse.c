@@ -8,7 +8,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 extern s32 register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
@@ -60,7 +60,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
             sprite->unk_06 = 0;
             sprite->clut = 0x7DCF;
             sprite->flags = (u16) (sprite->flags | 0x100);
-            select_record_entry_and_value(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, ribbon_sprite_entries, 0);
         }
         scale_y += 0x200;
         effect_index += 1;

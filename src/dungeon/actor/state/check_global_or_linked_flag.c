@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
@@ -20,7 +21,7 @@ s32 check_global_or_linked_flag_20000(Actor *actor) {
     if (dungeon_floor_flags & 0x10000000) {
         return 1;
     }
-    if (actor->flags14 & 0x4000) {
+    if (actor->flags14 & ACTOR_PARTY_MEMBER) {
         s32 slot_index = 1;
         u8 *slot_cursor = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {

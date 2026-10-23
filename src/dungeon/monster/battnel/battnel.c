@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -80,27 +83,27 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
         do {
 
             if (kind == 1) {
-                flags_or_roll = work->unk_14 | 0x6000;
-                secondary_flags = work->unk_1C | 0x6000;
+                flags_or_roll = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
                 work->unk_14 = flags_or_roll;
                 work->unk_1C = secondary_flags;
             } else if (kind >= 2) {
-                flags_or_roll = work->unk_14 | 0x2000;
-                secondary_flags = work->unk_1C | 0x2000;
+                flags_or_roll = work->unk_14 | ACTOR_CLASS_ENABLED;
+                secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
                 work->unk_14 = flags_or_roll;
                 work->unk_1C = secondary_flags;
             } else {
                 part_arg = obj;
                 if (((spawn_flags & ~3) << 16) == 0) {
-                    if (!(work->unk_14 & 0x200)) {
+                    if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                         part_arg = part_a;
                         flags_or_roll = generate_random_value();
                         part_arg = obj;
                         if (!(flags_or_roll & 1)) {
                             break;
                         }
-                        work->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(work, 1,
+                        work->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value(obj) & 0x3F) | 0x20);
                         part_b->frameTable = D_8015BD4C;
                     }

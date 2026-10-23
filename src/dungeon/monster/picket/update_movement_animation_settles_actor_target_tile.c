@@ -29,7 +29,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern Node *actor_update_node_cursor[];
-extern u8 D_801710F4[];
+extern u8 picket_action_resume_address[];
 extern u8 D_80174F30;
 
 /* Updates movement animation and settles the actor at its target tile. */
@@ -115,7 +115,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_80172908_1 *)action)->unk_8C = D_801710F4;
+        ((S_80172908_1 *)action)->unk_8C = picket_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (((ActorRecord *)actor)->pending_turn_updates == 0) {

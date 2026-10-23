@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "engine/entity.h"
 
@@ -36,7 +39,7 @@ void apply_entity_effects(void *entity)
 
     {
 
-        boosted_stat = get_entity_effect_value(entity, 7);
+        boosted_stat = get_entity_effect_value(entity, STATUS_SPEED);
         boosted_stat = (s16)boosted_stat;
         if (boosted_stat > 0) {
             U16(0x6E, entity) = U16(0x6E, entity) * 2;
@@ -109,47 +112,47 @@ void apply_entity_effects(void *entity)
     }
 
     if (S32(0x54, entity) & 0x04000000) {
-        S32(0x14, entity) |= 0x400;
-        S32(0x1C, entity) &= ~0x400;
+        S32(0x14, entity) |= ACTOR_RESIST_CONFUSION;
+        S32(0x1C, entity) &= ~ACTOR_CONFUSED;
     }
 
     if (S32(0x54, entity) & 0x02000000) {
-        S32(0x14, entity) |= 0x200;
-        S32(0x1C, entity) &= ~0x200;
+        S32(0x14, entity) |= ACTOR_RESIST_SLEEP;
+        S32(0x1C, entity) &= ~ACTOR_ASLEEP;
     } else {
-        S32(0x14, entity) &= ~0x200;
+        S32(0x14, entity) &= ~ACTOR_RESIST_SLEEP;
     }
 
     if (S32(0x54, entity) & 0x08000000) {
-        S32(0x14, entity) |= 0x10;
-        S32(0x1C, entity) &= ~0x10;
+        S32(0x14, entity) |= ACTOR_RESIST_BLIND;
+        S32(0x1C, entity) &= ~ACTOR_BLIND;
     } else {
-        S32(0x14, entity) &= ~0x10;
+        S32(0x14, entity) &= ~ACTOR_RESIST_BLIND;
     }
 
     if (S32(0x54, entity) & 0x10000000) {
-        S32(0x14, entity) |= 0x20;
-        S32(0x1C, entity) &= ~0x20;
+        S32(0x14, entity) |= ACTOR_RESIST_PARALYSIS;
+        S32(0x1C, entity) &= ~ACTOR_PARALYZED;
     } else {
-        S32(0x14, entity) &= ~0x20;
+        S32(0x14, entity) &= ~ACTOR_RESIST_PARALYSIS;
     }
 
     if (S32(0x54, entity) & 0x20000000) {
-        S32(0x14, entity) |= 0x40;
-        S32(0x1C, entity) &= ~0x40;
+        S32(0x14, entity) |= ACTOR_RESIST_POISON;
+        S32(0x1C, entity) &= ~ACTOR_POISONED;
     } else {
-        S32(0x14, entity) &= ~0x40;
+        S32(0x14, entity) &= ~ACTOR_RESIST_POISON;
     }
 
     if (S32(0x54, entity) & 0x40000000) {
-        S32(0x14, entity) |= 0x80;
-        S32(0x1C, entity) &= ~0x80;
+        S32(0x14, entity) |= ACTOR_RESIST_MAGIC_BIND;
+        S32(0x1C, entity) &= ~ACTOR_MAGIC_BOUND;
     } else {
-        S32(0x14, entity) &= ~0x80;
+        S32(0x14, entity) &= ~ACTOR_RESIST_MAGIC_BIND;
     }
 
     if (S32(0x54, entity) & 0x200000) {
-        S32(0x1C, entity) |= 0x1000;
+        S32(0x1C, entity) |= ACTOR_ANGRY;
         S32(0x14, entity) &= ~0x1000;
     }
 

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -41,7 +42,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern s32 D_80173B98;
+extern s32 pulunpa_advance_actor_state_and_dispatch_address;
 extern u8 D_80176338[];
 extern u8 D_80176340[];
 
@@ -62,7 +63,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
-            ((ActorRecord *)actor)->flags1C &= ~0x08000000;
+            ((ActorRecord *)actor)->flags1C &= ~ACTOR_GROUNDED;
             ((S_80174F24_0 *)action)->unk_9E.s = 5;
             ((S_80174F24_0 *)action)->unk_A0 = 0;
             ((S_80174F24_0 *)action)->unk_9B++;
@@ -104,14 +105,14 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         if (move_ticks < 0) {
             ((S_80174F24_0 *)action)->unk_90 = 0;
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
             ((S_80174F24_0 *)action)->unk_9B++;
         }
     }
                         /* fall through */
 
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
             u8 *direction_table;
 
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
@@ -169,7 +170,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
+            ((S_80174F24_0 *)action)->unk_8C = &pulunpa_advance_actor_state_and_dispatch_address;
             on_actor_status_updated(actor);
         }
     }

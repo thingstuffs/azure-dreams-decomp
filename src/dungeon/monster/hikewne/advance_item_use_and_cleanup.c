@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "engine/cd.h"
 extern int abs(int);
@@ -19,8 +21,8 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_directional_template_effect(void *, void *, void *, void *);
 
-extern s32 D_801714D4[];
-extern u8 D_801740E0[];
+extern s32 hikewne_action_resume_address[];
+extern u8 hikewne_direction_frames[];
 extern u8 D_80174110[];
 extern u8 D_80174118[];
 
@@ -61,7 +63,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
     state = ((S_80172A48_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)item + 0x1C)) & 0x2000) {
+        if ((*(u32 *)((u8 *)item + 0x1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = ((*(u16 *)((u8 *)item + 0x46)) & 0x3FFF) - 1;
@@ -171,7 +173,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
-        ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
+        ((S_80172A48_0 *)action)->unk_8C = hikewne_action_resume_address;
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
@@ -274,11 +276,11 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         ((S_80172A48_0 *)action)->unk_9B++;
-        if (*(u8 **)&actor->frameTable == D_801740E0) {
+        if (*(u8 **)&actor->frameTable == hikewne_direction_frames) {
             return;
         }
         {
-            u8 *model = D_801740E0;
+            u8 *model = hikewne_direction_frames;
 
             (actor->frameTable) = model;
             select_sprite_entry(actor,
@@ -296,13 +298,13 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
+        ((S_80172A48_0 *)action)->unk_8C = hikewne_action_resume_address;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;
         (*(u8 *)((u8 *)item + 0x6D))--;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
         return;
 

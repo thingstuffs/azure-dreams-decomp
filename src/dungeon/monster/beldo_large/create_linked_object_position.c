@@ -28,7 +28,7 @@ typedef struct S_func_81339A5C_2 {
 
 extern void *allocate_list_node();
 extern void register_node();
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 extern s32 D_8017085C;
 extern void *beldo_actor_nodes;
 extern void *D_80175D68;
@@ -80,7 +80,7 @@ void create_linked_object_position(void)
         render_state->color.c.b = 0x80;
         render_state->color.c.g = 0x80;
         render_state->color.c.r = 0x80;
-        render_state->source = &D_8006E240;
+        render_state->source = &item_effect_descriptor;
         D_80175D68 = object;
     }
 }

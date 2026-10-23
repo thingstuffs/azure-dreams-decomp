@@ -6,7 +6,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
-extern u8 D_80170000[];
+extern u8 encounter_overlay_work[];
 
 typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
@@ -240,7 +240,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
     default:
         break;
     }
-    if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
+    if (((S_8016FC4C_8 *)encounter_overlay_work)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;
         common_page = (u32)(s32)g_game_work.view.camera_rotation.parts.viewAngle;

@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -28,7 +30,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 
 extern u8 D_80170FD8[];
 extern u8 D_80171284[];
-extern u8 D_80171E20[];
+extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 extern u8 D_80175424[12];
 
@@ -79,7 +81,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
     state = ((S_801737C8_0 *)controller)->unk_9B;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)object + 0x1C)) & 0x2000) {
+        if ((*(u32 *)((u8 *)object + 0x1C)) & ACTOR_PLAYER_SIDE) {
             switch ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) {
             case 7:
                 use_player = 1;
@@ -180,7 +182,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(object);
         (*(u8 *)((u8 *)object + 0x6D))--;
-        ((S_801737C8_0 *)controller)->unk_8C = D_80171E20;
+        ((S_801737C8_0 *)controller)->unk_8C = blume_action_resume_address;
         (*(u8 *)((u8 *)object + 0x73)) = 0;
         (*(u8 *)((u8 *)object + 0x72)) = 0;
         (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
@@ -311,13 +313,13 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_801737C8_0 *)controller)->unk_8C = D_80171E20;
+            ((S_801737C8_0 *)controller)->unk_8C = blume_action_resume_address;
             advance_status_timers(object);
             (*(u8 *)((u8 *)object + 0x73)) = 0;
             (*(u8 *)((u8 *)object + 0x72)) = 0;
             (*(u8 *)((u8 *)object + 0x6D))--;
             (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
-            play_sound_if_enabled(0xB4);
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
 
         return;

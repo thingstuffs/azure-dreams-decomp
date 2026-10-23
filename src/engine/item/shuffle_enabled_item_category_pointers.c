@@ -18,7 +18,7 @@ typedef struct S_8004AB7C_CategoryEntry {
 extern S_8004AB7C_CategoryEntry itemCategoryTable[];
 
 /* External words used to select item categories. */
-extern s32 D_80012090;
+extern s32 dungeon_mode_state;
 
 extern void save_or_restore_random_seed(s32 a0);
 extern void restore_dungeon_random_seed(s32 a0);
@@ -36,7 +36,7 @@ void shuffle_enabled_item_category_pointers(void)
 
     category = itemCategoryTable;
     for (category_id = 0; category_id < 20; category_id++, category++) {
-        if (((s32)category->pad1[0] >> D_80012090) & 1) {
+        if (((s32)category->pad1[0] >> dungeon_mode_state) & 1) {
             shuffle_category_item_data(category_id);
         }
     }

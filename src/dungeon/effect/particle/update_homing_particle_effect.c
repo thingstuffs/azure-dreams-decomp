@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_ids.h"
 /* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
@@ -273,7 +275,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             effect->unk_50 = count * 4;
             position->unk_0C = (s32) (step_x << 0x14);
             position->unk_10 = (s32) (step_y << 0x14);
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             effect->unk_0A += 1;
             return;
         }
@@ -445,7 +447,7 @@ void try_apply_attached_actor_status(S_81832FE8_0 *owner) {
         if (flags & 0x20) return;
         if (flags & 1) {
             object->unk_1C = (s32) (object->unk_1C | 0x20);
-            set_or_clear_actor_status_slot(owner->unk_60, 4, (rand() & 0x3F) | 0x20);
+            set_or_clear_actor_status_slot(owner->unk_60, STATUS_PARALYSIS, (rand() & 0x3F) | 0x20);
         }
     }
 }

@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -17,8 +19,8 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_actor_linked_effect(void *);
 
-extern u8 D_80170E9C[];
-extern u8 D_80174EE0[];
+extern u8 nyuel_action_resume_address[];
+extern u8 nyuel_frame_set_2[];
 
 typedef struct S_8017293C_0 {
     u8 pad_00[0x8C];
@@ -56,7 +58,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
     item_slot = (u8 *)(((S_8017293C_0 *)action)->unk_9B);
     switch ((u8)item_slot) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
+        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
@@ -165,7 +167,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
-        ((S_8017293C_0 *)action)->unk_8C = D_80170E9C;
+        ((S_8017293C_0 *)action)->unk_8C = nyuel_action_resume_address;
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -204,11 +206,11 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (*(u8 * *)&sprite->frameTable != D_80174EE0) {
+        if (*(u8 * *)&sprite->frameTable != nyuel_frame_set_2) {
             u8 *direction_frames;
             s32 direction;
 
-            direction_frames = D_80174EE0;
+            direction_frames = nyuel_frame_set_2;
             sprite->frameTable = direction_frames;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, direction_frames[direction], 0);
@@ -219,13 +221,13 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
                 return;
             }
             ((S_8017293C_5 *)scratch_pointer)->unk_0A--;
-            ((S_8017293C_0 *)action)->unk_8C = D_80170E9C;
+            ((S_8017293C_0 *)action)->unk_8C = nyuel_action_resume_address;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x73)) = 0;
             (*(u8 *)((u8 *)actor + 0x72)) = 0;
             (*(u8 *)((u8 *)actor + 0x6D))--;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-            play_sound_if_enabled(0xB4);
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
 
         return;

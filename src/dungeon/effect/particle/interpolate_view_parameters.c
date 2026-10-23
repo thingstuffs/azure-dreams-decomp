@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Expanding moving sprites and staged attachment, particle emission, and cleanup effects. */
 #include "dungeon/effect/particle/interpolate_view_parameters.h"
 #include "shared/entity.h"
@@ -16,9 +17,9 @@ const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-3
    /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 extern u8 current_spell_effect_variant;
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 
 /* Moves and animates an expanding sprite, removing it when its lifetime ends or its hidden flag is set. */
 void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
@@ -153,7 +154,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_08 != 0) {
                 ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 1;
                 ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
                 ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
                 object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -255,7 +256,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_0C = 0x80;
                 sprite->unk_12 = 0x7DC0;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-                select_record_entry_and_value(sprite, D_800DEC00, 0);
+                select_record_entry_and_value(sprite, directional_sprite_entries, 0);
             }
         }
         if ((s16) ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
@@ -321,7 +322,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
         part->unk_0C = 0x00808080;
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
-        select_record_entry_and_value(part, D_800DEC00, 0);
+        select_record_entry_and_value(part, directional_sprite_entries, 0);
         angle = object->unk_2A;
         moving_particle_effect_updated = one;
         state->unk_7E.s16 = (angle >> 9) & 7;

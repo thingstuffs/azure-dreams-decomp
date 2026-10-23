@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/volcano/create_tracked_effect_object.h"
@@ -42,24 +45,24 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
 
         if (kind == 1) {
             ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-            left = ((S_8015E854_0 *)work)->unk_14 | 0x6000;
-            right = ((S_8015E854_0 *)work)->unk_1C | 0x6000;
+            left = ((S_8015E854_0 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_8015E854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_8015E854_0 *)work)->unk_14 = left;
             ((S_8015E854_0 *)work)->unk_1C = right;
             part_b->frameTable = D_80162510;
         } else {
             if (kind >= 2) {
                 ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-                left = ((S_8015E854_0 *)work)->unk_14 | 0x2000;
-                right = ((S_8015E854_0 *)work)->unk_1C | 0x2000;
+                left = ((S_8015E854_0 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+                right = ((S_8015E854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_8015E854_0 *)work)->unk_14 = left;
                 ((S_8015E854_0 *)work)->unk_1C = right;
                 part_b->frameTable = D_80162510;
             } else {
                 if (((flags & ~3) << 16) == 0) {
-                    if (!(((S_8015E854_0 *)work)->unk_14 & 0x200)) {
+                    if (!(((S_8015E854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
-                            set_or_clear_actor_status_slot(work, 1,
+                            set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) | 0x20);
                             part_b->frameTable = D_80162538;
                         }

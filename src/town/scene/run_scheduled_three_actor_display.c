@@ -59,7 +59,7 @@ extern void func_80050BD8(s32);
 extern void func_8003F75C(s32);
 
 extern s16 D_8001339E;
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern u32 D_80095AAC;
 extern u8 D_80095AAD;
 extern u8 D_80095AAE;
@@ -197,7 +197,7 @@ void run_scheduled_three_actor_display(TownState *town_state)
         func_8003F75C(2);
         D_80095AAC = 0x00808080;
         *(u16 *)((u8 *)town_state - 2) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         break;
     }
 

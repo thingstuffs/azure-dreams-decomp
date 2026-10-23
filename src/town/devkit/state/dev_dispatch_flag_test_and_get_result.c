@@ -18,7 +18,7 @@ extern void func_80701298(s32, s32);
 extern s32 D_807013A4[];
 extern s32 D_807009B0;
 extern s32 D_807009B4;
-extern CallbackTable *D_807013B4;
+extern CallbackTable *devkit_trace_methods;
 extern u8 D_80700B30[];
 extern u8 D_80700B44[];
 
@@ -31,7 +31,7 @@ s32 dev_dispatch_flag_test_and_get_result(void) {
     func_80700E98();
     {
         s32 test_result = func_80700E3C();
-        CallbackTable *callback_table = D_807013B4;
+        CallbackTable *callback_table = devkit_trace_methods;
 
         D_807009B0 = test_result;
         callback_table->func68(D_80700B30, D_80700B44, 0xC9);

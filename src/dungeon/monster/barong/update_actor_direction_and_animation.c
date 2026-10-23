@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -32,7 +33,7 @@ extern s32 func_8017298C(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 extern void start_direction_based_action(void *, void *, void *, void *);
 
-extern u8 D_801716F4[];
+extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 D_8017555C[];
 extern u8 D_80175564[];
@@ -70,7 +71,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         return;
     }
 
-    if (((u32)entity_arg->flags1C) & 0x200) {
+    if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_801755A4) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
@@ -84,7 +85,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity_arg->flags1C) & 0x100) {
+        if (((u32)entity_arg->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
@@ -111,7 +112,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             }
         }
 
-        if (((u32)entity_arg->flags1C) & 0x80000) {
+        if (((u32)entity_arg->flags1C) & ACTOR_LIFTED) {
             u8 *event_table;
             u8 *anim_entry;
             void *anim_sprite;
@@ -140,7 +141,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
     if (entity_arg->pending_turn_updates > 0) {
         u16 action_flags;
 
-        if (((u32)entity_arg->flags1C) & 0x20) {
+        if (((u32)entity_arg->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity_arg);
             return;
         }
@@ -193,7 +194,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             player = primary_actor_record;
             entity_arg->facing = heading;
             if (player->unk_9A == 0x11) {
-                begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
+                begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, barong_action_resume_address);
                 return;
             }
         }
@@ -205,19 +206,19 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
+            begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, barong_action_resume_address);
             return;
 
         default:
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
-    } else if (!(((u32)entity_arg->flags1C) & 0x2000)) {
+    } else if (!(((u32)entity_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity_arg->flags1C) & 0x430)) {
+            if (!(((u32)entity_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->unk_24, sprite->unk_25,

@@ -37,9 +37,9 @@ extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 extern void update_multi_form_actor_movement(void *, s32, SpriteFrameState *, void *);
 
-extern u8 D_8016A36C[];
-extern u8 D_80173AC8[];
-extern u8 D_80173AD0[];
+extern u8 beldo_large_action_resume_address[];
+extern u8 beldo_large_frame_set_4[];
+extern u8 beldo_large_frame_set_7[];
 
 /* Advance the actor_arg state, updating directional tables and the shared counter. */
 void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFrameState *object_arg, void *actor_arg)
@@ -64,9 +64,9 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            (object_arg->frameTable) = D_80173AC8;
+            (object_arg->frameTable) = beldo_large_frame_set_4;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
-            select_sprite_entry(object_arg, D_80173AC8[direction_index & 7], 0);
+            select_sprite_entry(object_arg, beldo_large_frame_set_4[direction_index & 7], 0);
         }
         ((S_8016D0FC_0 *)context)->unk_9B++;
         return;
@@ -74,7 +74,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
             current_table = *(u8 **)&object_arg->frameTable;
-            expected_table = D_80173AC8;
+            expected_table = beldo_large_frame_set_4;
             if (current_table != expected_table) {
                 (object_arg->frameTable) = expected_table;
                 direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
@@ -85,9 +85,9 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
         if (((S_8016D0FC_3 *)actor_arg)->unk_25 != 0) {
             kind = ((S_8016D0FC_0 *)context)->unk_AC;
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-                (object->frameTable) = D_80173AD0;
+                (object->frameTable) = beldo_large_frame_set_7;
                 select_sprite_entry(object,
-                    D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                    beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
             }
             current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
@@ -130,9 +130,9 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
         }
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            (object->frameTable) = D_80173AD0;
+            (object->frameTable) = beldo_large_frame_set_7;
             select_sprite_entry(object,
-                D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                beldo_large_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
         }
         current_table = (u8 *)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
@@ -144,7 +144,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
             current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             current_table--;
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
-            ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
+            ((S_8016D0FC_0 *)context)->unk_8C = beldo_large_action_resume_address;
         }
         return;
     }

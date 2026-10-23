@@ -35,7 +35,7 @@ typedef struct S_800BF3F0_3 {
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800BF1C8[];
 extern u8 D_800D232C[];
 extern s32 D_800D2344[3];
@@ -52,7 +52,7 @@ void spawn_fixed_effect_object(void *caller_data)
 
     object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
-        register_node(object, D_80046398);
+        register_node(object, lit_mesh_renderer_address);
         color = 0x00808080U;
 
         ((ProjectileObject *)object)->unk_10 = D_800BF1C8;

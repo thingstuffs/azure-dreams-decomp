@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/cd.h"
@@ -76,7 +78,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
     use_player = 0;
     switch (((S_80173A60_0 *)actor_state)->unk_9B) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
+        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
@@ -291,7 +293,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u8 *)((u8 *)actor + 0x6D))--;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     }
     }

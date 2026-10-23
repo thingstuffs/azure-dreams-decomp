@@ -46,7 +46,7 @@ extern void spend_actor_mp(void *, s32);
 extern u8 baloon_default_frames[];
 extern u8 baloon_hop_frames[];
 extern u8 D_800E2370[];
-extern s32 D_80171F1C;
+extern s32 baloon_action_resume_address;
 
 /* Advances the actor's hop animation and finishes the action when its timer expires. */
 void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState *sprite, void *actor)
@@ -154,7 +154,7 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_801733B4_0 *)motion)->unk_8C = &D_80171F1C;
+            ((S_801733B4_0 *)motion)->unk_8C = &baloon_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

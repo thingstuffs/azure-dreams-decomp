@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 
 struct ObjectPosition;
 #include "shared/object_node.h"
@@ -76,7 +77,7 @@ typedef struct S_801749A8_6 {
 extern s32 cd_cue_base[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-extern u8 D_8014A000[];
+extern u8 dungeon_resource_buffer[];
 extern s16 D_80174F48[];
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
@@ -164,7 +165,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
                 return;
             }
             ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         target_color = actor_effect_color_targets[lookup_masked_byte_table(target)];
@@ -195,7 +196,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         if ((effect_choice << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        select_record_entry_and_value(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
+        select_record_entry_and_value(object, &dungeon_resource_buffer[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
@@ -211,7 +212,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
             return;
         }
-        movement_done = create_status_linked_render_effect(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
+        movement_done = create_status_linked_render_effect(position, D_80174FD0[0], D_80174F48[0], &staged_spawn_count);
         if (movement_done == 0) {
             return;
         }

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -50,7 +53,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
 extern s32 D_800C6AEC;
-extern u8 D_80170EE4[];
+extern u8 manoeva_action_resume_address[];
 extern u8 D_80176640[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
@@ -76,7 +79,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
         sprite->unk_10 = 0x20;
         sprite->unk_12 -= 0x80;
         sprite->unk_14 |= 0xC;
-        (*(u32 *)&actor_data->flags1C) |= 0x40000000;
+        (*(u32 *)&actor_data->flags1C) |= ACTOR_REFRESH_GROUND;
         ((S_8017427C_0 *)actor_state)->unk_9B++;
                         /* fall through */
 
@@ -113,7 +116,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
         break;
 
     case 3:
-        ((S_8017427C_0 *)actor_state)->unk_8C = D_80170EE4;
+        ((S_8017427C_0 *)actor_state)->unk_8C = manoeva_action_resume_address;
         actor_flags = actor_data->flags1C;
         actor_data->flags1C = actor_flags & 0xEFFFFFFF;
         if (!(actor_data->flags1C & 0x00400000)) {
@@ -131,7 +134,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
             begin_actor_display_action(actor_state, context, sprite, D_80176640);
             break;
         }
-        if ((actor_data->flags14 & 0x4000) &&
+        if ((actor_data->flags14 & ACTOR_PARTY_MEMBER) &&
             (actor_data->flags1C & 0x10000)) {
             entry_index = (s16)find_entity_slot_by_field_ac(actor_data);
             if (entry_index < 0) {
@@ -142,8 +145,8 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
             actor_data->flags1C &= 0xFFFEFFFF;
             break;
         }
-        if ((get_entity_effect_value(actor_data, 0xA) << 0x10) != 0) {
-            set_or_clear_actor_status_slot(actor_data, 0xA, func_80042518(actor_data, 0xA));
+        if ((get_entity_effect_value(actor_data, STATUS_FROG) << 0x10) != 0) {
+            set_or_clear_actor_status_slot(actor_data, STATUS_FROG, func_80042518(actor_data, 0xA));
         }
         break;
     }

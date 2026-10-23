@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -41,7 +42,7 @@ u32 advance_eligible_actor_or_perform_action(EntityRec *actor, s16 action_arg_1,
     TablePage *table_page;
 
     slot = 1;
-    if (((u32)actor->flags14) & 0x4000) {
+    if (((u32)actor->flags14) & ACTOR_PARTY_MEMBER) {
         u8 *object_page;
 
         object_page = (u8 *)0x800E0000;
@@ -65,7 +66,7 @@ u32 advance_eligible_actor_or_perform_action(EntityRec *actor, s16 action_arg_1,
         return 0;
     }
 
-    if (((u32)actor->flags14) & 0x4000) {
+    if (((u32)actor->flags14) & ACTOR_PARTY_MEMBER) {
         state_index = (*(u8 *)((u8 *)&actor->unk_10 + 2));
         if ((state_index != 4) && ((*(u8 *)((u8 *)&actor->unk_10 + 3)) != 0)) {
             (*(u8 *)((u8 *)&actor->unk_10 + 2)) = state_index + 1;

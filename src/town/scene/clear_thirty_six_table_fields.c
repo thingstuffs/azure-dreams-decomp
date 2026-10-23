@@ -13,7 +13,7 @@ typedef struct S_8050E100_1 {
 } S_8050E100_1;   /* town in func_8050E100 */
 
 extern void (*D_80017618)(void);
-extern s16 D_80017614;
+extern s16 town_event_counter;
 
 extern void func_800173F8();
 extern void clear_thirty_six_table_fields(void);
@@ -31,6 +31,6 @@ void initialize_town_counter_and_callback(void)
     }
     func_800173F8(F_sbs42_pad11, town);
     func_800173F8(F_sbs42_pad12);
-    D_80017614 = 0;
+    town_event_counter = 0;
     func_800173F8(F_sbs42_pad14);
 }

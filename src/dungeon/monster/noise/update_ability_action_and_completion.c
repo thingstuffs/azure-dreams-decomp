@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -31,7 +33,7 @@ s32 play_sound_if_enabled();                     /* extern */
 s32 create_actor_spell_effect();       /* extern */
 void spawn_random_velocity_offset_effect(); /* extern */
 extern M2C_UNK D_80171760;
-extern u8 D_80174E88[9];
+extern u8 noise_direction_frames[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
 /* Starts a targeted Noise spell, emits batches of ten offset particles during casting, then restores idle
@@ -53,7 +55,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
     use_player = 0;
     switch (phase) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             ability_id = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (ability_id) {
             case 7:
@@ -214,9 +216,9 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if ((*(M2C_UNK * *)&sprite->frameTable) != D_80174E88) {
-            sprite->frameTable = D_80174E88;
-            select_sprite_entry(sprite, D_80174E88[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        if ((*(M2C_UNK * *)&sprite->frameTable) != noise_direction_frames) {
+            sprite->frameTable = noise_direction_frames;
+            select_sprite_entry(sprite, noise_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags =
                 (u16) (sprite->flags & 0xF7FF);
         }
@@ -230,7 +232,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         actor->target_tile_x = 0;
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     }
 }

@@ -346,7 +346,7 @@ void into_dn_door_jobs(void) {
 
 /* Tests the input and object angle against either supported global state. */
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value) {
-    if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &D_800CFCB4) != 0) {
+    if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10 & 0xFFF;
         s32 object_angle = object->unk_72 & 0xFFF;

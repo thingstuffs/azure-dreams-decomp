@@ -12,7 +12,7 @@ extern void select_sprite_entry();
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 extern u8 *ghosh_actor_node;
-extern u8 D_80174684[];
+extern u8 ghosh_frame_set_4[];
 
 /* Resets the Ghosh actor action and animation, updates system flags, and relinks up to two attached
  * objects. */
@@ -31,10 +31,10 @@ void dispatch_map_exit_callback(s32 unused0, s32 unused1, s32 unused2, s32 unuse
     set_monster_data_pointer();
     base[0xB3] = 1;
     base[0xB2] = 0;
-    if (*(u8 **)&linked->frameTable != D_80174684) {
-        linked->frameTable = D_80174684;
+    if (*(u8 **)&linked->frameTable != ghosh_frame_set_4) {
+        linked->frameTable = ghosh_frame_set_4;
         select_sprite_entry(linked,
-            D_80174684[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
+            ghosh_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
 

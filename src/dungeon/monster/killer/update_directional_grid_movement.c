@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170EA8;
+extern u8 killer_action_resume_address;
 extern s32 D_80174068;
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
@@ -53,7 +54,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
             action->unk_9B = 2;
             return;
         }
-        if (source->flags1C & 0x228) {
+        if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -121,7 +122,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_80170EA8;
+        action->unk_8C = &killer_action_resume_address;
         return;
 
     default:

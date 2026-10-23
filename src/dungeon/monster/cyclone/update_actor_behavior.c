@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -29,9 +30,9 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
 extern void create_randomized_motion_object(void *, void *);
 
-extern u8 D_80171094[];
+extern u8 cyclone_action_resume_address[];
 #include "dungeon/monster/cyclone.h"
-extern u8 D_80176478[];
+extern u8 cyclone_frame_set_1[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
 void update_actor_behavior_2(void *controller, void *context_in, void *object, ActorRecord *actor)
@@ -65,14 +66,14 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
         ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
         break;
     case 1:
-        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
-        ((SpriteFrameState *)object)->frameTable = D_80176478;
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
+        ((SpriteFrameState *)object)->frameTable = cyclone_frame_set_1;
         select_sprite_entry(object,
-            D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
             break;
         }
         {
@@ -130,28 +131,28 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             }
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&((SpriteFrameState *)object)->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(actor, 1);
+                        clear_slots_of_type(actor, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 break;
             }
         }
-        ((SpriteFrameState *)object)->frameTable = D_80176478;
+        ((SpriteFrameState *)object)->frameTable = cyclone_frame_set_1;
         select_sprite_entry(object,
-            D_80176478[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
             break;
         }
         {
@@ -167,7 +168,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
 
             counter_base = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
         } else {
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);

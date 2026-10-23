@@ -1,3 +1,6 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Mesh and point rendering, star effects, and projectile trails with target hit animation. */
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
@@ -39,13 +42,13 @@ void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *
          * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.
          */
-        if ((set_or_clear_actor_status_slot(target, 0x14,
+        if ((set_or_clear_actor_status_slot(target, STATUS_WIND_PROTECT,
                            (s8)(get_random_scaled_value(effect_arg & 0xFF) + 2)) << 16) != 0) {
-            if (target->unk_14 & 0x4000) {
+            if (target->unk_14 & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(target, &D_800E1CB0);
                 return;
             }
-        } else if (target->unk_14 & 0x4000) {
+        } else if (target->unk_14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_start = message;
             message = expand_text_control_codes(&D_80024004, message);
@@ -729,12 +732,12 @@ typedef struct S_8187B540_1 {
     u16 unk_A0;
 } S_8187B540_1;   /* obj in func_80024D40 */
 
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
 void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
     u8 *object_data = object;
-    u8 *global_base = (u8 *)&D_8002694C - 0x694C;
+    u8 *global_base = (u8 *)&point_cloud_update_flag - 0x694C;
     u16 remaining;
 
     ((S_8187B540_0 *)target)->unk_1A += ((S_8187B540_1 *)object_data)->unk_A0;
@@ -840,7 +843,7 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
 void advance_colored_point_toward_terrain(void *object, s16 *position)
@@ -852,7 +855,7 @@ void advance_colored_point_toward_terrain(void *object, s16 *position)
     u16 query_x = (u16)position[1];
     u16 query_y = (u16)position[3];
 
-    *(s16 *)D_8002694C = 1;
+    *(s16 *)point_cloud_update_flag = 1;
     if (position[5] < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
         ((s32 *)position)[2] += *(s32 *)((u8 *)object + 0xB4);
     }
@@ -1093,7 +1096,7 @@ typedef struct S_8187BB80_1 {
     u16 unk_14;
 } S_8187BB80_1;   /* aux in advance_fading_effect_animation */
 
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data) {
@@ -1101,7 +1104,7 @@ void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *co
     register s32 tick_limit;
     s32 phase_state;
 
-    D_8002694C[0] = 1;
+    point_cloud_update_flag[0] = 1;
     ((S_8187BB80_0 *)effect_data)->unk_02.u--;
 
     if (((S_8187BB80_0 *)effect_data)->unk_40.at00.v == 0) {
@@ -1245,14 +1248,14 @@ typedef struct S_8187BE9C_1 {
     u16 unk_14;
 } S_8187BE9C_1;   /* arg2 in create_object_offset */
 
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */
 void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
     s16 phase;
 
-    D_8002694C[0] = 1;
+    point_cloud_update_flag[0] = 1;
     ((S_8187BE9C_0 *)effect)->unk_02.s--;
 
     phase = ((S_8187BE9C_0 *)effect)->unk_42;
@@ -1377,7 +1380,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 extern u8 D_80026940[12];
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void initialize_star_effect_sequence(void *state_data, void *source_data) {
@@ -1394,7 +1397,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
 
     source_position = source_data;
     mode = ((S_8187BFE0_0 *)state_data)->unk_00.s;
-    *(s16 *)((u8 *)&D_8002694C) = 1;
+    *(s16 *)((u8 *)&point_cloud_update_flag) = 1;
 
     switch (mode) {
     default:
@@ -1598,7 +1601,7 @@ typedef struct {
 const PointTable D_80024074 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 extern Copy12 D_80026934;
 extern u8 D_80026940[12];
-extern s16 D_8002694C[5];
+extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 rand(void);
@@ -1662,7 +1665,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
         PTR(sprite, 8) = (u8 *)effect + 0x98;
         {
             u16 facing = U16(owner, 0x2A);
-            D_8002694C[0] = 1;
+            point_cloud_update_flag[0] = 1;
             U16(effect, 0x7E) = (facing >> 9) & 7;
         }
         U16(effect, 0xA) += 1;
@@ -1810,7 +1813,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
                         U16(motion, 2) = U16(object, 2);
                         U16(motion, 6) = U16(object, 6);
                         U16(motion, 0xA) = U16(effect, 0x78);
-                        play_sound_if_enabled(0x300);
+                        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                         return;
                     }
                 }
@@ -1994,7 +1997,7 @@ loop_0:
         if ((s16)finish_tick < 0x15) {
             return;
         }
-        effect_busy = D_8002694C[0];
+        effect_busy = point_cloud_update_flag[0];
         U16(effect, 0x82) = finish_tick;
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
@@ -2003,7 +2006,7 @@ loop_0:
             return;
         }
         {
-            D_8002694C[0] = 0;
+            point_cloud_update_flag[0] = 0;
 
             return;
         }

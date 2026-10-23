@@ -9,7 +9,7 @@ s32 func_8001868C();                         /* extern */
 s32 func_80018868();                /* extern */
 s32 func_800188E8(s32, s32, s32);
 extern M2C_UNK D_800189BC;
-extern M2C_UNK D_80018B94;
+extern M2C_UNK scene_event_lookup_context;
 extern M2C_UNK D_8001A04A;
 
 /* Selects a request result and conditionally advances a three-state cursor. */
@@ -21,7 +21,7 @@ s32 *select_request_conditionally_three_state(s32 entry_id, s32 unused, s32 requ
     if (result != NULL) {
         return result;
     }
-    result = func_80017960(&D_800189BC, &D_80018B94, entry_id, request_id);
+    result = func_80017960(&D_800189BC, &scene_event_lookup_context, entry_id, request_id);
     cursor = func_80018868(F_sbs34_pad16, 2);
     if (func_8001868C(F_sbs34_pad23) == 0) {
         cursor++;

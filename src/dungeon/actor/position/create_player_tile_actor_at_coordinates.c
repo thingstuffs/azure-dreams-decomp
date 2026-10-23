@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -74,7 +76,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
         clear_entry_flag_and_link_owner(entity);
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
-        FLD(state, s32, 0x1C) |= 0x40000000;
+        FLD(state, s32, 0x1C) |= ACTOR_REFRESH_GROUND;
         FLD(state, s8, 0x71) = 0;
         state_tail = state;
         {
@@ -96,7 +98,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         FLD(state_tail, s32, 0xAC) = tint;
         create_source_linked_fading_effect((void *)result_word4, tint_arg);
         register_node(entity, project_sprite_chain);
-        set_or_clear_actor_status_slot(state, 0x1B, 0);
+        set_or_clear_actor_status_slot(state, STATUS_NO_TILE_OCCUPANCY, 0);
     }
     return state;
 }

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -39,7 +42,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 baloon_default_frames[];
 extern u8 D_800E23A8[];
 extern u8 D_80171964[];
-extern s32 D_80171F1C;
+extern s32 baloon_action_resume_address;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Baloon with default frames at baloon_default_frames, applies spawn flags, and attempts valid
@@ -80,21 +83,21 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         work->unk_9E = 0;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = left;
             work->unk_1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | 0x2000;
-            right = work->unk_1C | 0x2000;
+            left = work->unk_14 | ACTOR_CLASS_ENABLED;
+            right = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = left;
             work->unk_1C = right;
         } else {
             if (((flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
+                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        set_or_clear_actor_status_slot(work, 1,
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_800E23A8;
                     }
@@ -105,7 +108,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80171F1C;
+        actor->unk_8C = &baloon_action_resume_address;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

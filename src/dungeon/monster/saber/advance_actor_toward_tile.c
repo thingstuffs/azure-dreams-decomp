@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -64,7 +65,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
             D_8015CE0C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80ADF3AC_0 *)action)->unk_98 |= 8;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80ADF3AC_0 *)action)->unk_9E.s = 5;
         ((S_80ADF3AC_0 *)action)->unk_A4 = 0;
         ((S_80ADF3AC_0 *)action)->unk_9B++;
@@ -95,11 +96,11 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
         if ((next_frame << 16) < 0) {
             ((S_80ADF3AC_0 *)action)->unk_90 = 0;
             ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
-            entity->flags1C |= 0x08000000;
+            entity->flags1C |= ACTOR_GROUNDED;
             ((S_80ADF3AC_0 *)action)->unk_9B++;
         }
     case 2:
-        if (entity->flags1C & 0x08000000) {
+        if (entity->flags1C & ACTOR_GROUNDED) {
             ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

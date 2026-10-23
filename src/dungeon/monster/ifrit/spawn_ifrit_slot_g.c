@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -37,7 +40,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_80170A58[];
 #include "dungeon/monster/ifrit.h"
 extern u8 D_80174860[];
-extern M2C_UNK D_80170E84;
+extern M2C_UNK ifrit_action_resume_address;
 
 extern void *build_projected_tile_packets(s16, s16, s16, s16);
 /* Creates a Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
@@ -77,21 +80,21 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         part_b->unk_24 = value_24;
 
         if (kind == 1) {
-            value_14 = work->unk_14 | 0x6000;
-            value_1C = work->unk_1C | 0x6000;
+            value_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            value_1C = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = value_14;
             work->unk_1C = value_1C;
         } else if (kind >= 2) {
-            value_14 = work->unk_14 | 0x2000;
-            value_1C = work->unk_1C | 0x2000;
+            value_14 = work->unk_14 | ACTOR_CLASS_ENABLED;
+            value_1C = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = value_14;
             work->unk_1C = value_1C;
         } else if (((mask & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 value_14 = generate_random_value();
                 if (value_14 & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_80174860;
                 }
@@ -100,7 +103,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         initialize_actor_sprite_and_animation(((void *)(object)), part_a, part_b, mask);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80170E84;
+        actor->unk_8C = &ifrit_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

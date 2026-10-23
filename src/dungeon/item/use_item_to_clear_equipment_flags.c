@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -58,7 +59,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
          */
-        clear_slots_of_type(target, 8);
+        clear_slots_of_type(target, STATUS_CURSE);
 
         uncursed = 0;
         equipment = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C);

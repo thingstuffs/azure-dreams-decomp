@@ -19,7 +19,7 @@ void set_record_integer_tile_center();              /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 update_attached_effect_state();             /* extern */
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
-extern u8 D_800DD030[];
+extern u8 actor_attack_frames[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
 extern u8 D_800DD078[];
@@ -95,8 +95,8 @@ void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, v
         return;
     case 1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
-            (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
-            set_sprite_animation_frame(animation, D_800DD030[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            (*(u8 **)((u8 *)animation + 0x2C)) = actor_attack_frames;
+            set_sprite_animation_frame(animation, actor_attack_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = 0;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {

@@ -77,7 +77,7 @@ void handle_selection_and_create_object(void) {
                 break;
             }
             set_item_selection_data_pointer(object, position, callback_data);
-            town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+            town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
             town_interaction_pending = 0;
             return;
         }
@@ -88,14 +88,14 @@ void handle_selection_and_create_object(void) {
                     if (get_first_free_four_byte_entry_index_n_1_none_available((void *)0x80010980, town_record_capacities[mode]) == -1) {
                         write_resource_command(D_80088CCC, 0x11);
                         set_item_selection_data_pointer(object, position, callback_data);
-                        town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+                        town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
                         town_interaction_pending = 0;
                         return;
                     }
                 } else {
                     write_resource_command(D_80088D04, 0x11);
                     set_item_selection_data_pointer(object, position, callback_data);
-                    town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+                    town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
                     town_interaction_pending = 0;
                     return;
                 }
@@ -113,7 +113,7 @@ void handle_selection_and_create_object(void) {
         }
         created_entry = create_configured_object(((S_80093894_3 *)(&item_menu_scene_state))->unk_00, &work.pos, mode);
         if (created_entry != 0) {
-            Unk96134State *state = (Unk96134State *)D_800CFCB4;
+            Unk96134State *state = (Unk96134State *)town_actor_control;
             void *next_object;
 
             next_object = (u8 *)created_entry + 0x20;

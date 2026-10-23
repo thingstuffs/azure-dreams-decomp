@@ -42,7 +42,7 @@ extern void spend_actor_mp(void *, s32);
 extern s32 D_8014DCE8;
 extern u8 D_80150EB8[];
 extern u8 D_80150ED0[];
-extern u8 D_80150ED8[];
+extern u8 weadog_frame_set_4[];
 
 /* Updates a timed hop to the actor's tile and restores its idle animation. */
 void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void *motion, void *sprite, void *actor)
@@ -115,10 +115,10 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(void *action, void 
             ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-            ((SpriteFrameState *)sprite)->frameTable = D_80150ED8;
+            ((SpriteFrameState *)sprite)->frameTable = weadog_frame_set_4;
             select_sprite_entry(
                 sprite,
-                D_80150ED8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                weadog_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8014F0E0_0 *)action)->unk_9B++;
         }

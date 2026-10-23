@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -101,11 +103,11 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
                     append_entity_display_text(actor, expand_text_control_codes(D_800E1684,
                         append_typed_formatted_value(object_data, object)))));
 
-        if (!(((S_800C2CDC_0 *)actor)->unk_1C & 0x2000) &&
+        if (!(((S_800C2CDC_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) &&
             ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
             update_map_cell_flags_with_item_limit(entity->unk_24,
                           entity->unk_25, 0x3000);
-            ((S_800C2CDC_0 *)actor)->unk_1C |= 0x2000;
+            ((S_800C2CDC_0 *)actor)->unk_1C |= ACTOR_PLAYER_SIDE;
             cycle_map_cell_flags(entity->unk_24,
                           entity->unk_25, 0x300);
         }
@@ -118,8 +120,8 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     clear_byte_and_advance(expand_text_control_codes(D_800E169A, handle));
     display_text_with_fullwidth_adjustment(handle);
 
-    if ((s16)get_entity_effect_value(actor, 2) != 0) {
-        clear_slots_of_type(actor, 2);
+    if ((s16)get_entity_effect_value(actor, STATUS_CONFUSION) != 0) {
+        clear_slots_of_type(actor, STATUS_CONFUSION);
     }
 
     cycle_map_cell_flags(entity->unk_24, entity->unk_25, 2);

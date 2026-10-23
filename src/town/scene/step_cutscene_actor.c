@@ -10,7 +10,7 @@ extern s32 func_8003EA54();
 extern s32 func_80071494();
 extern s32 func_80245C10();
 extern s16 func_8025E01C();
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern s32 D_80526430[3];
 extern u8 D_80288EE0[];
 extern u8 D_80288FF0[];
@@ -204,9 +204,9 @@ void step_cutscene_actor(void *obj, void *motion, void *part) {
         s32 global_flags;
 
         (*(u16 *)((u8 *)(obj) + (-2))) = (u16)((*(u16 *)((u8 *)(obj) + (-2))) | 0x8000);
-        global_flags = D_80084D5C;
+        global_flags = scene_object_flags;
         global_flags |= 0x8000;
-        D_80084D5C = global_flags;
+        scene_object_flags = global_flags;
         break;
     }
     }

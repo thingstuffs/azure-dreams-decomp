@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -43,7 +44,7 @@ void advance_damped_effect_motion_and_color(SpriteDecayState *state, SpriteDecay
     state->life = remaining;
     state->displayed_color = state->color.word;
     if ((s16)remaining <= 0) {
-        ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags |= 0x8000;
+        ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

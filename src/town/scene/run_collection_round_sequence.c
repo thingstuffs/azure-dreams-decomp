@@ -17,9 +17,9 @@ s32 func_8025E01C();                     /* extern */
 void allocate_record_and_store_three_blocks();              /* extern */
 void create_initialize_eight_objects_table();                      /* extern */
 void create_object_pair_word(); /* extern */
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern u8 D_80095AA0[8];
-extern u8 D_801328E8[0x14];
+extern u8 collection_round_work[0x14];
 extern u8 town_motion_state[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
@@ -165,7 +165,7 @@ void run_collection_round_sequence(void *sequence) {
     owner = ((S_80527D5C_0 *)sequence)->unk_04;
     state = ((S_80527D5C_0 *)sequence)->unk_36.s;
     position = ((S_80527D5C_1 *)owner)->unk_08;
-    render_or_counts = D_801328E8;
+    render_or_counts = collection_round_work;
     phase_data = (u8 *) owner + 0x20;
     switch (state) {
     case 0:
@@ -179,7 +179,7 @@ void run_collection_round_sequence(void *sequence) {
         ((TrailMotion *)(&town_motion_state))->unk_10 = -0x200000;
         ((TrailMotion *)(&town_motion_state))->unk_0C = -0x200000;
         (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
-        ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
+        ((S_80527D5C_3 *)(&collection_round_work))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
 
     case 1:
         (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10)))
@@ -199,7 +199,7 @@ void run_collection_round_sequence(void *sequence) {
 
     case 2:
         position_x = (u16 *)((s8 *)&town_motion_state + 2);
-        ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s + 0x200) & 0xFFF;
+        ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s + 0x200) & 0xFFF;
         if ((s16) *position_x < 0x420) {
             *position_x = 0x420;
         }
@@ -247,13 +247,13 @@ void run_collection_round_sequence(void *sequence) {
         break;
 
     case 5:
-        angle = ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s;
+        angle = ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s;
         if (angle >= 0x801) {
-            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
-                ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u - 0x200;
+            ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u =
+                ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u - 0x200;
         } else if (angle < 0x800) {
-            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
-                ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u + 0x200;
+            ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u =
+                ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u + 0x200;
         }
         if ((func_80052374(angle) == 0) && (((S_80527D5C_4 *)phase_data)->unk_68 == 8)) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
@@ -444,7 +444,7 @@ void run_collection_round_sequence(void *sequence) {
 
     case 0x100:
         (*(u16 *)((u8 *)sequence + (-2))) = (u16) (((ObjectStatusPrefix16 *)sequence)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         break;
     }
 

@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/naplass.h"
 #include "shared/sprite_frame_state.h"
@@ -96,7 +98,7 @@ extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 extern u8 secondary_sprite[0x20];
 extern u8 D_80170E68[0x10];
 extern u8 D_80173EC0[0x10];
-extern u8 D_80174194[0x10];
+extern u8 naplass_frame_set_1[0x10];
 
 /* Updates a move action, spawning particles and resetting state when it ends. */
 /* Starts a targeted spell, emits batches of ten particles ahead during casting, then restores movement and
@@ -145,7 +147,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         void *move_object;
         s16 special_flag;
 
-        if (((S_80172840_0 *)actor)->unk_1C & 0x2000) {
+        if (((S_80172840_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) {
             case 7:
                 is_special = 1;
@@ -250,7 +252,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             ((S_80172840_1 *)action)->unk_A8.u = 4;
         }
         if ((u32)(*(u8 *)&sprite->unk_04 - 1) < 2U &&
-            sprite->frameTable != D_80174194) {
+            sprite->frameTable != naplass_frame_set_1) {
             if (resolve_record_orientation_or_fallback(
                     (s32)sprite->source, sprite, &coords[4], 1) == 0) {
                 coords[6] = 0;
@@ -340,11 +342,11 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         position->velocity_y = 0;
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
-        if (sprite->frameTable != D_80174194) {
-            sprite->frameTable = D_80174194;
+        if (sprite->frameTable != naplass_frame_set_1) {
+            sprite->frameTable = naplass_frame_set_1;
             select_sprite_entry(
                 sprite,
-                D_80174194[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                naplass_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                 0);
         }
         if (((s32)g_dungeon_status.active_actor) != 0) {
@@ -360,7 +362,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         ((S_80172840_0 *)actor)->unk_73.s = 0;
         ((S_80172840_0 *)actor)->unk_72.s = 0;
         ((S_80172840_0 *)actor)->unk_46 &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 
         return;
 

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -60,7 +61,7 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            actor->flags1C = (s32) (actor->flags1C | 0x40000000);
+            actor->flags1C = (s32) (actor->flags1C | ACTOR_REFRESH_GROUND);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
             tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
@@ -108,7 +109,7 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             }
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
-            actor->flags1C = (s32) ((actor->flags1C | 0x40000000) & 0xFFDFFFFF);
+            actor->flags1C = (s32) ((actor->flags1C | ACTOR_REFRESH_GROUND) & 0xFFDFFFFF);
             if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
                 set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
                 begin_actor_random_warp(move_state, motion, tile_pos, actor);

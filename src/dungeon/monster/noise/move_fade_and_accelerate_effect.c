@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Noise actor creation and randomized moving, fading effects. */
 #include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 #include "shared/entity.h"
@@ -113,7 +116,7 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
         work->byte13 = 0x17;
         register_node(obj, project_sprite_chain);
 
-        resource = D_80174E88;
+        resource = noise_direction_frames;
         part_a = obj->unk_08;
         part_a->unk_0A = saved_spawn;
         part_b = obj->unk_0C;
@@ -124,24 +127,24 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
         part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
-            left = work->flags14 | 0x6000;
-            right = work->flags1c | 0x6000;
+            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->flags1c | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->flags14 = left;
             work->flags1c = right;
         } else if (kind >= 2) {
-            left = work->flags14 | 0x2000;
-            right = work->flags1c | 0x2000;
+            left = work->flags14 | ACTOR_CLASS_ENABLED;
+            right = work->flags1c | ACTOR_PLAYER_SIDE;
             work->flags14 = left;
             work->flags1c = right;
         } else {
             call_a1 = obj;
             if (((flags & ~3) << 16) == 0) {
-                if (!(work->flags14 & 0x200)) {
+                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     call_a1 = part_a;
                     left = generate_random_value();
                     call_a1 = obj;
                     if (left & 1) {
-                        set_or_clear_actor_status_slot(work, 1,
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80174EF0;
                     }

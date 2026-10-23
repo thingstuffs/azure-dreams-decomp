@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u8 D_8001B14C[];
-extern u8 D_8001C018[];
-extern u8 D_8001C6D0[];
+extern u8 scene_string_fallback[];
+extern u8 scene_choice_text[];
+extern u8 event_string_fallback[];
 extern u8 D_800227FB[];
 extern void *award_next_unearned_milestone(s32);
 
@@ -11,16 +11,16 @@ void *select_pointer_id_default_unhandled(s32 unused_0, s32 unused_1, s32 data_i
 {
     switch (data_id - 12) {
     case 7:
-        return D_8001C018;
+        return scene_choice_text;
     case 6:
         return D_800227FB;
     case 0:
-        return D_8001C6D0;
+        return event_string_fallback;
     case 40:
     case 41:
     case 42:
         return award_next_unearned_milestone(data_id);
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

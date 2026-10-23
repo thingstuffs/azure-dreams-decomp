@@ -5,7 +5,7 @@ typedef struct S_808B2E74_0 {
     u8 *unk_F40;
 } S_808B2E74_0;   /* the state block at its constant address */
 
-extern u8 D_A0700000[];
+extern u8 devkit_overlay_page[];
 
 /* Clears bitmap bits for three pairs of stored IDs. */
 void clear_stored_id_bits(void)
@@ -19,9 +19,9 @@ void clear_stored_id_bits(void)
 
         slot_offset = slot;
         slot_offset <<= 1;
-        first_id = *(s16 *)(D_A0700000 + 0xF24 + slot * 2);
+        first_id = *(s16 *)(devkit_overlay_page + 0xF24 + slot * 2);
         ((S_808B2E74_0 *)0xA0700000)->unk_F40[first_id / 32] &= ~(1 << (first_id % 32));
-        second_id = *(s16 *)(D_A0700000 + 0xF1C + slot_offset);
+        second_id = *(s16 *)(devkit_overlay_page + 0xF1C + slot_offset);
         ((S_808B2E74_0 *)0xA0700000)->unk_F40[second_id / 32] &= ~(1 << (second_id % 32));
     }
 }

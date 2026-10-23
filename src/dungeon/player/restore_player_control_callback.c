@@ -1,18 +1,19 @@
+#include "shared/actor_status_ids.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern u8 player_action_tag[];
-extern u8 D_80096384[];
+extern u8 destination_motion_resume_address[];
 
 /* Selects the target dispatch pointer from the source type and flags. */
 void restore_player_control_callback(void *target, void *source) {
 
     {
         s32 type_match;
-        type_match = get_entity_effect_value(source, 10) << 16;
+        type_match = get_entity_effect_value(source, STATUS_FROG) << 16;
         if (type_match != 0) {
-            *(void **)((u8 *)target + 0x8C) = D_80096384;
+            *(void **)((u8 *)target + 0x8C) = destination_motion_resume_address;
         } else {
 
             {

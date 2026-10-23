@@ -12,7 +12,7 @@ typedef int s32;
 
 extern s32 register_node();
 extern u8 D_8002609C[];
-extern u8 D_800F15AC[];
+extern u8 map_animation_sprite_entries[];
 /* Creates a sprite at the given position and applies color-specific settings. */
 void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
 {
@@ -30,8 +30,8 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         *((s32 *) (((s8 *) (object->position)) + 8)) = z;
         *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
-        *((s32 **) (((s8 *) sprite) + 0)) = &D_800F15AC;
-        resource_word = *((s32 *) (((s8 *) (&D_800F15AC)) + 4));
+        *((s32 **) (((s8 *) sprite) + 0)) = &map_animation_sprite_entries;
+        resource_word = *((s32 *) (((s8 *) (&map_animation_sprite_entries)) + 4));
         sprite->unk_04 = 0;
         sprite->unk_05 = 0;
         sprite->color.word = color;

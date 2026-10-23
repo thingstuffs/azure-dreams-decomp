@@ -31,7 +31,7 @@ typedef struct {
 struct Rec_func_800B2DA0_arg1;
 
 extern u8 D_800786DC[];
-extern u8 D_800786E8[];
+extern u8 card_selection_display_data[];
 void forward_paged_record_data(s32, void * *);
 /* extern */
 void update_linked_record_data(Rec_func_800B2DA0_arg1 *);

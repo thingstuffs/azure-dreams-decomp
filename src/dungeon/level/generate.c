@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 /* Floor layout loading, random room and corridor generation, and special room placement. */
 #include "shared/dungeon_status.h"
 #include "dungeon/level/generate.h"
@@ -702,7 +703,7 @@ void load_dungeon_layout(s16 layout_number)
         if (((floor_generate_isolated_80285464_Ent8 *)dungeon_floor_marker_entries)[entry_index].kind == 2) {
             map[data[0] + (data[1] << cfg->shiftX)].kind = 1;
         }
-        cycle_map_cell_flags(data[0], data[1], 32);
+        cycle_map_cell_flags(data[0], data[1], TILE_HAS_OBJECT);
         entry_index++;
         data += 4;
     }
@@ -756,7 +757,7 @@ void load_dungeon_layout(s16 layout_number)
         ((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f3 = *data++;
         ((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f2 = *data++;
         ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f8 = floor_object_sprite_sources[((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f0];
-        cycle_map_cell_flags(((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f7, 32);
+        cycle_map_cell_flags(((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f7, TILE_HAS_OBJECT);
         entry_index++;
     }
 
@@ -1164,11 +1165,11 @@ void load_floor_spawn_tables(s16 resource_index)
     s32 load_result;
     u8 *resource_data;
 
-    resource_data = (u8 *)&D_8014A000;
+    resource_data = (u8 *)&dungeon_resource_buffer;
     pack_tagged_resource_descriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     drain_cd_command_queue();
-    *(floor_generate_isolated_802864C4_Copy32 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table = D_8014A000;
+    *(floor_generate_isolated_802864C4_Copy32 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table = dungeon_resource_buffer;
     (*(floor_generate_isolated_802864C4_Copy32 *)floor_species_pool) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     floor_generation_track_variant = resource_data[0x40];
 }
@@ -1331,7 +1332,7 @@ s32 try_add_second_tower_entry(s16 entry_index) {
     u8 *entry;
     u8 *entries;
 
-    if (D_80012090[0] == 0) {
+    if (dungeon_mode_state[0] == 0) {
         if (((s16 *)current_dungeon_floor)[0] == 2) {
             if (test_resident_bit(0xA2) != 0) {
                 if ((count_matching_packed_entity_keys(0xC, 8) << 0x10) != 0) {
@@ -1342,7 +1343,7 @@ s32 try_add_second_tower_entry(s16 entry_index) {
                     *(s16 *)(entry + 2) = 8;
                     *(s16 *)(entry + 4) = 8;
                     *(s16 *)(entry + 6) = 0;
-                    cycle_map_cell_flags(8, 8, 0x20);
+                    cycle_map_cell_flags(8, 8, TILE_HAS_OBJECT);
                     return 1;
                 }
             }
@@ -2675,7 +2676,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
                 ((floor_generate_isolated_8028A0F4_DungeonSlot *)floor_objects)[slot_index].f1 = 0x15;
                 ((floor_generate_isolated_8028A0F4_DungeonSlot *)floor_objects)[slot_index].f3 = 0x80;
                 ((floor_generate_isolated_8028A0F4_DungeonSlot *)floor_objects)[slot_index].f2 = 0;
-                cycle_map_cell_flags(((floor_generate_isolated_8028A0F4_DungeonSpot *)dungeon_floor_object_positions)[slot_index].px, ((floor_generate_isolated_8028A0F4_DungeonSpot *)dungeon_floor_object_positions)[slot_index].py, 0x20);
+                cycle_map_cell_flags(((floor_generate_isolated_8028A0F4_DungeonSpot *)dungeon_floor_object_positions)[slot_index].px, ((floor_generate_isolated_8028A0F4_DungeonSpot *)dungeon_floor_object_positions)[slot_index].py, TILE_HAS_OBJECT);
             }
         }
     }
@@ -2717,7 +2718,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
             coords->unk_00 = region->unk_00 + x_offset;
             coords->unk_01 = region->unk_02 + y_offset;
             if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
-                cycle_map_cell_flags(coords->unk_00, coords->unk_01, 0x800);
+                cycle_map_cell_flags(coords->unk_00, coords->unk_01, TILE_HAS_ITEM);
                 /*
                  * Original bug: item rooms fill the low item slots before ordinary population and skip special
                  * selection here. If every slot below the ordinary item limit is filled, population never calls the
@@ -3133,26 +3134,26 @@ outer_loop:
 x_loop_done:
                 tile_id = (s16 *)&((u8 *)generation_cells)[((y << map_config->shiftX) + x) * 6];
                 if (is_value_within_inclusive_bounds(*tile_id, 0x13, 0x1C) != 0) {
-                    func_8001E108(x, y, tile_id, 0x13, amount_small);
+                    empty_dungeon_hook(x, y, tile_id, 0x13, amount_small);
                     if ((y & 1) ? (x & 1) : !(x & 1)) {
                         *tile_id += 10;
                     }
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x27, 0x30) != 0) {
-                    func_8001E108(x, y, tile_id, 0x27, amount_small);
+                    empty_dungeon_hook(x, y, tile_id, 0x27, amount_small);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x31, 0x3A) != 0) {
-                    func_8001E108(x, y, tile_id, 0x31, amount_small);
+                    empty_dungeon_hook(x, y, tile_id, 0x31, amount_small);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x3B, 0x44) != 0) {
-                    func_8001E108(x, y, tile_id, 0x3B, amount_small);
+                    empty_dungeon_hook(x, y, tile_id, 0x3B, amount_small);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x45, 0x4E) != 0) {
-                    func_8001E108(x, y, tile_id, 0x45, amount_small);
+                    empty_dungeon_hook(x, y, tile_id, 0x45, amount_small);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x6B, 0x6F) != 0) {
-                    func_8001E108(x, y, tile_id, 0x6B, amount_large);
+                    empty_dungeon_hook(x, y, tile_id, 0x6B, amount_large);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x70, 0x74) != 0) {
-                    func_8001E108(x, y, tile_id, 0x70, amount_large);
+                    empty_dungeon_hook(x, y, tile_id, 0x70, amount_large);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x75, 0x79) != 0) {
-                    func_8001E108(x, y, tile_id, 0x75, amount_large);
+                    empty_dungeon_hook(x, y, tile_id, 0x75, amount_large);
                 } else if (is_value_within_inclusive_bounds(*tile_id, 0x7A, 0x7E) != 0) {
-                    func_8001E108(x, y, tile_id, 0x7A, amount_large);
+                    empty_dungeon_hook(x, y, tile_id, 0x7A, amount_large);
                 }
                 x++;
                 if (x >= x_end) {
@@ -3170,4 +3171,4 @@ x_loop_done:
     goto outer_loop;
 }
 
-void func_8001E108(s32 x, s32 y, s16 *tile, s32 kind, s32 amount) { }
+void empty_dungeon_hook(s32 x, s32 y, s16 *tile, s32 kind, s32 amount) { }

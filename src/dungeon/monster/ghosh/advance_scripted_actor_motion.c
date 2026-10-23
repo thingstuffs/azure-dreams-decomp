@@ -23,13 +23,13 @@ void create_boss_linked_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
 extern InitBlock D_8016A894;
-extern u8 D_80174C64[];
-extern u8 D_80174C6C[];
+extern u8 ghosh_frame_set_6[];
+extern u8 ghosh_frame_set_2[];
 extern u8 D_80174C7C[];
-extern u8 D_80174C84[];
-extern u8 D_80174C8C[];
+extern u8 ghosh_frame_set_1[];
+extern u8 ghosh_frame_set_5[];
 extern u8 D_80174C94[];
-extern s32 D_80174CE0;
+extern s32 ghosh_scripted_actor;
 
 typedef struct S_func_8132B8AC_0 {
     u8 pad_00[0x92];
@@ -130,7 +130,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     s32 particle_color;
 
     direction_vectors = D_8016A894;
-    beldo = (S_func_8132B8AC_3 *)(D_80174CE0 + 0x20);
+    beldo = (S_func_8132B8AC_3 *)(ghosh_scripted_actor + 0x20);
     advance_sprite_animation_and_textures(sprite);
     state = actor->unk_9A;
     switch (state) {
@@ -168,8 +168,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         break;
     case 5:
-        sprite->unk_2C = D_80174C8C;
-        select_sprite_entry(sprite, D_80174C8C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_5;
+        select_sprite_entry(sprite, ghosh_frame_set_5[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x801);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
@@ -180,11 +180,11 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         actor->unk_B6 = 0;
         beldo->unk_88 = (u16) motion->unk_0A;
-        if (sprite->unk_2C == D_80174C64) {
+        if (sprite->unk_2C == ghosh_frame_set_6) {
             break;
         }
-        sprite->unk_2C = D_80174C64;
-        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_6;
+        select_sprite_entry(sprite, ghosh_frame_set_6[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
         create_boss_child_effect(actor, motion, sprite);
@@ -210,8 +210,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             break;
         }
         actor->unk_9A = (u8) (actor->unk_9A + 1);
-        sprite->unk_2C = D_80174C6C;
-        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_2;
+        select_sprite_entry(sprite, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         motion->unk_0C.unk_0C = 0xFFF80000;
         actor->unk_B4.s = 5;
         actor->unk_96 = 0x10U;
@@ -251,8 +251,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
-            sprite->unk_2C = D_80174C6C;
-            select_sprite_entry(particle_a0, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100)
+            sprite->unk_2C = ghosh_frame_set_2;
+            select_sprite_entry(particle_a0, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100)
                 >> 9) & 7], 0);
             path_particle_count = 0;
             play_sound_if_enabled(0x706);
@@ -269,8 +269,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
         motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
         if (sprite->unk_04 == 5) {
-            sprite->unk_2C = D_80174C6C;
-            select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            sprite->unk_2C = ghosh_frame_set_2;
+            select_sprite_entry(sprite, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             end_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
@@ -285,11 +285,11 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         actor->unk_96 = 0x2EU;
         actor->unk_9A++;
-        if (sprite->unk_2C == D_80174C64) {
+        if (sprite->unk_2C == ghosh_frame_set_6) {
             break;
         }
-        sprite->unk_2C = D_80174C64;
-        select_sprite_entry(sprite, D_80174C64[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_6;
+        select_sprite_entry(sprite, ghosh_frame_set_6[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 12:
         turn_timer = actor->unk_96 - 1;
@@ -338,17 +338,17 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         }
         actor->unk_96 = 0U;
         actor->unk_9A++;
-        sprite->unk_2C = D_80174C6C;
-        select_sprite_entry(sprite, D_80174C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_2;
+        select_sprite_entry(sprite, ghosh_frame_set_2[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 15:
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             particle_color = 0;
-            sprite->unk_2C = D_80174C6C;
+            sprite->unk_2C = ghosh_frame_set_2;
             sprite_angle_base = g_game_work.view.camera_rotation.parts.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
-            select_sprite_entry(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
+            select_sprite_entry(particle_a0, ghosh_frame_set_2[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
             wait_particle_count = particle_color;
             play_sound_if_enabled(0x706);
@@ -394,10 +394,10 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             particle_color = 0;
-            sprite->unk_2C = D_80174C6C;
+            sprite->unk_2C = ghosh_frame_set_2;
             sprite_angle_base = g_game_work.view.camera_rotation.parts.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
-            select_sprite_entry(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
+            select_sprite_entry(particle_a0, ghosh_frame_set_2[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
             move_particle_count = particle_color;
             play_sound_if_enabled(0x706);
@@ -464,8 +464,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             break;
         }
         actor->unk_9A++;
-        sprite->unk_2C = D_80174C84;
-        select_sprite_entry(sprite, D_80174C84[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        sprite->unk_2C = ghosh_frame_set_1;
+        select_sprite_entry(sprite, ghosh_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 20:
         release_secondary_overlay_object();
@@ -473,7 +473,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     default:
         break;
     }
-    if (D_80174CE0 == 0) {
+    if (ghosh_scripted_actor == 0) {
         return;
     }
     final_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;

@@ -52,7 +52,7 @@ typedef struct S_80089608_7 {
     s16 unk_06;
 } S_80089608_7;
 
-extern s32 D_80044BB0[3];
+extern s32 linked_sprite_renderer_address[3];
 
 typedef struct {
     s32 w0;
@@ -171,7 +171,7 @@ void update_settings_effect(void *effect) {
         if (element != NULL) {
             sprite = element->sprite;
             element->unk_10 = callback;
-            register_node(element, &D_80044BB0);
+            register_node(element, &linked_sprite_renderer_address);
             x_product = rcos(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_02 =

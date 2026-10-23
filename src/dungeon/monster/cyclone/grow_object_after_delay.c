@@ -11,7 +11,7 @@ typedef struct S_8017573C_0 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern u8 D_80176460[8];
+extern u8 cyclone_move_direction_frames[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
 void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, SpriteFrameState *object) {
@@ -28,7 +28,7 @@ void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, SpriteFrameSta
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
-        select_sprite_entry(object, D_80176460[direction_index], 0);
+        select_sprite_entry(object, cyclone_move_direction_frames[direction_index], 0);
     }
 
     phase = animation->unk_00.s;

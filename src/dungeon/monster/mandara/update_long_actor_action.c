@@ -108,7 +108,7 @@ extern u8 D_80175174[];
 #include "dungeon/monster/mandara.h"
 extern u8 D_80175260[];
 extern u8 D_80175290[];
-extern u8 D_80175298[];
+extern u8 mandara_frame_set_1[];
 extern u8 D_801752A0[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
@@ -133,7 +133,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
             void *current =
                 sprite->frameTable;
             void *table;
-            table = (u8 *)&D_80175298;
+            table = (u8 *)&mandara_frame_set_1;
             post_current = current;
             post_table = table;
             if (post_current != post_table) {
@@ -152,14 +152,14 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
     }
 
     if (((S_80170F6C_1 *)entity)->unk_1C & 0x200) {
-        if (sprite->frameTable == D_80175298) {
+        if (sprite->frameTable == mandara_frame_set_1) {
             ((S_80170F6C_0 *)self_object)->unk_9A = 0xD;
             ((S_80170F6C_0 *)self_object)->unk_9B = 1;
             ((S_80170F6C_0 *)self_object)->unk_8C = 0;
             ((S_80170F6C_1 *)entity)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(self_object, aux_entity, sprite, D_80175298) != 0) {
+        if (reset_actor_action_state(self_object, aux_entity, sprite, mandara_frame_set_1) != 0) {
             return;
         }
     }

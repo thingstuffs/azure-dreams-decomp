@@ -1,3 +1,6 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 #include "shared/monster_ids.h"
@@ -43,21 +46,21 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            flags_14 = ((Work *)work)->flags14 | 0x6000;
-            flags_1c = ((Work *)work)->flags1c | 0x6000;
+            flags_14 = ((Work *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = ((Work *)work)->flags1c | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((Work *)work)->flags14 = flags_14;
             ((Work *)work)->flags1c = flags_1c;
         } else if (kind >= 2) {
-            flags_14 = ((Work *)work)->flags14 | 0x2000;
-            flags_1c = ((Work *)work)->flags1c | 0x2000;
+            flags_14 = ((Work *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = ((Work *)work)->flags1c | ACTOR_PLAYER_SIDE;
             ((Work *)work)->flags14 = flags_14;
             ((Work *)work)->flags1c = flags_1c;
         } else {
             init_obj = obj;
             if (((kind_flags & ~3) << 16) == 0) {
-                if (!(((Work *)work)->flags14 & 0x200)) {
-                    ((Work *)work)->flags1c |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                if (!(((Work *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
+                    ((Work *)work)->flags1c |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_801501DC;
                 }

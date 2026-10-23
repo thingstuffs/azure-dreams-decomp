@@ -1,14 +1,14 @@
 typedef signed int s32;
 
-extern s32 D_800FE5C0[6];
+extern s32 town_collision_motion[6];
 
 // Store the new three-component value and its difference from the previous value.
 void store_position_and_compute_delta(s32 *newValue)
 {
-    D_800FE5C0[3] = newValue[0] - D_800FE5C0[0];
-    D_800FE5C0[4] = newValue[1] - D_800FE5C0[1];
-    D_800FE5C0[5] = newValue[2] - D_800FE5C0[2];
-    D_800FE5C0[0] = newValue[0];
-    D_800FE5C0[1] = newValue[1];
-    D_800FE5C0[2] = newValue[2];
+    town_collision_motion[3] = newValue[0] - town_collision_motion[0];
+    town_collision_motion[4] = newValue[1] - town_collision_motion[1];
+    town_collision_motion[5] = newValue[2] - town_collision_motion[2];
+    town_collision_motion[0] = newValue[0];
+    town_collision_motion[1] = newValue[1];
+    town_collision_motion[2] = newValue[2];
 }

@@ -53,12 +53,12 @@ typedef struct Object {
 } Object;
 
 extern s16 D_8001339C;
-extern u8 D_8003C558[16];
-extern u8 D_8005860C[16];
+extern u8 score_sprite_draw_callback_address[16];
+extern u8 menu_entry_draw_callback_address[16];
 extern u8 D_8005888C[16];
-extern s32 D_80084D5C;
-extern u8 D_801328C8[16];
-extern s32 D_80132AEC[4];
+extern s32 scene_object_flags;
+extern u8 scene_object_factory_data[16];
+extern s32 collection_target_y[4];
 extern u8 D_8028E628[16];
 extern u8 D_80526694[16];
 extern u8 D_805266A0[16];
@@ -91,7 +91,7 @@ void run_menu_entry_animation(TownState *self) {
         spawn_period = 16;
     }
     value_limit = 0x03200000;
-    capped_values = D_80132AEC;
+    capped_values = collection_target_y;
     if (capped_values[0] > value_limit) {
         capped_values[0] = value_limit;
     }
@@ -107,10 +107,10 @@ void run_menu_entry_animation(TownState *self) {
                 if (self->state == 0) {
                     self->count--;
                 }
-                obj = func_800374FC(0x136, D_801328C8);
+                obj = func_800374FC(0x136, scene_object_factory_data);
                 if (obj != 0) {
                     obj->callback = D_8052BCCC;
-                    func_8003BC18(obj, D_8003C558);
+                    func_8003BC18(obj, score_sprite_draw_callback_address);
                     part = obj->part;
                     obj->transform->x = 0x03200000;
                     obj->transform->y = 0x02E00000;
@@ -138,10 +138,10 @@ void run_menu_entry_animation(TownState *self) {
             break;
         }
                         /* fall through */
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC34;
-            func_8003BC18(obj, D_8005860C);
+            func_8003BC18(obj, menu_entry_draw_callback_address);
             obj->x_34 = 0x7C;
             obj->flags_36 = 0x78;
             obj->z_3a = 0x7C80;
@@ -149,7 +149,7 @@ void run_menu_entry_animation(TownState *self) {
             obj->data = result_data;
             obj->lifetime = 0x96;
         }
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
             func_8003BC18(obj, D_8005888C);
@@ -166,10 +166,10 @@ void run_menu_entry_animation(TownState *self) {
         break;
 
     case 2:
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC34;
-            func_8003BC18(obj, D_8005860C);
+            func_8003BC18(obj, menu_entry_draw_callback_address);
             obj->x_34 = 0x80;
             obj->flags_36 = 0x78;
             obj->z_3a = 0x7C80;
@@ -177,7 +177,7 @@ void run_menu_entry_animation(TownState *self) {
             obj->field_30.color = 0x00808080;
             obj->lifetime = 0x96;
         }
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
             func_8003BC18(obj, D_8005888C);
@@ -216,7 +216,7 @@ void run_menu_entry_animation(TownState *self) {
         func_8003F75C(1);
         *(u16 *)((u8 *)self - sizeof(u16)) |= 0x8000;
         self->flags |= 2;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         break;
 
     default:

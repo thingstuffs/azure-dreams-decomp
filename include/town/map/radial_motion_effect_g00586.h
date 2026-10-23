@@ -58,7 +58,7 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 s32 register_node();
 /* extern */
 extern M2C_UNK D_800A86BC;
-extern M2C_UNK D_800F15AC;
+extern M2C_UNK map_animation_sprite_entries;
 extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);
 

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -45,7 +46,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
         }
         motion->unk_98 |= 8;
         position->velocity_z = 0xFFEE0000;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         motion->unk_A4 = 0;
         motion->unk_9B++;
                         /* fall through */
@@ -71,12 +72,12 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
         if (motion->unk_96 < 3) {
             motion->unk_90 = 0;
             motion->unk_98 &= 0xFFF7;
-            entity->flags1C |= 0x08000000;
+            entity->flags1C |= ACTOR_GROUNDED;
             motion->unk_9B++;
         }
                         /* fall through */
     case 2:
-        if (entity->flags1C & 0x08000000) {
+        if (entity->flags1C & ACTOR_GROUNDED) {
             motion->unk_98 &= 0xFFF7;
             position->velocity_z = 0;
             position->velocity_y = 0;

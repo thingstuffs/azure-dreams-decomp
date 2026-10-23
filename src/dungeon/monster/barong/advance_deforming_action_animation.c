@@ -27,7 +27,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(void *, void *, void *, void *);
 
-extern u8 D_801716F4[];
+extern u8 barong_action_resume_address[];
 extern u8 D_8017555C[];
 extern u8 D_801755BC[];
 extern u8 D_801755C4[];
@@ -182,7 +182,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
             D_8017555C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         spend_actor_mp(actor, 0x1000);
-        ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
+        ((S_801750F8_0 *)action_in)->unk_8C = barong_action_resume_address;
         g_dungeon_status.active_actor = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }

@@ -38,7 +38,7 @@ def event(kind, slot, waited=0):
 
 @contextmanager
 def acquire():
-    if os.environ.get('AZURE_COMPILE_LIMIT_ENABLED', '1') == '0':
+    if os.environ.get('AZURE_COMPILE_LIMIT_ENABLED', '0') == '0':
         yield None
         return
     # An exec wrapper carries the actual locked FD, not an untrusted boolean.

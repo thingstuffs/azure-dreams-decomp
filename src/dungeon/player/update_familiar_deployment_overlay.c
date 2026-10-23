@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800DD140;
+extern M2C_UNK familiar_save_frames;
 extern void step_actor_animation(void *, s32);
 
 /* Updates an object's scale and brightness through its transition modes. */
@@ -50,7 +50,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
                 *(u8 *)(state + 0xD) = dimmed_brightness;
             }
         }
-        if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&D_800DD140) {
+        if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&familiar_save_frames) {
             return;
         }
         if (*(s16 *)(obj + 8) == 0) {

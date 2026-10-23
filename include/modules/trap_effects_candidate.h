@@ -11,7 +11,7 @@ extern ActiveEntry floor_objects[32];
 extern FirstEntry dungeon_ground_item_positions[64];
 extern SecondEntry dungeon_floor_object_positions[32];
 extern u8 D_800E03D4[];
-extern u8 D_800E3D40;
+extern u8 trap_request_blocked;
 extern s32 draw_linked_sprites_clipped();
 extern s32 func_80045C34();
 #endif

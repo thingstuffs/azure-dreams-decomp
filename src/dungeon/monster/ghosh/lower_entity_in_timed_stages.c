@@ -1,3 +1,4 @@
+#include "shared/object_node_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -53,7 +54,7 @@ void lower_entity_in_timed_stages(Entity *entity, Position *pos)
         entity->timer++;
         if ((s16)entity->timer >= 20) {
             u8 *active_context = D_80174CC8[0] + 0x20;
-            ((ObjectNodeHeader *)((u8 *)active_context - 0x20))->flags |= 0x8000;
+            ((ObjectNodeHeader *)((u8 *)active_context - 0x20))->flags |= NODE_REMOVE;
             D_80174CC8[0] = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

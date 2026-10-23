@@ -26,7 +26,7 @@ extern void advance_sprite_animation_and_textures(void *);
 s32 rsin();
 s32 rcos();
 s32 rand();
-extern s32 *D_80026208;
+extern s32 *effect_position_source;
 
 /* Expand and fade a spiraling effect while updating its position. */
 void update_expanding_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *sprite) {
@@ -58,11 +58,11 @@ void update_expanding_fade_effect(void *effect, ObjectPosition *position, Sprite
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    position->x.v = (s32) (*D_80026208 + (((rsin((s16) ((S_81977E0C_0 *)effect)->unk_08)
+    position->x.v = (s32) (*effect_position_source + (((rsin((s16) ((S_81977E0C_0 *)effect)->unk_08)
         >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06) << 8));
-    position->y.v = (s32) (D_80026208[1]
+    position->y.v = (s32) (effect_position_source[1]
         + (((rcos((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06)
            << 8));
-    position->z.w.i = (s16) (((S_81977E0C_3 *)D_80026208)->unk_0A
+    position->z.w.i = (s16) (((S_81977E0C_3 *)effect_position_source)->unk_0A
         + ((S_81977E0C_0 *)effect)->unk_0A);
 }

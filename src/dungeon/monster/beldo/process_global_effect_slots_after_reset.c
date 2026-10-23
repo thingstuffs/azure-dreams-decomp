@@ -2,7 +2,7 @@
 
 extern void unlink_entity_node(s32 node);
 extern s32 D_80174714;
-extern s32 D_80174710;
+extern s32 beldo_active_entity;
 extern s16 D_80174718;
 extern s32 D_80173F90;
 extern s32 D_80173FBC;
@@ -41,7 +41,7 @@ void process_global_effect_slots_after_reset(void) {
     table_page = (u8 *)0x800E0000;
     high_bit = 0x80000000;
     flags_base = (FlagsPage *)0x80010000;
-    active_state = (ActiveState *)(D_80174710 + 0x20);
+    active_state = (ActiveState *)(beldo_active_entity + 0x20);
     active_state->unk_BA = 1;
     state_flags = flags_base->unk_3714;
     D_80174718 = 0;

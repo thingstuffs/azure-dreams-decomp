@@ -37,7 +37,7 @@ void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
 #include "dungeon/monster/beldo_large.h"
-extern M2C_UNK D_80173DA4;
+extern M2C_UNK beldo_large_frame_set_8;
 extern void *beldo_script_node;
 
 static __inline__ u16 active_flag(u32 value)
@@ -76,7 +76,7 @@ void create_scripted_encounter_object(void) {
         origin_x = reference_tile_object.tile_position.parts.tile_x;
         sprite->unk_24 = (u8) (origin_x - 1);
         origin_y = reference_tile_object.tile_position.parts.tile_y;
-        sprite->frameTable = &D_80173DA4;
+        sprite->frameTable = &beldo_large_frame_set_8;
         sprite->unk_25 = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;

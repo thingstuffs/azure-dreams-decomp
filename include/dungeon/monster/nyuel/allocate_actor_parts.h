@@ -41,7 +41,7 @@ typedef struct Object {
 } Object;
 
 extern u8 D_8015EE9C[9];
-extern u8 D_80162ED8[9];
+extern u8 nyuel_frame_set_7[9];
 extern u8 D_80162F00[9];
 extern u8 D_8015EA98[9];
 

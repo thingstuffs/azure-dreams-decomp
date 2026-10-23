@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Linked line travel, expanding spiral particles, sprite fades, and nearby status effects. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -73,7 +74,7 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         render_state->color.c.b = intensity;
         render_state->color.c.g = intensity;
         render_state->color.c.r = intensity;
-        select_record_entry_and_value(render_state, &D_800DEDB0, 0);
+        select_record_entry_and_value(render_state, &rising_sprite_entries, 0);
         render_state->scale_y = 0x1800;
         render_state->scale_x = 0x1800;
         render_state->clut = 0x7E0B;
@@ -711,7 +712,7 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
         input_ctrl->timer = 0;
         input_ctrl->state++;
         delay_and_fade_particle(input_ctrl, input_motion);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
 
     case 3:

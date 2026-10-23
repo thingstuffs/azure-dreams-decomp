@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -243,7 +244,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                     move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                     if (!(move_flags & 0x400)) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
-                        if (actor_data->flags1C & 0x400) {
+                        if (actor_data->flags1C & ACTOR_CONFUSED) {
                             actor_data->facing =
                                 ((u16)actor_data->facing) +
                                 (generate_random_value() & 0xE00);

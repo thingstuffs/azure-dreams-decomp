@@ -57,10 +57,10 @@ extern s32 func_80071494();
 extern s32 func_8023FA58();
 extern s32 func_8052FE94();
 
-extern u8 D_8003C558[];
-extern u8 D_8005860C[];
+extern u8 score_sprite_draw_callback_address[];
+extern u8 menu_entry_draw_callback_address[];
 extern u8 D_8005888C[];
-extern u8 D_801328C8[];
+extern u8 scene_object_factory_data[];
 extern u8 D_8028E194[];
 extern RootPair D_80526790;
 extern RootPair D_805267A0;
@@ -111,7 +111,7 @@ s32 create_linked_value_display(void)
             u32 *packet;
 
             ((S_80813AB0_0 *)obj)->unk_10 = D_8052EA14;
-            func_8003BC18(obj, D_8003C558);
+            func_8003BC18(obj, score_sprite_draw_callback_address);
             part = ((S_80813AB0_0 *)obj)->unk_0C;
             packet = ((S_80813AB0_0 *)obj)->unk_08.p;
             packet[0] = 0x05600000;
@@ -134,10 +134,10 @@ s32 create_linked_value_display(void)
     i = 1;
     y = 0x2C;
     do {
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD0C;
-            func_8003BC18(obj, D_8005860C);
+            func_8003BC18(obj, menu_entry_draw_callback_address);
             ((S_80813AB0_0 *)obj)->unk_34 = 0x20;
             ((S_80813AB0_0 *)obj)->unk_38 = 3;
             ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
@@ -174,10 +174,10 @@ s32 create_linked_value_display(void)
     i = 1;
     slot = (void **)0x2C;
     do {
-        obj = func_800374FC(1, D_801328C8);
+        obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             ((S_80813AB0_0 *)obj)->unk_10 = D_8052FD60;
-            func_8003BC18(obj, D_8005860C);
+            func_8003BC18(obj, menu_entry_draw_callback_address);
             ((S_80813AB0_0 *)obj)->unk_34 = 0x50;
             ((S_80813AB0_0 *)obj)->unk_38 = 3;
             ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
@@ -199,7 +199,7 @@ s32 create_linked_value_display(void)
         slot = (void **)((u8 *)slot - 0xC);
     } while (i >= 0);
 
-    obj = func_800374FC(1, D_801328C8);
+    obj = func_800374FC(1, scene_object_factory_data);
     if (obj != 0) {
         s32 final_dim;
         u32 final_color;

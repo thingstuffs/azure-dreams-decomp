@@ -130,7 +130,7 @@ extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
 extern u8 D_8016A838[16];
-extern u8 D_8016AEA8;
+extern u8 dungeon_action_resume_address;
 extern u8 D_8016E038[];
 extern u8 D_8016E078[];
 
@@ -308,7 +308,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
         advance_status_timers(actor_data);
         actor_data->actionsLeft.u--;
-        actor->handler = &D_8016AEA8;
+        actor->handler = &dungeon_action_resume_address;
         actor_data->targetY.u = 0;
         actor_data->targetX.u = 0;
         actor_data->action &= 0x7FFF;
@@ -355,7 +355,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
-        actor->handler = &D_8016AEA8;
+        actor->handler = &dungeon_action_resume_address;
         advance_status_timers(actor_data);
         if (actor_data->actionsLeft.s > 0) {
             actor_data->actionsLeft.u--;

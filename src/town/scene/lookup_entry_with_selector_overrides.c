@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern u8 D_800189CC[16];
-extern u8 D_80018B94[16];
+extern u8 scene_event_lookup_context[16];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 
@@ -19,7 +19,7 @@ void *lookup_entry_with_selector_overrides(s32 entry_id, s32 unused_arg, s32 sel
     u8 *entry_table;
 
     entry_table = D_800189CC;
-    entry_data = func_80017960(entry_table, D_80018B94, entry_id, selector);
+    entry_data = func_80017960(entry_table, scene_event_lookup_context, entry_id, selector);
     if (selector == 0xB) {
         check_ready_or_run_followup();
         if (func_800178A8(entry_table, entry_id, 0xB) != 0) {

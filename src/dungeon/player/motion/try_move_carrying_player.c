@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -88,7 +89,7 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
             }
             g_dungeon_status.movement_frames_left = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
-            actor_data->flags1C |= 0x40000000;
+            actor_data->flags1C |= ACTOR_REFRESH_GROUND;
             append_packed_action_record(actor_data, 8, 0, 0);
             return;
         }
@@ -104,6 +105,6 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
 
     clear_pending_item_action_state();
     check_tile_entry_at_adjusted_height(controller, actor_id, actor, actor_data);
-    actor_data->flags1C |= 0x40000000;
+    actor_data->flags1C |= ACTOR_REFRESH_GROUND;
     g_dungeon_status.flags |= 0x812;
 }

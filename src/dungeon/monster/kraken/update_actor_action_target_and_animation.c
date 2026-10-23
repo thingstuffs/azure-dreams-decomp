@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -54,7 +56,7 @@ s32 play_sound_if_enabled();
 s32 create_actor_spell_effect();
 void create_two_effect_groups();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
-extern u8 D_8017418C;
+extern u8 kraken_frame_set_1;
 extern u8 D_801741B4;
 extern u8 D_801741BC;
 
@@ -86,7 +88,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
     effect_sprite = visual_base + 0x28;
     switch (state) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             special_slot = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (special_slot) {
             case 7:
@@ -233,13 +235,13 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if ((*(M2C_UNK * *)&sprite->frameTable) != &D_8017418C) {
+        if ((*(M2C_UNK * *)&sprite->frameTable) != &kraken_frame_set_1) {
             if (sprite->flags & 0x6000) {
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
                 ((S_801727C8_0 *)action)->unk_A8 = 0;
-                sprite->frameTable = &D_8017418C;
+                sprite->frameTable = &kraken_frame_set_1;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                    + &D_8017418C), 0);
+                    + &kraken_frame_set_1), 0);
             }
         }
         if (((s32)g_dungeon_status.active_actor) != 0) {
@@ -255,7 +257,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:
         return;

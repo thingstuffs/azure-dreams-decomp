@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -27,7 +28,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern s32 D_80170E5C;
+extern s32 battnel_action_resume_address;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
 void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
@@ -41,7 +42,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
     case 0:
         animation->unk_98 |= 8;
         motion->velocity_z = 0xFFEE0000;
-        entity->flags1C &= 0xF7FFFFFF;
+        entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         animation->unk_A0 = 0;
         animation->unk_9B++;
     case 1:
@@ -69,11 +70,11 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         if (animation->unk_96.s < 2) {
             animation->unk_90 = 0;
             animation->unk_98 &= 0xFFF7;
-            entity->flags1C |= 0x08000000;
+            entity->flags1C |= ACTOR_GROUNDED;
             animation->unk_9B++;
         }
     case 2:
-        if (entity->flags1C & 0x08000000) {
+        if (entity->flags1C & ACTOR_GROUNDED) {
             animation->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -114,7 +115,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         }
 
         if ((check_actor_floor_trap(destination, entity) << 16) > 0) {
-            animation->unk_8C = &D_80170E5C;
+            animation->unk_8C = &battnel_action_resume_address;
             on_actor_status_updated(entity);
         }
     }

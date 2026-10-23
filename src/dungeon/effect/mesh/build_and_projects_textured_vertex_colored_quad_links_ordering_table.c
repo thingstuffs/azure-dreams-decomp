@@ -35,7 +35,7 @@ typedef struct {
     u8 pad[8];
 } OffsetGlobal;
 
-extern OffsetGlobal D_80026208;
+extern OffsetGlobal effect_position_source;
 
 /* Builds and projects a textured, vertex-colored quad and links it into the ordering table. */
 s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 color0, s32 color1, s32 color2, s32 color3) {
@@ -94,7 +94,7 @@ s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 col
     quad->bytes[0x1D] = (u8)(color2 >> 8);
     quad->bytes[0x28] = (u8)(color3 >> 0x10);
     quad->bytes[0x29] = (u8)(color3 >> 8);
-    offset_global = &D_80026208;
+    offset_global = &effect_position_source;
     quad->bytes[6] = (u8)color0;
     quad->bytes[0x12] = (u8)color1;
     quad->bytes[0x1E] = (u8)color2;

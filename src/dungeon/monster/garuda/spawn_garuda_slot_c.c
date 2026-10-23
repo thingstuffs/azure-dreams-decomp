@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -80,18 +83,18 @@ void *spawn_garuda_slot_c(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
         part_b->frameTable = &D_8015C880;
         part_b->unk_24 = saved_kind_id;
         if (kind == 1) {
-            work->unk_14 |= 0x6000;
-            work->unk_1C |= 0x6000;
+            work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            work->unk_14 |= 0x2000;
-            work->unk_1C |= 0x2000;
+            work->unk_14 |= ACTOR_CLASS_ENABLED;
+            work->unk_1C |= ACTOR_PLAYER_SIDE;
         } else {
             if (((flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
+                if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        work->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(work, 1,
+                        work->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = &D_8015C8E0;
                     }

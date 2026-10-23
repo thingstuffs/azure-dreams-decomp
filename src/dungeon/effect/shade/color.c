@@ -78,7 +78,7 @@ void create_owner_color_sprite(Owner *owner, u32 value)
         object->value_2c = *value_ptr;
         render->field_12 = 32206;
         render->flags |= 0x100;
-        func_8003A7C4(render, D_800E2BB8, 0);
+        func_8003A7C4(render, positioned_effect_source, 0);
         emitted_effect_counter[0]++;
     }
 }

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -92,19 +95,19 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
-            ((S_80FFF000_1 *)result)->unk_14 |= 0x6000;
-            ((S_80FFF000_1 *)result)->unk_1C |= 0x6000;
+            ((S_80FFF000_1 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_80FFF000_1 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((S_80FFF000_1 *)result)->unk_14 |= 0x2000;
-            ((S_80FFF000_1 *)result)->unk_1C |= 0x2000;
+            ((S_80FFF000_1 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_80FFF000_1 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
         } else {
             call_a0 = created;
             if (((flags & ~3) << 16) == 0) {
-                if (!(((S_80FFF000_1 *)result)->unk_14 & 0x200)) {
+                if (!(((S_80FFF000_1 *)result)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     call_a1 = position;
                     if (generate_random_value() & 1) {
-                        ((S_80FFF000_1 *)result)->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(result, 1,
+                        ((S_80FFF000_1 *)result)->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                             (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_80150088;
                     }

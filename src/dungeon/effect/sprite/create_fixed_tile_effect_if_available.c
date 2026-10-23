@@ -13,7 +13,7 @@ extern s32 test_resident_bit();
 extern void file_load_com(void *packed_data);
 extern s32 register_node();
 extern s16 get_surface_height_at_coordinates();
-extern u8 D_80045C34[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
+extern u8 clipped_sprite_renderer_address[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
 extern void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data);
 extern M2C_UNK D_800F6F28;
 extern M2C_UNK D_800F6F30;
@@ -29,7 +29,7 @@ void create_fixed_tile_effect_if_available(void) {
         object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
             object->unk_10 = &update_pulsing_actor_color;
-            register_node(object, &D_80045C34);
+            register_node(object, &clipped_sprite_renderer_address);
             graphics = object->position;
             graphics->x.w.i = 0x820;
             graphics->y.w.i = 0x820;

@@ -13,7 +13,7 @@ extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);
 
-extern u8 D_8009B454[];
+extern u8 actor_surface_callback_address[];
 extern s16 terrain_height_limits[];
 
 /* Updates motion, handles ground contact, and checks the tile height limit. */
@@ -40,7 +40,7 @@ void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_
         ((Callback *)(*(void **)((u8 *)owner + 0x58)))[1](owner, actor, motion, callback_arg);
     }
     if ((*(u16 *)((u8 *)owner - 2) & 0x8000) == 0 &&
-        *(void **)((u8 *)owner + 0x50) == D_8009B454) {
+        *(void **)((u8 *)owner + 0x50) == actor_surface_callback_address) {
         s32 tile_type;
 
         tile_type = check_masked_value_in_current_range((u16)read_map_cell_at_world_position(

@@ -27,7 +27,7 @@ typedef struct {
 } LocalRecord;
 
 extern s32 town_motion_state;
-extern volatile s32 D_80132AEC;
+extern volatile s32 collection_target_y;
 extern s16 D_80132AF2;
 extern PackedRect D_80526470;
 extern u8 D_8053067C[];
@@ -105,7 +105,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     s32 case5_next;
 
     dx = (town_motion_state - 0x03600000) >> 16;
-    dy = (D_80132AEC - 0x03600000) >> 16;
+    dy = (collection_target_y - 0x03600000) >> 16;
     work = *ctrl;
     old_angle = ((S_8080EEC4_0 *)view)->unk_1A;
     local.rect.packed = D_80526470;
@@ -115,13 +115,13 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     copied = ((S_8080EEC4_1 *)setup)->unk_08.at00.v;
     (*(s32 *)((u8 *)ctrl + (0x60))) = copied;
 
-    if (distance < (D_80132AEC > 0x035FFFFF ? 0xB9 : 0xC1)) {
+    if (distance < (collection_target_y > 0x035FFFFF ? 0xB9 : 0xC1)) {
         if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
             town_motion_state = ((S_8080EEC4_2 *)ctrl)->unk_04;
-            D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
+            collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
         }
         (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state;
-        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
+        ((S_8080EEC4_2 *)ctrl)->unk_5C = collection_target_y;
         if (distance < 0x80) {
             ((S_8080EEC4_2 *)ctrl)->unk_62 -= (0x80 - distance) >> 1;
         }
@@ -131,7 +131,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
         if (early_far) {
             if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
                 town_motion_state = ((S_8080EEC4_2 *)ctrl)->unk_04;
-                D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
+                collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
             }
     
             {
@@ -140,8 +140,8 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
                 dx_abs = abs(dx);
                 dy_abs = dy;
                 dy_abs = abs(dy_abs);
-                if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
-                    ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
+                if (dx_abs > dy_abs || collection_target_y <= 0x033FFFFF) {
+                    ((S_8080EEC4_2 *)ctrl)->unk_5C = collection_target_y;
                     if (dx > 0) {
                         ((S_8080EEC4_2 *)ctrl)->unk_58 = town_motion_state - 0x00280000;
                     } else {
@@ -150,9 +150,9 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
                 } else {
                     ((S_8080EEC4_2 *)ctrl)->unk_58 = town_motion_state;
                     if (dy > 0) {
-                        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
+                        ((S_8080EEC4_2 *)ctrl)->unk_5C = collection_target_y - 0x00280000;
                     } else {
-                        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
+                        ((S_8080EEC4_2 *)ctrl)->unk_5C = collection_target_y + 0x00280000;
                     }
                 }
             }
@@ -164,7 +164,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     }
 
     (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state;
-    ((S_8080EEC4_2 *)ctrl)->unk_08 = D_80132AEC;
+    ((S_8080EEC4_2 *)ctrl)->unk_08 = collection_target_y;
 
     value = ((S_8080EEC4_3 *)work)->unk_14 /
         ((((S_8080EEC4_3 *)work)->unk_22 << 8) + 0x300);
@@ -201,7 +201,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
         case_value_2 += step;
         ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
         step_copy = step;
-        if (distance >= 0xA1 && D_80132AEC > 0x03600000 &&
+        if (distance >= 0xA1 && collection_target_y > 0x03600000 &&
             ((S_8080EEC4_3 *)work)->unk_18 == 5) {
             ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
             ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;

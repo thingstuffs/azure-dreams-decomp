@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -34,7 +36,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_8017103C[];
-extern s32 D_801714B8;
+extern s32 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
 extern u8 D_801760EC[];
 
@@ -90,9 +92,9 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
             result->unk_14 = flags0;
             result->unk_1C = flags1;
         } else if (((flags & -4) << 16) == 0) {
-            if ((result->unk_14 & 0x200) == 0) {
+            if ((result->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_801760EC;
                 }
             }
@@ -101,7 +103,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &D_801714B8;
+        result_copy->unk_8C = &glacier_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

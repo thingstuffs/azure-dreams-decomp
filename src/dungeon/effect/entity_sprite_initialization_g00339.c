@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
 /* Entity sprite initialization (G00339). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACB90. */
 #include "dungeon/effect/entity_sprite_initialization_g00339.h"
@@ -72,15 +74,15 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
 
         kind = mode & 3;
         if (kind == kind_test) {
-            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x6000;
-            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x6000;
+            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else {
             kind_test = kind < 2;
             if (kind_test) {
                 goto post_kind;
             }
-            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x2000;
-            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x2000;
+            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
         }
         ((S_800B23F8_1 *)work)->unk_14 = flags_14;
         ((S_800B23F8_1 *)work)->unk_1C = flags_1c;

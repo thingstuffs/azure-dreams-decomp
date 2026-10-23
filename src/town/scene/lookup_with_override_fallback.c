@@ -11,7 +11,7 @@ extern M2C_UNK D_8001DE4A;
 s32 *lookup_with_override_fallback(s32 key, s32 unused, s32 context) {
     s32 *result;
 
-    result = apply_entry_position(&D_8001B234, D_8001C358, key, context);
+    result = apply_entry_position(&D_8001B234, active_scene_dispatch_context, key, context);
     if (resolve_entry_flag(&D_8001B234, key, context) != 0) {
         result = &D_8001DE4A;
     }

@@ -12,8 +12,8 @@ extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
-extern u8 D_801710EC[12];
-extern u8 D_80175E40[12];
+extern u8 kewne_action_resume_address[12];
+extern u8 kewne_direction_frames[12];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
 void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite)
@@ -38,7 +38,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
     u32 initial_flags = g_dungeon_status.flags;
     if (initial_flags & 0x2000) {
         callback = *((ActorCallback *) (((u8 *) actor) + 0x8C));
-        if (callback == ((ActorCallback) D_801710EC)) {
+        if (callback == ((ActorCallback) kewne_action_resume_address)) {
             callback(entry_actor, motion, sprite, entry_actor);
             return;
         }
@@ -103,7 +103,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
         physics_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x40000;
         if (physics_flags) {
             if ((!((sprite->flags) & 0x40))
-                && ((sprite->frameTable) == D_80175E40)) {
+                && ((sprite->frameTable) == kewne_direction_frames)) {
                 if ((*(u16 *)&sprite->unk_04) == 0x100) {
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
@@ -160,7 +160,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
             }
         }
         else {
-            if ((!((sprite->flags) & 0x40)) && ((sprite->frameTable) == D_80175E40)) {
+            if ((!((sprite->flags) & 0x40)) && ((sprite->frameTable) == kewne_direction_frames)) {
                 if ((*(u16 *)&sprite->unk_04) == 0x100) {
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;

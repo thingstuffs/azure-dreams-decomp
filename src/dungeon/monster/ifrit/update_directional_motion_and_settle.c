@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern s32 D_80170E84;
+extern s32 ifrit_action_resume_address;
 extern s32 D_80174838;
 
 /* Updates directional motion and settles the entity at its grid position. */
@@ -50,7 +51,7 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, ObjectPosition *
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & 0x228) {
+        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -114,7 +115,7 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, ObjectPosition *
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_80170E84;
+        action->unk_8C = &ifrit_action_resume_address;
         return;
 
     default:

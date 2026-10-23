@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
 #include "dungeon/effect/sprite/route.h"
 #include "shared/entity.h"
@@ -442,7 +443,7 @@ extern int abs(int);
 
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
-extern u8 D_800DEC00[];
+extern u8 directional_sprite_entries[];
 extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
@@ -647,7 +648,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     }
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 1) {
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s == 0) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             drain_audio_commands_and_service_channels();
         }
         cnt = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u + 1;
@@ -754,7 +755,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DC0;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-                select_record_entry_and_value(p, D_800DEC00, 0);
+                select_record_entry_and_value(p, directional_sprite_entries, 0);
             }
             }
         }
@@ -845,7 +846,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern u8 D_800DEC00[12];
+extern u8 directional_sprite_entries[12];
 extern B32_818CFB74_PackedTemplate D_80025900;
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */
@@ -876,7 +877,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         graphic->flagsC = 0x00808080;
         graphic->scale1E = 0x1000;
         graphic->scale1C = 0x1000;
-        select_record_entry_and_value(graphic, D_800DEC00, 0);
+        select_record_entry_and_value(graphic, directional_sprite_entries, 0);
         flags = *(u16 *)((u8 *)entity + 0x2A);
         linked_point_effect_updated[0] = 1;
         next_state = *(u16 *)&state->stateA;

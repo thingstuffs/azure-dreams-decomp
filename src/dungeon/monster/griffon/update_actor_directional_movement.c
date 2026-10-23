@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/monster/griffon.h"
 #include "shared/sprite_frame_state.h"
@@ -53,7 +54,7 @@ void update_actor_directional_movement(void *action, ObjectPosition *motion, Spr
             return;
         }
 
-        if (((u32)actor->flags1C) & 0x228) {
+        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

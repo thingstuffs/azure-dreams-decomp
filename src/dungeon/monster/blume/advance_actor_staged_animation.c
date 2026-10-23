@@ -6,7 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-extern u8 D_80171E20[];
+extern u8 blume_action_resume_address[];
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -84,7 +84,7 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
     case 3:
         if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            action->unk_8C = D_80171E20;
+            action->unk_8C = blume_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);

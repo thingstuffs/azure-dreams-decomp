@@ -11,7 +11,7 @@ typedef struct {
 } Object;
 
 extern void func_8003EA54(Object *object);
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Advance position by velocity, update the object, and propagate its status flags. */
 void advance_object_by_velocity(u16 *state, Movement *movement, Object *object) {
@@ -21,6 +21,6 @@ void advance_object_by_velocity(u16 *state, Movement *movement, Object *object) 
     func_8003EA54(object);
     if (object->flags & 0x6000) {
         *(state - 1) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

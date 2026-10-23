@@ -21,7 +21,7 @@ extern u8 D_A0700184[];
 extern u8 D_A07001AC[];
 extern s32 D_A0700B28[];
 extern s32 *D_A0700B4C[];
-extern CallbackTable *D_A0700B50[];
+extern CallbackTable *devkit_page_trace_methods[];
 extern GlobalState *D_A0700B44[];
 extern void shift_index_and_add_offset_c(void);
 
@@ -30,8 +30,8 @@ void select_record_list_resolves_indices(s32 list_index) {
     void *records;
 
     if (D_A0700B30 != 0) {
-        D_A0700B50[0]->callback68(D_A0700184, D_A07001AC, 0x59);
-        D_A0700B50[0]->callback74(1);
+        devkit_page_trace_methods[0]->callback68(D_A0700184, D_A07001AC, 0x59);
+        devkit_page_trace_methods[0]->callback74(1);
     }
     D_A0700B30 = 1;
     shift_index_and_add_offset_c();

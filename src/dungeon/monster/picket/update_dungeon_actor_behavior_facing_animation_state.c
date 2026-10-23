@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "dungeon/level/scripted_boundary.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -34,11 +35,11 @@ extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(void *, vo
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(void *, void *, void *, void *);
 
 
-extern u8 D_80174F00[];
-extern u8 D_80174F08[];
+extern u8 picket_frame_set_1[];
+extern u8 picket_frame_set_4[];
 extern u8 D_80174F38;
-extern u8 D_80174F40;
-extern u8 D_80174F48;
+extern u8 picket_frame_set_3;
+extern u8 picket_frame_set_6;
 
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
 /* Selects Picket's movement, attacks, spells, and turn processing; suppresses its special action while
@@ -59,8 +60,8 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
 
     if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable != &D_80174F48) {
-            u8 *next_anim_table = &D_80174F40;
+        if (sprite->frameTable != &picket_frame_set_6) {
+            u8 *next_anim_table = &picket_frame_set_3;
 
             (sprite->frameTable) = next_anim_table;
             select_sprite_entry(sprite,
@@ -71,21 +72,21 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         return;
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
-        if (sprite->frameTable == &D_80174F48) {
+    if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
+        if (sprite->frameTable == &picket_frame_set_6) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor, context, sprite, &D_80174F40) != 0) {
+        if (reset_actor_action_state(actor, context, sprite, &picket_frame_set_3) != 0) {
             return;
         }
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
@@ -93,7 +94,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
             u8 actor_state = 0xE;
 
-            anim_table = D_80174F00;
+            anim_table = picket_frame_set_1;
             if (sprite->frameTable != anim_table) {
                 (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
@@ -105,12 +106,12 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
         if (entity->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_80174F08) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, picket_frame_set_4) != 0) {
                 return;
             }
         }
 
-        if (((u32)entity->flags1C) & 0x80000) {
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             func_80174060(actor, context, sprite, entity);
             return;
@@ -125,7 +126,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
     sprite->unk_26 = room_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -208,12 +209,12 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         return;
     }
 
-    if (!(((u32)entity->flags1C) & 0x2000)) {
+    if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity->flags1C) & 0x430)) {
+            if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->unk_24, sprite->unk_25,
@@ -233,7 +234,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
     if (sprite->flags & 0x40) {
         return;
     }
-    anim_table = D_80174F00;
+    anim_table = picket_frame_set_1;
     if (sprite->frameTable == anim_table) {
         return;
     }

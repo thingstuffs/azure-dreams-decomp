@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern char D_8001B14C[];
+extern char scene_string_fallback[];
 extern char D_8001BF7C[];
-extern char D_8001C6D0[];
+extern char event_string_fallback[];
 extern char D_8001C8AF[];
 extern char D_8001C8DC[];
 extern char D_80021EE4[];
@@ -34,8 +34,8 @@ char *select_string_selector_state_flags(s32 unused_0, s32 unused_1, s32 string_
         if (func_8001A64C(F_sbs32_pad12) != 0) {
             return D_8001C8DC;
         }
-        return D_8001C6D0;
+        return event_string_fallback;
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

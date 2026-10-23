@@ -26,11 +26,11 @@ extern s32 advance_actor_path();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
-extern u8 D_8017467C[];
+extern u8 ghosh_frame_set_3[];
 extern u8 D_80174694[];
 extern u8 D_801746FC[];
-extern u8 *D_80174CCC[];
-extern s16 D_80174CD0[];
+extern u8 *ghosh_script_cursor[];
+extern s16 ghosh_script_repeat_count[];
 
 /* Executes the current actor script command and advances its repeat counter. */
 s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
@@ -48,7 +48,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
         return 0;
     }
 
-    command_stream = D_80174CCC[0];
+    command_stream = ghosh_script_cursor[0];
     command = command_stream[1];
     command_wide = command;
     if (command_wide == 0) {
@@ -58,11 +58,11 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     }
 
     repeat_limit = command_stream[0];
-    repeat_count = D_80174CD0[0] + 1;
-    D_80174CD0[0] = repeat_count;
+    repeat_count = ghosh_script_repeat_count[0] + 1;
+    ghosh_script_repeat_count[0] = repeat_count;
     if (repeat_limit < repeat_count) {
-        D_80174CCC[0] = command_stream + 2;
-        D_80174CD0[0] = 0;
+        ghosh_script_cursor[0] = command_stream + 2;
+        ghosh_script_repeat_count[0] = 0;
     }
 
     ((S_8016EF10_1 *)actor)->unk_2A = (command & 7) << 9;
@@ -79,10 +79,10 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
         return 0;
 
     case 0x10:
-        if (*(u8 **)&entity->frameTable != D_8017467C) {
-            entity->frameTable = D_8017467C;
+        if (*(u8 **)&entity->frameTable != ghosh_frame_set_3) {
+            entity->frameTable = ghosh_frame_set_3;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-            select_sprite_entry(entity, D_8017467C[direction_index], 0);
+            select_sprite_entry(entity, ghosh_frame_set_3[direction_index], 0);
         }
         break;
 

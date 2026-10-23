@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/actor_action_flags.h"
@@ -30,7 +31,7 @@ void spend_actor_mp();
 
 
 extern u8 D_80170E54;
-extern u8 D_801739E0[];
+extern u8 ashra_frame_set_1[];
 extern u8 D_801739E8[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
@@ -47,14 +48,14 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_801739E0;
+        ((SpriteFrameState *)sprite)->frameTable = ashra_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_801739E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            ashra_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFEE0000;
-        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172258_0 *)jump)->unk_A8 = 0;
         ((S_80172258_0 *)jump)->unk_9B++;
 
@@ -82,12 +83,12 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         if (((S_80172258_0 *)jump)->unk_96.s < 2) {
             ((S_80172258_0 *)jump)->unk_90 = 0;
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
             ((S_80172258_0 *)jump)->unk_9B++;
         }
 
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;

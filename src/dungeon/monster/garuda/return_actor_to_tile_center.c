@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern s32 D_80171058;
+extern s32 garuda_action_resume_address;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
@@ -48,7 +49,7 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, ObjectPosition *motion, S
             action->unk_9B = 2;
             return;
         }
-        if (actor->flags1C & 0x228) {
+        if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             frames_left = 8;
         } else {
             frames_left = -1;
@@ -115,7 +116,7 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, ObjectPosition *motion, S
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_80171058;
+        action->unk_8C = &garuda_action_resume_address;
         return;
 
     default:

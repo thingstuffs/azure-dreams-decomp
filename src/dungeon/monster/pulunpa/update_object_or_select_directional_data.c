@@ -7,8 +7,8 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 extern void select_sprite_entry(void *, u8, s32);
 
-extern u8 D_80170F20[];
-extern u8 D_80173B98[];
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
 extern u8 D_801762C8[];
 #include "dungeon/monster/pulunpa.h"
 extern u8 D_80176328[];
@@ -26,9 +26,9 @@ void update_object_or_select_directional_data(void *object_arg, void *context, v
     if (update_actor_transform_from_parent(object_arg, context, source_arg, target_arg) != 0) {
         if ((check_actor_floor_trap(source, target) << 0x10) > 0) {
             if (*(u8 *)((u8 *)object + 0xA7) != 0) {
-                *(void **)((u8 *)object + 0x8C) = D_80173B98;
+                *(void **)((u8 *)object + 0x8C) = pulunpa_advance_actor_state_and_dispatch_address;
             } else {
-                *(void **)((u8 *)object + 0x8C) = D_80170F20;
+                *(void **)((u8 *)object + 0x8C) = pulunpa_action_resume_address;
             }
         }
         return;

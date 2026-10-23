@@ -8,7 +8,7 @@ typedef struct S_8125414C_1 {
     u32 unk_1C;
 } S_8125414C_1;   /* state in reposition_global_effect_entity */
 
-extern u8 *D_80174710;
+extern u8 *beldo_active_entity;
 
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -25,7 +25,7 @@ void reposition_global_effect_entity(s32 offset_index)
     u8 *offset_bytes;
     TileObject *origin;
 
-    object = D_80174710;
+    object = beldo_active_entity;
     state = ((u8 *)object) + 0x20;
     entity = *(u8 * *)&object->sprite;
     motion = object->position;

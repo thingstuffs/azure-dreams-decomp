@@ -14,7 +14,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern s32 D_801719DC;
+extern s32 death_action_resume_address;
 extern u8 D_8017464C[8];
 extern u8 D_80174654[8];
 extern u8 D_8017465C[8];
@@ -179,7 +179,7 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_80172DB0_0 *)action)->unk_8C = &D_801719DC;
+        ((S_80172DB0_0 *)action)->unk_8C = &death_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         motion->velocity_y = 0;

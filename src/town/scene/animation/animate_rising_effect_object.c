@@ -82,10 +82,10 @@ extern s32 func_80071494();
 extern void create_object_position_configures_color();
 extern void func_8052F960();
 extern void func_8052FB08();
-extern u8 D_8003C558[12];
-extern s32 D_80084D5C;
+extern u8 score_sprite_draw_callback_address[12];
+extern s32 scene_object_flags;
 extern s32 D_80095AAC;
-extern s32 D_80132AEC;
+extern s32 collection_target_y;
 extern u8 D_8028E17C[];
 extern u8 D_8028E188[];
 extern void D_8052F8C4();
@@ -199,7 +199,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             s32 target_y;
             s32 *target_y_addr;
 
-            target_y_addr = &D_80132AEC;
+            target_y_addr = &collection_target_y;
             target_y = *target_y_addr;
             current_y = ((IntVector3 *)state_held)->y;
             delta = target_y - current_y;
@@ -244,7 +244,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
             work = func_800373DC(0x136);
             if (work != NULL) {
                 ((S_8052F2C8_3 *)work)->unk_10 = D_8052F8C4;
-                func_8003BC18(work, D_8003C558);
+                func_8003BC18(work, score_sprite_draw_callback_address);
                 position = ((S_8052F2C8_3 *)work)->unk_08;
                 entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
                 ((S_8052F2C8_8 *)position)->unk_00 = ((IntVector3 *)state_held)->x;
@@ -317,7 +317,7 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     case 0xFF:
         ((S_8052F2C8_1 *)root)->unk_58 &= 0xFFFE;
         (*(u16 *)((u8 *)obj_held + -2)) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         break;
 
     default:

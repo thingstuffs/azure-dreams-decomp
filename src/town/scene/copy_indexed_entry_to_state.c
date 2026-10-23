@@ -15,14 +15,14 @@ typedef struct {
     u16 unk26;
 } TownState;
 
-extern TownIndexedValueEntry D_80016470[];
+extern TownIndexedValueEntry town_indexed_values[];
 extern TownState D_800167B4;
 extern Entry4 D_80016818[];
 
 /* Copy the indexed entry value and position into the town state (returns the state pointer). */
 TownState *copy_indexed_entry_to_state(s32 entry_index) {
     TownState *state = &D_800167B4;
-    TownIndexedValueEntry *entries = D_80016470;
+    TownIndexedValueEntry *entries = town_indexed_values;
     TownIndexedValueEntry *entry = &entries[entry_index];
     Entry4 *position;
 

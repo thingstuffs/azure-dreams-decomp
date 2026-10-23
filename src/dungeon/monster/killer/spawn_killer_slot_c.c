@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -87,18 +90,18 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
         placement->frameTable = (void *) config_value;
         placement->unk_24 = saved_x;
         if (mode_or_flags == 1) {
-            object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);
-            object_state->unk_1C = (s32) (object_state->unk_1C | 0x6000);
+            object_state->unk_14 = (s32) (object_state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
+            object_state->unk_1C = (s32) (object_state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (mode_or_flags >= 2) {
-            object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
-            object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
+            object_state->unk_14 = (s32) (object_state->unk_14 | ACTOR_CLASS_ENABLED);
+            object_state->unk_1C = (s32) (object_state->unk_1C | ACTOR_PLAYER_SIDE);
         } else {
             config_value = init_flags & ~3;
             if ((config_value << 0x10) == 0) {
-                if (!(object_state->unk_14 & 0x200)) {
+                if (!(object_state->unk_14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
-                        set_or_clear_actor_status_slot(object_state, 1, (generate_random_value() & 0x3F) | 0x20);
+                        object_state->unk_1C = (s32) (object_state->unk_1C | ACTOR_ASLEEP);
+                        set_or_clear_actor_status_slot(object_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         placement->frameTable = &D_8015C088;
                     }
                 }

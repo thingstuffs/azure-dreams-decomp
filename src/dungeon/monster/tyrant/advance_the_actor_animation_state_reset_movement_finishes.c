@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -9,8 +11,8 @@
 #include "shared/sprite_frame_state.h"
 extern int abs(int);
 
-extern s32 D_80170F68;
-extern u8 D_80173FB8[8];
+extern s32 tyrant_action_resume_address;
+extern u8 tyrant_direction_frames[8];
 
 extern void select_sprite_entry();
 extern void *scan_actor_along_heading();
@@ -69,7 +71,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
     reuse_target = 0;
     switch (state) {
     case 0:
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             anim_kind = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (anim_kind) {
             case 6:
@@ -152,7 +154,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
         (*(u16 *)((u8 *)primary_actor_record + (0xA6)))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+        ((S_801729D4_0 *)action)->unk_8C = &tyrant_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -185,17 +187,17 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-            if (sprite->frameTable != D_80173FB8) {
-                (sprite->frameTable) = D_80173FB8;
+            if (sprite->frameTable != tyrant_direction_frames) {
+                (sprite->frameTable) = tyrant_direction_frames;
                 select_sprite_entry(
                     sprite,
-                    D_80173FB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    tyrant_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
             if (((s32)g_dungeon_status.active_actor) == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
                 sprite->flags &= 0xF7FF;
-                ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+                ((S_801729D4_0 *)action)->unk_8C = &tyrant_action_resume_address;
                 advance_status_timers(actor);
                 if (actor->pending_turn_updates > 0) {
                     (*(u8 *)&actor->pending_turn_updates)--;
@@ -203,7 +205,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
                 actor->target_tile_y = 0;
                 actor->target_tile_x = 0;
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-                play_sound_if_enabled(0xB4);
+                play_sound_if_enabled(AUDIO_FADE_CD_FAST);
             }
         }
 

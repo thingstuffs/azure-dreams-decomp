@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -23,7 +25,7 @@ typedef struct {
 } S_80048AC8;
 
 typedef s32 (*Callback4)(void *, void *, void *, void *);
-extern u8 D_80096384[];
+extern u8 destination_motion_resume_address[];
 extern void copy_words_forward(int *dst, int *src, int count);   /* extern */
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);             /* extern */
 extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
@@ -319,7 +321,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
             if (turn_flags & 2) {
                 input_status->flags = (u16) ((turn_flags & 0xFFFD) | 0x20);
                 tick_monster_spawn_timer();
-                state_or_address = get_entity_effect_value(actor, 7);
+                state_or_address = get_entity_effect_value(actor, STATUS_SPEED);
                 turn_sign = state_or_address;
                 state_or_address = 0x80;
                 if (turn_sign <= 0) {
@@ -376,7 +378,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                         companion_slot -= 4;
                     } while (companion_index >= 0);
                 }
-                if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x800) {
+                if ((*(s32 *)((u8 *)actor + 0x1C)) & ACTOR_CURSED) {
                     slow_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (slow_phase + 1);
                     (*(s8 *)((u8 *)actor + 3)) = (s8) ((rsin((s16) slow_phase) >> 8) + 0x30);
@@ -391,9 +393,9 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                 }
                 advance_status_timers(actor);
                 current_callback = (*(s32 (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
-                if (current_callback == (Callback4)D_80096384) {
+                if (current_callback == (Callback4)destination_motion_resume_address) {
 
-                    if ((get_entity_effect_value(actor, 0xA) << 0x10) == 0) {
+                    if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) == 0) {
 
                         state_or_address = (s32)handle_player_input;
                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
@@ -401,8 +403,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     }
 
                 } else if (current_callback == (Callback4)handle_player_input) {
-                    if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-                        (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
+                    if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
+                        (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)destination_motion_resume_address;
                         (&g_dungeon_status)->flags = (u16)((&g_dungeon_status)->flags | 4);
                     }
                 }
@@ -450,8 +452,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
             }
         }
     }
-    if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x20)) {
-        if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
+    if (!((*(s32 *)((u8 *)actor + 0x1C)) & ACTOR_PARALYZED)) {
+        if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
             advance_sprite_animation_and_textures(sprite_or_root);
         } else {
             step_actor_animation(sprite_or_root, 1);
@@ -472,7 +474,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
      * (adrando.com/guide/bugs.html).
      */
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
-        if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
             select_record_entry_and_value(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
                 ((S_80089AA0_16 *)sprite_or_root)->unk_04);
         } else {

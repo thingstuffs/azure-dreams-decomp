@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u16 D_80017AA0[];
+extern u16 scene_selection_index[];
 
 /* Decrements the first value in D_80017AA0. */
 void decrement_town_global_counter(void) {
-    D_80017AA0[0]--;
+    scene_selection_index[0]--;
 }

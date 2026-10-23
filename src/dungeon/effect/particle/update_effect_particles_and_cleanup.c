@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/entity_height_offsets.h"
@@ -47,7 +48,7 @@ extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
-extern s16 D_80025E80;
+extern s16 particle_update_flag;
 extern u8 current_spell_effect_variant;
 
 typedef struct S_818FF710_0 {
@@ -360,7 +361,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         (*(Packed12 *)((u8 *)effect + 0x96)) = D_80025E70;
         ((S_818FF710_1 *)sprite)->unk_08 = (void *) (effect + 0x96);
         parent_flags = ((S_818FF710_2 *)parent)->unk_2A;
-        D_80025E80 = 1;
+        particle_update_flag = 1;
         (*(s16 *)((u8 *)effect + 0x7E)) = (s16) ((parent_flags >> 9) & 7);
         (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     case 1:
@@ -479,7 +480,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             if (((S_818FF710_2 *)parent)->unk_60 != NULL) {
                 (*(s16 *)((u8 *)effect + 0xA)) = 3;
                 (*(u16 *)((u8 *)effect + 0x82)) = 0U;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 impact_target = ((S_818FF710_2 *)parent)->unk_60;
                 target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].unk_00;
                 if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) >= 4U) {
@@ -772,7 +773,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         if ((s16) cleanup_tick < 0x1F) {
             return;
         }
-        effect_active = (s32) D_80025E80;
+        effect_active = (s32) particle_update_flag;
         (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
@@ -780,7 +781,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
             return;
         }
-        D_80025E80 = 0;
+        particle_update_flag = 0;
         return;
     default:
         return;

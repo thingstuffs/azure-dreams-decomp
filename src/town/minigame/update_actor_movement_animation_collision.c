@@ -69,7 +69,7 @@ extern s32 test_three_axis_box_overlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];
-extern u8 D_800F7D3C[];
+extern u8 minigame_sprite_entries[];
 extern u8 D_80026F38[];
 extern u8 D_800200FC[];
 extern HalfTable D_800200E4;
@@ -185,8 +185,8 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             motion->vy = 0;
             motion->vx = 0;
             motion->y += -0x40000;
-            anim->unk_00 = D_800F7D3C;
-            anim->source = ((AnimData *)D_800F7D3C)->data4;
+            anim->unk_00 = minigame_sprite_entries;
+            anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
             anim->unk_05 = 0;
             if (rand() & 7) {
@@ -215,8 +215,8 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
-            anim->unk_00 = D_800F7D3C;
-            anim->source = ((AnimData *)D_800F7D3C)->data4;
+            anim->unk_00 = minigame_sprite_entries;
+            anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
             anim->unk_05 = 0;
         }
@@ -308,8 +308,8 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
         motion->vx = 0;
         actor->ownerAC->count6++;
         actor->flagsA4 &= ~2;
-        anim->unk_00 = D_800F7D3C;
-        anim->source = ((AnimData *)D_800F7D3C)->data4;
+        anim->unk_00 = minigame_sprite_entries;
+        anim->source = ((AnimData *)minigame_sprite_entries)->data4;
         anim->unk_04 = 0;
         anim->unk_05 = 0;
         actor->timerA2 = 14;

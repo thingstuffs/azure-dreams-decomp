@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Effect texture loading, target tinting, and spiraling model effects with completion tracking. */
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "shared/object_node.h"
@@ -138,7 +139,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         break;
     case 2:
         if (((S_8195281C_0 *)effect)->unk_18 == 8) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
         delay_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
         ((S_8195281C_0 *)effect)->unk_18 = delay_left;
@@ -414,7 +415,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     node = (SpawnNode *)allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
     node->header.callback = update_spiraling_effect_growth_and_fade;
-    register_node(node, (s32)D_800CEEFC);
+    register_node(node, (s32)linked_mesh_processor_address);
     position = node->header.position;
     sprite = node->header.sprite;
     sprite->source = D_80024998;

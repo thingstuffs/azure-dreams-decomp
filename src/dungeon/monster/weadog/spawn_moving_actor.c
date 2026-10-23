@@ -19,8 +19,8 @@ typedef struct {
 extern Copy32 D_80170808;
 extern u8 D_80077C50[];
 extern u8 D_801708BC[];
-extern s32 D_80171CE8;
-extern u8 D_80174EB8[];
+extern s32 weadog_action_resume_address;
+extern u8 weadog_frame_set_3[];
 extern u8 D_80174F18[];
 
 extern void register_node(void *, void *);
@@ -139,10 +139,10 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
         S32_AT(position, 0x10) = 0;
         S32_AT(position, 0x0C) = 0;
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
-        if (PTR_AT(sprite, 0x2C) == D_80174EB8) {
+        if (PTR_AT(sprite, 0x2C) == weadog_frame_set_3) {
             return;
         }
-        PTR_AT(sprite, 0x2C) = D_80174EB8;
+        PTR_AT(sprite, 0x2C) = weadog_frame_set_3;
         sprite->flags &= 0xF7FF;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
@@ -151,7 +151,7 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
     case 3:
         if (S16_AT(action_work, 0xA4) != 0x4D) {
             spend_actor_mp(actor, 0x2000);
-            PTR_AT(action_work, 0x8C) = &D_80171CE8;
+            PTR_AT(action_work, 0x8C) = &weadog_action_resume_address;
             g_dungeon_status.active_actor = 0;
             U16_AT(actor, 0x46) &= 0x7FFF;
         }

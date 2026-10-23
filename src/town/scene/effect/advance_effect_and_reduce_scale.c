@@ -28,7 +28,7 @@ typedef struct S_80814CC4_3 {
 } S_80814CC4_3;   /* arg2 in advance_effect_and_reduce_scale */
 
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Advance motion and reduce scale, marking the effect complete at the scale threshold. */
 void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
@@ -48,6 +48,6 @@ void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
         ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
         flags = &effect_view[-1].unk_00;
         *flags = (u16) (effect_view[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

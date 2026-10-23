@@ -9,8 +9,8 @@ typedef struct {
     void *object;
 } ObjectEntry;
 
-extern u8 D_800C3174[];
-extern u8 D_800C321C[];
+extern u8 message_motion_type_a[];
+extern u8 message_motion_type_b[];
 extern u8 person_motion_tag[];
 
 
@@ -32,7 +32,7 @@ void *ms_mot_accpt_ow(u8 object_index)
     }
 
     object_type = *(void **)(object + 0x10);
-    if (object_type == D_800C3174 || object_type == D_800C321C) {
+    if (object_type == message_motion_type_a || object_type == message_motion_type_b) {
         if (*(void **)((u8 *)object_data + 0x50) == person_motion_tag) {
             return object_data;
         }

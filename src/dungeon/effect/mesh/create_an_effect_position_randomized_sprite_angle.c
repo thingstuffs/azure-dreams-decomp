@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Five-point effect geometry, orbiting animation, and movement toward an attack target. */
 #include "shared/game_work.h"
 #include "shared/object_node.h"
@@ -1032,7 +1033,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             break;
         }
         create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
         ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
         break;

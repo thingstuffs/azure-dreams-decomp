@@ -215,6 +215,6 @@ extern s16 current_dungeon_floor;
 extern s32 scene_object_payload_alias;
 extern s32 D_80091260;
 extern s32 D_80091528;
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 
 #endif

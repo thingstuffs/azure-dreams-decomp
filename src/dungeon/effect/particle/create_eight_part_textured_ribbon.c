@@ -55,7 +55,7 @@ typedef struct {
 
 extern void select_record_entry_and_value();
 extern s32 register_node();
-extern u8 D_800DEAE0[3];
+extern u8 ribbon_sprite_entries[3];
 extern Copy32 D_801648DC;
 void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
 extern u8 ribbon_vertices[96];
@@ -207,7 +207,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
                 appearance->color.c.r);
             effect->unk_01 = (u8) appearance->color.c.g;
             effect->unk_02 = (u8) appearance->color.c.b;
-            select_record_entry_and_value(appearance, &D_800DEAE0, 0);
+            select_record_entry_and_value(appearance, &ribbon_sprite_entries, 0);
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_00 = effect->unk_80;
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_02 = (u16) effect->unk_82;
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_04 = (u16) effect->unk_84;

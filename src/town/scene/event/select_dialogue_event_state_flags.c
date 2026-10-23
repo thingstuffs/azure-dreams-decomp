@@ -2,9 +2,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern char D_8001B14C[];
+extern char scene_string_fallback[];
 extern char D_8001BFF8[];
-extern char D_8001C6D0[];
+extern char event_string_fallback[];
 extern char D_8001C8AF[];
 extern char D_8001C8DC[];
 extern char D_80021F90[];
@@ -47,7 +47,7 @@ char *select_dialogue_event_state_flags(s32 unused_0, s32 unused_1, s32 dialogue
             if (func_8001A64C(F_sbs32_pad12) != 0) {
                 return D_8001C8DC;
             }
-            return D_8001C6D0;
+            return event_string_fallback;
         }
         if (func_8001A64C(F_sbs32_pad35) != 0) {
             func_8001A5CC(F_sbs32_pad35);
@@ -67,6 +67,6 @@ char *select_dialogue_event_state_flags(s32 unused_0, s32 unused_1, s32 dialogue
     case 42:
         return award_next_unearned_milestone(dialogue_selector);
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

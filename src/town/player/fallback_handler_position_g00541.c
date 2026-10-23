@@ -13,7 +13,7 @@ void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(U
         do {
             entry_key = entry->unk0;
             if (entry_key == *key_cursor) {
-                if (entry_key == (s32)D_80097D2C) {
+                if (entry_key == (s32)town_position_callback_address) {
                     match_cursor = D_800D04B8;
                     if (*match_cursor != 0) {
                         do {
@@ -36,7 +36,7 @@ void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(U
 
 /* Clears D_80100D20. */
 void clear_global_80100_d_20(void) {
-    D_80100D20 = 0;
+    town_overlap_origin = 0;
 }
 
 /* Computes the record-based position offset and publishes the resulting vector. */
@@ -54,14 +54,14 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
         x = (record->scale * rcos(angle)) << 5;
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;
-        D_80100D20 = &computed_position;
+        town_overlap_origin = &computed_position;
         computed_position.x = D_800D0AE4.x + offset->x + x;
         computed_position.y = D_800D0AE4.y + offset->y + y;
         height <<= 17;
         computed_position.z = D_800D0AE4.z + offset->z + height;
         return;
     }
-    D_80100D20 = 0;
+    town_overlap_origin = 0;
 }
 
 /* Passes an indexed byte and the object's signed field to get_second_word_indexed_entry_in_s_nested_table. */

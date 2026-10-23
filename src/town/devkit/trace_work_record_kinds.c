@@ -18,7 +18,7 @@ typedef struct DevCallbacks {
 } DevCallbacks;
 
 extern OvWork D_A0700B38;            /* ov_work */
-extern DevCallbacks *D_A0700B50;
+extern DevCallbacks *devkit_page_trace_methods;
 extern char D_A0700140[];            /* "%s = %d\n" */
 extern char D_A070014C[];            /* "p->kind" */
 extern char D_A0700154[];            /* "ov_work.kind" */
@@ -28,8 +28,8 @@ extern char D_A0700178[];            /* "sn_main.c" */
 /* Copy the overlay work record, trace both kind fields, mark sn_main.c line 48 and flush. */
 void trace_work_record_kinds(OvWork *p) {
     D_A0700B38 = *p;
-    D_A0700B50->print(D_A0700140, D_A070014C, p->kind);
-    D_A0700B50->print(D_A0700140, D_A0700154, D_A0700B38.kind);
-    D_A0700B50->print(D_A0700164, D_A0700178, 48);
-    D_A0700B50->flush(0);
+    devkit_page_trace_methods->print(D_A0700140, D_A070014C, p->kind);
+    devkit_page_trace_methods->print(D_A0700140, D_A0700154, D_A0700B38.kind);
+    devkit_page_trace_methods->print(D_A0700164, D_A0700178, 48);
+    devkit_page_trace_methods->flush(0);
 }

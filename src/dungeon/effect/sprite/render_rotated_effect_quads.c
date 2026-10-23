@@ -96,7 +96,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     }
     copy_end = &quad_copies[8];
     addr_mask = 0xFFFFFF;
-    view_matrix = (u8 *) (&D_8006CD10);
+    view_matrix = (u8 *) (&effect_view_matrix);
     *((s32 *) (((s8 *) view_matrix) + 0x1C)) = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
     PushMatrix((s32) setup_arg, draw_arg);
     view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));

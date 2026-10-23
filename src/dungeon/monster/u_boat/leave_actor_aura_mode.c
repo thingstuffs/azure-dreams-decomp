@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -93,7 +94,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState
     if (((finish_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
         sprite->unk_06 = 0;
         ((S_80176084_0 *)state)->unk_8C = (u8 *)uboat_behavior_entry;
-        clear_slots_of_type(entity, 0x1B);
+        clear_slots_of_type(entity, STATUS_NO_TILE_OCCUPANCY);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;

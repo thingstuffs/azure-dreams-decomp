@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -23,8 +24,8 @@ typedef struct S_80173C5C_0 {
 } S_80173C5C_0;   /* work in run_the_actor_s_eight_step_sink_animation_advancing_state_swapping */
 
 extern u8 D_80173FD0[];
-extern u8 D_80173FB8[];
-extern s32 D_80170F68;
+extern u8 tyrant_direction_frames[];
+extern s32 tyrant_action_resume_address;
 void set_record_integer_tile_center();
 s16 set_or_clear_actor_status_slot();
 s32 advance_status_timers();
@@ -60,7 +61,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_98 = (u16) (work->unk_98 | 8);
         part_a->velocity_z = 0xFFF00000;
-        actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
+        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         work->unk_A0 = 0;
         work->unk_96.s = 10;
         work->unk_9B++;
@@ -86,7 +87,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         }
         work->unk_90 = 0;
         work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
-        actor->flags1C = (s32) (actor->flags1C | 0x8000000);
+        actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
         work->unk_9B++;
         return;
     case 2:
@@ -113,13 +114,13 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         if (!(part_b->flags & 0xE000)) {
             return;
         }
-        part_b->frameTable = D_80173FB8;
-        select_sprite_entry(part_b, D_80173FB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        part_b->frameTable = tyrant_direction_frames;
+        select_sprite_entry(part_b, tyrant_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = 0;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
-        work->unk_8C = &D_80170F68;
+        work->unk_8C = &tyrant_action_resume_address;
         work->unk_98 = (u16) (work->unk_98 | 0x8000);
         work->unk_AE = (s16) ((generate_random_value() & 7) + 8);
         set_or_clear_actor_status_slot(actor, 0x1A, (s8) work->unk_AE);

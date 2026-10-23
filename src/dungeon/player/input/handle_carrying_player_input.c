@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/input.h"
@@ -138,11 +139,11 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
         return;
     }
     flags1C = ((S_8008EAC8_1 *)entity)->unk_1C;
-    if (flags1C & 0x200) {
+    if (flags1C & ACTOR_ASLEEP) {
         begin_player_sleep_action(object, aux_entity, sprite, entity);
         return;
     }
-    if (!(flags1C & 0x100000)) {
+    if (!(flags1C & ACTOR_CARRYING)) {
         call_arg = sprite;
         {
             void *callback = handle_player_input;

@@ -53,7 +53,7 @@ void init_card_window_slot_object(s32 init_value, s32 slot_index)
             func_8007C040(D_804005F8, D_80400620, 0x12F);
             func_8007BEF0(1);
         }
-        func_80040560(record, D_8040861C);
+        func_80040560(record, card_status_query_address);
     } else {
         func_80404570(record);
         ((S_80404364_0 *)record)->unk_1E &= 0x7FFF;

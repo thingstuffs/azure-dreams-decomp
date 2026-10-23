@@ -4,13 +4,13 @@
 #include "shared/dungeon_status.h"
 #include "shared/object_flags.h"
 extern int abs(int);
-extern u8 D_80026470[];
+extern u8 radial_effect_colors[];
 extern u8 D_80026474[];
 extern u8 D_80026476[];
 extern u8 D_80026484[];
 extern u8 D_80026490[];
-extern u8 D_800265C0[];
-extern u8 D_800265C4[];
+extern u8 row_quad_top_color[];
+extern u8 row_quad_bottom_color[];
 extern u8 D_800269C8[];
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
@@ -24,7 +24,7 @@ extern void ratan2(s16, s16);
 extern s32 create_effect_object_groups(s16, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void apply_conditional_target_effect(void *, u8, void *);
-extern BankEffectCounter D_80026472;
+extern BankEffectCounter staged_fade_count;
 void follow_brighten(u8 *, u8 *, u8 *);
 void advance_object_and_global_counters(u16 *);
 #endif

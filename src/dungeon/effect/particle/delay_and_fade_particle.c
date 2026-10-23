@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Ground-following attack particles, delayed fades, and target impact bursts. */
 #include "modules/dungeon_ovl_1870800.h"
 #include "shared/entity.h"
@@ -18,8 +20,8 @@ extern void apply_attack_power_and_element_effects();
 extern s32 play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
-extern u8 D_800DE9D0[];
-extern u8 D_800DEC28[];
+extern u8 countdown_sprite_entries[];
+extern u8 directional_effect_entries[];
 
 typedef struct S_81850800_0 {
     void * unk_00;
@@ -337,7 +339,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         state = tile_step_x + 0x20;
         pix_y += state;
         motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         owner->unk_0A.unk_0A_u16++;
         return;
 
@@ -371,8 +373,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             work->scale_x = 0x1000;
             work->tpage_abr = 0x60;
             work->flags |= 0xC;
-            work->unk_00 = D_800DE9D0;
-            copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
+            work->unk_00 = countdown_sprite_entries;
+            copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
             spawn_color |= 0x8080;
             work->unk_04 = 0;
             work->unk_05 = 0;
@@ -413,8 +415,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     work->scale_y = 0x2800;
                     work->tpage_abr = 0x20;
                     work->flags |= 0xC;
-                    work->unk_00 = D_800DE9D0;
-                    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
+                    work->unk_00 = countdown_sprite_entries;
+                    copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
                     spawn_color |= 0x6060;
                     work->unk_04 = 0;
                     work->unk_05 = 0;
@@ -429,7 +431,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                 }
                 dx = 0x3C;
                 effect_flags = delay_and_fade_particle;
-                particle_anim = (S_81850800_10 *)D_800DEC28;
+                particle_anim = (S_81850800_10 *)directional_effect_entries;
                 do {
                     obj = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
                     if (obj != 0) {
@@ -570,7 +572,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
             if (sprite->color.c.r >= p->fade_step) {
                 sprite->color.c.r = sprite->color.c.g = sprite->color.c.b -= p->fade_step;
             } else {
-                ((ObjectNodeHeader *)p - 1)->flags |= 0x8000; /* header precedes the record */
+                ((ObjectNodeHeader *)p - 1)->flags |= NODE_REMOVE; /* header precedes the record */
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }

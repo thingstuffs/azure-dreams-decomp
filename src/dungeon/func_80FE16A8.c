@@ -29,7 +29,7 @@ extern void func_8016C08C(void *, void *, void *, void *);
 extern s32 func_8016C230(void *, void *, void *, s32);
 extern void func_8016DA84(void *, void *, void *, void *);
 
-extern u8 D_8016AEA8;
+extern u8 dungeon_action_resume_address;
 extern u8 D_8016E038[];
 extern u8 D_8016E040[];
 extern u8 D_8016E070[];
@@ -191,7 +191,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
                 global_actor = primary_actor_record;
                 entity->facing = direction;
                 if (global_actor->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_8016E070, &D_8016AEA8);
+                    begin_actor_spell_action(actor, context, sprite, D_8016E070, &dungeon_action_resume_address);
                     return;
                 }
             }
@@ -202,7 +202,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor, context, sprite, D_8016E070, &D_8016AEA8);
+            begin_actor_spell_action(actor, context, sprite, D_8016E070, &dungeon_action_resume_address);
             return;
         default:
             func_8016B67C(actor, context, sprite, entity);

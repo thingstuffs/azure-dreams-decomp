@@ -39,8 +39,8 @@ typedef struct {
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 D_80171058[];
-extern u8 D_80174880[9];
+extern u8 garuda_action_resume_address[];
+extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
@@ -90,7 +90,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)obj + 0x8C));
-        if (callback == (Callback)D_80171058) {
+        if (callback == (Callback)garuda_action_resume_address) {
             void *entry_obj = obj;
             callback(entry_obj, input_motion, input_part, entry_obj);
             return;
@@ -191,7 +191,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
         } else {
 
             if (!(input_part->flags & 0x40) &&
-                input_part->frameTable == D_80174880) {
+                input_part->frameTable == garuda_walk_direction_frames) {
                 bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
                 (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
                 (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)bob_phase * 0xAA) << 5;
@@ -238,7 +238,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
             }
         } else {
             if (!(input_part->flags & 0x40) &&
-                input_part->frameTable == D_80174880) {
+                input_part->frameTable == garuda_walk_direction_frames) {
                 u16 bob_phase;
                 bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
                 (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;

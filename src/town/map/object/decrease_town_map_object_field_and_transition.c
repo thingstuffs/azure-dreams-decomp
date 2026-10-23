@@ -19,8 +19,8 @@ typedef struct S_8008BA44_2 {
 
 
 extern u8 D_8008BC58[];
-extern u8 D_800CFC70[];
-extern s32 D_800CFC7C[];
+extern u8 town_map_state_ids[];
+extern s32 town_map_state_values[];
 
 /* Decrement the inner value, clamping it to zero and resetting object state if it becomes negative. */
 void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
@@ -35,8 +35,8 @@ void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
     if (signed_state->unk_0A.s < 0) {
         signed_state->unk_0A.u = 0;
         obj->unk_68 = D_8008BC58;
-        obj->unk_64.s = (s8)D_800CFC70[obj->unk_66];
-        reset_data = D_800CFC7C[obj->unk_66];
+        obj->unk_64.s = (s8)town_map_state_ids[obj->unk_66];
+        reset_data = town_map_state_values[obj->unk_66];
         obj->unk_64.u = 0x16;
         obj->unk_6C = reset_data;
     }

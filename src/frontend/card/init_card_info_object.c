@@ -33,7 +33,7 @@ void *init_card_info_object(s32 init_option, s32 info_value) {
             func_8007C040(D_80400738, D_80400760, 0x1A0);
             func_8007BEF0(1);
         }
-        func_80040560(base, D_8040861C);
+        func_80040560(base, card_status_query_address);
     } else {
         func_804059A8(base);
         D_8040B4F8.flags &= 0x7FFF;

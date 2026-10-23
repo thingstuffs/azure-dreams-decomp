@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
@@ -38,12 +39,12 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
-extern u8 D_801714D4[];
+extern u8 hikewne_action_resume_address[];
 extern u8 D_801740F0[];
 extern u8 D_801740F8[];
-extern u8 D_80174150[];
-extern u8 D_80174158[];
-extern u8 D_80174160[];
+extern u8 hikewne_frame_set_1[];
+extern u8 hikewne_frame_set_2[];
+extern u8 hikewne_frame_set_3[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
 /* Animates Hikewne's status-slot-1 entry and recovery, updates MP and turns while active, then restores
@@ -87,7 +88,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         if (((S_8017360C_0 *)action)->unk_92.s != 0) {
             return;
         }
-        local_table_1 = D_80174150;
+        local_table_1 = hikewne_frame_set_1;
 
         entity->frameTable = local_table_1;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
@@ -107,7 +108,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
             return;
         }
-        local_table_2 = D_80174158;
+        local_table_2 = hikewne_frame_set_2;
 
         entity->frameTable = local_table_2;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
@@ -124,7 +125,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
     case 3:
     {
         u8 *local_table_3;
-        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
@@ -186,22 +187,22 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *room_base = &reference_tile_object;
                 s8 room_id = *(s8 *)&entity->unk_26;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {
-                        clear_slots_of_type(actor, 1);
+                        clear_slots_of_type(actor, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
 
-        local_table_3 = D_80174160;
+        local_table_3 = hikewne_frame_set_3;
 
         entity->frameTable = local_table_3;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
@@ -271,6 +272,6 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         return;
     }
 
-    ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
+    ((S_8017360C_0 *)action)->unk_8C = hikewne_action_resume_address;
     return;
 }

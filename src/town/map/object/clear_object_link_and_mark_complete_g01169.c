@@ -19,7 +19,7 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
 void initialize_object_state_and_appearance(s32 object_id, void *object, FuncData *state) {
-    register_node(object_id - 0x20, D_80046398);
+    register_node(object_id - 0x20, lit_mesh_renderer_address);
 
     state->unk12 = 0;
     state->unk14 = 0;

@@ -6,7 +6,7 @@ extern s32 rcos(s32 angle);
 extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
 extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
 
-extern u8 D_800CFCB4[];
+extern u8 town_actor_control[];
 
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -33,7 +33,7 @@ void update_turning_motion_and_timer(void *actor, void *position, s32 update_par
         rcos(S16_AT(actor, 0x86)) / (0x1000 / S16_AT(actor, 0x84)) -
         U16_AT(actor, 0x84);
 
-    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, D_800CFCB4);
+    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, town_actor_control);
     if (adjustment != 0) {
         axis = adjustment[0];
         if (axis != 2) {

@@ -149,8 +149,8 @@ typedef struct S_81934C5C_4 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK D_80024928;
-extern M2C_UNK D_800DEDB0;
-extern M2C_UNK D_800DEE38;
+extern M2C_UNK rising_sprite_entries;
+extern M2C_UNK moving_sprite_entries;
 
 /* Updates effect motion and spawns an impact effect on reaching the surface. */
 

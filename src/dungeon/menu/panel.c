@@ -1192,7 +1192,7 @@ void advance_panel_accumulator(void *counter_state, void *accumulator, s32 updat
     *(u16 *) ((u8 *) counter_state + 6) = remaining;
     if (remaining < 0) {
         *(u16 *) ((u8 *) counter_state - 2) |= 0x8000;
-        D_800814A0.unk0 = D_800814A0.unk0 | 0x8000;
+        D_800814A0.unk0 = D_800814A0.unk0 | OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -1224,7 +1224,7 @@ extern s32 register_node();
 extern void select_record_entry_and_value(RenderPart *part, void *data, s32 index);
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, s32 update_arg);
-extern u8 D_800DEC70[16];
+extern u8 shared_sprite_entries[16];
 
 /* Creates an object from the source block and initializes its render part. */
 void create_rendered_panel_object(CopyBlock *source)
@@ -1242,7 +1242,7 @@ void create_rendered_panel_object(CopyBlock *source)
         part->color.word = 0x00808080;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
-        select_record_entry_and_value(part, D_800DEC70, 0);
+        select_record_entry_and_value(part, shared_sprite_entries, 0);
         object->kind = 0x20;
     }
 }

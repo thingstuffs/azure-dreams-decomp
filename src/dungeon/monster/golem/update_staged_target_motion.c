@@ -104,7 +104,7 @@ extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 
-extern u8 D_80175F68;
+extern u8 golem_frame_set_1;
 
 /* Updates staged movement to a target and back to the actor's base position. */
 /* Moves a line effect to a tile or actor, applies damage at an actor target, then draws its accelerating
@@ -376,7 +376,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
     case 4:
     {
         S_81087818_1 *actor = motion->unk_48;
-        if (actor->unk_2C != &D_80175F68) {
+        if (actor->unk_2C != &golem_frame_set_1) {
             (*(u16 *)((u8 *)motion - 2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

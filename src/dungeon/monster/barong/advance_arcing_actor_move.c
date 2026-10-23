@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -33,7 +34,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_801716F4[];
+extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 D_80175574[];
 extern u8 D_8017557C[];
@@ -71,7 +72,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
             0);
         sprite->scale_y = 0x1000;
         ((S_80172B4C_0 *)action)->unk_98 |= 8;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172B4C_0 *)action)->unk_9E.s = 5;
         ((S_80172B4C_0 *)action)->unk_A4 = 0;
         ((S_80172B4C_0 *)action)->unk_9B++;
@@ -107,7 +108,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
         if ((next_move_ticks << 16) < 0) {
             ((S_80172B4C_0 *)action)->unk_90 = 0;
             ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172B4C_0 *)action)->unk_9B++;
         }
                         /* fallthrough */
@@ -115,7 +116,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
     {
         u8 *phase_anims;
 
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -181,7 +182,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_80172B4C_0 *)action)->unk_8C = D_801716F4;
+        ((S_80172B4C_0 *)action)->unk_8C = barong_action_resume_address;
         on_actor_status_updated(actor);
     }
 }

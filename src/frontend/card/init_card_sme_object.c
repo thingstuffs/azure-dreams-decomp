@@ -43,7 +43,7 @@ s32 init_card_sme_object(s32 init_option) {
             func_8007C040(D_804007D8, D_80400800, 0xEE);
             func_8007BEF0(1);
         }
-        func_80040560(obj, D_8040861C);
+        func_80040560(obj, card_status_query_address);
     } else {
         process_embedded_data_and_propagate_flags(obj);
         {

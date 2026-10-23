@@ -21,7 +21,7 @@ typedef struct S_8092192C_4 {
     s16 unk_1E;
 } S_8092192C_4;
 
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 s32 register_node();
 void select_record_entry_and_value();
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
@@ -63,7 +63,7 @@ void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 o
         sprite_data_addr = 0x800E0000;
         position->x.v = base_x;
         base_y = (s32) base_pos->unk_04;
-        sprite_data_addr = (u32)D_800DEC70;
+        sprite_data_addr = (u32)shared_sprite_entries;
         position->y.v = base_y;
         base_z = (s32) base_pos->unk_08;
         position->x.w.i = (u16) (*(u16 *)&position->x.w.i + offset_x);

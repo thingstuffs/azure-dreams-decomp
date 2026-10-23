@@ -28,7 +28,7 @@ typedef struct {
 
 void set_glyph_style_index(void *record, int index);
 void set_style_for_tagged_glyph_entries(u8 *entries, s32 process_arg);
-extern s32 D_800280B4[3];
+extern s32 card_menu_entry_values[3];
 
 /* Functions defined in this translation unit. */
 void card_boot_measure_dialog_choice_word( u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out );

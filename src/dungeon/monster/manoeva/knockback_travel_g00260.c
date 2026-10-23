@@ -90,7 +90,7 @@ void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg
 
     display = object->display;
     work = (Work *)((u8 *)object + 0x20);
-    object->callback = &D_80174CCC;
+    object->callback = &manoeva_knockback_callback_address;
     work->source = source_arg;
     work->position = position_arg;
 

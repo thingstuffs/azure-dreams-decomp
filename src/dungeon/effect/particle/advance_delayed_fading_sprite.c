@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Targeted effect movement, delayed sprite fading, and accelerating particle emission. */
 #include "modules/dungeon_ovl_185e800.h"
 #include "shared/sprite_frame_state.h"
@@ -118,7 +119,7 @@ void func_80024020(u8 *self, u8 *motion)
             (s16)(F(F(owner_object, u8 *, 8), u16, 10) - 48)) -
             (F(motion, u16, 10) + 176);
         F(motion, s32, 20) /= F(self, s16, 80);
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         state = F(self, s16, 10) + 1;
         F(self, s16, 10) = state;
         return;
@@ -186,9 +187,9 @@ void func_80024020(u8 *self, u8 *motion)
                 F(child_data, u16, 30) = 0xa00;
                 F(child_data, u16, 28) = 0xa00;
                 F(child_data, u16, 16) = 0x20;
-                F(child_data, void *, 0) = D_800DE990;
+                F(child_data, void *, 0) = landing_sprite_entries;
                 F(child_data, u16, 20) |= 0xe;
-                child_data->source = F(D_800DE990, u32, 4);
+                child_data->source = F(landing_sprite_entries, u32, 4);
                 particle_data = ((u8 *)particle) + 32;
                 child_data->unk_04 = 0;
                 child_data->unk_05 = 0;
@@ -360,9 +361,9 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_sprite->unk_1E = 0x1000;
                     particle_sprite->unk_1C = 0x1000;
                     particle_sprite->unk_10 = 0x20;
-                    particle_sprite->unk_00 = D_800DECF8;
+                    particle_sprite->unk_00 = fading_sprite_entries;
                     particle_sprite->unk_14 = (u16) (particle_sprite->unk_14 | 0xC);
-                    random = (s32) ((SpriteSourceEntry *)D_800DECF8)->unk_04;
+                    random = (s32) ((SpriteSourceEntry *)fading_sprite_entries)->unk_04;
                     color |= 0x8080;
                     particle_sprite->unk_04 = 0;
                     particle_sprite->unk_05 = 0;

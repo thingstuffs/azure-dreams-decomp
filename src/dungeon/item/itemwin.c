@@ -70,7 +70,7 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
 
 /* Handles inventory cancel and activation buttons and moves among five actions with held-button repeat. */
 void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *menu) {
-    ovl_1830850_81810A0C_DungeonState *input = D_80083160;
+    ovl_1830850_81810A0C_DungeonState *input = g_game_work;
     s32 selection_step;
 
     if (input->unk8 != 0 && menu->unk10 != 0) {

@@ -49,7 +49,7 @@ extern void clear_slots_of_type();
 extern void bzero();
 
 extern u8 D_800D8728[];
-extern u8 D_800D8C64[];
+extern u8 actor_action_resume_address[];
 extern void *actor_action_frames[];
 
 /* Reset the entity state and animation, then update its child flags. */
@@ -98,7 +98,7 @@ void *reset_actor_animation_state(void *entity)
         ((S_800D8590_1 *)entity)->unk_13 = MONSTER_FROG;
         ((S_800D8590_2 *)object)->unk_9A = 0xFF;
         ((S_800D8590_2 *)object)->unk_9C = -1;
-        ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
+        ((S_800D8590_2 *)object)->unk_8C = actor_action_resume_address;
         (*(void ** *)((u8 *)child + 0x2C)) = actor_action_frames;
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;

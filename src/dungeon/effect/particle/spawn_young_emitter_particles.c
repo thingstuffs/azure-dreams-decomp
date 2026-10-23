@@ -44,7 +44,7 @@ typedef struct S_7FFEA9D4_3 {
 void *func_7003CF18();                       /* extern */
 s32 func_700750E0();                                /* extern */
 extern s32 func_7010CD00(void *, void *, s32, s32); /* extern */
-extern s32 D_80086AD8;
+extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[0x100];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C994;
@@ -108,7 +108,7 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
         z_offset = (s32)&emitted_effect_counter;
         *header |= 0x8000;
         active_count = *(u16 *)z_offset - 1;
-        D_80086AD8 |= 0x8000;
+        particle_object_flags |= 0x8000;
         *(u16 *)z_offset = active_count;
     }
 }

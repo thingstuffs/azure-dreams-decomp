@@ -1,63 +1,66 @@
-#include "modules/dungeon_ovl_e1b054.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
+#include "dungeon/monster/volcano/spawn_variant_slot_c.h"
 #include "shared/monster_ids.h"
 
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_a_value)
+void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     s32 left;
     s32 right;
     void *work;
-    s16 saved_arg3;
+    s16 saved_height;
     ProjectileObject *obj;
-    register s8 saved_arg2;
-    s8 saved_arg1;
+    register s8 saved_tile_y;
+    s8 saved_tile_x;
     void *part_a;
-    s16 final_arg0;
+    s16 saved_spawn_flags;
     S_80158854_3 *part_b;
     void *actor;
 
     work = 0;
-    saved_arg1 = part_b_value_a;
-    saved_arg3 = part_a_value;
-    saved_arg2 = part_b_value_b;
+    saved_tile_x = tile_x;
+    saved_height = spawn_height;
+    saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
-    final_arg0 = value;
+    saved_spawn_flags = spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80158854_0 *)work)->unk_13 = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;
-        ((SignedHeightView *)part_a)->unk_0A = saved_arg3;
+        ((SignedHeightView *)part_a)->unk_0A = saved_height;
         part_b = obj->unk_0C;
-        part_b->unk_24 = saved_arg1;
-        part_b->unk_25 = saved_arg2;
+        part_b->unk_24 = saved_tile_x;
+        part_b->unk_25 = saved_tile_y;
         actor = work;
-        kind = value & 3;
+        kind = spawn_flags & 3;
 
         if (kind == 1) {
             ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
-            left = ((S_80158854_0 *)work)->unk_14 | 0x6000;
-            right = ((S_80158854_0 *)work)->unk_1C | 0x6000;
+            left = ((S_80158854_0 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((S_80158854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80158854_0 *)work)->unk_14 = left;
             ((S_80158854_0 *)work)->unk_1C = right;
             part_b->unk_2C = D_8015C510;
         } else {
             if (kind >= 2) {
                 ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
-                left = ((S_80158854_0 *)work)->unk_14 | 0x2000;
-                right = ((S_80158854_0 *)work)->unk_1C | 0x2000;
+                left = ((S_80158854_0 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+                right = ((S_80158854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_80158854_0 *)work)->unk_14 = left;
                 ((S_80158854_0 *)work)->unk_1C = right;
                 part_b->unk_2C = D_8015C510;
             } else {
-                if (((value & ~3) << 16) == 0) {
-                    if (!(((S_80158854_0 *)work)->unk_14 & 0x200)) {
+                if (((spawn_flags & ~3) << 16) == 0) {
+                    if (!(((S_80158854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                         if (generate_random_value() & 1) {
-                            set_or_clear_actor_status_slot(work, 1,
+                            set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) | 0x20);
                             part_b->unk_2C = D_8015C538;
                         }
@@ -72,7 +75,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
             }
         }
         obj->unk_10 = func_80158A58;
-        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)final_arg0);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)saved_spawn_flags);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

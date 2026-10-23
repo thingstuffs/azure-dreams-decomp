@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 /* Actor status events (G00019).
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00019 - PD:dungeon/bank_1025000:801748E8, PD:dungeon/bank_102b000:8016E8E8, PD:dungeon/bank_1031000:801688E8, PD:dungeon/bank_1037000:801628E8, PD:dungeon/bank_103d000:8015C8E8, PD:dungeon/bank_1043000:801568E8.
  */
@@ -21,9 +23,9 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
         if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        (sprite_in->frameTable) = D_801748E0;
+        (sprite_in->frameTable) = garuda_frame_set_2;
         select_sprite_entry(sprite_in,
-            D_801748E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+            garuda_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
             u16 counter_value;
@@ -36,10 +38,10 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
         return;
 
     case 1:
-        if ((get_entity_effect_value(entity_in, 1) << 16) == 0) {
-            (sprite_in->frameTable) = D_801748E8;
+        if ((get_entity_effect_value(entity_in, STATUS_SLEEP) << 16) == 0) {
+            (sprite_in->frameTable) = garuda_frame_set_1;
             select_sprite_entry(sprite_in,
-                D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+                garuda_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
             if (!(sprite_in->flags & 0x8000)) {
@@ -51,7 +53,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
                 return;
             }
             ((S_801730B4_2 *)entity_in)->unk_1C.s &= ~0x200;
-            ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
+            ((S_801730B4_0 *)actor_in)->unk_8C = garuda_action_resume_address;
             return;
         }
         page_base = (u8 *)0x80080000;
@@ -103,24 +105,24 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
             }
             update_actor_status_and_mp(entity_in);
             on_actor_status_updated(entity_in);
-            if ((get_entity_effect_value(entity_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity_in, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&sprite_in->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite_in) < 2)) {
                     if (!(generate_random_value() & 7)) {
-                        clear_slots_of_type(entity_in, 1);
+                        clear_slots_of_type(entity_in, STATUS_SLEEP);
                     }
                 }
             }
-            if ((get_entity_effect_value(entity_in, 1) << 16) != 0) {
+            if ((get_entity_effect_value(entity_in, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
-        (sprite_in->frameTable) = D_801748E8;
+        (sprite_in->frameTable) = garuda_frame_set_1;
         select_sprite_entry(sprite_in,
-            D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+            garuda_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
             u32 updated_flags;
@@ -131,7 +133,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
         }
         if (sprite_in->flags & 0x8000) {
             ((S_801730B4_2 *)entity_in)->unk_1C.u &= ~0x200;
-            ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
+            ((S_801730B4_0 *)actor_in)->unk_8C = garuda_action_resume_address;
             return;
         }
 
@@ -155,7 +157,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
         }
         ((S_801730B4_2 *)entity_in)->unk_1C.u &= ~0x200;
 
-        ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
+        ((S_801730B4_0 *)actor_in)->unk_8C = garuda_action_resume_address;
 
         return;
 
@@ -180,7 +182,7 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_table = D_801748E0;
+        direction_table = garuda_frame_set_2;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -195,9 +197,9 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
 
         if (actor->mp != 0) {
 
-            (sprite->frameTable) = D_801748E8;
+            (sprite->frameTable) = garuda_frame_set_1;
             select_sprite_entry(sprite,
-                D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                garuda_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -255,9 +257,9 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
             return;
         }
 
-        (sprite->frameTable) = D_801748E8;
+        (sprite->frameTable) = garuda_frame_set_1;
         select_sprite_entry(sprite,
-            D_801748E8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            garuda_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -269,8 +271,8 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
         if (sprite->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            actor->flags1C &= ~0x208;
-            ((S_801734E0_0 *)entity)->unk_8C = &D_80171058;
+            actor->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
+            ((S_801734E0_0 *)entity)->unk_8C = &garuda_action_resume_address;
         }
 
         return;

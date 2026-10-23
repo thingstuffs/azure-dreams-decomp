@@ -25,7 +25,7 @@ typedef struct {
     s32 w[12];
 } Copy48;
 extern s32 D_80170534;
-extern u8 D_80170000[0x3A81];
+extern u8 encounter_overlay_work[0x3A81];
 extern void *beldo_actor_nodes;
 extern void *D_80175D64;
 
@@ -47,8 +47,8 @@ void create_secondary_encounter_object(void) {
         render_data->flags =
             (render_data->flags & 0xFF7F) | 0x400;
         register_node(object, project_sprite_chain);
-        data_index = *(&D_80170000[0x3A80]);
-        render_data->frameTable = &D_80170000[0x3A80];
+        data_index = *(&encounter_overlay_work[0x3A80]);
+        render_data->frameTable = &encounter_overlay_work[0x3A80];
         select_sprite_entry(render_data, data_index, 0);
         render_data->unk_06 = 6;
         render_data->flags &= 0xFFF3;

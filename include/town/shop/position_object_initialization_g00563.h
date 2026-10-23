@@ -64,7 +64,7 @@ void configure_the_set_mode_n_4();
 /* extern */
 void initialize_optional_object_state();
 /* extern */
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 extern u8 D_800D073C[];
 extern u8 D_800D0754[];

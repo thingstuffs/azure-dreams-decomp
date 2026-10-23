@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Waits for linked flag 8, then decreases field +8 until the object is marked for removal. */
 void reset_effect_callback_state(void *ptr) {
@@ -29,6 +29,6 @@ state_1:
     *(s32 *)((u8 *)ptr + 8) = value;
     if (value <= 0x80808) {
         *(u16 *)((u8 *)ptr - 2) |= 0x8000;
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
     }
 }

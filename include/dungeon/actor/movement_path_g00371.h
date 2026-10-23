@@ -166,7 +166,7 @@ extern s32 rand(void);
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
-extern u8 D_800D8C64;
+extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
 extern s32 find_active_rect_containing_point(s32, s32);

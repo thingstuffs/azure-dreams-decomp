@@ -1,7 +1,7 @@
 #include "modules/town_ovl_3fe0d0_p00.h"
 
 void initialize_context_entry_tables_variant_2(void) {
-    D_8001794C.record._0 = &D_80017774[0];
+    D_8001794C.record._0 = &scene_mode_event_data[0];
     {
         Rec_D_80016000 *context = D_80016000;
         ((TownPositionState *)context->unk_1C)->unk_40 = &D_80017E66[0];

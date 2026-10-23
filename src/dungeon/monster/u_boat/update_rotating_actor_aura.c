@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/u_boat.h"
 #include "shared/record_ptrs.h"
@@ -175,7 +176,7 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
         break;
     }
 
-    if ((get_entity_effect_value(entity_saved, 0xA) << 16) == 0) {
+    if ((get_entity_effect_value(entity_saved, STATUS_FROG) << 16) == 0) {
         return;
     }
 

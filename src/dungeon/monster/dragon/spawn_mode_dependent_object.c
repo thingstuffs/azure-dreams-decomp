@@ -1,3 +1,7 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 /* Dragon actor spawning, movement, attacks, and status animation callbacks. */
 #include "dungeon/monster/dragon.h"
 #include "shared/actor_action_flags.h"
@@ -42,33 +46,33 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         kind = kind_flags & 3;
         part_b->unk_25 = saved_byte_25;
         actor = work;
-        part_b->frameTable = ((u8 *)D_80173C7C);
+        part_b->frameTable = ((u8 *)dragon_direction_frames);
         part_b->unk_24 = saved_byte_24;
 
         if (kind == 1) {
-            primary_bits = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
+            primary_bits = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = primary_bits;
             work->unk_1C = secondary_flags;
         } else if (kind >= 2) {
-            primary_bits = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
+            primary_bits = work->unk_14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = primary_bits;
             work->unk_1C = secondary_flags;
         } else if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = ((u8 *)D_80173CDC);
+                    part_b->frameTable = ((u8 *)dragon_alt_direction_frames);
                 }
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((void *)func_80170E54);
+        actor->unk_8C = ((void *)dispatch_monster_move_attack_spell);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -98,7 +102,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = (*(R03_80170A28_EntityCallback *)((u8 *)entity + 0x8C));
-        if (callback == (R03_80170A28_EntityCallback)((void *)func_80170E54)) {
+        if (callback == (R03_80170A28_EntityCallback)((void *)dispatch_monster_move_attack_spell)) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
@@ -227,7 +231,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void func_80170E54(void *controller, void *context, SpriteFrameState *entity, ActorRecord *actor_state)
+void dispatch_monster_move_attack_spell(void *controller, void *context, SpriteFrameState *entity, ActorRecord *actor_state)
 {
     u8 *anim_table;
     s32 room_id;
@@ -242,8 +246,8 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
 
     if (actor_state->mp == 0) {
         advance_actor_pending_action(controller, context, entity, actor_state);
-        if (entity->frameTable != ((u8 *)D_80173CDC)) {
-            u8 *early_table = ((u8 *)D_80173CD4);
+        if (entity->frameTable != ((u8 *)dragon_alt_direction_frames)) {
+            u8 *early_table = ((u8 *)dragon_reset_frames);
             void *record = entity;
             entity = (u8 *)entity + 0x2C;
             entity->unk_00 = early_table;
@@ -255,21 +259,21 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
         return;
     }
 
-    if (((u32)actor_state->flags1C) & 0x200) {
-        if (entity->frameTable == ((u8 *)D_80173CDC)) {
+    if (((u32)actor_state->flags1C) & ACTOR_ASLEEP) {
+        if (entity->frameTable == ((u8 *)dragon_alt_direction_frames)) {
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)controller)->unk_8C = 0;
             actor_state->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(controller, context, entity, ((u8 *)D_80173CD4))) {
+        if (reset_actor_action_state(controller, context, entity, ((u8 *)dragon_reset_frames))) {
             return;
         }
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor_state->flags1C) & 0x100) {
+        if (((u32)actor_state->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(controller, context, entity, actor_state);
             return;
         }
@@ -277,7 +281,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
         if (((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 != 0xE) {
             u8 control_state = 0xE;
 
-            anim_table = ((u8 *)D_80173C7C);
+            anim_table = ((u8 *)dragon_direction_frames);
             if (entity->frameTable != anim_table) {
                 (entity->frameTable) = anim_table;
                 select_sprite_entry(entity,
@@ -294,7 +298,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
             }
         }
 
-        if (((u32)actor_state->flags1C) & 0x80000) {
+        if (((u32)actor_state->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(controller, context, entity, actor_state);
             update_dragon_parent_motion(controller, context, entity, actor_state);
             return;
@@ -309,7 +313,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
     entity->unk_26 = room_id;
 
     if (actor_state->pending_turn_updates > 0) {
-        if (((u32)actor_state->flags1C) & 0x20) {
+        if (((u32)actor_state->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_state);
             return;
         }
@@ -358,7 +362,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
                     update_actor_status_and_mp(actor_state);
                     return;
                 }
-                begin_actor_spell_action(controller, context, entity, ((u8 *)D_80173CCC), ((void *)func_80170E54));
+                begin_actor_spell_action(controller, context, entity, ((u8 *)D_80173CCC), ((void *)dispatch_monster_move_attack_spell));
                 return;
             }
         case 12:
@@ -367,7 +371,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(controller, context, entity, ((u8 *)D_80173CCC), ((void *)func_80170E54));
+            begin_actor_spell_action(controller, context, entity, ((u8 *)D_80173CCC), ((void *)dispatch_monster_move_attack_spell));
             return;
         default:
             break;
@@ -375,11 +379,11 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
 
         advance_actor_path_with_item_search(controller, context, entity, actor_state);
         return;
-    } else if (!(((u32)actor_state->flags1C) & 0x2000)) {
+    } else if (!(((u32)actor_state->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor_state->flags1C) & 0x430)) {
+            if (!(((u32)actor_state->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((s16)test_neighbor_position_relation(entity->unk_24,
                     entity->unk_25, reference_tile_object.tile_position.parts.tile_x,
@@ -397,7 +401,7 @@ void func_80170E54(void *controller, void *context, SpriteFrameState *entity, Ac
     if (entity->flags & 0x40) {
         return;
     }
-    anim_table = ((u8 *)D_80173C7C);
+    anim_table = ((u8 *)dragon_direction_frames);
     if (entity->frameTable == anim_table) {
         return;
     }
@@ -768,8 +772,8 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
         action_state->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_2C = ((u8 *)D_80173C7C);
-        select_sprite_entry(sprite_arg, (((u8 *)D_80173C7C))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        ((R03_80171DA0_S_80171DA0_1 *)sprite_arg)->unk_2C = ((u8 *)dragon_direction_frames);
+        select_sprite_entry(sprite_arg, (((u8 *)dragon_direction_frames))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
         return 1;
@@ -787,9 +791,9 @@ void start_directional_actor_effect(void *action_state, void *action_context, vo
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
-            (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173C7C);
+            (*(s32 **)((u8 *)sprite + 0x2C)) = ((u8 *)dragon_direction_frames);
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + ((u8 *)D_80173C7C)), 0);
+                + ((u8 *)dragon_direction_frames)), 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
@@ -845,7 +849,7 @@ void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, vo
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(check_data, target) << 0x10) > 0) {
-            object->unk_8C = ((void *)func_80170E54);
+            object->unk_8C = ((void *)dispatch_monster_move_attack_spell);
             if (g_dungeon_status.flags & 0x80) {
                 object->unk_90.at02.v = 0;
                 object->unk_90.at00.v = 0;
@@ -873,14 +877,14 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
         if (!(((SpriteFrameState *)map_entity)->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)D_80173C94);
+        ((SpriteFrameState *)map_entity)->frameTable = ((u8 *)dragon_frame_set_2);
         select_sprite_entry(
             map_entity,
-            ((u8 *)D_80173C94)[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            ((u8 *)dragon_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172258_S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF20000;
-        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((R03_80172258_S_80172258_0 *)jump)->unk_A0 = 0;
         ((R03_80172258_S_80172258_0 *)jump)->unk_9B++;
 
@@ -908,12 +912,12 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
         if (((R03_80172258_S_80172258_0 *)jump)->unk_96.s < 2) {
             ((R03_80172258_S_80172258_0 *)jump)->unk_90 = 0;
             ((R03_80172258_S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
             ((R03_80172258_S_80172258_0 *)jump)->unk_9B++;
         }
 
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
             ((R03_80172258_S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -967,7 +971,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 
 finish:
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            ((R03_80172258_S_80172258_0 *)jump)->unk_8C = ((void *)func_80170E54);
+            ((R03_80172258_S_80172258_0 *)jump)->unk_8C = ((void *)dispatch_monster_move_attack_spell);
             on_actor_status_updated(actor);
         }
     }
@@ -977,7 +981,7 @@ void update_dragon_linked_motion(Resource03CallbackState *state, void *entity, v
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = func_80170E54;
+            state->callback = dispatch_monster_move_attack_spell;
         }
     }
 }
@@ -1013,9 +1017,9 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 3;
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80173CA4);
+        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)dragon_frame_set_1);
         select_sprite_entry(sprite,
-            ((u8 *)D_80173CA4)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)dragon_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
         return;
@@ -1095,7 +1099,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         }
         set_record_integer_tile_center(transform,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
         spend_actor_mp(actor, 0x180);
-        ((R03_80172620_S_80172620_0 *)action)->unk_8C = ((void *)func_80170E54);
+        ((R03_80172620_S_80172620_0 *)action)->unk_8C = ((void *)dispatch_monster_move_attack_spell);
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {
@@ -1121,7 +1125,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
     use_player_target = 0;
     switch (((R03_80172A24_S_80172A24_0 *)action_state)->unk_9B) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player_target = 1;
@@ -1208,7 +1212,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)func_80170E54);
+        ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)dispatch_monster_move_attack_spell);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1244,7 +1248,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
         {
-            u8 *direction_table = ((u8 *)D_80173C7C);
+            u8 *direction_table = ((u8 *)dragon_direction_frames);
 
             if (*(u8 **)&((SpriteFrameState *)sprite)->frameTable != direction_table) {
                 ((SpriteFrameState *)sprite)->frameTable = direction_table;
@@ -1259,7 +1263,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         }
         ((R03_80172A24_S_80172A24_7 *)action_status)->unk_0A = ((R03_80172A24_S_80172A24_7 *)action_status)->unk_0A - 1;
         ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
-        ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)func_80170E54);
+        ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)dispatch_monster_move_attack_spell);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
@@ -1267,7 +1271,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
     }
 }
@@ -1305,7 +1309,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
         }
 
         timer = 5;
-        if (((EntityRec *)source)->flags1C & 0x228) {
+        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         controller->unk_96.s = timer;
@@ -1413,7 +1417,7 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
         if (tracked_object == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_object & 0x7FFFFFFF;
         }
-        controller->unk_8C = ((void *)func_80170E54);
+        controller->unk_8C = ((void *)dispatch_monster_move_attack_spell);
         return;
 
     default:
@@ -1439,7 +1443,7 @@ void advance_dragon_removal(void *state, void *motion, void *position, void *act
 void grow_hopping_dragon(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }
 
@@ -1457,7 +1461,7 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
             u8 *direction_anims;
             DungeonGlobalStatus *system_base;
 
-            direction_anims = ((u8 *)D_80173CDC);
+            direction_anims = ((u8 *)dragon_alt_direction_frames);
             (*(void **)((u8 *)sprite + 0x2C)) = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -1469,7 +1473,7 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
         return;
 
     case 1:
-        if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             s32 actor_flags;
             DungeonGlobalStatus *system_base;
 
@@ -1521,7 +1525,7 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin;
                 s8 coordinate;
 
@@ -1531,11 +1535,11 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
                     (coordinate >= 0)) ||
                     (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
-                    clear_slots_of_type(actor, 1);
+                    clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
@@ -1573,13 +1577,13 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
     default:
         return;
     }
-    ((R03_80173358_S_80173358_2 *)actor)->unk_1C &= ~0x200;
+    ((R03_80173358_S_80173358_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
     in_controller = (u8 *)in_controller + 0x8C;
-    *(void **)in_controller = ((u8 *)func_80170E54);
+    *(void **)in_controller = ((u8 *)dispatch_monster_move_attack_spell);
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *entity)
+void wait_for_dragon_mp(void *controller, void *context, void *sprite, ActorRecord *entity)
 {
     s32 state;
 
@@ -1594,7 +1598,7 @@ void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *e
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        direction_anims = ((u8 *)D_80173CDC);
+        direction_anims = ((u8 *)dragon_alt_direction_frames);
         (*(void **)((u8 *)sprite + 0x2C)) = direction_anims;
         select_sprite_entry(sprite,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -1608,9 +1612,9 @@ void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *e
 
         if (entity->mp != 0) {
 
-            (*(void **)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CD4);
+            (*(void **)((u8 *)sprite + 0x2C)) = ((u8 *)dragon_reset_frames);
             select_sprite_entry(sprite,
-                ((u8 *)D_80173CD4)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((u8 *)dragon_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             (((u32)entity->flags1C)) |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1660,9 +1664,9 @@ void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *e
             return;
         }
 
-        (*(void **)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CD4);
+        (*(void **)((u8 *)sprite + 0x2C)) = ((u8 *)dragon_reset_frames);
         select_sprite_entry(sprite,
-            ((u8 *)D_80173CD4)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            ((u8 *)dragon_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1674,7 +1678,7 @@ void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *e
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~0x208;
-            ((Rec_func_801736F4_arg0 *)controller)->unk_8C = ((void *)func_80170E54);
+            ((Rec_func_801736F4_arg0 *)controller)->unk_8C = ((void *)dispatch_monster_move_attack_spell);
         }
 
         return;
@@ -1685,10 +1689,10 @@ void update_dragon_parent_motion(R03_80173A30_Actor *actor, s32 action, R03_8017
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = ((u8 *)func_80170E54);
+            actor->unk_8C = ((u8 *)dispatch_monster_move_attack_spell);
             return;
         }
-    } else if (entity->unk_2C == ((u8 *)D_80173CDC) &&
+    } else if (entity->unk_2C == ((u8 *)dragon_alt_direction_frames) &&
                !(map_object->unk_1C & 0x208)) {
         entity->unk_2C = ((u8 *)D_80173C74);
         select_sprite_entry(entity,(s16)(((u8 *)D_80173C74)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
@@ -1699,7 +1703,7 @@ void update_thrown_dragon(Resource03CallbackState *state, void *entity, void *po
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->callback = func_80170E54;
+            state->callback = dispatch_monster_move_attack_spell;
         }
     }
 }
@@ -1707,34 +1711,34 @@ void update_thrown_dragon(Resource03CallbackState *state, void *entity, void *po
 void settle_dragon_on_tile(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }
 
 void fade_entity_colors_to_neutral(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }
 
 void fade_in_dragon(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }
 
 void resolve_dragon_floor_trap(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }
 
 void propagate_dragon_action_flag(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->callback = func_80170E54;
+        state->callback = dispatch_monster_move_attack_spell;
     }
 }

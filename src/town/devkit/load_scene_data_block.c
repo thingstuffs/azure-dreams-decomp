@@ -13,7 +13,7 @@ typedef struct {
 } TownObject;
 
 extern s32 D_8070309C;
-extern CallbackTable *D_807030B8;
+extern CallbackTable *devkit_runtime_methods;
 extern u8 D_807028F4[];
 extern u8 D_8070291C[];
 extern TownObject *D_807030AC;
@@ -30,8 +30,8 @@ void load_scene_data_block(s32 scene, s32 mode)
     s32 first;
 
     if (D_8070309C != 0) {
-        D_807030B8->func68(D_807028F4, D_8070291C, 0xE2);
-        D_807030B8->func74(1);
+        devkit_runtime_methods->func68(D_807028F4, D_8070291C, 0xE2);
+        devkit_runtime_methods->func74(1);
     }
 
     D_8070309C = 1;

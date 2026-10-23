@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
@@ -8,5 +9,5 @@ void func_80097C50(Rec_func_8008ACDC_arg0 *entity, s32 unused_1, s32 unused_2, E
     entity->unk_9B.as_s8 = 0;
     entity->unk_8C.as_s32 = 0;
     entity->unk_96.as_s16 = 0;
-    context->flags1C = (s32) (context->flags1C & ~0x20);
+    context->flags1C = (s32) (context->flags1C & ~ACTOR_PARALYZED);
 }

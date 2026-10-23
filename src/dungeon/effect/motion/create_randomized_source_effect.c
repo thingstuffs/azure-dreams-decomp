@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */
 #include "shared/object_node.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
@@ -196,7 +197,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
         size_fixed = params->unk_10.u << 8;
         render->scale_y = size_fixed;
         render->scale_x = size_fixed;
-        register_node(object, &D_80045C34);
+        register_node(object, &clipped_sprite_renderer_address);
         {
             Row_8191CBCC_S_8191CBCC_4 *transform;
 
@@ -470,7 +471,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (effect->unk_10.s16 < effect->unk_12) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         {
             Row_8191CD78_S_func_80024578_3 *owner = effect->unk_1C;
@@ -613,7 +614,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (effect->unk_10.s16 < effect->unk_12) {
             break;
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         effect->unk_10.u16 = 0;

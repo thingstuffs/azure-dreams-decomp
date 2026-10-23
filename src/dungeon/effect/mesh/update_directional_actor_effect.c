@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Timed target tinting, source-relative arcing motion, and linked effect setup. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_19ba800.h"
@@ -65,9 +66,9 @@ void update_directional_actor_effect(void *state_data)
         }
         result = read_sound_mode_blocking_status(4);
         if (result != 2) {
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         } else {
-            play_sound_if_enabled(0x4300);
+            play_sound_if_enabled(AUDIO_RESUME_CD);
         }
         U8_AT(MANAGER_PTR(), 0xA8) = U8_AT(state, 8);
         U16_AT(state, 0x14) = U16_AT(MANAGER_PTR(), 0x2A);

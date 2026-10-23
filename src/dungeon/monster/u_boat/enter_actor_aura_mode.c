@@ -53,7 +53,7 @@ extern void select_sprite_entry();
 extern void play_sound_if_enabled();
 extern s32 sample_terrain_surface_height();
 
-extern u8 D_80045C34[];
+extern u8 clipped_sprite_renderer_address[];
 extern u8 uboat_aura_start_frames[];
 extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2488[];
@@ -102,7 +102,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
             if (effect != NULL) {
                 ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
                 effect->unk_10 = D_80170CEC;
-                register_node(effect, D_80045C34);
+                register_node(effect, clipped_sprite_renderer_address);
                 effect_state = (u8 *)effect + 0x20;
                 ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
                 ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;

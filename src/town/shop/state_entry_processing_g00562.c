@@ -23,7 +23,7 @@ void process_entries_in_state_n_19_triggers_associated_sounds(void) {
         if (state != 0) {
             if (state == 19) {
                 load_a_shared_buffer_process_write_back((s32)(0x80010A80 + ((entry[0x983 + entry_index * 4] & 0x3F) * 84)));
-                set_resident_bitmap_bit(D_800D253C[entry_index]);
+                set_resident_bitmap_bit(paired_scene_flag_ids[entry_index]);
             }
         }
     }

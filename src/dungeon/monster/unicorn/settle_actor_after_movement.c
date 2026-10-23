@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/unicorn/settle_actor_after_movement.h"
 #include "shared/sprite_frame_state.h"
@@ -41,7 +42,7 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
             ((T_80172664_S_80172664_3 *)motion)->unk_10 = (direction_y << 17) - shifted_y;
         }
         ((T_80172664_S_80172664_1 *)animation)->unk_98 |= 8;
-        ((T_80172664_S_80172664_0 *)actor)->unk_1C &= 0xF7FFFFFF;
+        ((T_80172664_S_80172664_0 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 4;
         ((T_80172664_S_80172664_3 *)motion)->unk_14 = (s32)0xFFFC0000;
         ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
@@ -115,7 +116,7 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
         ((T_80172664_S_80172664_3 *)motion)->unk_14 = 0;
         ((T_80172664_S_80172664_1 *)animation)->unk_90 = 0;
         ((T_80172664_S_80172664_1 *)animation)->unk_98 &= 0xFFF7;
-        ((T_80172664_S_80172664_0 *)actor)->unk_1C |= 0x08000000;
+        ((T_80172664_S_80172664_0 *)actor)->unk_1C |= ACTOR_GROUNDED;
         ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
         return;
 

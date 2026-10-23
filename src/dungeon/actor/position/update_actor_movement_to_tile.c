@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
@@ -73,13 +74,13 @@ s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *ta
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count = (s16)((u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
         }
-        if (actor->flags1C & 0x2000) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             actor->action_flags =
                 (u16)(actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         }
         if (g_dungeon_status.flags & 0x80) {
             actor->flags1C =
-                (s32)(actor->flags1C & 0xBFFFFFFF);
+                (s32)(actor->flags1C & ACTOR_REFRESH_GROUND_CLEAR_MASK);
             new_height = sample_terrain_surface_height(
                 (((Rec_D_80082E80 *)target_tile)->unk_24 << 6) | 0x20,
                 (((Rec_D_80082E80 *)target_tile)->unk_25 << 6) | 0x20,

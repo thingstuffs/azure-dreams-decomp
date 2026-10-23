@@ -14,7 +14,7 @@ typedef struct {
 typedef struct { u8 pad[2]; u16 x; u8 pad2[2]; u16 y; u8 pad3[2]; u16 z; } Position;
 extern Effect *allocate_list_node(s32, void *);
 extern void register_node(Effect *, void *);
-extern u8 D_800CEEFC[], D_80024784[];
+extern u8 linked_mesh_processor_address[], D_80024784[];
 
 /* Create a positioned effect and set its animation and lifetime parameters. */
 Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
@@ -25,7 +25,7 @@ Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position,
     effect = allocate_list_node(0x212, source);
     if (effect != 0) {
         effect->callback = D_80024784;
-        register_node(effect, D_800CEEFC);
+        register_node(effect, linked_mesh_processor_address);
         sprite = effect->sprite;
         sprite->x.w.i = position->x;
         sprite->y.w.i = position->y;

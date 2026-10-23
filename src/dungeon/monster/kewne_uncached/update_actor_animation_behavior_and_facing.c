@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -29,8 +30,8 @@ extern void func_801730A8(void *, void *, void *, void *);
 extern s32 func_801731CC(void *, void *, void *, void *);
 extern void func_80175078(void *, void *, void *, void *);
 
-extern u8 D_80171FA4[];
-extern u8 D_80175C30[];
+extern u8 kewne_uncached_action_resume_address[];
+extern u8 kewne_uncached_frame_set_1[];
 extern u8 D_80175C38[];
 extern u8 D_80175C88[];
 extern u8 D_80175C90[];
@@ -81,7 +82,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
         return;
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
+    if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80175C90) {
             ((S_80171FA4_0 *)actor)->unk_9A = 0xD;
             ((S_80171FA4_0 *)actor)->unk_9B = 1;
@@ -95,7 +96,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, actor_aux, sprite, entity);
             return;
         }
@@ -114,7 +115,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
             if (current_anim == D_80175CA8) {
                 if (sprite->flags & 0xE000) {
                     register void *idle_anim; /* MATCH: the first arm materializes the animation anim_table in a1. */
-                    idle_anim = D_80175C30;
+                    idle_anim = kewne_uncached_frame_set_1;
                     (sprite->frameTable) = idle_anim;
                     select_sprite_entry(sprite,
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -124,7 +125,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
                     ((S_80171FA4_0 *)actor)->unk_9E = 0;
                 }
             } else {
-                anim_table = D_80175C30;
+                anim_table = kewne_uncached_frame_set_1;
                 if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
@@ -146,7 +147,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
             }
         }
 
-        if (((u32)entity->flags1C) & 0x80000) {
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
             s16 adjusted_angle;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
@@ -167,7 +168,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
     sprite->unk_26 = room_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -214,7 +215,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
                 player = primary_actor_record;
                 entity->facing = heading;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, D_80171FA4);
+                    begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, kewne_uncached_action_resume_address);
                     return;
                 }
             }
@@ -226,7 +227,7 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
             case 0:
             case 1:
             case 2:
-                begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, D_80171FA4);
+                begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, kewne_uncached_action_resume_address);
                 return;
 
             case 3:
@@ -240,12 +241,12 @@ void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, Sp
         return;
     }
 
-    if (!(((u32)entity->flags1C) & 0x2000)) {
+    if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity->flags1C) & 0x430)) {
+            if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->unk_24, sprite->unk_25,

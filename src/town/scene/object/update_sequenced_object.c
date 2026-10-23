@@ -67,13 +67,13 @@ void func_8023FB18(void *);                      /* extern */
 void func_80245C10(void *);             /* extern */
 s16 func_8025E01C();                          /* extern */
 extern s16 D_800133A0;
-extern u8 D_8003C558[3];
-extern s32 D_80084D5C;
+extern u8 score_sprite_draw_callback_address[3];
+extern s32 scene_object_flags;
 extern M2C_UNK D_8012F130[5];
-extern u8 D_801328C8[3];
-extern s32 D_801328E8[3];
+extern u8 scene_object_factory_data[3];
+extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];
-extern s32 D_80132AEC[3];
+extern s32 collection_target_y[3];
 extern s32 D_80132AF0[3];
 extern s16 D_80132AF2[5];
 extern u8 D_802430A8[12];
@@ -133,7 +133,7 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     sequence = NULL;
     raw_s1 = func_8025E01C(motion);
     global_s7 = D_8012F130;
-    global_s5 = D_801328E8;
+    global_s5 = collection_round_work;
     floor_height_or_spawned_object = (void *)raw_s1;
     if (((S_8080C650_0 *)in0)->unk_68.s < 0xFF) {
         sequence = ((S_8080C650_0 *)in0)->unk_AC;
@@ -224,7 +224,7 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         break;
     case 6:
         motion->velocity_x = (s32) ((s32) (town_motion_state[0] - motion->x.v) >> 1);
-        motion->velocity_y = (s32) ((s32) (D_80132AEC[0] - motion->y.v) >> 1);
+        motion->velocity_y = (s32) ((s32) (collection_target_y[0] - motion->y.v) >> 1);
         state6_v0 = D_80132AF0[0] + D_8029070C[0];
         state6_v1 = motion->z.v + 0x80000;
         state6_v0 -= state6_v1;
@@ -245,7 +245,7 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     case 8:
     case 9:
         motion->x.v = (s32) town_motion_state[0];
-        motion->y.v = (s32) D_80132AEC[0];
+        motion->y.v = (s32) collection_target_y[0];
         motion->z.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
         global_s7 += 4;
         if (*global_s7 & 0x20) {
@@ -314,10 +314,10 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
                 ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 | 1);
                 {
                     do {
-                        floor_height_or_spawned_object = func_800374FC(0x136, D_801328C8);
+                        floor_height_or_spawned_object = func_800374FC(0x136, scene_object_factory_data);
                         if (floor_height_or_spawned_object != NULL) {
                             spawned_primitive = ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_0C;
-                            func_8003BC18(floor_height_or_spawned_object, D_8003C558);
+                            func_8003BC18(floor_height_or_spawned_object, score_sprite_draw_callback_address);
                             ((S_8080C650_1 *)spawned_primitive)->unk_0C = 0x808080;
                             ((S_8080C650_1 *)spawned_primitive)->unk_1E = (s16)(s32)global_s5;
                             ((S_8080C650_1 *)spawned_primitive)->unk_1C = (s16)(s32)global_s5;
@@ -468,7 +468,7 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     case 0x109:
         func_8023FB18(in0);
         (*(u16 *)((u8 *)in0 + -2)) = (u16) (((ObjectStatusPrefix16 *)in0)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+        scene_object_flags |= 0x8000;
         return;
     }
     if (animation_descriptor != 0) {

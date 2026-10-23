@@ -16,7 +16,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_three_linked_palette_objects(void *, void *);
 
-extern s32 D_801710EC;
+extern s32 kewne_action_resume_address;
 extern u8 D_80175E58[];
 extern u8 D_80175E60[];
 extern u8 D_80175E68[];
@@ -201,7 +201,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
+        ((S_801728A8_0 *)action)->unk_8C = &kewne_action_resume_address;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
         ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;

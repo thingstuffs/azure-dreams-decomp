@@ -109,7 +109,7 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
         } else {
             obj->timer = 4;
         }
-        apply_global_scene_value(D_800D0138);
+        apply_global_scene_value(countdown_action_handler_table);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;

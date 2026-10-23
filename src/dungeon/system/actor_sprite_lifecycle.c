@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
 /* Actor sprite lifecycle and its file-private helper. */
 #include "common.h"
 #include "dungeon/actor.h"
@@ -59,7 +61,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
         return 1;
     }
 
-    if (entity->flags1C & 0x400) {
+    if (entity->flags1C & ACTOR_CONFUSED) {
         action_flags = entity->action_flags;
         if (action_flags & 0x8000) {
             if (!(action_flags & 0x4000)) {
@@ -87,8 +89,8 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
         anim->unk_98 |= 0x400;
     }
 
-    if ((entity->flags1C & 0x2000) ||
-        (entity->flags14 & 0x4000)) {
+    if ((entity->flags1C & ACTOR_PLAYER_SIDE) ||
+        (entity->flags14 & ACTOR_PARTY_MEMBER)) {
         if ((u32)(anim->unk_9A.as_u8 - 0x13) >= 2U) {
             if (entity->pending_turn_updates == 0) {
                 if (pending_marked_actor_count == 0) {

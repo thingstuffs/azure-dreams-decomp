@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -73,21 +76,21 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
         part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            ((S_80F45000_1 *)work)->unk_14 |= 0x6000;
-            ((S_80F45000_1 *)work)->unk_1C |= 0x6000;
+            ((S_80F45000_1 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((S_80F45000_1 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((S_80F45000_1 *)work)->unk_14 |= 0x2000;
-            ((S_80F45000_1 *)work)->unk_1C |= 0x2000;
+            ((S_80F45000_1 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_80F45000_1 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
         } else {
             obj_arg = obj;
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((S_80F45000_1 *)work)->unk_14 & 0x200)) {
+                if (!(((S_80F45000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                     part_arg = part_a;
                     random_bits = generate_random_value();
                     obj_arg = obj;
                     if (random_bits & 1) {
-                        ((S_80F45000_1 *)work)->unk_1C |= 0x200;
-                        set_or_clear_actor_status_slot(work, 1,
+                        ((S_80F45000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = D_80162AD4;
                     }

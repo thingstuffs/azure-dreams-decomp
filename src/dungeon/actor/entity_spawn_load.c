@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 /* Select dungeon spawn tiles and advance staged entity loading.
  * Evidence: proven (string literals).
  * dungeon/engine#g0246 J1[80089000]
@@ -259,7 +260,7 @@ case 2:
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (replacement != NULL) {
-            ((S_800A504C_4 *)replacement)->unk_14 |= 0x4000;
+            ((S_800A504C_4 *)replacement)->unk_14 |= ACTOR_PARTY_MEMBER;
             offset = find_entity_slot_by_field_ac(entity);
             record = ((u8 *)primary_actor_record);
             offset = (offset << 16) >> 14;
@@ -299,10 +300,10 @@ case 2:
             select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
-            sprite_resource_base = D_8014A000;
+            sprite_resource_base = dungeon_resource_buffer;
             ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
             remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
-            D_800DCF5C = count;
+            staged_spawn_count = count;
             ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
             (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
             global_flags = object_flag_block.flags;

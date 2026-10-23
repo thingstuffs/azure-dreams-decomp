@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Targeted attack motion, flickering effect vertices, and jittered triangle trails. */
 #include "modules/dungeon_ovl_1840800.h"
 #include "common.h"
@@ -142,7 +143,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     motion->unk_04.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
     motion->unk_0C = (s32) ((step_x << 0x16) / 12);
     motion->unk_10 = (s32) ((step_y << 0x16) / 12);
-    play_sound_if_enabled(0x300);
+    play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 

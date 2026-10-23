@@ -29,13 +29,13 @@ typedef struct TownOutput {
     u32 third;
 } TownOutput;
 
-extern TownRoot *D_80100900[];
+extern TownRoot *town_script_state_slots[];
 extern TownOutput D_80100B50;
 extern s32 D_80100B68;
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */
 s32 select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex) {
-    TownRoot *root = D_80100900[0];
+    TownRoot *root = town_script_state_slots[0];
     TownEntry *entry;
     TownEntry *entries;
     TownOutput *output;

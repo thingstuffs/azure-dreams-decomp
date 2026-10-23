@@ -1,3 +1,6 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -84,7 +87,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         display_item_status_message(entity, source, reason);
     }
 
-    if (((ActorRecord *)entity)->flags14 & 0x4000) {
+    if (((ActorRecord *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
         text_buffer = get_unused_text_buffer();
         if ((u32)((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) - 3) < 0x2B) {
             text_end = append_entity_display_text(entity, text_buffer);
@@ -137,12 +140,12 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
             }
         }
 
-        if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {
+        if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             map_position = ((S_800BE6F0_0_pre *)entity)[-1].unk_04;
             tile_x = map_position->unk_24;
             tile_y = map_position->unk_25;
             tile_mask = 0x3000;
-            if (((ActorRecord *)entity)->flags1C & 0x2000) {
+            if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;
             }
             /*

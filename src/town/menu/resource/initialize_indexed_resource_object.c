@@ -18,13 +18,13 @@ typedef struct S_800A7E7C_1 {
 
 
 void register_node_if_unregistered(void *block_data, s32 registration_id);
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 extern M2C_UNK D_800A7EC0;
 
 /* Initialize the object state from its byte value and set the context resource and callback. */
 void initialize_indexed_resource_object(void *object, s32 unused, S_800A7E7C_1 *context) {
     ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &D_800A7EC0;
     ((Rec_func_80094268_arg0 *)object)->unk_60 = (s32) ((Rec_func_80094268_arg0 *)object)->unk_96.as_u8;
-    context->unk_08 = &D_8006E240;
+    context->unk_08 = &item_effect_descriptor;
     register_node_if_unregistered(object, project_sprite_chain);
 }

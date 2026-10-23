@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -39,9 +40,9 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174060(void *, void *, void *, void *);
 
-extern u8 D_801710F4[];
-extern u8 D_80174F40[];
-extern u8 D_80174F48[];
+extern u8 picket_action_resume_address[];
+extern u8 picket_frame_set_3[];
+extern u8 picket_frame_set_6[];
 extern u8 D_80174F50[];
 
 /* Advances an actor's action state, updating directional animations and status transitions. */
@@ -74,14 +75,14 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         if (in_sprite->flags & 0xE000) {
             u8 *anim_table;
 
-            anim_table = D_80174F48;
+            anim_table = picket_frame_set_6;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
-        if ((get_entity_effect_value(actor, 1) << 16) == 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
             {
                 u8 *anim_table;
 
@@ -157,7 +158,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin;
                 s8 coordinate;
 
@@ -167,11 +168,11 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&
                     ((generate_random_value() & 7) == 0)) {
-                    clear_slots_of_type(actor, 1);
+                    clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(actor, 1) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
         }
@@ -204,7 +205,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         if (in_sprite->flags & 0xE000) {
             u8 *anim_table;
 
-            anim_table = D_80174F40;
+            anim_table = picket_frame_set_3;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -229,5 +230,5 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
     }
 
     ((S_80173880_2 *)actor)->unk_1C.u &= ~0x200;
-    ((ActorActionStateView *)in_action)->unk_8C = D_801710F4;
+    ((ActorActionStateView *)in_action)->unk_8C = picket_action_resume_address;
 }

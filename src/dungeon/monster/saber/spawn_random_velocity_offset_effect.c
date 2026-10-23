@@ -23,7 +23,7 @@ typedef struct S_80AC5820_1 {
 extern void advance_sprite_animation_and_textures();
 extern s32 RotTransPers(void *, void *, void *, void *);
 
-extern s32 D_800814A0 __attribute__((section(".data")));
+extern s32 object_flag_block __attribute__((section(".data")));
 extern s16 view_facing_angle_alias __attribute__((section(".data")));
 extern s8 view_direction_depth_biases[8];
 

@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern u8 devkit_globals_page[];
-extern s32 D_80701DC8[3];
+extern s32 devkit_shop_selection[3];
 
 /* Return the value at 0x1FC0 selected by the current unsigned index at 0x1FC8. */
 s32 shop_get_indexed_value_at_1_fc_0(void) {
     return *(s32 *)((u8 *)devkit_globals_page +
-                    (*(u8 *)((u8 *)devkit_globals_page + D_80701DC8[0] + 0x1FC8) << 2) +
+                    (*(u8 *)((u8 *)devkit_globals_page + devkit_shop_selection[0] + 0x1FC8) << 2) +
                     0x1FC0);
 }

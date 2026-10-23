@@ -3,8 +3,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
-extern u8 D_80045340[];
-extern u8 D_800DEC70[];
+extern u8 sprite_chain_projector_address[];
+extern u8 shared_sprite_entries[];
 s32 register_node();
 extern u8 D_800F6000[];
 extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
@@ -46,7 +46,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         u8 *directions = direction_table;
 
         effect->unk_10 = &advance_gravity_damped_effect_motion;
-        register_node(effect, D_80045340);
+        register_node(effect, sprite_chain_projector_address);
         {
             SpriteFrameState *render_state;
 
@@ -73,6 +73,6 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        select_record_entry_and_value(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, shared_sprite_entries, 0);
     }
 }

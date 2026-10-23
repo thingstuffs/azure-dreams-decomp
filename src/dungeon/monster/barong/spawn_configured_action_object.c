@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -34,7 +36,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_801712A8[];
-extern s32 D_801716F4;
+extern s32 barong_action_resume_address;
 #include "dungeon/monster/barong.h"
 extern u8 D_801755A4[];
 
@@ -90,9 +92,9 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
             ((ObjectNodeHeader *)result)->unk_14 = flags0;
             *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (((flags & -4) << 16) == 0) {
-            if ((((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0) {
+            if ((((ObjectNodeHeader *)result)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_801755A4;
                 }
             }
@@ -100,7 +102,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &D_801716F4;
+        result_copy->unk_8C = &barong_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
 
     }

@@ -1,3 +1,6 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Status application, shaded particles, terrain-seeking motion, and rotating target effects. */
 #include "dungeon/effect/particle/view_parameter_transition.h"
 #include "modules/dungeon_native_abi.h"
@@ -61,7 +64,7 @@ extern const s16 D_80024038[8][2];
 extern void *D_80024058[9];
 extern u8 D_800252FC[12];
 extern s16 D_80025308;
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 
 /* Attempts status slot 0x12 with a randomized value and displays the result when the target's message
    flag is set. */
@@ -77,13 +80,13 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
          * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.
          */
-        if ((set_or_clear_actor_status_slot(entity, 0x12,
+        if ((set_or_clear_actor_status_slot(entity, STATUS_FIRE_PROTECT,
                            (s8)(get_random_scaled_value(effect_param & 0xFF) + 2)) << 16) != 0) {
-            if (entity->unk_14 & 0x4000) {
+            if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(entity, &D_800E1C64);
                 return;
             }
-        } else if (entity->unk_14 & 0x4000) {
+        } else if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = expand_text_control_codes(&D_80024004, message_end);
@@ -628,7 +631,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 U16_AT(effect_pos, 0x02) = U16_AT(copy_source, 0x02);
                 U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
                 U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 break;
             }
 
@@ -699,7 +702,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 U8_AT(spawn_display, 0x0E) = 0x14;
                 U8_AT(spawn_display, 0x0D) = 0x14;
                 U8_AT(spawn_display, 0x0C) = 0x14;
-                select_record_entry_and_value(spawn_display, D_800DEAE0, 0);
+                select_record_entry_and_value(spawn_display, ribbon_sprite_entries, 0);
             }
         }
 

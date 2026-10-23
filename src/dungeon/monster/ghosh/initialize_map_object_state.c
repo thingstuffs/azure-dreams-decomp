@@ -2,8 +2,8 @@
 
 extern void *ghosh_actor_node;
 extern s32 D_80174928[];
-extern s32 *D_80174CCC;
-extern s16 D_80174CD0;
+extern s32 *ghosh_script_cursor;
+extern s16 ghosh_script_repeat_count;
 
 /* Initialize the current object state and reset the default table counter. */
 void initialize_map_object_state(void) {
@@ -14,7 +14,7 @@ void initialize_map_object_state(void) {
         state = (s8 *)state + 0x20;
         *(s8 *)((s8 *)state + 0xB2) = 1;
         *(s16 *)((s8 *)state + 0xAE) = 1;
-        D_80174CCC = D_80174928;
-        D_80174CD0 = 0;
+        ghosh_script_cursor = D_80174928;
+        ghosh_script_repeat_count = 0;
     }
 }

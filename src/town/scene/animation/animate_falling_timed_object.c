@@ -14,7 +14,7 @@ extern u8 D_8028E568[];
 extern u8 D_8028E56C[12];
 extern u8 D_8028E590[];
 extern u8 D_8028E600[];
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 extern u8 D_805266C0[];
 extern u8 D_805266CC[];
 extern u8 D_805266D8[];
@@ -299,7 +299,7 @@ state0_finish:
                 *ptr = 0;
             func_80050D68(obj);
             (*(u16 *)((u8 *)(obj) + (-2))) |= 0x8000;
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
         break;
 

@@ -19,7 +19,7 @@ typedef struct S_805267E0_1 {
 } S_805267E0_1;   /* sub in fade_panel_after_linked_flag */
 
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 /* Advances a delayed fade and sets completion flags when the color reaches its threshold. */
 void fade_panel_after_linked_flag(void *effect) {
@@ -57,7 +57,7 @@ void fade_panel_after_linked_flag(void *effect) {
         ((S_805267E0_0 *)effect)->unk_08 = color;
         if (color <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
         break;
     }

@@ -12,7 +12,7 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 extern s32 register_node();
 extern s32 rand();
 void func_8002418C(void *object_ref, void *unused, void *state);
-extern M2C_UNK D_800DEDB0[3];
+extern M2C_UNK rising_sprite_entries[3];
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
 void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
@@ -32,7 +32,7 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
         sprite->color.c.b = color;
         sprite->color.c.g = color;
         sprite->color.c.r = color;
-        select_record_entry_and_value(sprite, D_800DEDB0, 0);
+        select_record_entry_and_value(sprite, rising_sprite_entries, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         sprite->clut = 0x7E0B;

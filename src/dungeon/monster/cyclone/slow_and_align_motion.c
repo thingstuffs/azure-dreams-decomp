@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_80171094;
+extern u8 cyclone_action_resume_address;
 extern u8 D_801764B0;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
@@ -56,7 +57,7 @@ void slow_and_align_motion(S_80173770_0 *motion_state, ObjectPosition *motion, S
             return;
         }
         frames_left = -1;
-        if (entity->flags1C & 0x228) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             frames_left = 8;
         }
         motion_state->unk_96.s = frames_left;
@@ -128,7 +129,7 @@ void slow_and_align_motion(S_80173770_0 *motion_state, ObjectPosition *motion, S
                 g_dungeon_status.pending_display_owner = velocity_or_entity & 0x7FFFFFFF;
             }
         }
-        motion_state->unk_8C = &D_80171094;
+        motion_state->unk_8C = &cyclone_action_resume_address;
     default:
         return;
     }

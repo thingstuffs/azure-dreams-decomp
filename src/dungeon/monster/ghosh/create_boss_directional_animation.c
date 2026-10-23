@@ -16,8 +16,8 @@ typedef struct S_80173F6C_5 {
     u16 unk_0A;
 } S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in create_boss_directional_animation */
 
-extern u8 D_80174C84[];
-extern void *D_80174CE0[];
+extern u8 ghosh_frame_set_1[];
+extern void *ghosh_scripted_actor[];
 void *allocate_list_node();
 s32 register_node(); /* extern */
 void unlink_entity_node(); /* extern */
@@ -70,7 +70,7 @@ void create_boss_directional_animation(void) {
         sprite = object->sprite;
         sprite->unk_24 = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
         sprite->unk_25 = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
-        sprite->frameTable = D_80174C84;
+        sprite->frameTable = ghosh_frame_set_1;
         initialize_actor_sprite_and_animation(object, model, sprite, 0);
         object_state->unk_B6 = 1;
         object_state->unk_2A = 0x800;
@@ -83,7 +83,7 @@ void create_boss_directional_animation(void) {
         object->unk_10 = (s32 *) ((s32) object->unk_10 | 0x80000000);
         create_boss_linked_effect(object_state, model, sprite);
         sprite_flags = sprite->flags;
-        *D_80174CE0 = object;
+        *ghosh_scripted_actor = object;
         sprite->flags = (u16) (sprite_flags | 0x80);
         retain_spawn_resource(0x18, 1);
     }

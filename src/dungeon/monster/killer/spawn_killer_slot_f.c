@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -34,7 +37,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA7C[];
 extern u8 D_8016E038[];
 extern u8 D_8016E088[];
-extern u8 D_8016AEA8[];
+extern u8 killer_spawn_killer_slot_f_address[];
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
 /* Creates Killer with default frames at D_8016E038, applies spawn flags, and attempts valid tile
@@ -74,22 +77,22 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
         part_b->unk_24 = saved_value_24;
 
         if (kind == 1) {
-            flags = ((S_80FE1000_1 *)work)->unk_14 | 0x6000;
-            paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x6000;
+            flags = ((S_80FE1000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            paired_flags = ((S_80FE1000_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80FE1000_1 *)work)->unk_14 = flags;
             ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
         } else if (kind >= 2) {
-            flags = ((S_80FE1000_1 *)work)->unk_14 | 0x2000;
-            paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x2000;
+            flags = ((S_80FE1000_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
+            paired_flags = ((S_80FE1000_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
             ((S_80FE1000_1 *)work)->unk_14 = flags;
             ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
         } else {
             if ((((kind_flags & ~3) << 16) == 0) &&
-                !(((S_80FE1000_1 *)work)->unk_14 & 0x200)) {
+                !(((S_80FE1000_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
                 flags = generate_random_value();
                 if (flags & 1) {
-                    ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
+                    ((S_80FE1000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = D_8016E088;
                 }
@@ -99,7 +102,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8016AEA8;
+        actor->unk_8C = &killer_spawn_killer_slot_f_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

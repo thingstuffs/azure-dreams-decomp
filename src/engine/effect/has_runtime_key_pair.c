@@ -7,7 +7,7 @@
 s32 has_runtime_key_pair(s32 first_value, s32 second_value) {
     u16 first_key = (u16)first_value;
     u16 second_key = (u16)second_value;
-    S_80081508 *record = D_80081508;
+    S_80081508 *record = tile_coordinate_records;
 
     if (record->a != 0) {
         do {
@@ -19,4 +19,4 @@ s32 has_runtime_key_pair(s32 first_value, s32 second_value) {
     }
     return 0;
 }
-S_80081508 * D_80081508 = 0;
+S_80081508 * tile_coordinate_records = 0;

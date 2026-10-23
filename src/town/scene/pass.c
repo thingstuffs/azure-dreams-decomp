@@ -9,7 +9,7 @@ extern s32 func_80018C50(s32);
 
 extern s32 D_80018EAC;
 extern s32 D_80018EC4;
-extern s32 D_8001925C;
+extern s32 scene_request_context;
 
 /* Update flag 0x681 when triggered and dispatch the corresponding record. */
 void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
@@ -23,10 +23,10 @@ void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
         func_80018B58(F_sbs16_pad07);
     } else {
         if (func_80018C50(F_sbs16_pad07) == 0) {
-            func_800181C8(&D_80018EAC, &D_8001925C, dispatch_context, dispatch_arg);
+            func_800181C8(&D_80018EAC, &scene_request_context, dispatch_context, dispatch_arg);
             return;
         }
     }
 
-    func_800181C8(&D_80018EC4, &D_8001925C, dispatch_context, dispatch_arg);
+    func_800181C8(&D_80018EC4, &scene_request_context, dispatch_context, dispatch_arg);
 }

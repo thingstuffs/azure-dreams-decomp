@@ -40,7 +40,7 @@ void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s3
         chase_fix[2] = 0;
         chase_fix[1] = second_value;
         tcame_chase_fix(chase_fix);
-        *(void **)((s8 *)object - 0x10) = D_800C321C;
+        *(void **)((s8 *)object - 0x10) = message_motion_type_b;
     }
 }
 

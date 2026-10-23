@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -34,7 +36,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80171A18[];
-extern s32 D_80171E20;
+extern s32 blume_action_resume_address;
 #include "dungeon/monster/blume.h"
 
 
@@ -90,9 +92,9 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
             *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else {
             if (((spawn_flags & -4) << 16) == 0 &&
-                (((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0) {
+                (((ObjectNodeHeader *)result)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = blume_direction_frames_2;
                 }
             }
@@ -100,7 +102,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &D_80171E20;
+        result_copy->unk_8C = &blume_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

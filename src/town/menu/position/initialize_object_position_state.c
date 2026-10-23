@@ -30,7 +30,7 @@ typedef struct S_800A23D0_2 {
 
 
 extern s32 register_node();
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern M2C_UNK D_800A24A8;
 extern M2C_UNK D_800D0A48;
 
@@ -40,7 +40,7 @@ void initialize_object_position_state(void *object, S_800A23D0_1 *position, S_80
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
-    register_node(object - 0x20, &D_80046398);
+    register_node(object - 0x20, &lit_mesh_renderer_address);
     position->unk_00.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->x;
     position->unk_04.at00.v = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->y;
     position->unk_08 = (s32) ((IntVector3 *)(((S_800A23D0_2 *)object)->unk_14))->z;

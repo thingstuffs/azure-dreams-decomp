@@ -32,7 +32,7 @@ typedef struct {
     u8 field_29;
 } TargetState;
 
-extern s16 D_80025E80[5];
+extern s16 particle_update_flag[5];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
 void update_eight_frame_animation_effect(void *anim_state, s32 unused_arg, void *render_state) {
@@ -41,7 +41,7 @@ void update_eight_frame_animation_effect(void *anim_state, s32 unused_arg, void 
     s32 *page_base;
 
     ticks_left = ((S_818FEDEC_0 *)anim_state)->unk_02;
-    *D_80025E80 = 1;
+    *particle_update_flag = 1;
     ((S_818FEDEC_0 *)anim_state)->unk_02 = (u16) (ticks_left - 1);
     ((S_818FEDEC_1 *)render_state)->unk_1C = 0x2000;
     ((S_818FEDEC_1 *)render_state)->unk_1E = 0x2000;

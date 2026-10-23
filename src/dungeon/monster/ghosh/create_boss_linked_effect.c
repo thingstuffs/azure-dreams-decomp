@@ -20,7 +20,7 @@ typedef struct S_80172A14_2 {
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern u8 D_80045C34[];
+extern u8 clipped_sprite_renderer_address[];
 extern u8 D_80172874[];
 extern u8 D_80174ABC[];
 
@@ -37,7 +37,7 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     if (effect != 0) {
         ((S_80172A14_0 *)owner)->unk_AC = effect;
         effect->unk_10 = D_80172874;
-        register_node(effect, D_80045C34);
+        register_node(effect, clipped_sprite_renderer_address);
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_18 = 5;
         effect_state->unk_20 = owner;

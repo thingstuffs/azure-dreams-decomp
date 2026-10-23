@@ -24,7 +24,7 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();   
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 void initialize_record_and_select_active_data(s32, s32, s32);     /* extern */
-extern s32 D_800CFCB4;
+extern s32 town_actor_control;
 
 
 typedef struct S_80090A74_1 {
@@ -75,7 +75,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
         return;
     }
     if (((s32)input_state->pressed_buttons) & 0x40) {
-        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, &D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action(actor, record, context);
@@ -89,7 +89,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
             return;
         }
     } else {
-        shared_data = (u8 *)&D_800CFCB4;
+        shared_data = (u8 *)&town_actor_control;
         interaction_result = select_an_available_entry_matching_direction_returns_status(shared_data);
         if (interaction_result != 0) {
             if (interaction_result == -1) {

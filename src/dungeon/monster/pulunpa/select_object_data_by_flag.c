@@ -4,8 +4,8 @@
 
 s32 update_linked_actor_motion(void *, s32, s32, s32);
 
-extern u8 D_80170F20;
-extern u8 D_80173B98;
+extern u8 pulunpa_action_resume_address;
+extern u8 pulunpa_advance_actor_state_and_dispatch_address;
 
 typedef struct S_80172538_0 {
     u8 pad_00[0x8C];
@@ -21,9 +21,9 @@ void select_object_data_by_flag(void *state, s32 motion, s32 entity, s32 actor) 
     if ((update_linked_actor_motion(state, motion, entity, actor) != 0) &&
         ((check_actor_floor_trap(entity, actor) << 0x10) > 0)) {
         if (object->unk_A7 != 0) {
-            object->unk_8C = &D_80173B98;
+            object->unk_8C = &pulunpa_advance_actor_state_and_dispatch_address;
         } else {
-            object->unk_8C = &D_80170F20;
+            object->unk_8C = &pulunpa_action_resume_address;
         }
     }
 }

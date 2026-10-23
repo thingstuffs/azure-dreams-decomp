@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/transition_slots.h"
@@ -25,7 +26,7 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
     state->unk_9B.as_s8 = 0;
     state->unk_8C = 0;
     clear_player_linked_action_flags();
-    if (get_entity_effect_value(actor, 0xA) == 0) {
+    if (get_entity_effect_value(actor, STATUS_FROG) == 0) {
         entity->frameTable = player_wait_frames;
         set_sprite_animation_frame(entity, player_wait_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }

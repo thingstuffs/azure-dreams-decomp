@@ -3,7 +3,7 @@
 
 
 /* numeric; owner-unresolved. */
-const u32 D_8014C838[8] __attribute__((aligned(4))) = {
+const u32 noise_slot_a_action_targets_b[8] __attribute__((aligned(4))) = {
     0x00000001,
     0x00010001,
     0x00010000,

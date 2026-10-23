@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -18,7 +19,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void display_record_name_message(void *);
 
-extern u8 D_80173B98;
+extern u8 pulunpa_advance_actor_state_and_dispatch_address;
 
 typedef struct S_80176028_0 {
     u8 pad_00[0x4];
@@ -135,13 +136,13 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             register u8 *entry = entry_data;
 
             spend_actor_mp(work, 0x800);
-            ((S_80176028_5 *)work)->unk_1C |= 0x2000;
+            ((S_80176028_5 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
             update_map_cell_flags_with_item_limit(entry[0x24], entry[0x25], 0x3000);
             cycle_map_cell_flags(entry[0x24], entry[0x25], 0x300);
             work[0x12] = state;
             display_record_name_message(*(void **)(work + 0x60));
             ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;
-            ((S_80176028_6 *)owner)->unk_8C = &D_80173B98;
+            ((S_80176028_6 *)owner)->unk_8C = &pulunpa_advance_actor_state_and_dispatch_address;
             advance_status_timers(work);
             work[0x6D]--;
         }

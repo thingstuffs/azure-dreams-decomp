@@ -1,3 +1,6 @@
+#include "shared/actor_status_ids.h"
+#include "shared/item_ids.h"
+#include "dungeon/level/tile_flags.h"
 
 struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
@@ -185,7 +188,7 @@ extern struct {
     int pad[2];
 } active_node_list_head;
 
-extern s32 D_80012090[];
+extern s32 dungeon_mode_state[];
 
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
@@ -375,7 +378,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
     cells = (DungeonCell *)g_game_work.map.cells;
     map = &g_game_work.map;
     if (flags & 0x8832) {
-        if (flags & 0x800) {
+        if (flags & TILE_HAS_ITEM) {
             s16 cell_x = x;
             s16 cell_y = y;
 
@@ -1257,7 +1260,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {
             held_item_record[0] = spawned->kind;
-            held_item_record[1] = 0x13;
+            held_item_record[1] = ITEM_KIND_FAMILIAR;
             state_code = 0x14;
             if (spawned->flags & 0x4000) {
                 state_code = find_type_13_slot_index(spawned);
@@ -1291,7 +1294,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
         }
         entry[1] = 0;
         entry[0] = 0;
-        update_map_cell_flags_with_item_limit(x, y, 0x800);
+        update_map_cell_flags_with_item_limit(x, y, TILE_HAS_ITEM);
         result_bytes = (u8 *)spawned + 0x20;
         flags34 = spawned->value34;
         flags3c = spawned->value3c;
@@ -1322,7 +1325,7 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 
     target = find_eligible_actor_at_tile_and_height(context, object->unk_24, object->unk_25, context->unk_88);
     if (target != 0) {
-        if ((get_entity_effect_value(target, 0x1B) << 0x10) == 0) {
+        if ((get_entity_effect_value(target, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             if ((find_valid_nearby_position(context, object->unk_24, object->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
                 << 0x10) != 0) {
                 object->unk_24 = next_coords.first.bytes.low;

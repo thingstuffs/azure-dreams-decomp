@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u16 D_80162004[];
+extern u16 town_tile_grid[];
 
 /* Copies nonzero tiles into the town tilemap, selecting variants by map coordinate parity. */
 void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
@@ -25,14 +25,14 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
             case 0x15E:
             if ((row + y) & 1) {
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x15E;
+                    town_tile_grid[index] = 0x15E;
                 } else {
-                    D_80162004[index] = 0x137;
+                    town_tile_grid[index] = 0x137;
                 }
             } else if ((col + x) & 1) {
-                D_80162004[index] = 0x154;
+                town_tile_grid[index] = 0x154;
             } else {
-                D_80162004[index] = 0x135;
+                town_tile_grid[index] = 0x135;
             }
             break;
             case 0x136:
@@ -41,22 +41,22 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
             case 0x15D:
             if ((row + y) & 1) {
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x138;
+                    town_tile_grid[index] = 0x138;
                 } else {
-                    D_80162004[index] = 0x15D;
+                    town_tile_grid[index] = 0x15D;
                 }
             } else if ((col + x) & 1) {
-                D_80162004[index] = 0x136;
+                town_tile_grid[index] = 0x136;
             } else {
-                D_80162004[index] = 0x153;
+                town_tile_grid[index] = 0x153;
             }
             break;
             case 0x141:
             case 0x142:
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x142;
+                    town_tile_grid[index] = 0x142;
                 } else {
-                    D_80162004[index] = 0x141;
+                    town_tile_grid[index] = 0x141;
                 }
                 break;
             case 0x143:
@@ -65,14 +65,14 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
             case 0x15C:
             if ((row + y) & 1) {
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x144;
+                    town_tile_grid[index] = 0x144;
                 } else {
-                    D_80162004[index] = 0x143;
+                    town_tile_grid[index] = 0x143;
                 }
             } else if ((col + x) & 1) {
-                D_80162004[index] = 0x15C;
+                town_tile_grid[index] = 0x15C;
             } else {
-                D_80162004[index] = 0x15B;
+                town_tile_grid[index] = 0x15B;
             }
             break;
             case 0x13D:
@@ -81,14 +81,14 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
             case 0x140:
             if ((row + y) & 1) {
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x140;
+                    town_tile_grid[index] = 0x140;
                 } else {
-                    D_80162004[index] = 0x13F;
+                    town_tile_grid[index] = 0x13F;
                 }
             } else if ((col + x) & 1) {
-                D_80162004[index] = 0x13E;
+                town_tile_grid[index] = 0x13E;
             } else {
-                D_80162004[index] = 0x13D;
+                town_tile_grid[index] = 0x13D;
             }
             break;
             case 0x149:
@@ -97,18 +97,18 @@ void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
             case 0x14C:
             if ((row + y) & 1) {
                 if ((col + x) & 1) {
-                    D_80162004[index] = 0x14C;
+                    town_tile_grid[index] = 0x14C;
                 } else {
-                    D_80162004[index] = 0x14B;
+                    town_tile_grid[index] = 0x14B;
                 }
             } else if ((col + x) & 1) {
-                D_80162004[index] = 0x14A;
+                town_tile_grid[index] = 0x14A;
             } else {
-                D_80162004[index] = 0x149;
+                town_tile_grid[index] = 0x149;
             }
             break;
             default:
-                D_80162004[index] = *src_tiles;
+                town_tile_grid[index] = *src_tiles;
                 break;
             }
             src_tiles++;

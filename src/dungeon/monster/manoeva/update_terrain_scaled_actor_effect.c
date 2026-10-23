@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -106,7 +107,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         if ((((S_8017474C_1 *)owner)->unk_1C & 0x00800000) ||
             (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) ||
             (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) ||
-            ((get_entity_effect_value(owner, 0xA) << 16) != 0)) {
+            ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

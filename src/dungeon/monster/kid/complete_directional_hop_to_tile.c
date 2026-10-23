@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -22,8 +23,8 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_80171400[];
-extern u8 D_80175148[];
+extern u8 kid_action_resume_address[];
+extern u8 kid_alt_direction_frames[];
 extern u8 D_80175158[];
 
 /* Updates directional hop motion and returns the actor to its tile on landing. */
@@ -59,12 +60,12 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
         ((EntityRec *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         ((EntityRec *)motion)->flags14 = 0x40000;
         ((S_80173354_1 *)action)->unk_98 |= 8;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
         ((S_80173354_1 *)action)->unk_9B++;
 
         flight_timer = -1;
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x228) {
+        if (((u32)((EntityRec *)actor)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
         ((S_80173354_1 *)action)->unk_96.s = flight_timer;
@@ -142,11 +143,11 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
 
         ((S_80173354_1 *)action)->unk_90 = 0;
         ((S_80173354_1 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= 0x08000000;
+        ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
-        ((SpriteFrameState *)sprite)->frameTable = D_80175148;
+        ((SpriteFrameState *)sprite)->frameTable = kid_alt_direction_frames;
         select_sprite_entry(sprite,
-            D_80175148[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            kid_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         {
@@ -156,7 +157,7 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
                 (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
-        ((S_80173354_1 *)action)->unk_8C = D_80171400;
+        ((S_80173354_1 *)action)->unk_8C = kid_action_resume_address;
         return;
 
     default:

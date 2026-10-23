@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers.
  * Evidence: proven (string literals).
  * dungeon/engine#g0246 J1[80089000]
@@ -224,8 +227,8 @@ s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     if (!(flags & 0x10000)) {
         actor->flags14 = flags | 0x10000;
         if ((s16)get_tile_chebyshev_distance(&reference_tile_object, actor_entity) < 0x11
-            && ((actor->flags14 & 0x6000) || !(self->status98 & 0x10) || !(generate_random_value() & 0xF))
-            && !(generate_random_value() & 3) && (s16)get_entity_effect_value(actor, 6) == 0) {
+            && ((actor->flags14 & (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER)) || !(self->status98 & 0x10) || !(generate_random_value() & 0xF))
+            && !(generate_random_value() & 3) && (s16)get_entity_effect_value(actor, STATUS_MAGIC_BIND) == 0) {
             self->status98 |= 0x11;
         } else {
             self->status98 &= 0xFFFE;
@@ -551,7 +554,7 @@ s32 check_entity_eligibility(void *entity) {
     s32 check_result;
 
     if ((*(u8 *)((u8 *)entity + 0x28) + *(s16 *)((u8 *)entity + 0x64)) > 0) {
-        if (*(s32 *)((u8 *)entity + 0x1C) & 0x2000) {
+        if (*(s32 *)((u8 *)entity + 0x1C) & ACTOR_PLAYER_SIDE) {
             linked_entity = *(void **)((u8 *)entity - 0x14);
             get_offset_map_cell_value_and_flags(*(u8 *)((u8 *)linked_entity + 0x24) - 1,
                           *(u8 *)((u8 *)linked_entity + 0x25), 0, &tile_flags);
@@ -560,7 +563,7 @@ s32 check_entity_eligibility(void *entity) {
             }
         }
         if (!(*(s32 *)((u8 *)entity + 0x1C) & 0x290000)) {
-            check_result = get_entity_effect_value(entity, 0x1B) << 16;
+            check_result = get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16;
             return check_result == 0;
         }
         return 0;
@@ -896,10 +899,10 @@ s16 set_or_clear_actor_status_slot(Owner_800A48F0 *owner, s8 id, s8 value) {
     for (i = 3; i >= 0; i--) {
         used = owner->slots[i].id;
         if (used == 0) {
-            if (id == 1) {
-                clear_slots_of_type(owner, 4);
-            } else if (id == 4) {
-                clear_slots_of_type(owner, 1);
+            if (id == STATUS_SLEEP) {
+                clear_slots_of_type(owner, STATUS_PARALYSIS);
+            } else if (id == STATUS_PARALYSIS) {
+                clear_slots_of_type(owner, STATUS_SLEEP);
             }
             owner->slots[i].id = id;
             owner->slots[i].value = value;
@@ -940,7 +943,7 @@ s32 advance_status_timers(void *record) {
     do {
         status = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C;
         if (status != 0) {
-            if (status == 5) {
+            if (status == STATUS_POISON) {
                 apply_capped_damage_and_hit_effect(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
             }
             duration = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D;

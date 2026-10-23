@@ -96,7 +96,7 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
         render_state->color.c.b = 0;
         render_state->color.c.g = 0;
         render_state->color.c.r = 0;
-        select_record_entry_and_value(render_state, D_800DEAE0, 0);
+        select_record_entry_and_value(render_state, ribbon_sprite_entries, 0);
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->flags |= 0xC;
@@ -135,7 +135,7 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818
     position->unk_0A = (s16) (motion->unk_0C + motion->unk_04);
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        select_record_entry_and_value(object, &D_800DECF8, 0);
+        select_record_entry_and_value(object, &fading_sprite_entries, 0);
     }
 }
 
@@ -171,7 +171,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x60);
         sprite->flags = (u16) (sprite->flags | 0x100);
         shifted_frame = (s32)frame_index << 0x10;
-        select_record_entry_and_value(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5));
+        select_record_entry_and_value(sprite, &fading_sprite_entries, (s16) ((shifted_frame >> 0x10) % 5));
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(effect, project_sprite_chain);

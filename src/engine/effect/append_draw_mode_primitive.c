@@ -11,15 +11,15 @@ typedef struct S_80044B48 {
     void *cur;
 } S_80044B48;
 
-extern S_80044B48 *D_80083160[3];
+extern S_80044B48 *g_game_work[3];
 
 /* Adds a draw-mode primitive to the current display buffer's ordering table and advances its cursor. */
 void append_draw_mode_primitive(void) {
-    void *prim = D_80083160[0]->cur;
+    void *prim = g_game_work[0]->cur;
 
     SetDrawMode(prim, 0, 0, 0, 0);
 
-    AddPrim(D_80083160[0]->ot, prim);
+    AddPrim(g_game_work[0]->ot, prim);
 
-    D_80083160[0]->cur = (u8 *)prim + 0xC;
+    g_game_work[0]->cur = (u8 *)prim + 0xC;
 }

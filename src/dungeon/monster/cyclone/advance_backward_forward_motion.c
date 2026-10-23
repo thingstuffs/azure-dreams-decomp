@@ -30,7 +30,7 @@ extern void spend_actor_mp(void *, s32);
 extern void create_directional_effect(void *, void *,struct SpriteFrameState *);
 extern void create_offset_directional_effect(void *, void *,struct SpriteFrameState *);
 
-extern u8 D_80171094[];
+extern u8 cyclone_action_resume_address[];
 extern u8 cyclone_attack_frames[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
@@ -117,7 +117,7 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;
-            ((S_80172C98_0 *)action)->unk_8C = D_80171094;
+            ((S_80172C98_0 *)action)->unk_8C = cyclone_action_resume_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);

@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "dungeon/item.h"
 #include "common.h"
@@ -53,7 +54,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type) {
      * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
      * test.
      */
-    if (((set_or_clear_actor_status_slot(entity, 5, 8) << 0x10) != 0) && (entity->flags14 & 0x4000)) {
+    if (((set_or_clear_actor_status_slot(entity, STATUS_POISON, 8) << 0x10) != 0) && (entity->flags14 & 0x4000)) {
         adjust_source_value_and_finalize(entity, D_800E1729);
     }
     clear_slot_and_update_linked_state(item);

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -31,7 +32,7 @@ extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
 
-extern u8 D_80170F6C;
+extern u8 mandara_action_resume_address;
 extern u8 D_80175278[];
 extern u8 D_80175280[];
 
@@ -56,7 +57,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
             0);
         ((S_80172834_0 *)action)->unk_98 |= 8;
         motion->velocity_z = 0xFFEE0000;
-        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         ((S_80172834_0 *)action)->unk_A0 = 0;
         ((S_80172834_0 *)action)->unk_9B++;
 
@@ -84,12 +85,12 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
         if (((S_80172834_0 *)action)->unk_96.s < 2) {
             ((S_80172834_0 *)action)->unk_90 = 0;
             ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_80172834_0 *)action)->unk_9B++;
         }
 
     case 2:
-        if (((u32)actor->flags1C) & 0x08000000) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -137,7 +138,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80172834_0 *)action)->unk_8C = &D_80170F6C;
+            ((S_80172834_0 *)action)->unk_8C = &mandara_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

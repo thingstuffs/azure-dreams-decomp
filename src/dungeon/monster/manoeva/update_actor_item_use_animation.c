@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/def_table.h"
@@ -54,10 +56,10 @@ typedef struct {
     u8 field13;
 } ItemInfo;
 
-extern u8 D_80170EE4[8];
-extern u8 D_801765D8[8];
+extern u8 manoeva_action_resume_address[8];
+extern u8 manoeva_frame_set_1[8];
 extern u8 D_80176648[8];
-extern u8 D_80176668[8];
+extern u8 manoeva_frame_set_2[8];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
@@ -85,7 +87,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             void *source_entity;
 
             item = 0;
-            if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
+            if (((S_801728E4_1 *)act)->unk_1C & ACTOR_PLAYER_SIDE) {
                 switch (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) {
                 case 7:
                     use_global_source = 1;
@@ -199,19 +201,19 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
 
-        (sprite->frameTable) = D_80176668;
+        (sprite->frameTable) = manoeva_frame_set_2;
         select_sprite_entry(sprite,
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
-                    (uptr)D_80176668),
+                    (uptr)manoeva_frame_set_2),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
         return;
 
     case 4:
         if (sprite->flags & 0xE000) {
-            (sprite->frameTable) = D_801765D8;
+            (sprite->frameTable) = manoeva_frame_set_1;
             select_sprite_entry(sprite,
-                D_801765D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+                manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((EntityRec *)item)->flags14 = 0;
@@ -223,13 +225,13 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
-        ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
+        ((S_801728E4_0 *)action)->unk_8C = manoeva_action_resume_address;
         advance_status_timers(act);
         ((S_801728E4_1 *)act)->unk_73.s = 0;
         ((S_801728E4_1 *)act)->unk_72.s = 0;
         ((S_801728E4_1 *)act)->unk_6D--;
         ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:
         return;

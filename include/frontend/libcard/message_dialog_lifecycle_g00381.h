@@ -73,7 +73,7 @@ extern u8 D_80022CD8[];
 extern u8 menu_backdrop_tag[];
 extern u8 D_800287E8[];
 
-extern S_800280B4 D_800280B4[];
+extern S_800280B4 card_menu_entry_values[];
 
 /* Functions defined in this translation unit. */
 void card_boot_measure_five_line_message(u8 *text_block);

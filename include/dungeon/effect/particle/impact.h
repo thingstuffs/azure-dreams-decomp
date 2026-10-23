@@ -40,7 +40,7 @@ s32 func_8004491C(void *, s32, ...);
 s32 select_record_entry_and_value(void *, void *, s32);
 void ScaleMatrix(void *, void *);
 s32 play_sound_if_enabled(s32);
-extern s16 D_8002992E;
+extern s16 impact_effect_update_flag;
 extern void *D_80028630;
 void scale_effect_by_phase(void *);
 void advance_effect_motion_and_animation(void *, void *, struct SpriteFrameState *);

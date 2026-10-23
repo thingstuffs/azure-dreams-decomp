@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/trap.h"
 #include "modules/trap_effects_candidate.h"
@@ -128,7 +130,7 @@ s32 check_entity_chance_and_trigger_parent_action(void *entity, s32 input_a, s32
             return roll;
         }
     }
-    if (D_800E3D40 == 0) {
+    if (trap_request_blocked == 0) {
         random_value = (u16)generate_random_value();
         if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {
             divisor = random_value % (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
@@ -300,7 +302,7 @@ s32 attempt_random_status_effect(void *entity, s32 rng_input_a, s32 rng_input_b,
     s16 roll_or_failure;
     void *parent;
 
-    if (!D_800E3D40 &&
+    if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
          U8(entity, 3))) {
         s32 remainder;
@@ -310,7 +312,7 @@ s32 attempt_random_status_effect(void *entity, s32 rng_input_a, s32 rng_input_b,
     } else {
         roll_or_failure = 0;
     }
-    if (roll_or_failure < 0x30 && (set_or_clear_actor_status_slot(entity, 7, -0x10) << 16) >= 0) {
+    if (roll_or_failure < 0x30 && (set_or_clear_actor_status_slot(entity, STATUS_SPEED, -0x10) << 16) >= 0) {
         parent = P32(entity, -0x14);
         if (!(U16(parent, 0x14) & 0x8000)) {
             spawn_randomized_particle_burst((U8(parent, 0x24) << 6) | 0x20,
@@ -318,7 +320,7 @@ s32 attempt_random_status_effect(void *entity, s32 rng_input_a, s32 rng_input_b,
                           S16(entity, 0x88), 0x202020, 0x40, 0);
             play_sound_if_enabled(0x615);
         }
-        if (U32(entity, 0x14) & 0x4000) {
+        if (U32(entity, 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E1BBC);
         }
     } else {
@@ -362,7 +364,7 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
     s32 feedback_or_result;
 
     outcome = 0;
-    if (D_800E3D40 == 0) {
+    if (trap_request_blocked == 0) {
         random_value = generate_random_value() & 0xFFFF;
         if (((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B)) != 0) {
             roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
@@ -378,7 +380,7 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
         begin_actor_random_warp(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
             ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         play_sound_if_enabled(0x705);
-        if (D_800E3D40 != 0) {
+        if (trap_request_blocked != 0) {
             outcome = -1;
         }
         feedback_kind = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0;
@@ -425,7 +427,7 @@ s32 attempt_trap_request_ten_slots(void *object) {
     s32 amount = 0x40;
     Entry *entry;
 
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         amount = 0x400;
     }
     if (try_apply_confusion_status(object, amount, 0x10) == 0) {
@@ -551,7 +553,7 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 
-extern s32 D_800CEEFC[3];
+extern s32 linked_mesh_processor_address[3];
 typedef struct DungeonObject
 {
     s8 pad0[8];
@@ -609,7 +611,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     saved_render_mode = (s16) render_mode;
     if (obj != 0) {
         obj->field10 = &D_800CC4F0;
-        register_node(obj, D_800CEEFC);
+        register_node(obj, linked_mesh_processor_address);
         packet_color = 0x00800000;
         world_x = ((tile_x << 0x10) >> 0xA) + 0x20;
         vertex = obj->field8;
@@ -832,7 +834,7 @@ struct ObjectBlock *create_grid_effect_object();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 D_800E5908;
-extern u8 D_8014A000;
+extern u8 dungeon_resource_buffer;
 
 /* Creates a five-part effect at the given position and applies its target effect. */
 void create_five_part_target_effect(u16 x, u16 y, s16 z) {
@@ -849,7 +851,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     S_800CCA14_0 *effect;
     S_800CCA14_2 *part;
 
-    effect = initialize_scene_object_in_buffer(0, (D_800E5908 * 0xC8) + (u8 *)&D_8014A000, 0xA);
+    effect = initialize_scene_object_in_buffer(0, (D_800E5908 * 0xC8) + (u8 *)&dungeon_resource_buffer, 0xA);
     effect->unk_10 = &D_800CC9BC;
     effect->unk_20 = x;
     effect->unk_22 = y;
@@ -858,7 +860,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
-        part = initialize_scene_object_in_buffer(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&D_8014A000 + 0x28), 0xA);
+        part = initialize_scene_object_in_buffer(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&dungeon_resource_buffer + 0x28), 0xA);
         part->unk_10 = &D_800CC370;
         part_x = (u16) effect->unk_20;
         direction = part_index * 2;
@@ -949,7 +951,7 @@ s32 take_map_item_slot(void *object, s16 slot)
             return 1;
         }
     } else {
-        if (D_800E3D40 != 0) {
+        if (trap_request_blocked != 0) {
             value = 0;
         } else {
             random = generate_random_value() & 0xFFFF;
@@ -1204,7 +1206,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
     s32 height_delta;
     void *init_effect;
 
-    if (D_800E3D40 == 0) {
+    if (trap_request_blocked == 0) {
         random = generate_random_value() & 0xFFFF;
         if (((S_800CD004_0 *)source)->unk_03 != 0) {
             roll = random % ((S_800CD004_0 *)source)->unk_03;
@@ -1296,7 +1298,7 @@ s32 roll_trap_hit_and_raise_event_520(void *actor) {
     S_800CD1A4_1 *owner;
 
     chance = 0x40;
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         chance = 0x400;
     }
     if (roll_chance_and_run_action(actor, chance, 0x10) == 0) {
@@ -1357,7 +1359,7 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
     S_800CD294_1 *entity;
 
     check_mask = 0x40;
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         check_mask = 0x400;
     }
     if (roll_threshold_effect_variant_b(record_data, check_mask, 0x10) == 0) {
@@ -1413,7 +1415,7 @@ s32 attempt_trap_request_eight_slots(void *object) {
     S_800CD384_1 *entry;
 
     amount = 0x40;
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         amount = 0x400;
     }
     if (roll_threshold_effect_variant_a(object, amount, 8) == 0) {
@@ -1558,7 +1560,7 @@ s32 target;
     s32 mode_mask;
 
     mode_mask = 0x40;
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         mode_mask = 0x400;
     }
     try_apply_effect_four_by_chance(target, mode_mask, 0x10);
@@ -1668,7 +1670,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
     s32 y_entry;
     void *update_callback;
 
-    if (D_800E3D40 != 0) {
+    if (trap_request_blocked != 0) {
         roll = 0;
     } else {
         random = generate_random_value() & 0xFFFF;
@@ -1800,10 +1802,10 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
     initial_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
     if (initial_state != 0x2E) {
         if (((initial_state != 0x1E) || ((entity->unk_A4 == 0) && (entity->unk_AA == 0)))
-            && ((get_entity_effect_value(entity, 0xA) << 0x10) == 0)) {
+            && ((get_entity_effect_value(entity, STATUS_FROG) << 0x10) == 0)) {
             prior_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
-            if ((s16)set_or_clear_actor_status_slot(entity, 0xA, action_arg) >= 0) {
-                if (entity->flags14 & 0x4000) {
+            if ((s16)set_or_clear_actor_status_slot(entity, STATUS_FROG, action_arg) >= 0) {
+                if (entity->flags14 & ACTOR_PARTY_MEMBER) {
                     updated_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
                     (*(u8 *)((u8 *)&entity->unk_10 + 3)) = prior_state;
                     adjust_source_value_and_finalize(entity, D_800E1C25);
@@ -1838,7 +1840,7 @@ s32 trigger_step_trap_effect(void *object) {
     void *effect;
 
     result = 1;
-    if ((get_entity_effect_value(object, 0xA) << 0x10) == 0) {
+    if ((get_entity_effect_value(object, STATUS_FROG) << 0x10) == 0) {
         index = 0;
         for (; index < 4; index++) {
             if (*(s8 *)((u8 *)object + ((index << 0x10) >> 0xF) + 0x2C) == 0) {
@@ -1848,7 +1850,7 @@ s32 trigger_step_trap_effect(void *object) {
         if (index >= 4) {
             return 1;
         }
-        if (D_800E3D40 == 0) {
+        if (trap_request_blocked == 0) {
             seed = generate_random_value() & 0xFFFF;
             if (*(u8 *)((u8 *)object + 3) != 0) {
                 index = seed % *(u8 *)((u8 *)object + 3);
@@ -1910,7 +1912,7 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 
     if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
         value = 0;
-        if (D_800E3D40 == 0) {
+        if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
             if (((u8)(*(u8 *)((u8 *)ptr + 3))) != 0) {
                 remainder_value = source_value % ((s16)((s32)((u8)(*(u8 *)((u8 *)ptr + 3)))));
@@ -1918,7 +1920,7 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
             }
         }
 
-        if (get_entity_effect_value(ptr, 10) << 16) {
+        if (get_entity_effect_value(ptr, STATUS_FROG) << 16) {
             value = 0xFF;
         }
 
@@ -1953,7 +1955,7 @@ s32 apply_chance_based_trap_effect(void *state, s32 rng_arg1, s32 rng_arg2, s32 
     s32 effect_amount;
     Entry *entry;
 
-    if (!D_800E3D40 &&
+    if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
          *(u8 *)((u8 *)state + 3))) {
         s32 remainder;
@@ -1964,7 +1966,7 @@ s32 apply_chance_based_trap_effect(void *state, s32 rng_arg1, s32 rng_arg2, s32 
     }
     if (roll < 0x30) {
         effect_amount = 0x20;
-        if (D_800E3D40 != 0) {
+        if (trap_request_blocked != 0) {
             effect_amount = 0x400;
         }
         attempt_action_six_if_eligible(state, effect_amount, 0x10);
@@ -2567,7 +2569,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
                 is_one = firstEntry->unk_00 == 1;
                 entryFlags = is_one;
             }
-            if (D_800E3D40 == 0) {
+            if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 are residue from is_linked_object_flagged_10000, without a defined C value. */
                 randomValueFirst = generate_random_value() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
@@ -2596,7 +2598,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
             if ((entryCode == 1) || (entryCode == 7) || (((u32) (entryValue - 2) < 2U) != 0)) {
                 entryFlags |= 2;
             }
-            if (D_800E3D40 == 0) {
+            if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 randomValueSecond = generate_random_value() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {

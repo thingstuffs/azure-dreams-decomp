@@ -169,8 +169,8 @@ s32 func_8004491C(void *, s32);
 s32 rsin();
 s32 rcos();
 extern u8 D_80025238[];
-extern u8 D_800DEAE0[];
-extern M2C_UNK D_800DECF8;
+extern u8 ribbon_sprite_entries[];
+extern M2C_UNK fading_sprite_entries;
 extern u8 D_80025214[];
 void func_80024028(void *target, s32 effect_param);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,

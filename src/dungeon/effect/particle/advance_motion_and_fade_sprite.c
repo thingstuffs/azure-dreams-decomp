@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Staged target effects, moving sprite fades, linked quad rendering, and five-point animation. */
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "shared/entity.h"
@@ -175,9 +177,9 @@ extern s16 GetClut(s32, s32);
 
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
-extern u8 D_800DEE38[];
+extern u8 moving_sprite_entries[];
 extern u8 D_800DEC50[];
-extern u8 D_800DEC70[];
+extern u8 shared_sprite_entries[];
 
 extern void fade_packed_object_color_to_zero(void *);
 extern void animate_jittering_five_point_effect();
@@ -270,7 +272,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
                         {
 
                             part->unk_10 = 32;
-                            texture = D_800DEC70;
+                            texture = shared_sprite_entries;
                             part->unk_0C = 0x00404040;
                         }
                         part->unk_00 = texture;
@@ -380,7 +382,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
         target_height = sample_terrain_surface_height(motion_arg->unk_00.u16_02.unk_02, motion_arg->unk_04.u16_06.unk_06, height_limit);
         motion_arg->unk_14.s16_16.unk_16 = target_height - motion_arg->unk_08.u16_0A.unk_0A;
         motion_arg->unk_14.s32_14 /= action->unk_50.s16_50;
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         next_state = action->unk_0A.u16_0A;
         next_state++;
         action->unk_0A.u16_0A = next_state;
@@ -579,7 +581,7 @@ case2_spawn_loop:
             part->unk_1E = 3072;
             part->unk_1C = 3072;
             part->unk_10 = 32;
-            part->unk_00 = D_800DEE38;
+            part->unk_00 = moving_sprite_entries;
             part->unk_0C = 0x00808080;
             part->unk_14 |= 0xC;
             particle_data->unk_4A = 8;
@@ -669,7 +671,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         }
         if (sprite->red <= effect->fade_step) {
             *(u32 *)&sprite->red = 0;
-            ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
+            ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
@@ -706,7 +708,7 @@ typedef struct DungeonShape {
     s16 unk46;
 } DungeonShape;
 
-extern DungeonDrawState *D_80083160[];
+extern DungeonDrawState *g_game_work[];
 extern s32 RotTransPers(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
 extern void SetSemiTrans(void *primitive, s32 value);
 extern void SetPolyFT4(void *primitive);
@@ -736,7 +738,7 @@ s32 project_linked_shape_quads(void *shape_data)
     u16 points[5][2];
     s32 half_width;
     DungeonShape *shape;
-    DungeonDrawState **draw_state_p = D_80083160;
+    DungeonDrawState **draw_state_p = g_game_work;
     s32 depth_or_tag_mask;
     s32 y_span;
     s32 width_divisor;

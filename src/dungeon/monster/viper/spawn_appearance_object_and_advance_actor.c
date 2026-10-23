@@ -41,7 +41,7 @@ extern s32 play_sound_if_enabled();
 extern s32 update_actor_defeat_removal();
 extern void *create_tracked_effect();
 
-extern M2C_UNK D_8006E240;
+extern M2C_UNK item_effect_descriptor;
 void func_80173770(void *actor, void *motion, void *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
@@ -89,7 +89,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 spawned_render->scale_x = angle;
                 work_data = spawned_data;
                 if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
-                    render_asset = &D_8006E240;
+                    render_asset = &item_effect_descriptor;
                     spawned_render->source = render_asset;
                 } else {
                     render_asset = (void *)lookup_item_category_mapped_value(

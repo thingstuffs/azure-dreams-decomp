@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -90,11 +92,11 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
             g_dungeon_status.pending_display_owner = (s32) (entity_ref & 0x7FFFFFFF);
         }
         detach_record_and_update_slot_state(entity);
-        if ((get_entity_effect_value(entity, 0x1B) << 0x10) == 0) {
+        if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             tile_x = visual->unk_24;
             tile_y = visual->unk_25;
             tile_flags = 0x3000;
-            if (((ActorRecord *)entity)->flags1C & 0x2000) {
+            if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_flags = 0x300;
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);

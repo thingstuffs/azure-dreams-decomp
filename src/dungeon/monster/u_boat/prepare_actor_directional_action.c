@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -71,7 +72,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameS
     self = entity;
     ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
 
-    if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
+    if ((((S_801717D0_0 *)self)->unk_1C & ACTOR_PLAYER_SIDE) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
         if ((*(u16 *)((u8 *)&((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_A4 + 2)) == 2) {
             counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
@@ -105,7 +106,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameS
         }
     }
     if (special_action == 0) {
-        if (((S_801717D0_0 *)self)->unk_1C & 0x400) {
+        if (((S_801717D0_0 *)self)->unk_1C & ACTOR_CONFUSED) {
             state_flags = ((S_801717D0_0 *)self)->unk_14;
             if (!(state_flags & 0x80000000)) {
                 state_flags |= 0x80000000;

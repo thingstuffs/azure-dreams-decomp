@@ -9,7 +9,7 @@ typedef struct {
 } DungeonState;
 
 extern s32 has_pending_dungeon_activity(void *other);
-extern s16 D_800DCF5E;
+extern s16 actor_action_reset_value;
 extern u8 D_80174948[12];
 
 /* Initializes entity state and conditionally increments the dungeon count. */
@@ -28,7 +28,7 @@ void initialize_counted_entity_action(void *entity_data, s32 unused_1, s32 unuse
         *(void **)(entity + 0x8C) = 0;
         entity[0x9A] = kind;
         entity[0x9B] = 0;
-        D_800DCF5E = 0;
+        actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -145,10 +146,10 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
             self->state++;
             if (read_sound_mode_blocking_status(4) != 2) {
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 break;
             }
-            play_sound_if_enabled(0x4300);
+            play_sound_if_enabled(AUDIO_RESUME_CD);
             break;
         }
 

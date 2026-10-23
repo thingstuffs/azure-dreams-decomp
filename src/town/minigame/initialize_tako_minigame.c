@@ -77,7 +77,7 @@ extern u8 D_80026B78[];
 extern u8 D_80026BC4[];
 extern u8 D_80026C54[];
 extern u8 D_80026F50[];
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 extern s32 display_registration_tag;
 extern u8 tako_minigame_sprites[];
 
@@ -170,7 +170,7 @@ next_left:
     left_state = (u8 *)object + 0x20;
     if (object != NULL) {
         object->unk_10 = callback;
-        register_node(object, D_80053858);
+        register_node(object, text_sprite_builder_address);
         left_state->unk_14 = 0x20;
         left_state->unk_18 = 3;
         left_state->unk_1A = 0x7C80;
@@ -207,7 +207,7 @@ next_right:
     right_state = (u8 *)object + 0x20;
     if (object != NULL) {
         object->unk_10 = callback;
-        register_node(object, D_80053858);
+        register_node(object, text_sprite_builder_address);
         right_state->unk_14 = 0x50;
         right_state->unk_18 = 3;
         right_state->unk_1A = 0x7C80;

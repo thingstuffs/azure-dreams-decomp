@@ -1,4 +1,7 @@
-#include "shared/object_node.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
+#include "dungeon/monster/stealth/spawn_variant_slot_c.h"
 #include "modules/dungeon_ovl_7f217800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -7,7 +10,7 @@
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
 /* Creates Stealth with frames at D_8015BD30; a random display variant changes sprite flags and unlinks the
  * node. */
-void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     s32 mode;
@@ -27,24 +30,24 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
-        part0->unk_0A = spawn_value;
+        part0->unk_0A = spawn_height;
         part1 = *(void ** *)&object->sprite;
-        part1->unk_25 = variant;
+        part1->unk_25 = tile_y;
         actor = result;
         part1->frameTable = D_8015BD30;
         kind = flags & 3;
-        part1->unk_24 = kind_id;
+        part1->unk_24 = tile_x;
         if (kind == 1) {
-            result->unk_14 |= 0x6000;
-            result->unk_1C |= 0x6000;
+            result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            result->unk_14 |= 0x2000;
-            result->unk_1C |= 0x2000;
+            result->unk_14 |= ACTOR_CLASS_ENABLED;
+            result->unk_1C |= ACTOR_PLAYER_SIDE;
         } else if (((flags & ~3) << 16) == 0) {
-            if (!(result->unk_14 & 0x200)) {
+            if (!(result->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    result->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
+                    result->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_8015BD78;
                 }
             }

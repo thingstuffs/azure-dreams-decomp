@@ -22,7 +22,7 @@ typedef struct S_800B80D8_1 {
 
 
 extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 
 /* Animate object motion and scale, then signal completion. */
 void animate_object_motion_and_scale(void *object, ObjectPosition *motion, void *display)
@@ -62,7 +62,7 @@ void animate_object_motion_and_scale(void *object, ObjectPosition *motion, void 
         place_item_at_valid_floor_position(((S_800B80D8_0 *)object)->unk_B0,
                       ((S_800B80D8_0 *)object)->unk_B2,
                       (s16)(((u16) motion->z.w.i) - 0x20),
-                      &D_8006E240,
+                      &item_effect_descriptor,
                       (u8 *)object + 0x98);
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

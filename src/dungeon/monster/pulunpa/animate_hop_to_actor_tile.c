@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/pulunpa.h"
@@ -33,7 +34,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_80170F20[];
+extern u8 pulunpa_action_resume_address[];
 extern u8 D_801762D8[];
 extern u8 D_801762E0[];
 
@@ -60,7 +61,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
                            7],
                 0);
             ((S_801721B0_0 *)action)->unk_98 |= 8;
-            actor->flags1C &= 0xF7FFFFFF;
+            actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
             ((S_801721B0_0 *)action)->unk_9E.s = 5;
             ((S_801721B0_0 *)action)->unk_A0 = 0;
             ((S_801721B0_0 *)action)->unk_9B++;
@@ -94,14 +95,14 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
         if ((s16)next_hop_frame < 0) {
             ((S_801721B0_0 *)action)->unk_90 = 0;
             ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
-            actor->flags1C |= 0x08000000;
+            actor->flags1C |= ACTOR_GROUNDED;
             ((S_801721B0_0 *)action)->unk_9B++;
         }
 
                         /* fallthrough */
 
     case 2:
-        if (actor->flags1C & 0x08000000) {
+        if (actor->flags1C & ACTOR_GROUNDED) {
             ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
@@ -150,7 +151,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
         }
         apply_capped_damage_and_hit_effect(actor, motion);
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
-            ((S_801721B0_0 *)action)->unk_8C = D_80170F20;
+            ((S_801721B0_0 *)action)->unk_8C = pulunpa_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

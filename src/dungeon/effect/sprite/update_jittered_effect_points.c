@@ -100,7 +100,7 @@ struct S_800244BC_2;
 void advance_target_chasing_emitter(void *, struct S_800244BC_2 *, s32);
 void update_jittered_effect_points(void *);
 s32 update_segment(void *);
-extern u8 D_800DEE38[];
+extern u8 moving_sprite_entries[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)primary_actor_record)
@@ -208,8 +208,8 @@ void func_80024020(void *sequence, void *out_position)
             sprite->scale_x = 0x1000;
             sprite->tpage_abr = 0x20;
             sprite->flags |= 0x0C;
-            sprite->unk_00 = D_800DEE38;
-            sprite->source = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
+            sprite->unk_00 = moving_sprite_entries;
+            sprite->source = ((S_func_819A6800_9 *)(moving_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
             sprite->color.word = 0x00606060;

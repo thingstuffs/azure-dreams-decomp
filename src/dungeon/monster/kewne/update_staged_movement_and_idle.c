@@ -16,7 +16,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 
-extern u8 D_801710EC[9];
+extern u8 kewne_action_resume_address[9];
 extern u8 D_80175E78[8];
 extern u8 D_80175E80[8];
 
@@ -173,7 +173,7 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, Spr
         movement->velocity_x = 0;
         set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_80172DDC_0 *)action)->unk_8C = D_801710EC;
+        ((S_80172DDC_0 *)action)->unk_8C = kewne_action_resume_address;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
         ((S_80172DDC_0 *)action)->unk_98 &= 0xFFF7;

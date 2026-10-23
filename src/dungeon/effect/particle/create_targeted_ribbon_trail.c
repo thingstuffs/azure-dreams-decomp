@@ -65,7 +65,7 @@ typedef struct {
 extern void select_record_entry_and_value(RenderState *, void *, s16);
 extern void register_node(EffectObject *, void *);
 
-extern u8 D_800DEAE0[];
+extern u8 ribbon_sprite_entries[];
 extern LocalPositionTable D_8016484C;
 extern u8 D_80167C74[];
 extern s16 ribbon_vertices[][8][2][3];
@@ -145,7 +145,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
             positions.values[(held_source->direction >> 9) & 7][mode][1] * 0x50000;
         payload->position[2] =
             positions.values[(held_source->direction >> 9) & 7][mode][2] << 19;
-        select_record_entry_and_value(render, D_800DEAE0, 0);
+        select_record_entry_and_value(render, ribbon_sprite_entries, 0);
 
         pair_index = 0;
         do {

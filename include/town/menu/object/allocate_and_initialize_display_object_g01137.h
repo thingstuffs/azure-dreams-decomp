@@ -91,7 +91,7 @@ extern M2C_UNK D_800A21EC;
 /* arg0 in initialize_directional_object_state */
 /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
 extern s32 register_node();
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern s32 D_800A2338;
 extern s32 D_800A23D0;
 

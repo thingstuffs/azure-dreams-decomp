@@ -76,8 +76,8 @@ struct Entity {
     u8 *data;
 };
 
-extern u8 D_80171094;
-extern u8 D_80176460[8];
+extern u8 cyclone_action_resume_address;
+extern u8 cyclone_move_direction_frames[8];
 extern u8 D_80176490[8];
 extern ActorCallback cyclone_callbacks[];
 
@@ -109,7 +109,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
 
     if (g_dungeon_status.flags & 0x2000) {
         special_callback = input_actor->callback;
-        if (special_callback == (ActorCallback)&D_80171094) {
+        if (special_callback == (ActorCallback)&cyclone_action_resume_address) {
             special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));
             return;
         }
@@ -189,7 +189,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         subject->flags = actor_flags;
         actor_flags &= 0x00040000;
         if (actor_flags) {
-            if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
+            if (!(input_entity->flags14 & 0x40) && input_entity->data == cyclone_move_direction_frames) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
                 input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;
@@ -252,7 +252,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
                 }
             }
         } else {
-            if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
+            if (!(input_entity->flags14 & 0x40) && input_entity->data == cyclone_move_direction_frames) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
                 input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;

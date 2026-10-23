@@ -22,4 +22,7 @@ void set_monster_data_pointer(void);
 
 s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type);
 
+void play_b4_sound(void);
+void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value);
+
 #endif

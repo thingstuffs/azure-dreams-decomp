@@ -24,7 +24,7 @@ void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *
     counter = state->unk_0A.as_u16 + 1;
     state->unk_0A.as_u16 = counter;
     if ((s16) counter == 6) {
-        call_the_handler_selects_nonzero_entry((s32 *) D_800D00B8, state, (void *) context);
+        call_the_handler_selects_nonzero_entry((s32 *) action_object_handler_table, state, (void *) context);
     }
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     store_the_valid_shared_angle_in_offset_hex_10(state);

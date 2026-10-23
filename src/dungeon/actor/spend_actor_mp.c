@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/dungeon_status.h"
@@ -40,12 +42,12 @@ void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
     if (entity->unk_13.s > 0) {
         remaining_amount = entity->unk_24.at00.v;
         initial_level = entity->unk_24.at01.v;
-        if ((get_entity_effect_value(entity, 0x20) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_NO_MP_DRAIN) << 16) != 0) {
             reduction = 0;
         } else if (entity->unk_54 & 0x100) {
             reduction = (reduction + 1) >> 1;
         }
-        if ((get_entity_effect_value(entity, 0xF) << 16) != 0) {
+        if ((get_entity_effect_value(entity, STATUS_MP_DRAIN) << 16) != 0) {
             reduction *= 2;
         }
         remaining_amount -= reduction;
@@ -72,7 +74,7 @@ void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
                 entity->unk_24.at01.v = dungeon_mode;
                 return;
             }
-            if (entity->unk_1C & 0x80000) {
+            if (entity->unk_1C & ACTOR_LIFTED) {
                 clear_player_linked_action_flags();
             }
             if (initial_level != 0) {

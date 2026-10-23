@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -32,7 +33,7 @@ void update_flag_masked_entity(void *unused_0, void *unused_1, MovingTile *sourc
     source_24 = source->unk_24;
     source_25 = source->unk_25;
     update_mask = 0x3000;
-    if (entity->flags_1C & 0x2000) {
+    if (entity->flags_1C & ACTOR_PLAYER_SIDE) {
         update_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(source_24, source_25, update_mask);

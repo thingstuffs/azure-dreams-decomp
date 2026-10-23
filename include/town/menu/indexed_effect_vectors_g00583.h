@@ -22,10 +22,10 @@ s32 lookup_item_category_mapped_value();
 /* extern */
 void *create_town_effect_object();
 /* extern */
-extern s32 D_8006E240;
+extern s32 item_effect_descriptor;
 extern M2C_UNK D_800A8248;
 extern s32 scene_object_payload_alias[2];
-extern s32 D_80097D2C;
+extern s32 town_position_callback_address;
 extern s32 D_80097EA0;
 extern s32 town_target_height_offset;
 extern void unlink_node_if_registered(void *object);

@@ -15,7 +15,7 @@ void create_callback_pair_default(int value, int unused_1, int unused_2, int ext
 
 
 /* Fixed input buffers and the shared texture-result pointer. */
-extern u8 D_80016000[0x10];
+extern u8 resource_queue_input_buffer[0x10];
 extern u8 D_80023000[0x10];
 
 extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2);
@@ -23,6 +23,6 @@ extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2);
 /* Registers callbacks for the fixed buffers and returns the result-pointer slot. */
 void *queue_cd_resource(s32 id)
 {
-    queue_entity_resource_descriptor_pair(&D_80016000, &D_80023000, (u16)id);
+    queue_entity_resource_descriptor_pair(&resource_queue_input_buffer, &D_80023000, (u16)id);
     return &runtime_texture_resource_handle;
 }

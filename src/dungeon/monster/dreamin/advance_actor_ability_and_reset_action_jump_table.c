@@ -3,7 +3,7 @@
 extern void advance_actor_ability_and_reset_action(void);
 
 /* jump_table; owner: dungeon/func_80DB5070. */
-const u32 D_8014C838[7] __attribute__((aligned(4))) = {
+const u32 dreamin_slot_a_action_targets_b[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)advance_actor_ability_and_reset_action + 0x11C),
     (u32)((u8 *)advance_actor_ability_and_reset_action + 0x114),
     (u32)((u8 *)advance_actor_ability_and_reset_action + 0x10C),

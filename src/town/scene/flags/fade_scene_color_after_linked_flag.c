@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 
 
 typedef struct S_80810F98_0 {
@@ -34,7 +34,7 @@ void fade_scene_color_after_linked_flag(S_80810F98_0 *ptr)
         ptr->unk_08 -= 0x80808;
         if (ptr->unk_08 <= 0x80808) {
             *(u16 *)((u8 *)ptr - 2) |= 0x8000;
-            D_80084D5C |= 0x8000;
+            scene_object_flags |= 0x8000;
         }
         break;
     }

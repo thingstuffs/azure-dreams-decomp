@@ -3,7 +3,7 @@
 extern void advance_actor_item_use_alt(void);
 
 /* jump_table; owner: dungeon/func_810011A0. */
-const u32 D_8014C838[7] __attribute__((aligned(4))) = {
+const u32 killer_slot_a_action_targets_b[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)advance_actor_item_use_alt + 0x124),
     (u32)((u8 *)advance_actor_item_use_alt + 0x11C),
     (u32)((u8 *)advance_actor_item_use_alt + 0x114),

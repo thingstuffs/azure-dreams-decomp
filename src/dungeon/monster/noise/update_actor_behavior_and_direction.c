@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -33,7 +34,7 @@ extern void func_80174598(void *, void *, void *, void *);
 extern void start_directional_action_and_record_tile(void *, void *, void *, void *);
 
 extern u8 D_80171760[];
-extern u8 D_80174E88[];
+extern u8 noise_direction_frames[];
 extern u8 D_80174E98[];
 extern u8 D_80174EE0[];
 extern u8 D_80174EE8[];
@@ -65,7 +66,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
         return;
     }
 
-    if (((u32)actor->flags1C) & 0x200) {
+    if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (map_entity->frameTable == D_80174EF0) {
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
@@ -79,7 +80,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor->flags1C) & 0x100) {
+        if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(motion, render_ctx, map_entity, actor);
             return;
         }
@@ -91,7 +92,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
             current_state = *(u8 *)((u8 *)motion + 0x9A);
             idle_state = 0xE;
             if (current_state != idle_state) {
-                anim_table = D_80174E88;
+                anim_table = noise_direction_frames;
                 if (map_entity->frameTable != anim_table) {
                     (map_entity->frameTable) = anim_table;
                     select_sprite_entry(map_entity,
@@ -111,7 +112,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
             }
         }
 
-        if (((u32)actor->flags1C) & 0x80000) {
+        if (((u32)actor->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(motion, render_ctx, map_entity, actor);
             func_80174598(motion, render_ctx, map_entity, actor);
             return;
@@ -128,7 +129,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
     if (actor->pending_turn_updates > 0) {
         u16 action_state;
 
-        if (((u32)actor->flags1C) & 0x20) {
+        if (((u32)actor->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -198,12 +199,12 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
         }
         update_actor_turn_behavior(motion, render_ctx, map_entity, actor);
         return;
-    } else if (!(((u32)actor->flags1C) & 0x2000)) {
+    } else if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor->flags1C) & 0x430)) {
+            if (!(((u32)actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         map_entity->unk_24, map_entity->unk_25,
@@ -223,7 +224,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
     if (map_entity->flags & 0x40) {
         return;
     }
-    anim_table = D_80174E88;
+    anim_table = noise_direction_frames;
     if (map_entity->frameTable == anim_table) {
         return;
     }

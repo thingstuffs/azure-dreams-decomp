@@ -19,8 +19,8 @@ typedef struct {
     s16 z;
     u8 pad[0x5A];
 } PositionTableEntry;
-extern s32 D_800DEDB0[3];
-extern M2C_UNK D_800DEE38;
+extern s32 rising_sprite_entries[3];
+extern M2C_UNK moving_sprite_entries;
 extern M2C_UNK D_80167A2C;
 extern PositionTableEntry ribbon_vertices[];
 
@@ -52,10 +52,10 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
             select_record_entry_and_value(render_state, effect_sprite_sources, 0);
         }
         if (source->unk_1C == 1) {
-            select_record_entry_and_value(render_state, &D_800DEE38, 0);
+            select_record_entry_and_value(render_state, &moving_sprite_entries, 0);
         }
         if (source->unk_1C == 2) {
-            select_record_entry_and_value(render_state, &D_800DEDB0, 0);
+            select_record_entry_and_value(render_state, &rising_sprite_entries, 0);
         }
     }
 }

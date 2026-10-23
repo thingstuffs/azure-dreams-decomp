@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
@@ -140,7 +141,7 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
             }
             distribute_experience_and_report_gains(entity);
             detach_record_and_update_slot_state(entity);
-            if ((get_entity_effect_value(entity, 0x1B) << 0x10) == 0) {
+            if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
                 effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
                 tile_x = ((S_800AD058_1 *)sprite)->unk_24;
                 tile_y = ((S_800AD058_1 *)sprite)->unk_25;
@@ -200,7 +201,7 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
     default:
         return 0;
     }
-    if ((get_entity_effect_value(entity, 0x1B) << 0x10) == 0) {
+    if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
         effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
         tile_x = ((S_800AD058_1 *)sprite)->unk_24;
         tile_y = ((S_800AD058_1 *)sprite)->unk_25;

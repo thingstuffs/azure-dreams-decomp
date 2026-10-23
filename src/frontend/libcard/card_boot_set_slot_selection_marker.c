@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard.h"
 
-extern s32 D_800786E8[];
+extern s32 card_selection_display_data[];
 
 /* Set the object color, optional display table, and display dimensions. */
 void card_boot_set_slot_selection_marker(s32 object_addr, s32 enable_table) {
@@ -13,7 +13,7 @@ void card_boot_set_slot_selection_marker(s32 object_addr, s32 enable_table) {
         display_data = *(void **) (object_data + 0x280);
         *(s32 *) (object_data + 0x224) = 0x808080;
         if (enable_table != 0) {
-            *(s32 **) display_data = D_800786E8;
+            *(s32 **) display_data = card_selection_display_data;
         } else {
             *(s32 *) display_data = 0;
         }

@@ -1,3 +1,6 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Effect quad projection, child particle updates, and a moving status-effect sequence. */
 
 struct ObjectPosition;
@@ -43,13 +46,13 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
          * try_apply_confusion_status uses the nonnegative success test.
          */
         if (set_or_clear_actor_status_slot(
-                entity, 0x13,
+                entity, STATUS_WATER_PROTECT,
                 ((get_random_scaled_value(direction & 0xFF) + 4) << 24) >> 24) << 16) {
-            if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
+            if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(entity, D_800E1C8A);
                 return;
             }
-        } else if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
+        } else if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = expand_text_control_codes(&D_80024004, message_end);
@@ -1596,7 +1599,7 @@ L0_adjust_z:
                 ((S_800259D8_4 *)entity)->unk_00.at02u.v = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
                 ((S_800259D8_4 *)entity)->unk_04.at02u.v = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
                 ((S_800259D8_4 *)entity)->unk_08.at02.v = ((S_800259D8_0 *)effect)->unk_78.u;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
         }

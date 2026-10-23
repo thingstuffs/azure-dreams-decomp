@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -40,9 +42,9 @@ s32 use_item_to_apply_slow(void *target, s32 item, s16 use_kind)
      * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
      * test.
      */
-    if ((set_or_clear_actor_status_slot(target, 7, -10) << 16) != 0) {
+    if ((set_or_clear_actor_status_slot(target, STATUS_SPEED, -10) << 16) != 0) {
         play_sound_if_enabled(0x615);
-        if (*(s32 *)((u8 *)target + 0x14) & 0x4000) {
+        if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, D_800E1827);
         }
     }

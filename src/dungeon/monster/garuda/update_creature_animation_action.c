@@ -41,11 +41,11 @@ extern void func_801721B8(void *, void *, void *, void *);
 extern void advance_actor_walk_animation(void *, void *, void *, void *);
 extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
-extern u8 D_80174880[];
+extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];
 extern u8 D_801748C8;
 extern u8 D_801748D8[];
-extern u8 D_801748E0[];
+extern u8 garuda_frame_set_2[];
 extern DungeonRecord dungeon_rooms[];
 void update_creature_animation_action(void *, void *, void *, void *);
 /* Update creature animation and dispatch its dungeon action. */
@@ -64,7 +64,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     if ((*((u8 *) (((u8 *) creature) + 0x25))) == 0) {
         void *anim_table;
         advance_actor_pending_action(actor, context, sprite_arg, creature);
-        if ((*((void **) (((u8 *) sprite_arg) + 0x2C))) == D_801748E0) {
+        if ((*((void **) (((u8 *) sprite_arg) + 0x2C))) == garuda_frame_set_2) {
             return;
         }
         anim_table = D_801748D8;
@@ -75,7 +75,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     }
     sprite = sprite_arg;
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200) {
-        if ((sprite->frameTable) == D_801748E0) {
+        if ((sprite->frameTable) == garuda_frame_set_2) {
             *((u8 *) (((u8 *) actor) + 0x9A)) = 0xD;
             *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
             *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
@@ -105,7 +105,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             }
 
             current_anim = sprite->frameTable;
-            anim_table = D_80174880;
+            anim_table = garuda_walk_direction_frames;
             if (current_anim != anim_table) {
                 sprite->frameTable = anim_table;
                 select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)

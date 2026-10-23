@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/entity.h"
@@ -107,7 +108,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
                 if (!(state->field14 & 0x200)) {
                     if (generate_random_value() & 1) {
                         state->field1c |= 0x200;
-                        set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         placement->frameTable = &D_80162088;
                     }
                 }

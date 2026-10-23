@@ -80,7 +80,7 @@ void *allocate_list_node();
 /* extern */
 s32 register_node();
 /* extern */
-extern s32 D_80045C34[4];
+extern s32 clipped_sprite_renderer_address[4];
 extern s32 D_800C1718[4];
 extern s32 D_800DF3C0[4];
 

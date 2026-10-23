@@ -1,7 +1,7 @@
 #include "common.h"
 s32 func_80058588(s32, s32, s32);
 s32 func_80071424();
-extern s32 D_80084D5C;
+extern s32 scene_object_flags;
 /* Submits the linked value each tick, clears flag 2 after a delay, and handles linked cleanup. */
 void tick_timed_object_and_mark_complete(void *ptr)
 {
@@ -27,7 +27,7 @@ void tick_timed_object_and_mark_complete(void *ptr)
     case 1:
         if ((*((u16 *) (((s8 *) field_ptr) + 0x2A))) & 1) {
             *((u16 *) (((s8 *) ptr) + (-2))) = (u16) ((*((u16 *) (((s8 *) ptr) + (-2)))) | 0x8000);
-            *((s32 *) 0x80084D5C) = D_80084D5C | 0x8000;
+            *((s32 *) 0x80084D5C) = scene_object_flags | 0x8000;
         }
     }
 }

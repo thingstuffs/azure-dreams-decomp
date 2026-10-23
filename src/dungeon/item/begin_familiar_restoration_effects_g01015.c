@@ -175,7 +175,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         object->unk_10 = &D_800C1718[0];
-        register_node(object, &D_80045C34[0]);
+        register_node(object, &clipped_sprite_renderer_address[0]);
         position = object->position;
         position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);

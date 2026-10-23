@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 #include "common.h"
 
 typedef union FixedWord {
@@ -93,7 +94,7 @@ void create_configured_effect_actor(ObjectState *obj, MotionVector *pos, ByteSta
             }
             if (distance < 0x10) {
                 *((u16 *)obj - 1) |= 0x8000;
-                D_800814A0.value = D_800814A0.value | 0x8000;
+                D_800814A0.value = D_800814A0.value | OBJECT_REMOVE_PENDING;
             }
         }
     }
@@ -109,6 +110,6 @@ void create_configured_effect_actor(ObjectState *obj, MotionVector *pos, ByteSta
     obj->timer = remaining_time;
     if ((remaining_time << 0x10) <= 0) {
         *((u16 *)obj - 1) |= 0x8000;
-        D_800814A0.value = D_800814A0.value | 0x8000;
+        D_800814A0.value = D_800814A0.value | OBJECT_REMOVE_PENDING;
     }
 }

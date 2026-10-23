@@ -6,7 +6,7 @@ struct ObjectNodeHeader;
 extern void func_80173A48(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
-extern u8 *D_80174710;
+extern u8 *beldo_active_entity;
 
 /* Clear the state flag, run the shared update, and process both occupied object slots. */
 void process_global_effect_slots(void)
@@ -16,7 +16,7 @@ void process_global_effect_slots(void)
     u8 *state;
 
     slot = 0;
-    state = D_80174710 + 0x20;
+    state = beldo_active_entity + 0x20;
     *(u16 *)(state + 0x46) &= 0x7FFF;
     func_80173A48();
     do {

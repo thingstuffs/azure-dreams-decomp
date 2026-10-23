@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -34,8 +37,8 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_801713A8[];
 void dispatch_actor_animation_and_action(void *motion_in, void *context_in, SpriteFrameState *entity_in, void *actor_in);
-extern u8 D_80174634[];
-extern u8 D_80174684[];
+extern u8 death_direction_frames[];
+extern u8 death_frame_set_2[];
 
 /* Creates a Death actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -70,24 +73,24 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
         kind = flags & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        part_b->frameTable = D_80174634;
+        part_b->frameTable = death_direction_frames;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = left;
             work->unk_1C = right;
         } else if (kind >= 2) {
-            left = work->unk_14 | 0x2000;
-            right = work->unk_1C | 0x2000;
+            left = work->unk_14 | ACTOR_CLASS_ENABLED;
+            right = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = left;
             work->unk_1C = right;
-        } else if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+        } else if (((flags & ~3) << 16) == 0 && !(work->unk_14 & ACTOR_RESIST_SLEEP)) {
             if (generate_random_value() & 1) {
-                set_or_clear_actor_status_slot(work, 1,
+                set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->frameTable = D_80174684;
+                part_b->frameTable = death_frame_set_2;
             }
         }
         initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);

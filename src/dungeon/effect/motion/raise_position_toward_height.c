@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Level reduction attempts, terrain-seeking particles, randomized drawing, and target effects. */
 #include "modules/dungeon_ovl_192a800.h"
 #include "shared/entity.h"
@@ -196,7 +198,7 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
     countdown = state->timer - 8;
     state->timer = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -867,7 +869,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             if (owner->unk_60 != 0) {
                 effect->unk_A.u16 = 3;
                 effect->unk_82.u16 = 0;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 ((S_func_8190B2D0_6 *)owner->unk_60)->unk_14 |= 0x100000;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)owner->unk_60 - 32))->unk_8;
                 motion_or_child->unk_0.at_2_u16.unk_2 = target_pos->unk_0.at_2_u16.unk_2;

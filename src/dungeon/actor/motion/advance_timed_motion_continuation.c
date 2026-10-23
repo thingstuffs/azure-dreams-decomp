@@ -37,7 +37,7 @@ typedef struct S_80097AF8_4 {
 } S_80097AF8_4;   /* arg3 in advance_timed_motion_continuation */
 
 
-extern u8 D_80096384[];
+extern u8 destination_motion_resume_address[];
 
 extern void process_unflagged_linked_entries(void *);
 extern void process_unflagged_linked_entries_alt(void *);
@@ -92,7 +92,7 @@ void advance_timed_motion_continuation(S_80097AF8_0 *actor, S_80097AF8_1 *motion
             process_unflagged_linked_entries_alt(owner->unk_5C);
             process_unflagged_linked_entries(owner->unk_5C);
         }
-        actor->unk_8C = D_80096384;
+        actor->unk_8C = destination_motion_resume_address;
         return;
     }
 }

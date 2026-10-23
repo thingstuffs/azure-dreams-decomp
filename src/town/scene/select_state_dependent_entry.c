@@ -6,8 +6,8 @@ extern void set_script_flag_bit(s32 bit_index);
 extern void *apply_entry_position(void *entries, void *object, s32 context, s32 selection);
 
 extern u8 D_8001BE24[];
-extern u8 D_8001C354[];
-extern u8 D_8001DCD4[];
+extern u8 scene_dispatch_context[];
+extern u8 scene_event_buffer[];
 extern u8 D_8001E16A[];
 extern u8 D_8001E42A[];
 
@@ -23,11 +23,11 @@ void *select_state_dependent_entry(s32 table_index, s32 unused, s32 entry_id) {
                 result = D_8001E16A;
             }
         } else {
-            result = D_8001DCD4;
+            result = scene_event_buffer;
             set_script_flag_bit(Ftt_fkoya_isaku_scene00_first);
         }
     } else {
-        result = apply_entry_position(D_8001BE24, D_8001C354, table_index, entry_id);
+        result = apply_entry_position(D_8001BE24, scene_dispatch_context, table_index, entry_id);
     }
     return result;
 }

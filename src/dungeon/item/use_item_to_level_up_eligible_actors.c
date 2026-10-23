@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -79,14 +82,14 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
                  * still consumes the item. raise_entity_level tests the individual actor's level; this
                  * guard should do the same.
                  */
-                if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||
-                     (get_entity_effect_value(node, 12) << 16) != 0) &&
+                if (((((S_800BF9EC_2 *)node)->unk_1C & (ACTOR_CONFUSED | ACTOR_PLAYER_SIDE)) != 0x2000 ||
+                     (get_entity_effect_value(node, STATUS_BRAINWASH) << 16) != 0) &&
                     (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = entity_level_thresholds[((S_800BF9EC_2 *)node)->unk_11];
                     raise_entity_level(node, 0);
                     if ((((S_800BF9EC_3 *)(((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite))->unk_14 & 0x8000) == 0) {
                         s32 effect_id = 0x8003;
-                        if (((S_800BF9EC_2 *)node)->unk_14 & 0x2000) {
+                        if (((S_800BF9EC_2 *)node)->unk_14 & ACTOR_CLASS_ENABLED) {
                             effect_id = 0x8002;
                         }
                         create_actor_value_popup(effect_id, node, -2, 1);

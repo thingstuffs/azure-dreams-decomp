@@ -31,7 +31,7 @@ typedef struct Obj {
 extern s16 get_surface_height_at_record(void *);
 extern void build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(Obj *);
 extern u8 D_80025940[];
-extern void *D_80026208;
+extern void *effect_position_source;
 
 /* Creates an object with height-adjusted endpoints and movement increments for 12 steps. */
 void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_pos)
@@ -75,7 +75,7 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         motion->unk40 = (end_pos[0] - start_pos[0]) / 12;
         end_z = motion->z0;
         start_z = motion->z1;
-        D_80026208 = &motion->x2;
+        effect_position_source = &motion->x2;
         step_z = (end_z - start_z) / 12;
         step_y = (end_pos[1] - start_pos[1]) / 12;
         motion->unk48 = step_z;

@@ -14,7 +14,7 @@ s32 sprite_command_depth_scale = 0;
 /* set to 0 at entry and again on the "list exhausted" exit path */
 
 /* size >8B to force %hi/%lo codegen; D_80083160[0] points at the "current state" struct */
-extern void *D_80083160[3];
+extern void *g_game_work[3];
 
 /* target of D_80083160[0]; only offset 0x8D0 (u32) is read here */
 typedef struct {
@@ -45,7 +45,7 @@ typedef struct {
 } S_80045340_HwFlag;
 
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
-extern void *D_80083160[3];
+extern void *g_game_work[3];
 extern u32 sprite_projection_matrix[8];
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
@@ -61,7 +61,7 @@ s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry,
     for (;;) {
         if (!(current_entry->unk14 & 0x80)) {
             project_sprite_commands(current_data, (void *)context, (Entry *)current_entry, current_entry->unk06);
-            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)D_80083160[0])->unk8D0)) {
+            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)g_game_work[0])->unk8D0)) {
                 return 0;
             }
         }
@@ -178,7 +178,7 @@ typedef struct { u8 pad0[0x14]; u16 flags; } EntryFlags;
 void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias)
 {
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
-    void **render_state = D_80083160;
+    void **render_state = g_game_work;
     Packet *packet;
     Command *command;
     u32 projected_depth;

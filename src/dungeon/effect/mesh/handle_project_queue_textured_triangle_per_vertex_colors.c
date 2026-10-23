@@ -74,7 +74,7 @@ typedef struct Scratch81976CB0 {
     u16 out5;
 } Scratch81976CB0;
 
-extern s32 *D_80026208;
+extern s32 *effect_position_source;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
@@ -119,7 +119,7 @@ s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, 
     packet->x2_mid = vertex_color2 >> 8;
     packet->x2_lo = vertex_color2;
 
-    vertex_offset = D_80026208;
+    vertex_offset = effect_position_source;
     scratch->x0 = (scratch->vx0 + vertex_offset[0]) >> 16;
     transform_flags = (void *)((u32)transform_flags | 0xC);
     scratch->x1 = (scratch->vx1 + vertex_offset[0]) >> 16;

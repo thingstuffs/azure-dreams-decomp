@@ -38,7 +38,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
         motion->velocity_y = (s32) (velocity_y / 16);
         motion->velocity_z = (s32) ((~rand() & 1) << 0xF);
-        select_record_entry_and_value(sprite, &D_800F15AC, 0);
+        select_record_entry_and_value(sprite, &map_animation_sprite_entries, 0);
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;

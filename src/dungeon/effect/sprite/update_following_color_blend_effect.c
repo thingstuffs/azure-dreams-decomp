@@ -48,7 +48,7 @@ extern void resolve_record_orientation_or_fallback(s32, u8 *, Vec3s *, s32);
 extern void register_node(void *, void *);
 
 extern u16 sprite_effect_update_count;
-extern s32 D_800CEEFC;
+extern s32 linked_mesh_processor_address;
 extern s32 *actor_direction_sprites;
 
 /* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
@@ -72,7 +72,7 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
 
     switch (phase) {
     case 0:
-        register_node((u8 *)state - 0x20, &D_800CEEFC);
+        register_node((u8 *)state - 0x20, &linked_mesh_processor_address);
         U16(state, 0x2C)++;
     case 1:
         node = ((S_81958F28_0 *)state)->unk_08;

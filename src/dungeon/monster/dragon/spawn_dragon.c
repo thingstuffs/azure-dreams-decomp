@@ -1,9 +1,12 @@
-#include "modules/dungeon_ovl_a01054.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
+#include "dungeon/monster/dragon/spawn_variant_slot_c.h"
 #include "shared/monster_ids.h"
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a)
+void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a)
 {
     s32 kind;
     ProjectileObject *obj;
@@ -38,20 +41,20 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
         part_b->unk_24 = saved_attribute_24;
 
         if (kind == 1) {
-            flags_or_result = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
+            flags_or_result = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            secondary_flags = work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->unk_14 = flags_or_result;
             work->unk_1C = secondary_flags;
         } else if (kind >= 2) {
-            flags_or_result = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
+            flags_or_result = work->unk_14 | ACTOR_CLASS_ENABLED;
+            secondary_flags = work->unk_1C | ACTOR_PLAYER_SIDE;
             work->unk_14 = flags_or_result;
             work->unk_1C = secondary_flags;
         } else if (((mode_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            if (!(work->unk_14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
+                    work->unk_1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_8015BCDC;
                 }
             }

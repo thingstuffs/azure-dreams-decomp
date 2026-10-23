@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Wave-displaced sprite strips, shaded particles, timed fades, and projectile impact effects. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1918800.h"
@@ -20,7 +22,7 @@ extern void SetTransMatrix(void *);
 extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
-extern u8 D_8006CD10[8];
+extern u8 effect_view_matrix[8];
 
 typedef struct Quad40 {
     s32 w0;
@@ -128,7 +130,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
         packet += 3;
         *start_link = ((*start_link) & 0xFF000000) | ((s32) screen_link);
     }
-    view_matrix = (u8 *) (&D_8006CD10);
+    view_matrix = (u8 *) (&effect_view_matrix);
     *((s32 *) (view_matrix + 0x1C)) = (s32) (globals->view.projection_distance);
     PushMatrix();
     *((s32 *) (((u8 *) scratch) + 0x30)) = globals->view.camera_rotation.parts.camera_rotation_x;
@@ -663,7 +665,7 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
 {
     u16 countdown;
 
-    D_800266BC = 1;
+    wave_effect_update_flag = 1;
     if (position->z.w.i <
         (s16)sample_terrain_surface_height((u16)position->x.w.i, (u16)position->y.w.i,
                       (s16)(position->z.w.i + 2))) {
@@ -673,7 +675,7 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
     countdown = state->brightness - 8;
     state->brightness = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -769,11 +771,11 @@ void advance_record_counter(CountdownRecord *record)
     u16 counter;
 
     counter = record->counter;
-    D_800266BC = 1;
+    wave_effect_update_flag = 1;
     counter--;
     record->counter = counter;
     if ((counter << 16) <= 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -842,7 +844,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     source = *source_ptr;
     frame = ((S_80025398_0 *)effect)->unk_04.s;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;
-    D_800266BC = 1;
+    wave_effect_update_flag = 1;
 
     if (frame < peak_frame) {
         fade_in = (frame << 7) / peak_frame;
@@ -937,7 +939,7 @@ void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
 
     current = state->current;
     target = state->target;
-    D_800266BC = 1;
+    wave_effect_update_flag = 1;
 
     if (current < target) {
         intensity = (current * 0x60) / target;
@@ -1045,7 +1047,7 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     s32 one;
 
     origin = D_8002400C;
-    D_800266BC = 1;
+    wave_effect_update_flag = 1;
     ((S_818F9E48_0 *)state)->unk_98 += 0xC8;
 
     if (((S_818F9E48_0 *)state)->unk_02.s < 0x32) {
@@ -1433,7 +1435,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         out_pair.pair.b = packed_size;
         draw_textured_ellipse(colors, &out_pair.pair, 1, 0);
         state = self->state.u;
-        D_800266BC = 1;
+        wave_effect_update_flag = 1;
         self->state.u = state + 1;
     }
 
@@ -1598,7 +1600,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 position->unk_04.at02.v = target_pos->unk_04.at02.v;
                 position->unk_08.at02.v = target_pos->unk_08.at02.v
                 - entity_height_offsets[((ParentLink *)(parent->unk_60.p))->unk_13];
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 flash = allocate_flagged_object_node(0x212);
                 if (flash != 0) {
                     flash->unk_22 = 120;
@@ -1848,7 +1850,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if ((s16)(ticks + 1) < 31) {
             return;
         }
-        effect_active = D_800266BC;
+        effect_active = wave_effect_update_flag;
         self->timer = ticks;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
@@ -1856,7 +1858,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        D_800266BC = 0;
+        wave_effect_update_flag = 0;
         return;
     }
 

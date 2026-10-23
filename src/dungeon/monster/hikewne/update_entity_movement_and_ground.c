@@ -15,8 +15,8 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
-extern void D_801714D4(void);
-extern u8 D_801740E0[];
+extern void hikewne_action_resume_address(void);
+extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 extern Callback D_80174168[];
 
@@ -53,7 +53,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
 
     if (g_dungeon_status.flags & 0x2000) {
         pause_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (pause_callback == (Callback)D_801714D4) {
+        if (pause_callback == (Callback)hikewne_action_resume_address) {
             pause_callback(entity, motion, sprite, entity);
             return;
         }
@@ -140,7 +140,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                 }
             } else {
                 if (!(sprite->flags & 0x40)) {
-                    if (*(u8 **)&sprite->frameTable == D_801740E0) {
+                    if (*(u8 **)&sprite->frameTable == hikewne_direction_frames) {
                         if (*(u16 *)&sprite->unk_04 == 0x100) {
                             (*(u16 *)((u8 *)entity + (0x9E))) = 0;
                         }
@@ -159,8 +159,8 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                         bob_angle = signed_tick * 0xE3;
                         (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
-                            (sprite->frameTable) = D_801740E0;
-                            select_sprite_entry(sprite, D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle
+                            (sprite->frameTable) = hikewne_direction_frames;
+                            select_sprite_entry(sprite, hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + ((S_80170DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
                     }
@@ -207,7 +207,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
             }
         } else {
             if (!(sprite->flags & 0x40)) {
-                if (*(u8 **)&sprite->frameTable == D_801740E0) {
+                if (*(u8 **)&sprite->frameTable == hikewne_direction_frames) {
                     if (*(u16 *)&sprite->unk_04 == 0x100) {
                         (*(u16 *)((u8 *)entity + (0x9E))) = 0;
                     }
@@ -226,8 +226,8 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                     bob_angle = signed_tick * 0xE3;
                     (*(s32 *)((u8 *)entity + (0xA0))) = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
-                        (sprite->frameTable) = D_801740E0;
-                        select_sprite_entry(sprite, D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle
+                        (sprite->frameTable) = hikewne_direction_frames;
+                        select_sprite_entry(sprite, hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle
                             + ((S_80170DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
                 }

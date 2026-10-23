@@ -16,7 +16,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void func_801753DC(void *, void *);
 
-extern s32 D_80171FA4;
+extern s32 kewne_uncached_action_resume_address;
 extern u8 D_80175C48[];
 extern u8 D_80175C50[];
 extern u8 D_80175C58[];
@@ -213,7 +213,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
-        ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
+        ((S_80173408_0 *)jump)->unk_8C = &kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;

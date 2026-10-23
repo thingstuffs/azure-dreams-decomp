@@ -93,12 +93,12 @@ def main():
     ap.add_argument("--rewrite", action="store_true", help="with --data, rewrite and verify source references")
     ap.add_argument("--defer-verification", action="store_true", help="with --batch, stage explicitly unverified aliases for independent complete-TU before/after proof and final gates; data also requires --rewrite")
     ap.add_argument("--path-prefix", action="append", default=[], help="with --batch, restrict source/header rewrites to these relative paths; retain legacy aliases elsewhere")
-    ap.add_argument("--symbol-scope-map", type=Path, help="with function --batch, JSON proposal symbol -> relative rewrite paths, intersected with --path-prefix")
-    ap.add_argument("--scope-map", type=Path, help="explicit definition-bound source/header scopes for deferred function aliases")
+    ap.add_argument("--symbol-scope-map", type=Path, help="with --batch, JSON proposal symbol -> relative rewrite paths; data accepts new-name keys to distinguish reused addresses")
+    ap.add_argument("--scope-map", type=Path, help="explicit source/header scopes for deferred aliases; data keys may be new names")
     ap.add_argument("--reference-map", type=Path, help="explicit original-symbol reference sites for separately linked overlays")
     a = ap.parse_args()
-    if a.scope_map and (not a.batch or a.data or not a.defer_verification or not a.identity_map):
-        ap.error("--scope-map requires function --batch --defer-verification --identity-map and independent complete-TU proof")
+    if a.scope_map and (not a.batch or not a.defer_verification or (not a.data and not a.identity_map)):
+        ap.error("--scope-map requires --batch --defer-verification (functions also require --identity-map) and independent complete-TU proof")
     if a.scope_map and a.symbol_scope_map:
         ap.error("choose one scope map")
     if a.reference_map and (not a.batch or a.data):
@@ -107,8 +107,8 @@ def main():
         ap.error("choose one scope map")
     if a.path_prefix and not a.batch:
         ap.error("--path-prefix requires --batch")
-    if a.symbol_scope_map and (not a.batch or a.data):
-        ap.error("--symbol-scope-map requires a function --batch")
+    if a.symbol_scope_map and not a.batch:
+        ap.error("--symbol-scope-map requires --batch")
     if a.rewrite and not a.data:
         ap.error("--rewrite requires --data (function renames always rewrite)")
     if a.defer_verification and not (a.batch and (not a.data or a.rewrite)):

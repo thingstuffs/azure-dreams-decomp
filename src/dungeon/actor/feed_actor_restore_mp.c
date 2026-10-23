@@ -1,3 +1,5 @@
+#include "shared/actor_status_ids.h"
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/item_ids.h"
 
@@ -34,7 +36,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
 
     base_message = get_unused_text_buffer();
     message = base_message;
-    if ((get_entity_effect_value(state, 0x19) << 16) != 0) {
+    if ((get_entity_effect_value(state, STATUS_ANOREXIA) << 16) != 0) {
         clear_byte_and_advance(expand_text_control_codes(D_80089084,
                                     append_entity_display_text(state,
                                                   expand_text_control_codes(D_800E0CAE, base_message))));
@@ -96,7 +98,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     }
     state->unk24 = (u16)meter;
     if (((u8 *)state)[0x25] != 0) {
-        state->unk1C &= ~8;
+        state->unk1C &= ~ACTOR_MP_EMPTY;
     }
     if (state->unk66 < ((u8 *)state)[0x25]) {
         ((u8 *)state)[0x25] = state->unk66;

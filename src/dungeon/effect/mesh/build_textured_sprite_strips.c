@@ -1,3 +1,5 @@
+#include "shared/object_node_flags.h"
+#include "shared/audio_commands.h"
 /* Textured strip rendering, shaded particles, timed fades, and a traveling effect sequence. */
 #include "shared/object_node.h"
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
@@ -165,7 +167,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
     quad_words = 9;
     addr_mask = 0xFFFFFF;
     length_mask = 0xFF000000;
-    view_matrix = (S_func_81904990_8 *)D_8006CD10;
+    view_matrix = (S_func_81904990_8 *)effect_view_matrix;
     view_matrix->unk_1C = (s32) state_page->view.projection_distance;
     PushMatrix((s32) setup_arg, matrix_arg);
     {
@@ -677,7 +679,7 @@ void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
 
     object->timer -= 8;
     if (object->timer <= 0) {
-        ((ObjectNodeHeader *)object - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -806,7 +808,7 @@ void tick_effect_record(CountdownRecord *record)
     counter--;
     record->counter = counter;
     if ((counter << 16) <= 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
+        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1157,7 +1159,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
             if (owner->unk_60 != 0) {
                 effect->unk_0A.u16 = 3;
                 effect->unk_82.u16 = 0;
-                play_sound_if_enabled(0x300);
+                play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 {
                     S_func_81905FD0_6 *target = owner->unk_60;
                     kind_or_shade = target->unk_13;

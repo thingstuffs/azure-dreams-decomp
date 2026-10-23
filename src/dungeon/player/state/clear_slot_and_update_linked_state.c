@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -34,7 +36,7 @@ void clear_slot_and_update_linked_state(s32 *slot) {
         if ((u8 *)slot == held_item_record) {
             ActorRecord *state = dungeon_actor_ring_anchor;
             ((PlayerRecord *)state)->unk_124 = 0;
-            state->flags1C &= 0xFFEFFFFF;
+            state->flags1C &= ACTOR_CARRYING_CLEAR_MASK;
             return;
         }
         if ((u8 *)slot == temporary_item_record || slot == ((s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry)) {
@@ -42,7 +44,7 @@ void clear_slot_and_update_linked_state(s32 *slot) {
             *(s32 *)temporary_item_record = 0;
             record_index = get_bounded_stride_index(((s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry), ((u8 *)dungeon_ground_items), 4, 0x40);
             if (record_index >= 0) {
-                update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[record_index].first, dungeon_ground_item_positions[record_index].second, 0x800);
+                update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[record_index].first, dungeon_ground_item_positions[record_index].second, TILE_HAS_ITEM);
             }
             *(s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry = 0;
         }

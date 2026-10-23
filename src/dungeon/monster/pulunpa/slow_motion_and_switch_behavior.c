@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -22,8 +23,8 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170F20[];
-extern u8 D_80173B98[];
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
 extern u8 D_80176318[];
 extern u8 D_80176378[];
 
@@ -70,7 +71,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
             return;
         }
         state->unk_96.s =
-            (((EntityRec *)entity)->flags1C & 0x228) ? 8 : -1;
+            (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) ? 8 : -1;
                         /* fall through */
 
     case 1:
@@ -145,9 +146,9 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
         if (state->unk_A7 != 0) {
-            state->unk_8C = D_80173B98;
+            state->unk_8C = pulunpa_advance_actor_state_and_dispatch_address;
         } else {
-            state->unk_8C = D_80170F20;
+            state->unk_8C = pulunpa_action_resume_address;
         }
         return;
     }

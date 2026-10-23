@@ -38,7 +38,7 @@ u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 messa
             func_8007C040(D_80400548, D_80400570, 0x299);
             func_8007BEF0(1);
         }
-        func_80040560((s32)root, D_8040861C);
+        func_80040560((s32)root, card_status_query_address);
     } else {
         process_global(*(s32 *)0x80409534 != 2, root);
         D_80409526 &= 0x7FFF;

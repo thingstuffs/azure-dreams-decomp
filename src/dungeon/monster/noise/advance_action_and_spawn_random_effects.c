@@ -59,8 +59,8 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteF
     if (((s16) wait_tick != 4) && !(sprite->flags & 0x8000)) {
         return;
     }
-    (sprite->frameTable) = &D_80174EB8;
-    select_sprite_entry(sprite, D_80174EB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    (sprite->frameTable) = &noise_frame_set_1;
+    select_sprite_entry(sprite, noise_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
 
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_96 = 0U;
     ((T_80172FFC_S_80172FFC_0 *)action)->unk_9B = (u8) (((T_80172FFC_S_80172FFC_0 *)action)->unk_9B + 1);

@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 /* Movement path (G00371). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
 #include "dungeon/actor.h"
@@ -22,7 +23,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 
     if (g_dungeon_status.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
-        if (special_callback == (Callback)&D_800D8C64) {
+        if (special_callback == (Callback)&actor_action_resume_address) {
             special_callback(entity, motion, monster, entity);
             return;
         }
@@ -70,7 +71,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
             monster->flags &= 0xFFFE;
         }
 
-        if (!(actor->unk_1C & 0x20)) {
+        if (!(actor->unk_1C & ACTOR_PARALYZED)) {
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
@@ -132,21 +133,21 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
                                      (s16)(actor->unk_88.u16 - 0x20));
         if (floor_height < 0x200) {
             if (entity->unk_90.half.unk_92.s16 + actor->unk_88.s16 < floor_height) {
-                actor->unk_1C &= 0xF7FFFFFF;
+                actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
             } else if (floor_height >= actor->unk_88.s16) {
                 entity->unk_90.s32 = 0;
                 motion->unk_14 = 0;
-                actor->unk_1C |= 0x08000000;
+                actor->unk_1C |= ACTOR_GROUNDED;
                 entity->unk_9D = 0;
             } else {
                 motion->unk_14 = 0;
-                actor->unk_1C |= 0x08000000;
+                actor->unk_1C |= ACTOR_GROUNDED;
                 entity->unk_9D = 0;
                 entity->unk_90.half.unk_92.u16 = floor_height - actor->unk_88.u16;
             }
 
-            if (actor->unk_1C & 0x40000000) {
-                actor->unk_1C &= 0xBFFFFFFF;
+            if (actor->unk_1C & ACTOR_REFRESH_GROUND) {
+                actor->unk_1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
                 floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
                                              (monster->unk_25 << 6) | 0x20,
                                              (s16)(actor->unk_88.u16 - 0x20));
@@ -154,10 +155,10 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
                 actor->unk_88.u16 = floor_height;
             }
         } else {
-            actor->unk_1C &= 0xF7FFFFFF;
+            actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         }
     } else {
-        actor->unk_1C &= 0xF7FFFFFF;
+        actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
     motion->unk_0A =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
@@ -188,7 +189,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         }
     } else {
 
-        if (((u32)status->flags1C) & 0x200) {
+        if (((u32)status->flags1C) & ACTOR_ASLEEP) {
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == actor_action_frames) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
@@ -202,7 +203,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         }
 
         if (!(g_dungeon_status.flags & 0x2000)) {
-            if (((u32)status->flags1C) & 0x100) {
+            if (((u32)status->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(actor, motion, sprite, status);
                 return;
             }
@@ -228,7 +229,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 }
             }
 
-            if (((u32)status->flags1C) & 0x80000) {
+            if (((u32)status->flags1C) & ACTOR_LIFTED) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
                 motion->flags14 = 0;
@@ -253,7 +254,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
 
         if (status->pending_turn_updates > 0) {
-            if (((u32)status->flags1C) & 0x20) {
+            if (((u32)status->flags1C) & ACTOR_PARALYZED) {
                 update_actor_status_and_mp(status);
                 return;
             }
@@ -261,12 +262,12 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             return;
         }
 
-        if (!(((u32)status->flags1C) & 0x2000)) {
+        if (!(((u32)status->flags1C) & ACTOR_PLAYER_SIDE)) {
             s32 record_index = (s8)cell_record;
 
             if ((record_index < 0) ||
                 !(dungeon_rooms[record_index].flags & 2)) {
-                if (!(((u32)status->flags1C) & 0x430)) {
+                if (!(((u32)status->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                     if ((s16)test_neighbor_position_relation(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_25, reference_tile_object.tile_position.parts.tile_x,

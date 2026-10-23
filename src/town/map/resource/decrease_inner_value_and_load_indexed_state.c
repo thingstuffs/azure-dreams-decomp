@@ -15,8 +15,8 @@ typedef struct {
 } Func8008E36CArg;
 
 extern u8 D_8008BC58[];
-extern u8 D_800CFC70[];
-extern void* D_800CFC7C[];
+extern u8 town_map_state_ids[];
+extern void* town_map_state_values[];
 
 /* Decrease the inner value, clamping it to zero and loading indexed state if negative. */
 void decrease_inner_value_and_load_indexed_state(Func8008E36CArg* state) {
@@ -24,7 +24,7 @@ void decrease_inner_value_and_load_indexed_state(Func8008E36CArg* state) {
     if (state->inner->unkA < 0) {
         state->inner->unkA = 0;
         state->unk68 = D_8008BC58;
-        state->unk64 = (s8)D_800CFC70[state->index];
-        state->unk6C = D_800CFC7C[state->index];
+        state->unk64 = (s8)town_map_state_ids[state->index];
+        state->unk6C = town_map_state_values[state->index];
     }
 }

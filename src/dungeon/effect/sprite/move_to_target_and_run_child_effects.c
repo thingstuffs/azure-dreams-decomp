@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -280,7 +281,7 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
                 child_slot--;
             } while (index >= 0);
         }
-        play_sound_if_enabled(0x300);
+        play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
 
     case 3:

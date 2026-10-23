@@ -88,7 +88,7 @@ extern s32 D_80026F2C[];
 extern s32 D_80026F34;
 
 
-extern s32 D_80053858[4];
+extern s32 text_sprite_builder_address[4];
 extern s32 display_registration_tag;
 extern u8 scene_object_payload_alias[];
 typedef struct {
@@ -98,7 +98,7 @@ typedef struct {
     u8 pad[0x34B8];
     u8 state[0x20];
 } TownPage;
-extern s32 D_80097D2C[3];
+extern s32 town_position_callback_address[3];
 extern s32 D_800F9B40;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
@@ -134,7 +134,7 @@ void update_gym_minigame(u8 *state_obj) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFE00000;
-            *(void **)scene_object_payload_alias = D_80097D2C;
+            *(void **)scene_object_payload_alias = town_position_callback_address;
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
             ((S_80022F60_0 *)state_obj)->unk_08 = 0;
         }
@@ -236,7 +236,7 @@ loop_0:
                         sprite = (u8 *)obj + 0x20;
 
                         obj->unk_10 = loop_asset;
-                        register_node(obj, D_80053858);
+                        register_node(obj, text_sprite_builder_address);
                         ((S_80022F60_5 *)sprite)->unk_14 = 0xCC;
                         ((S_80022F60_5 *)sprite)->unk_18 = 3;
                         ((S_80022F60_5 *)sprite)->unk_16 = (s32)main_state;
@@ -277,7 +277,7 @@ loop_0:
                     ((S_80022F60_5 *)sprite)->unk_50 = 0x20;
                     ((S_80022F60_5 *)sprite)->unk_52 = 4;
                 }
-                apply_global_scene_value(D_800D0120);
+                apply_global_scene_value(counted_action_handler_table);
                 ((S_80022F60_0 *)state_obj)->unk_00.u++;
             }
         }
@@ -286,7 +286,7 @@ loop_0:
 
     case 4:
         if (reference_tile_object.sprite_flags & 0x6000) {
-            apply_global_scene_value(D_800D0128);
+            apply_global_scene_value(movement_action_handler_table);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
         break;
@@ -298,7 +298,7 @@ loop_0:
         angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = angle;
         if (angle == 0xC00) {
-            apply_global_scene_value(D_800D0138);
+            apply_global_scene_value(countdown_action_handler_table);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
     }
@@ -307,7 +307,7 @@ loop_0:
     case 6:
         if (reference_tile_object.sprite_flags & 0x6000) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
-            apply_global_scene_value(D_800D0120);
+            apply_global_scene_value(counted_action_handler_table);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
             ((S_80022F60_0 *)state_obj)->unk_00.u = 0x20;
         }
@@ -354,7 +354,7 @@ loop_0:
         }
         if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
-            apply_global_scene_value(D_800D0138);
+            apply_global_scene_value(countdown_action_handler_table);
             gym_lane_delay = 0;
             gym_lane = 1;
             view_reference_entity.velocity_x = 0;
@@ -429,7 +429,7 @@ loop_0:
                 sprite = (u8 *)obj + 0x20;
 
                 obj->unk_10 = D_80024070;
-                register_node(obj, D_80053858);
+                register_node(obj, text_sprite_builder_address);
                 first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
                 ((S_80022F60_5 *)sprite)->unk_14 = first;
                 second = ((S_80022F60_4 *)secondary)->unk_0E.u + 4;

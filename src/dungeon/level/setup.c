@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_ids.h"
 /* Dungeon entry state, floor setup, player initialization, and opening camera movement. */
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_dungeon_setup.h"
@@ -118,9 +120,9 @@ void reset_dungeon_runtime_state(void) {
     entity_resource_read_complete = 0;
     dungeon_floor_flags = 0;
     pickup_event_latch = 0;
-    D_800E3CCE = 0;
+    bounded_runtime_counter = 0;
     dungeon_event_pending_flag = 0;
-    sprite_resource_base = &D_8014A000;
+    sprite_resource_base = &dungeon_resource_buffer;
     player_turn_fraction = 0;
     reset_values = &player_turn_fraction;
     ((dungeon_setup_8028325C_S_8001625C_2 *)reset_values)->unk_04 = 0;
@@ -275,7 +277,7 @@ void initialize_dungeon_actor(void) {
 retry_position:
             do {
             } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
-            if (D_80012090 != 0 || test_resident_bit(0x1389) != 0) {
+            if (dungeon_mode_state != 0 || test_resident_bit(0x1389) != 0) {
                 call_target = actor;
                 break;
             }
@@ -367,7 +369,7 @@ retry_position:
     } while (entry_index >= 0);
     actor_direction_sprites = unequipped_actor_sprite_sources;
 
-    if ((get_entity_effect_value(entity, 0xA) << 16) != 0) {
+    if ((get_entity_effect_value(entity, STATUS_FROG) << 16) != 0) {
         (*(void **)((u8 *)state + 0x2C)) = actor_default_frames;
         select_record_entry_and_value(state,
             *(void **)((u8 *)actor_default_frames +
@@ -406,7 +408,7 @@ retry_position:
     delta_page = (u8 *)(((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2);
     delta_page = (u8 *)(((s32)delta_page) | (0x10));
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page;
-    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 |= 0x4000;
+    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 |= ACTOR_PARTY_MEMBER;
     bind_state = (u8 *)(0x8001020C);
     *(dungeon_setup_802835B8_Copy13 *)(entity + 0x34) = *(dungeon_setup_802835B8_Copy13 *)(u32)bind_state;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_42 = 0;

@@ -9,7 +9,7 @@ typedef void (*LandingParticleCallback)(u8 *, u8 *, u8 *);
 void register_node(void *, void *);
 s32 rand(void);
 s32 func_80167088(s32);
-extern u8 D_80045C34[];
+extern u8 clipped_sprite_renderer_address[];
 extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 
@@ -85,7 +85,7 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;
                     ((S_8016604C_4 *)((particle->position)))->unk_14 = 0x200000;
-                    register_node(particle, &D_80045C34);
+                    register_node(particle, &clipped_sprite_renderer_address);
                     sprite = (particle->sprite);
                     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
                     jitter_or_scale = 0x1000 / (s32) (func_80167088(5) + 6);

@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 /* Rotating linked particles and their travel toward an actor or terrain endpoint. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -104,7 +105,7 @@ void func_8002403C(void *target, s32 amount_input, void *owner) {
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->tpage_abr |= 0x20;
-        select_record_entry_and_value(sprite, &D_800DECF8, 0);
+        select_record_entry_and_value(sprite, &fading_sprite_entries, 0);
         return;
 
     case 3:
@@ -313,7 +314,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
                 - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
             ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at00.v
                 - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             ((Rec_func_800243B8_arg0 *)effect)->unk_0A += 1;
         } else {
             u16 path_x;

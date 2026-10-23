@@ -39,7 +39,7 @@ extern s32 D_800D0420[];
 
 extern s32 D_80090A6C;
 extern s32 D_80092698;
-extern s32 D_800927EC;
+extern s32 tracked_actor_callback_address;
 extern s32 D_80092A84;
 extern s32 D_80092CD4;
 extern s32 D_80092DA8;
@@ -100,7 +100,7 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
     } else if (current_state == (s32)&D_80093638) {
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
-        if (!(current_state == (s32)&D_80092698 || current_state == (s32)&D_800927EC ||
+        if (!(current_state == (s32)&D_80092698 || current_state == (s32)&tracked_actor_callback_address ||
               current_state == (s32)&D_80092A84 || current_state == (s32)&D_80092FF0 ||
               current_state == (s32)&D_80092CD4 || current_state == (s32)&D_80092DA8 ||
               current_state == (s32)&D_80092ECC || current_state == (s32)&D_800933FC ||

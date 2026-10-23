@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -134,9 +135,9 @@ void mark_owned_linked_actor_actions();
 s32 display_text_with_fullwidth_adjustment();
 
 void *create_orbiting_teleport_effect();
-extern s32 D_800814A0;
+extern s32 object_flag_block;
 extern s16 pending_marked_actor_count;
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern u8 D_800E0C34[36];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
@@ -217,7 +218,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
             state4_event = actor;
             event_mode = 2;
             create_orbiting_teleport_effect(state4_event,
-                D_800DCED4[event_index],
+                actor_event_values[event_index],
                 (s32)state4_event
                     == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x)))->unk_AC,
                     event_mode);
@@ -298,7 +299,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         } else {
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 2);
         }
-        if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
+        if ((get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
             effect_x = visual->unk_24;
             effect_y = visual->unk_25;
@@ -316,7 +317,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         }
         unlink_entity_node(actor);
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
-        ((S_800AB778_10 *)(&D_800814A0))->unk_00 |= 0x8000;
+        ((S_800AB778_10 *)(&object_flag_block))->unk_00 |= 0x8000;
         state4_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state4_owner = ((s32)g_dungeon_status.active_actor);
         state4_count--;
@@ -337,7 +338,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         mark_owned_linked_actor_actions(actor);
         actor_type = ((Rec_D_80082E80 *)actor)->unk_43;
         ((Rec_D_80082E80 *)actor)->unk_44 = 0;
-        if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
             ((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v = ((Rec_D_80082E80 *)actor)->unk_A8;
         }
         template_base = 0x80010A80;
@@ -362,7 +363,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         globals16 = globals_page16->unk_3D7C;
         *object_slot16 = NULL;
         clear_slot_and_update_linked_state(globals16->unk_110);
-        if ((get_entity_effect_value(actor, 0x1B) << 0x10) == 0) {
+        if ((get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
             effect_x = visual->unk_24;
             effect_y = visual->unk_25;
@@ -379,7 +380,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);
-        update_flags = (s32 *)&D_800814A0;
+        update_flags = (s32 *)&object_flag_block;
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
         state16_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);

@@ -32,7 +32,7 @@ extern s32 has_runtime_key_pair(s32, s32);
 extern GridInfo scene_geometry[];
 
 extern s16 tile_key_pair_count[5];
-extern S_80081508 *D_80081508[3];
+extern S_80081508 *tile_coordinate_records[3];
 
 /* Functions defined in this translation unit. */
 void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell);

@@ -6,7 +6,7 @@ typedef struct {
 } Unknown;
 
 extern void clear_entity_record_fields(void *);
-extern signed char D_80082668;
+extern signed char town_action_reset_byte;
 extern int D_80098764;
 extern int D_800D01B8[];
 
@@ -15,7 +15,7 @@ void initialize_object_from_motion_data(void *object, void *initializationData, 
     unsigned short secondaryValue;
 
     call_the_handler_selects_nonzero_entry((s32 *) D_800D01B8, object, ptr2);
-    D_80082668 = 0;
+    town_action_reset_byte = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);
     secondaryValue = *(unsigned short *)((unsigned char *)initializationData + 6);

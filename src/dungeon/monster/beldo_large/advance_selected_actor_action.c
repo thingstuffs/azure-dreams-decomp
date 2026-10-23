@@ -1,3 +1,5 @@
+#include "shared/audio_commands.h"
+#include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -38,11 +40,11 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 
-extern u8 D_8016A36C[];
-extern u8 D_801739A0[];
-extern u8 D_801739A8[];
-extern u8 D_801739B0[];
-extern u8 D_801739B8[];
+extern u8 beldo_large_action_resume_address[];
+extern u8 beldo_large_frame_set_2[];
+extern u8 beldo_large_frame_set_5[];
+extern u8 beldo_large_frame_set_1[];
+extern u8 beldo_large_frame_set_3[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
 /* Starts Beldo's targeted spell with an eight-tick casting wait, then restores the current form's idle
@@ -67,7 +69,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
 
     switch (action_state) {
     case 0:
-        if (((u32)actor->flags1C) & 0x2000) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             flagged_action = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (flagged_action) {
             case 7:
@@ -159,7 +161,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
+        ((S_8016C190_0 *)action)->unk_8C = beldo_large_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -201,7 +203,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         switch (((S_8016C190_0 *)action)->unk_AC) {
         case 0:
             current_table = sprite->frameTable;
-            direction_table = D_801739A0;
+            direction_table = beldo_large_frame_set_2;
             if ((u8 *)current_table != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
@@ -209,7 +211,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             break;
         case 1:
             current_table = sprite->frameTable;
-            direction_table = D_801739A8;
+            direction_table = beldo_large_frame_set_5;
             if ((u8 *)current_table != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
@@ -217,7 +219,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             break;
         case 2:
             current_table = sprite->frameTable;
-            direction_table = D_801739B0;
+            direction_table = beldo_large_frame_set_1;
             if ((u8 *)current_table != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
@@ -225,7 +227,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             break;
         case 3:
             current_table = sprite->frameTable;
-            direction_table = D_801739B8;
+            direction_table = beldo_large_frame_set_3;
             if ((u8 *)current_table != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
@@ -240,13 +242,13 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             return;
         }
         ((S_8016C190_5 *)action_control)->unk_0A--;
-        ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
+        ((S_8016C190_0 *)action)->unk_8C = beldo_large_action_resume_address;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        play_sound_if_enabled(0xB4);
+        play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
 
     default:

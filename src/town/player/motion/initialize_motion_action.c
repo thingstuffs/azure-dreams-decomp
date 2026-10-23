@@ -13,6 +13,6 @@ void initialize_motion_action(Rec_func_80094268_arg0 *entity, s32 motion, s32 va
     entity->unk_3E.as_s16 = 6;
     store_the_valid_shared_angle_in_offset_hex_10(entity);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(motion);
-    call_the_handler_selects_nonzero_entry(D_800D0090, entity, (void *)(value));
+    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, (void *)(value));
     entity->unk_00.as_pm = &D_80091260;
 }

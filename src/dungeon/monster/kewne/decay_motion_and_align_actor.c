@@ -11,7 +11,7 @@
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
-extern s32 D_801710EC[];
+extern s32 kewne_action_resume_address[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */
@@ -111,7 +111,7 @@ void decay_motion_and_align_actor(void *action, void *motion, void *actor, void 
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)source - 0x20)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        FIELD_PTR(action, 0x8C) = D_801710EC;
+        FIELD_PTR(action, 0x8C) = kewne_action_resume_address;
         return;
 
     default:

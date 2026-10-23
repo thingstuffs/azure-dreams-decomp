@@ -41,7 +41,7 @@ typedef struct State {
     u8 timer;
 } State;
 
-extern u8 D_800C3174[];
+extern u8 message_motion_type_a[];
 extern ObjectBlock *ms_mot_accpt_ow(s32 entry_index);
 extern void wait_message_entry_ready(void);
 extern void wait_message_motion_accept(void);
@@ -85,8 +85,8 @@ void handle_vm_opcode_15(State *state)
             entry->aux_value = aux->value_48;
 
             if (entry_index == 1 &&
-                (object_type = object_header->type) != (void *)D_800C3174 &&
-                object_type != (void *)D_800C321C) {
+                (object_type = object_header->type) != (void *)message_motion_type_a &&
+                object_type != (void *)message_motion_type_b) {
                 *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
                 *(s16 *)((u8 *)object + 0x38) = aux->value_50;
                 return;

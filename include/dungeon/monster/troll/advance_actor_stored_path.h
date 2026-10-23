@@ -268,7 +268,7 @@ extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 extern void setup_object_within_planar_range(void *, s32, s32, s16, s32, s32);
 extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
-extern s32 D_80175DC4;
+extern s32 troll_stored_path_frames;
 extern s32 D_80175DCC;
 extern s32 D_80175DD4;
 extern s16 actor_turn_angle_offsets[];

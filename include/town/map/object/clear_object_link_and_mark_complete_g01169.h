@@ -40,7 +40,7 @@ extern void unlink_scene_list_node(void *node);
 extern void unlink_node_if_registered(void *object);
 extern void register_node(s32, void *);
 extern void configure_the_set_mode_n_3(s32, void *, void *);
-extern u8 D_80046398[];
+extern u8 lit_mesh_renderer_address[];
 extern u8 D_800D1BDC[];
 extern u8 D_800BB640[];
 extern u8 D_800BB6C4[];

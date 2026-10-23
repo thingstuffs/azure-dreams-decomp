@@ -24,7 +24,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern u8 D_80170EA8;
+extern u8 killer_action_resume_address;
 extern u8 D_80174060[];
 
 /* Advances a timed directional animation and updates the actor when it completes. */
@@ -59,7 +59,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, Sprit
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->unk_24, animation->unk_25);
             spend_actor_mp(actor, 0x100);
-            ((S_801727EC_0 *)action_state)->unk_8C = &D_80170EA8;
+            ((S_801727EC_0 *)action_state)->unk_8C = &killer_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

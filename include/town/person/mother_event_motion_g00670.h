@@ -23,7 +23,7 @@ extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void 
 extern void install_stored_value_handler(void *object, void *position, s32 update_arg);
 extern void func_800C7C3C(void *object, void *position, s32 update_arg);
 extern void clear_mother_event_record_field(void *object, void *position, s32 update_arg);
-extern u8 D_800CFCB4[];
+extern u8 town_actor_control[];
 extern s32 select_object_setup_path(s32, s32, s32, s32);
 extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern u8 D_800C7604[];

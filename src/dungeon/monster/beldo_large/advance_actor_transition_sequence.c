@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -51,12 +52,12 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void func_80164BA4(void *);
 
-extern u8 D_8016A36C[];
-extern u8 D_801739B8[];
+extern u8 beldo_large_action_resume_address[];
+extern u8 beldo_large_frame_set_3[];
 extern u8 D_80173A40[];
 extern u8 D_80175392[];
 extern u8 D_80175DC0;
-extern u8 D_80175DC1;
+extern u8 encounter_recovery_flag;
 
 /* Advances the actor sequence, then resets its state and updates world objects. */
 void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
@@ -84,12 +85,12 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         ((S_8016BE20_1 *)work)->unk_0C = 0;
         ((S_8016BE20_0 *)state)->unk_96.s = 0;
         ((S_8016BE20_0 *)state)->unk_9B.n++;
-        D_80175DC1 = 0;
+        encounter_recovery_flag = 0;
         return;
 
     case 1:
     {
-        if (D_80175DC1 == 0) {
+        if (encounter_recovery_flag == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             (actor->frameTable) = D_80173A40;
@@ -102,7 +103,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             }
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            play_sound_if_enabled(0x300);
+            play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             (actor->frameTable) = D_80173A40;
             select_sprite_entry(actor,
                 D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
@@ -129,14 +130,14 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         if (!(actor->flags & 0xE000)) {
             return;
         }
-        anim_table = D_801739B8;
+        anim_table = beldo_large_frame_set_3;
         if (*(u8 **)&actor->frameTable != anim_table) {
             (actor->frameTable) = anim_table;
             select_sprite_entry(actor,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
-        if (D_80175DC1 != 0) {
+        if (encounter_recovery_flag != 0) {
             state_index = ((S_8016BE20_0 *)state)->unk_9B.v;
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n = state_index + 1;
@@ -160,7 +161,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         if (((S_8016BE20_4 *)world)->unk_28 < 2) {
             if (((S_8016BE20_2 *)ctx)->unk_60 == world) {
                 setup_data = D_80175392;
-                ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
+                ((S_8016BE20_0 *)state)->unk_8C = beldo_large_action_resume_address;
                 control_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
                 g_dungeon_status.active_actor = 0;
                 control_count++;
@@ -184,7 +185,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
                 return;
             }
         }
-        ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
+        ((S_8016BE20_0 *)state)->unk_8C = beldo_large_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(ctx);
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;

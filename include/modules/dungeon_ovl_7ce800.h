@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
-extern void *D_800FBE1C;
+extern void *active_action_object;
 typedef union { u8 first; s8 bytes[9]; } DungeonFlagBuffer9;
 extern DungeonFlagBuffer9 scripted_boundary_active;
 void select_record_entry_and_value(void *,void *,s32);

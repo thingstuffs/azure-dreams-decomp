@@ -1,3 +1,4 @@
+#include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
@@ -79,7 +80,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
         record_slot = source_table + record_index;
         source_record = *record_slot;
     }
-    if ((get_entity_effect_value(source_record, 0xA) << 0x10) != 0) {
+    if ((get_entity_effect_value(source_record, STATUS_FROG) << 0x10) != 0) {
         source_record->unk_13 = (u8) source_record->unk_A8;
     }
     record_storage = &familiar_record_storage[((((record_index * 8) + record_index) * 4) - record_index) * 4];

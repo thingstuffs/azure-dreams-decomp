@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "dungeon/player.h"
 #include "dungeon/system.h"
@@ -43,7 +44,7 @@ void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *enti
     {
         u8 *direction_table;
 
-        if (entity->flags1C & 0x100000) {
+        if (entity->flags1C & ACTOR_CARRYING) {
 
             direction_table = (u8 *)&player_carry_frames;
         } else {

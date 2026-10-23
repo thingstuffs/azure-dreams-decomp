@@ -88,7 +88,7 @@ extern UnalignedCopy3 D_80013710;
 extern M2C_UNK D_80021268;
 extern u16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s16 D_800DCED4[];
+extern s16 actor_event_values[];
 extern s32 D_800DCF64;
 extern u8 dungeon_button_latch;
 extern s32 dungeon_menu_action_state[];
@@ -112,7 +112,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         slot_index = 1;
         state->actor.unk_96 = 0U;
         create_map_position_object((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
-        type_values = &D_800DCED4;
+        type_values = &actor_event_values;
         slot_cursor = (s32 *)state + 1;
         actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
         do {

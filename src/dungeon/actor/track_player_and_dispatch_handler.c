@@ -39,7 +39,7 @@ extern s32 D_800D0420[];
 
 extern s32 D_80090A6C;
 extern s32 D_80092698;
-extern s32 D_800927EC;
+extern s32 tracked_actor_callback_address;
 extern s32 D_80092A84;
 extern s32 D_80092CD4;
 extern s32 D_80092DA8;
@@ -113,7 +113,7 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&D_80093638) {
             unlink_and_remove_scene_object(context, owner, adjusted_pos, dispatch_param);
-        } else if (!(current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
+        } else if (!(current == (s32)&D_80092698 || current == (s32)&tracked_actor_callback_address ||
             current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
             current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||
             current == (s32)&D_80092ECC || current == (s32)&D_800933FC ||

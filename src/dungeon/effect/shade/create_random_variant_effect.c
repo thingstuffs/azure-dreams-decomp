@@ -15,7 +15,7 @@ typedef struct {
 
 #define MULT_HI(a, b) (0)
 
-extern s32 D_80045C34[3];
+extern s32 clipped_sprite_renderer_address[3];
 s32 register_node();
 s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
@@ -79,7 +79,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         scale = 0x1400 / (s16)state->unk_14;
         render_data->scale_y = scale;
         render_data->scale_x = scale;
-        register_node(object, D_80045C34);
+        register_node(object, clipped_sprite_renderer_address);
         object_data = object->position;
         *(Copy24 *)object_data = *(Copy24 *)source_data;
         return (s32)object;

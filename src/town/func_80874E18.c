@@ -17,10 +17,10 @@ typedef struct {
 
 extern InputTable devkit_globals_page;
 extern s16 D_80700BB2[];
-extern State *D_80701968[3];
+extern State *devkit_state_slots[3];
 extern CallbackOwner *D_80701984[4];
 
-#define STATE_ROOT D_80701968[0]
+#define STATE_ROOT devkit_state_slots[0]
 
 extern s32 func_80700D84(void);
 extern s32 func_80701060(s32 *word, s32 old_value);

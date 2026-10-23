@@ -4,11 +4,11 @@
 
 typedef void (*TownCallback)(s32, s32, s32, s32);
 
-extern void *D_8001B16C[4];
-extern char D_8001B14C[];
+extern void *scene_event_results[4];
+extern char scene_string_fallback[];
 extern char D_8001B9E0[];
 extern char D_80020E44[];
-extern char D_8001C6D0[];
+extern char event_string_fallback[];
 
 extern char *select_address_based_input(long long);
 extern char *get_local_global_table(void);
@@ -25,7 +25,7 @@ char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
     case 7:
     {
         char *text = select_address_based_input(lookup);
-        D_8001B16C[0] = text;
+        scene_event_results[0] = text;
         if (text != 0) {
             return text;
         }
@@ -34,7 +34,7 @@ char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
     case 6:
     {
         char *text = get_local_global_table();
-        D_8001B16C[0] = text;
+        scene_event_results[0] = text;
         if (text != 0) {
             return text;
         }
@@ -50,8 +50,8 @@ char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
     case 42:
         return award_next_unearned_milestone(text_selector);
     case 0:
-        return D_8001C6D0;
+        return event_string_fallback;
     default:
-        return D_8001B14C;
+        return scene_string_fallback;
     }
 }

@@ -187,7 +187,7 @@ typedef struct S_800B0BE0_5 {
     s8 unk_00;
 } S_800B0BE0_5;
 
-extern GlobalSlot D_80083160[];
+extern GlobalSlot g_game_work[];
 extern s32 swap_int_values();
 extern s32 multiply_rgb_tint_saturated();
 extern void *emit_gpu_packets();
