@@ -192,7 +192,7 @@ int real(void) {
             root = Path(tmp)
             (root / 'src').mkdir()
             (root / 'src/bad.c').write_text('void broken(void) {')
-            self.assertEqual(score.main(['--root', str(root), '--out', 'out', '--workers', '1']), 1)
+            self.assertEqual(score.main(['--schema', 'v1', '--root', str(root), '--out', 'out', '--workers', '1']), 1)
 
 
 if __name__ == '__main__':

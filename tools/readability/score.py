@@ -612,7 +612,7 @@ def render_docs(revision, sources, functions, edges, unresolved):
     rows.append('\n## Reproduce and limitations\n\n'
                 'Run from the repository root (Python 3 standard library only):\n\n```sh\n'
                 'nice -n 10 python3 -m unittest discover -s tools/readability -p "test_*.py"\n'
-                f'nice -n 10 python3 tools/readability/score.py --root . --revision {revision} '
+                f'nice -n 10 python3 tools/readability/score.py --schema v1 --root . --revision {revision} '
                 '--out out/readability --docs docs/READABILITY.md\n```\n\n'
                 'The CLI uses at most four workers (override with `--workers 1` for serial use). Outputs have stable ordering and contain no timestamps or absolute paths. The source '
                 'digest hashes sorted relative paths and file hashes; metadata and coverage make the '
@@ -628,8 +628,9 @@ def render_docs(revision, sources, functions, edges, unresolved):
     return '\n'.join(rows)
 
 
-def main(argv=None):
+def main_v1(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--schema', choices=('v1',), default='v1')
     parser.add_argument('--root', type=Path, default=Path('.'))
     parser.add_argument('--out', type=Path, default=Path('out/readability'))
     parser.add_argument('--workers', type=int, choices=range(1, 5), default=4)
@@ -650,6 +651,18 @@ def main(argv=None):
           f'{sum(f.metrics["score"] for f in functions)} weighted debt; '
           f'{sum(len(s.warnings) for s in sources)} delimiter warnings')
     return 1 if any(s.warnings for s in sources) else 0
+
+
+def main(argv=None):
+    """Keep v1's implementation/output frozen; v2 owns the extended census."""
+    selector = argparse.ArgumentParser(add_help=False)
+    selector.add_argument('--schema', choices=('v1', 'v2'), default='v2')
+    selected, _ = selector.parse_known_args(argv)
+    if selected.schema == 'v1':
+        return main_v1(argv)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import v2
+    return v2.main(argv)
 
 
 if __name__ == '__main__':

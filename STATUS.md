@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-23T09:55:32Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-23T10:21:43Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
