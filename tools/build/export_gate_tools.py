@@ -30,6 +30,9 @@ def inputs(root):
     # Keep the source tree free of a second copy or a symlink in tools/gate.
     if (root/'tools/build/name_inputs.py').is_file():
         wanted[Path('tools/name_inputs.py')] = root/'tools/build/name_inputs.py'
+    for name in ('cc.sh', 'ccproc.py', 'as.sh', 'compile_slots.py'):
+        if (root/'tools/build'/name).is_file():
+            wanted[Path('tools')/name] = root/'tools/build'/name
     if (root/'tools/learnings').is_dir():
         collect(root/'tools/learnings', Path('tools/learnings'))
     for name in ('aspsx_diff.py', 'objread.py', 'certify_overlay_module.py'):

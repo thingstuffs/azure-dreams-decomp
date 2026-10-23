@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT))
 from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
-from tools.build import content_cache, compile_tools, name_inputs
+from tools.build import content_cache, compile_tools, name_inputs, object_cache
 from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache
 
 STATE = ROOT / 'build/.state'
@@ -85,7 +85,8 @@ def read(path):
 
 def run(argv, **kw):
     result = subprocess.run(list(map(str, argv)), cwd=kw.pop('cwd', ROOT),
-                            capture_output=True, text=True, **kw)
+                            capture_output=True, text=True,
+                            pass_fds=tuple([int(os.environ['AZURE_COMPILE_SLOT_FD'])]) if os.environ.get('AZURE_COMPILE_SLOT_FD') else (), **kw)
     if result.returncode:
         raise ValueError(shlex.join(map(str, argv)) + '\n' + result.stderr[-5000:])
     return result.stdout
@@ -125,7 +126,8 @@ def configure_links(views=True):
 
 
 def configure_environment():
-    return {k:v for k,v in os.environ.items() if k.startswith(('AZURE_', 'MASPSX_')) or k in ('RAW', 'EXP', 'SRCROOT')}
+    return {k:v for k,v in os.environ.items() if ((k.startswith(('AZURE_', 'MASPSX_')) and not k.startswith(('AZURE_OBJECT_', 'AZURE_COMPILE_')))
+                                               or k in ('RAW', 'EXP', 'SRCROOT'))}
 
 
 def bootstrap_source_inputs():
@@ -365,20 +367,29 @@ def name_trace(path, config_tables=()):
 
 
 def slus_compile_one(path):
+    object_cache.compile_recipe(ROOT, path, lambda: slus_compile_uncached(path))
+
+
+def slus_compile_uncached(path):
     spec = read(path)
     (ROOT/spec['output']).parent.mkdir(parents=True, exist_ok=True)
-    with name_trace(ROOT/spec['name_input'], spec['config_tables'].values()) as trace:
-        env = dict(os.environ, CCPROC_NAMES_TRACE=trace)
-        for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
-            env.pop(key, None)
-        env.update({k: str(ROOT/v) for k, v in spec['config_tables'].items()})
+    env = dict(os.environ)
+    for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
+        env.pop(key, None)
+    env.update({k: str(ROOT/v) for k, v in spec.get('config_tables', {}).items()})
+    if spec.get('name_input'):
+        with name_trace(ROOT/spec['name_input'], spec['config_tables'].values()) as trace:
+            env.update({key: os.environ[key] for key in ('CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES')})
+            env['CCPROC_NAMES_TRACE'] = trace
+            run(['bash', '-c', spec['command']], cwd=ROOT/'build_slus', env=env)
+    else:
         run(['bash', '-c', spec['command']], cwd=ROOT/'build_slus', env=env)
     target = ROOT/spec['output']
     target.touch()  # Acknowledge the witness published by this compile.
     put(target.with_suffix('.proof.json'), dict(object_sha256=sha(target.read_bytes()),
         recipe_sha256=sha(Path(path).read_bytes()), inputs=hash_inputs(spec['dependencies']),
         compiler_imports=compiler_imports()))
-    print('CC', spec['output'], flush=True)
+    print('CC' if spec.get('name_input') else 'AS', spec['output'], flush=True)
 
 
 def slus_rules(headers):
@@ -442,6 +453,12 @@ def slus_rules(headers):
                                  output=targets[0], dependencies=sorted(set(deps))))
             deps.append(rel(recipe_path))
             output.append(rule(targets, deps,
+                               f'python3 tools/build/mkbuild.py slus_compile {rel(recipe_path)}'))
+            continue
+        if edge['rule'] == 'as':
+            recipe_path = ROOT/'build/.state/slus-recipes'/(sha(targets[0].encode())[:24]+'.json')
+            put(recipe_path, dict(command=edge['command'], output=targets[0], dependencies=sorted(set(deps))))
+            output.append(rule(targets, deps + [rel(recipe_path)],
                                f'python3 tools/build/mkbuild.py slus_compile {rel(recipe_path)}'))
             continue
         clean_env = 'env -u AZURE_MASPSX -u AZURE_MASPSX_COMPANION -u MASPSX_NORETURN_FILE -u MASPSX_SIBCALL_FILE '
@@ -583,11 +600,14 @@ def build_native(spec, target):
     # Keep the SDK's short DOS paths and every temporary file in this checkout.
     proxy = types.SimpleNamespace(TemporaryDirectory=lambda **kw: tempfile.TemporaryDirectory(prefix='g', dir=STATE/'tmp'))
     old_m, old_z = M.tempfile, M.Z.tempfile
+    old_gate_tool = M.gate_tool
+    M.gate_tool = lambda root, name: Path(root)/'tools/build/ccproc.py' if name == 'ccproc.py' else old_gate_tool(root, name)
     M.tempfile = M.Z.tempfile = proxy
     try:
         receipt, _ = M.build(spec['module'], STATE/'native'/spec['module']['key'], ROOT, artifact_only=True)
     finally:
         M.tempfile, M.Z.tempfile = old_m, old_z
+        M.gate_tool = old_gate_tool
     if receipt['genuine']['result'] != 'MATCH':
         raise ValueError('canonical genuine ASPSX comparison failed')
     shutil.copyfile(STATE/'native'/spec['module']['key']/'module.o', target)
@@ -1120,7 +1140,7 @@ def _generate():
     index['slus_recipes'] = sorted(slus_recipes)
     index['name_inputs'] = sorted({s['name_input'] for s in images.values()} |
         {s['name_input'] for s in recipes.values() if s.get('name_input')} |
-        {read(ROOT/n)['name_input'] for n in slus_recipes})
+        {read(ROOT/n)['name_input'] for n in slus_recipes if read(ROOT/n).get('name_input')})
     # Publish the completed index once. An intermediate index would rewrite
     # identical final bytes on every full enumeration.
     source_deps = []
@@ -1173,7 +1193,23 @@ def compiler_imports():
     return sorted(actual)
 
 
+def project_compile_source(spec):
+    if spec.get('projection'):
+        # Re-derive the projected unit from the current owner TU (fails closed on a stale inline ledger).
+        sys.path.insert(0, str(ROOT/'tools'))
+        from gate.source_layout import member_projection
+        unit = member_projection(spec['projection']['home'], ROOT)
+        if unit is None:
+            raise ValueError('member projection vanished; run make configure: ' + spec['projection']['home'])
+        write(ROOT/spec['source'], unit)
+
+
 def compile_one(path):
+    project_compile_source(read(path))
+    object_cache.compile_recipe(ROOT, path, lambda: compile_uncached(path))
+
+
+def compile_uncached(path):
     spec = read(path)
     target = ROOT/spec['output']
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -1184,14 +1220,6 @@ def compile_one(path):
         env.pop(key, None)
     env.update({k: str(ROOT/v) for k, v in spec['env'].items()})
     temporary = target.with_suffix('.tmp.o')
-    if spec.get('projection'):
-        # Re-derive the projected unit from the current owner TU (fails closed on a stale inline ledger).
-        sys.path.insert(0, str(ROOT/'tools'))
-        from gate.source_layout import member_projection
-        unit = member_projection(spec['projection']['home'], ROOT)
-        if unit is None:
-            raise ValueError('member projection vanished; run make configure: ' + spec['projection']['home'])
-        write(ROOT/spec['source'], unit)
     if spec.get('live') is not None:
         text = (ROOT/spec['source']).read_text()
         if 'module' in spec:
@@ -1500,7 +1528,7 @@ def module_allocations_for_check(m):
     return m.get('allocations') or [dict(foff=min(a['foff'] for a in m.get('data_members', [])+m['members']))]
 
 
-def check():
+def check(scope=None):
     index = read(STATE/'index.json')
     graph = Graph(ROOT/'config/link_graph')
     if 'graph_attestation_sha256' in index:
@@ -1523,7 +1551,7 @@ def check():
     current_names = name_inputs.table(ROOT/'config/names.tsv')
     for name in index.get('name_inputs', ()):
         name_inputs.verify(ROOT/name, current_names, ROOT)
-    for name in index.get('slus_recipes', ()):
+    for name in index.get('slus_recipes', ()) if scope is None or 'slus/slus_bin' in scope else ():
         spec_path = ROOT/name
         recipe = read(spec_path)
         obj = ROOT/recipe['output']
@@ -1556,9 +1584,13 @@ def check():
             raise ValueError('build index output path differs from graph identity')
         if (spec['file'], spec['start'], spec['size']) != (family, number(start), number(doc['size'])):
             raise ValueError('build index image extent differs from graph')
+    if scope is not None and not set(scope) <= {s['image'] for s in index['images']}:
+        raise ValueError('unknown scoped image')
     results, consumed, checked_rows = [], set(), {}
     proof_cache = {}
     for spec in index['images']:
+        if scope is not None and spec['image'] not in scope:
+            continue
         actual_path = ROOT/spec['output']
         actual = actual_path.read_bytes() if actual_path.exists() else b''
         expected = blobs[spec['file']][spec['start']:spec['start']+spec['size']]
@@ -1599,9 +1631,9 @@ def check():
             for row in rows:
                 checked_rows.setdefault(row, []).append(spec['image'])
         results.append(result)
-    if 'overlay_recipes' in index and len(consumed) != index['overlay_recipes']:
+    if scope is None and 'overlay_recipes' in index and len(consumed) != index['overlay_recipes']:
         raise ValueError('compiled recipes outside checked image scope')
-    if 'graph_attestation_sha256' in index:
+    if scope is None and 'graph_attestation_sha256' in index:
         expected_rows = {r['id'] for r in registry.values() if r['kind']=='overlay'}
         represented = {rid for r in results for rid in r['rows']}
         if expected_rows - represented:
@@ -1609,14 +1641,15 @@ def check():
     if inputs_before != hash_inputs(inputs_before):
         raise ValueError('inputs changed during make check')
     matched = sum(r['result']=='MATCH' for r in results)
-    put(ROOT/'build/check.json', dict(schema='azure-clean.make-check.v2', images=len(results), matched=matched,
+    put(ROOT/('build/check.json' if scope is None else 'build/scope-check.json'), dict(schema='azure-clean.make-check.v2', images=len(results), matched=matched,
         results=results, rows=checked_rows, overlay_recipes_checked=len(consumed),
         graph_attestation_sha256=index.get('graph_attestation_sha256'), assembler=index.get('assembler'),
         inputs=inputs_before, outputs={r['output']:sha((ROOT/r['output']).read_bytes()) for r in results if (ROOT/r['output']).exists()}))
     failures = [r['image'] for r in results if r['result'] != 'MATCH']
     if failures:
         raise ValueError('retail mismatch: ' + ', '.join(failures))
-    print(f'CHECK {matched}/{len(results)} images SHA-1 MATCH (including SLUS EXE); {len(consumed)} overlay recipes checked')
+    executable = ' (including SLUS EXE)' if scope is None or 'slus/slus_bin' in scope else ''
+    print(f'{"CHECK" if scope is None else "SCOPE"} {matched}/{len(results)} images SHA-1 MATCH{executable}; {len(consumed)} overlay recipes checked')
 
 
 def main():

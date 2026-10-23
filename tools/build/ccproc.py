@@ -46,6 +46,14 @@ _rename = table(NAMES_TSV)
 # linker scripts, the per-row scorer and the SLUS link all work on exactly the pre-rename
 # symbols and the bytes cannot move.  String data (.ascii/.asciz) is left alone.
 _lines = sys.stdin.readlines()
+# GCC records absolute checkout names in .file and its option comments. Those
+# are metadata, but they also enter the name vocabulary. Use checkout-relative
+# spellings so identical compiles in independent roots have identical objects
+# and witnesses. Literal program strings remain opaque.
+_metadata_root = os.environ.get('CCPROC_CONFIG_ROOT') or os.path.dirname(os.path.dirname(os.path.realpath(NAMES_TSV)))
+_metadata_prefix = os.path.abspath(_metadata_root).rstrip(os.sep) + os.sep
+_lines = [line.replace(_metadata_prefix, '') if re.match(r'\s*(?:\.file(?:\s|$)|#)', line)
+          else line for line in _lines]
 if os.environ.get('CCPROC_NAMES_TRACE'):
     paths = json.loads(os.environ.get('CCPROC_CONFIG_TABLES', '[]'))
     evidence = evidence_at(os.environ.get('CCPROC_CONFIG_ROOT'), paths)

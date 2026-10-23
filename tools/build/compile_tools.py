@@ -194,7 +194,7 @@ def closure(root, starts=ENTRY_POINTS):
 def view_copies(root, sources):
     root = Path(root)
     result = {}
-    frontends = {'cc.sh', 'ccproc.py', 'as.sh', 'asproc.py', 'name_inputs.py'}
+    frontends = {'cc.sh', 'ccproc.py', 'as.sh', 'asproc.py', 'name_inputs.py', 'compile_slots.py'}
     for name in sources:
         if name.startswith('tools/gate/'):
             result['build_ovl/tools/' + name[len('tools/gate/'):]] = name

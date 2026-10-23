@@ -4,6 +4,11 @@
 # Usage: tools/cc.sh <in.c> <out.o>
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Standalone Ninja/gate compiles also use the shared pool. A make compile
+# already owns a slot for the whole pipeline and passes its descriptor.
+if [ -z "${AZURE_COMPILE_SLOT_FD:-}" ] && [ "${AZURE_COMPILE_LIMIT_ENABLED:-1}" != 0 ]; then
+  exec python3 "$ROOT/tools/compile_slots.py" -- bash "${BASH_SOURCE[0]}" "$@"
+fi
 # Azure Dreams is a multi-compiler binary — some TUs are gcc 2.8.x. The per-file
 # version is passed as $3 (default 2.7.2); see tools/configure.py CC_VER.
 IN="$1"; OUT="$2"; CCVER="${3:-2.7.2}"; CCFLAGS="${4:-}"; MASPSX_FLAGS="${5:-}"
