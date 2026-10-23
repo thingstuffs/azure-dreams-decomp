@@ -241,7 +241,7 @@ typedef struct { u8 pad00[0x8C]; E_80172850_ActorAction handler; s32 timer; } E_
 
 typedef struct E_801728B4_S_801728B4_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void (*unk_8C)(void *, void *, void *, void *);
     u8 pad_90[0xB];
     u8 unk_9B;
 } E_801728B4_S_801728B4_0;   /* obj in func_801728B4 */
@@ -679,7 +679,7 @@ extern s32 check_layer_offset_height();
 extern void set_or_clear_actor_status_slot(void *,s32,s32);
 extern s32 advance_status_timers(void *record);
 extern s32 increment_bounded_counter();
-extern M2C_UNK play_sound_if_enabled(M2C_UNK);
+extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
@@ -714,7 +714,7 @@ extern void apply_clamped_actor_value_delta();
 extern void spend_actor_mp(void *,s32);
 
 extern s32 relink_entity_and_clear_high_flag();
-extern M2C_UNK create_actor_linked_effect(void *);
+extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
@@ -755,7 +755,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
 s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
 void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg);
-void advance_effect_record_counters(u16 *counter, M2C_UNK unused, SpriteFrameState *record);
+void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record);
 s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin);
 void display_formatted_actor_message(void *record);
 void display_entity_action_message(void *record);

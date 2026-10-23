@@ -37,7 +37,7 @@ s32 register_node(); /* extern */
 void select_sprite_entry();         /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
-extern M2C_UNK D_80172610;
+extern void D_80172610();
 extern u8 D_80174C74[];
 
 typedef struct {

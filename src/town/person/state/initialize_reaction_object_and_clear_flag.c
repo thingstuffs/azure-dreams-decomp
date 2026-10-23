@@ -5,7 +5,7 @@
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern s8 D_800826B8;
 void forward_reaction_object(void *object);
-extern M2C_UNK D_800D6540;
+extern s32 D_800D6540[];
 
 
 /* Initialize the object, clear the shared flag, and set its callback. */

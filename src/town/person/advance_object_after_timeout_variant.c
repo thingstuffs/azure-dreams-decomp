@@ -5,7 +5,7 @@
 #include "town/person/object/initialize_object_entries_api.h"  /* extern */
 struct IntVector3; s32 create_offset_effect_object(struct IntVector3 *);                     /* extern */
 extern M2C_UNK D_800C84B8;
-extern M2C_UNK D_800D62AC;
+extern s32 D_800D62AC[];
 
 
 /* Decrement the object's countdown and advance its state when it expires. */

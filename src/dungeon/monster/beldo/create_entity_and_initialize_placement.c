@@ -14,7 +14,7 @@ s32 try_move_actor_to_valid_position();
 s32 func_80173C30(void);
 void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
 void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
-extern M2C_UNK beldo_frame_set_1;
+extern u8 beldo_frame_set_1[8];
 extern void *beldo_active_entity;
 
 typedef struct S_80170F84_1 {

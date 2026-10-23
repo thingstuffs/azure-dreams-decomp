@@ -40,7 +40,7 @@ typedef struct S_80166204_1 {
 void select_record_entry_and_value();  /* extern */
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_80165A0C;
+extern void D_80165A0C();
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */
 void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,

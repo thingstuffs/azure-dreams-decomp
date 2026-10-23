@@ -5,7 +5,7 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern M2C_UNK D_800981D4;
+extern s32 D_800981D4();
 
 
 /* Initialize the record and set its handler and initial value. */

@@ -5,7 +5,7 @@
 
 void dispatch_sound_by_global_flag(void);                            /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
-extern M2C_UNK D_8009204C;
+extern void D_8009204C();
 
 typedef struct S_800942B0_0 {
     u8 pad_00[0x14];

@@ -1459,7 +1459,8 @@ struct Elem;
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 
 s32 rand();                                /* extern */
-extern M2C_UNK D_800263F8;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800263F8[];
 
 
 /* Create a sprite effect at the given position with a randomized rotation. */

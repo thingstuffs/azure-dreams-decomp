@@ -41,7 +41,7 @@ typedef struct {
 } Copy4;
 
 extern void *D_80170898[];
-extern M2C_UNK D_80173EB4;
+extern u8 D_80173EB4[8];
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();

@@ -28,8 +28,8 @@ extern int load_indexed_resource_package(short table_index);
 extern s32 register_node();
 
 extern s16 current_dungeon_floor;
-extern M2C_UNK D_800AFAD8;
-extern M2C_UNK D_800AFBFC;
+extern void D_800AFAD8();
+extern s32 D_800AFBFC();
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 

@@ -4,8 +4,8 @@
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern s8 D_80082680;
-extern M2C_UNK D_800C7EF0;
-extern M2C_UNK D_800D5FA0;
+extern void D_800C7EF0();
+extern s32 D_800D5FA0[];
 
 
 /* Initialize the object callback and clear its state values. */

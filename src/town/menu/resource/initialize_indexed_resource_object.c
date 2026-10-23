@@ -19,7 +19,7 @@ typedef struct S_800A7E7C_1 {
 
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 extern s32 item_effect_descriptor;
-extern M2C_UNK D_800A7EC0;
+extern void D_800A7EC0();
 
 /* Initialize the object state from its byte value and set the context resource and callback. */
 void initialize_indexed_resource_object(void *object, s32 unused, S_800A7E7C_1 *context) {

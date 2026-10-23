@@ -63,10 +63,10 @@ s32 has_pending_dungeon_activity();                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 generate_random_value();                                /* extern */
 void *func_80170908();                /* extern */
-extern M2C_UNK D_8017089C;
-extern M2C_UNK D_801708AC;
-extern M2C_UNK D_801708B8;
-extern M2C_UNK D_801708BC;
+extern u8 D_8017089C[];
+extern u8 D_801708AC[];
+extern u8 D_801708B8[];
+extern u8 D_801708BC[];
 extern u8 D_80174F58[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */

@@ -17,7 +17,8 @@ typedef s32 M2C_UNK;
 extern void select_record_entry_and_value(void *, void *, s32);
 extern void play_sound_if_enabled(s32);
 void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 spawn_context);
-extern M2C_UNK fading_sprite_entries[3];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry fading_sprite_entries[];
 /* Creates a colored effect at the source object's position. */
 void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id)
 {

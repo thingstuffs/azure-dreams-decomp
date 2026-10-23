@@ -205,7 +205,7 @@ extern u8 D_800DD130[];
 extern u8 familiar_save_restore_frames[];
 extern s32 D_800814A0;
 extern u8 familiar_save_frames[];
-extern M2C_UNK familiar_defeat_text;
+extern u8 familiar_defeat_text[];
 extern u8 D_800E0A2A[9];
 extern u8 D_800E0A33[15];
 extern s8 entity_spawn_variant_code;

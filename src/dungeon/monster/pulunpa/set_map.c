@@ -55,9 +55,9 @@ extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 qu
 extern s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor);
 
 extern u8 pulunpa_frame_set_2[];
-extern M2C_UNK D_80176358;
+extern u8 D_80176358[];
 extern M2C_UNK D_80176360;
-extern M2C_UNK D_80176370;
+extern u8 D_80176370[];
 
 static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *direction_map) {
     (sprite->frameTable) = (void *)direction_map;

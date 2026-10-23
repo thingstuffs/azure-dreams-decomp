@@ -49,7 +49,7 @@ typedef struct S_81809800_6 {
 typedef struct S_80025170_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *, ObjectPosition *, SpriteFrameState *);
     u8 pad_14[0xC];
     s32 unk_20;
 } S_80025170_0;   /* temp_v0 in func_80025170 */
@@ -527,7 +527,7 @@ typedef struct S_80026190_19 {
 
 typedef struct S_800267F0_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0x32];
     s16 unk_46;
 } S_800267F0_0;   /* temp_v0 in func_800267F0 */
@@ -712,7 +712,8 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value();  /* extern */
-extern M2C_UNK D_80079444;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_80079444[];
 s32 rsin();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */

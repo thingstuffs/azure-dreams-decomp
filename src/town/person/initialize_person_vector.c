@@ -3,7 +3,7 @@
 #include "shared/position_views.h"
 #include "sdk/libgte.h"
 
-extern M2C_UNK D_800AADB0;
+extern void D_800AADB0();
 
    /* arg2 in initialize_person_vector */
 

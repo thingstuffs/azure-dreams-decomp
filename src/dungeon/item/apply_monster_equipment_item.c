@@ -51,8 +51,8 @@ void display_actor_item_status_message(); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();
-extern M2C_UNK D_80089378;
-extern M2C_UNK D_8008937C;
+extern u8 D_80089378[];
+extern u8 D_8008937C[];
 extern u8 D_800E13DA[15];
 extern u8 D_800E13E9[18];
 

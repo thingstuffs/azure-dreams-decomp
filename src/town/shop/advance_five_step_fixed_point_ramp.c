@@ -19,7 +19,7 @@ typedef struct S_800B34FC_0 {
 } S_800B34FC_0;   /* arg0 in advance_five_step_fixed_point_ramp; pointer addresses record offset 0x10 */
 
 
-extern M2C_UNK D_800B34A8;
+extern void D_800B34A8();
 
 /* Advance the five-step fixed-point ramp and switch callbacks after the final step. */
 void advance_five_step_fixed_point_ramp(void *sub_object) {

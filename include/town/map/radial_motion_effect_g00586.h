@@ -57,8 +57,9 @@ typedef struct {
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 register_node();
 /* extern */
-extern M2C_UNK D_800A86BC;
-extern M2C_UNK map_animation_sprite_entries;
+extern void D_800A86BC();
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry map_animation_sprite_entries[];
 extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);
 

@@ -383,7 +383,8 @@ extern Row_81916AEC_unk32 D_800241E4;
 extern Row_81916AEC_unk32 shared_sprite_entries;
 extern M2C_UNK D_8002441C;
 extern M2C_UNK D_8002457C;
-extern M2C_UNK D_800DEC50;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800DEC50[];
 extern s32 D_80024710;
 extern s32 D_80025B10;
 extern s32 rising_sprite_entries[3];
@@ -395,7 +396,7 @@ extern u8 entity_height_offsets[];
 extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
-void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, M2C_UNK update_context);
+void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context);
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);

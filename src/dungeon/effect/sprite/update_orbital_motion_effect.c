@@ -35,7 +35,8 @@ s32 select_record_entry_and_value();
 s32 advance_sprite_animation_and_textures();
 s32 rsin();
 s32 rcos();
-extern M2C_UNK shared_sprite_entries[3];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry shared_sprite_entries[];
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
 void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, SpriteFrameState *object) {

@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
-extern M2C_UNK D_800A7950;
+extern void D_800A7950();
 
 
 /* Set the object state and initialize both fields with the generated value. */

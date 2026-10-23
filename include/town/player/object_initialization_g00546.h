@@ -14,7 +14,7 @@ typedef struct S_80098078_0 S_80098078_0;
 
 extern s8 town_action_reset_byte;
 void tick_countdown_and_initialize_target(S_80098078_0 *state, s32 value);
-extern M2C_UNK target_action_update_address;
+extern void target_action_update_address();
 
 /* Functions defined in this translation unit. */
 void initialize_object_with_count_four(Rec_func_80094268_arg0 *object, s32 setupValue, void *ptr2);

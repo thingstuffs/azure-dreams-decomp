@@ -20,7 +20,8 @@ typedef struct {
     u8 pad[0x5A];
 } PositionTableEntry;
 extern s32 rising_sprite_entries[3];
-extern M2C_UNK moving_sprite_entries;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry moving_sprite_entries[];
 extern M2C_UNK D_80167A2C;
 extern PositionTableEntry ribbon_vertices[];
 

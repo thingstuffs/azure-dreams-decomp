@@ -32,7 +32,7 @@ s32 advance_status_timers();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 create_actor_spell_effect();       /* extern */
 void spawn_random_velocity_offset_effect(); /* extern */
-extern M2C_UNK D_80171760;
+extern void D_80171760();
 extern u8 noise_direction_frames[9];
 
 /* Updates an actor's ability action, effects, and completion state. */

@@ -24,8 +24,8 @@ typedef struct S_8016F5D8_2 {
 
 
 s32 rsin();                        /* extern */
-extern M2C_UNK beldo_large_frame_set_8;
-extern M2C_UNK D_80173DB4;
+extern u8 beldo_large_frame_set_8[16];
+extern u8 D_80173DB4[16];
 extern u8 *beldo_script_node;
 
 /* Advances the phase-driven offset and writes the adjusted output value. */

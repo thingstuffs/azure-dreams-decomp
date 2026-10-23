@@ -9,7 +9,7 @@ short SD_Call(int flags);
 #include "town/person/object/initialize_object_entries_api.h"
 
 extern M2C_UNK D_800CC4B0[3];
-extern M2C_UNK D_800D6CF0[3];
+extern s32 D_800D6CF0[];
 
 
 /* Clears the entity's indexed flag and sets its next handler and state. */

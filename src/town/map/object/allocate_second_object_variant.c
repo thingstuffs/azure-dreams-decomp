@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800B93B8;
+extern void D_800B93B8();
 
 typedef struct S_800B93C0_0 {
     u8 pad_00[0x10];

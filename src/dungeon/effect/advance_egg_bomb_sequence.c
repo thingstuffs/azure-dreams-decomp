@@ -36,7 +36,7 @@ s16 set_or_clear_actor_status_slot(); /* extern */
 s32 display_text_with_fullwidth_adjustment(); /* extern */
 void clear_selected_item_flag_400();
 void check_entity_relation(s32 *, u8 *);
-extern M2C_UNK D_800E0A42;
+extern u8 D_800E0A42[];
 extern u8 D_800E0A56[20];
 extern u8 D_800E0A6A[12];
 

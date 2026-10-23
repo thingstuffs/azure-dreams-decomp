@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);   /* extern */
-extern M2C_UNK D_800A24FC;
+extern void D_800A24FC();
 extern M2C_UNK D_80100BF0;
 
 typedef struct S_800A24C4_0 {

@@ -22,7 +22,7 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-extern M2C_UNK town_actor_control;
+struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 
 
 typedef struct S_80092320_1 {

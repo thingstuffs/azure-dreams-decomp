@@ -71,11 +71,11 @@ extern void func_80172190(void *action_state, void *context, void *sprite, Actor
 s32 func_801722B8();
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
-extern M2C_UNK kraken_frame_set_1;
-extern M2C_UNK D_80174194;
-extern M2C_UNK D_801741AC;
-extern M2C_UNK D_801741C4;
-extern M2C_UNK kraken_frame_set_2;
+extern u8 kraken_frame_set_1[];
+extern u8 D_80174194[];
+extern u8 D_801741AC[];
+extern u8 D_801741C4[];
+extern u8 kraken_frame_set_2[];
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state

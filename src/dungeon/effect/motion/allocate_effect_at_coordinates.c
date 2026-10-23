@@ -8,7 +8,8 @@
 void select_record_entry_and_value();
 s32 register_node();
 extern M2C_UNK D_80024224;
-extern M2C_UNK D_800DE8E8;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800DE8E8[];
 
 typedef struct S_800242A0_0 {
     u8 pad_00[0x8];

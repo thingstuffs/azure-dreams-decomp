@@ -6,7 +6,7 @@
 
 void initialize_object_entries(void *state, s8 *output, s32 *entries);
 void func_800CB570(Rec_func_80094268_arg0 *record, s32 forward_arg1, s32 forward_arg2);
-extern M2C_UNK D_800D694C;
+extern s32 D_800D694C[];
 
 typedef struct S_800CB5DC_0 {
     u8 pad_00[0x54];

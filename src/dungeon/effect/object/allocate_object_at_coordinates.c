@@ -25,7 +25,7 @@ typedef struct S_800B7B60_1_pre {
 #endif
 
 
-extern M2C_UNK D_800B7774;
+extern void D_800B7774();
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
 void *allocate_object_at_coordinates(void *source, s32 *init_value) {

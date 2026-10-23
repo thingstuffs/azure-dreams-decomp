@@ -45,7 +45,7 @@ typedef struct S_8009A81C_1 {
     s16 unk_06;
 } S_8009A81C_1;
 
-extern M2C_UNK D_8009A81C;
+extern void D_8009A81C();
 
 /* Shared import declarations; data casts preserve each measured view. */
 

@@ -20,7 +20,8 @@ s16 sample_terrain_surface_height();                   /* extern */
 
 void advance_actor_status_turn_second(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
 s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
-extern M2C_UNK D_800DEF08;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800DEF08[];
 
 typedef struct S_800D2CB4_0 {
     u8 pad_00[0x13];

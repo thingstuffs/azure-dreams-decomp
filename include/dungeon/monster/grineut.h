@@ -209,7 +209,7 @@ typedef struct R07_8017229C_S_80172628_0 {
 } R07_8017229C_S_80172628_0;
 typedef struct R07_801723E0_S_801724A8_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void (*unk_8C)(void *, EntityRec *, void *, ActorRecord *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
 } R07_801723E0_S_801724A8_0;
 typedef struct R07_80172478_S_80172478_0 {

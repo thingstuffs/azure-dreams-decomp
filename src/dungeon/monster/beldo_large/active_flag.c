@@ -27,7 +27,7 @@ void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
 #include "dungeon/monster/beldo_large.h"
-extern M2C_UNK beldo_large_frame_set_8;
+extern u8 beldo_large_frame_set_8[16];
 extern void *beldo_script_node;
 
 static __inline__ u16 active_flag(u32 value)

@@ -26,7 +26,7 @@ typedef struct S_80026CF0_4 {
 } S_80026CF0_4;
 struct S8004CBFC_a0;
 struct S8004CBFC_a1;
-extern M2C_UNK D_80027E68;
+struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_80027E68;
 
 typedef struct S_80026CF0_0 {
     u8 pad_00[0x68];

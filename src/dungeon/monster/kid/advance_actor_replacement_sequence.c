@@ -113,11 +113,11 @@ extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
-extern M2C_UNK kid_image_commands;
+extern u32 kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;
 extern M2C_UNK D_8017521C;
-extern M2C_UNK D_8017521D;
+extern u8 D_8017521D;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */

@@ -19,7 +19,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E1580[34];
-extern M2C_UNK D_800E15A2;
+extern u8 D_800E15A2[];
 extern void *familiar_record_slots[];
 
 typedef struct S_800C22EC_2 {

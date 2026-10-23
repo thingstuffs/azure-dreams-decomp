@@ -4,7 +4,7 @@
 #include "records/Rec_D_80082D58.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800C8BB4;
+extern void D_800C8BB4();
 extern M2C_UNK D_800D6374;
 
 

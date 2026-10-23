@@ -23,7 +23,7 @@ s32 lookup_item_category_mapped_value();
 void *create_town_effect_object();
 /* extern */
 extern s32 item_effect_descriptor;
-extern M2C_UNK D_800A8248;
+extern void D_800A8248();
 extern s32 scene_object_payload_alias[2];
 extern s32 town_position_callback_address;
 extern s32 D_80097EA0;

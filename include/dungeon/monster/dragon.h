@@ -173,7 +173,7 @@ typedef struct R03_8017207C_S_80172628_0 {
 } R03_8017207C_S_80172628_0;
 typedef struct R03_801721C0_S_801721C0_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void (*unk_8C)(void *, void *, SpriteFrameState *, ActorRecord *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
 } R03_801721C0_S_801721C0_0;
 typedef struct R03_80172258_S_80172258_0 {

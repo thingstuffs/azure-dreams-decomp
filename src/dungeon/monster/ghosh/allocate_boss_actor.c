@@ -14,7 +14,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_8016F2E0[];
-extern M2C_UNK D_8016F78C;
+extern void D_8016F78C();
 #include "dungeon/monster/ghosh.h"
 extern void *ghosh_boss_node;
 

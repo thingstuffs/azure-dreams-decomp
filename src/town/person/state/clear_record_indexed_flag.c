@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-extern M2C_UNK D_800C3BF4;
+extern void D_800C3BF4();
 
 
 /* Clear the record's indexed flag and set its state pointer. */

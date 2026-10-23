@@ -3,8 +3,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern M2C_UNK D_800CD70C;
-extern M2C_UNK D_800D72AC;
+extern void D_800CD70C();
+extern s32 D_800D72AC[];
 
 
 /* Initialize the object and set its data pointer and initial field values. */

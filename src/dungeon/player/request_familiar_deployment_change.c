@@ -33,7 +33,7 @@ s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];
-extern M2C_UNK D_800E0633;
+extern u8 D_800E0633[];
 extern u8 D_800E0726[19];
 extern u8 D_800E0739[14];
 extern u8 D_800E0747[31];

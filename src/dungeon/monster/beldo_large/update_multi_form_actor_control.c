@@ -40,18 +40,18 @@ extern u8 beldo_large_frame_set_2;
 extern u8 beldo_large_frame_set_5;
 extern u8 beldo_large_frame_set_1;
 extern u8 beldo_large_frame_set_3;
-extern M2C_UNK beldo_large_frame_set_6;
-extern M2C_UNK D_801739E8;
-extern M2C_UNK D_801739F0;
-extern M2C_UNK D_801739F8;
-extern M2C_UNK D_80173A00;
-extern M2C_UNK D_80173A08;
-extern M2C_UNK D_80173A10;
-extern M2C_UNK D_80173A18;
+extern u8 beldo_large_frame_set_6[];
+extern u8 D_801739E8[];
+extern u8 D_801739F0[];
+extern u8 D_801739F8[];
+extern u8 D_80173A00[];
+extern u8 D_80173A08[];
+extern u8 D_80173A10[];
+extern u8 D_80173A18[];
 extern u8 D_80173A50;
 extern u8 beldo_large_frame_set_9;
-extern M2C_UNK D_80173AC0;
-extern M2C_UNK beldo_large_frame_set_4;
+extern u8 D_80173AC0[];
+extern u8 beldo_large_frame_set_4[];
 
 /* Updates dungeon actor actions, facing, and idle animations. */
 /* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle

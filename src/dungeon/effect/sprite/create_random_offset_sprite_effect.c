@@ -12,7 +12,8 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 extern s32 register_node();
 extern s32 rand();
 void func_8002418C(void *object_ref, void *unused, void *state);
-extern M2C_UNK rising_sprite_entries[3];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry rising_sprite_entries[];
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
 void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)

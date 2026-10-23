@@ -15,7 +15,7 @@ typedef struct S_800A782C_0_pre {
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 void initialize_randomized_scale_timer();
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
-extern M2C_UNK D_800A78AC;
+extern void D_800A78AC();
 extern M2C_UNK D_800F842C;
 
 /* Initialize the object and reset its state before completing setup. */

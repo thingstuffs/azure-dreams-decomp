@@ -59,8 +59,8 @@ typedef struct S_80173D78_5 {
 
 
 extern s32 D_800C6AEC;
-extern M2C_UNK D_8017086C;
-extern M2C_UNK D_80170898;
+extern u8 D_8017086C[];
+extern u8 D_80170898[];
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
 void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
 

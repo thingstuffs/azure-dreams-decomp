@@ -95,7 +95,7 @@ typedef struct ovl_18ca83c_818AAE60_S_80024660_6 {
     u16 unk_0A;
 } ovl_18ca83c_818AAE60_S_80024660_6;
 typedef struct ovl_18ca83c_818AAE60_S_80024660_7_pre {
-    M2C_UNK * unk_00;
+    ObjectPosition * unk_00;
     u8 pad_04[0x14];
 } ovl_18ca83c_818AAE60_S_80024660_7_pre;
 typedef struct ovl_18ca83c_818AAE60_S_80024660_8 {
@@ -141,7 +141,8 @@ extern void func_8004491C(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern s32 rand(void);
-extern M2C_UNK fading_sprite_entries;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry fading_sprite_entries[];
 extern s32 rcos(s32);
 extern s32 rand(void);
 extern u8 D_800777DC[];

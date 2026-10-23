@@ -37,9 +37,12 @@ s32 rcos();                             /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
-extern M2C_UNK D_8006E51C;
-extern M2C_UNK D_8006E57C;
-extern M2C_UNK D_8006E5D4;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_8006E51C[];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_8006E57C[];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_8006E5D4[];
 
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */

@@ -14,7 +14,7 @@ void apply_monster_koyaw_data(s32, void *);               /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
 s16 sample_terrain_surface_height(s32, s32, s16);                 /* extern */
-extern M2C_UNK kid_action_resume_address[3];
+extern void kid_action_resume_address();
 extern u8 kid_direction_frames[12];
 extern u8 kid_alt_direction_frames[12];
 extern u8 kid_frame_set_1[12];

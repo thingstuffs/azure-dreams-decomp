@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* extern */
-extern M2C_UNK D_800A77D0;
+extern void D_800A77D0();
 
 typedef struct S_800A7774_0 {
     u8 pad_00[0x50];

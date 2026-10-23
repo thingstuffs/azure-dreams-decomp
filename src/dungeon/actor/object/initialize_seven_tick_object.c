@@ -6,7 +6,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 initialize_object_entries(void *, s32, s32 *);          /* extern */
 extern M2C_UNK D_800CB21C;
-extern M2C_UNK D_800D6910;
+extern s32 D_800D6910[];
 
 
 /* Initialize the object's state, clear its slot flag, and set its counter to seven. */

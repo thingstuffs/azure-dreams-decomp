@@ -170,7 +170,8 @@ s32 rsin();
 s32 rcos();
 extern u8 D_80025238[];
 extern u8 ribbon_sprite_entries[];
-extern M2C_UNK fading_sprite_entries;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry fading_sprite_entries[];
 extern u8 D_80025214[];
 void apply_small_random_value_gain(void *target, s32 effect_param);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,

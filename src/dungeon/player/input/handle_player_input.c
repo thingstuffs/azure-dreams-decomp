@@ -86,7 +86,7 @@ s32 has_pending_actor_or_turn_action();                          /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK D_800245A8;
-extern M2C_UNK D_8004F5F4;
+extern void *D_8004F5F4(void *, void *);
 void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[8];
 extern u8 D_800DD058[];

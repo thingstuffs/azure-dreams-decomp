@@ -33,8 +33,8 @@ void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 play_sound_if_enabled();
-extern M2C_UNK D_800DB618;
-extern M2C_UNK D_800DB660;
+extern void D_800DB618();
+extern s32 D_800DB660();
 extern u8 D_80174A8C;
 extern u8 D_80174A94;
 

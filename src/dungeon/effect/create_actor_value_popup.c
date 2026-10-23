@@ -10,8 +10,8 @@ char *func_8004E5A0();
 char *func_8004E634();
 s32 strlen();
 void *find_first_ended_record();
-extern M2C_UNK D_800B45E0;
-extern M2C_UNK D_800B490C;
+extern void D_800B45E0();
+extern void D_800B490C();
 extern M2C_UNK D_800DF24C[];
 
 typedef struct S_800B4C7C_0 {

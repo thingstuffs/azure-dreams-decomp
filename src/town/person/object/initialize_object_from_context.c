@@ -5,7 +5,7 @@ extern s32 scale_random_to_unsigned_halfword_limit();
 #include "town/person/object/initialize_object_entries_api.h"
 #include "records/Rec_func_80094268_arg0.h"
 void count_down_and_select_next_setup(Rec_func_80094268_arg0 *object, s32 request_data, s32 request_param, s32 check_param);
-extern M2C_UNK D_800D7284;
+extern s32 D_800D7284[];
 
 // Initializes an object with shared data and a generated value scaled in units of 21.
 void initialize_object_from_context(void *object, s32 unusedArg, s32 initValue) {

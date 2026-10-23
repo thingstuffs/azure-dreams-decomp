@@ -69,7 +69,7 @@ s16 func_8025E01C();                          /* extern */
 extern s16 D_800133A0;
 extern u8 score_sprite_draw_callback_address[3];
 extern s32 scene_object_flags;
-extern M2C_UNK D_8012F130[5];
+extern s32 D_8012F130[5];
 extern u8 scene_object_factory_data[3];
 extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];

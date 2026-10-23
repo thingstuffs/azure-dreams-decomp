@@ -23,7 +23,7 @@ typedef struct S_8008C7B4_0 {
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 extern void append_packed_action_record();
 extern u8 player_wait_frames;
-extern M2C_UNK player_carry_frames;
+extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
 void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *entity) {

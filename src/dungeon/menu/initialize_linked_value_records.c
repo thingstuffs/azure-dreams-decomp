@@ -13,7 +13,7 @@ typedef struct S_80123700_1 {
 
 
 extern s32 D_80126A88;
-extern M2C_UNK catalog_display_node_slots;
+extern s32 *catalog_display_node_slots[98];
 
 
 /* Initialize 14 entries from the value table and set each linked field to 0x800. */

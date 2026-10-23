@@ -6,7 +6,7 @@
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 #include "town/person/object/initialize_object_entries_api.h"  /* extern */
 void advance_object_position(s32 context, EntityRec *object, s32 finish_arg);
-extern M2C_UNK D_800D6290;
+extern s32 D_800D6290[];
 
 
 /* Advance the motion state and update the object when its step is nonnegative. */

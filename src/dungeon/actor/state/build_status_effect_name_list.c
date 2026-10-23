@@ -23,7 +23,7 @@ extern s32 D_800252C8;
 extern s32 D_800252E4;
 extern s32 D_80025300;
 extern s32 D_80025318;
-extern M2C_UNK D_80025160;
+extern u8 D_80025160[];
 /* Build the status-effect name list for the object's 0x54 flag word, comma-separated; returns the fallback when no flag is set. */
 s32 build_status_effect_name_list(void *obj, s32 fallback)
 {

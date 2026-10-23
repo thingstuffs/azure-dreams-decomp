@@ -77,11 +77,13 @@ typedef struct DelayMotion {
 
 /* Header/work slice of delayed child particles allocated by allocate_list_node.
  * brighten_accelerate_and_fade_effect installs their callback and links them to the owner. */
+struct SpriteFrameState;
+
 typedef struct DelayObject {
     u8 pad_00[0x8];
     void * unk_08; /* child position/motion part pointer */
     void * unk_0C; /* child sprite part pointer */
-    M2C_UNK * unk_10; /* child update callback, set to advance_delayed_fading_sprite */
+    void (*unk_10)(void *, DelayPosition *, struct SpriteFrameState *); /* child update callback, set to advance_delayed_fading_sprite */
     u8 pad_14[0xC];
     void * unk_20; /* owner work pointer stored at the beginning of the child payload */
 } DelayObject;   /* temp_v0_4 in func_800247D8 */

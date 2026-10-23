@@ -6,7 +6,7 @@
 
 s32 get_person_lookup_step();                          /* extern */
 s32 advance_person_lookup_value();                          /* extern */
-extern M2C_UNK D_800AB5C0;
+extern void D_800AB5C0();
 
 typedef struct {
     s16 unk0;

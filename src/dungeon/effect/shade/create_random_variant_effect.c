@@ -19,7 +19,8 @@ extern s32 clipped_sprite_renderer_address[3];
 s32 register_node();
 s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
-extern M2C_UNK D_80025AF0;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_80025AF0[];
 
 typedef struct S_818C370C_0 {
     u8 pad_00[0x8];

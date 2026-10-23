@@ -459,7 +459,7 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_context);
 void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
 s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
-void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out);
+void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source);
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg);
 void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);

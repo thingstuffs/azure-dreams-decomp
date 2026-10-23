@@ -19,7 +19,7 @@ struct S8004CBFC_a0;
 struct S8004CBFC_a1;
 void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
 extern M2C_UNK D_80071244;
-extern M2C_UNK D_800792DC;
+struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_800792DC;
 
 
 /* Update an enabled object's data and reset its referenced pointer. */

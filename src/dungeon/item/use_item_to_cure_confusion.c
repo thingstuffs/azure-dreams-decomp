@@ -34,7 +34,7 @@ typedef struct {
     u8 pad[0xA];
     u16 fieldA;
 } D_80083460_t;
-extern M2C_UNK confusion_cure_text;
+extern u8 confusion_cure_text[];
 
 
 typedef struct S_800BD5C4_0_pre {

@@ -19,8 +19,8 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern u8 D_800E17C6[41];
-extern M2C_UNK D_800E17EF;
-extern M2C_UNK D_800E180E;
+extern u8 D_800E17EF[];
+extern u8 D_800E180E[];
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
 s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_param) {

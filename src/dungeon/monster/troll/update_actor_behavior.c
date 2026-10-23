@@ -31,21 +31,21 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
 s32 func_80173EAC(); /* extern */
 void update_directional_action_display(); /* extern */
 void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state);
-extern M2C_UNK D_80175DF4;
-extern M2C_UNK D_80175DFC;
-extern M2C_UNK D_80175E04;
-extern M2C_UNK troll_frame_set_1;
-extern M2C_UNK troll_frame_set_2;
-extern M2C_UNK troll_frame_set_3;
-extern M2C_UNK D_80175E3C;
-extern M2C_UNK D_80175E44;
-extern M2C_UNK D_80175E4C;
-extern M2C_UNK troll_kind13_direction_frames;
-extern M2C_UNK troll_kind14_direction_frames;
-extern M2C_UNK troll_kind15_direction_frames;
-extern M2C_UNK D_80175E84;
-extern M2C_UNK D_80175E8C;
-extern M2C_UNK D_80175E94;
+extern u8 D_80175DF4[];
+extern u8 D_80175DFC[];
+extern u8 D_80175E04[];
+extern u8 troll_frame_set_1[];
+extern u8 troll_frame_set_2[];
+extern u8 troll_frame_set_3[];
+extern u8 D_80175E3C[];
+extern u8 D_80175E44[];
+extern u8 D_80175E4C[];
+extern u8 troll_kind13_direction_frames[];
+extern u8 troll_kind14_direction_frames[];
+extern u8 troll_kind15_direction_frames[];
+extern u8 D_80175E84[];
+extern u8 D_80175E8C[];
+extern u8 D_80175E94[];
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
 /* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item

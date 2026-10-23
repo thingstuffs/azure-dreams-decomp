@@ -79,7 +79,7 @@ extern M2C_UNK D_800D1658;
 extern M2C_UNK D_800D175C;
 /* arg0 in set_record_base_and_data_pointer_alt; pointer addresses record offset 0x10 */
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800B3E68;
+extern void D_800B3E68();
 extern void initialize_entity_display_parts();
 
 /* Functions defined in this translation unit. */

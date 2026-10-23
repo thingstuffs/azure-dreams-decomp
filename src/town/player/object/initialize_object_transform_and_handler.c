@@ -6,7 +6,7 @@
 #include "shared/town_handler.h"
 
 #include "town/player/object/entity_record_fields.h"                      /* extern */
-extern M2C_UNK D_80097EFC;
+extern void D_80097EFC();
 
 
 /* Initialize the object and its transform with fixed placement and settings. */

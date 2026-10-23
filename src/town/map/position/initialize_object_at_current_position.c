@@ -13,7 +13,7 @@ struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(stru
 void run_the_three_update_routines_context(s32);
 extern s16 query_lowered_transform_position();
 
-extern M2C_UNK map_runtime_state;
+extern struct S_800C01DC_1 map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
 void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data);
 #include "records/Rec_D_800CFCB4.h"

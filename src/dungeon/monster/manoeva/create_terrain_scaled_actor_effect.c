@@ -26,13 +26,13 @@ typedef struct S_80174B90_7 {
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
 void select_sprite_entry();    /* extern */
-extern M2C_UNK D_8017474C;
+extern void D_8017474C();
 extern M2C_UNK D_80175540;
 
 typedef struct S_80174B90_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *, MovingPosition *, void *);
     u8 pad_14[0xC];
     s32 unk_20;
 } S_80174B90_0;

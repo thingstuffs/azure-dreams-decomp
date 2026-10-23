@@ -9,7 +9,7 @@ void process_unflagged_linked_entries_alt(s32);                         /* exter
 s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
 s32 play_sound_if_enabled(s32);                     /* extern */
 extern s32 held_item_record;
-extern M2C_UNK D_800DD25C;
+extern void *D_800DD25C;
 extern s32 saved_held_item_word;
 
 

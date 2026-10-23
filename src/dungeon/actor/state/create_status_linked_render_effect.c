@@ -7,14 +7,14 @@
 
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
-extern M2C_UNK D_800ADB8C;
-extern M2C_UNK D_800ADBCC;
+extern void D_800ADB8C();
+extern s32 D_800ADBCC();
 
 typedef struct S_800ADC4C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0xC];
     s8 * unk_20;
     u8 pad_24[0x4];

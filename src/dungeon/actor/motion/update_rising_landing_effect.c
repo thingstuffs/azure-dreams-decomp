@@ -160,7 +160,7 @@ extern s32 rsin(s32 angle);
 extern s32 rand(void);
 extern u8 D_800DED70[];
 s32 rand();                          /* extern */
-extern M2C_UNK landing_sprite_entries;
+extern SpriteSourceEntry landing_sprite_entries[];
 
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 {

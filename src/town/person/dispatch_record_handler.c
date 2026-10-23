@@ -5,7 +5,7 @@
 extern s32 service_script_controller(void);
 extern void dispatch_object_state();
 extern u8 object_index_slots[9];
-extern M2C_UNK town_actor_control[5];
+extern s32 town_actor_control[5];
 extern volatile M2C_UNK D_800D5084[20];
 
 

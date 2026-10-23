@@ -4,8 +4,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern M2C_UNK D_800C5ADC;
-extern M2C_UNK D_800D54BC;
+extern void D_800C5ADC();
+extern s32 D_800D54BC[];
 
 
 /* Initialize the actor, clear its table flag, and install its handler. */

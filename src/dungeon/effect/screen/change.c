@@ -106,7 +106,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
 #include "m2c_compat.h"
 
 void *allocate_list_node();                  /* extern */
-extern M2C_UNK D_8009BE2C;
+extern void D_8009BE2C();
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {

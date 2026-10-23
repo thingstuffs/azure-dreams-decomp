@@ -130,7 +130,7 @@ typedef struct {
     ovl_1831370_81811878_Result *dstC;
 } ovl_1831370_81811878_Destinations;
 typedef struct ovl_1831370_8181192C_S_8002692C_0 {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0x18];
     s32 unk_1C;
     s32 unk_20;

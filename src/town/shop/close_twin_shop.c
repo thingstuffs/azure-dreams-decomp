@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800AE2A4;
+extern void D_800AE2A4();
 
 typedef struct S_800AE30C_0 {
     u8 pad_00[0x10];

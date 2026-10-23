@@ -10,7 +10,7 @@ typedef struct S_8009A1A4_2 {
 } S_8009A1A4_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in initialize_player_linked_record */
 
 
-extern M2C_UNK D_80099B70;
+extern void D_80099B70();
 
 
 /* Set up the object using its linked record and assign its next handler. */

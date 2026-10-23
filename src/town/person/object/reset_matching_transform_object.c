@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800C2864;
+extern void D_800C2864();
 extern void *D_800FE4A0;
 
 typedef struct S_800C283C_0 {

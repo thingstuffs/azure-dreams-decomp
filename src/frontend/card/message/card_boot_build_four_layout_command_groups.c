@@ -32,8 +32,8 @@ typedef struct LayoutQuadColors {
 
 /* Builds four groups of drawing commands sized from the selected layout. */
 void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *layout) {
-    M2C_UNK command_ids;
-    M2C_UNK ids_limit;
+    u32 command_ids;
+    u32 ids_limit;
     s32 width_extent;
     s32 layout_offset;
     s32 layout_index;

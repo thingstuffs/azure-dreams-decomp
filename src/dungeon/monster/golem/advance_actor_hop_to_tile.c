@@ -30,7 +30,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern M2C_UNK D_80170E94;
+extern void D_80170E94();
 
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
 void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, SpriteFrameState *tile, ActorRecord *actor)

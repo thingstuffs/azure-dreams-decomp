@@ -86,8 +86,8 @@ typedef struct Func800A4B70Output {
 
 /* payload in allocate_and_initialize_display_object */
 extern void *allocate_list_node();
-extern M2C_UNK D_800A2180;
-extern M2C_UNK D_800A21EC;
+extern void D_800A2180();
+extern s32 D_800A21EC();
 /* arg0 in initialize_directional_object_state */
 /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
 extern s32 register_node();

@@ -31,7 +31,7 @@ typedef struct S_800A23D0_2 {
 
 extern s32 register_node();
 extern u8 lit_mesh_renderer_address[];
-extern M2C_UNK D_800A24A8;
+extern void D_800A24A8();
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */

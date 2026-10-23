@@ -13,7 +13,7 @@ typedef struct S_80093C70_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *, void *, void *);
     u8 pad_14[0xC];
     void * unk_20;
 } S_80093C70_0;
@@ -27,7 +27,7 @@ typedef struct S_80093C70_5 {
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
 void set_sprite_animation_frame(); /* extern */
-extern M2C_UNK D_80093A94;
+extern void D_80093A94();
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
 void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {

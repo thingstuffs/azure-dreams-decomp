@@ -6,7 +6,7 @@
 #include "shared/town_handler.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern M2C_UNK target_action_update_address;
+extern void target_action_update_address();
 
 
 /* Clears the object's indexed flag and resets its state before processing the context. */

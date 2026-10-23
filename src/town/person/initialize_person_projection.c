@@ -9,7 +9,7 @@ void SetBackColor(s32, s32, s32);   /* extern */
 void SetFarColor(s32, s32, s32);   /* extern */
 void SetGeomOffset(s32, s32);            /* extern */
 void SetGeomScreen(s32);                     /* extern */
-extern M2C_UNK map_runtime_state;
+extern struct S_800AB7FC_1 map_runtime_state;
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
 extern u8 upper_draw_context[];
 extern u8 lower_draw_context[];

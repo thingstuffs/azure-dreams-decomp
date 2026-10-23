@@ -61,7 +61,7 @@ typedef struct ovl_1831cd8_818123E4_S_800273E4_0 {
     s32 unk_08;
 } ovl_1831cd8_818123E4_S_800273E4_0;
 typedef struct ovl_1831cd8_818124A8_S_800274A8_0 {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0xC];
     s32 unk_10;
     s32 unk_14;
@@ -99,7 +99,7 @@ typedef struct ovl_1831cd8_818124F0_S_800274F0_Arg {
     void *unk88;
 } ovl_1831cd8_818124F0_S_800274F0_Arg;
 typedef struct ovl_1831cd8_818127A8_S_800277A8_1_pre {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0xC];
 } ovl_1831cd8_818127A8_S_800277A8_1_pre;
 typedef struct ovl_1831cd8_818127A8_S_800277A8_1 {
@@ -119,7 +119,7 @@ typedef struct ovl_1831cd8_818127A8_S_800277A8_1 {
     s32 unk_88;
 } ovl_1831cd8_818127A8_S_800277A8_1;
 typedef struct ovl_1831cd8_81812A88_S_80027A88_0 {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0xC];
     s32 unk_10;
 } ovl_1831cd8_81812A88_S_80027A88_0;
@@ -181,7 +181,7 @@ typedef struct ovl_1831cd8_81812F34_S_80027F34_2 {
     s16 unk_02;
 } ovl_1831cd8_81812F34_S_80027F34_2;
 typedef struct ovl_1831cd8_81812F34_S_80027F34_0 {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0xC];
     s32 unk_10;
     s32 unk_14;
@@ -303,7 +303,7 @@ typedef struct ovl_1831cd8_81813320_S_80028320_2 {
     s16 unk_02;
 } ovl_1831cd8_81813320_S_80028320_2;
 typedef struct ovl_1831cd8_81813320_S_80028320_0 {
-    M2C_UNK * unk_00;
+    void (*unk_00)(s32 *);
     u8 pad_04[0x14];
     s32 unk_18;
     u8 pad_1C[0x8];
@@ -409,7 +409,7 @@ extern ovl_1831cd8_81813050_Template1 display_vector_defaults;
 extern void initialize_scaled_entry_cursor();
 extern M2C_UNK D_80078AB4;
 extern M2C_UNK D_80078AD8;
-extern M2C_UNK D_80079324;
+struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_80079324;
 extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 extern s32 allocate_and_append_callback_payload(s32 *values, s32 lookup_key);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, s32 *value, s32 count);
@@ -425,7 +425,7 @@ extern ovl_1831cd8_81813774_UnalignedBlock24 menu_record_template;
 void clear_menu_state_values(ovl_1831cd8_81811CD8_S_80026CD8_0 *state);
 void set_entry_destination_and_value(Rec_func_80026CF0_arg0 *record, s32 value);
 void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index);
-s32 configure_menu_resource(s32 setup_value, M2C_UNK setup_data);
+s32 configure_menu_resource(s32 setup_value, s32 setup_data);
 s32 count_menu_entry_matches(s32 target_value);
 s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value);
 s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence);
@@ -435,8 +435,8 @@ s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 s
 s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count);
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
 s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_type);
-void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg);
-void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg);
+void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_arg);
+void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg);
 void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 replacementInput, s32 calculationInput);
 void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value);
 void reset_menu_object_state_2(void *record);

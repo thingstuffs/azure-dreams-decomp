@@ -266,7 +266,7 @@ typedef struct CL_CCB000_80171F58_S_80171F58_0 {
 
 typedef struct CL_CCB000_80171F58_S_80171F58_1 {
     u8 pad_00[0x2C];
-    M2C_UNK * unk_2C;
+    u8 * unk_2C;
 } CL_CCB000_80171F58_S_80171F58_1;   /* render_state in func_80159F58 */
 
 typedef struct CL_CCB000_80171F58_S_80171F58_2 {
@@ -313,7 +313,7 @@ typedef struct CL_CCB000_80172180_S_80172180_1 {
 
 typedef struct CL_CCB000_80172180_S_80172180_2 {
     u8 pad_00[0x2C];
-    M2C_UNK * unk_2C;
+    u8 * unk_2C;
 } CL_CCB000_80172180_S_80172180_2;   /* render_state in func_8015A180 */
 
 /* Finish the pending action, restore animation, and advance its entity countdown. */
@@ -589,7 +589,7 @@ typedef struct S_80173A38_0 {
 
 typedef struct CL_CCB000_80173A38_S_80173A38_1 {
     u8 pad_00[0x2C];
-    M2C_UNK * unk_2C;
+    u8 * unk_2C;
 } CL_CCB000_80173A38_S_80173A38_1;   /* arg2 in func_8015BA38 */
 
 typedef struct CL_CCB000_80173A38_S_80173A38_2 {
@@ -1021,7 +1021,7 @@ extern s32 resource_completion_callback_address[];
 extern s16 actor_turn_angle_offsets[];
 extern s32 cd_cue_base;
 extern u16 reference_tile_position_alias;
-extern M2C_UNK D_80083460;
+extern DungeonGlobalStatus D_80083460;
 extern u16 dungeon_status_flags_alias;
 extern void *actor_effect_color_targets[];
 extern s8 staged_spawn_count;
@@ -1067,8 +1067,8 @@ extern void func_8004491C(CL_CCB000_8017087C_Object *, void *);
 extern void unlink_node(void *node);
 extern void func_80044A50(void *node);
 extern void select_indirect_table_entry();
-extern M2C_UNK select_sprite_entry(void *, u8, M2C_UNK);
-extern M2C_UNK func_80047784(void *, u8, M2C_UNK);
+extern void select_sprite_entry(void *, s16, s16);
+extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures();
 extern s32 lookup_masked_byte_table();
 extern s32 rsin(s32);
@@ -1093,7 +1093,7 @@ extern s32 update_map_cell_flags_with_item_limit();
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void prepare_directional_attack(void *, void *, s16, M2C_UNK, s32);
+extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 test_neighbor_position_relation(s32,s32,s32,s32);
@@ -1113,25 +1113,25 @@ extern s32 has_pending_dungeon_activity(void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 check_entity_interaction_compatibility();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern M2C_UNK advance_status_timers(M2C_UNK);
+extern s32 advance_status_timers(void *);
 extern s32 advance_staged_entity_load();
 extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value();
 extern s32 create_actor_spell_effect(void *, void *, s32, void *);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
-extern M2C_UNK update_actor_status_and_mp(void *);
+extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern M2C_UNK begin_pushed_actor_move(void *, M2C_UNK, void *, void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, M2C_UNK, void *, M2C_UNK *);
-extern M2C_UNK advance_actor_pending_action(void *, M2C_UNK, void *, void *);
-extern M2C_UNK begin_actor_move_to_target_facing(void *, M2C_UNK, void *, void *);
-extern s32 reset_actor_action_state(void *, M2C_UNK, void *, M2C_UNK *);
+extern s32 begin_ready_actor_directional_action(void *, s32, void *, u8 *);
+extern s32 advance_actor_pending_action(void *, s32, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *, s32, void *, u8 *);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
-extern s32 process_selected_actor_record(void *, M2C_UNK, void *, void *);
-extern M2C_UNK begin_actor_spell_action(void *, M2C_UNK, void *, M2C_UNK *, void (*)(void *, M2C_UNK, void *, void *));
+extern s32 process_selected_actor_record(void *, s32, void *, void *);
+extern void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
@@ -1146,7 +1146,7 @@ extern s32 update_actor_transform_from_parent(void *,void *,void *,void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 extern s32 update_actor_defeat_removal(void *,void *,void *,void *);
 extern void apply_clamped_actor_value_delta(void *);
-extern M2C_UNK spend_actor_mp(M2C_UNK, M2C_UNK);
+extern void spend_actor_mp(void *, s32);
 
 extern s32 create_status_linked_render_effect();
 extern s32 relink_entity_and_clear_high_flag();
@@ -1154,7 +1154,7 @@ extern s32 relink_entity_and_clear_high_flag();
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
-extern void apply_camera_offset_and_select_target(void *, M2C_UNK, M2C_UNK, M2C_UNK);
+extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 extern s32 rand(void);
 
 void spawn_overlay_attribute_effect_b(CL_CCB000_8017087C_Object *object, s32 field60_value, CL_CCB000_8017087C_CopyFields *source_coords);

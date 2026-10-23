@@ -54,7 +54,7 @@ typedef struct S_800CB82C_5 {
 s32 register_node();                /* extern */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 create_actor_spell_effect(); /* extern */
-extern M2C_UNK D_800CB600;
+extern void D_800CB600();
 extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;
 

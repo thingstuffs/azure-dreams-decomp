@@ -18,7 +18,7 @@ struct Elem;
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
-extern M2C_UNK D_800CB9DC;
+extern void D_800CB9DC();
 extern u8 D_800DF650[];
 
 typedef struct S_800CBB98_0 {

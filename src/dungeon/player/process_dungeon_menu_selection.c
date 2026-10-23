@@ -110,8 +110,8 @@ s32 display_text_with_fullwidth_adjustment();                         /* extern 
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers();            /* extern */
 extern M2C_UNK D_8001EF2C;
-extern M2C_UNK D_8004F5F4;
-extern M2C_UNK selected_item_record_alias;
+extern void *D_8004F5F4(void *, void *);
+extern Rec_D_80082EB0 selected_item_record_alias;
 extern s32 selected_item_action_alias;
 extern s8 spell_effect_selector_cache;
 extern u8 player_wait_frames[];
@@ -120,8 +120,8 @@ extern u8 actor_default_frames[];
 extern DdcbcEntry species_growth_table[];
 extern M2C_UNK D_800E0462;
 extern M2C_UNK D_800E0472;
-extern M2C_UNK D_800E0542;
-extern M2C_UNK D_800E0571;
+extern u8 D_800E0542[];
+extern u8 D_800E0571[];
 extern u8 D_800E069D[32];
 extern u8 D_800E06BD[3];
 extern u8 D_800E06C0[32];

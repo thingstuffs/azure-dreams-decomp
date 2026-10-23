@@ -95,7 +95,7 @@ void *create_preset_sprite_object();
 /* extern */
 void spawn_person_radial_effects();
 /* extern */
-extern M2C_UNK D_800A70EC;
+extern void D_800A70EC();
 extern M2C_UNK D_800D0DD8;
 
 /* Functions defined in this translation unit. */

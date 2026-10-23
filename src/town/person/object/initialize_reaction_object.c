@@ -4,7 +4,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern M2C_UNK D_800C9864;
-extern M2C_UNK D_800D64DC;
+extern s32 D_800D64DC[];
 
 
 /* Initialize the object and set its handler. */

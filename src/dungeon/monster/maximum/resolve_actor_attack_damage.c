@@ -70,7 +70,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
-extern M2C_UNK effect_update_tag;
+extern void effect_update_tag();
 extern void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
 extern u8 D_80173C6C[];
 

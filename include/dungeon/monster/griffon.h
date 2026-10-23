@@ -187,7 +187,7 @@ typedef struct R08_80172280_S_80172628_0 {
 } R08_80172280_S_80172628_0;
 typedef struct R08_801723C4_S_801724A8_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void (*unk_8C)(void *, EntityRec *, SpriteFrameState *, ActorRecord *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
 } R08_801723C4_S_801724A8_0;
 typedef struct R08_8017245C_S_80172478_0 {

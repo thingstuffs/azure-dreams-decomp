@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800930E4;
+extern void D_800930E4();
 
 typedef struct S_800946FC_0 {
     s32 * unk_00;

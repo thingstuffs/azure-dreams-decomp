@@ -26,7 +26,8 @@ typedef struct {
 } AnimTable;
 
 extern void *const D_80089684[9];
-extern M2C_UNK D_800F9D80[3];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800F9D80[];
 
 typedef struct S_800BE214_0 {
     u8 pad_00[0x68];

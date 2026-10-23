@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK catalog_display_node_slots[16];
+extern s32 *catalog_display_node_slots[98];
 extern s32 D_801331A0;
 
 /* Restore 12 referenced values from the backup array. */

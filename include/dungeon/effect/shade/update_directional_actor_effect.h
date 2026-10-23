@@ -279,7 +279,7 @@ s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rsin(s32);
 void *allocate_list_node();
 void *func_8003FD64();
-M2C_UNK advance_sprite_animation_and_textures();
+void advance_sprite_animation_and_textures();
 s32 rcos();
 void PushMatrix();
 void PopMatrix();

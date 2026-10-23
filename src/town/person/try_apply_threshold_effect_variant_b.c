@@ -5,8 +5,8 @@
 
 
 extern void initialize_object_entries(void *state, s32 output, void *entries);
-extern M2C_UNK D_800C3B7C;
-extern M2C_UNK D_800D5670;
+extern void D_800C3B7C();
+extern s32 D_800D5670[];
 
 
 /* Initialize the actor state, clear its entry flag, and set a callback with a 32-tick countdown. */

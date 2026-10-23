@@ -14,7 +14,7 @@ s32 register_node();           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 s16 rand();                                /* extern */
-extern M2C_UNK D_800CAED0;
+extern void D_800CAED0();
 extern M2C_UNK D_800E03B0;
 
 

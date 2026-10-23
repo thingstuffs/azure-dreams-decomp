@@ -12,7 +12,7 @@ static void apply_actor_delta_and_cap_value();
 extern void apply_clamped_actor_value_delta(void *arg);
 
 /* Starts action 7 with directional frames when ready; otherwise applies the pending actor delta. */
-s32 begin_ready_actor_directional_action(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
+s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, u8 *direction_frames) {
     if (((Rec_func_800A9E70_arg0 *)entity)->unk_64 > 0) {
         apply_actor_delta_and_cap_value(entity, context, sprite, entity);
         return 0;

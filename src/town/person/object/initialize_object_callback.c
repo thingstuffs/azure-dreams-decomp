@@ -5,7 +5,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 extern M2C_UNK D_800C8788;
-extern M2C_UNK D_800D627C;
+extern s32 D_800D627C[];
 
 
 typedef struct S_800C8808_1 {

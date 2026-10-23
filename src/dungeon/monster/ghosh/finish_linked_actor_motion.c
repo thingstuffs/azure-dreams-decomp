@@ -4,7 +4,7 @@
 
 /* extern */
             /* extern */
-extern M2C_UNK ghosh_action_resume_address;
+extern void ghosh_action_resume_address();
 
 typedef struct S_8016CED4_0 {
     u8 pad_00[0x8C];

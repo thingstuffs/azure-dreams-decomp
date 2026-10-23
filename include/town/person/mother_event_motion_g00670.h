@@ -30,7 +30,7 @@ extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
 extern s32 D_800C7674;
 extern s32 D_800D5FE8;
-extern M2C_UNK D_800C78A8;
+extern void D_800C78A8();
 
 extern Timer D_80113220;
 

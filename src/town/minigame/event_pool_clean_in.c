@@ -13,7 +13,7 @@
 extern s32 register_node();
 short SD_Call(int flags);
 extern M2C_UNK D_8007789C;
-extern M2C_UNK D_800BEBA4;
+extern void D_800BEBA4();
 
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 event_pool_clean_in(void)

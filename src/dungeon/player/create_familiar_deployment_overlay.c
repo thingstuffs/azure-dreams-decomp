@@ -10,13 +10,13 @@
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
 void set_sprite_animation_frame(); /* extern */
-extern M2C_UNK D_80093A94;
+extern void D_80093A94();
 
 typedef struct S_80093D8C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void (*unk_10)(void *, void *, void *);
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x2];

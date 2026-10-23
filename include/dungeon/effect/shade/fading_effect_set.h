@@ -229,7 +229,8 @@ void select_record_entry_and_value();
 s32 register_node();
 s32 func_8004491C();
 s32 rand();
-extern M2C_UNK rising_sprite_entries;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry rising_sprite_entries[];
 s32 rsin();
 s32 rcos();
 s32 check_left_tile_and_center_height();

@@ -33,9 +33,9 @@ void place_actor_item();                 /* extern */
 void display_actor_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();                /* extern */
 s32 create_five_point_effect(); /* extern */
-extern M2C_UNK D_800C135C;
+extern s32 D_800C135C();
 extern u8 ribbon_sprite_entries[];
-extern M2C_UNK D_800E1482;
+extern u8 D_800E1482[];
 
 /* Handles an object operation and updates its state or triggers its effect. */
 s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 context) {

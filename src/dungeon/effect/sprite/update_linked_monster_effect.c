@@ -22,7 +22,7 @@ extern u16 sprite_effect_update_count;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
 extern s32 D_80029670;
-extern M2C_UNK D_800C9034;
+extern s32 D_800C9034();
 
 typedef struct S_80025C80_0_pre {
     u16 unk_00;

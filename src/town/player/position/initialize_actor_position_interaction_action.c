@@ -5,7 +5,7 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 void store_the_valid_shared_angle_in_offset_hex_10(Rec_func_80094268_arg0 *);                            /* extern */
-extern M2C_UNK D_80092A84;
+extern void D_80092A84();
 
 
 /* Set the record field to six, reset and initialize it, and assign its handler. */

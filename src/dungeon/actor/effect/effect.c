@@ -353,7 +353,7 @@ typedef struct DungeonDescriptor {
     u32 fieldB8;
 } DungeonDescriptor;
 
-extern M2C_UNK D_800A7548;
+extern void D_800A7548();
 extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
@@ -612,7 +612,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 #include "m2c_compat.h"
 
 extern s32 register_node(void *entry, s32 registration_id);
-extern M2C_UNK D_800A7CC4;
+extern s32 D_800A7CC4();
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
 void create_floor_item_renderer(void) {
@@ -979,7 +979,7 @@ s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height();
 void set_record_integer_tile_center();
 s32 place_item_at_valid_floor_position();
-extern M2C_UNK held_item_record;
+extern s32 held_item_record;
 extern u8 D_800DD7DC[];
 extern s32 saved_held_item_word;
 

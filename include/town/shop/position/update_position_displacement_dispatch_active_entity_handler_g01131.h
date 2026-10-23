@@ -115,9 +115,9 @@ short SD_Call(int flags);
 AllocatedObject *allocate_object_with_callbacks();
 /* extern */
 void check_adjusted_input_indices();
-extern M2C_UNK D_800935BC;
+extern void D_800935BC();
 void unlink_node_if_registered(void *block_data);
-extern M2C_UNK D_8009F2A8;
+extern void D_8009F2A8();
 void register_node_if_unregistered(void *, s32);
 /* extern */
 void *runtime_get_mode_indexed_value();

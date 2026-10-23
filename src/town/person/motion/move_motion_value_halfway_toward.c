@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_delay_views.h"
 
-extern M2C_UNK D_800C5BA8;
+extern void D_800C5BA8();
 extern s32 town_target_height_offset;
 
    /* arg1 in move_motion_value_halfway_toward */

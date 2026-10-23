@@ -10,7 +10,8 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
-extern M2C_UNK D_800DEB28;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800DEB28[];
 
 typedef struct S_800246AC_0 {
     u16 unk_00;

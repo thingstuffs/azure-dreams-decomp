@@ -22,7 +22,7 @@ typedef struct S_800D6FEC_0 {
 void advance_sprite_animation_and_textures();                     /* extern */
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
-void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK update_arg) {
+void update_effect_countdown(void *object, MovingPosition *output, void *update_arg) {
     u16 remaining;
     MovingPosition *source;
 

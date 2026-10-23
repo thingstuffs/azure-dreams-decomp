@@ -4,7 +4,7 @@
 
 short SD_Call(int flags);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
-extern M2C_UNK D_80091AF0;
+extern void D_80091AF0();
 extern s32 D_800D00E8;
 
 

@@ -5,7 +5,7 @@
 #include "shared/town_handler.h"
 
 extern s8 town_action_reset_byte;
-extern M2C_UNK target_action_update_address;
+extern void target_action_update_address();
 
 
 /* Initialize the record from global data, clear the global flag, and set its table and counter. */

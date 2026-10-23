@@ -50,7 +50,7 @@ void register_node_if_unregistered(void *block_data, s32 registration_id);
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern s32 D_800D0DF0;
-extern M2C_UNK D_800A7360;
+extern void D_800A7360();
 extern s32 D_800D0DF8[];
 extern s16 query_lowered_transform_position();
 extern void unlink_node_if_registered(void *);

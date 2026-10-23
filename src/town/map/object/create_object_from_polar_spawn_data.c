@@ -5,7 +5,7 @@
 #include "sdk/libgte.h"
 
 void *allocate_list_node();            /* extern */
-extern M2C_UNK D_800BB894;
+extern void D_800BB894();
 
 typedef struct Copy24 {
     s32 words[6];

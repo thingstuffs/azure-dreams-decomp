@@ -16,12 +16,7 @@ void SetTransMatrix();
 u32 RotTransPers();
 s32 RotTransPers4();
 void * RotMatrix();
-M2C_UNK func_800D3924();
-M2C_UNK func_800D3AB8();
-M2C_UNK func_800D3B28();
-M2C_UNK func_800D3D40();
-M2C_UNK func_800D3D90();
-extern M2C_UNK sprite_projection_matrix[];
+extern u32 sprite_projection_matrix[8];
 
 typedef struct S_func_800CDFD8_1 {
     u16 unk_00;

@@ -67,8 +67,8 @@ extern void create_tracked_effect(void *, s32, void *, void *);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern s32 scene_object_list_anchor;
-extern M2C_UNK D_800B274C;
-extern M2C_UNK D_800B2A60;
+extern void D_800B274C();
+extern void D_800B2A60();
 
 /* Functions defined in this translation unit. */
 void initialize_entity_sprite_effect(void *entity, EntityRec *position,struct SpriteFrameState *sprite, s16 unused);

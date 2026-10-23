@@ -11,8 +11,8 @@ typedef struct S_800A6E1C_0 {
 
 struct Rec_D_800CFCB4; void configure_the_set_mode_n_3(struct Rec_D_800CFCB4 *, s32, s32);  /* extern */
 void initialize_object_transform_and_state(s32, void *, s32);             /* extern */
-extern M2C_UNK D_800A6CF0;
-extern M2C_UNK D_800A6EA4;
+extern void D_800A6CF0();
+extern void D_800A6EA4();
 extern M2C_UNK D_800D0DC0;
 
 /* Initializes object callbacks and state, then sets unit scale. */

@@ -13,7 +13,8 @@ void *allocate_list_node();            /* extern */
 void load_indexed_state_value();      /* extern */
 typedef struct S_800C8B8C_0 S_800C8B8C_0;
 void call_owner_callback(S_800C8B8C_0 *owner, void *motion, s32 context);
-extern M2C_UNK D_800EE344;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800EE344[];
 
    /* arg0 in create_offset_effect_object */
 

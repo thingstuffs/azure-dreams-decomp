@@ -44,7 +44,7 @@ s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 void advance_actor_pending_action(void *, s32, void *, void *);
 void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 void update_multi_form_actor_movement(void *, s32, void *, void *);
-extern M2C_UNK beldo_large_action_resume_address;
+extern void beldo_large_action_resume_address();
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];
 

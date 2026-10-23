@@ -190,7 +190,7 @@ void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void draw_textured_ellipse(); /* extern */
-extern M2C_UNK D_800A5828;
+extern void D_800A5828();
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
@@ -761,8 +761,8 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
 #include "m2c_compat.h"
 
 s32 register_node(void *entry, s32 registration_id);           /* extern */
-extern M2C_UNK D_800A6194;
-extern M2C_UNK D_800A624C;
+extern void D_800A6194();
+extern s32 D_800A624C();
 
 typedef struct S_800A634C_0 {
     u8 pad_00[0x10];
@@ -800,8 +800,8 @@ s32 append_typed_formatted_value();                    /* extern */
 s32 append_entity_display_text();                        /* extern */
 s32 write_status_prefix_bytes();                             /* extern */
 extern u8 fullwidth_period[];
-extern M2C_UNK D_800E0A03[];
-extern M2C_UNK D_800E0A12[];
+extern u8 D_800E0A03[];
+extern u8 D_800E0A12[];
 
 /* Builds and displays an item message with the selected phrase and entity name. */
 void display_item_status_message(s32 entity, s32 item, s32 message_kind, s32 buffer_arg) {
@@ -846,7 +846,7 @@ void display_actor_item_status_message(s32 actor, void *item, s32 buffer_arg2, s
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void display_formatted_context_message();                   /* extern */
-extern M2C_UNK D_800E092B;
+extern u8 D_800E092B[];
 
 /* Passes D_800E092B to display_formatted_context_message by address. */
 void display_fixed_item_action_message(void) {
@@ -1323,9 +1323,9 @@ void advance_record_values_by_step(Record *record, s16 step)
 s32 register_node(void *entry, s32 registration_id);
 s32 decode_fullwidth_text();
 void advance_record_values_by_step();
-extern M2C_UNK D_80089074;
+extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
-extern M2C_UNK D_800B06F0;
+extern s32 D_800B06F0();
 
 typedef struct S_800A6C00_0 {
     u8 pad_00[0x8];

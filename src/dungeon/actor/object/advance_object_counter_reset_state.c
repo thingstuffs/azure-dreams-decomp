@@ -4,7 +4,7 @@
 
 extern s32 initialize_object_entries(void *, s32, s32 *);
 extern void apply_setup_on_timeout_variant_3(Rec_func_80094268_arg0 *object);
-extern M2C_UNK D_800D6938;
+extern s32 D_800D6938[];
 
 
 /* Decrement the object's counter and switch state with a ten-tick counter when it expires. */

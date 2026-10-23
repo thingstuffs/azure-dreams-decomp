@@ -53,8 +53,8 @@ struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct R
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
 s32 execute_actor_script_command(u8 *, s32, u8 *);
-extern M2C_UNK D_8017469C;
-extern M2C_UNK D_801746BC;
+extern u8 D_8017469C[];
+extern u8 D_801746BC[];
 
 /* Update the actor's dungeon action, animation, and facing direction. */
 void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 context, SpriteFrameState *map_actor, ActorRecord *entity) {

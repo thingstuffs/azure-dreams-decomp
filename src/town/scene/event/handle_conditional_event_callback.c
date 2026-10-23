@@ -10,9 +10,14 @@ extern void set_current_entry_script_flag(void);
 extern void apply_entry_position(void *, void *, s32, s32);
 extern void set_script_flag_bit(s32);
 extern s32 get_script_flag_mask(s32);
-extern M2C_UNK D_8001BE2C;
-extern M2C_UNK D_8001BE44;
-extern M2C_UNK scene_dispatch_context;
+typedef struct ScenePositionEntry {
+    s16 key;
+    s16 selector;
+    s32 result;
+} ScenePositionEntry;
+extern ScenePositionEntry D_8001BE2C[];
+extern ScenePositionEntry D_8001BE44[];
+extern s16 scene_dispatch_context[];
 
 
 /* Handles the conditional callback and selects data according to flag 0x1460. */

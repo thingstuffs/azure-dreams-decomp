@@ -13,4 +13,13 @@ typedef struct DungeonItemEntry {
     /* 0x03 */ unsigned char unk_03;
 } DungeonItemEntry;
 extern DungeonItemEntry dungeon_ground_items[64];
+
+/* Position metadata paired with a floor item. The floor generators walk
+ * twelve-byte entries, read/write the two tile bytes, and clear 64 entries
+ * with 0x300 bytes. Other fields retain padding in this sparse view. */
+typedef struct DungeonItemPosition {
+    unsigned char x;
+    unsigned char y;
+    unsigned char pad_02[10];
+} DungeonItemPosition;
 #endif

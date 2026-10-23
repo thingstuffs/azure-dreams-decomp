@@ -29,7 +29,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
-extern extern M2C_UNK g_dungeon_status[3];
+extern s32 g_dungeon_status[3];
 extern u8 poison_cure_text[25];
 
 

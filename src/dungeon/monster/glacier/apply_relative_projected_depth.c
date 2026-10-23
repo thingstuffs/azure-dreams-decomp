@@ -42,7 +42,7 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     Stack3 coords;
     s32 projection_flags;
     s32 depth_cue;
-    M2C_UNK screen_xy[2];
+    s32 screen_xy[2];
     s16 depth_delta;
     s32 depth_bias;
     MovingPosition *base_position;

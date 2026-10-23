@@ -46,8 +46,8 @@ typedef struct S_80023260_5 {
 void update_directional_record();      /* extern */
 void advance_bounded_entry_index();              /* extern */
 void fill_eligible_negative_slots();            /* extern */
-M2C_UNK select_sprite_entry();         /* extern */
-M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
+void select_sprite_entry();         /* extern */
+void advance_sprite_animation_and_textures();                      /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 s32 rand();              /* extern */

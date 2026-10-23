@@ -1726,7 +1726,8 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
 #endif
 
 s32 rand();
-extern M2C_UNK D_800DEED0;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800DEED0;
 
 typedef struct S_807B09A0_0 {
     u16 unk_00;

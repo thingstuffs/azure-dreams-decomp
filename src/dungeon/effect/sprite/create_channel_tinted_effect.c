@@ -32,7 +32,8 @@ void select_record_entry_and_value(struct Dst *state, struct Elem *entries, shor
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
-extern M2C_UNK D_80025E04;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_80025E04[];
 
 /* Creates a colored object, copies its transform, and applies a vertical offset. */
 s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index, s32 y_offset) {

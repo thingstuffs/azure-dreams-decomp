@@ -16,7 +16,8 @@ extern s32 rcos(s32);
 
 extern u8 D_80099B18[];
 extern s32 rising_sprite_entries[3];
-extern M2C_UNK moving_sprite_entries;
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry moving_sprite_entries[];
 
 typedef struct S_80099C58_2 {
     u8 pad_00[0xE];

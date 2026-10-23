@@ -8,7 +8,7 @@
 
 void begin_player_trap_trigger(); /* extern */
 void set_record_integer_tile_center();              /* extern */
-extern M2C_UNK destination_motion_resume_address;
+extern void destination_motion_resume_address();
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
 void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, s32 context) {

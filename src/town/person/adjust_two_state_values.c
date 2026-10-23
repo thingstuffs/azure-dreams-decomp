@@ -5,7 +5,7 @@
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 typedef struct S_800C56A8_0 S_800C56A8_0;
 void adjust_two_state_values(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state);
-extern M2C_UNK D_800D5388;
+extern s32 D_800D5388[];
 
 
 /* Initialize the actor and set its counter to 40 and its handler. */

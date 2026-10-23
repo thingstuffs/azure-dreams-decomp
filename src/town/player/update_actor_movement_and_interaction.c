@@ -28,11 +28,11 @@ void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
 s32 select_response_for_source_and_target();                     /* extern */
-extern M2C_UNK D_80093B00;
-extern M2C_UNK D_8009B828;
-extern M2C_UNK D_8009B8E8;
-extern M2C_UNK D_8009B9BC;
-extern M2C_UNK town_actor_control;
+extern void D_80093B00();
+extern void D_8009B828();
+extern void D_8009B8E8();
+extern void D_8009B9BC();
+struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 extern void *town_target_record;
 extern s32 town_interaction_pending[];
 extern s32 *town_player_action_callback;

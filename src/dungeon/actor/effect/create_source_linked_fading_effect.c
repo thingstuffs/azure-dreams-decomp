@@ -15,8 +15,9 @@ typedef struct S_800CB4C0_6 {
 void select_record_entry_and_value();  /* extern */
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
-extern M2C_UNK D_800CB374;
-extern M2C_UNK D_800E02CC;
+extern void D_800CB374();
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800E02CC[];
 
 typedef struct S_800CB4C0_5 {
     u8 pad_00[0x96];

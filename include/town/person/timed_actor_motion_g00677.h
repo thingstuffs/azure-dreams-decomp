@@ -13,8 +13,8 @@ typedef struct S_800C8FF0_1 {
     s32 unk_04;
 } S_800C8FF0_1;
 
-extern M2C_UNK D_800C8FF0;
-extern M2C_UNK D_800D6268;
+extern void D_800C8FF0();
+extern s32 D_800D6268[];
 void finish_countdown_and_set_flags(void *object, s32 *position);
 
 /* Functions defined in this translation unit. */

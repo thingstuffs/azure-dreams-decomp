@@ -83,7 +83,7 @@ s32 is_default_object_data(struct S_800CB7D0_0 *);
 void configure_the_set_mode_n_3(struct Rec_D_800CFCB4 *, s32, s32);
 void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32);
 /* extern */
-extern M2C_UNK D_800CBAAC;
+extern void D_800CBAAC();
 extern M2C_UNK D_800D6A58;
 void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
 extern s16 query_lowered_transform_position();

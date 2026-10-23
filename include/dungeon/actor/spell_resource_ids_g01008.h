@@ -90,7 +90,7 @@ s32 display_text_with_fullwidth_adjustment();
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range();
 void spend_actor_mp();
-extern M2C_UNK D_80089080;
+extern u8 D_80089080[];
 extern u8 spell_mp_costs[];
 extern u8 alternate_spell_mp_costs[];
 extern u8 D_800E1C58[12];

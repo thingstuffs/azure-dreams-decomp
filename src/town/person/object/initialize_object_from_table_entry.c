@@ -16,7 +16,7 @@ typedef struct {
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern D_80082660_entry object_index_slots[];
 extern M2C_UNK D_800CE8CC;
-extern M2C_UNK D_800D72D4;
+extern s32 D_800D72D4[];
 
 
 typedef struct S_800CED24_1 {

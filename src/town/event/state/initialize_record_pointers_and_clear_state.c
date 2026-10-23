@@ -11,8 +11,8 @@ typedef struct S_800A97D8_0 {
    /* arg1 in initialize_record_pointers_and_clear_state */
 
 
-extern M2C_UNK D_800A6CF0;
-extern M2C_UNK D_800A9778;
+extern void D_800A6CF0();
+extern void D_800A9778();
 
 /* Initialize the record pointers and clear the associated state field. */
 void initialize_record_pointers_and_clear_state(void *record_data, EffectStateWordView *state) {

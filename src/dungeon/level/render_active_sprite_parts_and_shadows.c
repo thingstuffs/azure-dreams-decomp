@@ -106,7 +106,7 @@ s32 RotMatrix(void *, void *, ...);        /* extern */
 void AddPrim(void *, void *);         /* extern */
 void SetPolyFT4(void *);                 /* extern */
 u16 sample_terrain_surface_height();                   /* extern */
-extern M2C_UNK sprite_projection_matrix[8];
+extern u32 sprite_projection_matrix[8];
 extern s32 dungeon_floor_flags[3];
 extern u8 floor_objects[128];
 typedef struct DebugEntry {

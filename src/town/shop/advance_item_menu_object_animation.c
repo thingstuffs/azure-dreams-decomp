@@ -38,7 +38,7 @@ typedef struct S_800AE630_1 {
 } S_800AE630_1;
 
 
-extern M2C_UNK D_800AE600;
+extern void D_800AE600();
 
 /* Advance the object position and transition step, then invoke its callback. */
 void advance_item_menu_object_animation(void *object) {

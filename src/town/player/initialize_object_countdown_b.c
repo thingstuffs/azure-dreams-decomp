@@ -6,7 +6,7 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
-extern M2C_UNK D_80098180;
+extern void D_80098180();
 
 
 /* Initializes an object with default state and clears the shared flag. */

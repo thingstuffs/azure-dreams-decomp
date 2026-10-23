@@ -27,7 +27,7 @@ void apply_pending_indexed_value();          /* extern */
 void apply_pending_table_entry();          /* extern */
 extern char D_800A62E8[];
 extern char D_800A630C[];
-extern M2C_UNK D_800C035C;
+extern void D_800C035C();
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */

@@ -7,7 +7,7 @@ extern s32 DrawSync(s32);
 extern s32 ClearImage(s16 *, s32, s32, s32);
 s32 is_catalog_entry_available();
 extern M2C_UNK D_8011ACD8;
-extern M2C_UNK catalog_glyphs;
+extern s32 catalog_glyphs[];
 
 typedef struct S_80123A60_0 {
     u8 pad_00[0xF];

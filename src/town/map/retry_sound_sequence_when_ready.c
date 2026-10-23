@@ -4,7 +4,7 @@
 s32 find_unflagged_node_by_key();                       /* extern */
 void town_sd_sq_callagain(void);
 s32 apply_nearby_object_effects();                       /* extern */
-extern M2C_UNK D_800C2074;
+extern void D_800C2074();
 extern M2C_UNK D_800D4710;
 
 /* Call town_sd_sq_callagain when either global object check returns zero. */

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 int advance_index_with_single_wrap(int, int, int);                        /* extern */
-extern M2C_UNK D_800AE5B8;
+extern void D_800AE5B8();
 
 typedef struct S_800AF1B4_0 {
     u8 pad_00[0x4];

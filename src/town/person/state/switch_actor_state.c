@@ -3,8 +3,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern M2C_UNK D_800C6644;
-extern M2C_UNK D_800D5944;
+extern void D_800C6644();
+extern s32 D_800D5944[];
 
 
 /* Switch the actor state and callback when the countdown expires, then reset it to five ticks. */

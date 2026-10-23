@@ -4,7 +4,7 @@
 
 struct Node; s32 append_scene_list_node(struct Node *);                      /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
-extern M2C_UNK D_8009BDC0;
+extern void D_8009BDC0();
 
 
 typedef struct S_8009C0D8_1 {

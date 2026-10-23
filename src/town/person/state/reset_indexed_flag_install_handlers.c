@@ -6,7 +6,7 @@
 
 extern void initialize_object_entries(void *state, s32 output, void *entries);
 extern void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
-extern M2C_UNK D_800D5518;
+extern s32 D_800D5518[];
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
 extern M2C_UNK D_800D5654;

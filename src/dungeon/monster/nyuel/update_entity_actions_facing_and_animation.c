@@ -67,10 +67,10 @@ extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *m
 s32 complete_timed_tile_movement();
 extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 extern u8 nyuel_frame_set_2[];
-extern M2C_UNK nyuel_frame_set_3;
-extern M2C_UNK nyuel_frame_set_1;
-extern M2C_UNK D_80174F08;
-extern M2C_UNK D_80174F10;
+extern u8 nyuel_frame_set_3[];
+extern u8 nyuel_frame_set_1[];
+extern u8 D_80174F08[];
+extern u8 D_80174F10[];
 
 /* Updates entity actions, facing, and animation from state and terrain. */
 /* Selects Nyuel's movement, attacks, spells, and turn processing, dimming its status sprite when its

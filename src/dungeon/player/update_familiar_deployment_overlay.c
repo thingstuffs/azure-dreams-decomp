@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK familiar_save_frames;
+extern u8 familiar_save_frames[];
 extern void step_actor_animation(void *, s32);
 
 /* Updates an object's scale and brightness through its transition modes. */

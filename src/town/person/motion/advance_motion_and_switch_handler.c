@@ -12,7 +12,7 @@ typedef struct S_800C3F44_3 {
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 #include "town/person/object/initialize_object_entries_api.h"        /* extern */
-extern M2C_UNK D_800C3EAC;
+extern void D_800C3EAC();
 
 
 /* Advances motion and changes the object handler when the motion step is nonnegative. */

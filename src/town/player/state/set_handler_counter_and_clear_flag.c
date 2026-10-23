@@ -3,7 +3,7 @@
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
-extern M2C_UNK D_80098104;
+extern void D_80098104();
 
 typedef struct S_80098C04_0 {
     u8 pad_00[0x4];
