@@ -36,7 +36,7 @@ struct S_800A7338_0;
 
 typedef struct S_800A7338_0 {
     u8 pad_00[0x50];
-    s32 (*unk_50)(struct S_800A7338_0 *);
+    s32 (*unk_50)(struct S_800A7338_0 *, void *, s32);
 } S_800A7338_0;
 
 typedef struct S_800A7360_1 {
@@ -61,7 +61,7 @@ extern void add_hex_20000_s_signed_offset_hex_14(void *record);
 /* Functions defined in this translation unit. */
 s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id);
 void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *output, s32 unused);
-void invoke_emote_object_callback(S_800A7338_0 *object);
+void invoke_emote_object_callback(S_800A7338_0 *object, void *motion, s32 context);
 void advance_emote_motion(S_800A7360_1 *object, EntityRec *motion);
 void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 context);
 

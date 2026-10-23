@@ -5,10 +5,8 @@
 #include "shared/object_node.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
-s32 process_linked_state_chain(void *initial_state) {
+s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2) {
     u8 *state = initial_state;
-    u8 *carrier2;
-    s32 carrier1;
     u16 result;
 
     for (;;) {

@@ -895,6 +895,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         s16 unk0;
         s16 unk2;
         s16 unk4;
+        s16 pad;
     } Local38;
     Local20 warp_params;
     Local38 zero_vec;

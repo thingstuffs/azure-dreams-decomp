@@ -25,6 +25,7 @@ typedef struct S_8003DE58_Vec {
     s16 x;
     s16 y;
     s16 z;
+    s16 pad;
 } S_8003DE58_Vec;
 
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */

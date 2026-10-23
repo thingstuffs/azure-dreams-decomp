@@ -10,6 +10,6 @@ typedef struct S_800CCC70_0 {
 } S_800CCC70_0;   /* arg0 in invoke_flag_state_callback_b */
 
 /* Invoke the callback selected by the object state. */
-void invoke_flag_state_callback_b(S_800CCC70_0 *object) {
-    ((void (*)()) (*(s32 *)((u8 *)&D_800D70A0 + ((object->unk_68) * 4))))();
+void invoke_flag_state_callback_b(S_800CCC70_0 *object, s32 context, void *motion) {
+    ((void (*)(S_800CCC70_0 *, s32, void *)) (*(s32 *)((u8 *)&D_800D70A0 + ((object->unk_68) * 4))))(object, context, motion);
 }

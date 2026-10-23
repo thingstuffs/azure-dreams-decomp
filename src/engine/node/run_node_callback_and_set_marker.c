@@ -8,11 +8,11 @@
 void run_node_callback_and_set_marker(void *entry, void *output, void *context) {
     GameWork *runtime_state;
     s32 field_value;
-    void (*callback)(void) = *(void (**)(void))entry;
+    void (*callback)(void *, void *, void *) = *(void (**)(void *, void *, void *))entry;
 
     runtime_state = &g_game_work;
     if (callback != 0) {
-        callback();
+        callback(entry, output, context);
         if ((*(u16 *)((u8 *)entry - 2) & NODE_REMOVE) != 0) {
             return;
         }

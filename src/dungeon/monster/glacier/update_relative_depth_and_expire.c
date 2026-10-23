@@ -26,9 +26,9 @@ extern s32 advance_sprite_animation_and_textures();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
 void update_relative_depth_and_expire(void *state, MovingPosition *position, SpriteFrameState *entity) {
-    u16 coords[3];
+    u16 coords[4];
     M2C_S64 transform_result;
-    s16 transform_aux;
+    s32 transform_aux;
     s32 transform_flags;
     s32 position_depth;
     s32 reference_depth;

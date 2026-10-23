@@ -245,7 +245,7 @@ void update_rotating_effect_and_fade(void *effect, void *position, SpriteFrameSt
 /* Creates a gray sprite at a rotated radial offset using the source's saved position and transform. */
 void create_textured_offset_object(void *source_object)
 {
-    s16 local_offset[3];
+    s16 local_offset[4];
     u16 world_offset[3];
     s16 scale_component;
     s32 value;

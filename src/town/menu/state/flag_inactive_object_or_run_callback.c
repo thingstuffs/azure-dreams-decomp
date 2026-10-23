@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 typedef struct TownObject {
-    void (*callback)(void);
+    void (*callback)(struct TownObject *, s32, u8 *);
     s8 pad_04[0x3C];
     u8 *field_40;
 } TownObject;
@@ -25,5 +25,5 @@ void flag_inactive_object_or_run_callback(TownObject *object, s32 unused, u8 *ou
     output[0xC] = g_game_work.view.tint.parts.tint_r;
     output[0xD] = g_game_work.view.tint.parts.tint_g;
     output[0xE] = g_game_work.view.tint.parts.tint_b;
-    object->callback();
+    object->callback(object, unused, output);
 }

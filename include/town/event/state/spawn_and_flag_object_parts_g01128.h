@@ -33,7 +33,7 @@ typedef struct S_8009C390_1 {
 
 typedef struct S_8009C46C_0 {
     u8 pad_00[0x50];
-    s32 (*unk_50)(struct S_8009C46C_0 *);
+    s32 (*unk_50)(struct S_8009C46C_0 *, void *, void *);
 } S_8009C46C_0;
 
 typedef struct {
@@ -126,7 +126,7 @@ extern u8 D_800814A0[];
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);
 void unlink_and_remove_scene_object(void *object);
 void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value);
-void run_object_secondary_callback(S_8009C46C_0 *object, void *unused_motion, void *unused_context);
+void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *context);
 void initialize_timed_fade_object(Struct8009ED34Arg0 *context, void *unused, Struct8009ED34Arg2 *state);
 void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S_8009C4E8_2 *appearance);
 void fade_object_primitive(void *object, void *unusedContext, u8 *primitive);

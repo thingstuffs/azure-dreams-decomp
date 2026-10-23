@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -37,7 +38,6 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern s16 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void advance_stored_actor_path(void *, void *);
 extern void func_80171B28(void *, void *, void *, void *);
 extern s16 func_80172270(void *, void *, void *, void *);
 extern void initialize_status_gated_action(void *, void *, void *, void *);
@@ -64,7 +64,7 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
 
     if (dungeon_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
-        advance_stored_actor_path(actor, context);
+        advance_stored_actor_path(actor, context, sprite_in, entity);
         return;
     }
 

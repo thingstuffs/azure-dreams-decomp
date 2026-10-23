@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -35,7 +36,7 @@ extern u8 kid_direction_frames[];
 extern u8 kid_alt_direction_frames[];
 
 /* Advance the actor along its stored path and update movement direction and timing. */
-void advance_stored_actor_path(void *motion, s32 unused, SpriteFrameState *actor, void *move_state)
+void advance_stored_actor_path(void *motion, void *unused, SpriteFrameState *actor, void *move_state)
 {
     u8 *direction_table;
     s32 old_x;

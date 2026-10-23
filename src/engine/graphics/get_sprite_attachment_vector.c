@@ -30,6 +30,7 @@ typedef struct S_8003DF74_Vec {
     s16 x;
     s16 y;
     s16 z;
+    s16 pad;
 } S_8003DF74_Vec;
 
 /* Looks up an entry and fills its vector, using a fixed fallback for flagged entities. */

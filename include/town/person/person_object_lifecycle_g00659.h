@@ -41,7 +41,7 @@ void unlink_node_if_registered(void *block_data);
 s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, s32);
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
-void call_object_callback(S_800C3960_0 *object);
+void call_object_callback(S_800C3960_0 *object, s32 context, void *motion);
 void dispatch_object_when_idle(TargetObj *, void *, s32, s32);
 s32 quantize_heading_to_sector(s32, s16);
 s32 check_heading_past_half_sector(s32, s16);

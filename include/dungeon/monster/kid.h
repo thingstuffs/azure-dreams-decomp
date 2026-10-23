@@ -7,6 +7,8 @@
 
 
 
+void advance_stored_actor_path(void *motion, void *context, SpriteFrameState *sprite, void *move_state);
+
 void advance_entity_animation_actions(void *action, void *context, SpriteFrameState *sprite, void *entity);
 void update_actor_action_and_animation(void *controller_in, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor);
 

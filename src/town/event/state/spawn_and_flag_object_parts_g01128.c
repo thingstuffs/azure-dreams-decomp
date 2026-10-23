@@ -64,8 +64,8 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
 }
 
 /* Invoke the object's callback. */
-void run_object_secondary_callback(S_8009C46C_0 *object, void *unused_motion, void *unused_context) {
-    object->unk_50(object);
+void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *context) {
+    object->unk_50(object, motion, context);
 }
 
 /* Clear state, initialize the context resource, and set a 30-tick countdown and handler. */

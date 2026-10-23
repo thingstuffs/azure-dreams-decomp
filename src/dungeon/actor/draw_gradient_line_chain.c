@@ -41,7 +41,7 @@ void SetDrawMode(void *, s32, s32, s32, s32);
 /* Draw depth-sorted gradient lines for the linked nodes. */
 s32 draw_gradient_line_chain(u8 *node)
 {
-    u16 endpoint[3];
+    u16 endpoint[4];
     s32 projection_param;
     s32 projection_flags;
     GameWork *town;

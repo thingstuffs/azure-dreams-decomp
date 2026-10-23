@@ -741,7 +741,7 @@ extern s32 SetDrawMode();
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
 s32 draw_fading_radial_effect_grid(void *effect_data) {
-    u16 vertex[3];
+    u16 vertex[4];
     u32 screen_grid[16][16];
     s32 depth_cue;
     s32 projection_flags;

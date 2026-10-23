@@ -120,7 +120,7 @@ void func_80035614(struct S_80035614_0 *object);
 void init_window_object(struct S_80035614_0 *object);
 
 /* invoke_window_object_callback.c */
-void invoke_window_object_callback(struct S_800355EC_0 *object);
+void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, void *output);
 
 /* mark_menu_slot_used.c */
 void mark_menu_slot_used(struct S_func_800368D0_0 *state);

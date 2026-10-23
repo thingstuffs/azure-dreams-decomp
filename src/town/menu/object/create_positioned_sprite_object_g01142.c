@@ -43,8 +43,8 @@ void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *ou
 }
 
 /* Invoke the object's callback. */
-void invoke_emote_object_callback(S_800A7338_0 *object) {
-    object->unk_50(object);
+void invoke_emote_object_callback(S_800A7338_0 *object, void *motion, s32 context) {
+    object->unk_50(object, motion, context);
 }
 
 /* Accumulate motion offsets and switch the object handler when the final offset is nonnegative. */

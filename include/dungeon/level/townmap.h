@@ -9,7 +9,7 @@ struct ObjectNodeHeader;
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-typedef void (*Callback)(void);
+typedef void (*Callback)(void *);
 typedef struct town_map_7FFEE278_S_8008B9D8_0 {
     u8 pad_00[0x68];
     void (*unk_68)(struct Struct_7FFEE2A0 *);
@@ -18,8 +18,8 @@ struct Struct_7FFEE2A0;
 typedef struct town_map_7FFEE2A0_Struct_7FFEE2A0 {
     char pad0[0x64];
     s16 unk64;
-    void (*unk68)(void);
-    void (*unk6C)(void);
+    void (*unk68)(void *);
+    void (*unk6C)(void *);
 } town_map_7FFEE2A0_Struct_7FFEE2A0;
 typedef struct town_map_7FFEE2E4_S_8008BA44_0 {
     void * unk_00;
