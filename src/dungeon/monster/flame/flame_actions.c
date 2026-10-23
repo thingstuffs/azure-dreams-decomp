@@ -492,7 +492,7 @@ void initialize_destination_state(void *actor, void *actor_context, SpriteFrameS
 
     if (g_dungeon_status.flags & 0x1000) {
         ((R06_8017140C_S_8017140C_0 *)actor)->unk_9A = 0xE;
-        update_actor_object_motion(actor, actor_context);
+        update_actor_object_motion(actor, actor_context, sprite, creature);
         return;
     }
 
@@ -585,72 +585,71 @@ void initialize_destination_state(void *actor, void *actor_context, SpriteFrameS
             update_actor_status_and_mp(creature);
             return;
         }
-        if (*(u16 *)&sprite->tile_x == reference_tile_object . tile_position . word ) {
-            choose_flame_move(actor, actor_context, sprite, creature);
-            return;
-        }
-        if (!(((R06_8017140C_S_8017140C_1 *)creature)->unk_46 & 0x8000)) {
-            if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(creature,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+        if (*(u16 *)&sprite->tile_x != reference_tile_object.tile_position.word) {
+            if (!(((R06_8017140C_S_8017140C_1 *)creature)->unk_46 & 0x8000)) {
+                if (g_dungeon_status.flags & 0x2000) {
+                    if ((check_entity_relation(creature,
+                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                        return;
+                    }
+                }
+                if ((relink_flame_path(actor, actor_context, sprite, 0) << 16) == 0) {
+                    return;
+                }
+                behavior_flags = ((R06_8017140C_S_8017140C_1 *)creature)->unk_46 | 0x4000;
+                ((R06_8017140C_S_8017140C_1 *)creature)->unk_46 = behavior_flags;
+                if (!(behavior_flags & 0x8000)) {
+                    choose_flame_move(actor, actor_context, sprite, creature);
                     return;
                 }
             }
-            if ((relink_flame_path(actor, actor_context, sprite, 0) << 16) == 0) {
-                return;
-            }
-            behavior_flags = ((R06_8017140C_S_8017140C_1 *)creature)->unk_46 | 0x4000;
-            ((R06_8017140C_S_8017140C_1 *)creature)->unk_46 = behavior_flags;
-            if (!(behavior_flags & 0x8000)) {
-                choose_flame_move(actor, actor_context, sprite, creature);
-                return;
-            }
-        }
 
-        {
-            u32 behavior_index = (u32)((((R06_8017140C_S_8017140C_1 *)creature)->unk_46 & 0x3FFF) - 1);
-
-            switch (behavior_index) {
-            case 7:
-            case 8:
-                if ((try_flame_attack(actor, actor_context, sprite, creature) << 16) != 0) {
-                    return;
-                }
-                update_actor_action_and_direction(actor, actor_context, sprite, creature);
-                return;
-
-            case 4:
-            case 5:
-            case 6:
             {
-                ActorRecord *player;
-                s16 facing_angle;
+                u32 behavior_index = (u32)((((R06_8017140C_S_8017140C_1 *)creature)->unk_46 & 0x3FFF) - 1);
 
-                facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)sprite->tile_x,(s16)sprite->tile_y,(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
-                    &distance));
-                player = primary_actor_record;
-                ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = facing_angle;
-                if (player->action_id == 0x11) {
+                switch (behavior_index) {
+                case 7:
+                case 8:
+                    if ((try_flame_attack(actor, actor_context, sprite, creature) << 16) != 0) {
+                        return;
+                    }
+                    update_actor_action_and_direction(actor, actor_context, sprite, creature);
+                    return;
+
+                case 4:
+                case 5:
+                case 6:
+                {
+                    ActorRecord *player;
+                    s16 facing_angle;
+
+                    facing_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)sprite->tile_x,(s16)sprite->tile_y,(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
+                        &distance));
+                    player = primary_actor_record;
+                    ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = facing_angle;
+                    if (player->action_id == 0x11) {
+                        begin_actor_spell_action(actor, actor_context, sprite, ((u8 *)D_80175884), initialize_destination_state);
+                        return;
+                    }
+                }
+
+                case 11:
+                    update_actor_status_and_mp(creature);
+                    return;
+
+                case 0:
+                case 1:
+                case 2:
                     begin_actor_spell_action(actor, actor_context, sprite, ((u8 *)D_80175884), initialize_destination_state);
                     return;
+
+                default:
+                    break;
                 }
             }
-
-            case 11:
-                update_actor_status_and_mp(creature);
-                return;
-
-            case 0:
-            case 1:
-            case 2:
-                begin_actor_spell_action(actor, actor_context, sprite, ((u8 *)D_80175884), initialize_destination_state);
-                return;
-
-            default:
-                choose_flame_move(actor, actor_context, sprite, creature);
-                return;
-            }
         }
+        choose_flame_move(actor, actor_context, sprite, creature);
+        return;
     }
 
     if (!(((R06_8017140C_S_8017140C_1 *)creature)->unk_1C & 0x2000)) {

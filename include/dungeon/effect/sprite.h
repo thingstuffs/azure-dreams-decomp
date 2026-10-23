@@ -9,6 +9,7 @@ void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position,
 void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context);
 void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf);
 void process_effect_block_entries(void *block);
+void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(EntityRec *object, s32 unused, void *record);
 
 
 

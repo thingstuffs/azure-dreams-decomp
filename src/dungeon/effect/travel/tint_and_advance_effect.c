@@ -1160,14 +1160,14 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
 #include "dungeon/effect/travel.h"
 #include "common.h"
 
-extern s32 try_trigger_target_record_effect(s32, s32);
-extern s32 set_or_clear_actor_status_slot(s32, s32, s32);
-extern void adjust_source_value_and_finalize(s32, void *);
+#include "dungeon/effect/screen.h"
+extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
+extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1CD5[9];
 
 /* Conditionally applies D_800E1CD5 using a check indexed by the supplied value's low byte. */
-void apply_indexed_effect_condition(s32 target, u8 packedValue, void *owner_context) {
-    if (try_trigger_target_record_effect(target, 1) == 0) {
+void apply_indexed_effect_condition(void *target, u8 packedValue, void *owner_context) {
+    if (try_trigger_target_record_effect(target, 1, owner_context) == 0) {
         s32 valueGroupIndex = packedValue >> 2;
         valueGroupIndex += 2;
         /*

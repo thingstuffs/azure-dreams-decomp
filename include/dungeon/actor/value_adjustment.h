@@ -27,7 +27,7 @@ s32 clear_byte_and_advance(void *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, void *dest);
 s32 append_entity_display_text(void *record, void *out);
 s32 adjust_source_value_and_finalize(void *, void *);
-s32 try_trigger_target_record_effect(void *, s32);
+#include "dungeon/effect/screen.h"
 s32 display_text_with_fullwidth_adjustment(void *text);
 s32 generate_random_value(void);
 s32 create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
@@ -46,5 +46,5 @@ void func_80025DF4(void);
 void func_80025D90(void);
 extern u8 D_800E2096[38];
 extern u8 D_800E20BC[26];
-s32 apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level);
+s32 apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record);
 #endif

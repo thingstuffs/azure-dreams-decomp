@@ -456,7 +456,7 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } B28_818B68B8_S_818B68B8_2;
-void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_context);
+void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record);
 void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
 s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out);
@@ -476,7 +476,7 @@ extern void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16
 extern s16 cap_pending_actor_value_delta(void *);
 extern void apply_clamped_actor_value_delta(void *);
 extern s32 get_random_scaled_value(s16 input_value);
-extern s32 try_trigger_target_record_effect(void *, s32);
+#include "dungeon/effect/screen.h"
 extern s32 rcos();
 extern s32 rsin();
 extern s32 RotAverage4(

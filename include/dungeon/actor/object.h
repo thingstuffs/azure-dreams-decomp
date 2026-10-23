@@ -4,6 +4,7 @@
 /* Function contracts owned by src/dungeon/actor/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
 s32 count_occupied_entity_slots(void *entity);
+s32 is_linked_object_flagged_10000(void *object);
 
 
 #endif

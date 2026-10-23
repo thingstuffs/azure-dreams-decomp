@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/object.h"
 #include "shared/record_ptrs.h"
 
 #ifndef NULL

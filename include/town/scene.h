@@ -4,9 +4,15 @@
 #include "common.h"
 
 
+/* dispatch_inputs_by_current_state.c */
+s32 dispatch_inputs_by_current_state(s32 input_a, s32 input_b, s32 input_c, s32 input_d);
+
 /* process_town_records.c */
 void process_town_records(s32 records_addr, s32 record_count);
 
+
+/* select_data_for_requested_kind.c */
+void *select_data_for_requested_kind(s32 lookup_id, s32 lookup_index, s32 data_kind);
 
 /* is_next_entry_zero_after_skipping.c */
 s32 is_next_entry_zero_after_skipping(s32 list_index);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern s32 D_80175D48;
 
@@ -6,7 +7,7 @@ extern u8 D_04816000;
 #define INITIAL_VALUE ((s32)&D_04816000)
 
 /* Sets the global word pair to a fixed value and nine times the input plus an offset. */
-void prepare_encounter_resource_descriptor(s32 input_value) {
+void *prepare_encounter_resource_descriptor(s32 input_value) {
     s32 word_value;
     s32 *state_words;
 
@@ -17,4 +18,5 @@ void prepare_encounter_resource_descriptor(s32 input_value) {
 
     word_value = (input_value * 9) + 0x30B2;
     state_words[1] = word_value;
+    return state_words;
 }

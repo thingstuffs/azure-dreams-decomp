@@ -10,6 +10,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode);
 void pack_and_submit_cell_height_levels(void);
 void update_packed_map_levels(void);
+s32 try_trigger_target_record_effect(void *entity, s32 flags, void *record);
 
 
 #endif

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *select_first_or_later_use_value(s32, s32);
+extern void *select_first_or_later_use_value(s32, s32, s32);
 extern u8 D_800170C8[];
 extern u8 D_8001BA8C[];
 extern u8 D_8001BA91[];
@@ -16,5 +16,5 @@ void *select_data_for_requested_kind(s32 lookup_id, s32 lookup_index, s32 data_k
     if (data_kind == 4) {
         return D_8001BA8C;
     }
-    return select_first_or_later_use_value(lookup_id, lookup_index);
+    return select_first_or_later_use_value(lookup_id, lookup_index, data_kind);
 }

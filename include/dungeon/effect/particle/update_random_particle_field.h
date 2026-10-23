@@ -158,7 +158,7 @@ extern SpriteSourceEntry moving_sprite_entries[];
 
 extern void (*const D_80024000)(void *, void *);
 
-s32 is_linked_object_flagged_10000(void);
+
 void *allocate_list_node(s32, void *);
 void *func_8003FD64(s32, void *);
 void register_node(void *, void *);

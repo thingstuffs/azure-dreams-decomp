@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/update_random_particle_field.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/object.h"
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;
@@ -18,7 +19,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     u8 column;
 
     changed_count = 0;
-    if (is_linked_object_flagged_10000() != 0) {
+    if (is_linked_object_flagged_10000(object) != 0) {
         return changed_count;
     }
     entry = object->entry4C;

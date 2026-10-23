@@ -2,6 +2,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -42,7 +43,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void advance_actor_path_and_facing(void *);
+
 extern void func_80171854(void *, void *, void *, void *);
 extern s32 select_and_start_target_action(void *, void *, void *, void *);
 extern void clear_actor_flag_and_update_action(void *, void *, void *, void *);
@@ -68,7 +69,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_801710EC_0 *)actor)->unk_9A = 0xE;
-        advance_actor_path_and_facing(actor);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
 

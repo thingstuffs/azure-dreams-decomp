@@ -974,8 +974,7 @@ extern u8 D_80175924[];
 void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
 void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity);
 void initialize_destination_state(void *actor, void *actor_context, struct SpriteFrameState *sprite, void *creature);
-/* Compatible C89 declaration: the earlier retail call retains incoming a2/a3. The later definition documents all four pointer parameters. */
-void update_actor_object_motion();
+void update_actor_object_motion(void *motion, void *unused, struct SpriteFrameState *actor, void *path_state);
 void choose_flame_move(void *move_data, void *context, struct SpriteFrameState *position_data, void *actor_data);
 s32 try_flame_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(void *action_state, void *context, struct SpriteFrameState *sprite, EntityRec *actor);

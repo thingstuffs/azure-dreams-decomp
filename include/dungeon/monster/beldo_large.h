@@ -13,5 +13,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
 
 void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, SpriteFrameState *data);
 void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, void *effect);
+void *prepare_encounter_resource_descriptor(s32 input_value);
+void register_encounter_cd_callbacks(s32 input_value);
 
 #endif

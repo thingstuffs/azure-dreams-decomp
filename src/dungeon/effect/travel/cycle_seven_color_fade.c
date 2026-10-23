@@ -9,11 +9,11 @@ void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_
 #include "shared/entity.h"
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */
-void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_context) {
+void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record) {
     s32 base_gain;
     register s32 gain;
 
-    if (try_trigger_target_record_effect(target, 1) == 0) {
+    if (try_trigger_target_record_effect(target, 1, record) == 0) {
         base_gain = get_random_scaled_value(gain_param & 0xFF) + 8;
         gain = base_gain;
         if (target->unk_28 & 1) {

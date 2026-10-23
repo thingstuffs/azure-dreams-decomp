@@ -43,4 +43,19 @@ typedef struct ItemMenuFlagsView {
     int unk_1C;
 } ItemMenuFlagsView;
 
+/* Screen position record of one item-menu display part. */
+typedef struct ItemMenuPartPosition {
+    unsigned char pad_00[0x8];
+    short x; /* horizontal screen offset */
+    short y; /* vertical screen offset */
+} ItemMenuPartPosition;
+
+/* One item-menu display part. The item-menu object keeps a pointer to an array of 40 part
+ * pointers at +0xA8 (allocated by load_actor_display_resource): parts 0-3 are the panel slots,
+ * 4 and 5 the selection cursor pair, 6-35 the item rows, 38 and 39 the side indicators. */
+typedef struct ItemMenuPart {
+    void *handler; /* slot handler or owning panel block */
+    ItemMenuPartPosition *position;
+} ItemMenuPart;
+
 #endif

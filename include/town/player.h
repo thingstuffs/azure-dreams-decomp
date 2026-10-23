@@ -4,6 +4,10 @@
 #include "common.h"
 
 
+struct Rec_func_80094268_arg0;
+struct S_800935BC_0;
+void approach_target_tile_until_timeout(struct Rec_func_80094268_arg0 *target, struct S_800935BC_0 *position, void *transition_arg);
+
 /* get_linked_record_field.c */
 s32 get_linked_record_field_2_d_60(void);
 

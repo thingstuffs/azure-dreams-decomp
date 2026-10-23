@@ -138,9 +138,9 @@ void update_item_menu_selection(TownObject *obj)
         return;
     }
     if (next_band < obj->inner->band) {
-        *(s32 *)((void **)(void *)obj->aux->down)[1] = D_800891F4;
+        *(s32 *)obj->parts[38]->position = D_800891F4;
     } else {
-        *(s32 *)((void **)obj->aux->up)[1] = D_800891F4;
+        *(s32 *)obj->parts[39]->position = D_800891F4;
     }
     obj->inner->band = next_band;
     update_item_menu_record(obj);

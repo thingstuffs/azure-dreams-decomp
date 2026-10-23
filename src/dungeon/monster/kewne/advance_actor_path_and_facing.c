@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -32,7 +33,7 @@ extern s16 get_rounded_facing_and_rounding_flag();
 extern u8 kewne_direction_frames[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
-void advance_actor_path_and_facing(void *motion, s32 unused, SpriteFrameState *actor, void *path_state)
+void advance_actor_path_and_facing(void *motion, void *unused, SpriteFrameState *actor, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;

@@ -259,7 +259,7 @@ extern s32 rsin(s32);
 extern s32 set_item_w0(s32, s32, s32, s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
-extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(s32, s32, void *);
+extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *, s32, void *);
 
 extern u8 D_8002632C[];
 extern u8 D_80026344[];
@@ -1893,9 +1893,9 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 
-extern s32 try_trigger_target_record_effect(s32, s32);
-extern s32 set_or_clear_actor_status_slot(s32, s32, s32);
-extern void adjust_source_value_and_finalize(s32, void *);
+#include "dungeon/effect/screen.h"
+extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
+extern void adjust_source_value_and_finalize(void *, void *);
 extern u8 D_800E1D01[9];
 
 /*
@@ -1903,9 +1903,9 @@ extern u8 D_800E1D01[9];
  * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
  * -1/slot-zero success-test bug.
  */
-void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(s32 target, s32 value, void *unused) {
+void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(void *target, s32 value, void *record) {
     u8 pinnedValue = value;
-    if (try_trigger_target_record_effect(target, 2) == 0) {
+    if (try_trigger_target_record_effect(target, 2, record) == 0) {
         u32 scaledLowByte = pinnedValue;
         scaledLowByte >>= 2;
         /*

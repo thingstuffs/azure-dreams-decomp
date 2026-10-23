@@ -4,6 +4,8 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 
+void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
+
 void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context);
 void init_movement_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);

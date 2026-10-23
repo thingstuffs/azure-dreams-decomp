@@ -8,6 +8,7 @@
 #include "records/Rec_func_800AF254_arg1.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
+#include "shared/item_menu.h"
 
 typedef struct S_800AF8B0_2 {
     u8 pad_00[0x18];
@@ -51,12 +52,6 @@ typedef struct TownInner {
     s32 *table;
 } TownInner;
 
-typedef struct TownAux {
-    u8 pad00[0x98];
-    s32 down;
-    void *up;
-} TownAux;
-
 typedef struct TownObject {
     TownInner *inner;
     s32 old_state;
@@ -66,7 +61,7 @@ typedef struct TownObject {
     u8 pad14[4];
     s32 resource;
     u8 pad1C[0xA8 - 0x1C];
-    TownAux *aux;
+    ItemMenuPart **parts;
 } TownObject;
 
 typedef struct S_800AFD00_1 {

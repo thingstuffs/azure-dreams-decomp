@@ -893,7 +893,7 @@ s32 clamp_adjusted_value_0_to_99();
 s32 func_8009CFB4();
 s32 func_8009CFF4();
 s32 func_8009D034();
-extern s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record);
+
 s32 play_sound_if_enabled(s32);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -1054,7 +1054,9 @@ typedef struct S_8009D218_1_pre {
  * Tests actor effects and a linked item chance, creating a pulsing effect and returning 1 when an
  * effect is triggered.
  */
-s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record) {
+s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in) {
+    ActorRecord *entity = entity_in;
+    Rec_D_800287A4 *record = record_in;
     u8 *value_ptr;
 
     if (!(flags & 8) && (record != NULL)) {
