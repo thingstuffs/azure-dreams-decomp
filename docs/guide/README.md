@@ -14,6 +14,13 @@ BASE `964157065`; each feature example links to its implementation.
 | [Dungeon](dungeon.md) | Floor generation, actor turns, player actions and monster callbacks |
 | [Movie / OVMOVIE](movie.md) | Scene movie requests, display lifecycle and MDEC services |
 
+## Game mechanics
+
+The [mechanics guide](mechanics/README.md) explains combat, levels and MP,
+familiars, items, floor generation, monster decisions and town systems from
+the C, with formulas, verification notes and links to original bugs. It
+distinguishes checked behavior from inference and incomplete data catalogs.
+
 ## Find a function
 
 From the repository root, without a disc:
