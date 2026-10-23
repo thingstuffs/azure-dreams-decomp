@@ -401,7 +401,7 @@ void remove_defeated_grineut(void *state, void *motion, void *position, void *ac
 void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor);
 void advance_grineut_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor);
-void func_801736F4(void *controller, s32 actor_index, void *sprite, ActorRecord *actor);
+void update_sleeping_grineut(void *controller, s32 actor_index, void *sprite, ActorRecord *actor);
 void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite, ActorRecord *entity);
 void update_grineut_parent_motion(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *entity, R07_80173EF4_MapObject *map_object);
 void update_thrown_grineut(Resource07CallbackState *state, void *entity, void *position, void *graphic);

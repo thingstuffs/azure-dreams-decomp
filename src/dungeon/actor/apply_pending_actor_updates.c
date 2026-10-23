@@ -6,7 +6,7 @@
 
 extern void apply_pending_byte_increase(void *, s32, void *, void *);
 extern void begin_player_menu_action(void *, s32, void *, void *);
-extern void func_80097C50(void *, s32, void *, void *);
+extern void finish_paralyzed_actor_action(void *, s32, void *, void *);
 
 extern u8 D_8004F5F4[];
 extern s32 menu_action_argument;
@@ -40,6 +40,6 @@ void apply_pending_actor_updates(void *controller, s32 move_state, void *entity,
     if (*(u8 *)((u8 *)controller + 0x9A) != 0x3A &&
         (*(s32 *)((u8 *)actor + 0x1C) & 0x200)) {
         *(u16 *)((u8 *)entity + 0x14) &= 0xF7FF;
-        func_80097C50(controller, move_state, entity, actor);
+        finish_paralyzed_actor_action(controller, move_state, entity, actor);
     }
 }

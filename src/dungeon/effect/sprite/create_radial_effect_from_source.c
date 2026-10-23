@@ -265,15 +265,15 @@ extern u8 D_8002632C[];
 extern u8 D_80026344[];
 extern u8 D_80026878[];
 
-void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
+void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18a6800_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) = func_80024064;
+void (*const dungeon_18a6800_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) = run_radial_sprite_sequence;
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
-void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
+void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
 {
     S_func_81886800_8 *owner;
     S_func_81886800_2 *owner_base;

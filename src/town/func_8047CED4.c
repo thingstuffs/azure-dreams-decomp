@@ -5,6 +5,6 @@
 extern M2C_UNK D_800170B0;
 
 /* Returns the address of D_800170B0. */
-s32 *func_800196D4(void) {
+s32 *get_scene_entry_buffer_e(void) {
     return &D_800170B0;
 }

@@ -5,7 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
-void (*const dungeon_1864800_entry)(void *, void *, void *) = func_80024020;
+void (*const dungeon_1864800_entry)(void *, void *, void *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
 static __inline__ s16 delta_axis(s8 target, u16 start) {
@@ -16,7 +16,7 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
 }
 
 /* Updates a staged effect, moves it toward its target, and emits particles. */
-void func_80024020(void *effect, void *motion, void *source_render) {
+void run_fading_target_projectile(void *effect, void *motion, void *source_render) {
     void *owner;
     Vec3 delta;
     s32 target_timer;

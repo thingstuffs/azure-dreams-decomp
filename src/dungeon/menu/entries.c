@@ -343,7 +343,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         SD_Call(0x503, input);
         dispatch_menu_state_update(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
-        write_text_and_advance_selection(func_8002553C(menu->unk44),
+        write_text_and_advance_selection(get_second_work_value(menu->unk44),
                       menu->unk40 + ((menu->unk8 % 72) * 2));
         if (menu->unk14 == 1 ||
             has_available_object(menu->unk48->unk28) != 0) {
@@ -446,7 +446,7 @@ void handle_menu_button_input(void *menu) {
         dispatch_menu_state_update((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
                       (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 / 72) * 72,
                       ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_28);
-        copy_string_to_object_buffer(func_8002553C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
+        copy_string_to_object_buffer(get_second_work_value(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
                       ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_40 +
                       (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 % 72) * 2);
         return;

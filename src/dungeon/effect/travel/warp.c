@@ -4,7 +4,7 @@
 #include "modules/dungeon_ovl_19cc800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
-void (*const dungeon_19cc800_entry)(struct EventState *event) = func_80024020;
+void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_sequence;
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -51,7 +51,7 @@ extern void decode_and_upload_image(void *, void *);
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 
 /* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
-void func_80024020(EventState *event) {
+void run_warp_effect_sequence(EventState *event) {
     s32 setup[2];
     GameWork *colors;
     s32 state;
@@ -738,7 +738,7 @@ extern u8 D_80027490[12];
 extern u8 D_800274A8[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
-void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
+void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
     Rect rect;
     ObjectNodeHeader *spawned;
     SpriteFrameState *sprite;

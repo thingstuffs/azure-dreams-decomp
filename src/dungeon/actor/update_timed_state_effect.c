@@ -18,7 +18,7 @@ typedef struct S_800251E8_1 {
 } S_800251E8_1;   /* linked in func_800251E8 */
 
 /* Advances the object's timed state and updates its 30 entries. */
-void func_800251E8(void *object_data)
+void update_timed_particle_arrays(void *object_data)
 {
     void *object;
     S_800251E8_1 *linked;

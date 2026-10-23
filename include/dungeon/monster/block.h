@@ -1182,7 +1182,7 @@ extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPos
 extern void apply_camera_offset_and_select_target(void *, M2C_UNK, M2C_UNK, M2C_UNK);
 extern s32 rand(void);
 
-void func_8017087C(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords);
+void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords);
 void expand_then_shrink_effect(void *effect, void *unused, void *visual);
 void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster);

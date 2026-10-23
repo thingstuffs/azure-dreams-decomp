@@ -7,7 +7,7 @@
 
 /* Adds a random actor value delta with an optional half bonus, clamps it, displays a popup, and
    applies it. */
-void func_80024028(void *target, s32 effect_param) {
+void apply_small_random_value_gain(void *target, s32 effect_param) {
     s32 base_gain;
     register s32 stat_gain;
 

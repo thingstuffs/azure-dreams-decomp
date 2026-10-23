@@ -384,7 +384,7 @@ s32 get_half_byte_length();
 void flag_object_for_removal();
 void reset_object_to_default_data();
 extern s16 SD_Call(s32 command, ...);
-extern void *func_8002553C(void *);
+extern void *get_second_work_value(void *);
 extern void forward_stored_object_value(void *);
 extern void write_text_and_advance_selection(void *, void *);
 extern s32 has_available_object(s32);

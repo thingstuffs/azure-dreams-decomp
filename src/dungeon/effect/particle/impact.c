@@ -102,7 +102,7 @@ typedef struct S_func_80024064_9 {
 extern s32 are_quad_corner_turns_within_half_revolution(void *);
 
 /* Finds a map polygon at the query position using containment and plane height. */
-void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
+void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
     u8 *polygon;
     u8 *vertices;
@@ -351,7 +351,7 @@ typedef struct S_800244BC_3 {
 } S_800244BC_3;   /* arg1 in func_800244BC */
 
 /* Creates an object at the supplied position and initializes its state and appearance. */
-void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
+void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 {
     ObjectNodeHeader *object;
     S_800244BC_0 *state;
@@ -1142,7 +1142,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             quad_word_4 = center_y - 0x20;
             (particle->position)->y.w.i = quad_word_4 + position_jitter;
             (particle->position)->z.w.i = center_z;
-            quad_template = func_80024064((u16)saved_x, (u16)center_y, center_z);
+            quad_template = find_impact_surface_polygon((u16)saved_x, (u16)center_y, center_z);
             *(QuadUV *)((u8 *)particle + 0x52) = *(QuadUV *)quad_template;
 
             if (((S_800251F4_0 *)particle_work)->unk_3A > ((S_800251F4_0 *)particle_work)->unk_44) {

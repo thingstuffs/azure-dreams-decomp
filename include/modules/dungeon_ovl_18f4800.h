@@ -13,7 +13,7 @@ struct Actor33;
 struct Motion33;
 struct Render33;
 void update_actor_effect_particles_and_cleanup(struct Actor33 *, struct Motion33 *, struct Render33 *);
-s32 func_80024044(void *, void *);
+s32 draw_actor_effect_points(void *, void *);
 void accelerate_particle_toward_source(void *, void *);
 void create_accelerating_return_particle(ObjectNodeHeader *, s32, s32, s32, s32, s32, s32);
 struct RenderFade33;

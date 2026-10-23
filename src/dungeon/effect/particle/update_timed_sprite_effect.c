@@ -19,10 +19,10 @@
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_1858800_entry)(ProjectileState *, ProjectileMotion *, ProjectileSprite *) =
-    func_80024020;
+    run_timed_sprite_projectile;
 
 /* Updates a projectile effect, spawning particles and moving toward its target before impact and cleanup. */
-void func_80024020(ProjectileState *effect, ProjectileMotion *motion, ProjectileSprite *effect_sprite)
+void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *motion, ProjectileSprite *effect_sprite)
 {
     ProjectileActor *caster;
     s32 particle_or_y;
@@ -132,7 +132,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                               ((s32)launch_offset[1] << 16);
         motion->unk_08.s = ((ProjectileMotion *)caster_obj->unk_08)->unk_08.s +
                               ((s32)launch_offset[2] << 16);
-        register_node((u8 *)effect - 0x20, func_800248F8);
+        register_node((u8 *)effect - 0x20, draw_animated_projectile_quads);
         range = (s16)get_definition_entry_byte_13(7);
         offset_y = caster_sprite->unk_24;
         target = (void *)scan_actor_along_heading(caster, offset_y,
@@ -288,7 +288,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
 
 
 /* Advance the animation and enqueue a textured quad at the projected position. */
-s32 func_800248F8(RenderRecord *render_record, EntityRec *position)
+s32 draw_animated_projectile_quads(RenderRecord *render_record, EntityRec *position)
 {
     SVECTOR world_point;
     s16 screen[4];

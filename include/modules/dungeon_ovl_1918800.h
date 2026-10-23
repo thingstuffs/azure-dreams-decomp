@@ -32,7 +32,7 @@ struct PointRecord;
 struct Position;
 struct ProjectileSelf;
 
-void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control);
+void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control);
 void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
 s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition *start_coords);
 s32 advance_effect_sequence(void);

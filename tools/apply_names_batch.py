@@ -68,6 +68,9 @@ def main(a,N):
   if len(cols)>=4 and cols[1]:proposed.append(cols[:4])
  scope_path=getattr(a,'scope_map',None) or getattr(a,'symbol_scope_map',None)
  scopes=json.loads(scope_path.read_text()) if scope_path else {}
+ if isinstance(scopes,dict) and (set(scopes)&{r[2] for r in proposed} or len({r[1] for r in proposed})!=len(proposed)):
+  from apply_names_functions_scoped import main as scoped_main
+  return scoped_main(a,N,proposed,scopes)
  if not isinstance(scopes,dict) or set(scopes)-{r[1] for r in proposed}:raise ValueError('symbol scope does not name a proposal')
  for paths in scopes.values():
   if not isinstance(paths,list) or not paths or not all(isinstance(p,str) for p in paths):raise ValueError('symbol scope must contain relative rewrite paths')

@@ -17,7 +17,7 @@
 void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, void *, void *))advance_actor_tint_particle_sequence;
 const RectTable D_80024004 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
-void func_8002405C(void *effect, void *unused, void *primitive)
+void fade_tinted_display_sprite(void *effect, void *unused, void *primitive)
 ;
 /* Advance the effect fade and mark it finished when its countdown expires. */
 extern s32 GetTPage(s32, s32, s32, s32);
@@ -36,7 +36,7 @@ extern s32 read_sound_mode_blocking_status(s32);
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
-void func_8002405C(void *effect, void *unused, void *primitive) {
+void fade_tinted_display_sprite(void *effect, void *unused, void *primitive) {
     s32 shade;
     u16 frames_left;
 
@@ -113,7 +113,7 @@ void spawn_free_slot_display_effect(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_2C = 7;
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
-            effect->unk_10 = func_8002405C;
+            effect->unk_10 = fade_tinted_display_sprite;
             register_node(effect, (s32)project_sprite_chain);
 
             display = effect->sprite;

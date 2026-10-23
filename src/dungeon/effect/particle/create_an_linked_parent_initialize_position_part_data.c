@@ -34,9 +34,9 @@ typedef struct S_81994800_2 {
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
 extern s16 parent_effect_update_flag;
-void func_8002405C(void *effect, void *unused_context, void *effect_params);
+void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params);
 /* Advance the effect countdown, update its parameters, and flag completion. */
-void func_8002405C(void *effect, void *unused_context, void *effect_params) {
+void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params) {
     s32 scale;
     u16 ticks_left;
 
@@ -158,7 +158,7 @@ void spawn_free_slot_display_effect(void *owner) {
             ((S_80024104_0 *)child_work)->unk_2C = 7;
             ((S_80024104_0 *)child_work)->unk_32 = slot;
             ((S_80024104_0 *)child_work)->unk_60 = owner;
-            child->unk_10 = (void *)func_8002405C;
+            child->unk_10 = (void *)fade_linked_display_sprite;
             register_node(child, (s32)project_sprite_chain);
 
             display = child->sprite;

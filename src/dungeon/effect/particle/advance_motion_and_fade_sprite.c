@@ -184,15 +184,15 @@ extern u8 shared_sprite_entries[];
 extern void fade_packed_object_color_to_zero(void *);
 extern void animate_jittering_five_point_effect();
 
-void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg);
+void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg);
 
 /* Native module entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = func_80024020;
+void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = run_fading_sprite_projectile;
 
 /* Updates a staged movement effect, spawning particles and applying its final action. */
-void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
+void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 {
 #ifdef __mips__
     S_func_81856800_2 *motion;

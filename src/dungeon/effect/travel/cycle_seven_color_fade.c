@@ -260,7 +260,7 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
    /* arg1 in func_80024790 */
 
 /* Projects a textured color-gradient quad and links it into the ordering table if its depth is in range. */
-s32 func_80024790(s32 texture_index, u8 *color_source)
+s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source)
 {
     u8 *render_buffer;
     u8 *packet;
@@ -481,7 +481,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             (((rsin(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
             (((rcos(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
-        func_80024790((s16)segment, draw_arg);
+        draw_indexed_shaded_quad((s16)segment, draw_arg);
         segment = next_segment;
     } while (segment < 8);
 
@@ -570,7 +570,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
                 (((rcos(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
-        func_80024790((s16)segment, draw_arg);
+        draw_indexed_shaded_quad((s16)segment, draw_arg);
         segment = segment + 1;
         angle_step = angle_step + 512;
     } while (segment < 8);

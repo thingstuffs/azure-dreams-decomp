@@ -252,7 +252,7 @@ void advance_scattered_directional_particle(void *object_data, s16 *position)
 
 /* Retail 8181AF58 (func_80024758): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
@@ -577,7 +577,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-            func_80024758((u8 *)effect - 0x20, direction, particle_color, intensity, 0, 0, 0);
+            spawn_scattered_point_particle((u8 *)effect - 0x20, direction, particle_color, intensity, 0, 0, 0);
             particle_count_m++;
         } while (particle_count_m < 4);
 

@@ -13,10 +13,10 @@
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_185e800_entry)(u8 *, u8 *) = func_80024020;
+void (*const dungeon_185e800_entry)(u8 *, u8 *) = run_delayed_sprite_projectile;
 
 /* Move the effect toward its target, emit particles, and apply the delayed target effect. */
-void func_80024020(u8 *self, u8 *motion)
+void run_delayed_sprite_projectile(u8 *self, u8 *motion)
 {
     u8 *owner;
     u8 *owner_record;

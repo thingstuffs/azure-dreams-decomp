@@ -93,7 +93,7 @@ typedef struct Scratch80024154 {
 
 /* Retail 8190A954 (func_80024154): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_80024154(PointRecord *first_point, ObjectPosition *first_position)
+s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
@@ -256,7 +256,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)func_80024154);
+        register_node(spawned, (s32)draw_dimmed_height_effect_points);
         fields->color = saved_field_28;
     }
 }

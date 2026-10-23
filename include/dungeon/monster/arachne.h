@@ -938,7 +938,7 @@ s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *
 void update_turning_fade_effect_and_model(void *record_data);
 void build_animated_spherical_wireframe(void *effect, void *origin, void *tint);
 void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context);
-void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+void wait_for_arachne_activity(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor);
 void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor);

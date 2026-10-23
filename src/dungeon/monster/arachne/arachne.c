@@ -322,7 +322,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
 
         if ((s16)can_entity_gain_level(actor) != 0) {
             if ((s16)process_selected_actor_record(entity, context, sprite, actor) != 0) {
-                func_8017526C(entity, context, sprite, actor);
+                wait_for_arachne_activity(entity, context, sprite, actor);
             }
         }
     }
@@ -2519,14 +2519,14 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_arachne_activity(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)func_8017526C);
+    *(void **)(entity + 0x8C) = ((void *)wait_for_arachne_activity);
     entity[0x9A] = kind;
     entity[0x9B] = 0;
     other[0x6D] = 0;

@@ -15,7 +15,7 @@ void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_positi
 void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = set_boss_effect_flag;
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
-void func_8017087C(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords)
+void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords)
 {
     CB_8017087C_Part *part;
     CB_8017087C_CopyFields *copy;
@@ -1198,7 +1198,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
             CB_80172BCC_S_func_80C953CC_7 *node;
             CB_80172BCC_S_func_80C953CC_8 *model;
 
-            func_8017087C(actor, work, position);
+            initialize_block_sprite_copy(actor, work, position);
             transform = (CB_80172BCC_S_func_80C953CC_6 *)((u8 *)actor + 0x20);
             transform->unk_24 = 10;
             transform->unk_26 = 10;

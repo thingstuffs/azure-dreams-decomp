@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_8002553C();                             /* extern */
+s32 get_second_work_value();                             /* extern */
 void clear_object_buffer_and_state();                         /* extern */
 
 typedef struct S_800255D0_0 {
@@ -11,6 +11,6 @@ typedef struct S_800255D0_0 {
 
 /* Processes the value resolved from the record and returns success. */
 s32 process_resolved_item_value(S_800255D0_0 *record) {
-    clear_object_buffer_and_state(func_8002553C(record->unk_14));
+    clear_object_buffer_and_state(get_second_work_value(record->unk_14));
     return 1;
 }

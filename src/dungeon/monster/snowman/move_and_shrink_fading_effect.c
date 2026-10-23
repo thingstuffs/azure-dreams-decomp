@@ -1670,7 +1670,7 @@ void shrink_hopping_snowman(void *state, void *motion, void *position, void *act
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
-void func_80173B64(void *state, void *motion, void *position, void *actor)
+void advance_snowman_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }

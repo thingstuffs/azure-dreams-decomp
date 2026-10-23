@@ -8,7 +8,7 @@ struct TransitionState;
 typedef struct { u16 x, y, w, h; } Rect16;
 typedef struct { Rect16 rect[8]; } RectTable;
 typedef struct { u32 word[3]; } __attribute__((packed)) PackedVec3;
-void func_8002405C(void *, void *, void *);
+void fade_linked_display_sprite(void *, void *, void *);
 void spawn_free_slot_display_effect(void *);
 void create_an_linked_parent_initialize_position_part_data(void *, void *, void *);
 void fade_the_primitive_flag_effect_countdown_expires(void *, void *, u8 *);

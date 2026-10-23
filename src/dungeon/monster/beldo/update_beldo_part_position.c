@@ -58,10 +58,10 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-void func_8014C898(void *root_data, void *position_data, void *render_data)
+void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)
 ;
 /* Updates part position, brightness, and flags from the owner and motion state. */
-void func_8014C898(void *root_data, void *position_data, void *render_data)
+void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)
 {
     s16 motion_offset[3];
     register MovingPosition *out_pos = position_data;

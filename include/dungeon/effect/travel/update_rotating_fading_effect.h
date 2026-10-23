@@ -150,7 +150,7 @@ s32 resolve_record_orientation_or_fallback();
 s32 check_layer_offset_height(s32, s32, s16, s32);
 s32 play_sound_if_enabled();
 s32 sample_terrain_surface_height(s32, s32, s16);
-void func_8002403C(void *target, s32 amount_input, void *owner);
+void apply_large_random_value_gain(void *target, s32 amount_input, void *owner);
 void update_rotating_fading_effect(void *effect, void *position, SpriteFrameState *sprite);
 void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ovl_18ca83c_818AABB8_S_800243B8_4 *center, s16 index);
 void advance_target_travel_effect(void *effect, void *motion, void *appearance);

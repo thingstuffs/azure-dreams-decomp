@@ -20,7 +20,7 @@ u16 GetTPage(s32, s32, s32, s32);
 void SetSemiTrans(void *, s32);
 void SetPolyF3(void *);
 void SetDrawMode(void *, s32, s32, s32, s32);
-void func_80024020(void *, TrailMotion *, void *);
+void run_ground_trail_projectile(void *, TrailMotion *, void *);
 void update_flickering_effect_vertices(DungeonObj *);
 s32 draw_jittered_triangle_trails(void *);
 #endif

@@ -18,7 +18,7 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void advance_sprite_animation_and_textures(void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-void func_80024020(u8 *, u8 *);
+void run_delayed_sprite_projectile(u8 *, u8 *);
 void advance_delayed_fading_sprite(void *, DelayPosition *, SpriteFrameState *);
 void brighten_accelerate_and_fade_effect(void *, DelayMotion *, DelaySpriteColor *);
 #endif

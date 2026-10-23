@@ -56,7 +56,7 @@ typedef struct Scratchpad {
 #define SCRPTR(off) ((void *)((u8 *)scratch + (off)))
 
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
-void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
+void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
 {
     Quad40 base_quad;
     Quad40 strip_quad;
@@ -486,7 +486,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
 
     {
         s32 signed_option = (s16)saved_option;
-        func_8002405C(&pos, draw_param_a, draw_param_b, ordering_table, signed_option);
+        draw_wave_distorted_sprite(&pos, draw_param_a, draw_param_b, ordering_table, signed_option);
     }
 
     if (clear_enabled != 0) {

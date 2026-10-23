@@ -207,7 +207,7 @@ extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern void SetSemiTrans(void *, s32);
 extern void SetPolyFT4(void *);
-void func_80024020(void *effect, void *motion, void *source_render);
+void run_fading_target_projectile(void *effect, void *motion, void *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);
 void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameState *sprite);

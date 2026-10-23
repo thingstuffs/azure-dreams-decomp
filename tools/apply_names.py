@@ -93,7 +93,7 @@ def main():
     ap.add_argument("--rewrite", action="store_true", help="with --data, rewrite and verify source references")
     ap.add_argument("--defer-verification", action="store_true", help="with --batch, stage explicitly unverified aliases for independent complete-TU before/after proof and final gates; data also requires --rewrite")
     ap.add_argument("--path-prefix", action="append", default=[], help="with --batch, restrict source/header rewrites to these relative paths; retain legacy aliases elsewhere")
-    ap.add_argument("--symbol-scope-map", type=Path, help="with --batch, JSON proposal symbol -> relative rewrite paths; data accepts new-name keys to distinguish reused addresses")
+    ap.add_argument("--symbol-scope-map", type=Path, help="with --batch, JSON proposal symbol -> relative rewrite paths; new-name keys distinguish reused addresses (functions require explicit identities and deferred proof)")
     ap.add_argument("--scope-map", type=Path, help="explicit source/header scopes for deferred aliases; data keys may be new names")
     ap.add_argument("--reference-map", type=Path, help="explicit original-symbol reference sites for separately linked overlays")
     a = ap.parse_args()

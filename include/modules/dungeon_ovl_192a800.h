@@ -12,7 +12,7 @@ extern const CoordTable D_80024064;
 extern s16 D_80025630;
 void try_lower_actor_level(void *,s32,void *);
 struct PointRecord; struct EntityRec; struct ObjectPosition;
-s32 func_80024154(struct PointRecord *,struct ObjectPosition *);
+s32 draw_dimmed_height_effect_points(struct PointRecord *,struct ObjectPosition *);
 struct EffectRecord; struct EntityRec;
 void handle_raise_position_toward_queried_height_set_flags_countdown_expires(struct EffectRecord *,struct ObjectPosition *);
 void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);

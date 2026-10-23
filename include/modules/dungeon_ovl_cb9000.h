@@ -1157,7 +1157,7 @@ extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPos
 extern void apply_camera_offset_and_select_target(void *, M2C_UNK, M2C_UNK, M2C_UNK);
 extern s32 rand(void);
 
-void func_8016A87C(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords);
+void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords);
 void func_8016A920(void *effect, void *unused, void *visual);
 void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *monster);

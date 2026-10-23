@@ -7,6 +7,6 @@
 
 
 
-void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
+void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 #endif

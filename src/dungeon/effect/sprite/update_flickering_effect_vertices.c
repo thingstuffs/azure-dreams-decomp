@@ -18,10 +18,10 @@ extern int abs(int);
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_1840800_entry)(void *, TrailMotion *, void *) = func_80024020;
+void (*const dungeon_1840800_entry)(void *, TrailMotion *, void *) = run_ground_trail_projectile;
 
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
-void func_80024020(void *state, TrailMotion *motion, void *source_data) {
+void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_data) {
     TrailEffectState *state_obj;
     TrailObject *owner;
     TrailSprite *source;

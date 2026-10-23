@@ -17,7 +17,7 @@ void *(*const cb9000_spawn_entry)(s16,s16,s16,s32) = spawn_block_slot_f;
 void (*const cb9000_update_entry)(void *,CL_CB9000_80170C24_S_80170C24_2 *,void *) = update_block_motion_and_facing_slot_f;
 
 /* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
-void func_8016A87C(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords)
+void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords)
 {
     CL_CB9000_8017087C_Part *part;
     CL_CB9000_8017087C_CopyFields *copy;
@@ -1194,7 +1194,7 @@ void update_block_spell_slot_f(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB
             CL_CB9000_80172BCC_S_func_80C953CC_7 *node;
             CL_CB9000_80172BCC_S_func_80C953CC_8 *model;
 
-            func_8016A87C(actor, work, position);
+            initialize_gray_sprite_copy(actor, work, position);
             transform = (CL_CB9000_80172BCC_S_func_80C953CC_6 *)((u8 *)actor + 0x20);
             transform->unk_24 = 10;
             transform->unk_26 = 10;

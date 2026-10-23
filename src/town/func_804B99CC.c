@@ -2,4 +2,4 @@
 #include "m2c_compat.h"
 
 extern s32 D_80018E58;
-void func_800181CC(void) { D_80018E58 = 1; }
+void set_scene_entry_flag_b(void) { D_80018E58 = 1; }

@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-23T09:15:36Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-23T09:55:32Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -64,7 +64,7 @@ Baseline NOT exact: 0 rows
 | L0 | 8,028,304 | 100.0% |
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
-| L3 | 7,274,176 | 90.6% |
+| L3 | 7,275,104 | 90.6% |
 | L4 | 1,011,168 | 12.6% |
 | L5 | 981,836 | 12.2% |
 

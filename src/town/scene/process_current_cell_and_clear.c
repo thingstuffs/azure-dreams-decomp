@@ -27,7 +27,7 @@ extern s32 scene_cell_dispatch_code;
 extern void *D_80019B90;
 
 extern s32 func_80018504(void);
-extern void func_80018934(void);
+extern void set_scene_entry_flag_k(void);
 extern void func_80018D54(void *, u8 *);
 extern void func_80019458(s32);
 extern s32 func_800194D8(s32);
@@ -56,7 +56,7 @@ s32 process_current_cell_and_clear(void) {
         ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_40
                 + ((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_08 * 8))->unk_04 = 0;
         scene_cell_dispatch_code = 0;
-        func_80018934();
+        set_scene_entry_flag_k();
     } else {
         func_80018D54(D_80019B90, fallback_args);
         func_80019638();

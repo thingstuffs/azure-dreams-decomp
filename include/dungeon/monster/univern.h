@@ -506,7 +506,7 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
 void shrink_hopping_univern(void *state, void *motion, void *position, void *actor);
 void advance_univern_removal(void *state, void *motion, void *position, void *actor);
 void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor);
-void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg);
+void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg);
 void advance_univern_status_action(void *action, void *context, struct SpriteFrameState *sprite, void *entity);
 void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, struct SpriteFrameState *entity, R17_80174250_MapObject *map_object);
 void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic);

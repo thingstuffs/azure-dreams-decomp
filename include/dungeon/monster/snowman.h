@@ -855,7 +855,7 @@ void advance_actor_spell_effect_sequence(void *actor, struct ObjectPosition *mot
 void displace_actor_then_recenter(void *action, struct ObjectPosition *motion, struct SpriteFrameState *entity, EntityRec *actor);
 void remove_defeated_snowman(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_snowman(void *state, void *motion, void *position, void *actor);
-void func_80173B64(void *state, void *motion, void *position, void *actor);
+void advance_snowman_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor);
 void advance_snowman_status_action(void *action, void *context, struct SpriteFrameState *sprite_in, void *actor_in);
 void advance_snowman_mp_action(void *actor_in, s32 actor_index, struct SpriteFrameState *target, void *entity_in);

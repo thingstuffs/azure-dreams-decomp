@@ -172,7 +172,7 @@ extern u8 D_80025238[];
 extern u8 ribbon_sprite_entries[];
 extern M2C_UNK fading_sprite_entries;
 extern u8 D_80025214[];
-void func_80024028(void *target, s32 effect_param);
+void apply_small_random_value_gain(void *target, s32 effect_param);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    SpriteFrameState *target);
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);

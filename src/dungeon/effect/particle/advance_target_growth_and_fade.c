@@ -140,15 +140,15 @@ extern u8 ribbon_sprite_entries[];
 #define D_80024684 ((u8 *)create_coordinate_sprite_object)
 
 extern u8 current_spell_effect_variant[];
-void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
+void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = func_80024020;
+void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = run_growing_target_effect;
 
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
-void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
+void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
     S_func_818DA800_3 *actor;
     MovingTile *actor_data;

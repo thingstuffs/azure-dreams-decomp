@@ -49,7 +49,7 @@ typedef struct Packet {
 } Packet;
 
 /* Projects an object's point and queues its pixel and draw-state primitives in the ordering table. */
-s32 func_801588A4(u8 *node_data, u16 *position)
+s32 draw_saber_points_slot_c(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     void **global_state = ((void * *)(&g_game_work));

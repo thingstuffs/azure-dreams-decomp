@@ -383,7 +383,7 @@ typedef struct Bank1990800_1990fe8_EffectState {
 } Bank1990800_1990fe8_EffectState;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_800247E8(Bank1990800_1990fe8_EffectState *state, ObjectPosition *position)
+void advance_rising_quad_countdown(Bank1990800_1990fe8_EffectState *state, ObjectPosition *position)
 {
     s16 countdown;
 
@@ -444,7 +444,7 @@ void spawn_random_offset_effect_record(
 
     effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
-        effect->unk_10 = func_800247E8;
+        effect->unk_10 = advance_rising_quad_countdown;
         jitter = rand() & 0x1F;
         effect_pos = (u16)source->position->x.w.i + jitter;
         effect_pos += x_offset - 0x10;

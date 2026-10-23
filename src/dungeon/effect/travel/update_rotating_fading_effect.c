@@ -9,7 +9,7 @@ void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_t
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
    applies it. */
-void func_8002403C(void *target, s32 amount_input, void *owner) {
+void apply_large_random_value_gain(void *target, s32 amount_input, void *owner) {
     s32 base_amount;
     register s32 adjusted_amount;
 
@@ -406,7 +406,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
             break;
         }
-        func_8002403C(((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
+        apply_large_random_value_gain(((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
         ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
         ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
         break;

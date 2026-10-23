@@ -27,10 +27,10 @@ const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x8
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
-void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused);
+void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused);
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
-void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused)
+void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused)
 {
     s32 message;
     s32 message_start;
@@ -1986,7 +1986,7 @@ loop_0:
         U8(target_data, 0xE) = 0x80;
         U8(target_data, 0xD) = 0x80;
         U8(target_data, 0xC) = 0x80;
-        func_800240B8(PTR(owner, 0x60), U8(effect, 9), owner);
+        try_apply_wind_protection(PTR(owner, 0x60), U8(effect, 9), owner);
         U16(effect, 0x82) = 0x14;
         U16(effect, 0xA) += 1;
         return;

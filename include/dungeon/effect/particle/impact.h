@@ -23,7 +23,7 @@ struct S_80025FB0_0;
 struct S_80025FB0_1;
 struct Bank19de800_19e092c_EntryCursor;
 struct S_func_80026418_0;
-void *func_80024064(s32, s32, s16);
+void *find_impact_surface_polygon(s32, s32, s16);
 s32 update_palette_particle_transition(s32);
 void create_shrinking_entry_particle_effect(s32 effect_value, struct S_80024AE8_3 *position);
 void project_visible_textured_quad(struct S_80024BF4_4 *quad, struct ObjectPosition *position, struct SpriteFrameState *render_state, s16 depth_bias);

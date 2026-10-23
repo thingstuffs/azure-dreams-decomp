@@ -40,7 +40,7 @@ extern u8 D_80174ED0[];
 extern u8 D_80174ED8[];
 
 /* Moves the actor to its tile with a hop and completes the timed action. */
-void func_801730E0(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
+void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
 {
     s32 facing_aux;
     s32 phase;

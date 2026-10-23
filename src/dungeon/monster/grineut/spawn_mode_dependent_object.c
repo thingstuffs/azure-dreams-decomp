@@ -1551,7 +1551,7 @@ void grow_hopping_grineut(Resource07CallbackState *state, void *motion, void *po
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void func_801736F4(void *controller, s32 actor_index, void *sprite, ActorRecord *actor)
+void update_sleeping_grineut(void *controller, s32 actor_index, void *sprite, ActorRecord *actor)
 {
     DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;

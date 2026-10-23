@@ -112,18 +112,18 @@ extern u16 GetTPage(s32, s32, s32, s32);
 extern u16 GetClut(s32, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
-void func_80024020(void *sequence, void *out_position);
+void run_jittered_point_sequence(void *sequence, void *out_position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 
-void (*const dungeon_19c6800_entry)(void *, void *) = func_80024020;
+void (*const dungeon_19c6800_entry)(void *, void *) = run_jittered_point_sequence;
 
 #define SELF ((S_func_819A6800_1 *)sequence)
 
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
-void func_80024020(void *sequence, void *out_position)
+void run_jittered_point_sequence(void *sequence, void *out_position)
 {
     S_func_819A6800_3 *owner = SELF->unk_00;
     S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;

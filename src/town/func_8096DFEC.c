@@ -7,4 +7,4 @@ typedef struct {
     u8 flags;
 } TownObject;
 extern void update_catalog_scroll_indicators(TownObject *);
-void func_80126484(TownObject *object) { update_catalog_scroll_indicators(object); }
+void update_catalog_scroll_secondary_object(TownObject *object) { update_catalog_scroll_indicators(object); }

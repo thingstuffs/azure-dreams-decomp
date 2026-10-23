@@ -20,7 +20,7 @@ extern s16 resolve_player_input_facing();
 extern s32 has_action_input_without_modifier(void);
 extern void reset_record_to_state_34();
 extern s32 begin_actor_attack();
-extern void func_80097C50();
+extern void finish_paralyzed_actor_action();
 extern void *advance_monster_timed_sequence();
 extern void read_monster_script_entry();
 extern s32 has_pending_actor_or_turn_action();
@@ -109,7 +109,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
 
     status_flags = actor_data->flags1C;
     if (status_flags & 0x200) {
-        func_80097C50(actor, actor_id, sprite, actor_data);
+        finish_paralyzed_actor_action(actor, actor_id, sprite, actor_data);
         return;
     }
 

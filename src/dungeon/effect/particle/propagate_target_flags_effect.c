@@ -27,7 +27,7 @@ extern u32 RotTransPers(void *, void *, void *, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 rand(void);
-extern s32 func_80024124(PointRecord *, ObjectPosition *);
+extern s32 draw_flagged_particle_points(PointRecord *, ObjectPosition *);
 extern void advance_counter_and_propagate_target_flags(void *);
 extern u8 shared_sprite_entries[];
 extern u8 fading_sprite_entries[];
@@ -73,7 +73,7 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
 
 /* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position)
+s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
@@ -198,7 +198,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
             (jitter & 0x1F) + (z_offset - 0x10);
         state->unk_14 = state_14_value;
         state->brightness = state_32_value;
-        register_node(spawned, (s32)func_80024124);
+        register_node(spawned, (s32)draw_flagged_particle_points);
         state->color = state_08_value;
     }
 }
@@ -214,7 +214,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
    /* page_8008 in func_8196ACE4 */
 
 /* Update effect motion, collisions, sprite fading and growth, and expiration. */
-void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite) {
+void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite) {
     s32 height;
     s16 life_left;
     s32 brightness;
@@ -398,7 +398,7 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
         size = (rand() & 7) + 0x20;
         state->size_x = size;
         state->size_y = size;
-        effect->callback.handler = func_800244E4;
+        effect->callback.handler = advance_colliding_particle_sprite;
         register_node(effect, (s32)project_sprite_chain);
         render = effect->visual.render;
         render->flags |= 0xC;
@@ -716,7 +716,7 @@ void create_timed_rectangle_effect(void *owner) {
    /* the 0x18 bytes before arg0 in func_8196BD3C, addressed as arg0[-1] */
 
 /* Creates a display object at the source position with zero scale and color. */
-void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
+void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render) {
     ObjectNodeHeader *object;
     u8 *object_state;
     Display *display;
@@ -1058,7 +1058,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         work->state++;
         work->counter = 0;
         work->table_index = direction_index;
-        func_8002553C(work, position_arg, sprite_arg);
+        create_staged_rectangle_sprite(work, position_arg, sprite_arg);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
         return;

@@ -1667,7 +1667,7 @@ void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackSta
 #include "dungeon/monster/univern.h"
 
 /* Animates status entry and recovery, updates status timers and activity counts, then restores movement. */
-void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg)
+void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg)
 {
     void *actor = actor_arg;
     void *motion = motion_arg;

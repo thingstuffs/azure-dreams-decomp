@@ -61,7 +61,7 @@ extern s32 generate_random_value(void);
 extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
-s32 func_80024044(void *object_data, void *position_data)
+s32 draw_actor_effect_points(void *object_data, void *position_data)
 {
     u8 *object = object_data;
     u8 *position = position_data;
@@ -238,7 +238,7 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
         state->unk_50 = -(offset_z << 16) / step_count / 16;
         state->unk_14 = setting_14;
         state->unk_32 = duration;
-        register_node(effect, (s32)func_80024044, signed_duration);
+        register_node(effect, (s32)draw_actor_effect_points, signed_duration);
         state->unk_08 = setting_08;
     }
 }

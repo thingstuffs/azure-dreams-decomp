@@ -9606,3 +9606,113 @@
 0x80176668	D_80176668	manoeva_frame_set_2	This family installs the table into sprite frame state or indexes it for sprite selection; variant/action meaning is deliberately unspecified. Readers: src/dungeon/monster/manoeva/advance_actor_sprite_action.c:83 advance_actor_sprite_action: ((SpriteFrameState *)sprite)->frameTable = D_80176668;; src/dungeon/monster/manoeva/advance_actor_sprite_action.c:85 advance_actor_sprite_action: D_80176668[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],; src/dungeon/monster/manoeva/update_actor_item_use_animation.c:202 update_actor_item_use_animation: (sprite->frameTable) = D_80176668;; src/dungeon/monster/manoeva/update_actor_item_use_animation.c:205 update_actor_item_use_animation: (uptr)D_80176668), Declaration: src/dungeon/monster/manoeva/update_knockback_travel_object.c: extern u8 D_80176668[]; | src/dungeon/monster/manoeva/advance_actor_sprite_action.c: extern u8 D_80176668[]; | src/dungeon/monster/manoeva/update_actor_item_use_animation.c: extern u8 D_80176668[8];
 0x80700E4C	D_80700E4C	devkit_list_methods	Reviewed mechanical role; existing declaration views and extents are retained. Func808816D8Callbacks *[3] | TownCallbackOwner *[]. Readers: src/town/devkit/dev_report_kind_mode_sno_alt.c:23 dev_report_kind_mode_sno_alt: callback = D_80700E4C[0]->func68;; src/town/devkit/dev_report_kind_mode_sno_alt.c:25 dev_report_kind_mode_sno_alt: callback = D_80700E4C[0]->func68;; src/town/devkit/dev_report_kind_mode_sno_alt.c:27 dev_report_kind_mode_sno_alt: callback = D_80700E4C[0]->func68;; src/town/devkit/redraw_devkit_list_and_rekey_rows.c:37 redraw_devkit_list_and_rekey_rows: D_80700E4C[0]->func68(D_807007D4, D_807007FC, 0x4B); Declaration: src/town/devkit/redraw_devkit_list_and_rekey_rows.c: extern Func808816D8Callbacks *D_80700E4C[3]; | src/town/devkit/dev_report_kind_mode_sno_alt.c: extern TownCallbackOwner *D_80700E4C[];
 0x80016470	D_80016470	town_indexed_values	copy_indexed_entry_to_state and copy_indexed_entry_value index 12-byte TownIndexedValueEntry records and copy the leading value; mark_qualifying_entries_in_mode_two confirms stride 0xC. Existing local views of the tail are preserved.
+0x80097C50	func_80097C50	finish_paralyzed_actor_action	src/dungeon/actor/animation/finish_player_action_animation.c: Resets action to 0x3A, clears its callback and timers, and clears ACTOR_PARALYZED; called by handle_actor_commands_and_facing and apply_pending_actor_updates.
+0x8002553C	func_8002553C	get_second_work_value	src/dungeon/actor/get_work_value_second.c: Returns the word at work +0x48; process_resolved_item_value passes it to clear_object_buffer_and_state, and menu entries use it as their text buffer.
+0x800251E8	func_800251E8	update_timed_particle_arrays	src/dungeon/actor/update_timed_state_effect.c: Advances five timed phases and thirty accumulated position/counter entries, then marks the node for removal.
+0x800240B8	func_800240B8	try_apply_wind_protection	src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c: Calls set_or_clear_actor_status_slot with STATUS_WIND_PROTECT and randomized duration; emits the corresponding party message.
+0x8002405C	func_8002405C	draw_wave_distorted_sprite	src/dungeon/effect/mesh/wave.c: Projects sprite strips with row and column sine displacement, applies flip and texture coordinates, and queues their packets.
+0x80024154	func_80024154	draw_dimmed_height_effect_points	src/dungeon/effect/motion/raise_position_toward_height.c: Traverses linked points, projects each, scales RGB by brightness /256, and queues point and draw-mode packets.
+0x80024020	func_80024020	run_delayed_sprite_projectile	src/dungeon/effect/particle/advance_delayed_fading_sprite.c: Searches the facing target, emits advance_delayed_fading_sprite children, advances the projectile phases, applies attack power, and cleans up.
+0x80024020	func_80024020	run_fading_sprite_projectile	src/dungeon/effect/particle/advance_motion_and_fade_sprite.c: Emits advance_motion_and_fade_sprite children around its moving effect, applies attack power, and clears the completed action.
+0x8002405C	func_8002405C	fade_tinted_display_sprite	src/dungeon/effect/particle/advance_object_spawning_displays_high.c: Decrements lifetime, scales RGB with a red bias, adjusts sprite depth, clears its display slot, and removes the node.
+0x80024020	func_80024020	run_growing_target_effect	src/dungeon/effect/particle/advance_target_growth_and_fade.c: Selects a target tile, interpolates motion over eight ticks, emits growing target sprites, and tries effect four by chance.
+0x8002405C	func_8002405C	fade_linked_display_sprite	src/dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.c: Decrements lifetime, reduces green by four, scales red/blue, adjusts depth, clears its linked display slot, and removes the node.
+0x80024064	func_80024064	find_impact_surface_polygon	src/dungeon/effect/particle/impact.c: Looks up the map cell, tests face containment and plane heights against the supplied height, and returns the selected polygon.
+0x800244BC	func_800244BC	create_scaling_impact_sprite	src/dungeon/effect/particle/impact.c: Allocates a 0x212 sprite, copies xyz, initializes neutral RGB and unit scale, and installs scale_effect_by_phase.
+0x800247E8	func_800247E8	advance_rising_quad_countdown	src/dungeon/effect/particle/project_and_queue_visible_shaded_quad.c: Raises the effect toward terrain height, subtracts four from its countdown, and marks the expired node for removal.
+0x80024124	func_80024124	draw_flagged_particle_points	src/dungeon/effect/particle/propagate_target_flags_effect.c: Projects a linked point chain, scales RGB by brightness /128, and queues point and draw-mode packets.
+0x800244E4	func_800244E4	advance_colliding_particle_sprite	src/dungeon/effect/particle/propagate_target_flags_effect.c: Integrates acceleration, stops horizontal motion against terrain, damps velocity, grows and fades the sprite, and removes it at expiry.
+0x8002553C	func_8002553C	create_staged_rectangle_sprite	src/dungeon/effect/particle/propagate_target_flags_effect.c: Allocates a source-position sprite, installs create_timed_rectangle_effect, and initializes zero scale/color plus staged_particle_sprite_data.
+0x80024758	func_80024758	spawn_scattered_point_particle	src/dungeon/effect/particle/render_textured_effect_parts.c: Allocates a point around the parent with random xyz offsets, installs advance_scattered_directional_particle, and registers draw_shaded_point_chain.
+0x80024044	func_80024044	draw_actor_effect_points	src/dungeon/effect/particle/update_actor_effect_particles_and_cleanup.c: Traverses linked actor-effect points, projects them, applies brightness /256, and queues point and draw-mode packets.
+0x80024020	func_80024020	run_fading_target_projectile	src/dungeon/effect/particle/update_effect_base_state.c: Acquires the facing target, emits fade_effect_sprite_to_black children, advances the moving attack, and clears the completed action.
+0x80024020	func_80024020	run_timed_sprite_projectile	src/dungeon/effect/particle/update_timed_sprite_effect.c: Finds a facing target, emits update_timed_sprite_effect children, computes travel velocity, applies attack type ten, and clears the completed action.
+0x800248F8	func_800248F8	draw_animated_projectile_quads	src/dungeon/effect/particle/update_timed_sprite_effect.c: Projects two height endpoints, cycles frame 8..11, constructs a semitransparent textured quad, and traverses linked render records.
+0x800243C4	func_800243C4	advance_linked_segment_flash	src/dungeon/effect/screen/screen.c: Resolves the owner attachment, creates linked effect segments, brightens the sprite, then fades and removes it.
+0x80024028	func_80024028	apply_small_random_value_gain	src/dungeon/effect/sprite/create_coordinate_sprite_effect.c: Adds random(low byte)+4 to the pending value, increases it for element bit one, creates a value popup, and applies the clamped delta.
+0x80024064	func_80024064	run_radial_sprite_sequence	src/dungeon/effect/sprite/create_radial_effect_from_source.c: Runs the moving radial sprite state machine, draws textured ellipses, creates fading children and copied-source child effects, and advances the phase counter.
+0x80024020	func_80024020	run_ground_trail_projectile	src/dungeon/effect/sprite/update_flickering_effect_vertices.c: Searches along the actor heading, follows sampled terrain height, emits flickering trail particles, applies attack power, and clears the action.
+0x80024020	func_80024020	run_jittered_point_sequence	src/dungeon/effect/sprite/update_jittered_effect_points.c: Selects the player-facing target, creates the jittered point effect, waits for the sound/effect phases, applies attack power, and completes the action.
+0x80024790	func_80024790	draw_indexed_shaded_quad	src/dungeon/effect/travel/cycle_seven_color_fade.c: Builds a textured Gouraud quad with indexed U coordinates, copies color bytes, projects four scratch vertices, and links the packet into the ordering table.
+0x80024B98	func_80024B98	advance_rising_fading_emitter	src/dungeon/effect/travel/tint_and_advance_effect.c: Waits for its delay, rises with vertical acceleration, emits render objects and jittered nodes, then fades and removes itself.
+0x8002403C	func_8002403C	apply_large_random_value_gain	src/dungeon/effect/travel/update_rotating_fading_effect.c: Adds random(low byte)+16 to the pending value, increases it for element bit two, creates a value popup, and applies the clamped delta.
+0x80024020	func_80024020	run_warp_effect_sequence	src/dungeon/effect/travel/warp.c: Installed dungeon_19cc800_entry; uploads warp graphics, allocates the effect, fades scene tint, waits for warp counters, and completes the dungeon action.
+0x80024EF8	func_80024EF8	create_warp_follower_sprite	src/dungeon/effect/travel/warp.c: Allocates an owner-linked sprite, installs copy_follower_owner_position_and_color, copies position, and prepares the two warp ellipse textures.
+0x8016A87C	func_8016A87C	initialize_gray_sprite_copy	src/dungeon/modules/ovl_cb9000.c: Registers the sprite node, copies three source coordinates, stores field60, and initializes gray RGB and unit scale in the cb9000 module.
+0x8017526C	func_8017526C	wait_for_arachne_activity	src/dungeon/monster/arachne/arachne.c: Installs itself as action callback until pending dungeon activity clears, then resets the action and increments the pending-action count.
+0x8014C898	func_8014C898	update_beldo_attached_part	src/dungeon/monster/beldo/update_beldo_part_position.c: Copies owner transform and render state, smooths attachment offsets, pulses color and sound by part phase, and removes the part with its owner.
+0x8017087C	func_8017087C	initialize_block_sprite_copy	src/dungeon/monster/block/block.c: Registers the block sprite, copies source xyz and field60, and initializes gray RGB and unit scale.
+0x801736F4	func_801736F4	update_sleeping_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Animates the sleeping Grineut, checks STATUS_SLEEP, handles pushed/facing moves and wakeup, then restores the normal move/attack/spell dispatcher.
+0x801588A4	func_801588A4	draw_saber_points_slot_c	src/dungeon/monster/saber/queue_linked_point_packets_slot_c.c: Projects the linked Saber points in slot C and queues shaded point and draw-mode packets.
+0x8015E8A4	func_8015E8A4	draw_saber_points_slot_d	src/dungeon/monster/saber/queue_linked_point_packets_slot_d.c: Projects the linked Saber points in slot D and queues shaded point and draw-mode packets.
+0x80173B64	func_80173B64	advance_snowman_removal	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Forwards the four actor-action arguments to advance_actor_removal.
+0x801738E0	func_801738E0	update_sleeping_univern	src/dungeon/monster/univern/create_anchored_directional_object.c: Runs the Univern fall/landing and sleep phases, checks STATUS_SLEEP and movement, and restores its normal movement callback on wakeup.
+0x801730E0	func_801730E0	advance_weadog_hop	src/dungeon/monster/weadog/hop_weadog_to_tile.c: Interpolates a five-tick sine hop to the sprite tile, restores grounding, spends MP, advances status timers, and checks the floor trap.
+0x801708BC	func_801708BC	advance_item_flight_to_floor	src/dungeon/monster/weadog/update_weadog_flight.c: Interpolates the flying item toward a valid floor tile, samples terrain, adjusts travel scale/height, and places it with place_item_at_valid_floor_position.
+0x8001B9C8	func_8001B9C8	get_scene_entry_buffer_a	src/town/func_8046A9C8.c: Returns the bank-local scene storage address: return D_80022C9C;
+0x8001BB24	func_8001BB24	get_scene_entry_buffer_b	src/town/func_8046AB24.c: Returns the bank-local scene storage address: return D_80025A8C;
+0x8001BC54	func_8001BC54	get_scene_entry_buffer_c	src/town/func_8046AC54.c: Returns the bank-local scene storage address: return D_8001F2D4;
+0x8001A1C8	func_8001A1C8	get_scene_entry_buffer_d	src/town/func_804731C8.c: Returns the bank-local scene storage address: return &D_8001B1DC;
+0x800196D4	func_800196D4	get_scene_entry_buffer_e	src/town/func_8047CED4.c: Returns the bank-local scene storage address: return &D_800170B0;
+0x80016A14	func_80016A14	check_scene_query_result	src/town/func_8047EA14.c: Returns whether the bank-local query func_80016A38 produces a result other than -1.
+0x80017464	func_80017464	get_scene_entry_buffer_f	src/town/func_8047F464.c: Returns the bank-local scene storage address: return &D_80017928;
+0x80017D68	func_80017D68	set_scene_entry_flag_a	src/town/func_80481D68.c: Sets the bank-local scene entry flag to one: D_80019550 = 1;
+0x800181CC	func_800181CC	set_scene_entry_flag_b	src/town/func_804B99CC.c: Sets the bank-local scene entry flag to one: D_80018E58 = 1;
+0x80017168	func_80017168	set_scene_entry_value_a	src/town/func_804D1968.c: Stores the supplied value in the bank-local scene entry word: D_80017590 = value;
+0x800171F8	func_800171F8	get_scene_entry_buffer_g	src/town/func_804D19F8.c: Returns the bank-local scene storage address: return D_80017560;
+0x80016D48	func_80016D48	set_scene_entry_flag_c	src/town/func_804D8D48.c: Sets the bank-local scene entry flag to one: D_800179E0 = 1;
+0x80016D6C	func_80016D6C	set_scene_entry_flag_d	src/town/func_804F0D6C.c: Sets the bank-local scene entry flag to one: D_800176A0 = 1;
+0x80017260	func_80017260	set_scene_entry_value_b	src/town/func_804F1260.c: Stores the supplied value in the bank-local scene entry word: D_8001769C = value;
+0x80016C50	func_80016C50	set_scene_entry_flag_e	src/town/func_80500C50.c: Sets the bank-local scene entry flag to one: D_80017550 = 1;
+0x80017144	func_80017144	set_scene_entry_value_c	src/town/func_80501144.c: Stores the supplied value in the bank-local scene entry word: D_8001754C = value;
+0x800171D4	func_800171D4	get_scene_entry_buffer_h	src/town/func_805011D4.c: Returns the bank-local scene storage address: return D_80017524;
+0x80016CF8	func_80016CF8	set_scene_entry_flag_f	src/town/func_8050ECF8.c: Sets the bank-local scene entry flag to one: D_80017620 = 1;
+0x8054FB58	func_8054FB58	submit_scene_entry_data_a	src/town/func_8054FB58.c: Passes the bank-local data block to town service callback_218: D_80016000->unk_20->callback_218(D_80017A38);
+0x80016E98	func_80016E98	set_scene_entry_flag_g	src/town/func_80550698.c: Sets the bank-local scene entry flag to one: D_80017AAC = 1;
+0x80016BE4	func_80016BE4	set_scene_entry_flag_h	src/town/func_80559BE4.c: Sets the bank-local scene entry flag to one: D_8001749C = 1;
+0x800170D8	func_800170D8	set_scene_entry_value_d	src/town/func_8055A0D8.c: Stores the supplied value in the bank-local scene entry word: D_80017498 = value;
+0x80017168	func_80017168	get_scene_entry_buffer_i	src/town/func_8055A168.c: Returns the bank-local scene storage address: return D_80017470;
+0x80016C98	func_80016C98	set_scene_entry_flag_i	src/town/func_80579C98.c: Sets the bank-local scene entry flag to one: D_800175C0 = 1;
+0x8001718C	func_8001718C	set_scene_entry_value_e	src/town/func_8057A18C.c: Stores the supplied value in the bank-local scene entry word: D_800175BC = value;
+0x8001721C	func_8001721C	get_scene_entry_buffer_j	src/town/func_8057A21C.c: Returns the bank-local scene storage address: return D_80017588;
+0x80018064	func_80018064	set_scene_entry_flag_j	src/town/func_805A0064.c: Sets the bank-local scene entry flag to one: D_80019150 = 1;
+0x80018934	func_80018934	set_scene_entry_flag_k	src/town/func_805D4934.c: Sets the bank-local scene entry flag to one: D_80019B98 = 1;
+0x80017780	func_80017780	set_scene_entry_flag_l	src/town/func_80602780.c: Sets the bank-local scene entry flag to one: D_80017FC8 = 1;
+0x806148F8	func_806148F8	submit_scene_entry_data_b	src/town/func_806148F8.c: Passes the bank-local data block to town service callback_218: D_80016000->unk_20->callback_218(D_800191FC);
+0x80018350	func_80018350	set_scene_entry_flag_m	src/town/func_80616B50.c: Sets the bank-local scene entry flag to one: D_80019278 = 1;
+0x80016D58	func_80016D58	set_scene_entry_flag_n	src/town/func_80632D58.c: Sets the bank-local scene entry flag to one: D_80017794 = 1;
+0x80016DEC	func_80016DEC	set_scene_entry_flag_o	src/town/func_80647DEC.c: Sets the bank-local scene entry flag to one: D_80017B44 = 1;
+0x800172E0	func_800172E0	set_scene_entry_value_f	src/town/func_806482E0.c: Stores the supplied value in the bank-local scene entry word: D_80017B40 = value;
+0x80017C94	func_80017C94	set_scene_entry_flag_p	src/town/func_80680C94.c: Sets the bank-local scene entry flag to one: D_800189E0 = 1;
+0x8069752C	func_8069752C	submit_scene_entry_data_c	src/town/func_8069752C.c: Passes the bank-local data block to town service callback_218: D_80016000->unk_20->callback_218(D_80018A7C);
+0x80017D64	func_80017D64	set_scene_entry_flag_q	src/town/func_80698D64.c: Sets the bank-local scene entry flag to one: D_80018BF8 = 1;
+0x800170FC	func_800170FC	set_scene_entry_value_g	src/town/func_806AA0FC.c: Stores the supplied value in the bank-local scene entry word: D_800174D8 = value;
+0x8001718C	func_8001718C	get_scene_entry_buffer_k	src/town/func_806AA18C.c: Returns the bank-local scene storage address: return D_800174A8;
+0x8001846C	func_8001846C	set_scene_entry_flag_r	src/town/func_806C746C.c: Sets the bank-local scene entry flag to one: D_800190E0 = 1;
+0x8001732C	func_8001732C	set_scene_entry_value_h	src/town/func_806CC32C.c: Stores the supplied value in the bank-local scene entry word: D_800178A4 = value;
+0x800173BC	func_800173BC	get_scene_entry_buffer_l	src/town/func_806CC3BC.c: Returns the bank-local scene storage address: return D_80017874;
+0x80016C44	func_80016C44	set_scene_entry_flag_s	src/town/func_806CFC44.c: Sets the bank-local scene entry flag to one: D_8001766C = 1;
+0x80017138	func_80017138	set_scene_entry_value_i	src/town/func_806D0138.c: Stores the supplied value in the bank-local scene entry word: D_80017668 = value;
+0x800171C8	func_800171C8	get_scene_entry_buffer_m	src/town/func_806D01C8.c: Returns the bank-local scene storage address: return D_80017638;
+0x80016BB4	func_80016BB4	set_scene_entry_flag_t	src/town/func_806D1BB4.c: Sets the bank-local scene entry flag to one: D_80017488 = 1;
+0x800170A8	func_800170A8	set_scene_entry_value_j	src/town/func_806D20A8.c: Stores the supplied value in the bank-local scene entry word: D_80017484 = value;
+0x80017138	func_80017138	get_scene_entry_buffer_n	src/town/func_806D2138.c: Returns the bank-local scene storage address: return D_80017454;
+0x80016CE0	func_80016CE0	submit_scene_entry_data_d	src/town/func_806D4CE0.c: Passes the bank-local data block to town service callback_218: D_80016000->unk_20->callback_218(D_80018B44);
+0x80016E68	func_80016E68	clear_scene_service_value	src/town/func_806D4E68.c: Calls town service callback_208 with zero.
+0x80017AE8	func_80017AE8	set_scene_entry_flag_u	src/town/func_806D5AE8.c: Sets the bank-local scene entry flag to one: D_80018BAC = 1;
+0x80017C94	func_80017C94	set_scene_entry_flag_v	src/town/func_806D9494.c: Sets the bank-local scene entry flag to one: D_80019120 = 1;
+0x80019D4C	func_80019D4C	set_scene_entry_flag_w	src/town/func_80710D4C.c: Sets the bank-local scene entry flag to one: D_8001B178 = 1;
+0x80016C40	func_80016C40	set_scene_entry_flag_x	src/town/func_8074D440.c: Sets the bank-local scene entry flag to one: D_80017650 = 1;
+0x8001709C	func_8001709C	set_scene_entry_flag_y	src/town/func_8076289C.c: Sets the bank-local scene entry flag to one: D_80017B74 = 1;
+0x8001748C	func_8001748C	set_scene_entry_flag_z	src/town/func_80770C8C.c: Sets the bank-local scene entry flag to one: D_80017C84 = 1;
+0x80016BF4	func_80016BF4	set_scene_entry_flag_aa	src/town/func_807753F4.c: Sets the bank-local scene entry flag to one: D_800174E0 = 1;
+0x80016BF4	func_80016BF4	set_scene_entry_flag_ab	src/town/func_80777BF4.c: Sets the bank-local scene entry flag to one: D_800174D8 = 1;
+0x80016CF0	func_80016CF0	set_scene_entry_flag_ac	src/town/func_80785CF0.c: Sets the bank-local scene entry flag to one: D_800174E8 = 1;
+0x8001720C	func_8001720C	set_scene_entry_value_k	src/town/func_8079B20C.c: Stores the supplied value in the bank-local scene entry word: D_8001750C = value;
+0x8001729C	func_8001729C	get_scene_entry_buffer_o	src/town/func_8079B29C.c: Returns the bank-local scene storage address: return D_80016114;
+0x80126464	func_80126464	update_catalog_scroll_primary_object	src/town/func_8096DFCC.c: Forwards the supplied TownObject to update_catalog_scroll_indicators; separate catalog callback entry.
+0x80126484	func_80126484	update_catalog_scroll_secondary_object	src/town/func_8096DFEC.c: Forwards the supplied TownObject to update_catalog_scroll_indicators; separate catalog callback entry.
+0x80016B74	func_80016B74	get_scene_shared_buffer_aa	src/town/scene/hooks/get_shared_entry_buffer_aa.c: Observable scene hook: return D_80016CDC;
+0x80016B74	func_80016B74	get_scene_shared_buffer_ab	src/town/scene/hooks/get_shared_entry_buffer_ab.c: Observable scene hook: return D_80016CDC;
+0x8001612C	func_8001612C	capture_global_entry_value	src/town/scene/hooks/set_global_entry_value_s.c: Observable scene hook: D_80016DC8 = D_80016094;
+0x8001612C	func_8001612C	set_scene_dispatch_mode_three	src/town/scene/set_scene_mode_3.c: Observable scene hook: scene_dispatch_mode_index = 3;

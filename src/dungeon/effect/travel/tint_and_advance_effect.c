@@ -551,7 +551,7 @@ typedef struct S_80024B98_0 {
 
 
 /* Advance an effect through its delay, motion, brightness changes, and periodic emissions. */
-void func_80024B98(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
+void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s16 state;
     s32 wave_value;
     u16 frame_count;
@@ -622,7 +622,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     register MovingPosition *origin = source_pos;
     register s16 state_param = effect_param;
     register s32 effect_index = 0;
-    register s32 *callback = func_80024B98;
+    register s32 *callback = advance_rising_fading_emitter;
     register u16 *counter_page = (u16 *)0x80020000;
     register s32 component_offset = -0x400;
     register ObjectNodeHeader *effect;
