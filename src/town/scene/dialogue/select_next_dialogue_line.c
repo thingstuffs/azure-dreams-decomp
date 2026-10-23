@@ -65,7 +65,7 @@ s8 *select_next_dialogue_line(void) {
             }
         }
 
-        if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)D_80016000 + 0x38) + 0x2D68) >= 10000U) {
+        if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)town_scene_root + 0x38) + 0x2D68) >= 10000U) {
             if (func_8001E670(F_sb22_goods_first) == 0) {
                 return D_800164CC;
             }
@@ -74,17 +74,17 @@ s8 *select_next_dialogue_line(void) {
         {
             Rec_D_80016000 *root;
 
-            root = D_80016000;
-            if ((u32)*(s32 *)((u8 *)root->unk_38 + 0x2D68) >= 20000U) {
-                if ((root->unk_20->callback_2D4)(0) == 0) {
+            root = town_scene_root;
+            if ((u32)*(s32 *)((u8 *)root->town_state + 0x2D68) >= 20000U) {
+                if ((root->services->callback_2D4)(0) == 0) {
                     return D_8001688A;
                 }
             }
         }
 
-        value = (*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0);
+        value = (*(StateQuery *)((u8 *)*(void **)((u8 *)town_scene_root + 0x20) + 0x2D4))(0);
         if (value > 0) {
-            u8 *town = *(u8 **)((u8 *)D_80016000 + 0x38);
+            u8 *town = *(u8 **)((u8 *)town_scene_root + 0x38);
             if (town[0x33A8] != 0x12 && town[0x33A9] != 0x12) {
                 if (func_8001E670(F_ie_otera_no_sasoi_once) == 0) {
                     func_8001E578(F_ie_otera_no_sasoi_once);
@@ -99,11 +99,11 @@ s8 *select_next_dialogue_line(void) {
             state = town_event_state;
             state_zero = state->unk_00;
             if (state_zero == 2) {
-                state_five = state->unk_05;
+                state_five = state->selection_mode;
                 if (state_five == state_zero) {
                     state_one = state->dispatchState;
                     if (state_one == 1) {
-                        if ((*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) == state_five) {
+                        if ((*(StateQuery *)((u8 *)*(void **)((u8 *)town_scene_root + 0x20) + 0x2D4))(0) == state_five) {
                             if (count_listed_enabled_records() >= 3) {
                                 return D_80016D77;
                             }
@@ -112,7 +112,7 @@ s8 *select_next_dialogue_line(void) {
                                     TownEventState *state;
 
                                     state = town_event_state;
-                                    value = state->unk_04;
+                                    value = state->selected_entry;
                                 }
                                 if (value == state_one) {
                                     return D_80016BCF;
@@ -132,7 +132,7 @@ s8 *select_next_dialogue_line(void) {
                                 TownEventState *state;
 
                                 state = town_event_state;
-                                value = state->unk_04;
+                                value = state->selected_entry;
                             }
                             if (value == state_one) {
                                 return D_80016BCF;

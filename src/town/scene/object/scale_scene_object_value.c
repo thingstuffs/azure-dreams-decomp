@@ -11,7 +11,7 @@ typedef int s32;
 void scale_scene_object_value(void)
 {
     void *object_data;
-    object_data = *(void **) ((s8 *) *((int *)(&D_80016000)) + 0x1C);
+    object_data = *(void **) ((s8 *) *((int *)(&town_scene_root)) + 0x1C);
     *(s32 *) ((s8 *) object_data + 8) =
         (*(s32 *) ((s8 *) object_data + 8) << 6) + 0x220;
 }

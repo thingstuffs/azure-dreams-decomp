@@ -3,7 +3,7 @@
 
 
 /* numeric; owner: dungeon/func_80EF7000. */
-const u32 D_80158808[8] __attribute__((aligned(4))) = {
+const u32 weadog_slot_c_direction_steps[8] __attribute__((aligned(4))) = {
     0x00000001,
     0x00010001,
     0x00010000,

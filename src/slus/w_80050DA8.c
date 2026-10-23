@@ -1,11 +1,6 @@
 #include "slus/saved_value_b98.h"
+#include "shared/object_node.h"
 
-typedef struct
-{
-    u8 pad1E[0x1E];
-    u16 flags1E;
-}
-S_80050DA8_sub;
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 extern void fade_effect_parts(void);
 /* Starts the fade callback, releases the attachment, and sets global and child flags. */
@@ -14,7 +9,7 @@ void begin_selection_menu_teardown_and_fade(u8 *object)
     u8 *object_data = object + 0x20;
     s32 saved_value;
     struct S_8004FE78_a0 *attachment;
-    S_80050DA8_sub *child;
+    ObjectNodeHeader *child;
     if (object != 0) {
         *((s32 *) (object_data + 0x08)) = 2;
         saved_value = *((s32 *) (object_data + 0x1C));
@@ -22,9 +17,9 @@ void begin_selection_menu_teardown_and_fade(u8 *object)
         *((void (**)(void)) (object_data - 0x10)) = fade_effect_parts;
         selection_menu_saved_value = saved_value;
         destroy_animated_selection_menu(attachment);
-        child = *((S_80050DA8_sub **) (object_data + 0xA0));
+        child = *((ObjectNodeHeader **) (object_data + 0xA0));
         D_800814A0_abs |= 0x8000;
-        child->flags1E |= 0x8000;
+        child->flags |= 0x8000;
         *((void **) (object_data + 0x28)) = 0;
     }
 }

@@ -37,7 +37,7 @@ static void *allocate_and_initialize_node_2(void *data) {
             node->sprite = (u8 *)node + 0x68;
             initialize_catalog_state(payload);
             register_node(node, &dungeon_menu_tag);
-            node->unk_10 = &D_80126704;
+            node->update_callback = &D_80126704;
             SD_Call(0x701);
         } else {
             release_null_terminated_entries((u8 *)node + 0x7C);

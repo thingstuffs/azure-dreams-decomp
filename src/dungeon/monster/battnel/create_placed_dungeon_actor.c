@@ -68,7 +68,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     if (obj != 0) {
         work = (u8 *)obj;
         work += 0x20;
-        obj->unk_10 = D_8015EA30;
+        obj->update_callback = D_8015EA30;
         ((S_80B7F054_1 *)work)->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
@@ -76,10 +76,10 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         part_a->unk_0A = saved_rotation;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_y;
+        part_b->tile_y = saved_y;
         actor = work;
         part_b->frameTable = D_80161D0C;
-        part_b->unk_24 = saved_x;
+        part_b->tile_x = saved_x;
         do {
 
             if (kind == 1) {

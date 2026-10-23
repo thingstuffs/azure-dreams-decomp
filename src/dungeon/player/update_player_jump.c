@@ -1,13 +1,11 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_8008E700_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008E700_0;   /* entity in update_player_jump */
+   /* entity in update_player_jump */
 
 extern void set_sprite_animation_frame(void *a0, u8 a1, s32 a2, s32 a3);
 extern void process_unflagged_linked_entries(s32 a0);
@@ -18,10 +16,10 @@ extern void play_sound_if_enabled(s32 a0);
 
 extern s32 held_item_record;
 extern u8 player_action_tag[];
-extern u8 D_800DCFD0[8];
+extern u8 player_jump_frame_set[8];
 extern u8 D_800DD048[8];
-extern u8 D_800DD060[8];
-extern u8 D_800DD0C8[8];
+extern u8 player_throw_followup_frames[8];
+extern u8 player_throw_frame_set[8];
 extern s32 saved_held_item_word[3];
 
 /* Advance the entity action through its motion, animation, and linked-child effects. */
@@ -40,7 +38,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
         if (*(u16 *)(sprite + 0x14) & 0x6000) {
             *(s32 *)(motion + 0x14) = 0xFFEA0000;
             if (*(s32 *)(entity + 0x1C) & 0x100000) {
-                *(u8 **)(sprite + 0x2C) = D_800DD0C8;
+                *(u8 **)(sprite + 0x2C) = player_throw_frame_set;
             } else {
                 *(u8 **)(sprite + 0x2C) = D_800DD048;
             }
@@ -63,7 +61,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                 *(u8 **)(action + 0x8C) = player_action_tag;
             } else {
                 anim_sprite = sprite;
-                animations = D_800DD060;
+                animations = player_throw_followup_frames;
                 *(u8 **)(anim_sprite + 0x2C) = animations;
                 update_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
                 set_sprite_animation_frame(anim_sprite, animations[update_direction], 0, 1);
@@ -89,15 +87,15 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                         s32 angle;
                         s32 heading;
 
-                        ((S_8008E700_0 *)entity)->unk_1C &= 0xFFEFFFFF;
+                        ((ActorRecord *)entity)->flags1C &= 0xFFEFFFFF;
                         saved_state = held_item_record;
                         held_item_record = 0;
                         g_dungeon_status.activity_counts.parts.pending_action_count++;
-                        *(u8 **)(sprite + 0x2C) = D_800DCFD0;
+                        *(u8 **)(sprite + 0x2C) = player_jump_frame_set;
                         angle = g_game_work.view.camera_rotation.parts.viewAngle;
                         heading = *(s16 *)(entity + 0x2A);
                         saved_held_item_word[0] = saved_state;
-                        set_sprite_animation_frame(sprite, D_800DCFD0[((angle + heading + 0x100) >> 9) & 7], 5, 1);
+                        set_sprite_animation_frame(sprite, player_jump_frame_set[((angle + heading + 0x100) >> 9) & 7], 5, 1);
                     }
                     play_sound_if_enabled(0x512);
                     return;

@@ -7,19 +7,19 @@ extern M2C_UNK D_800D0288;
 extern M2C_UNK D_800D02E8;
 extern M2C_UNK D_800D0348;
 extern M2C_UNK D_800D03A8;
-extern s32 *D_800D0408;
+extern s32 *town_corrected_probe_samples;
 extern s32 *D_800D040C;
-extern s32 *D_800D0410;
-extern s32 *D_800D0414;
-extern s32 *D_800D0418;
-extern s32 *D_800D041C;
+extern s32 *town_primary_probe_samples;
+extern s32 *town_probe_adjustment_samples;
+extern s32 *town_secondary_probe_samples;
+extern s32 *town_position_entry_samples;
 
 /* Initialize six global pointers to their corresponding storage blocks. */
 void initialize_six_global_pointers_corresponding_storage_blocks(void) {
-    D_800D0408 = &D_800D0208;
+    town_corrected_probe_samples = &D_800D0208;
     D_800D040C = &D_800D0248;
-    D_800D0410 = &D_800D0288;
-    D_800D0414 = &D_800D02E8;
-    D_800D0418 = &D_800D0348;
-    D_800D041C = &D_800D03A8;
+    town_primary_probe_samples = &D_800D0288;
+    town_probe_adjustment_samples = &D_800D02E8;
+    town_secondary_probe_samples = &D_800D0348;
+    town_position_entry_samples = &D_800D03A8;
 }

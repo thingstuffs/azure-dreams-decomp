@@ -148,8 +148,8 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 
             if (actor->unk_1C & ACTOR_REFRESH_GROUND) {
                 actor->unk_1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
-                floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
-                                             (monster->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->tile_x << 6) | 0x20,
+                                             (monster->tile_y << 6) | 0x20,
                                              (s16)(actor->unk_88.u16 - 0x20));
                 entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor_height;
                 actor->unk_88.u16 = floor_height;
@@ -223,7 +223,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             }
 
             ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
-            if (status->unk_64 != 0) {
+            if (status->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, motion, sprite, 0)) {
                     return;
                 }
@@ -343,16 +343,16 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
 
         step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
         direction = (s16)get_rounded_facing_and_rounding_flag(old_x, old_y,
-                                  ((ActorStatusBytesView *)step)->unk_74,
-                                  ((ActorStatusBytesView *)step)->unk_7C,
+                                  ((ActorStatusBytesView *)step)->path_x,
+                                  ((ActorStatusBytesView *)step)->path_y,
                                   (u8 *)action + 0x98);
         move_result = (s16)check_movement_clearance_and_height(direction, actor, state, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =
-            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
+            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_x;
         tile_mask = 0x3000;
         ((Rec_D_80082E80 *)actor)->unk_25 =
-            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_7C;
+            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_y;
         ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
 
         {
@@ -497,9 +497,9 @@ try_heading:
                 }
                 {
                     ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) candidate_heading;
-                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_74 =
+                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->path_x =
                         (u8) position->unk_24.at00.v;
-                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_7C =
+                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->path_y =
                         (u8) position->unk_24.at01.v;
                     ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 + 1);
                     update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,

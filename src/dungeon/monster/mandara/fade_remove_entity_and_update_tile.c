@@ -83,8 +83,8 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, SpriteFr
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
 
-        tile_x = visual_data->unk_24;
-        tile_y = visual_data->unk_25;
+        tile_x = visual_data->tile_x;
+        tile_y = visual_data->tile_y;
         tile_mask = 0x3000;
         if (entity->flags1C & 0x2000) {
             tile_mask = 0x300;

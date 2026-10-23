@@ -65,7 +65,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80158A50;
+        obj->update_callback = D_80158A50;
         work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
@@ -73,10 +73,10 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         part_a->unk_0A = held_c;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = held_b;
+        part_b->tile_y = held_b;
         actor = work;
         part_b->frameTable = D_8015CC3C;
-        part_b->unk_24 = held_a;
+        part_b->tile_x = held_a;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

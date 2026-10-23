@@ -1,0 +1,101 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "town_threshold_counter",
+  "placement": "town_threshold_counter_ll34_594800_80016000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object town_threshold_counter is linked whole into town/ll34_594800_80016000 (all 2 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 5851136,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+    },
+    "D_80017FB8": {
+      "symbol": "D_80017FB8",
+      "kind": "data",
+      "vma": 2147586664,
+      "foff": 5864040,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "town/ll34_594800_80016000",
+      "link_list": "config/link/town/ll34_594800_80016000.json",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "file_start": 5851136,
+      "file_end": 5865472,
+      "delta": 2141722624,
+      "basis": "ledger/instance_load_regions.jsonl; validated packed-CD loader record"
+    }
+  },
+  "placement_descriptor": {
+    "key": "town_threshold_counter_ll34_594800_80016000",
+    "module": "town_threshold_counter",
+    "image": "town/ll34_594800_80016000",
+    "home_image": "town/ll34_581000_80016000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "town/func_80601310",
+        "row": "town/func_806156E0"
+      },
+      {
+        "home": "town/func_80601338",
+        "row": "town/func_80615708"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80016000",
+        "kind": "data",
+        "vma": 2147573760,
+        "foff": 5851136,
+        "view_bytes": 4,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+      },
+      {
+        "symbol": "D_80017FB8",
+        "kind": "data",
+        "vma": 2147586664,
+        "foff": 5864040,
+        "view_bytes": 4,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+    ]
+  }
+}

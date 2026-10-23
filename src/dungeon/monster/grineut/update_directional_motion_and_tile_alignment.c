@@ -24,7 +24,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_8014CE54;
-extern u8 D_80150150[];
+extern u8 grineut_frame_set_7[];
 extern u8 D_80150178[];
 
 /* Updates directional motion through deceleration and alignment to the actor's tile center. */
@@ -87,10 +87,10 @@ void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *
             begin_actor_display_action(action, motion, actor, D_80150178);
             return;
         } else {
-            actor->frameTable = D_80150150;
+            actor->frameTable = grineut_frame_set_7;
             select_sprite_entry(
                 actor,
-                D_80150150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                grineut_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8014F238_1 *)action)->unk_9B++;
             return;
@@ -103,10 +103,10 @@ void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *
             return;
         }
 
-        actor->frameTable = D_80150150;
+        actor->frameTable = grineut_frame_set_7;
         select_sprite_entry(
             actor,
-            D_80150150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014F238_1 *)action)->unk_96.s = 8;
         ((S_8014F238_1 *)action)->unk_9B++;
@@ -116,12 +116,12 @@ void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *
         timer = ((S_8014F238_1 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_x = actor->unk_24 << 6;
+                s32 target_x = actor->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
                 motion->velocity_x = ((target_x - current_x) << 15) / timer;
             }
             {
-                s32 target_y = actor->unk_25 << 6;
+                s32 target_y = actor->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_y - current_y) << 15) / ((S_8014F238_1 *)action)->unk_96.s;
@@ -137,9 +137,9 @@ void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.v = ((actor->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((actor->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        motion->x.v = ((actor->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((actor->tile_y << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

@@ -31,7 +31,7 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
                 *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
                 *(Copy8 *)(((u8 *)object) + 0x40) = *(Copy8 *)payload;
                 *(s16 *)(data + 6) = GetClut(value_scale << 4, 0x1F8);
-                object->unk_10 = update_rotating_effect_vertices;
+                object->update_callback = update_rotating_effect_vertices;
                 register_node(object, draw_linked_textured_quads);
             }
         }
@@ -371,11 +371,11 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
 
     object = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object->unk_10 = spawn_scattered_timed_objects;
-        ((MovingPosition *)(object->position))->unk_02 = (u16) ((u16)source_pos->x.w.i);
-        ((MovingPosition *)(object->position))->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        object->update_callback = spawn_scattered_timed_objects;
+        ((MovingPosition *)(object->position))->x = (u16) ((u16)source_pos->x.w.i);
+        ((MovingPosition *)(object->position))->y = (u16) ((u16)source_pos->y.w.i);
         object_data = ((void *)object) + 0x20;
-        ((MovingPosition *)(object->position))->unk_0A = (u16) ((u16)source_pos->z.w.i);
+        ((MovingPosition *)(object->position))->z = (u16) ((u16)source_pos->z.w.i);
         object_data->unk_10 = sample_terrain_surface_height(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
             (s16) (((u16)source_pos->z.w.i) - 0x80));
         object_data->unk_48 = initial_value;
@@ -446,7 +446,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     do {
         object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (object != 0) {
-            object->unk_10 = update_timed_effect_animation;
+            object->update_callback = update_timed_effect_animation;
             register_node(object, project_sprite_chain);
             node = object->sprite;
             work = (u8 *)object;
@@ -486,7 +486,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             node->unk_00 = link;
             link_value = ((S_800DAEF4_6 *)link)->unk_04;
             node->unk_04 = 0;
-            node->unk_05 = 0;
+            node->frame_ticks = 0;
             node->source = link_value;
             target_height = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
             ((S_800DAEF4_4 *)work)->unk_48 = 4;
@@ -640,14 +640,14 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
         do {
             effect = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
             if (effect != 0) {
-                effect->unk_10 = callback;
+                effect->update_callback = callback;
                 visual = effect->sprite;
                 ((S_800DB2DC_0 *)effect)->unk_4A =
                     (u16)source_arg->unk_2A;
                 visual_word = source_visual->unk_28;
                 visual->scale_y = scale;
                 visual->scale_x = scale;
-                visual->unk_28 = visual_word;
+                visual->animation_resource = visual_word;
                 visual_flags = source_visual->unk_14;
                 visual->flags = visual_flags;
                 source_offset = source_visual->unk_12;
@@ -656,12 +656,12 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 visual->clut =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
-                ((MovingPosition *)(effect->position))->unk_02 =
-                    (u16)position->unk_02;
-                ((MovingPosition *)(effect->position))->unk_06 =
-                    (u16)position->unk_06;
-                ((MovingPosition *)(effect->position))->unk_0A =
-                    (u16)position->unk_0A;
+                ((MovingPosition *)(effect->position))->x =
+                    (u16)position->x;
+                ((MovingPosition *)(effect->position))->y =
+                    (u16)position->y;
+                ((MovingPosition *)(effect->position))->z =
+                    (u16)position->z;
                 effect_state = ((void *)effect) + 0x20;
                 effect_state->unk_06 = saved_param;
                 effect_state->unk_04 = (s16)(group_step != 0);

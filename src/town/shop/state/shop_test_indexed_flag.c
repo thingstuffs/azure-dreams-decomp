@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 *D_807030A4[];
+extern s32 *shop_indexed_flag_words[];
 
 /* Tests an indexed flag, treating indices zero and one as constant results. */
 s32 test_linked_flag(s32 flag_index)
@@ -18,7 +18,7 @@ s32 test_linked_flag(s32 flag_index)
             value = (adjusted_index / 32);
             word_address = value << 2;
             value <<= 5;
-            word_address += (unsigned long)D_807030A4[0];
+            word_address += (unsigned long)shop_indexed_flag_words[0];
             value = flag_index - value;
             value = unit_bit << value;
             flag_word = (s32 *)word_address;

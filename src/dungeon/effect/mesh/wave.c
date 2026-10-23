@@ -5,9 +5,9 @@
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
-const PackedVector D_80024004 = {832,340,96,84};
-const PackedVector D_8002400C = {832,256,96,84};
-const Copy24 D_80024014 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+const PackedVector wave_texture_rect = {832,340,96,84};
+const PackedVector wave_source_rect = {832,256,96,84};
+const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
@@ -720,7 +720,7 @@ void create_random_jitter_child(
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)raise_entity_to_ground;
+        spawned->update_callback = (void *)raise_entity_to_ground;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -840,7 +840,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     s32 fill_shade;
     void *shade_cursor;
 
-    source_ptr = (PackedVector *)((u32)&D_80024004);
+    source_ptr = (PackedVector *)((u32)&wave_texture_rect);
     source = *source_ptr;
     frame = ((S_80025398_0 *)effect)->unk_04.s;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;
@@ -1046,7 +1046,7 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
     u16 saved_scale_y;
     s32 one;
 
-    origin = D_8002400C;
+    origin = wave_source_rect;
     wave_effect_update_flag = 1;
     ((S_818F9E48_0 *)state)->unk_98 += 0xC8;
 
@@ -1400,7 +1400,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
     Copy24 *velocity_table;
     EffectObject *impact;
     parent = self->parent;
-    velocities = D_80024014;
+    velocities = wave_direction_steps;
     parent_base = (BaseView *)((u8 *)parent - 0x20);
     state = self->state.s;
     origin = parent_base->unk_08;
@@ -1457,9 +1457,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if (step_result == 0 && !(parent_base->unk_0C->unk_14 & 0x8000)) {
             return;
         }
-        position->unk_00.at02.v = origin->unk_02;
-        position->unk_04.at02.v = origin->unk_06;
-        origin_z = origin->unk_0A;
+        position->unk_00.at02.v = origin->x;
+        position->unk_04.at02.v = origin->y;
+        origin_z = origin->z;
         position->unk_08.at02.v = origin_z;
         if (!(parent_base->unk_0C->unk_14 & 0x8000)) {
             position->unk_00.at02.v += out_pair.x;

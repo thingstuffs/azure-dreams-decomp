@@ -511,7 +511,7 @@ case 4:
 
                             u16 child_y;
                             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
-                            other = ((SpriteLinkPrefixView *)object_m)[-1].unk_00;
+                            other = ((SpriteLinkPrefixView *)object_m)[-1].sprite;
                             child_y = ((S_800253C0_17 *)other)->unk_12.u;
                             ((S_800253C0_17 *)other)->unk_10 = sprite_x;
                             ((S_800253C0_17 *)other)->unk_14.s = sprite_flags;

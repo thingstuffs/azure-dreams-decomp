@@ -18,7 +18,7 @@ typedef struct Func808816D8Rec {
 } Func808816D8Rec;
 
 extern s32 D_80700740[3];
-extern Func808816D8Callbacks *D_8070100C[3];
+extern Func808816D8Callbacks *devkit_runtime_callback_owner[3];
 extern Func808816D8Owner *D_80701000[3];
 extern s32 * D_80701008[];
 extern u8 D_807007A8[16];
@@ -33,8 +33,8 @@ void redraw_busy_entry_list(void) {
     u8 *row_base;
 
     if (D_80700740[0] != 0) {
-        D_8070100C[0]->func68(D_807007A8, D_807007D0, 0x4B);
-        D_8070100C[0]->func74(1);
+        devkit_runtime_callback_owner[0]->func68(D_807007A8, D_807007D0, 0x4B);
+        devkit_runtime_callback_owner[0]->func74(1);
     }
     *(s32 *)0x80700740 = 1;
     func_80700EB4();

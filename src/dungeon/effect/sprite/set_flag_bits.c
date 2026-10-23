@@ -46,7 +46,7 @@ void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 o
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = &func_800F68AC;
+        object->update_callback = &func_800F68AC;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         flags = render_state->flags;
@@ -55,7 +55,7 @@ void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 o
         flags = set_flag_bits(flags, 0xC);
         render_state->flags = flags;
         render_value = 6;
-        render_state->unk_06 = render_value;
+        render_state->depth_bias = render_value;
         flags = set_flag_bits(flags, 2);
         render_state->flags = flags;
         position = object->position;

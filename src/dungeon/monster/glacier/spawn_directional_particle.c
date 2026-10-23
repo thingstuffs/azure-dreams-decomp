@@ -30,7 +30,7 @@ extern s32 rand(void);
 
 extern u8 shared_sprite_entries[];
 extern s32 D_80174300;
-extern Pair16 D_8017610C[];
+extern Pair16 glacier_direction_offsets[];
 
 /* Spawn a particle with randomized position, rotation, and direction-based velocity. */
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
@@ -45,27 +45,27 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_1E = 0xF;
-        effect->unk_10 = &D_80174300;
+        effect->update_callback = &D_80174300;
         register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (rand() & 7) << 9;
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
 
         position = effect->position;
-        position->unk_02 = origin->unk_02;
-        position->unk_06 = origin->unk_06;
-        position->unk_0A = origin->unk_0A;
-        position->unk_02 = ({ position->unk_02 - 0x20; }) + (rand() & 0x3F);
-        position->unk_06 = ({ position->unk_06 - 0x20; }) + (rand() & 0x3F);
-        position->unk_0A = ({ position->unk_0A - 0x40; }) + (rand() & 0x3F);
+        position->x = origin->unk_02;
+        position->y = origin->unk_06;
+        position->z = origin->unk_0A;
+        position->x = ({ position->x - 0x20; }) + (rand() & 0x3F);
+        position->y = ({ position->y - 0x20; }) + (rand() & 0x3F);
+        position->z = ({ position->z - 0x40; }) + (rand() & 0x3F);
 
         motion->unk_58 = 0xFFFA0000;
         motion->unk_64 = 0x20000;
-        motion->unk_50 = D_8017610C[source->unk_1C].x << 18;
-        motion->unk_54 = D_8017610C[source->unk_1C].y << 18;
+        motion->unk_50 = glacier_direction_offsets[source->unk_1C].x << 18;
+        motion->unk_54 = glacier_direction_offsets[source->unk_1C].y << 18;
 
         velocity_bias = 0xFFF80000;
         motion->unk_50 = (motion->unk_50 + velocity_bias) + ((rand() & 0x3FFF) << 6);

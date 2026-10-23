@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80036210_arg0.h"
 
 #include "common.h"
 #include "engine/window/message.h"
@@ -9,13 +10,8 @@ typedef struct S_80035ABC_0 {
     u16 unk_02;
 } S_80035ABC_0;   /* arg1 in shrink_window_extent_to_two */
 
-typedef struct S_80035ABC_1 {
-    u8 pad_00[0x68];
-    s32 * unk_68;
-} S_80035ABC_1;   /* arg0 in shrink_window_extent_to_two */
-
 /* Decreases the entry value by 16, clamping it to 2 and switching handlers below 2. */
-void shrink_window_extent_to_two(S_80035ABC_1 *state, S_80035ABC_0 *entry) {
+void shrink_window_extent_to_two(Rec_func_80036210_arg0 *state, S_80035ABC_0 *entry) {
     u16 reduced_value;
 
     reduced_value = entry->unk_02 - 0x10;

@@ -9,7 +9,7 @@ s32 advance_scene_value_when_clear(void) {
     s8 *context_ref;
     void *object_state;
 
-    context_ref = ((s8 *)(&D_80016000));
+    context_ref = ((s8 *)(&town_scene_root));
     (*(Callback *)((s8 *)*(void **)((s8 *)*(void **)context_ref + 0x20) + 0x248))(1);
     (*(Callback *)((s8 *)*(void **)((s8 *)*(void **)context_ref + 0x20) + 0x244))(1);
 

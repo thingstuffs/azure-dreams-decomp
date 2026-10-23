@@ -18,6 +18,6 @@ s32 initialize_state_two_entries_pointer();                         /* extern */
 /* Update the object, clear the current entry flag, and forward the call. */
 void update_object_entry_flag(S_806D45CC_0 *object, s32 context) {
     initialize_state_two_entries_pointer(object->unk_18);
-    ((S_806D45CC_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04 = 0;
+    ((S_806D45CC_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04 = 0;
     func_800176B8(object, context);
 }

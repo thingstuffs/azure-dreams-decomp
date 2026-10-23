@@ -90,7 +90,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void toggle_attacker_target_status_pair(void *, void *);
 
-extern u8 D_80170854[];
+extern u8 blume_slot_g_direction_steps[];
 extern u8 D_80171040[];
 extern u8 D_8017142C[];
 extern u8 blume_action_resume_address[];
@@ -107,7 +107,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
     s16 frame;
     s32 coord;
 
-    velocity_table = *(PackedTable *)D_80170854;
+    velocity_table = *(PackedTable *)blume_slot_g_direction_steps;
 
     switch (((S_80174BEC_0 *)state)->unk_9B) {
     case 0:
@@ -159,7 +159,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
                         ((S_80174BEC_3 *)motion)->unk_9B = 0;
                         render = *(u8 * *)&particle->sprite;
-                        particle->unk_10 = D_80171040;
+                        particle->update_callback = D_80171040;
 
                         copy_src = source_render;
                         copy_dst = render;
@@ -177,31 +177,31 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         select_sprite_entry(render, animation, 0);
 
                         position = *(u8 * *)&particle->position;
-                        ((MovingPosition *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                        ((MovingPosition *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                        ((MovingPosition *)position)->unk_0A = ((u16)source_pos->z.w.i);
+                        ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
+                        ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
+                        ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (get_sprite_attachment_vector(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                            ((MovingPosition *)position)->unk_02 += map_offset.x;
-                            ((MovingPosition *)position)->unk_06 += map_offset.y;
-                            ((MovingPosition *)position)->unk_0A += map_offset.z;
+                            ((MovingPosition *)position)->x += map_offset.x;
+                            ((MovingPosition *)position)->y += map_offset.y;
+                            ((MovingPosition *)position)->z += map_offset.z;
                         }
 
                         offset_x = (rand() & 0x1F) - 0x10;
                         offset_y = (rand() & 0x1F) - 0x10;
-                        coord = ((MovingPosition *)position)->unk_02;
+                        coord = ((MovingPosition *)position)->x;
                         coord += offset_x;
-                        position_y = ((MovingPosition *)position)->unk_06 + offset_y;
-                        ((MovingPosition *)position)->unk_02 = coord;
-                        ((MovingPosition *)position)->unk_06 = position_y;
+                        position_y = ((MovingPosition *)position)->y + offset_y;
+                        ((MovingPosition *)position)->x = coord;
+                        ((MovingPosition *)position)->y = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        coord = ((MovingPosition *)position)->unk_0A;
+                        coord = ((MovingPosition *)position)->z;
                         coord -= 0x14;
                         coord += offset_z;
-                        ((MovingPosition *)position)->unk_0A = coord;
+                        ((MovingPosition *)position)->z = coord;
                         ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
                         ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
 
@@ -250,7 +250,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         motion = (u8 *)particle + 0x20;
                         ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
                         ((S_80174BEC_4 *)particle)->unk_20 = 0;
-                        particle->unk_10 = D_8017142C;
+                        particle->update_callback = D_8017142C;
                         register_node(particle, project_sprite_chain);
 
                         render = *(u8 * *)&particle->sprite;
@@ -259,31 +259,31 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         render->flags |= 2;
 
                         position = *(u8 * *)&particle->position;
-                        ((MovingPosition *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                        ((MovingPosition *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                        ((MovingPosition *)position)->unk_0A = ((u16)source_pos->z.w.i);
+                        ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
+                        ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
+                        ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                            ((MovingPosition *)position)->unk_02 += map_offset.x;
-                            ((MovingPosition *)position)->unk_06 += map_offset.y;
-                            ((MovingPosition *)position)->unk_0A += map_offset.z;
+                            ((MovingPosition *)position)->x += map_offset.x;
+                            ((MovingPosition *)position)->y += map_offset.y;
+                            ((MovingPosition *)position)->z += map_offset.z;
                         }
 
                         offset_x = (rand() & 0x1F) - 0x10;
                         offset_y = (rand() & 0x1F) - 0x10;
-                        coord = ((MovingPosition *)position)->unk_02;
+                        coord = ((MovingPosition *)position)->x;
                         coord += offset_x;
-                        position_y = ((MovingPosition *)position)->unk_06 + offset_y;
-                        ((MovingPosition *)position)->unk_02 = coord;
-                        ((MovingPosition *)position)->unk_06 = position_y;
+                        position_y = ((MovingPosition *)position)->y + offset_y;
+                        ((MovingPosition *)position)->x = coord;
+                        ((MovingPosition *)position)->y = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        position_z = ((MovingPosition *)position)->unk_0A;
+                        position_z = ((MovingPosition *)position)->z;
                         position_z -= 0x14;
                         position_z += offset_z;
-                        ((MovingPosition *)position)->unk_0A = position_z;
+                        ((MovingPosition *)position)->z = position_z;
                         ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
                         ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
 
@@ -327,7 +327,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
             source_pos->velocity_z = 0;
             source_pos->velocity_y = 0;
             source_pos->velocity_x = 0;
-            set_record_integer_tile_center(source_pos, source_render->unk_24, source_render->unk_25);
+            set_record_integer_tile_center(source_pos, source_render->tile_x, source_render->tile_y);
             if (*(u8 * *)&source_render->frameTable != blume_direction_frames) {
                 source_render->frameTable = blume_direction_frames;
                 source_render->flags &= 0xF7FF;

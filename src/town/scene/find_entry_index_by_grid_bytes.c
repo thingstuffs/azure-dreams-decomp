@@ -14,7 +14,7 @@ s32 find_entry_index_by_grid_bytes(s32 match_byte_1, s32 match_byte_0) {
     TownListEntry *entry;
 
     result = -1;
-    list_owner = D_80016000->unk_38;
+    list_owner = town_scene_root->town_state;
     entry_slot = list_owner->entries;
     entry_index = 0;
     if (list_owner->entries[0] != 0) {

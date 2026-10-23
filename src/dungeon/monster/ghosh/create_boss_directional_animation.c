@@ -63,13 +63,13 @@ void create_boss_directional_animation(void) {
         object_state->unk_13 = MONSTER_U_BOAT;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
-        object->unk_10 = &func_801730AC;
+        object->update_callback = &func_801730AC;
         register_node(object, project_sprite_chain);
         model = object->position;
         model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
         sprite = object->sprite;
-        sprite->unk_24 = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
-        sprite->unk_25 = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
+        sprite->tile_x = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
+        sprite->tile_y = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
         sprite->frameTable = ghosh_frame_set_1;
         initialize_actor_sprite_and_animation(object, model, sprite, 0);
         object_state->unk_B6 = 1;
@@ -77,10 +77,10 @@ void create_boss_directional_animation(void) {
         select_sprite_entry(sprite, (*(u8 * *)&sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0x900) >> 9) & 7], 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25,
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
                       (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(object_state);
-        object->unk_10 = (s32 *) ((s32) object->unk_10 | 0x80000000);
+        object->update_callback = (s32 *) ((s32) object->update_callback | 0x80000000);
         create_boss_linked_effect(object_state, model, sprite);
         sprite_flags = sprite->flags;
         *ghosh_scripted_actor = object;

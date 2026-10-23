@@ -30,8 +30,8 @@ void process_state_zero_record(void *record) {
         func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04),
             ((S_80815160_0 *)record)->unk_04);
         if (((S_80815160_1 *)linked_record)->unk_1A & 8) {
-            flags = &record_view[-1].unk_00;
-            *flags = (u16) (record_view[-1].unk_00 | 0x8000);
+            flags = &record_view[-1].flags;
+            *flags = (u16) (record_view[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;
         }
     }

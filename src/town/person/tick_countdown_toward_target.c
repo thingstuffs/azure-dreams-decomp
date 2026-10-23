@@ -25,8 +25,8 @@ void tick_countdown_toward_target(S_800CE2D4_0 *state, SignedPositionView *curre
     if ((ticks_left << 0x10) <= 0) {
         apply_object_setup_and_update(state, current, context);
     }
-    current->unk_02 = (s16) ((u16) current->unk_02 + ((s32) (state->unk_84 - current->unk_02) / 2));
-    target_delta = state->unk_86 - current->unk_06;
-    current->unk_0A = (s16) ((u16) current->unk_0A + ((s32) (0 - current->unk_0A) / 2));
-    current->unk_06 = (s16) ((u16) current->unk_06 + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
+    current->x = (s16) ((u16) current->x + ((s32) (state->unk_84 - current->x) / 2));
+    target_delta = state->unk_86 - current->y;
+    current->z = (s16) ((u16) current->z + ((s32) (0 - current->z) / 2));
+    current->y = (s16) ((u16) current->y + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
 }

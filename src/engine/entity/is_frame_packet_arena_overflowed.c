@@ -20,7 +20,6 @@ short enqueue_audio_command(int value)
     return 0;
 }
 
-
 /* shared D_80084960 table (0x9C stride) */
 typedef struct {
     int unk00;
@@ -92,10 +91,7 @@ s32 is_frame_packet_arena_overflowed(u32 limit)
     return *selected_value < limit;
 }
 
-typedef struct {
-    /* 0x00 */ int unk00;
-    unsigned char pad[0x98];
-} Struct_80084960; /* size 0x9C (156) */
+ /* size 0x9C (156) */
 
 /* Store a byte value in the selected entry's first word. */
 void set_audio_channel_program(unsigned char entry_index, unsigned char value) {

@@ -53,7 +53,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = &update_radial_motion_or_complete;
+        object->update_callback = &update_radial_motion_or_complete;
         biased_phase = rand();
         phase_rand = biased_phase;
         part = ((void *)object) + 0x20;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -6,11 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/menu.h"
 #include "dungeon/player.h"
-
-typedef struct {
-    s8 pad_00[0x2A];
-    s16 field_2A;
-} Arg0;
 
 extern u8 player_carry_frames[8];
 extern u8 player_wait_frames[8];
@@ -23,18 +19,13 @@ typedef struct S_8008D024_0 {
     void * unk_AC;
 } S_8008D024_0;
 
-typedef struct S_8008D024_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008D024_1;
-
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context, SpriteFrameState *display, s32 target_index,
     s32 action_mode) {
     s32 target_flags;
     s32 slot_offset;
-    S_8008D024_1 *target;
-    Arg0 *actor_heading;
+    ActorRecord *target;
+    ActorRecord *actor_heading;
     s8 *slot_base;
     u8 *direction_frames;
     s16 saved_mode;
@@ -45,7 +36,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context,
     target = ((S_8008D024_0 *)slot_base)->unk_AC;
     saved_mode = action_mode;
     if (target != 0) {
-        target_flags = target->unk_1C;
+        target_flags = target->flags1C;
         if (target_flags & 0x20000) {
             if (!(target_flags & 0x80000)) {
                 actor->unk_104 = target;
@@ -67,7 +58,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context,
                 }
                 display->frameTable = direction_frames;
                 set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle
-                    + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
+                    + ((ActorRecord *)actor_heading)->facing + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;
             }

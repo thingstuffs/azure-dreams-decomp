@@ -127,7 +127,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
             if (particle != NULL) {
                 register_node(particle, project_sprite_chain);
                 particle_motion = (u8 *)particle + 0x20;
-                particle->unk_10 = D_801743EC;
+                particle->update_callback = D_801743EC;
                 sprite = particle->sprite;
                 if (((S_80172790_1 *)action)->unk_9B < 3U) {
                     particle_motion->unk_0C = ((u16) motion->x.w.i) + (rand() & 0xF) - 8;
@@ -166,7 +166,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
                 sprite_params = *(s32 *)(sprite_data + 4);
                 color |= 0xC0C0;
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 (*(s32 *)((u8 *)sprite + 0xC)) = color;
                 sprite->source = sprite_params;
             }
@@ -250,13 +250,13 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
         return;
 
     case 0xFF:
-        return_speed_2 = tile->unk_24 << 6;
+        return_speed_2 = tile->tile_x << 6;
         origin_x = motion->x.w.i - 0x20;
         return_speed_2 -= origin_x;
         return_speed_2 <<= 0xF;
         return_speed_2 >>= 1;
         motion->velocity_x = return_speed_2;
-        return_speed = tile->unk_25 << 6;
+        return_speed = tile->tile_y << 6;
         origin_y = motion->y.w.i - 0x20;
         return_speed -= origin_y;
         return_speed <<= 0xF;
@@ -273,7 +273,7 @@ void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
-        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
         spend_actor_mp(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = kid_action_resume_address;
         g_dungeon_status.active_actor = 0;

@@ -3,7 +3,7 @@
 extern void advance_multi_slot_action_sequence(void);
 
 /* jump_table; owner: dungeon/func_80AEBA30. */
-const u32 D_8014C868[7] __attribute__((aligned(4))) = {
+const u32 saber_slot_a_extra_action_targets[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)advance_multi_slot_action_sequence + 0x11C),
     (u32)((u8 *)advance_multi_slot_action_sequence + 0x114),
     (u32)((u8 *)advance_multi_slot_action_sequence + 0x10C),

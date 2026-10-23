@@ -57,13 +57,13 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->unk_02 +
+        (s16)(((MovingPosition *)(parent->unk_08))->x +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
     position->unk_06.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->unk_06 +
+        (s16)(((MovingPosition *)(parent->unk_08))->y +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
     position->unk_0A.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->unk_0A +
+        (s16)(((MovingPosition *)(parent->unk_08))->z +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = age;
@@ -76,7 +76,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
                 particle_state = (u8 *)particle + 0x20;
                 particle_state->unk_1E = 0xA;
                 particle_state->unk_20 = 0xA;
-                particle->unk_10 = D_800D4CB0;
+                particle->update_callback = D_800D4CB0;
                 particle_motion = particle->position;
                 particle_motion->unk_0C =
                     ((rand() & 0x7FFF) - 0x4000) << 7;

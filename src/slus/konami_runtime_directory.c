@@ -66,7 +66,7 @@ void initialize_runtime_resource_directory(void)
         runtime_directory_entry_count = 4;
     } else {
         runtime_resource_directory.value[0] = 0;
-        runtime_resource_directory.value[1] = (u32)D_80016000;
+        runtime_resource_directory.value[1] = (u32)runtime_single_resource_data;
         runtime_directory_entry_count = 1;
     }
 }

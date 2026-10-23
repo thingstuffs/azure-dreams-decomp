@@ -2,11 +2,11 @@
 #include "common.h"
 #include "town/scene/flags.h"
 
-extern u8 D_80700BB4[];
+extern u8 devkit_flag_ids[];
 
 /* Pass the indexed table value to set_indexed_flag_bit. */
 void pass_indexed_table(s32 index) {
-    set_indexed_flag_bit(*(s16 *)(D_80700BB4 + (index * 2)));
+    set_indexed_flag_bit(*(s16 *)(devkit_flag_ids + (index * 2)));
 }
 
 /* MECHANISM: Preserve the seed's 0x18 RA-only frame and direct call shape.

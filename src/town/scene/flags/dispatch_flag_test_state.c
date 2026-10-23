@@ -22,7 +22,7 @@ void dispatch_flag_test_state(void) {
     u8 state_index;
     S_80016BD4_1 *state;
 
-    state = (D_80016000->unk_14 * 0x1C) + D_80016E40;
+    state = (town_scene_root->unk_14 * 0x1C) + D_80016E40;
     state_index = state->unk_00;
-    ((S_80016BD4_2 *)(((state_index * 0x10) + state->unk_10)))->unk_04(state, state_index, ((s32)D_80016000->unk_00));
+    ((S_80016BD4_2 *)(((state_index * 0x10) + state->unk_10)))->unk_04(state, state_index, ((s32)town_scene_root->unk_00));
 }

@@ -10,12 +10,12 @@ struct CallbackEntry {
 };
 
 extern s32 classify_object_against_bounds(void *, void *);
-extern CallbackEntry D_800D4710[];
+extern CallbackEntry map_active_callbacks[];
 
 /* Runs callbacks unless the object check triggers status clearing and flag updates. */
 void run_callbacks_unless_suppressed(void *object, void *check_data)
 {
-    CallbackEntry *entry = D_800D4710;
+    CallbackEntry *entry = map_active_callbacks;
     u8 *status_byte;
 
     if (classify_object_against_bounds(object, check_data) != 0) {

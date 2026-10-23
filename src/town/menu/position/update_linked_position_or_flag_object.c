@@ -53,7 +53,7 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPosi
             *object_flag = 0;
         }
         unlink_node_if_registered(object);
-        ((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)((u8 *)object - 2))->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -64,13 +64,13 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPosi
         if (linked_record != 0) {
             linked_position = linked_record->unk_08;
             x_offset = rsin(linked_entity->unk_72);
-            out_position->unk_02 =
-                linked_position->unk_02 + (x_offset / 256);
+            out_position->x =
+                linked_position->x + (x_offset / 256);
 
             y_offset = rcos(linked_entity->unk_72);
-            out_position->unk_06 =
-                linked_position->unk_06 + (y_offset / 256);
-            out_position->unk_0A = linked_position->unk_0A - 0x20;
+            out_position->y =
+                linked_position->y + (y_offset / 256);
+            out_position->z = linked_position->z - 0x20;
         }
     }
 }

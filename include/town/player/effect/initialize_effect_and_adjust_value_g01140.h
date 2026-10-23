@@ -108,7 +108,7 @@ typedef struct S_800A5FDC_0 {
 /* the 0x10 bytes before arg0 in initialize_effect_and_adjust_value, addressed as arg0[-1] */
 extern void register_node_if_unregistered(void *object, void *setup_data);
 void initialize_actor_action_state(void *object, EntityRec *state, s32 initData);
-extern u8 D_800970FC[];
+extern u8 player_motion_draw_address[];
 extern s32 D_800D0CC0[];
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 /* extern */
@@ -146,7 +146,7 @@ void spawn_directional_effects(void *, s32);
 /* extern */
 extern u8 D_800A5FDC[];
 extern s16 input_angle_with_offset();
-extern s32 D_800A58CC;
+extern s32 map_view_transition_address;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_800903FC[];

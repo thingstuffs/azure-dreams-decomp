@@ -56,7 +56,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
 
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = action;
-        begin_mode_selected_item_action(target, &view_reference_entity.x.v, &reference_tile_object.unk_000, target);
+        begin_mode_selected_item_action(target, &view_reference_entity.x.v, &reference_tile_object.frame_entry, target);
         return 0;
     }
 

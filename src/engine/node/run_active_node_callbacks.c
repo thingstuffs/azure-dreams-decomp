@@ -28,7 +28,7 @@ void run_active_node_callbacks(void)
     node = active_node_list_head;
     if (node != 0) {
         do {
-            callback_address = *(s32 *)&node->unk_10;
+            callback_address = *(s32 *)&node->update_callback;
             next_node = *(struct S_80081498_Node * *)&node->next;
             if (callback_address >= 0 || (node->flags & NODE_SKIP_CALLBACK)) {
                 ;

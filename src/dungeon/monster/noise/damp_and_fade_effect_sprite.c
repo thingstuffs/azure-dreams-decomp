@@ -72,10 +72,10 @@ void damp_and_fade_effect_sprite(void *effect, void *motion, SpriteFrameState *s
     effect_depth = RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
 
     anchor = ((S_80D17000_2 *)effect)->unk_A8;
-    projection.xyz[0] = anchor->unk_02;
-    projection.xyz[1] = anchor->unk_06;
-    projection.xyz[2] = anchor->unk_0A;
-    sprite->unk_06 = effect_depth -
+    projection.xyz[0] = anchor->x;
+    projection.xyz[1] = anchor->y;
+    projection.xyz[2] = anchor->z;
+    sprite->depth_bias = effect_depth -
         RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
         view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80D17000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 

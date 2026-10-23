@@ -17,13 +17,13 @@ extern void *func_80252550(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
 extern u8 score_sprite_draw_callback_address[];
 extern u32 scene_value_total;
-extern u32 D_80077C68[4];
-extern u8 D_80077C64[];
+extern u32 score_sprite_initial_value[4];
+extern u8 score_sprite_handler_address[];
 extern u8 D_8012F130[0x20];
 extern u16 D_801328F8[];
 extern u8 D_80526704[];
 extern u8 D_80530154[];
-extern u8 D_8053016C[];
+extern u8 falling_object_update_address[];
 extern u8 D_8053019C[][12];
 extern s16 D_805301CC[];
 extern s16 D_80530590[];
@@ -555,14 +555,14 @@ matrix_outer:
             }
 
             tint = 0x00808080;
-            sprite->unk_00 = (void *)D_80077C64;
-            sprite->unk_08 = D_80077C68[0];
+            sprite->unk_00 = (void *)score_sprite_handler_address;
+            sprite->unk_08 = score_sprite_initial_value[0];
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
             sprite->unk_0C = tint;
             position_or_effect->unk_00.p = self;
             position_or_effect->unk_50 = effect_config;
-            func_8023FA58(&position_or_effect->unk_08, effect_obj->unk_08, D_8053016C);
+            func_8023FA58(&position_or_effect->unk_08, effect_obj->unk_08, falling_object_update_address);
         }
     }
 

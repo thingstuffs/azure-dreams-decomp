@@ -7,5 +7,5 @@
 
 /* Invoke the callback at offset 0x1E8 with code 7. */
 void invoke_callback_code_7(void) {
-    D_80016000->unk_20->callback_1E8(7);
+    town_scene_root->services->callback_1E8(7);
 }

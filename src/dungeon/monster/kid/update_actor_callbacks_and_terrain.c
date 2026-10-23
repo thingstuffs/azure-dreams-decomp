@@ -134,70 +134,70 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
         }
         ((S_80170BF8_0 *)actor_arg)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)actor_arg)->unk_90.at00.v
             + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
-        object_flags = ((SpriteAnimationTableView *)object_arg)->unk_14;
+        object_flags = ((SpriteAnimationTableView *)object_arg)->flags;
         if (!(object_flags & 0x8000)) {
             facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
-                select_indirect_table_entry(object_arg, *(((SpriteAnimationTableView *)object_arg)->unk_2C + state_or_facing),
-                    ((SpriteAnimationTableView *)object_arg)->unk_04);
+                select_indirect_table_entry(object_arg, *(((SpriteAnimationTableView *)object_arg)->frame_table + state_or_facing),
+                    ((SpriteAnimationTableView *)object_arg)->frame_index);
                 ((S_80170BF8_0 *)actor_arg)->unk_94 = facing;
             }
             if (dir_sprite_flag[state_or_facing] != 0) {
-                facing_flags = ((SpriteAnimationTableView *)object_arg)->unk_14;
+                facing_flags = ((SpriteAnimationTableView *)object_arg)->flags;
                 facing_flags |= 1;
             } else {
-                facing_flags = ((SpriteAnimationTableView *)object_arg)->unk_14 & 0xFFFE;
+                facing_flags = ((SpriteAnimationTableView *)object_arg)->flags & 0xFFFE;
             }
-            ((SpriteAnimationTableView *)object_arg)->unk_14 = (u16) facing_flags;
+            ((SpriteAnimationTableView *)object_arg)->flags = (u16) facing_flags;
             if (((S_80170BF8_0 *)actor_arg)->unk_9A != 8) {
                 apply_monster_koyaw_data(((S_80170BF8_3 *)actor_base)->unk_1C, object_arg + 0xC);
             }
             if (!(((S_80170BF8_3 *)actor_base)->unk_1C & 0x20)) {
-                if (!(((SpriteAnimationTableView *)object_arg)->unk_14 & 0x40)) {
+                if (!(((SpriteAnimationTableView *)object_arg)->flags & 0x40)) {
                     advance_sprite_animation_and_textures(object_arg);
                 }
             } else {
-                ((SpriteAnimationTableView *)object_arg)->unk_14 = (u16) (((SpriteAnimationTableView *)object_arg)->unk_14 | 0x7000);
+                ((SpriteAnimationTableView *)object_arg)->flags = (u16) (((SpriteAnimationTableView *)object_arg)->flags | 0x7000);
                 ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (((S_80170BF8_3 *)actor_base)->unk_1C & 0xFFFBFFFF);
             }
             actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
             ((S_80170BF8_3 *)actor_base)->unk_1C = actor_flags;
             if (actor_flags & 0x40000) {
-                if (!(((SpriteAnimationTableView *)object_arg)->unk_14 & 0x40)) {
+                if (!(((SpriteAnimationTableView *)object_arg)->flags & 0x40)) {
                     anim_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
                     if (anim_flags & 0x8000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (anim_flags & 0x7FFF);
-                        anim_table = ((SpriteAnimationTableView *)object_arg)->unk_2C;
+                        anim_table = ((SpriteAnimationTableView *)object_arg)->frame_table;
                         if (anim_table == kid_alt_direction_frames) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_direction_frames;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_direction_frames;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_direction_frames) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_alt_direction_frames;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_alt_direction_frames;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_alt_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_frame_set_1) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_frame_set_2;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_2;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_2;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_frame_set_2) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_frame_set_1;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_1;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_1;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         }
                     }
-                    if (((SpriteAnimationTableView *)object_arg)->unk_14 & 0x6000) {
+                    if (((SpriteAnimationTableView *)object_arg)->flags & 0x6000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 | 0x8000);
-                        if (((SpriteAnimationTableView *)object_arg)->unk_2C == kid_direction_frames) {
+                        if (((SpriteAnimationTableView *)object_arg)->frame_table == kid_direction_frames) {
                             ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                         }
                     }
@@ -237,7 +237,7 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                 }
             }
         } else {
-            ((SpriteAnimationTableView *)object_arg)->unk_14 = (object_flags & 0x800)
+            ((SpriteAnimationTableView *)object_arg)->flags = (object_flags & 0x800)
                 ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
             hidden_actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
             ((S_80170BF8_3 *)actor_base)->unk_1C = hidden_actor_flags;
@@ -261,40 +261,40 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
                     }
                 }
             } else {
-                if (!(((SpriteAnimationTableView *)object_arg)->unk_14 & 0x40)) {
+                if (!(((SpriteAnimationTableView *)object_arg)->flags & 0x40)) {
                     hidden_anim_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
                     if (hidden_anim_flags & 0x8000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (hidden_anim_flags & 0x7FFF);
-                        hidden_anim_table = ((SpriteAnimationTableView *)object_arg)->unk_2C;
+                        hidden_anim_table = ((SpriteAnimationTableView *)object_arg)->frame_table;
                         if (hidden_anim_table == kid_alt_direction_frames) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_direction_frames;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_direction_frames;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_direction_frames) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_alt_direction_frames;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_alt_direction_frames;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_alt_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_frame_set_1) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_frame_set_2;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_2;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_2;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_frame_set_2) {
-                            ((SpriteAnimationTableView *)object_arg)->unk_2C = kid_frame_set_1;
+                            ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_1;
                             frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_1;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         }
                     }
-                    if (((SpriteAnimationTableView *)object_arg)->unk_14 & 0x6000) {
+                    if (((SpriteAnimationTableView *)object_arg)->flags & 0x6000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 | 0x8000);
-                        if (((SpriteAnimationTableView *)object_arg)->unk_2C == kid_direction_frames) {
+                        if (((SpriteAnimationTableView *)object_arg)->frame_table == kid_direction_frames) {
                             ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                         }
                     }
@@ -321,8 +321,8 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
         height_flags = ((S_80170BF8_3 *)actor_base)->unk_1C;
         if (height_flags & 0x40000000) {
             ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (height_flags & 0xBFFFFFFF);
-            tile_height = sample_terrain_surface_height((((SpriteAnimationTableView *)object_arg)->unk_24 << 6) | 0x20,
-                (((SpriteAnimationTableView *)object_arg)->unk_25 << 6) | 0x20,
+            tile_height = sample_terrain_surface_height((((SpriteAnimationTableView *)object_arg)->tile_x << 6) | 0x20,
+                (((SpriteAnimationTableView *)object_arg)->tile_y << 6) | 0x20,
                 (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
             if (tile_height < 0x200) {
                 ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v
@@ -333,6 +333,6 @@ void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void 
         display_height = (s32) (((S_80170BF8_3 *)actor_base)->unk_88.u
             + (u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v + bob_offset);
         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_0A = (s16) display_height;
-        ((SpriteAnimationTableView *)object_arg)->unk_14 = (u16) (((SpriteAnimationTableView *)object_arg)->unk_14 | 0x40);
+        ((SpriteAnimationTableView *)object_arg)->flags = (u16) (((SpriteAnimationTableView *)object_arg)->flags | 0x40);
     }
 }

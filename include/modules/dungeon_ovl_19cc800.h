@@ -30,7 +30,7 @@ typedef struct EffectSprite {
 } EffectSprite;
 extern u16 warp_effect_counters[8];
 extern s16 D_80027450;
-extern u8 D_80027460[12];
+extern u8 warp_sprite_entries[12];
 
 struct EffectColor;
 struct Entry;

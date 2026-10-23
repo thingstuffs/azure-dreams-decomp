@@ -31,7 +31,7 @@ void play_timed_sound_sequence(void *record) {
     ((S_808152DC_0 *)record)->unk_52 = timer;
     if ((timer << 0x10) <= 0) {
         func_80058F88(0x1603);
-        (*(u16 *)((u8 *)record + -2)) = ((ObjectStatusPrefix16 *)record)[-1].unk_00 | 0x8000;
+        (*(u16 *)((u8 *)record + -2)) = ((ObjectStatusPrefix16 *)record)[-1].flags | 0x8000;
         scene_object_flags |= 0x8000;
     }
 }

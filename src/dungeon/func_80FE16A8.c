@@ -30,7 +30,7 @@ extern s32 func_8016C230(void *, void *, void *, s32);
 extern void func_8016DA84(void *, void *, void *, void *);
 
 extern u8 dungeon_action_resume_address;
-extern u8 D_8016E038[];
+extern u8 killer_slot_f_default_frames[];
 extern u8 D_8016E040[];
 extern u8 D_8016E070[];
 extern u8 D_8016E080[];
@@ -105,7 +105,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         if (actor->action != 0xE) {
             u8 next_state = 0xE;
 
-            anim_table = D_8016E038;
+            anim_table = killer_slot_f_default_frames;
             if (sprite->frameTable != anim_table) {
                 sprite->frameTable = anim_table;
                 select_sprite_entry(sprite,
@@ -116,7 +116,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         }
 
         actor->flags &= 0xFFF3;
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8016E040)) {
                     return;
             }
@@ -133,15 +133,15 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         }
     }
 
-    tile_record = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = tile_record;
+    tile_record = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_record;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_8016B67C(actor, context, sprite, entity);
             return;
         }
@@ -185,12 +185,12 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_aux);
                 global_actor = primary_actor_record;
                 entity->facing = direction;
-                if (global_actor->unk_9A == 0x11) {
+                if (global_actor->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016E070, &dungeon_action_resume_address);
                     return;
                 }
@@ -214,11 +214,11 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
-                if ((s16)test_neighbor_position_relation(sprite->unk_24,
-                        sprite->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                if ((s16)test_neighbor_position_relation(sprite->tile_x,
+                        sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }
@@ -232,7 +232,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
     if (sprite->flags & 0x40) {
         return;
     }
-    anim_table = D_8016E038;
+    anim_table = killer_slot_f_default_frames;
     if (sprite->frameTable == anim_table) {
         return;
     }

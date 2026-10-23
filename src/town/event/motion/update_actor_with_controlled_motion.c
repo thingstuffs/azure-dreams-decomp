@@ -60,7 +60,7 @@ extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutpu
 
 extern void D_800924EC(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void actor_surface_callback_address(Actor *, Subject *, Motion *, TownMovementOutput *);
-extern void D_8009B594(Actor *, Subject *, Motion *, TownMovementOutput *);
+extern void actor_output_update_address(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState scene_object_list_anchor;
@@ -107,7 +107,7 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
 
     actor_callback = actor->state;
     if ((actor_callback != actor_surface_callback_address) &&
-        (actor_callback != D_8009B594) &&
+        (actor_callback != actor_output_update_address) &&
         (actor_callback != update_actor_with_controlled_motion)) {
         actor_value = actor->value;
         if (actor_value != 0) {

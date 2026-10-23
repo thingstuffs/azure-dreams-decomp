@@ -3,7 +3,7 @@
 extern void update_a_dungeon_actor_s_behavior_facing_animation_state(void);
 
 /* jump_table; owner: dungeon/func_81071768. */
-const u32 D_80158808[12] __attribute__((aligned(4))) = {
+const u32 tyrant_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_a_dungeon_actor_s_behavior_facing_animation_state + 0x42C),
     (u32)((u8 *)update_a_dungeon_actor_s_behavior_facing_animation_state + 0x42C),
     (u32)((u8 *)update_a_dungeon_actor_s_behavior_facing_animation_state + 0x42C),

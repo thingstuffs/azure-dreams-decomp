@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -22,7 +23,7 @@ extern void process_unflagged_linked_entries_alt();
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
-extern u8 D_8008D470[12];
+extern u8 player_item_render_update_address[12];
 extern u8 player_carry_frames[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
@@ -39,15 +40,9 @@ typedef struct S_800927E4_0 {
     void * unk_110;
 } S_800927E4_0;   /* arg0 in func_800927E4 */
 
-typedef struct S_800927E4_1 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_800927E4_1;   /* callArg in func_800927E4 */
+   /* callArg in func_800927E4 */
 
-typedef struct S_800927E4_5 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_800927E4_5;   /* (void *)coordUnsigned in func_800927E4 */
+   /* (void *)coordUnsigned in func_800927E4 */
 
 typedef struct S_800927E4_9 {
     u8 pad_00[0x8C];
@@ -89,7 +84,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
             u8 *anim_table = player_carry_frames;
 
                            /* Pin: removal changes a delay-slot fill. */
-            ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
+            ((SpriteAnimationTableView *)anim_sprite)->frame_table = anim_table;
             set_sprite_animation_frame(
                 anim_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle +
@@ -114,7 +109,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
                 {
                     u8 *anim_table = player_carry_frames;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
 
-                    ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
+                    ((SpriteAnimationTableView *)((void *)angle_or_sprite))->frame_table = anim_table;
                     set_sprite_animation_frame(
                         (void *)angle_or_sprite,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle +
@@ -145,7 +140,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
                 owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
             if (effect_obj != 0) {
 
-                effect_obj->unk_10 = D_8008D470;
+                effect_obj->update_callback = player_item_render_update_address;
                 effect_prim = effect_obj->position;
                 effect_prim->x.w.i = (sprite->unk_24 << 6) + 0x20;
                 effect_prim->y.w.i = (sprite->unk_25 << 6) + 0x20;

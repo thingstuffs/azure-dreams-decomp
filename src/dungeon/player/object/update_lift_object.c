@@ -1,9 +1,9 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
-
 
 extern void set_sprite_animation_frame();
 extern s32 rand();
@@ -41,22 +41,12 @@ typedef struct S_8008F428_0 {
     void * unk_124;
 } S_8008F428_0;   /* arg0 in update_lift_object */
 
-typedef struct S_8008F428_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-} S_8008F428_1;   /* arg2 in update_lift_object */
-
 typedef struct S_8008F428_2 {
     u8 pad_00[0x1484];
     s32 unk_1484;
 } S_8008F428_2;   /* old_value_page in update_lift_object */
 
-typedef struct S_8008F428_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008F428_3;   /* entity in update_lift_object */
+   /* entity in update_lift_object */
 
 typedef struct S_8008F428_4 {
     u8 pad_00[0x1C];
@@ -67,15 +57,9 @@ typedef struct S_8008F428_4 {
     void * unk_5C;
 } S_8008F428_4;   /* arg3 in update_lift_object */
 
-typedef struct S_8008F428_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8008F428_5;   /* flags_base in update_lift_object */
+   /* flags_base in update_lift_object */
 
-typedef struct S_8008F428_6 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
+   /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
 void update_lift_object(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
@@ -85,7 +69,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
     void *target;
 
     if (((S_8008F428_0 *)effect_state)->unk_124 != 0) {
-        if (!(((S_8008F428_1 *)animation)->unk_14 & 0x6000)) {
+        if (!(((SpriteFrameState *)animation)->flags & 0x6000)) {
             return;
         }
 
@@ -97,7 +81,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
 
             lift_jitter_offsets[0] = 0;
             lift_jitter_offsets[1] = 0;
-            entity_flags = ((S_8008F428_6 *)(((S_8008F428_0 *)effect_state)->unk_124))->unk_1C;
+            entity_flags = ((ActorRecord *)(((S_8008F428_0 *)effect_state)->unk_124))->flags1C;
             effect_target = animation;
             if (!(entity_flags & 0x2000)) {
                 if (!(entity_flags & 0x228)) {
@@ -141,10 +125,10 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
                 global_page = (u8 *)0x80080000;
                 entity = ((S_8008F428_0 *)effect_state)->unk_124;
                 saved_global = ((S_8008F428_2 *)global_page)->unk_1484;
-                flags = ((S_8008F428_3 *)entity)->unk_1C;
+                flags = ((ActorRecord *)entity)->flags1C;
                 owner_mask |= 0xFFFF;
                 ((S_8008F428_2 *)global_page)->unk_1484 = 0;
-                ((S_8008F428_3 *)entity)->unk_1C = flags & entity_mask;
+                ((ActorRecord *)entity)->flags1C = flags & entity_mask;
                 saved_held_item_word = saved_global;
                 ((S_8008F428_4 *)owner)->unk_1C = ((S_8008F428_4 *)owner)->unk_1C & owner_mask;
             }
@@ -169,10 +153,10 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
 
     state = ((S_8008F428_0 *)effect_state)->unk_9B;
     if (state == 0) {
-        if (((S_8008F428_1 *)animation)->unk_04 < 2) {
+        if (((SpriteFrameState *)animation)->unk_04 < 2) {
             return;
         }
-        ((S_8008F428_1 *)animation)->unk_14 |= 0x800;
+        ((SpriteFrameState *)animation)->flags |= 0x800;
         ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
         ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
         return;
@@ -183,7 +167,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
     if ((s16)ticks_left > 0) {
         return;
     }
-    ((S_8008F428_1 *)animation)->unk_14 &= 0xF7FF;
+    ((SpriteFrameState *)animation)->flags &= 0xF7FF;
     play_sound_if_enabled(0x506);
     {
         s32 effect_id;

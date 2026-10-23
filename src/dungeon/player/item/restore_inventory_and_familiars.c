@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/player.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
@@ -27,7 +28,7 @@ extern s32 familiar_record_slots[];
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_turn_counters_alias;
 extern s16 actor_event_values[];
-extern u8 D_800E045C[];
+extern u8 restore_actor_script[];
 
 extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
 extern void apply_actor_template_and_class(void *, s32, void *);
@@ -35,10 +36,6 @@ extern void call_script(s32 value);
 extern void replay_actor_status_slots(CallbackObject *object);
 extern void func_80042640(void *obj, s16 monsterId);
 extern s32 get_entity_class();
-
-
-
-
 
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
@@ -74,11 +71,6 @@ typedef struct S_80094988_5 {
     u8 unk_2D52;
 } S_80094988_5;
 
-typedef struct S_80094988_6 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_80094988_6;
-
 typedef struct S_80094988_7 {
     u8 pad_00[0x21E0];
     u8 unk_21E0;
@@ -94,10 +86,7 @@ typedef struct S_80094988_9 {
     u8 unk_00;
 } S_80094988_9;   /* slot_flags in restore_inventory_and_familiars */
 
-typedef struct S_80094988_10 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_80094988_10;   /* cursor in restore_inventory_and_familiars */
+   /* cursor in restore_inventory_and_familiars */
 
 typedef struct S_80094988_12 {
     u8 pad_00[0xAC];
@@ -190,10 +179,10 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         entry_idx32 = (s32)((u8 *)(i + (u32)page_base));
         cursor_ptr = (u8 *)(((S_80094988_5 *)(u8 *)entry_idx32)->unk_2D52);
         if (((u8)cursor_ptr) != ff2) {
-            ((S_80094988_6 *)((u8 *)dungeon + i * 4))->unk_D0 =
+            ((FamiliarItemSlotView *)((u8 *)dungeon + i * 4))->item_address =
             (s32)((((u8)cursor_ptr) * 4) + (u32)dispatch_table);
         } else {
-            ((S_80094988_6 *)((u8 *)dungeon + i * 4))->unk_D0 = 0;
+            ((FamiliarItemSlotView *)((u8 *)dungeon + i * 4))->item_address = 0;
         }
         i += 1;
     } while (i < 2);
@@ -220,7 +209,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                 scratch = 0;
                 cursor = dungeon;
                 do {
-                    if (((S_80094988_10 *)cursor)->unk_D0 == slot_ptr) {
+                    if (((FamiliarItemSlotView *)cursor)->item_address == slot_ptr) {
                         scratch = i + 1;
                     }
                     i += 1;
@@ -283,6 +272,6 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         ((S_80094988_15 *)save_page)->unk_3714 =
             (s16)((u16)((S_80094988_15 *)save_page)->unk_3714 & 0xFFFD);
     }
-    call_script(D_800E045C);
+    call_script(restore_actor_script);
     return;
 }

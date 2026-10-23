@@ -19,7 +19,7 @@ extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 secondary_sprite[];
-extern u8 D_800DED70[];
+extern u8 homing_particle_sprite_entries[];
 void *allocate_list_node();                     /* extern */
 s32 register_node();                /* extern */
 s32 rand();                /* extern */
@@ -236,7 +236,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                     texture_word = particle_texture->unk_04;
                 }
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 sprite->source = texture_word;
                 particle_data->unk_00 = effect;
                 particle_data->unk_4C = 0;
@@ -257,8 +257,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             } else {
                 sprite = ((ObjectNodeHeader *)((u8 *)found_target - 0x20))->sprite;
                 if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
-                    source->unk_72 = (u8) sprite->unk_24;
-                    source->unk_73 = (u8) sprite->unk_25;
+                    source->unk_72 = (u8) sprite->tile_x;
+                    source->unk_73 = (u8) sprite->tile_y;
                 } else {
                     effect->unk_0A = 0xF0;
                     return;
@@ -354,12 +354,12 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 sprite->scale_x = 0x1000;
                 sprite->tpage_abr = 0x20;
                 sprite->color.word = color;
-                sprite->unk_00 = D_800DED70;
+                sprite->unk_00 = homing_particle_sprite_entries;
                 sprite_flags |= 0xC;
                 sprite->flags = sprite_flags;
-                texture_word = (s32) ((S_func_81832800_7 *) D_800DED70)->unk_04;
+                texture_word = (s32) ((S_func_81832800_7 *) homing_particle_sprite_entries)->unk_04;
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 sprite->source = texture_word;
                 object->unk_20 = effect;
                 particle_data->unk_4C = 0;
@@ -504,13 +504,13 @@ void update_homing_brightening_effect(void *effect, void *position, SpriteFrameS
     s16 current_z;
     void *owner;
 
-    ((SignedPositionView *)position)->unk_02 = (s16) ((u16) ((SignedPositionView *)position)->unk_02
-        + ((((S_818330F0_1 *)effect)->unk_0C - ((SignedPositionView *)position)->unk_02) / 12));
-    ((SignedPositionView *)position)->unk_06 = (s16) ((u16) ((SignedPositionView *)position)->unk_06
-        + ((((S_818330F0_1 *)effect)->unk_0E - ((SignedPositionView *)position)->unk_06) / 12));
+    ((SignedPositionView *)position)->x = (s16) ((u16) ((SignedPositionView *)position)->x
+        + ((((S_818330F0_1 *)effect)->unk_0C - ((SignedPositionView *)position)->x) / 12));
+    ((SignedPositionView *)position)->y = (s16) ((u16) ((SignedPositionView *)position)->y
+        + ((((S_818330F0_1 *)effect)->unk_0E - ((SignedPositionView *)position)->y) / 12));
     target_z = ((S_818330F0_1 *)effect)->unk_10;
-    current_z = ((SignedPositionView *)position)->unk_0A;
-    ((SignedPositionView *)position)->unk_0A = (s16) ((u16) ((SignedPositionView *)position)->unk_0A + ((target_z
+    current_z = ((SignedPositionView *)position)->z;
+    ((SignedPositionView *)position)->z = (s16) ((u16) ((SignedPositionView *)position)->z + ((target_z
         - current_z) / 10));
     primitive->color.word = (s32) (primitive->color.word
         + 0xC0C0C);

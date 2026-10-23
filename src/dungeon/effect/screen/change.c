@@ -116,9 +116,9 @@ void create_type_212_object(s32 flag, s8 value) {
     object = allocate_list_node(0x212, ((s32)dungeon_actor_ring_anchor) - 0x20);
     if (object != NULL) {
         state = object->sprite;
-        object->unk_10 = &D_8009BE2C;
-        state->unk_05 = value;
-        state->unk_06 = (s16) value;
+        object->update_callback = &D_8009BE2C;
+        state->frame_ticks = value;
+        state->depth_bias = (s16) value;
         object->sprite->unk_04 = (s8) ((flag << 0x10) != 0);
     }
 }
@@ -1031,8 +1031,8 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
         transition_effect_halfwords(
-            (u16) ((position->unk_24 << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
-            (u16) ((position->unk_25 << 6) + ((dir_step_y[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->tile_x << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->tile_y << 6) + ((dir_step_y[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (s16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_9C - 0x30),
             element_mask, (s32) (s16) hit_angle);
     }

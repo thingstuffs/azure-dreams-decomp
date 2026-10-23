@@ -17,12 +17,12 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
     if (object != NULL) {
         position = object->position;
         sprite = object->sprite;
-        object->unk_10 = &fade_timed_primitive;
+        object->update_callback = &fade_timed_primitive;
         register_node(object, project_sprite_chain);
-        position->unk_02 = (u16) source_position->unk_02;
-        position->unk_06 = (u16) source_position->unk_06;
-        position->unk_0A = (u16) source_position->unk_0A;
-        select_record_entry_and_value(sprite, &D_800D1464, 0);
+        position->x = (u16) source_position->x;
+        position->y = (u16) source_position->y;
+        position->z = (u16) source_position->z;
+        select_record_entry_and_value(sprite, &radial_sprite_entries, 0);
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;

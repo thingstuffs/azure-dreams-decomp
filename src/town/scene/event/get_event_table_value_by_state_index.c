@@ -7,5 +7,5 @@ extern s32 D_80018014[];
 /* Returns the table entry indexed by the fourth byte of D_8001E950. */
 s32 get_event_table_value_by_state_index(void)
 {
-    return D_80018014[town_event_state->unk_03];
+    return D_80018014[town_event_state->saved_entry];
 }

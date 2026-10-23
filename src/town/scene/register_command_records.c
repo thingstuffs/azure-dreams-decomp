@@ -7,6 +7,6 @@ extern s32 D_80019B88;
 void register_command_records(void)
 {
     initialize_fifteen_four_byte_records(&D_80019B08);
-    D_80019B88 = (*((s32 (**)(s32, s32, s32, s32 *)) (((s8 *) (*((void **) (((s8 *) D_80016000)
+    D_80019B88 = (*((s32 (**)(s32, s32, s32, s32 *)) (((s8 *) (*((void **) (((s8 *) town_scene_root)
         + 0x20)))) + 0x68)))(0, 0, 0, &D_80019B08);
 }

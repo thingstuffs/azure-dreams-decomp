@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_80632230",
-      "tu": "src/town/scene/check_counter_threshold.c",
+      "tu": "src/town/scene/threshold_counter.c",
       "home": "town/func_80601310",
       "foff": "0x5B2230",
       "vma": "0x80016230",
@@ -23,7 +23,7 @@
     },
     {
       "row": "town/func_80632258",
-      "tu": "src/town/scene/subtract_threshold_counter.c",
+      "tu": "src/town/scene/threshold_counter.c",
       "home": "town/func_80601338",
       "foff": "0x5B2258",
       "vma": "0x80016258",

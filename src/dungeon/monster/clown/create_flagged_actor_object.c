@@ -30,17 +30,17 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;
-        object->unk_10 = D_8016AA58;
+        object->update_callback = D_8016AA58;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         object_data = object->position;
-        object_data->unk_0A = saved_id;
+        object_data->z = saved_id;
         placement = object->sprite;
         mode = init_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         runtime = state;
         placement->frameTable = &D_8016E20C;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (mode == 1) {
             flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

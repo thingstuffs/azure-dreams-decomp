@@ -203,7 +203,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                             s32 target_y;
 
                             target_x = (s32)scan_actor_along_heading(
-                                actor, sprite->unk_24, sprite->unk_25,
+                                actor, sprite->tile_x, sprite->tile_y,
                                 (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
                             (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
                             target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
@@ -232,7 +232,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         {
             void *active;
 
@@ -268,7 +268,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
 
                 effect_state = ((u8 *)effect_object) + 0x20;
                 ((S_801730E4_5 *)effect_state)->unk_96 = 0xF;
-                effect_object->unk_10 = &D_801708D4;
+                effect_object->update_callback = &D_801708D4;
                 ((S_801730E4_5 *)effect_state)->unk_A8 = position;
                 ((S_801730E4_5 *)effect_state)->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
                 effect_data = *(u8 * *)&effect_object->sprite;
@@ -339,7 +339,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
-            set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             if (*(u8 * *)&sprite->frameTable != glacier_direction_frames) {
                 s32 direction_index;
 

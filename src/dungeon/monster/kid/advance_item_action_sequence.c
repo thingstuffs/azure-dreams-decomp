@@ -145,7 +145,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
                         }
                     } else {
                         position = scan_actor_along_heading(actor,
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             actor->facing, 0x10);
                         actor->target = position;
                         actor->target_tile_x = abs(actor->target_tile_x);
@@ -173,7 +173,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
             void *entity = primary_actor_record;
 
@@ -227,13 +227,13 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
 
     case 16:
     {
-        s32 target_x = sprite->unk_24 << 6;
+        s32 target_x = sprite->tile_x << 6;
         s32 current_x = motion->x.w.i - 0x20;
 
         motion->velocity_x = (target_x - current_x) << 14;
     }
         {
-            s32 target_z = sprite->unk_25 << 6;
+            s32 target_z = sprite->tile_y << 6;
             s32 current_z = motion->y.w.i - 0x20;
 
             motion->velocity_y = (target_z - current_z) << 14;
@@ -245,7 +245,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
             u8 *animation = *(u8 **)&sprite->frameTable;
             u8 *next_animation = kid_direction_frames;

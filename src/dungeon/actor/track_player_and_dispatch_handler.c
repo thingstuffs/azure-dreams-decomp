@@ -37,20 +37,20 @@ typedef struct S_7FFFE25C_4 {
 extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
-extern s32 D_80090A6C;
+extern s32 scene_idle_callback_address;
 extern s32 D_80092698;
 extern s32 tracked_actor_callback_address;
-extern s32 D_80092A84;
-extern s32 D_80092CD4;
-extern s32 D_80092DA8;
-extern s32 D_80092ECC;
-extern s32 D_80092FF0;
-extern s32 D_800930E4;
-extern s32 D_80093250;
-extern s32 D_80093328;
-extern s32 D_800933FC;
-extern s32 D_80093638;
-extern s32 D_800AA5F8;
+extern s32 town_actor_interaction_address;
+extern s32 town_input_object_address;
+extern s32 town_threshold_interaction_address;
+extern s32 town_radial_motion_address;
+extern s32 town_busy_countdown_address;
+extern s32 town_interaction_action_address;
+extern s32 town_threshold_update_address;
+extern s32 town_timed_state_address;
+extern s32 scene_deferred_dispatch_address;
+extern s32 scene_fallback_request_address;
+extern s32 town_input_motion_address;
 
 extern void get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void call_the_same_context_both_processing_routines(void *, void *);
@@ -93,31 +93,31 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
         void *dispatch_pos;
         void *handler;
 
-        if (current == (s32)&D_800930E4 || current == (s32)&D_80093250) {
+        if (current == (s32)&town_interaction_action_address || current == (s32)&town_threshold_update_address) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_08;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
-        } else if (current == (s32)&D_800AA5F8) {
+        } else if (current == (s32)&town_input_motion_address) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_14;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
-        } else if (current == (s32)&D_80093328) {
+        } else if (current == (s32)&town_timed_state_address) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_0C;
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
-        } else if (current == (s32)&D_80093638) {
+        } else if (current == (s32)&scene_fallback_request_address) {
             unlink_and_remove_scene_object(context, owner, adjusted_pos, dispatch_param);
         } else if (!(current == (s32)&D_80092698 || current == (s32)&tracked_actor_callback_address ||
-            current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
-            current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||
-            current == (s32)&D_80092ECC || current == (s32)&D_800933FC ||
-            current == (s32)&D_80090A6C || service_script_controller() != 0) || previous_owner != (s32)owner) {
+            current == (s32)&town_actor_interaction_address || current == (s32)&town_busy_countdown_address ||
+            current == (s32)&town_input_object_address || current == (s32)&town_threshold_interaction_address ||
+            current == (s32)&town_radial_motion_address || current == (s32)&scene_deferred_dispatch_address ||
+            current == (s32)&scene_idle_callback_address || service_script_controller() != 0) || previous_owner != (s32)owner) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_10;

@@ -29,7 +29,7 @@ extern s32 lookup_definition_pair_value();
 extern void play_sound_if_enabled();
 extern s32 generate_random_value(void);
 
-extern u8 D_800245A8[];
+extern u8 player_menu_action_data[];
 extern u8 D_8004F5F4[];
 extern void *actor_default_frames[];
 extern void (*actor_command_handlers[])();
@@ -87,7 +87,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
     }
 
     g_dungeon_status.flags &= 0xFF7F;
-    status_value = actor_data->unk_64;
+    status_value = actor_data->hp_delta;
     if (status_value < 0) {
         run_saved_actor_action(actor, actor_id, sprite, actor_data);
         return;
@@ -213,10 +213,10 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
             if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
                 ((has_pending_actor_or_turn_action(actor_data) << 16) == 0) &&
                 !(g_dungeon_status.flags & 4) &&
-                ((lookup_definition_pair_value(sprite->unk_24,
-                    sprite->unk_25) << 16) != 0)) {
+                ((lookup_definition_pair_value(sprite->tile_x,
+                    sprite->tile_y) << 16) != 0)) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
-                begin_player_menu_action(actor, actor_id, sprite, D_800245A8);
+                begin_player_menu_action(actor, actor_id, sprite, player_menu_action_data);
                 return;
             }
 

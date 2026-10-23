@@ -11,5 +11,5 @@ void store_scene_service_response(void) {
 
     callback_args[1] = 0x17;
     callback_args[0] = 0x12;
-    D_80017788 = (*(TownCallback *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x50))(callback_args);
+    D_80017788 = (*(TownCallback *)((u8 *)*(void **)((u8 *)town_scene_root + 0x20) + 0x50))(callback_args);
 }

@@ -36,18 +36,18 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     u16 ticks_left;
     MovingPosition *reference_pos;
 
-    coords[0] = position->unk_02;
-    coords[1] = position->unk_06;
-    coords[2] = position->unk_0A;
+    coords[0] = position->x;
+    coords[1] = position->y;
+    coords[2] = position->z;
     position_depth = RotTransPers(coords, &transform_result, &transform_aux, &transform_flags);
     reference_pos = ((S_8102F0D4_1 *)state)->reference_position;
-    coords[0] = reference_pos->unk_02;
-    coords[1] = reference_pos->unk_06;
-    coords[2] = reference_pos->unk_0A;
+    coords[0] = reference_pos->x;
+    coords[1] = reference_pos->y;
+    coords[2] = reference_pos->z;
     reference_depth = RotTransPers(coords, &transform_result, &transform_aux, &transform_flags);
     direction_offset = &view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
-    entity->unk_06 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
+    entity->depth_bias = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     advance_sprite_animation_and_textures(entity);
     ticks_left = ((S_8102F0D4_1 *)state)->ticks_left - 1;
     ((S_8102F0D4_1 *)state)->ticks_left = ticks_left;

@@ -31,7 +31,7 @@ typedef struct TownObject {
 extern u8 is_catalog_entry_available(u32);
 extern void draw_catalog_entry_page(TownObject *);
 
-extern void *D_80126988[4];
+extern void *catalog_detail_pages[4];
 extern void *D_80126998[4];
 extern void *catalog_selected_digits[10];
 extern void *catalog_normal_digits[10];
@@ -41,7 +41,7 @@ extern u8 catalog_number_marker[16];
 extern u8 catalog_unavailable_marker[16];
 extern u8 D_80127E4C[16];
 extern u8 D_80127F48[16];
-extern u8 D_80128038[16];
+extern u8 catalog_detail_fallback[16];
 extern u8 D_801289EC[16];
 
 static __inline__ s32 menu_row_index(s16 row, s16 index)
@@ -66,7 +66,7 @@ void refresh_catalog_entry_grid(TownObject *menu)
     draw_catalog_entry_page(menu);
     *obj->town->slots[28] = D_80127E4C;
     *obj->town->slots[29] = D_80127F48;
-    *obj->town->slots[30] = D_80126988[obj->digit];
+    *obj->town->slots[30] = catalog_detail_pages[obj->digit];
     *obj->town->slots[31] = D_80126998[obj->digit];
     *obj->town->slots[32] = D_801289EC;
 
@@ -109,7 +109,7 @@ void refresh_catalog_entry_grid(TownObject *menu)
         obj->town->display->src->f8 = catalog_cursor_rows[obj->row];
         obj->town->display->src->fA = catalog_cursor_columns[0];
         if (obj->row != 0) {
-            *obj->town->slots[30] = D_80128038;
+            *obj->town->slots[30] = catalog_detail_fallback;
         }
     } else {
         sprite_slot = 33;

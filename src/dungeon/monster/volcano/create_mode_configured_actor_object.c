@@ -39,8 +39,8 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             kind = spawn_flags & 3;
             position->z.w.i = saved_c;
             arg3_part = root->sprite;
-            arg3_part->unk_24 = saved_a;
-            arg3_part->unk_25 = saved_b;
+            arg3_part->tile_x = saved_a;
+            arg3_part->tile_y = saved_b;
             arg2_work = result;
 
             if (kind == 1) {
@@ -72,7 +72,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
 
                 }
             }
-            root->unk_10 = func_8016AA58;
+            root->update_callback = func_8016AA58;
             initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9A = 0xFF;
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9C = -1;

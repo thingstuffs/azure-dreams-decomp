@@ -6,7 +6,7 @@
 
 extern void initialize_timed_motion_step(s32, s32);
 extern void play_sound_if_enabled(u32);
-extern s16 D_801760D8[5];
+extern s16 encounter_blink_update_flag[5];
 
 
 typedef struct S_80170534_0_pre {
@@ -61,7 +61,7 @@ void advance_timed_blink_effect(void *state_data, void *unused, void *color_data
         if ((s16) ((S_80170534_0 *)state_data)->unk_18 == 0x28) {
             {
                 u8 *flag_page = (u8 *) 0x80170000;
-                *(u16 *)((u8 *)&D_801760D8) = 1;
+                *(u16 *)((u8 *)&encounter_blink_update_flag) = 1;
             }
         }
         if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x28) {

@@ -122,7 +122,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
                     }
                 } else {
                     actor->target =
-                        scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
+                        scan_actor_along_heading(actor, sprite->tile_x, sprite->tile_y,
                                       actor->facing, 0x10);
                     actor->target_tile_x = abs(actor->target_tile_x);
                     actor->target_tile_y = abs(actor->target_tile_y);
@@ -145,7 +145,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         ((EntityRec *)transform)->flags14 = 0;
         ((EntityRec *)transform)->unk_10 = 0;
         ((EntityRec *)transform)->unk_0C = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
@@ -183,7 +183,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         ((EntityRec *)transform)->flags14 = 0;
         ((EntityRec *)transform)->unk_10 = 0;
         ((EntityRec *)transform)->unk_0C = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_frames = D_80173D30;
 

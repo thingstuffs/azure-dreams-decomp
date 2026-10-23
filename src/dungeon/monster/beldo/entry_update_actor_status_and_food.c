@@ -6,8 +6,8 @@ extern s32 select_sprite_entry();
 extern void update_actor_status_and_mp();
 extern void func_80171BE0();
 
-extern u8 D_80173E94[];
-extern u8 *D_80174714;
+extern u8 beldo_frame_set_2[];
+extern u8 *beldo_effect_stream;
 extern u16 D_80174718;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
@@ -21,7 +21,7 @@ s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameSt
     s16 repeat_index;
     s32 command_type;
 
-    entry = D_80174714;
+    entry = beldo_effect_stream;
     command = entry[1];
     command_byte = (u8) command;
     if (command_byte == 0) {
@@ -35,7 +35,7 @@ s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameSt
         repeat_count = entry[0];
         D_80174718 = repeat_index;
         if (repeat_count < repeat_index) {
-            D_80174714 = entry + 2;
+            beldo_effect_stream = entry + 2;
             D_80174718 = 0;
             saved_actor[0x9B] = 0;
         }
@@ -49,10 +49,10 @@ s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameSt
             func_80171BE0(saved_actor, action_context, sprite, saved_actor);
             return 0;
         case 0x10:
-            if (*(u8 **)&sprite->frameTable != D_80173E94) {
-                sprite->frameTable = D_80173E94;
+            if (*(u8 **)&sprite->frameTable != beldo_frame_set_2) {
+                sprite->frameTable = beldo_frame_set_2;
                 select_sprite_entry(sprite,
-                              D_80173E94[((g_game_work.view.camera_rotation.parts.viewAngle +
+                              beldo_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle +
                                            *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
                               sprite->unk_04);
             }

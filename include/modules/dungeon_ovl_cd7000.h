@@ -1028,7 +1028,7 @@ extern s8 staged_spawn_count;
 extern s16 actor_action_reset_value;
 extern u8 dungeon_resource_buffer[];
 extern u8 D_801512AC[];
-extern u8 D_801512B4[];
+extern u8 block_slot_a_direction_frames[];
 extern u8 D_801512BC[8];
 extern u8 D_801512C4[8];
 extern u8 D_801512CC[];

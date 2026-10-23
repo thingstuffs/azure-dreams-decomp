@@ -49,7 +49,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         motion->velocity_z = 0;
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
-    if ((((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000) == 0 &&
+    if ((((ObjectRetirementFlags *)object)[-1].flags & 0x8000) == 0 &&
         actor_surface_callback_address == ((S_8009B6B4_2 *)object)->unk_50) {
         s32 tile_type;
 

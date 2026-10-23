@@ -24,7 +24,7 @@ struct S_8003571C_0;
 struct S_80035760_0;
 struct S_800357B0_0;
 struct S_800357D0_0;
-struct S_80035AAC_0;
+struct Rec_func_80036210_arg0;
 struct S_80036110_0;
 struct S_8003626C_0;
 struct S_800362A0_0;
@@ -165,8 +165,8 @@ void scroll_window_y(struct S_80036110_0 *object);
 void set_user_name_win(s32 window_value);
 
 /* set_window_handler.c */
-void func_80035AAC(struct S_80035AAC_0 *object);
-void set_window_handler(struct S_80035AAC_0 *object);
+void func_80035AAC(struct Rec_func_80036210_arg0 *object);
+void set_window_handler(struct Rec_func_80036210_arg0 *object);
 
 /* shrink_window_and_signal_linked_record.c */
 void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);

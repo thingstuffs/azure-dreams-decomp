@@ -437,7 +437,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
             }
             particle = allocate_flagged_object_node(alloc_flags);
             if (particle != 0) {
-                particle->unk_10 = damp_effect_motion_and_fade;
+                particle->update_callback = damp_effect_motion_and_fade;
                 register_node(particle, project_sprite_chain);
                 position = particle->position;
                 position->x.w.i = (u16) x;
@@ -575,7 +575,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             effect = allocate_flagged_object_node(object_type);
         }
         if (effect != 0) {
-            effect->unk_10 = advance_effect_motion_and_fade;
+            effect->update_callback = advance_effect_motion_and_fade;
             register_node(effect, draw_linked_sprites_clipped);
             transform = effect->position;
             transform->x.w.i = x;
@@ -1618,7 +1618,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern u8 camera_height_tracking[];
 extern u8 camera_transition_timer[];
-extern u16 D_800E58F8[];
+extern u16 effect_saved_position[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
 void update_target_tracking_and_transition(void *tracker) {
@@ -1631,7 +1631,7 @@ void update_target_tracking_and_transition(void *tracker) {
 
     tracked_object = *(void **)((char *)tracker + 0x34);
     if ((tracked_object != 0) && (*(u16 *)((char *)tracked_object + 0x1E) & 0x8000)) {
-        u16 *saved_pos = D_800E58F8;
+        u16 *saved_pos = effect_saved_position;
         *(void **)((char *)tracker + 0x34) = 0;
         saved_pos[1] = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 2);
         saved_pos[3] = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 6);
@@ -1725,7 +1725,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, ObjectPosition *target
 #include "common.h"
 #include "shared/entity_objects.h"
 
-extern u16 D_800E58F8[];
+extern u16 effect_saved_position[];
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
@@ -1744,7 +1744,7 @@ void setup_object_within_planar_range(s32 object, s32 x, s32 y, s32 height, s32 
             mode = -mode;
         }
         if (mode < 193) {
-            u16 *position = D_800E58F8;
+            u16 *position = effect_saved_position;
 
             position[1] = x;
             position[3] = y;
@@ -1782,7 +1782,7 @@ typedef struct S_800C7930_3 {
 
 extern u16 direction_x_offsets;
 extern u16 direction_y_offsets;
-extern u16 D_800E58F8[];
+extern u16 effect_saved_position[];
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Apply table offsets to a position near the camera and pass it to select_nearby_target_and_initialize_slot. */
@@ -1821,7 +1821,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
         }
         if (delta < 0xC1) {
             work = (u8 *)object + 0x20;
-            destination = D_800E58F8;
+            destination = effect_saved_position;
             x_offsets = (u8 *)&direction_x_offsets;
             x_offset_index = (work->unk_2A >> 8) & 0xE;
             adjusted_x = (s16)*(u16 *)(x_offsets + x_offset_index) / 2;
@@ -1839,7 +1839,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
 #include "common.h"
 #include "shared/entity_objects.h"
 
-extern u16 D_800E58F8[];
+extern u16 effect_saved_position[];
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
@@ -1862,7 +1862,7 @@ void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height
         x_distance = -x_distance;
     }
     if (x_distance < 0xC1) {
-        midpoint = D_800E58F8;
+        midpoint = effect_saved_position;
         midpoint[1] = mid_coord;
         coord = (start_obj[0x25] << 6) + 0x20;
         mid_coord = (end_obj[0x25] << 6) + 0x20;

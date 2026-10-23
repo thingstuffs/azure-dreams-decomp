@@ -3,7 +3,7 @@
 extern void update_creature_animation_and_action(void);
 
 /* jump_table; owner: dungeon/func_81029858. */
-const u32 D_8014C808[12] __attribute__((aligned(4))) = {
+const u32 garuda_slot_a_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_creature_animation_and_action + 0x494),
     (u32)((u8 *)update_creature_animation_and_action + 0x494),
     (u32)((u8 *)update_creature_animation_and_action + 0x494),

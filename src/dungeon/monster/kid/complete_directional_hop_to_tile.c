@@ -111,13 +111,13 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
             s32 tile_delta;
             s32 position;
 
-            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->tile_x << 6;
             position = ((EntityRec *)motion)->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
             ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->tile_y << 6;
             position = ((EntityRec *)motion)->y.w.i;
             position -= 0x20;
             tile_delta -= position;
@@ -139,7 +139,7 @@ void complete_directional_hop_to_tile(void *action, void *motion, void *sprite, 
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
 
         ((S_80173354_1 *)action)->unk_90 = 0;
         ((S_80173354_1 *)action)->unk_98 &= 0xFFF7;

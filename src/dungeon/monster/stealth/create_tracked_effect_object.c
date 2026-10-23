@@ -25,17 +25,17 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     objectBase = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (objectBase != 0) {
         result = (u8 *)objectBase + 0x20;
-        objectBase->unk_10 = func_8015EA8C;
+        objectBase->update_callback = func_8015EA8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(objectBase, project_sprite_chain);
         data08 = *(void ** *)&objectBase->position;
         data08->unk_0A = value0A;
         data0C = *(void ** *)&objectBase->sprite;
-        data0C->unk_25 = value25;
+        data0C->tile_y = value25;
         objectState = result;
         data0C->frameTable = D_80161D30;
         modeBits = mode & 3;
-        data0C->unk_24 = value24;
+        data0C->tile_x = value24;
         if (modeBits == 1) {
             result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

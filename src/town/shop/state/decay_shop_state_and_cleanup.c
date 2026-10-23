@@ -39,7 +39,7 @@ void decay_shop_state_and_cleanup(void *object) {
     if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)object)->unk_C0))->unk_06 < 0x11) {
         release_null_terminated_entries(object + 0xD0);
         reset_five_shop_slots(object);
-        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

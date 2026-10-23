@@ -157,7 +157,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         random_value = (s32)cycle_sprite_height_and_position;
         ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_20 = effect_data;
         effect_data = ((void *)effect) + 0x20;
-        effect->unk_10 = (void *)random_value;
+        effect->update_callback = (void *)random_value;
         effect_data->unk_04 = effect_param;
         effect_data->unk_06 = (s16) (-6 - (rand() % 5));
         effect_data->unk_08 = (u16) origin->unk_02;

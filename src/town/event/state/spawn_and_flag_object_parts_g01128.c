@@ -47,7 +47,7 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
     }
     object_position = object->position;
     render = object->sprite;
-    object->unk_10 = object_value;
+    object->update_callback = object_value;
     state->unk_50 = state_value;
     if (parent != 0) {
         state->unk_9C = (s32)(parent + 0x20);
@@ -87,7 +87,7 @@ void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S
     ((S_8009C4E8_0 *)object)->unk_6C = timer;
     if ((s16)(timer) < 0) {
         unlink_node_if_registered(object);
-        ((ObjectRetirementFlags *)object)[-1].unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)object)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

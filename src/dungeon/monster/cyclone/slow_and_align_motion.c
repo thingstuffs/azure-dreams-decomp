@@ -99,14 +99,14 @@ void slow_and_align_motion(S_80173770_0 *motion_state, ObjectPosition *motion, S
             s32 tile_coord;
             s32 coord_offset;
 
-            tile_coord = tile->unk_24 << 6;
+            tile_coord = tile->tile_x << 6;
             coord_offset = motion->x.w.i;
             coord_offset -= 0x20;
             motion->velocity_x = ((tile_coord - coord_offset) << 16) / frames_left;
 
             coord_offset = motion->y.w.i;
             coord_offset -= 0x20;
-            tile_coord = tile->unk_25 << 6;
+            tile_coord = tile->tile_y << 6;
             motion->velocity_y =
                 ((tile_coord - coord_offset) << 16) / motion_state->unk_96.s;
         }
@@ -120,8 +120,8 @@ void slow_and_align_motion(S_80173770_0 *motion_state, ObjectPosition *motion, S
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24,
-            tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x,
+            tile->tile_y);
         {
 
             velocity_or_entity = ((s32)g_dungeon_status.pending_display_owner);

@@ -64,20 +64,20 @@ void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 
     if (effect != NULL) {
         render_data = effect->sprite;
         effect_state = ((void *)effect) + 0x20;
-        effect->unk_10 = &D_8017474C;
+        effect->update_callback = &D_8017474C;
         effect_state->unk_14 = (void *) source->unk_0C;
         effect_state->unk_18 = (void *) source->unk_08;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;
-        render_data->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
+        render_data->animation_resource = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
         render_data->clut = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
-        ((MovingPosition *)(effect->position))->unk_02 =
-            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
-        ((MovingPosition *)(effect->position))->unk_06 =
-            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
-        ((MovingPosition *)(effect->position))->unk_0A =
-            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
+        ((MovingPosition *)(effect->position))->x =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->x;
+        ((MovingPosition *)(effect->position))->y =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->y;
+        ((MovingPosition *)(effect->position))->z =
+            (u16) ((MovingPosition *)(((S_80174B90_6 *)source)->unk_08))->z;
         select_sprite_entry(render_data, 0x46, 0);
         register_node(effect, &D_80175540);
         ((S_80174B90_0 *)effect)->unk_20 = state_00;

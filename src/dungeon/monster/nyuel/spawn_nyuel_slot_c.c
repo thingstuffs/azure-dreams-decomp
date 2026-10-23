@@ -37,8 +37,8 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
         variant = saved_flags & 3;
         position->z.w.i = saved_height;
         part_ptr = (s32)created->sprite;
-        ((SpriteFrameState *)part_ptr)->unk_24 = tile_x;
-        ((SpriteFrameState *)part_ptr)->unk_25 = saved_tile_y;
+        ((SpriteFrameState *)part_ptr)->tile_x = tile_x;
+        ((SpriteFrameState *)part_ptr)->tile_y = saved_tile_y;
         actor_ptr = (s32)result;
 
         if (variant == 1) {
@@ -64,7 +64,7 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
             ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
             }
         }
-        created->unk_10 = func_80158A98;
+        created->update_callback = func_80158A98;
         initialize_actor_sprite_and_animation(created, position, (void *)part_ptr, (s16)original_flags);
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;

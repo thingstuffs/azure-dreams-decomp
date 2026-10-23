@@ -9,7 +9,7 @@ s32 count_town_items(void) {
     s32 count;
     TownStateRecord *table;
 
-    table = D_80016000->unk_38;
+    table = town_scene_root->town_state;
     entry = (s32 *)table->entries;
     count = 0;
     if (*(s32 *)table->entries != 0) {

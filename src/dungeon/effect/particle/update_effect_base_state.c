@@ -45,7 +45,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                 if (spawned != 0) {
                     particle_data = (u8 *)spawned + 0x20;
                     sprite = spawned->sprite;
-                    spawned->unk_10 = fade_effect_sprite_to_black;
+                    spawned->update_callback = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(spawned->position))->unk_00.s =
                         ((S_81844800_3 *)motion)->unk_00.at00.v + (((rand() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(spawned->position))->unk_04.s =
@@ -63,7 +63,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                         {
                             u32 texture_page = sprite_page->unk_04;
                             sprite->unk_04 = 0;
-                            sprite->unk_05 = 0;
+                            sprite->frame_ticks = 0;
                             sprite->color.word = 0x00404040;
                             sprite->source = texture_page;
                         }
@@ -110,8 +110,8 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                     return;
                 }
             }
-            ((S_81844800_1 *)owner)->unk_72.s = sprite->unk_24;
-            ((S_81844800_1 *)owner)->unk_73.s = sprite->unk_25;
+            ((S_81844800_1 *)owner)->unk_72.s = sprite->tile_x;
+            ((S_81844800_1 *)owner)->unk_73.s = sprite->tile_y;
         }
         {
             if (resolve_record_orientation_or_fallback(
@@ -200,7 +200,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             spawned = allocate_list_node(0x201, (ObjectNodeHeader **)&scene_object_list_anchor);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
-                spawned->unk_10 = update_effect_base_state;
+                spawned->update_callback = update_effect_base_state;
                 register_node(spawned, (s32)draw_layered_vertical_sprite_chain);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
@@ -228,7 +228,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = spawned->sprite;
-                spawned->unk_10 = fade_effect_sprite_to_black;
+                spawned->update_callback = fade_effect_sprite_to_black;
                 ((S_81844800_14 *)(spawned->position))->unk_00.u =
                     ((S_81844800_3 *)motion)->unk_00.at00.v;
                 ((S_81844800_14 *)(spawned->position))->unk_04.u =
@@ -247,9 +247,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                     sprite->unk_00 = fading_sprite_entries;
                     sprite->flags = flags | 0xC;
                     {
-                        u32 texture_page = ((u32)((SpriteSourceEntry *)fading_sprite_entries)->unk_04);
+                        u32 texture_page = ((u32)((SpriteSourceEntry *)fading_sprite_entries)->source);
                         sprite->unk_04 = 0;
-                        sprite->unk_05 = 0;
+                        sprite->frame_ticks = 0;
                         sprite->color.word = 0x00404040;
                         sprite->source = texture_page;
                     }
@@ -571,7 +571,7 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameStat
         advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
         if (sprite->color.c.r <= *(s16 *)((s8 *)effect + 0x4A)) {
             sprite->color.word = 0;

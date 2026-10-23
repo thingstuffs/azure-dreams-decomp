@@ -24,7 +24,7 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
 
     move_state->unk_10 = 0;
     move_state->unk_0C = 0;
-    set_record_integer_tile_center(move_state, entity->unk_24, entity->unk_25);
+    set_record_integer_tile_center(move_state, entity->tile_x, entity->tile_y);
     action_state = actor->unk_64;
     if ((action_state < 0) || (controller->unk_10C & 1)) {
         entity->flags = (u16)(entity->flags & 0xF7FF);

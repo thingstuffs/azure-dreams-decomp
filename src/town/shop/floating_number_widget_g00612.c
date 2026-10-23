@@ -94,7 +94,7 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
             part->unk_44 = process_context_with_selector_4((u8 *)object + 0x68);
             build_owned_floating_number_widget((s32)part, setup_value, x, y);
             register_node(object, dungeon_menu_tag);
-            object->unk_10 = lower_value_toward_target;
+            object->update_callback = lower_value_toward_target;
         } else {
             flag_object_for_removal(part->unk_08);
             flag_object_for_removal(part->unk_0C);

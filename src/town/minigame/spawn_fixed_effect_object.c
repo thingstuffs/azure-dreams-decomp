@@ -55,8 +55,8 @@ void spawn_fixed_effect_object(void *caller_data)
         register_node(object, lit_mesh_renderer_address);
         color = 0x00808080U;
 
-        ((ProjectileObject *)object)->unk_10 = D_800BF1C8;
-        render_state = ((ProjectileObject *)object)->unk_0C;
+        ((ProjectileObject *)object)->update_callback = D_800BF1C8;
+        render_state = ((ProjectileObject *)object)->sprite;
         render_state->unk_1C = 0x1000;
         render_state->unk_1E = 0x1000;
         render_state->unk_20 = 0x1000;
@@ -64,7 +64,7 @@ void spawn_fixed_effect_object(void *caller_data)
         transform = object + 0x20;
         render_state->unk_1A = 0;
         render_state->unk_08 = 0x4A;
-        position = ((ProjectileObject *)object)->unk_08;
+        position = ((ProjectileObject *)object)->position;
         position->x = 0x02C00000;
         position->y = 0x02300000;
         transform_value = D_800D2344[0];
@@ -72,6 +72,6 @@ void spawn_fixed_effect_object(void *caller_data)
         transform->unk_48 = transform_value;
         configure_the_set_mode_n_1(transform, position, D_800D232C);
     }
-    ((ObjectStatusPrefix16 *)caller_data)[-1].unk_00 |= 0x8000;
+    ((ObjectStatusPrefix16 *)caller_data)[-1].flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

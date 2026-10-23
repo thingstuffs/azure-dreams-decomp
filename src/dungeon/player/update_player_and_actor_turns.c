@@ -1,4 +1,6 @@
 #include "shared/actor_status_flags.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/actor_status_ids.h"
 
 struct ObjectPosition;
@@ -19,10 +21,6 @@ struct ObjectPosition;
 
 struct Dst;
 struct Elem;
-typedef struct {
-    u8 pad[0x14];
-    u16 unk14;
-} S_80048AC8;
 
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
@@ -32,7 +30,7 @@ extern void request_scene_dispatch_state(s16 requested_state);                  
 s16 get_entity_effect_value();                 /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
-extern void step_actor_animation(S_80048AC8 *entity, void *slot_index);             /* extern */
+extern void step_actor_animation(SpriteFrameState *entity, void *slot_index);             /* extern */
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
@@ -57,8 +55,8 @@ extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];
 extern s8 dungeon_event_pending_flag;
-extern u32 D_800DD160;
-extern Callback4 D_800DD168[];
+extern u32 player_idle_turn_count;
+extern Callback4 player_action_handlers[];
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;
@@ -110,14 +108,6 @@ typedef struct S_80089AA0_10 {
     u8 pad_00[0xAC];
     void * unk_AC;
 } S_80089AA0_10;
-
-typedef struct S_80089AA0_11 {
-    u8 pad_00[0x25];
-    u8 unk_25;
-    u8 pad_26[0x2];
-    u8 unk_28;
-    u8 unk_29;
-} S_80089AA0_11;
 
 typedef struct S_80089AA0_13 {
     u32 unk_00;
@@ -178,11 +168,6 @@ typedef struct S_80089AA0_19 {
     u16 unk_8A;
 } S_80089AA0_19;
 
-typedef struct S_80089AA0_20 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80089AA0_20;
-
 typedef struct S_80089AA0_27 {
     u8 pad_00[0x3DE8];
     void * unk_3DE8;
@@ -237,9 +222,9 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     u8 action_id;
     u8 pending_high;
     s32 companion_points;
-    S_80089AA0_11 *companion;
+    ActorRecord *companion;
     void *next_link;
-    S_80089AA0_20 *linked_sprite;
+    SpriteFrameState *linked_sprite;
     S_80089AA0_14 *reset_actor;
     void *companion_slot;
     void *linked_actor;
@@ -302,9 +287,9 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
         && (dungeon_event_pending_flag == 0) && ((*(s32 *)&status_base->active_actor != 0) || (*(s32 *)&status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
         || (*(s32 *)&status_base->activity_counts.word != 0))) {
-        D_800DD160 += 1;
+        player_idle_turn_count += 1;
     } else {
-        D_800DD160 = 0;
+        player_idle_turn_count = 0;
     }
     input_snapshot = ((u8 *)(&g_dungeon_status.activity_counts.parts.pending_movement_count));
     copy_words_forward(&D_800E4948, input_snapshot, 4);
@@ -356,10 +341,10 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     companion_slot = linked_actor + 4;
                     do {
                         companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
-                        if ((companion != 0) && (companion->unk_25 != 0)) {
-                            companion_total = *companion_fraction + companion->unk_29;
+                        if ((companion != 0) && (companion->mp != 0)) {
+                            companion_total = *companion_fraction + companion->max_hp;
                             *companion_fraction = companion_total;
-                            companion_points = companion->unk_28;
+                            companion_points = companion->hp;
                             if (companion_total >= 0x101U) {
                                 do {
                                     companion_remainder = *companion_fraction - 0x100;
@@ -367,11 +352,11 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                                     companion_points += 1;
                                 } while (companion_remainder >= 0x101U);
                             }
-                            companion_limit = companion->unk_29;
+                            companion_limit = companion->max_hp;
                             if ((s32) companion_limit < (s32) companion_points) {
                                 companion_points = companion_limit;
                             }
-                            companion->unk_28 = companion_points;
+                            companion->hp = companion_points;
                         }
                         companion_fraction -= 1;
                         companion_index -= 1;
@@ -421,9 +406,9 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     }
     if (!(system_update_flags & 8)) {
         if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (dungeon_event_pending_flag == 0)
-            && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
+            && ((u32) ((S_80089AA0_13 *)(&player_idle_turn_count))->unk_00 >= 0x385U)) {
             reset_actor = dungeon_actor_ring_anchor;
-            D_800DD160 = 0;
+            player_idle_turn_count = 0;
             do {
                 reset_actor->unk_6C = 0;
                 reset_actor->unk_71 = (u8) (reset_actor->unk_71 & 0x7F);
@@ -465,7 +450,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     if (update_callback != 0) {
         update_callback(linked_actor, in_motion, sprite_or_root, actor);
     }
-    D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
+    player_action_handlers[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     /*
      * Original bug: egg heating clears the mirror bit while updating the cached direction. After canceling, walking in
@@ -607,7 +592,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     if (linked_actor != actor) {
         do {
             linked_sprite = ((ObjectNodeHeader *)((u8 *)linked_actor - 0x20))->sprite;
-            linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
+            linked_sprite->flags = (u16) (linked_sprite->flags & 0xFFBF);
             linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
         } while (linked_actor != sprite_or_root);
     }
@@ -643,7 +628,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     companion_index = 0;
                     if (linked_actor != actor) {
                         do {
-                            retry_callback = *(s32 *)&record_or_page->unk_10;
+                            retry_callback = *(s32 *)&record_or_page->update_callback;
                             actor_update_node_cursor = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                             if (retry_callback > 0) {
                                 retry_callback |= 0x80000000;
@@ -677,7 +662,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     root = (void *)0x800E0000;
                     do {
                         record_or_page = linked_actor - 0x20;
-                        height_or_callback = *(s32 *)&record_or_page->unk_10;
+                        height_or_callback = *(s32 *)&record_or_page->update_callback;
                         ((S_80089AA0_27 *)root)->unk_3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                         if (height_or_callback > 0) {
                             height_or_callback |= 0x80000000;
@@ -730,7 +715,7 @@ begin_linked_pass:
                 next_record = (*(void **)((u8 *)actor + 0x5C));
                 actor_update_node_cursor = next_record;
                 if (((repeat_pass == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0)
-                    || (loop_status -> trap_counts . parts . pending_trap_count != 0)) && (*(s32 *)&record_or_page->unk_10 > 0)) {
+                    || (loop_status -> trap_counts . parts . pending_trap_count != 0)) && (*(s32 *)&record_or_page->update_callback > 0)) {
                     linked_actor = (void *)(s32)(s16)has_pending_actor_or_turn_action(0);
                     if (loop_status->trap_counts.parts.pending_trap_count != 0) {
                         if (linked_actor == 0) {
@@ -749,7 +734,7 @@ begin_linked_pass:
                         callback_context = *(s32 *)&record_or_page->position;
                     }
                     {
-                        height_or_callback = *(s32 *)&record_or_page->unk_10;
+                        height_or_callback = *(s32 *)&record_or_page->update_callback;
                         height_or_callback |= state_or_address;
                         ((s32 (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context,
                             *(s32 *)&record_or_page->sprite);

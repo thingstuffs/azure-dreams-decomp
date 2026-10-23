@@ -20,7 +20,7 @@ typedef struct S_818BD0C0_1 {
 
 extern void select_record_entry_and_value();
 extern void advance_sprite_animation_and_textures();
-extern u8 D_80025E04[];
+extern u8 flash_sprite_entries[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
 void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primitive)
@@ -42,7 +42,7 @@ void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primi
             return;
         }
 
-        select_record_entry_and_value(primitive, D_80025E04, 0);
+        select_record_entry_and_value(primitive, flash_sprite_entries, 0);
         if (primitive->color.c.r != 0) {
             primitive->color.c.r = 0;
             primitive->color.c.g = 0x80;

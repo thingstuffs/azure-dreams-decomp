@@ -29,7 +29,7 @@ void dispatch_records_by_kind(void *records, s32 *value_sets) {
     void *record;
     s32 next_status;
 
-    context = D_80016000->unk_20;
+    context = town_scene_root->services;
     status_ptr = (u8 *)value_sets;
     values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
     for (record = records; (((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80; record += 0x14) {

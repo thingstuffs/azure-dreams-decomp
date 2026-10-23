@@ -102,9 +102,9 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
-            motion->x.w.i = source_pos->unk_02;
-            motion->y.w.i = source_pos->unk_06;
-            source_z = source_pos->unk_0A;
+            motion->x.w.i = source_pos->x;
+            motion->y.w.i = source_pos->y;
+            source_z = source_pos->z;
             motion->z.w.i = source_z;
 
             if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {

@@ -138,7 +138,7 @@ void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *spri
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *player;
                 player = &reference_tile_object;
-                floor = *(s8 *)&sprite_in->unk_26;
+                floor = *(s8 *)&sprite_in->room_index;
                 if ((floor == player->room_index && floor >= 0) || get_tile_chebyshev_distance(player, sprite_in) < 2) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, STATUS_SLEEP);
@@ -319,7 +319,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if (((ActorRecord *)actor)->unk_64 != 0) {
+            if (((ActorRecord *)actor)->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(controller, context, animation, 0) != 0) {
                     return;
                 }

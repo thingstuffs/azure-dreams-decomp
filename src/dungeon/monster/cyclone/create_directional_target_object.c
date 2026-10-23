@@ -25,7 +25,7 @@ Vec3u16;
 extern void register_node(void *object, void *callback);
 extern void select_sprite_entry(void *object, s32 kind, s32 value);
 extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
-extern u8 D_80175978;
+extern u8 cyclone_spawn_update_address;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *create_directional_target_object(void *emitter, Copy24 *position, void *source)
 {
@@ -52,10 +52,10 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
         + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        object->unk_10 = &D_80175978;
+        object->update_callback = &cyclone_spawn_update_address;
         register_node(object, project_sprite_chain);
         render = object->sprite;
-        render->unk_28 = *((s32 *) (((u8 *) source_copy) + 0x28));
+        render->animation_resource = *((s32 *) (((u8 *) source_copy) + 0x28));
         render->scale_y = 0x800;
         render->scale_x = 0x800;
         render->color.word = 0x00808080;

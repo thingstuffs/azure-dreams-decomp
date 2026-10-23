@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "frontend/libcard.h"
-
 
 typedef struct S_80023258_0 {
     u8 pad_00[0x80];
@@ -17,10 +17,7 @@ typedef struct S_80023258_1 {
     void * unk_04;
 } S_80023258_1;   /* initial_node in card_boot_animate_three_row_selection */
 
-typedef struct S_80023258_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80023258_2;   /* initial_data in card_boot_animate_three_row_selection */
+   /* initial_data in card_boot_animate_three_row_selection */
 
 typedef struct S_80023258_3 {
     u8 pad_00[0x7C];
@@ -108,7 +105,7 @@ s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
     u8 offset;
     void *color_node;
     S_80023258_1 *marker_node;
-    S_80023258_2 *marker_data;
+    SignedWidgetYView *marker_data;
 
     start_index = state->unk_8C;
     index_delta = state->unk_88 - start_index;

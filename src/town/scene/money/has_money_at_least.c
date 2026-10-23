@@ -7,5 +7,5 @@
 
 /* Check whether the stored value meets the minimum. */
 s32 has_money_at_least(u32 minimum) {
-    return (u32) D_80016000->unk_38->unk_2D5C >= minimum;
+    return (u32) town_scene_root->town_state->money >= minimum;
 }

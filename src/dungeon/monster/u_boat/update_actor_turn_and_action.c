@@ -131,7 +131,7 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
                 select_sprite_entry(sprite,
                     ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
-                sprite->unk_05 = 1;
+                sprite->frame_ticks = 1;
                 is_active = ((S_80171A80_0 *)entity)->unk_B0.v;
                 ((S_80171A80_0 *)entity)->unk_9E = 0;
                 ((S_80171A80_0 *)entity)->unk_A2.s = 0;
@@ -147,7 +147,7 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
             }
         }
 
-        if (actor->unk_64 != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(entity, context, sprite, uboat_ready_frames) != 0) {
                 return;
             }
@@ -170,16 +170,16 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24,
-        sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x,
+        sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (actor->pending_turn_updates > 0) {
         if (((u32)actor->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             choose_and_execute_actor_step(entity, context, sprite, actor);
             return;
         }
@@ -238,12 +238,12 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
                 s16 facing;
 
                 facing = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
                 actor->facing = facing;
-                if (player->unk_9A != 0x11) {
+                if (player->action_id != 0x11) {
                     update_actor_status_and_mp(actor);
                     return;
                 }
@@ -293,10 +293,10 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
             if (!(((u32)actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

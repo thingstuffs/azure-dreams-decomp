@@ -93,8 +93,8 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
         }
         if ((get_adjacent_tile_for_action(next_heading, tile, actor, 0x20) << 0x10) > 0) {
             ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = tile->unk_24.at00.v;
-            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = tile->unk_24.at01.v;
+            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->path_x = tile->unk_24.at00.v;
+            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->path_y = tile->unk_24.at01.v;
             ((S_800CA444_1 *)actor)->unk_71++;
             direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
             tile->unk_24.at00.v += dir_step_x[direction_index];
@@ -150,7 +150,7 @@ s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, 
 
         ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
         ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        target_direction = find_eligible_entry_at_coordinates(actor, ((MovingTile *)target)->unk_24, ((MovingTile *)target)->unk_25);
+        target_direction = find_eligible_entry_at_coordinates(actor, ((MovingTile *)target)->tile_x, ((MovingTile *)target)->tile_y);
         clear_action_flag = ~0x2000;
         ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
         ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
@@ -221,13 +221,13 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
     target_entry = ((S_800CA93C_0 *)actor)->unk_60;
     ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
     if (target_entry != 0) {
-        target = ((SpriteLinkPrefixView *)target_entry)[-1].unk_00;
+        target = ((SpriteLinkPrefixView *)target_entry)[-1].sprite;
         ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
         ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
         found_entry = find_eligible_entry_at_coordinates(
             actor,
-            origin->unk_24,
-            origin->unk_25);
+            origin->tile_x,
+            origin->tile_y);
         ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
         ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
         if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
@@ -235,10 +235,10 @@ s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, Moving
             return 0;
         }
         ((S_800CA93C_0 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-            origin->unk_24,
-            origin->unk_25,
-            target->unk_24,
-            target->unk_25,
+            origin->tile_x,
+            origin->tile_y,
+            target->tile_x,
+            target->tile_y,
             (u8 *)actor + 0x98);
         ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
     }

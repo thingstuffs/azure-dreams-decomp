@@ -42,12 +42,12 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     if (object != 0) {
         state = (u8 *)object + 0x20;
         ((S_80172F44_0 *)state)->unk_16 = 0x1A;
-        object->unk_10 = update_accelerating_growing_particle;
+        object->update_callback = update_accelerating_growing_particle;
         register_node(object, project_sprite_chain);
 
         display = object->sprite;
         display->tpage_abr = 0x40;
-        display->unk_06 = 6;
+        display->depth_bias = 6;
         display->flags |= 0xC;
 
         transform = object->position;

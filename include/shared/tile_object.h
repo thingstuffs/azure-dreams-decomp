@@ -14,10 +14,10 @@
 /* Static reference sprite/map-location record used for the player view in town and dungeon.
  * initialize_dungeon_actor and initialize_scene_for_mode clear and attach this record to the scene node. */
 typedef struct TileObject {
-    /* 0x000 */ int unk_000;              /* lw 1 (1 rows) */
-    /* 0x004 */ signed char unk_004;      /* lb 1, lbu 1 (2 rows) */
+    /* 0x000 */ int frame_entry;              /* lw 1 (1 rows) */
+    /* 0x004 */ signed char frame_index;      /* lb 1, lbu 1 (2 rows) */
     /* 0x005 */ unsigned char pad_005[0x1];
-    /* 0x006 */ unsigned short unk_006;   /* lhu 1, sh 8 (6 rows) */
+    /* 0x006 */ unsigned short depth_bias;   /* lhu 1, sh 8 (6 rows) */
     /* 0x008 */ int sprite_source; /* sprite command/attachment source consumed by rendering */
     /* 0x00C */ union {
         unsigned int word;
@@ -36,7 +36,7 @@ typedef struct TileObject {
     /* 0x01A */ short angle_z; /* sprite Z rotation, in GTE angle units (0x1000 per turn) */
     /* 0x01C */ short scale_x; /* horizontal sprite scale; 0x1000 = 1.0 */
     /* 0x01E */ short scale_y; /* vertical sprite scale; 0x1000 = 1.0 */
-    /* 0x020 */ short unk_020;            /* sh 1 (1 rows) */
+    /* 0x020 */ short offset_x;            /* sh 1 (1 rows) */
     /* 0x022 */ unsigned char pad_022[0x2];
     /* 0x024 */ union {
         unsigned short word;

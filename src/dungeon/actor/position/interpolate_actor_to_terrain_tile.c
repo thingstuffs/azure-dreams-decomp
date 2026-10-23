@@ -38,14 +38,14 @@ s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, ObjectPosition *
 
     ticks_left = move_state->unk_96;
     if (ticks_left != 0) {
-        delta = target_tile->unk_24 << 6;
+        delta = target_tile->tile_x << 6;
         coord = motion->x.w.i;
         coord -= 0x20;
         delta -= coord;
         x_step = (delta << 0x10) / ticks_left;
         coord = motion->y.w.i;
         motion->velocity_x = x_step;
-        delta = target_tile->unk_25 << 6;
+        delta = target_tile->tile_y << 6;
         coord -= 0x20;
         delta -= coord;
         motion->velocity_y = (delta << 0x10) / (s16) move_state->unk_96;
@@ -56,8 +56,8 @@ s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, ObjectPosition *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, target_tile->unk_24, target_tile->unk_25);
-        target_height = sample_terrain_surface_height((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20,
+        set_record_integer_tile_center(motion, target_tile->tile_x, target_tile->tile_y);
+        target_height = sample_terrain_surface_height((target_tile->tile_x << 6) | 0x20, (target_tile->tile_y << 6) | 0x20,
             (s16) (height_state->unk_88 - 0x20));
         if (target_height < 0x200) {
             move_state->unk_92 = (u16) (move_state->unk_92 + (height_state->unk_88 - target_height));

@@ -53,9 +53,9 @@ typedef struct {
     s16 unk1e;
 } NodeA;
 
-extern u8 D_80028808;
+extern u8 linked_graphic_sprite_entries;
 extern u8 D_800260DC[];
-extern u8 D_800CEF54[];
+extern u8 linked_object_draw_address[];
 
 void *allocate_list_node(s32, void *);
 s32 register_node(void *, void *);
@@ -87,21 +87,21 @@ void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sp
 create_object:
     object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        object->unk_10 = page_base;
-        register_node(object, &D_800CEF54);
+        object->update_callback = page_base;
+        register_node(object, &linked_object_draw_address);
         position = object->position;
-        pos_x = source_pos->unk_02;
+        pos_x = source_pos->x;
         position->x.w.i = pos_x;
         *((u16 *)&position->velocity_x + 1) = pos_x;
-        pos_y = source_pos->unk_06;
+        pos_y = source_pos->y;
         position->y.w.i = pos_y;
         *((u16 *)&position->velocity_y + 1) = pos_y;
-        pos_z = source_pos->unk_0A;
+        pos_z = source_pos->z;
         position->z.w.i = pos_z;
         *((u16 *)&position->velocity_z + 1) = pos_z;
         sprite = object->sprite;
         sprite_flags = sprite->flags;
-        sprite->source = (void *) ((sprite_index * 0xC) + &D_80028808);
+        sprite->source = (void *) ((sprite_index * 0xC) + &linked_graphic_sprite_entries);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;

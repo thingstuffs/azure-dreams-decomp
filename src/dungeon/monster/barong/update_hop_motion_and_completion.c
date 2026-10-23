@@ -81,7 +81,7 @@ void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameSta
         move_frames = ((S_8014EB4C_0 *)action)->unk_9E.s;
         ((S_8014EB4C_0 *)action)->unk_90 -= ((S_8014EB4C_0 *)action)->unk_A4;
         if (move_frames != 0) {
-            target_x = sprite->unk_24;
+            target_x = sprite->tile_x;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -90,7 +90,7 @@ void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameSta
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((sprite->unk_25 << 6) - pos_y) << 16) /
+                (((sprite->tile_y << 6) - pos_y) << 16) /
                 ((S_8014EB4C_0 *)action)->unk_9E.s;
 
             ((S_8014EB4C_0 *)action)->unk_A4 =
@@ -119,7 +119,7 @@ void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameSta
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             state_anims = D_8015157C;
             sprite->frameTable = state_anims;
             select_sprite_entry(sprite,
@@ -152,7 +152,7 @@ void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameSta
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     sprite->scale_y = 0x1000;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
@@ -169,8 +169,8 @@ void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameSta
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24,
-                sprite->unk_25,
+                sprite->tile_x,
+                sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

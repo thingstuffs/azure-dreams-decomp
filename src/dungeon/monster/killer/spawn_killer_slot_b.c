@@ -83,17 +83,17 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     init_flags = spawn_flags;
     if (obj != NULL) {
         work = ((void *)obj) + 0x20;
-        obj->unk_10 = &D_80152A7C;
+        obj->update_callback = &D_80152A7C;
         work->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
         part_a = obj->position;
         part_a->unk_0A = part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_y;
+        part_b->tile_y = saved_y;
         actor = work;
         part_b->frameTable = &D_80156038;
-        part_b->unk_24 = saved_x;
+        part_b->tile_x = saved_x;
 
         if (kind == 1) {
             flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

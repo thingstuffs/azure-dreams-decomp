@@ -78,7 +78,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8016AB40;
+        obj->update_callback = D_8016AB40;
         ((S_80FB7000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
@@ -86,10 +86,10 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
         pin_part_a->z.w.i = saved_part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = pos_y;
+        part_b->tile_y = pos_y;
         pin_actor = work;
         part_b->frameTable = D_8016F258;
-        part_b->unk_24 = pos_x;
+        part_b->tile_x = pos_x;
 
         if (kind == 1) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

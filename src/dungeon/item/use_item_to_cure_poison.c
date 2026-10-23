@@ -51,7 +51,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
 
     if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = item;
-        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

@@ -144,7 +144,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 object = ((S_8016B230_3_pre *)found)[-1].unk_00;
                 ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                     ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    ((MovingTile *)object)->unk_24, ((MovingTile *)object)->unk_25, movement_in + 0x98);
+                    ((MovingTile *)object)->tile_x, ((MovingTile *)object)->tile_y, movement_in + 0x98);
                 ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
@@ -284,9 +284,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 }
             }
             ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
-            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->path_x =
                 ((S_8016B230_2 *)position)->unk_24.at00.v;
-            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->path_y =
                 ((S_8016B230_2 *)position)->unk_24.at01.v;
             ((S_8016B230_1 *)actor)->unk_71.u++;
             update_map_cell_flags_with_item_limit(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,

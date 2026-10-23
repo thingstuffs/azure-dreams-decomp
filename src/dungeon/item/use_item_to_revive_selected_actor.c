@@ -51,7 +51,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
     }
     if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = action;
-        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
+        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

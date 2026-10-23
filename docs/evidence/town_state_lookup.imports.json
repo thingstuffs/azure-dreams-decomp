@@ -1,0 +1,98 @@
+{
+  "module": "town_state_lookup",
+  "runtime_views": {},
+  "views": {
+    "D_8001E2F8": {
+      "symbol": "D_8001E2F8",
+      "kind": "data",
+      "vma": 2147607288,
+      "foff": 4117240,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    },
+    "D_8001E634": {
+      "symbol": "D_8001E634",
+      "kind": "data",
+      "vma": 2147608116,
+      "foff": 4118068,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    },
+    "D_8001E79C": {
+      "symbol": "D_8001E79C",
+      "kind": "data",
+      "vma": 2147608476,
+      "foff": 4118428,
+      "view_bytes": 5,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    },
+    "D_8001E9C0": {
+      "symbol": "D_8001E9C0",
+      "kind": "data",
+      "vma": 2147609024,
+      "foff": 4118976,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    },
+    "D_8001EB10": {
+      "symbol": "D_8001EB10",
+      "kind": "data",
+      "vma": 2147609360,
+      "foff": 4119312,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    },
+    "D_8001EC04": {
+      "symbol": "D_8001EC04",
+      "kind": "data",
+      "vma": 2147609604,
+      "foff": 4119556,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "resident_link_ll34_3e5000_80016000",
+      "evidence": "docs/evidence/town_state_lookup.imports.json"
+    }
+  },
+  "maps": {
+    "resident_link_ll34_3e5000_80016000": {
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "file_start": 4083712,
+      "file_end": 4124672,
+      "delta": 2143490048,
+      "kind": "rowbase",
+      "region": "link_ll34_3e5000_80016000",
+      "container": "town",
+      "basis": "config/overlays/town.rowbase.jsonl link_ll34_3e5000_80016000 proven load-map record."
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8001A92C": "retail_string",
+    "D_8001E2F8": "retail_string",
+    "D_8001E634": "retail_string",
+    "D_8001E79C": "retail_string",
+    "D_8001E9C0": "word_default",
+    "D_8001EB10": "word_default",
+    "D_8001EC04": "word_default"
+  },
+  "address_only_anchors": {}
+}

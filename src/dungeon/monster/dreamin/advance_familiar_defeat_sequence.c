@@ -24,7 +24,7 @@ extern void try_apply_action_by_chance(void *, s32, s32);
 
 extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
-extern u8 D_80170E68;
+extern u8 dreamin_action_continuation_address;
 extern u8 D_801738A4[];
 
 /* Run the actor's two-step death sequence: post its message, then spawn the drop and release it. */
@@ -44,7 +44,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, SpriteFrameState
         first = result;
         clear_byte_and_advance(expand_text_control_codes(D_80170854, first));
         display_text_with_fullwidth_adjustment(saved_first);
-        object = scan_actor_along_heading(actor, part_b->unk_24, part_b->unk_25,
+        object = scan_actor_along_heading(actor, part_b->tile_x, part_b->tile_y,
                                S16(actor, 0x2A), 0x10);
         PTR(actor, 0x60) = object;
         part_b->frameTable = D_801738A4;
@@ -62,7 +62,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, SpriteFrameState
             return;
         }
         spend_actor_mp(actor, 0xC00);
-        PTR(work, 0x8C) = &D_80170E68;
+        PTR(work, 0x8C) = &dreamin_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {

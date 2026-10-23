@@ -9,8 +9,8 @@ typedef void (*Callback)(s32);
 /* Invoke both town callbacks with 1 and shift the position by (+32, -16). */
 void run_scene_callback_with_position_shift(void)
 {
-    D_80016000->unk_20->callback_248(1);
-    D_80016000->unk_20->callback_244(1);
-    ((TownPositionState *)D_80016000->unk_1C)->x += 0x20;
-    ((TownPositionState *)D_80016000->unk_1C)->y -= 0x10;
+    town_scene_root->services->callback_248(1);
+    town_scene_root->services->callback_244(1);
+    ((TownPositionState *)town_scene_root->position)->x += 0x20;
+    ((TownPositionState *)town_scene_root->position)->y -= 0x10;
 }

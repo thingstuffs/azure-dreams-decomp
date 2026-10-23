@@ -25,7 +25,7 @@ typedef struct {
 } Struct8009D814;
 
 extern u8 D_800D0190[];
-extern u8 D_800D0088[];
+extern u8 player_interaction_handler_entries[];
 extern s32 town_player_target_adjustment;
 extern u8 D_8009B0EC[];
 extern u8 D_8009B014[];

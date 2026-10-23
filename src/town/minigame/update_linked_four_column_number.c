@@ -23,7 +23,7 @@ void update_linked_four_column_number(void *entry) {
     status = ((S_80023FF8_0 *)entry)->unk_0C;
     format_decimal_field_space_padded(*((S_80023FF8_0 *)entry)->unk_08, 4, ((S_80023FF8_0 *)entry)->unk_04 + 7);
     if (*status == 0) {
-        entry_view[-1].unk_00 = (u16) (entry_view[-1].unk_00 | 0x8000);
+        entry_view[-1].flags = (u16) (entry_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

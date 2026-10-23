@@ -36,7 +36,7 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     effect = allocate_list_node(0x12, (u8 *)owner - 0x20);
     if (effect != 0) {
         ((S_80172A14_0 *)owner)->unk_AC = effect;
-        effect->unk_10 = D_80172874;
+        effect->update_callback = D_80172874;
         register_node(effect, clipped_sprite_renderer_address);
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_18 = 5;
@@ -46,9 +46,9 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
         render_flags->tpage_abr = 0x40;
         render_flags->flags |= 0xC;
         effect_pos = effect->position;
-        effect_pos->unk_02 = source_pos->unk_02;
-        effect_pos->unk_06 = source_pos->unk_06;
-        effect_pos->unk_0A = source_pos->unk_0A;
+        effect_pos->x = source_pos->x;
+        effect_pos->y = source_pos->y;
+        effect_pos->z = source_pos->z;
         render_flags = effect->sprite;
         render_flags->scale_y = 0xA00;
         render_flags->scale_x = 0xA00;

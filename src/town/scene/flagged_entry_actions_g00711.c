@@ -6,7 +6,7 @@
 void clear_state_history_and_head_indices(void) {
     TownStateRecord *context_base;
 
-    context_base = D_80016000->unk_38;
+    context_base = town_scene_root->town_state;
     func_80018824((s8 *)context_base->history, 0xC0);
     func_80018824((s8 *)context_base->headIndices, 0x10);
 }

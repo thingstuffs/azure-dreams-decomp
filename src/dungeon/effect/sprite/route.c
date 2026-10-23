@@ -4,7 +4,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
-const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "dungeon/effect/sprite/route.h"
 #include "shared/gpu_packets.h"
 /* func_8002403C (dungeon, foff 0x18EE83C) -- true base 0x8002403C by bank law
@@ -236,7 +236,7 @@ void create_jittered_terrain_seeking_point(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        object_cursor->unk_10 = (s32)advance_jittered_effect_toward_terrain;
+        object_cursor->update_callback = (s32)advance_jittered_effect_toward_terrain;
         jitter_x = rand() & 0x1F;
         position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
         dest_x = object_cursor->position;
@@ -669,7 +669,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             s3 += 0x20;
             if (obj != 0) {
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_02 = 0x34;
-            obj->unk_10 = advance_damped_ground_sliding_sprite;
+            obj->update_callback = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
             p = obj->sprite;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 0xC;
@@ -713,7 +713,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             w1 = (s32)((u8 *)obj + 0x20);
             if (obj != 0) {
                 ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_02 = 0x14;
-                obj->unk_10 = move_and_grow_timed_sprite;
+                obj->update_callback = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
                 p = obj->sprite;
                 flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
@@ -790,7 +790,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        obj->unk_10 = update_actor_effect_sequence;
+        obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
         p = obj->sprite;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
@@ -815,7 +815,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        obj->unk_10 = update_actor_effect_sequence;
+        obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
         p = obj->sprite;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
@@ -868,7 +868,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
     u32 flags_or_result;
 
     entity = state->entity0;
-    offsets = D_80024004;
+    offsets = sprite_route_direction_offsets;
     state_index = state->stateA;
     header = (B32_818CFB74_EntityHeader *)((u8 *)entity - 0x20);
     source = header->source8;

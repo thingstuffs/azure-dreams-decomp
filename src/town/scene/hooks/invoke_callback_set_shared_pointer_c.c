@@ -20,7 +20,7 @@ void invoke_callback_and_set_shared_pointer(void) {
     s32 state;
     s32 slot;
 
-    state = D_80016000->unk_20->callback_330(0);
+    state = town_scene_root->services->callback_330(0);
     slot = 0;
     label_cursor = &D_80017A6C;
     state_cursor = &D_80017A74;
@@ -33,7 +33,7 @@ void invoke_callback_and_set_shared_pointer(void) {
         state_cursor += 1;
         slot += 1;
     } while (slot < 4);
-    if (D_80016000->unk_20->callback_334(0) != 5) {
+    if (town_scene_root->services->callback_334(0) != 5) {
         func_80017684(F_sbs48_pad06);
     } else {
         func_800176FC(F_sbs48_pad06);

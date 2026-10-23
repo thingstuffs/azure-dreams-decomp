@@ -162,8 +162,8 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
 
                     ((S_8017256C_1 *)actor)->unk_60.p = scan_actor_along_heading(
                         actor,
-                        sprite->unk_24,
-                        sprite->unk_25,
+                        sprite->tile_x,
+                        sprite->tile_y,
                         ((S_8017256C_1 *)actor)->unk_2A,
                         0x10);
                     abs_x = abs(((S_8017256C_1 *)actor)->unk_72.s);
@@ -185,7 +185,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
         ((S_8017256C_5 *)motion)->unk_14 = 0;
         ((S_8017256C_5 *)motion)->unk_10 = 0;
         ((S_8017256C_5 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         ((D800814A8FieldView_81252D6C *)primary_actor_record)->field_A6--;
         advance_status_timers(actor);
@@ -276,7 +276,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
         ((S_8017256C_5 *)motion)->unk_14 = 0;
         ((S_8017256C_5 *)motion)->unk_10 = 0;
         ((S_8017256C_5 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         ((S_8017256C_0 *)action)->unk_9B++;
         if (*(u8 **)&sprite->frameTable == beldo_frame_set_1) {
             return;

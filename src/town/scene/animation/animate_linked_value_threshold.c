@@ -49,8 +49,8 @@ void animate_linked_value_threshold(void *record_ptr) {
         ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.s >> 2;
         threshold_value = (((S_808127A4_0 *)record_ptr)->unk_16.u + 8) & 0xFFFF;
         if (threshold_value >= 0xF9U) {
-            flags = &((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00;
-            *flags = (u16) (((ObjectStatusPrefix16 *)record_ptr)[-1].unk_00 | 0x8000);
+            flags = &((ObjectStatusPrefix16 *)record_ptr)[-1].flags;
+            *flags = (u16) (((ObjectStatusPrefix16 *)record_ptr)[-1].flags | 0x8000);
             *(s32 *) 0x80084D5C = scene_object_flags | 0x8000;
         }
     }

@@ -215,11 +215,11 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
             partner_tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
-        sprite_x = sprite->unk_24;
+        sprite_x = sprite->tile_x;
         entity_flags = ((CreatureState *)entity)->flags;
         entity_flags &= 0x2000;
         tile_mask = 0x3000;
-        sprite_y = sprite->unk_25;
+        sprite_y = sprite->tile_y;
         if (entity_flags) {
             tile_mask = 0x300;
         }
@@ -342,10 +342,10 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
                 continue;
             }
             partner_sprite->room = (s8) tile_type;
-            sprite->unk_26 = (s8) tile_type;
-            sprite->unk_24 = partner_sprite->tileX + dir_step_x[direction];
-            sprite->unk_25 = partner_sprite->tileY + dir_step_y[direction];
-            landing_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20,
+            sprite->room_index = (s8) tile_type;
+            sprite->tile_x = partner_sprite->tileX + dir_step_x[direction];
+            sprite->tile_y = partner_sprite->tileY + dir_step_y[direction];
+            landing_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20, (sprite->tile_y << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
             ((CreatureState *)entity)->groundHeight = landing_height;
             if (landing_height >= 0x201) {
@@ -435,10 +435,10 @@ commit_tile_positions:
                 return;
             }
         }
-        final_x = sprite->unk_24;
+        final_x = sprite->tile_x;
         final_x = ((final_x << 6) + 0x20) << 0x10;
         motion->x = final_x;
-        final_y = sprite->unk_25;
+        final_y = sprite->tile_y;
         reset_entity = entity;
         motion->dy = 0;
         motion->dx = 0;
@@ -467,8 +467,8 @@ commit_tile_positions:
             restore_flags |= restore_mask;
             ((CreatureState *)entity)->flags = restore_flags;
             restore_flags &= 0x2000;
-            restore_x = sprite->unk_24;
-            restore_y = sprite->unk_25;
+            restore_x = sprite->tile_x;
+            restore_y = sprite->tile_y;
             restore_tile_mask = 0x3000;
             if (restore_flags) {
                 restore_tile_mask = 0x300;

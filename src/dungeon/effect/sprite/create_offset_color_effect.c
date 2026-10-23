@@ -44,7 +44,7 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = D_80024088;
+        obj->update_callback = D_80024088;
         register_node(obj, D_800241CC);
 
         {

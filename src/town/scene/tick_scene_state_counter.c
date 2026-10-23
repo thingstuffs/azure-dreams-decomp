@@ -11,6 +11,6 @@ extern s32 D_80019438;
 void tick_scene_state_counter(void) {
     TownStateRecord *counter_state;
 
-    counter_state = D_80016000->unk_38;
-    counter_state->unk_2D5C = (s32) (((signed int)counter_state->unk_2D5C) - D_80019438);
+    counter_state = town_scene_root->town_state;
+    counter_state->money = (s32) (((signed int)counter_state->money) - D_80019438);
 }

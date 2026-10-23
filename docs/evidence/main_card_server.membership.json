@@ -1,0 +1,22 @@
+{
+  "module": "main_card_server",
+  "ledger_group": {
+    "container": "main",
+    "module": "server_events.c",
+    "module_index": 134229
+  },
+  "members": [
+    "main/func_8000DA80",
+    "main/func_8000DEA0",
+    "main/func_8000DF18"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: proven (string literals) - group G00002 - J1:main/image_25c800#g0008. Grouping by tools/tu/infer_groups.py (group G00002); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Byte-bound evidence and ordered registered home rows from the complete 403-unit scan. Shared anonymous literals prove this span; outer edges remain unknown.",
+    "Members are the contiguous registered home rows 0x25DA80..0x25E0E0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

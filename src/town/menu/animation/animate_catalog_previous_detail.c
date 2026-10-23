@@ -99,7 +99,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 10:
         object_index = 14;
         do {
-            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->aux;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);
@@ -112,7 +112,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 14:
         object_index = 14;
         do {
-            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->aux;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);

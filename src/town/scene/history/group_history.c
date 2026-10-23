@@ -26,7 +26,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     do {
         page = (u8 *)0x80010000;
     } while (0);
-    state_base = (s32)((S_8001D188_3 *)page)->unk_6000->unk_38;
+    state_base = (s32)((S_8001D188_3 *)page)->unk_6000->town_state;
     entry_id = entry_index;
     variant = query_priority_event_state();
     cursor = ((S_8001D188_0 *)page)->unk_6000;
@@ -71,10 +71,10 @@ void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
         return 0;
     }
     lookup_flag = D_8001902C[group][lookup_variant].flag;
-    head = D_80016000->unk_38->headIndices[group];
+    head = town_scene_root->town_state->headIndices[group];
     ptr = D_8001902C[group][lookup_variant].entries;
-    D_80016000->unk_20->callback_168(D_8001916C, D_80019178, n);
-    D_80016000->unk_20->callback_168(D_8001916C, D_8001917C, head);
+    town_scene_root->services->callback_168(D_8001916C, D_80019178, n);
+    town_scene_root->services->callback_168(D_8001916C, D_8001917C, head);
     delta = n - head;
     if (lookup_flag != 0) {
         if (delta >= 0) {
@@ -84,8 +84,8 @@ void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
             n = head - n - 1;
         }
     }
-    D_80016000->unk_20->callback_168(D_8001916C, D_80019178, n);
-    D_80016000->unk_20->callback_168(D_8001916C, D_80019184, ptr[n].vx);
-    D_80016000->unk_20->callback_168(D_8001916C, D_80019190, ptr[n].vy);
+    town_scene_root->services->callback_168(D_8001916C, D_80019178, n);
+    town_scene_root->services->callback_168(D_8001916C, D_80019184, ptr[n].vx);
+    town_scene_root->services->callback_168(D_8001916C, D_80019190, ptr[n].vy);
     return &ptr[n];
 }

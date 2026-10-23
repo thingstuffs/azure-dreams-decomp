@@ -1,4 +1,6 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -15,52 +17,24 @@ typedef struct S_8008E504_0 {
     void * unk_124;
 } S_8008E504_0;   /* arg0 in update_player_landing_recovery */
 
-typedef struct S_8008E504_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8008E504_1;   /* arg1 in update_player_landing_recovery */
-
-typedef struct S_8008E504_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-    s16 unk_8A;
-} S_8008E504_2;   /* arg3 in update_player_landing_recovery */
-
-typedef struct S_8008E504_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008E504_3;
-
-typedef struct S_8008E504_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_8008E504_4;   /* arg2 in update_player_landing_recovery */
-
-
 extern s32 held_item_record;
 extern s32 saved_held_item_word;
 extern u8 player_action_tag[];
-extern u8 D_800DD058[];
+extern u8 player_landing_frame_set[];
 
 extern void initialize_timed_motion_step(s32, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 has_action_input_without_modifier(void);
 
 /* Advances an actor's timed animation state and selects its next behavior. */
-void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
+void update_player_landing_recovery(S_8008E504_0 *actor, ObjectPosition *action, SpriteAnimationTableView *sprite, ActorRecord *entity) {
     u16 state_or_ticks;
     u16 sprite_flags;
     s32 state;
     s32 saved_status;
     s32 entity_flags;
     s32 object_flags;
-    S_8008E504_3 *linked_object;
+    ActorRecord *linked_object;
 
     state = actor->unk_9B;
     switch (state) {
@@ -68,18 +42,18 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
         if (!(actor->unk_A2 & 0x10)) {
             return;
         }
-        action->unk_14 = 0;
-        if ((entity->unk_88 - entity->unk_8A) >= 0x41) {
+        action->velocity_z = 0;
+        if ((entity->ground_height - entity->unk_8A) >= 0x41) {
             initialize_timed_motion_step(8, 0x10);
-            if (entity->unk_1C & 0x100000) {
+            if (entity->flags1C & 0x100000) {
                 linked_object = actor->unk_124;
                 saved_status = held_item_record;
-                object_flags = linked_object->unk_1C;
+                object_flags = linked_object->flags1C;
                 held_item_record = 0;
-                linked_object->unk_1C = object_flags & 0xFFF7FFFF;
-                entity_flags = entity->unk_1C;
+                linked_object->flags1C = object_flags & 0xFFF7FFFF;
+                entity_flags = entity->flags1C;
                 saved_held_item_word = saved_status;
-                entity->unk_1C = entity_flags & 0xFFEFFFFF;
+                entity->flags1C = entity_flags & 0xFFEFFFFF;
             }
             state_or_ticks = 0xC;
             actor->unk_96 = state_or_ticks;
@@ -89,15 +63,15 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
         actor->unk_9B = (u8)(actor->unk_9B + 1);
                 /* fall through */
     case 1:
-        if (entity->unk_1C & 0x100000) {
+        if (entity->flags1C & 0x100000) {
             actor->unk_8C = player_action_tag;
             return;
         }
-        sprite->unk_2C = D_800DD058;
+        sprite->frame_table = player_landing_frame_set;
         set_sprite_animation_frame(sprite,
-            D_800DD058[((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+            player_landing_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0, 1);
-        sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
+        sprite->flags = (u16)(sprite->flags | 0x800);
         actor->unk_9B = (u8)(actor->unk_9B + 1);
         return;
 
@@ -107,8 +81,8 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
         if ((state_or_ticks << 0x10) > 0) {
             return;
         }
-        sprite_flags = sprite->unk_14;
-        sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
+        sprite_flags = sprite->flags;
+        sprite->flags = (u16)(sprite_flags & 0xF7FF);
         if ((sprite_flags & 0xE000) != 0 || ((has_action_input_without_modifier() << 0x10) != 0)) {
             actor->unk_8C =handle_player_input;
         }

@@ -17,12 +17,12 @@ s32 advance_town_scene_raise_hand(s32 kind, s32 value) {
     initialize_resources_assigns_pointer_lookup();
     func_8001A554(F_sbs32_pad33);
     if (func_8001A64C(F_sbs32_pad25) == 0) {
-        D_80016000->unk_20->callback_2F8(0xE, 0x200);
+        town_scene_root->services->callback_2F8(0xE, 0x200);
         return 0;
     }
     update_entry_flags();
     if (func_8001991C(kind, value) == 0) {
-        D_80016000->unk_20->callback_2F8(0xE, 0x200);
+        town_scene_root->services->callback_2F8(0xE, 0x200);
         return 0;
     }
     func_8001A5CC(F_sbs32_pad25);

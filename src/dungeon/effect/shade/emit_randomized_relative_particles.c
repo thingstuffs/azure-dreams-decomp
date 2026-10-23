@@ -42,11 +42,11 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     S_800D5294_2 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_02
+    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->x
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_06
+    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->y
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->unk_0A
+    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->z
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;
@@ -61,7 +61,7 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
                 particle_state = ((void *)particle) + 0x20;
                 particle_state->unk_1E = particle_size;
                 particle_state->unk_20 = particle_size;
-                particle->unk_10 = particle_data;
+                particle->update_callback = particle_data;
                 particle_motion = particle->position;
                 tick_or_offset = rand() & 0x3F;
                 coord = particle_motion->x.w.i;

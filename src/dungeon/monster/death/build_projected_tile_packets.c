@@ -101,7 +101,7 @@ void advance_effect_toward_target(void *effect, ObjectPosition *position) {
     if (x_distance < 0x10) {
         y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - position->y.w.i);
         if (y_distance < 0x10) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | NODE_REMOVE);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
@@ -115,7 +115,7 @@ void advance_effect_toward_target(void *effect, ObjectPosition *position) {
     ((S_80BC1264_1 *)effect)->unk_32 = fade_level;
     ((S_80BC1264_1 *)effect)->unk_08 = (s32) ((S_80BC1264_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -163,19 +163,19 @@ void create_parent_return_effect(
 
     effect = allocate_list_node(0x211, parent);
     if (effect != 0) {
-        effect->unk_10 = advance_effect_toward_target;
+        effect->update_callback = advance_effect_toward_target;
 
-        ((SignedPositionView *)(effect->position))->unk_02 =
-            ((MovingPosition *)(parent->unk_08))->unk_02 + offset_x;
-        ((SignedPositionView *)(effect->position))->unk_06 =
-            ((MovingPosition *)(parent->unk_08))->unk_06 + offset_y;
-        ((SignedPositionView *)(effect->position))->unk_0A =
-            ((MovingPosition *)(parent->unk_08))->unk_0A + offset_z - 100;
+        ((SignedPositionView *)(effect->position))->x =
+            ((MovingPosition *)(parent->unk_08))->x + offset_x;
+        ((SignedPositionView *)(effect->position))->y =
+            ((MovingPosition *)(parent->unk_08))->y + offset_y;
+        ((SignedPositionView *)(effect->position))->z =
+            ((MovingPosition *)(parent->unk_08))->z + offset_z - 100;
 
         effect_data = (u8 *)effect + 0x20;
-        effect_data->unk_36 = ((MovingPosition *)(parent->unk_08))->unk_02;
-        effect_data->unk_38 = ((MovingPosition *)(parent->unk_08))->unk_06;
-        effect_data->unk_3A = ((MovingPosition *)(parent->unk_08))->unk_0A;
+        effect_data->unk_36 = ((MovingPosition *)(parent->unk_08))->x;
+        effect_data->unk_38 = ((MovingPosition *)(parent->unk_08))->y;
+        effect_data->unk_3A = ((MovingPosition *)(parent->unk_08))->z;
 
         step_x = -(offset_x << 16) / (duration / 8);
         effect_data->unk_40 = step_x / 2;
@@ -224,16 +224,16 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        effect->unk_10 = advance_damped_motion_and_fade_effect;
+        effect->update_callback = advance_damped_motion_and_fade_effect;
         do {
-            parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_02;
+            parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->x;
             ((S_80BC172C_5 *)(effect->position))->unk_02 = (s16) (parent_x + offset_x);
             ((S_80BC172C_5 *)(effect->position))->unk_06 =
-                (s16) (((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_06 + offset_y);
+                (s16) (((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->y + offset_y);
             ((S_80BC172C_5 *)(effect->position))->unk_0A =
-                (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
+                (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->z + offset_z) - 0x64);
         } while (0);
-        effect->sprite->unk_06 = 6;
+        effect->sprite->depth_bias = 6;
         ((S_80BC172C_5 *)(effect->position))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         ((S_80BC172C_5 *)(effect->position))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data = ((void *)effect) + 0x20;
@@ -271,16 +271,16 @@ void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S
         (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
         ((S_80BC1880_1 *)effect)->unk_1C;
 
-    projection.xyz[0] = position->unk_02;
-    projection.xyz[1] = position->unk_06;
-    projection.xyz[2] = position->unk_0A;
+    projection.xyz[0] = position->x;
+    projection.xyz[1] = position->y;
+    projection.xyz[2] = position->z;
     render_state->unk_06 =
         RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
 
     ticks_left = ((S_80BC1880_1 *)effect)->unk_1A.u - 1;
     ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        ((ObjectRetirementFlags *)effect)[-1].unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)effect)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

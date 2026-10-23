@@ -64,7 +64,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
     if (node != 0) {
         part = (u8 *)node + 0x20;
         part->unk_1A = 65;
-        (node->unk_10) = &D_80174600;
+        (node->update_callback) = &D_80174600;
         register_node(node, project_sprite_chain);
         data = (node->sprite);
         data->unk_10 = 0x60;

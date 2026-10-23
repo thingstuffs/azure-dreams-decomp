@@ -451,7 +451,7 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value4 = height;
             entry->value8 = target->z;
             cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, TILE_HAS_ITEM);
-            select_position_data_and_update_owner(&reference_tile_object.unk_000, ((s32)dungeon_actor_ring_anchor));
+            select_position_data_and_update_owner(&reference_tile_object.frame_entry, ((s32)dungeon_actor_ring_anchor));
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
@@ -496,7 +496,7 @@ s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *pa
     if (object == 0) {
         return 0;
     }
-    object->unk_10 = D_800A77AC;
+    object->update_callback = D_800A77AC;
     position = *(u8 * *)&object->position;
     position->x.w.i = (s16)((tile_x << 6) + 0x20);
     position->y.w.i = (s16)((tile_y << 6) + 0x20);
@@ -622,7 +622,7 @@ void create_floor_item_renderer(void) {
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
         render_data = object->sprite;
-        object->unk_10 = 0;
+        object->update_callback = 0;
         register_node(object, &D_800A7CC4);
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
@@ -1192,7 +1192,7 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                 ((S_800A871C_2 *)(&offset[2]))->unk_00 = -0x30;
             }
             motion->z.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
@@ -1236,10 +1236,10 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
             motion->x.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_02 + offset[0]);
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->x + offset[0]);
             motion->y.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
-            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
+                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->y + offset[1]);
+            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset[2];
             height_source = primary_actor_record;
             motion->z.w.i = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
@@ -1450,7 +1450,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
     object = allocate_list_node(0x110, object_key - 0x20);
     if (object != NULL) {
         data = (DungeonData *)((u8 *)object + 0x20);
-        object->unk_10 = D_800A871C;
+        object->update_callback = D_800A871C;
         coords = object->position;
         state = object->sprite;
         data->field60 = source_data;
@@ -1474,7 +1474,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         state->color.c.r = 0x80;
         state->scale_y = 0x1000;
         state->scale_x = 0x1000;
-        state->unk_06 = 2;
+        state->depth_bias = 2;
         state->source = get_item_category_value(init_data);
         data->field8C = *(s32 *)((u8 *)source_data - 0x18);
         data->field90 = *(s32 *)((u8 *)source_data - 0x14);

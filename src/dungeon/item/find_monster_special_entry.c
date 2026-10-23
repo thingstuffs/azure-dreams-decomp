@@ -6,7 +6,7 @@ typedef struct S_8009F9E8_0 {
 } S_8009F9E8_0;   /* p in find_monster_special_entry */
 
 
-extern u16 D_80013716;
+extern u16 monster_special_entry_index;
 
 typedef struct {
     u8 flags;
@@ -28,7 +28,7 @@ void *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag) {
     void *entry;
 
     entries = (void *)0x80010000;
-    entry_index = *(u16 *)&D_80013716 - 1;
+    entry_index = *(u16 *)&monster_special_entry_index - 1;
     entries = (void *)((u32)entries | 0x3720);
     if (entry_index >= 0) {
         group_70 = 0x70;

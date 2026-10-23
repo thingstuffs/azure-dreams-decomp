@@ -29,7 +29,7 @@ s32 query_event_state_or_reset(void)
 
     if ((func_8001E670(F_veld_kill) == 0) ||
         (func_8001E670(F_end_ending) != 0)) {
-        index = (*(Callback **)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0);
+        index = (*(Callback **)((u8 *)*(void **)((u8 *)town_scene_root + 0x20) + 0x2D4))(0);
         return D_80018448[index];
     }
 
@@ -40,7 +40,7 @@ s32 query_event_state_or_reset(void)
 
 /* Return the table value selected by the callback at offset 0x2D4. */
 s32 get_callback_selected_table_value(void) {
-    return *(s32 *)((s8 *) &D_800186A8 + (D_80016000->unk_20->callback_2D4(0) * 4));
+    return *(s32 *)((s8 *) &D_800186A8 + (town_scene_root->services->callback_2D4(0) * 4));
 }
 
 /* Update script flags and dispatch opcodes until a handler returns a result. */
@@ -58,7 +58,7 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
             func_8001E5F0(F_sbs01_pad20);
         }
         if (func_8001E670(F_ultima_egg_pickup) == 0) {
-            if (((TownPairCallback *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20 + 0x350))[0](1,
+            if (((TownPairCallback *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_20 + 0x350))[0](1,
                 0x12) != 0) {
                 func_8001E578(F_ultima_egg_pickup);
                 func_8001E5F0(F_sbs01_pad21);
@@ -78,7 +78,7 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
     }
     state_page = (u8 *)state_page_addr;
     opcode_handlers = D_800178E8;
-    *(u8 **)(state_page - 0x16B0) = ((S_80019560_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_40 + 8;
+    *(u8 **)(state_page - 0x16B0) = ((S_80019560_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_40 + 8;
     do {
         state_page_addr = opcode_handlers[**(u8 **)(state_page - 0x16B0)]();
         opcode_result = state_page_addr;
@@ -92,7 +92,7 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
 /* Clear two state bytes and process five fixed identifiers. */
 void reset_dispatch_state_and_flags(void) {
     town_event_state->dispatchState = 0;
-    town_event_state->unk_06 = 0;
+    town_event_state->response_latch = 0;
     func_8001E5F0(F_sbs01_pad11);
     func_8001E5F0(F_sbs01_pad12);
     func_8001E5F0(F_sbs01_pad13);

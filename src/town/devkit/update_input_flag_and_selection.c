@@ -17,7 +17,7 @@ typedef struct {
 
 extern InputTable devkit_globals_page;
 extern State *devkit_state_slots[3];
-extern CallbackOwner *D_80701984[4];
+extern CallbackOwner *devkit_callback_owner[4];
 
 extern s32 func_80700D84(s32 index, s32 input_a, s32 input_b, s32 input_c);
 extern s32 func_80701060(s32 *word, s32 old_value);
@@ -36,7 +36,7 @@ s32 update_selection_mask_and_status(s32 index, s32 input_a, s32 input_b, s32 in
         *word = (1 << shift) | old_value;
         return func_80701060(word, old_value);
     }
-    if (D_80701984[0]->callback(2) != 0) {
+    if (devkit_callback_owner[0]->callback(2) != 0) {
         devkit_state_slots[0]->flags |= 0x40000000;
     } else {
         devkit_state_slots[0]->flags &= ~0x40000000;

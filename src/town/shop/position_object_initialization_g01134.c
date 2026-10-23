@@ -25,12 +25,12 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
     if (object == 0) {
         return 0;
     }
-    coords = ((ProjectileObject *)object)->unk_08;
-    render = ((ProjectileObject *)object)->unk_0C;
-    coords->unk_02 = (u16) position->unk_02;
-    coords->unk_06 = (u16) position->unk_06;
+    coords = ((ProjectileObject *)object)->position;
+    render = ((ProjectileObject *)object)->sprite;
+    coords->x = (u16) position->x;
+    coords->y = (u16) position->y;
     state = object + 0x20;
-    coords->unk_0A = (u16) position->unk_0A;
+    coords->z = (u16) position->z;
     render->unk_1E = 0x1000;
     render->unk_1C = 0x1000;
     render->unk_0C = 0x808080;
@@ -52,7 +52,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
     } else {
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
-    ((ProjectileObject *)object)->unk_10 = &dispatch_object_or_switch_alternate_state;
+    ((ProjectileObject *)object)->update_callback = &dispatch_object_or_switch_alternate_state;
     initialize_the_active_flag_install_handler((S_800A022C_2 *)state, (S_800A022C_0 *)state, (ObjectPosition *)coords, render);
 
     return object;

@@ -1,0 +1,21 @@
+{
+  "module": "town_event_counter",
+  "ledger_group": {
+    "container": "town",
+    "module": "event_counter.c",
+    "module_index": 134233
+  },
+  "members": [
+    "town/func_8051EA54",
+    "town/func_8051EA90"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00647 - PD:town/image_49e800:80019178, PD:town/ll34_49e800_80016000:80019178. Grouping by tools/tu/infer_groups.py (group G00647); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Byte-bound evidence and ordered registered home rows from the complete 403-unit scan. Inferred grouping under decision 72(b); outer file boundaries remain unknown.",
+    "Members are the contiguous registered home rows 0x49EA54..0x49EAB0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -7,6 +7,6 @@ u8 advance_to_next_enabled_entry(void);                                     /* e
 
 /* Set unk_02 to 0xFF before forwarding three values to advance_to_next_enabled_entry. */
 void reset_event_selection_and_advance(void) {
-    town_event_state->unk_02 = 0xFF;
+    town_event_state->entry_index = 0xFF;
     advance_to_next_enabled_entry();
 }

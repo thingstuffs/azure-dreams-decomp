@@ -83,8 +83,8 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         } else {
             ((S_801725D0_1 *)action)->unk_A6 =
                 sample_terrain_surface_height(
-                    ((sprite->unk_24 + x_step) << 6) & 0xFFC0,
-                    ((sprite->unk_25 + y_step) << 6) & 0xFFC0,
+                    ((sprite->tile_x + x_step) << 6) & 0xFFC0,
+                    ((sprite->tile_y + y_step) << 6) & 0xFFC0,
                     (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
@@ -154,7 +154,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
             sprite,
             D_80173D04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &battnel_action_resume_address;
         g_dungeon_status.active_actor = 0;

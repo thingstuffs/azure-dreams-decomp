@@ -98,17 +98,17 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
         state = ((void *)object) + 0x20;
         ((S_800B4C7C_1 *)state)->unk_14 = source_position;
         anchor_x = source_position->unk_02;
-        position->unk_02 = anchor_x;
+        position->x = anchor_x;
         anchor = ((S_800B4C7C_1 *)state)->unk_14;
         ((S_800B4C7C_1 *)state)->unk_18 = anchor_x;
         anchor_y = ((S_800B4C7C_4 *)anchor)->unk_06;
         space = 0x20;
-        position->unk_06 = anchor_y;
+        position->y = anchor_y;
         text_style = flags & 0xF;
         ((S_800B4C7C_1 *)state)->unk_1A = anchor_y;
         anchor_z = ((S_800B4C7C_4 *)((S_800B4C7C_1 *)state)->unk_14)->unk_0A;
         number_style = text_style;
-        position->unk_0A = anchor_z;
+        position->z = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
         text_link->unk_08 = ((void *)object) + 0x40;
         text = text_link->unk_08;
@@ -201,12 +201,12 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
             callback = &D_800B490C;
-            (object->unk_10) = callback;
+            (object->update_callback) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         } else {
             callback = &D_800B45E0;
-            (object->unk_10) = callback;
+            (object->update_callback) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         }

@@ -19,7 +19,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170E94;
+extern u8 viper_action_continuation_address;
 extern u8 D_80174ABC[];
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
@@ -88,13 +88,13 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
         timer = action->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_x = tile->unk_24 << 6;
+                s32 target_x = tile->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
                 motion->velocity_x =
                     ((target_x - current_x) << 15) / timer;
             }
             {
-                s32 target_y = tile->unk_25 << 6;
+                s32 target_y = tile->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_y - current_y) << 15) /
@@ -109,14 +109,14 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24,
-                      tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x,
+                      tile->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_80170E94;
+        action->unk_8C = &viper_action_continuation_address;
         return;
 
     default:

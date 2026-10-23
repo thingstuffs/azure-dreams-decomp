@@ -44,7 +44,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 
-extern u8 D_80170E94[];
+extern u8 viper_action_continuation_address[];
 extern u8 viper_frame_set_2[];
 
 /* Advances an actor motion, waits for completion, and resets its action state. */
@@ -122,7 +122,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
                 }
             } else {
                 actor->target =
-                    scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
+                    scan_actor_along_heading(actor, sprite->tile_x, sprite->tile_y,
                                   actor->facing, 0x10);
                 abs_x = abs(actor->target_tile_x);
                 abs_y = abs(actor->target_tile_y);
@@ -144,12 +144,12 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((S_80172F5C_0 *)state)->unk_8C = D_80170E94;
+        ((S_80172F5C_0 *)state)->unk_8C = viper_action_continuation_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -185,7 +185,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_frames = viper_frame_set_2;
 
@@ -202,7 +202,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
         }
         ((S_80172F5C_7 *)action_state)->unk_0A = ((S_80172F5C_7 *)action_state)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        ((S_80172F5C_0 *)state)->unk_8C = D_80170E94;
+        ((S_80172F5C_0 *)state)->unk_8C = viper_action_continuation_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;

@@ -4,7 +4,7 @@
 
 
 extern s32 runtime_script_state[];
-extern u8 D_800A4F4C[];
+extern u8 map_control_handler_address[];
 extern u8 town_position_reference_state[];
 
 
@@ -67,7 +67,7 @@ void select_object_value_with_idle_fallback(S_800A4F84_0 *object, s32 check_arg_
         return;
     } else {
         object->unk_00.p = town_position_reference_state;
-        object->unk_24 = D_800A4F4C;
+        object->unk_24 = map_control_handler_address;
         object->unk_30.i = 0;
     }
 }

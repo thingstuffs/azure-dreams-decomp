@@ -13,7 +13,7 @@ struct ObjectNodeHeader;
 
 extern s32 D_800E0334[];
 extern u8 D_800C9AAC;
-extern u8 D_800C9F34;
+extern u8 actor_motion_resume_address;
 
 typedef struct {
     s32 f0;
@@ -54,15 +54,15 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != 0) {
         state = (u8 *)entity + 0x20;
-        entity->unk_10 = &D_800C9AAC;
+        entity->update_callback = &D_800C9AAC;
         FLD(state, s8, 0x13) = 0x2f;
         state_tail = entity->position;
         FLD(state_tail, u16, 0xA) = height;
         sprite = entity->sprite;
-        sprite->unk_24 = saved_tile_x;
-        sprite->unk_25 = saved_tile_z;
-        sprite->unk_26 = find_active_rect_containing_point(FLD(sprite, u8, 0x24), sprite->unk_25);
-        set_record_integer_tile_center(state_tail, FLD(sprite, u8, 0x24), sprite->unk_25);
+        sprite->tile_x = saved_tile_x;
+        sprite->tile_y = saved_tile_z;
+        sprite->room_index = find_active_rect_containing_point(FLD(sprite, u8, 0x24), sprite->tile_y);
+        set_record_integer_tile_center(state_tail, FLD(sprite, u8, 0x24), sprite->tile_y);
         FLD(state, s16, 0x88) =
             sample_terrain_surface_height(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
         sprite->scale_y = 0x1000;
@@ -91,7 +91,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         tint_arg = 0;
         FLD(state_tail, u8, 0x9A) = 0xFF;
         FLD(state_tail, s8, 0x9C) = -1;
-        FLD(state_tail, void *, 0x8C) = &D_800C9F34;
+        FLD(state_tail, void *, 0x8C) = &actor_motion_resume_address;
         FLD(state_tail, s16, 0xB6) = 0x10;
         FLD(state, s32, 0x1C) |= 0x40000;
         FLD(state_tail, s16, 0x92) = -0x20;

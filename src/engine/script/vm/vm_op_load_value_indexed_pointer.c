@@ -1,15 +1,9 @@
 #include "common.h"
+#include "engine/script.h"
 #include "engine/script/vm.h"
 
-typedef struct RuntimeState {
-    u8 pad0[0x1C];
-    u8 *read_ptr;
-    u8 pad20[0x60];
-    u8 *table;
-} RuntimeState;
-
 /* Load a VM table word through a pointer selected by a table index value. */
-void vm_op_79_load_value_indexed_pointer(RuntimeState *state) {
+void vm_op_79_load_value_indexed_pointer(ScriptReader *state) {
     u8 *cursor;
     u8 *addr_bytes;
     u8 *table;
@@ -20,21 +14,21 @@ void vm_op_79_load_value_indexed_pointer(RuntimeState *state) {
     u32 base_addr;
     u32 value_addr;
 
-    cursor = state->read_ptr;
+    cursor = state->cursor;
     dst_index = *cursor;
     cursor++;
-    state->read_ptr = cursor;
+    state->cursor = cursor;
     src_index = *cursor;
-    table = state->table;
+    table = state->data;
     entry_offset = *(u32 *)(table + (src_index * 4) + 0x48);
     addr_bytes = cursor + 1;
-    state->read_ptr = addr_bytes;
+    state->cursor = addr_bytes;
     entry_offset <<= 2;
     base_addr = (u32)cursor[1]
     + ((u32)addr_bytes[1] << 8)
     + ((u32)addr_bytes[2] << 16)
     + ((u32)addr_bytes[3] << 24);
-    state->read_ptr = cursor + 5;
+    state->cursor = cursor + 5;
     entry = (u8 *)(base_addr + entry_offset);
     value_addr = entry[0];
     value_addr += (u32)entry[1] << 8;

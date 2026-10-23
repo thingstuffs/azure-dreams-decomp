@@ -138,22 +138,16 @@ void push_node_onto_free_list(ObjectNodeHeader *node)
     node->next = old_head;
 }
 
-typedef struct Node {
-    struct Node *next;      /* 0x00 */
-    unsigned char pad[0x1E - 4];
-    unsigned short field_1E; /* 0x1E */
-} Node;
-
-extern Node *active_node_list_head;
+extern ObjectNodeHeader *active_node_list_head;
 
 /* Set flag bits 0xC00 on every node in the global list. */
 void mark_resource_list_flags_ten_and_eleven(void)
 {
-    Node *node = active_node_list_head;
+    ObjectNodeHeader *node = active_node_list_head;
 
     if (node != 0) {
         do {
-            node->field_1E |= 0xC00;
+            node->flags |= 0xC00;
             node = node->next;
         } while (node != 0);
     }
@@ -315,11 +309,6 @@ s32 get_resource_block_index_from_address(void *address)
 {
     return ((s32)address - (s32)D_800FC000) / 0xD000;
 }
-
-typedef struct {
-    unsigned char pad[0x14];
-    unsigned short unk14;
-} Struct_80048374;
 
 extern void select_sprite_entry(SpriteFrameState *a0, short a1, short a2);
 
@@ -606,9 +595,9 @@ void create_single_callback_payload(void *object) {
 }
 
 /* Find the target node in the global linked list. */
-Node *find_active_list_node(Node *target)
+ObjectNodeHeader *find_active_list_node(ObjectNodeHeader *target)
 {
-    Node *node = active_node_list_head;
+    ObjectNodeHeader *node = active_node_list_head;
 
     while (node != 0) {
         if (node == target) {

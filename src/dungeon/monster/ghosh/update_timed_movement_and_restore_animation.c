@@ -145,10 +145,10 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
     case 2:
         timer = action->unk_96.s;
         if (timer != 0) {
-            tile_x = entity->unk_24 << 6;
+            tile_x = entity->tile_x << 6;
             offset_x = motion->unk_02 - 32;
             motion->unk_0C = ((tile_x - offset_x) << 16) / timer;
-            tile_y = entity->unk_25 << 6;
+            tile_y = entity->tile_y << 6;
             offset_y = motion->unk_06 - 32;
             motion->unk_10 =
             ((tile_y - offset_y) << 16) / action->unk_96.s;
@@ -171,7 +171,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
         if (actor->unk_28 == 0) {
             motion->unk_14 = 0;
             motion->unk_10 = 0;

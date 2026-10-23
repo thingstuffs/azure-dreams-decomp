@@ -6,7 +6,7 @@ void invoke_match_callback_or_lookup(void)
 
     if (func_800196F4(0xD, 3) != 0) {
         (*((s32 (**)(s32))
-            (((s8 *) (*((void **) (((s8 *) D_80016000) + 0x20)))) + 0x78)))(0);
+            (((s8 *) (*((void **) (((s8 *) town_scene_root) + 0x20)))) + 0x78)))(0);
         return;
     }
     lookup_result = func_8001979C(0xD, 3);

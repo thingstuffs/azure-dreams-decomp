@@ -37,7 +37,7 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
     if (effect != 0) {
         effect_data = ((void *)effect) + 0x20;
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
-        effect->unk_10 = &emit_particles_until_expired;
+        effect->update_callback = &emit_particles_until_expired;
         *((s16 *) (((u8 *) effect_data) + 0x1E)) = 0x1E;
         render_flags = effect->sprite;
         render_flags->tpage_abr = 0x20;

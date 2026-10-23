@@ -17,7 +17,7 @@ void *allocate_list_node();
 s32 register_node();
 void select_sprite_entry();
 extern M2C_UNK D_80170D44;
-extern u8 D_80173EB4[8];
+extern u8 beldo_frame_set_3[8];
 
 typedef struct S_80170E18_0 {
     u8 pad_00[0x96];
@@ -52,7 +52,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_A8 = 7;
-        effect->unk_10 = &D_80170D44;
+        effect->update_callback = &D_80170D44;
         effect_state->unk_AC = source_transform;
         sprite = effect->sprite;
         src = (Block16 *)sprite_data;
@@ -70,15 +70,15 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         sprite->color.c.r = 0x50;
         sprite->tpage_abr = 0x20;
         sprite->clut = 0xFF80;
-        sprite->unk_22 = 0xFFF1;
+        sprite->offset_y = 0xFFF1;
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
-        sprite->frameTable = &D_80173EB4;
+        sprite->frameTable = &beldo_frame_set_3;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
-            + D_80173EB4), 0);
+            + beldo_frame_set_3), 0);
         transform = effect->position;
-        transform->unk_02 = (u16) source_transform->unk_02;
-        transform->unk_06 = (u16) source_transform->unk_06;
-        transform->unk_0A = (u16) source_transform->unk_0A;
+        transform->x = (u16) source_transform->x;
+        transform->y = (u16) source_transform->y;
+        transform->z = (u16) source_transform->z;
     }
 }

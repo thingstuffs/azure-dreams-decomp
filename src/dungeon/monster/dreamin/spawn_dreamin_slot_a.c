@@ -69,17 +69,17 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &D_8014CA3C;
+        object->update_callback = &D_8014CA3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         properties = object->position;
         properties->unk_0A = saved_property;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         extended_state = state;
         placement->frameTable = &D_8014F86C;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (spawn_mode == 1) {
             flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

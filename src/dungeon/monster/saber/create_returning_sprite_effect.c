@@ -53,7 +53,7 @@ extern void register_node(void *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 shared_sprite_entries[];
-extern u8 D_80170A84[];
+extern u8 saber_return_effect_update_address[];
 
 /* Creates a sprite effect offset from its origin and initializes its return motion. */
 void create_returning_sprite_effect(
@@ -71,19 +71,19 @@ void create_returning_sprite_effect(
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->unk_10 = D_80170A84;
+        node->update_callback = saber_return_effect_update_address;
 
         ((S_80AC55DC_5 *)(node->position))->unk_02 =
-            ((MovingPosition *)(origin->unk_08))->unk_02 + offset_x;
+            ((MovingPosition *)(origin->unk_08))->x + offset_x;
         ((S_80AC55DC_5 *)(node->position))->unk_06 =
-            ((MovingPosition *)(origin->unk_08))->unk_06 + offset_y;
+            ((MovingPosition *)(origin->unk_08))->y + offset_y;
         ((S_80AC55DC_5 *)(node->position))->unk_0A =
-            ((MovingPosition *)(origin->unk_08))->unk_0A + offset_z - 0x14;
+            ((MovingPosition *)(origin->unk_08))->z + offset_z - 0x14;
 
         work = (S_80AC55DC_2 *)((u8 *)node + 0x20);
-        work->unk_36 = ((MovingPosition *)(origin->unk_08))->unk_02;
-        work->unk_38 = ((MovingPosition *)(origin->unk_08))->unk_06;
-        work->unk_3A = ((MovingPosition *)(origin->unk_08))->unk_0A;
+        work->unk_36 = ((MovingPosition *)(origin->unk_08))->x;
+        work->unk_38 = ((MovingPosition *)(origin->unk_08))->y;
+        work->unk_3A = ((MovingPosition *)(origin->unk_08))->z;
         step_x = -(offset_x << 16) / (duration / 8);
         work->unk_40 = step_x / 2;
         step_y = -(offset_y << 16) / (duration / 8);

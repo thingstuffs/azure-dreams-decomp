@@ -51,7 +51,7 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
         advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
 
         motion->x.w.i = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
@@ -84,7 +84,7 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
         sprite->color.c.b = blue - (blue >> 4);
         if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
 
         if (motion->z.w.i < ((S_800D7D30_1 *)effect)->unk_10 - 0x60) {

@@ -63,7 +63,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_801713A8;
+        obj->update_callback = D_801713A8;
         work->unk_13 = MONSTER_DEATH;
         register_node(obj, project_sprite_chain);
 
@@ -71,10 +71,10 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
         part_a->unk_0A = saved_arg3;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_arg2;
+        part_b->tile_y = saved_arg2;
         actor = work;
         part_b->frameTable = death_direction_frames;
-        part_b->unk_24 = saved_arg1;
+        part_b->tile_x = saved_arg1;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

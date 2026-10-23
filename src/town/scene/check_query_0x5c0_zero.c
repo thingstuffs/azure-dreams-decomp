@@ -35,10 +35,10 @@ s32 check_query_0x5c0_zero(void) {
     if (func_80018C50(F_cheril_orei) == 0) {
         ((S_func_80016BE8_2 *)
             ((S_func_80016BE8_1 *)
-             ((S_func_80016BE8_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;
+             ((S_func_80016BE8_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;
     }
     ((S_func_80016BE8_3 *)
         ((S_func_80016BE8_1 *)
-         ((S_func_80016BE8_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
+         ((S_func_80016BE8_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
     return 0;
 }

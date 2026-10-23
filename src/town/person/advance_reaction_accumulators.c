@@ -18,7 +18,7 @@ typedef struct S_800CA020_0 {
 void advance_reaction_accumulators(void *context, S_800CA020_0 *accumulators, SpriteFlagsView *flagState) {
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 + 0x15555);
-    if (flagState->unk_14 & 0x8000) {
+    if (flagState->flags & 0x8000) {
         set_resident_bitmap_bit(F_act_niko);
         unlink_scene_list_node(context);
         clear_object_slot_and_mark_removed(context);

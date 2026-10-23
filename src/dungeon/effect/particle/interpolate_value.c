@@ -103,7 +103,7 @@ typedef struct S_80168C88_12 {
 
 extern void register_node();
 extern u8 D_80166914[];
-extern u8 D_80167C30[];
+extern u8 ribbon_particle_update_address[];
 extern u8 D_80173B4C[];
 extern u8 ribbon_vertices[];
 
@@ -195,10 +195,10 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             scaled_delta = (s32)(task);
             segment_data = (u8 *)task + 0x20;
             callback = D_80166914;
-            init_fn = D_80167C30;
+            init_fn = ribbon_particle_update_address;
             ((S_80168C88_4 *)segment_data)->unk_18 = one;
             ((S_80168C88_4 *)segment_data)->unk_1A = one;
-            task->unk_10 = init_fn;
+            task->update_callback = init_fn;
             register_node((void *)scaled_delta, callback);
 
             render_data = task->sprite;

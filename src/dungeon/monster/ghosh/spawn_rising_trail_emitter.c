@@ -45,10 +45,10 @@ void spawn_rising_trail_emitter(void)
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_16 = 0x1E;
         effect_state->unk_18 = 0x1E;
-        effect->unk_10 = &update_rising_trail_emitter;
+        effect->update_callback = &update_rising_trail_emitter;
         register_node(effect, project_sprite_chain);
         sprite_header = effect->sprite;
-        sprite_header->unk_06 = 0;
+        sprite_header->depth_bias = 0;
         effect_pos = effect->position;
         effect_pos->x.v = source_pos->x.v;
         effect_pos->y.v = source_pos->y.v;

@@ -163,7 +163,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
-            target = scan_actor_along_heading(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
+            target = scan_actor_along_heading(owner, owner_sprite->tile_x, owner_sprite->tile_y, ((S_8182C800_1 *)owner)->unk_2A.u,
                 (s16) (sprite_work = get_definition_entry_byte_13(5, launch_tpage)));
             ((S_8182C800_1 *)owner)->unk_60 = target;
             if (target == 0) {
@@ -171,9 +171,9 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 step_y = 0;
                 sprite_or_step_x = 0;
                 while (distance_sum < get_definition_entry_byte_13(5)) {
-                    tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
+                    tile_origin_x = (owner_sprite->tile_x + sprite_or_step_x) << 6;
                     distance_x = tile_origin_x + 0x20;
-                    tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
+                    tile_origin_y = (owner_sprite->tile_y + step_y) << 6;
                     motion_extent = tile_origin_y + 0x20;
                     probe_y = (u16) motion_extent;
                     probe_x = (u16)distance_x;
@@ -185,8 +185,8 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                     distance_sum += 1;
                     sprite_or_step_x += direction_x;
                 }
-                ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->unk_24 + (direction_x * distance_sum));
-                ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->tile_x + (direction_x * distance_sum));
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->tile_y + (direction_y * distance_sum));
             } else {
                 object = target - 0x20;
                 sprite_work = (s32)object->sprite;
@@ -196,8 +196,8 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                     ((EntityRec *)effect)->z.w.i = 4;
                     return;
                 }
-                ((S_8182C800_1 *)owner)->unk_72.s = (u8) ((SpriteFrameState *)sprite_work)->unk_24;
-                ((S_8182C800_1 *)owner)->unk_73.s = (u8) ((SpriteFrameState *)sprite_work)->unk_25;
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) ((SpriteFrameState *)sprite_work)->tile_x;
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) ((SpriteFrameState *)sprite_work)->tile_y;
             }
             target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
@@ -273,7 +273,7 @@ spawn_trail:
         object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
         if (object != 0) {
             sprite_work = (s32)(object->sprite);
-            object->unk_10 = (void *)move_the_effect_count_down_timer_fade_sprite_black;
+            object->update_callback = (void *)move_the_effect_count_down_timer_fade_sprite_black;
             frame.vel_x = 0 - ((motion_extent = rand()) & 0x1FF);
             frame.vel_z = 0;
             frame.vel_y = 0;
@@ -336,7 +336,7 @@ spawn_trail:
             ((SpriteFrameState *)sprite_work)->flags = (u16) (((SpriteFrameState *)sprite_work)->flags | 0xC);
             ((SpriteFrameState *)sprite_work)->source = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
             ((SpriteFrameState *)sprite_work)->unk_04 = 0;
-            ((SpriteFrameState *)sprite_work)->unk_05 = 0;
+            ((SpriteFrameState *)sprite_work)->frame_ticks = 0;
             ((SpriteFrameState *)sprite_work)->color.word = 0x808080;
             particle->unk_00 = effect;
             particle->unk_48 = (s16) ((sprite_work = rand()) & 3);
@@ -415,7 +415,7 @@ spawn_trail:
                     object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
                     if (object != 0) {
                         burst_sprite = object->sprite;
-                        object->unk_10 = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
+                        object->update_callback = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
                         (object->position)->x.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                                 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
@@ -440,7 +440,7 @@ spawn_trail:
                         burst_sprite->flags = (u16) (burst_sprite->flags | 0xC);
                         burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
                         burst_sprite->unk_04 = 0;
-                        burst_sprite->unk_05 = 0;
+                        burst_sprite->frame_ticks = 0;
                         burst_sprite->color.word = 0x808080;
                         burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
@@ -510,7 +510,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
         advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
 
         fade_step = (rand() & 0xF) + 9;
@@ -559,7 +559,7 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
         advance_sprite_animation_and_textures(effect);
         if (effect->flags & 0x6000) {
             effect->unk_04 = 0;
-            effect->unk_05 = 0;
+            effect->frame_ticks = 0;
         }
         {
             s32 fade_step = (rand() & 0xF) + 4;

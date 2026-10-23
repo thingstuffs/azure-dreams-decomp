@@ -28,15 +28,6 @@ typedef struct Geometry_80046884 {
     SVec4_80046884 vectors[6];
 } Geometry_80046884;
 
-typedef struct GlobalGeometry_80046884 {
-    u8 pad0[0xAC];
-    u16 base_x;
-    u16 base_y;
-    u16 base_z;
-    u8 padB2[0xC8 - 0xB2];
-    s16 angle;
-} GlobalGeometry_80046884;
-
 extern s32 ReadGeomScreen(void);
 extern void world_to_local_position(UVec4_80046884 *, SVec4_80046884 *);
 extern s16 intersect_view_ray_with_depth_plane(

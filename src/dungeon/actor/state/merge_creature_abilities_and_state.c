@@ -612,8 +612,8 @@ merge_donor_primary:
             slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
             donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
             donor_runtime = ((S_800277F4_17 *)slot_addr)->unk_D0;
-            room_x = ((MovingTile *)donor_position)->unk_24;
-            room_y = ((MovingTile *)donor_position)->unk_25;
+            room_x = ((MovingTile *)donor_position)->tile_x;
+            room_y = ((MovingTile *)donor_position)->tile_y;
             map_mask = 0x3000;
             if (slot_flags != 0) {
                 map_mask = 0x300;

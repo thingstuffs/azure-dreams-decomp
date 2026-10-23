@@ -44,4 +44,10 @@ s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 s
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual);
 void update_expanding_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
+s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin_y);
+void process_current_facing_directions(void);
+
+/* Base address view used by clear_listed_tile_flags; cells start at +0x4000. */
+extern u8 D_800E6000[16400];
+
 #endif

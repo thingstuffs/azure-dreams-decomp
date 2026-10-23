@@ -24,23 +24,14 @@ typedef struct S_80091C64_0 {
     u16 unk_11A;
 } S_80091C64_0;   /* arg0 in update_actor_hop_and_return */
 
-typedef struct S_80091C64_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_80091C64_1;   /* arg3 in update_actor_hop_and_return */
-
 void set_sprite_animation_frame();
 s32 rsin();
 s32 rcos();
 void set_record_integer_tile_center();
 s32 play_sound_if_enabled();
 
-extern u8 D_800DD038[];
-extern u8 D_800DD058[];
+extern u8 player_hop_frames[];
+extern u8 player_landing_frame_set[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
 void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameState *entity, void *actor) {
@@ -66,8 +57,8 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         if ((s16) delay_left >= 9) {
             return;
         }
-        entity->frameTable = D_800DD038;
-        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        entity->frameTable = player_hop_frames;
+        set_sprite_animation_frame(entity, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
@@ -75,8 +66,8 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         return;
     case 1:
         if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
-            position->x.v = (s32) (position->x.v + (rcos(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-            position->y.v = (s32) (position->y.v + (rsin(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+            position->x.v = (s32) (position->x.v + (rcos(((ActorRecord *)actor)->facing + 0x400) << 6));
+            position->y.v = (s32) (position->y.v + (rsin(((ActorRecord *)actor)->facing + 0x400) << 6));
             ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - rsin((s16) ((S_80091C64_0 *)motion)->unk_96.s
                 << 8)) >> 8);
         }
@@ -85,8 +76,8 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         if ((hop_frames_left << 0x10) > 0) {
             return;
         }
-        entity->frameTable = D_800DD058;
-        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        entity->frameTable = player_landing_frame_set;
+        set_sprite_animation_frame(entity, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B++;
@@ -95,8 +86,8 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }
-        entity->frameTable = D_800DD038;
-        set_sprite_animation_frame(entity, D_800DD038[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        entity->frameTable = player_hop_frames;
+        set_sprite_animation_frame(entity, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
         return_duration = 8U;
         ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
@@ -105,10 +96,10 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
     case 3:
         frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
         if (frames_left != 0) {
-            target_x = entity->unk_24 << 6;
+            target_x = entity->tile_x << 6;
             current_x = position->x.w.i - 0x20;
             position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
-            y_step = entity->unk_25;
+            y_step = entity->tile_y;
             y_step <<= 6;
             y_origin = position->y.w.i - 0x20;
             {
@@ -127,23 +118,23 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         if ((return_frames_left << 0x10) > 0) {
             return;
         }
-        set_record_integer_tile_center(position, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(position, entity->tile_x, entity->tile_y);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
-        entity->frameTable = D_800DD058;
-        set_sprite_animation_frame(entity, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+        entity->frameTable = player_landing_frame_set;
+        set_sprite_animation_frame(entity, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
         return;
     case 4:
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
-        if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
+        ((ActorRecord *)actor)->facing = (s16) ((S_80091C64_0 *)motion)->unk_11A;
+        if (((ActorRecord *)actor)->flags1C & 0x100000) {
             next_behavior = &handle_carrying_player_input;
         } else {
             next_behavior = handle_player_input;
         }
         ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
-        ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
+        ((ActorRecord *)actor)->flags14 = (s32) (((ActorRecord *)actor)->flags14 & 0xFFFDFFFF);
         ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
         ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
         return;

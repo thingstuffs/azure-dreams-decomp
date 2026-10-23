@@ -6,6 +6,6 @@
 
 /* Set the inner object's unk4 and unk8 fields to 1248 and 1184. */
 void set_scene_object_offset_b(void) {
-    ((TownPositionState *)D_80016000->unk_1C)->x = 1248;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 1184;
+    ((TownPositionState *)town_scene_root->position)->x = 1248;
+    ((TownPositionState *)town_scene_root->position)->y = 1184;
 }

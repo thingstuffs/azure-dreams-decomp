@@ -36,12 +36,12 @@ typedef struct DungeonObject {
     u8 flag102;
 } DungeonObject;
 
-extern s32 D_8002744C;
+extern s32 warp_position_phase;
 extern u8 D_80028260[];
 extern u8 D_80028780[];
 extern s16 D_800287A0;
-extern u8 D_800287A2;
-extern s32 D_800287A4;
+extern u8 warp_attack_option;
+extern s32 warp_attack_event;
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
 extern void decode_and_upload_image(void *, void *);
@@ -71,9 +71,9 @@ void run_warp_effect_sequence(EventState *event) {
         object = primary_actor_record;
         D_800287A0 = 1;
         event_option = ((u8 *)event)[9];
-        D_8002744C = 0;
-        D_800287A2 = event_option;
-        D_800287A4 = *(s32 *)event;
+        warp_position_phase = 0;
+        warp_attack_option = event_option;
+        warp_attack_event = *(s32 *)event;
         ((PlayerRecord *)object)->unk_F4 = 0;
         object->unk_A8 = ((u8 *)event)[8];
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
@@ -236,11 +236,11 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
 
         offsets = ((S_819ACB28_5 *)(((S_819ACB28_0 *)object)->unk_08))->unk_08;
         record->unk_00.at02_s16.v =
-            offsets->unk_02 + ((S_819ACB28_0 *)object)->unk_24;
+            offsets->x + ((S_819ACB28_0 *)object)->unk_24;
         record->unk_06 =
-            offsets->unk_06 + ((S_819ACB28_0 *)object)->unk_26;
+            offsets->y + ((S_819ACB28_0 *)object)->unk_26;
         record->unk_0A =
-            offsets->unk_0A + ((S_819ACB28_0 *)object)->unk_28.u;
+            offsets->z + ((S_819ACB28_0 *)object)->unk_28.u;
         if (move_effect_toward_target(record) != 0) {
             register_node((u8 *)object - 0x20, project_sprite_chain);
             ((S_819ACB28_0 *)object)->unk_2C.u = ((S_819ACB28_0 *)object)->unk_2C.u + 1;
@@ -299,13 +299,13 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
         draw_textured_ellipse(D_8002746C, init_data, 1, 0);
 
         pos = object->position;
-        object->unk_10 = advance_effect_phases;
+        object->update_callback = advance_effect_phases;
         pos->x.w.i = (u16)source_pos->x.w.i;
         pos->y.w.i = (u16)source_pos->y.w.i;
         pos->z.w.i = (u16)source_pos->z.w.i;
 
         sprite = object->sprite;
-        sprite->source = D_80027460;
+        sprite->source = warp_sprite_entries;
         sprite->scale_y = 0xC00;
         sprite->scale_x = 0xC00;
         ((EffectRecord *)(object + 1))->unk_08 = offset_base - 0x20;
@@ -533,24 +533,24 @@ void *move_effect_toward_target(MovingPosition *src)
 
     i = 0;
     handler = run_warp_cutscene;
-    sub_handler = &D_80027460;
+    sub_handler = &warp_sprite_entries;
     last_index = 8;
     do {
         obj = allocate_flagged_object_node(18);
         if (obj != NULL) {
-            obj->unk_10 = handler;
+            obj->update_callback = handler;
             register_node(obj, process_linked_mesh_states_mode_0);
             coords = obj->position;
-            x = src->unk_02;
+            x = src->x;
             part = ((void *)obj) + 0x20;
             coords->x.w.i = x;
             *((u16 *)&coords->velocity_x + 1) = x;
             part->unk_1C = x;
-            y = src->unk_06;
+            y = src->y;
             coords->y.w.i = y;
             *((u16 *)&coords->velocity_y + 1) = y;
             part->unk_1E = y;
-            z = src->unk_0A;
+            z = src->z;
             coords->z.w.i = z;
             *((u16 *)&coords->velocity_z + 1) = z;
             part->unk_20 = z;
@@ -637,7 +637,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
     do {
         effect = allocate_list_node(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = advance_effect_motion_and_speed;
+            effect->update_callback = advance_effect_motion_and_speed;
             register_node(effect, (s32)project_sprite_chain);
             record = (MotionRecord *)(effect + 1);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
@@ -648,7 +648,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = render_param;
-            sprite->unk_06 = 8;
+            sprite->depth_bias = 8;
             record->direction = effect_param;
             record->speed = (rand() & 0xFF) | 0x80;
         }
@@ -659,7 +659,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
     do {
         effect = allocate_list_node(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = advance_effect_motion_and_speed;
+            effect->update_callback = advance_effect_motion_and_speed;
             register_node(effect, (s32)queue_linked_visible_rectangle_copies);
             record = (MotionRecord *)(effect + 1);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
@@ -746,7 +746,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
 
     spawned = allocate_list_node(0x212, &owner->next);
     if (spawned != 0) {
-        spawned->unk_10 = (follower_position_update_fn)copy_follower_owner_position_and_color;
+        spawned->update_callback = (follower_position_update_fn)copy_follower_owner_position_and_color;
         register_node(spawned, (s32)project_sprite_chain);
         spawned->position->x.w.i = (u16)owner->position->x.w.i;
         spawned->position->y.w.i = (u16)owner->position->y.w.i;
@@ -755,7 +755,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
         sprite->source = D_80027454;
         sprite->scale_y = 0x2800;
         sprite->scale_x = 0x2800;
-        sprite->unk_06 = 8;
+        sprite->depth_bias = 8;
         sprite->angle_z = angle + 0x400;
         record = (FollowerRecord *)(spawned + 1);
         sprite->color.word = 0x808080;
@@ -875,8 +875,8 @@ s32 calculate_planar_heading();
 s32 check_left_tile_and_center_height();
 void spawn_opposite_offset_effect();
 extern s8 D_8002758C[];
-extern u8 D_800287A2;
-extern s32 D_800287A4;
+extern u8 warp_attack_option;
+extern s32 warp_attack_event;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
 void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
@@ -1012,8 +1012,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                                      * Found and documented by the Azure Dreams community
                                      * (adrando.com/guide/bugs.html).
                                      */
-                                    apply_attack_power_and_element_effects(node, 0xC, D_800287A2, 0xA,
-                                        (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), D_800287A4, 2);
+                                    apply_attack_power_and_element_effects(node, 0xC, warp_attack_option, 0xA,
+                                        (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), warp_attack_event, 2);
                                 }
                             }
                         }
@@ -1046,9 +1046,9 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         }
         link = attached->position;
         info = attached->sprite;
-        ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((MovingPosition *)link)->unk_02;
-        ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((MovingPosition *)link)->unk_06;
-        ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((MovingPosition *)link)->unk_0A;
+        ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((MovingPosition *)link)->x;
+        ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((MovingPosition *)link)->y;
+        ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((MovingPosition *)link)->z;
         ((S_819AD81C_1 *)gfx)->unk_16 = (u16) ((S_819AD81C_4 *)info)->unk_16;
         ((S_819AD81C_1 *)gfx)->unk_18 = (u16) ((S_819AD81C_4 *)info)->unk_18;
         ((S_819AD81C_1 *)gfx)->unk_1A = (u16) ((S_819AD81C_4 *)info)->unk_1A;
@@ -1136,7 +1136,7 @@ typedef struct S_800255B8_3 {
     s16 unk_48;
 } S_800255B8_3;   /* tail in create_linked_sprite_pieces */
 
-extern u8 D_800274C0[];
+extern u8 warp_piece_slots[];
 extern u8 D_80027580[];
 
 extern s32 has_enough_available_runtime_nodes(s32);
@@ -1194,7 +1194,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
         ((S_800255B8_2 *)effect_state)->unk_20 = 0x1000;
         ((S_800255B8_2 *)effect_state)->unk_1E = 0x1000;
         ((S_800255B8_2 *)effect_state)->unk_1C = 0x1000;
-        ((S_800255B8_2 *)effect_state)->unk_08 = D_800274C0 + (piece_index << 4);
+        ((S_800255B8_2 *)effect_state)->unk_08 = warp_piece_slots + (piece_index << 4);
         sprite_flags = ((S_800255B8_2 *)effect_state)->unk_14;
         ((S_800255B8_2 *)effect_state)->unk_10 = 0x20;
         ((S_800255B8_2 *)effect_state)->unk_16 = 0x400;
@@ -1423,7 +1423,7 @@ typedef struct Entry {
     void *field_8;
 } Entry;
 
-extern u8 D_800274C0[];
+extern u8 warp_piece_slots[];
 extern void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
 
 /* Processes twelve buffer slots for each entry in a linked state chain. */
@@ -1437,7 +1437,7 @@ s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *i
     u8 *slot;
     void *entry_or_link;
 
-    slot_base = D_800274C0;
+    slot_base = warp_piece_slots;
     for (;;) {
         slot_index = 0;
         slot = slot_base;
@@ -1503,16 +1503,16 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->unk_10 = fade_color_to_black;
+        object->update_callback = fade_color_to_black;
         register_node(object, process_effect_buffer_chain);
         triplet = object->position;
-        triplet->unk_02 = source_triplet->unk_02;
-        triplet->unk_06 = source_triplet->unk_06;
-        triplet->unk_0A = source_triplet->unk_0A;
+        triplet->x = source_triplet->x;
+        triplet->y = source_triplet->y;
+        triplet->z = source_triplet->z;
         state = object->sprite;
         state->scale_x = source_state->unk_1C;
         state->scale_y = source_state->unk_1E;
-        state->unk_20 = source_state->unk_20;
+        state->offset_x = source_state->unk_20;
         state->angle_x = source_state->unk_16;
         state->angle_y = source_state->unk_18;
         state->angle_z = source_state->unk_1A;
@@ -1648,7 +1648,7 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
 
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
-        effect->unk_10 = initialize_inventory_packet;
+        effect->update_callback = initialize_inventory_packet;
         register_node(effect, process_linked_mesh_states_mode_0);
         position = effect->position;
         effect_state = ((void *)effect) + 0x20;
@@ -1663,7 +1663,7 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
         render_state->scale_x = 0x200;
         render_state->color.c.g = 0x20;
         render_state->flags = 0xC;
-        render_state->source = &D_80027460;
+        render_state->source = &warp_sprite_entries;
         render_state->tpage_abr = 0x20;
         effect_state->unk_30 = 0x20;
         effect_state->unk_3E = 0x10;
@@ -1783,7 +1783,7 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             prim = actor->prim;
             prim->scale_y = 1024;
             prim->scale_x = 1024;
-            prim->source = D_80027460;
+            prim->source = warp_sprite_entries;
             prim->color.word = 0x808080;
             prim->tpage_abr = 32;
             prim->flags |= 0xC;

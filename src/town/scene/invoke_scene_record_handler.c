@@ -8,7 +8,7 @@ void invoke_scene_record_handler(void)
     s32 (*handler)(s32 *, s32);
     void **slot;
     s8 *base;
-    base = ((s8 *) (((unsigned int)D_80016000))) + 0x20;
+    base = ((s8 *) (((unsigned int)town_scene_root))) + 0x20;
     slot = base;
     handler = *((s32 (**)(s32 *, s32)) (((s8 *) (*slot)) + 0x268));
     handler(&D_8001C048, 1);

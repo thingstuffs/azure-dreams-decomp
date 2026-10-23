@@ -57,7 +57,7 @@ void initialize_enabled_scene_object(void) {
             handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((Struct800C5724 *)state, (s8 *)object_resource, (s32 *)D_80100E24_R);
-            ((ObjectNodeHeader *)((u8 *)state - 0x20))->unk_10 = D_800A6684;
+            ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = D_800A6684;
             set_flagged_entry_values((u32 *)D_800D0D54, 0);
         }
     }
@@ -150,7 +150,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
     ObjectPosition *fixed_position;
 
     state = ((u8 *)(&scene_object_list_anchor));
-    if (*(s32 *)&state->unk_10 != &D_800A5638) {
+    if (*(s32 *)&state->update_callback != &D_800A5638) {
         set_flagged_entry_values((u32 *)&D_800D0D54, 0);
         *(s32 *)bike_saved_position = ((EntityRec *)position)->x.v;
         saved_position = (s32 *)&bike_saved_position;

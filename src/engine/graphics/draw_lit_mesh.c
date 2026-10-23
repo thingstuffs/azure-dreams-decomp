@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/vector.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -45,12 +46,6 @@ typedef struct S_800463EC_4 {
 } S_800463EC_4;   /* prim in draw_lit_mesh */
 
 typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
-
-typedef struct {
     u8 pad0[8];
     s32 meshIndex;
     u8 padC[4];
@@ -94,7 +89,7 @@ extern void NormalColorCol(void *a0, void *a1, void *a2);
 /* Transform, light, and queue visible textured mesh quads for rendering. */
 void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_bias)
 {
-    MATRIX view_matrix;
+    GteMatrix view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
     u8 *normal_table;

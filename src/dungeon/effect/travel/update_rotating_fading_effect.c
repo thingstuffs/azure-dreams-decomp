@@ -137,7 +137,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         data = (u8 *)obj + 0x20;
-        obj->unk_10 = (void *)update_rotating_fading_effect;
+        obj->update_callback = (void *)update_rotating_fading_effect;
         ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_20 = source;
         data->unk_34 = 0;
         data->unk_36 = 0;

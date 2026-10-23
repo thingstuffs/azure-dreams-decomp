@@ -12,10 +12,10 @@ void run_scene_callbacks_with_x_offset(void)
     TownPositionState *position;
     s32 position_x;
 
-    D_80016000->unk_20->callback_258(0xB);
-    D_80016000->unk_20->callback_244(1);
+    town_scene_root->services->callback_258(0xB);
+    town_scene_root->services->callback_244(1);
 
-    position = D_80016000->unk_1C;
+    position = town_scene_root->position;
     position_x = position->unk_00;
     if (position_x == 2 || position_x == 0) {
         position->y += 0x30;

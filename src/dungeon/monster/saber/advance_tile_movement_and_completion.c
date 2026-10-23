@@ -75,7 +75,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
         move_ticks = ((S_80172BAC_0 *)action)->unk_9E.s;
         ((S_80172BAC_0 *)action)->unk_90 -= ((S_80172BAC_0 *)action)->unk_A4;
         if (move_ticks != 0) {
-            target_x = map_entity->unk_24;
+            target_x = map_entity->tile_x;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -85,7 +85,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((map_entity->unk_25 << 6) - pos_y) << 16) /
+                (((map_entity->tile_y << 6) - pos_y) << 16) /
                 ((S_80172BAC_0 *)action)->unk_9E.s;
 
             ((S_80172BAC_0 *)action)->unk_A4 =
@@ -112,7 +112,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
             map_entity->frameTable = D_80174E14;
             select_sprite_entry(
                 map_entity,
@@ -142,7 +142,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+    set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -159,8 +159,8 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                map_entity->unk_24,
-                map_entity->unk_25,
+                map_entity->tile_x,
+                map_entity->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

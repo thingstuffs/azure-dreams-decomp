@@ -1,5 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
@@ -13,20 +15,6 @@
 #include "dungeon/player/motion.h"
 #include "dungeon/player/position.h"
 #include "dungeon/player/state.h"
-
-typedef struct S_8008ACDC_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8008ACDC_1;   /* arg2 in handle_player_input */
-
-typedef struct S_8008ACDC_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_8008ACDC_2;   /* arg1 in handle_player_input */
 
 typedef struct S_8008ACDC_4 {
     u8 pad_00[0x14];
@@ -52,10 +40,7 @@ typedef struct S_8008ACDC_7 {
     s32 unk_AC;
 } S_8008ACDC_7;   /* (void *) case50_bits in handle_player_input */
 
-typedef struct S_8008ACDC_8 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_8008ACDC_8;   /* (void *) case88_index in handle_player_input */
+   /* (void *) case88_index in handle_player_input */
 
 typedef struct S_8008ACDC_9 {
     u8 pad_00[0x3];
@@ -85,11 +70,11 @@ s32 has_pending_actor_or_turn_action();                          /* extern */
               /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                      /* extern */
-extern M2C_UNK D_800245A8;
+extern M2C_UNK player_menu_action_data;
 extern void *D_8004F5F4(void *, void *);
 void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[8];
-extern u8 D_800DD058[];
+extern u8 player_landing_frame_set[];
 extern M2C_UNK D_800DD148;
 extern void (*actor_command_handlers[])(void);
 extern u8 active_actor_command_code;
@@ -143,12 +128,12 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             }
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFEFF);
-            ((S_8008ACDC_1 *)sprite)->unk_14 = (u16) (((S_8008ACDC_1 *)sprite)->unk_14 & 0xF7FF);
+            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
-            ((S_8008ACDC_2 *)motion)->unk_10 = 0;
-            ((S_8008ACDC_2 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25);
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
         }
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
         select_position_data_and_update_owner(sprite, stats);
@@ -332,7 +317,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         call_motion = motion;
                         slot_addr = (u32)angle_bits << 2;
                         slot_addr = slot_addr + (s32) call_actor;
-                        target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
+                        target = (void *) ((FamiliarItemSlotView *)((void *) slot_addr))->item_address;
                         call_sprite = sprite;
                         request_familiar_deployment_change(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
                         return;
@@ -390,9 +375,9 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         && !(g_dungeon_status.flags & 4)) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 =
                             (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
-                        if ((lookup_definition_pair_value(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10)
+                        if ((lookup_definition_pair_value(((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y) << 0x10)
                             != 0) {
-                            begin_player_menu_action(actor, motion, sprite, &D_800245A8);
+                            begin_player_menu_action(actor, motion, sprite, &player_menu_action_data);
                             return;
                         }
                     }
@@ -476,12 +461,12 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             turn_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
-                (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                set_sprite_animation_frame(sprite, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+                (*(u8 **)((u8 *)sprite + 0x2C)) = player_landing_frame_set;
+                set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                     + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
         }
-        if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
+        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
             (*(u8 **)((u8 *)sprite + 0x2C)) = player_wait_frames;
             set_sprite_animation_frame(sprite, player_wait_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);

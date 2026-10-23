@@ -123,7 +123,7 @@ top:
             return 0;
 
         case 0xE8:
-            actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
+            actor->angle = get_rounded_facing_and_rounding_flag(aux->tile_x, aux->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
             complete_actor_facing_action(entity, action_value, aux, actor);
             return 0;
@@ -273,7 +273,7 @@ top:
                 entity->timer = 0;
                 entity->direction = 0;
             case 1:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->tile_x, aux->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
@@ -290,7 +290,7 @@ top:
             state = entity->state;
             switch (state) {
             case 0:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->tile_x, aux->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 entity->state++;
                 entity->timer = 0;
@@ -307,7 +307,7 @@ top:
                 if ((s16)timer >= 4) {
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
-                    actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
+                    actor->angle = get_rounded_facing_and_rounding_flag(aux->tile_x, aux->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                     idle_sequence = beldo_large_frame_set_2;
                     angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -319,7 +319,7 @@ top:
                 }
             }
             case 2:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->tile_x, aux->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 break;
             }

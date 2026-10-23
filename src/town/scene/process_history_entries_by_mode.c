@@ -20,7 +20,7 @@ void process_history_entries_by_mode(void) {
     s32 j;
     u8 entry;
 
-    state = D_80016000->unk_38;
+    state = town_scene_root->town_state;
     if (record_value_table_contains_first_byte(1) != 0) {
         mode = 0;
     } else if (record_value_table_contains_first_byte(2) != 0) {
@@ -34,7 +34,7 @@ void process_history_entries_by_mode(void) {
             if (entry == 0) {
                 break;
             }
-            D_80016000->unk_20->callback_2D0(get_indexed_vertex_and_trace(i, j, mode), entry, mode);
+            town_scene_root->services->callback_2D0(get_indexed_vertex_and_trace(i, j, mode), entry, mode);
         }
     }
 }

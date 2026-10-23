@@ -18,11 +18,11 @@ typedef struct S_800A7C98_0 {
 
 void register_node_if_unregistered(void *, s32);
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
-extern s32 D_800A7DF8;
+extern s32 town_bounds_cleanup_address;
 extern s32 D_800F8F78;
 
 void initialize_projected_sprite_chain_a(void *object, s32 unused, s32 context) {
-    ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
+    ((S_800A7C98_0_pre *)object)[-1].unk_00 = &town_bounds_cleanup_address;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F78), 0);
     register_node_if_unregistered(object, (s32)(project_sprite_chain));

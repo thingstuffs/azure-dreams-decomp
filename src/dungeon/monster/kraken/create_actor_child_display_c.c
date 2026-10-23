@@ -42,7 +42,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
     obj = allocate_list_node(0x112, (held_a = attr_a, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = func_8015EB64;
+        obj->update_callback = func_8015EB64;
         ((S_8015E86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
@@ -52,8 +52,8 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8016218C;
-        part_b->unk_24 = held_a;
-        part_b->unk_25 = held_b;
+        part_b->tile_x = held_a;
+        part_b->tile_y = held_b;
 
         if (kind == 1) {
             left = ((S_8015E86C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -109,15 +109,15 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
                     elem = (u8 *)child + elem_offset;
                     child_flags = ((S_8015E86C_6 *)child)->unk_04;
                     ((S_8015E86C_6 *)child)->unk_04 = child_flags | 0x8000;
-                    child_arg = part_b->unk_28;
+                    child_arg = part_b->animation_resource;
                     elem_flags = elem->flags;
                     elem->tpage_abr = 96;
-                    elem->unk_28 = child_arg;
+                    elem->animation_resource = child_arg;
                     elem->flags = elem_flags | 0xC;
 
                     elem->clut = *(s16 *)&part_b->clut - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = process_effect_block_entries;
+                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = process_effect_block_entries;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

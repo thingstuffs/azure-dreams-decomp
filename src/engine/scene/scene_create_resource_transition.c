@@ -17,27 +17,23 @@ typedef struct S_8004EDA8_node {
 
 /* The object passed in as a0: only its 0x1E halfword (flags) is touched
  * here, matching the field used across the func_8003FC64 family. */
-typedef struct S_8004EDA8_owner {
-    u8 pad_0x0[0x1E];
-    u16 flags_0x1E;   /* 0x1E */
-} S_8004EDA8_owner;
 
 /* Clears the owner flag and allocates and initializes a callback node with its context. */
 void *scene_create_resource_transition(void *owner_arg, void *context_arg)
 {
-    S_8004EDA8_owner *owner = (S_8004EDA8_owner *)owner_arg;
+    ObjectNodeHeader *owner = (ObjectNodeHeader *)owner_arg;
     void *context = context_arg;
     S_8004EDA8_node *node;
     u8 *node_fields;
 
-    owner->flags_0x1E = owner->flags_0x1E & 0xDFFF;
+    owner->flags = owner->flags & 0xDFFF;
     node = (S_8004EDA8_node *)allocate_flagged_object_node(0);
     if (node != 0) {
         node_fields = (u8 *)&node->owner_0x20;
         *(void **)(node_fields + 4) = context;
         node->owner_0x20 = owner;
         SD_Call(0xD1);
-        ((ObjectNodeHeader *)((u8 *)node_fields - 0x20))->unk_10 = schedule_deferred_resource_transition;
+        ((ObjectNodeHeader *)((u8 *)node_fields - 0x20))->update_callback = schedule_deferred_resource_transition;
         scene_begin_transition_texture_read((u8 *)node + 0x28);
     }
     return node;

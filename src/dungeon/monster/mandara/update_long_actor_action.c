@@ -210,7 +210,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                     ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                     ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                     set_record_integer_tile_center(aux_entity,
-                        sprite->unk_24, sprite->unk_25);
+                        sprite->tile_x, sprite->tile_y);
                     ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
                     ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
                     return;
@@ -266,10 +266,10 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                     part->tpage_abr = 0;
                     part->unk_00 = secondary_sprite;
                     part->flags |= 0xC;
-                    texture_word = ((u32)((SpriteSourceEntry *)secondary_sprite)->unk_04);
+                    texture_word = ((u32)((SpriteSourceEntry *)secondary_sprite)->source);
                     color |= 0x8080;
                     part->unk_04 = 0;
-                    part->unk_05 = 0;
+                    part->frame_ticks = 0;
                     part->color.word = color;
                     part->source = texture_word;
                     object->unk_BA = 0;
@@ -316,11 +316,11 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                 s32 delta_2;
                 u16 timer;
 
-                coord_2 = sprite->unk_24 << 6;
+                coord_2 = sprite->tile_x << 6;
                 delta_2 = ((S_80170F6C_3 *)aux_entity)->unk_00.at02.v - 0x20;
                 x = coord_2 - delta_2;
                 ((S_80170F6C_3 *)aux_entity)->unk_0C = (s32)((u32)x << 15) >> 1;
-                coord = sprite->unk_25 << 6;
+                coord = sprite->tile_y << 6;
                 delta = ((S_80170F6C_3 *)aux_entity)->unk_04.at02.v - 0x20;
                 y = coord - delta;
                 ((S_80170F6C_3 *)aux_entity)->unk_10 = (s32)((u32)y << 15) >> 1;
@@ -331,7 +331,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                     ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                     ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                     set_record_integer_tile_center(aux_entity,
-                        sprite->unk_24, sprite->unk_25);
+                        sprite->tile_x, sprite->tile_y);
                     ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
                     ((S_80170F6C_1 *)entity)->unk_2A.s = ((S_80170F6C_0 *)self_object)->unk_AA;
                     sprite->frameTable = mandara_direction_frames;
@@ -364,15 +364,15 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
         }
     }
 
-    result = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = result;
+    result = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = result;
 
     if (((S_80170F6C_1 *)entity)->unk_6D > 0) {
         if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             advance_actor_path_step(self_object, aux_entity, sprite, entity);
             return;
         }
@@ -418,7 +418,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
             void *status_object;
 
             next_position = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &scratch);
             status_object = primary_actor_record[0];
@@ -457,10 +457,10 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                 if (!final_mask) {
 
                     if ((test_neighbor_position_relation(
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                         ((S_80170F6C_1 *)entity)->unk_2A.s = get_rounded_facing_and_rounding_flag(
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &scratch);
                     }

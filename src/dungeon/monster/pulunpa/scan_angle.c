@@ -57,7 +57,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, Spri
         return result;
     }
     for (direction = 0; direction < 8; direction++) {
-    neighbor = probe_directional_neighbor(actor, actor_pos_arg->unk_24, actor_pos_arg->unk_25,
+    neighbor = probe_directional_neighbor(actor, actor_pos_arg->tile_x, actor_pos_arg->tile_y,
         scan_angle(direction));
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)dungeon_actor_ring_anchor)) {
@@ -81,8 +81,8 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, Spri
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
-        ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(actor_pos_arg->unk_24,
-            actor_pos_arg->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
+        ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(actor_pos_arg->tile_x,
+            actor_pos_arg->tile_y, ((S_80175E6C_5 *)target_pos)->unk_24,
             ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
         actor_pos_arg->frameTable = D_80176348;
         select_sprite_entry(actor_pos_arg, D_80176348[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)

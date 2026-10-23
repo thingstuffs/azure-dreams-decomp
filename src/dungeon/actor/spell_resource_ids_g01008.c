@@ -103,7 +103,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
             object_flag_block.flags = global_flags;
             return NULL;
         }
-        effect->unk_10 = effect_data;
+        effect->update_callback = effect_data;
         effect_state = ((void *)effect )+ 0x20;
         ((S_800A94A0_2 *)effect)->unk_20 = actor;
         effect_state->unk_04 = context;
@@ -115,9 +115,9 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         if (mode == 0) {
             actor_position = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_00;
             effect_position = effect->position;
-            effect_position->unk_02 = (u16) actor_position->unk_02;
-            effect_position->unk_06 = (u16) actor_position->unk_06;
-            effect_position->unk_0A = (u16) actor_position->unk_0A;
+            effect_position->x = (u16) actor_position->x;
+            effect_position->y = (u16) actor_position->y;
+            effect_position->z = (u16) actor_position->z;
             text_context = rand();
             if (!((u16) *((s16 *)&system_update_flags) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;

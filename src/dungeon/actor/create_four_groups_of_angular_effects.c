@@ -7,7 +7,7 @@ void register_node(void *, void *);
 s32 rsin(s32);
 s32 rcos(s32);
 void draw_textured_ellipse(void *, void *, s32, s32);
-extern u8 D_8002744C[9];
+extern u8 angular_group_update_address[9];
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
 extern s16 view_facing_angle_alias;
@@ -29,7 +29,7 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
     u8 *effect_state;
     SpriteFrameState *sprite;
     void *data;
-    void *callback = D_8002744C;
+    void *callback = angular_group_update_address;
 
     rect[0] = 0x01800380;
     rect[1] = 0x400040;
@@ -47,7 +47,7 @@ next_group:
 spawn:
     effect = allocate_flagged_object_node(0x202);
     if (effect != 0) {
-        effect->unk_10 = callback;
+        effect->update_callback = callback;
         data = linked_mesh_processor_address;
         register_node(effect, data);
         positions = *(u8 * *)&effect->position;

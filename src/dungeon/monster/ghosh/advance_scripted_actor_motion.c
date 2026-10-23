@@ -25,7 +25,7 @@ void create_boss_randomized_effect(); /* extern */
 extern InitBlock D_8016A894;
 extern u8 ghosh_frame_set_6[];
 extern u8 ghosh_frame_set_2[];
-extern u8 D_80174C7C[];
+extern u8 ghosh_frame_set_11[];
 extern u8 ghosh_frame_set_1[];
 extern u8 ghosh_frame_set_5[];
 extern u8 D_80174C94[];
@@ -448,8 +448,8 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             actor->unk_96 = 4U;
             actor->unk_9A = (u8) (actor->unk_9A + 1);
             create_boss_linked_effect(actor, motion, sprite);
-            sprite->unk_2C = D_80174C7C;
-            select_sprite_entry(sprite, D_80174C7C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            sprite->unk_2C = ghosh_frame_set_11;
+            select_sprite_entry(sprite, ghosh_frame_set_11[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
         }
         if ((actor->unk_96 & 3) == 1) {

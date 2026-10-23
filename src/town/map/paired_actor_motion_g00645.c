@@ -43,7 +43,7 @@ case 0:
         action_choice -= quotient * 4;
         switch (action_choice) {
         case 0:
-            sequence = (s32 *)D_800E9E7C;
+            sequence = (s32 *)paired_actor_sprite_entries;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x10;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() % 2) + 2;
             break;
@@ -138,7 +138,7 @@ case 0x10:
             if ((s16)timer <= 0) {
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0;
             }
-            sequence = (s32 *)D_800E9E7C;
+            sequence = (s32 *)paired_actor_sprite_entries;
         }
         break;
     }
@@ -306,7 +306,7 @@ case 0x34:
         ((S_800BCE78_1 *)motion)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)motion)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)motion)->unk_08.at02.v) >> 1);
         if (sprite->flags & 0x6000) {
-            sequence = (s32 *)D_800E9E7C;
+            sequence = (s32 *)paired_actor_sprite_entries;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
         }
         break;
@@ -356,14 +356,14 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
         return;
 
     case 0:
-        configure_the_set_mode_n_1(object, params, D_800D20CC);
-        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
+        configure_the_set_mode_n_1(object, params, town_map_motion_defaults);
+        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
         object->field68 = 0;
         object->field48 = D_800D2130;
         return;
 
     case 1:
-        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
+        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
         object->field68 = 0;
         break;
     }
@@ -459,7 +459,7 @@ void randomize_paired_object_motion(void *pair_in) {
         break;
     case 1:
         flag_page = (s32 *)0x80080000;
-        ((ObjectStatusPrefix16 *)pair)[-1].unk_00 = (u16) (((ObjectStatusPrefix16 *)pair)[-1].unk_00 | 0x8000);
+        ((ObjectStatusPrefix16 *)pair)[-1].flags = (u16) (((ObjectStatusPrefix16 *)pair)[-1].flags | 0x8000);
         flag_page[0x14A0 / 4] |= 0x8000;
         break;
     }
@@ -506,7 +506,7 @@ s32 event_tori_in(void *source) {
     object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         child_slot = ((void *)object) + 0x20;
-        object->unk_10 = randomize_paired_object_motion;
+        object->update_callback = randomize_paired_object_motion;
         ((LinkedMotionObject *)object)->position = ((MotionSource *)source_data)->position;
         ((LinkedMotionObject *)object)->motion = ((MotionSource *)source_data)->motion;
     }
@@ -530,7 +530,7 @@ s32 event_tori_in(void *source) {
             color = 0x800000;
             transform = object->position;
             color |= 0x8080;
-            object->unk_10 = child_handler;
+            object->update_callback = child_handler;
             *(void **)child_slot = transform;
             render_state = object->sprite;
             source_x_hi = (u16)((EntityRec *)source_data)->x.w.i;

@@ -11,7 +11,7 @@ typedef struct Struct_80083460 {
 } Struct_80083460;
 
 extern s16 current_dungeon_floor;
-extern u8 D_800C0180[];
+extern u8 return_magic_begin_address[];
 extern u8 D_800DF45C[];
 extern u8 D_800E1375[];
 extern u8 D_800E13B7[];
@@ -55,7 +55,7 @@ s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_r
         entity_info = *(u8 **)(entity - 0x14);
         if (create_five_point_effect(entity_info[0x24], entity_info[0x25],
                           *(s16 *)(entity + 0x88), D_800DF45C,
-                          0x2800, 0x208020, D_800C0180) == 0) {
+                          0x2800, 0x208020, return_magic_begin_address) == 0) {
             return 0;
         }
         display_formatted_context_message(D_800E13B7);

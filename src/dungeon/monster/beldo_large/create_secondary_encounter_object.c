@@ -50,7 +50,7 @@ void create_secondary_encounter_object(void) {
         data_index = *(&encounter_overlay_work[0x3A80]);
         render_data->frameTable = &encounter_overlay_work[0x3A80];
         select_sprite_entry(render_data, data_index, 0);
-        render_data->unk_06 = 6;
+        render_data->depth_bias = 6;
         render_data->flags &= 0xFFF3;
         position = object->unk_08;
         position->x.w.i = ((u16)view_reference_entity.x.w.i);

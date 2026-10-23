@@ -37,7 +37,7 @@ extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern void cycle_map_cell_flags();
 
 extern u8 D_800D4158;
-extern u8 D_800D4494;
+extern u8 actor_default_action_address;
 extern u8 D_800DEEC0;
 
 /* Creates an object at the given tile and height, initializing its sprite and tile flags. */
@@ -71,17 +71,17 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite->color.c.r = 0x80;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->unk_24 = saved_tile_x;
-        sprite->unk_25 = saved_tile_y;
+        sprite->tile_x = saved_tile_x;
+        sprite->tile_y = saved_tile_y;
         sprite->clut = 0x7E40;
         sprite->flags |= 0x100;
         select_record_entry_and_value(sprite, &D_800DEEC0, 0);
-        object->unk_10 = &D_800D4158;
-        ((S_800D3F74_0 *)entity)->unk_8C = &D_800D4494;
-        sprite->unk_26 =
-            find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-        set_record_integer_tile_center(position, sprite->unk_24,
-                     sprite->unk_25);
+        object->update_callback = &D_800D4158;
+        ((S_800D3F74_0 *)entity)->unk_8C = &actor_default_action_address;
+        sprite->room_index =
+            find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(position, sprite->tile_x,
+                     sprite->tile_y);
         ground_height = sample_terrain_surface_height(*(u16 *)&position->x.w.i,
                                *(u16 *)&position->y.w.i,
                                position->z.w.i);
@@ -91,8 +91,8 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite->color.word = 0x2C808080;
         sprite->flags |= 0x8000;
         clear_entry_flag_and_link_owner(object);
-        sprite_tile_x = sprite->unk_24;
-        sprite_tile_y = sprite->unk_25;
+        sprite_tile_x = sprite->tile_x;
+        sprite_tile_y = sprite->tile_y;
         tile_flags = 0x3000;
         if (((S_800D3F74_0 *)entity)->unk_1C & 0x2000) {
             tile_flags = 0x300;

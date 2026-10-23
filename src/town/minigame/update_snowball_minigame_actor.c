@@ -57,7 +57,7 @@ extern void *scene_object_payload_alias;
 extern s32 town_target_height_offset;
 extern u8 D_80092698[];
 extern u8 tracked_actor_callback_address[];
-extern u8 D_80092A84[];
+extern u8 town_actor_interaction_address[];
 extern u8 D_800F2DC0[];
 extern u8 D_800F2E08[];
 extern u8 D_800F2E50[];
@@ -240,7 +240,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
                     ((S_80020DF0_1 *)actor)->unk_00 = 0x100000;
                     effect = D_800F2FE0;
                 } else {
-                    *music = D_80092A84;
+                    *music = town_actor_interaction_address;
                     ((S_80020DF0_2 *)motion)->unk_14 = 0x100000;
                 }
                 ((S_80020DF0_1 *)actor)->unk_2A &= 0xFFFB;
@@ -331,7 +331,7 @@ void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState
                         part->scale_x = scale;
                         ((S_80020DF0_8 *)link)->unk_04 = motion;
                         ((S_80020DF0_8 *)link)->unk_02 = 0x78;
-                        particle->unk_10 = particle_data;
+                        particle->update_callback = particle_data;
                         select_record_entry_and_value(part, snowball_actor_sprites, (s16)(index * 4));
                     }
                     index--;

@@ -75,17 +75,17 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &func_80152A3C;
+        object->update_callback = &func_80152A3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         base_data = object->position;
         base_data->unk_0A = saved_value;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         extended_state = state;
         placement->frameTable = &D_8015586C;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (spawn_mode == 1) {
             flags_14 = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             flags_1c = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

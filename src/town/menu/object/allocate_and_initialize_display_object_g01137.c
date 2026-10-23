@@ -15,14 +15,14 @@ void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, 
         return 0;
     }
     display = obj->sprite;
-    obj->unk_10 = object_param;
+    obj->update_callback = object_param;
     ((S_800A2000_0 *)obj)->unk_20 = object_value;
     payload = (u8 *)obj + 0x20;
     payload->unk_10 = object_key;
     payload->unk_14 = payload_param;
     payload->unk_20 = payload_halfword;
     payload->unk_40 = payload_value;
-    display->unk_20 = 0x1000;
+    display->offset_x = 0x1000;
     display->scale_y = 0x1000;
     display->scale_x = 0x1000;
     display->clut = 0;

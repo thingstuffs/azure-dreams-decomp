@@ -20,20 +20,20 @@
 typedef struct Rec_D_80016000 {
     /* 0x00 */ void *unk_00;                  /* pointer 21 / volatile int 2 / byte +3 2 */
     /* 0x04 */ unsigned int unk_04;           /* u32 3 / s32 2 */
-    /* 0x08 */ int unk_08; /* selected scene-entry index, scaled by the table-specific stride by readers */
+    /* 0x08 */ int entry_index; /* selected scene-entry index, scaled by the table-specific stride by readers */
     /* 0x0C */ unsigned char pad_0C[8];
     /* 0x14 */ int unk_14;
     /* 0x18 */ unsigned char pad_18[4];
-    /* 0x1C */ void *unk_1C; /* town position/auxiliary context, viewed as TownPositionState by scene callbacks */
-    /* 0x20 */ TownServiceTable *unk_20; /* town service callback table */
+    /* 0x1C */ void *position; /* town position/auxiliary context, viewed as TownPositionState by scene callbacks */
+    /* 0x20 */ TownServiceTable *services; /* town service callback table */
     /* 0x24 */ void *unk_24;
     /* 0x28 */ void *unk_28;
     /* 0x2C */ void *unk_2C;
     /* 0x30 */ void *unk_30;                  /* int 3 (an address: cast back to s32 **) / int * 3 */
     /* 0x34 */ void *unk_34;
-    /* 0x38 */ TownStateRecord *unk_38; /* town saved/list/history state, viewed as TownStateRecord */
+    /* 0x38 */ TownStateRecord *town_state; /* town saved/list/history state, viewed as TownStateRecord */
     /* 0x3C */ unsigned char pad_3C[4];
-    /* 0x40 */ void *unk_40; /* town event/progress context; event entries are addressed with eight-byte stride */
+    /* 0x40 */ void *event_data; /* town event/progress context; event entries are addressed with eight-byte stride */
 } Rec_D_80016000;
 
 #endif

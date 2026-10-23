@@ -116,9 +116,9 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         if (((S_8017474C_1 *)owner)->unk_87 != -1) {
             MovingPosition *sample_position = ((S_8017474C_0 *)effect)->unk_18;
 
-            sampled_height = sample_terrain_surface_height(sample_position->unk_02,
-                                sample_position->unk_06,
-                                (s16)(sample_position->unk_0A - 4));
+            sampled_height = sample_terrain_surface_height(sample_position->x,
+                                sample_position->y,
+                                (s16)(sample_position->z - 4));
         } else {
             sampled_height = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_0A;
         }
@@ -133,9 +133,9 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
 
         if (height_scale >= 0xF81) {
-            out_position->unk_02 = ((S_8017474C_4 *)source_position)->unk_02;
-            out_position->unk_06 = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
-            out_position->unk_0A = sampled_height;
+            out_position->x = ((S_8017474C_4 *)source_position)->unk_02;
+            out_position->y = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
+            out_position->z = sampled_height;
 
             scale_cap = target_scale;
             if (scale_cap == 0x1000) {

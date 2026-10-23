@@ -105,7 +105,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         }
 
         ((Rec_func_800A9E70_arg0 *)actor_in)->unk_98 &= 0xFFF3;
-        if (creature_in->unk_64 != 0) {
+        if (creature_in->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_in, context_in, sprite, D_80174DFC) != 0) {
                 return;
             }
@@ -127,15 +127,15 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (creature_in->pending_turn_updates > 0) {
         if (((u32)creature_in->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature_in);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_80171F40(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -178,12 +178,12 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
                 creature_in->facing = heading;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &saber_behavior_entry);
                     return;
                 }
@@ -214,10 +214,10 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             if (!(((u32)creature_in->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     creature_in->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

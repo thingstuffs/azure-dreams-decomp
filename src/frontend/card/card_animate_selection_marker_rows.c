@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "frontend/card.h"
 
 typedef struct MenuPolyPos {
@@ -13,11 +14,6 @@ typedef struct MenuPolyColor {
     u8 pad_03[0x5];
     s16 y;
 } MenuPolyColor;
-
-typedef struct MenuMarkerPos {
-    u8 pad_00[0xA];
-    s16 y;
-} MenuMarkerPos;
 
 typedef struct MenuSprite {
     u8 pad_00[0x4];
@@ -57,7 +53,7 @@ void card_animate_selection_marker_rows(Menu *menu)
     num = delta * (menu->frame << 4);
     step = num / menu->frames;
     step += 10;
-    ((MenuMarkerPos *)menu->marker->prim)->y = start * 16 + step;
+    ((SignedWidgetYView *)menu->marker->prim)->unk_0A = start * 16 + step;
 
     for (i = 0; i < 4; i++) {
         slot = (u8 *)menu + i + 0x7C;

@@ -43,9 +43,9 @@ s32 find_entry_8_index_or_assert(void *entries, s32 entry_id) {
         }
     }
     root = (*(void **)((u8 *)D_80010000 + 0x6000));
-    callbacks = root->unk_20;
+    callbacks = root->services;
     report_error = ((Callback3)callbacks->callback_168);
     report_error(&D_80016064, &D_8001608C, 0x28);
-    ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->callback_174)(1);
+    ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->services))->callback_174)(1);
     return entry_index;
 }

@@ -56,7 +56,7 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
             actor_held[0x27] = 0xFF;
             s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
-                count = dungeon_rooms[(s8)actor_held[0x26]].unk_0E;
+                count = dungeon_rooms[(s8)actor_held[0x26]].entry_count;
                 for (i = 0; i < count; i++) {
                     scan_entry = (Elem *)((unsigned long)(i * sizeof(Elem)) + (unsigned long)s1);
                     if (scan_entry->b0 != 0 && abs(actor_held[0x24] - scan_entry->b0) < 2 && abs(actor_held[0x25] - scan_entry->b1) < 2) {
@@ -67,10 +67,10 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
                 }
                 i = 0;
                 s0 = generate_random_value();
-                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
+                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].entry_count, type = actor_held[0x26], c3 > 0) {
                     do {
                         Elem *cand_entry;
-                        mod = s0 % dungeon_rooms[(s8)type].unk_0E;
+                        mod = s0 % dungeon_rooms[(s8)type].entry_count;
                         cand_entry = (Elem *)((unsigned long)(mod * sizeof(Elem)) + (unsigned long)s1);
                         s0 = mod;
                         if (cand_entry->b0 != 0) {
@@ -83,7 +83,7 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
                         }
                         i++;
                         s0++;
-                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
+                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].entry_count, type = actor_held[0x26], i < c3);
                     return 0;
                 }
             }
@@ -94,10 +94,10 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
             s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 s0 = g_dungeon_status.turn_counter;
-                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
+                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].entry_count, type = actor_held[0x26], c3 > 0) {
                     i = 0;
                     do {
-                        mod = s0 % dungeon_rooms[(s8)type].unk_0E;
+                        mod = s0 % dungeon_rooms[(s8)type].entry_count;
                         entry = (Elem *)((unsigned long)(mod * sizeof(Elem)) + (unsigned long)s1);
                         s0 = mod;
                         if (entry->b0 != 0) {
@@ -110,7 +110,7 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
                         }
                         i++;
                         s0++;
-                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
+                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].entry_count, type = actor_held[0x26], i < c3);
                 }
             }
             return 0;

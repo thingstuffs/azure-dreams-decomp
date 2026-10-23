@@ -38,7 +38,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern u8 D_80170E68[];
+extern u8 dreamin_action_continuation_address[];
 extern u8 D_80173884[];
 extern u8 D_8017388C[];
 
@@ -80,14 +80,14 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         ((S_801722BC_0 *)anim)->unk_90 =
             ((S_801722BC_0 *)anim)->unk_90 - ((S_801722BC_0 *)anim)->unk_A0;
         if (move_ticks != 0) {
-            target_x = ((SpriteFrameState *)entity)->unk_24 << 6;
+            target_x = ((SpriteFrameState *)entity)->tile_x << 6;
             origin_x = ((ObjectPosition *)motion)->x.w.i - 0x20;
             origin_y = ((ObjectPosition *)motion)->y.w.i - 0x20;
             ((ObjectPosition *)motion)->velocity_x =
                 ((target_x - origin_x) << 16) /
                 move_ticks;
             ((ObjectPosition *)motion)->velocity_y =
-                (((((SpriteFrameState *)entity)->unk_25 << 6) - origin_y) << 16) /
+                (((((SpriteFrameState *)entity)->tile_y << 6) - origin_y) << 16) /
                 (s16)((S_801722BC_0 *)anim)->unk_A4.s;
             arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
             ((ObjectPosition *)motion)->velocity_z += (arc_ticks << 15) + (arc_ticks << 13);
@@ -111,7 +111,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
             ((ObjectPosition *)motion)->velocity_z = 0;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->tile_x, ((SpriteFrameState *)entity)->tile_y);
             ((SpriteFrameState *)entity)->frameTable = D_8017388C;
             select_sprite_entry(
                 entity,
@@ -127,7 +127,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         ((ObjectPosition *)motion)->velocity_z = 0;
         ((ObjectPosition *)motion)->velocity_y = 0;
         ((ObjectPosition *)motion)->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->tile_x, ((SpriteFrameState *)entity)->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -144,13 +144,13 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((S_801722BC_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25,
+                    ((SpriteFrameState *)entity)->tile_x, ((SpriteFrameState *)entity)->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 
         if ((check_actor_floor_trap(entity, actor) << 16) > 0) {
-            ((S_801722BC_0 *)anim)->unk_8C = D_80170E68;
+            ((S_801722BC_0 *)anim)->unk_8C = dreamin_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

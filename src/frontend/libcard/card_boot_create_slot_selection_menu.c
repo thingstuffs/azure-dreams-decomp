@@ -42,6 +42,6 @@ void *card_boot_create_slot_selection_menu(s32 init_value) {
     state->unk_18 = card_boot_create_three_row_command_panel(object);
     state->unk_1C = render_rotated_grid_surface(object, state->unk_28, 0);
     state->unk_24 = 0;
-    object->unk_10 = &update_inventory_menu;
+    object->update_callback = &update_inventory_menu;
     return object;
 }

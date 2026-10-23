@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -13,17 +14,12 @@ typedef struct S_80091958_0 {
     void * unk_C8;
 } S_80091958_0;   /* arg0 in update_item_target_selection */
 
-typedef struct S_80091958_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80091958_2;   /* arg3 in update_item_target_selection */
-
 extern u8 player_action_tag[];
 
 void *create_item_target_selector(u8 *selection_data);
 
 /* Starts an operation, waits for completion, then selects the next action from context flags. */
-void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2 *context)
+void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_2, ActorRecord *context)
 {
     void *operation;
 
@@ -43,7 +39,7 @@ void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_
         break;
     case 2:
         reference_tile_object.unk_038 = 0;
-        if (context->unk_1C & 0x100000) {
+        if (context->flags1C & 0x100000) {
             state->unk_8C = player_action_tag;
         } else {
             state->unk_8C = handle_player_input;

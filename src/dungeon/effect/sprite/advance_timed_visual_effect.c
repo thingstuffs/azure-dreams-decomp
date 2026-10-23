@@ -218,7 +218,7 @@ void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5
         state->unk_2C = (void *) *owner_ref;
         state->unk_30 = (s32) ((Row_818FF5B8_S_818FF5B8_1 *)(*owner_ref))->unk_60;
         state->unk_34 = owner_ref;
-        (object->unk_10) = &D_80024750;
+        (object->update_callback) = &D_80024750;
         register_node(object, project_sprite_chain);
         sprite = (object->sprite);
         sprite->unk_10 = 0x20;

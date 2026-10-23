@@ -57,13 +57,13 @@ extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
 
 extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
-extern u8 D_800B9CB8[];
+extern u8 map_particle_owner_update_address[];
 extern u8 town_initialize_effect_with_child_sprites_address[];
-extern u8 D_800B9F74[];
-extern u8 D_800BA8C4[];
-extern void *D_800D1BCC[];
-extern u8 D_800F8A1C[];
-extern u8 D_800F8A28[];
+extern u8 map_particle_child_update_address[];
+extern u8 map_random_particle_update_address[];
+extern void *map_particle_part_parameters[];
+extern u8 map_particle_first_sprite_entries[];
+extern u8 map_particle_second_sprite_entries[];
 
 /* Initialize an effect with a random angle and spawn its particle and textured children. */
 void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
@@ -83,7 +83,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    ((S_800BA930_0_pre *)effect)[-1].unk_00 = D_800B9CB8;
+    ((S_800BA930_0_pre *)effect)[-1].unk_00 = map_particle_owner_update_address;
     random_angle = rand();
     biased_angle = random_angle;
     if (random_angle < 0) {
@@ -96,7 +96,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     do {
         child_obj = allocate_list_node(0x136, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
-            child_obj->unk_10 = D_800BA8C4;
+            child_obj->update_callback = map_random_particle_update_address;
             register_node(child_obj, lit_mesh_renderer_address);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -107,7 +107,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             particle_prim = *(Primitive * *)&child_obj->sprite;
             particle_prim->scale_x = 0x1000;
             particle_prim->scale_y = 0x1000;
-            particle_prim->unk_20 = 0xAAA;
+            particle_prim->offset_x = 0xAAA;
             particle_prim->color.c.r = g_game_work.view.tint.parts.tint_r;
             particle_prim->color.c.g = g_game_work.view.tint.parts.tint_g;
             particle_blue = g_game_work.view.tint.parts.tint_b;
@@ -118,7 +118,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             particle_y = origin->y;
             child_pos->z = 0;
             child_pos->y = particle_y;
-            configure_the_set_mode_n_3(child_core, child_pos, D_800D1BCC[child_index]);
+            configure_the_set_mode_n_3(child_core, child_pos, map_particle_part_parameters[child_index]);
         }
         child_index += 1;
     } while (child_index < 4);
@@ -127,7 +127,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     do {
         child_obj = allocate_list_node(0x36, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
-            child_obj->unk_10 = town_initialize_effect_with_child_sprites_address;
+            child_obj->update_callback = town_initialize_effect_with_child_sprites_address;
             register_node(child_obj, clipped_sprite_renderer_address);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -135,7 +135,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             child_core->index = child_index;
             child_core->value = child_value;
             texture_prim = *(Primitive * *)&child_obj->sprite;
-            texture_prim->source = D_800F8A1C;
+            texture_prim->source = map_particle_first_sprite_entries;
             texture_prim->color.c.b = 0x80;
             texture_prim->color.c.g = 0x80;
             texture_prim->color.c.r = 0x80;
@@ -157,14 +157,14 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
     parent_obj = (u8 *)effect - 0x20;
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->unk_10 = town_initialize_effect_with_child_sprites_address;
+        child_obj->update_callback = town_initialize_effect_with_child_sprites_address;
         register_node(child_obj, clipped_sprite_renderer_address);
         child_value = effect->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = effect;
         child_core->value = child_value;
         texture_prim = *(Primitive * *)&child_obj->sprite;
-        texture_prim->source = D_800F8A28;
+        texture_prim->source = map_particle_second_sprite_entries;
         texture_prim->color.c.b = 0x80;
         texture_prim->color.c.g = 0x80;
         texture_prim->color.c.r = 0x80;
@@ -183,7 +183,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
 
     child_obj = allocate_list_node(0x136, parent_obj);
     if (child_obj != NULL) {
-        child_obj->unk_10 = D_800B9F74;
+        child_obj->update_callback = map_particle_child_update_address;
         register_node(child_obj, lit_mesh_renderer_address);
         child_value = effect->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -192,7 +192,7 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         particle_prim = *(Primitive * *)&child_obj->sprite;
         particle_prim->scale_x = 0x1000;
         particle_prim->scale_y = 0x1000;
-        particle_prim->unk_20 = 0x1000;
+        particle_prim->offset_x = 0x1000;
         particle_prim->angle_z = effect->angle;
         particle_prim->color.c.r = g_game_work.view.tint.parts.tint_r;
         particle_prim->color.c.g = g_game_work.view.tint.parts.tint_g;

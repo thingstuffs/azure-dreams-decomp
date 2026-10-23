@@ -26,17 +26,17 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->unk_10 = func_8016AA8C;
+        object->update_callback = func_8016AA8C;
         work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = *(void ** *)&object->position;
         part_a->unk_0A = attr_c;
         part_b = *(void ** *)&object->sprite;
-        part_b->unk_25 = attr_b;
+        part_b->tile_y = attr_b;
         work_copy = work;
         part_b->frameTable = D_8016DD30;
         kind = spawn_flags & 3;
-        part_b->unk_24 = attr_a;
+        part_b->tile_x = attr_a;
         if (kind == 1) {
             work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

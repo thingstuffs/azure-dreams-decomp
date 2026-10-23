@@ -17,7 +17,7 @@ s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 st
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = (Row_8189E934_Tail *)((s8 *)object + 0x20);
-        object->unk_10 = D_80024020;
+        object->update_callback = D_80024020;
         state->value = stored_value;
         ((Row_8189E934_S_80024134_0 *)object)->unk_20 = 0;
         state->tag = stored_tag;
@@ -145,7 +145,7 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &D_80024264;
+        object->update_callback = &D_80024264;
         state->unk_08 = owner_id;
         ((Row_8189EBBC_S_800243BC_0 *)object)->unk_20 = 0;
         state->unk_02 = 0;

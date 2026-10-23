@@ -21,7 +21,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
 extern u8 D_80175E50[];
-extern u8 D_80175E70[];
+extern u8 kewne_frame_set_3[];
 extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
@@ -44,7 +44,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
             return -1;
         }
 
-        target = probe_directional_neighbor(actor, visual_data->unk_24, visual_data->unk_25,
+        target = probe_directional_neighbor(actor, visual_data->tile_x, visual_data->tile_y,
             actor->facing);
         if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
             return 0;
@@ -89,7 +89,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                 actor->unk_85 = 0;
             } else if (selected_mode == 2) {
                 action_state->unk_8C = 0;
-                visual_data->frameTable = D_80175E70;
+                visual_data->frameTable = kewne_frame_set_3;
                 new_action = 0x17;
                 action_state->unk_98 |= 8;
                 action_state->unk_9A.as_s8 = new_action;

@@ -24,7 +24,7 @@ typedef struct ObjectNodeHeader {
     /* 0x04 */ struct ObjectNodeHeader **pprev; /* address of the list slot that points to this node; supports constant-time unlinking */
     /* 0x08 */ struct ObjectPosition *position; /* separate position/motion record; allocator reserves 0x18 bytes before the sprite payload */
     /* 0x0C */ struct SpriteFrameState *sprite; /* sprite/render payload selected by the allocation flags */
-    /* 0x10 */ void *unk_10; /* update callback address; active-node dispatch passes body, position and sprite pointers */
+    /* 0x10 */ void *update_callback; /* update callback address; active-node dispatch passes body, position and sprite pointers */
     /* 0x14 */ int unk_14; /* draw-registration backlink, stored as an integer address */
     /* 0x18 */ struct ObjectNodeHeader *chain_next; /* next object registered for the same draw callback, or null */
     /* 0x1C */ unsigned char pad_1C[2];

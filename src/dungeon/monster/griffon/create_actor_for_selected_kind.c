@@ -66,7 +66,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8014CA50;
+        obj->update_callback = D_8014CA50;
         work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
@@ -74,10 +74,10 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
         part_a->unk_0A = saved_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_y;
+        part_b->tile_y = saved_y;
         actor = work;
         part_b->frameTable = D_80150C3C;
-        part_b->unk_24 = saved_x;
+        part_b->tile_x = saved_x;
         do {
 
             if (kind == 1) {

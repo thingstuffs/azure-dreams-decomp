@@ -42,17 +42,17 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameSt
     move_kind = (s16)move_result;
     if (move_kind > 0) {
         U8(obj, 0x9B) = 0;
-        update_map_cell_flags_with_item_limit(U8(actor, 0x24), actor->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(U8(actor, 0x24), actor->tile_y, 0x300);
         {
             u8 *x_offsets;
             s16 step_index;
 
             step_index = (U16(map, 0x2A) >> 8) & 0xE;
             x_offsets = ((u8 *)dir_step_x);
-            actor->unk_24 = actor->unk_24 + x_offsets[step_index];
-            actor->unk_25 = actor->unk_25 + ((u8 *)dir_step_y)[step_index];
+            actor->tile_x = actor->tile_x + x_offsets[step_index];
+            actor->tile_y = actor->tile_y + ((u8 *)dir_step_y)[step_index];
         }
-        cycle_map_cell_flags(U8(actor, 0x24), actor->unk_25, 0x300);
+        cycle_map_cell_flags(U8(actor, 0x24), actor->tile_y, 0x300);
 
         move_state = (u16 *)&g_dungeon_status;
         move_state[1] |= 8;

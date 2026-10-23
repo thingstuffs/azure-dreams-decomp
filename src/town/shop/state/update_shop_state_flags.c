@@ -16,7 +16,7 @@ typedef struct S_func_800B361C_1 {
     void *unk_78;
 } S_func_800B361C_1;
 
-extern s32 D_800786DC[];
+extern s32 item_menu_primary_page_data[];
 extern s32 card_selection_display_data[];
 
 /* Update status flags and state pointers from the current value and its limit. */
@@ -26,7 +26,7 @@ void update_shop_state_flags(S_func_800B361C_0 *object) {
         s32 branch_flags;
 
         state = object->unk_CC;
-        *(void **)state->unk_74 = D_800786DC;
+        *(void **)state->unk_74 = item_menu_primary_page_data;
         branch_flags = object->unk_1C;
         branch_flags &= ~2;
         object->unk_1C = branch_flags;

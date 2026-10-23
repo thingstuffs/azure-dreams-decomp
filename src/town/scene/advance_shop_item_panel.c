@@ -48,9 +48,9 @@ typedef struct Func80813E14Input {
 } Func80813E14Input;
 
 extern s32 scene_object_flags;
-extern u8 D_8028E194[];
+extern u8 shop_panel_sprite_entries[];
 extern u8 D_8028E214[];
-extern u8 D_80530220[];
+extern u8 town_display_timing_table[];
 
 extern void func_80034A1C(void *, void *, s32);
 extern void func_8003EA54(void *);
@@ -108,13 +108,13 @@ void advance_shop_item_panel(Func80813E14Object *object,
     func_8003EA54(input);
 
     if (object->flags & 4) {
-        if (input->kind == D_8028E194) {
+        if (input->kind == shop_panel_sprite_entries) {
             func_80034A1C(input, D_8028E214, 0);
         }
     }
 
     if (input->flags & 0x6000) {
-        func_80034A1C(input, D_8028E194, 0);
+        func_80034A1C(input, shop_panel_sprite_entries, 0);
     }
 
     dispatch = object->mode;
@@ -148,7 +148,7 @@ void advance_shop_item_panel(Func80813E14Object *object,
         if (!(base->flags & 1)) {
             break;
         }
-        record = &D_80530220[base->row * 400] + base->column * 40;
+        record = &town_display_timing_table[base->row * 400] + base->column * 40;
         record += object->column * 12 + 4;
         local.half = ((S_8052EA14_0 *)record)->unk_08;
         local.word0 = ((S_8052EA14_0 *)record)->unk_00;

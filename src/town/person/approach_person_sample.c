@@ -5,7 +5,7 @@
 extern s32 get_person_lookup_step(void *);
 extern void load_record_halfwords_3(void *, s32);
 extern s32 advance_person_lookup_value(void *);
-extern u8 D_800AB408[];
+extern u8 person_approach_handler_address[];
 extern u8 person_approach_state_address[];
 
 
@@ -42,7 +42,7 @@ void approach_person_sample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords)
         coords->unk_0E = coords->unk_02.u = sampled_coords[1];
         coords->unk_12 = coords->unk_06.u = sampled_coords[3];
         coords->unk_16 = coords->unk_0A.u = sampled_coords[5];
-        state->unk_50 = D_800AB408;
+        state->unk_50 = person_approach_handler_address;
         state->unk_6C = 150;
         return;
     }

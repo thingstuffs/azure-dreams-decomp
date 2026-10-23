@@ -23,7 +23,7 @@ typedef struct S_80173C5C_0 {
     s16 unk_AE;
 } S_80173C5C_0;   /* work in run_the_actor_s_eight_step_sink_animation_advancing_state_swapping */
 
-extern u8 D_80173FD0[];
+extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
 void set_record_integer_tile_center();
@@ -96,7 +96,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         part_a->velocity_z = 0;
         part_a->velocity_y = 0;
         part_a->velocity_x = 0;
-        set_record_integer_tile_center(part_a, part_b->unk_24, part_b->unk_25);
+        set_record_integer_tile_center(part_a, part_b->tile_x, part_b->tile_y);
         part_b->frameTable = &D_80173FE0;
         select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
@@ -106,8 +106,8 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         if (!(part_b->flags & 0xE000)) {
             return;
         }
-        part_b->frameTable = D_80173FD0;
-        select_sprite_entry(part_b, D_80173FD0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        part_b->frameTable = tyrant_frame_set_1;
+        select_sprite_entry(part_b, tyrant_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_9B++;
         return;
     case 7:

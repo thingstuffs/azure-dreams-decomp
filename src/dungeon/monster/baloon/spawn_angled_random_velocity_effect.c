@@ -78,13 +78,13 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
         base = &effect->base;
-        ((ObjectNodeHeader *)effect)->unk_10 = &D_800D707C;
+        ((ObjectNodeHeader *)effect)->update_callback = &D_800D707C;
         ((ObjectNodeHeader *)effect)->position->x.w.i = (u16)
-        ((MovingPosition *)((*(void * *)&source->z)))->unk_02;
+        ((MovingPosition *)((*(void * *)&source->z)))->x;
         ((ObjectNodeHeader *)effect)->position->y.w.i = (u16)
-        ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
+        ((MovingPosition *)((*(void * *)&source->z)))->y;
         ((ObjectNodeHeader *)effect)->position->z.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x58);
+        (((MovingPosition *)((*(void * *)&source->z)))->z - 0x58);
         direction = (void *)actor_direction_step_pairs + ((angle >> 7) & 0x1C);
         position_x = ((ObjectNodeHeader *)effect)->position;
         position_x->unk_02 = (u16)

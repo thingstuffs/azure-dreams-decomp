@@ -56,9 +56,9 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    position->unk_02 = (*(u16 *)((u8 *)effect + 0x20));
-    position->unk_06 = (*(u16 *)((u8 *)effect + 0x26));
-    position->unk_0A = (*(u16 *)((u8 *)effect + 0x2C));
+    position->x = (*(u16 *)((u8 *)effect + 0x20));
+    position->y = (*(u16 *)((u8 *)effect + 0x26));
+    position->z = (*(u16 *)((u8 *)effect + 0x2C));
 
     sample_index = 0;
     if ((*(s16 *)((u8 *)effect + 0x34)) > 0) {
@@ -71,7 +71,7 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
     }
 
     trail_tail = (u8 *)(sample_index * 2 + (s32)(u32)effect);
-    ((S_801747B8_2 *)trail_tail)->unk_20 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_02;
-    ((S_801747B8_2 *)trail_tail)->unk_26 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_06;
-    ((S_801747B8_2 *)trail_tail)->unk_2C = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->unk_0A;
+    ((S_801747B8_2 *)trail_tail)->unk_20 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->x;
+    ((S_801747B8_2 *)trail_tail)->unk_26 = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->y;
+    ((S_801747B8_2 *)trail_tail)->unk_2C = ((MovingPosition *)((*(void * *)((u8 *)effect + 0x1C))))->z;
 }

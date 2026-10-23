@@ -30,7 +30,7 @@ s32 event_pool_clean_in(void)
     if (object != NULL) {
         SD_Call(0x512);
         motion = object->position;
-        object->unk_10 = &D_800BEBA4;
+        object->update_callback = &D_800BEBA4;
         body = (u8 *)object + 0x20;
         register_node(object, project_sprite_chain);
         ((EntityRec *)body)->x.w.i = 0x10;

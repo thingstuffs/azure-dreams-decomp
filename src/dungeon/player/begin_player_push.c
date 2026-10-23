@@ -27,7 +27,7 @@ s32 find_eligible_actor_at_tile_and_height();
 void append_packed_action_record();
 s32 play_sound_if_enabled();
 
-extern u8 D_800DCFB8[];
+extern u8 player_push_start_frames[];
 extern u8 player_push_frames[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
@@ -50,29 +50,29 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
     if ((s16)state != -2) {
         direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
         x_step = (u16 *)((u8 *)dir_step_x + direction_offset);
-        next_x = sprite->unk_24 + *x_step;
+        next_x = sprite->tile_x + *x_step;
         y_step = (u16 *)((u8 *)dir_step_y + direction_offset);
-        next_y = sprite->unk_25 + *y_step;
+        next_y = sprite->tile_y + *y_step;
         target = find_eligible_actor_at_tile_and_height(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                                actor->unk_88);
         if (target != 0) {
             if ((can_push_adjacent_actor(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {
                 action->unk_124 = target;
-                update_map_cell_flags_with_item_limit(sprite->unk_24,
-                              sprite->unk_25, 0x300);
-                sprite->unk_24 =
-                    sprite->unk_24 + *(u8 *)x_step;
-                sprite->unk_25 =
-                    sprite->unk_25 + *(u8 *)y_step;
-                cycle_map_cell_flags(sprite->unk_24,
-                              sprite->unk_25, 0x300);
+                update_map_cell_flags_with_item_limit(sprite->tile_x,
+                              sprite->tile_y, 0x300);
+                sprite->tile_x =
+                    sprite->tile_x + *(u8 *)x_step;
+                sprite->tile_y =
+                    sprite->tile_y + *(u8 *)y_step;
+                cycle_map_cell_flags(sprite->tile_x,
+                              sprite->tile_y, 0x300);
 
                 actor->unk_1C |= 0x40000000;
                 g_dungeon_status.movement_frames_left = 0x20;
                 g_dungeon_status.flags |= 8;
                 action->unk_9B.as_u8 = 0x10;
-                sprite->frameTable = D_800DCFB8;
+                sprite->frameTable = player_push_start_frames;
                 action->unk_96.as_s16 = 4;
                 append_packed_action_record(actor, 8, 0, 0);
                 play_sound_if_enabled(0x50B);

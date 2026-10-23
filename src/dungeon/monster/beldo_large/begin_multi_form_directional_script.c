@@ -24,7 +24,7 @@ extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void func_80164BA4(void *);
 extern void upload_encounter_texture(void);
 
-extern u16 D_800834E2;
+extern u16 actor_direction_dispatch_key;
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
 extern u8 *beldo_actor_nodes;
@@ -58,7 +58,7 @@ void begin_multi_form_directional_script(void)
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     active_object = beldo_actor_nodes;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
-    handler_index = D_800834E2 >> 7;
+    handler_index = actor_direction_dispatch_key >> 7;
     handler_table = D_80173C8C;
     sys_work->handler = *(void **)(handler_table + (handler_index & 0x1C));
     position_data = *(u8 * *)&active_object->sprite;

@@ -42,7 +42,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, (saved_kind_id = kind_id, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = func_8016AB64;
+        obj->update_callback = func_8016AB64;
         ((S_8016A86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
@@ -52,8 +52,8 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8016E18C;
-        part_b->unk_24 = saved_kind_id;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_x = saved_kind_id;
+        part_b->tile_y = saved_variant;
 
         if (kind == 1) {
             left = ((S_8016A86C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -109,15 +109,15 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
                     elem = (u8 *)child + elem_offset;
                     child_flags = ((S_8016A86C_6 *)child)->unk_04;
                     ((S_8016A86C_6 *)child)->unk_04 = child_flags | 0x8000;
-                    child_arg = part_b->unk_28;
+                    child_arg = part_b->animation_resource;
                     elem_flags = elem->flags;
                     elem->tpage_abr = 96;
-                    elem->unk_28 = child_arg;
+                    elem->animation_resource = child_arg;
                     elem->flags = elem_flags | 0xC;
 
                     elem->clut = *(s16 *)&part_b->clut - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = process_effect_block_entries;
+                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = process_effect_block_entries;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

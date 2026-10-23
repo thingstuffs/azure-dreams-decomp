@@ -118,7 +118,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
             if (mode_copy != 0) {
                 action_value = (s32)primary_actor_record;
                 actor->target = (void *)action_value;
-                action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].unk_00;
+                action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].sprite;
                 actor->target_tile_x = action_control[0x24];
                 actor->target_tile_y = action_control[0x25];
             } else {
@@ -127,15 +127,15 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
                 if (((u8 *)action_value)[0x12] == 2) {
                     action_value = (s32)actor->target;
                     if (action_value != 0) {
-                        action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].unk_00;
+                        action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].sprite;
                         actor->target_tile_x = action_control[0x24];
                         actor->target_tile_y = action_control[0x25];
                     }
                 } else {
                     actor->target = scan_actor_along_heading(
                         actor,
-                        sprite->unk_24,
-                        sprite->unk_25,
+                        sprite->tile_x,
+                        sprite->tile_y,
                         actor->facing,
                         0x10);
                     magnitude_x = abs(actor->target_tile_x);
@@ -156,7 +156,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -198,7 +198,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
 
         switch (((S_8016C190_0 *)action)->unk_AC) {
         case 0:

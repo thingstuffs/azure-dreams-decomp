@@ -53,7 +53,7 @@ extern u8 D_800259DC[];
 extern s16 D_80026476;
 extern s32 row_quad_top_color;
 extern s32 row_quad_bottom_color;
-extern Cell D_800265C8[];
+extern Cell particle_quad_vertices[];
 extern Cell D_80026648[];
 
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_80026476)
@@ -85,11 +85,11 @@ void spawn_randomized_quad_effects(void) {
     u8 *count_page;
 
     for (quad_index = 0; quad_index < D_80026476; quad_index++) {
-        vertices = D_800265C8;
+        vertices = particle_quad_vertices;
         effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
             effect_or_x = (s32)effect;
-            effect->unk_10 = D_800255E8;
+            effect->update_callback = D_800255E8;
             register_node((void *)effect_or_x, D_800259DC);
 
             row_start = quad_index & ~0xF;

@@ -28,7 +28,7 @@ void create_fixed_tile_effect_if_available(void) {
         file_load_com(&D_800F6F28);
         object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
-            object->unk_10 = &update_pulsing_actor_color;
+            object->update_callback = &update_pulsing_actor_color;
             register_node(object, &clipped_sprite_renderer_address);
             graphics = object->position;
             graphics->x.w.i = 0x820;
@@ -40,7 +40,7 @@ void create_fixed_tile_effect_if_available(void) {
             animation->source = &D_800F6F30;
             animation->tpage_abr = 0x20;
             animation->flags = 0xC;
-            animation->unk_06 = 6;
+            animation->depth_bias = 6;
         }
     }
 }

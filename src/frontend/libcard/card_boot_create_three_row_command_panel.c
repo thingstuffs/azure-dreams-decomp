@@ -40,7 +40,7 @@ void *card_boot_create_three_row_command_panel(s32 init_value)
     object->sprite = state + 0x190;
     ((S_800238D4_1 *)state)->unk_19C = card_boot_link_three_row_panel_entries(state + 0x1A0);
     card_boot_initialize_three_row_command_panel(state, init_value);
-    object->unk_10 = card_boot_animate_three_row_selection;
+    object->update_callback = card_boot_animate_three_row_selection;
     card_boot_animate_three_row_selection(state);
     return object;
 }

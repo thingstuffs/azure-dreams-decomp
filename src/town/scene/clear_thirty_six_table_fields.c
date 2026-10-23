@@ -22,7 +22,7 @@ extern void clear_thirty_six_table_fields(void);
 void initialize_town_counter_and_callback(void)
 {
     s32 current_town_value;
-    S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&D_80016000))))->unk_38;
+    S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&town_scene_root))))->unk_38;
 
     current_town_value = town->unk_35BE;
     D_80017618 = clear_thirty_six_table_fields;

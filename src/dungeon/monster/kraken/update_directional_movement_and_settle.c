@@ -25,9 +25,9 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern s32 D_801711A4;
+extern s32 kraken_action_resume_address;
 extern u8 D_8017419C[];
-extern u8 D_801741A4[];
+extern u8 kraken_frame_set_4[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
 void update_directional_movement_and_settle(void *action, EntityRec *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -61,9 +61,9 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
         return;
     case 1:
         if (sprite->flags & 0xE000) {
-            sprite->frameTable = D_801741A4;
+            sprite->frameTable = kraken_frame_set_4;
             select_sprite_entry(sprite,
-                D_801741A4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kraken_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             motion->unk_0C = (dir_x << 18) + (dir_x << 17);
             motion->unk_10 = (dir_y << 18) + (dir_y << 17);
@@ -80,12 +80,12 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
         return;
     case 0xFF:
     {
-        s32 target_x = sprite->unk_24 << 6;
+        s32 target_x = sprite->tile_x << 6;
         s32 current_x = motion->x.w.i - 0x20;
         motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
     }
         {
-            s32 target_y = sprite->unk_25 << 6;
+            s32 target_y = sprite->tile_y << 6;
             s32 current_y = motion->y.w.i - 0x20;
             motion->unk_10 = ((target_y - current_y) << 0xF) >> 1;
         }
@@ -93,9 +93,9 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, Spr
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             (*(u32 *)&actor->flags1C) |= 0x40000;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_801724F4_1 *)action)->unk_8C = &D_801711A4;
+            ((S_801724F4_1 *)action)->unk_8C = &kraken_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

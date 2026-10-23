@@ -14,7 +14,7 @@ typedef struct S_80019A34_0 {
 s32 check_callback_record_bytes(s32 expected_second, s32 expected_first) {
     S_80019A34_0 *record;
 
-    record = D_80016000->unk_20->callback_074(0);
+    record = town_scene_root->services->callback_074(0);
     if (record == NULL) {
         return 0;
     } else {

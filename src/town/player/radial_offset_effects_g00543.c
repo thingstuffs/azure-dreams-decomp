@@ -19,7 +19,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
         motion = effect->position;
         appearance = effect->sprite;
-        effect->unk_10 = (s32 *)&D_800ABB20;
+        effect->update_callback = (s32 *)&D_800ABB20;
         register_node(effect, project_sprite_chain);
         motion->x.w.i = source->unk_02 - dir_step_x[direction] * 0x10;
         motion->y.w.i = source->unk_06 - dir_step_y[direction] * 0x10;
@@ -27,7 +27,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         motion->velocity_x = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
         motion->velocity_y = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
         motion->velocity_z = (~rand() & 1) << 0xF;
-        select_record_entry_and_value(appearance, &D_800D1464, 0);
+        select_record_entry_and_value(appearance, &radial_sprite_entries, 0);
         appearance->color.c.b = 0xFF;
         appearance->color.c.g = 0xFF;
         appearance->color.c.r = 0xFF;
@@ -55,17 +55,17 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
     if (count != 0) {
         angle_step = 0x1000 / count;
         angle = rand();
-        initial_y = origin->unk_0A;
+        initial_y = origin->z;
         record.field16 = -4;
         record.y = initial_y;
         for (object_index = 0; object_index < count; object_index++) {
-            record.x = (origin->unk_02 +
+            record.x = (origin->x +
                         scale_random_to_unsigned_halfword_limit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
-            record.z = (origin->unk_06 +
+            record.z = (origin->y +
                         scale_random_to_unsigned_halfword_limit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
-            y = (origin->unk_0A -
+            y = (origin->z -
                  scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;

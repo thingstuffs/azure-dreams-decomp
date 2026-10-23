@@ -39,7 +39,7 @@ extern u8 D_800220A8[];
 extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 town_money[3];
-extern s32 D_80024558[3];
+extern s32 betting_display_object[3];
 extern s32 camera_height_mode[3];
 extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
@@ -196,14 +196,14 @@ void update_betting_effect(TownEffect *input)
         for (column = 2; column >= 0; column--) {
             object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                object_child = ((ProjectileObject *)object)->unk_0C;
-                ((ProjectileObject *)object)->unk_10 = D_800220A8;
+                object_child = ((ProjectileObject *)object)->sprite;
+                ((ProjectileObject *)object)->update_callback = D_800220A8;
                 object_link = (u8 *)object + 0x20;
                 register_node(object, project_sprite_chain);
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_00 =
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_00 =
                     (column << 23) + 0x04600000;
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_04 = 0x03600000;
-                ((S_800211A4_13 *)(((ProjectileObject *)object)->unk_08))->unk_08 = 0xFE000000;
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_04 = 0x03600000;
+                ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_08 = 0xFE000000;
                 object_child->unk_1C =
                     object_child->unk_1E = 0x1000;
                 object_child->unk_14 |= 0x000C;
@@ -228,7 +228,7 @@ void update_betting_effect(TownEffect *input)
         SD_Call(0x523);
         handle = create_dual_buffer_object(0, -80, 64);
         payout_scale = 6 / (effect->phase + 1);
-        D_80024558[0] = handle;
+        betting_display_object[0] = handle;
         ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
         if (service_script_controller() == 0) {
             motion = &view_reference_entity;
@@ -651,7 +651,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)timer_left > 0) {
             break;
         }
-        set_object_data_pointer_2(D_80024558[0]);
+        set_object_data_pointer_2(betting_display_object[0]);
         effect->state = 0;
         effect->flags |= 2;
         break;
@@ -674,7 +674,7 @@ void update_betting_effect(TownEffect *input)
         if ((s16)ticks_left > 0) {
             break;
         }
-        set_object_data_pointer_2(D_80024558[0]);
+        set_object_data_pointer_2(betting_display_object[0]);
         effect->ticks = 0;
         effect->state = 0;
         effect->flags |= 0xA;

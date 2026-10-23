@@ -39,7 +39,7 @@ s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, S
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    move_heading = probe_directional_neighbor(actor, sprite->unk_24, sprite->unk_25,
+    move_heading = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y,
         actor->facing);
     if ((check_entity_interaction_compatibility(actor, move_heading) << 0x10) == 0) {
         return 0;

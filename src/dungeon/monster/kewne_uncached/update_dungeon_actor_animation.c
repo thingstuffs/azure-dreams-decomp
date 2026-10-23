@@ -128,7 +128,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, SpriteFrameSta
                         *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
                         0);
                 }
-                sprite->unk_05 = 1;
+                sprite->frame_ticks = 1;
                 ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
                 ((S_80165FA4_0 *)actor)->unk_9E = 0;
             }
@@ -138,7 +138,7 @@ state_done:
         (*(u32 *)&actor_data->flags1C) |= 0x40000;
         ((S_80165FA4_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (actor_data->unk_64 != 0) {
+        if (actor_data->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80169C38) != 0) {
                 return;
             }
@@ -161,15 +161,15 @@ state_done:
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (actor_data->pending_turn_updates > 0) {
         if (((u32)actor_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_data);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_801666C8(actor, actor_aux, sprite, actor_data);
             return;
         }
@@ -209,12 +209,12 @@ state_done:
             s16 facing;
 
             facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &distance);
             player = primary_actor_record;
             actor_data->facing = facing;
-            if (player->unk_9A == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor, actor_aux, sprite, D_80169C88, D_80165FA4);
                 return;
             }
@@ -245,10 +245,10 @@ state_done:
             if (!(((u32)actor_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     actor_data->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

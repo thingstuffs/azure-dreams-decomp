@@ -96,7 +96,7 @@ extern void spawn_directional_effect();
 extern void *find_nearby_eligible_entry(void *, s32, s32, s16);
 extern s32 find_first_entry_matching_keys(void *, s32, s32, s16);
 
-extern Pair16 D_8017610C[];
+extern Pair16 glacier_direction_offsets[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
 /* Moves an effect and pushed actors along tiles, checks terrain and occupants, and applies damage when
@@ -164,8 +164,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
         }
         effect->unk_16.u++;
         effect->unk_1E.u = 0;
-        motion->unk_0C = D_8017610C[effect->unk_1C].x << 20;
-        motion->unk_10 = D_8017610C[effect->unk_1C].y << 20;
+        motion->unk_0C = glacier_direction_offsets[effect->unk_1C].x << 20;
+        motion->unk_10 = glacier_direction_offsets[effect->unk_1C].y << 20;
         play_sound_if_enabled(0x808);
         return;
 
@@ -178,9 +178,9 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                 if (collision_flags & 0x8400) {
                     effect->unk_26 = 1;
                 }
-                effect->unk_4C.u += (u8)D_8017610C[effect->unk_1C].x;
+                effect->unk_4C.u += (u8)glacier_direction_offsets[effect->unk_1C].x;
                 collision_coord = effect->unk_1C << 2;
-                collision_coord += (s32)D_8017610C;
+                collision_coord += (s32)glacier_direction_offsets;
                 next_tile = effect->unk_4D.u;
                 next_tile += ((S_func_810332A4_8 *)collision_coord)->unk_02;
                 effect->unk_4D.u = next_tile;
@@ -271,8 +271,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     get_offset_map_cell_value_and_flags(display->unk_24, display->unk_25,
                                   effect->unk_1C, &collision_flags);
                     blocked = (collision_flags & 0x8400) != 0;
-                    display->unk_24 += (u8)D_8017610C[effect->unk_1C].x;
-                    display->unk_25 += (u8)D_8017610C[effect->unk_1C].y;
+                    display->unk_24 += (u8)glacier_direction_offsets[effect->unk_1C].x;
+                    display->unk_25 += (u8)glacier_direction_offsets[effect->unk_1C].y;
                     coord_base = (display->unk_24 << 6) + 0x20;
                     object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
@@ -309,9 +309,9 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                         stop_mask = 0xFFEFFFFF;
                         object_data->unk_14 &= stop_mask;
                         display->unk_24 -=
-                            (u8)D_8017610C[effect->unk_1C].x;
+                            (u8)glacier_direction_offsets[effect->unk_1C].x;
                         display->unk_25 -=
-                            (u8)D_8017610C[effect->unk_1C].y;
+                            (u8)glacier_direction_offsets[effect->unk_1C].y;
                         set_record_integer_tile_center(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
                         cycle_map_cell_flags(display->unk_24, display->unk_25,
                                       (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
@@ -341,9 +341,9 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                 }
             }
             object_tile_x = display->unk_24;
-            if ((object_tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
+            if ((object_tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
                 transform->unk_00.half.unk_02 ||
-                (display->unk_25 - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
+                (display->unk_25 - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 !=
                 transform->unk_04.half.unk_06) {
                 floor_height = sample_terrain_surface_height((object_tile_x << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
@@ -368,9 +368,9 @@ secondary_object:
             if ((display->unk_24 << 6) + 0x20 == transform->unk_00.half.unk_02 &&
                 (display->unk_25 << 6) + 0x20 == transform->unk_04.half.unk_06) {
                 display->unk_24 +=
-                    (u8)D_8017610C[effect->unk_1C].x;
+                    (u8)glacier_direction_offsets[effect->unk_1C].x;
                 display->unk_25 +=
-                    (u8)D_8017610C[effect->unk_1C].y;
+                    (u8)glacier_direction_offsets[effect->unk_1C].y;
             } else {
                 floor_height = sample_terrain_surface_height((display->unk_24 << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
@@ -385,11 +385,11 @@ secondary_object:
         }
 
         tile_x = effect->unk_4C.s;
-        if ((tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
+        if ((tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
             motion->unk_00.half.unk_02) {
             world_coord = tile_x << 6;
         } else {
-            if ((effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 ==
+            if ((effect->unk_4D.s - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 ==
                 motion->unk_04.half.unk_06) {
                 motion->unk_00.word += motion->unk_0C;
                 motion->unk_04.word += motion->unk_10;

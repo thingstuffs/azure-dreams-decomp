@@ -6,7 +6,7 @@ s32 check_left_tile_and_center_height();
 s32 find_valid_floor_item_position();
 s32 place_item_at_valid_floor_position();
 s16 sample_terrain_surface_height();
-extern u8 D_80174708;
+extern u8 ghosh_effect_direction_offsets;
 
 
 typedef struct S_8016E528_0_pre {
@@ -214,7 +214,7 @@ mark_removed:
             ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
             ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
                 + ((S_8016E528_0 *)motion)->unk_50);
-            direction_table = &D_80174708;
+            direction_table = &ghosh_effect_direction_offsets;
             ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
             direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
             next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;

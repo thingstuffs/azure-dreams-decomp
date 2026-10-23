@@ -16,7 +16,7 @@ void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_
         register_node(object, project_sprite_chain);
         render_data = object->sprite;
         object_pos = object->position;
-        object->unk_10 = object_param;
+        object->update_callback = object_param;
         object_pos->x = (s32) position->unk_00;
         object_pos->y = (s32) position->unk_04;
         object_pos->z = (s32) position->unk_08;

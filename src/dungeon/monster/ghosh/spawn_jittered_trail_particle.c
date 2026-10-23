@@ -81,13 +81,13 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
             resource_addr = (s32)D_80171E60;
         }
     }
-    object->unk_10 = (void *)resource_addr;
-    ((MovingPosition *)(object->position))->unk_02 =
-        ((MovingPosition *)(parent->unk_08))->unk_02;
-    ((MovingPosition *)(object->position))->unk_06 =
-        ((MovingPosition *)(parent->unk_08))->unk_06;
-    ((MovingPosition *)(object->position))->unk_0A =
-        ((MovingPosition *)(parent->unk_08))->unk_0A;
+    object->update_callback = (void *)resource_addr;
+    ((MovingPosition *)(object->position))->x =
+        ((MovingPosition *)(parent->unk_08))->x;
+    ((MovingPosition *)(object->position))->y =
+        ((MovingPosition *)(parent->unk_08))->y;
+    ((MovingPosition *)(object->position))->z =
+        ((MovingPosition *)(parent->unk_08))->z;
 
     if ((mode_value << 16) == 0) {
         jitter = rand();
@@ -125,7 +125,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     init_data = D_80171704;
     header = object->sprite;
     tail = (u8 *)object + 0x20;
-    header->unk_06 = 0;
+    header->depth_bias = 0;
     ((S_80171F30_4 *)tail)->unk_32 = tail_value;
     ((S_80171F30_4 *)tail)->unk_34 = tail_value;
     register_node(call_object, init_data);

@@ -23,14 +23,14 @@ void toggle_active_scene_event(void) {
     S_8077DC0C_1 *dispatch_base;
     S_8077DC0C_1 *dispatch_base_2;
 
-    state = D_80016000;
+    state = town_scene_root;
     D_80017760 = &D_800162A4;
-    toggle = ((s32)state->unk_40) + (state->unk_08 * 8);
+    toggle = ((s32)state->event_data) + (state->entry_index * 8);
     if (*toggle != 0) {
-        dispatch_base_2 = state->unk_1C;
+        dispatch_base_2 = state->position;
         dispatch_base_2->unk_40 = &D_8001605E;
     } else {
-        dispatch_base = state->unk_1C;
+        dispatch_base = state->position;
         dispatch_base->unk_40 = &scene_event_data;
     }
     event = 0x7E;

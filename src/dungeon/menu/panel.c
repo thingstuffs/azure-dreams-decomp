@@ -59,7 +59,7 @@ void *create_panel_effect_object(void *owner)
         panel_pos->y.w.i = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         panel_pos->z.w.i = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (entity_height_offsets[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
-        panel->unk_10 = update_attached_effect_position;
+        panel->update_callback = update_attached_effect_position;
         register_node(panel, transform_linked_quad_batches, owner_pos, panel_pos);
         panel_data = ((void *)panel) + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
@@ -342,7 +342,7 @@ s32 check_global_data_byte_zero(void) {
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
-    return dungeon_actor_ring_anchor->unk_9A != 0x29;
+    return dungeon_actor_ring_anchor->action_id != 0x29;
 }
 #include "common.h"
 #include "shared/object_flags.h"
@@ -1152,11 +1152,11 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         {
             InitSlot slot = { advance_timed_panel_motion };
             init_data = draw_linked_lit_meshes;
-            object->unk_10 = slot.pointer;
+            object->update_callback = slot.pointer;
             register_node(init_object, init_data);
         }
         render_state = object->sprite;
-        render_state->unk_20 = 0x1000;
+        render_state->offset_x = 0x1000;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->source = 2;

@@ -287,12 +287,12 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             object_base = (u8 *)object + 0x20;
             ((S_801732C4_5 *)object_base)->unk_1A = 0x19;
             ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
-            (object->unk_10) = D_80171080;
+            (object->update_callback) = D_80171080;
             register_node(object, project_sprite_chain);
             transform = (object->position);
-            transform->unk_02 = ((u16)motion->x.w.i);
-            transform->unk_06 = ((u16)motion->y.w.i);
-            transform->unk_0A = ((u16)motion->z.w.i) - 0x60;
+            transform->x = ((u16)motion->x.w.i);
+            transform->y = ((u16)motion->y.w.i);
+            transform->z = ((u16)motion->z.w.i) - 0x60;
             display = (object->sprite);
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
             ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;

@@ -68,7 +68,7 @@ extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
 extern u8 lit_mesh_renderer_address[];
-extern u8 D_800F15E4[];
+extern u8 town_directional_sprite_entries[];
 
 extern void func_8002108C();
 extern void func_80021120();
@@ -102,7 +102,7 @@ s32 initialize_keima_interface(void) {
     if (obj != 0) {
         owner = ((u8 *)obj) + 0x20;
         AT(s16, owner, 0x2E) = 0x2D;
-        obj->unk_10 = D_800218E4;
+        obj->update_callback = D_800218E4;
     }
     AT(void *, ((u8 *)(&scene_object_list_anchor)), 0x74) = owner;
     func_80023DA0(owner);
@@ -186,11 +186,11 @@ s32 initialize_keima_interface(void) {
             if (obj != 0) {
                 register_node(obj, lit_mesh_renderer_address);
                 grid_sprite = *(u8 * *)&obj->sprite;
-                obj->unk_10 = sprite_handler;
+                obj->update_callback = sprite_handler;
                 grid_sprite->color.word = 0x808080;
                 grid_sprite->scale_x = (s16)sprite;
                 grid_sprite->scale_y = (s16)sprite;
-                grid_sprite->unk_20 = (s16)sprite;
+                grid_sprite->offset_x = (s16)sprite;
                 grid_sprite->source = sprite_frames.v[sprite_index];
                 AT(s32, AT(u8 *, obj, 8), 0) = ((sprite_index >> 2) << 22) + 0x0FE00000;
                 AT(s32, AT(u8 *, obj, 8), 4) = ((sprite_index % 4) << 22) + 0x03E00000;
@@ -207,7 +207,7 @@ s32 initialize_keima_interface(void) {
         if (obj != 0) {
             register_node(obj, project_sprite_chain);
             sprite = *(u8 * *)&obj->sprite;
-            obj->unk_10 = D_80023158;
+            obj->update_callback = D_80023158;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;
@@ -230,7 +230,7 @@ s32 initialize_keima_interface(void) {
             AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
-                obj->unk_10 = D_80023260;
+                obj->update_callback = D_80023260;
                 register_node(obj, project_sprite_chain);
                 sprite = *(u8 * *)&obj->sprite;
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
@@ -240,9 +240,9 @@ s32 initialize_keima_interface(void) {
                 AT(s16, sprite, 0x1E) = 0x1000;
                 AT(s16, sprite, 0x1C) = 0x1000;
                 sprite_state = &reference_tile_object;
-                sprite->unk_28 = AT(s32, sprite_state, 0x28);
+                sprite->animation_resource = AT(s32, sprite_state, 0x28);
                 AT(s16, child_data, 0x2A) = 0x800;
-                select_record_entry_and_value(sprite, D_800F15E4, 0);
+                select_record_entry_and_value(sprite, town_directional_sprite_entries, 0);
                 sprite->color.word = 0x808080;
                 sprite->clut = (index + 1) * 4;
                 AT(void *, obj, 0x20) = owner;
@@ -254,7 +254,7 @@ s32 initialize_keima_interface(void) {
 
     obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
-        obj->unk_10 = D_80023A00;
+        obj->update_callback = D_80023A00;
         register_node(obj, project_sprite_chain);
         sprite = *(u8 * *)&obj->sprite;
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
@@ -264,9 +264,9 @@ s32 initialize_keima_interface(void) {
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->unk_28 = reference_tile_object.render_attributes;
+        sprite->animation_resource = reference_tile_object.render_attributes;
         AT(s16, child_data, 0x2A) = 0x800;
-        select_record_entry_and_value(sprite, D_800F15E4, 0);
+        select_record_entry_and_value(sprite, town_directional_sprite_entries, 0);
         sprite->color.word = 0x808080;
         AT(void *, obj, 0x20) = owner;
     }

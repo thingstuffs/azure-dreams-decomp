@@ -5,6 +5,6 @@
 void call_scene_service_pair_b(void)
 {
     s8 *scene_root;
-    scene_root = (s8 *) (((int)D_80016000));
+    scene_root = (s8 *) (((int)town_scene_root));
     (*((s32 (**)(s32, s32)) (((s8 *) (*((void **) (scene_root + 0x20)))) + 0x238)))(0x11, 0x200);
 }

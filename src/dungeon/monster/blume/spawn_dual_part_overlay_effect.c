@@ -58,7 +58,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        object->unk_10 = D_80171A18;
+        object->update_callback = D_80171A18;
         ((S_80171850_1 *)result)->unk_13 = MONSTER_BLUME;
         register_node(object, project_sprite_chain);
 
@@ -70,11 +70,11 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
             part0->unk_0A = attr_c;
             part1 = object->sprite;
             kind = spawn_flags & 3;
-            part1->unk_25 = attr_b;
+            part1->tile_y = attr_b;
             result_copy = result;
             part1->frameTable = handler;
         }
-        part1->unk_24 = attr_a;
+        part1->tile_x = attr_a;
 
         if (kind == 1) {
             flags0 = ((ObjectNodeHeader *)result)->unk_14;

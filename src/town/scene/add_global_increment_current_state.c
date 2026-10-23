@@ -11,6 +11,6 @@ extern s32 scene_price;
 void add_global_increment_current_state(void) {
     TownStateRecord *state;
 
-    state = D_80016000->unk_38;
-    state->unk_2D5C = (s32) (((signed int)state->unk_2D5C) + scene_price);
+    state = town_scene_root->town_state;
+    state->money = (s32) (((signed int)state->money) + scene_price);
 }

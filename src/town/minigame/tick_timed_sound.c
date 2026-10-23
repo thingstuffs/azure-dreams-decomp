@@ -34,7 +34,7 @@ void tick_timed_sound(void *object)
     ((S_80026D28_0 *)object)->unk_52 = timer;
     if ((timer << 16) <= 0) {
         SD_Call(0x1603);
-        ((ObjectStatusPrefix16 *)object)[-1].unk_00 |= 0x8000;
+        ((ObjectStatusPrefix16 *)object)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -32,9 +32,9 @@ void *create_status_linked_render_effect(EntityRec *source_pos, s32 render_param
         object->unk_10 = &D_800ADB8C;
         register_node(object, &D_800ADBCC);
         position = object->unk_08;
-        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
-        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
-        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
+        position->x = (u16) ((u16)source_pos->x.w.i);
+        position->y = (u16) ((u16)source_pos->y.w.i);
+        position->z = (u16) ((u16)source_pos->z.w.i);
         render_data = object->unk_0C;
         render_data->source = render_param;
         render_data->color.word = 0x808080;

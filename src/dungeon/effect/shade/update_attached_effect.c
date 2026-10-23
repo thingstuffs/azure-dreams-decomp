@@ -59,9 +59,9 @@ void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *
     source = ((S_800D4954_0 *)effect)->unk_88;
     source_position = ((S_800D4954_1_pre *)source)[-1].unk_00;
     source_header = source - 0x20;
-    position->unk_02 = source_position->unk_02;
-    position->unk_06 = source_position->unk_06;
-    position->unk_0A = source_position->unk_0A - 0x32;
+    position->unk_02 = source_position->x;
+    position->unk_06 = source_position->y;
+    position->unk_0A = source_position->z - 0x32;
     appearance->unk_0E = 0x28;
     appearance->unk_0D = 0x28;
     appearance->unk_0C = 0x28;

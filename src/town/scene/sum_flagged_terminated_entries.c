@@ -15,13 +15,13 @@ s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode) {
             if (callback_mode == 0) {
                 void *object;
 
-                object = *(void **)((s8 *)(&D_80016000));
+                object = *(void **)((s8 *)(&town_scene_root));
                 object = *(void **)((u8 *)object + 0x20);
                 callback = *(Callback *)((u8 *)object + 0x50);
             } else {
                 void *object;
 
-                object = *(void **)((s8 *)(&D_80016000));
+                object = *(void **)((s8 *)(&town_scene_root));
                 object = *(void **)((u8 *)object + 0x20);
                 callback = *(Callback *)((u8 *)object + 0x6C);
             }

@@ -27,7 +27,7 @@ void run_scene_callbacks_with_mode_adjustments(void) {
     TownRoot *root;
     TownSceneModeState *state;
 
-    root_ptr = (TownRoot **) ((s8 *)(&D_80016000));
+    root_ptr = (TownRoot **) ((s8 *)(&town_scene_root));
     (*root_ptr)->callbacks->callback258(10);
     (*root_ptr)->callbacks->callback248(1);
     (*root_ptr)->callbacks->callback244(1);
@@ -48,7 +48,7 @@ void run_scene_callbacks_with_mode_adjustments(void) {
         state->value4--;
         return;
     }
-    root_ptr = (TownRoot **) ((s8 *)(&D_80016000));
+    root_ptr = (TownRoot **) ((s8 *)(&town_scene_root));
     state = (*root_ptr)->state;
     state->value8--;
 }

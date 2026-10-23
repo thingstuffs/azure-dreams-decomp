@@ -1,0 +1,126 @@
+{
+  "module": "dungeon_frame_render",
+  "runtime_views": {
+    "D_80013714": {
+      "symbol": "D_80013714",
+      "kind": "runtime_data",
+      "vma": 2147563284,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/shared/sys_flags.h"
+    },
+    "D_80080A86": {
+      "symbol": "D_80080A86",
+      "kind": "runtime_data",
+      "vma": 2148010630,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_80083360": {
+      "symbol": "D_80083360",
+      "kind": "runtime_data",
+      "vma": 2148021088,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_800833E0": {
+      "symbol": "D_800833E0",
+      "kind": "runtime_data",
+      "vma": 2148021216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/dungeon/player.h"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "kind": "runtime_data",
+      "vma": 2149359168,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_frame_render.imports.json",
+      "declaration": "include/engine/scene/gp_shared_slots.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80013714": "address_only_runtime_anchor",
+    "D_80080A86": "word_default",
+    "D_800814A0": "word_default",
+    "D_800814A8": "word_default",
+    "D_80083160": "word_default",
+    "D_80083360": "word_default",
+    "D_800833E0": "word_default",
+    "D_80083498": "word_default",
+    "D_800DCF80": "retail_string",
+    "D_800E0000": "retail_string",
+    "D_800E296C": "word_default",
+    "D_801C9E40": "address_only_runtime_anchor"
+  },
+  "address_only_anchors": {
+    "D_80013714": {
+      "declaration": "include/shared/sys_flags.h",
+      "view_bytes": 2,
+      "basis": "Existing system-wide u16 flag word with SLUS writers and dungeon readers documented in its owning shared header. The import retains its exact two-byte declaration and allocates no storage.",
+      "review_inputs": [
+        "include/shared/sys_flags.h"
+      ]
+    },
+    "D_801C9E40": {
+      "declaration": "include/engine/scene/gp_shared_slots.h",
+      "view_bytes": 16,
+      "basis": "Existing upper_draw_context runtime draw environment. init_frame_buffers selects this address and clears its ordering table. The merged reader only compares its base address; retain its original 16-byte partial declaration view, not an allocation claim.",
+      "review_inputs": [
+        "include/engine/scene/gp_shared_slots.h",
+        "src/engine/graphics/init_frame_buffers.c",
+        "config/names.tsv"
+      ]
+    }
+  }
+}

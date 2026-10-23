@@ -16,7 +16,7 @@ typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
-extern u8 D_80175E70;
+extern u8 kewne_frame_set_3;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */
 void start_kewne_attack_action(void *controller, void *action_context, SpriteFrameState *sprite, EntityRec *actor) {
@@ -27,9 +27,9 @@ void start_kewne_attack_action(void *controller, void *action_context, SpriteFra
             ((S_809A0A34_1 *)controller)->unk_9A = 0x17;
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
             ((S_809A0A34_1 *)controller)->unk_9B = 0;
-            (sprite->frameTable) = &D_80175E70;
+            (sprite->frameTable) = &kewne_frame_set_3;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + &D_80175E70), 0);
+                + &kewne_frame_set_3), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_809A0A34_1 *)controller)->unk_98 = (u16) (((S_809A0A34_1 *)controller)->unk_98 | 8);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

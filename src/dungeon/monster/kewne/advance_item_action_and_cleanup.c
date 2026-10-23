@@ -149,8 +149,8 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
             ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
         }
     } else {
-        resource = scan_actor_along_heading(actor, sprite->unk_24,
-                            sprite->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
+        resource = scan_actor_along_heading(actor, sprite->tile_x,
+                            sprite->tile_y, ((S_80173560_1 *)actor)->unk_2A, 0x10);
         ((S_80173560_1 *)actor)->unk_60 = resource;
         ((S_80173560_1 *)actor)->unk_72.u = abs(((S_80173560_1 *)actor)->unk_72.s);
         ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
@@ -227,7 +227,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
 
     case 4:
     if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
-        sprite->unk_05--;
+        sprite->frame_ticks--;
     }
 
     if (!((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
@@ -241,7 +241,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     resource = kewne_direction_frames;
     if (sprite->frameTable != resource) {
         (sprite->frameTable) = resource;

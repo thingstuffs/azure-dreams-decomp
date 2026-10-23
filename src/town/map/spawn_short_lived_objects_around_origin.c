@@ -73,7 +73,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
             if (object != NULL) {
                 SpriteFrameState *primitive;
 
-                object->unk_10 = callback;
+                object->update_callback = callback;
                 register_node(object, project_sprite_chain);
                 primitive = *(Primitive * *)&object->sprite;
                 **(Copy24 * *)&object->position = *origin;
@@ -93,7 +93,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
                 primitive->unk_00 = resource;
                 primitive->source = resource->word;
                 primitive->unk_04 = 0;
-                primitive->unk_05 = 0;
+                primitive->frame_ticks = 0;
                 primitive->color.word = 0x808080;
                 ((Motion *)object)->lifetime = 10;
             }
@@ -106,7 +106,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
 
         self->timer = timer;
         if ((s16)timer <= 0) {
-            ((ObjectRetirementFlags *)self)[-1].unk_00 |= 0x8000;
+            ((ObjectRetirementFlags *)self)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

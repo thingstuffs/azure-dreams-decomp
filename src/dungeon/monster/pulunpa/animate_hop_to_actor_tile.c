@@ -76,12 +76,12 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
             ((S_801721B0_0 *)action)->unk_90 - ((S_801721B0_0 *)action)->unk_A0;
         if (hop_frames != 0) {
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C =
-                (((sprite->unk_24 << 6) -
+                (((sprite->tile_x << 6) -
                   ({ ((Rec_func_800A5DFC_arg1 *)motion)->unk_02 - 0x20; })) <<
                  0x10) /
                 hop_frames;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 =
-                (((sprite->unk_25 << 6) -
+                (((sprite->tile_y << 6) -
                   (tile_origin_y = ((Rec_func_800A5DFC_arg1 *)motion)->unk_06 - 0x20)) <<
                  0x10) /
                 ((S_801721B0_0 *)action)->unk_9E.s;
@@ -107,8 +107,8 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24,
-                          sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x,
+                          sprite->tile_y);
             sprite->frameTable = D_801762E0;
             select_sprite_entry(
                 sprite,
@@ -127,8 +127,8 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24,
-                      sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x,
+                      sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
@@ -145,7 +145,7 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }

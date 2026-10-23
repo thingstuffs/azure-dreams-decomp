@@ -21,13 +21,13 @@ void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offse
 
     object = allocate_list_node(0x211, parent);
     if (object != 0) {
-        object->unk_10 = D_800D6804;
+        object->update_callback = D_800D6804;
         (object->position)->x.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_02;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->x;
         (object->position)->y.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_06;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->y;
         (object->position)->z.w.i =
-            (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_0A;
+            (u16)((MovingPosition *)((*(void * *)&parent->z)))->z;
         x_position = object->position;
         x_position->unk_02 =
             (u16)(x_position->unk_02 + x_offset);

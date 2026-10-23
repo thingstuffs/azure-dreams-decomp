@@ -29,7 +29,7 @@ typedef struct TownStateRecord {
     /* 0x0298 */ unsigned char pad_0298[4];
     /* 0x029C */ void *entries[21]; /* active entry pointers; twenty entries plus a null terminator */
     /* 0x02F0 */ unsigned char pad_02F0[0x2A6C];
-    /* 0x2D5C */ unsigned int unk_2D5C;
+    /* 0x2D5C */ unsigned int money;
     /* 0x2D60 */ int unk_2D60;
     /* 0x2D64 */ unsigned char pad_2D64[4];
     /* 0x2D68 */ unsigned int unk_2D68;

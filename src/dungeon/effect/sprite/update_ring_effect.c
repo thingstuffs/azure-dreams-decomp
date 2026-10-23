@@ -57,7 +57,7 @@ extern s32 spawn_ring();
 extern s32 func_80026384();
 
 extern u16 sprite_effect_update_count[];
-extern u8 D_80028220[];
+extern u8 ring_effect_work[];
 
 /* Eases a sprite into position and brightness, optionally spawns a ring, then fades and removes the
    sprite. */
@@ -140,9 +140,9 @@ void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *paramet
     if (((S_819598B4_0 *)state)->unk_3C != 0) {
         return;
     }
-    tickCountNext = D_80028220[9] + 1;
-    D_80028220[9] = tickCountNext;
+    tickCountNext = ring_effect_work[9] + 1;
+    ring_effect_work[9] = tickCountNext;
     if ((u32)(tickCountNext & 0xFF) >= 0x20U) {
-        D_80028220[9] = 0;
+        ring_effect_work[9] = 0;
     }
 }

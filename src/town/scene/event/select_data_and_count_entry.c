@@ -17,7 +17,7 @@ s32 *select_data_and_count_entry(s32 value, s32 unused, s32 selector) {
 
     func_80017B3C(&D_80018AF8, value);
     if (selector == 10 && invoke_system_callback_21_c(&D_80018AF8, value, 10) == 0) {
-        context = D_80016000;
+        context = town_scene_root;
         count_ptr = (s32 *)((u8 *)context + 8);
         table_ptr = (u8 **)((u8 *)context + 0x40);
         entry_offset = *count_ptr * 8;

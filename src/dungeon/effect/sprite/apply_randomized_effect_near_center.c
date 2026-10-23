@@ -30,12 +30,12 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
     do {
         if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
             position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-            distance_x = position->unk_24 - center_x;
+            distance_x = position->tile_x - center_x;
             if (distance_x < 0) {
                 distance_x = 0 - distance_x;
             }
             if (distance_x < 3) {
-                distance_y = position->unk_25 - center_y;
+                distance_y = position->tile_y - center_y;
                 if (distance_y < 0) {
                     distance_y = 0 - distance_y;
                 }

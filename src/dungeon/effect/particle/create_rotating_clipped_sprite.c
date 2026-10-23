@@ -37,7 +37,7 @@ typedef struct {
     Packed12 blob;
 } Subobject;
 
-extern u8 D_80173B40[12];
+extern u8 encounter_object_position_template[12];
 extern u8 D_80166D68[];
 extern u8 D_80166E48[];
 
@@ -56,9 +56,9 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
         state->field18 = 0x1E;
         state->field1A = 0x1E;
         if ((variant << 0x10) == 0) {
-            object->unk_10 = D_80166D68;
+            object->update_callback = D_80166D68;
         } else {
-            object->unk_10 = D_80166E48;
+            object->update_callback = D_80166E48;
         }
         register_node(object, project_sprite_chain);
         child = *(Child * *)&object->sprite;
@@ -76,7 +76,7 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
         child->fieldD = 0x80;
         child->fieldC = 0x80;
         child->field14 |= 0x80;
-        state->blob = *(Packed12 *)D_80173B40;
+        state->blob = *(Packed12 *)encounter_object_position_template;
         child->field8 = &state->blob;
     }
 }

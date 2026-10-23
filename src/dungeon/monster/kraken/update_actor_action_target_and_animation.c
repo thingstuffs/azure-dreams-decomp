@@ -58,7 +58,7 @@ void create_two_effect_groups();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1;
 extern u8 D_801741B4;
-extern u8 D_801741BC;
+extern u8 kraken_frame_set_5;
 
 /* Updates an actor's action state, target selection, and animation. */
 /* Starts a targeted Kraken spell with two effect groups, waits for loading and animation, then restores
@@ -143,8 +143,8 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                         void *owner = target_owner;
 
                         slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
-                        actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->unk_24;
-                        actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->unk_25;
+                        actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->tile_x;
+                        actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->tile_y;
                     }
                 } else if (item_action_definitions[*entry].kind == 2) {
                     target_owner = actor->target;
@@ -152,13 +152,13 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                         void *owner = target_owner;
 
                         slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
-                        actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->unk_24;
-                        actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->unk_25;
+                        actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->tile_x;
+                        actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->tile_y;
                     }
                 } else {
                     void *spawned_owner;
 
-                    spawned_owner = scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
+                    spawned_owner = scan_actor_along_heading(actor, sprite->tile_x, sprite->tile_y,
                         actor->facing, 0x10);
                     actor->target = spawned_owner;
                     abs_x = abs(actor->target_tile_x);
@@ -190,7 +190,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
         advance_status_timers(actor);
@@ -221,8 +221,8 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = &D_801741BC;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
+        sprite->frameTable = &kraken_frame_set_5;
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &kraken_frame_set_5), 0);
         current_state = ((S_801727C8_0 *)action)->unk_9B;
         ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
         return;
@@ -234,7 +234,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((*(M2C_UNK * *)&sprite->frameTable) != &kraken_frame_set_1) {
             if (sprite->flags & 0x6000) {
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);

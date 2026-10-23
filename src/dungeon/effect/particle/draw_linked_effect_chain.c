@@ -401,14 +401,14 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
         setup = (u8 *)node + 0x20;
         ((Row_819A1450_S_819A1450_0 *)setup)->unk_3A = 5;
         ((Row_819A1450_S_819A1450_0 *)setup)->unk_3C = 5;
-        node->unk_10 = D_800246F0;
+        node->update_callback = D_800246F0;
         register_node(node, project_sprite_chain);
 
         part = node->sprite;
         part->tpage_abr = 0x20;
         part->flags |= 0xC;
         part->angle_z = (rand() & 7) << 9;
-        part->unk_06 = 0;
+        part->depth_bias = 0;
 
         coords = node->position;
         coords->x.w.i = offset_x;
@@ -472,8 +472,8 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
         case 0:
         start_world = primary_actor_record;
         ((PlayerRecord *)start_world)->unk_F4 = 0;
-        start_world->unk_96 = 20;
-        D_80082E86[0] = 6;
+        start_world->action_timer = 20;
+        linked_effect_chain_count[0] = 6;
         entity->state++;
         start_origin = &view_reference_entity[0];
         {
@@ -962,7 +962,7 @@ loop_1:
         case 4:
             if (((s16 *)linked_effect_update_flag)[0] == 0) {
                 g_dungeon_status.active_actor = 0;
-                D_80082E86[0] = 0;
+                linked_effect_chain_count[0] = 0;
                 (*(u16 *)&g_dungeon_status.activity_counts.parts.pending_action_count)--;
                 *((u16 *)entity - 1) |= 0x8000;
                 D_800814A0[0].flags |= 0x8000;

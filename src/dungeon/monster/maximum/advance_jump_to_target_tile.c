@@ -28,7 +28,7 @@ extern void on_actor_status_updated();
 extern void spend_actor_mp();
 
 
-extern u8 D_80170E54;
+extern u8 maximum_action_continuation_address;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
 void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position, SpriteFrameState *target_tile, ActorRecord *entity) {
@@ -59,10 +59,10 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
             s32 coord2;
             s32 axis_origin2;
 
-            coord = target_tile->unk_24 << 6;
+            coord = target_tile->tile_x << 6;
             axis_origin = position->x.w.i - 0x20;
             position->velocity_x = ((coord - axis_origin) << 16) / frames_left;
-            coord2 = target_tile->unk_25 << 6;
+            coord2 = target_tile->tile_y << 6;
             axis_origin2 = position->y.w.i - 0x20;
             position->velocity_y = ((coord2 - axis_origin2) << 16) / motion->unk_96;
             motion->unk_A4 += position->velocity_z;
@@ -82,7 +82,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
-            set_record_integer_tile_center(position, target_tile->unk_24, target_tile->unk_25);
+            set_record_integer_tile_center(position, target_tile->tile_x, target_tile->tile_y);
             motion->unk_9B++;
         }
         break;
@@ -94,7 +94,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, target_tile->unk_24, target_tile->unk_25);
+        set_record_integer_tile_center(position, target_tile->tile_x, target_tile->tile_y);
         spend_actor_mp(entity, 5);
         advance_status_timers(entity);
 
@@ -111,13 +111,13 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
             if (entity_flags & 0x20000) {
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
-                    target_tile->unk_24, target_tile->unk_25,
+                    target_tile->tile_x, target_tile->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 
         if ((check_actor_floor_trap(target_tile, entity) << 16) > 0) {
-            motion->unk_8C = &D_80170E54;
+            motion->unk_8C = &maximum_action_continuation_address;
             on_actor_status_updated(entity);
         }
     }

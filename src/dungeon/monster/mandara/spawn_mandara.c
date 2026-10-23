@@ -75,7 +75,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
     saved_spawn_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80158B40;
+        obj->update_callback = D_80158B40;
         ((S_80FC9000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
@@ -83,10 +83,10 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         pin_part_a->z.w.i = saved_height;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = tile_y;
+        part_b->tile_y = tile_y;
         pin_actor = work;
         part_b->frameTable = D_8015D258;
-        part_b->unk_24 = saved_tile_x;
+        part_b->tile_x = saved_tile_x;
         if (kind == 1) {
             left = ((S_80FC9000_1 *)work)->unk_14 | 0x6000;
             right = ((S_80FC9000_1 *)work)->unk_1C | 0x6000;

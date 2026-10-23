@@ -136,16 +136,16 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
         }
     }
 
-    tile_id = find_active_rect_containing_point(map_object_arg->unk_24,
-        map_object_arg->unk_25);
-    map_object_arg->unk_26 = tile_id;
+    tile_id = find_active_rect_containing_point(map_object_arg->tile_x,
+        map_object_arg->tile_y);
+    map_object_arg->room_index = tile_id;
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
         if (((S_80170F68_1 *)actor_state_arg)->unk_1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_state_arg);
             return;
         }
-        if (*(u16 *)&map_object_arg->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&map_object_arg->tile_x == reference_tile_object.tile_position.word) {
             update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
@@ -184,12 +184,12 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(
-                    map_object_arg->unk_24, map_object_arg->unk_25,
+                    map_object_arg->tile_x, map_object_arg->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
                 ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &tyrant_action_resume_address);
                     return;
                 }
@@ -213,12 +213,12 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
-                if ((s16)test_neighbor_position_relation(map_object_arg->unk_24,
-                        map_object_arg->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                if ((s16)test_neighbor_position_relation(map_object_arg->tile_x,
+                        map_object_arg->tile_y, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80170F68_1 *)actor_state_arg)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        map_object_arg->unk_24,
-                            map_object_arg->unk_25,
+                        map_object_arg->tile_x,
+                            map_object_arg->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

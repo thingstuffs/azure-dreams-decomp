@@ -28,10 +28,10 @@ extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(void *, void *, void *, void *);
 
 extern u8 barong_action_resume_address[];
-extern u8 D_8017555C[];
+extern u8 barong_frame_set_1[];
 extern u8 D_801755BC[];
 extern u8 D_801755C4[];
-extern u8 D_801755CC[];
+extern u8 barong_frame_set_3[];
 
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
 void advance_deforming_action_animation(void *action_in, void *direction_data_in, void *sprite_in, void *actor_in)
@@ -81,9 +81,9 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         }
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
         ((S_801750F8_0 *)action_in)->unk_9B++;
-        (sprite->frameTable) = D_801755CC;
+        (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
-            D_801755CC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         sprite->flags |= 0x0800;
         return;
@@ -177,9 +177,9 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
     {
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        (sprite->frameTable) = D_8017555C;
+        (sprite->frameTable) = barong_frame_set_1;
         select_sprite_entry(sprite,
-            D_8017555C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         spend_actor_mp(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = barong_action_resume_address;

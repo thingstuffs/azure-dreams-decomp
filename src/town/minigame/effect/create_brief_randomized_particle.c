@@ -71,10 +71,10 @@ void create_brief_randomized_particle(S_80026978_1 *origin)
 
     effect = allocate_flagged_object_node(0x136);
     if (effect != NULL) {
-        ((ProjectileObject *)effect)->unk_10 = D_80026B00;
+        ((ProjectileObject *)effect)->update_callback = D_80026B00;
         register_node(effect, project_sprite_chain);
-        transform = ((ProjectileObject *)effect)->unk_08;
-        sprite = ((ProjectileObject *)effect)->unk_0C;
+        transform = ((ProjectileObject *)effect)->position;
+        sprite = ((ProjectileObject *)effect)->sprite;
         effect_state = (S_80026978_3 *)((u8 *)effect + 0x20);
         spawn_x = (origin->unk_02 + (rand() % 40)) - 0x14;
         transform->unk_02 = spawn_x;

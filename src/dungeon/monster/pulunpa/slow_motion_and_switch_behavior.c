@@ -119,13 +119,13 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
 
         frames_left = state->unk_96.s;
         if (frames_left > 0) {
-            x_step = tile->unk_24 << 6;
+            x_step = tile->tile_x << 6;
             position_offset = motion->x.w.i - 0x20;
             x_step = (x_step - position_offset) << 16;
             x_step = x_step / frames_left;
             position_offset = motion->y.w.i - 0x20;
             motion->velocity_x = x_step;
-            y_distance = (tile->unk_25 << 6) - position_offset;
+            y_distance = (tile->tile_y << 6) - position_offset;
             motion->velocity_y =
                 (y_distance << 16) / state->unk_96.s;
         }
@@ -139,7 +139,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

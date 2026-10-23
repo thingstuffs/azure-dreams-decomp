@@ -54,7 +54,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
 
     object = allocate_list_node(0x312, allocation_param - 0x20);
     if (object != NULL) {
-        object->unk_10 = &D_80175018;
+        object->update_callback = &D_80175018;
         register_node(object, project_sprite_chain);
         work = (u8 *)object + 0x20;
 
@@ -70,7 +70,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         work->unk_4C = allocation_param;
 
         node = object->sprite;
-        node->unk_28 = source_node->unk_28.at00_s32.v;
+        node->animation_resource = source_node->unk_28.at00_s32.v;
         node->color.c.b = 0x80;
         node->color.c.g = 0x80;
         node->color.c.r = 0x80;
@@ -88,9 +88,9 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         delta[0] = 0;
         source = work->unk_48;
         if (resolve_record_orientation_or_fallback(source->unk_08, source, delta, 3) != 0) {
-            ((MovingPosition *)copy)->unk_02 += delta[0];
-            ((MovingPosition *)copy)->unk_06 += delta[1];
-            ((MovingPosition *)copy)->unk_0A += delta[2];
+            ((MovingPosition *)copy)->x += delta[0];
+            ((MovingPosition *)copy)->y += delta[1];
+            ((MovingPosition *)copy)->z += delta[2];
             work->unk_0A = delta[0];
             work->unk_0C = delta[1];
             work->unk_0E.u = delta[2];

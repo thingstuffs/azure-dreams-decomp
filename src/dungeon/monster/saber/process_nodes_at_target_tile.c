@@ -113,10 +113,10 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
                         offset = (OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
                         spawn_radial_particle_burst(
-                            (s16)(position->unk_02 + (offset->x * 32)),
-                            (s16)(position->unk_06 +
+                            (s16)(position->x + (offset->x * 32)),
+                            (s16)(position->y +
                                   ((s32)(offset->y << 16) >> 11)),
-                            (s16)(position->unk_0A - 0x20),
+                            (s16)(position->z - 0x20),
                             ((S_801745BC_4 *)owner)->unk_14,
                             (s32)(s16)angle);
                     } else {

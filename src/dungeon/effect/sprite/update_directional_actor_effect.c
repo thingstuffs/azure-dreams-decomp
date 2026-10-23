@@ -142,7 +142,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                     offset[1] = 0;
                     offset[0] = 0;
                 }
-                object->unk_10 = update_effect_and_spawn_fragments;
+                object->update_callback = update_effect_and_spawn_fragments;
                 register_node(object, (s32)create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
@@ -188,7 +188,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                object->unk_10 = update_segment;
+                object->update_callback = update_segment;
                 register_node(object, (s32)&D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
                 offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
@@ -616,7 +616,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             child->flags |= 0xC;
             child->source = resource->data;
             child->unk_04 = 0;
-            child->unk_05 = 0;
+            child->frame_ticks = 0;
             child->color.word = 0x00808080;
             effect->owner = obj->link;
             tail = (EffectTail *)&effect->owner;

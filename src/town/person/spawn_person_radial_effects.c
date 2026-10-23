@@ -36,14 +36,14 @@ void spawn_person_radial_effects(void *source) {
     angle_step = 0x1000 / effect_count;
     effects_spawned = 0;
     angle = rand();
-    effect.z = origin->unk_0A;
+    effect.z = origin->z;
     effect.c = -4;
     cond_1 = effect_count != 0;
     if (cond_1) {
         do {
             effects_spawned += 1;
-            effect.x = (origin->unk_02 + (rand() & 0x1F)) - 0x10;
-            effect.y = (origin->unk_06 + (rand() & 0x1F)) - 0x10;
+            effect.x = (origin->x + (rand() & 0x1F)) - 0x10;
+            effect.y = (origin->y + (rand() & 0x1F)) - 0x10;
             effect.a = rcos(angle) << 5;
             effect.b = rsin(angle) << 5;
             spawn_person_offset_effect(&effect, angle);

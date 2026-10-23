@@ -267,8 +267,8 @@ void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion
     actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
     if (actor_flags & 0x40000000) {
         ((S_8016B3A8_2 *)actor_base)->unk_1C = actor_flags & 0xBFFFFFFF;
-        floor_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
-                              (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
+                              (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
                               (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20));
         if (floor_height < 0x200) {
             (*(s16 *)((u8 *)self + 0x92)) =

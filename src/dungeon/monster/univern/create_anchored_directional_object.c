@@ -52,7 +52,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = project_sprite_chain;
-            init_root->unk_10 = ((u8 *)create_anchored_directional_object);
+            init_root->update_callback = ((u8 *)create_anchored_directional_object);
             ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
@@ -67,8 +67,8 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             part = root->sprite;
             part->frameTable = part_callback;
         }
-        part->unk_24 = saved_tile_x;
-        part->unk_25 = saved_tile_y;
+        part->tile_x = saved_tile_x;
+        part->tile_y = saved_tile_y;
 
         {
             s32 object_flags;
@@ -139,13 +139,13 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = part->unk_28;
+                    part_value = part->animation_resource;
                     item->tpage_abr = 0x20;
                     item->color.word = 0x00808080;
-                    item->unk_28 = part_value;
+                    item->animation_resource = part_value;
                     outer_child = ((R17_8017089C_S_8017089C_8 *)outer_base)->unk_A4;
                     call_zero = 0;
-                    outer_child->unk_10 = ((u8 *)child_object_update_address);
+                    outer_child->update_callback = ((u8 *)child_object_update_address);
                     (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = (((*(s16 *)view_facing_angle_alias) +
                         ((R17_8017089C_S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
@@ -403,8 +403,8 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
 
     if (((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0x40000000) {
         ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u = ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0xBFFFFFFF;
-        ground = ((s16)sample_terrain_surface_height((object->unk_24 << 6) | 0x20,
-            (object->unk_25 << 6) | 0x20,
+        ground = ((s16)sample_terrain_surface_height((object->tile_x << 6) | 0x20,
+            (object->tile_y << 6) | 0x20,
             (s16)(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)));
         if (ground < 0x200) {
             (*(s16 *)((u8 *)actor + (0x92))) += ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_88.u - ground;
@@ -482,7 +482,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, Sprite
         status->flags1C |= 0x40000;
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (status->unk_64 != 0) {
+        if (status->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, ((u8 *)D_801744A4)) != 0) {
                 return;
             }
@@ -500,15 +500,15 @@ void update_entity_movement_and_ground_height(void *actor, void *context, Sprite
         }
     }
 
-    tile_index = ((s8)find_active_rect_containing_point((u8)(sprite->unk_24),(u8)(sprite->unk_25)));
-    sprite->unk_26 = tile_index;
+    tile_index = ((s8)find_active_rect_containing_point((u8)(sprite->tile_x),(u8)(sprite->tile_y)));
+    sprite->room_index = tile_index;
 
     if (status->pending_turn_updates > 0) {
         if (((u32)status->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(status);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             choose_univern_move(actor, context, sprite, status);
             return;
         }
@@ -549,10 +549,10 @@ void update_entity_movement_and_ground_height(void *actor, void *context, Sprite
             s16 target_angle;
             ActorRecord *active_actor;
 
-            target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->unk_24),(s16)(sprite->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
+            target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->tile_x),(s16)(sprite->tile_y),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
             active_actor = primary_actor_record;
             status->facing = target_angle;
-            if (active_actor->unk_9A != 0x11) {
+            if (active_actor->action_id != 0x11) {
                 update_actor_status_and_mp(status);
                 return;
             }
@@ -595,10 +595,10 @@ void update_entity_movement_and_ground_height(void *actor, void *context, Sprite
         return;
     }
 
-    if ((s16)test_neighbor_position_relation((u8)(sprite->unk_24),(u8)(sprite->unk_25),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) == 0) {
+    if ((s16)test_neighbor_position_relation((u8)(sprite->tile_x),(u8)(sprite->tile_y),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) == 0) {
         return;
     }
-    status->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->unk_24),(s16)(sprite->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
+    status->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->tile_x),(s16)(sprite->tile_y),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
 }
 #include "dungeon/monster/univern.h"
 
@@ -629,22 +629,22 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
         ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }
 
-    old_x = entity->unk_24;
-    old_y = entity->unk_25;
+    old_x = entity->tile_x;
+    old_y = entity->tile_y;
     occupancy_mask = 0x3000;
     if (((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
         occupancy_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
-    entity->unk_24 =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->unk_74;
-    entity->unk_25 =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->unk_7C;
+    entity->tile_x =
+        ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->path_x;
+    entity->tile_y =
+        ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->path_y;
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.u++;
 
-    new_x = entity->unk_24;
-    new_y = entity->unk_25;
+    new_x = entity->tile_x;
+    new_y = entity->tile_y;
     occupancy_mask = 0x3000;
     if (((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
         occupancy_mask = 0x300;
@@ -652,7 +652,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
     cycle_map_cell_flags(new_x, new_y, occupancy_mask);
 
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
-        old_x, old_y, entity->unk_24, entity->unk_25,
+        old_x, old_y, entity->tile_x, entity->tile_y,
         (u8 *)motion + 0x98));
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xF;
@@ -824,9 +824,9 @@ void choose_univern_move(void *move_data, void *context, void *position_data, vo
             }
 
             ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_2A.s = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->path_x =
                 ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->path_y =
                 ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v;
             ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.u++;
 
@@ -906,8 +906,8 @@ s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, v
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, ((SpriteFrameState *)sprite_arg)->unk_24,
-                           ((SpriteFrameState *)sprite_arg)->unk_25, actor->facing);
+    target_angle = probe_directional_neighbor(actor, ((SpriteFrameState *)sprite_arg)->tile_x,
+                           ((SpriteFrameState *)sprite_arg)->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -1145,14 +1145,14 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
         return;
 
     case 0xFF:
-        target = sprite->unk_24 << 6;
+        target = sprite->tile_x << 6;
         current = FS16(motion, 2);
         current -= 0x20;
         target -= current;
         target <<= 15;
         target >>= 1;
         F32(motion, 0xC) = target;
-        target = sprite->unk_25 << 6;
+        target = sprite->tile_y << 6;
         current = FS16(motion, 6);
         current -= 0x20;
         target -= current;
@@ -1164,7 +1164,7 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
         F32(motion, 0x10) = 0;
         F32(motion, 0xC) = 0;
         F32(actor, 0x1C) |= 0x40000;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
         FPTR(action, 0x8C) = ((u8 *)update_entity_movement_and_ground_height);
         g_dungeon_status.active_actor = 0;
@@ -1277,7 +1277,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
                 s32 offset_x;
 
                 ent->f60 = scan_actor_along_heading(
-                    ent,(u8)(actor->unk_24),(u8)(actor->unk_25),(s16)(ent->f2A), 0x10);
+                    ent,(u8)(actor->tile_x),(u8)(actor->tile_y),(s16)(ent->f2A), 0x10);
                 offset_x = __builtin_abs(ent->f72);
                 offset_y = __builtin_abs(ent->f73);
                 ent->f72 = offset_x;
@@ -1306,7 +1306,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        set_record_integer_tile_center(pos,(u8)(actor->unk_24),(u8)(actor->unk_25));
+        set_record_integer_tile_center(pos,(u8)(actor->tile_x),(u8)(actor->tile_y));
         {
             R17_80172C18_MainObj *main_obj;
 
@@ -1361,7 +1361,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        set_record_integer_tile_center(pos,(u8)(actor->unk_24),(u8)(actor->unk_25));
+        set_record_integer_tile_center(pos,(u8)(actor->tile_x),(u8)(actor->tile_y));
         state->flags98 &= 0xFFF7;
         ent->flags1C |= ACTOR_GROUNDED;
         ent->flags1C |= 0x00040000;
@@ -1489,13 +1489,13 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
             s32 tile_delta;
             s32 position;
 
-            tile_delta = sprite->unk_24 << 6;
+            tile_delta = sprite->tile_x << 6;
             position = ((EntityRec *)motion)->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
             ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = sprite->unk_25 << 6;
+            tile_delta = sprite->tile_y << 6;
             position = ((EntityRec *)motion)->y.w.i;
             position -= 0x20;
             tile_delta -= position;
@@ -1517,7 +1517,7 @@ void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)sprite->unk_24,(u8)sprite->unk_25);
+        set_record_integer_tile_center(motion,(u8)sprite->tile_x,(u8)sprite->tile_y);
 
         ((R17_80173244_S_80173354_1 *)action)->unk_90 = 0;
         ((R17_80173244_S_80173354_1 *)action)->unk_98 &= 0xFFF7;
@@ -1558,9 +1558,9 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
 
     switch (state) {
     case 0:
-        motion->unk_0C = offset_x << 16;
-        motion->unk_10 = offset_y << 16;
-        motion->unk_14 = 0x8000;
+        motion->velocity_x = offset_x << 16;
+        motion->velocity_y = offset_y << 16;
+        motion->velocity_z = 0x8000;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
@@ -1805,7 +1805,7 @@ void update_sleeping_univern(void *actor_arg, void *motion_arg, void *sprite_arg
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 coordinate = *(s8 *)&sprite->unk_26;
+            s8 coordinate = *(s8 *)&sprite->room_index;
 
             if ((((coordinate == origin->room_index) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&

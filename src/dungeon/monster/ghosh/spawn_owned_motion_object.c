@@ -49,7 +49,7 @@ extern void register_node(void *, void *);
 extern u8 D_800777B8;
 extern u8 D_8016E528;
 extern void *ghosh_actor_node;
-extern s16 D_80174708[16];
+extern s16 ghosh_effect_direction_offsets[16];
 
 /* Spawn an object at the owner's position and initialize its motion and appearance. */
 void spawn_owned_motion_object(void)
@@ -72,7 +72,7 @@ void spawn_owned_motion_object(void)
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
-        spawned_object->unk_10 = &D_8016E528;
+        spawned_object->update_callback = &D_8016E528;
         object_state = (u8 *)spawned_object + 0x20;
         register_node(spawned_object, project_sprite_chain);
         render_part = spawned_object->sprite;
@@ -82,7 +82,7 @@ void spawn_owned_motion_object(void)
         spawn_pos->x.w.i = source_pos->unk_02.s;
         spawn_pos->y.w.i = source_pos->unk_06.s;
         spawn_pos->z.w.i = source_pos->unk_0A - 0x20;
-        direction_table = (u8 *)&D_80174708;
+        direction_table = (u8 *)&ghosh_effect_direction_offsets;
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);
         ((S_8016EB14_3 *)object_state)->unk_4C = x << 18;
@@ -97,7 +97,7 @@ void spawn_owned_motion_object(void)
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
         direction_entry = (u8 *)(((owner_state->unk_2A >> 7) & 0x1C) + (u32)direction_table);
-        render_part->unk_06 = *(s16 *)(direction_entry + 2) * 6;
+        render_part->depth_bias = *(s16 *)(direction_entry + 2) * 6;
         owner_state->unk_AA = 0x4D;
 
         x = source_pos->unk_02.u;

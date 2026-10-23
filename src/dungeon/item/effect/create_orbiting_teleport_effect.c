@@ -59,20 +59,20 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     saved_mode = effect_mode;
     if (object != NULL) {
         callback = D_800C4F20;
-        object->unk_10 = callback;
+        object->update_callback = callback;
         register_node(object, D_800C55A0);
 
         display = object->sprite;
         display->color.word = 0x808080;
         display->source = D_800DF630;
-        display->unk_06 = 0xC;
+        display->depth_bias = 0xC;
 
         source = ((S_800C542C_2_pre *)owner)[-1].unk_00;
         target = object->position;
-        target->unk_02 = source->unk_02;
-        target->unk_06 = source->unk_06;
+        target->x = source->x;
+        target->y = source->y;
         record = (u8 *)object + 0x20;
-        target->unk_0A = source->unk_0A;
+        target->z = source->z;
 
         record->unk_30 = effect_value;
         direction_fixed = direction << 0x10;
@@ -81,7 +81,7 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
         record->unk_2E = (s16)(direction_fixed >> 5);
         record->unk_24 = owner;
         record->unk_20 = parent;
-        display->unk_20 = 0x2000;
+        display->offset_x = 0x2000;
         record->unk_32 = 0x400;
         record->unk_2C = rand();
 

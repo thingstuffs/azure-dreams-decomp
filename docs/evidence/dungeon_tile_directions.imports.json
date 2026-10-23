@@ -1,0 +1,106 @@
+{
+  "module": "dungeon_tile_directions",
+  "runtime_views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "runtime_data",
+      "vma": 2147929304,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "runtime_data",
+      "vma": 2147929320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_80080B00": {
+      "symbol": "D_80080B00",
+      "kind": "runtime_data",
+      "vma": 2148010752,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_80081508": {
+      "symbol": "D_80081508",
+      "kind": "runtime_data",
+      "vma": 2148013320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_800E6000": {
+      "symbol": "D_800E6000",
+      "kind": "runtime_data",
+      "vma": 2148425728,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh.h"
+    },
+    "D_800EA000": {
+      "symbol": "D_800EA000",
+      "kind": "runtime_data",
+      "vma": 2148442112,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_tile_directions.imports.json",
+      "declaration": "include/dungeon/effect/mesh/generation_tile_flags.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CCD8": "word_default",
+    "D_8006CCE8": "word_default",
+    "D_80080B00": "word_default",
+    "D_80081508": "word_default",
+    "D_80083160": "word_default",
+    "D_800E6000": "address_only_runtime_anchor",
+    "D_800EA000": "address_only_runtime_anchor"
+  },
+  "address_only_anchors": {
+    "D_800E6000": {
+      "declaration": "include/dungeon/effect/mesh.h",
+      "view_bytes": 1,
+      "basis": "Address-only base retained from clear_listed_tile_flags. Its +0x4000 cell address is generation_cells (0x800EA000); this merge allocates no storage and makes no claim about the base array extent.",
+      "review_inputs": [
+        "include/dungeon/effect/mesh/generation_tile_flags.h",
+        "src/dungeon/level/generate.c",
+        "config/names.tsv"
+      ]
+    },
+    "D_800EA000": {
+      "declaration": "include/dungeon/effect/mesh/generation_tile_flags.h",
+      "view_bytes": 12,
+      "basis": "Existing two-element partial DungeonTile declaration (six-byte cells) and clear_generation_cell_grid writer establish runtime generation-cell storage at this address. Preserve the declared view; no file payload or allocation is claimed.",
+      "review_inputs": [
+        "include/dungeon/effect/mesh/generation_tile_flags.h",
+        "include/dungeon/level/generate.h",
+        "src/dungeon/level/generate.c",
+        "config/names.tsv"
+      ]
+    }
+  }
+}

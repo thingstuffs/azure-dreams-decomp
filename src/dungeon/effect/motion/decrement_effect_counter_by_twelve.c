@@ -43,7 +43,7 @@ void create_random_offset_effect_object(
         Row_818F33BC_S_80024BBC_3 *y_dest;
         Row_818F33BC_S_80024BBC_4 *z_dest;
 
-        object->unk_10 = decrement_effect_counter_by_twelve;
+        object->update_callback = decrement_effect_counter_by_twelve;
 
         x_jitter = rand() & 0x1F;
         x_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;

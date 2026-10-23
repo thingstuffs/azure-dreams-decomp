@@ -7,7 +7,7 @@
 s32 get_money_hundreds_capped(void) {
     u32 value;
 
-    value = (D_80016000->unk_38->unk_2D5C + 0x64U) / 100U;
+    value = (town_scene_root->town_state->money + 0x64U) / 100U;
     if ((s32)value >= 0xB) {
         value = 0xAU;
     }

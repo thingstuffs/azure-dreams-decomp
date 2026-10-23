@@ -24,7 +24,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
     call_state_handler_and_copy_values(&s0, first_input);
     {
         ReportValue report;
-        report = D_80016000->unk_20->callback_168;
+        report = town_scene_root->services->callback_168;
         first_format = D_8001610C;
         report(first_format, D_80016118, s0.x);
     }
@@ -32,7 +32,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
     call_state_handler_and_copy_values(&s1, second_input);
     {
         ReportValue report;
-        report = D_80016000->unk_20->callback_168;
+        report = town_scene_root->services->callback_168;
         second_format = D_8001610C;
         report(second_format, D_80016120, s1.x);
     }
@@ -40,11 +40,11 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
     blend_point_2s_by_signed_weight(&s0, &s1, blend_weight, remaining_weight, &s);
     {
         ReportValue report;
-        report = D_80016000->unk_20->callback_168;
+        report = town_scene_root->services->callback_168;
         result_format = D_8001610C;
         report(result_format, D_80016128, s.x);
     }
-    root = D_80016000;
-    ((TownPositionState *)root->unk_1C)->x = s.x;
-    ((TownPositionState *)root->unk_1C)->y = s.y;
+    root = town_scene_root;
+    ((TownPositionState *)root->position)->x = s.x;
+    ((TownPositionState *)root->position)->y = s.y;
 }

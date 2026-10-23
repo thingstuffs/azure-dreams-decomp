@@ -62,7 +62,7 @@ u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 
                 }
             }
         }
-        allocation->unk_10 = func_8016AA98;
+        allocation->update_callback = func_8016AA98;
         initialize_actor_sprite_and_animation(allocation, part_a, part_b, saved_flags);
 
         secondary[154] = 0xFF;

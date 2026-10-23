@@ -22,7 +22,7 @@ typedef struct {
 extern void clear_actor_pending_update_markers(void *state);
 extern void unlink_entity_node(void *node);
 
-extern void *D_80174AB4[3];
+extern void *ghosh_command_stream[3];
 extern s16 D_80174AB8[5];
 extern u8 D_80174B38[];
 extern void *ghosh_boss_node[3];
@@ -35,7 +35,7 @@ void initialize_shared_state_active_entries(void)
     StateData *state_data;
     u8 *entry_header;
 
-    D_80174AB4[0] = D_80174B38;
+    ghosh_command_stream[0] = D_80174B38;
     state_data = (StateData *)((u8 *)ghosh_boss_node[0] + 0x20);
     D_80174AB8[0] = 0;
     {

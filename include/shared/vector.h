@@ -35,4 +35,22 @@ typedef struct SignedPair16 {
     short unk_02;
 } SignedPair16;
 
+/* Matrix passed to ReadRotMatrix/RotMatrix/CompMatrix/TransMatrix and the
+ * GTE matrix setters. Rotation is nine signed halfwords; translation is
+ * three signed words at +0x14. The explicit halfword keeps the 0x20 extent. */
+typedef struct GteMatrix {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} GteMatrix;
+
+/* Signed GTE vector supplied to RotTrans/ApplyMatrixSV or the angle argument
+ * of RotMatrix. Keep the fourth halfword and eight-byte local extent. */
+typedef struct GteShortVector {
+    s16 vx;
+    s16 vy;
+    s16 vz;
+    s16 pad;
+} GteShortVector;
+
 #endif

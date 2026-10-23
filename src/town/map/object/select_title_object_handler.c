@@ -27,7 +27,7 @@ extern s32 D_800A5440;
 extern s32 D_800A549C;
 extern s32 D_800A54FC;
 extern s32 D_800A5638;
-extern s32 D_800A58CC;
+extern s32 map_view_transition_address;
 extern s32 D_800A5A98;
 extern TownState town_position_reference_state;
 
@@ -39,7 +39,7 @@ void select_title_object_handler(TownObject *obj)
 {
     if ((scene_object_list_anchor.field_10 == &D_800A5638) &&
         ((scene_object_list_anchor.field_20 == &D_800A5A98) ||
-         (scene_object_list_anchor.field_20 == &D_800A58CC))) {
+         (scene_object_list_anchor.field_20 == &map_view_transition_address))) {
         obj->field_2 = 0x80;
         obj->field_4 = 0x300;
         obj->field_1C = &D_800A5440;

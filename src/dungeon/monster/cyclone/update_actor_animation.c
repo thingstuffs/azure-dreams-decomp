@@ -132,7 +132,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
                 sprite_arg,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
-            sprite_arg->unk_05 = 1;
+            sprite_arg->frame_ticks = 1;
             ((S_80171094_0 *)actor_arg)->unk_A6.s = 0;
             ((S_80171094_0 *)actor_arg)->unk_AC.s = 0;
         }
@@ -171,15 +171,15 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
         }
     }
 
-    tile_id = find_active_rect_containing_point(sprite_arg->unk_24, sprite_arg->unk_25);
-    sprite_arg->unk_26 = tile_id;
+    tile_id = find_active_rect_containing_point(sprite_arg->tile_x, sprite_arg->tile_y);
+    sprite_arg->room_index = tile_id;
 
     if (((S_80171094_1 *)stats)->unk_6D > 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
             update_actor_status_and_mp(stats);
             return;
         }
-        if (*(u16 *)&sprite_arg->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite_arg->tile_x == reference_tile_object.tile_position.word) {
             func_801718B4(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
@@ -239,11 +239,11 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
         case 7:
             {
                 s16 heading = get_rounded_facing_and_rounding_flag(
-                    sprite_arg->unk_24, sprite_arg->unk_25,
+                    sprite_arg->tile_x, sprite_arg->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ActorRecord *player = primary_actor_record;
                 ((S_80171094_1 *)stats)->unk_2A.s = heading;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, cyclone_action_resume_address);
                     return;
                 }
@@ -273,10 +273,10 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
                 !(dungeon_rooms[tile_index].flags & 2)) {
                 if (!(flags & 0x430)) {
                     if ((s16)test_neighbor_position_relation(
-                            sprite_arg->unk_24, sprite_arg->unk_25,
+                            sprite_arg->tile_x, sprite_arg->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         ((S_80171094_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
-                            sprite_arg->unk_24, sprite_arg->unk_25,
+                            sprite_arg->tile_x, sprite_arg->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &distance);
                     }

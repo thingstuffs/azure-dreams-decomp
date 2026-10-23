@@ -142,8 +142,8 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
 
         if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             map_position = ((S_800BE6F0_0_pre *)entity)[-1].unk_04;
-            tile_x = map_position->unk_24;
-            tile_y = map_position->unk_25;
+            tile_x = map_position->tile_x;
+            tile_y = map_position->tile_y;
             tile_mask = 0x3000;
             if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;

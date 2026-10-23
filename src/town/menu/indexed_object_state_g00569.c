@@ -38,7 +38,7 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     object_data->unk_04 = source_data->unk_04;
     result = object;
     object_data->unk_08 = source_data->unk_08;
-    result->unk_10 = D_800A34E0;
+    result->update_callback = D_800A34E0;
     ((S_800A3450_3 *)result)->unk_20 = D_800A3508;
     ((S_800A3450_3 *)result)->unk_42 = initial_value;
     return result;

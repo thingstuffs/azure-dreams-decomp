@@ -55,7 +55,7 @@ typedef struct Object {
 extern s16 D_8001339C;
 extern u8 score_sprite_draw_callback_address[16];
 extern u8 menu_entry_draw_callback_address[16];
-extern u8 D_8005888C[16];
+extern u8 menu_cursor_object_template[16];
 extern s32 scene_object_flags;
 extern u8 scene_object_factory_data[16];
 extern s32 collection_target_y[4];
@@ -152,7 +152,7 @@ void run_menu_entry_animation(TownState *self) {
         obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
-            func_8003BC18(obj, D_8005888C);
+            func_8003BC18(obj, menu_cursor_object_template);
             obj->x_2c = 0x74;
             obj->y_2e = 0x74;
             obj->field_30.pos.x = 0x58;
@@ -180,7 +180,7 @@ void run_menu_entry_animation(TownState *self) {
         obj = func_800374FC(1, scene_object_factory_data);
         if (obj != 0) {
             obj->callback = D_8052BC80;
-            func_8003BC18(obj, D_8005888C);
+            func_8003BC18(obj, menu_cursor_object_template);
             obj->x_2c = 0x78;
             obj->y_2e = 0x74;
             obj->field_30.pos.x = 0x50;

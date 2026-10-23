@@ -39,7 +39,7 @@ typedef struct {
 
 
 extern u8 beldo_large_action_resume_address[];
-extern s16 D_801760D8[];
+extern s16 encounter_blink_update_flag[];
 extern u8 beldo_large_frame_set_2[];
 
 extern void initialize_timed_motion_step(s32, s32, void *);
@@ -70,7 +70,7 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 = 5;
         sequence[0x9B] = sequence[0x9B] + 1;
         play_sound_if_enabled(0x703);
-        D_801760D8[0] = 0;
+        encounter_blink_update_flag[0] = 0;
         return;
 
     case 1:

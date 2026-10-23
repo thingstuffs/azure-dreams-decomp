@@ -49,7 +49,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 extern u8 D_80169754[9];
-extern u8 D_80173B40[12];
+extern u8 encounter_object_position_template[12];
 
 typedef struct S_80169C1C_0 {
     u8 pad_00[0x6];
@@ -77,7 +77,7 @@ void create_player_centered_sequence_effect(void)
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
-        (object->unk_10) = D_80169754;
+        (object->update_callback) = D_80169754;
         register_node(object, project_sprite_chain);
 
         sub_object = (object-> sprite );
@@ -98,7 +98,7 @@ void create_player_centered_sequence_effect(void)
         sub_object->unk_0C = 0x80;
         sub_object->unk_14 |= 0x80;
 
-        (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)D_80173B40;
+        (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)encounter_object_position_template;
         sub_object->unk_08 = (u8 *)object + 0x48;
     }
 }

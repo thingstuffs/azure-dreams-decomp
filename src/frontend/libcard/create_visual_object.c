@@ -36,6 +36,6 @@ void *create_visual_object(s32 init_value, s32 stored_value)
     *(s32 *)((u8 *)data + 0x5C) = card_boot_link_paired_choice_display_entries((u8 *)data + 0x60);
     *(s32 *)((u8 *)data + 0x24) = stored_value;
     card_boot_initialize_paired_choice_panel(data, init_value);
-    object->unk_10 = D_80026AE4;
+    object->update_callback = D_80026AE4;
     return object;
 }

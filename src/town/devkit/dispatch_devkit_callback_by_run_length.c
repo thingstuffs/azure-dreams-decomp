@@ -6,7 +6,7 @@ typedef struct {
 } TownCallbackTable;
 
 extern u8 devkit_globals_page[];
-extern u8 D_80700BB4[];
+extern u8 devkit_flag_ids[];
 extern s32 *devkit_state_slots[];
 
 /* Dispatch a callback based on the number of consecutive set flags in the list. */
@@ -21,7 +21,7 @@ void dispatch_devkit_callback_by_run_length(void) {
     s32 one;
 
     callbacks = *(TownCallbackTable *)(devkit_globals_page + 0xBC8);
-    flag_ids = (s16 *)(D_80700BB4 + 8);
+    flag_ids = (s16 *)(devkit_flag_ids + 8);
     matched_count = 0;
     if (*flag_ids != 0) {
         flag_words = devkit_state_slots[0];

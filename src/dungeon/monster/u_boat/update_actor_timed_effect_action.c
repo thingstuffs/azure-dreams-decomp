@@ -47,10 +47,10 @@ typedef struct S_8017558C_5 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 uboat_aura_start_frames[];
-extern u8 D_80170A84[];
+extern u8 u_boat_timed_effect_update_address[];
 extern s32 clipped_sprite_renderer_address[3];
 extern u8 uboat_aura_later_frames[];
-extern u8 D_800E2448[];
+extern u8 u_boat_aura_frames[];
 extern u8 uboat_default_frames[];
 extern u8 D_800E2488[];
 #include "dungeon/monster/u_boat.h"
@@ -124,7 +124,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             play_sound_if_enabled(0x800);
             ((S_8017558C_0 *)action)->unk_96 = 2U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-            sprite->unk_06 = 6;
+            sprite->depth_bias = 6;
             ((S_8017558C_0 *)action)->unk_A6 = (u16) actor->facing;
         }
         effect_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
@@ -137,7 +137,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             return;
         }
         ((S_8017558C_0 *)action)->unk_AC = effect;
-        effect->unk_10 = D_80170A84;
+        effect->update_callback = u_boat_timed_effect_update_address;
         register_node(effect, clipped_sprite_renderer_address);
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_38 = 5;
@@ -147,9 +147,9 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         effect_sprite->tpage_abr = 0x40;
         effect_sprite->flags = (u16) (effect_sprite->flags | 0xC);
         effect_position = effect->position;
-        effect_position->unk_02 = (u16) ((u16)position->x.w.i);
-        effect_position->unk_06 = (u16) ((u16)position->y.w.i);
-        effect_position->unk_0A = (u16) ((u16)actor->ground_height);
+        effect_position->x = (u16) ((u16)position->x.w.i);
+        effect_position->y = (u16) ((u16)position->y.w.i);
+        effect_position->z = (u16) ((u16)actor->ground_height);
         effect_sprite = *(s32 * *)&effect->sprite;
         effect_sprite->scale_y = 0xA00;
         effect_sprite->scale_x = 0xA00;
@@ -224,8 +224,8 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             }
             ((S_8017558C_0 *)action)->unk_96 = 0U;
             ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
-            sprite->frameTable = D_800E2448;
-            select_sprite_entry(sprite, D_800E2448[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            sprite->frameTable = u_boat_aura_frames;
+            select_sprite_entry(sprite, u_boat_aura_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags = (u16) (sprite->flags & 0x9F7F);
             play_sound_if_enabled(0x801);
             return;
@@ -236,7 +236,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
-            set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
             if (*(u8 * *)&sprite->frameTable == uboat_default_frames) {
@@ -259,7 +259,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         if ((finish_timer << 0x10) > 0) {
             return;
         }
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
         spend_actor_mp(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = uboat_behavior_entry;
         g_dungeon_status.active_actor = 0;

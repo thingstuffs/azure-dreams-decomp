@@ -27,17 +27,17 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
 
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        object->unk_10 = D_80174A00;
+        object->update_callback = D_80174A00;
         register_node(object, project_sprite_chain);
 
         primitive = object->sprite;
-        primitive->unk_28 = source_state->unk_28.at00_s32.v;
+        primitive->animation_resource = source_state->unk_28.at00_s32.v;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
         primitive->color.c.r = 0x80;
         primitive->scale_y = 0x1000;
         primitive->scale_x = 0x1000;
-        primitive->unk_06 = 1;
+        primitive->depth_bias = 1;
         primitive->flags |= 0xC;
         primitive->tpage_abr |= 0x20;
         select_sprite_entry(primitive, 0x37, 0);
@@ -49,9 +49,9 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
         offsets[1] = 0;
         offsets[0] = 0;
         if (resolve_record_orientation_or_fallback(source_state->unk_08, source_state, offsets, 0) != 0) {
-            object_data->unk_02 += offsets[0];
-            object_data->unk_06 += offsets[1];
-            object_data->unk_0A += offsets[2];
+            object_data->x += offsets[0];
+            object_data->y += offsets[1];
+            object_data->z += offsets[2];
         }
         return (s32)object;
     }

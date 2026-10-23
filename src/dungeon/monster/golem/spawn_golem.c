@@ -31,8 +31,8 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_80170A84[];
-extern s32 D_80170E94;
+extern u8 golem_particle_update_address[];
+extern s32 golem_action_continuation_address;
 extern u8 golem_direction_frames[];
 extern u8 golem_alt_direction_frames[];
 
@@ -58,7 +58,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
     flags_copy = spawn_flags;
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        object->unk_10 = D_80170A84;
+        object->update_callback = golem_particle_update_address;
         ((S_801708BC_1 *)result)->unk_13 = MONSTER_GOLEM;
         register_node(object, project_sprite_chain);
 
@@ -66,10 +66,10 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
         part0->z.w.i = saved_height;
         part1 = object->sprite;
         kind = spawn_flags & 3;
-        part1->unk_25 = saved_tile_y;
+        part1->tile_y = saved_tile_y;
         result_copy = result;
         part1->frameTable = golem_direction_frames;
-        part1->unk_24 = saved_tile_x;
+        part1->tile_x = saved_tile_x;
 
         if (kind == 1) {
             ((S_801708BC_1 *)result)->unk_14 |= 0x6000;
@@ -88,7 +88,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
         initialize_actor_sprite_and_animation(object, part0, part1, (s16)flags_copy);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &D_80170E94;
+        result_copy->unk_8C = &golem_action_continuation_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/scratchpad.h"
 #include "sdk/libgte.h"
@@ -30,27 +32,12 @@ typedef struct S_80045CC4_0 {
     } unk_20;   /* overlapping accesses */
 } S_80045CC4_0;   /* poly in draw_sprite_clipped */
 
-typedef struct S_80045CC4_2 {
-    u8 pad_00[0xF];
-    u8 unk_0F;
-} S_80045CC4_2;   /* arg2 in draw_sprite_clipped */
-
-
 typedef struct { s32 v; } SpS32;
 
 typedef struct { s16 v; } SpS16;
 #define SP_S32(offset) (((SpS32 *)(scratchpad + (offset)))->v)
 #define SP_U16(offset) (((ScratchUnsignedHalf *)(scratchpad + (offset)))->v)
 #define SP_S16(offset) (((SpS16 *)(scratchpad + (offset)))->v)
-
-typedef struct {
-    u8 pad00[2];
-    s16 unk02;
-    u8 pad04[2];
-    s16 unk06;
-    u8 pad08[2];
-    s16 unk0A;
-} S_80045CC4_Arg1;
 
 typedef struct {
     u8 pad00[8];
@@ -100,11 +87,11 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
     SP_S32(0x20) = (s32)((u8 *)global_base + 0xB0);
     {
         s32 translation;
-        translation = ((S_80045CC4_Arg1 *)position)->unk02;
+        translation = ((ObjectPosition *)position)->x.w.i;
         SP_S32(0xE4) = translation;
-        translation = ((S_80045CC4_Arg1 *)position)->unk06;
+        translation = ((ObjectPosition *)position)->y.w.i;
         SP_S32(0xE8) = translation;
-        translation = ((S_80045CC4_Arg1 *)position)->unk0A;
+        translation = ((ObjectPosition *)position)->z.w.i;
         SP_S16(0x8C) = 0;
         SP_S16(0x84) = 0;
         SP_S16(0x7C) = 0;
@@ -291,15 +278,15 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
                 }
 
                 visible_2 = entry[1];
-                ((S_80045CC4_2 *)sprite)->unk_0F = visible_2;
+                ((SpriteFrameState *)sprite)->color.c.code = visible_2;
                 visible_3 = SP_U16(0x24);
                 if (visible_3 & 8) {
                     if (visible_3 & 4) {
                         x = visible_2 | 2;
-                        ((S_80045CC4_2 *)sprite)->unk_0F = x;
+                        ((SpriteFrameState *)sprite)->color.c.code = x;
                     } else {
                         x = visible_2 & 0xFD;
-                        ((S_80045CC4_2 *)sprite)->unk_0F = x;
+                        ((SpriteFrameState *)sprite)->color.c.code = x;
                     }
                 }
                 visible_0 = 0xFF000000;

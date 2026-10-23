@@ -35,11 +35,11 @@ extern void start_direction_based_action(void *, void *, void *, void *);
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
-extern u8 D_8017555C[];
+extern u8 barong_frame_set_1[];
 extern u8 D_80175564[];
 extern u8 D_80175594[];
 extern u8 D_8017559C[];
-extern u8 D_801755A4[];
+extern u8 barong_frame_set_2[];
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
 void update_actor_direction_and_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite, ActorRecord *entity_arg)
@@ -60,7 +60,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         {
         void *current_anim = sprite->frameTable;
         sprite->frameTable = current_anim;
-        if (current_anim != D_801755A4) {
+        if (current_anim != barong_frame_set_2) {
             (sprite->frameTable) = D_8017559C;
             {
                 s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
@@ -72,7 +72,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
     }
 
     if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_801755A4) {
+        if (sprite->frameTable == barong_frame_set_2) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
@@ -106,7 +106,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         }
 
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_98 &= 0xFFF3;
-        if (entity_arg->unk_64 != 0) {
+        if (entity_arg->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, D_80175564)) {
                 return;
             }
@@ -120,7 +120,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
 
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, entity_arg);
             func_8017430C(actor_arg, context_arg, sprite, entity_arg);
-            event_table = D_8017555C;
+            event_table = barong_frame_set_1;
             (sprite->frameTable) = event_table;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
             anim_sprite = sprite;
@@ -135,8 +135,8 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (entity_arg->pending_turn_updates > 0) {
         u16 action_flags;
@@ -145,7 +145,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             update_actor_status_and_mp(entity_arg);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
@@ -188,12 +188,12 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &distance);
             player = primary_actor_record;
             entity_arg->facing = heading;
-            if (player->unk_9A == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, barong_action_resume_address);
                 return;
             }
@@ -221,10 +221,10 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             if (!(((u32)entity_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity_arg->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

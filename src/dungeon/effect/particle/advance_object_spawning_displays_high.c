@@ -16,7 +16,7 @@
 #include "shared/dungeon_status.h"
 
 void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, void *, void *))advance_actor_tint_particle_sequence;
-const RectTable D_80024004 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
+const RectTable high_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 void fade_tinted_display_sprite(void *effect, void *unused, void *primitive)
 ;
@@ -27,8 +27,8 @@ extern s32 rand(void);
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
 extern u8 D_800256EC[16];
-extern u8 D_800DED28[];
-extern u8 D_800DEB28[];
+extern u8 timed_projectile_sprite_entries[];
+extern u8 high_particle_sprite_entries[];
 extern u8 effect_sprite_sources[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
@@ -76,7 +76,7 @@ void spawn_free_slot_display_effect(void *owner) {
     u16 timer;
 
     copy_dst = (u8 *)&rect_table;
-    copy_src = (u8 *)&D_80024004;
+    copy_src = (u8 *)&high_particle_texture_rects;
     if ((u32)copy_src & 3) {
         copy_end = copy_src + sizeof(RectTable);
         do {
@@ -114,7 +114,7 @@ void spawn_free_slot_display_effect(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_2C = 7;
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
-            effect->unk_10 = fade_tinted_display_sprite;
+            effect->update_callback = fade_tinted_display_sprite;
             register_node(effect, (s32)project_sprite_chain);
 
             display = effect->sprite;
@@ -164,7 +164,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         state = ((void *)object) + 0x20;
         state->unk_2A = 0xB;
         state->unk_60 = source;
-        (object->unk_10) = &spawn_free_slot_display_effect;
+        (object->update_callback) = &spawn_free_slot_display_effect;
         register_node(object, (s32)project_sprite_chain);
         part = (*(Part * *)&object->sprite);
         part->field10 = 0x20;
@@ -294,7 +294,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
 
     spawned = (Object *)allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->unk_10 = lower_timed_effect_position;
+        spawned->update_callback = lower_timed_effect_position;
         jitter = rand();
         (*(Data * *)&spawned->position)->x =
             *(u16 *)&((ObjectPosition *)parent->data)->x.w.i +
@@ -384,7 +384,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
     if (object != NULL) {
         state = ((void *)object) + 0x20;
         state->unk_2A = 0x3C;
-        (object->unk_10) = &decrement_object_counter;
+        (object->update_callback) = &decrement_object_counter;
         register_node(object, (s32)project_sprite_chain);
         render_state = (object->sprite);
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
@@ -548,7 +548,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                     particle = allocate_flagged_object_node(0x212);
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
-                        particle->unk_10 = spawn_data;
+                        particle->update_callback = spawn_data;
                         register_node(particle, (s32)project_sprite_chain);
                         sprite = particle->sprite;
                         sprite->flags = (u16)(sprite->flags | 0xC);
@@ -583,7 +583,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                         {
                             void *anim_sprite = sprite;
                             if (particle_index != 0) {
-                                void *animation = D_800DED28;
+                                void *animation = timed_projectile_sprite_entries;
                                 void *anim_context = 0;
                                 mode_c = 0x20;
                                 sprite->tpage_abr = mode_c;
@@ -591,7 +591,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                                 sprite->scale_x = 0x1000;
                                 select_record_entry_and_value(anim_sprite, animation, anim_context);
                             } else {
-                                void *animation = D_800DEB28;
+                                void *animation = high_particle_sprite_entries;
                                 void *anim_context = 0;
                                 sprite->scale_y = 0x2000;
                                 sprite->scale_x = 0x2000;
@@ -636,7 +636,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                         particle = allocate_flagged_object_node(0x212);
                         if (particle != 0) {
                             F(particle, s16, 0x4A) = 8;
-                            particle->unk_10 = spawn_data;
+                            particle->update_callback = spawn_data;
                             register_node(particle, (s32)project_sprite_chain);
                             sprite = particle->sprite;
                             sprite->flags = (u16)(sprite->flags | 0xC);
@@ -673,7 +673,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                             {
                                 neutral_color = (s32)(sprite);
                                 if (particle_index != 0) {
-                                    void *animation = D_800DED28;
+                                    void *animation = timed_projectile_sprite_entries;
                                     void *anim_context = 0;
                                     mode_a = 0x20;
                                     F((void *)neutral_color, u16, 0x10) = mode_a;
@@ -684,7 +684,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                                     F((void *)neutral_color, u8, 0xC) = (u8)sprite_rgb;
                                     select_record_entry_and_value((void *)neutral_color, animation, anim_context);
                                 } else {
-                                    void *animation = D_800DEB28;
+                                    void *animation = high_particle_sprite_entries;
                                     void *anim_context = 0;
                                     F((void *)neutral_color, u16, 0x1E) = 0x2000;
                                     F((void *)neutral_color, u16, 0x1C) = 0x2000;
@@ -722,7 +722,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
         init_object = particle;
         animation_m = project_sprite_chain;
         F(particle, s16, 0x4A) = 6;
-        particle->unk_10 = (void *)((u32)&expand_rotating_countdown_sprite);
+        particle->update_callback = (void *)((u32)&expand_rotating_countdown_sprite);
         register_node(init_object, (s32)animation_m);
         bits = 0x20;
         sprite = particle->sprite;
@@ -768,7 +768,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                 if (particle != 0) {
                     burst_tail = (u8 *)particle + 0x20;
                     F(burst_tail, s16, 0x2A) = 12;
-                    particle->unk_10 = particle_script;
+                    particle->update_callback = particle_script;
                     register_node(particle, (s32)project_sprite_chain);
                     sprite = particle->sprite;
                     sprite->flags = (u16)(sprite->flags | 0xC);
@@ -814,7 +814,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                     sprite->color.c.g = 0x80;
                     sprite->color.c.r = 0x80;
                     if (particle_index != 0) {
-                        select_record_entry_and_value(sprite, D_800DEB28, 0);
+                        select_record_entry_and_value(sprite, high_particle_sprite_entries, 0);
                     } else {
                         select_record_entry_and_value(sprite, effect_sprite_sources, 0);
                     }

@@ -10,7 +10,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y) {
     for (index = 0; index < dungeon_room_count; index++) {
         DungeonRoom *room = &dungeon_rooms[index];
 
-        if (room->unk_0A != 0 && (u16)point_x >= room->x && (u16)point_x < room->x + (u16)room->w &&
+        if (room->active != 0 && (u16)point_x >= room->x && (u16)point_x < room->x + (u16)room->w &&
             (u16)point_y >= room->y && (u16)point_y < room->y + (u16)room->h) {
             return (s16)index;
         }

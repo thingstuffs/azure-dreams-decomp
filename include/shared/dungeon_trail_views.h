@@ -6,14 +6,14 @@
 /* Spell trail controller at node +0x20, seeded by create_actor_spell_effect.
  * This overlay advances it through launch, travel/emission, hit and cleanup phases. */
 typedef struct TrailEffectState {
-    void *unk_00; /* caster actor work pointer */
-    u16 *unk_04; /* launch-context flags pointer; bit 0x80 permits launch */
+    void *caster; /* caster actor work pointer */
+    u16 *launch_flags; /* launch-context flags pointer; bit 0x80 permits launch */
     u8 pad_08[1];
-    u8 unk_09; /* spell variant byte passed to apply_attack_power_and_element_effects */
-    s16 unk_0A; /* trail phase: 0 launch wait, 1 travel, 2 emit, 3 hit, 4 delay, 5 cleanup */
+    u8 spell_variant; /* spell variant byte passed to apply_attack_power_and_element_effects */
+    s16 phase; /* trail phase: 0 launch wait, 1 travel, 2 emit, 3 hit, 4 delay, 5 cleanup */
     u8 pad_0C[0x44];
-    u16 unk_50; /* phase/travel countdown in update ticks; travel lasts 12 ticks per tile */
-    s16 unk_52; /* child-activity flags; bit 0x8000 postpones controller cleanup for this update */
+    u16 phase_ticks; /* phase/travel countdown in update ticks; travel lasts 12 ticks per tile */
+    s16 child_flags; /* child-activity flags; bit 0x8000 postpones controller cleanup for this update */
 } TrailEffectState;
 
 /* Pooled position part used by trail effects and several monster movement callbacks.
@@ -25,18 +25,18 @@ typedef struct TrailMotion {
             u8 pad_00[2];
             u16 unk_02; /* integer X bits passed to terrain queries */
         } unk_02;
-    } unk_00; /* world X in 16.16 units */
+    } x; /* world X in 16.16 units */
     union {
         s32 unk_04; /* complete signed 16.16 Y coordinate */
         struct {
             u8 pad_04[2];
             u16 unk_06; /* integer Y bits passed to terrain queries */
         } unk_06;
-    } unk_04; /* world Y in 16.16 units */
+    } y; /* world Y in 16.16 units */
     u8 pad_08[2];
-    s16 unk_0A; /* signed integer terrain/actor height, in world units */
-    s32 unk_0C; /* X increment per position update, in 16.16 world units */
-    s32 unk_10; /* Y increment per position update, in 16.16 world units */
+    s16 z; /* signed integer terrain/actor height, in world units */
+    s32 velocity_x; /* X increment per position update, in 16.16 world units */
+    s32 velocity_y; /* Y increment per position update, in 16.16 world units */
     s32 unk_14; /* actor callbacks: vertical velocity; trail callback: angle seed advanced by 0x100 per update */
 } TrailMotion;
 

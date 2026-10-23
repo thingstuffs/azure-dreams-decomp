@@ -2,9 +2,9 @@
 
 extern u16 building_upload_rect[];
 extern u8 D_80110EC8[];
-extern u8 D_801110C8[];
-extern u8 D_801112C8[];
-extern u8 D_801114C8[];
+extern u8 building_texture_frame_one[];
+extern u8 building_texture_frame_two[];
+extern u8 building_texture_frame_three[];
 
 extern void LoadImage(void *, void *);
 
@@ -38,7 +38,7 @@ void advance_building_animation_frame(u16 *frame_tick) {
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        LoadImage(rect, D_801110C8);
+        LoadImage(rect, building_texture_frame_one);
         return;
 
     case 8:
@@ -48,7 +48,7 @@ void advance_building_animation_frame(u16 *frame_tick) {
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        LoadImage(rect, D_801112C8);
+        LoadImage(rect, building_texture_frame_two);
         return;
 
     case 12:
@@ -58,6 +58,6 @@ void advance_building_animation_frame(u16 *frame_tick) {
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
-        LoadImage(rect, D_801114C8);
+        LoadImage(rect, building_texture_frame_three);
     }
 }

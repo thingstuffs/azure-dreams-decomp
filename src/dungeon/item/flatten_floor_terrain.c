@@ -24,7 +24,7 @@ extern u8 dungeon_ground_item_positions[];
 extern u8 floor_objects[];
 extern u8 dungeon_floor_object_positions[];
 extern u8 D_800E1863;
-extern u8 D_800CE028[];
+extern u8 floor_trap_update_address[];
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -110,7 +110,7 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
         refresh_packed_grid_nibbles();
         clear_mask = 0x3FF7FFFF;
         dungeon_floor_flags = dungeon_floor_flags & clear_mask;
-        mark_active_nodes_by_callback(D_800CE028);
+        mark_active_nodes_by_callback(floor_trap_update_address);
     } else {
         display_formatted_context_message(&D_800E1863, context, effect_code);
     }

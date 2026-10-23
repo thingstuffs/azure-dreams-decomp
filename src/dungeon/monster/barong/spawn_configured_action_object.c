@@ -38,7 +38,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_801712A8[];
 extern s32 barong_action_resume_address;
 #include "dungeon/monster/barong.h"
-extern u8 D_801755A4[];
+extern u8 barong_frame_set_2[];
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Barong with default frames at D_80175554, applies spawn flags, and attempts valid tile
@@ -59,7 +59,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        object->unk_10 = D_801712A8;
+        object->update_callback = D_801712A8;
         ((S_801710E0_1 *)result)->unk_13 = MONSTER_BARONG;
         register_node(object, project_sprite_chain);
 
@@ -71,11 +71,11 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
             part0->unk_0A = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
-            part1->unk_25 = variant;
+            part1->tile_y = variant;
             result_copy = result;
             part1->frameTable = handler;
         }
-        part1->unk_24 = kind_id;
+        part1->tile_x = kind_id;
 
         if (kind == 1) {
             flags0 = ((ObjectNodeHeader *)result)->unk_14;
@@ -95,7 +95,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
             if ((((ObjectNodeHeader *)result)->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    part1->frameTable = D_801755A4;
+                    part1->frameTable = barong_frame_set_2;
                 }
             }
         }

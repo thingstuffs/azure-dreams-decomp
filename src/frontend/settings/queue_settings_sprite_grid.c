@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "frontend/settings.h"
 #include "sdk/libgpu.h"
@@ -29,15 +30,9 @@ typedef struct S_8008896C_3 {
     u8 * unk_08;
 } S_8008896C_3;   /* next in queue_settings_sprite_grid */
 
-
-typedef struct PacketTag {
-    unsigned addr : 24;
-    unsigned len : 8;
-} PacketTag;
-
 #define PTR32(address) ((u32)(unsigned long)(address))
-#define setaddr(packet, address) (((PacketTag *)(packet))->addr = PTR32(address))
-#define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
+#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = PTR32(address))
+#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
 #define addPrim(ordering_table, primitive) \
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))

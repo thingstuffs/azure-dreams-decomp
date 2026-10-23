@@ -40,7 +40,7 @@ typedef struct {
 } S810AF65C_3;
 
 extern u8 D_80173C94[];
-extern u8 D_80170E54[];
+extern u8 maximum_action_continuation_address[];
 
 extern void set_record_integer_tile_center(S810AF65C_1 *, u8, u8);
 extern void begin_actor_display_action(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
@@ -143,7 +143,7 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7fffffff;
         }
-        animation->field_8c = D_80170E54;
+        animation->field_8c = maximum_action_continuation_address;
         break;
     }
 }

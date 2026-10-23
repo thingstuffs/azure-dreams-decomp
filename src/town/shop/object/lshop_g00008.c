@@ -23,18 +23,18 @@ void clear_shop_object_and_link(u8 *object_ref)
 
     global_page = (void **)0x80010000;
     context = ((S_80018D14_0 *)global_page)->unk_6000;
-    object_flags = (u8 *)context->unk_38;
+    object_flags = (u8 *)context->town_state;
     object_table = object_flags + 0x2F0;
     state_base = object_flags;
     object_flags = (u8 *)object_ref[3];
     slot = ((u8)object_flags) & 0x1F;
 
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
-        object_flags = (u8 *)context->unk_20;
+        object_flags = (u8 *)context->services;
         callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
         callback_168(D_80016034, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
-        updated_callbacks = (u8 *)updated_context->unk_20;
+        updated_callbacks = (u8 *)updated_context->services;
         callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
         callback_174(1);
     }
@@ -59,7 +59,7 @@ void release_lshop_entry(s32 slotIndex) {
     void **objectSlot;
     void *object;
 
-    objectTableBase = D_80016000->unk_38;
+    objectTableBase = town_scene_root->town_state;
     objectSlot = objectTableBase->entries;
     objectSlot += slotIndex;
     object = *objectSlot;
@@ -79,7 +79,7 @@ void compact_lshop_entry_list(void) {
     s32 removed_entry;
 
     write_index = 0;
-    entries = (s8 *)D_80016000->unk_38->entries;
+    entries = (s8 *)town_scene_root->town_state->entries;
     read_index = write_index;
     removed_entry = -1;
     for (; read_index < 0x14; read_index += 1) {
@@ -113,8 +113,8 @@ s32 find_unused_item_slot(s32 *slot_list)
 
     slot_cursor = slot_list;
     initial_page = (u8 *)0x80010000;
-    initial_root = D_80016000;
-    loaded_base = initial_root->unk_38;
+    initial_root = town_scene_root;
+    loaded_base = initial_root->town_state;
     slot_base = (s32)loaded_base->slots;
     clear_bytes(used_slots, 0x14);
     if (*slot_cursor != 0) {
@@ -131,12 +131,12 @@ s32 find_unused_item_slot(s32 *slot_list)
                 TownCall3 report_error;
                 u8 *name;
 
-                root = D_80016000;
-                call_table = root->unk_20;
+                root = town_scene_root;
+                call_table = root->services;
                 name = D_80016034;
                 report_error = ((TownCall3)call_table->callback_168);
                 report_error(name, message, 0x71);
-                ((TownCall1)D_80016000->unk_20->callback_174)(1);
+                ((TownCall1)town_scene_root->services->callback_174)(1);
             }
             slot_addr = *slot_cursor;
             used_flag = used_map + ((u32)(slot_addr - slot_base) >> 2);
@@ -162,11 +162,11 @@ s32 find_unused_item_slot(s32 *slot_list)
         TownCall3 report_error;
 
         page = (u8 *)0x80010000;
-        root = D_80016000;
-        call_table = root->unk_20;
+        root = town_scene_root;
+        call_table = root->services;
         report_error = ((TownCall3)call_table->callback_168);
         report_error(D_80016034, D_8001605C, 0x76);
-        ((TownCall1)D_80016000->unk_20->callback_174)(1);
+        ((TownCall1)town_scene_root->services->callback_174)(1);
     }
     return slot_base + free_slot * 4;
 }
@@ -177,11 +177,11 @@ void append_town_item(const Copy4 *input)
     void **slot;
     Copy4 *entry;
 
-    slot = D_80016000->unk_38->entries;
+    slot = town_scene_root->town_state->entries;
     entry = find_unused_item_slot(slot);
     if (entry == 0) {
-        ((TownCall3)D_80016000->unk_20->callback_168)(D_80016034, D_8001605C, 0x80);
-        ((TownFatal1 *)D_80016000->unk_20->callback_174)(1);
+        ((TownCall3)town_scene_root->services->callback_168)(D_80016034, D_8001605C, 0x80);
+        ((TownFatal1 *)town_scene_root->services->callback_174)(1);
     }
     *entry = *input;
     entry->bytes[3] &= 0x5F;

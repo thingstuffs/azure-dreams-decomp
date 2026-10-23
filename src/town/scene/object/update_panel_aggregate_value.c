@@ -60,7 +60,7 @@ void update_panel_aggregate_value(void *entry) {
     case 1:
         func_80058588(total, func_80071424(((S_8080BE0C_0 *)entry)->unk_04), ((S_8080BE0C_0 *)entry)->unk_04);
         if (((S_8080BE0C_1 *)data_ptr)->unk_2A & 1) {
-            (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;
         }
         return;

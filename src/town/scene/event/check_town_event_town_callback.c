@@ -24,7 +24,7 @@ s32 check_town_event_town_callback(void) {
         return 1;
     }
 
-    callback_object = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20);
+    callback_object = *(s8 **)(*(s8 **)((s8 *)(&town_scene_root)) + 0x20);
     (*(TownCallback *)(callback_object + 0x2F8))(0xF, 0x200);
     return 0;
 }

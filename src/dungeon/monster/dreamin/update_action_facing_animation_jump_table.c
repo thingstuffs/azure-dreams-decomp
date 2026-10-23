@@ -3,7 +3,7 @@
 extern void update_action_facing_animation(void);
 
 /* jump_table; owner: dungeon/func_80D95668. */
-const u32 D_8016A808[12] __attribute__((aligned(4))) = {
+const u32 dreamin_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_action_facing_animation + 0x3A0),
     (u32)((u8 *)update_action_facing_animation + 0x3A0),
     (u32)((u8 *)update_action_facing_animation + 0x3A0),

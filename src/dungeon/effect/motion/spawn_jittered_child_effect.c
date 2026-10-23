@@ -34,7 +34,7 @@ void spawn_jittered_child_effect(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        object_cursor->unk_10 = (s32)D_80024400;
+        object_cursor->update_callback = (s32)D_80024400;
         jitter_x = rand() & 0x1F;
         position_x = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
         dest_x = object_cursor->position;

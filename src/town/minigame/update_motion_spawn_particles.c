@@ -43,9 +43,9 @@ extern s32 rand(void);
 extern void set_linked_object_and_global_flags(void);
 
 extern u8 D_800D231C[];
-extern u8 D_800D2324[];
+extern u8 pool_palette_rect[];
 extern u8 map_animation_sprite_entries[];
-extern u16 D_80113138[];
+extern u16 pool_palette_backup[];
 
 /* Update motion, spawn particles, and flash then restore the palette. */
 void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8 *sprite_data)
@@ -80,7 +80,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         do {
             particle = (Object *)allocate_flagged_object_node(0x136);
             if (particle != 0) {
-                particle->unk_10 = set_linked_object_and_global_flags;
+                particle->update_callback = set_linked_object_and_global_flags;
                 register_node(particle, project_sprite_chain);
                 sprite = *(Sprite * *)&particle->sprite;
                 (*(IntVector3 * *)&particle->position)->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
@@ -114,7 +114,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         s32 channel_max;
         s32 color_bias;
 
-        StoreImage(D_800D2324, colors);
+        StoreImage(pool_palette_rect, colors);
         DrawSync(0);
 
         index = 15;
@@ -179,7 +179,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         channel_max = 0x1F;
         color_bias = -0x8000;
         output_color = &colors[15];
-        original_palette = D_80113138;
+        original_palette = pool_palette_backup;
         source_color = original_palette + 15;
         do {
             color = *source_color;
@@ -204,7 +204,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
     }
 
     case 5:
-        LoadImage(D_800D231C, D_80113138);
+        LoadImage(D_800D231C, pool_palette_backup);
         DrawSync(0);
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

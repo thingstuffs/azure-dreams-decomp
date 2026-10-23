@@ -82,7 +82,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
         move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
         if (move_ticks != 0) {
-            target_delta = unit->unk_24 << 6;
+            target_delta = unit->tile_x << 6;
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
             target_delta -= axis_pos;
             x_velocity = (target_delta << 16) / move_ticks;
@@ -90,7 +90,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
             ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
             axis_pos -= 0x20;
-            target_delta = unit->unk_25 << 6;
+            target_delta = unit->tile_y << 6;
             target_delta -= axis_pos;
             ((S_80174F24_3 *)motion_arg)->unk_10 =
                 (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
@@ -120,7 +120,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
             ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
             set_record_integer_tile_center(motion_arg,
-                unit->unk_24, unit->unk_25);
+                unit->tile_x, unit->tile_y);
             direction_table = D_80176340;
             (unit->frameTable) = direction_table;
             select_sprite_entry(unit,
@@ -148,7 +148,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
         ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
         set_record_integer_tile_center(motion_arg,
-            unit->unk_24, unit->unk_25);
+            unit->tile_x, unit->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -164,7 +164,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteF
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    unit->unk_24, unit->unk_25,
+                    unit->tile_x, unit->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }

@@ -23,7 +23,7 @@ typedef struct S_80016D18_0 {
 /* Processes event conditions and returns the corresponding data pointer, or null. */
 s32 *get_local_global_table(void) {
     if (func_800197FC(0xD, 6) != 0) {
-        D_80016000->unk_20->callback_078(0);
+        town_scene_root->services->callback_078(0);
         func_8001A554(F_sbs32_pad02);
         func_8001A554(F_sbs32_pad03);
         func_8001A554(F_sbs32_pad04);

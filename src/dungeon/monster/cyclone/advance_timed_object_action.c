@@ -111,7 +111,7 @@ void advance_timed_object_action(Obj0 *controller, void *context, SpriteFrameSta
             return;
         }
         spend_actor_mp(actor, 0x400);
-        set_record_integer_tile_center(context, object->unk_24, object->unk_25);
+        set_record_integer_tile_center(context, object->tile_x, object->tile_y);
         controller->field8c = cyclone_action_resume_address;
         g_dungeon_status.active_actor = 0;
         actor->field46 &= 0x7FFF;

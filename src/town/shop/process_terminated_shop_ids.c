@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern void clear_resident_bitmap_bit(s32 flag_id);
-extern s16 D_800D15C0[];
+extern s16 shop_resident_flag_ids[];
 
 /* Processes the terminated ID list, 54 evenly spaced IDs, and ID 0xD31. */
 void clear_resident_bit_patterns(void)
@@ -10,12 +10,12 @@ void clear_resident_bit_patterns(void)
     s32 list_index;
     s32 range_index;
 
-    if (D_800D15C0[0] != 0) {
+    if (shop_resident_flag_ids[0] != 0) {
         list_index = 0;
         do {
-            clear_resident_bitmap_bit(D_800D15C0[list_index]);
+            clear_resident_bitmap_bit(shop_resident_flag_ids[list_index]);
             list_index++;
-        } while (D_800D15C0[list_index] != 0);
+        } while (shop_resident_flag_ids[list_index] != 0);
     }
 
     range_index = 0;

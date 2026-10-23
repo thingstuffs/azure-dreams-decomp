@@ -48,7 +48,7 @@ void update_actor_interaction_actions(void *self_arg, SignedHeightView *target_a
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(target_arg);
     if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
         target_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(target_arg, ((u8 *)&position_query_scratch));
-        if ((target_value - target_arg->unk_0A) >= 4) {
+        if ((target_value - target_arg->z) >= 4) {
             if (((S_800930E4_1 *)(&town_action_state_flag))->unk_00 == 0) {
                 initialize_action_object(self, target_arg, context);
                 return;

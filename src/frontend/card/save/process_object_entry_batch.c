@@ -50,7 +50,7 @@ void process_object_entry_batch(void *ptr) {
     offset_ptr = (u8 *)ptr - 0x20;
     ((S_8001EDE0_0 *)ptr)->menu_update = handle_object_menu_input;
     initialize_card_message_object_with_code_0x10(offset_ptr);
-    ((ObjectNodeHeader *)ptr)[-1].unk_10 = (void *)func_80405A3C;
+    ((ObjectNodeHeader *)ptr)[-1].update_callback = (void *)func_80405A3C;
     func_80400908();
     ((S_8001EDE0_0 *)ptr)->unk_40 = 0;
 }

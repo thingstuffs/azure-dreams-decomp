@@ -45,7 +45,7 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
 
     object = allocate_list_node(0x312, priority - 0x20);
     if (object != 0) {
-        object->unk_10 = D_80174D24;
+        object->update_callback = D_80174D24;
         register_node(object, project_sprite_chain);
 
         context = (u8 *)object + 0x20;
@@ -53,7 +53,7 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
         context->unk_08 = render_data;
 
         primitive = object->sprite;
-        primitive->unk_28 = render_data->unk_28;
+        primitive->animation_resource = render_data->unk_28;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
         primitive->color.c.r = 0x80;

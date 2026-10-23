@@ -56,7 +56,7 @@ void ease_reaction_position_with_vertical_offset(void *state, void *position) {
 
         target = target_table->position;
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
-        target_z = target->unk_0A;
+        target_z = target->z;
         z_step += 0xD0;
         z_step = target_z - z_step;
         ((S_800CA134_1 *)position)->unk_0A.n += z_step / 4;

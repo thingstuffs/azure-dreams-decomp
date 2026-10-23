@@ -76,9 +76,9 @@ extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *);
 extern s16 query_lowered_transform_position(void *);
 
-extern u8 D_80023934[];
+extern u8 gym_object_state_address[];
 extern u8 D_80023994[];
-extern u8 D_80023B14[];
+extern u8 gym_score_update_address[];
 extern u8 D_80023F6C[];
 extern u8 D_80023FF8[];
 extern u8 D_80024070[];
@@ -99,7 +99,7 @@ typedef struct {
     u8 state[0x20];
 } TownPage;
 extern s32 town_position_callback_address[3];
-extern s32 D_800F9B40;
+extern s32 gym_sprite_source;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
 void update_gym_minigame(u8 *state_obj) {
@@ -135,7 +135,7 @@ void update_gym_minigame(u8 *state_obj) {
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFE00000;
             *(void **)scene_object_payload_alias = town_position_callback_address;
-            ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
+            ((S_80022F60_1 *)main_state)->unk_04 = gym_object_state_address;
             ((S_80022F60_0 *)state_obj)->unk_08 = 0;
         }
         break;
@@ -200,7 +200,7 @@ void update_gym_minigame(u8 *state_obj) {
                 one = 1;
                 alloc_page = main_state - 0x20;
                 flag_one = gym_lane;
-                ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
+                ((S_80022F60_1 *)main_state)->unk_04 = gym_object_state_address;
                 flag_one = 1;
                 gym_lane = flag_one;
                 motion->y.v = 0x03800000;
@@ -210,7 +210,7 @@ void update_gym_minigame(u8 *state_obj) {
 
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {
-                    obj->unk_10 = D_80023F6C;
+                    obj->update_callback = D_80023F6C;
                     register_node(obj, &display_registration_tag);
                     secondary = (u8 *)obj + 0x20;
                     ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
@@ -235,7 +235,7 @@ loop_0:
 
                         sprite = (u8 *)obj + 0x20;
 
-                        obj->unk_10 = loop_asset;
+                        obj->update_callback = loop_asset;
                         register_node(obj, text_sprite_builder_address);
                         ((S_80022F60_5 *)sprite)->unk_14 = 0xCC;
                         ((S_80022F60_5 *)sprite)->unk_18 = 3;
@@ -260,14 +260,14 @@ loop_0:
 
                     sprite = (u8 *)obj + 0x20;
 
-                    obj->unk_10 = D_80023B14;
+                    obj->update_callback = gym_score_update_address;
                     register_node(obj, project_sprite_chain);
                     image = *(u8 * *)&obj->sprite;
                     image->scale_y = 0x1000;
                     image->scale_x = 0x1000;
-                    image->source = &D_800F9B40;
+                    image->source = &gym_sprite_source;
                     image->unk_04 = 0;
-                    image->unk_05 = 0;
+                    image->frame_ticks = 0;
                     image->color.word = 0x808080;
                     position = *(s32 * *)&obj->position;
                     position[0] = 0x03800000;
@@ -327,14 +327,14 @@ loop_0:
                 u8 *sprite;
 
                 sprite = (u8 *)obj + 0x20;
-                obj->unk_10 = D_80023B14;
+                obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = *(u8 * *)&obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
-                image->source = &D_800F9B40;
+                image->source = &gym_sprite_source;
                 image->unk_04 = 0;
-                image->unk_05 = 0;
+                image->frame_ticks = 0;
                 image->color.word = 0x808080;
                 random = rand();
                 ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
@@ -353,7 +353,7 @@ loop_0:
             }
         }
         if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
-            ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
+            ((S_80022F60_1 *)main_state)->unk_04 = gym_object_state_address;
             apply_global_scene_value(countdown_action_handler_table);
             gym_lane_delay = 0;
             gym_lane = 1;
@@ -379,14 +379,14 @@ loop_0:
                 s32 *position;
 
                 sprite = (u8 *)obj + 0x20;
-                obj->unk_10 = D_80023B14;
+                obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = *(u8 * *)&obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
-                image->source = &D_800F9B40;
+                image->source = &gym_sprite_source;
                 image->unk_04 = 0;
-                image->unk_05 = 0;
+                image->frame_ticks = 0;
                 image->color.word = 0x808080;
                 ((S_80022F60_5 *)sprite)->unk_54 = 1;
                 ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
@@ -406,7 +406,7 @@ loop_0:
 
             obj = allocate_list_node(1, main_state - 0x20);
             if (obj != NULL) {
-                obj->unk_10 = D_80023F6C;
+                obj->update_callback = D_80023F6C;
                 register_node(obj, &display_registration_tag);
                 secondary = (u8 *)obj + 0x20;
                 ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
@@ -428,7 +428,7 @@ loop_0:
 
                 sprite = (u8 *)obj + 0x20;
 
-                obj->unk_10 = D_80024070;
+                obj->update_callback = D_80024070;
                 register_node(obj, text_sprite_builder_address);
                 first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
                 ((S_80022F60_5 *)sprite)->unk_14 = first;

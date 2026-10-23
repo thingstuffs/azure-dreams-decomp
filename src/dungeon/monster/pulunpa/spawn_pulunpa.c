@@ -82,9 +82,9 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         kind = flags & 3;
         coord->unk_0A = spawn_value;
         state = part->sprite;
-        state->unk_25 = variant;
+        state->tile_y = variant;
         actor = work;
-        state->unk_24 = kind_id;
+        state->tile_x = kind_id;
 
         if (kind == 1) {
             ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
@@ -118,7 +118,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
             state->frameTable = pulunpa_frame_set_1;
         }
 
-        part->unk_10 = D_80170AE0;
+        part->update_callback = D_80170AE0;
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
         ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
         ((S_80CBD000_4 *)actor)->unk_9C = -1;

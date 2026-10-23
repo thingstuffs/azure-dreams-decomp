@@ -37,18 +37,18 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
         context = town_event_state;
         status = check_event_value_in_list(((S_8001B828_0 *)context)->unk_04);
         if (status == 0) {
-            context = D_80016000;
+            context = town_scene_root;
             context = ((S_8001B828_0 *)context)->unk_20;
             status = (*(Callback **)((u8 *)context + 0x2D4))(0);
             if (status != 2) {
                 return D_8001914C;
             }
             new_code = find_first_enabled_entry_id();
-            town_event_state->unk_04 = new_code;
+            town_event_state->selected_entry = new_code;
         }
         state = town_event_state;
-        if (state->unk_04 != 0) {
-            return clear_event_resource_state_and_get_buffer(state->unk_04);
+        if (state->selected_entry != 0) {
+            return clear_event_resource_state_and_get_buffer(state->selected_entry);
         }
         return D_8001914C;
     }

@@ -18,7 +18,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern u8 D_80170E68;
+extern u8 dreamin_action_continuation_address;
 extern u8 D_80173894[];
 
 /* Advances an actor action through animation setup, a delay, and completion. */
@@ -67,9 +67,9 @@ void advance_action_setup_delay(void *action, void *motion, SpriteFrameState *sp
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        PTR(action, 0x8C) = &D_80170E68;
+        PTR(action, 0x8C) = &dreamin_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {

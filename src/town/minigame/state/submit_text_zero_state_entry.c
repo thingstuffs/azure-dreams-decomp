@@ -32,7 +32,7 @@ void submit_text_zero_state_entry(void *text_entry) {
         format_decimal_field_space_padded(*((S_80026BC4_0 *)text_entry)->unk_08, strlen(((S_80026BC4_0 *)text_entry)->unk_04),
             ((S_80026BC4_0 *)text_entry)->unk_04);
         if (text_config->unk_1A & 8) {
-            text_entry_view[-1].unk_00 = (u16) (text_entry_view[-1].unk_00 | 0x8000);
+            text_entry_view[-1].flags = (u16) (text_entry_view[-1].flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }

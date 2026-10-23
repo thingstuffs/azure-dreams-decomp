@@ -19,7 +19,7 @@ extern s32 resolve_record_orientation_or_fallback();
 extern void register_node();
 extern void select_sprite_entry();
 
-extern s32 D_80175978;
+extern s32 cyclone_spawn_update_address;
 
 typedef struct S_80E122F4_0 {
     u8 pad_00[0x60];
@@ -77,11 +77,11 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
     reference = ((S_80E122F4_6_pre *)(owner->unk_60))[-1].unk_00;
     obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
-        (obj->unk_10) = &D_80175978;
+        (obj->update_callback) = &cyclone_spawn_update_address;
         register_node(obj, project_sprite_chain);
 
         child = (obj->sprite);
-        child->unk_28 = source_obj->unk_28;
+        child->animation_resource = source_obj->unk_28;
         child->scale_y = 0x800;
         child->scale_x = 0x800;
         child->color.word = 0x808080;
@@ -98,11 +98,11 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         part = (u8 *)obj + 0x20;
         if (resolve_record_orientation_or_fallback(source_obj->unk_08, source_obj, &offset, 1) != 0) {
             part->unk_04.at02.v += offset.x;
-            coords->unk_02 = part->unk_04.at02.v;
+            coords->x = part->unk_04.at02.v;
             part->unk_08.at02.v += offset.y;
-            coords->unk_06 = part->unk_08.at02.v;
+            coords->y = part->unk_08.at02.v;
             part->unk_0C.at02.v += offset.z;
-            coords->unk_0A = part->unk_0C.at02.v;
+            coords->z = part->unk_0C.at02.v;
         }
 
         delta = reference->unk_00 - part->unk_04.at00.v;

@@ -16,7 +16,7 @@ void create_scene_object_with_record_payload(s32 object_value, void *record) {
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         *(Record *)(((void *)object) + 0x20) = *(Record *)record;
-        object->unk_10 = object_value;
+        object->update_callback = object_value;
         register_node(object, &display_registration_tag);
     }
 }

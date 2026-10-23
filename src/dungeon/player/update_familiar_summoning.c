@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
@@ -17,11 +19,6 @@ typedef struct S_80095A10_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80095A10_0;   /* arg0 in update_familiar_summoning */
-
-typedef struct S_80095A10_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80095A10_1;   /* arg2 in update_familiar_summoning */
 
 typedef struct S_80095A10_2 {
     u8 pad_00[0x2A];
@@ -76,18 +73,7 @@ typedef struct S_80095A10_7 {
     s16 unk_0A;
 } S_80095A10_7;
 
-   /* arg1 in update_familiar_summoning */
-
-typedef struct S_80095A10_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80095A10_9;
-
-typedef struct S_80095A10_10 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
-
+   /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
 s32 Control_CD();
 void apply_actor_template_and_class();
@@ -132,13 +118,13 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
     resource_info = ((u8 *)reference_tile_object.selected_item);
     switch (state) {
     case 0:
-        if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
+        if (!(((SpriteFrameState *)animation)->flags & 0xE000)) {
             return;
         }
         (*(s32 **)((u8 *)animation + 0x2C)) = familiar_save_restore_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + familiar_save_restore_frames), 0, 1);
-        ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
+        ((SpriteFrameState *)animation)->flags = (u16) (((SpriteFrameState *)animation)->flags | 0x200);
         create_familiar_deployment_effect_with_owner_state(actor, position, animation);
         create_familiar_deployment_overlay(actor, position, animation);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
@@ -182,9 +168,9 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
             ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-            ((S_80095A10_7 *)object_position)->unk_02 = (u16) position->unk_02;
-            ((S_80095A10_7 *)object_position)->unk_06 = (u16) position->unk_06;
-            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (position->unk_0A - 0x10);
+            ((S_80095A10_7 *)object_position)->unk_02 = (u16) position->x;
+            ((S_80095A10_7 *)object_position)->unk_06 = (u16) position->y;
+            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (position->z - 0x10);
             func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
             apply_actor_template_and_class(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
             object_flags = ((S_80095A10_5 *)object)->unk_1C;
@@ -219,12 +205,12 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
     case 5:
-        animation_flags = ((S_80095A10_1 *)animation)->unk_14;
+        animation_flags = ((SpriteFrameState *)animation)->flags;
         if (!(animation_flags & 0x6000)) {
             return;
         }
         animation_table = player_wait_frames;
-        ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
+        ((SpriteFrameState *)animation)->flags = (u16) (animation_flags & 0xFDFF);
 set_animation:
         (*(s32 **)((u8 *)animation + 0x2C)) = animation_table;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
@@ -235,7 +221,7 @@ store_next_state:
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
     case 6:
-        if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
+        if (((ActorRecord *)(((S_80095A10_2 *)context)->unk_60))->flags14 & 0x100000) {
             return;
         }
         resolve_familiar_deployment_request(actor, position, animation, resource_info);

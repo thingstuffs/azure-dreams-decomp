@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "dungeon/player.h"
 #include "shared/monster_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -845,12 +846,6 @@ s32 has_pending_actor_or_turn_action(void) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
-    s8 pad[0xA];
-    s16 unk0A;
-    s32 unk0C;
-} Struct_D_80083460;
-
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
 s32 has_actor_or_actions(void) {
     s32 has_value;
@@ -864,14 +859,9 @@ s32 has_actor_or_actions(void) {
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800A2CAC_0 {
-    u8 pad_00[0x25];
-    u8 unk_25;
-} S_800A2CAC_0;   /* arg0 in func_800A2CAC */
-
 /* Checks whether the record's byte at offset 0x25 is below 0x40. */
-s32 has_low_actor_mp(S_800A2CAC_0 *record) {
-    return (u8) record->unk_25 < 0x40U;
+s32 has_low_actor_mp(ActorRecord *record) {
+    return (u8) record->mp < 0x40U;
 }
 #include "common.h"
 #include "m2c_compat.h"
@@ -896,7 +886,7 @@ u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_ent
         return 1;
     }
     if ((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) == MONSTER_TYRANT &&
-        (((ActorRecord *)entity)->unk_98 & 0x8000)) {
+        (((ActorRecord *)entity)->action_state_flags & 0x8000)) {
         return 1;
     }
     if ((other_entity->unk_14 & 0x4000) &&
@@ -1115,7 +1105,6 @@ extern u8 D_800E09E6[8];
 extern u8 D_800E09EE[13];
 extern u8 D_800E09FB[8];
 
-
 typedef struct S_800A2FE0_2 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -1278,10 +1267,7 @@ typedef struct S_800A32A4_3 {
     u8 unk_03;
 } S_800A32A4_3;
 
-typedef struct S_800A32A4_4 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_800A32A4_4;   /* computed_dest in detach_record_and_update_slot_state */
+   /* computed_dest in detach_record_and_update_slot_state */
 
 typedef struct S_800A32A4_5 {
     s32 unk_00;
@@ -1321,7 +1307,7 @@ s32 detach_record_and_update_slot_state(void *record) {
     s32 tail_w8;
     s32 *tail_src;
     s32 slot_index;
-    S_800A32A4_4 *dest_base;
+    FamiliarItemSlotView *dest_base;
     S_800A32A4_2 *slot;
     S_800A32A4_3 *entry;
     void *copy_dst;
@@ -1359,7 +1345,7 @@ scan_slots:
             entry = slot->unk_D0;
             entry->unk_03 = (u8)(entry->unk_03 & 0xDF);
             dest_base = (void *)((u32)slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8);
-            dest_base->unk_D0 = 0;
+            dest_base->item_address = 0;
             update_mode = 3;
             copy_src = record;
             record_index = entry->unk_03 & 0x1F;

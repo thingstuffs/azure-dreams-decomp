@@ -82,11 +82,11 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
     void *particle;
 
     parent = ((S_7FFE79F4_0 *)emitter)->unk_24;
-    position->unk_02 = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_02
+    position->x = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->x
         + ((S_7FFE79F4_0 *)emitter)->unk_3C);
-    position->unk_06 = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_06
+    position->y = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->y
         + ((S_7FFE79F4_0 *)emitter)->unk_3E);
-    position->unk_0A = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_0A
+    position->z = (u16) (((MovingPosition *)(((S_7FFE79F4_2 *)parent)->unk_08))->z
         + ((S_7FFE79F4_0 *)emitter)->unk_40);
     age = ((S_7FFE79F4_0 *)emitter)->unk_16 + 1;
     ((S_7FFE79F4_0 *)emitter)->unk_16 = age;
@@ -105,8 +105,8 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
                 product = 0x32;
                 ((S_7FFE79F4_3 *)particle)->unk_4A = product;
                 particle_pos = ((S_7FFE79F4_3 *)particle)->unk_08;
-                ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) position->unk_02;
-                ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) position->unk_06;
+                ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) position->x;
+                ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) position->y;
                 ((S_7FFE79F4_3 *)particle)->unk_10 = &D_8010AA44;
                 product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DD28(((S_7FFE79F4_3 *)particle)->unk_48);
                 coordinate = ((S_7FFE79F4_3 *)particle)->unk_58;
@@ -117,7 +117,7 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
                 coordinate += product >> 0xC;
                 ((S_7FFE79F4_4 *)particle_pos)->unk_06 = coordinate;
                 product = func_700750E0() & 0x3F;
-                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(position->unk_0A - product);
+                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(position->z - product);
             }
         } while (spawn_count < 4);
     }

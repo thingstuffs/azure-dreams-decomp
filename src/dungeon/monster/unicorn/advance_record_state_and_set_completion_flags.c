@@ -32,7 +32,7 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
     if (effect != 0) {
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_1A = 0xF;
-        effect->unk_10 = &advance_record_state_and_set_completion_flags;
+        effect->update_callback = &advance_record_state_and_set_completion_flags;
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
@@ -105,7 +105,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
-        effect->unk_10 = &update_orbit_height_and_fade_effect;
+        effect->update_callback = &update_orbit_height_and_fade_effect;
         register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;

@@ -158,8 +158,8 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, S
         if (((S_801712A8_0 *)actor)->unk_1C.u & 0x40000000) {
             ((S_801712A8_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
             floor_height = sample_terrain_surface_height(
-                (monster->unk_24 << 6) | 0x20,
-                (monster->unk_25 << 6) | 0x20,
+                (monster->tile_x << 6) | 0x20,
+                (monster->tile_y << 6) | 0x20,
                 (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)entity + 0x92)) +=
                 ((S_801712A8_0 *)actor)->unk_88.u - floor_height;

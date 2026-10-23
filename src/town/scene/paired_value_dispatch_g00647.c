@@ -29,14 +29,14 @@ void dispatch_paired_table_values(void)
             if (entry_kind != 0) {
                 if (entry_kind == 0x13 && table_base[i * 0x54 + 0xAC4] != 0) {
                     clear_resident_bitmap_bit(paired_scene_flag_ids[i]);
-                    set_resident_bitmap_bit(D_800D25C0[i]);
+                    set_resident_bitmap_bit(scene_resident_flag_ids[i]);
                 } else {
                     set_resident_bitmap_bit(paired_scene_flag_ids[i]);
-                    clear_resident_bitmap_bit(D_800D25C0[i]);
+                    clear_resident_bitmap_bit(scene_resident_flag_ids[i]);
                 }
             } else {
                 clear_resident_bitmap_bit(paired_scene_flag_ids[i]);
-                clear_resident_bitmap_bit(D_800D25C0[i]);
+                clear_resident_bitmap_bit(scene_resident_flag_ids[i]);
             }
             i++;
         } while (paired_scene_flag_ids[i] != 0);
@@ -51,7 +51,7 @@ void process_paired_arrays_until_terminator(void) {
 
         do {
             clear_resident_bitmap_bit(paired_scene_flag_ids[entryIndex]);
-            clear_resident_bitmap_bit(D_800D25C0[entryIndex]);
+            clear_resident_bitmap_bit(scene_resident_flag_ids[entryIndex]);
             entryIndex++;
         } while (paired_scene_flag_ids[entryIndex] != 0);
     }

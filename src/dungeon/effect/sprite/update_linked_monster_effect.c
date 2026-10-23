@@ -19,9 +19,9 @@ s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
 extern u16 sprite_effect_update_count;
-extern s16 D_8002966C[6];
-extern u8 D_8002966E;
-extern s32 D_80029670;
+extern s16 linked_monster_effect_updated[6];
+extern u8 linked_monster_attack_option;
+extern s32 linked_monster_attack_event;
 extern s32 D_800C9034();
 
 typedef struct S_80025C80_0_pre {
@@ -140,7 +140,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     if (linked_monster == NULL) {
         func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
             ((S_80025C80_0 *)effect_in)->unk_36);
-        func_80026548(effect_in, sprite->unk_000);
+        func_80026548(effect_in, sprite->frame_entry);
         phase = ((S_80025C80_0 *)effect_in)->unk_2C;
         switch (phase) {
         case 0:
@@ -173,7 +173,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             }
             break;
         case 1:
-            sprite = (u8 *)&reference_tile_object.unk_000;
+            sprite = (u8 *)&reference_tile_object.frame_entry;
             transform_result = resolve_record_orientation_or_fallback(sprite->sprite_source, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
@@ -249,8 +249,8 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                     (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
                 if (found_tile != 0) {
                     tile_object = found_tile;
-                    apply_attack_power_and_element_effects(tile_object, 0xC, D_8002966E, 9,
-                        (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), D_80029670, 5);
+                    apply_attack_power_and_element_effects(tile_object, 0xC, linked_monster_attack_option, 9,
+                        (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), linked_monster_attack_event, 5);
                 }
             }
             func_8002589C(effect_in - 0x20, (s16) ((S_80025C80_0 *)effect_in)->unk_40.u, 0xF0);
@@ -277,7 +277,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             fade_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
-                D_8002966C[0] = 0;
+                linked_monster_effect_updated[0] = 0;
                 linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
                 linked_global = &object_flag_block;
                 linked_flags |= 0x8000;
@@ -285,7 +285,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 linked_global->flags |= 0x8000;
                 return;
             }
-            frame = *(u8 *)&sprite->unk_004;
+            frame = *(u8 *)&sprite->frame_index;
             if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_36) {
                 ((S_80025C80_0 *)effect_in)->unk_32 = -1;
             } else if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_38) {
@@ -309,10 +309,10 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
         ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) ((S_80025C80_3 *)source_data)->unk_0A;
         linked_sprite = ((S_80025C80_8 *)(((S_80025C80_0 *)effect_in)->unk_20))->unk_0C;
         func_800266D0(sprite, linked_sprite->unk_04);
-        func_80026548(effect_in, sprite->unk_000);
+        func_80026548(effect_in, sprite->frame_entry);
         sprite->scale_x = (u16) linked_sprite->unk_1C;
         sprite->scale_y = (u16) linked_sprite->unk_1E;
-        sprite->unk_020 = (u16) linked_sprite->unk_20;
+        sprite->offset_x = (u16) linked_sprite->unk_20;
         sprite->primitive_color.word = linked_sprite->unk_0C;
         sprite->angle_x = (u16) linked_sprite->unk_16;
         sprite->angle_y = (u16) linked_sprite->unk_18;

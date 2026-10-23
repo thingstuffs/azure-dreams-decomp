@@ -56,7 +56,7 @@ void create_scripted_encounter_object(void) {
     if (object != NULL) {
         state = ((void *)object) + 0x20;
         st = state;
-        object->unk_10 = &advance_linked_actor_motion_script;
+        object->update_callback = &advance_linked_actor_motion_script;
         ((s8 *)&st->unk_10)[3] = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
         object_attrs = object->position;
@@ -64,10 +64,10 @@ void create_scripted_encounter_object(void) {
             (u16) ((S_80173140_5 *)((*(void **)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->unk_0A;
         sprite = object->sprite;
         origin_x = reference_tile_object.tile_position.parts.tile_x;
-        sprite->unk_24 = (u8) (origin_x - 1);
+        sprite->tile_x = (u8) (origin_x - 1);
         origin_y = reference_tile_object.tile_position.parts.tile_y;
         sprite->frameTable = &beldo_large_frame_set_8;
-        sprite->unk_25 = (u8) (origin_y + 7);
+        sprite->tile_y = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
         st->facing = 0xC00;
         select_sprite_entry(sprite, ((u8 *) sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0xD00)
@@ -81,8 +81,8 @@ void create_scripted_encounter_object(void) {
         masked_flags = active_flag(st->flags1C);
         initial_offset = -0x20;
         st->unk_90.parts.high.s = initial_offset;
-        cell_x = sprite->unk_24;
-        cell_y = sprite->unk_25;
+        cell_x = sprite->tile_x;
+        cell_y = sprite->tile_y;
         cell_mask = 0x3000;
         if (masked_flags) {
             cell_mask = 0x300;
@@ -90,6 +90,6 @@ void create_scripted_encounter_object(void) {
         update_map_cell_flags_with_item_limit(cell_x, cell_y, cell_mask);
         unlink_entity_node(st);
         beldo_script_node = object;
-        object->unk_10 = (s32 *) ((s32) *(s32 * *)&object->unk_10 | 0x80000000);
+        object->update_callback = (s32 *) ((s32) *(s32 * *)&object->update_callback | 0x80000000);
     }
 }

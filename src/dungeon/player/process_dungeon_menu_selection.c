@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -64,10 +65,7 @@ typedef struct S_80090C10_11 {
     u16 unk_08;
 } S_80090C10_11;   /* case_base in process_dungeon_menu_selection */
 
-typedef struct S_80090C10_12 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_80090C10_12;   /* ((Rec_func_8008D024_arg0 *)arg0)->unk_C8 in process_dungeon_menu_selection */
+   /* ((Rec_func_8008D024_arg0 *)arg0)->unk_C8 in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_13 {
     u8 pad_00[0x1];
@@ -109,7 +107,7 @@ void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers();            /* extern */
-extern M2C_UNK D_8001EF2C;
+extern M2C_UNK familiar_menu_action_data;
 extern void *D_8004F5F4(void *, void *);
 extern Rec_D_80082EB0 selected_item_record_alias;
 extern s32 selected_item_action_alias;
@@ -189,7 +187,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     default:
         return;
     }
-    if (((S_80090C10_12 *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->unk_1E & 0x8000) {
+    if (((ObjectNodeHeader *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->flags & 0x8000) {
         update_selection_tile_markers(0, 0);
         ui_flags = ((S_80090C10_5 *)(&dungeon_floor_flags))->unk_00;
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
@@ -266,8 +264,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             break;
         }
         direction = ((u16) actor->facing >> 9) & 7;
-        if ((find_valid_nearby_position(0, (s16) (sprite->unk_24 + dir_step_x[direction]),
-            (s16) (sprite->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
+        if ((find_valid_nearby_position(0, (s16) (sprite->tile_x + dir_step_x[direction]),
+            (s16) (sprite->tile_y + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
                 expand_text_control_codes(D_800E069D, text_buffer));
@@ -299,7 +297,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         if (!(((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000)) {
             ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
         }
-        if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s == &D_8001EF2C) {
+        if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s == &familiar_menu_action_data) {
             selected_item_action_alias = 0;
             break;
         }

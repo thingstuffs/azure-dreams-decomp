@@ -10,5 +10,5 @@ extern u32 scene_charge;
 
 /* Check whether the stored value meets the D_80019B00 threshold. */
 s32 has_money_at_least_cached_value(void) {
-    return (u32) D_80016000->unk_38->unk_2D5C >= (u32) scene_charge;
+    return (u32) town_scene_root->town_state->money >= (u32) scene_charge;
 }

@@ -4,7 +4,7 @@
 #include "shared/object_flags.h"
 
 extern void equip_item_and_update_status(void *, void *);
-extern s16 D_80173AFC[];
+extern s16 beldo_large_direction_offsets[];
 extern u8 *beldo_script_node;
 extern u8 D_80175DBC[];
 
@@ -16,7 +16,7 @@ void initialize_action_offset_and_notify(void *action, void *position)
     u8 *object_data = ((u8 *)object) + 0x20;
 
     if (*(s16 *)((u8 *)action + 0x12) == 0) {
-        s16 *direction_offsets = D_80173AFC;
+        s16 *direction_offsets = beldo_large_direction_offsets;
 
         ((s32 *)position)[0] = ((s32 *)object_position)[0];
         ((s32 *)position)[1] = ((s32 *)object_position)[1];

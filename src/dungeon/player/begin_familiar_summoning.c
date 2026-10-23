@@ -65,8 +65,8 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
         + &D_800DD130), 0, 1);
     reference_tile_object.selected_item = input_value;
     direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
-    ((S_80095854_0 *)record)->unk_72 = (s8) (((MovingTile *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dir_step_x)));
-    next_y = ((MovingTile *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dir_step_y));
+    ((S_80095854_0 *)record)->unk_72 = (s8) (((MovingTile *)pointer_data)->tile_x + *(direction_index + ((s8 *)dir_step_x)));
+    next_y = ((MovingTile *)pointer_data)->tile_y + *(direction_index + ((s8 *)dir_step_y));
     ((S_80095854_0 *)record)->unk_73 = next_y;
     if ((find_valid_nearby_position(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
         value = status << 0x10;

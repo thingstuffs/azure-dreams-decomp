@@ -12,15 +12,15 @@ u8 *select_message_based_message_callback(void)
     u8 *message;
 
     message = (*(u8 *(**)(s32))((u8 *)*(void **)
-        ((u8 *)D_80016000 + 0x20) + 0x2FC))(0);
+        ((u8 *)town_scene_root + 0x20) + 0x2FC))(0);
     if (message != 0 && message[0] == 2 && message[1] == 0x13) {
         if ((*(TownCallback *)((u8 *)*(void **)
-            ((u8 *)D_80016000 + 0x20) + 0x300))(0) == -1) {
-            if (*(s32 *)((u8 *)D_80016000 + 8) != 0x29) {
+            ((u8 *)town_scene_root + 0x20) + 0x300))(0) == -1) {
+            if (*(s32 *)((u8 *)town_scene_root + 8) != 0x29) {
                 return D_80016300;
             }
         }
-        if (*(s32 *)((u8 *)D_80016000 + 8) == 0x25) {
+        if (*(s32 *)((u8 *)town_scene_root + 8) == 0x25) {
             return D_80016300;
         }
     }

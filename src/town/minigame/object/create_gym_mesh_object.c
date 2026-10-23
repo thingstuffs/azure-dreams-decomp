@@ -38,7 +38,7 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
         object->unk_10 = object_value_10;
         object_data->scale_x = 0x1000;
         object_data->scale_y = 0x1000;
-        object_data->unk_20 = 0x1000;
+        object_data->offset_x = 0x1000;
         object_data->clut = 0;
         object_data->flags = 0;
         object_data->tpage_abr = 0;
@@ -47,8 +47,8 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
         object_data->angle_z = 0;
         object_data->unk_00 = 0;
         object_data->unk_04 = 0;
-        object_data->unk_05 = 0;
-        object_data->unk_06 = 0xA;
+        object_data->frame_ticks = 0;
+        object_data->depth_bias = 0xA;
         object_data->color.word = 0x808080;
         object_data->source = data_value_08;
     }

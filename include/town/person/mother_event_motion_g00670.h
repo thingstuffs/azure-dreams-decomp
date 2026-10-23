@@ -29,7 +29,7 @@ extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
 extern s32 D_800C7674;
-extern s32 D_800D5FE8;
+extern s32 mother_event_object_entries;
 extern void D_800C78A8();
 
 extern Timer D_80113220;

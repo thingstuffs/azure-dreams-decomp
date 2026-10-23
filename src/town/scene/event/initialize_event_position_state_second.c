@@ -33,14 +33,14 @@ void initialize_event_position_state(void) {
     void *saved_x_state;
     TownPositionState *saved_y_state;
 
-    ((Callback)D_80016000->unk_20->callback_248)(0);
-    offset_x_state = D_80016000->unk_1C;
+    ((Callback)town_scene_root->services->callback_248)(0);
+    offset_x_state = town_scene_root->position;
     ((S_800164E0_1 *)offset_x_state)->unk_10 = ((S_800164E0_1 *)offset_x_state)->unk_04 + 0x20;
-    offset_y_state = D_80016000->unk_1C;
+    offset_y_state = town_scene_root->position;
     offset_y_state->unk_14 = offset_y_state->y;
-    ((Callback)D_80016000->unk_20->callback_258)(0xD);
-    saved_x_state = D_80016000->unk_1C;
+    ((Callback)town_scene_root->services->callback_258)(0xD);
+    saved_x_state = town_scene_root->position;
     ((S_800164E0_3 *)saved_x_state)->unk_18 = ((S_800164E0_3 *)saved_x_state)->unk_04;
-    saved_y_state = D_80016000->unk_1C;
+    saved_y_state = town_scene_root->position;
     saved_y_state->unk_1C = saved_y_state->y;
 }

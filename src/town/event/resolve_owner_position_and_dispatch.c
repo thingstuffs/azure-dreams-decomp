@@ -37,20 +37,20 @@ typedef struct S_8009B9BC_4 {
 extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
-extern s32 D_80090A6C;
+extern s32 scene_idle_callback_address;
 extern s32 D_80092698;
 extern s32 tracked_actor_callback_address;
-extern s32 D_80092A84;
-extern s32 D_80092CD4;
-extern s32 D_80092DA8;
-extern s32 D_80092ECC;
-extern s32 D_80092FF0;
-extern s32 D_800930E4;
-extern s32 D_80093250;
-extern s32 D_80093328;
-extern s32 D_800933FC;
-extern s32 D_80093638;
-extern s32 D_800AA5F8;
+extern s32 town_actor_interaction_address;
+extern s32 town_input_object_address;
+extern s32 town_threshold_interaction_address;
+extern s32 town_radial_motion_address;
+extern s32 town_busy_countdown_address;
+extern s32 town_interaction_action_address;
+extern s32 town_threshold_update_address;
+extern s32 town_timed_state_address;
+extern s32 scene_deferred_dispatch_address;
+extern s32 scene_fallback_request_address;
+extern s32 town_input_motion_address;
 
 extern void get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
 extern void call_the_same_context_both_processing_routines(void *, void *);
@@ -87,24 +87,24 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
     current_state = scene_object_payload_alias.current;
     dispatched = 1;
 
-    if (current_state == (s32)&D_800930E4 || current_state == (s32)&D_80093250) {
+    if (current_state == (s32)&town_interaction_action_address || current_state == (s32)&town_threshold_update_address) {
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_08)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&D_800AA5F8) {
+    } else if (current_state == (s32)&town_input_motion_address) {
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&D_80093328) {
+    } else if (current_state == (s32)&town_timed_state_address) {
                 /* MATCH: preserve the fourth argument register allocation. */
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&D_80093638) {
+    } else if (current_state == (s32)&scene_fallback_request_address) {
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
         if (!(current_state == (s32)&D_80092698 || current_state == (s32)&tracked_actor_callback_address ||
-              current_state == (s32)&D_80092A84 || current_state == (s32)&D_80092FF0 ||
-              current_state == (s32)&D_80092CD4 || current_state == (s32)&D_80092DA8 ||
-              current_state == (s32)&D_80092ECC || current_state == (s32)&D_800933FC ||
-              current_state == (s32)&D_80090A6C || service_script_controller() != 0) ||
+              current_state == (s32)&town_actor_interaction_address || current_state == (s32)&town_busy_countdown_address ||
+              current_state == (s32)&town_input_object_address || current_state == (s32)&town_threshold_interaction_address ||
+              current_state == (s32)&town_radial_motion_address || current_state == (s32)&scene_deferred_dispatch_address ||
+              current_state == (s32)&scene_idle_callback_address || service_script_controller() != 0) ||
             previous_owner != (s32)owner) {
             ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_10)(object, owner, resolved_pos,
                 dispatch_param);

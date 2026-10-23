@@ -6,7 +6,7 @@
 #include "shared/sound_volume.h"
 
 struct S_80053374_obj;
-struct S_80054538;
+struct SoundTask;
 struct S_800545F4;
 struct S_80055ADC_arg0;
 
@@ -173,7 +173,7 @@ s32 test_sound_channel_availability(s16 bit_index);
 s32 update_audio_fade(struct S_800545F4 *gauge);
 
 /* update_audio_ramp.c */
-void update_audio_ramp(struct S_80054538 *ramp);
+void update_audio_ramp(struct SoundTask *ramp);
 
 /* update_cd_stream_flags.c */
 void update_cd_stream_flags(void);

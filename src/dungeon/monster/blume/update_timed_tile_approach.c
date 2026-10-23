@@ -94,13 +94,13 @@ void update_timed_tile_approach(State *action, Motion *motion, SpriteFrameState 
             s32 x_velocity;
             s32 y_origin;
 
-            target_x = actor->unk_24 << 6;
+            target_x = actor->tile_x << 6;
             x_origin = motion->x2 - 0x20;
             x_velocity = ((target_x - x_origin) << 16) /
                          action->timer9E;
             y_origin = motion->y6 - 0x20;
             motion->dxC = x_velocity;
-            motion->dy10 = (((actor->unk_25 << 6) - y_origin) << 16) /
+            motion->dy10 = (((actor->tile_y << 6) - y_origin) << 16) /
                          action->timer9E;
             action->velocityA0 = -rsin(action->timer9E * 0x199) << 9;
         }
@@ -121,7 +121,7 @@ void update_timed_tile_approach(State *action, Motion *motion, SpriteFrameState 
         motion->dz14 = 0;
         motion->dy10 = 0;
         motion->dxC = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         actor->frameTable = (u32)D_801753DC;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_801753DC[facing_index & 7], 0);
@@ -140,7 +140,7 @@ end_state:
     motion->dz14 = 0;
     motion->dy10 = 0;
     motion->dxC = 0;
-    set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+    set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
@@ -159,7 +159,7 @@ end_state:
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = get_rounded_facing_and_rounding_flag(
-                actor->unk_24, actor->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                actor->tile_x, actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }

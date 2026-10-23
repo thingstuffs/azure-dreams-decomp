@@ -7,7 +7,7 @@ typedef struct {
     u8 field5;
 } Event6;
 
-extern u8 D_800133E2;
+extern u8 town_building_scene_index;
 extern Event6 D_800D1910[];
 extern u8 town_map_variants[];
 extern u8 town_map_selection_state[12];
@@ -46,7 +46,7 @@ void initialize_building_scene_objects(s32 draw_param) {
         draw_kind = entry_kind;
         blit_indexed_origin_u16_block(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {
-            overlay_index = D_800133E2 - 6;
+            overlay_index = town_building_scene_index - 6;
             switch (overlay_index) {
             case 0:
                 blit_origin_u16_block(0x2E, 0x24, D_8012669C, draw_param);

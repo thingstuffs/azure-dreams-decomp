@@ -33,9 +33,9 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     MovingPosition *source_transform;
 
     source_transform = ((S_80975170_0 *)effect)->unk_B0;
-    transform->unk_02 = source_transform->unk_02;
-    transform->unk_06 = source_transform->unk_06;
-    transform->unk_0A = source_transform->unk_0A;
+    transform->x = source_transform->x;
+    transform->y = source_transform->y;
+    transform->z = source_transform->z;
 
     render_offset = render_state->scale_y + 0x320;
     render_state->scale_y = render_offset;
@@ -50,7 +50,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     advance_sprite_animation_and_textures(render_state);
 
     if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
-        ((ObjectRetirementFlags *)effect)[-1].unk_00 = (u16)(((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)effect)[-1].flags = (u16)(((ObjectRetirementFlags *)effect)[-1].flags | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -72,7 +72,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_AA = 7;
-        effect->unk_10 = advance_and_fade_transformed_effect;
+        effect->update_callback = advance_and_fade_transformed_effect;
         effect_state->unk_B0 = source_pos;
         sprite = effect->sprite;
         src = (Block16 *)template_data;
@@ -90,15 +90,15 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         sprite->color.c.r = 0x50;
         sprite->tpage_abr = 0x20;
         sprite->clut = 0xFF80;
-        sprite->unk_22 = 0xFFF1;
+        sprite->offset_y = 0xFFF1;
         sprite->flags = (u16) (sprite->flags | 0xC);
         register_node(effect, project_sprite_chain);
         sprite->frameTable = &D_80174128;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = effect->position;
-        effect_pos->unk_02 = (u16) source_pos->unk_02;
-        effect_pos->unk_06 = (u16) source_pos->unk_06;
-        effect_pos->unk_0A = (u16) source_pos->unk_0A;
+        effect_pos->x = (u16) source_pos->x;
+        effect_pos->y = (u16) source_pos->y;
+        effect_pos->z = (u16) source_pos->z;
     }
 }

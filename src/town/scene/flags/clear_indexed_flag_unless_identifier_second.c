@@ -16,7 +16,7 @@ void clear_indexed_flag_unless_identifier(s32 flag_id) {
     S_80016D20_0 *context;
 
     if (flag_id != 1) {
-        context = D_80016000;
+        context = town_scene_root;
         adjusted_id = flag_id;
         if (flag_id < 0) {
             adjusted_id = flag_id + 0x1F;

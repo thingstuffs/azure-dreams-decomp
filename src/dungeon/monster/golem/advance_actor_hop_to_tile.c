@@ -30,7 +30,7 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
 
-extern void D_80170E94();
+extern void golem_action_continuation_address();
 
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
 void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, SpriteFrameState *tile, ActorRecord *actor)
@@ -52,14 +52,14 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
         motion->unk_90 -= motion->unk_A0;
         if (motion->unk_A4 != 0) {
             {
-                s32 target_x = tile->unk_24 << 6;
+                s32 target_x = tile->tile_x << 6;
                 s32 current_x = transform->x.w.i - 32;
 
                 transform->velocity_x =
                     ((target_x - current_x) << 16) / motion->unk_A4;
             }
             {
-                s32 target_y = tile->unk_25 << 6;
+                s32 target_y = tile->tile_y << 6;
                 s32 current_y = transform->y.w.i - 32;
 
                 transform->velocity_y =
@@ -85,7 +85,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(transform, tile->tile_x, tile->tile_y);
             motion->unk_9B++;
         }
 
@@ -101,7 +101,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
     transform->velocity_z = 0;
     transform->velocity_y = 0;
     transform->velocity_x = 0;
-    set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
+    set_record_integer_tile_center(transform, tile->tile_x, tile->tile_y);
     spend_actor_mp(actor, 5);
     advance_status_timers(actor);
 
@@ -121,14 +121,14 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
         if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    tile->unk_24, tile->unk_25,
+                    tile->tile_x, tile->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_result);
             }
         }
     }
 
     if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
-        motion->unk_8C = &D_80170E94;
+        motion->unk_8C = &golem_action_continuation_address;
         on_actor_status_updated(actor);
     }
 }

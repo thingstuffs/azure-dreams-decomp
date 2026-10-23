@@ -67,17 +67,17 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((ProjectileObject *)object)->unk_10 = D_801718E0;
+        ((ProjectileObject *)object)->update_callback = D_801718E0;
         ((S_80171718_1 *)result)->unk_13 = MONSTER_WEADOG;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((ProjectileObject *)object)->unk_08;
+            part0 = ((ProjectileObject *)object)->position;
             handler = weadog_frame_set_3;
-            part0->unk_0A = attr_c;
-            part1 = ((ProjectileObject *)object)->unk_0C;
+            part0->z = attr_c;
+            part1 = ((ProjectileObject *)object)->sprite;
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;

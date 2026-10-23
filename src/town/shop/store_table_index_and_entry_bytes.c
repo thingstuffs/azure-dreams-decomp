@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern u8 D_800D162C[];
+extern u8 shop_display_presets[];
 
 /* Store the table index and its two byte values in the object. */
 void store_table_index_and_entry_bytes(void *object, s32 index) {
     u8 *table;
     u8 *entry;
 
-    table = D_800D162C;
+    table = shop_display_presets;
     *(s32 *)((s8 *) object + 0xC) = index;
     entry = table + index * 2;
     *(s32 *)((s8 *) object + 0x14) = entry[0];

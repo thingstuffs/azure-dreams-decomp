@@ -5,8 +5,8 @@ extern void *check_inputs_after_threshold_two(void *);
 extern s32 scene_dispatch_mode_index[3];
 extern void *D_80019698[3];
 extern u8 D_8001A730[9];
-extern u8 D_8001AAEC[9];
-extern u8 D_8001DE58[9];
+extern u8 scene_selector_one_mode_three_data[9];
+extern u8 scene_selector_one_default_data[9];
 
 /* Returns data selected by kind and the current global index. */
 void *select_data_by_kind_and_index(s32 unused_0, s32 unused_1, s32 data_kind) {
@@ -18,9 +18,9 @@ void *select_data_by_kind_and_index(s32 unused_0, s32 unused_1, s32 data_kind) {
         data = D_8001A730;
     } else if (data_kind == 1) {
         if (scene_dispatch_mode_index[0] != 3) {
-            data = D_8001DE58;
+            data = scene_selector_one_default_data;
         } else {
-            data = D_8001AAEC;
+            data = scene_selector_one_mode_three_data;
         }
     }
 

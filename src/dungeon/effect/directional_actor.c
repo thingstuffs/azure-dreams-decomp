@@ -58,7 +58,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             if (entity != 0) {
                 register_node(entity, project_sprite_chain);
                 render_state = entity->sprite;
-                entity->unk_10 = shrink_spiraling_sprite_effect;
+                entity->update_callback = shrink_spiraling_sprite_effect;
                 particle = (u8 *)entity + 0x20;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
@@ -79,7 +79,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 render_state->flags |= 0xC;
                 render_state->source = ((Row_818E0800_S_818E0800_7 *)sprite_set)->unk_04;
                 render_state->unk_04 = 0;
-                render_state->unk_05 = 0;
+                render_state->frame_ticks = 0;
                 ((Row_818E0800_S_818E0800_4 *)entity)->unk_20 = effect_arg;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_4C = 0;
             }
@@ -109,8 +109,8 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                     return;
                 }
             }
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = render_state->unk_24;
-            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->unk_25;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = render_state->tile_x;
+            ((Row_818E0800_S_818E0800_1 *)actor)->unk_73.s = render_state->tile_y;
         }
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v =
             ((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_00.at02.v;

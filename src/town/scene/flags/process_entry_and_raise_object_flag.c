@@ -30,8 +30,8 @@ void process_entry_and_raise_object_flag(void *entry) {
         func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04),
             ((S_80810F00_0 *)entry)->unk_04);
         if (((S_80810F00_1 *)flag_data)->unk_0C & 2) {
-            flags = &entry_view[-1].unk_00;
-            *flags = (u16) (entry_view[-1].unk_00 | 0x8000);
+            flags = &entry_view[-1].flags;
+            *flags = (u16) (entry_view[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;
         }
     }

@@ -91,7 +91,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
         do {
             slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
             if (slot_entry != NULL) {
-                slot_record = slot_entry[-1].unk_00;
+                slot_record = slot_entry[-1].sprite;
                 slot_record->unk_14 &= 0xFFBF;
             }
             slot_index--;
@@ -199,8 +199,8 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
         actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
         if (actor_flags & 0x40000000) {
             ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
-            terrain_height = sample_terrain_surface_height((data->unk_24 << 6) | 0x20,
-                                   (data->unk_25 << 6) | 0x20,
+            terrain_height = sample_terrain_surface_height((data->tile_x << 6) | 0x20,
+                                   (data->tile_y << 6) | 0x20,
                                    (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
             ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;

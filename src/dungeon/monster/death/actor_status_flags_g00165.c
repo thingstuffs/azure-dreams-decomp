@@ -106,7 +106,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
                 s8 room_id;
 
                 reference_pos = &reference_tile_object;
-                room_id = *(s8 *)&sprite_in->unk_26;
+                room_id = *(s8 *)&sprite_in->room_index;
                 if ((((room_id == reference_pos->room_index) &&
                       (room_id >= 0)) ||
                      (get_tile_chebyshev_distance(reference_pos, sprite_in) < 2)) &&
@@ -228,7 +228,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
             return;
         }
 
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, animation, 0) != 0) {
                 return;
             }

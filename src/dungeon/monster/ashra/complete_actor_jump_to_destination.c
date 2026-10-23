@@ -30,9 +30,9 @@ void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
 
-extern u8 D_80170E54;
+extern u8 ashra_action_continuation_address;
 extern u8 ashra_frame_set_1[];
-extern u8 D_801739E8[];
+extern u8 ashra_frame_set_2[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
 void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, void *actor) {
@@ -64,13 +64,13 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         ((S_80172258_0 *)jump)->unk_90 -= ((S_80172258_0 *)jump)->unk_A8;
         if (frames_left != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)sprite)->tile_x << 6;
                 s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_0C = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)sprite)->tile_y << 6;
                 s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16) /
@@ -93,11 +93,11 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            ((SpriteFrameState *)sprite)->frameTable = D_801739E8;
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+            ((SpriteFrameState *)sprite)->frameTable = ashra_frame_set_2;
             select_sprite_entry(
                 sprite,
-                D_801739E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                ashra_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172258_0 *)jump)->unk_9B++;
         }
@@ -111,7 +111,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -130,14 +130,14 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
             if (actor_flags & 0x20000) {
 
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                    ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }
 
 finish:
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_80172258_0 *)jump)->unk_8C = &D_80170E54;
+            ((S_80172258_0 *)jump)->unk_8C = &ashra_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

@@ -35,7 +35,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         shop_state->unk_1C = secondary_param;
         shop_state->unk_14 = 6;
         refresh_paged_selection_state(shop_state);
-        shop->unk_10 = &advance_dispatch_when_countdown_expires;
+        shop->update_callback = &advance_dispatch_when_countdown_expires;
         shop_state->unk_28 = allocate_paged_shop_item_list(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C,
             shop_state->unk_10, shop_state->unk_20, primary_param);
         second_resource = create_dual_buffer_object(shop, 0x48, -0xC);

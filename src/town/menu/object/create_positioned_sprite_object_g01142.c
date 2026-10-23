@@ -24,7 +24,7 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     (*(s32 *)((u8 *)transform + 8)) = (s32) (position->z + 0xFFDC0000);
     transform->velocity_x = (s32) D_800D0DF0;
     transform->velocity_y = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
-    object->unk_10 = &invoke_emote_object_callback;
+    object->update_callback = &invoke_emote_object_callback;
     ((S_800A71F0_4 *)object_state)->unk_54 = state_value;
     ((S_800A71F0_4 *)object_state)->unk_90 = 2;
     copy_indexed_motion_value_and_advance(object_state, transform, sprite);

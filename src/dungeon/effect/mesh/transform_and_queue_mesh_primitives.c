@@ -23,7 +23,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
-const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
+const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
 
@@ -51,7 +51,7 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
         } else if (target->unk_14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_start = message;
-            message = expand_text_control_codes(&D_80024004, message);
+            message = expand_text_control_codes(&no_effect_target_prefix, message);
             message = append_entity_display_text(target, message);
             message = expand_text_control_codes(&D_80024034, message);
             clear_byte_and_advance(message);
@@ -625,9 +625,9 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
     do {
-        VFIELD(scratch, s32, 0x88) = ((SignedPositionView *)position)->unk_02;
-        VFIELD(scratch, s32, 0x8C) = ((SignedPositionView *)position)->unk_06;
-        ((S_8187B1F4_1 *)scratch)->unk_90 = ((SignedPositionView *)position)->unk_0A;
+        VFIELD(scratch, s32, 0x88) = ((SignedPositionView *)position)->x;
+        VFIELD(scratch, s32, 0x8C) = ((SignedPositionView *)position)->y;
+        ((S_8187B1F4_1 *)scratch)->unk_90 = ((SignedPositionView *)position)->z;
         PushMatrix();
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;
@@ -932,7 +932,7 @@ void create_terrain_seeking_colored_point(
         saved_pair = paired_value;
         spawned_obj->unk_10 = (s32)advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
-        x_pos = ((MovingPosition *)source_obj->unk_08)->unk_02;
+        x_pos = ((MovingPosition *)source_obj->unk_08)->x;
         x_dest = spawned_obj->unk_08;
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
@@ -940,7 +940,7 @@ void create_terrain_seeking_colored_point(
         x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
-        y_pos = ((MovingPosition *)source_obj->unk_08)->unk_06;
+        y_pos = ((MovingPosition *)source_obj->unk_08)->y;
         y_dest = spawned_obj->unk_08;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
@@ -951,7 +951,7 @@ void create_terrain_seeking_colored_point(
         init_obj = spawned_obj;
         init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
-        z_pos = ((MovingPosition *)source_obj->unk_08)->unk_0A;
+        z_pos = ((MovingPosition *)source_obj->unk_08)->z;
         actor_data = (S_func_800250B0_3 *)((u8 *)spawned_obj + 0x20);
         z_dest = spawned_obj->unk_08;
         z_pos += z_jitter;
@@ -1037,15 +1037,15 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
             ((S_8187B9E8_0 *)state)->unk_72[point_count] = component;
             point_count++;
         } while (point_count < 0x17);
-        position = effect->unk_08;
-        position->unk_02 = position_x;
-        position->unk_06 = position_y;
-        position->unk_0A = position_z;
-        scale = effect->unk_0C;
+        position = effect->position;
+        position->x = position_x;
+        position->y = position_y;
+        position->z = position_z;
+        scale = effect->sprite;
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
         state->unk_14 = 0x17;
-        effect->unk_10 = rotate_point_cloud_until_expired;
+        effect->update_callback = rotate_point_cloud_until_expired;
         state->unk_A0 = (rand() & 0x3F) + 0x3C;
         state->unk_10 = extent;
         state->unk_12 = extent;
@@ -1379,7 +1379,7 @@ typedef struct {
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 
-extern u8 D_80026940[12];
+extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
@@ -1429,16 +1429,16 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
 
             edge_data = ((u8 *)node) + 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
-            node->unk_10 = advance_fading_effect_animation;
+            node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
             sprite = *(u8 * *)&node->sprite;
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
 
             dest_position = *(u8 * *)&node->position;
-            dest_position->unk_02 = source_position->unk_02;
-            dest_position->unk_06 = source_position->unk_06;
-            dest_position->unk_0A = source_position->unk_0A;
+            dest_position->x = source_position->x;
+            dest_position->y = source_position->y;
+            dest_position->z = source_position->z;
 
             switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
             case 0:
@@ -1545,7 +1545,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
             ((S_8187BFE0_3 *)sprite)->unk_1C = ((S_8187BFE0_3 *)sprite)->unk_1E = 0x1000;
 
-            *(Data12 *)(edge_data + 0x44) = *(Data12 *)D_80026940;
+            *(Data12 *)(edge_data + 0x44) = *(Data12 *)mesh_edge_payload_template;
             ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
             return;
         } else {
@@ -1600,7 +1600,7 @@ typedef struct {
 
 const PointTable D_80024074 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 extern Copy12 D_80026934;
-extern u8 D_80026940[12];
+extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
@@ -1717,17 +1717,17 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 effect->target_z.u = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
-            effect->next_tile_x = owner_sprite->unk_24 + *(u8 *)&dir_step_x[effect->direction.s];
-            effect->next_tile_y = owner_sprite->unk_25 + *(u8 *)&dir_step_y[effect->direction.s];
+            effect->next_tile_x = owner_sprite->tile_x + *(u8 *)&dir_step_x[effect->direction.s];
+            effect->next_tile_y = owner_sprite->tile_y + *(u8 *)&dir_step_y[effect->direction.s];
             {
                 s32 grid;
                 tile_distance = S8(owner, 0x72);
-                grid = owner_sprite->unk_24;
+                grid = owner_sprite->tile_x;
                 if (tile_distance != grid) {
                     tile_distance -= grid;
                 } else {
                     tile_distance = S8(owner, 0x73);
-                    grid = owner_sprite->unk_25;
+                    grid = owner_sprite->tile_y;
                     tile_distance -= grid;
                 }
             }
@@ -1765,7 +1765,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             if (object != 0) {
                 U16(object_data, 2) = 8;
                 U16(object_data, 4) = 8;
-                object->unk_10 = create_object_offset;
+                object->update_callback = create_object_offset;
                 register_node(object, project_sprite_chain);
 
                 spawn_sprite = object->sprite;
@@ -1852,7 +1852,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             U16(object_data, 4) = 8;
             U16(object_data, 0xA) = 0x30;
             S16(object_data, 0xC) = -0xDE;
-            object->unk_10 = initialize_star_effect_sequence;
+            object->update_callback = initialize_star_effect_sequence;
             spawn_sprite = object->sprite;
             spawn_sprite->tpage_abr = 0x20;
             spawn_sprite->flags |= 0xC;
@@ -1862,7 +1862,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 spawn_pos->y.w.i = (u16)motion->y.w.i;
                 spawn_pos->z.w.i = (u16)motion->z.w.i;
             }
-            *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026940;
+            *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&mesh_edge_payload_template;
             spawn_sprite->source = (u8 *)object + 0x64;
         }
         effect->blue = 0;

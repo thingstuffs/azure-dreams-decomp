@@ -14,7 +14,7 @@ extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 collect_ground_item(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
-extern u8 D_800DD050[];
+extern u8 player_tile_motion_frames[];
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {
@@ -34,14 +34,14 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, Spr
     timer = g_dungeon_status.movement_frames_left;
     if (timer != 0) {
         x_velocity =
-            ((((sprite->unk_24 << 6) + 0x20) << 16) -
+            ((((sprite->tile_x << 6) + 0x20) << 16) -
              motion->x.v) /
             timer;
         y_position = motion->y.v;
         motion->velocity_x = x_velocity;
         move_frames = g_dungeon_status.movement_frames_left;
         motion->velocity_y =
-            ((((sprite->unk_25 << 6) + 0x20) << 16) -
+            ((((sprite->tile_y << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
     }
@@ -58,12 +58,12 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, Spr
 continue_update:
     flags = ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2;
     if (!(flags & 0x10)) {
-        if (*(u8 **)&sprite->frameTable != D_800DD050) {
+        if (*(u8 **)&sprite->frameTable != player_tile_motion_frames) {
             ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 = flags | 1;
-            sprite->frameTable = D_800DD050;
+            sprite->frameTable = player_tile_motion_frames;
             set_sprite_animation_frame(
                 sprite,
-                D_800DD050[((g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7],
+                player_tile_motion_frames[((g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }
@@ -81,7 +81,7 @@ continue_update:
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
     sprite->flags |= 0x4000;
     if ((s16)collect_ground_item(entity, motion, sprite, facing) > 0) {

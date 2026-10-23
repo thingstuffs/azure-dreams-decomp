@@ -44,7 +44,7 @@ void fade_effect_primitive(void *effect, void *unused, SpriteFrameState *primiti
             - ((s32) primitive->color.c.g / (s16) ((S_800CB374_0 *)effect)->unk_96));
         blue = primitive->color.c.b - ((s32) primitive->color.c.b / (s16) ((S_800CB374_0 *)effect)->unk_96);
         primitive->color.c.b = blue;
-        primitive->unk_06 = (u16) (*(u16 *)&primitive->unk_06 - 1);
+        primitive->depth_bias = (u16) (*(u16 *)&primitive->depth_bias - 1);
         fade_steps = (u16) ((S_800CB374_0 *)effect)->unk_96 - 1;
         ((S_800CB374_0 *)effect)->unk_96 = fade_steps;
         if ((fade_steps << 0x10) > 0) {

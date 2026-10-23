@@ -9,7 +9,7 @@ extern void func_8003BC18();
 extern void func_8006E8B8();
 extern void func_8023FA58();
 
-extern u8 D_8003D588[];
+extern u8 town_hud_object_template[];
 extern u8 D_80526704[];
 extern u8 D_8052C854[];
 extern u8 D_8052D4B8[];
@@ -19,7 +19,7 @@ extern u8 D_8052E1E0[];
 extern u8 D_80530154[];
 extern u8 D_80530184[];
 extern u8 D_805305B8[];
-extern u8 D_805305F8[];
+extern u8 town_hud_image_data[];
 
 /* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void create_town_hud(void) {
@@ -68,7 +68,7 @@ void create_town_hud(void) {
          * initializer emits the CLOBBER that makes rgb a global allocno; the value is overwritten below. */
         union { s32 v; } rgb = { i };
 
-        func_8003BC18(object, D_8003D588);
+        func_8003BC18(object, town_hud_object_template);
         primitive = *(s8 **)((s8 *)object + 8);
         {
             union { s8 *v; } state = { *(s8 **)((s8 *)object + 0xC) };
@@ -139,5 +139,5 @@ void create_town_hud(void) {
     rect[1] = 0x1F8;
     rect[2] = 0x30;
     rect[3] = 1;
-    func_8006E8B8(rect, D_805305F8);
+    func_8006E8B8(rect, town_hud_image_data);
 }

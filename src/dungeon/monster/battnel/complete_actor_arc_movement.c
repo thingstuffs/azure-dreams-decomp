@@ -50,13 +50,13 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         animation->unk_90 -= animation->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)destination)->unk_24 << 6;
+                s32 target_x = ((SpriteFrameState *)destination)->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((SpriteFrameState *)destination)->unk_25 << 6;
+                s32 target_y = ((SpriteFrameState *)destination)->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y =
@@ -79,7 +79,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->tile_x, ((SpriteFrameState *)destination)->tile_y);
             animation->unk_9B++;
         }
     }
@@ -88,7 +88,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)destination)->tile_x, ((SpriteFrameState *)destination)->tile_y);
         spend_actor_mp(entity, 4);
         advance_status_timers(entity);
 
@@ -109,7 +109,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
             if (entity_flags & 0x20000) {
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25,
+                    ((SpriteFrameState *)destination)->tile_x, ((SpriteFrameState *)destination)->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &query_output);
             }
         }

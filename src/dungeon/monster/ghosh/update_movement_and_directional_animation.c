@@ -64,11 +64,11 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
         move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
         ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
         if (move_ticks != 0) {
-            tile_x = actor->unk_24 << 6;
+            tile_x = actor->tile_x << 6;
             pixel_offset = ((EntityRec *)motion)->x.w.i - 0x20;
             ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
             pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((actor->unk_25 << 6) - pixel_y)
+            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((actor->tile_y << 6) - pixel_y)
                 << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
             ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - rsin(((S_8016CB80_0 *)state)->unk_9E * 0x199))
                 << 0xA);
@@ -88,7 +88,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+            set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
         }
         break;
@@ -119,7 +119,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         advance_status_timers(entity);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
@@ -133,8 +133,8 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(actor->unk_24,
-                        actor->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_info);
+                    ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(actor->tile_x,
+                        actor->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_info);
                 }
             }
         }

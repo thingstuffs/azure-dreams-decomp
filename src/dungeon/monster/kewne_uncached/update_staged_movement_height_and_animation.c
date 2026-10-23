@@ -61,7 +61,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
             return;
         }
 
-        sprite->unk_05 -= 2;
+        sprite->frame_ticks -= 2;
         {
             u32 direction_offset = ((u16)actor->facing >> 8) & 0xE;
             velocity->velocity_x -=
@@ -172,7 +172,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         velocity->velocity_z = 0;
         velocity->velocity_y = 0;
         velocity->velocity_x = 0;
-        set_record_integer_tile_center(velocity, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(velocity, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
         ((S_80173930_0 *)motion)->unk_8C = kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;

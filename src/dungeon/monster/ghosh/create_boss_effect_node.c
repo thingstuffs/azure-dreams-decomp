@@ -30,11 +30,11 @@ void create_boss_effect_node(void)
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;
         node_params[12] = 0x1E;
-        node->unk_10 = D_80170A54;
+        node->update_callback = D_80170A54;
         register_node(node, project_sprite_chain);
 
         effect = node->sprite;
-        ((SpriteFrameState *)effect)->unk_06 = 0;
+        ((SpriteFrameState *)effect)->depth_bias = 0;
         part_words = (u32 *)node->position;
         part_words[0] = ((u32)view_reference_entity.x.v);
         part_words[1] = ((u32)view_reference_entity.y.v);

@@ -16,7 +16,7 @@ void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 ini
         init_value = record->z.v;
         record->z.v =
             (init_value + delta) - D_800D0CC0[0];
-        register_node_if_unregistered(object, D_800970FC);
+        register_node_if_unregistered(object, player_motion_draw_address);
     }
 }
 
@@ -446,7 +446,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     }
 
     if (((s32)globals->pressed_buttons) & 0x100) {
-        ((S_800A5FDC_0 *)state)->unk_00 = (s32)&D_800A58CC;
+        ((S_800A5FDC_0 *)state)->unk_00 = (s32)&map_view_transition_address;
         ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
     }
     return;

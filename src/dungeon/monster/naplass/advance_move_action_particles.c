@@ -96,7 +96,7 @@ extern s32 generate_random_value(void);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 
 extern u8 secondary_sprite[0x20];
-extern u8 D_80170E68[0x10];
+extern u8 naplass_action_continuation_address[0x10];
 extern u8 D_80173EC0[0x10];
 extern u8 naplass_frame_set_1[0x10];
 
@@ -202,8 +202,8 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
             } else {
                 ((S_80172840_0 *)actor)->unk_60 = scan_actor_along_heading(
                     actor,
-                    sprite->unk_24,
-                    sprite->unk_25,
+                    sprite->tile_x,
+                    sprite->tile_y,
                     ((S_80172840_0 *)actor)->unk_2A.u,
                     0x10);
                 abs_x = abs(((S_80172840_0 *)actor)->unk_72.u);
@@ -228,12 +228,12 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         ((S_80172840_6 *)(((u8 *)primary_actor_record)))->unk_A6--;
         advance_status_timers(actor);
         ((S_80172840_0 *)actor)->unk_6D.s--;
-        ((S_80172840_1 *)action)->unk_8C = D_80170E68;
+        ((S_80172840_1 *)action)->unk_8C = naplass_action_continuation_address;
         ((S_80172840_0 *)actor)->unk_73.s = 0;
         ((S_80172840_0 *)actor)->unk_72.s = 0;
         ((S_80172840_0 *)actor)->unk_46 &= 0x7FFF;
@@ -272,7 +272,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                         particle_data = particle->sprite;
                         {
 
-                            particle->unk_10 = particle_callback;
+                            particle->update_callback = particle_callback;
                         }
                         {
                             s32 random_x;
@@ -315,7 +315,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                         effect_value = effect_base->unk_04;
                         color |= 0x7070;
                         particle_data->unk_04 = 0;
-                        particle_data->unk_05 = 0;
+                        particle_data->frame_ticks = 0;
                         particle_data->color.word = color;
                         particle_data->source = effect_value;
                         ((S_80172840_8 *)particle_fields)->unk_4C = 0;
@@ -341,7 +341,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         if (sprite->frameTable != naplass_frame_set_1) {
             sprite->frameTable = naplass_frame_set_1;
             select_sprite_entry(
@@ -354,7 +354,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->flags &= 0xF7FF;
-        ((S_80172840_1 *)action)->unk_8C = D_80170E68;
+        ((S_80172840_1 *)action)->unk_8C = naplass_action_continuation_address;
         advance_status_timers(actor);
         if (((S_80172840_0 *)actor)->unk_6D.u > 0) {
             ((S_80172840_0 *)actor)->unk_6D.s--;

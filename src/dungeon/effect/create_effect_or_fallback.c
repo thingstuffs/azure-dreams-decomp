@@ -38,7 +38,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         register_node(effect, project_sprite_chain);
-        effect->unk_10 = D_800B80D8;
+        effect->update_callback = D_800B80D8;
         position = effect->position;
         position->x.w.i = x;
         position->y.w.i = y;

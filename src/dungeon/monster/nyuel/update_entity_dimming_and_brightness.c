@@ -88,7 +88,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if (entity->unk_64 != 0) {
+            if (entity->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(controller, context, sprite, 0) != 0) {
                     return;
                 }
@@ -128,7 +128,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite->unk_26;
+                s8 tile = *(s8 *)&sprite->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {

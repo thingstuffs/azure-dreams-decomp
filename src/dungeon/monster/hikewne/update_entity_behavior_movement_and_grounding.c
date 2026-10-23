@@ -256,8 +256,8 @@ void update_entity_behavior_movement_and_grounding(void *entity, ObjectPosition 
     if (entity_flags & 0x40000000) {
         ((S_80158DA8_2 *)entity_state)->unk_1C.u = entity_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (sprite->unk_24 << 6) | 0x20,
-            (sprite->unk_25 << 6) | 0x20,
+            (sprite->tile_x << 6) | 0x20,
+            (sprite->tile_y << 6) | 0x20,
             (s16)(((S_80158DA8_2 *)entity_state)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =

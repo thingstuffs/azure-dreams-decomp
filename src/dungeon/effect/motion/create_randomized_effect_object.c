@@ -51,11 +51,11 @@ s32 create_randomized_effect_object(s32 context, MovingPosition *position)
         visual->angle_z = (random_value % 4096);
         register_node(object, project_sprite_chain);
         object_pos = object->unk_08;
-        object_pos->unk_02 = position->unk_02;
-        object_pos->unk_06 = position->unk_06;
-        pos_z = position->unk_0A;
+        object_pos->x = position->x;
+        object_pos->y = position->y;
+        pos_z = position->z;
         result = object;
-        object_pos->unk_0A = pos_z;
+        object_pos->z = pos_z;
         return (s32)result;
     } else {
         result = 0;

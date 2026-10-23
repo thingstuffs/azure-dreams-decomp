@@ -16,11 +16,11 @@ s32 select_indexed_event_value(s32 unused_arg0, s32 unused_arg1, s32 selector)
         return &scene_event_data;
     }
     if (selector == 1) {
-        return D_80017FF4[town_event_state->unk_04];
+        return D_80017FF4[town_event_state->selected_entry];
     }
-    if (town_event_state->unk_06 == 0) {
-        town_event_state->unk_06 = 1;
-        return D_80017FD4[town_event_state->unk_04];
+    if (town_event_state->response_latch == 0) {
+        town_event_state->response_latch = 1;
+        return D_80017FD4[town_event_state->selected_entry];
     }
-    return D_80017FF4[town_event_state->unk_04];
+    return D_80017FF4[town_event_state->selected_entry];
 }

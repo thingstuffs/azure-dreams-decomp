@@ -21,9 +21,9 @@ typedef struct {
     Copy4 entries[8];
 } __attribute__((packed)) Copy24;
 extern s16 wave_effect_update_flag;
-extern const PackedVector D_80024004;
-extern const PackedVector D_8002400C;
-extern const Copy24 D_80024014;
+extern const PackedVector wave_texture_rect;
+extern const PackedVector wave_source_rect;
+extern const Copy24 wave_direction_steps;
 struct CountdownRecord;
 struct Func818F9D8CState;
 struct OutView;

@@ -213,8 +213,8 @@ extern u8 door_transition_state[];
 extern s32 cd_cue_base[];
 extern s16 current_dungeon_floor;
 extern s32 scene_object_payload_alias;
-extern s32 D_80091260;
-extern s32 D_80091528;
+extern s32 actor_input_dispatch_address;
+extern s32 actor_input_interaction_address;
 extern s32 town_actor_control;
 
 #endif

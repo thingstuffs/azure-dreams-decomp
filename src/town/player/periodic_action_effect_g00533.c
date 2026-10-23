@@ -48,7 +48,7 @@ void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec 
 
 /* Resets the handler when state flags are set, then invokes the base handler. */
 void reset_action_handler_on_flag(s32 **handler_slot, s32 context, SpriteFlagsView *state) {
-    if (state->unk_14 & 0x6000) {
+    if (state->flags & 0x6000) {
         call_the_handler_selects_nonzero_entry((s32 *) &D_800D0158, (Rec_func_80094268_arg0 *) handler_slot, state);
         *handler_slot = &update_actor_with_periodic_effect;
     }

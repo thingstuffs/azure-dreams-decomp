@@ -95,7 +95,7 @@ void update_random_particle_field(void *self, void *output)
         do {
             particle = allocate_list_node(0x202, ((s32 *)(&scene_object_list_anchor)));
             if (particle != NULL) {
-                particle->unk_10 = D_8002445C;
+                particle->update_callback = random_particle_update_address;
                 register_node(particle, D_80024740);
                 search_origin = (u8 *)particle + 0x20;
 
@@ -252,7 +252,7 @@ void draw_red(void *effect) {
                 impact_sprite->unk_00 = animation;
                 impact_sprite->source = (s32) ((S_81934C5C_4 *)animation)->unk_04;
                 impact_sprite->unk_04 = 0;
-                impact_sprite->unk_05 = 0;
+                impact_sprite->frame_ticks = 0;
             }
         }
         ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);

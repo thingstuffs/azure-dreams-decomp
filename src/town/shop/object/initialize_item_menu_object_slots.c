@@ -15,7 +15,7 @@ typedef struct Obj {
     SlotA **unk0xA8;
 } Obj;
 
-extern u8 D_80078CDC[];
+extern u8 item_menu_slot_handler_address[];
 
 extern void initialize_item_menu_panel_rectangle(void *record);
 extern void set_item_menu_entry_coordinates(void *object);
@@ -31,7 +31,7 @@ void initialize_item_menu_object_slots(Obj *object) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {
-        obj->unk0xA8[slot_index]->unk00 = D_80078CDC;
+        obj->unk0xA8[slot_index]->unk00 = item_menu_slot_handler_address;
         obj->unk0xA8[slot_index]->unk04->unk08 = slot_index << 7;
     }
 

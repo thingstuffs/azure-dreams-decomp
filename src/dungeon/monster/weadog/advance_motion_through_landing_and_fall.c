@@ -103,7 +103,7 @@ extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
 extern void place_item_at_valid_floor_position(s16, s16, s16, s32, s8 *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern u8 D_80158808[];
+extern u8 weadog_slot_c_direction_steps[];
 extern FlagBlock D_800814A0;
 
 void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
@@ -124,7 +124,7 @@ void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_8
     s32 interp_goal;
 
 
-    __builtin_memcpy(directions, D_80158808, 32);
+    __builtin_memcpy(directions, weadog_slot_c_direction_steps, 32);
 
     for (;;) {
         if (motion->unk_2C == 1) {
@@ -217,7 +217,7 @@ void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_8
                 place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                               position->unk_16, animation->unk_08, command);
                 ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
-                ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+                ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
                 D_800814A0.value |= OBJECT_REMOVE_PENDING;
                 return;
             }
@@ -242,7 +242,7 @@ fall:
                     (s16)((u16)position->unk_08.half.unk_0A - 0x20));
                 position->unk_08.half.unk_08 = 0;
                 ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
-                ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+                ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
                 D_800814A0.value |= OBJECT_REMOVE_PENDING;
                 return;
             }

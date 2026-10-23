@@ -208,30 +208,30 @@ void relocate_entity_after_animation(void *motion, void *position, SpriteFrameSt
         return;
 
     case 7:
-        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25,
+        update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y,
             (((S_80175594_3 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         tries_left = 0x20;
-        old_x = entity->unk_24;
-        old_y = entity->unk_25;
+        old_x = entity->tile_x;
+        old_y = entity->tile_y;
         for (;;) {
             do {
                 tile_result = select_dungeon_spawn_tile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
-            dx = abs(reference_tile_object.tile_position.parts.tile_x - entity->unk_24);
-            dy = abs(reference_tile_object.tile_position.parts.tile_y - entity->unk_25);
+            dx = abs(reference_tile_object.tile_position.parts.tile_x - entity->tile_x);
+            dy = abs(reference_tile_object.tile_position.parts.tile_y - entity->tile_y);
             if (dx + dy >= 0x21) {
                 break;
             }
             if (--tries_left < 0) {
-                entity->unk_24 = old_x;
-                entity->unk_25 = old_y;
+                entity->tile_x = old_x;
+                entity->tile_y = old_y;
                 break;
             }
         }
 
-        ((S_80175594_1 *)position)->unk_02.s = (entity->unk_24 << 6) + 0x20;
-        ((S_80175594_1 *)position)->unk_06.s = (entity->unk_25 << 6) + 0x20;
+        ((S_80175594_1 *)position)->unk_02.s = (entity->tile_x << 6) + 0x20;
+        ((S_80175594_1 *)position)->unk_06.s = (entity->tile_y << 6) + 0x20;
         ground_z = sample_terrain_surface_height(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
             -0x200);
         ground_z -= 0x11;
@@ -241,12 +241,12 @@ void relocate_entity_after_animation(void *motion, void *position, SpriteFrameSt
         ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
         ((S_80175594_3 *)object)->unk_88 = -0x200;
         ground_z = sample_terrain_surface_height(
-            (entity->unk_24 << 6) | 0x20,
-            (entity->unk_25 << 6) | 0x20,
+            (entity->tile_x << 6) | 0x20,
+            (entity->tile_y << 6) | 0x20,
             -0x200);
         ((S_80175594_3 *)object)->unk_88 = ground_z;
 
-        cycle_map_cell_flags(entity->unk_24, entity->unk_25,
+        cycle_map_cell_flags(entity->tile_x, entity->tile_y,
             (((S_80175594_3 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
         spend_actor_mp(object, 0x1000);
@@ -265,7 +265,7 @@ void relocate_entity_after_animation(void *motion, void *position, SpriteFrameSt
             select_sprite_entry(entity,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            entity->unk_05 = 1;
+            entity->frame_ticks = 1;
             ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;
             ((S_80175594_0 *)motion)->unk_9E = 0;
         }

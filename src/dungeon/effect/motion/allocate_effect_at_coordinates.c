@@ -41,9 +41,9 @@ void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_co
         sprite->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
         coords = object->unk_08;
-        coords->unk_02 = (u16)source_coords->unk_02;
-        coords->unk_06 = (u16)source_coords->unk_06;
-        coords->unk_0A = (u16)source_coords->unk_0A;
+        coords->x = (u16)source_coords->x;
+        coords->y = (u16)source_coords->y;
+        coords->z = (u16)source_coords->z;
         return object;
     } else {
         return NULL;

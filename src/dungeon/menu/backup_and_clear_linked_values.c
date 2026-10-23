@@ -2,7 +2,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 catalog_display_node_slots[];
-extern s32 D_801331A0;
+extern s32 menu_value_backup;
 
 /* Save 12 referenced values to the backup array and clear the originals. */
 void backup_and_clear_linked_values(void) {
@@ -13,7 +13,7 @@ void backup_and_clear_linked_values(void) {
     s32 value_index;
 
     value_index = 0x10;
-    backup_value = &D_801331A0;
+    backup_value = &menu_value_backup;
     table_base = catalog_display_node_slots;
     value_slot = table_base + 0x40;
     do {

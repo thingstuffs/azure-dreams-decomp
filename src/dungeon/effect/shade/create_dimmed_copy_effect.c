@@ -45,7 +45,7 @@ typedef struct S_818C32F4_5 {
 extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern u8 D_80024A08[9];
-extern u8 D_80025B38[9];
+extern u8 shaded_quad_frame_set[9];
 extern u8 clipped_sprite_renderer_address[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
@@ -59,7 +59,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = D_80024A08;
+        object->update_callback = D_80024A08;
         ((S_818C32F4_0 *)object)->unk_20 = *object_id;
         object_state = (u8 *)object + 0x20;
         object_state->unk_04 = 0;
@@ -77,7 +77,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         }
         visual->flags = visual->flags | 0xC;
         visual->tpage_abr = visual->tpage_abr | 0x60;
-        select_record_entry_and_value(visual, D_80025B38, 0);
+        select_record_entry_and_value(visual, shaded_quad_frame_set, 0);
         init_data = clipped_sprite_renderer_address;
         angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
         visual->scale_y = 0x1400;

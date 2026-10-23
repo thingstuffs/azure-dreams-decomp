@@ -62,22 +62,22 @@ void advance_stored_actor_path(void *motion, void *unused, SpriteFrameState *act
         ((S_80171960_2 *)motion)->unk_A8 = 0;
     }
 
-    old_x = actor->unk_24;
-    old_y = actor->unk_25;
+    old_x = actor->tile_x;
+    old_y = actor->tile_y;
     tile_mask = 0x3000;
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-    actor->unk_24 =
-        ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->unk_74;
-    actor->unk_25 =
-        ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->unk_7C;
+    actor->tile_x =
+        ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->path_x;
+    actor->tile_y =
+        ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->path_y;
     ((S_80171960_0 *)move_state)->unk_8A.u++;
 
-    new_x = actor->unk_24;
-    new_y = actor->unk_25;
+    new_x = actor->tile_x;
+    new_y = actor->tile_y;
     tile_mask = 0x3000;
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
@@ -85,7 +85,7 @@ void advance_stored_actor_path(void *motion, void *unused, SpriteFrameState *act
     cycle_map_cell_flags(new_x, new_y, tile_mask);
 
     ((S_80171960_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
-        old_x, old_y, actor->unk_24, actor->unk_25,
+        old_x, old_y, actor->tile_x, actor->tile_y,
         (u8 *)motion + 0x98);
     ((S_80171960_0 *)move_state)->unk_1C.u |= 0x40000000;
     ((S_80171960_2 *)motion)->unk_9A = 0xF;

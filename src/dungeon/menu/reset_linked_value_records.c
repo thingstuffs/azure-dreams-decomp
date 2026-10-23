@@ -11,7 +11,7 @@ typedef struct S_80123754_1 {
     s16 unk_02;
 } S_80123754_1;
 
-extern s32 D_80126A88;
+extern s32 menu_initial_value_pairs;
 extern s32 *catalog_display_node_slots[98];
 
 /* Copy 14 initial values into the referenced records and clear their linked counters. */
@@ -26,7 +26,7 @@ void reset_linked_value_records(void) {
     record_index = 0;
     table_base = (s8 *)&catalog_display_node_slots;
     record_slot = (void **)(table_base + 0x38);
-    initial_values = (s8 *)&D_80126A88;
+    initial_values = (s8 *)&menu_initial_value_pairs;
     do {
         record_value = *(s32 **)record_slot;
         initial_value = *(s32 *)initial_values;

@@ -11,7 +11,7 @@ void advance_sprite_animation_and_textures(void *entity);                      /
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_800DEB28[];
+extern SpriteSourceEntry high_particle_sprite_entries[];
 
 typedef struct S_800246AC_0 {
     u16 unk_00;
@@ -42,7 +42,7 @@ void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, Spr
     orbit->unk_08 = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        select_record_entry_and_value(object, &D_800DEB28, 0);
+        select_record_entry_and_value(object, &high_particle_sprite_entries, 0);
         position->unk_02 = (s16) (orbit->unk_00 + ((s32) ((rsin(orbit->unk_08) >> 4) * 0x1C) >> 8));
         position->unk_06 = (s16) (orbit->unk_02 + ((s32) ((rcos(orbit->unk_08) >> 4) * 0x1C) >> 8));
     }

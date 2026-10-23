@@ -16,7 +16,7 @@
 #include "shared/dir_step.h"
 
 void (*const dungeon_188e800_entry)(MovingColorWork *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
-const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
+const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
 
@@ -33,7 +33,7 @@ extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
-extern const u8 D_80024004[48];
+extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern s32 D_800E1C64;
 
@@ -89,7 +89,7 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
         } else if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = expand_text_control_codes(&D_80024004, message_end);
+            message_end = expand_text_control_codes(&no_effect_target_prefix, message_end);
             message_end = append_entity_display_text(entity, message_end);
             message_end = expand_text_control_codes(&D_80024034, message_end);
             clear_byte_and_advance(message_end);
@@ -233,7 +233,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)create_randomized_transform_effect;
+        spawned->update_callback = (void *)create_randomized_transform_effect;
         jitter_x = rand() & 0x1F;
         position_x = ((ObjectPosition *)source_obj->position)->x.w.i;
         dest_x = spawned->position;

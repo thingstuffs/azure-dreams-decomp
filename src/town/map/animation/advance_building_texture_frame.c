@@ -3,9 +3,9 @@ extern u8 building_upload_rect[];
 
 extern void LoadImage(void *, void *);
 extern u8 D_80110EC8[];
-extern u8 D_801110C8[];
-extern u8 D_801112C8[];
-extern u8 D_801114C8[];
+extern u8 building_texture_frame_one[];
+extern u8 building_texture_frame_two[];
+extern u8 building_texture_frame_three[];
 extern u16 D_80111F48[];
 extern u16 D_80111F68[];
 extern u16 D_80111F88[];
@@ -39,7 +39,7 @@ void advance_building_texture_frame(u16 *anim_tick)
     case 4:
     case 20:
         rect = (void *)building_upload_rect;
-        upload_data = D_801110C8;
+        upload_data = building_texture_frame_one;
         *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
@@ -49,7 +49,7 @@ void advance_building_texture_frame(u16 *anim_tick)
     case 8:
     case 16:
         rect = (void *)building_upload_rect;
-        upload_data = D_801112C8;
+        upload_data = building_texture_frame_two;
         *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
@@ -58,7 +58,7 @@ void advance_building_texture_frame(u16 *anim_tick)
         break;
     case 12:
         rect = (void *)building_upload_rect;
-        upload_data = D_801114C8;
+        upload_data = building_texture_frame_three;
         *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;

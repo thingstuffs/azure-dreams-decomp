@@ -75,7 +75,7 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
     dispatch->unkCC = 0xC;
     dispatch->unkD0 = 0;
     dispatch->unkDE = request_param;
-    state->slot[0].callback = D_80024024;
+    state->slot[0].callback = view_interpolation_update_address;
     if (change_flags & 1) {
         ((s8 *)camera_transition_timer)[0] = saved_value;
     }
@@ -126,7 +126,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = (u8 *)object + 0x20;
-        object->unk_10 = &D_800241E4;
+        object->update_callback = &D_800241E4;
         ((Row_81916AEC_S_800242EC_0 *)object)->unk_20 = object_id;
         state->unk_04 = 0;
         state->unk_06 = 8;
@@ -194,7 +194,7 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_8002441C;
-        ((ObjectNodeHeader *)object)->sprite->unk_05 = 4;
+        ((ObjectNodeHeader *)object)->sprite->frame_ticks = 4;
         object->unk_20 = initial_value;
     }
 }
@@ -243,7 +243,7 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
         render_state->flags = (u16) (render_state->flags | 0xC);
         render_state->tpage_abr = (u16) (render_state->tpage_abr | 0x60);
         render_state->flags = (u16) (render_state->flags | 0x100);
-        select_record_entry_and_value(render_state, &D_800DEC50, 0);
+        select_record_entry_and_value(render_state, &rotating_particle_sprite_entries, 0);
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -294,7 +294,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     alloc_source = (u8 *)source - 0x20;
     effect = allocate_list_node(alloc_kind, alloc_source);
     if (effect != NULL) {
-        effect->unk_10 = &D_80024710;
+        effect->update_callback = &D_80024710;
         ((Row_81917004_S_80024804_0 *)effect)->unk_20 = ((Row_81917004_S_80024804_1 *)source)->unk_00;
 
         step_word = (s32)saved_step << 16;
@@ -501,7 +501,7 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
     effect = allocate_list_node(0x212, (u8 *)owner - 0x20);
     if (effect != 0) {
-        effect->unk_10 = D_80024C0C;
+        effect->update_callback = D_80024C0C;
         state = (u8 *)effect + 0x20;
         ((Row_81917680_S_80024E80_0 *)effect)->unk_20 = ((Row_81917680_S_80024E80_1 *)owner)->unk_00;
         state->unk_04 = 0;
@@ -632,7 +632,7 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
     if (effect != NULL) {
         saved_index = effect_index;
         state = ((void *)effect) + 0x20;
-        effect->unk_10 = &D_80025094;
+        effect->update_callback = &D_80025094;
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
         state->unk_04 = 0;
@@ -731,8 +731,8 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
             motion->next_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
         } else {
             scan_visual = node->sprite;
-            tile_x = scan_visual->unk_24;
-            tile_y = scan_visual->unk_25;
+            tile_x = scan_visual->tile_x;
+            tile_y = scan_visual->tile_y;
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {

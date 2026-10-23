@@ -12,7 +12,7 @@ typedef struct S_800A130C_0 {
 
 /* Copies three spaced halfwords into consecutive destination fields. */
 void copy_odd_halfwords_3(S_800A130C_0 *dst, MovingPosition *src) {
-    dst->unk_00 = (u16) src->unk_02;
-    dst->unk_02 = (u16) src->unk_06;
-    dst->unk_04 = (u16) src->unk_0A;
+    dst->unk_00 = (u16) src->x;
+    dst->unk_02 = (u16) src->y;
+    dst->unk_04 = (u16) src->z;
 }

@@ -781,7 +781,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     object = allocate_list_node(2, adjusted_value);
     if (object != 0) {
         counter = D_80026324[0];
-        object->unk_10 = create_radial_effect_from_source;
+        object->update_callback = create_radial_effect_from_source;
         D_80026324[0] = counter + 1;
         register_node(object, build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table);
 
@@ -883,7 +883,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
+        object->update_callback = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
         register_node(object, (s32)&linked_mesh_processor_address);
         transition = object->position;
         transition->start[0].value = endpoints->start[0].value;
@@ -1351,19 +1351,19 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
 
     object = allocate_list_node(0x202, alloc_arg);
     if (object != NULL) {
-        object->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
+        object->update_callback = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
         register_node(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = object->position;
-        positions->x.w.i = (s16) (origin->unk_02 + ((s32) (rcos(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (origin->unk_06 + ((s32) (rsin(angle) * radius) >> 0xF));
-        height = origin->unk_0A + ((s32) (height_offset << 0x10) >> 0x13);
+        positions->x.w.i = (s16) (origin->x + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (origin->y + ((s32) (rsin(angle) * radius) >> 0xF));
+        height = origin->z + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
         if ((*(s16 *)D_80026878) < height) {
             positions->z.w.i = (*(s16 *)D_80026878);
         }
-        *((u16 *)&positions->velocity_x + 1) = (u16) origin->unk_02;
-        *((u16 *)&positions->velocity_y + 1) = (u16) origin->unk_06;
-        *((u16 *)&positions->velocity_z + 1) = (u16) origin->unk_0A;
+        *((u16 *)&positions->velocity_x + 1) = (u16) origin->x;
+        *((u16 *)&positions->velocity_y + 1) = (u16) origin->y;
+        *((u16 *)&positions->velocity_z + 1) = (u16) origin->z;
         object_data = (void *) 0xE04020;
         (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
         slot_index = (u16)D_8002632A;
@@ -1471,7 +1471,7 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
 
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
-        effect->unk_10 = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
+        effect->update_callback = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
         register_node(effect, project_sprite_chain);
         transform = effect->position;
         transform->x.w.i = x;
@@ -1599,7 +1599,7 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(RadialQuadWor
     ticks_test = ticks_left << 16;
 
     if (ticks_test <= 0) {
-        ((ObjectStatusPrefix16 *)effect)[-1].unk_00 |= NODE_REMOVE;
+        ((ObjectStatusPrefix16 *)effect)[-1].flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1824,7 +1824,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
         fragment = allocate_flagged_object_node(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
-            fragment->unk_10 = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;
+            fragment->update_callback = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;
             register_node((void *)object_or_x, (s32)handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
 
             row_start = quad_index & ~0xF;

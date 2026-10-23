@@ -1,4 +1,5 @@
 #include "shared/runtime_dispatch.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -13,19 +14,7 @@
 #include "engine/texture.h"
 extern u8 resident_globals_page[];
 
-
-typedef struct S_800930F0_12 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
-
-
-   /* arg2 in update_floor_exit_transition */
-
-typedef struct S_800930F0_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800930F0_2;   /* arg3 in update_floor_exit_transition */
+   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
 
 typedef struct S_800930F0_3 {
     u8 pad_00[0xAC];
@@ -68,7 +57,6 @@ typedef struct S_800930F0_9 {
     u16 unk_2E76;
 } S_800930F0_9;   /* store_base in update_floor_exit_transition */
 
-
 void request_scene_dispatch_state();
 void request_scene_state_with_parameters();
 s32 get_entity_class();
@@ -94,7 +82,7 @@ extern u8 dungeon_button_latch;
 extern s32 dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *tile, S_800930F0_2 *actor) {
+void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *tile, ActorRecord *actor) {
     s32 *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
@@ -106,15 +94,15 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
     void *created_object;
     s16 *type_values;
 
-    phase = state->actor.unk_9B;
+    phase = state->actor.action_phase;
     switch (phase) {
     case 0:
         slot_index = 1;
-        state->actor.unk_96 = 0U;
-        create_map_position_object((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
+        state->actor.action_timer = 0U;
+        create_map_position_object((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20);
         type_values = &actor_event_values;
         slot_cursor = (s32 *)state + 1;
-        actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
+        actor->flags1C = (s32) (actor->flags1C | 0x40000000);
         do {
             slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
             if (slot_object != 0) {
@@ -123,10 +111,10 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
             slot_index -= 1;
             slot_cursor -= 1;
         } while (slot_index >= 0);
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 1:
-        wait_ticks = state->actor.unk_96 + 1;
-        state->actor.unk_96 = wait_ticks;
+        wait_ticks = state->actor.action_timer + 1;
+        state->actor.action_timer = wait_ticks;
         if ((s16) wait_ticks < 0x3D) {
             break;
         }
@@ -170,7 +158,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.s = &D_80021268;
         reference_tile_object.unk_038 = 0;
         (*(s32 *)&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x2000);
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 2:
         load_status = create_expanding_screen_rectangle();
@@ -178,7 +166,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         if (load_status == 0) {
             break;
         }
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 3:
         created_object = ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.u(((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_04,
@@ -187,15 +175,15 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         if (created_object == NULL) {
             return;
         }
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 4:
-        if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
+        if (!(((ObjectNodeHeader *)(state->unk_C8))->flags & 0x8000)) {
             break;
         }
         request_scene_dispatch_state(scene_mode_code);
         current_dungeon_floor = *(u16 *)0x80010234;
         mark_sprite_resources_for_purge();
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
         break;
     case 16:
         transition_base = (s32 *)0x800E0000;
@@ -226,7 +214,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
             ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
             request_scene_state_with_parameters(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
         }
-        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
+        state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 17:
     default:
         break;

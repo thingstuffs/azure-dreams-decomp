@@ -20,7 +20,7 @@ void lookup_lshop_value(s32 group_index, s32 entry_index) {
     Entry *groups;
     Entry *entries;
 
-    root = D_80016000;
+    root = town_scene_root;
     level = (TownResourceLinks *)root->unk_24;
     groups = level->gridRows;
     entries = groups[group_index].next;

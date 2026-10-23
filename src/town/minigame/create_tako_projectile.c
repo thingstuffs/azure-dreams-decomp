@@ -48,7 +48,7 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
         entity->scale_x = 0x1000;
         entity->source = (s32)D_800F7944;
         entity->unk_04 = 0;
-        entity->unk_05 = 0;
+        entity->frame_ticks = 0;
         entity->color.word = 0x00808080;
         entity->flags |= 0x80;
     }

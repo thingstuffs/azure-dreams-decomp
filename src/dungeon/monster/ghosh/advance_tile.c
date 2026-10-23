@@ -100,9 +100,9 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 target = find_adjacent_actor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
                 if (target != 0) {
-                    target_position = ((SpriteLinkPrefixView *)target)[-1].unk_00;
+                    target_position = ((SpriteLinkPrefixView *)target)[-1].sprite;
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25,
+                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->tile_x, target_position->tile_y,
                         move_state + 0x98);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
                     return;
@@ -186,9 +186,9 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 }
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
-                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 =
+                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_x =
                         (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
-                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C =
+                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_y =
                         (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
                     update_map_cell_flags_with_item_limit(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,

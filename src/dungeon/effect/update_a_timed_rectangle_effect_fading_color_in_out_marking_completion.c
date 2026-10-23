@@ -44,7 +44,7 @@ typedef struct Work {
 } Work;
 
 extern Rect D_80024048;
-extern s16 D_80026428;
+extern s16 rectangle_effect_updated;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
 void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void *effect_arg, void *unused, void *sprite_arg)
@@ -62,7 +62,7 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
     sprite = sprite_arg;
     rect_template = &D_80024048;
     work.rect = *rect_template;
-    D_80026428 = 1;
+    rectangle_effect_updated = 1;
     state = ((S_80025360_0 *)effect_arg)->unk_00;
     switch (state) {
     case 0:

@@ -6,5 +6,5 @@
 
 /* Invoke the callback at offset 0x278 with settings (1, 1, 0, 0x1E). */
 void invoke_render_callback_preset_b(void) {
-    D_80016000->unk_20->callback_278(1, 1, 0, 0x1E);
+    town_scene_root->services->callback_278(1, 1, 0, 0x1E);
 }

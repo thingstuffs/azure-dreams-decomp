@@ -48,16 +48,16 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
                            actor_data->unk_88, 0x20);
 
     if (move_result > 0) {
-        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
 
         direction_index = ((u16)actor_data->facing >> 8) & 0xE;
         x_offsets = ((u8 *)dir_step_x);
-        tile_x = actor->unk_24;
+        tile_x = actor->tile_x;
         tile_x += x_offsets[direction_index];
-        actor->unk_24 = tile_x;
-        actor->unk_25 += ((u8 *)dir_step_y)[direction_index];
+        actor->tile_x = tile_x;
+        actor->tile_y += ((u8 *)dir_step_y)[direction_index];
 
-        cycle_map_cell_flags(actor->unk_24, actor->unk_25, 0x300);
+        cycle_map_cell_flags(actor->tile_x, actor->tile_y, 0x300);
 
         g_dungeon_status.flags |= 8;
         ((S_8008C13C_2 *)controller)->unk_8C.s = 0;

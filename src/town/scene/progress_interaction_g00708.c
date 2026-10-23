@@ -3,7 +3,7 @@
 #include "town/scene/progress_interaction_g00708.h"
 
 void mark_progress_state_ready(void) {
-    ((TownProgressState *)D_80016000->unk_40)->unk_B0 = 1;
+    ((TownProgressState *)town_scene_root->event_data)->unk_B0 = 1;
 }
 
 /* Installs an indexed interaction handler and data once, sets its flag, and marks the state ready. */

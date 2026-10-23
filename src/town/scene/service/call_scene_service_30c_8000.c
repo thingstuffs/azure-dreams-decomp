@@ -3,6 +3,6 @@
 /* Call the scene object's 0x30C method with 0x8000. */
 void call_scene_service_30c_8000(void)
 {
-    (*((s32 (**)(s32)) (((s8 *) (*((void **) (((s8 *) (((unsigned int)D_80016000))) + 0x20))))
+    (*((s32 (**)(s32)) (((s8 *) (*((void **) (((s8 *) (((unsigned int)town_scene_root))) + 0x20))))
         + 0x30C)))(0x8000);
 }

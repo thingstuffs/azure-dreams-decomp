@@ -6,6 +6,16 @@
 #include "records/Rec_func_8008D024_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+/* Sparse view of the player's familiar-item address slots. Input and recall
+ * paths form player_base + slot * 4 before reading +0xD0. Restore writes the
+ * corresponding save-page item address, and detachment clears that word.
+ * Preserve the signed integer address representation and all byte indexing;
+ * this projection is not an array element or the complete PlayerRecord tail. */
+typedef struct FamiliarItemSlotView {
+    u8 pad_00[0xD0];
+    s32 item_address;
+} FamiliarItemSlotView;
+
 void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion);
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context, SpriteFrameState *display, s32 target_index, s32 action_mode);
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input);
@@ -34,5 +44,9 @@ void begin_player_push(struct Rec_func_8008ACDC_arg0 *action, s32 context, Sprit
 void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameState *entity, void *actor);
 void update_player_push(void *actor, void *motion, SpriteFrameState *sprite, void *model);
+
+void update_active_nodes_and_render_frame(void);
+void queue_framebuffer_strip_quads(void);
+void dispatch_object_renderers(void);
 
 #endif

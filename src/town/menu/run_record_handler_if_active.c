@@ -16,7 +16,7 @@ void run_record_handler_if_active(void *record, s32 unused, s32 update_data) {
     handler = ((S_800A78AC_0 *)record)->unk_50;
     if (handler != 0) {
         handler(record);
-        if (!(((ObjectRetirementFlags *)record)[-1].unk_00 & 0x8000)) {
+        if (!(((ObjectRetirementFlags *)record)[-1].flags & 0x8000)) {
             advance_sprite_animation_and_textures(update_data);
         }
     }

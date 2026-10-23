@@ -42,11 +42,11 @@ typedef struct State {
 
 extern TownRewardValues D_80526448;
 extern s32 D_80530130[];
-extern u8 D_805300F4[];
+extern u8 score_bounce_update_address[];
 extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
-extern u8 D_80077C64[];
-extern s32 D_80077C68[3];
+extern u8 score_sprite_handler_address[];
+extern s32 score_sprite_initial_value[3];
 extern s32 scene_value_total;
 extern s32 scene_object_flags;
 
@@ -118,8 +118,8 @@ void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
     }
 
     case 1:
-    act->handler = D_80077C64;
-    act->value = D_80077C68[0];
+    act->handler = score_sprite_handler_address;
+    act->value = score_sprite_initial_value[0];
     act->mode = 0;
     act->variant = func_80071494() & 3;
     act->flags &= 0xff7f;
@@ -168,7 +168,7 @@ case 2:
             mot->z = floor;
             mot->dz = (-mot->dz) >> 1;
         }
-        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
+        if (func_80240810(score_bounce_update_address, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
@@ -192,7 +192,7 @@ case 2:
     }
 
     case 4:
-        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
+        if (func_80240810(score_bounce_update_address, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
@@ -218,7 +218,7 @@ case 2:
             result_v0 = act->flags & 0xff7f;
         }
         act->flags = result_v0;
-        if (func_80240810(D_805300F4, mot, score_bounce_motion_data, town_motion_state)) {
+        if (func_80240810(score_bounce_update_address, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;

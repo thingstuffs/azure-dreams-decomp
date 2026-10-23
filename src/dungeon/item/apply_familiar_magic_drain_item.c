@@ -32,7 +32,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
 
     if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = action;
-        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
     if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {

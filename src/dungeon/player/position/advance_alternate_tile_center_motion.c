@@ -24,9 +24,9 @@ void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, S
         g_dungeon_status.movement_frames_left = 0;
     }
     if (g_dungeon_status.movement_frames_left != 0) {
-        motion->velocity_x = (s32) ((s32) ((((sprite->unk_24 << 6) + 0x20) << 0x10)
+        motion->velocity_x = (s32) ((s32) ((((sprite->tile_x << 6) + 0x20) << 0x10)
             - motion->x.v) / g_dungeon_status.movement_frames_left);
-        motion->velocity_y = (s32) ((s32) ((((sprite->unk_25 << 6) + 0x20) << 0x10)
+        motion->velocity_y = (s32) ((s32) ((((sprite->tile_y << 6) + 0x20) << 0x10)
             - motion->y.v) / g_dungeon_status.movement_frames_left);
     }
     if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) && (g_dungeon_status.movement_frames_left == 6)) {
@@ -49,7 +49,7 @@ void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, S
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((collect_ground_item(actor, motion, sprite, facing) << 0x10) > 0) {
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &handle_carrying_player_input;
         }

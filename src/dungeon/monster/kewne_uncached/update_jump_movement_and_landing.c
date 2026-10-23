@@ -211,7 +211,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &kewne_uncached_action_resume_address;
         g_dungeon_status.active_actor = 0;

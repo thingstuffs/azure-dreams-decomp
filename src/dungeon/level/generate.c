@@ -176,9 +176,9 @@ void compact_generation_regions(void) {
     entry_index = entry_count;
     if (entry_count < 0x24) {
         do {
-            dungeon_rooms[entry_index].unk_0A = 0;
-            dungeon_rooms[entry_index].unk_0E = 0;
-            dungeon_rooms[entry_index].unk_10 = 0;
+            dungeon_rooms[entry_index].active = 0;
+            dungeon_rooms[entry_index].entry_count = 0;
+            dungeon_rooms[entry_index].entries = 0;
         } while (++entry_index < 0x24);
     }
     ((s16 *)dungeon_room_count)[0] = entry_count;
@@ -188,9 +188,9 @@ void clear_generation_region_entries(void) {
     s32 i;
 
     for (i = 0x23; i >= 0; i--) {
-        dungeon_rooms[i].unk_0A = 0;
-        dungeon_rooms[i].unk_0E = 0;
-        dungeon_rooms[i].unk_10 = 0;
+        dungeon_rooms[i].active = 0;
+        dungeon_rooms[i].entry_count = 0;
+        dungeon_rooms[i].entries = 0;
     }
 }
 
@@ -1480,7 +1480,7 @@ s32 generate_floor_layout(void)
                     x1 = (s16) (dw + 9);
                     y1 = (s16) (rh + 4);
                     if (find_first_nonzero_rectangle_field(x0, y0, x1, y1) == 0) {
-                        dungeon_rooms[k].unk_0A = 1;
+                        dungeon_rooms[k].active = 1;
                         fill_generation_cell_marks(x0, y0, x1, y1, k + 1);
                         dungeon_rooms[k].x = rx + 1;
                         dungeon_rooms[k].y = ry + 1;
@@ -1528,7 +1528,7 @@ s32 generate_floor_layout(void)
         dungeon_rooms[0].x = 2;
         dungeon_rooms[0].y = 2;
         full_height = 1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_y;
-        dungeon_rooms[0].unk_0A = 1;
+        dungeon_rooms[0].active = 1;
         dungeon_rooms[0].w = (1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) - 4;
         dungeon_rooms[0].h = full_height - 4;
         dungeon_rooms[0].unk_08 = generate_random_value() & 0x60;
@@ -1540,7 +1540,7 @@ s32 generate_floor_layout(void)
         for (oy = 0; oy < generation_room_rows; oy++) {
             for (ox = 0; ox < generation_room_columns; ox++) {
                 k = (oy * generation_room_columns) + ox;
-                if (dungeon_rooms[k].unk_0A != 0) {
+                if (dungeon_rooms[k].active != 0) {
                     update_region_until_complete(&dungeon_rooms[k], k);
                 }
             }
@@ -1651,7 +1651,7 @@ s32 generate_floor_layout(void)
 
         nt = generation_room_rows * generation_room_columns;
         for (i = 0; i < nt; i++) {
-            if ((dungeon_rooms[i].flags == 0) && (dungeon_rooms[i].unk_0A != 0)) {
+            if ((dungeon_rooms[i].flags == 0) && (dungeon_rooms[i].active != 0)) {
                 generation_unflagged_room_count++;
             }
         }
@@ -1895,17 +1895,17 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
     pick_relative_room_edge_point((dest_dir + 4) & 6, &dest_offset_x, &dest_offset_y, dest_room);
     travel_dir = src_dir;
     saved_dir = src_dir;
-    if (dungeon_rooms[src_idx].unk_0A) {
+    if (dungeon_rooms[src_idx].active) {
         append_generation_region_entry(src_idx, src_room->x + src_offset_x, src_room->y + src_offset_y, 0);
     }
-    if (dungeon_rooms[dest_idx].unk_0A) {
+    if (dungeon_rooms[dest_idx].active) {
         append_generation_region_entry(dest_idx, dest_room->x + dest_offset_x, dest_room->y + dest_offset_y, 0);
     }
     save_or_restore_random_seed(1);
     start.x = src_room->x + src_offset_x;
     start.y = src_room->y + src_offset_y;
     start.dir = src_dir;
-    if (dungeon_rooms[src_idx].unk_0A) {
+    if (dungeon_rooms[src_idx].active) {
         start.x = start.x + dir_step_x[travel_dir];
         start.y = start.y + dir_step_y[travel_dir];
     }
@@ -1915,7 +1915,7 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
     dest_grid_y = dest_idx / generation_room_columns;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
-            if (dungeon_rooms[dest_idx].unk_0A) {
+            if (dungeon_rooms[dest_idx].active) {
                 end.x = dest_room->x + dest_offset_x;
                 end.y = dest_room->y + dest_offset_y;
             } else {
@@ -2001,7 +2001,7 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
         inner_cell->value = inner_cell->value + 96;
     }
 
-    if (dungeon_rooms[dest_idx].unk_0A) {
+    if (dungeon_rooms[dest_idx].active) {
         back_dir = dest_dir;
         cursor_x = dest_x;
         cursor_y = dest_y;
@@ -2045,12 +2045,12 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
 
     save_or_restore_random_seed(0);
     travel_dir = saved_dir;
-    if (dungeon_rooms[src_idx].unk_0A) {
+    if (dungeon_rooms[src_idx].active) {
         src_height = generation_cells[((src_room->y + src_offset_y) << dungeon->shiftX) + src_room->x + src_offset_x].value;
     } else {
         src_height = generation_cells[(src_room->y << dungeon->shiftX) + src_room->x].value;
     }
-    if (dungeon_rooms[dest_idx].unk_0A) {
+    if (dungeon_rooms[dest_idx].active) {
         dest_height = generation_cells[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x
             + dest_offset_x].value;
     } else {
@@ -2074,7 +2074,7 @@ failed:
     start.x = src_room->x + src_offset_x;
     start.y = src_room->y + src_offset_y;
     start.dir = travel_dir;
-    if (dungeon_rooms[src_idx].unk_0A) {
+    if (dungeon_rooms[src_idx].active) {
         start.x = start.x + dir_step_x[travel_dir];
         start.y = start.y + dir_step_y[travel_dir];
     }
@@ -2084,7 +2084,7 @@ failed:
     dest_grid_y = dest_idx / generation_room_columns;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
-            if (dungeon_rooms[dest_idx].unk_0A) {
+            if (dungeon_rooms[dest_idx].active) {
                 end.x = dest_room->x + dest_offset_x;
                 end.y = dest_room->y + dest_offset_y;
             } else {

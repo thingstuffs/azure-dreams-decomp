@@ -27,7 +27,7 @@ extern void spend_actor_mp(void *, s32);
 extern void create_targeted_motion_effect(void *, void *, void *, void *);
 extern void create_actor_action_effect(void *, void *, void *, void *);
 
-extern u8 D_801724BC[];
+extern u8 troll_action_dispatch_address[];
 extern u8 D_80175DDC[8];
 extern u8 D_80175DE4[8];
 extern u8 D_80175DEC[8];
@@ -101,7 +101,7 @@ void advance_timed_directional_action(void *action, void *motion, SpriteFrameSta
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
-            ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
+            ((S_801743C4_0 *)action)->unk_8C = troll_action_dispatch_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity);
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -14,11 +15,7 @@ typedef struct S_80094270_4 {
     void * unk_AC;
 } S_80094270_4;   /* entry in request_familiar_deployment_change */
 
-typedef struct S_80094270_5 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80094270_5;   /* ((S_80094270_4 *)entry)->unk_AC in request_familiar_deployment_change */
-
+   /* ((S_80094270_4 *)entry)->unk_AC in request_familiar_deployment_change */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 familiar_record_slots[];
@@ -42,11 +39,7 @@ extern u8 D_800E0769[19];
 extern u8 D_800E077C[14];
 extern u8 D_800E078A[54];
 
-
-typedef struct S_80094270_1 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_80094270_1;   /* entry in request_familiar_deployment_change */
+   /* entry in request_familiar_deployment_change */
 
 typedef struct S_80094270_2 {
     u8 pad_00[0x3];
@@ -62,7 +55,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
     u8 bits;
     s32 msg;
     s32 call_result;
-    S_80094270_1 *entry;
+    FamiliarItemSlotView *entry;
     void *hdr;
     void *hdr3;
 
@@ -73,8 +66,8 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
             return 1;
         }
         entry = (void *) ((((Rec_func_8008ACDC_arg0 *)actor)->unk_8A * 4) + (u32) actor);
-        if (entry->unk_D0 == item) {
-            if (!(((S_80094270_5 *)(((S_80094270_4 *)entry)->unk_AC))->unk_1C & 0x20000)) {
+        if (entry->item_address == item) {
+            if (!(((ActorRecord *)(((S_80094270_4 *)entry)->unk_AC))->flags1C & 0x20000)) {
                 /* Format the selected outcome, then terminate the message. */
                 msg = get_unused_text_buffer();
                 text = expand_text_control_codes(D_800E0726, msg);

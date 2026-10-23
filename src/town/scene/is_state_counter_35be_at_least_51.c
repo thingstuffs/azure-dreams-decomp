@@ -7,5 +7,5 @@
 
 /* Returns whether the referenced record's signed value at offset 0x35BE is at least 51. */
 s32 is_state_counter_35be_at_least_51(void) {
-    return D_80016000->unk_38->unk_35BE >= 0x33;
+    return town_scene_root->town_state->unk_35BE >= 0x33;
 }

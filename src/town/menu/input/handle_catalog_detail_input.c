@@ -33,7 +33,7 @@ extern void select_paired_value_tables(TownState *);
 extern void reset_catalog_scroll_indicators(TownState *);
 extern void update_catalog_scroll_availability(TownState *);
 
-extern u8 D_801269F8[];
+extern u8 catalog_selection_state[];
 extern ImageList catalog_detail_images[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
@@ -58,7 +58,7 @@ void handle_catalog_detail_input(TownState *state)
 
     buttons = ((u32)g_game_work.buttons);
     if (buttons & 0x1000) {
-        u8 *selection = D_801269F8;
+        u8 *selection = catalog_selection_state;
 
         if (selection[9] >= 4) {
             state->state = 0xD;
@@ -75,7 +75,7 @@ void handle_catalog_detail_input(TownState *state)
         u8 *selection;
 
         max_scroll = (catalog_detail_images[state->index].count - 3) << 4;
-        selection = D_801269F8;
+        selection = catalog_selection_state;
         if (((max_scroll & 0xF0) - 4) >= selection[9]) {
             state->state = 0xE;
             selection[9] += 4;

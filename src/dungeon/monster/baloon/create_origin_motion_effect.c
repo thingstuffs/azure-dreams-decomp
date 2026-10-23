@@ -53,13 +53,13 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         motion = ((void *)effect) + 0x20;
         motion->unk_0C = 0x1E;
         motion->unk_0E = 0x1E;
-        effect->unk_10 = update_effect_collision_and_lifetime;
+        effect->update_callback = update_effect_collision_and_lifetime;
         register_node(effect, project_sprite_chain);
         render = effect->sprite;
         render->flags |= 0xC;
         size = 0x60;
         render->tpage_abr = size;
-        render->unk_06 = 0;
+        render->depth_bias = 0;
         render_flags = render->flags;
         render->flags = (u16)(render_flags | 2);
         position = effect->position;
@@ -76,9 +76,9 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         }
         motion->unk_38 = (s32)(0 - ((s32)motion->unk_2C >> 4));
         motion->unk_3C = (s32)(0 - ((s32)motion->unk_30 >> 4));
-        position->x.w.i = (u16)(*(u16 *)&position->x.w.i + origin->unk_02);
-        position->y.w.i = (u16)(*(u16 *)&position->y.w.i + origin->unk_06);
-        position->z.w.i = (u16)(*(u16 *)&position->z.w.i + origin->unk_0A);
+        position->x.w.i = (u16)(*(u16 *)&position->x.w.i + origin->x);
+        position->y.w.i = (u16)(*(u16 *)&position->y.w.i + origin->y);
+        position->z.w.i = (u16)(*(u16 *)&position->z.w.i + origin->z);
         sprite = effect->sprite;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0xC00;

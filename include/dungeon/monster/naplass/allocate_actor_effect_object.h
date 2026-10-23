@@ -50,7 +50,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80170A3C[];
-extern s32 D_80170E68;
+extern s32 naplass_action_continuation_address;
 extern u8 naplass_frame_set_1[];
 extern u8 D_801741DC[];
 void * allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value);

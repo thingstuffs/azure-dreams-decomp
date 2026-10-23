@@ -23,8 +23,8 @@ void clear_and_initialize_building_grid(s32);
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
 extern u8 D_80110EC8[];
-extern u8 D_801116C8[];
-extern u8 D_80111EC8[];
+extern u8 building_texture_backup[];
+extern u8 building_palette_backup[];
 extern u8 D_80111F48[];
 extern u16 building_upload_rect[];
 extern u8 D_8012F004[];
@@ -87,12 +87,12 @@ void initialize_building_scene_assets(void) {
             upload_rect[1] = 0x80;
             upload_rect[2] = 8;
             upload_rect[3] = 0x80;
-            StoreImage(upload_rect, D_801116C8);
+            StoreImage(upload_rect, building_texture_backup);
             building_upload_rect[0] = 0;
             upload_rect[1] = 0x1FB;
             upload_rect[2] = 0x40;
             upload_rect[3] = single_row;
-            StoreImage(upload_rect, D_80111EC8);
+            StoreImage(upload_rect, building_palette_backup);
             }
         }
     } else {

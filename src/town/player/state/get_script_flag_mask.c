@@ -11,7 +11,7 @@ s32 get_script_flag_mask(s32 flagIndex) {
 
     if (flagIndex != 0) {
         if (flagIndex != 1) {
-            addressOrMask = *(s32 *)((s8 *)(&D_80016000));
+            addressOrMask = *(s32 *)((s8 *)(&town_scene_root));
             wordOffsetOrBitIndex = flagIndex / 32;
             addressOrMask = *(s32 *)(addressOrMask + 0x18);
             flagWord = (s32 *)(wordOffsetOrBitIndex * sizeof(s32) + addressOrMask);

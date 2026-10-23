@@ -125,13 +125,13 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
         timer = script->unk_96.s;
         if (timer != 0) {
             s32 sub, m;
-            m = tile->unk_24;
+            m = tile->tile_x;
             m <<= 6;
             sub = motion->x.w.i - 0x20;
             motion->velocity_x = ((m - sub) << 15) / timer;
             sub = motion->y.w.i - 0x20;
             motion->velocity_y =
-                (((tile->unk_25 << 6) - sub) << 15) /
+                (((tile->tile_y << 6) - sub) << 15) /
                 script->unk_96.s;
         }
 
@@ -150,8 +150,8 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24,
-            tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x,
+            tile->tile_y);
         {
 
             value = ((s32)g_dungeon_status.pending_display_owner);

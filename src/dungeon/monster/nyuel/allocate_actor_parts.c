@@ -36,8 +36,8 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
         attr_b = held_flags & 3;
         child_a->field_0A = held_c;
         child_b = object->child_b_0C;
-        child_b->unk_24 = held_a;
-        child_b->unk_25 = held_b;
+        child_b->tile_x = held_a;
+        child_b->tile_y = held_b;
         body_alias = body;
 
         if (attr_b == 1) {

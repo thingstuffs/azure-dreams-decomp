@@ -26,7 +26,7 @@ extern s32 update_map_cell_flags_with_item_limit();
 extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 
-extern u8 D_801739C0[8];
+extern u8 beldo_large_frame_set_10[8];
 extern u8 D_801739C8[8];
 extern u8 D_801739D0[8];
 extern u8 D_801739D8[8];
@@ -55,10 +55,10 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     behavior = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
     switch (behavior) {
     case 0:
-        if (*(u8 **)&sprite->frameTable != D_801739C0) {
-            (sprite->frameTable) = D_801739C0;
+        if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_10) {
+            (sprite->frameTable) = beldo_large_frame_set_10;
             select_sprite_entry(sprite,
-                D_801739C0[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                beldo_large_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -89,8 +89,8 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     }
 
     move_mode = 0x3000;
-    old_x = sprite->unk_24;
-    old_y = sprite->unk_25;
+    old_x = sprite->tile_x;
+    old_y = sprite->tile_y;
     if (movement->flags1C & 0x2000) {
         move_mode = 0x300;
     }
@@ -101,13 +101,13 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
                               ((S_8016AFC4_3 *)path_step)->unk_7C, (u8 *)actor + 0x98);
     check_movement_clearance_and_height(direction, sprite, movement, 0x20);
 
-    sprite->unk_24 =
+    sprite->tile_x =
         ((S_8016AFC4_4 *)((u8 *)movement + movement->unk_8A))->unk_74;
-    sprite->unk_25 =
+    sprite->tile_y =
         ((S_8016AFC4_4 *)((u8 *)movement + movement->unk_8A))->unk_7C;
     (*(u16 *)&movement->unk_8A)++;
 
-    cycle_map_cell_flags(sprite->unk_24, sprite->unk_25,
+    cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                   (movement->flags1C & 0x2000) ? 0x300 : 0x3000);
 
     movement->facing = direction;

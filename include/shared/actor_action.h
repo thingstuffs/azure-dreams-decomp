@@ -7,11 +7,11 @@
  * advance_actor_timed_transition and directional movement handlers use this same slice. */
 typedef struct ActorActionTimerView {
     u8 pad_00[0x8C];
-    void * unk_8C; /* actor action callback to resume after the timed movement finishes */
+    void * next_action; /* actor action callback to resume after the timed movement finishes */
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96; /* action countdown in update ticks; -1 waits for animation flags, zero completes the wait */
+    union { s16 s; u16 u; } timer; /* action countdown in update ticks; -1 waits for animation flags, zero completes the wait */
     u8 pad_98[0x3];
-    u8 unk_9B; /* phase within the current actor action */
+    u8 phase; /* phase within the current actor action */
 } ActorActionTimerView;
 
 /* Callback/action pointer and phase; preserve the sparse 0x9C extent. */
@@ -19,9 +19,9 @@ typedef struct ActorActionTimerView {
  * The picket action handler advances the phase and installs the next callback on completion. */
 typedef struct ActorActionStateView {
     unsigned char pad_00[0x8C];
-    void *unk_8C; /* actor action callback installed when the current action finishes */
+    void *next_action; /* actor action callback installed when the current action finishes */
     unsigned char pad_90[0xB];
-    unsigned char unk_9B; /* phase selected by the current action handler; incremented as each stage completes */
+    unsigned char phase; /* phase selected by the current action handler; incremented as each stage completes */
 } ActorActionStateView;
 
 /* Action record used by the directional action handlers; preserve every union path. */

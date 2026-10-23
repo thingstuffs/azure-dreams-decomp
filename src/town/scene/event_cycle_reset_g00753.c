@@ -9,13 +9,13 @@ void reset_buffer_and_event_flags(void) {
     D_80019118 = D_80018AF8;
     D_80019114 = 0;
 
-    if (D_80016000->unk_20->callback_054(4) != 0) {
+    if (town_scene_root->services->callback_054(4) != 0) {
         func_800185C0(F_sbs35_pad01);
     } else {
         func_80018548(F_sbs35_pad01);
     }
 
-    if (D_80016000->unk_20->callback_054(4) != 0) {
+    if (town_scene_root->services->callback_054(4) != 0) {
         func_800185C0(F_sbs35_pad02);
     } else {
         func_80018548(F_sbs35_pad02);

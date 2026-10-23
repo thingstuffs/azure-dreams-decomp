@@ -11,7 +11,7 @@ typedef struct {
 
 /* Store the value in the first word of the current state entry. */
 void set_current_entry_value(s32 value) {
-    State *state = *(State **)((u8 *)(&D_80016000));
+    State *state = *(State **)((u8 *)(&town_scene_root));
 
     state->base[state->count * 2] = value;
 }

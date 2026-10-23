@@ -60,7 +60,7 @@ void advance_actor_action_animation_to_completion(void *action, s32 actor_id, Sp
 
     case 0xFF:
         if (animation->flags & 0xE000) {
-            set_record_integer_tile_center(actor_id, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
             ((S_80172BFC_0 *)action)->unk_8C = &mandara_action_resume_address;
             g_dungeon_status.active_actor = 0;

@@ -35,7 +35,7 @@ typedef struct EmptyCallArg {
 extern s16 D_80026476;
 extern u32 row_quad_top_color;
 extern u32 row_quad_bottom_color;
-extern u32 D_800265C8[];
+extern u32 particle_quad_vertices[];
 
 extern u32 RotTransPers4(
     u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *,
@@ -63,7 +63,7 @@ s32 draw_adjacent_row_quads(void)
         u8 **state_slot = &g_game_work.draw_buffer;
 
         if (D_80026476 > 0) {
-            vertices = D_800265C8;
+            vertices = particle_quad_vertices;
             vertex_record = (u8 *)vertices;
 
             do {

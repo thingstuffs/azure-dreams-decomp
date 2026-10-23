@@ -2,7 +2,7 @@
 #include "shared/object_index_slots.h"
 
 extern u32 person_motion_tag[4];
-extern u32 D_800C3988[4];
+extern u32 person_slot_flag_handler_address[4];
 typedef struct {
     u8 pad0;
     s8 val;
@@ -14,7 +14,7 @@ typedef struct {
 void initialize_object_handlers(void *object) {
     *(void **) ((u8 *) object + 0x50) = &person_motion_tag[0];
     *(s8 *) ((u8 *) object + 0x92) = 1;
-    *(void **) ((u8 *) object + 0x54) = &D_800C3988[0];
+    *(void **) ((u8 *) object + 0x54) = &person_slot_flag_handler_address[0];
     *(s8 *) ((u8 *) object + 0x15) = 0;
     object_index_slots[*(s32 *) ((u8 *) object + 0x60)].unk_01 = 0;
 }

@@ -65,7 +65,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
     for (i = 0; i < 18; i++) {
         objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
-            ((ObjectNodeHeader *)objects[i])->unk_10 = &D_80025C80;
+            ((ObjectNodeHeader *)objects[i])->update_callback = &D_80025C80;
             position = ((ObjectNodeHeader *)objects[i])->position;
             position->unk_02 = x;
             position->unk_06 = y;

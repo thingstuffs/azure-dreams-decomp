@@ -66,13 +66,13 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
         ((S_80172834_0 *)action)->unk_90 -= ((S_80172834_0 *)action)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = unit->unk_24 << 6;
+                s32 target_x = unit->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = unit->unk_25 << 6;
+                s32 target_y = unit->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -95,7 +95,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, unit->unk_24, unit->unk_25);
+            set_record_integer_tile_center(motion, unit->tile_x, unit->tile_y);
             (unit->frameTable) = D_80175280;
             select_sprite_entry(
                 unit,
@@ -113,7 +113,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, unit->unk_24, unit->unk_25);
+        set_record_integer_tile_center(motion, unit->tile_x, unit->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -132,7 +132,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    unit->unk_24, unit->unk_25,
+                    unit->tile_x, unit->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             }
         }

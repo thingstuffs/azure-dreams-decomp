@@ -66,7 +66,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     entity = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
-        entity->unk_10 = update_actor_callbacks_and_ground;
+        entity->update_callback = update_actor_callbacks_and_ground;
         ((S_801708B4_1 *)entity_data)->unk_13 = MONSTER_KEWNE;
         register_node(entity, project_sprite_chain);
 
@@ -74,10 +74,10 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         position->unk_0A = saved_height;
         placement = entity->sprite;
         spawn_mode = spawn_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         actor = entity_data;
         placement->frameTable = kewne_direction_frames;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
 
         if (spawn_mode == 1) {
             ((S_801708B4_1 *)entity_data)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

@@ -102,9 +102,9 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
 
     entity_data = entity->unk_60;
     motion->z.w.i = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
-    tile->unk_24 = source_object->unk_24;
-    tile->unk_25 = source_object->unk_25;
-    set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+    tile->tile_x = source_object->unk_24;
+    tile->tile_y = source_object->unk_25;
+    set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
 
     travel_steps = entity->unk_8A.s;
     if (travel_steps != 0) {
@@ -112,8 +112,8 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
         target_offset >>= 8;
         target_offset &= 0xE;
         target_height = sample_terrain_surface_height(
-            ((tile->unk_24 + (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
-            ((tile->unk_25 + (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->tile_x + (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->tile_y + (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->z.w.i);
         travel_duration = entity->unk_8A.u + 2;
         entity->unk_8A.s = travel_duration;
@@ -125,6 +125,6 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec 
         entity->unk_8A.s = entity->unk_8A.u - 2;
     }
 
-    tile->unk_24 += dir_step_x[(entity->unk_6A >> 9) & 7];
-    tile->unk_25 += dir_step_y[(entity->unk_6A >> 9) & 7];
+    tile->tile_x += dir_step_x[(entity->unk_6A >> 9) & 7];
+    tile->tile_y += dir_step_y[(entity->unk_6A >> 9) & 7];
 }

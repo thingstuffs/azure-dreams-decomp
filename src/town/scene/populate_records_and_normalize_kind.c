@@ -29,9 +29,9 @@ TownRecord *populate_records_and_normalize_kind(void)
     s32 *source;
     u8 *values;
 
-    source = source_table[D_80016000->unk_20->callback_2D4(0)];
+    source = source_table[town_scene_root->services->callback_2D4(0)];
     index = 0;
-    values = value_table[D_80016000->unk_20->callback_2D4(index)];
+    values = value_table[town_scene_root->services->callback_2D4(index)];
     if (((((TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)scene_record_list)))->flags & 0xC0) != 0x80) {
         register s32 next_addr_or_end;
         u8 value_or_flags;

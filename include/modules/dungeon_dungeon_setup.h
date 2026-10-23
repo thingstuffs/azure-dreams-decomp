@@ -308,7 +308,7 @@ extern s32 temporary_item_record;
 extern void *actor_direction_sprites;
 extern u8 D_80089AA0[];
 extern u8 D_800DD078;
-extern u8 D_800DD090;
+extern u8 player_attack_followup_frames;
 extern u8 D_800DD0A8;
 extern s32 equipped_actor_sprite_sources[];
 extern s32 unequipped_actor_sprite_sources[];

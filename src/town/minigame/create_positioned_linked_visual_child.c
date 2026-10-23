@@ -50,10 +50,10 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
         child_data = ((void *)child) + 0x20;
         register_node(child, &lit_mesh_renderer_address[0]);
         child_visual = child->sprite;
-        child->unk_10 = &D_800BF72C[0];
+        child->update_callback = &D_800BF72C[0];
         child_visual->scale_x = 0x1000;
         child_visual->scale_y = 0x1000;
-        child_visual->unk_20 = 0x1000;
+        child_visual->offset_x = 0x1000;
         child_visual->angle_z = 0;
         child_visual->color.word = 0x808080;
         child_visual->source = 0x75;

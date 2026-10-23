@@ -219,7 +219,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         decrement_monster_entry_count(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
-        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(target);
         object = target - 0x20;
         object->unk_10.u = object->unk_10.u | 0x80000000;

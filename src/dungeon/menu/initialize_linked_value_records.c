@@ -12,7 +12,7 @@ typedef struct S_80123700_1 {
 } S_80123700_1;
 
 
-extern s32 D_80126A88;
+extern s32 menu_initial_value_pairs;
 extern s32 *catalog_display_node_slots[98];
 
 
@@ -30,7 +30,7 @@ void initialize_linked_value_records(void) {
     initial_value = 0x800;
     entry_table = (s8 *)&catalog_display_node_slots;
     entry_slot = (void **)(entry_table + 0x38);
-    source_record = (s8 *)&D_80126A88;
+    source_record = (s8 *)&menu_initial_value_pairs;
     do {
         entry_value = *(s32 **)entry_slot;
         source_value = *(s32 *)source_record;

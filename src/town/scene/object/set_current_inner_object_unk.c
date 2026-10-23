@@ -19,7 +19,7 @@ void set_current_inner_object_unk(void) {
     if (func_80018D6C(Ft_name_to_cheril) == 0) {
         func_80018CEC(F_sb24_door_dummy);
         func_80018C74(F_sb24_nd_dummy0);
-        *(s32 **)(*(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x1C) + 0x40) = &D_80019A74;
+        *(s32 **)(*(s8 **)(*(s8 **)((s8 *)(&town_scene_root)) + 0x1C) + 0x40) = &D_80019A74;
     }
 
     if (func_80018D6C(Fp_cheriru_kangofu) != 0) {

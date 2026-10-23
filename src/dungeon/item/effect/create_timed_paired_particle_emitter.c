@@ -59,16 +59,16 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
 
     state = (u8 *)object + 0x20;
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
-    object->unk_10 = (void *)tick_paired_particle_emitter;
+    object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;
-    component_x = source->unk_02;
-    components->unk_02 = component_x;
+    component_x = source->x;
+    components->x = component_x;
     ((S_800C4AFC_0 *)state)->unk_20 = component_x;
-    component_y = source->unk_06;
-    components->unk_06 = component_y;
+    component_y = source->y;
+    components->y = component_y;
     ((S_800C4AFC_0 *)state)->unk_22 = component_y;
-    component_z = source->unk_0A;
-    components->unk_0A = component_z;
+    component_z = source->z;
+    components->z = component_z;
     ((S_800C4AFC_0 *)state)->unk_24 = component_z;
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;

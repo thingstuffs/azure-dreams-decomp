@@ -153,14 +153,14 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
             }
         }
     }
-    terrain_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = terrain_index;
+    terrain_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = terrain_index;
     if (((S_80170E9C_1 *)state)->unk_6D > 0) {
         if (((S_80170E9C_1 *)state)->unk_1C & 0x20) {
             update_actor_status_and_mp(state);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             update_actor_movement_and_tile_position(entity, context, sprite, state);
             return;
         }
@@ -192,11 +192,11 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
         case 5:
         case 6:
         case 7:
-            target_angle = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
+            target_angle = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             reference_entity = primary_actor_record;
             ((S_80170E9C_1 *)state)->unk_2A = target_angle;
-            if (reference_entity->unk_9A == 0x11) {
+            if (reference_entity->action_id == 0x11) {
                 resume_handler = (s32 *)update_entity_actions_facing_and_animation;
                 begin_actor_spell_action(entity, context, sprite, &D_80174F08, resume_handler);
                 return;
@@ -220,10 +220,10 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
     if (!(idle_flags & 0x2000)) {
         if (terrain_index < 0 || !(dungeon_rooms[terrain_index].flags & 2)) {
             if (!(idle_flags & 0x430)) {
-                if ((test_neighbor_position_relation(sprite->unk_24, sprite->unk_25,
+                if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
-                    ((S_80170E9C_1 *)state)->unk_2A = get_rounded_facing_and_rounding_flag(sprite->unk_24,
-                        sprite->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+                    ((S_80170E9C_1 *)state)->unk_2A = get_rounded_facing_and_rounding_flag(sprite->tile_x,
+                        sprite->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                 }
             }
         }

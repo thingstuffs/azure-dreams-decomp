@@ -30,7 +30,7 @@ extern void spend_actor_mp(void *, s32);
 
 extern Node *actor_update_node_cursor[];
 extern u8 picket_action_resume_address[];
-extern u8 D_80174F30;
+extern u8 picket_frame_set_7;
 
 /* Updates movement animation and settles the actor at its target tile. */
 void update_movement_animation_settles_actor_target_tile(void *action, void *motion, SpriteFrameState *sprite, void *actor)
@@ -54,9 +54,9 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
             return;
         }
 
-        sprite->frameTable = &D_80174F30;
+        sprite->frameTable = &picket_frame_set_7;
         select_sprite_entry(sprite,
-            *(&D_80174F30 +
+            *(&picket_frame_set_7 +
               (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172908_1 *)action)->unk_9B++;
@@ -97,13 +97,13 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         return;
     case 0xFF:
     {
-        s32 target_x = sprite->unk_24 << 6;
+        s32 target_x = sprite->tile_x << 6;
         s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
         ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
     }
         {
-            s32 target_y = sprite->unk_25 << 6;
+            s32 target_y = sprite->tile_y << 6;
             s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
             ((EntityRec *)motion)->unk_10 = (target_y - current_y) << 14;
@@ -113,7 +113,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         }
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = picket_action_resume_address;
         g_dungeon_status.active_actor = 0;

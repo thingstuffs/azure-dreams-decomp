@@ -24,6 +24,6 @@ s32 advance_town_scene_flag_step(s32 kind, s32 value) {
         }
     }
 
-    (*(Callback *)((u8 *)((void **)*(void **)((u8 *)(&D_80016000)))[8] + 0x2F8))(0xE, 0x200);
+    (*(Callback *)((u8 *)((void **)*(void **)((u8 *)(&town_scene_root)))[8] + 0x2F8))(0xE, 0x200);
     return 0;
 }

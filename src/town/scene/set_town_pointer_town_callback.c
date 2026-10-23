@@ -20,7 +20,7 @@ s32 set_town_pointer_town_callback(void) {
         return 1;
     }
 
-    town = *(void **)((s8 *)(&D_80016000));
+    town = *(void **)((s8 *)(&town_scene_root));
     townOwner = *(void **)((s8 *)town + 0x1C);
     *(void **)((s8 *)townOwner + 0x40) = D_8001C921;
 

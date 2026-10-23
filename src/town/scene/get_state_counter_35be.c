@@ -4,5 +4,5 @@
 #include "shared/town_root.h"
 
 s16 read_scene_counter_a(void) {
-    return D_80016000->unk_38->unk_35BE;
+    return town_scene_root->town_state->unk_35BE;
 }

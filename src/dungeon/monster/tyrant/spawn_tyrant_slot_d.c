@@ -69,17 +69,17 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     allocation = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (allocation != NULL) {
         record = ((void *)allocation) + 0x20;
-        allocation->unk_10 = &D_8015EAA4;
+        allocation->update_callback = &D_8015EAA4;
         record->unk_13 = MONSTER_TYRANT;
         register_node(allocation, project_sprite_chain);
         child_08 = allocation->position;
         child_08->unk_0A = saved_input3;
         child_0C = allocation->sprite;
         value = input0 & 3;
-        child_0C->unk_25 = saved_input2;
+        child_0C->tile_y = saved_input2;
         record_alias = record;
         child_0C->frameTable = &D_80161FB8;
-        child_0C->unk_24 = saved_input1;
+        child_0C->tile_x = saved_input1;
         if (value == 1) {
             flags98 = record->unk_98;
             record->unk_14 = (s32) (record->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));

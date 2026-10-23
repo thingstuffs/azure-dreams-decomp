@@ -54,7 +54,7 @@ void create_default_state_object(s16 new_state) {
     }
     obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
-        obj->unk_10 = &D_800AFAD8;
+        obj->update_callback = &D_800AFAD8;
         register_node(obj, &D_800AFBFC);
         obj->sprite->source = &D_800DEF90;
         color = obj->sprite;

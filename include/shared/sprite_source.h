@@ -8,8 +8,8 @@
 /* Eight-byte entries in caller-supplied sprite source tables.
  * select_record_entry_and_value selects an entry and installs its command source in the sprite part. */
 typedef struct SpriteSourceEntry {
-    /* 0x00 */ unsigned char unk_00; /* table-base animation delay byte copied to sprite +5 when selecting a source entry */
+    /* 0x00 */ unsigned char frame_ticks; /* table-base animation delay byte copied to sprite +5 when selecting a source entry */
     /* 0x01 */ unsigned char pad_01[3];
-    /* 0x04 */ int unk_04; /* selected command/attachment source copied to sprite +8 */
+    /* 0x04 */ int source; /* selected command/attachment source copied to sprite +8 */
 } SpriteSourceEntry;
 #endif

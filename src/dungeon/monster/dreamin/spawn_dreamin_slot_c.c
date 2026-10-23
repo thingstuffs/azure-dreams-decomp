@@ -67,17 +67,17 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &D_80158A3C;
+        object->update_callback = &D_80158A3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         data_08 = object->position;
         data_08->unk_0A = saved_value_0a;
         data_0c = object->sprite;
         init_mode = init_flags & 3;
-        data_0c->unk_25 = saved_value_25;
+        data_0c->tile_y = saved_value_25;
         extended_state = state;
         data_0c->frameTable = &D_8015B86C;
-        data_0c->unk_24 = saved_value_24;
+        data_0c->tile_x = saved_value_24;
         if (init_mode == 1) {
             state->unk_14 = (s32) (state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
             state->unk_1C = (s32) (state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));

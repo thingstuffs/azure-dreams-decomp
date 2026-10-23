@@ -69,12 +69,12 @@ void update_actor_surface_motion(void *actor, void *subject, void *motion, void 
             *(s32 *)((u8 *)motion + 0xC) = 0;
             *(s32 *)((u8 *)motion + 0x10) = 0;
             *(s32 *)((u8 *)motion + 0x14) = 0;
-            *(void **)((u8 *)actor + 0x50) = D_8009B594;
+            *(void **)((u8 *)actor + 0x50) = actor_output_update_address;
         }
     }
     dispatch_active_town_object_script(actor, subject, motion, context);
     actor_callback = *(void **)((u8 *)actor + 0x50);
-    if (actor_callback != actor_surface_callback_address && actor_callback != D_8009B594 && actor_callback != D_8009BDC0) {
+    if (actor_callback != actor_surface_callback_address && actor_callback != actor_output_update_address && actor_callback != actor_moving_target_address) {
         actor_value = *(s32 **)((u8 *)actor + 0x7C);
         if (actor_value != 0)
             *(s32 *)((u8 *)context + 8) = *actor_value;
@@ -102,7 +102,7 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
         dispatch_active_town_object_script(state_owner, update_target, update_context, output);
     }
     current_state = *(void **)((u8 *)state_owner + 0x50);
-    if (current_state != actor_surface_callback_address && current_state != D_8009B594 && current_state != D_8009BDC0) {
+    if (current_state != actor_surface_callback_address && current_state != actor_output_update_address && current_state != actor_moving_target_address) {
         stored_value = *(s32 **)((u8 *)state_owner + 0x7C);
         if (stored_value != 0) {
             *(s32 *)((u8 *)output + 8) = *stored_value;

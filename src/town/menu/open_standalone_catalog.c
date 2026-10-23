@@ -35,7 +35,7 @@ void open_standalone_catalog(void) {
             obj->sprite = (u8 *)obj + 0x68;
             initialize_catalog_state(obj_data);
             register_node(obj, &draw_tinted_node_sprites_scratch);
-            obj->unk_10 = &D_80126704;
+            obj->update_callback = &D_80126704;
             g_game_work.view.projection_distance = 0x200;
             SetGeomScreen(0x200);
             SetGeomOffset(0xA0, 0x78);

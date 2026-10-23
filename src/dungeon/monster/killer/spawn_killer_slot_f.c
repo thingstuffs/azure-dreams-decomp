@@ -35,8 +35,8 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 
 extern u8 D_8016AA7C[];
-extern u8 D_8016E038[];
-extern u8 D_8016E088[];
+extern u8 killer_slot_f_default_frames[];
+extern u8 killer_frame_set_1[];
 extern u8 killer_spawn_killer_slot_f_address[];
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
@@ -63,7 +63,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8016AA7C;
+        obj->update_callback = D_8016AA7C;
         ((S_80FE1000_1 *)work)->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
 
@@ -71,10 +71,10 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
         part_a->z.w.i = saved_value_0a;
         part_b = obj->sprite;
         kind = kind_flags & 3;
-        part_b->unk_25 = saved_value_25;
+        part_b->tile_y = saved_value_25;
         actor = work;
-        part_b->frameTable = D_8016E038;
-        part_b->unk_24 = saved_value_24;
+        part_b->frameTable = killer_slot_f_default_frames;
+        part_b->tile_x = saved_value_24;
 
         if (kind == 1) {
             flags = ((S_80FE1000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -94,7 +94,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
                     ((S_80FE1000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_8016E088;
+                    part_b->frameTable = killer_frame_set_1;
                 }
             }
         }

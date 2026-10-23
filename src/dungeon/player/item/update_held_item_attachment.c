@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/object_links.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 
-typedef struct S_8008D470_0_pre {
-    u16 unk_00;
-} S_8008D470_0_pre;   /* the 0x2 bytes before arg0 in update_held_item_attachment, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_held_item_attachment, addressed as arg0[-1] */
 
 typedef struct S_8008D470_0 {
     u8 pad_00[0x8C];
@@ -62,11 +61,7 @@ typedef struct S_8008D470_6 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_8008D470_6;   /* ((S_8008D470_0 *)arg0)->unk_8C in update_held_item_attachment */
 
-typedef struct S_8008D470_7 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_8008D470_7;   /* ((S_8008D470_1 *)target)->unk_124 in update_held_item_attachment */
-
+   /* ((S_8008D470_1 *)target)->unk_124 in update_held_item_attachment */
 
 extern u8 held_item_record[];
 
@@ -138,7 +133,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
                 visual->unk_1C = 0;
             } else if (state == 1) {
                 if (((S_8008D470_0 *)effect)->unk_AE == 0) {
-                    ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                    ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
@@ -168,18 +163,18 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
                 target->unk_124 = entity;
                 entity->unk_9C = held_item_record;
                 entity->unk_1C |= 0x80000;
-                ((S_8008D470_7 *)(target->unk_124))->unk_60 = target;
+                ((ActorRecord *)(target->unk_124))->target = target;
                 target->unk_1C |= 0x100000;
-                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         } else if (expiry_mode == 2) {
-            ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else if (expiry_mode == 0) {
             update_result = position_updated;
             if (update_result == 0) {
-                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }

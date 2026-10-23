@@ -3,7 +3,7 @@
 extern void update_dungeon_entity_action_and_facing(void);
 
 /* jump_table; owner: dungeon/func_80FE16A8. */
-const u32 D_8016A808[12] __attribute__((aligned(4))) = {
+const u32 killer_slot_f_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_dungeon_entity_action_and_facing + 0x410),
     (u32)((u8 *)update_dungeon_entity_action_and_facing + 0x410),
     (u32)((u8 *)update_dungeon_entity_action_and_facing + 0x410),

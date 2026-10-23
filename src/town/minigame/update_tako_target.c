@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
-extern u8 D_80026F80[];
+extern u8 tako_target_timing_table[];
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
@@ -111,7 +111,7 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
     case 1:
         if (cell->field1a & 1) {
             Local effect;
-            u8 *effect_entry = D_80026F80 + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
+            u8 *effect_entry = tako_target_timing_table + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
             effect.d = *(u16 *)(effect_entry + 8);
             effect.a = *(s32 *)(effect_entry + 0);
             effect.b = *(s32 *)(effect_entry + 4);

@@ -40,10 +40,10 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
         draw_textured_ellipse(D_800DF334, init_data, 1, 0);
 
         part = object->position;
-        object->unk_10 = D_800243C4;
-        part->unk_02 = source_part->unk_02;
-        part->unk_06 = source_part->unk_06;
-        part->unk_0A = source_part->unk_0A;
+        object->update_callback = D_800243C4;
+        part->x = source_part->x;
+        part->y = source_part->y;
+        part->z = source_part->z;
 
         effect = object->sprite;
         effect->source = D_80028208;

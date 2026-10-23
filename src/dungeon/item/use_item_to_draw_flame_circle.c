@@ -47,7 +47,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
     }
     if (object == dungeon_actor_ring_anchor) {
         ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
-        begin_mode_selected_item_action(object, &view_reference_entity.x.v, &reference_tile_object.unk_000, 0);
+        begin_mode_selected_item_action(object, &view_reference_entity.x.v, &reference_tile_object.frame_entry, 0);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {
@@ -60,7 +60,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     } else {
         object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
-        if (create_five_point_effect(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,
+        if (create_five_point_effect(object_data->tile_x, object_data->tile_y, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,
             &ribbon_sprite_entries, 0x5000, 0x202080, &D_800C135C) == 0) {
             result = 0;
             return result;

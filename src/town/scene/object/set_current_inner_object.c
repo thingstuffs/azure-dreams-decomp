@@ -6,6 +6,6 @@
 
 /* Set the current inner object's unk4 and unk8 values to 1696 and 864. */
 void set_current_inner_object_unk(void) {
-    ((TownPositionState *)D_80016000->unk_1C)->x = 1696;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 864;
+    ((TownPositionState *)town_scene_root->position)->x = 1696;
+    ((TownPositionState *)town_scene_root->position)->y = 864;
 }

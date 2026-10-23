@@ -5,7 +5,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-struct Node;
 struct RegistrationNode;
 struct S_8003FF2C;
 struct S_8003FFF0;
@@ -47,7 +46,7 @@ void run_active_node_callbacks(void);
 void run_node_callback_and_set_marker(void *entry, void *output, void *context);
 
 /* table_set_bit_in_node_global_flags_node_exists.c */
-void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct Node *node);
+void table_set_bit_hex_8000_in_node_global_flags_node_exists(struct ObjectNodeHeader *node);
 
 /* unlink_active_node.c */
 void unlink_active_node(struct S_8003FFF0 *node);

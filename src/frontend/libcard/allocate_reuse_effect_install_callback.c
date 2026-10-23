@@ -1,7 +1,6 @@
 #include "common.h"
 #include "main/data.h"
 
-typedef struct { u8 pad[0x1E]; u16 flags; u8 pad20[0x20]; void *work; void *other; } Node;
 extern void func_8007C040(void *, void *, s32);
 extern void func_8007BEF0(s32);
 extern u8 D_8040086C[], D_80400894[];

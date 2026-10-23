@@ -19,13 +19,13 @@ struct S8004CBFC_a0;
 struct S8004CBFC_a1;
 void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
 extern M2C_UNK D_80071244;
-struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_800792DC;
+struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 
 
 /* Update an enabled object's data and reset its referenced pointer. */
 void update_item_menu_enabled_record(void *object) {
     if (((ItemMenuEnabledView *)(((S_800AF448_0 *)object)->unk_00))->unk_1C != 0) {
-        initialize_scaled_entry_cursor(object + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
+        initialize_scaled_entry_cursor(object + 0x1C, &shop_cursor_template, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
         *((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_14 = &D_80071244;
     }
 }

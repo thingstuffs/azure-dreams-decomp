@@ -183,7 +183,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
                     s32 dy;
 
                     dx = (s32)scan_actor_along_heading(
-                        actor, sprite->unk_24, sprite->unk_25,
+                        actor, sprite->tile_x, sprite->tile_y,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                     (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = abs(*(s8 *)((u8 *)actor + 0x72));
@@ -204,7 +204,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
         motion_in->velocity_z = 0;
         motion_in->velocity_y = 0;
         motion_in->velocity_x = 0;
-        set_record_integer_tile_center(motion_in, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion_in, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -323,7 +323,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
             motion_in->velocity_z = 0;
             motion_in->velocity_y = 0;
             motion_in->velocity_x = 0;
-            set_record_integer_tile_center(motion_in, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion_in, sprite->tile_x, sprite->tile_y);
             sprite->flags &= 0xFEFF;
             sprite->clut = ((S_80173230_0 *)action_in)->unk_AC;
 

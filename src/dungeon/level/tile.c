@@ -113,7 +113,7 @@ void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
     ActorRecord *owner;
 
     owner = primary_actor_record;
-    entry->unk_10 = *(s32 *)&entry->unk_10 & 0x7FFFFFFF;
+    entry->update_callback = *(s32 *)&entry->update_callback & 0x7FFFFFFF;
     neighbor_links = (u8 *)owner->previous_actor_header + 0x20;
     entry_links = (u8 *)entry + 0x20;
     entry_links->unk_5C = neighbor_links->unk_5C;
@@ -762,7 +762,7 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
 
     x += dir_step_x[direction] << 6;
     y += dir_step_y[direction] << 6;
-    if ((get_offset_map_cell_value_and_flags(actor->unk_24, actor->unk_25, direction, &tile_flags) << 16) == 0) {
+    if ((get_offset_map_cell_value_and_flags(actor->tile_x, actor->tile_y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
     if (tile_flags & 0x8000) {
@@ -1323,13 +1323,13 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
     LocalBytes next_coords;
     s32 target;
 
-    target = find_eligible_actor_at_tile_and_height(context, object->unk_24, object->unk_25, context->unk_88);
+    target = find_eligible_actor_at_tile_and_height(context, object->tile_x, object->tile_y, context->unk_88);
     if (target != 0) {
         if ((get_entity_effect_value(target, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-            if ((find_valid_nearby_position(context, object->unk_24, object->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
+            if ((find_valid_nearby_position(context, object->tile_x, object->tile_y, &next_coords.first.coordinate, &next_coords.second.coordinate)
                 << 0x10) != 0) {
-                object->unk_24 = next_coords.first.bytes.low;
-                object->unk_25 = next_coords.second.bytes.low;
+                object->tile_x = next_coords.first.bytes.low;
+                object->tile_y = next_coords.second.bytes.low;
                 return 1;
             }
             return 2;

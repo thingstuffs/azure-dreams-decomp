@@ -8,7 +8,7 @@ s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
 void spend_actor_mp();
 
-extern s32 D_80171514;
+extern s32 beldo_action_dispatch_address;
 
 typedef struct S_80172474_0 {
     u8 pad_00[0x8C];
@@ -31,7 +31,7 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, s32 unused, s3
             return;
         }
         do {
-            entity->unk_8C = &D_80171514;
+            entity->unk_8C = &beldo_action_dispatch_address;
         } while (0);
     }
     if (g_dungeon_status.flags & 0x80) {

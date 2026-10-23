@@ -13,7 +13,7 @@ extern void *allocate_list_node();
 extern s32 register_node();
 
 extern s32 D_80026680[3];
-extern TableEntry D_80028820[];
+extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];
 
 typedef struct S_80026C88_0 {
@@ -87,7 +87,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     }
     object_index = 0;
     callback = D_80026680;
-    table_entry = D_80028820;
+    table_entry = linked_effect_direction_entries;
     do {
         object = allocate_list_node(0x212, ((s32 *)(&scene_object_list_anchor)));
         if (object != NULL) {
@@ -95,7 +95,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             S_80026C88_2 *state;
             void *self_link;
 
-            object->unk_10 = callback;
+            object->update_callback = callback;
             register_node(object, linked_mesh_processor_address);
             state = ((void *)object) + 0x20;
             state->unk_1A = (s16) (x + position_offset[0]);

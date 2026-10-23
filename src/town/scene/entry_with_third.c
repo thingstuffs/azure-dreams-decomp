@@ -69,14 +69,14 @@ void animate_paired_threshold_indicators(PairedIndicators *hud) {
         for (i = 1; i >= 0; i--) {
             obj = func_800373DC(0x136);
             if (obj != NULL) {
-                obj->header.unk_10 = D_8052E40C;
+                obj->header.update_callback = D_8052E40C;
                 func_8003BC18(obj, score_sprite_draw_callback_address);
                 part = obj->header.sprite;
                 part->scale_y = 0x800;
                 part->scale_x = 0x800;
                 part->source = D_8028DFD8;
                 part->unk_04 = 0;
-                part->unk_05 = 0;
+                part->frame_ticks = 0;
                 part->color.word = 0x00808080;
                 obj->work.source = hud;
                 obj->work.use_first = i;

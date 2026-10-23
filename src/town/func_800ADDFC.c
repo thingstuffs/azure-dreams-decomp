@@ -12,7 +12,7 @@ typedef struct {
     s16 value;
 } State;
 
-extern u8 D_800AB408[];
+extern u8 person_approach_handler_address[];
 extern u8 person_approach_state_address[];
 
 /* Changes the handler below value 100 and on timer expiry; otherwise turns field +0x72 by -0x400. */
@@ -25,7 +25,7 @@ void update_timed_state_transition(State *state) {
     timer = state->timer - 1;
     state->timer = timer;
     if ((s16) timer < 0) {
-        state->state = D_800AB408;
+        state->state = person_approach_handler_address;
         state->timer = 150;
         return;
     }

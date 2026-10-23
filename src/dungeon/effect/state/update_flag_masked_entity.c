@@ -30,8 +30,8 @@ void update_flag_masked_entity(void *unused_0, void *unused_1, MovingTile *sourc
         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(entity);
-    source_24 = source->unk_24;
-    source_25 = source->unk_25;
+    source_24 = source->tile_x;
+    source_25 = source->tile_y;
     update_mask = 0x3000;
     if (entity->flags_1C & ACTOR_PLAYER_SIDE) {
         update_mask = 0x300;

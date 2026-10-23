@@ -25,19 +25,19 @@ s32 process_current_town_cell(s32 input_value, s32 input) {
     s32 result;
     u8 field_value;
 
-    field_value = ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.s;
+    field_value = ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.s;
     scene_cell_dispatch_code = (s32) field_value;
     result = 0;
     if ((field_value != 2) && (func_800194D8(F_sbs14_pad21) != 0)) {
         result = func_80018504(input_value, input);
     }
     if (result != 0) {
-        ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.u = 0;
+        ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.u = 0;
         scene_cell_dispatch_code = 0;
     } else {
         func_80017E1C();
         if (scene_cell_dispatch_code == 1) {
-            ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.u = 0;
+            ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.u = 0;
             scene_cell_dispatch_code = 0;
         }
     }

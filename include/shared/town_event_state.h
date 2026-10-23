@@ -11,11 +11,11 @@
 typedef struct TownEventState {
     /* 0x00 */ unsigned char unk_00;
     /* 0x01 */ unsigned char dispatchState; /* dispatch phase: 0 select/start, 1 pending dispatch, 2 dispatched */
-    /* 0x02 */ unsigned char unk_02; /* cycling entry-list index; 0xFF is the initial sentinel, read as -1 */
-    /* 0x03 */ unsigned char unk_03; /* saved enabled-entry id, reused by the event selection modes */
-    /* 0x04 */ unsigned char unk_04; /* current selected entry id; zero means no selected entry */
-    /* 0x05 */ unsigned char unk_05; /* event selection mode, used to choose data tables and command result builders */
-    /* 0x06 */ unsigned char unk_06; /* response-table latch; first lookup sets it and later lookups use the alternate table */
+    /* 0x02 */ unsigned char entry_index; /* cycling entry-list index; 0xFF is the initial sentinel, read as -1 */
+    /* 0x03 */ unsigned char saved_entry; /* saved enabled-entry id, reused by the event selection modes */
+    /* 0x04 */ unsigned char selected_entry; /* current selected entry id; zero means no selected entry */
+    /* 0x05 */ unsigned char selection_mode; /* event selection mode, used to choose data tables and command result builders */
+    /* 0x06 */ unsigned char response_latch; /* response-table latch; first lookup sets it and later lookups use the alternate table */
 } TownEventState;
 extern TownEventState *town_event_state;
 
@@ -26,7 +26,7 @@ extern TownEventState *town_event_state;
  * Store callbacks fill +8 with a command result or pointer; search callbacks treat zero as the terminator. */
 typedef struct TownEventEntryValueView {
     unsigned char pad_00[8];
-    int unk_08; /* entry value/result word; zero terminates searched tables, and callers supply the record stride */
+    int value; /* entry value/result word; zero terminates searched tables, and callers supply the record stride */
 } TownEventEntryValueView;
 
 /* Paired town-event arguments returned by select_event_data_table. */

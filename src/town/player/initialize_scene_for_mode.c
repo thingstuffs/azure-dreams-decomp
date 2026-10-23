@@ -49,7 +49,7 @@ void initialize_scene_for_mode(void)
     if (state->alternate != 0) {
         u16 *coords;
 
-        object->unk_10 = D_8008FFC0;
+        object->update_callback = familiar_deploy_update_address;
         coords = state->coords;
         scene->x.w.i = state->x_offset + coords[0];
         scene->y.w.i = state->y_offset + coords[1];
@@ -61,8 +61,8 @@ void initialize_scene_for_mode(void)
     {
         u16 *coords;
 
-        object->unk_10 = rebuild_menu_node_list;
-        register_node(object, D_800970FC);
+        object->update_callback = rebuild_menu_node_list;
+        register_node(object, player_motion_draw_address);
         neutral_color = 0x808080;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
@@ -110,7 +110,7 @@ void synchronize_mode_and_pending_callback(void) {
     u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
-    if (*(s32 *)&((ObjectNodeHeader *)((u8 *)handler_state - 0x20))->unk_10 != D_8008FFC0) {
+    if (*(s32 *)&((ObjectNodeHeader *)((u8 *)handler_state - 0x20))->update_callback != familiar_deploy_update_address) {
         if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
@@ -138,12 +138,12 @@ void synchronize_mode_and_pending_callback(void) {
         initialize_player_object(handler_state);
         initialize_record_and_select_active_data(handler_state, work_state, update_state);
         initialize_record_with_handler_table(handler_state, work_state, update_state);
-        callback = (void (*)())D_800D0438;
+        callback = (void (*)())town_scene_init_callback;
         ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 = (s32 *)&D_80097D54;
         ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
         if (callback != NULL) {
             callback();
-            D_800D0438 = 0;
+            town_scene_init_callback = 0;
         }
     }
 }
@@ -156,7 +156,7 @@ void initialize_global_scene_record(void) {
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
 void plt_init_sleep_set(void) {
-    D_800D0438 = &initialize_global_scene_record;
+    town_scene_init_callback = &initialize_global_scene_record;
 }
 
 /* Initialize the town scene and its render state. */
@@ -303,8 +303,8 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
     }
 
     callback = *(void **)context;
-    if ((callback == (void *)&D_80091260) ||
-        (callback == (void *)&D_80091528)) {
+    if ((callback == (void *)&actor_input_dispatch_address) ||
+        (callback == (void *)&actor_input_interaction_address)) {
         *(s16 *)((u8 *)context + 0x18) =
             step_angle_12_toward(*(s16 *)((u8 *)context + 0x18),
                           *(s16 *)((u8 *)context + 0x10), 0x200);

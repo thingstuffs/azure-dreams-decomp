@@ -29,7 +29,7 @@ void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value)
         *(s32 *)((u8 *)state + 4) = render_rotated_grid_surface(object, *(s32 *)((u8 *)state + 0x2C), 3);
         *(s32 *)((u8 *)state + 8) = create_save_heading(object);
         *(s32 *)((u8 *)state + 0x28) = 0;
-        object->unk_10 = D_800267C0;
+        object->update_callback = D_800267C0;
     }
     return object;
 }

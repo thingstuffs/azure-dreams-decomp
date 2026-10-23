@@ -123,7 +123,7 @@ void update_rotating_effect_fade(RotatingFadeWork *effect, ObjectPosition *motio
 
 
     if (frames_test <= 0) {
-        ((ObjectStatusPrefix16 *)effect)[-1].unk_00 |= NODE_REMOVE;
+        ((ObjectStatusPrefix16 *)effect)[-1].flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

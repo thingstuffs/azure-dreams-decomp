@@ -12,7 +12,7 @@ extern void func_8006E854(s16 *rect, u8 *image);
 extern s32 scene_object_flags;
 extern u8 D_805305B8[];
 extern u8 D_805305D8[];
-extern u8 D_805305F8[];
+extern u8 town_hud_image_data[];
 extern u8 D_80530638[];
 
 typedef struct CallbackState {
@@ -76,8 +76,8 @@ void animate_image_strips_signal_completion(CallbackState *callback)
         break;
     case 1:
         rect[0] = 0xE0;
-        func_8006E854(rect, D_805305F8);
-        image = D_805305F8;
+        func_8006E854(rect, town_hud_image_data);
+        image = town_hud_image_data;
         rect[0] = 0xC0;
         rect[2] = 0x20;
         func_8006E854(rect, image + 0x20);
@@ -85,7 +85,7 @@ void animate_image_strips_signal_completion(CallbackState *callback)
     case 2:
         rect[0] = 0xC0;
         rect[2] = 0x30;
-        func_8006E854(rect, D_805305F8);
+        func_8006E854(rect, town_hud_image_data);
         break;
     default:
         break;

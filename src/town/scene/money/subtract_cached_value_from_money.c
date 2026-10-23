@@ -11,6 +11,6 @@ extern s32 scene_charge;
 void subtract_cached_value_from_money(void) {
     TownStateRecord *state;
 
-    state = D_80016000->unk_38;
-    state->unk_2D5C = (s32) (((signed int)state->unk_2D5C) - scene_charge);
+    state = town_scene_root->town_state;
+    state->money = (s32) (((signed int)state->money) - scene_charge);
 }

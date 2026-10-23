@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -8,7 +9,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player.h"
 #include "dungeon/system.h"
-
 
 typedef struct S_8008B9FC_1 {
     u8 pad_00[0x8C];
@@ -22,31 +22,23 @@ typedef struct S_8008B9FC_1 {
     u16 unk_A2;
 } S_8008B9FC_1;   /* arg0 in try_move_player */
 
+   /* callback_obj in try_move_player */
 
-typedef struct S_8008B9FC_5 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_8008B9FC_5;   /* callback_obj in try_move_player */
-
-typedef struct S_8008B9FC_6 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_8008B9FC_6;   /* callback_obj_f0 in try_move_player */
+   /* callback_obj_f0 in try_move_player */
 
 typedef struct S_8008B9FC_7_pre {
     s16 unk_00;
     u8 pad_02[0x23A];
 } S_8008B9FC_7_pre;   /* the 0x23C bytes before D_80083464 in try_move_player, addressed as D_80083464[-1] */
 
-
 extern u16 g_dungeon_status[];
 extern s16 D_80083464[];
 extern u8 player_wait_frames[];
-extern u8 D_800DCFB8[];
+extern u8 player_push_start_frames[];
 extern u8 player_move_frames[];
-extern u8 D_800DCFE8[];
+extern u8 player_damage_frames[];
 extern u8 actor_attack_frames[];
-extern u8 D_800DD0D0[];
+extern u8 player_put_down_frames[];
 extern u8 active_actor_command_code[];
 
 extern void set_sprite_animation_frame();
@@ -114,13 +106,13 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             process_unflagged_linked_entries(actor->unk_5C);
             if (!(check_flags[1] & 0x80) &&
                 ((active_actor_command_code[0] == 8) || (active_actor_command_code[0] == 0))) {
-                if (sprite->unk_2C.as_pu8 != D_800DCFB8) {
+                if (sprite->unk_2C.as_pu8 != player_push_start_frames) {
                     void *anim_sprite;
                     anim_sprite = sprite;
-                    sprite->unk_2C.as_pu8 = D_800DCFB8;
+                    sprite->unk_2C.as_pu8 = player_push_start_frames;
                     set_sprite_animation_frame(
                         anim_sprite,
-                        D_800DCFB8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
+                        player_push_start_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
                                           actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -136,7 +128,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             }
             check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
             D_80083464[0] = 8;
-            if (sprite->unk_2C.as_pu8 == D_800DCFB8) {
+            if (sprite->unk_2C.as_pu8 == player_push_start_frames) {
                 sprite->unk_14.at00_u16.v |= 0x6000;
                 update_player_height_step(move_state, actor_id, sprite, actor);
             } else {
@@ -176,7 +168,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         {
             register void *idle_sprite;
             idle_sprite = sprite;
-            ((S_8008B9FC_5 *)idle_sprite)->unk_2C = player_wait_frames;
+            ((SpriteAnimationTableView *)idle_sprite)->frame_table = player_wait_frames;
             set_sprite_animation_frame(
                 idle_sprite,
                 player_wait_frames[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
@@ -204,7 +196,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         {
             void *turn_sprite;
             turn_sprite = sprite;
-            ((S_8008B9FC_6 *)turn_sprite)->unk_2C = player_move_frames;
+            ((SpriteAnimationTableView *)turn_sprite)->frame_table = player_move_frames;
             set_sprite_animation_frame(
                 turn_sprite,
                 *(u8 *)(player_move_frames +
@@ -217,7 +209,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xF8) {
-        alt_anim = D_800DCFB8 + 8;
+        alt_anim = player_push_start_frames + 8;
         move_state->unk_A2 |= 0x100;
         flags_2[5]++;
         if (sprite->unk_2C.as_pu8 == alt_anim) {
@@ -235,10 +227,10 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xE8) {
-        sprite->unk_2C.as_pu8 = D_800DCFE8;
+        sprite->unk_2C.as_pu8 = player_damage_frames;
         set_sprite_animation_frame(
             sprite,
-            D_800DCFE8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
+            player_damage_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);
@@ -251,10 +243,10 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     }
 
     if (active_actor_command_code[0] == 0xE0) {
-        sprite->unk_2C.as_pu8 = D_800DD0D0;
+        sprite->unk_2C.as_pu8 = player_put_down_frames;
         set_sprite_animation_frame(
             sprite,
-            D_800DD0D0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
+            player_put_down_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing +
                               0x100) >> 9) & 7],
             1, 1);
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25, 0x300);

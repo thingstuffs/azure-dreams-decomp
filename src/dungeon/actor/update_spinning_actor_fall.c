@@ -61,7 +61,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
         }
 
         position->flags14 = 0;
-        set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(position, tile->tile_x, tile->tile_y);
         animation->unk_96 = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
@@ -72,8 +72,8 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             ((Rec_D_80082E80 *)object)->unk_88.as_u16 = sample_terrain_surface_height(
-                (tile->unk_24 << 6) | 0x20,
-                (tile->unk_25 << 6) | 0x20,
+                (tile->tile_x << 6) | 0x20,
+                (tile->tile_y << 6) | 0x20,
                 -0x400);
             animation->unk_98 &= 0xFFF7;
             ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
@@ -90,8 +90,8 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
         }
 
         animation->unk_90 = 0;
-        tile_x = tile->unk_24;
-        tile_y = tile->unk_25;
+        tile_x = tile->tile_x;
+        tile_y = tile->tile_y;
         if (((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v & 0x2000) {
             force = 0x300;
         } else {

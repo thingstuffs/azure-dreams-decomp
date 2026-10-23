@@ -23,7 +23,7 @@ typedef struct S_8016F99C_1 {
 
 
 extern void *encounter_object_slots[];
-extern void *D_80175D5C[];
+extern void *encounter_overlay_object[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
 void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
@@ -72,7 +72,7 @@ void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
         if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
             *(void **)encounter_object_slots = 0;
         } else {
-            *(void **)D_80175D5C = 0;
+            *(void **)encounter_overlay_object = 0;
         }
         ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
         next_timer = 0x80080000;
@@ -96,7 +96,7 @@ void animate_encounter_overlay_slide(void *transition, S_8016F99C_1 *target)
         if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
             *(void **)encounter_object_slots = 0;
         } else {
-            *(void **)D_80175D5C = 0;
+            *(void **)encounter_overlay_object = 0;
         }
         ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
         next_timer = 0x80080000;

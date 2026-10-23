@@ -21,7 +21,7 @@ extern void *allocate_list_node();
 extern s32 register_node();
 
 extern s32 D_80026680[3];
-extern TableEntry D_80028820[];
+extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];
 
 typedef struct S_80026A84_1 {
@@ -85,22 +85,22 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     }
     effect_index = 0;
     callback = D_80026680;
-    effect_entry = D_80028820;
+    effect_entry = linked_effect_direction_entries;
     do {
         effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));
         if (effect != NULL) {
-            effect->unk_10 = callback;
+            effect->update_callback = callback;
             register_node(effect, linked_mesh_processor_address);
             effect_pos = effect->position;
-            coord_xz = origin->unk_02 + offset[0];
+            coord_xz = origin->x + offset[0];
             effect_pos->x.w.i = coord_xz;
             *((u16 *)&effect_pos->velocity_x + 1) = coord_xz;
             point_index = 0;
-            coord_y = origin->unk_06 + offset[1];
+            coord_y = origin->y + offset[1];
             effect_pos->y.w.i = coord_y;
             *((u16 *)&effect_pos->velocity_y + 1) = coord_y;
             effect_data = ((void *)effect) + 0x20;
-            coord_xz = origin->unk_0A + offset[2];
+            coord_xz = origin->z + offset[2];
             effect_pos->z.w.i = coord_xz;
             *((u16 *)&effect_pos->velocity_z + 1) = coord_xz;
             render_data = effect->sprite;
@@ -124,9 +124,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
         effect_index += 1;
         effect_entry += 1;
     } while (effect_index < 6);
-    create_visual_object((s16)(origin->unk_02 + offset[0]),
-                  (s16)(origin->unk_06 + offset[1]),
-                  (s16)(origin->unk_0A + offset[2]), 0x800);
+    create_visual_object((s16)(origin->x + offset[0]),
+                  (s16)(origin->y + offset[1]),
+                  (s16)(origin->z + offset[2]), 0x800);
     create_offset_sprite_object_with_z(target_pos->unk_02, target_pos->unk_06,
                   target_pos->unk_0A, effect_param);
     return effect;

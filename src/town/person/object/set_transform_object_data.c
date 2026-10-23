@@ -1,6 +1,6 @@
 #include "common.h"
 void reset_matching_transform_object(s32 object_addr);
-extern s32 D_800FE4A0;
+extern s32 current_transform_object;
 
 typedef struct S_800C2864_0 {
     u8 pad_00[0x14];
@@ -11,7 +11,7 @@ typedef struct S_800C2864_0 {
 
 /* Set the object's flag and data pointer unless it is the excluded object. */
 void set_transform_object_data(S_800C2864_0 *object) {
-    if (D_800FE4A0 != object) {
+    if (current_transform_object != object) {
         object->unk_14 = 1;
         object->unk_50 = &reset_matching_transform_object;
     }

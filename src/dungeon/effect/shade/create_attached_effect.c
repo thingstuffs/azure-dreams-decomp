@@ -58,7 +58,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
         effect_state->unk_5A = 0x78;
         effect_state->unk_5C = 0x78;
         effect_state->unk_88 = owner->unk_88;
-        effect->unk_10 = &D_800D4954;
+        effect->update_callback = &D_800D4954;
         register_node(effect, project_sprite_chain);
         render_data = effect->sprite;
         render_data->unk_10 = 0x60;
@@ -66,9 +66,9 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
         render_data->unk_14 = render_data->unk_14 | 0xC;
         source_position = ((S_800D4AB0_5_pre *)(owner->unk_88))[-1].unk_00;
         position = effect->position;
-        position->x.w.i = source_position->unk_02;
-        position->y.w.i = source_position->unk_06;
-        position->z.w.i = source_position->unk_0A - 0x32;
+        position->x.w.i = source_position->x;
+        position->y.w.i = source_position->y;
+        position->z.w.i = source_position->z - 0x32;
         render_data = effect->sprite;
         render_data->unk_0E = 0x80;
         render_data->unk_0D = 0x80;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80126A88[];
+extern s32 menu_initial_value_pairs[];
 extern u8 catalog_display_node_slots[];
 
 /* Initialize fourteen entries from the value table and clear their linked counters. */
@@ -15,7 +15,7 @@ void reset_linked_value_records(void) {
     entry_index = 0;
     state_base = catalog_display_node_slots;
     entry_slot = (void **)(state_base + 0x38);
-    value_pair = D_80126A88;
+    value_pair = menu_initial_value_pairs;
     do {
         entry = *entry_slot;
         initial_value = *value_pair;

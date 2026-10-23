@@ -3,7 +3,7 @@
 
 
 /* Exact numeric span; owner-unresolved. */
-const u32 D_80024004[6] __attribute__((aligned(4))) = {
+const u32 particle_sprite_scale_pairs[6] __attribute__((aligned(4))) = {
     0x10001000,
     0x14000E10,
     0x18000D48,

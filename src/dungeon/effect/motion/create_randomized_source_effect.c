@@ -40,7 +40,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = D_80024048;
+        object->update_callback = D_80024048;
         ((Row_8191C938_S_8191C938_0 *)object)->unk_20 = source;
         state->unk_04 = 0;
         state->unk_06 = 6;
@@ -55,7 +55,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
         render_data->flags |= 0xC;
         render_data->tpage_abr |= 0x20;
         render_data->flags |= 0x100;
-        select_record_entry_and_value(render_data, D_800DED70, 0);
+        select_record_entry_and_value(render_data, homing_particle_sprite_entries, 0);
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -171,7 +171,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &D_80024288;
+        object->update_callback = &D_80024288;
         ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_20 = params;
         state->unk_0E = 0;
         state->unk_10 = 0;

@@ -3,8 +3,8 @@
 extern void clear_entity_record_fields(s32 record);
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
 extern u8 town_scene_record_handlers[];
-extern void *D_80097DE8[];
-extern s8 D_80082669[16];
+extern void *player_handler_table_address[];
+extern s8 player_handler_reset_byte[16];
 
 #include "town/player/initialize_record_with_handler_table_api.h"
 
@@ -12,6 +12,6 @@ extern s8 D_80082669[16];
 void initialize_record_with_handler_table(Struct8009B1C8 *record, s32 setup_value, s32 init_value) {
     clear_entity_record_fields(setup_value);
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, record, init_value);
-    record->unk4 = D_80097DE8;
-    D_80082669[0] = 0;
+    record->unk4 = player_handler_table_address;
+    player_handler_reset_byte[0] = 0;
 }

@@ -33,7 +33,7 @@ extern s32 scene_object_flags;
 extern u8 town_motion_state[16];
 extern u8 score_bounce_motion_data[16];
 extern Copy12 D_80526760;
-extern u8 D_8053016C[16];
+extern u8 falling_object_update_address[16];
 extern s32 D_805301C0[4];
 
 /* Per-frame step for the falling town object: integrate its motion and bounce it when it reaches the ground. */
@@ -102,7 +102,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
                 object_value = D_805301C0[obj->kind];
                 part->clut = 0;
                 part->unk_04 = 0;
-                part->unk_05 = 0;
+                part->frame_ticks = 0;
                 part->source = object_value;
                 motion->velocity_z = 0;
                 obj->timer.u = 150;
@@ -111,7 +111,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
                 motion->velocity_z = -motion->velocity_z >> 1;
             }
         }
-        call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
+        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
             scene_value_total = values.v[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
@@ -126,7 +126,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
             obj->timer.u = 31;
             obj->state.u++;
         }
-        call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
+        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
@@ -134,7 +134,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         }
         return;
     case 4:
-        if (func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state) != 0) {
+        if (func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state) != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             S16_AT(obj, 4) = 255;
         }

@@ -257,7 +257,7 @@ void initialize_dungeon_actor(void) {
     table_base = &g_game_work;
     random_pickup_enabled = 1;
     allocation = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x53);
-    allocation->unk_10 = D_80089AA0;
+    allocation->update_callback = D_80089AA0;
     register_node(allocation, project_sprite_chain);
     actor_storage = ((u8 *)(&view_reference_entity.x.v));
     allocation->position = actor_storage;
@@ -363,7 +363,7 @@ retry_position:
         equipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD0A8)[entry_index], 0, 0);
         unequipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
-        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD090)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_followup_frames)[entry_index], 0, 0);
         D_800E3D48[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
         entry_index--;
     } while (entry_index >= 0);

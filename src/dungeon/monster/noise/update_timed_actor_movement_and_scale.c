@@ -40,11 +40,11 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         state->value_90 -= state->value_a4;
         frames_left = state->count_9e.s;
         if (frames_left != 0) {
-            target_x = sprite->unk_24 << 6;
+            target_x = sprite->tile_x << 6;
             current_x = motion->value_02 - 0x20;
             motion->value_0c = ((target_x - current_x) << 16) / frames_left;
             current_y = motion->value_06 - 0x20;
-            motion->value_10 = (((sprite->unk_25 << 6) - current_y) << 16) /
+            motion->value_10 = (((sprite->tile_y << 6) - current_y) << 16) /
                                state->count_9e.s;
             frames_left = state->count_9e.s;
             state->value_a4 = (-rsin(frames_left * 0x199)) << 9;
@@ -86,7 +86,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->frameTable = D_80174EB0;
@@ -113,7 +113,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
             spend_actor_mp(actor, 4);
@@ -128,7 +128,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             } else {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
+                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                                                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                                                         &direction_scratch);
                     }

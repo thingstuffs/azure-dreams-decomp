@@ -16,5 +16,5 @@ extern M2C_UNK D_80017F64;
 void init_scene_pointers(s32 setup_input, s32 setup_param) {
     invoke_callback_and_set_shared_pointer();
     D_80017B90 = &D_80017A7C;
-    ((TownPositionState *)D_80016000->unk_1C)->unk_40 = &D_80017F64;
+    ((TownPositionState *)town_scene_root->position)->unk_40 = &D_80017F64;
 }

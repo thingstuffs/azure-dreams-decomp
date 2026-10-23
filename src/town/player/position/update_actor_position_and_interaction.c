@@ -29,7 +29,7 @@ void dispatch_actor_action(void *actor, s32 position, s32 context);
 #include "records/Rec_func_8009B828_arg0.h"
 void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
-extern u8 D_8009B9BC[];
+extern u8 town_owner_dispatch_address[];
 extern s32 town_actor_control;
 extern s32 *town_player_action_callback;
 
@@ -98,7 +98,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         entity = actor->unk_2C;
         handler = entity->unk_50;
         if ((handler != &update_motion_toward_shared_target) && (handler != &update_motion_toward_town_target)) {
-            if (handler != D_8009B9BC) {
+            if (handler != town_owner_dispatch_address) {
                 actor->unk_2C = 0;
             }
         }

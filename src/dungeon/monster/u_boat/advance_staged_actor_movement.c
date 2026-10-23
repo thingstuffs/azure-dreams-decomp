@@ -17,7 +17,7 @@ extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
 extern u8 uboat_default_frames[];
-extern u8 D_800E2400[];
+extern u8 u_boat_frame_set_1[];
 #include "dungeon/monster/u_boat.h"
 
 typedef struct S_80173510_0 {
@@ -116,7 +116,7 @@ void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteF
         if (((S_80173510_0 *)action)->unk_96.s == eight) {
             u8 *animation_ids;
 
-            animation_ids = D_800E2400;
+            animation_ids = u_boat_frame_set_1;
             record->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -156,10 +156,10 @@ void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteF
             ((S_80173510_0 *)action)->unk_9B.n++;
         }
 
-        if (*(u8 * *)&record->frameTable != D_800E2400) {
+        if (*(u8 * *)&record->frameTable != u_boat_frame_set_1) {
             return;
         }
-        record->unk_05 = 0;
+        record->frame_ticks = 0;
         return;
     }
 
@@ -219,14 +219,14 @@ void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteF
 
         timer = ((S_80173510_0 *)action)->unk_96.s;
         if (timer != 0) {
-            distance = record->unk_24 << 6;
+            distance = record->tile_x << 6;
             axis_position = motion->x.w.i;
             axis_position -= 0x20;
             distance -= axis_position;
             motion->velocity_x = (distance << 16) / timer;
 
             axis_position = motion->y.w.i;
-            distance = record->unk_25 << 6;
+            distance = record->tile_y << 6;
             axis_position -= 0x20;
             distance -= axis_position;
             motion->velocity_y =
@@ -245,8 +245,8 @@ void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteF
         advance_status_timers(actor);
         motion->velocity_x = 0;
         motion->velocity_y = 0;
-        motion->x.w.i = record->unk_24 * 0x40 + 0x20;
-        motion->y.w.i = record->unk_25 * 0x40 + 0x20;
+        motion->x.w.i = record->tile_x * 0x40 + 0x20;
+        motion->y.w.i = record->tile_y * 0x40 + 0x20;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     }
     }

@@ -72,7 +72,7 @@ extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object();
 
 extern u8 held_item_record[];
-extern u8 D_8008D470[];
+extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
 extern u8 D_800E08CC[];
 extern u8 D_800E08E5[];
@@ -141,10 +141,10 @@ print_message:
     {
         s32 height;
 
-        result->unk_10 = D_8008D470;
+        result->update_callback = player_item_render_update_address;
         primitive = result->position;
-        primitive->x.w.i = (((MovingTile *)target)->unk_24 << 6) + 0x20;
-        primitive->y.w.i = (((MovingTile *)target)->unk_25 << 6) + 0x20;
+        primitive->x.w.i = (((MovingTile *)target)->tile_x << 6) + 0x20;
+        primitive->y.w.i = (((MovingTile *)target)->tile_y << 6) + 0x20;
         height = ((S_80098CF8_4 *)actor_state)->unk_88;
         message = target;
         primitive->z.w.i = height - 0x30;

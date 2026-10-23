@@ -16,9 +16,9 @@ extern void spend_actor_mp(void *, s32);
 
 extern s32 death_action_resume_address;
 extern u8 D_8017464C[8];
-extern u8 D_80174654[8];
-extern u8 D_8017465C[8];
-extern u8 D_80174664[8];
+extern u8 death_frame_set_4[8];
+extern u8 death_frame_set_5[8];
+extern u8 death_frame_set_6[8];
 
 typedef struct S_80172DB0_0 {
     u8 pad_00[0x8C];
@@ -74,9 +74,9 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
             return;
         }
     }
-        sprite->frameTable = D_80174654;
+        sprite->frameTable = death_frame_set_4;
         select_sprite_entry(sprite,
-            D_80174654[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            death_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x707);
         ((S_80172DB0_0 *)action)->unk_96.u = 6;
@@ -117,9 +117,9 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_8017465C;
+        sprite->frameTable = death_frame_set_5;
         select_sprite_entry(sprite,
-            D_8017465C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            death_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_9B++;
         motion->velocity_y = 0;
@@ -131,22 +131,22 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_80174664;
+        sprite->frameTable = death_frame_set_6;
         select_sprite_entry(sprite,
-            D_80174664[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            death_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172DB0_0 *)action)->unk_96.u = 4;
         ((S_80172DB0_0 *)action)->unk_A4 = 0;
         ((S_80172DB0_0 *)action)->unk_9B++;
         {
-            s32 target_x = sprite->unk_24 << 6;
+            s32 target_x = sprite->tile_x << 6;
             s32 current_x = motion->x.w.i - 0x20;
 
             motion->velocity_x = ((target_x - current_x) << 16)
             / ((S_80172DB0_0 *)action)->unk_96.s;
         }
         {
-            s32 target_y = sprite->unk_25 << 6;
+            s32 target_y = sprite->tile_y << 6;
             s32 current_y = motion->y.w.i - 0x20;
 
             motion->velocity_y = ((target_y - current_y) << 16)
@@ -160,13 +160,13 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
 
         if (timer != 0) {
             {
-                s32 target_x = sprite->unk_24 << 6;
+                s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / timer;
             }
             {
-                s32 target_y = sprite->unk_25 << 6;
+                s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16)
@@ -184,8 +184,8 @@ void finish_staged_jump_at_tile_center(void *action, ObjectPosition *motion, Spr
         advance_status_timers(actor);
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.w.i = (sprite->unk_24 << 6) + 0x20;
-        motion->y.w.i = (sprite->unk_25 << 6) + 0x20;
+        motion->x.w.i = (sprite->tile_x << 6) + 0x20;
+        motion->y.w.i = (sprite->tile_y << 6) + 0x20;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     }
 }

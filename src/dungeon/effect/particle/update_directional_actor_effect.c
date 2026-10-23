@@ -104,7 +104,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
             if (particle != 0) {
                 register_node(particle, project_sprite_chain);
                 render_data = particle->header.sprite;
-                particle->header.unk_10 = spawn_callback;
+                particle->header.update_callback = spawn_callback;
                 particle->header.position->x.w.i = (u16)((u16)motion->x.w.i +
                                                  (rand() & 0x1ff) - 256);
                 particle->header.position->y.w.i = (u16)((u16)motion->y.w.i +
@@ -131,9 +131,9 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     render_data->unk_00 = (s32)template_data;
                     render_data->flags = flags | 0xc;
                     tpl = render_data->unk_00;
-                    render_data->source = tpl->unk_04;
+                    render_data->source = tpl->source;
                     render_data->unk_04 = 0;
-                    render_data->unk_05 = 0;
+                    render_data->frame_ticks = 0;
                 }
                 particle->work.owner = effect;
                 particle_data->trail.state = 0;
@@ -156,12 +156,12 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     offset[0] = 0;
                     offset[2] = (actor_data->flags & 0x8000) ? -48 : 0;
                 }
-                target = scan_actor_along_heading(actor, actor_data->unk_24, actor_data->unk_25, actor->facing,
+                target = scan_actor_along_heading(actor, actor_data->tile_x, actor_data->tile_y, actor->facing,
                                        (s16)get_definition_entry_byte_13(36));
                 actor->target = target;
                 if (target == 0) {
-                    actor->target_tile_x = actor_data->unk_24;
-                    actor->target_tile_y = actor_data->unk_25;
+                    actor->target_tile_x = actor_data->tile_x;
+                    actor->target_tile_y = actor_data->tile_y;
                 } else {
                     render_data = ((ObjectNodeHeader *)target)[-1].sprite;
                     if ((render_data->flags & 0x8000) != 0) {
@@ -170,8 +170,8 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                             return;
                         }
                     }
-                    actor->target_tile_x = render_data->unk_24;
-                    actor->target_tile_y = render_data->unk_25;
+                    actor->target_tile_x = render_data->tile_x;
+                    actor->target_tile_y = render_data->tile_y;
                 }
                 {
                     u8 *effect_header = (u8 *)effect - 32;
@@ -182,8 +182,8 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     register_node(effect_header, callback);
                 }
                 delta_x = actor->target_tile_x;
-                delta_y = actor_data->unk_24;
-                abs_y = actor_data->unk_25;
+                delta_y = actor_data->tile_x;
+                abs_y = actor_data->tile_y;
                 delta_x -= delta_y;
                 delta_y = actor->target_tile_y;
                 distance = abs(delta_x);
@@ -261,7 +261,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     particle = allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
                         register_node(particle, D_80024C7C);
-                        particle->header.unk_10 = D_80024B60;
+                        particle->header.update_callback = D_80024B60;
                         {
                             s32 coordinate = actor->target_tile_x;
                             particle_data = &particle->work;
@@ -323,7 +323,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
         case 256:
             if (effect->ticks_left.s < 0) {
                 g_dungeon_status.active_actor = 0;
-                ((ObjectStatusPrefix16 *)effect)[-1].unk_00 = (u16)(((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
+                ((ObjectStatusPrefix16 *)effect)[-1].flags = (u16)(((ObjectStatusPrefix16 *)effect)[-1].flags | 0x8000);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
             break;

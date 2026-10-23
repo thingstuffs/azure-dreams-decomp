@@ -29,8 +29,8 @@ extern void advance_actor_pending_action(void *, s32, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 extern void advance_actor_state_with_child(void *, s32, void *, void *);
 
-extern u8 D_80170E54;
-extern u8 D_80173C9C[];
+extern u8 maximum_action_continuation_address;
+extern u8 maximum_frame_set_2[];
 extern u8 maximum_frame_set_1[];
 
 /* Updates entity state, directional animation, and color fading. */
@@ -57,10 +57,10 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_80173C9C;
+        sprite->frameTable = maximum_frame_set_2;
         select_sprite_entry(
             sprite,
-            D_80173C9C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            maximum_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         counter_base = &g_dungeon_status;
         counter_base->activity_counts.parts.pending_action_count =
@@ -79,7 +79,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 entity->flags1C &= ~ACTOR_ASLEEP;
                 entity->flags1C &= 0xEFFFFFFF;
                 sprite->color.word = 0x808080;
-                controller->unk_8C.as_pu8 = &D_80170E54;
+                controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -90,7 +90,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if (g_dungeon_status.flags & 0x1000) {
             return;
         }
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(controller, update_mode, sprite, 0) != 0) {
                 return;
             }
@@ -130,7 +130,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             floor_base = &reference_tile_object;
-            floor = *(s8 *)&sprite->unk_26;
+            floor = *(s8 *)&sprite->room_index;
             if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {
                 if ((generate_random_value() & 7) == 0) {
@@ -151,7 +151,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             entity->flags1C &= ~ACTOR_ASLEEP;
             entity->flags1C &= 0xEFFFFFFF;
             sprite->color.word = 0x808080;
-            controller->unk_8C.as_pu8 = &D_80170E54;
+            controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
             return;
         }
         {
@@ -177,7 +177,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         entity->flags1C &= 0xEFFFFFFF;
         sprite->color.word = 0x808080;
         entity->flags1C &= ~ACTOR_ASLEEP;
-        controller->unk_8C.as_pu8 = &D_80170E54;
+        controller->unk_8C.as_pu8 = &maximum_action_continuation_address;
 
         return;
     default:

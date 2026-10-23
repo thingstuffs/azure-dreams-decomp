@@ -32,9 +32,9 @@ void expand_fade_effect_and_expire(void *effect, MovingPosition *position, Sprit
     MovingPosition *source_position;
 
     source_position = ((S_80170D44_0 *)effect)->unk_AC;
-    position->unk_02 = source_position->unk_02;
-    position->unk_06 = source_position->unk_06;
-    position->unk_0A = source_position->unk_0A;
+    position->x = source_position->x;
+    position->y = source_position->y;
+    position->z = source_position->z;
 
     extent = primitive->scale_y + 0x320;
     primitive->scale_y = extent;

@@ -34,7 +34,7 @@ s32 pass_and_clear_selected_entry_byte(void) {
     void **pageSlot;
     s32 handlerResult;
 
-    pageSlot = (void **)((s8 *)(&D_80016000));
+    pageSlot = (void **)((s8 *)(&town_scene_root));
     scene_cell_dispatch_code = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
             ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04;
     handlerResult = func_80018618();

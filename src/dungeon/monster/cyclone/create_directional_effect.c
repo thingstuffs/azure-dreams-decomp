@@ -78,13 +78,13 @@ s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, Sprite
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
         sprite = effect->inner;
-        sprite->unk_28 = render_source->unk_28;
+        sprite->animation_resource = render_source->animation_resource;
         sprite->flags |= 0x100;
         sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
         sprite->color.word = 0x808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->unk_06 = -1;
+        sprite->depth_bias = -1;
         sprite->flags |= 0xC;
         sprite->tpage_abr |= 0x20;
         select_sprite_entry(sprite, 0x30, 0);

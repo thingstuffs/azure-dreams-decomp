@@ -261,8 +261,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             off_x = 0;
             do {
                 min_height = -0x400;
-                dx = ((caster_sprite->unk_24 + off_x) << 6) + 0x20;
-                facing_shift = ((caster_sprite->unk_25 + off_y) << 6) + 0x20;
+                dx = ((caster_sprite->tile_x + off_x) << 6) + 0x20;
+                facing_shift = ((caster_sprite->tile_y + off_y) << 6) + 0x20;
                 obj = (S_81850800_9 *)((u16)dx);
                 probe_y = (u16)facing_shift;
                 ground_height = sample_terrain_surface_height((s32)obj, probe_y, min_height);
@@ -281,14 +281,14 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             facing_shift = step_y * tiles_ahead;
         } else {
             position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
-            copy_value = caster_sprite->unk_24;
+            copy_value = caster_sprite->tile_x;
             base_y = position->unk_24;
             facing_shift = position->unk_25;
             dx = base_y - copy_value;
-            base_y = caster_sprite->unk_25;
+            base_y = caster_sprite->tile_y;
             facing_shift -= base_y;
             if ((position->unk_14.unk_14_u16 & 0x8000) &&
-                (sprite->unk_14 & 0x8000)) {
+                (sprite->flags & 0x8000)) {
                 owner->unk_0A.unk_0A_s16 = 2;
                 owner->unk_50.unk_50_u16 = 0;
                 return;
@@ -326,13 +326,13 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
         state = facing_shift << 4;
         pixel_step_x = step_x * state;
         tile_step_y = step_y * dx;
-        origin_x = caster_sprite->unk_24;
+        origin_x = caster_sprite->tile_x;
         pix_x = (origin_x + tile_step_x) << 6;
         tile_step_x = step_y * state;
         state = pixel_step_x + 0x20;
         pix_x += state;
         motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
-        origin_y = caster_sprite->unk_25;
+        origin_y = caster_sprite->tile_y;
         motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
         motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
         pix_y = (origin_y + tile_step_y) << 6;
@@ -377,7 +377,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
             spawn_color |= 0x8080;
             work->unk_04 = 0;
-            work->unk_05 = 0;
+            work->frame_ticks = 0;
             work->color.word = spawn_color;
             work->source = copy_value;
             obj->unk_20 = owner;
@@ -419,7 +419,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
                     spawn_color |= 0x6060;
                     work->unk_04 = 0;
-                    work->unk_05 = 0;
+                    work->frame_ticks = 0;
                     work->color.word = spawn_color;
                     work->source = copy_value;
                     obj->unk_20 = owner;
@@ -452,7 +452,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         copy_value = particle_anim->unk_04;
                         color |= 0x8080;
                         work->unk_04 = 0;
-                        work->unk_05 = 0;
+                        work->frame_ticks = 0;
                         work->color.word = color;
                         work->source = copy_value;
                         ((S_81850800_5 *)obj->unk_08)->unk_0C =
@@ -560,7 +560,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
         advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
         }
         motion->x += motion->vx;
         motion->y += motion->vy;

@@ -77,9 +77,9 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
         part_a->z.w.i = saved_height;
         part_b = obj->sprite;
         kind = held_flags & 3;
-        part_b->unk_25 = saved_tile_y;
+        part_b->tile_y = saved_tile_y;
         actor = work;
-        part_b->unk_24 = saved_tile_x;
+        part_b->tile_x = saved_tile_x;
 
         if (kind == 1) {
             s32 left_one;
@@ -128,7 +128,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             part_b->frameTable = func_80174ED8;
         }
 callback_done:
-        obj->unk_10 = update_monster_facing_and_contact;
+        obj->update_callback = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
         ((S_80170894_4 *)actor)->unk_9A = 0xFF;
         ((S_80170894_4 *)actor)->unk_9C = -1;

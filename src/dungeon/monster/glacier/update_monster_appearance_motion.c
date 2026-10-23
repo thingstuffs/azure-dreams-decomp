@@ -217,8 +217,8 @@ flags_done:
         if (actor->unk_1C & ACTOR_REFRESH_GROUND) {
             actor->unk_1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
             floor_height = sample_terrain_surface_height(
-                (monster->unk_24 << 6) | 0x20,
-                (monster->unk_25 << 6) | 0x20,
+                (monster->tile_x << 6) | 0x20,
+                (monster->tile_y << 6) | 0x20,
                 (s16)(actor->unk_88.u - 0x20));
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) +=
                 actor->unk_88.u - floor_height;

@@ -40,10 +40,10 @@ void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
         if (func_800178A8(event_table, entry_id, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
-        ((S_80016714_1 *)(D_80016000->unk_08 * 8 +
-              ((u8 *)D_80016000->unk_40)))->unk_04++;
-        if (((S_80016714_2 *)(D_80016000->unk_08 * 8 +
-                  ((u8 *)D_80016000->unk_40)))->unk_04 >= 5U) {
+        ((S_80016714_1 *)(town_scene_root->entry_index * 8 +
+              ((u8 *)town_scene_root->event_data)))->unk_04++;
+        if (((S_80016714_2 *)(town_scene_root->entry_index * 8 +
+                  ((u8 *)town_scene_root->event_data)))->unk_04 >= 5U) {
             initialize_state_two_entries_pointer(F_s34_sero_quickstart);
         }
         return event_data;

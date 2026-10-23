@@ -62,7 +62,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
         if (obj != NULL) {
             result = ((u8 *)obj) + 0x20;
             *beldo_actor_nodes = obj;
-            obj->unk_10 = &update_actor_callbacks_and_motion;
+            obj->update_callback = &update_actor_callbacks_and_motion;
             child = ((u8 *)obj) + 0x20;
             ((S_80169D28_1 *)child)->unk_13 = 0x38;
             register_node(obj, project_sprite_chain);
@@ -70,9 +70,9 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
             ((S_80169D28_2 *)first)->unk_0A = saved_value0A;
             second = obj->sprite;
             mode = saved_init_flags & 3;
-            second->unk_24 = saved_value24;
+            second->tile_x = saved_value24;
             second->frameTable = &D_80173980;
-            second->unk_25 = saved_value25;
+            second->tile_y = saved_value25;
             if (mode == 1) {
                 ((S_80169D28_1 *)child)->unk_14 = ((S_80169D28_1 *)child)->unk_14 | 0x6000;
                 ((S_80169D28_1 *)child)->unk_1C = ((S_80169D28_1 *)child)->unk_1C | 0x6000;

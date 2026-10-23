@@ -107,7 +107,7 @@ extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
-extern u8 D_80170838[16];
+extern u8 killer_slot_g_item_targets[16];
 extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 extern u8 D_80174078[];
@@ -205,8 +205,8 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
 
                         target = scan_actor_along_heading(
                             actor_data,
-                            sprite->unk_24,
-                            sprite->unk_25,
+                            sprite->tile_x,
+                            sprite->tile_y,
                             actor_data->unk_2A.s,
                             0x10);
                         actor_data->unk_60 = target;
@@ -238,7 +238,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                     effect->unk_BB = 0;
                     effect->unk_4A = actor_data->unk_2A.u;
                     {
-                        s32 sprite_flags = sprite->unk_28;
+                        s32 sprite_flags = sprite->animation_resource;
                         effect_sprite = effect->unk_0C;
 
                         effect_sprite->unk_1E = 0x1000;
@@ -281,7 +281,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor_data);
@@ -327,7 +327,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }

@@ -40,7 +40,7 @@ typedef struct {
     u8 pad[8];
     s16 count;
 } Global83460;
-extern u8 D_8016F78C[];
+extern u8 ghosh_motion_resume_address[];
 #include "dungeon/monster/ghosh.h"
 
 /* Updates movement toward a tile and completes the timed action. */
@@ -68,7 +68,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
         action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
         if (frames_left != 0) {
             s32 x_offset;
-            x_step = tile->unk_24;
+            x_step = tile->tile_x;
 
             x_offset = motion->x.w.i;
             x_step <<= 6;
@@ -77,7 +77,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
             y_offset = motion->y.w.i - 0x20;
             motion->velocity_x = x_step;
-            motion->velocity_y = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
+            motion->velocity_y = (s32) ((s32) (((tile->tile_y << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
             action->unk_A4 = (s32) ((0 - rsin(action->unk_9E.s * 0x199)) << 0xA);
         }
         height = action->unk_90;
@@ -99,7 +99,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
             action->unk_9B = action->unk_9B + 1;
         }
         break;
@@ -116,7 +116,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
         advance_status_timers(entity);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1;
@@ -130,13 +130,13 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
+                    entity->facing = get_rounded_facing_and_rounding_flag(tile->tile_x, tile->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &facing_aux);
                 }
             }
         }
         if ((check_actor_floor_trap(tile, entity) << 0x10) > 0) {
-            action->unk_8C = D_8016F78C;
+            action->unk_8C = ghosh_motion_resume_address;
             on_actor_status_updated(entity);
         }
     }

@@ -14,5 +14,5 @@ extern M2C_UNK D_80018B38;
 /* Initializes the global and current record's data pointers. */
 void query_event_12_c_2_and_return_one(void) {
     D_80018BA4 = &D_80018AE4;
-    ((TownPositionState *)D_80016000->unk_1C)->unk_40 = &D_80018B38;
+    ((TownPositionState *)town_scene_root->position)->unk_40 = &D_80018B38;
 }

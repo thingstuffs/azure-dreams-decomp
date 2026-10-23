@@ -9,7 +9,7 @@ typedef struct CallbackSet { card_event_callback_fn value[5]; } CallbackSet;
 typedef struct CallbackWork { CallbackSet first; s32 pad; CallbackSet second; } CallbackWork;
 typedef struct MainCardDirectoryEntry { u8 name[0x18]; s32 size; u8 tail[0xC]; } MainCardDirectoryEntry;
 typedef struct MainSaveSlot { s32 words[32]; } MainSaveSlot;
-extern u8 D_80020000[];
+extern u8 card_event_error_format[];
 extern u8 card_server_filename[];
 extern CallbackSet card_software_handlers;
 extern CallbackSet D_80020048;

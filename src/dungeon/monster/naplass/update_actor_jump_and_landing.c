@@ -32,9 +32,9 @@ void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
 
-extern u8 D_80170E68;
-extern u8 D_801741B4[];
-extern u8 D_801741BC[];
+extern u8 naplass_action_continuation_address;
+extern u8 naplass_frame_set_2[];
+extern u8 naplass_frame_set_3[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
 void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
@@ -48,10 +48,10 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
         if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        (map_entity->frameTable) = D_801741B4;
+        (map_entity->frameTable) = naplass_frame_set_2;
         select_sprite_entry(
             map_entity,
-            D_801741B4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            naplass_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172288_0 *)jump)->unk_98 |= 8;
         motion->velocity_z = 0xFFEE0000;
@@ -64,13 +64,13 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
         ((S_80172288_0 *)jump)->unk_90 -= ((S_80172288_0 *)jump)->unk_A4;
         if (jump_ticks != 0) {
             {
-                s32 target_x = map_entity->unk_24 << 6;
+                s32 target_x = map_entity->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / jump_ticks;
             }
             {
-                s32 target_y = map_entity->unk_25 << 6;
+                s32 target_y = map_entity->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -93,11 +93,11 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
-            (map_entity->frameTable) = D_801741BC;
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
+            (map_entity->frameTable) = naplass_frame_set_3;
             select_sprite_entry(
                 map_entity,
-                D_801741BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                naplass_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172288_0 *)jump)->unk_9B++;
         }
@@ -112,7 +112,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+        set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -131,13 +131,13 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFra
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    map_entity->unk_24, map_entity->unk_25,
+                    map_entity->tile_x, map_entity->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }
 
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            ((S_80172288_0 *)jump)->unk_8C = &D_80170E68;
+            ((S_80172288_0 *)jump)->unk_8C = &naplass_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

@@ -154,8 +154,8 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, Spri
             if (((S_80170AD0_0 *)actor)->unk_1C.u & 0x40000000) {
                 ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height(
-                    (monster_arg->unk_24 << 6) | 0x20,
-                    (monster_arg->unk_25 << 6) | 0x20,
+                    (monster_arg->tile_x << 6) | 0x20,
+                    (monster_arg->tile_y << 6) | 0x20,
                     (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity_arg + 0x92)) +=
                     ((S_80170AD0_0 *)actor)->unk_88.u - floor_height;

@@ -49,7 +49,7 @@ void create_positioned_callback_object(Input *position, s32 object_value, s32 da
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
         sub = (u8 *)object + 0x20;
-        object->unk_10 = object_value;
+        object->update_callback = object_value;
         (*(Vec * *)&object->position)->field_0x02 = position->field_0x00;
         (*(Vec * *)&object->position)->field_0x06 = position->field_0x02;
         register_node(object, (void *)draw_linked_sprites);

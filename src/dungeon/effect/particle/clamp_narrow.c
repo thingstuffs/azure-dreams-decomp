@@ -113,7 +113,7 @@ struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16
 void create_ribbon_head_sprite();
 extern u8 ribbon_sprite_entries[];
 extern void D_80166D14();
-extern u8 D_80167C30[];
+extern u8 ribbon_particle_update_address[];
 extern PositionTableEntry ribbon_vertices[];
 
 static __inline__ s16 clamp_narrow(s32 value)
@@ -399,7 +399,7 @@ copy_pairs:
                 object_data = ((void *)object) + 0x20;
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
                 ((S_80167C74_13 *)object_data)->unk_1A = 1;
-                object->unk_10 = D_80167C30;
+                object->update_callback = ribbon_particle_update_address;
                 register_node(object, &D_80166D14);
                 object_flags = object->sprite;
                 object_flags->tpage_abr = 0x20;
@@ -425,7 +425,7 @@ copy_pairs:
                     ((S_80167C74_18 *)(object_data + history_index * 4))->unk_02 = (s8) (scaled_blue / 8);
                     history_index += 1;
                 } while (history_index < 4);
-                object_render->unk_06 = 0;
+                object_render->depth_bias = 0;
                 select_record_entry_and_value(object_render, ribbon_sprite_entries, 0);
                 object_pair = 0;
                 object_offset = history_offset;

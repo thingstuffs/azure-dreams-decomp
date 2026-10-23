@@ -27,7 +27,7 @@ void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadSho
     if (payloadValue != 0) {
         allocatedObject = allocate_list_node(0x210, allocationKey);
         if (allocatedObject != 0) {
-            allocatedObject->unk_10 = &update_oriented_offset_effect_position;
+            allocatedObject->update_callback = &update_oriented_offset_effect_position;
             objectData = ((void *)allocatedObject) + 0x20;
             ((S_800B341C_0 *)allocatedObject)->unk_20 = allocationKey;
             objectData->unk_04 = payloadValue;

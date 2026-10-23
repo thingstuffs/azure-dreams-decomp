@@ -49,11 +49,11 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
     case 11:
         if (g_dungeon_status.movement_frames_left != 0) {
             s32 target_x, current_x, current_y;
-            target_x = destination->unk_24 << 6;
+            target_x = destination->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             motion->velocity_x = ((target_x - current_x) << 16) / g_dungeon_status.movement_frames_left;
             current_y = motion->y.w.i - 0x20;
-            motion->velocity_y = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.movement_frames_left;
+            motion->velocity_y = (((destination->tile_y << 6) - current_y) << 16) / g_dungeon_status.movement_frames_left;
         }
         g_dungeon_status.movement_frames_left--;
         if (g_dungeon_status.movement_frames_left > 0)
@@ -61,7 +61,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosi
         g_dungeon_status.movement_frames_left = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+        set_record_integer_tile_center(motion, destination->tile_x, destination->tile_y);
         if (action->unk_9B.as_u8 >= 10) {
             g_dungeon_status.movement_frames_left = 1;
             action->unk_9B.as_u8++;

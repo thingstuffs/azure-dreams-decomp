@@ -79,7 +79,7 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteF
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, animation->unk_24, animation->unk_25);
+        set_record_integer_tile_center(transform, animation->tile_x, animation->tile_y);
         ((S_801740F8_0 *)actor)->unk_9B++;
         return;
     case 3:

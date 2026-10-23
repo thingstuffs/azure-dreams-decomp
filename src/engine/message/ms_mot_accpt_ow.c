@@ -4,15 +4,9 @@
 #include "common.h"
 #include "engine/message.h"
 
-typedef struct {
-    s32 unk0;
-    void *object;
-} ObjectEntry;
-
 extern u8 message_motion_type_a[];
 extern u8 message_motion_type_b[];
 extern u8 person_motion_tag[];
-
 
 /* Returns object data for slot 1 or objects with matching type and data tags. */
 void *ms_mot_accpt_ow(u8 object_index)

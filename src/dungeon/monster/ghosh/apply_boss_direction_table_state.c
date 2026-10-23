@@ -31,7 +31,7 @@ void apply_boss_direction_table_state(void *record_data) {
     TileObject *state_data = &reference_tile_object;
 
 
-    if (state_data->unk_004 == 2) {
+    if (state_data->frame_index == 2) {
         u8 direction_entry;
         direction_entry = ((u8 *)state_data->frame_table)[
                  (((s32) (g_game_work.view.camera_rotation.parts.viewAngle +

@@ -29,7 +29,7 @@ typedef struct {
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
-extern u8 score_sprite_draw_callback_address[], D_8052643C[], D_805300F4[];
+extern u8 score_sprite_draw_callback_address[], D_8052643C[], score_bounce_update_address[];
 extern void animate_bouncing_score_object(State *, Motion *, Actor *);
 extern s32 D_80530130[3];
 
@@ -60,6 +60,6 @@ void create_bouncing_score_sprite(void *source_data, void *initial_data)
         part->color = 0x808080;
         part->flags |= 0x80;
         *(void **)((u8 *)payload + 0x50) = table;
-        func_8023FA58((u8 *)payload + 8, object->initial, D_805300F4);
+        func_8023FA58((u8 *)payload + 8, object->initial, score_bounce_update_address);
     }
 }

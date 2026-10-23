@@ -178,7 +178,7 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
         }
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
-        if (state->unk_64 != 0) {
+        if (state->hp_delta != 0) {
             effect_mode = state->unk_48;
             switch (effect_mode) {
             case 0xD:
@@ -207,14 +207,14 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             process_selected_actor_record(actor, context, sprite, state);
         }
     }
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
     if (state->pending_turn_updates > 0) {
         if (state->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(state);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             select_and_advance_actor_move(actor, context, sprite, state);
             return;
         }
@@ -250,12 +250,12 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
         case 6:
         case 7:
         {
-            heading = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
+            heading = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_info);
         }
             player = primary_actor_record;
             state->facing = heading;
-            if (player->unk_9A != 0x11) {
+            if (player->action_id != 0x11) {
                 update_actor_status_and_mp(state);
                 return;
             }
@@ -287,9 +287,9 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
             return;
         }
     } else {
-        if ((test_neighbor_position_relation(sprite->unk_24, sprite->unk_25,
+        if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
-            state->facing = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
+            state->facing = get_rounded_facing_and_rounding_flag(sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_info);
         }
         if (g_dungeon_status.flags & 0x2000) {

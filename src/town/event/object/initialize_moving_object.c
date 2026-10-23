@@ -4,7 +4,7 @@
 
 struct Node; s32 append_scene_list_node(struct Node *);                      /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
-extern void D_8009BDC0();
+extern void actor_moving_target_address();
 
 
 typedef struct S_8009C0D8_1 {
@@ -15,7 +15,7 @@ typedef struct S_8009C0D8_1 {
 /* Set the object flag, assign the context handler, and run object setup. */
 void initialize_moving_object(S_8009C0D8_1 *context, Rec_func_80094268_arg0 *object) {
     object->unk_15 = 1;
-    context->unk_50 = &D_8009BDC0;
+    context->unk_50 = &actor_moving_target_address;
     unlink_scene_list_node(object);
     append_scene_list_node((struct Node *)(object));
 }

@@ -121,10 +121,10 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->flags |= 1;
         }
         if (actor->typeA0 & 1) {
-            anim->unk_06 = -0x100;
+            anim->depth_bias = -0x100;
             motion->vy = -motion->vy;
         } else {
-            anim->unk_06 = -0x40;
+            anim->depth_bias = -0x40;
             select_record_entry_and_value(anim, D_800F7DD4, 0);
         }
         actor->state68 = 1;
@@ -188,7 +188,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->unk_00 = minigame_sprite_entries;
             anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
-            anim->unk_05 = 0;
+            anim->frame_ticks = 0;
             if (rand() & 7) {
                 actor->timerA2 = 16;
                 actor->timerA2 = actor->initialA6;
@@ -208,7 +208,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
 
     case 4:
         if (motion->z <= -0x580000 && !(actor->flagsA4 & 2)) {
-            anim->unk_06 = 0;
+            anim->depth_bias = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
             configure_the_set_mode_n_1(actor, motion, D_80026F38);
@@ -218,7 +218,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->unk_00 = minigame_sprite_entries;
             anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
-            anim->unk_05 = 0;
+            anim->frame_ticks = 0;
         }
         if (actor->timerA2 <= 0) {
             motion->vz = 0;
@@ -248,7 +248,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             if (actor->typeA0 & 1) {
                 select_record_entry_and_value(anim, D_800F7D64, 0);
             } else {
-                anim->unk_06 = 0x40;
+                anim->depth_bias = 0x40;
                 select_record_entry_and_value(anim, D_800F7DD4, 0);
             }
             actor->flagsA4 &= ~2;
@@ -311,7 +311,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
         anim->unk_00 = minigame_sprite_entries;
         anim->source = ((AnimData *)minigame_sprite_entries)->data4;
         anim->unk_04 = 0;
-        anim->unk_05 = 0;
+        anim->frame_ticks = 0;
         actor->timerA2 = 14;
         actor->state68 = 9;
     }

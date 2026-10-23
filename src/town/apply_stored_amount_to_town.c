@@ -5,12 +5,12 @@
 
 
 
-extern s32 D_80018AE0;
+extern s32 town_stored_amount;
 
 /* Add D_80018AE0 to the current state's accumulator. */
 void apply_stored_amount_to_town(void) {
     TownStateRecord *state;
 
-    state = D_80016000->unk_38;
-    state->unk_2D5C = (s32) (((signed int)state->unk_2D5C) + D_80018AE0);
+    state = town_scene_root->town_state;
+    state->money = (s32) (((signed int)state->money) + town_stored_amount);
 }

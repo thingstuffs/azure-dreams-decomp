@@ -30,7 +30,7 @@ void invoke_enabled_entry_callback(s32 slot_id)
             mode = entry[1];
             x = (entry[0] << 6) + position[0] + 0x20;
             y = position[1] - 0x40;
-            ((TownCallback)D_80016000->unk_20->callback_264)(
+            ((TownCallback)town_scene_root->services->callback_264)(
                 0xF,
                 mode,
                 x,

@@ -2,16 +2,6 @@
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 
-
-
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s32 field_4;
-    u16 field_8;
-    u16 field_A;
-} S_80086C00;
-
 typedef struct {
     s32 field_0;
     s32 field_4;
@@ -25,7 +15,7 @@ extern s32 audio_voice_masks[64];
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 64];
 extern s32 audio_update_guard[4];
-extern S_80086C00 audio_sequence_slots[8];
+extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Process eligible entries and set the selected slot state to 4. */
 void suspend_sequence_slot(s16 slot_index)
@@ -34,7 +24,7 @@ void suspend_sequence_slot(s16 slot_index)
     u8 *entry;
     s32 entry_index;
     s32 *entry_id;
-    S_80086C00 *slots;
+    SoundSequenceSlot *slots;
 
     entry_index = 0;
     audio_update_guard[0] = 1;
@@ -65,7 +55,7 @@ loop:
         }
     }
     slots = audio_sequence_slots;
-    slots[slot_index].field_2 = 4;
+    slots[slot_index].state = 4;
     audio_update_guard[0] = 0;
     audio_sequence_active[0] = 0;
 }

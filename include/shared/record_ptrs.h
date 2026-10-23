@@ -19,6 +19,6 @@ struct ActorRecord;              /* include/shared/entity.h (include it to deref
 struct Rec_D_80016000;
 extern struct ActorRecord *primary_actor_record;
 extern struct ActorRecord *dungeon_actor_ring_anchor;
-extern struct Rec_D_80016000 *D_80016000;
+extern struct Rec_D_80016000 *town_scene_root;
 
 #endif

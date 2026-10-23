@@ -263,8 +263,8 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
     }
     if (((S_80170A78_2 *)state)->unk_1C & 0x40000000) {
         ((S_80170A78_2 *)state)->unk_1C &= 0xBFFFFFFF;
-        floor_delta = sample_terrain_surface_height((input_part->unk_24 << 6) | 0x20,
-            (input_part->unk_25 << 6) | 0x20,
+        floor_delta = sample_terrain_surface_height((input_part->tile_x << 6) | 0x20,
+            (input_part->tile_y << 6) | 0x20,
             (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20));
         if ((s16)floor_delta < 0x200) {
             (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) += ((S_80170A78_2 *)state)->unk_88 - floor_delta;

@@ -29,8 +29,8 @@ s32 attempt_actor_transition(void *state, s32 action_id, SpriteFrameState *sprit
     if (((u16 *)status)[1] & 0x2000) {
         return -1;
     }
-    target = probe_directional_neighbor(actor, sprite->unk_24,
-                           sprite->unk_25, actor->facing);
+    target = probe_directional_neighbor(actor, sprite->tile_x,
+                           sprite->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
         return transitioned;
     }

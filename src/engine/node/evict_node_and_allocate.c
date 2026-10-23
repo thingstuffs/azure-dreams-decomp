@@ -3,13 +3,7 @@
 #include "engine/node.h"
 #include "slus.h"
 
-typedef struct Node {
-    struct Node *next;      /* 0x00 */
-    unsigned char pad[0x1E - 4];
-    unsigned short field_1E; /* 0x1E */
-} Node;
-
-extern Node *active_node_list_head;
+extern ObjectNodeHeader *active_node_list_head;
 
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
 void *evict_node_and_allocate(void *flags, void *excluded_node)
@@ -32,7 +26,7 @@ void *evict_node_and_allocate(void *flags, void *excluded_node)
                 }
                 return node;
             }
-            node = *(struct Node * *)&node->next;
+            node = *(struct ObjectNodeHeader * *)&node->next;
         } while (node != 0);
     }
     return 0;

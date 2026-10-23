@@ -28,14 +28,14 @@ void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data)
             *status_ptr = 0;
         }
         unlink_node_if_registered(object);
-        ((ObjectRetirementFlags *)object)[-1].unk_00 =
-            (u16)(((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].flags =
+            (u16)(((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     ((Rec_D_80082D58 *)object)->unk_50.as_x151a23(
         object, object, saved_event, saved_event_data);
-    if (!(((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000)) {
+    if (!(((ObjectRetirementFlags *)object)[-1].flags & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(saved_event), object);
     }
 }

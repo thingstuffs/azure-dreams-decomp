@@ -64,7 +64,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
             bucket_bits = flags >> 19;
             bank_bits = (flags >> 23) & 1;
             if ((((TownResourceGroupView *)((bucket_bits & 0x7E0) +
-                          *((s32 *)((u8 *)((s32)D_80016000->unk_30) +
+                          *((s32 *)((u8 *)((s32)town_scene_root->unk_30) +
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {
@@ -93,7 +93,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
         } while (((TownEntry *)entries)[entry_index].flags != 0);
     }
 
-    ((ReportFunc)D_80016000->unk_20->callback_168)(
+    ((ReportFunc)town_scene_root->services->callback_168)(
         D_80016178, D_80016184, ((u32)p - (u32)ost_w) / 20U);
 
     {
@@ -115,7 +115,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
 
                     pp++;
                     bucket_id = bucket_bits;
-                    bucket_banks = (s32 **)((s32)D_80016000->unk_30);
+                    bucket_banks = (s32 **)((s32)town_scene_root->unk_30);
                     bucket_base = bucket_banks[(bank_bits & 4) >> 2];
                     ((TownBucket *)bucket_base)[bucket_id].out = pp;
                     *pp = 0;
@@ -131,7 +131,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
             } while (entry->flags != 0);
         }
 
-        ((ReportFunc)D_80016000->unk_20->callback_168)(
+        ((ReportFunc)town_scene_root->services->callback_168)(
             D_80016178, D_800161B0,
             ((u32)pp - (u32)osel_w) >> 2);
     }
@@ -155,7 +155,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
             } while (((S_800168B4_3 *)cd_header)->unk_04 != 0);
         }
 
-        ((ReportFunc)D_80016000->unk_20->callback_168)(
+        ((ReportFunc)town_scene_root->services->callback_168)(
             D_80016178, D_800161E0, cdhd_cnt);
     }
 }

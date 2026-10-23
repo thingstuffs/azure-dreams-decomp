@@ -37,7 +37,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_actor_action_transition(void *, void *, void *, void *);
 
 extern u8 uboat_action_frames[];
-extern u8 D_800E2430[];
+extern u8 u_boat_motion_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
@@ -71,7 +71,7 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
         if (global_base->flags & 0x1000) {
             return;
         }
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(action, context, sprite, 0) != 0) {
                 return;
             }
@@ -116,7 +116,7 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 tile = *(s8 *)&sprite->unk_26;
+            s8 tile = *(s8 *)&sprite->room_index;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -128,9 +128,9 @@ void advance_actor_action(void *action, void *context, SpriteFrameState *sprite,
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             return;
         }
-        sprite->frameTable = D_800E2430;
+        sprite->frameTable = u_boat_motion_frames;
         select_sprite_entry(sprite,
-            D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            u_boat_motion_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
         if (sprite->flags & 0x8000) {

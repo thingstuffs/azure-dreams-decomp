@@ -17,7 +17,7 @@ void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
     s8 *callback_table;
 
     if (func_80017E00(1, 8) != 0) {
-        callback_table = *(s8 **)((s8 *)(&D_80016000));
+        callback_table = *(s8 **)((s8 *)(&town_scene_root));
         callback_table = *(s8 **)(callback_table + 0x20);
         (*(void (**)(s32))(callback_table + 0x78))(0);
         func_80018B58(F_sbs16_pad07);

@@ -30,8 +30,8 @@ void submit_three_word_command(s32 command_value) {
     ((S_8051E954_0 *)command_words)->unk_04 = command_value;
     command_value &= 0xFFFF;
     command_value |= 0xFF000000;
-    context = D_80016000;
+    context = town_scene_root;
     ((S_8051E954_0 *)command_words)->unk_08 = command_value;
-    ((S_8051E954_3 *)((context->unk_20)))->unk_208(0);
-    ((s32 (*) (s32 *))D_80016000->unk_20->callback_224)(command_words);
+    ((S_8051E954_3 *)((context->services)))->unk_208(0);
+    ((s32 (*) (s32 *))town_scene_root->services->callback_224)(command_words);
 }

@@ -64,8 +64,8 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
             0);
     }
 
-    x = entity->unk_24;
-    y = entity->unk_25;
+    x = entity->tile_x;
+    y = entity->tile_y;
     move_flags = 0x3000;
     if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -80,16 +80,16 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         (u8 *)movement + 0x98);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
-    entity->unk_24 =
+    entity->tile_x =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    entity->unk_25 =
+    entity->tile_y =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
     ((S_80171CD4_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = entity->unk_24;
-        s32 next_y = entity->unk_25;
+        s32 next_x = entity->tile_x;
+        s32 next_y = entity->tile_y;
 
         if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;

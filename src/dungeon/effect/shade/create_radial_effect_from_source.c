@@ -24,7 +24,7 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
     type_id = type_code - 0x20;
     object = allocate_list_node(2, type_id);
     if (object != 0) {
-        object->unk_10 = D_800247AC;
+        object->update_callback = D_800247AC;
         register_node(object, draw_adjacent_row_quads);
 
         child = object->position;

@@ -93,8 +93,8 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
             if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
                 (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x40000000;
                 floor_height = sample_terrain_surface_height(
-                    (entity->unk_24 << 6) | 0x20,
-                    (entity->unk_25 << 6) | 0x20,
+                    (entity->tile_x << 6) | 0x20,
+                    (entity->tile_y << 6) | 0x20,
                     (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
                 ((S_800D1E34_2 *)object)->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
                 (*(u16 *)((u8 *)object_base + (0x88))) = floor_height;

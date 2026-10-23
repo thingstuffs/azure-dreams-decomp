@@ -8,7 +8,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 s32 get_script_flag_mask();
-extern s16 D_8001B8AA;
+extern s16 scene_gate_script_flag;
 /* Check the record flag only when the global blocking flag is clear. */
 s32 check_record_flag_if_unblocked(void *record)
 {
@@ -28,7 +28,7 @@ s32 check_record_flag_if_unblocked(void *record)
         record_copy = record;
         flag_record = record_copy;
     }
-    if (get_script_flag_mask(D_8001B8AA) == 0) {
+    if (get_script_flag_mask(scene_gate_script_flag) == 0) {
         flag_set = get_script_flag_mask(*(s16 *) (((s8 *) flag_record) + 0x18)) != 0;
     }
     return flag_set;

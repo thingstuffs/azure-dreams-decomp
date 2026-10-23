@@ -77,7 +77,7 @@ void create_forward_layered_sprite_pulse(void)
             effect_state = ((void *)effect) + 0x20;
             effect_state->unk_18 = 0xE;
             effect_state->unk_1A = 0xE;
-            effect->unk_10 = update_flickering_layer_sprite;
+            effect->update_callback = update_flickering_layer_sprite;
             register_node(effect, project_sprite_chain);
             render_flags = effect->sprite;
             render_flags->tpage_abr = 0x60;
@@ -102,7 +102,7 @@ void create_forward_layered_sprite_pulse(void)
             sprite->color.c.b = 0;
             sprite->color.c.g = 0;
             sprite->color.c.r = 0;
-            sprite->unk_06 = 0;
+            sprite->depth_bias = 0;
             sprite->clut = 0x7DCF;
             sprite->flags =
                 (u16)(sprite->flags | 0x100);

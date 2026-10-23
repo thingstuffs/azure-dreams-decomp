@@ -26,7 +26,7 @@ s32 update_and_test_pending_entry_flags(s32 kind, s32 value) {
         }
     }
 
-    root = D_80016000;
-    ((TownCallback)root->unk_20->callback_2F8)(0xF, 0x200);
+    root = town_scene_root;
+    ((TownCallback)root->services->callback_2F8)(0xF, 0x200);
     return 0;
 }

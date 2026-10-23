@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 D_800A51CC;
-extern s32 D_800A5340;
+extern s32 map_transition_handler_address;
+extern s32 map_fallback_handler_address;
 
 /* Initialize paired state values and install the two callbacks. */
 void initialize_paired_state_callbacks(void *state) {
@@ -20,6 +20,6 @@ void initialize_paired_state_callbacks(void *state) {
     g_game_work.view.view_offset.parts.view_offset_z = 0x400;
     *(s16 *) ((u8 *) state + 4) = 0x400;
     *(s16 *) ((u8 *) state + 0x14) = 0x400;
-    *(void **) ((u8 *) state + 0x1C) = &D_800A5340;
-    *(void **) ((u8 *) state + 0x20) = &D_800A51CC;
+    *(void **) ((u8 *) state + 0x1C) = &map_fallback_handler_address;
+    *(void **) ((u8 *) state + 0x20) = &map_transition_handler_address;
 }

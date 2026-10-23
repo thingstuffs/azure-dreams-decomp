@@ -37,10 +37,10 @@ void spawn_cascading_trail_emitter(void) {
         effect_params = ((void *)effect) + 0x20;
         effect_params->unk_16 = 0x1E;
         effect_params->unk_18 = 0x1E;
-        effect->unk_10 = &update_cascading_trail_emitter;
+        effect->update_callback = &update_cascading_trail_emitter;
         register_node(effect, setup_data);
         sprite = effect->sprite;
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
         effect_pos = effect->position;
         effect_pos->x.v = (s32) source_pos->x.v;
         effect_pos->y.v = (s32) source_pos->y.v;

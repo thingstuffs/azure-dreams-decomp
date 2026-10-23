@@ -18,12 +18,12 @@ extern s32 scene_cell_dispatch_code;
 s32 load_entry_value_and_handle_followup(void) {
     TownRecord *record;
 
-    record = *(TownRecord **)((s8 *)(&D_80016000));
+    record = *(TownRecord **)((s8 *)(&town_scene_root));
     scene_cell_dispatch_code = record->entries[(record->index * 8) + 4];
     if (func_80018618() != 0) {
         TownRecord *clear_record;
 
-        clear_record = *(TownRecord **)((s8 *)(&D_80016000));
+        clear_record = *(TownRecord **)((s8 *)(&town_scene_root));
         clear_record->entries[(clear_record->index * 8) + 4] = 0;
         scene_cell_dispatch_code = 0;
     }

@@ -44,19 +44,19 @@ void update_object_state_and_size(void *object) {
 
         coords_ref = ((S_80023C80_0 *)obj)->unk_04;
         coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->unk_02;
+        coord = ((SignedPositionView *)((void *)coord))->x;
         if (coord < 0) {
             coord += 0x1F;
         }
         ((S_80023C80_0 *)obj)->unk_0C.s = (u16) ((coord >> 5) + 0x94);
         coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->unk_06;
+        coord = ((SignedPositionView *)((void *)coord))->y;
         if (coord < 0) {
             coord += 0x1F;
         }
         ((S_80023C80_0 *)obj)->unk_0E.s = (u16) ((coord >> 5) + 0x75);
         coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->unk_0A;
+        coord = ((SignedPositionView *)((void *)coord))->z;
         coord = 0 - coord;
         offset = coord >> 6;
         if (coord < 0) {
@@ -76,7 +76,7 @@ void update_object_state_and_size(void *object) {
     }
     case 2:
         (*(u16 *)((u8 *)obj + -2)) =
-            (u16) (((ObjectStatusPrefix16 *)obj)[-1].unk_00 | NODE_REMOVE);
+            (u16) (((ObjectStatusPrefix16 *)obj)[-1].flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }

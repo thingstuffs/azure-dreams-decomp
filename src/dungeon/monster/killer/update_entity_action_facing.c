@@ -35,7 +35,7 @@ extern u8 killer_action_resume_address;
 extern u8 D_80174040[];
 extern u8 D_80174070[];
 extern u8 D_80174080[];
-extern u8 D_80174088[];
+extern u8 killer_frame_set_2[];
 
 typedef struct S_80170EA8_0 {
     u8 pad_00[0x8C];
@@ -64,7 +64,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
 
     if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable != D_80174088) {
+        if (sprite->frameTable != killer_frame_set_2) {
             (sprite->frameTable) = D_80174080;
             select_sprite_entry(sprite,
                 D_80174080[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -74,7 +74,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
     }
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_80174088) {
+        if (sprite->frameTable == killer_frame_set_2) {
             ((S_80170EA8_0 *)actor)->unk_9A = 0xD;
             ((S_80170EA8_0 *)actor)->unk_9B = 1;
             ((S_80170EA8_0 *)actor)->unk_8C = 0;
@@ -106,7 +106,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
         }
 
         ((S_80170EA8_0 *)actor)->unk_98.n &= 0xFFF3;
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80174040)) {
                 return;
             }
@@ -123,15 +123,15 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
         }
     }
 
-    tile_record = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = tile_record;
+    tile_record = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_record;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_8017167C(actor, context, sprite, entity);
             return;
         }
@@ -175,12 +175,12 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_aux);
                 global_actor = primary_actor_record;
                 entity->facing = direction;
-                if (global_actor->unk_9A == 0x11) {
+                if (global_actor->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
                     return;
                 }
@@ -204,11 +204,11 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
-                if ((s16)test_neighbor_position_relation(sprite->unk_24,
-                        sprite->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                if ((s16)test_neighbor_position_relation(sprite->tile_x,
+                        sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }

@@ -32,7 +32,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
         arc_ticks = animation->unk_9E.s;
         animation->unk_90 -= animation->unk_A0;
         if (arc_ticks != 0) {
-            target_x = tile->unk_24;
+            target_x = tile->tile_x;
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
@@ -43,7 +43,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
             world_y = motion->y.w.i;
             world_y -= 0x20;
             motion->velocity_y =
-                (((tile->unk_25 << 6) - world_y) << 16) /
+                (((tile->tile_y << 6) - world_y) << 16) /
                 animation->unk_9E.s;
 
             animation->unk_A0 =
@@ -70,7 +70,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
             animation->unk_9B++;
         }
         break;
@@ -87,7 +87,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+    set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -104,8 +104,8 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                tile->unk_24,
-                tile->unk_25,
+                tile->tile_x,
+                tile->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &coord_result);

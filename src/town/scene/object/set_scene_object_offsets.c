@@ -6,6 +6,6 @@
 
 /* Set the referenced structure's two values to 1248 and 992. */
 void set_scene_object_offsets(void) {
-    ((TownPositionState *)D_80016000->unk_1C)->x = 1248;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 992;
+    ((TownPositionState *)town_scene_root->position)->x = 1248;
+    ((TownPositionState *)town_scene_root->position)->y = 992;
 }

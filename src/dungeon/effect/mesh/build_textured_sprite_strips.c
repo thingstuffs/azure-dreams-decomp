@@ -5,9 +5,9 @@
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 #include "shared/object_flags.h"
 void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling;
-const u16 D_80024004[4] = {832,256,96,84};
-const u16 D_8002400C[4] = {832,340,4,4};
-const s16 D_80024014[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
+const u16 strip_texture_rect[4] = {832,256,96,84};
+const u16 strip_small_texture_rect[4] = {832,340,4,4};
+const s16 strip_direction_steps[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
 
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
@@ -711,7 +711,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)raise_effect_to_height_limit;
+        spawned->update_callback = (void *)raise_effect_to_height_limit;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -882,9 +882,9 @@ void build_inverted(void *context, void *unused, void *effect_data) {
     u8 *pixel_page;
     Box *rect_template;
 
-    rect_template = (Box *)(void *)&D_80024004;
+    rect_template = (Box *)(void *)&strip_texture_rect;
     image_rect = *rect_template;
-    rect_template = (Box *)((u8 *)&D_8002400C);
+    rect_template = (Box *)((u8 *)&strip_small_texture_rect);
     mask_rect = *rect_template;
     state = *(s16 *)context;
     traveling_strip_effect_updated[0] = 1;
@@ -986,14 +986,14 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
     s32 state;
     u8 kind_or_shade;
     u8 *tex_rect;
-    u8 *rect_template = D_80024004;
+    u8 *rect_template = strip_texture_rect;
 
     S_func_81905FD0_4 *owner;
     S_func_81905FD0_5 *owner_object;
     S_func_81905FD0_2 *owner_motion;
     owner = effect->unk_00;
     *(Copy8 *)(scratch + 8) = *(Copy8 *)rect_template;
-    *(Copy32 *)(scratch + 24) = *(Copy32 *)D_80024014;
+    *(Copy32 *)(scratch + 24) = *(Copy32 *)strip_direction_steps;
     state = effect->unk_0A.s16;
     owner_object = (S_func_81905FD0_5 *)((u8 *)owner - 0x20);
     owner_motion = owner_object->unk_08;
@@ -1284,7 +1284,7 @@ update_coords:
             if (upper_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
-                upper_effect->unk_10 = (void *)tick_effect_record;
+                upper_effect->update_callback = (void *)tick_effect_record;
                 register_node(upper_effect, project_sprite_chain);
                 child_render = upper_effect->sprite;
                 {
@@ -1326,7 +1326,7 @@ update_coords:
             if (lower_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
-                lower_effect->unk_10 = (void *)update_effect_brightness_pulse;
+                lower_effect->update_callback = (void *)update_effect_brightness_pulse;
                 register_node(lower_effect, project_sprite_chain);
                 child_render = lower_effect->sprite;
                 child_render->unk_14 &= 0xFFF3;
@@ -1361,7 +1361,7 @@ update_coords:
             if (ring_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
-                ring_effect->unk_10 = (void *)update_effect_animation_slots;
+                ring_effect->update_callback = (void *)update_effect_animation_slots;
                 register_node(ring_effect, project_sprite_chain);
                 child_render = ring_effect->sprite;
                 {
@@ -1431,7 +1431,7 @@ update_coords:
                 control_script = (void *)build_inverted;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;
-                control_effect->unk_10 = control_script;
+                control_effect->update_callback = control_script;
                 register_node(effect_object, render_template);
                 child_render = control_effect->sprite;
                 {

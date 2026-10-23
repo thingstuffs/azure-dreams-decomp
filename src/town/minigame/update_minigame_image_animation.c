@@ -5,9 +5,9 @@
 
 extern void LoadImage();
 
-extern u8 D_80024640[];
+extern u8 minigame_palette_backup[];
 extern u8 D_80024660[];
-extern u8 D_80024680[];
+extern u8 minigame_image_backup[];
 extern u8 D_800246C0[];
 
 
@@ -49,7 +49,7 @@ void update_minigame_image_animation(void *anim)
         rect[0] = 0x50;
         LoadImage(rect, image - 0x20);
     } else {
-        u8 *image = D_80024640;
+        u8 *image = minigame_palette_backup;
 
         rect[0] = 0x40;
         LoadImage(rect, image);
@@ -73,7 +73,7 @@ void update_minigame_image_animation(void *anim)
     }
     case 1:
     {
-        u8 *image = D_80024680;
+        u8 *image = minigame_image_backup;
 
         rect[0] = 0xE0;
         LoadImage(rect, image);
@@ -85,7 +85,7 @@ void update_minigame_image_animation(void *anim)
     case 2:
         rect[0] = 0xC0;
         rect[2] = 0x30;
-        LoadImage(rect, D_80024680);
+        LoadImage(rect, minigame_image_backup);
         break;
     default:
         break;
@@ -94,7 +94,7 @@ void update_minigame_image_animation(void *anim)
     timer = ((S_80023BCC_0 *)anim)->unk_5E - 1;
     ((S_80023BCC_0 *)anim)->unk_5E = timer;
     if ((s16)timer <= 0) {
-        ((ObjectStatusPrefix16 *)anim)[-1].unk_00 |= 0x8000;
+        ((ObjectStatusPrefix16 *)anim)[-1].flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

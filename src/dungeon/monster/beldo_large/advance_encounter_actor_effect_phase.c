@@ -58,7 +58,7 @@ u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 s32 play_sound_if_enabled();
 void create_random_velocity_child_effect();
 void create_offset_half_scale_spark(void *, s32, s32, s32);
-extern s16 D_80173AFC[16];
+extern s16 beldo_large_direction_offsets[16];
 extern void *beldo_actor_nodes[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
@@ -102,7 +102,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
     do {
         linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
         if (linked_entity != NULL) {
-            linked_object = ((SpriteLinkPrefixView *)linked_entity)[-1].unk_00;
+            linked_object = ((SpriteLinkPrefixView *)linked_entity)[-1].sprite;
             linked_object->unk_14 = (u16)(linked_object->unk_14 & 0xFFBF);
         }
         count -= 1;
@@ -115,7 +115,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
         s32 shrink_step;
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
-            object->unk_24, object->unk_25,
+            object->tile_x, object->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
         height = object->scale_y;
@@ -152,7 +152,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
         s32 burst_step;
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
-            object->unk_24, object->unk_25,
+            object->tile_x, object->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
         scaled_step = 0 - (object->scale_y << 6);
         if (scaled_step < 0)
@@ -211,7 +211,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, Sp
             break;
         turn_phase = ((S_8016FC4C_3 *)effect)->unk_9A;
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
-        table_page = (u32)D_80173AFC;
+        table_page = (u32)beldo_large_direction_offsets;
         turn_phase = (u8)(turn_phase + 1);
         ((S_8016FC4C_3 *)effect)->unk_9A = turn_phase;
         table_angle = heading->unk_2A;

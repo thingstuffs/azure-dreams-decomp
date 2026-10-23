@@ -24,7 +24,7 @@ typedef struct S_800250C0_1 {
 } S_800250C0_1;   /* arg2 in update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end */
 
 
-extern s16 D_80026428[];
+extern s16 rectangle_effect_updated[];
 
 /* Updates an effect's grayscale intensity and animation frame, marking it finished at the end of its lifetime. */
 void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
@@ -34,7 +34,7 @@ void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end
 
     age = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06;
     fade_ticks = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_0C;
-    D_80026428[0] = 1;
+    rectangle_effect_updated[0] = 1;
     if (age < fade_ticks) {
         fade_scaled = age * 3;
     } else {

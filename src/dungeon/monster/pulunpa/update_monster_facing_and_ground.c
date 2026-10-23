@@ -159,8 +159,8 @@ void update_monster_facing_and_ground(void *entity, S_80170AE0_2 *motion, Sprite
             }
             if (((S_80170AE0_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80170AE0_1 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
-                                      (monster->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->tile_x << 6) | 0x20,
+                                      (monster->tile_y << 6) | 0x20,
                                       (s16)(((S_80170AE0_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170AE0_1 *)actor)->unk_88.u - floor_height;
                 ((S_80170AE0_1 *)actor)->unk_88.u = floor_height;

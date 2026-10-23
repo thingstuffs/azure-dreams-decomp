@@ -3,9 +3,9 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80016B1C();              /* extern */
-extern s32 D_80018AE0;
+extern s32 town_stored_amount;
 
 /* Store the result of calling func_80016B1C on D_80018AE8. */
 void store_lookup_result(void) {
-    D_80018AE0 = func_80016B1C(&D_80018AE8, 0);
+    town_stored_amount = func_80016B1C(&D_80018AE8, 0);
 }

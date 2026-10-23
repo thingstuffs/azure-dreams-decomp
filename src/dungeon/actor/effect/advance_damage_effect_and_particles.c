@@ -44,7 +44,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 extern void set_actor_action_state_eight(void *, s32, void *);
 void *create_source_linked_fading_effect();
-extern u8 D_800C9F34;
+extern u8 actor_motion_resume_address;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
 void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameState *record, void *actor) {
@@ -168,7 +168,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameS
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
-        set_record_integer_tile_center(context, record->unk_24, record->unk_25);
+        set_record_integer_tile_center(context, record->tile_x, record->tile_y);
         g_dungeon_status.active_actor = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
         advance_status_timers(actor_state);
@@ -177,7 +177,7 @@ void advance_damage_effect_and_particles(void *effect, s32 context, SpriteFrameS
         if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {
             set_actor_action_state_eight(effect, context, record);
         } else {
-            ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
+            ((S_800CABA8_0 *)effect)->unk_8C = &actor_motion_resume_address;
         }
         return;
     default:

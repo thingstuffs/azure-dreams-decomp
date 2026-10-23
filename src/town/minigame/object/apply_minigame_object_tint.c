@@ -31,12 +31,12 @@ void apply_minigame_object_tint(IndicatorChild *state, MovingPosition *selected_
     }
 
     if (state->use_first != 0) {
-        selected_values->unk_02 = source->first_x;
-        selected_values->unk_06 = source->first_y;
-        selected_values->unk_0A = source->first_z;
+        selected_values->x = source->first_x;
+        selected_values->y = source->first_y;
+        selected_values->z = source->first_z;
     } else {
-        selected_values->unk_02 = source->second_x;
-        selected_values->unk_06 = source->second_y;
-        selected_values->unk_0A = source->second_z;
+        selected_values->x = source->second_x;
+        selected_values->y = source->second_y;
+        selected_values->z = source->second_z;
     }
 }

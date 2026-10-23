@@ -12,7 +12,7 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
     entity->unk_6C = (s16) ((u16) entity->unk_6C + 0x40);
     motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
     if (((s32 *)town_target_record)[0] == entity_id) {
-        if (((s32 *)scene_object_payload_alias)[0] == &D_80093328) {
+        if (((s32 *)scene_object_payload_alias)[0] == &town_timed_state_address) {
             initialize_the_entity_s_action_copy_selected_state_hex_13(entity, ((s32 *)town_target_record)[0], motion, context);
             return;
         }

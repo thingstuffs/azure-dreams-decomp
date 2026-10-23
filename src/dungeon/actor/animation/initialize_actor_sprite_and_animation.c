@@ -34,10 +34,10 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
 
     if (mode == 2) {
         if ((extra_flags << 16) == 0) {
-            sprite->unk_28 =
+            sprite->animation_resource =
                 load_and_publish_texture_resource_pair(*(u8 *)(entity_data + 0x13));
         } else {
-            sprite->unk_28 = loaded_entity_sprite_resource[0];
+            sprite->animation_resource = loaded_entity_sprite_resource[0];
         }
         spell_effect_selector_cache[0] = -1;
     } else {
@@ -48,12 +48,12 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
         bind_sprite_resource_slot_record(entity, entity_kind);
     }
 
-    sprite->unk_26 =
-        find_active_rect_containing_point(sprite->unk_24,
-                      sprite->unk_25);
+    sprite->room_index =
+        find_active_rect_containing_point(sprite->tile_x,
+                      sprite->tile_y);
     set_record_integer_tile_center(position,
-                  sprite->unk_24,
-                  sprite->unk_25);
+                  sprite->tile_x,
+                  sprite->tile_y);
 
     *(s16 *)(entity_data + 0x88) =
         sample_terrain_surface_height(*(u16 *)((u8 *)position + 2),
@@ -75,8 +75,8 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
         copy_indexed_entry_data(entity_data);
     }
 
-    cycle_map_cell_flags(sprite->unk_24,
-                  sprite->unk_25,
+    cycle_map_cell_flags(sprite->tile_x,
+                  sprite->tile_y,
                   (*(s32 *)(entity_data + 0x1C) & 0x2000) ? 0x300 : 0x3000);
 
     *(s8 *)(entity_data + 0x71) = 0;

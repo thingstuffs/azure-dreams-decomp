@@ -81,7 +81,7 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;
-        created->unk_10 = D_8014CA7C;
+        created->update_callback = D_8014CA7C;
         ((S_80FFF000_1 *)result)->unk_13 = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
@@ -89,10 +89,10 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         position->z.w.i = saved_spawn;
         part_b = created->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = result;
         part_b->frameTable = D_80150038;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             ((S_80FFF000_1 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

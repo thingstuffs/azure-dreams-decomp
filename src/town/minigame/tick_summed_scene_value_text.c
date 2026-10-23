@@ -58,9 +58,9 @@ void tick_summed_scene_value_text(void *entry) {
         format_decimal_field_space_padded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
                       ((S_80020510_0 *)entry)->unk_04);
         if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
-            flags = &((ObjectStatusPrefix16 *)entry)[-1].unk_00;
+            flags = &((ObjectStatusPrefix16 *)entry)[-1].flags;
             *flags =
-                (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
+                (u16) (((ObjectStatusPrefix16 *)entry)[-1].flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

@@ -1,6 +1,7 @@
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -25,7 +26,7 @@ s32 create_familiar_selection_marker();                          /* extern */
 void update_selection_tile_markers();                 /* extern */
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);   /* extern */
 extern u8 D_80012D6D;
-extern M2C_UNK D_8001EF2C;
+extern M2C_UNK familiar_menu_action_data;
 extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;
 extern M2C_UNK D_80088934;
@@ -33,44 +34,18 @@ extern M2C_UNK D_80088970;
 extern M2C_UNK D_800E0040;
 extern u8 D_800E2004[];
 
-
-
-typedef struct S_80091430_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x6A];
-    s16 unk_8A;
-} S_80091430_1;   /* actor in update_familiar_command_selection */
+   /* actor in update_familiar_command_selection */
 
 typedef struct S_80091430_2_pre {
     s32 unk_00;
     u8 pad_04[0x14];
 } S_80091430_2_pre;   /* 0x18-byte header immediately before the payload. */
 
-
-typedef struct S_80091430_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80091430_4;
-
-typedef struct S_80091430_5 {
-    u8 pad_00[0x46];
-    u16 unk_46;
-} S_80091430_5;
-
-typedef struct S_80091430_6 {
-    u8 pad_00[0x46];
-    u16 unk_46;
-} S_80091430_6;
-
-typedef struct S_80091430_7 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80091430_7;   /* (*(void **)((u8 *)arg0 + 0x104)) in update_familiar_command_selection */
+   /* (*(void **)((u8 *)arg0 + 0x104)) in update_familiar_command_selection */
 
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
 void update_familiar_command_selection(void *state, s32 context_a, void *context_b, void *actor_ptr) {
-    S_80091430_1 *actor = actor_ptr;
+    ActorRecord *actor = actor_ptr;
     GameWork *dungeon_state = &g_game_work;
     s16 action_id;
     s16 action_arg;
@@ -81,10 +56,10 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
     s32 candidate_flags;
     s32 phase;
     void **candidate_slot;
-    S_80091430_4 *candidate;
-    S_80091430_5 *preview;
+    ActorRecord *candidate;
+    ActorRecord *preview;
     void *selection_data;
-    S_80091430_6 *selection;
+    ActorRecord *selection;
 
     phase = (*(u8 *)((u8 *)state + 0x9B));
     switch (phase) {
@@ -111,14 +86,14 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
             + 0x104)) + 0x2A);
         selection_code = (s16) selection_result;
         if (selection_code != 0xFFF) {
-            ((S_80091430_7 *)((*(void **)((u8 *)state + 0x104))))->unk_2A = selection_result;
+            ((ActorRecord *)((*(void **)((u8 *)state + 0x104))))->facing = selection_result;
             append_packed_action_record(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)),
                 (selection_result << 0x10 >> 0x19) & 7);
         }
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             selection_data = (*(void **)((u8 *)state + 0x104));
             if (selection_data != NULL && (((s32)dungeon_state->pressed_buttons) & 0x80)) {
-                if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->unk_1C & 0x100000)) {
+                if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
                     selected_item_record_alias[0] = 0;
                     if ((check_familiar_deployment_placement(state, context_a, context_b, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
@@ -145,7 +120,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
-                        begin_player_menu_action(state, context_a, context_b, &D_8001EF2C);
+                        begin_player_menu_action(state, context_a, context_b, &familiar_menu_action_data);
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
@@ -188,7 +163,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         }
                         candidate = *candidate_slot;
                         if ((candidate != NULL) && ((*(void **)((u8 *)state + 0x104)) != candidate)) {
-                            candidate_flags = candidate->unk_1C;
+                            candidate_flags = candidate->flags1C;
                             if (candidate_flags & 0x20000) {
                                 if (!(candidate_flags & 0x80000)) {
                                     (*(void **)((u8 *)state + 0x104)) = candidate;
@@ -206,12 +181,12 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
             }
         } else {
             preview = (*(void **)((u8 *)state + 0x104));
-            update_selection_tile_markers(preview, preview->unk_46);
+            update_selection_tile_markers(preview, preview->action_flags);
             if (((s32)dungeon_state->pressed_buttons) & 0x60) {
                 if (((s32)dungeon_state->pressed_buttons) & 0x20) {
                     play_sound_if_enabled(0x515);
                     selection = (*(void **)((u8 *)state + 0x104));
-                    selection->unk_46 &= 0x7FFF;
+                    selection->action_flags &= 0x7FFF;
                 } else {
                     play_sound_if_enabled(0x503);
                 }
@@ -220,7 +195,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                 dungeon_floor_flags &= ~0x2000;
                 {
                     void *callback;
-                    if (actor->unk_1C & 0x100000) {
+                    if (actor->flags1C & 0x100000) {
                         callback = player_action_tag;
                     } else {
                         callback =handle_player_input;
@@ -238,7 +213,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         dungeon_floor_flags &= ~0x2000;
         {
             void *callback;
-            if (actor->unk_1C & 0x100000) {
+            if (actor->flags1C & 0x100000) {
                 callback = player_action_tag;
             } else {
                 callback =handle_player_input;

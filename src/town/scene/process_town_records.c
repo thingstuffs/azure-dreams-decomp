@@ -10,7 +10,7 @@ typedef struct {
 extern void set_script_flag_bit(s32);
 extern void clear_script_flag_bit(s32);
 extern s32 get_script_flag_mask(s32);
-extern s16 D_8001B8A8[3];
+extern s16 scene_dependency_ids[3];
 
 /* Processes town records according to global and per-record conditions. */
 void process_town_records(s32 records_addr, s32 record_count)
@@ -20,7 +20,7 @@ void process_town_records(s32 records_addr, s32 record_count)
     s16 *condition_ids;
 
     if ((records_addr != 0) && (record_index = 0, (record_count > 0))) {
-        condition_ids = D_8001B8A8;
+        condition_ids = scene_dependency_ids;
         do {
             record = (TownRecord *)((record_index * 8) + records_addr);
             clear_script_flag_bit(record->unk2);

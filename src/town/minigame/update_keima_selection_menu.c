@@ -66,7 +66,7 @@ extern u8 D_800203D8[];
 extern u8 betting_ticket_text[];
 extern u8 D_80021028[];
 extern s32 town_money;
-extern s32 D_80024300[];
+extern s32 keima_panel_object[];
 extern s16 keima_payout_factors[];
 extern u16 keima_selection_mask;
 extern s32 keima_payout_remaining;
@@ -183,7 +183,7 @@ void update_keima_selection_menu(TownEntity *menu)
             *money -= 100;
             keima_selection_mask = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
             set_resident_bit(0x592);
-            D_80024300[0] = create_dual_buffer_object(0, -0x48, -0x28);
+            keima_panel_object[0] = create_dual_buffer_object(0, -0x48, -0x28);
             entity->timer = -1;
             entity->state = (u16)entity->state + 1;
             return;
@@ -253,13 +253,13 @@ void update_keima_selection_menu(TownEntity *menu)
             keima_payout_remaining = total_factor * 100;
             keima_selection_mask = option_ids.value[entity->selection];
             set_resident_bit(0x592);
-            set_object_data_pointer_2(D_80024300[0]);
+            set_object_data_pointer_2(keima_panel_object[0]);
             entity->state = 0x100;
         }
         if (((s32)input->pressed_buttons) & 0x20) {
             SD_Call(0x515);
             town_money += entity->quantity * 100;
-            set_object_data_pointer_2(D_80024300[0]);
+            set_object_data_pointer_2(keima_panel_object[0]);
             set_resident_bit(0x592);
             set_resident_bit(0x593);
             entity->state = 0x200;

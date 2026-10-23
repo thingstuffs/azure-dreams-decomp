@@ -30,8 +30,8 @@ extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(vo
 
 extern s32 town_money[];
 extern TownRewardValues D_80020020;
-extern u8 D_80024420[];
-extern s32 D_8002445C[];
+extern u8 minigame_source_bounds[];
+extern s32 minigame_pickup_sprite_sources[];
 extern s32 pickup_reward_total[];
 extern s32 D_8007947C[];
 extern u8 D_800D0420[];
@@ -86,7 +86,7 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
         sprite->unk_00 = D_8007947C;
         sprite->source = D_8007947C[1];
         sprite->unk_04 = 0;
-        sprite->unk_05 = rand() & 3;
+        sprite->frame_ticks = rand() & 3;
         sprite->flags &= 0xFF7F;
         denomination = ((S_800206D0_0 *)pickup)->unk_54;
         if (denomination == 0) {
@@ -128,7 +128,7 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
             ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             town_money[0] += reward;
@@ -141,17 +141,17 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
         }
         ((S_800206D0_0 *)pickup)->unk_02.u = 180;
         ((S_800206D0_0 *)pickup)->unk_00 = 4;
-        idle_frame = D_8002445C[((S_800206D0_0 *)pickup)->unk_54];
+        idle_frame = minigame_pickup_sprite_sources[((S_800206D0_0 *)pickup)->unk_54];
         sprite->clut = 0;
         sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
+        sprite->frame_ticks = 0;
         sprite->source = idle_frame;
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
         return;
     }
 
     case 4:
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             town_money[0] += reward;
@@ -172,7 +172,7 @@ void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite
         } else {
             sprite->flags &= 0xFF7F;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_source_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             town_money[0] += reward;

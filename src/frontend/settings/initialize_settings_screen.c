@@ -119,7 +119,7 @@ void initialize_settings_screen(void) {
     LoadImage(frame + 0x270, frame + 0x70);
     screen_object = allocate_flagged_object_node(0x11);
     if (screen_object != NULL) {
-        screen_object->unk_10 = (void *)handle_settings_menu_input;
+        screen_object->update_callback = (void *)handle_settings_menu_input;
         register_node(screen_object, build_settings_sprite_tiles);
         settings = ((void *)screen_object) + 0x20;
         ((S_80089C24_2 *)(screen_object->position))->unk_06 = 0xF0;

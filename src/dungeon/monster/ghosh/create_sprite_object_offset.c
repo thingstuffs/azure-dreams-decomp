@@ -20,7 +20,7 @@ typedef struct {
 } Object;
 
 extern void register_node(Object *, void *);
-extern PackedVec D_80077818[];
+extern PackedVec ghosh_sprite_payload_template[];
 extern s32 *ghosh_actor_node[3];
 extern Object *D_80174CC8[3];
 extern u8 D_8016E300[];
@@ -47,7 +47,7 @@ void create_sprite_object_offset(void) {
         sprite[0xE] = 0x80;
         sprite[0xD] = 0x80;
         sprite[0xC] = 0x80;
-        obj->data = D_80077818[0];
+        obj->data = ghosh_sprite_payload_template[0];
         *(PackedVec **)(sprite + 8) = &obj->data;
         D_80174CC8[0] = obj;
     }

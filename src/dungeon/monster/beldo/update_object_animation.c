@@ -28,9 +28,9 @@ extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
 extern void advance_repeated_command_stream_direction(void *, void *, void *);
 
-extern u8 D_80171514;
+extern u8 beldo_action_dispatch_address;
 extern u8 beldo_frame_set_1[8];
-extern u8 D_80173E94[];
+extern u8 beldo_frame_set_2[];
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
 
@@ -84,7 +84,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(obj, motion, part, D_80173E94) != 0) {
+        if (reset_actor_action_state(obj, motion, part, beldo_frame_set_2) != 0) {
             return;
         }
     }
@@ -104,7 +104,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
                 part,
                 beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            part->unk_05 = 1;
+            part->frame_ticks = 1;
             (*(s16 *)((u8 *)obj + (0xA2))) = 0;
             (*(s16 *)((u8 *)obj + (0x9E))) = 0;
         }
@@ -137,8 +137,8 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
         }
     }
 
-    query_result = find_active_rect_containing_point(part->unk_24, part->unk_25);
-    part->unk_26 = query_result;
+    query_result = find_active_rect_containing_point(part->tile_x, part->tile_y);
+    part->room_index = query_result;
 
     if (((S_80171514_0 *)state)->unk_6D > 0) {
         if (((S_80171514_0 *)state)->unk_1C & 0x20) {
@@ -146,7 +146,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
             return;
         }
 
-        if (*(u16 *)&part->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&part->tile_x == reference_tile_object.tile_position.word) {
             func_80171BE0(obj, motion, part, state);
             return;
         }
@@ -195,7 +195,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
         case 7:
         case 8:
             callback_state = state;
-            (*(void **)((u8 *)obj + (0x8C))) = &D_80171514;
+            (*(void **)((u8 *)obj + (0x8C))) = &beldo_action_dispatch_address;
             update_actor_status_and_mp(callback_state);
             ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
             return;
@@ -203,7 +203,7 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(obj, motion, part, 0, &D_80171514);
+            begin_actor_spell_action(obj, motion, part, 0, &beldo_action_dispatch_address);
             return;
 
         case 3:
@@ -227,10 +227,10 @@ void update_object_animation(void *obj, void *motion, SpriteFrameState *part, vo
         }
         if ((state_flags & 0x430) == 0) {
             if ((s16)test_neighbor_position_relation(
-                    part->unk_24, part->unk_25,
+                    part->tile_x, part->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                 query_result = get_rounded_facing_and_rounding_flag(
-                    part->unk_24, part->unk_25,
+                    part->tile_x, part->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ((S_80171514_0 *)state)->unk_2A = query_result;
             }

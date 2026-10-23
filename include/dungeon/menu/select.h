@@ -713,7 +713,7 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value();  /* extern */
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_80079444[];
+extern SpriteSourceEntry menu_effect_sprite_entries[];
 s32 rsin();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */

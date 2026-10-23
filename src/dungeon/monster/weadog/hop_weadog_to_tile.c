@@ -36,7 +36,7 @@ extern void spend_actor_mp(void *, s32);
 
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];
-extern u8 D_80174ED0[];
+extern u8 weadog_frame_set_7[];
 extern u8 D_80174ED8[];
 
 /* Moves the actor to its tile with a hop and completes the timed action. */
@@ -62,10 +62,10 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
             break;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80174ED0;
+        ((SpriteFrameState *)sprite)->frameTable = weadog_frame_set_7;
         select_sprite_entry(
             sprite,
-            D_80174ED0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            weadog_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801730E0_0 *)action)->unk_98 |= 8;
         (*(u32 *)&actor->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -77,7 +77,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
         move_ticks = ((S_801730E0_0 *)action)->unk_9E.u;
         ((S_801730E0_0 *)action)->unk_90 -= ((S_801730E0_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->tile_x;
             position_x = motion->x.w.i;
             target_x <<= 6;
             position_x -= 0x20;
@@ -86,7 +86,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
             position_y = motion->y.w.i;
             position_y -= 0x20;
             motion->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - position_y) << 16) /
+                (((((SpriteFrameState *)sprite)->tile_y << 6) - position_y) << 16) /
                 ((S_801730E0_0 *)action)->unk_9E.u;
             ((S_801730E0_0 *)action)->unk_A0 =
                 (-rsin(((S_801730E0_0 *)action)->unk_9E.u * 0x199)) << 10;
@@ -108,7 +108,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
 
             ((SpriteFrameState *)sprite)->frameTable = D_80174ED8;
             select_sprite_entry(
@@ -142,7 +142,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -158,7 +158,7 @@ void advance_weadog_hop(void *action, ObjectPosition *motion, void *sprite, Enti
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
         }
     }

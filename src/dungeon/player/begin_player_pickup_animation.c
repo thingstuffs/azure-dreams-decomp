@@ -13,7 +13,7 @@ extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32
 extern void play_sound_if_enabled(s32 a0);
 
 extern u8 player_carry_frames[8];
-extern s32 D_8008D470;
+extern s32 player_item_render_update_address;
 
 /* Create an effect at the target and initialize its state and sound. */
 void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
@@ -39,7 +39,7 @@ void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *so
     effect = create_item_render_object(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);
     *(void **)(actor + 0x124) = effect;
     if (effect != NULL) {
-        effect->unk_10 = &D_8008D470;
+        effect->update_callback = &player_item_render_update_address;
         transform = *(u8 * *)&effect->position;
         transform->x.w.i = (s16)((target[0x24] << 6) + 0x20);
         transform->y.w.i = (s16)((target[0x25] << 6) + 0x20);

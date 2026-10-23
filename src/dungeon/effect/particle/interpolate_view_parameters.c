@@ -12,7 +12,7 @@
 #include "shared/dir_step.h"
 
 void (*const dungeon_18e8800_entry)(B31_818C8FD0_S_func_818C8FD0_1 *, B31_818C8FD0_S_func_818C8FD0_4 *, B31_818C8FD0_S_func_818C8FD0_5 *) = update_an_effect_through_attachment_motion_timed_cleanup;
-const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+const B31_818C8FD0_OffsetTable interpolation_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 
    /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
@@ -116,7 +116,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         particle_state = ((void *)particle) + 0x20;
         if (particle != NULL) {
             particle_state->unk_02 = 0x1A;
-            particle->unk_10 = advance_accelerating_particle;
+            particle->update_callback = advance_accelerating_particle;
             register_node(particle, project_sprite_chain);
             sprite = particle->sprite;
             sprite->unk_10 = 0x60;
@@ -181,7 +181,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 u32 particle_z;
                 u16 particle_z_base;
                 particle_state->unk_02 = 0x1A;
-                particle->unk_10 = advance_accelerating_particle;
+                particle->update_callback = advance_accelerating_particle;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
                 sprite->unk_10 = 0x60;
@@ -224,7 +224,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             if (particle != NULL) {
                 s16 particle_z;
                 particle_state->unk_02 = 0x14;
-                particle->unk_10 = interpolate_view_parameters;
+                particle->update_callback = interpolate_view_parameters;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
                 sprite->unk_10 = 0;
@@ -304,7 +304,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
     ObjectPosition *effect_pos;
     B31_818C8FD0_OffsetTable *offset_table;
     s32 one;
-    B31_818C8FD0_OffsetTable *offset_source = &D_80024004;
+    B31_818C8FD0_OffsetTable *offset_source = &interpolation_direction_offsets;
 
     object = state->unk_00;
     offsets = *offset_source;
@@ -451,7 +451,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                     state->unk_86 = effect->unk_02.s16 + 0x1E;
                 }
 
-                effect_node->unk_10 = update_a_moving_effect_spawns_particles_advances_timed_phases;
+                effect_node->update_callback = update_a_moving_effect_spawns_particles_advances_timed_phases;
                 {
                     effect_pos = effect_node->position;
 

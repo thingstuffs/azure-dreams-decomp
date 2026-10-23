@@ -8,5 +8,5 @@
 
 /* Returns whether the referenced record's unk_38 field differs from 2. */
 s32 is_player_state_not_2(void) {
-    return ((TownPositionState *)D_80016000->unk_1C)->unk_38 != 2;
+    return ((TownPositionState *)town_scene_root->position)->unk_38 != 2;
 }

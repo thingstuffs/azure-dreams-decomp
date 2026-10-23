@@ -23,7 +23,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_8014CE7C;
-extern u8 D_80150C44[];
+extern u8 griffon_frame_set_7[];
 extern u8 D_80150C74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
@@ -88,10 +88,10 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
             begin_actor_display_action(controller, motion, sprite, D_80150C74);
             return;
         }
-        sprite->frameTable = D_80150C44;
+        sprite->frameTable = griffon_frame_set_7;
         select_sprite_entry(
             sprite,
-            D_80150C44[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014F234_0 *)controller)->unk_9B++;
         return;
@@ -104,10 +104,10 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
             return;
         }
 
-        sprite->frameTable = D_80150C44;
+        sprite->frameTable = griffon_frame_set_7;
         select_sprite_entry(
             sprite,
-            D_80150C44[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014F234_0 *)controller)->unk_96.s = 8;
         ((S_8014F234_0 *)controller)->unk_9B++;
@@ -116,12 +116,12 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
         timer = ((S_8014F234_0 *)controller)->unk_96.s;
         if (timer != 0) {
             {
-                s32 tile_x = sprite->unk_24 << 6;
+                s32 tile_x = sprite->tile_x << 6;
                 s32 offset_x = motion->x.w.i - 0x20;
                 motion->velocity_x = ((tile_x - offset_x) << 15) / timer;
             }
             {
-                s32 tile_y = sprite->unk_25 << 6;
+                s32 tile_y = sprite->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((tile_y - offset_y) << 15) / ((S_8014F234_0 *)controller)->unk_96.s;
@@ -137,9 +137,9 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.v = ((sprite->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((sprite->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        motion->x.v = ((sprite->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((sprite->tile_y << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

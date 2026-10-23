@@ -121,8 +121,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         }
         part->flags = new_part_flags;
     }
-    motion->unk_00.unk_00 += motion->unk_0C;
-    motion->unk_04.unk_04 += motion->unk_10;
+    motion->x.unk_00 += motion->velocity_x;
+    motion->y.unk_04 += motion->velocity_y;
 
     if ((*(u16 *)((u8 *)actor + 0x98)) & 8) {
         (*(s8 *)((u8 *)actor + 0x9D)) = 0;
@@ -133,8 +133,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
     (*(s32 *)((u8 *)actor + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
-        ground_height = sample_terrain_surface_height(motion->unk_00.unk_02.unk_02,
-                               motion->unk_04.unk_06.unk_06,
+        ground_height = sample_terrain_surface_height(motion->x.unk_02.unk_02,
+                               motion->y.unk_06.unk_06,
                                (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
         if ((s16)ground_height < 0x200) {
             base_height = (s16)((T_80170AA4_S_80170AA4_1 *)entity)->unk_88;
@@ -157,8 +157,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
             if (entity_flags & 0x40000000) {
                 ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = sample_terrain_surface_height(
-                    (part->unk_24 << 6) | 0x20,
-                    (part->unk_25 << 6) | 0x20,
+                    (part->tile_x << 6) | 0x20,
+                    (part->tile_y << 6) | 0x20,
                     (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) +=
                     ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - ground_height;
@@ -171,7 +171,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
     }
 
-    motion->unk_0A =
+    motion->z =
         ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
     part->flags |= 0x40;
 

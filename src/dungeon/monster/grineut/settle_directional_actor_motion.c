@@ -24,7 +24,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_80158E54;
-extern u8 D_8015C150[];
+extern u8 grineut_frame_set_9[];
 extern u8 D_8015C178[];
 
 /* Updates directional movement and settles the actor at its tile center. */
@@ -87,10 +87,10 @@ void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion,
             begin_actor_display_action(motion_state, motion, map_actor, D_8015C178);
             return;
         } else {
-            map_actor->frameTable = D_8015C150;
+            map_actor->frameTable = grineut_frame_set_9;
             select_sprite_entry(
                 map_actor,
-                D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8015B238_1 *)motion_state)->unk_9B++;
             return;
@@ -103,10 +103,10 @@ void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion,
             return;
         }
 
-        map_actor->frameTable = D_8015C150;
+        map_actor->frameTable = grineut_frame_set_9;
         select_sprite_entry(
             map_actor,
-            D_8015C150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
         ((S_8015B238_1 *)motion_state)->unk_9B++;
@@ -116,12 +116,12 @@ void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion,
         timer = ((S_8015B238_1 *)motion_state)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_coord = map_actor->unk_24 << 6;
+                s32 target_coord = map_actor->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
                 motion->velocity_x = ((target_coord - current_coord) << 15) / timer;
             }
             {
-                s32 target_coord = map_actor->unk_25 << 6;
+                s32 target_coord = map_actor->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_coord - current_coord) << 15) / ((S_8015B238_1 *)motion_state)->unk_96.s;
@@ -137,9 +137,9 @@ void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.v = ((map_actor->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((map_actor->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, map_actor->unk_24, map_actor->unk_25);
+        motion->x.v = ((map_actor->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((map_actor->tile_y << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, map_actor->tile_x, map_actor->tile_y);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

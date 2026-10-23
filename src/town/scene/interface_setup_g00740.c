@@ -25,11 +25,11 @@ void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue) {
 s32 run_global_interface_setup_sequence(void) {
     D_80018FB4 = ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
-         ((S_func_80016D74_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_54(3);
+         ((S_func_80016D74_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_54(3);
     func_80018BD0(F_hos_first_cheriru);
     func_80018BD0(F_hos_first_hush);
     ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
-         ((S_func_80016D74_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
+         ((S_func_80016D74_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
     return 0;
 }

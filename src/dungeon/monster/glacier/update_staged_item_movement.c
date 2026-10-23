@@ -86,14 +86,14 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
 
             if (motion_timer != 0) {
                 {
-                    s32 target_x = target->unk_24 << 6;
+                    s32 target_x = target->tile_x << 6;
                     s32 current_x = motion->x.w.i - 0x20;
 
                     motion->velocity_x =
                         ((target_x - current_x) << 16) / motion_timer;
                 }
                 {
-                    s32 target_y = target->unk_25 << 6;
+                    s32 target_y = target->tile_y << 6;
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->velocity_y = ((target_y - current_y) << 16)
@@ -122,8 +122,8 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, target->unk_24,
-            target->unk_25);
+        set_record_integer_tile_center(motion, target->tile_x,
+            target->tile_y);
         entity_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (entity_addr == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;

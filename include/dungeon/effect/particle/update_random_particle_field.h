@@ -93,7 +93,7 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern s32 D_8002445C[];
+extern s32 random_particle_update_address[];
 extern s32 D_80024740[];
 
 /* Spawns a timed particle effect, processes its midpoint target, and marks completion. */

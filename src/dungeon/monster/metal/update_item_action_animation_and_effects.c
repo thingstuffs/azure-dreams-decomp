@@ -22,7 +22,7 @@ extern void create_parent_return_effect(void *, s32, s32, s32, s32, s32, s32);
 extern void spawn_parent_offset_random_motion_effect(void *, s32, s32, s32, s32, s32, s32);
 
 extern u8 metal_action_resume_address[];
-extern u8 D_801742C8[];
+extern u8 metal_frame_set_1[];
 
 typedef struct S_80173078_0 {
     u8 pad_00[0x8C];
@@ -124,7 +124,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                     s32 dy;
 
                     dx = (s32)scan_actor_along_heading(
-                        actor, sprite->unk_24, sprite->unk_25,
+                        actor, sprite->tile_x, sprite->tile_y,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                     (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -151,7 +151,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         movement->velocity_z = 0;
         movement->velocity_y = 0;
         movement->velocity_x = 0;
-        set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(movement, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -264,12 +264,12 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             movement->velocity_z = 0;
             movement->velocity_y = 0;
             movement->velocity_x = 0;
-            set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
-            if (*(u8 * *)&sprite->frameTable != D_801742C8) {
+            set_record_integer_tile_center(movement, sprite->tile_x, sprite->tile_y);
+            if (*(u8 * *)&sprite->frameTable != metal_frame_set_1) {
                 u8 *animation_table;
                 s32 direction;
 
-                animation_table = D_801742C8;
+                animation_table = metal_frame_set_1;
                 sprite->frameTable = animation_table;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animation_table[direction], 0);

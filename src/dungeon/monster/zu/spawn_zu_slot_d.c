@@ -70,7 +70,7 @@ void *spawn_zu_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8015EA70;
+        obj->update_callback = D_8015EA70;
         ((S_80F99000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
@@ -78,10 +78,10 @@ void *spawn_zu_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         part_a->z.w.i = held_c;
         part_b = *(void ** *)&obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = held_b;
+        part_b->tile_y = held_b;
         actor = work;
         part_b->frameTable = D_80162AD4;
-        part_b->unk_24 = held_a;
+        part_b->tile_x = held_a;
 
         if (kind == 1) {
             left = ((S_80F99000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

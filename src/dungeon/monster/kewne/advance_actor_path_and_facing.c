@@ -57,22 +57,22 @@ void advance_actor_path_and_facing(void *motion, s32 unused, SpriteFrameState *a
             0);
     }
 
-    old_x = actor->unk_24;
-    old_y = actor->unk_25;
+    old_x = actor->tile_x;
+    old_y = actor->tile_y;
     tile_mask = 0x3000;
     if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-    actor->unk_24 =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
-    actor->unk_25 =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_7C;
+    actor->tile_x =
+        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->path_x;
+    actor->tile_y =
+        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->path_y;
     ((S_8017169C_0 *)path_state)->unk_8A.u++;
 
-    new_x = actor->unk_24;
-    new_y = actor->unk_25;
+    new_x = actor->tile_x;
+    new_y = actor->tile_y;
     tile_mask = 0x3000;
     if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
@@ -80,7 +80,7 @@ void advance_actor_path_and_facing(void *motion, s32 unused, SpriteFrameState *a
     cycle_map_cell_flags(new_x, new_y, tile_mask);
 
     ((S_8017169C_0 *)path_state)->unk_2A = get_rounded_facing_and_rounding_flag(
-        old_x, old_y, actor->unk_24, actor->unk_25,
+        old_x, old_y, actor->tile_x, actor->tile_y,
         (u8 *)motion + 0x98);
     ((S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((S_8017169C_2 *)motion)->unk_9A = 0xF;

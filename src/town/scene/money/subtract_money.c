@@ -9,6 +9,6 @@
 void subtract_money(s32 amount) {
     TownStateRecord *record;
 
-    record = D_80016000->unk_38;
-    record->unk_2D5C = (s32) (((signed int)record->unk_2D5C) - amount);
+    record = town_scene_root->town_state;
+    record->money = (s32) (((signed int)record->money) - amount);
 }

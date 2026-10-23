@@ -38,7 +38,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
     }
     if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         entity->unk_110 = event;
-        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
+        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {

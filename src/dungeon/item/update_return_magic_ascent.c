@@ -153,7 +153,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                 if (obj->handle[0x13] == 0) {
                     ActorRecord *dungeon_state;
                     begin_deferred_player_item_effect(obj->handle, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
-                    dungeon_actor_ring_anchor->unk_9B = 0x11;
+                    dungeon_actor_ring_anchor->action_phase = 0x11;
                     dungeon_state = dungeon_actor_ring_anchor;
                     reference_tile_object.frame_table = (s32)return_magic_frames;
                     set_sprite_animation_frame(

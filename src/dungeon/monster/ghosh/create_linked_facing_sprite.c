@@ -36,9 +36,9 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         ((ObjectPosition *)position)->z.w.i = z_offset;
         sprite = F(object, void**, 0xC);
         ((SpriteFrameState *)sprite)->frameTable = &D_80174C5C;
-        ((SpriteFrameState *)sprite)->unk_24 = saved_x;
-        ((SpriteFrameState *)sprite)->unk_25 = saved_y;
-        ((SpriteFrameState *)sprite)->unk_06 = -4;
+        ((SpriteFrameState *)sprite)->tile_x = saved_x;
+        ((SpriteFrameState *)sprite)->tile_y = saved_y;
+        ((SpriteFrameState *)sprite)->depth_bias = -4;
         initialize_actor_sprite_and_animation(call_object, position, sprite, 0);
         F(state, s16*, 0x2A) = 0x200;
         select_sprite_entry(sprite, ((u8 *)(*(s32 * *)&((SpriteFrameState *)sprite)->frameTable))[((view_facing_angle_alias + 0x300) >> 9) & 7], 0);
@@ -46,8 +46,8 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         ((SpriteFrameState *)sprite)->scale_x = 0x1800;
         *(u16 *)&((ObjectPosition *)position)->x.w.i -= 0x10;
         *(u16 *)&((ObjectPosition *)position)->y.w.i -= 0x10;
-        tile_x = ((SpriteFrameState *)sprite)->unk_24;
-        tile_y = ((SpriteFrameState *)sprite)->unk_25;
+        tile_x = ((SpriteFrameState *)sprite)->tile_x;
+        tile_y = ((SpriteFrameState *)sprite)->tile_y;
         tile_mask = 0x3000;
         if (F(state, s32*, 0x1C) & 0x2000)
             tile_mask = 0x300;

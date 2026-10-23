@@ -133,7 +133,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
                 return;
             }
 
-            if ((actor->unk_64 != 0) &&
+            if ((actor->hp_delta != 0) &&
                 begin_ready_actor_directional_action(action, context, entity, 0)) {
                 return;
             }
@@ -189,7 +189,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *room_base = &reference_tile_object;
-                s8 room_id = *(s8 *)&entity->unk_26;
+                s8 room_id = *(s8 *)&entity->room_index;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
                     if ((generate_random_value() & 7) == 0) {

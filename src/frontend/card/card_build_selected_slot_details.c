@@ -27,7 +27,6 @@ typedef struct S_80404EA0_5 {
     s16 y; /* 0x0A */
 } S_80404EA0_5;
 
-
 typedef struct S_80404EA0_0 {
     u8 pad_00[0x7C];
     s32 slot_index; /* 0x7C */
@@ -50,12 +49,6 @@ typedef struct S_80404EA0_2 {
     void * icon_widget; /* 0xB34 */
 } S_80404EA0_2;
 
-typedef struct {
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
-} Copy4;
 void func_8003830C(s32 value, void *text);                  /* extern */
 void func_80051520(void *, void *, s32);      /* extern */
 void func_80051804(u32 value, s32 digits, void *text);         /* extern */

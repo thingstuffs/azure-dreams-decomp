@@ -13,7 +13,7 @@ void spawn_free_slot_display_effect(void *);
 void create_an_linked_parent_initialize_position_part_data(void *, void *, void *);
 void fade_the_primitive_flag_effect_countdown_expires(void *, void *, u8 *);
 void update_palette_particle_transition(struct TransitionState *, void *, void *);
-extern const RectTable D_80024004;
+extern const RectTable linked_particle_texture_rects;
 extern PackedVec3 D_8002533C;
 extern s16 parent_effect_update_flag;
 void draw_transformed_sprite_with_clip_rect(s32, void *, void *, s32, s16);

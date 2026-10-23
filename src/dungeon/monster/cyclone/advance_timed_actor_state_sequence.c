@@ -99,7 +99,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameSt
             }
         }
         spend_actor_mp(actor, 0x400);
-        set_record_integer_tile_center(context, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(context, sprite->tile_x, sprite->tile_y);
         action->field_8C = cyclone_action_resume_address;
         g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;

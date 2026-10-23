@@ -44,7 +44,7 @@ extern u8 glacier_frame_set_1[];
 extern u8 D_801760AC[];
 extern u8 D_801760DC[];
 extern u8 D_801760E4[];
-extern u8 D_801760EC[];
+extern u8 glacier_frame_set_2[];
 
 typedef struct S_801714B8_0_pre {
     void * unk_00;
@@ -116,7 +116,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
     if (((S_801714B8_1 *)stats)->unk_25 == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
-        if (sprite->frameTable != D_801760EC) {
+        if (sprite->frameTable != glacier_frame_set_2) {
             u8 *state_table = D_801760E4;
 
             (sprite->frameTable) = state_table;
@@ -129,7 +129,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
     }
 
     if (((S_801714B8_1 *)stats)->unk_1C & 0x200) {
-        if (sprite->frameTable == D_801760EC) {
+        if (sprite->frameTable == glacier_frame_set_2) {
             ((S_801714B8_0 *)actor)->unk_9A = 0xD;
             ((S_801714B8_0 *)actor)->unk_9B = 1;
             ((S_801714B8_0 *)actor)->unk_8C = 0;
@@ -180,12 +180,12 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (((S_801714B8_1 *)stats)->unk_6D > 0) {
         if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
-            if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+            if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
                 func_80171E80(actor, context, sprite, stats);
                 return;
             }
@@ -226,12 +226,12 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_801760DC, &glacier_action_resume_address);
                     return;
                 }
@@ -265,10 +265,10 @@ ordinary_cleanup:
             if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
 
                 if ((s16)test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
@@ -321,7 +321,7 @@ ordinary_cleanup:
                 } while (0);
                 if (object != 0) {
                     initialize_object_rendering_and_params(object, actor, context);
-                    object->unk_10 = D_80170A0C;
+                    object->update_callback = D_80170A0C;
                     object_data = (u8 *)object + 0x20;
                     ((S_801714B8_7 *)object_data)->unk_28 = context;
                     ((S_801714B8_7 *)object_data)->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;

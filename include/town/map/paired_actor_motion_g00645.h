@@ -168,11 +168,11 @@ extern void unlink_scene_list_node(void *);
 extern void unlink_node_if_registered(void *);
 extern s32 D_800E9E34[];
 extern s32 D_800E9E54[];
-extern u8 D_800E9E7C[];
+extern u8 paired_actor_sprite_entries[];
 extern s32 D_800E9ECC[];
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_800BCE78[];
-extern u8 D_800D20CC[];
+extern u8 town_map_motion_defaults[];
 extern s32 D_800D2130;
 extern int abs(int);
 

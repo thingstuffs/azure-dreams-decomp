@@ -24,8 +24,8 @@ typedef struct TownState {
     u16 flags;
 } TownState;
 
-extern u16 D_800135BE;
-extern u8 D_80026F80[];
+extern u16 tako_best_score;
+extern u8 tako_target_timing_table[];
 extern s16 D_800834C8[1];
 
 extern void create_tinted_animated_particle(s32, s32, s32, s32);
@@ -78,7 +78,7 @@ void update_tako_minigame(TownState *state)
             }
             scene_data->view.view_offset.parts.view_offset_x = -0x80;
             init_state->counter = 0;
-            round_delay = *(u16 *)(D_80026F80 +
+            round_delay = *(u16 *)(tako_target_timing_table +
                             init_state->table_x * 40 + init_state->table_y * 400);
             init_state->state = 2;
             init_state->timer = round_delay;
@@ -98,7 +98,7 @@ void update_tako_minigame(TownState *state)
                     state->timer = 30;
                     return;
                 }
-                state->timer = *(u16 *)(D_80026F80 +
+                state->timer = *(u16 *)(tako_target_timing_table +
                                         state->table_x * 40 + state->table_y * 400);
                 return;
             }
@@ -194,13 +194,13 @@ case 5:
 
         tw_sd_sq_ld_call(0x20, 0x200);
         initialize_player_object_data();
-        progress = D_800135BE;
-        D_800135BE = progress;
+        progress = tako_best_score;
+        tako_best_score = progress;
         threshold = state->threshold;
         if ((s16)progress < threshold) {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
-            D_800135BE = state->threshold;
+            tako_best_score = state->threshold;
             set_resident_bit(0xAE4);
         } else {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0, 0x01000290);

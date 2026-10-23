@@ -18,9 +18,9 @@ typedef struct TileEntry {
 } TileEntry;
 
 extern u8 golem_direction_frames[];
-extern u8 D_80175F20;
+extern u8 golem_frame_set_2;
 extern u8 golem_alt_direction_frames;
-extern u8 D_80175F38[];
+extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
 
@@ -75,9 +75,9 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         if (sprite->frameTable == &golem_alt_direction_frames) {
             return;
         }
-        sprite->frameTable = &D_80175F20;
+        sprite->frameTable = &golem_frame_set_2;
         select_sprite_entry(sprite,
-            (&D_80175F20)[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+            (&golem_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
         return;
     }
 
@@ -90,7 +90,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             return;
         }
         require_object_flag(actor, stats);
-        if (reset_actor_action_state(actor, context, sprite, &D_80175F20)) {
+        if (reset_actor_action_state(actor, context, sprite, &golem_frame_set_2)) {
             return;
         }
     }
@@ -105,7 +105,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         active_state = 25;
         idle_state = 14;
         if (state != active_state && F(actor, u8, 0xAE) != 0) {
-            u8 *active_table = D_80175F38;
+            u8 *active_table = golem_frame_set_3;
             if (sprite->frameTable != active_table) {
                 create_copied_render_object(actor, context, sprite);
                 sprite->frameTable = active_table;
@@ -145,11 +145,11 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         if ((s16)can_entity_gain_level(stats) != 0) {
             process_selected_actor_record(actor, context, sprite, stats);
         }
-    tile_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_index;
     } else {
-    tile_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_index;
     }
 
     if (F(stats, s8, 0x6D) > 0) {
@@ -157,7 +157,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             update_actor_status_and_mp(stats);
             return;
         }
-        if ((*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) &&
+        if ((*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) &&
             (F(actor, u8, 0xAE) == 0)) {
             require_object_flag(actor, stats);
             func_801718F8(actor, context, sprite, stats);
@@ -236,7 +236,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             void *leader;
 
             heading = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
             leader = primary_actor_record;
             F(stats, s16, 0x2A) = heading;
@@ -265,10 +265,10 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             u32 flags = F(stats, u32, 0x1C);
             if (!(flags & 0x2000)) {
                 if (!((s8)tile_index >= 0 && (dungeon_rooms[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
-                    if ((s16)test_neighbor_position_relation(sprite->unk_24, sprite->unk_25,
+                    if ((s16)test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         F(stats, s16, 0x2A) = get_rounded_facing_and_rounding_flag(
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
                     }
                 }
@@ -287,7 +287,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         return;
     }
     if (F(actor, u8, 0xAE) != 0) {
-        active_anims = D_80175F38;
+        active_anims = golem_frame_set_3;
         if (sprite->frameTable == active_anims) {
             return;
         }

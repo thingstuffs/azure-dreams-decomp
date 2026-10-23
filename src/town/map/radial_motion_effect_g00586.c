@@ -25,7 +25,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     if (effect != NULL) {
         motion = effect->position;
         sprite = effect->sprite;
-        effect->unk_10 = &D_800A86BC;
+        effect->update_callback = &D_800A86BC;
         register_node(effect, project_sprite_chain);
         direction_index = direction;
         motion->x.w.i = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));
@@ -72,17 +72,17 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
     if (count != 0) {
         angle_step = 0x1000 / count;
         angle = rand();
-        initial_y = center->unk_0A;
+        initial_y = center->z;
         record.field16 = -4;
         record.y = initial_y;
         for (spawn_index = 0; spawn_index < count; spawn_index++) {
-            record.x = (center->unk_02 +
+            record.x = (center->x +
                         scale_random_to_unsigned_halfword_limit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
-            record.z = (center->unk_06 +
+            record.z = (center->y +
                         scale_random_to_unsigned_halfword_limit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
-            y = (center->unk_0A +
+            y = (center->z +
                  scale_random_to_unsigned_halfword_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;

@@ -32,7 +32,7 @@ void decrement_object_counter(void *entry) {
         format_decimal_field_space_padded(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
             ((S_800249A0_0 *)entry)->unk_04);
         if (text_info->unk_0C & 2) {
-            entry_view[-1].unk_00 = (u16) (entry_view[-1].unk_00 | 0x8000);
+            entry_view[-1].flags = (u16) (entry_view[-1].flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }

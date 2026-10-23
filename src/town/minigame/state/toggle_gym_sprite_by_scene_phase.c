@@ -9,9 +9,9 @@ void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, s32 unused, SpriteFlagsVi
 
     value = *value_ptr;
     if (*value == 4) {
-        object->unk_14 = (u16) (object->unk_14 | 0x80);
+        object->flags = (u16) (object->flags | 0x80);
     }
     if (*value == 0xFF) {
-        object->unk_14 = (u16) (object->unk_14 & 0xFF7F);
+        object->flags = (u16) (object->flags & 0xFF7F);
     }
 }

@@ -1,0 +1,22 @@
+{
+  "module": "town_state_lookup",
+  "ledger_group": {
+    "container": "town",
+    "module": "state_lookup.c",
+    "module_index": 134232
+  },
+  "members": [
+    "town/func_8046F1C8",
+    "town/func_8046F224",
+    "town/func_8046F28C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00638 - CL:town/func_8046F1C8, CL:town/func_8046F224, CL:town/image_3ef000@3EF164. Grouping by tools/tu/infer_groups.py (group G00638); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Contiguous text and call-locality joins from the complete 403-unit scan; inferred grouping under decision 72(b). The outer file boundaries remain unknown.",
+    "Members are the contiguous registered home rows 0x3EF1C8..0x3EF3D0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

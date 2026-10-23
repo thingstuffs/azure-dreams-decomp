@@ -174,7 +174,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
-        object->unk_10 = &D_800C1718[0];
+        object->update_callback = &D_800C1718[0];
         register_node(object, &clipped_sprite_renderer_address[0]);
         position = object->position;
         position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
@@ -183,7 +183,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
         render_state = object->sprite;
         render_state->source = &D_800DF3C0[0];
         render_state->color.word = 0x808080;
-        render_state->unk_06 = 8;
+        render_state->depth_bias = 8;
         object_state = ((void *)object) + 0x20;
         object_state->unk_4C = 8;
         object_state->unk_48 = 7;

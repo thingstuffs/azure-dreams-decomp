@@ -100,10 +100,10 @@ s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32
     void **global_page = (void **)((u8 *)(&g_game_work));
 
     ((S_80024930_0 *)scratch)->unk_18.p = (u8 *)(*global_page) + 0xB0;
-    edge_z = center->unk_0A - height + 1;
+    edge_z = center->z - height + 1;
     ((S_80024930_0 *)scratch)->unk_70 = edge_z;
     ((S_80024930_0 *)scratch)->unk_68 = edge_z;
-    edge_z = center->unk_0A;
+    edge_z = center->z;
     ((S_80024930_0 *)scratch)->unk_78 = edge_z;
     ((S_80024930_0 *)scratch)->unk_80 = edge_z;
 
@@ -164,19 +164,19 @@ s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32
         angle_offset = (biased_angle >> 12) << 12;
         angle = raw_angle - angle_offset;
 
-        ((S_80024930_0 *)scratch)->unk_74 = center->unk_02 +
+        ((S_80024930_0 *)scratch)->unk_74 = center->x +
             ((rsin(angle) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_64 = ((S_80024930_0 *)scratch)->unk_74;
 
-        ((S_80024930_0 *)scratch)->unk_7C = center->unk_02 +
+        ((S_80024930_0 *)scratch)->unk_7C = center->x +
             ((rsin((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6C = ((S_80024930_0 *)scratch)->unk_7C;
 
-        ((S_80024930_0 *)scratch)->unk_76 = center->unk_06 +
+        ((S_80024930_0 *)scratch)->unk_76 = center->y +
             ((rcos(angle) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_66 = ((S_80024930_0 *)scratch)->unk_76;
 
-        ((S_80024930_0 *)scratch)->unk_7E = center->unk_06 +
+        ((S_80024930_0 *)scratch)->unk_7E = center->y +
             ((rcos((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6E = ((S_80024930_0 *)scratch)->unk_7E;
 

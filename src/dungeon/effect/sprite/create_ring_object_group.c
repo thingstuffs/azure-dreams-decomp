@@ -7,7 +7,7 @@ void register_node(void *, void *); /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 extern u8 D_800250B4[];
-extern u8 D_80028220[];
+extern u8 ring_effect_work[];
 extern u8 clipped_sprite_renderer_address[];
 
 typedef struct S_81959B44_2 {
@@ -58,7 +58,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
         }
         object = allocate_flagged_object_node(object_flags);
         if (object != 0) {
-            object->unk_10 = &D_800250B4;
+            object->update_callback = &D_800250B4;
             register_node(object, &clipped_sprite_renderer_address);
             angle = ring_index << 8;
             position = object->position;
@@ -76,7 +76,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             position->z.w.i = center_z;
             state->unk_20 = center_z;
             transform = object->sprite;
-            transform->source = &D_80028220;
+            transform->source = &ring_effect_work;
             transform->scale_x = 0x1000;
             transform->angle_z = (u16) (angle + 0x400);
             neg_y_fixed = 0 - (rsin(angle) << 0xC);

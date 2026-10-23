@@ -7,7 +7,7 @@ void initialize_four_slot_object(Obj *obj) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {
-        obj->unk5c[slot_index]->unk00 = D_80078CDC;
+        obj->unk5c[slot_index]->unk00 = item_menu_slot_handler_address;
         obj->unk5c[slot_index]->unk04->unk08 = slot_index << 7;
     }
 

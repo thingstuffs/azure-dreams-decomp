@@ -84,7 +84,7 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8014CA58;
+        obj->update_callback = D_8014CA58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);
 
@@ -92,10 +92,10 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
         part_a->unk_0A = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = work;
         part_b->frameTable = D_80150820;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

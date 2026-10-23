@@ -52,7 +52,7 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
-extern s32 D_800C6AEC;
+extern s32 actor_fade_draw_address;
 extern u8 manoeva_action_resume_address[];
 extern u8 D_80176640[];
 
@@ -74,7 +74,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
     case 0:
         actor_base = (u8 *)actor_state - 0x20;
         ((S_8017427C_0 *)actor_state)->unk_96.s = 0x10;
-        register_node(actor_base, &D_800C6AEC);
+        register_node(actor_base, &actor_fade_draw_address);
         sprite->unk_0C.at00.v = 0x08000000;
         sprite->unk_10 = 0x20;
         sprite->unk_12 -= 0x80;

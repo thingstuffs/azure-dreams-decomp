@@ -191,7 +191,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
 
     if (actor_flags & 0x40000000) {
         *((u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height(((sprite->unk_24) << 6) | 0x20, ((sprite->unk_25) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
+        ground_height = sample_terrain_surface_height(((sprite->tile_x) << 6) | 0x20, ((sprite->tile_y) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
         if (((s16) ground_height) < 0x200) {
             height_adjust = (*((u16 *) (((u8 *) actor_base) + 0x88))) - ground_height;
             *((u16 *) (((u8 *) actor) + 0x92)) += height_adjust;

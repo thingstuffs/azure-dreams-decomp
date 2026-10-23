@@ -46,7 +46,7 @@ void create_linked_child_object(void *parent_state) {
 
     child = allocate_list_node(514, (u8 *)parent_state - 0x20);
     if (child != 0) {
-        child->unk_10 = D_80175B1C;
+        child->update_callback = D_80175B1C;
         register_node(child, project_sprite_chain);
         pair_first = 0x01000340;
         pair_second = 0x200020;

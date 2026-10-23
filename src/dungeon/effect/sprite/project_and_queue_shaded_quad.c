@@ -201,7 +201,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_04 = state->unk_14;
         state->unk_08 = state->unk_18.at00.v;
         state->unk_0C = state->unk_1C;
-        effect->unk_10 = D_800246C4;
+        effect->update_callback = D_800246C4;
         register_node(effect, D_80024670);
 
         sprite = effect->sprite;
@@ -294,7 +294,7 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
         effect_state->unk_5A = 0x3C;
         effect_state->unk_5C = 0x3C;
         effect_state->unk_88 = (s32) source->unk_88;
-        effect->unk_10 = &D_800249FC;
+        effect->update_callback = &D_800249FC;
         register_node(effect, project_sprite_chain);
         render_state = effect->sprite;
         render_state->unk_10 = 0x40;
@@ -374,7 +374,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         effect_data = (u8 *)effect + 0x20;
         effect_data->unk_5A = 0xE;
         effect_data->unk_5C = 0xE;
-        effect->unk_10 = D_80024C0C;
+        effect->update_callback = D_80024C0C;
         register_node(effect, project_sprite_chain);
 
         render_control = effect->sprite;
@@ -472,8 +472,8 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
         start_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = (u16) (start_frame + 1);
         if ((s16) start_frame >= 6) {
-            effect_id = D_80025B38[0];
-            sprite->frameTable = D_80025B38;
+            effect_id = shaded_quad_frame_set[0];
+            sprite->frameTable = shaded_quad_frame_set;
             select_sprite_entry(sprite, effect_id, 0);
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u + 1);
@@ -486,7 +486,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
                 target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
-                sprite->unk_06 = 8;
+                sprite->depth_bias = 8;
                 if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s == 0) {
                     delta_x = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_00.at02.v;
                     delta_x -= ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02u.v;

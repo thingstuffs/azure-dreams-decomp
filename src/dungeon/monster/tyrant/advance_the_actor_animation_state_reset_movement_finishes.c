@@ -126,7 +126,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
                 actor->target_tile_y = ((S_801729D4_3 *)target_source)->unk_25;
             } else {
                 new_target = scan_actor_along_heading(
-                    actor, sprite->unk_24, sprite->unk_25,
+                    actor, sprite->tile_x, sprite->tile_y,
                     actor->facing, 0x10);
                 actor->target = new_target;
                 abs_x = abs(actor->target_tile_x);
@@ -149,7 +149,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + (0xA6)))--;
         advance_status_timers(actor);
@@ -186,7 +186,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             if (sprite->frameTable != tyrant_direction_frames) {
                 (sprite->frameTable) = tyrant_direction_frames;
                 select_sprite_entry(

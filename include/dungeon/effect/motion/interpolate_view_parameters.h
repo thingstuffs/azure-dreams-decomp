@@ -356,7 +356,7 @@ typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
 /* Advance the seven-stage action and its attached movement/effects.
  * Every finished stage clears the tick counter and steps to the next phase in place
  * (the compiler merges the identical stage tails into one copy). */
-void D_80024024(void);
+void view_interpolation_update_address(void);
 void advance_sprite_animation_and_textures();
 s32 rsin();
 s32 rcos();
@@ -384,7 +384,7 @@ extern Row_81916AEC_unk32 shared_sprite_entries;
 extern M2C_UNK D_8002441C;
 extern M2C_UNK D_8002457C;
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_800DEC50[];
+extern SpriteSourceEntry rotating_particle_sprite_entries[];
 extern s32 D_80024710;
 extern s32 D_80025B10;
 extern s32 rising_sprite_entries[3];

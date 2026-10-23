@@ -16,7 +16,7 @@ typedef struct State8081A3D8 {
     u16 flags;
 } State8081A3D8;
 
-extern u16 D_800135BC[];
+extern u16 high_display_best_score[];
 extern u8 D_800200B4[];
 extern u8 D_800200C0[];
 extern u8 D_80024AC0[];
@@ -115,7 +115,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 u8 *object_tail = ((u8 *)object) + 0x20;
-                object->unk_10 = D_80024B48;
+                object->update_callback = D_80024B48;
                 register_node(object, project_sprite_chain);
                 inner_data = *(u8 * *)&object->sprite;
                 ((IntVector3 *)(*(u8 * *)&object->position))->x = 0x03200000;
@@ -128,7 +128,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 }
                 inner_data->scale_y = 0x1000;
                 inner_data->scale_x = 0x1000;
-                inner_data->unk_06 = -0x100;
+                inner_data->depth_bias = -0x100;
                 select_record_entry_and_value(inner_data, D_800F7DFC, 0);
                 inner_data->color.word = 0x00808080;
             }
@@ -150,7 +150,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
-            object->unk_10 = D_80024AC0;
+            object->update_callback = D_80024AC0;
             register_node(object, text_sprite_builder_address);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x7C;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
@@ -163,7 +163,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
-            object->unk_10 = D_80024B04;
+            object->update_callback = D_80024B04;
             register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
@@ -181,7 +181,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
-            object->unk_10 = D_80024AC0;
+            object->update_callback = D_80024AC0;
             register_node(object, text_sprite_builder_address);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x80;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
@@ -194,7 +194,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
-            object->unk_10 = D_80024B04;
+            object->update_callback = D_80024B04;
             register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x78;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
@@ -228,8 +228,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         tw_sd_sq_ld_call(0x20, 0x200);
         clear_resident_bit(0xA4);
-        best_score = D_800135BC[0];
-        D_800135BC[0] = best_score;
+        best_score = high_display_best_score[0];
+        high_display_best_score[0] = best_score;
         score_threshold = controller->threshold;
         dialog_zero = 0;
         if ((s16)best_score < score_threshold) {
@@ -237,7 +237,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             dialog_id = 0x2C3D;
             sound_set_cd_cue_parameters(dialog_zero, dialog_id, 0x01000001, 0x01000271);
             SD_Call(0x300);
-            D_800135BC[0] = controller->threshold;
+            high_display_best_score[0] = controller->threshold;
             set_resident_bit(0x553);
         } else {
             s32 dialog_id;

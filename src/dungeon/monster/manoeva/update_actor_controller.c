@@ -146,16 +146,16 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
         }
     }
 
-    tile_index = find_active_rect_containing_point(map_object->unk_24,
-        map_object->unk_25);
-    map_object->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(map_object->tile_x,
+        map_object->tile_y);
+    map_object->room_index = tile_index;
 
     if (((S_80170EE4_1 *)actor_data)->unk_6D > 0) {
         if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor_data);
             return;
         }
-        if (*(u16 *)&map_object->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&map_object->tile_x == reference_tile_object.tile_position.word) {
             advance_actor_turn_path(actor_state_in, update_context_in, map_object, actor_data);
             return;
         }
@@ -198,11 +198,11 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
         case 6:
         case 7:
             facing_angle = get_rounded_facing_and_rounding_flag(
-                map_object->unk_24, map_object->unk_25,
+                map_object->tile_x, map_object->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             target_actor = primary_actor_record;
             ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
-            if (target_actor->unk_9A == 0x11) {
+            if (target_actor->action_id == 0x11) {
                 begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
                 return;
             }
@@ -230,10 +230,10 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
             !(dungeon_rooms[tile_index].flags & 2)) {
             if (!(status_flags & 0x430)) {
                 if ((s16)test_neighbor_position_relation(
-                        map_object->unk_24, map_object->unk_25,
+                        map_object->tile_x, map_object->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80170EE4_1 *)actor_data)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        map_object->unk_24, map_object->unk_25,
+                        map_object->tile_x, map_object->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 }
             }

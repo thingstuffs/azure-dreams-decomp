@@ -131,7 +131,7 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
 
     effect = allocate_list_node(0x12, parent);
     if (effect != 0) {
-        effect->unk_10 = update_actor_render_effect_and_position;
+        effect->update_callback = update_actor_render_effect_and_position;
         position = effect->position;
 
         coordinate = ((ovl_9c32d4_809A35A0_S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_02;
@@ -151,7 +151,7 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
         display->scale_y = 0x1000;
         display->scale_x = 0x1000;
         display->color.word = 0;
-        display->unk_06 = 8;
+        display->depth_bias = 8;
 
         parent_position = (*(void * *)&parent->z);
         state = (u8 *)effect + 0x20;
@@ -200,7 +200,7 @@ void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject
         draw->source = D_80175F9C;
         draw->scale_x = draw->scale_y = 0x1000;
         draw->color.word = value;
-        draw->unk_06 = 8;
+        draw->depth_bias = 8;
         state->direction = direction;
         state->speed = (rand() & 0xFF) | 0x80;
     }

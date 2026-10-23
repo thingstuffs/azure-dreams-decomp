@@ -54,10 +54,10 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
-extern u8 D_80170E7C;
+extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D4C[];
 extern u8 D_80174D94[];
-extern u8 D_80174D9C[];
+extern u8 unicorn_frame_set_1[];
 extern u8 D_80174DA4[];
 
 /* Updates the actor's move, animation, and recovery state. */
@@ -135,8 +135,8 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
             } else {
                 ((S_80172AB4_1 *)actor)->unk_60 =
                     scan_actor_along_heading(actor,
-                                  sprite->unk_24,
-                                  sprite->unk_25,
+                                  sprite->tile_x,
+                                  sprite->tile_y,
                                   ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
                 ((S_80172AB4_1 *)actor)->unk_72.s = abs(((S_80172AB4_1 *)actor)->unk_72.u);
                 ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
@@ -159,12 +159,12 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         ((S_80172AB4_1 *)actor)->unk_6D.s--;
-        ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
+        ((S_80172AB4_0 *)action)->unk_8C = &unicorn_action_continuation_address;
         ((S_80172AB4_1 *)actor)->unk_73.s = 0;
         ((S_80172AB4_1 *)actor)->unk_72.s = 0;
         ((S_80172AB4_1 *)actor)->unk_46 &= 0x7FFF;
@@ -178,10 +178,10 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         if (!(sprite->flags & 0x6000)) {
             return;
         }
-        (sprite->frameTable) = D_80174D9C;
+        (sprite->frameTable) = unicorn_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80174D9C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            unicorn_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 |= 8;
         ((S_80172AB4_1 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -225,10 +225,10 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        (sprite->frameTable) = D_80174D9C;
+        (sprite->frameTable) = unicorn_frame_set_1;
         select_sprite_entry(
             sprite,
-            D_80174D9C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            unicorn_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 &= 0xFFF7;
         ((S_80172AB4_1 *)actor)->unk_1C |= ACTOR_GROUNDED;
@@ -255,7 +255,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (*(unsigned char **)&sprite->frameTable != D_80174D4C) {
             (sprite->frameTable) = D_80174D4C;
             select_sprite_entry(
@@ -271,7 +271,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
+        ((S_80172AB4_0 *)action)->unk_8C = &unicorn_action_continuation_address;
         advance_status_timers(actor);
         if (((S_80172AB4_1 *)actor)->unk_6D.u > 0) {
             ((S_80172AB4_1 *)actor)->unk_6D.s--;

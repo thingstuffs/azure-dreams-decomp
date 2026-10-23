@@ -519,9 +519,9 @@ typedef struct S_func_81905FD0_13 {
     u16 unk_04;
 } S_func_81905FD0_13;
 
-extern const u16 D_80024004[4];
-extern const u16 D_8002400C[4];
-extern const s16 D_80024014[8][2];
+extern const u16 strip_texture_rect[4];
+extern const u16 strip_small_texture_rect[4];
+extern const s16 strip_direction_steps[8][2];
 extern s32 get_unused_text_buffer(s32, s32);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);

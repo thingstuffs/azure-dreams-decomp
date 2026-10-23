@@ -51,11 +51,11 @@ void create_offset_animation_sprite(void *unused, ObjectPosition *origin) {
 
     node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->unk_10 = &func_80170D60;
+        node->update_callback = &func_80170D60;
         register_node(node, project_sprite_chain);
         node_sub = *(Sub * *)&node->sprite;
         node_sub->tpage_abr = 0x20;
-        node_sub->unk_06 = 6;
+        node_sub->depth_bias = 6;
         node_sub->flags |= 0xC;
         position = *(Vec3 * *)&node->position;
         position->x.v = origin->x.v + 0x180000;

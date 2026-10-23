@@ -116,7 +116,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
                     }
                 } else {
                     actor->target =
-                        scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
+                        scan_actor_along_heading(actor, sprite->tile_x, sprite->tile_y,
                                       actor->facing, 0x10);
                     abs_x = abs(actor->target_tile_x);
                     abs_y = abs(actor->target_tile_y);
@@ -140,7 +140,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
@@ -179,7 +179,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         {
             u8 *direction_table = mandara_direction_frames;
 

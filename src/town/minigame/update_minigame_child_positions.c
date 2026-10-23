@@ -58,7 +58,7 @@ void update_minigame_child_positions(PairedIndicators *state)
             child_obj = allocate_flagged_object_node(0x136);
             if (child_obj != 0) {
                 child_state = &child_obj->work;
-                child_obj->header.unk_10 = D_80024334;
+                child_obj->header.update_callback = D_80024334;
                 register_node(child_obj, project_sprite_chain);
                 kind = (s32)child_obj->header.sprite;
                 ((SpriteFrameState *)kind)->flags = 0xC;
@@ -67,7 +67,7 @@ void update_minigame_child_positions(PairedIndicators *state)
                 ((SpriteFrameState *)kind)->scale_x = 0x800;
                 ((SpriteFrameState *)kind)->source = D_800F8E9C;
                 ((SpriteFrameState *)kind)->unk_04 = 0;
-                ((SpriteFrameState *)kind)->unk_05 = 0;
+                ((SpriteFrameState *)kind)->frame_ticks = 0;
                 ((SpriteFrameState *)kind)->color.word = color;
                 child_obj->work.source = state;
                 child_state->use_first = child_index;

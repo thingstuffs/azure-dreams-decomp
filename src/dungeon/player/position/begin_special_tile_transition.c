@@ -30,7 +30,7 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
         entity->frameTable = player_wait_frames;
         set_sprite_animation_frame(entity, player_wait_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
-    tile_type = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
+    tile_type = lookup_definition_pair_value(entity->tile_x, entity->tile_y);
     if (tile_type == 3) {
         slot_index = reserve_runtime_slot(6, 0x20);
         transition_runtime_slot_index = slot_index;

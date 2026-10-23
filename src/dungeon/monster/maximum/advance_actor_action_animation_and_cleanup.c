@@ -24,7 +24,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern s32 D_80170E54;
+extern s32 maximum_action_continuation_address;
 extern u8 D_80173C84[];
 
 /* Advances the actor action through animation setup, completion, and cleanup. */
@@ -60,9 +60,9 @@ void advance_actor_action_animation_and_cleanup(void *action, s32 actor_id, Spri
 
     case 0xFF:
         if (animation->flags & 0xE000) {
-            set_record_integer_tile_center(actor_id, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x200);
-            ((S_801726C4_0 *)action)->unk_8C = &D_80170E54;
+            ((S_801726C4_0 *)action)->unk_8C = &maximum_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

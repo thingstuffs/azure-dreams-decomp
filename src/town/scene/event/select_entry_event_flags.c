@@ -6,7 +6,7 @@ typedef struct Func806D835CRoot {
     u8 *entries;
 } Func806D835CRoot;
 
-extern Func806D835CRoot *D_80016000;
+extern Func806D835CRoot *town_scene_root;
 extern void func_800185C0(s32);
 extern void func_80018548(s32);
 
@@ -30,7 +30,7 @@ s32 select_entry_event_flags(void)
 
     entry_index = 1;
     do {
-        entry_data = D_80016000->entries;
+        entry_data = town_scene_root->entries;
         entry_data += entry_index;
         entry_code = entry_data[0x3608];
         switch (entry_code) {

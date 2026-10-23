@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -23,12 +24,6 @@ typedef struct {
 } FuncArg1;
 
 typedef struct {
-    u8 pad0[0x24];
-    u8 field24;
-    u8 field25;
-} FuncArg2;
-
-typedef struct {
     u8 pad0[0x1C];
     s32 field1C;
     u8 pad20[0xA];
@@ -47,7 +42,7 @@ extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void restore_player_control_callback(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */
-void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
+void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, SpriteFrameState *tile, FuncArg3 *actor_arg) {
     FuncArg3 *actor;
     register s32 flags_mask;
     s32 state;
@@ -71,7 +66,7 @@ void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *t
             return;
         }
         position->field14 = 0;
-        set_record_integer_tile_center(position, tile->field24, tile->field25);
+        set_record_integer_tile_center(position, tile->tile_x, tile->tile_y);
         height_offset = -0x400;
         actor->field88 = sample_terrain_surface_height(position->field2, position->field6,
                                        (D_800DCF58[0] = 1, height_offset));
@@ -92,7 +87,7 @@ void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *t
         if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
             return;
         }
-        cycle_map_cell_flags(tile->field24, tile->field25,
+        cycle_map_cell_flags(tile->tile_x, tile->tile_y,
                       (actor->field1C & 0x2000) ? 0x300 : 0x3000);
         flags_mask = 0xFFFEFFFF;
         g_dungeon_status.activity_counts.parts.pending_action_count--;

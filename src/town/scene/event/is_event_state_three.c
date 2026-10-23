@@ -6,5 +6,5 @@
 
 /* Returns whether D_8001E950->unk_04 equals 3. */
 s32 is_event_state_three(void) {
-    return town_event_state->unk_04 == 3;
+    return town_event_state->selected_entry == 3;
 }

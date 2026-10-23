@@ -66,7 +66,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8015EA50;
+        obj->update_callback = D_8015EA50;
         work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
@@ -74,10 +74,10 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
         part_a->unk_0A = saved_arg3;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_arg2;
+        part_b->tile_y = saved_arg2;
         actor = work;
         part_b->frameTable = D_80162C3C;
-        part_b->unk_24 = saved_arg1;
+        part_b->tile_x = saved_arg1;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

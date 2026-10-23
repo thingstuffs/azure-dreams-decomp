@@ -3,6 +3,6 @@
 
 typedef struct { u8 pad[0x2D5C]; u32 counter; } Counter;
 typedef struct { u8 pad[0x38]; Counter *work; } State;
-extern State *D_80016000;
+extern State *town_scene_root;
 extern u32 D_80019438;
-void add_global_step_to_state_counter(void) { D_80016000->work->counter += D_80019438; }
+void add_global_step_to_state_counter(void) { town_scene_root->work->counter += D_80019438; }

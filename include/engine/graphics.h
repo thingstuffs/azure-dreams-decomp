@@ -14,11 +14,9 @@ struct Geometry_80046884;
 struct Prim12;
 struct RectU16_80046884;
 struct S_8003DF0C;
-struct S_8003DF74_Ent;
 struct S_8003DF74_Vec;
 struct S_8003F9E0;
 struct S_80045340_Entry;
-struct S_80045C34;
 struct S_800475A4_Entry;
 struct S_8004761C_Entry;
 struct S_80047694;
@@ -95,8 +93,8 @@ void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
 s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords, struct SpriteFrameState *first_record);
 
 /* draw_linked_sprites_clipped.c */
-s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, struct S_80045C34 *value_record);
-s32 func_80045C34(u8 *first_data, s32 link_value, struct S_80045C34 *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
+s32 func_80045C34(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
 
 /* draw_shaded_horizontal_line.c */
 void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step);
@@ -132,8 +130,8 @@ struct S_8004CAE8 *find_flagged_record_by_id(struct S_8004CAE8 *entry, u32 targe
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y);
 
 /* get_sprite_attachment_vector.c */
-struct S_8003DF0C *func_8003DF74(struct S_8003DF0C *table, struct S_8003DF74_Ent *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
-struct S_8003DF0C *get_sprite_attachment_vector(struct S_8003DF0C *table, struct S_8003DF74_Ent *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
+struct S_8003DF0C *func_8003DF74(struct S_8003DF0C *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
+struct S_8003DF0C *get_sprite_attachment_vector(struct S_8003DF0C *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
 
 /* init_frame_buffers.c */
 void init_frame_buffers(void);

@@ -10,13 +10,13 @@ extern void configure_the_set_mode_n_3(void *, void *, void *);
 
 extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
-extern u8 D_800B9CB8[];
+extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];
 extern u8 town_initialize_effect_with_child_sprites_address[];
-extern u8 D_800B9F74[];
-extern void *D_800D1BCC[];
-extern u8 D_800F8A1C[];
-extern u8 D_800F8A28[];
+extern u8 map_particle_child_update_address[];
+extern void *map_particle_part_parameters[];
+extern u8 map_particle_first_sprite_entries[];
+extern u8 map_particle_second_sprite_entries[];
 
 typedef struct S_800BA00C_0_pre {
     void * unk_00;
@@ -82,7 +82,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     SpriteFrameState *sprite;
     void *parent_obj;
 
-    ((S_800BA00C_0_pre *)parent)[-1].unk_00 = D_800B9CB8;
+    ((S_800BA00C_0_pre *)parent)[-1].unk_00 = map_particle_owner_update_address;
     angle_random = rand();
     ((S_800BA00C_0 *)parent)->unk_66.s = angle_random % 0x1000;
     variation_random = rand();
@@ -100,7 +100,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
     part_index = 0;
     part_callback = D_800B9D64;
     work = &g_game_work;
-    part_params = D_800D1BCC;
+    part_params = map_particle_part_parameters;
     do {
         obj = allocate_list_node(0x136, (u8 *)parent - 0x20);
         if (obj != 0) {
@@ -115,7 +115,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             sprite = ((S_800BA00C_1 *)obj)->unk_0C;
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
-            sprite->unk_20 = 0xAAA;
+            sprite->offset_x = 0xAAA;
             sprite->color.c.r = work->view.tint.parts.tint_r;
             sprite->color.c.g = work->view.tint.parts.tint_g;
             blue = work->view.tint.parts.tint_b;
@@ -140,7 +140,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
 
     part_index = 0;
     sprite_callback = town_initialize_effect_with_child_sprites_address;
-    sprite_texture = D_800F8A1C;
+    sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
         obj = allocate_list_node(0x36, (u8 *)parent - 0x20);
@@ -189,7 +189,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-        sprite->source = D_800F8A28;
+        sprite->source = map_particle_second_sprite_entries;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -213,7 +213,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
 
     obj = allocate_list_node(0x136, parent_obj);
     if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = D_800B9F74;
+        ((S_800BA00C_1 *)obj)->unk_10 = map_particle_child_update_address;
         register_node(obj, lit_mesh_renderer_address);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
@@ -222,7 +222,7 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;
-        sprite->unk_20 = 0x1000;
+        sprite->offset_x = 0x1000;
         sprite->angle_z = ((S_800BA00C_0 *)parent)->unk_66.u;
         palette_red = g_game_work.view.tint.parts.tint_r;
         sprite->color.c.r = palette_red;

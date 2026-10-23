@@ -6,7 +6,7 @@ extern s32 check_event_value_in_list(u8);
 extern u8 find_first_enabled_entry_id(void);
 extern u8 *resolve_event_response_key(s32, s32, s32);
 
-extern u8 D_8001786E[];
+extern u8 scene_mode_response_data[];
 extern u8 D_8001914C[];
 extern s32 D_8001E958;
 extern u8 D_8001EEA7[];
@@ -35,7 +35,7 @@ u8 *select_response_buffer(s32 context, s32 data, s32 request) {
         return D_8001EEA7;
     }
     if (request == 5) {
-        return D_8001786E;
+        return scene_mode_response_data;
     }
     if (request != 1) {
         response = resolve_event_response_key(context, data, request);

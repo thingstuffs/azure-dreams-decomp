@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 #include "engine/audio/slots.h"
 
 /* D_80086A40[16]: slot table, 0x1C-byte stride (see sibling funcs
@@ -30,17 +31,11 @@ typedef struct {
  * This init function walks 16 entries (0x80086A40 + 16*0x1C == 0x80086C00,
  * and 0x80086C00 + 16*0xC == 0x80086CC0), touching field_0/field_2/field_8/
  * field_A but not field_4. */
-typedef struct {
-    /* 0x00 */ s16 field_0;
-    /* 0x02 */ s16 field_2;
-    /* 0x04 */ s32 field_4;
-    /* 0x08 */ u16 field_8;
-    /* 0x0A */ u16 field_A;
-} S_80086C00; /* size 0xC (12) */
+ /* size 0xC (12) */
 
 extern S_80086A40 audio_bank_slots[16];
 extern S_800869C0 audio_ram_blocks[16];
-extern S_80086C00 audio_sequence_slots[16];
+extern SoundSequenceSlot audio_sequence_slots[16];
 extern s32 audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
 
 /* Resets the sound slot tables to their free defaults and restores the global counter. */
@@ -56,10 +51,10 @@ void reset_sound_slots(void)
     }
 
     for (i = 0; i < 16; i++) {
-        audio_sequence_slots[i].field_0 = -1;
-        audio_sequence_slots[i].field_2 = 0;
-        audio_sequence_slots[i].field_A = 0x7F;
-        audio_sequence_slots[i].field_8 = 0x7F;
+        audio_sequence_slots[i].sequence_id = -1;
+        audio_sequence_slots[i].state = 0;
+        audio_sequence_slots[i].right_gain = 0x7F;
+        audio_sequence_slots[i].left_gain = 0x7F;
         audio_ram_blocks[i].unk04 = 0;
         audio_ram_blocks[i].unk00 = 0;
     }

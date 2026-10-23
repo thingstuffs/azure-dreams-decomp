@@ -51,8 +51,8 @@ void begin_actor_directional_target_action(void *action_state, s32 action_contex
             direction = ((u16)actor->facing >> 9) & 7;
             actor->target =
                 find_eligible_actor_at_tile_and_height(actor,
-                              (sprite->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
-                              (sprite->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
+                              (sprite->tile_x + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
+                              (sprite->tile_y + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
                               actor->ground_height);
         }
     }

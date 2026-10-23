@@ -34,7 +34,7 @@ void blit_nonzero_u16_rectangle(u16 *source, S_8001A51C_1 *rect) {
     u16 *src_cursor;
 
     src_cursor = source;
-    buffer_state = ((TownResourceLinks *)D_80016000->unk_24)->unk_70;
+    buffer_state = ((TownResourceLinks *)town_scene_root->unk_24)->unk_70;
     grid_info = (s8 *)buffer_state + 0x1DC;
     dst_base = ((S_8001A51C_0 *)buffer_state)->unk_1DC;
     for (row = 0; row < rect->unk_06; row++) {

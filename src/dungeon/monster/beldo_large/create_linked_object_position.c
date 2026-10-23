@@ -51,7 +51,7 @@ void create_linked_object_position(void)
     source_data = beldo_actor_nodes + 0x20;
     object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
-        object->unk_10 = &D_8017085C;
+        object->update_callback = &D_8017085C;
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
@@ -72,7 +72,7 @@ void create_linked_object_position(void)
         render_state = object->sprite;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
-        render_state->unk_06 = 6;
+        render_state->depth_bias = 6;
         object_data->unk_58 =
             (source_pos->unk_02.s - 0x20) / 0x40;
         object_data->unk_59 =

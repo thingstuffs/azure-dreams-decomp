@@ -78,18 +78,18 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
         target_part->flags &= 0xFF7F;
     }
 
-    ((MovingPosition *)output_pos)->unk_02 = pos_data->unk_02;
-    ((MovingPosition *)output_pos)->unk_06 = pos_data->unk_06;
-    ((MovingPosition *)output_pos)->unk_0A = pos_data->unk_0A;
+    ((MovingPosition *)output_pos)->x = pos_data->unk_02;
+    ((MovingPosition *)output_pos)->y = pos_data->unk_06;
+    ((MovingPosition *)output_pos)->z = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81263000_0 *)root)->unk_B6) != 0) {
-        ((MovingPosition *)output_pos)->unk_02 +=
+        ((MovingPosition *)output_pos)->x +=
             (offset[0] + ((S_81263000_0 *)root)->unk_B0) / 2;
-        ((MovingPosition *)output_pos)->unk_06 +=
+        ((MovingPosition *)output_pos)->y +=
             (offset[1] + ((S_81263000_0 *)root)->unk_B2) / 2;
-        ((MovingPosition *)output_pos)->unk_0A +=
+        ((MovingPosition *)output_pos)->z +=
             (offset[2] + ((S_81263000_0 *)root)->unk_B4) / 2;
         ((S_81263000_0 *)root)->unk_B0 = offset[0];
         ((S_81263000_0 *)root)->unk_B2 = offset[1];

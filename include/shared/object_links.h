@@ -7,7 +7,7 @@
 /* Interior header slice beginning 0x14 bytes before actor work; allocate_list_node writes the sprite pointer.
  * The 0x14-byte stride makes [-1] reach node +0x0C from work at node +0x20. */
 typedef struct SpriteLinkPrefixView {
-    void *unk_00; /* owning node sprite/frame part pointer, used to read the actor tile */
+    void *sprite; /* owning node sprite/frame part pointer, used to read the actor tile */
     unsigned char pad_04[0x10];
 } SpriteLinkPrefixView;
 
@@ -23,7 +23,7 @@ typedef struct ListBacklinkView {
 /* Two-byte view of the flags before an object payload, initialized by allocate_list_node.
  * Effect completion callbacks set bit 0x8000; [-1] addresses these preceding bytes. */
 typedef struct ObjectRetirementFlags {
-    unsigned short unk_00; /* object flags immediately before the payload; 0x8000 marks retirement */
+    unsigned short flags; /* object flags immediately before the payload; 0x8000 marks retirement */
 } ObjectRetirementFlags;
 
 /* Two-byte object completion flags immediately before an effect payload.
@@ -31,14 +31,14 @@ typedef struct ObjectRetirementFlags {
 /* Two-byte view of the flags before an object payload, initialized by allocate_list_node.
  * Effect completion callbacks set bit 0x8000; [-1] addresses these preceding bytes. */
 typedef struct ObjectStatusPrefix16 {
-    unsigned short unk_00; /* object completion flags immediately before the payload; 0x8000 marks completion */
+    unsigned short flags; /* object completion flags immediately before the payload; 0x8000 marks completion */
 } ObjectStatusPrefix16;
 
 /* Byte-pointer backlink in the 0x14 bytes before the actor working record. */
 /* Byte-pointer form of the sprite-link slice 0x14 bytes before actor work.
  * allocate_list_node supplies this header word; targeted actor actions follow it to the sprite tile. */
 typedef struct ActorLinkPrefixView {
-    unsigned char *unk_00; /* owning node sprite/frame part pointer, reached with [-1] from actor work */
+    unsigned char *sprite; /* owning node sprite/frame part pointer, reached with [-1] from actor work */
     unsigned char pad_04[0x10];
 } ActorLinkPrefixView;
 

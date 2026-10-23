@@ -23,9 +23,9 @@ void run_both_updates_decrement_countdown_check_completion(S_8009ECF0_0 *state, 
 /* Clear the state fields and initialize the record handlers and mode. */
 void clear_the_state_fields_initialize_handlers_mode(void *record_data, S_8009EC3C_0 *state, MotionDeltaView *values) {
     state->unk_15 = 0;
-    values->unk_0C = 0;
-    values->unk_10 = 0;
-    values->unk_14 = 0;
+    values->velocity_x = 0;
+    values->velocity_y = 0;
+    values->velocity_z = 0;
     ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_60 = &run_both_updates_decrement_countdown_check_completion;
     ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_7C = 7;
     ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_00 = &invoke_entity_callback_and_follow_up;

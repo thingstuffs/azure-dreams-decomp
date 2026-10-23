@@ -5,7 +5,7 @@
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 extern s16 scale_random_to_unsigned_halfword_limit();
 struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
-extern M2C_UNK D_800A9528[3];
+extern M2C_UNK map_random_state_draw_address[3];
 extern M2C_UNK D_800A9624[3];
 extern M2C_UNK D_800A970C[3];
 
@@ -19,6 +19,6 @@ void initialize_randomized_object_state(void *object, void *random_state, void *
     *(s16 *)((s8 *)random_state + 0x0E) = scale_random_to_unsigned_halfword_limit(0xFFFF);
     *(s16 *)((s8 *)random_state + 0x12) = scale_random_to_unsigned_halfword_limit(0xFFFF);
     *(s16 *)((s8 *)random_state + 0x16) = scale_random_to_unsigned_halfword_limit(0xFFFF);
-    register_node_if_unregistered(object, D_800A9528);
+    register_node_if_unregistered(object, map_random_state_draw_address);
     write_square_position_offsets(0x10, 0x11, 0x12, 0x13, random_state);
 }

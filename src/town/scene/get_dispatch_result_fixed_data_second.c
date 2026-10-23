@@ -12,6 +12,6 @@
 void get_dispatch_result_fixed_data(void) {
     TownEventCursor *counter_record;
 
-    counter_record = &((TownProgressState *)D_80016000->unk_40)->eventCursor;
+    counter_record = &((TownProgressState *)town_scene_root->event_data)->eventCursor;
     counter_record->counter = (u8) (counter_record->counter + 1);
 }

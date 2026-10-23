@@ -38,7 +38,7 @@ void select_sprite_entry();         /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
 extern void D_80172610();
-extern u8 D_80174C74[];
+extern u8 ghosh_frame_set_10[];
 
 typedef struct {
     s32 words[4];
@@ -67,7 +67,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
     effect_data = ((void *)effect_object) + 0x20;
     if (effect_object != NULL) {
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
-        effect_object->unk_10 = &D_80172610;
+        effect_object->update_callback = &D_80172610;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
         ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
         copy_src = (CopyBlock *) sprite_template;
@@ -76,13 +76,13 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         register_node(effect_object, project_sprite_chain);
-        sprite->frameTable = D_80174C74;
-        select_sprite_entry(sprite, D_80174C74[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+        sprite->frameTable = ghosh_frame_set_10;
+        select_sprite_entry(sprite, ghosh_frame_set_10[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = effect_object->position;
-        effect_pos->unk_02 = (u16) source_pos->unk_02;
-        effect_pos->unk_06 = (u16) source_pos->unk_06;
-        effect_pos->unk_0A = (u16) source_pos->unk_0A;
+        effect_pos->x = (u16) source_pos->x;
+        effect_pos->y = (u16) source_pos->y;
+        effect_pos->z = (u16) source_pos->z;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
         sprite->scale_x = template_1c;
         sprite->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
@@ -96,7 +96,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
-        sprite->unk_06 = (s16) (view_direction_depth_biases[direction_index] * 4);
+        sprite->depth_bias = (s16) (view_direction_depth_biases[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
         create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, effect_data + 0x2A);
     }

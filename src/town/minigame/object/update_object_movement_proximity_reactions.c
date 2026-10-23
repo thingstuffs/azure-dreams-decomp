@@ -144,7 +144,7 @@ loop_0:
             effect = allocate_flagged_object_node(0x136);
             if (effect != 0) {
                 effect_state = ((u8 *)effect) + 0x20;
-                effect->unk_10 = D_80026748;
+                effect->update_callback = D_80026748;
                 register_node(effect, project_sprite_chain);
                 effect_position = *(u8 * *)&effect->position;
                 effect_sprite = *(u8 * *)&effect->sprite;
@@ -163,7 +163,7 @@ loop_0:
                     effect_position->velocity_y = 0xFFF80000;
                 }
                 effect_sprite->unk_04 = 0;
-                effect_sprite->unk_05 = 0;
+                effect_sprite->frame_ticks = 0;
                 effect_sprite->color.word = 0x00808080;
             }
             remaining--;

@@ -256,8 +256,8 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
     if (actor_flags & 0x40000000) {
         ((S_8015EDA8_2 *)actor_state)->unk_1C.u = actor_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (sprite->unk_24 << 6) | 0x20,
-            (sprite->unk_25 << 6) | 0x20,
+            (sprite->tile_x << 6) | 0x20,
+            (sprite->tile_y << 6) | 0x20,
             (s16)(((S_8015EDA8_2 *)actor_state)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)actor + 0x92)) =

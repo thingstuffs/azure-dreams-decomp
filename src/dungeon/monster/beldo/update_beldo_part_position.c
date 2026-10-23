@@ -80,18 +80,18 @@ void update_beldo_attached_part(void *root_data, void *position_data, void *rend
         render_part->flags &= 0xFF7F;
     }
 
-    out_pos->unk_02 = transform->unk_02;
-    out_pos->unk_06 = transform->unk_06;
-    out_pos->unk_0A = transform->unk_0A;
+    out_pos->x = transform->unk_02;
+    out_pos->y = transform->unk_06;
+    out_pos->z = transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, motion_offset,
                       ((S_81275000_0 *)root_data)->unk_B6) != 0) {
-        out_pos->unk_02 +=
+        out_pos->x +=
             (motion_offset[0] + ((S_81275000_0 *)root_data)->unk_B0) / 2;
-        out_pos->unk_06 +=
+        out_pos->y +=
             (motion_offset[1] + ((S_81275000_0 *)root_data)->unk_B2) / 2;
-        out_pos->unk_0A +=
+        out_pos->z +=
             (motion_offset[2] + ((S_81275000_0 *)root_data)->unk_B4) / 2;
         ((S_81275000_0 *)root_data)->unk_B0 = motion_offset[0];
         ((S_81275000_0 *)root_data)->unk_B2 = motion_offset[1];

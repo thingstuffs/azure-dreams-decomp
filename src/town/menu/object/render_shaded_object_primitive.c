@@ -71,7 +71,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     render_state = ((S_800A1D1C_0 *)object)->unk_10;
     scratch = (u8 *)0x1F800000;
     if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
-        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         global_page = (u8 *)0x80080000;
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;
@@ -106,7 +106,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     position = scratch + 0x2C;
     func_80065320(position, position, (void *)((u32)scratch | 0x98));
     PopMatrix();
-    coords->unk_02 = ((S_800A1D1C_4 *)scratch)->unk_2C;
-    coords->unk_06 = ((S_800A1D1C_4 *)scratch)->unk_2E;
-    coords->unk_0A = ((S_800A1D1C_4 *)scratch)->unk_30;
+    coords->x = ((S_800A1D1C_4 *)scratch)->unk_2C;
+    coords->y = ((S_800A1D1C_4 *)scratch)->unk_2E;
+    coords->z = ((S_800A1D1C_4 *)scratch)->unk_30;
 }

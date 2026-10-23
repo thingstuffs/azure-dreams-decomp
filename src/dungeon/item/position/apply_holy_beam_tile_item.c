@@ -78,9 +78,9 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
         return 0;
     }
 
-    entity = ((SpriteLinkPrefixView *)actor)[-1].unk_00;
-    object = create_central_and_child_effects(entity->unk_24,
-                           entity->unk_25,
+    entity = ((SpriteLinkPrefixView *)actor)[-1].sprite;
+    object = create_central_and_child_effects(entity->tile_x,
+                           entity->tile_y,
                            ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);
     if (object == 0) {
         return 0;
@@ -88,8 +88,8 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
 
     play_sound_if_enabled(0x816);
     object_fields = object + 0x20;
-    entry_index = select_and_initialize_entry_at_position(entity->unk_24,
-                          entity->unk_25,
+    entry_index = select_and_initialize_entry_at_position(entity->tile_x,
+                          entity->tile_y,
                           ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
     entries = dungeon_floor_object_positions;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
@@ -105,11 +105,11 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
 
         if (!(((S_800C2CDC_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) &&
             ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
-            update_map_cell_flags_with_item_limit(entity->unk_24,
-                          entity->unk_25, 0x3000);
+            update_map_cell_flags_with_item_limit(entity->tile_x,
+                          entity->tile_y, 0x3000);
             ((S_800C2CDC_0 *)actor)->unk_1C |= ACTOR_PLAYER_SIDE;
-            cycle_map_cell_flags(entity->unk_24,
-                          entity->unk_25, 0x300);
+            cycle_map_cell_flags(entity->tile_x,
+                          entity->tile_y, 0x300);
         }
 
         clear_byte_and_advance(object);
@@ -124,7 +124,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
         clear_slots_of_type(actor, STATUS_CONFUSION);
     }
 
-    cycle_map_cell_flags(entity->unk_24, entity->unk_25, 2);
+    cycle_map_cell_flags(entity->tile_x, entity->tile_y, 2);
     clear_slot_and_update_linked_state(object_data);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;

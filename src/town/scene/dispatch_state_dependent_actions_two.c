@@ -36,6 +36,6 @@ void dispatch_state_dependent_actions_two(void)
     }
 
     callback_arg = &D_800190D4;
-    town_root = *(TownRoot **)((s8 *)(&D_80016000));
+    town_root = *(TownRoot **)((s8 *)(&town_scene_root));
     town_root->callback->callback(callback_arg);
 }

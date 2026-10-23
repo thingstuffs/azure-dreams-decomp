@@ -15,12 +15,12 @@ s32 deduct_computed_cost(void) {
     void *balanceOwner;
     u32 availableAmount;
 
-    context = *(void **)((s8 *)(&D_80016000));
+    context = *(void **)((s8 *)(&town_scene_root));
     costProvider = *(void **)((s8 *)context + 0x20);
     getCost = *(func_80018760_fn *)((s8 *)costProvider + 0x50);
     requiredAmount = (u32) getCost(&D_8001BE60);
 
-    updatedContext = *(void **)((s8 *)(&D_80016000));
+    updatedContext = *(void **)((s8 *)(&town_scene_root));
     balanceOwner = *(void **)((s8 *)updatedContext + 0x38);
     availableAmount = *(u32 *)((s8 *)balanceOwner + 0x2D5C);
 

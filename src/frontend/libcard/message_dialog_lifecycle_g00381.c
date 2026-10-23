@@ -78,7 +78,7 @@ void card_boot_activate_message_dialog(void *object)
 }
 
 static __inline__ void set_handler(ObjectNodeHeader *base) {
-    base->unk_10 = D_80022CD8;
+    base->update_callback = D_80022CD8;
 }
 
 /* Creates or resets the entity, initializes its nodes and record, and installs its handler. */

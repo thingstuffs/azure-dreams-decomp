@@ -23,7 +23,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_actor_linked_effect(void *);
 extern void create_offset_actor_object(void *, void *, void *);
 
-extern void D_80170E94(void *, void *, void *, void *);
+extern void golem_action_continuation_address(void *, void *, void *, void *);
 extern u8 golem_direction_frames[8];
 
 typedef struct S_801738B4_0 {
@@ -126,8 +126,8 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
                 }
             } else {
                 target_x = (s32)scan_actor_along_heading(actor,
-                    entity->unk_24,
-                    entity->unk_25,
+                    entity->tile_x,
+                    entity->tile_y,
                     (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                 (*(void **)((u8 *)actor + 0x60)) = (void *)target_x;
                 target_x = __builtin_abs(*(s8 *)((u8 *)actor + 0x72));
@@ -144,13 +144,13 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             scene_object->velocity_z = 0;
             scene_object->velocity_y = 0;
             scene_object->velocity_x = 0;
-            set_record_integer_tile_center(scene_object, entity->unk_24, entity->unk_25);
+            set_record_integer_tile_center(scene_object, entity->tile_x, entity->tile_y);
             active_object = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
-            ((S_801738B4_0 *)action_ctx)->action_callback = &D_80170E94;
+            ((S_801738B4_0 *)action_ctx)->action_callback = &golem_action_continuation_address;
             (*(u8 *)((u8 *)actor + 0x73)) = 0;
             (*(u8 *)((u8 *)actor + 0x72)) = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -195,7 +195,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
         scene_object->velocity_z = 0;
         scene_object->velocity_y = 0;
         scene_object->velocity_x = 0;
-        set_record_integer_tile_center(scene_object, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(scene_object, entity->tile_x, entity->tile_y);
         if (*(unsigned char **)&entity->frameTable != golem_direction_frames) {
             (entity->frameTable) = golem_direction_frames;
             select_sprite_entry(entity,
@@ -208,7 +208,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             break;
         }
         ((S_801738B4_4 *)action_status)->unk_0A--;
-        ((S_801738B4_0 *)action_ctx)->action_callback = &D_80170E94;
+        ((S_801738B4_0 *)action_ctx)->action_callback = &golem_action_continuation_address;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;

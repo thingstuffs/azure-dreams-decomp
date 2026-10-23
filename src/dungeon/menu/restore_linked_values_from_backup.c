@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 extern s32 *catalog_display_node_slots[98];
-extern s32 D_801331A0;
+extern s32 menu_value_backup;
 
 /* Restore 12 referenced values from the backup array. */
 void restore_linked_values_from_backup(void) {
@@ -13,7 +13,7 @@ void restore_linked_values_from_backup(void) {
     s32 value_index;
 
     value_index = 0x10;
-    backup_value = &D_801331A0;
+    backup_value = &menu_value_backup;
     table_base = catalog_display_node_slots;
     value_slot = (s32 **)(table_base + 0x10);
     do {

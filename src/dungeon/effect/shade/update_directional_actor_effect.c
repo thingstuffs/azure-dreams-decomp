@@ -175,7 +175,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     SpriteFrameState *sprite;
     effect = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (effect != 0) {
-        effect->unk_10 = &D_800240F0;
+        effect->update_callback = &D_800240F0;
         color = 0x80;
         state = ((void *)effect) + 0x20;
         *((s16 *) (((s8 *) state) + 0xC)) = 0;
@@ -265,7 +265,7 @@ void create_textured_offset_object(void *source_object)
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         link = D_8002455C;
-        (object->unk_10) = link;
+        (object->update_callback) = link;
         value = (*(s32 *)((u8 *)source + 0));
         data = (u8 *)object + 0x20;
         (*(s32 *)((u8 *)object + 0x20)) = value;
@@ -283,7 +283,7 @@ void create_textured_offset_object(void *source_object)
         primitive->color.c.b = 0x40;
         primitive->color.c.g = 0x40;
         primitive->color.c.r = 0x40;
-        select_record_entry_and_value(primitive, D_800DE938, angle_or_zero);
+        select_record_entry_and_value(primitive, spark_sprite_entries, angle_or_zero);
 
         value = 0x2000;
         primitive->scale_y = value;
@@ -368,7 +368,7 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = ((void *)object) + 0x20;
-        (object->unk_10) = &D_80024918;
+        (object->update_callback) = &D_80024918;
         (*(s32 *)((u8 *)object + 0x20)) = object_value;
         ((Row_8194D1E4_S_800249E4_0 *)state)->unk_74 = 0;
         ((Row_8194D1E4_S_800249E4_0 *)state)->unk_76 = setting;

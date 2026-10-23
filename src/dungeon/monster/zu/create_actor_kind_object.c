@@ -70,7 +70,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8014CA70;
+        obj->update_callback = D_8014CA70;
         work->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
@@ -78,11 +78,11 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
         part_a->unk_0A = field0A_value;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = field25_value;
+        part_b->tile_y = field25_value;
         actor = work;
         actor = work;
         part_b->frameTable = D_80150AD4;
-        part_b->unk_24 = field24_value;
+        part_b->tile_x = field24_value;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

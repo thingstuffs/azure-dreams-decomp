@@ -4,5 +4,5 @@
 
 /* Run town service callback 0x1E8 with (1). */
 void run_service_callback_1(void) {
-    D_80016000->unk_20->callback_1E8(1);
+    town_scene_root->services->callback_1E8(1);
 }

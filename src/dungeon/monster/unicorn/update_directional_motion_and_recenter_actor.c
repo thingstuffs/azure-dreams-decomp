@@ -14,14 +14,14 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
     s32 tracked_entity;
 
     direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
-    switch (action->unk_9B) {
+    switch (action->phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 19;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 19;
-        action->unk_9B++;
+        action->phase++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -31,8 +31,8 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             return;
         }
         if (actor->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            action->timer.s = 0;
+            action->phase = 2;
             return;
         }
         if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
@@ -40,7 +40,7 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
         } else {
             timer = -1;
         }
-        action->unk_96.s = timer;
+        action->timer.s = timer;
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
@@ -50,12 +50,12 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
         motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
-        if (action->unk_96.s > 0) {
-            action->unk_96.s = action->unk_96.u - 1;
+        if (action->timer.s > 0) {
+            action->timer.s = action->timer.u - 1;
         } else if (actor->flags & 0x6000) {
-            action->unk_96.s = 0;
+            action->timer.s = 0;
         }
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             return;
         }
         if (((EntityRec *)source)->unk_28 == 0) {
@@ -65,17 +65,17 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
             begin_actor_display_action(action, motion, actor, &D_80174D5C);
             return;
         }
-        action->unk_96.s = 8;
-        action->unk_9B++;
+        action->timer.s = 8;
+        action->phase++;
         return;
 
     case 2:
-        if (action->unk_96.s != 0) {
+        if (action->timer.s != 0) {
             {
                 s32 tile_x;
                 s32 current_x;
 
-                tile_x = actor->unk_24 << 6;
+                tile_x = actor->tile_x << 6;
                 current_x = motion->x.w.i - 0x20;
                 motion->velocity_x =
                     ((tile_x - current_x) << 15) >> 1;
@@ -84,27 +84,27 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
                 s32 tile_y;
                 s32 current_y;
 
-                tile_y = actor->unk_25 << 6;
+                tile_y = actor->tile_y << 6;
                 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((tile_y - current_y) << 15) >> 1;
             }
         }
-        timer = action->unk_96.u - 1;
-        action->unk_96.s = timer;
+        timer = action->timer.u - 1;
+        action->timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = &D_80170E7C;
+        action->next_action = &unicorn_action_continuation_address;
         return;
 
     default:

@@ -94,8 +94,8 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
     }
 
     old_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
-    tile_x = entity->unk_24;
-    tile_y = entity->unk_25;
+    tile_x = entity->tile_x;
+    tile_y = entity->tile_y;
     old_tile_flags = old_tile_flags & 0x2000;
     update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
@@ -107,18 +107,18 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;
     raw_result = raw_result << 16;
-    entity->unk_24 = next_x;
+    entity->tile_x = next_x;
     step = (u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s;
     move_result = raw_result >> 16;
     do {
-        entity->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
+        entity->tile_y = ((S_8016BD14_4 *)step)->unk_7C;
         step_index = ((S_8016BD14_0 *)path)->unk_8A.u;
     } while (0);
     new_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;
     ((S_8016BD14_0 *)path)->unk_8A.u = step_index;
-    cycle_map_cell_flags(entity->unk_24, entity->unk_25,
+    cycle_map_cell_flags(entity->tile_x, entity->tile_y,
                   new_tile_flags ? 0x300 : 0x3000);
     ((S_8016BD14_0 *)path)->unk_2A = heading;
 

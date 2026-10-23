@@ -185,17 +185,17 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
 
         height = (s16)get_definition_entry_byte_13(0x22);
         target_actor = scan_actor_along_heading(actor,
-            actor_data->unk_24,
-            actor_data->unk_25,
+            actor_data->tile_x,
+            actor_data->tile_y,
             actor->unk_2A, height);
         actor->unk_60 = target_actor;
         if (target_actor == 0) {
-            actor->unk_72.as_u8 = actor_data->unk_24;
-            actor->unk_73.as_u8 = actor_data->unk_25;
+            actor->unk_72.as_u8 = actor_data->tile_x;
+            actor->unk_73.as_u8 = actor_data->tile_y;
         } else {
             prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
-            actor->unk_72.as_u8 = ((MovingTile *)prim)->unk_24;
-            actor->unk_73.as_u8 = ((MovingTile *)prim)->unk_25;
+            actor->unk_72.as_u8 = ((MovingTile *)prim)->tile_x;
+            actor->unk_73.as_u8 = ((MovingTile *)prim)->tile_y;
         }
     }
 
@@ -249,7 +249,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                 register_node(burst_obj, (s32)project_sprite_chain);
                 prim = burst_obj->sprite;
                 position_or_z_offset = (s32)burst_obj->position;
-                burst_obj->unk_10 = image_base;
+                burst_obj->update_callback = image_base;
                 center_coord = motion->unk_00.half.unk_02.as_s16;
                 child_state = (S_func_818DA800_8 *)((u8 *)burst_obj + 0x20);
                 if (actor_or_corner >> 1) {
@@ -411,7 +411,7 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
 
     if (target->flags & 0x6000) {
         target->unk_04 = 0;
-        target->unk_05 = 0;
+        target->frame_ticks = 0;
     }
 
     state = owner->state;

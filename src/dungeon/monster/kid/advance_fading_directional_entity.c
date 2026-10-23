@@ -118,8 +118,8 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
+        sound_x = sprite->tile_x;
+        sound_y = sprite->tile_y;
         sound_flags = 0x3000;
         if (((S_80173724_1 *)entity)->unk_1C.s & 0x2000) {
             sound_flags = 0x300;

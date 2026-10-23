@@ -235,8 +235,8 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
                 state_flags = ((CallbackActorState *)state_alias)->flags;
                 if (state_flags & 0x40000000) {
                     ((CallbackActorState *)state_alias)->flags = state_flags & 0xBFFFFFFF;
-                    sample_height = sample_terrain_surface_height((entity_part->unk_24 << 6) | 0x20,
-                                                 (entity_part->unk_25 << 6) | 0x20,
+                    sample_height = sample_terrain_surface_height((entity_part->tile_x << 6) | 0x20,
+                                                 (entity_part->tile_y << 6) | 0x20,
                                                  (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
                     ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += ((CallbackActorState *)state_alias)->floor_height - sample_height;
                     ((CallbackActorState *)state_alias)->floor_height = sample_height;

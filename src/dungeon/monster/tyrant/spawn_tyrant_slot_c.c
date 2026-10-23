@@ -72,17 +72,17 @@ extern M2C_UNK D_8015C000;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_state = ((void *)object) + 0x20;
-        object->unk_10 = &func_80158AA4;
+        object->update_callback = &func_80158AA4;
         object_state->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
         config = object->position;
         config->unk_0A = saved_config_value;
         placement = object->sprite;
         mode_or_roll = spawn_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         behavior = object_state;
         placement->frameTable = &D_8015BFB8;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (mode_or_roll == 1) {
             state_flags = object_state->unk_98;
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);

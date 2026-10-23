@@ -39,9 +39,9 @@ void refresh_scene_active_entry(s32 update_arg, s32 unused, s32 entry_arg)
     func_80017B3C(value_table, update_arg);
     if (func_8001894C(scene_request_flag_id) == 0) {
         if (invoke_system_callback_21_c(value_table, update_arg, entry_arg) == 0) {
-            dispatch_state = *(TownState **)((s8 *)(&D_80016000));
+            dispatch_state = *(TownState **)((s8 *)(&town_scene_root));
             value_index = dispatch_state->dispatch->get_value(3);
-            update_state = *(TownState **)((s8 *)(&D_80016000));
+            update_state = *(TownState **)((s8 *)(&town_scene_root));
             entry_index = update_state->index;
             entries = update_state->entries;
             do {
@@ -50,7 +50,7 @@ void refresh_scene_active_entry(s32 update_arg, s32 unused, s32 entry_arg)
             decrement_current_entry_counter_condition(entries);
         }
     }
-    final_state = *(TownState **)((s8 *)(&D_80016000));
+    final_state = *(TownState **)((s8 *)(&town_scene_root));
     func_80018044(
         (u8 *)&D_80018B40 +
             (final_state->entries[(final_state->index * 8) + 1] * 8),

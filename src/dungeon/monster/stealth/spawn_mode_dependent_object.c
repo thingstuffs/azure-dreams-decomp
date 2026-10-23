@@ -70,17 +70,17 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        object->unk_10 = D_80170A8C;
+        object->update_callback = D_80170A8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_value;
         part1 = *(void ** *)&object->sprite;
-        part1->unk_25 = variant;
+        part1->tile_y = variant;
         actor = result;
         part1->frameTable = D_80173D30;
         kind = flags & 3;
-        part1->unk_24 = kind_id;
+        part1->tile_x = kind_id;
         if (kind == 1) {
             result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

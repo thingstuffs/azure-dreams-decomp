@@ -9,7 +9,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 extern u8 linked_sprite_renderer_address[];
-extern Packed12 D_80077818;
+extern Packed12 ghosh_sprite_payload_template;
 extern u8 D_8016A9FC[];
 
 
@@ -41,7 +41,7 @@ void allocate_and_initialize_object(void) {
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->unk_10) = D_8016A9FC;
+        (object->update_callback) = D_8016A9FC;
         register_node(object, linked_sprite_renderer_address);
 
         position = (object->position);
@@ -56,7 +56,7 @@ void allocate_and_initialize_object(void) {
         primitive->unk_0D = 0;
         primitive->unk_0C = 0;
 
-        (*(Packed12 *)((u8 *)object + 0x4C)) = D_80077818;
+        (*(Packed12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
         primitive->unk_08 = (u8 *)object + 0x4C;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

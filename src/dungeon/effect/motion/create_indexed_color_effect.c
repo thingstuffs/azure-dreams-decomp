@@ -46,12 +46,12 @@ s32 create_indexed_color_sprite(MovingPosition *origin, u16 index) {
     color_index = index;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect->unk_10 = &D_800246AC;
-        ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
+        effect->update_callback = &D_800246AC;
+        ((S_80024790_0 *)effect)->unk_20 = (u16) origin->x;
         state = ((void *)effect) + 0x20;
-        state->unk_02 = (u16) origin->unk_06;
+        state->unk_02 = (u16) origin->y;
         frame = (s16) index;
-        state->unk_04 = (u16) origin->unk_0A;
+        state->unk_04 = (u16) origin->z;
         state->unk_08 = (s16) ((frame << 8) % 0x1000);
         sprite = effect->sprite;
         color_index <<= 3;

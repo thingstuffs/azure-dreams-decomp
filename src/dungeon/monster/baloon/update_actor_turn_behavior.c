@@ -37,7 +37,7 @@ extern u8 baloon_default_frames[];
 extern u8 D_800E2358[];
 extern u8 baloon_attack_frames;
 extern u8 D_800E23A0[];
-extern u8 D_800E23A8[];
+extern u8 baloon_frame_set_1[];
 extern s32 baloon_action_resume_address;
 
 typedef struct S_80171F1C_0 {
@@ -76,7 +76,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         void *anim_table;
 
         advance_actor_pending_action(motion_arg, actor_index_arg, actor_arg, move_data);
-        if (actor_arg->frameTable == D_800E23A8) {
+        if (actor_arg->frameTable == baloon_frame_set_1) {
             return;
         }
         anim_table = D_800E23A0;
@@ -88,7 +88,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
     }
 
     if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
-        if (actor_arg->frameTable == D_800E23A8) {
+        if (actor_arg->frameTable == baloon_frame_set_1) {
             ((S_80171F1C_0 *)motion_arg)->unk_9A = 0xD;
             ((S_80171F1C_0 *)motion_arg)->unk_9B = 1;
             ((S_80171F1C_0 *)motion_arg)->unk_8C = 0;
@@ -122,7 +122,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 select_sprite_entry(actor_arg,
                     ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
                     0);
-                actor_arg->unk_05 = 1;
+                actor_arg->frame_ticks = 1;
                 ((S_80171F1C_0 *)motion_arg)->unk_A2.s = 0;
                 ((S_80171F1C_0 *)motion_arg)->unk_9E = 0;
             }
@@ -154,15 +154,15 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
         }
     }
 
-    room_id = find_active_rect_containing_point(actor_arg->unk_24, actor_arg->unk_25);
-    actor_arg->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(actor_arg->tile_x, actor_arg->tile_y);
+    actor_arg->room_index = room_id;
 
     if (move_data->unk_6D > 0) {
         if (((u32)move_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(move_data);
             return;
         }
-        if (*(u16 *)&actor_arg->unk_24 != reference_tile_object.tile_position.word) {
+        if (*(u16 *)&actor_arg->tile_x != reference_tile_object.tile_position.word) {
             if (!(move_data->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(move_data,
@@ -214,12 +214,12 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(
-                    actor_arg->unk_24, actor_arg->unk_25,
+                    actor_arg->tile_x, actor_arg->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_flags);
                 player = primary_actor_record;
                 move_data->facing = heading;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &baloon_action_resume_address);
                     return;
                 }
@@ -252,10 +252,10 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
             if (!(((u32)move_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        actor_arg->unk_24, actor_arg->unk_25,
+                        actor_arg->tile_x, actor_arg->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     move_data->facing = get_rounded_facing_and_rounding_flag(
-                        actor_arg->unk_24, actor_arg->unk_25,
+                        actor_arg->tile_x, actor_arg->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }

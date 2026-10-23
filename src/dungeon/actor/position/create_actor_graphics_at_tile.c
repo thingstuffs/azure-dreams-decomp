@@ -74,8 +74,8 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         position = object->position;
         position->z.w.i = saved_height;
         graphics = object->sprite;
-        graphics->unk_24 = saved_x;
-        graphics->unk_25 = saved_y;
+        graphics->tile_x = saved_x;
+        graphics->tile_y = saved_y;
         select_record_entry_and_value(graphics, &D_800DEF08, 0);
         graphics->clut = 0x7E02;
         graphics->scale_x = 0x1800;
@@ -83,16 +83,16 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics->flags = (u16) (graphics->flags | 0xC);
         graphics->tpage_abr = (u16) (graphics->tpage_abr | 0x20);
         graphics->flags = (u16) (graphics->flags | 0x100);
-        object->unk_10 = &dispatch_actor_actions_and_integrate_gravity;
+        object->update_callback = &dispatch_actor_actions_and_integrate_gravity;
         state->unk_8C = &advance_actor_status_turn_second;
-        graphics->unk_26 = find_active_rect_containing_point(graphics->unk_24, graphics->unk_25);
-        set_record_integer_tile_center(position, graphics->unk_24, graphics->unk_25);
+        graphics->room_index = find_active_rect_containing_point(graphics->tile_x, graphics->tile_y);
+        set_record_integer_tile_center(position, graphics->tile_x, graphics->tile_y);
         state->unk_88 = sample_terrain_surface_height(*(u16 *)&position->x.w.i, *(u16 *)&position->y.w.i, position->z.w.i);
         graphics->color.word = 0x808080;
         graphics->flags = (u16) (graphics->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
-        call_x = graphics->unk_24;
-        call_y = graphics->unk_25;
+        call_x = graphics->tile_x;
+        call_y = graphics->tile_y;
         tile_flags = 0x3000;
         if (state->unk_1C & 0x2000) {
             tile_flags = 0x300;

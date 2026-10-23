@@ -1,11 +1,8 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "frontend/card.h"
 #include "frontend/card/load.h"
 #include "main/data.h"
-
-typedef struct S_8001FF34_0 {
-    s32 * unk_00;
-} S_8001FF34_0;   /* arg0 in card_dev_update_load_slot_highlight; pointer addresses record offset 0x10 */
 
 void func_80400908(void);                            /* extern */
 
@@ -13,5 +10,5 @@ void func_80400908(void);                            /* extern */
 void card_dev_update_load_slot_highlight(void *record_data) {
     card_devkit_highlight_selected_load_slot(record_data);
     func_80400908();
-    ((S_8001FF34_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80406DA0;
+    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_80406DA0;
 }

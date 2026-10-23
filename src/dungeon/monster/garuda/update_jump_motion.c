@@ -37,7 +37,7 @@ extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(u16 *, s32);
 
 extern u8 garuda_action_resume_address[];
-extern u8 D_80174888[];
+extern u8 garuda_frame_set_3[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
 void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -112,8 +112,8 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             } else {
                 actor->target =
                     scan_actor_along_heading(actor,
-                                  sprite->unk_24,
-                                  sprite->unk_25,
+                                  sprite->tile_x,
+                                  sprite->tile_y,
                                   actor->facing, 0x10);
                 {
                     s32 abs_x = abs(actor->target_tile_x);
@@ -140,7 +140,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -172,12 +172,12 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (*(u8 * *)&sprite->frameTable != D_80174888) {
-            sprite->frameTable = D_80174888;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+        if (*(u8 * *)&sprite->frameTable != garuda_frame_set_3) {
+            sprite->frameTable = garuda_frame_set_3;
             select_sprite_entry(
                 sprite,
-                D_80174888[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                garuda_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {

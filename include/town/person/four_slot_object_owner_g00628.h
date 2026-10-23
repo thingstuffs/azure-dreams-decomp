@@ -33,7 +33,7 @@ typedef struct S_800B4E7C_0 {
 
 struct Obj;
 
-extern u8 D_80078CDC[];
+extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *);
 extern void func_800B474C(void *);
 extern void func_800B47BC(void *);

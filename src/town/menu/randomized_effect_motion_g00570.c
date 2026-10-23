@@ -23,7 +23,7 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     record->source = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
     record->unk_00 = 0;
     record->unk_04 = 0;
-    record->unk_05 = 0;
+    record->frame_ticks = 0;
 
     init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
     if (init_value != 0) {

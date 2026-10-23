@@ -1,32 +1,23 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
-
-
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern void play_sound_if_enabled(u32);
 extern u8 actor_attack_frames[];
 
-
-typedef struct S_8008C514_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8008C514_1;   /* arg3 in begin_player_jump */
-
 /* Initialize the action state and select the actor's directional sprite. */
-void begin_player_jump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, S_8008C514_1 *actor) {
+void begin_player_jump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, ActorRecord *actor) {
     state->unk_9A.as_s8 = 0x1A;
     state->unk_9B.as_s8 = 0;
     state->unk_8C.as_s32 = 0;
-    if (actor->unk_1C & 0x100000) {
+    if (actor->flags1C & 0x100000) {
         sprite->unk_14.at00_u16.v |= 0x4000;
     } else {
         sprite->unk_2C.as_pu8 = actor_attack_frames;
-        set_sprite_animation_frame(sprite, actor_attack_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        set_sprite_animation_frame(sprite, actor_attack_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
     play_sound_if_enabled(0x50A);
     state->unk_96.as_s16 = 0;

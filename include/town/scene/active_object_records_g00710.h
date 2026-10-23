@@ -44,7 +44,7 @@ void func_80018914(void *);
 extern s32 D_8001B31C;
 
 extern s8 *func_80018824(s8 *buffer, s32 length);
-extern S_80018174_0 *D_8001B318;
+extern S_80018174_0 *scene_registered_event_handle;
 
 /* Functions defined in this translation unit. */
 s32 check_selected_entry_8(S_80017EB8_0 *position);

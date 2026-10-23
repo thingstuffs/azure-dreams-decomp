@@ -33,11 +33,11 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = &D_80167A2C;
+        object->update_callback = &D_80167A2C;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         render_state->tpage_abr = 0x20;
-        render_state->unk_06 = 0;
+        render_state->depth_bias = 0;
         render_state->flags = (u16) (render_state->flags | 0xC);
         position = object->position;
         position->x.v = origin->unk_00 + (ribbon_vertices[source->unk_1C].x << 0x11);

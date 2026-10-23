@@ -12,7 +12,7 @@ void update_alternate_menu_page_bounds(Object *obj)
     if (obj->state->current > 0) {
         u32 flags;
 
-        *obj->outputs->primary = D_800786DC;
+        *obj->outputs->primary = item_menu_primary_page_data;
         flags = obj->flags;
         flags &= ~2;
         obj->flags = flags;

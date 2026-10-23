@@ -13,13 +13,13 @@ void request_handler_for_current_kind(void) {
     s32 handler_result;
     u8 kind;
 
-    slot = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x40) +
-           (*(s32 *)(*(s8 **)((s8 *)(&D_80016000)) + 8) * 8);
+    slot = *(s8 **)(*(s8 **)((s8 *)(&town_scene_root)) + 0x40) +
+           (*(s32 *)(*(s8 **)((s8 *)(&town_scene_root)) + 8) * 8);
     kind = selected_scene_row_index;
     request[1] = 0x19;
     request[0] = kind;
     *(u8 *)(slot + 6) = kind;
-    handler_result = (*(Callback *)(*(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20) + 0x50))(request);
+    handler_result = (*(Callback *)(*(s8 **)(*(s8 **)((s8 *)(&town_scene_root)) + 0x20) + 0x50))(request);
     scene_charge = handler_result;
     *(s32 *)slot = handler_result;
 }

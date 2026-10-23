@@ -3,11 +3,11 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-extern void D_800C3BF4();
+extern void person_table_handler_address();
 
 
 /* Clear the record's indexed flag and set its state pointer. */
 void clear_record_indexed_flag(Rec_func_80094268_arg0 *record) {
     object_index_slots[record->unk_60].unk_00 = 0;
-    record->unk_54 = &D_800C3BF4;
+    record->unk_54 = &person_table_handler_address;
 }

@@ -66,7 +66,7 @@ extern u8 D_80095AAE;
 extern u32 D_8012F140;
 extern u16 D_801328F8;
 extern s32 town_motion_state[3];
-extern u8 D_80530220[0x1000];
+extern u8 town_display_timing_table[0x1000];
 extern s32 D_805305A0;
 extern s32 D_805305A4;
 extern s32 D_805305A8;
@@ -106,7 +106,7 @@ void run_scheduled_three_actor_display(TownState *town_state)
     case 1:
         if (town_state->actors[0]->field70 == 1) {
             town_state->counter = 0;
-            town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
+            town_state->timer = *(u16 *)&town_display_timing_table[town_state->area * 400 + town_state->index * 40];
             town_state->state = 2;
         }
         break;
@@ -121,7 +121,7 @@ void run_scheduled_three_actor_display(TownState *town_state)
                 town_state->timer = 30;
                 return;
             }
-            town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
+            town_state->timer = *(u16 *)&town_display_timing_table[town_state->area * 400 + town_state->index * 40];
             return;
         }
 

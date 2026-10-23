@@ -7,9 +7,9 @@ typedef struct RuntimeCallbacks {
     void (*invoke)(s32 code);
 } RuntimeCallbacks;
 
-extern RuntimeCallbacks *D_8070100C;
+extern RuntimeCallbacks *devkit_runtime_callback_owner;
 
 /* Invoke the runtime callback at offset 0x60 with zero. */
 void copy_shop_runtime_callback_devkit(void) {
-    D_8070100C->invoke(0);
+    devkit_runtime_callback_owner->invoke(0);
 }

@@ -46,7 +46,7 @@ extern void spawn_growing_rotating_flash();
 
 extern s32 g_dungeon_status;
 extern s32 D_8008346C;
-extern u8 D_801724BC[];
+extern u8 troll_action_dispatch_address[];
 extern u8 troll_frame_set_1[];
 extern u8 troll_frame_set_2[];
 extern u8 troll_frame_set_3[];
@@ -134,8 +134,8 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             } else {
                 target = scan_actor_along_heading(
                     actor,
-                    sprite->unk_24,
-                    sprite->unk_25,
+                    sprite->tile_x,
+                    sprite->tile_y,
                     actor->facing,
                     0x10);
                 actor->target = target;
@@ -159,12 +159,12 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         D_8008346C = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
+        ((S_8017472C_0 *)action)->unk_8C = troll_action_dispatch_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -213,7 +213,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
 
         kind = actor->unk_48;
         switch (kind) {
@@ -259,7 +259,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, Spri
             return;
         }
         ((S_8017472C_6 *)control)->unk_0A--;
-        ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
+        ((S_8017472C_0 *)action)->unk_8C = troll_action_dispatch_address;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

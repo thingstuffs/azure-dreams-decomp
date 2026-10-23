@@ -14,7 +14,7 @@ void create_rotating_effect(void)
     g_dungeon_status.activity_counts.parts.pending_action_count++;
     object = allocate_list_node(2, ((s32 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        ((ObjectNodeHeader *)object)->unk_10 = update_effect_controller;
+        ((ObjectNodeHeader *)object)->update_callback = update_effect_controller;
         object += 0x20;
         *(u16 *)(object + 4) = ((u16)view_reference_entity.x.w.i);
         *(u16 *)(object + 6) = ((u16)view_reference_entity.y.w.i);

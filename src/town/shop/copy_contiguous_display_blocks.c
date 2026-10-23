@@ -9,7 +9,7 @@ typedef struct {
 } __attribute__((packed)) Packed12;
 
 extern Packed24 D_800D16E4;
-extern Packed12 D_800D16D8;
+extern Packed12 shop_second_display_template;
 
 /* Copies two packed data blocks into a contiguous 36-byte destination. */
 void copy_contiguous_display_blocks(void *dst) {
@@ -17,6 +17,6 @@ void copy_contiguous_display_blocks(void *dst) {
 
     src = &D_800D16E4;
     *(Packed24 *)dst = *(Packed24 *)src;
-    src = &D_800D16D8;
+    src = &shop_second_display_template;
     *(Packed12 *)((u8 *)dst + 24) = *(Packed12 *)src;
 }

@@ -101,7 +101,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
             effect = allocate_list_node(0x12, (u8 *)actor_state - 0x20);
             if (effect != NULL) {
                 ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
-                effect->unk_10 = D_80170CEC;
+                effect->update_callback = D_80170CEC;
                 register_node(effect, clipped_sprite_renderer_address);
                 effect_state = (u8 *)effect + 0x20;
                 ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
@@ -111,9 +111,9 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;
                 effect_position = effect->position;
-                effect_position->unk_02 = ((u16) position->x.w.i);
-                effect_position->unk_06 = ((u16) position->y.w.i);
-                effect_position->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
+                effect_position->x = ((u16) position->x.w.i);
+                effect_position->y = ((u16) position->y.w.i);
+                effect_position->z = ((S_80175BA8_2 *)actor_info)->unk_88;
                 effect_sprite = effect->sprite;
                 effect_sprite->scale_y = 0xA00;
                 effect_sprite->scale_x = 0xA00;
@@ -166,7 +166,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
             ((S_80175BA8_0 *)actor_state)->unk_B3 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
             ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
-            sprite->unk_06 = 0;
+            sprite->depth_bias = 0;
             ((S_80175BA8_0 *)actor_state)->unk_8C = uboat_behavior_entry;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;

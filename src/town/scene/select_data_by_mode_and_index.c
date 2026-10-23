@@ -6,8 +6,8 @@ extern void func_800193E0(s32);
 
 extern s32 scene_dispatch_mode_index;
 extern s32 D_80019760[];
-extern u8 D_8001AAEC[];
-extern u8 D_8001DE58[];
+extern u8 scene_selector_one_mode_three_data[];
+extern u8 scene_selector_one_default_data[];
 extern u8 D_80020C9C[];
 
 /* Selects mode-specific data for selectors 1 and 3, or runs the selector-8 check and event. */
@@ -19,9 +19,9 @@ s32 select_data_by_mode_and_index(s32 unused0, s32 unused1, s32 selector) {
         func_800193E0(Ft_paty_love);
     } else if (selector == 1) {
         if (scene_dispatch_mode_index != 3) {
-            result = (s32)D_8001DE58;
+            result = (s32)scene_selector_one_default_data;
         } else {
-            result = (s32)D_8001AAEC;
+            result = (s32)scene_selector_one_mode_three_data;
         }
     } else if (selector == 3) {
         result = (s32)D_80020C9C;

@@ -68,7 +68,7 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8016AA30;
+        obj->update_callback = D_8016AA30;
         work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
@@ -76,10 +76,10 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
         part_a->unk_0A = saved_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_y;
+        part_b->tile_y = saved_y;
         actor = work;
         part_b->frameTable = D_8016DD0C;
-        part_b->unk_24 = saved_x;
+        part_b->tile_x = saved_x;
         do {
 
             if (kind == 1) {

@@ -131,7 +131,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
-            set_record_integer_tile_center(scene, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(scene, sprite->tile_x, sprite->tile_y);
             ((S_80174764_0 *)action)->unk_8C = &cyclone_action_resume_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;

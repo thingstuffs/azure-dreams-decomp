@@ -128,8 +128,8 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameS
             if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
                 ((S_801717D0_0 *)self)->unk_60 =
                     scan_actor_along_heading(self,
-                                  action_sprite->unk_24,
-                                  action_sprite->unk_25,
+                                  action_sprite->tile_x,
+                                  action_sprite->tile_y,
                                   ((S_801717D0_0 *)self)->unk_2A.s,
                                   ((S_801717D0_5 *)action_entry)->unk_13);
             }

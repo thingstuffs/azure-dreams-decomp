@@ -206,7 +206,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = &blend_effect_channels_to_gray;
+        effect->update_callback = &blend_effect_channels_to_gray;
         register_node(effect, &update_actor_state_after_map_check);
         tint = 0x808080;
         ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
@@ -244,7 +244,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
             ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
             decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
             sprite = actor - 0x20;
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
@@ -259,7 +259,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
         sprite = actor - 0x20;
         sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);

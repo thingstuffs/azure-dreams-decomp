@@ -20,7 +20,7 @@ typedef struct {
     Outputs *outputs;
 } Object;
 
-extern u8 D_800786DC[];
+extern u8 item_menu_primary_page_data[];
 extern u8 card_selection_display_data[];
 
 /* Updates both outputs and their flags from the current state and limit. */
@@ -32,7 +32,7 @@ void update_item_menu_page_bounds(Object *obj)
     if (obj->state->current > 0) {
         u32 flags;
 
-        *obj->outputs->primary = D_800786DC;
+        *obj->outputs->primary = item_menu_primary_page_data;
         flags = obj->flags;
         flags &= ~2;
         obj->flags = flags;

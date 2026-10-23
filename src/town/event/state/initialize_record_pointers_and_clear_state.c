@@ -11,12 +11,12 @@ typedef struct S_800A97D8_0 {
    /* arg1 in initialize_record_pointers_and_clear_state */
 
 
-extern void D_800A6CF0();
+extern void unit_scale_record_handler_address();
 extern void D_800A9778();
 
 /* Initialize the record pointers and clear the associated state field. */
 void initialize_record_pointers_and_clear_state(void *record_data, EffectStateWordView *state) {
-    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A6CF0;
+    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_00 = &unit_scale_record_handler_address;
     ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_60 = &D_800A9778;
     state->unk_08 = 0;
 }

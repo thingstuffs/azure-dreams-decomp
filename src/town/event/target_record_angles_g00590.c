@@ -45,7 +45,7 @@ void update_positions_from_origin(IntVector3 *origin)
     --origin;
     D_80100D40 += town_motion_x_step;
     {
-        PositionRotationPair *rotation = &D_80100D60;
+        PositionRotationPair *rotation = &town_event_motion_pair;
 
         initial_angle = rotation->angle;
         angle = initial_angle;

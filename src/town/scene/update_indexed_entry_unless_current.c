@@ -15,7 +15,7 @@ extern s32 scene_choice_index;
 /* Update the indexed entry unless the current state is 3; return whether updated. */
 s32 update_indexed_entry_unless_current(S_80017EF0_0 *entry_table, s32 entry_index) {
     if (scene_update_state != 3) {
-        ((TownEventEntryValueView *)((entry_index * 0x10) + entry_table->unk_10))->unk_08 =
+        ((TownEventEntryValueView *)((entry_index * 0x10) + entry_table->unk_10))->value =
             copy_indexed_entry_to_state(scene_choice_index);
         return 1;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
@@ -35,30 +36,21 @@ typedef struct S_80020458_7 {
     s16 unk_0A;
 } S_80020458_7;
 
-
 /* Callback function addresses outside this overlay's own window (0x8000D000-
    0x80022000); they belong to code loaded elsewhere and are only ever stored
    as raw pointers here, never called, so bind them as absolute symbols
    (established .set idiom) rather than declaring undefined func_ externs. */
 
-typedef struct S_80020458_0 {
-    s32 * unk_00;
-} S_80020458_0;
-
-typedef struct S_80020458_1 {
-    s32 * unk_00;
-} S_80020458_1;
-
 /* Initializes two child objects and assigns their callbacks. */
 void card_dev_layout_two_rows_callbacks(S_80020458_2 *owner) {
-    S_80020458_0 *firstChild;
+    CardCallbackState *firstChild;
 
     firstChild = ((S_80020458_5 *)(owner->unk_60))->unk_00;
     ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_08 = 0x40;
     ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_0A = 0x20;
-    firstChild->unk_00 = &D_80409110;
-    firstChild = (S_80020458_0 *)(((S_80020458_5 *)(owner->unk_60))->unk_04);
-    ((S_80020458_7 *)(((S_80020458_4 *)(S_80020458_1 *)firstChild)->unk_04))->unk_08 = 0xC0;
-    ((S_80020458_7 *)(((S_80020458_4 *)(S_80020458_1 *)firstChild)->unk_04))->unk_0A = 0x20;
-    ((S_80020458_1 *)firstChild)->unk_00 = &D_80409128;
+    firstChild->callback = &D_80409110;
+    firstChild = (CardCallbackState *)(((S_80020458_5 *)(owner->unk_60))->unk_04);
+    ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_08 = 0xC0;
+    ((S_80020458_7 *)(((S_80020458_4 *)(CardCallbackState *)firstChild)->unk_04))->unk_0A = 0x20;
+    ((CardCallbackState *)firstChild)->callback = &D_80409128;
 }

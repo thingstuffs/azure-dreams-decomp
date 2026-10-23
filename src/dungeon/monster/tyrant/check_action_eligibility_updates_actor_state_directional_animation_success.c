@@ -14,8 +14,8 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         return -1;
     }
 
-    target_direction = probe_directional_neighbor(actor, sprite->unk_24,
-        sprite->unk_25, actor->facing);
+    target_direction = probe_directional_neighbor(actor, sprite->tile_x,
+        sprite->tile_y, actor->facing);
 
     if ((((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)
         ? target_direction == 0

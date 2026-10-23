@@ -22,7 +22,7 @@ typedef struct {
     u16 countdown;
 } TownActor;
 
-extern TownCoordOwner *D_8008267C;
+extern TownCoordOwner *person_offset_target_owner;
 extern s32 apply_object_setup_and_update(TownActor *, TownVec2 *, s32);
 
 /* Moves the position toward the town coordinates plus a vertical offset until the countdown expires. */
@@ -37,7 +37,7 @@ void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, s32 
     u32 target_y;
     u16 countdown;
 
-    coords = D_8008267C->coords;
+    coords = person_offset_target_owner->coords;
     coord_x = coords->x;
     base_y = coords->y;
     countdown = actor->countdown - 1;

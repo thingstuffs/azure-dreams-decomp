@@ -24,6 +24,6 @@ s32 look_up_slot_record_falling(void)
         return 1;
     }
 
-    ((Callback)D_80016000->unk_20->callback_2F8)(0x10, 0x200);
+    ((Callback)town_scene_root->services->callback_2F8)(0x10, 0x200);
     return 0;
 }

@@ -50,7 +50,7 @@ typedef struct {
 void func_8002522C();
 void create_effect_object_groups();
 extern Counter staged_fade_count;
-extern Flag D_80026474;
+extern Flag path_effect_release_flag;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
 void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) {
@@ -88,11 +88,11 @@ void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_8002
         }
         ((S_80024CD4_0 *)effect)->unk_0A.u++;
         if (((S_80024CD4_0 *)effect)->unk_22 == 0x6F) {
-            D_80026474.value = 1;
+            path_effect_release_flag.value = 1;
         }
         break;
     case 1:
-        if (D_80026474.value != 0) {
+        if (path_effect_release_flag.value != 0) {
             visual->unk_06.u = -0x100;
             ((S_80024CD4_0 *)effect)->unk_1A = 0x10U;
             ((S_80024CD4_0 *)effect)->unk_0A.u++;

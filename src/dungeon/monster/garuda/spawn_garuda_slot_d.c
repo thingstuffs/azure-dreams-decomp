@@ -75,17 +75,17 @@ void *spawn_garuda_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = ((void *)obj) + 0x20;
-        obj->unk_10 = &func_8015EA78;
+        obj->update_callback = &func_8015EA78;
         work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
         part_a = obj->position;
         part_a->unk_0A = held_c;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = held_b;
+        part_b->tile_y = held_b;
         actor = work;
         part_b->frameTable = &D_80162880;
-        part_b->unk_24 = held_a;
+        part_b->tile_x = held_a;
         if (kind == 1) {
             work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

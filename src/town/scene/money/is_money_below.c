@@ -7,5 +7,5 @@
 
 /* Returns whether the stored value is below the threshold. */
 s32 is_money_below(u32 threshold) {
-    return (u32) D_80016000->unk_38->unk_2D5C < threshold;
+    return (u32) town_scene_root->town_state->money < threshold;
 }

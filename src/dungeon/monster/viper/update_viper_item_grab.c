@@ -70,7 +70,7 @@ typedef struct {
 extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
 extern u8 viper_frame_set_1[];
-extern u8 D_80174AEC[];
+extern u8 viper_frame_set_5[];
 extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16);
@@ -101,8 +101,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
         direction = (object->angle >> 9) & 7;
         entity->saved_x = motion->x.w.i;
         entity->saved_y = motion->y.w.i;
-        index = (s16)find_floor_item_at_world_position(effect->unk_24 + dir_step_x[direction],
-                                   effect->unk_25 + dir_step_y[direction], object->height);
+        index = (s16)find_floor_item_at_world_position(effect->tile_x + dir_step_x[direction],
+                                   effect->tile_y + dir_step_y[direction], object->height);
         records = ((PackedRecord *)dungeon_ground_items);
         record = &records[index];
         if (record->bytes[1] == 0x12) {
@@ -143,8 +143,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
         if (entity->timer >= 0) {
             break;
         }
-        effect->frameTable = (void (*)(void))D_80174AEC;
-        select_sprite_entry(effect, D_80174AEC[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        effect->frameTable = (void (*)(void))viper_frame_set_5;
+        select_sprite_entry(effect, viper_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         entity->timer = 2000;
         entity->state++;
         break;

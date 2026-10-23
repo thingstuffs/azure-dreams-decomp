@@ -69,7 +69,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = ((void *)effect) + 0x20;
-        effect->unk_10 = (void *)advance_shrinking_arc_effect;
+        effect->update_callback = (void *)advance_shrinking_arc_effect;
         ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_20 = owner;
         effect_state->unk_06 = 0;
         effect_state->unk_08 = owner->unk_12.as_u16;
@@ -639,7 +639,7 @@ void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = (void *)draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends;
-        ((ObjectNodeHeader *)object)->sprite->unk_05 = 0x10;
+        ((ObjectNodeHeader *)object)->sprite->frame_ticks = 0x10;
         object->unk_20 = (s32) *initial_value;
     }
 }
@@ -799,7 +799,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = (void *)update_the_five_orbiting_points_advance_effect_animation;
+        obj->update_callback = (void *)update_the_five_orbiting_points_advance_effect_animation;
         fields = ((void *)obj) + 0x20;
         ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;

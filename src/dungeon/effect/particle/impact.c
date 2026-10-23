@@ -6,7 +6,7 @@ struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
 void (* const dungeon_19de800_entry)(void *, void *, void *) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
-const BankDirections D_80024004[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
+const BankDirections impact_grid_offsets[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
 const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 #include "dungeon/effect/particle/impact.h"
 #include "common.h"
@@ -365,7 +365,7 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
         state->unk_28 = 0x27;
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
-        object->unk_10 = (void *)scale_effect_by_phase;
+        object->update_callback = (void *)scale_effect_by_phase;
         register_node(object, (s32)project_sprite_chain);
         position = object->position;
         position->x.v = source_pos->unk_00;
@@ -582,7 +582,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             }
             particle_state = object + 0x20;
             ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
-            ((ObjectNodeHeader *)object)->unk_10 = (void *)advance_effect_motion_and_animation;
+            ((ObjectNodeHeader *)object)->update_callback = (void *)advance_effect_motion_and_animation;
             register_node(object, (s32)project_sprite_chain);
             sprite = ((ObjectNodeHeader *)object)->sprite;
             sprite->tpage_abr = 0x20;
@@ -674,7 +674,7 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
         effect_state->unk_28 = 0x1E;
         effect_state->unk_2A = 0x1E;
         effect_state->unk_20 = effect_value;
-        effect->unk_10 = (void *)shrink_effect_and_spawn_particles;
+        effect->update_callback = (void *)shrink_effect_and_spawn_particles;
         register_node(effect, (s32)project_sprite_chain);
         effect_position = effect->position;
         effect_position->x.v = (s32) position->unk_00;
@@ -1128,7 +1128,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
         if (particle != 0) {
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
             ((S_800251F4_0 *)particle_work)->unk_2C = rand() & 1;
-            particle->unk_10 = (void *)advance_rotating_ballistic_particle_and_expire;
+            particle->update_callback = (void *)advance_rotating_ballistic_particle_and_expire;
             register_node(particle, (s32)draw_linked_meshes);
 
             transform = particle->sprite;
@@ -1431,7 +1431,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     s32 anim_ticks;
     LocalPoint *point;
 
-    copy_src = (u8 *)&D_80024004;
+    copy_src = (u8 *)&impact_grid_offsets;
     offsets = *(LocalPoints *)copy_src;
 
     impact_effect_update_flag = 1;
@@ -1454,7 +1454,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
             effect_in->move_ticks = move_ticks;
             if (anim_ticks < 0x19) {
                 fade = anim_ticks << 8;
-                visual_in->unk_20 = fade;
+                visual_in->offset_x = fade;
                 visual_in->scale_y = fade;
                 visual_in->scale_x = fade;
                 effect_in->min_index = 0;
@@ -1480,7 +1480,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                               effect_in->min_index, effect_in->max_index);
                 copy_and_expand_effect_record(effect_in, visual_in->unk_00);
             }
-            if ((s16)primary_actor_record->unk_96 == 0) {
+            if ((s16)primary_actor_record->action_timer == 0) {
                 effect_in->move_ticks = 0;
                 effect_in->rise_speed = 0x200000;
                 effect_in->rise_accel = 0;
@@ -1569,7 +1569,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
         copy_and_expand_effect_record(effect_in, visual_in->unk_00);
         visual_in->scale_x = owner_visual->scale_x;
         visual_in->scale_y = owner_visual->scale_y;
-        visual_in->unk_20 = owner_visual->unk_20;
+        visual_in->offset_x = owner_visual->offset_x;
         visual_in->color.word = owner_visual->color.word;
         visual_in->angle_x = owner_visual->angle_x;
         visual_in->angle_y = owner_visual->angle_y;
@@ -1686,7 +1686,7 @@ u16 angle;
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
-            new_object->unk_10 = (void *)update_owner_following_effect;
+            new_object->update_callback = (void *)update_owner_following_effect;
             color |= 0x8080;
             data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;
@@ -1700,7 +1700,7 @@ u16 angle;
             asset_offset = (s32)(s16)object_index * 0x10;
             render->angle_z = angle - 0x400;
             render->angle_x = 0x400;
-            render->unk_20 = 0x1000;
+            render->offset_x = 0x1000;
             render->scale_y = 0x1000;
             render->scale_x = 0x1000;
             render->source = D_80028664 + asset_offset;
@@ -1721,7 +1721,7 @@ u16 angle;
             }
             render->scale_y = 0;
             render->scale_x = 0;
-            render->unk_20 = 0;
+            render->offset_x = 0;
             ((S_80025CE8_0 *)data_entry)->unk_30 = 0x3C;
             ((S_80025CE8_0 *)data_entry)->unk_36 = angle;
             ((S_80025CE8_0 *)data_entry)->unk_3A = 0;
@@ -1944,7 +1944,7 @@ void create_offset_colored_effect(
     if (effect != 0) {
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_28 = 0x14;
-        effect->unk_10 = (void *)update_effect_motion_and_visual;
+        effect->update_callback = (void *)update_effect_motion_and_visual;
         register_node(effect, (s32)project_sprite_chain);
         sprite = effect->sprite;
         sprite->tpage_abr = 0x40;
@@ -2230,7 +2230,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
-        reference_tile_object.unk_006 = 0;
+        reference_tile_object.depth_bias = 0;
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;

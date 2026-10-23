@@ -64,8 +64,8 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80173D10(void *, void *, void *, void *);
 
-extern u8 D_801711A4[];
-extern u8 D_80174184[];
+extern u8 kraken_action_resume_address[];
+extern u8 kraken_frame_set_3[];
 extern u8 kraken_frame_set_2[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
@@ -161,7 +161,7 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite->unk_26;
+                s8 tile = *(s8 *)&sprite->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -173,9 +173,9 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
-            (sprite->frameTable) = D_80174184;
+            (sprite->frameTable) = kraken_frame_set_3;
             select_sprite_entry(sprite,
-                D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                kraken_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -191,9 +191,9 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
             }
             break;
         } else {
-            (sprite->frameTable) = D_80174184;
+            (sprite->frameTable) = kraken_frame_set_3;
             select_sprite_entry(sprite,
-                D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                kraken_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -229,5 +229,5 @@ void update_actor_animation_timers_and_transitions(void *entity, ObjectPosition 
         return;
     }
     ((S_8017352C_2 *)actor)->unk_1C.u &= -0x201;
-    ((S_8017352C_0 *)entity)->unk_8C = D_801711A4;
+    ((S_8017352C_0 *)entity)->unk_8C = kraken_action_resume_address;
 }

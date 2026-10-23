@@ -15,7 +15,7 @@ s32 report_scene_busy_until_message_closes(void) {
     func_80016CC4();
     if (func_8001A64C(F_sbs32_pad08) == 0) {
         func_8001A7AC();
-        (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20) + 0x2F8))(0xE, 0x200);
+        (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&town_scene_root)) + 0x20) + 0x2F8))(0xE, 0x200);
         result = 0;
     } else {
         result = 1;

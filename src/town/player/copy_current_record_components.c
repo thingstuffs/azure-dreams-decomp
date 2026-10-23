@@ -22,8 +22,8 @@ typedef struct S_8001ACA0_0 {
 void copy_current_record_components_3(S_8001ACA0_0 *components) {
     MovingPosition *source_record;
 
-    source_record = ((ObjectPayloadView *)(((TownResourceLinks *)D_80016000->unk_24)->unk_68))->unk_08;
-    components->unk_00 = (u16) source_record->unk_02;
-    components->unk_02 = (u16) source_record->unk_06;
-    components->unk_04 = (u16) source_record->unk_0A;
+    source_record = ((ObjectPayloadView *)(((TownResourceLinks *)town_scene_root->unk_24)->unk_68))->unk_08;
+    components->unk_00 = (u16) source_record->x;
+    components->unk_02 = (u16) source_record->y;
+    components->unk_04 = (u16) source_record->z;
 }

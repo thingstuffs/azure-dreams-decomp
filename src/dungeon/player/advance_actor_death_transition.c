@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -13,7 +14,6 @@ void snapshot_inventory_and_familiars();
 void adjust_source_value_and_finalize();
 extern u8 D_800E0672[17];
 
-
 typedef struct S_8008E0C4_0 {
     u8 pad_00[0x8C];
     void ** unk_8C;
@@ -23,18 +23,14 @@ typedef struct S_8008E0C4_0 {
     u8 unk_9B;
 } S_8008E0C4_0;   /* context in advance_actor_death_transition */
 
-typedef struct S_8008E0C4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8008E0C4_1;   /* input in advance_actor_death_transition */
+   /* input in advance_actor_death_transition */
 
 typedef struct S_8008E0C4_2 {
     u8 unk_00;
 } S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
-
 /* Waits for the death animation and delay, then changes scenes or restores player input in state 0x10. */
-void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
+void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, SpriteFrameState *input, EntityRec *entity) {
     GameWork *work;
     u16 remaining;
     s32 state;
@@ -43,7 +39,7 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
     state = context->unk_9B;
     switch (state) {
     case 0:
-        if (input->unk_14 & 0xE000) {
+        if (input->flags & 0xE000) {
             adjust_source_value_and_finalize(entity, D_800E0672);
             context->unk_96 = 0x80;
             context->unk_9B++;
@@ -76,7 +72,7 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
         break;
 
     case 0x10:
-        if (input->unk_14 & 0xE000) {
+        if (input->flags & 0xE000) {
             entity->unk_28 = entity->unk_29;
             entity->facing = 0x400 - ((((u16)work->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00);
             context->unk_8C =handle_player_input;

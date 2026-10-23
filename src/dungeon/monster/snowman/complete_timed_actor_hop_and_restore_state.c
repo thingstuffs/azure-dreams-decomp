@@ -75,7 +75,7 @@ void complete_timed_actor_hop_and_restore_state(void *action, void *motion, void
         frames_left = ((S_80166C54_0 *)action)->unk_9E.s;
         ((S_80166C54_0 *)action)->unk_90 -= ((S_80166C54_0 *)action)->unk_A4;
         if (frames_left != 0) {
-            target_x = ((SpriteFrameState *)sprite)->unk_24;
+            target_x = ((SpriteFrameState *)sprite)->tile_x;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -85,7 +85,7 @@ void complete_timed_actor_hop_and_restore_state(void *action, void *motion, void
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((((SpriteFrameState *)sprite)->tile_y << 6) - pos_y) << 16) /
                 ((S_80166C54_0 *)action)->unk_9E.s;
 
             ((S_80166C54_0 *)action)->unk_A4 =
@@ -112,7 +112,7 @@ void complete_timed_actor_hop_and_restore_state(void *action, void *motion, void
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
             ((SpriteFrameState *)sprite)->frameTable = D_801699B8;
             select_sprite_entry(
                 sprite,
@@ -142,7 +142,7 @@ void complete_timed_actor_hop_and_restore_state(void *action, void *motion, void
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -159,8 +159,8 @@ void complete_timed_actor_hop_and_restore_state(void *action, void *motion, void
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24,
-                ((SpriteFrameState *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->tile_x,
+                ((SpriteFrameState *)sprite)->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

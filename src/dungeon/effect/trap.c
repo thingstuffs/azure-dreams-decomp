@@ -833,7 +833,7 @@ struct ObjectBlock;
 struct ObjectBlock *create_grid_effect_object();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
-extern u8 D_800E5908;
+extern u8 trap_resource_slot;
 extern u8 dungeon_resource_buffer;
 
 /* Creates a five-part effect at the given position and applies its target effect. */
@@ -851,7 +851,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     S_800CCA14_0 *effect;
     S_800CCA14_2 *part;
 
-    effect = initialize_scene_object_in_buffer(0, (D_800E5908 * 0xC8) + (u8 *)&dungeon_resource_buffer, 0xA);
+    effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + (u8 *)&dungeon_resource_buffer, 0xA);
     effect->unk_10 = &D_800CC9BC;
     effect->unk_20 = x;
     effect->unk_22 = y;
@@ -860,7 +860,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
-        part = initialize_scene_object_in_buffer(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&dungeon_resource_buffer + 0x28), 0xA);
+        part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + ((u8 *)&dungeon_resource_buffer + 0x28), 0xA);
         part->unk_10 = &D_800CC370;
         part_x = (u16) effect->unk_20;
         direction = part_index * 2;
@@ -901,7 +901,7 @@ typedef struct {
 
 
 
-extern u8 D_800E5908;
+extern u8 trap_resource_slot;
 extern s32 D_800DCF78;
 
 extern s32 play_sound_if_enabled();
@@ -940,7 +940,7 @@ s32 take_map_item_slot(void *object, s16 slot)
             item_base = (u8 *)dungeon_floor_object_positions;
             entry[3] = value;
             item = item_base + index * 24;
-            countp = &D_800E5908;
+            countp = &trap_resource_slot;
             field = *(u16 *)(item + 0x14);
             count = *countp;
             field &= 0xF7FF;
@@ -972,7 +972,7 @@ s32 take_map_item_slot(void *object, s16 slot)
         stack_args[0] = 0x01000340;
         stack_args[1] = 0x00200020;
         draw_textured_ellipse((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
-        D_800E5908 = 0;
+        trap_resource_slot = 0;
     }
 
     tail_base = (u8 *)dungeon_floor_object_positions;
@@ -2369,7 +2369,7 @@ extern void initialize_timed_motion_step();
 extern s32 random_dungeon_range_16(s32, s32);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 
-extern u8 D_800CE028[];
+extern u8 floor_trap_update_address[];
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
 s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
@@ -2398,7 +2398,7 @@ s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, v
         reverse_flag = (s16)reverse_offset;
         grid_data = (u8 *)&object->field_20;
         row_data = grid_data;
-        object->field_10 = D_800CE028;
+        object->field_10 = floor_trap_update_address;
         object->field_20 = center_x - 2;
         ((S_800CE4E8_0 *)grid_data)->unk_02 = center_y - 2;
         do {

@@ -54,7 +54,7 @@ void update_effect_trajectory_and_sprite(void *effect, MovingPosition *position,
         advance_sprite_animation_and_textures(sprite);
         if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((SpriteFrameState *)sprite)->unk_04 = 0;
-            ((SpriteFrameState *)sprite)->unk_05 = 0;
+            ((SpriteFrameState *)sprite)->frame_ticks = 0;
         }
         ((SpriteFrameState *)sprite)->color.word += 0xFFE7E7E8;
         if ((u8)((SpriteFrameState *)sprite)->color.word < 0x30U) {
@@ -73,9 +73,9 @@ void update_effect_trajectory_and_sprite(void *effect, MovingPosition *position,
         transform.field18 = 1;
         transform.field1A = 1;
         transform_rotated_vertices(&transform);
-        position->unk_02 = transformed_position.x;
-        position->unk_06 = transformed_position.y;
-        position->unk_0A = transformed_position.z;
+        position->x = transformed_position.x;
+        position->y = transformed_position.y;
+        position->z = transformed_position.z;
 
         break;
     case 1:

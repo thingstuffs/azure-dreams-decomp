@@ -48,7 +48,7 @@ void advance_object_animation_and_effect(void *object)
         *((s16 *) (((u8 *) object) + 0x26)) = 0;
         effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
-            effect->unk_10 = D_800BFF7C;
+            effect->update_callback = D_800BFF7C;
             register_node(effect, project_sprite_chain);
             effect_sprite = effect->sprite;
             *((s32 *) (((u8 *) (effect->position)) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
@@ -62,7 +62,7 @@ void advance_object_animation_and_effect(void *object)
             *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
             effect_sprite->source = *((s32 *) (map_animation_sprite_entries + 4));
             effect_sprite->unk_04 = 0;
-            effect_sprite->unk_05 = 0;
+            effect_sprite->frame_ticks = 0;
         }
         *((u16 *) (((u8 *) object) + 0x48)) = 4;
         *((u16 *) (((u8 *) object) + 0x4C)) =

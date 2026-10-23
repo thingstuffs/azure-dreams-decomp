@@ -264,8 +264,8 @@ void update_entity_movement_animation_and_ground(void *entity, ObjectPosition *m
     entity_flags = ((S_8014D3A8_2 *)entity_base)->unk_1C;
     if (entity_flags & 0x40000000) {
         ((S_8014D3A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
-                              (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
+                              (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
                               (s16)(((S_8014D3A8_2 *)entity_base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =

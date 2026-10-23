@@ -64,7 +64,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     if (object != 0) {
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
-        object->unk_10 = D_80170DA8;
+        object->update_callback = D_80170DA8;
         actor->unk_13 = MONSTER_HIKEWNE;
         register_node(object, project_sprite_chain);
 
@@ -73,10 +73,10 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         part_a->unk_0A = value_at_0A;
         part_b = object->sprite;
         kind = mask & 3;
-        part_b->unk_25 = value_at_25;
+        part_b->tile_y = value_at_25;
         actor2 = actor;
         part_b->frameTable = handler;
-        part_b->unk_24 = value_at_24;
+        part_b->tile_x = value_at_24;
         actor->unk_9E = 0;
 
         if (kind == 1) {

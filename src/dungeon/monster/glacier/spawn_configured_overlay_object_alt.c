@@ -38,7 +38,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8017103C[];
 extern s32 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
-extern u8 D_801760EC[];
+extern u8 glacier_frame_set_2[];
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Glacier with default frames at D_8017609C, applies spawn flags, and attempts valid tile
@@ -59,7 +59,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
     if (object != 0) {
         result = object;
         result = (S_80170E74_1 *)((u8 *)result + 0x20);
-        object->unk_10 = D_8017103C;
+        object->update_callback = D_8017103C;
         result->unk_13 = MONSTER_GLACIER;
         register_node(object, project_sprite_chain);
 
@@ -71,11 +71,11 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
             part0->unk_0A = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
-            part1->unk_25 = variant;
+            part1->tile_y = variant;
             result_copy = result;
             part1->frameTable = handler;
         }
-        part1->unk_24 = kind_id;
+        part1->tile_x = kind_id;
 
         if (kind == 1) {
             flags0 = result->unk_14;
@@ -95,7 +95,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
             if ((result->unk_14 & ACTOR_RESIST_SLEEP) == 0) {
                 if ((generate_random_value() & 1) != 0) {
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    part1->frameTable = D_801760EC;
+                    part1->frameTable = glacier_frame_set_2;
                 }
             }
         }

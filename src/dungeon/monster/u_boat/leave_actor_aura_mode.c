@@ -31,7 +31,7 @@ extern s32 try_move_actor_to_valid_position();
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
 
 extern u8 uboat_default_frames[];
-extern u8 D_800E2448[];
+extern u8 u_boat_aura_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Advance a two-phase animation transition and finalize the entity state. */
@@ -56,8 +56,8 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState
                     ((S_80176084_0 *)state)->unk_B1 = active_step;
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
-                sprite->frameTable = (u8 *)D_800E2448;
-                select_sprite_entry(sprite, D_800E2448[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                sprite->frameTable = (u8 *)u_boat_aura_frames;
+                select_sprite_entry(sprite, u_boat_aura_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((sprite->flags & 0x8000)
                       || (play_sound_if_enabled(0x801), ((sprite->flags & 0x8000) != 0)))) {
@@ -70,7 +70,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
                 motion->velocity_x = 0;
-                set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+                set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
@@ -92,7 +92,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState
     finish_ticks = ((S_80176084_0 *)state)->unk_96;
     ((S_80176084_0 *)state)->unk_96 = (u16)(finish_ticks - 1);
     if (((finish_ticks << 0x10) <= 0) || (sprite->flags & 0xE000)) {
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
         ((S_80176084_0 *)state)->unk_8C = (u8 *)uboat_behavior_entry;
         clear_slots_of_type(entity, STATUS_NO_TILE_OCCUPANCY);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {

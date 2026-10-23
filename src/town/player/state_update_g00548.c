@@ -15,13 +15,13 @@ void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
         town_player_target_adjustment = adjustment - 1;
         entity->unk10 = 0x800;
         entity->unkA = 4;
-        call_the_handler_selects_nonzero_entry((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
+        call_the_handler_selects_nonzero_entry((s32 *) player_interaction_handler_entries, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
     } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = town_player_target_adjustment) <= 0)) {
         town_player_target_adjustment = adjustment + 1;
         entity->unk10 = 0;
         entity->unkA = 4;
-        call_the_handler_selects_nonzero_entry((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
+        call_the_handler_selects_nonzero_entry((s32 *) player_interaction_handler_entries, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
     }
 }

@@ -164,7 +164,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
         if (object != NULL) {
             ((S_8016E4E8_2 *)part)->unk_18 = one;
             ((S_8016E4E8_2 *)part)->unk_1A = one;
-            object->unk_10 = D_8016E4A4;
+            object->update_callback = D_8016E4A4;
             register_node(object, D_8016E450);
 
             effect = object->sprite;

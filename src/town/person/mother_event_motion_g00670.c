@@ -129,7 +129,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
         attempts++;
     } while (attempts < 0x10);
 
-    initialize_object_entries((Struct800C5724 *)entity, (s8 *)context, &D_800D5FE8);
+    initialize_object_entries((Struct800C5724 *)entity, (s8 *)context, &mother_event_object_entries);
     entity->unk_50.as_pv = &D_800C7674;
 }
 
@@ -137,7 +137,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
 void initialize_mother_event_with_timer_16(void *object, s32 unused, s32 init_data) {
     Timer *timer;
 
-    initialize_object_entries(object, (s8 *)(init_data), &D_800D5FE8);
+    initialize_object_entries(object, (s8 *)(init_data), &mother_event_object_entries);
     *(s32 **)((u8 *)object + 0x50) = &D_800C78A8;
     timer = &D_80113220;
     timer->value = 0x10;

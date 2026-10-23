@@ -151,8 +151,8 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
                 } else {
                     ((S_801728E4_1 *)act)->unk_60 =
                         scan_actor_along_heading(act,
-                                      sprite->unk_24,
-                                      sprite->unk_25,
+                                      sprite->tile_x,
+                                      sprite->tile_y,
                                       ((S_801728E4_1 *)act)->unk_2A,
                                       0x10);
                     ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
@@ -219,7 +219,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
         ((EntityRec *)item)->flags14 = 0;
         ((EntityRec *)item)->unk_10 = 0;
         ((EntityRec *)item)->unk_0C = 0;
-        set_record_integer_tile_center(item, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(item, sprite->tile_x, sprite->tile_y);
         source_sprite = ((u8 *)(&g_dungeon_status));
         if (*(s32 *)&source_sprite->sprite != 0) {
             return;

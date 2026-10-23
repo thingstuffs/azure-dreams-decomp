@@ -30,7 +30,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        object->unk_10 = (void *)update_sprite_from_third_argument;
+        object->update_callback = (void *)update_sprite_from_third_argument;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         render_config = (u32) g_game_work.view.tint.word;
@@ -229,7 +229,7 @@ typedef struct S_800F643C_3 {
 
 s32 draw_linked_lit_meshes(void *,s32,void *);
 extern s32 default_textured_quad_color;
-extern s16 *D_800F8A44[];
+extern s16 *view_marker_slots[];
 
 /* Creates a dungeon object at the given position and records it in its slot. */
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
@@ -242,14 +242,14 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        object->unk_10 = (void *)advance_dungeon_tile_action_state;
+        object->update_callback = (void *)advance_dungeon_tile_action_state;
         register_node(object, (s32)draw_linked_lit_meshes);
         render_config = default_textured_quad_color;
         model = object->sprite;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
         model->scale_y = 0x1000;
         model->scale_x = 0x1000;
-        model->unk_06 = 4;
+        model->depth_bias = 4;
         model->color.word = render_config;
         model->source = 0x70;
         position = object->position;
@@ -266,7 +266,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
             ((S_800F643C_3 *)object_data)->unk_02 = 0x800;
             model->angle_z = 0x800;
         }
-        D_800F8A44[slot] = object_data;
+        view_marker_slots[slot] = object_data;
         ((S_800F643C_3 *)object_data)->unk_10 = slot;
     }
 }
@@ -279,7 +279,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 #include "shared/dungeon_status.h"
 
 extern s32 D_80013718;
-extern s16 *D_800F8A44[];
+extern s16 *view_marker_slots[];
 
 /* Update both state targets and set flags when the mode is 3. */
 void update_overlay_state_and_retire(void *data)
@@ -294,7 +294,7 @@ void update_overlay_state_and_retire(void *data)
     if (*(s32 *)0x80013718 == 3) {
         slot_index = 1;
         flags = &g_dungeon_status;
-        state_table = D_800F8A44;
+        state_table = view_marker_slots;
         state_slot = state_table + 1;
         do {
             state_ptr = *state_slot;
@@ -354,7 +354,7 @@ struct S_80082E60 {
     s16 field_16;
 };
 typedef struct S_80082E60 S_80082E60;
-extern s16 *D_800F8A44[];
+extern s16 *view_marker_slots[];
 
 extern u8 D_800F8A4C[];
 struct S_10 {
@@ -381,7 +381,7 @@ void initialize_overlay_effect_state(void) {
     entries_base = ((s32 *)world_state->map.cells);
     index = 1;
     state_code = 0x11;
-    state_table = D_800F8A44;
+    state_table = view_marker_slots;
     state_slot = state_table + 1;
     effect_state = &runtime_dispatch_state;
     effect_state->unk_10 = 0x1F;
@@ -1078,12 +1078,12 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
 
     effect = allocate_list_node(0x212, spawn_arg);
     if (effect != NULL) {
-        effect->unk_10 = (void *)converge_particle_position_and_color;
+        effect->update_callback = (void *)converge_particle_position_and_color;
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
-        position->y.w.i = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);
-        position->z.w.i = (s16) ((origin->unk_0A + (rand() & 0x3F)) - 0x20);
+        position->x.w.i = (s16) ((origin->x + (rand() & 0x3F)) - 0x20);
+        position->y.w.i = (s16) ((origin->y + (rand() & 0x3F)) - 0x20);
+        position->z.w.i = (s16) ((origin->z + (rand() & 0x3F)) - 0x20);
         sprite = effect->sprite;
         sprite->source = &D_800FBE24;
         if (source->unk_14 & 1) {
@@ -1097,7 +1097,7 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
         }
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->unk_06 = 8;
+        sprite->depth_bias = 8;
         effect_state = ((void *)effect) + 0x20;
         sprite->flags = (u16) (sprite->flags | 0xC);
         effect_state->unk_0C = 0x10;
@@ -1269,7 +1269,7 @@ void create_owner_attached_color_effect(void *parent_data) {
 
     child = allocate_list_node(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
-        child->unk_10 = update_owner_attached_color_effect;
+        child->update_callback = update_owner_attached_color_effect;
         register_node(child, project_sprite_chain);
         rect_origin = 0x01000340;
         rect_size = 0x200020;
@@ -1338,21 +1338,21 @@ void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 r
 
     effect = allocate_list_node(0x212, source);
     if (effect != NULL) {
-        effect->unk_10 = (void *)advance_reverse_direction_particle;
+        effect->update_callback = (void *)advance_reverse_direction_particle;
         register_node(effect, project_sprite_chain);
         (effect->position)->x.w.i =
-            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->x + (rand() & 0x3F)) - 0x20);
         (effect->position)->y.w.i =
-            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->y + (rand() & 0x3F)) - 0x20);
         (effect->position)->z.w.i =
-            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->z + (rand() & 0x3F)) - 0x20);
         render_data = effect->sprite;
         effect_state = ((void *)effect) + 0x20;
         render_data->source = &D_800FBE24;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = render_value;
-        render_data->unk_06 = 8;
+        render_data->depth_bias = 8;
         effect_state->unk_14 = state_value;
         effect_state->unk_32 = (s16) ((rand() & 0xFF) | 0x80);
     }
@@ -1490,12 +1490,12 @@ s32 update_special_actor_transition(void) {
             room_page = (u8 *)0x80080000;
             nearby_room = &reference_tile_object;
             dx = nearby_room->tile_position.parts.tile_x;
-            target_coord = target->unk_24;
+            target_coord = target->tile_x;
             dx -= target_coord;
             dx = abs(dx);
             if (dx < 3) {
                 room_distance_y = nearby_room->tile_position.parts.tile_y;
-                target_coord = target->unk_25;
+                target_coord = target->tile_y;
                 room_distance_y -= target_coord;
                 room_distance_y = abs(room_distance_y);
                 if (room_distance_y < 3) {
@@ -1544,8 +1544,8 @@ s32 update_special_actor_transition(void) {
             s32 y_is_farther;
 
             distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
-            delta_y = target->unk_24;
-            target_y = target->unk_25;
+            delta_y = target->tile_x;
+            target_y = target->tile_y;
             distance_x -= delta_y;
             delta_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
             if (distance_x < 0) {
@@ -1563,8 +1563,8 @@ s32 update_special_actor_transition(void) {
             ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
             entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
-            tile_x = target->unk_24;
-            tile_y = target->unk_25;
+            tile_x = target->tile_x;
+            tile_y = target->tile_y;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
@@ -1632,21 +1632,21 @@ s32 update_special_actor_transition(void) {
         break;
 
     case 2:
-        target->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
-        target->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
-        motion[0] = ((target->unk_24 << 6) + 0x20) << 16;
-        motion[1] = ((target->unk_25 << 6) + 0x20) << 16;
+        target->tile_x = ((S_807B040C_1 *)entity)->unk_AA.u8;
+        target->tile_y = ((S_807B040C_1 *)entity)->unk_AE.u8;
+        motion[0] = ((target->tile_x << 6) + 0x20) << 16;
+        motion[1] = ((target->tile_y << 6) + 0x20) << 16;
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
         ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(*(u16 *)&((ObjectPosition *)motion)->x.w.i,
                                                  *(u16 *)&((ObjectPosition *)motion)->y.w.i, -0x400);
-        set_record_integer_tile_center(motion, target->unk_24, target->unk_25);
+        set_record_integer_tile_center(motion, target->tile_x, target->tile_y);
         {
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
-            tile_x = target->unk_24;
-            tile_y = target->unk_25;
+            tile_x = target->tile_x;
+            tile_y = target->tile_y;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
@@ -1704,7 +1704,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        object->unk_10 = (void *)emit_scattered_animated_particles;
+        object->update_callback = (void *)emit_scattered_animated_particles;
         register_node(object, (void *)render_particle_effect_object);
         state = ((void *)object) + 0x20;
         ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
@@ -1756,7 +1756,7 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
     if (tick_count & 1) {
         particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
         if (particle != NULL) {
-            particle->unk_10 = (void *)move_sprite_until_animation_finishes;
+            particle->update_callback = (void *)move_sprite_until_animation_finishes;
             register_node(particle, project_sprite_chain);
             sprite = particle->sprite;
             spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
@@ -1773,7 +1773,7 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
             sprite->flags = (u16) (sprite->flags | 0xC);
             sprite_config = ((S_807B09A0_3 *)(&D_800DEED0))->unk_04;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->color.word = 0xA0A0A0;
             sprite->source = sprite_config;
         }

@@ -16,7 +16,7 @@ typedef struct S_800A526C_1 {
 } S_800A526C_1;   /* arg0 in interpolate_view_components */
 
 
-extern u8 D_800A51CC[16];
+extern u8 map_transition_handler_address[16];
 
 /* Interpolate three state components toward their targets and advance the transition when complete. */
 void interpolate_view_components(S_800A526C_1 *transition)
@@ -54,6 +54,6 @@ void interpolate_view_components(S_800A526C_1 *transition)
         transition->unk_14 = target_component;
         state_base->view.view_offset.parts.view_offset_z = target_component;
 
-        transition->unk_20 = D_800A51CC;
+        transition->unk_20 = map_transition_handler_address;
     }
 }

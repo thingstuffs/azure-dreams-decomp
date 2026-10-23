@@ -5,7 +5,7 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 void store_the_valid_shared_angle_in_offset_hex_10(Rec_func_80094268_arg0 *);                            /* extern */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                     /* extern */
-extern s32 D_80091260;
+extern s32 actor_input_dispatch_address;
 
 
 /* Set up the entity state and motion, then install its handler table. */
@@ -14,5 +14,5 @@ void initialize_motion_action(Rec_func_80094268_arg0 *entity, s32 motion, s32 va
     store_the_valid_shared_angle_in_offset_hex_10(entity);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(motion);
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, (void *)(value));
-    entity->unk_00.as_pm = &D_80091260;
+    entity->unk_00.as_pm = &actor_input_dispatch_address;
 }

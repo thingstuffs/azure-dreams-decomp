@@ -138,7 +138,7 @@ void advance_actor_directional_action(void *controller, void *context, SpriteFra
         do {
             if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
                 check_target = ((u8 *)(&reference_tile_object));
-                tile = *(s8 *)&sprite->unk_26;
+                tile = *(s8 *)&sprite->room_index;
             if (tile != reference_tile_object.room_index || tile < 0) {
                     s16 distance;
 

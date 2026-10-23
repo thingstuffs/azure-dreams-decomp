@@ -7,7 +7,7 @@
 
 /* Initialize the three context fields to 1, 11, and 3. */
 void initialize_three_context_fields_1(void) {
-    (*(s32 * *)((u8 *)(((void **)D_80016000->unk_1C)) + 0)) = 1;
-    ((TownPositionState *)D_80016000->unk_1C)->x = 11;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 3;
+    (*(s32 * *)((u8 *)(((void **)town_scene_root->position)) + 0)) = 1;
+    ((TownPositionState *)town_scene_root->position)->x = 11;
+    ((TownPositionState *)town_scene_root->position)->y = 3;
 }

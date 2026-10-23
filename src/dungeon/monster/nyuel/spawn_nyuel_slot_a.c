@@ -34,8 +34,8 @@ Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 til
         partA->unkA = (s32)slot1;
         slot1 = (unsigned long)obj->unkC;
         partB = (Func80BBB094PartB *)slot1;
-        partB->unk_24 = tile_x;
-        partB->unk_25 = saved_tile_y;
+        partB->tile_x = tile_x;
+        partB->tile_y = saved_tile_y;
         resultAlias = result;
 
         mode = spawn_flags & 3;

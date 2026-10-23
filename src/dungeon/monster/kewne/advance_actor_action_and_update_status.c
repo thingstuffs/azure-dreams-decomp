@@ -81,7 +81,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, SpriteFr
             return;
         }
 
-        if (((ActorRecord *)entity)->unk_64 != 0) {
+        if (((ActorRecord *)entity)->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, animation, 0) != 0) {
                 return;
             }

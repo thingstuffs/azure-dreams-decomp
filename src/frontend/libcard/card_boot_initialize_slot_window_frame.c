@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/gpu_packets.h"
 
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -7,14 +8,8 @@ typedef struct S_8002E5D8 {
     s32 unkC;
 } S_8002E5D8;
 
-typedef struct S_8002E5E8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8002E5E8;
-
 extern S_8002E5D8 display_block_defaults;
-extern S_8002E5E8 display_vector_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -28,20 +23,14 @@ typedef struct {
 
 typedef struct {
     s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_80010A78_a2;
-
-typedef struct {
-    s32 unk0;
     S_80010A78_a1 *unk4;
-    S_80010A78_a2 *unk8;
+    DisplayPositionWords *unk8;
 } S_80010A78_a0;
 
 /* Initialize and link two template blocks, applying defaults and a slot-based offset. */
-void card_boot_initialize_slot_window_frame(S_80010A78_a0 *entity, S_8002E5D8 *primary, S_80010A78_a2 *secondary, s32 slot_index) {
+void card_boot_initialize_slot_window_frame(S_80010A78_a0 *entity, S_8002E5D8 *primary, DisplayPositionWords *secondary, s32 slot_index) {
     S_8002E5D8 *primary_template = &display_block_defaults;
-    S_8002E5E8 *secondary_template = &display_vector_defaults;
+    DisplayPositionWords *secondary_template = &display_vector_defaults;
     s32 *secondary_head;
 
     primary->unk0 = primary_template->unk0;
@@ -50,9 +39,9 @@ void card_boot_initialize_slot_window_frame(S_80010A78_a0 *entity, S_8002E5D8 *p
     primary->unk8 = primary_template->unk8;
     primary->unkC = primary_template->unkC;
 
-    ((S_8002E5E8 *)secondary)->unk0 = *secondary_head;
-    ((S_8002E5E8 *)secondary)->unk4 = secondary_template->unk4;
-    ((S_8002E5E8 *)secondary)->unk8 = secondary_template->unk8;
+    ((DisplayPositionWords *)secondary)->unk0 = *secondary_head;
+    ((DisplayPositionWords *)secondary)->unk4 = secondary_template->unk4;
+    ((DisplayPositionWords *)secondary)->unk8 = secondary_template->unk8;
 
     entity->unk4 = (S_80010A78_a1 *)primary;
     entity->unk8 = secondary;

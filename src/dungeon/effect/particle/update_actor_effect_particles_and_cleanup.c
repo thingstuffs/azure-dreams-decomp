@@ -210,14 +210,14 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
 
     effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
-        effect->unk_10 = (void *)accelerate_particle_toward_source;
-        (effect->position)->x.w.i = (s16) (((MovingPosition *)source->position)->unk_02 + offset_x);
-        (effect->position)->y.w.i = (s16) (((MovingPosition *)source->position)->unk_06 + offset_y);
-        (effect->position)->z.w.i = (s16) (((MovingPosition *)source->position)->unk_0A + offset_z);
+        effect->update_callback = (void *)accelerate_particle_toward_source;
+        (effect->position)->x.w.i = (s16) (((MovingPosition *)source->position)->x + offset_x);
+        (effect->position)->y.w.i = (s16) (((MovingPosition *)source->position)->y + offset_y);
+        (effect->position)->z.w.i = (s16) (((MovingPosition *)source->position)->z + offset_z);
         state = ((void *)effect) + 0x20;
-        state->unk_34 = (u16) ((MovingPosition *)source->position)->unk_02;
-        state->unk_36 = (u16) ((MovingPosition *)source->position)->unk_06;
-        state->unk_38 = (u16) ((MovingPosition *)source->position)->unk_0A;
+        state->unk_34 = (u16) ((MovingPosition *)source->position)->x;
+        state->unk_36 = (u16) ((MovingPosition *)source->position)->y;
+        state->unk_38 = (u16) ((MovingPosition *)source->position)->z;
         signed_duration = (s16) duration;
         delta_x = -(offset_x << 16);
         step_count = signed_duration / 8;
@@ -509,7 +509,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                 ObjectPosition *task_motion;
                 Render33 *task_render;
                 task->field22 = 0x10;
-                task->header.unk_10 = (void *)fade_and_rotate_timed_effect;
+                task->header.update_callback = (void *)fade_and_rotate_timed_effect;
                 register_node(task, (s32)project_sprite_chain);
                 task_render = task->header.sprite;
                 task_render->field10 = 0x40;

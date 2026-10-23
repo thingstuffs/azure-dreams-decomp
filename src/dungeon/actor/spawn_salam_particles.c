@@ -38,12 +38,12 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
     do {
         particle = allocate_list_node(0x212, source);
         if (particle != NULL) {
-            particle->unk_10 = &D_800CAED0;
+            particle->update_callback = &D_800CAED0;
             register_node(particle, project_sprite_chain);
             motion = particle->position;
-            motion->x.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
-            motion->y.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
-            motion->z.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
+            motion->x.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->x + (rand() & 0x3F)) - 0x20);
+            motion->y.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->y + (rand() & 0x3F)) - 0x20);
+            motion->z.w.i = (s16) ((((MovingPosition *)((*(void * *)&source->z)))->z + (rand() & 0x3F)) - 0x20);
             angle = rand();
             motion->velocity_x = (s32) (rcos(angle) << 5);
             motion->velocity_y = (s32) (rsin(angle) << 5);
@@ -60,7 +60,7 @@ void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param
              */
             render->source = &D_800E03B0;
             render->color.word = render_param;
-            render->unk_06 = 8;
+            render->depth_bias = 8;
             effect_state->unk_B0 = effect_param;
             effect_state->unk_96 = (s16) ((rand() & 0xFF) | 0x80);
         }

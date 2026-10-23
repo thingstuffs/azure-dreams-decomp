@@ -22,7 +22,7 @@ typedef struct {
     s32 words[0x15];
 } Record84;
 extern Record84 town_slot_snapshot;
-extern s32 D_80100B50[];
+extern s32 shop_target_position[];
 extern s32 D_80100B68;
 
 /* Move toward the target and finalize the object when its countdown expires. */
@@ -31,7 +31,7 @@ void move_toward_target_finalize_countdown_expires(void *object, s32 context, Ob
     s32 *global_flags;
     u16 ticks_or_flags;
 
-    target_pos = D_80100B50;
+    target_pos = shop_target_position;
     motion->velocity_x = (s32) ((s32) (((IntVector3 *)target_pos)->x - motion->x.v) / 2);
     motion->velocity_y = (s32) ((s32) (((IntVector3 *)target_pos)->y - motion->y.v) / 2);
     motion->velocity_z = (s32) ((s32) (((IntVector3 *)target_pos)->z - motion->z.v) / 2);
@@ -44,7 +44,7 @@ void move_toward_target_finalize_countdown_expires(void *object, s32 context, Ob
         itm_mon_koyaw_set(D_80100B68, object + 0x4C, &town_slot_snapshot, 0);
         unlink_scene_list_node(object);
         unlink_node_if_registered(object);
-        ticks_or_flags = ((ObjectRetirementFlags *)object)[-1].unk_00;
+        ticks_or_flags = ((ObjectRetirementFlags *)object)[-1].flags;
         global_flags = ((s32 *)(&object_flag_block));
         (*(u16 *)((u8 *)object + -2)) = (u16) (ticks_or_flags | 0x8000);
         *global_flags = *global_flags | 0x8000;

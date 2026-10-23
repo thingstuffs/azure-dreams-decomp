@@ -19,8 +19,8 @@
 #include "shared/dungeon_status.h"
 
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
-const NativeOffsets58 D_80024004 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
-const RectTable D_80024024 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
+const NativeOffsets58 target_effect_direction_steps = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
+const RectTable target_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
 extern u32 RotTransPers(void *, void *, void *, void *);
@@ -32,7 +32,7 @@ extern void advance_counter_and_propagate_target_flags(void *);
 extern u8 shared_sprite_entries[];
 extern u8 fading_sprite_entries[];
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
-extern s16 D_80082E86[6];
+extern s16 linked_effect_chain_count[6];
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
@@ -179,7 +179,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)advance_counter_and_propagate_target_flags;
+        spawned->update_callback = (void *)advance_counter_and_propagate_target_flags;
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();
@@ -404,7 +404,7 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
         render->flags |= 0xC;
         render->tpage_abr = 0x60;
         render->flags |= 2;
-        render->unk_06 = 0;
+        render->depth_bias = 0;
         position = effect->coordinates.position;
         position->x.w.i = x;
         position->y.w.i = y;
@@ -462,20 +462,20 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
     s16 spawn_y = offset_y;
     s16 spawn_z = offset_z;
 
-    direction_points = D_80024004.raw;
+    direction_points = target_effect_direction_steps.raw;
     directions = (LocalPoint *)&direction_points;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0xF;
-        effect->unk_10 = advance_terrain_colliding_sprite;
+        effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (((s16)rand()) & 7) << 9;
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
 
         position = effect->position;
         position->x.w.i = offset_x;
@@ -548,20 +548,20 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
     s16 offset_y = y;
     s16 offset_z = z;
 
-    points = D_80024004.raw;
+    points = target_effect_direction_steps.raw;
     point_base = (LocalPoint *)&points;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0x4;
-        effect->unk_10 = advance_terrain_colliding_sprite;
+        effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (((s16)rand()) & 7) << 9;
-        sprite->unk_06 = 0;
+        sprite->depth_bias = 0;
 
         position = effect->position;
         position->x.w.i = x;
@@ -631,7 +631,7 @@ void create_timed_rectangle_effect(void *owner) {
     u16 ticks_left;
 
     copy_dst = (u8 *)&slot_rects;
-    copy_src = (u8 *)&D_80024024;
+    copy_src = (u8 *)&target_particle_texture_rects;
     if ((u32)copy_src & 3) {
         copy_end = copy_src + sizeof(RectTable);
         do {
@@ -670,7 +670,7 @@ void create_timed_rectangle_effect(void *owner) {
             ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
             ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
             ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
-            child->unk_10 = apply_random_actor_value_adjustment;
+            child->update_callback = apply_random_actor_value_adjustment;
             register_node(child, (s32)project_sprite_chain);
 
             display = child->sprite;
@@ -728,7 +728,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
         object_state = (u8 *)object + 0x20;
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
         ((S_8196BD3C_0 *)object_state)->unk_7C = source;
-        object->unk_10 = create_timed_rectangle_effect;
+        object->update_callback = create_timed_rectangle_effect;
         register_node(object, (s32)project_sprite_chain);
 
         display = object->sprite;
@@ -1026,7 +1026,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
     register u32 random;
     u16 local_y;
 
-    offsets = D_80024004.signed_pairs;
+    offsets = target_effect_direction_steps.signed_pairs;
     work->counter++;
     state = work->state;
     switch (state) {
@@ -1036,7 +1036,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         effect_page = (u8 *)0x80020000;
         *(s32 *)&dungeon->pad0[0xF4] = 0;
         *(s16 *)&dungeon->pad0[0x96] = init_timer;
-        D_80082E86[0] = 6;
+        linked_effect_chain_count[0] = 6;
         next_state = (u16)work->state + 1;
         particle_activity = 1;
         work->state = next_state;
@@ -1289,7 +1289,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
     case 4:
         if (particle_activity == 0) {
             g_dungeon_status.active_actor = 0;
-            reference_tile_object.unk_006 = 0;
+            reference_tile_object.depth_bias = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((u16 *)work)[-1] |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

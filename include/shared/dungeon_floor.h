@@ -18,10 +18,10 @@ typedef struct DungeonRoom {
     /* 0x04 */ short w; /* room rectangle width, in map tiles */
     /* 0x06 */ short h; /* room rectangle height, in map tiles */
     /* 0x08 */ short unk_08;
-    /* 0x0A */ short unk_0A; /* nonzero when this generation cell contains a real room */
+    /* 0x0A */ short active; /* nonzero when this generation cell contains a real room */
     /* 0x0C */ unsigned short flags; /* room state bits; readers test bit 1 before trusting a stored room index */
-    /* 0x0E */ short unk_0E;
-    /* 0x10 */ int unk_10;
+    /* 0x0E */ short entry_count;
+    /* 0x10 */ int entries;
 } DungeonRoom;                       /* size 0x14 */
 
 extern DungeonRoom dungeon_rooms[];

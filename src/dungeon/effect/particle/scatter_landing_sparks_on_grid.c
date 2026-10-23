@@ -71,16 +71,16 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
             if (!(rand() & 7)) {
                 particle = allocate_flagged_object_node(0x12);
                 if (particle != NULL) {
-                    (particle->unk_10) = effect_data;
+                    (particle->update_callback) = effect_data;
                     jitter_or_scale = rand();
-                    x_base = ((MovingPosition *)(source->unk_08))->unk_02 + (grid_x << 6);
+                    x_base = ((MovingPosition *)(source->unk_08))->x + (grid_x << 6);
                     x_base -= 0x20;
                     ((S_8016604C_4 *)((particle->position)))->unk_02 = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
-                    y_base = ((MovingPosition *)(source->unk_08))->unk_06 + (grid_y << 6);
+                    y_base = ((MovingPosition *)(source->unk_08))->y + (grid_y << 6);
                     y_base -= 0x20;
                     ((S_8016604C_4 *)((particle->position)))->unk_06 = (s16) (y_base + (y_random & 0x3F));
-                    ((S_8016604C_4 *)((particle->position)))->unk_0A = (s16) (((MovingPosition *)(source->unk_08))->unk_0A - 0x100);
+                    ((S_8016604C_4 *)((particle->position)))->unk_0A = (s16) (((MovingPosition *)(source->unk_08))->z - 0x100);
                     motion = (particle->position);
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;

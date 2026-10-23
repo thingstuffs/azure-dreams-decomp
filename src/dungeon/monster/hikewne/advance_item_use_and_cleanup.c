@@ -24,7 +24,7 @@ extern void create_directional_template_effect(void *, void *, void *, void *);
 extern s32 hikewne_action_resume_address[];
 extern u8 hikewne_direction_frames[];
 extern u8 D_80174110[];
-extern u8 D_80174118[];
+extern u8 hikewne_frame_set_17[];
 
 typedef struct S_80172A48_0 {
     u8 pad_00[0x8C];
@@ -117,8 +117,8 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                     target = primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
                     linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
-                    (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
+                    (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->tile_x;
+                    (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->tile_y;
                 } else {
                     u8 effect_id;
 
@@ -127,15 +127,15 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                         target = (*(void **)((u8 *)item + 0x60));
                         if (target != 0) {
                             linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
-                            (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
+                            (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->tile_x;
+                            (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->tile_y;
                         }
                     } else {
                         s32 dx;
                         s32 dy;
 
                         target = scan_actor_along_heading(
-                            item, actor->unk_24, actor->unk_25,
+                            item, actor->tile_x, actor->tile_y,
                             (*(s16 *)((u8 *)item + 0x2A)), 0x10);
                         (*(void **)((u8 *)item + 0x60)) = target;
                         dx = abs(*(s8 *)((u8 *)item + 0x72));
@@ -168,7 +168,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
@@ -274,7 +274,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         ((S_80172A48_0 *)action)->unk_9B++;
         if (*(u8 **)&actor->frameTable == hikewne_direction_frames) {
             return;
@@ -348,10 +348,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         ((S_80172A48_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
-        (actor->frameTable) = (u8 *)((u32)D_80174118 - 8);
+        (actor->frameTable) = (u8 *)((u32)hikewne_frame_set_17 - 8);
         select_sprite_entry(actor,
             *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
-                + (u32)(u8 *)((u32)D_80174118 - 8))),
+                + (u32)(u8 *)((u32)hikewne_frame_set_17 - 8))),
             0);
         return;
 
@@ -402,10 +402,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         ((S_80172A48_0 *)action)->unk_9B++;
         {
 
-            (actor->frameTable) = D_80174118;
+            (actor->frameTable) = hikewne_frame_set_17;
             select_sprite_entry(actor,
                 *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
-                    + (u32)D_80174118)),
+                    + (u32)hikewne_frame_set_17)),
                 0);
         }
         return;

@@ -60,14 +60,14 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     if (entity != NULL) {
         entity_state = ((void *)entity) + 0x20;
         beldo_active_entity = entity;
-        entity->unk_10 = &update_actor_movement_and_height;
+        entity->update_callback = &update_actor_movement_and_height;
         entity_state->unk_13 = MONSTER_BELDO;
         register_node(entity, project_sprite_chain);
         world_state = entity->position;
         world_state->unk_0A = saved_height;
         tile_state = entity->sprite;
-        tile_state->unk_24 = saved_tile_x;
-        tile_state->unk_25 = saved_tile_y;
+        tile_state->tile_x = saved_tile_x;
+        tile_state->tile_y = saved_tile_y;
         tile_state->frameTable = &beldo_frame_set_1;
         entity_state->unk_9E = 0;
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);

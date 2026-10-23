@@ -19,4 +19,17 @@ s32 check_progress_against_callback(void);
 /* get_record_value_tier.c */
 s32 get_record_value_tier(void);
 
+s32 check_any_entry_matches_predicate(void);
+s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag);
+s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context);
+
+void run_events_5a5_5c2_and_reset(void);
+s32 increment_and_check_three(void);
+
+s32 check_counter_threshold(void);
+void subtract_threshold_from_counter(void);
+
+void request_handler_state_9(void);
+void request_handler_command_17(void);
+
 #endif

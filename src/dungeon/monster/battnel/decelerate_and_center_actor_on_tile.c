@@ -116,10 +116,10 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
 
     case 2:
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
-            target_x = sprite->unk_24 << 6;
+            target_x = sprite->tile_x << 6;
             offset_x = motion->x.w.i - 0x20;
             motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;
-            target_y = sprite->unk_25 << 6;
+            target_y = sprite->tile_y << 6;
             offset_y = motion->y.w.i - 0x20;
             motion->velocity_y = (target_y - offset_y) << 0x10 >> 1;
         }
@@ -133,7 +133,7 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, S
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         sprite->frameTable = battnel_direction_frames;
         select_sprite_entry(sprite,

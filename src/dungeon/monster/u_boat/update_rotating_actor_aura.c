@@ -68,11 +68,11 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFr
     old_angle = visual->angle_z;
     entity_base = (u8 *)entity - 0x20;
     record = ((S_80170CEC_1 *)entity_base)->unk_0C;
-    record_angle = (u16)record->unk_06;
+    record_angle = (u16)record->depth_bias;
     new_angle = old_angle + 0x190;
     entity_saved = entity;
     visual->angle_z = new_angle;
-    visual->unk_06 = record_angle;
+    visual->depth_bias = record_angle;
     if (new_angle >= 0x1001) {
         visual->angle_z = old_angle - 0xE70;
     }

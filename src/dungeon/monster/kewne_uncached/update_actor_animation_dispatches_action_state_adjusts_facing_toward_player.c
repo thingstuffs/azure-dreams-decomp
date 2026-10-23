@@ -127,7 +127,7 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
                         *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
                         0);
                 }
-                sprite->unk_05 = 1;
+                sprite->frame_ticks = 1;
                 ((S_8015FFA4_0 *)actor)->unk_A2.s = 0;
                 ((S_8015FFA4_0 *)actor)->unk_9E = 0;
             }
@@ -137,7 +137,7 @@ table_done:
         (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_8015FFA4_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80163C38) != 0) {
                 return;
             }
@@ -160,15 +160,15 @@ table_done:
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_801606C8(actor, actor_aux, sprite, entity);
             return;
         }
@@ -208,12 +208,12 @@ table_done:
             s16 facing;
 
             facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
             player = primary_actor_record;
             entity->facing = facing;
-            if (player->unk_9A == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor, actor_aux, sprite, D_80163C88, D_8015FFA4);
                 return;
             }
@@ -244,10 +244,10 @@ table_done:
             if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }

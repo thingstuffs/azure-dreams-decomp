@@ -51,7 +51,7 @@ extern s32 register_node();
 extern s32 select_record_entry_and_value();
 
 extern s32 D_800ABB20;
-extern s32 D_800D1464;
+extern s32 radial_sprite_entries;
 
 /* Spawns an offset effect with randomized motion opposite the source velocity. */
 void spawn_person_offset_effect(void *source_data, u32 angle)
@@ -90,7 +90,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
             0 - (source->unk_10 *
                  ((rand() & 1) + 2));
         motion->velocity_z = (~rand() & 1) << 0xF;
-        select_record_entry_and_value(sprite, &D_800D1464, 0);
+        select_record_entry_and_value(sprite, &radial_sprite_entries, 0);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

@@ -45,7 +45,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
     if (effect != 0) {
         u8 *directions = direction_table;
 
-        effect->unk_10 = &advance_gravity_damped_effect_motion;
+        effect->update_callback = &advance_gravity_damped_effect_motion;
         register_node(effect, sprite_chain_projector_address);
         {
             SpriteFrameState *render_state;
@@ -53,7 +53,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
             render_state = effect->sprite;
             render_state->flags |= 0xC;
             render_state->tpage_abr = 0x20;
-            render_state->unk_06 = 6;
+            render_state->depth_bias = 6;
             render_state->flags |= 2;
         }
         motion = effect->position;

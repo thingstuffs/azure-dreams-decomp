@@ -128,7 +128,7 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, object->unk_24, object->unk_25);
+        set_record_integer_tile_center(motion, object->tile_x, object->tile_y);
         U8(action, 0x9B)++;
         return;
     }

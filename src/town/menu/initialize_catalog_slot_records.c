@@ -90,13 +90,13 @@ void initialize_catalog_slot_records(void) {
 
         object_table = (u8 *)&catalog_display_node_slots;
         source_table = (u8 *)&catalog_frame_layout;
-        ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_06 =
+        ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->aux))->unk_06 =
             ((S_80123604_2 *)source_table)->unk_64;
-        ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_08 =
+        ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->aux))->unk_08 =
             ((S_80123604_2 *)source_table)->unk_66;
-        ((S_80123604_8 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_6C))->unk_08))->unk_06 =
+        ((S_80123604_8 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_6C))->aux))->unk_06 =
             ((S_80123604_2 *)source_table)->unk_6C;
-        ((S_80123604_8 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_6C))->unk_08))->unk_08 =
+        ((S_80123604_8 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_6C))->aux))->unk_08 =
             ((S_80123604_2 *)source_table)->unk_6E;
     }
 }

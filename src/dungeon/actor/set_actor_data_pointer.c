@@ -1,7 +1,7 @@
 #include "common.h"
 
 s32 resolve_actor_floor_trap_once();                                /* extern */
-extern u8 D_800D4494;
+extern u8 actor_default_action_address;
 
 typedef struct S_800D491C_0 {
     u8 pad_00[0x8C];
@@ -11,6 +11,6 @@ typedef struct S_800D491C_0 {
 /* Sets the object data pointer when the status check is positive. */
 void set_actor_data_pointer(S_800D491C_0 *object) {
     if (resolve_actor_floor_trap_once() > 0) {
-        object->unk_8C = &D_800D4494;
+        object->unk_8C = &actor_default_action_address;
     }
 }

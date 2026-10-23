@@ -69,13 +69,13 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
             effect_actor = actor;
             sprite->flags = flags | 0x0800;
             height = motion->z.w.i;
-            tile_x = sprite->unk_24;
+            tile_x = sprite->tile_x;
             offset = &offsets.entries[(((S_80174A28_3 *)actor)->unk_2A.u >> 9) & 7];
             x_offset = offset->x;
             x_sum = tile_x + x_offset;
             y_offset = offset->y;
             x_sum = x_sum & 0xFFFF;
-            coord_value = sprite->unk_25 + y_offset;
+            coord_value = sprite->tile_y + y_offset;
             create_randomly_rotated_offset_effect(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
         if ((((S_80174A28_0 *)action)->unk_96 == 0x0A) ||
@@ -96,11 +96,11 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
             angle = ((S_80174A28_3 *)actor)->unk_2A.u;
             offset = offsets.entries + ((angle >> 9) & 7);
             height = motion->z.w.i;
-            tile_x = sprite->unk_24;
+            tile_x = sprite->tile_x;
             coord_value = offset->x;
             x_sum = tile_x + coord_value;
             y_offset = offset->y;
-            coord_value = sprite->unk_25 + y_offset;
+            coord_value = sprite->tile_y + y_offset;
             x = x_sum & 0xFFFF;
             process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);
         }
@@ -117,7 +117,7 @@ void advance_directional_effect_action(void *action, ObjectPosition *motion, Spr
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion,
-                sprite->unk_24, sprite->unk_25);
+                sprite->tile_x, sprite->tile_y);
             if (*(u8 **)&sprite->frameTable != saber_direction_frames) {
                 sprite->frameTable = saber_direction_frames;
                 sprite->flags &= 0xF7FF;

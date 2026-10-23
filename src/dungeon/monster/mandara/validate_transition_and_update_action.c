@@ -36,8 +36,8 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, Sprite
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    target_heading = probe_directional_neighbor(actor, sprite->unk_24,
-                           sprite->unk_25, actor->facing);
+    target_heading = probe_directional_neighbor(actor, sprite->tile_x,
+                           sprite->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_heading) << 16) == 0) {
         return 0;
     }

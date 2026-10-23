@@ -67,7 +67,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             return;
         }
 
-        if ((actor->unk_64 != 0) &&
+        if ((actor->hp_delta != 0) &&
             (begin_ready_actor_directional_action(controller, action_context, sprite, 0) != 0)) {
             return;
         }
@@ -115,7 +115,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             s8 coordinate;
 
             reference_sprite = &reference_tile_object;
-            coordinate = *(s8 *)&sprite->unk_26;
+            coordinate = *(s8 *)&sprite->room_index;
             if ((((coordinate == reference_sprite->room_index) &&
                         (coordinate >= 0)) ||
                  (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&

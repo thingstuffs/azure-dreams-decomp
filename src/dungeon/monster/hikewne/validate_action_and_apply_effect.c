@@ -63,7 +63,7 @@ s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, MovingT
         }
 
         target_code = probe_directional_neighbor(
-            actor, target->unk_24, target->unk_25,
+            actor, target->tile_x, target->tile_y,
             ((S_8017237C_0 *)actor)->unk_2A);
         {
             s32 result = 0;

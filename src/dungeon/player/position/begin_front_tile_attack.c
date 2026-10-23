@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -12,13 +13,11 @@ typedef long long s64;
 #define NULL 0
 #endif
 
-
 void process_unflagged_linked_entries_alt();
 s32 check_diagonal_side_height();
 s32 find_eligible_actor_at_tile_and_height();
 Ent *prepare_directional_attack();
 void append_packed_action_record();
-
 
 typedef struct S_8008C8BC_0 {
     u8 pad_00[0x1C];
@@ -41,11 +40,6 @@ typedef struct S_8008C8BC_2 {
     u16 unk_3714;
 } S_8008C8BC_2;   /* r4 in begin_front_tile_attack */
 
-typedef struct S_8008C8BC_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8008C8BC_3;
-
 typedef struct S_8008C8BC_4 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -60,12 +54,7 @@ typedef struct S_8008C8BC_4 {
     s8 unk_102;
 } S_8008C8BC_4;   /* held0 in begin_front_tile_attack */
 
-typedef struct S_8008C8BC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    void * unk_0C;
-} S_8008C8BC_5;   /* state in begin_front_tile_attack */
+   /* state in begin_front_tile_attack */
 
 /* Selects a target in the facing direction and initializes the entity action state. */
 s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
@@ -75,15 +64,15 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     s32 target;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
-    if ((check_diagonal_side_height(direction, ((MovingTile *)position_arg)->unk_24, ((MovingTile *)position_arg)->unk_25,
+    if ((check_diagonal_side_height(direction, ((MovingTile *)position_arg)->tile_x, ((MovingTile *)position_arg)->tile_y,
         (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = find_eligible_actor_at_tile_and_height(entity, (((MovingTile *)position_arg)->unk_24
-            + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->unk_25
+        target = find_eligible_actor_at_tile_and_height(entity, (((MovingTile *)position_arg)->tile_x
+            + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->tile_y
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
-            && (((S_8008C8BC_3 *)target)->unk_14 & 0x4000)
+            && (((ActorRecord *)target)->flags14 & 0x4000)
             && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(((S_8008C8BC_0 *)entity)->unk_1C & 0x410)) {
             ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
             return 0;

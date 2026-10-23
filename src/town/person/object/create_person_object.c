@@ -15,7 +15,7 @@ extern void initialize_object_entries(void *state, s32 output, void *entries);
 extern void register_node_if_unregistered(void *state, void *callback);
 
 extern s32 loaded_town_resource_attributes[];
-extern u8 D_800AB1E0[];
+extern u8 person_object_update_address[];
 extern u8 person_approach_state_address[];
 extern u8 D_800D1200[];
 
@@ -26,13 +26,13 @@ void create_person_object(void) {
     ObjectPosition *position;
     SpriteFrameState *render_data;
 
-    object = (s8 *) create_town_effect_object(0, 0, D_800AB1E0, 0);
+    object = (s8 *) create_town_effect_object(0, 0, person_object_update_address, 0);
     state = ((s8 *)object) + 0x20;
     if (object != NULL) {
         position = *(s8 * *)&object->position;
         render_data = *(s8 * *)&object->sprite;
         *(s8 *)(state + 0x93) = 1;
-        render_data->unk_28 = loaded_town_resource_attributes[0];
+        render_data->animation_resource = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);
         fill_person_records();

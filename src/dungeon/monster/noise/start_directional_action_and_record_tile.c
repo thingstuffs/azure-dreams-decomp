@@ -28,8 +28,8 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
             direction = ((u16)actor->facing >> 9) & 7;
             actor->target = find_eligible_actor_at_tile_and_height(
                 actor,
-                (sprite->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
-                (sprite->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
+                (sprite->tile_x + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
+                (sprite->tile_y + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
                 actor->ground_height);
         }
     }
@@ -116,8 +116,8 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
             mesh_flags |= 0xC;
             effect_mesh->flags = mesh_flags;
             register_node((void *)object_or_height, project_sprite_chain);
-            call_value = D_80174ED0[0];
-            effect_mesh->frameTable = D_80174ED0;
+            call_value = noise_frame_set_2[0];
+            effect_mesh->frameTable = noise_frame_set_2;
             select_sprite_entry(effect_mesh, call_value, 0);
             object_or_height = (s32)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = *(u16 *)&anchor_pos->x.w.i;
@@ -144,11 +144,11 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
                 anchor_height = RotTransPers(frame.pos, frame.out0, &frame.out1, &frame.out2);
                 lookup_value = view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
                     >> 9) & 7];
-                effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
+                effect_mesh->depth_bias = first_height - anchor_height - (lookup_value << 1);
                 continue;
             }
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z - 0x1E;
-            effect_mesh->unk_06 = 4;
+            effect_mesh->depth_bias = 4;
 
         } while (++count < 1);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = 0x2D;
@@ -173,7 +173,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, source_mesh->unk_24, source_mesh->unk_25);
+        set_record_integer_tile_center(position, source_mesh->tile_x, source_mesh->tile_y);
         if (source_mesh->frameTable != noise_direction_frames) {
             source_mesh->frameTable = noise_direction_frames;
             source_mesh->flags &= 0xF7FF;

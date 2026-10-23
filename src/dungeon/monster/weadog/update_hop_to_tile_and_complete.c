@@ -82,7 +82,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
         move_ticks = ((S_8016D0E0_0 *)action)->unk_9E.u;
         ((S_8016D0E0_0 *)action)->unk_90 -= ((S_8016D0E0_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            tile_x = ((SpriteFrameState *)sprite)->unk_24;
+            tile_x = ((SpriteFrameState *)sprite)->tile_x;
             position_x = ((ObjectPosition *)motion)->x.w.i;
             tile_x <<= 6;
             position_x -= 0x20;
@@ -91,7 +91,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
             position_y = ((ObjectPosition *)motion)->y.w.i;
             position_y -= 0x20;
             ((ObjectPosition *)motion)->velocity_y =
-                (((((SpriteFrameState *)sprite)->unk_25 << 6) - position_y) << 16) /
+                (((((SpriteFrameState *)sprite)->tile_y << 6) - position_y) << 16) /
                 ((S_8016D0E0_0 *)action)->unk_9E.u;
             ((S_8016D0E0_0 *)action)->unk_A0 =
                 (-rsin(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
@@ -113,7 +113,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
             ((ObjectPosition *)motion)->velocity_z = 0;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
 
             ((SpriteFrameState *)sprite)->frameTable = D_8016EED8;
             select_sprite_entry(
@@ -147,7 +147,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
     ((ObjectPosition *)motion)->velocity_z = 0;
     ((ObjectPosition *)motion)->velocity_y = 0;
     ((ObjectPosition *)motion)->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -163,7 +163,7 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((S_8016D0E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
         }
     }

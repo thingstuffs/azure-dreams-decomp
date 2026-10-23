@@ -66,7 +66,7 @@ extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
 extern void func_800A4398(s32);
 
-extern s32 D_800803D4[3];
+extern s32 beldo_old_transition_flags[3];
 
 
 
@@ -92,18 +92,18 @@ void update_smoothed_motion_and_transition_brightness(void *root_data, void *out
         dst->unk_14 &= 0xFF7F;
     }
 
-    out->unk_02 = coord_data->unk_02;
-    out->unk_06 = coord_data->unk_06;
-    out->unk_0A = coord_data->unk_0A;
+    out->x = coord_data->unk_02;
+    out->y = coord_data->unk_06;
+    out->z = coord_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (func_8003DA40(motion_part->unk_08, motion_part, motion_offset,
                       ((S_8128D000_0 *)root)->unk_B6) != 0) {
-        out->unk_02 +=
+        out->x +=
             (motion_offset[0] + ((S_8128D000_0 *)root)->unk_B0) / 2;
-        out->unk_06 +=
+        out->y +=
             (motion_offset[1] + ((S_8128D000_0 *)root)->unk_B2) / 2;
-        out->unk_0A +=
+        out->z +=
             (motion_offset[2] + ((S_8128D000_0 *)root)->unk_B4) / 2;
         ((S_8128D000_0 *)root)->unk_B0 = motion_offset[0];
         ((S_8128D000_0 *)root)->unk_B2 = motion_offset[1];
@@ -163,7 +163,7 @@ void update_smoothed_motion_and_transition_brightness(void *root_data, void *out
     func_80047454(dst);
     if (owner->unk_1E & 0x8000) {
         ((S_8128D000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        D_800803D4[0] |= 0x8000;
+        beldo_old_transition_flags[0] |= 0x8000;
     }
 }
 

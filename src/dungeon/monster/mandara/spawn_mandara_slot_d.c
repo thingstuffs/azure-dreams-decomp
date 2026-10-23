@@ -70,17 +70,17 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         s32 scale;
 
         work = (u8 *)created + 0x20;
-        (created ->unk_10) = D_8015EB40;
+        (created ->update_callback) = D_8015EB40;
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = (*(u8 * *)&created ->position);
         position->z.w.i = saved_height;
         monster = (*(u8 * *)&created ->sprite);
-        monster->unk_25 = saved_tile_y;
+        monster->tile_y = saved_tile_y;
         actor = work;
         monster->frameTable = D_80163258;
-        monster->unk_24 = saved_tile_x;
+        monster->tile_x = saved_tile_x;
 
         kind = (s32)flags & 3;
         if (kind == 1) {

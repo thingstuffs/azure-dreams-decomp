@@ -30,7 +30,7 @@ void *spawn_mode_configured_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = func_80158A68;
+        obj->update_callback = func_80158A68;
         work->unk_13 = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
@@ -38,10 +38,10 @@ void *spawn_mode_configured_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile
         part_a->unk_0A = saved_height;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_tile_y;
+        part_b->tile_y = saved_tile_y;
         actor = work;
         part_b->frameTable = D_8015CA7C;
-        part_b->unk_24 = saved_tile_x;
+        part_b->tile_x = saved_tile_x;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

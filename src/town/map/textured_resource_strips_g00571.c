@@ -508,7 +508,7 @@ void create_resource_display_object(s16 resource_index) {
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        object->unk_10 = D_800A3918;
+        object->update_callback = D_800A3918;
         register_node(object, D_800A3B1C);
         object->sprite->source = D_800D0C40[resource_index];
         component = object->sprite;

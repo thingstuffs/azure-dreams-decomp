@@ -151,8 +151,8 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
                     }
                 } else {
                     actor->target = scan_actor_along_heading(actor,
-                        sprite->unk_24,
-                        sprite->unk_25,
+                        sprite->tile_x,
+                        sprite->tile_y,
                         actor->facing, 16);
                     actor->target_tile_x = abs(actor->target_tile_x);
                     actor->target_tile_y = abs(actor->target_tile_y);
@@ -201,7 +201,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
             void *owner;
 
@@ -315,7 +315,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         {
             s32 tile_coord;
 
-            tile_coord = sprite->unk_24;
+            tile_coord = sprite->tile_x;
             current_coord = motion->x.w.i;
             tile_coord = tile_coord << 6;
             current_coord -= 0x20;
@@ -326,7 +326,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             s32 tile_coord;
             s32 target_coord;
 
-            tile_coord = sprite->unk_25;
+            tile_coord = sprite->tile_y;
             current_coord = motion->y.w.i;
             tile_coord <<= 6;
             target_coord = tile_coord;
@@ -354,7 +354,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (*(u8 **)&sprite->frameTable != picket_frame_set_1) {
             sprite->frameTable = picket_frame_set_1;
             select_sprite_entry(sprite,

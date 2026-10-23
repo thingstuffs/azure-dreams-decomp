@@ -52,7 +52,7 @@ void create_encounter_overlay(s32 variant)
         part = ((u8 *)obj) + 0x20;
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = variant;
-        (obj->unk_10) = D_8016F99C;
+        (obj->update_callback) = D_8016F99C;
         register_node(call_obj, linked_sprite_renderer_address);
 
         sprite = obj->sprite;

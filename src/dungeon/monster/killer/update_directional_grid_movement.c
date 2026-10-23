@@ -98,14 +98,14 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
 
     case 2:
         if (action->unk_96.s != 0) {
-            target_x = entity->unk_24 << 6;
+            target_x = entity->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_x =
                 ((target_x - current_x) << 15) /
                 action->unk_96.s;
             motion->velocity_y =
-                (((entity->unk_25 << 6) - current_y) << 15) /
+                (((entity->tile_y << 6) - current_y) << 15) /
                 action->unk_96.s;
         }
         timer = action->unk_96.u - 1;
@@ -116,7 +116,7 @@ void update_directional_grid_movement(S_80172FE4_0 *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
 
         tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {

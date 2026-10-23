@@ -71,25 +71,25 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
 
     object = allocate_flagged_object_node(0x102);
     if (object != NULL) {
-        object->unk_10 = &D_800CB600;
+        object->update_callback = &D_800CB600;
         register_node(object, project_sprite_chain);
         position = object->position;
-        position->unk_02 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
-        position->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
-        position->unk_0A = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
+        position->x = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
+        position->y = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
+        position->z = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
         map_data = object->sprite;
         map_data->source = &D_800E03BC;
         map_data->flags = (u16) (map_data->flags | 0xC);
-        map_data->unk_24 = (s8) ((u16) position->unk_02 >> 6);
-        map_data->unk_25 = (s8) ((u16) position->unk_06 >> 6);
+        map_data->tile_x = (s8) ((u16) position->x >> 6);
+        map_data->tile_y = (s8) ((u16) position->y >> 6);
         object_state = ((void *)object) + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
         ((S_800CB82C_4 *)object_state)->unk_08 = (u8) active_spell_parameters;
         ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&active_spell_parameters))->unk_01;
         ((S_800CB82C_4 *)object_state)->unk_60 = owner;
-        owner_map = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
-        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) owner_map->unk_24;
-        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) owner_map->unk_25;
+        owner_map = ((SpriteLinkPrefixView *)owner)[-1].sprite;
+        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) owner_map->tile_x;
+        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) owner_map->tile_y;
         ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((u16)source_state->unk_88);
         ((S_800CB82C_4 *)object_state)->unk_13 = 0xFF;
         ((S_800CB82C_4 *)object_state)->unk_14 = (s32) source_state->flags14;

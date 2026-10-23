@@ -79,7 +79,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
 extern u8 D_80170B64[];
-extern u8 D_801711A4[];
+extern u8 kraken_action_resume_address[];
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set_2[];
 
@@ -115,14 +115,14 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     obj = allocate_list_node(0x112, (saved_value_24 = value_24, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((ProjectileObject *)obj)->unk_10 = D_80170B64;
+        ((ProjectileObject *)obj)->update_callback = D_80170B64;
         ((S_8017086C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
-        part_a = ((ProjectileObject *)obj)->unk_08;
-        part_a->unk_0A = value_0A;
-        part_b = ((ProjectileObject *)obj)->unk_0C;
+        part_a = ((ProjectileObject *)obj)->position;
+        part_a->z = value_0A;
+        part_b = ((ProjectileObject *)obj)->sprite;
         kind = mode & 3;
         part_b->unk_2C = kraken_frame_set_1;
         part_b->unk_24 = saved_value_24;
@@ -156,7 +156,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = D_801711A4;
+        actor->unk_8C = kraken_action_resume_address;
         ((S_8017086C_1 *)work)->unk_1C |= 0x00040000;
         actor->unk_92 = -16;
         flags = actor->unk_98;
@@ -185,12 +185,12 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
                     child_arg = part_b->unk_28;
                     elem_flags = elem->flags;
                     elem->tpage_abr = 96;
-                    elem->unk_28 = child_arg;
+                    elem->animation_resource = child_arg;
                     elem->flags = elem_flags | 0xC;
 
                     elem->clut = part_b->unk_12 - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = child_object_update_address;
+                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = child_object_update_address;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

@@ -41,7 +41,7 @@ extern Triple D_80526670;
 extern Triple D_80526688;
 extern u8 scene_object_factory_data[];
 extern u8 menu_entry_draw_callback_address[];
-extern u8 D_8005888C[];
+extern u8 menu_cursor_object_template[];
 extern u8 D_8052B5A4[];
 extern u8 D_8052BAAC[];
 extern u8 D_8052BB00[];
@@ -136,7 +136,7 @@ s32 create_title_menu_cursor(void)
         i--;
         if (object != 0) {
             ((S_808106E0_0 *)object)->unk_10 = D_8052BB98;
-            func_8003BC18(object, D_8005888C);
+            func_8003BC18(object, menu_cursor_object_template);
             ((S_808106E0_0 *)object)->unk_2C.at02.v = 0xB0;
             ((S_808106E0_0 *)object)->unk_30.at00u.v = 0x50;
             ((S_808106E0_0 *)object)->unk_30.at02.v = 0x20;

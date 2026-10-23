@@ -150,7 +150,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
                     action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
                 }
             } else {
-                action->target = scan_actor_along_heading(action, sprite->unk_24, sprite->unk_25,
+                action->target = scan_actor_along_heading(action, sprite->tile_x, sprite->tile_y,
                     action->facing, 0x10);
                 action->target_tile_x = abs(action->target_tile_x);
                 action->target_tile_y = abs(action->target_tile_y);
@@ -177,10 +177,10 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             ((S_801728B4_6 *)new_effect)->unk_BB = 0;
             effect_sprite = ((S_801728B4_6 *)new_effect)->unk_0C;
             ((S_801728B4_6 *)new_effect)->unk_4A = (u16) action->facing;
-            action_value = sprite->unk_28;
+            action_value = sprite->animation_resource;
             effect_sprite->scale_y = 0x1000;
             effect_sprite->scale_x = 0x1000;
-            effect_sprite->unk_28 = action_value;
+            effect_sprite->animation_resource = action_value;
             sprite_flags = sprite->flags;
             effect_anim = 0x2D;
             effect_sprite->flags = sprite_flags;
@@ -192,7 +192,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
             advance_status_timers(action);
@@ -238,7 +238,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((*(M2C_UNK * *)&sprite->frameTable) != &D_80173C6C) {
             sprite->frameTable = &D_80173C6C;
             select_sprite_entry(sprite, D_80173C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7], 0);

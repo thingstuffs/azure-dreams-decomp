@@ -13,7 +13,7 @@
 s32 has_pending_dungeon_activity();                          /* extern */
 s16 set_or_clear_actor_status_slot();    /* extern */
 s32 advance_status_timers();                      /* extern */
-extern u8 D_801741D4[8];
+extern u8 naplass_frame_set_4[8];
 
 typedef struct S_80F60808_1 {
     u8 pad_00[0x8C];
@@ -30,8 +30,8 @@ void start_naplass_status_action(S_80F60808_1 *action_state, void *unused, Sprit
         action_state->unk_9A = 0xD;
         action_state->unk_8C = 0;
         action_state->unk_9B = 0;
-        sprite->frameTable = &D_801741D4;
-        select_sprite_entry(sprite, D_801741D4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        sprite->frameTable = &naplass_frame_set_4;
+        select_sprite_entry(sprite, naplass_frame_set_4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         actor->flags1C = (s32) (actor->flags1C | ACTOR_ASLEEP);
         set_or_clear_actor_status_slot(actor, STATUS_SLEEP, 4);
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);

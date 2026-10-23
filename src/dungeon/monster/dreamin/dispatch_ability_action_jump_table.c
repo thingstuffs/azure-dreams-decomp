@@ -3,7 +3,7 @@
 extern void dispatch_ability_action(void);
 
 /* jump_table; owner: dungeon/func_80DA7668. */
-const u32 D_80158808[12] __attribute__((aligned(4))) = {
+const u32 dreamin_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)dispatch_ability_action + 0x3A0),
     (u32)((u8 *)dispatch_ability_action + 0x3A0),
     (u32)((u8 *)dispatch_ability_action + 0x3A0),

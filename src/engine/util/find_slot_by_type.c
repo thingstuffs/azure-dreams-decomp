@@ -1,13 +1,9 @@
 #include "common.h"
-
-typedef struct {
-    s8 type;
-    s8 value;
-} S_80042518_Slot;
+#include "shared/actor_status.h"
 
 typedef struct {
     u8 pad[0x2C];
-    S_80042518_Slot slot[4];
+    ActorStatusSlot slot[4];
 } S_80042518;
 
 /* Clear the last slot of the requested type and return its value, or zero if absent. */

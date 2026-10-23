@@ -6,8 +6,8 @@ extern void func_800193E0(s32);
 
 extern s32 scene_dispatch_mode_index[];
 extern s32 D_80019770[];
-extern u8 D_8001AAEC[];
-extern u8 D_8001DE58[];
+extern u8 scene_selector_one_mode_three_data[];
+extern u8 scene_selector_one_default_data[];
 
 /* Return the table for the selector: 8 plays a cue and resolves by state, 1 picks one of two blobs. */
 s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
@@ -18,9 +18,9 @@ s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
         result = check_inputs_after_threshold_two(D_80019770[scene_dispatch_mode_index[0]]);
     } else if (selector == 1) {
         if (scene_dispatch_mode_index[0] != 3) {
-            result = (s32)D_8001DE58;
+            result = (s32)scene_selector_one_default_data;
         } else {
-            result = (s32)D_8001AAEC;
+            result = (s32)scene_selector_one_mode_three_data;
         }
     }
 

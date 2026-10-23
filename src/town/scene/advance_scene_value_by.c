@@ -10,6 +10,6 @@
 void advance_scene_value_by_32(void) {
     TownPositionState *linked_record;
 
-    linked_record = D_80016000->unk_1C;
+    linked_record = town_scene_root->position;
     linked_record->x = (s32) (linked_record->x + 0x20);
 }

@@ -113,7 +113,7 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, Sprit
     case 3:
         if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
             motion->velocity_x =
                 motion->velocity_y =
                     motion->velocity_z = 0;

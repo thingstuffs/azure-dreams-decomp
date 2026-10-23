@@ -32,7 +32,7 @@ s32 advance_status_timers();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 create_actor_spell_effect();       /* extern */
 void spawn_random_velocity_offset_effect(); /* extern */
-extern void D_80171760();
+extern void noise_ability_resume_address();
 extern u8 noise_direction_frames[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
@@ -104,8 +104,8 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                     {
                         target_sprite =
                             *(u8 * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor->target_tile_x = target_sprite->unk_24;
-                        actor->target_tile_y = target_sprite->unk_25;
+                        actor->target_tile_x = target_sprite->tile_x;
+                        actor->target_tile_y = target_sprite->tile_y;
                     }
                 } else {
                     u8 *ability_table;
@@ -122,14 +122,14 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                             {
                                 target_sprite =
                                     *(u8 * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                                actor->target_tile_x = target_sprite->unk_24;
-                                actor->target_tile_y = target_sprite->unk_25;
+                                actor->target_tile_x = target_sprite->tile_x;
+                                actor->target_tile_y = target_sprite->tile_y;
                             }
                         }
                     } else {
                         {
-                            s32 x = (s32)scan_actor_along_heading(actor, sprite->unk_24,
-                                          sprite->unk_25,
+                            s32 x = (s32)scan_actor_along_heading(actor, sprite->tile_x,
+                                          sprite->tile_y,
                                           actor->facing, 0x10);
                             s32 y;
 
@@ -158,12 +158,12 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-            ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
+            ((S_8017364C_0 *)action)->unk_8C = &noise_ability_resume_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
@@ -215,7 +215,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((*(M2C_UNK * *)&sprite->frameTable) != noise_direction_frames) {
             sprite->frameTable = noise_direction_frames;
             select_sprite_entry(sprite, noise_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -226,7 +226,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
+        ((S_8017364C_0 *)action)->unk_8C = &noise_ability_resume_address;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

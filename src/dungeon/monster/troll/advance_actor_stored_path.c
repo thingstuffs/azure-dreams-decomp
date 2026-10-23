@@ -68,8 +68,8 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
 
     cell_flags = 0x3000;
-    x = ((SpriteFrameState *)actor)->unk_24;
-    y = ((SpriteFrameState *)actor)->unk_25;
+    x = ((SpriteFrameState *)actor)->tile_x;
+    y = ((SpriteFrameState *)actor)->tile_y;
     if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
         cell_flags = 0x300;
     }
@@ -82,16 +82,16 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     move_result = (s16)check_movement_clearance_and_height(heading, actor, state, 0x20);
 
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
-    ((SpriteFrameState *)actor)->unk_24 = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
+    ((SpriteFrameState *)actor)->tile_x = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
     cell_flags = 0x3000;
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
     do {
     } while (0);
-    ((SpriteFrameState *)actor)->unk_25 = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;
+    ((SpriteFrameState *)actor)->tile_y = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;
     ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.u++;
     {
-        s32 next_x = ((SpriteFrameState *)actor)->unk_24;
-        s32 next_y = ((SpriteFrameState *)actor)->unk_25;
+        s32 next_x = ((SpriteFrameState *)actor)->tile_x;
+        s32 next_y = ((SpriteFrameState *)actor)->tile_y;
 
         if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
             cell_flags = 0x300;

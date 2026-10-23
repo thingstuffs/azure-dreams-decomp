@@ -126,7 +126,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
             effect->unk_1C = segment;
             effect->unk_1E = 0;
             effect->unk_24 = effect_value;
-            object->unk_10 = &update_animated_textured_ribbon;
+            object->update_callback = &update_animated_textured_ribbon;
             register_node(object, project_sprite_chain);
             render_flags = object->sprite;
             render_flags->tpage_abr = 0x20;

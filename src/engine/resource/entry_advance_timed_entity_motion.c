@@ -4,37 +4,18 @@
 #include "engine/resource.h"
 #include "sdk/libgte.h"
 
-
-
-
-typedef struct
-{
-    s16 m[3][3];
-    s32 t[3];
-}
-MATRIX;
-
-typedef struct
-{
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 pad;
-}
-SVECTOR;
-
-extern void advance_timed_entity_motion(MATRIX *m);
+extern void advance_timed_entity_motion(GteMatrix *m);
 
 /* Build and install the combined rotation and translation from global transform state. */
 void compose_and_install_camera_transform(void)
 {
     GameView *transform = (GameView *)(&g_game_work.view);
     GteTranslationVector rotated_pos;
-    MATRIX base_mat;
-    MATRIX combined_mat;
-    MATRIX offset_mat;
-    MATRIX *offset_mat_ptr;
-    SVECTOR neg_offset;
+    GteMatrix base_mat;
+    GteMatrix combined_mat;
+    GteMatrix offset_mat;
+    GteMatrix *offset_mat_ptr;
+    GteShortVector neg_offset;
     s32 gte_flags;
     offset_mat.t[2] = 0;
     offset_mat.t[1] = 0;
@@ -43,7 +24,7 @@ void compose_and_install_camera_transform(void)
     offset_mat_ptr = &offset_mat;
     base_mat.t[1] = 0;
     base_mat.t[0] = 0;
-    RotMatrix((SVECTOR *)&transform->camera_rotation.parts.camera_rotation_x, &offset_mat);
+    RotMatrix((GteShortVector *)&transform->camera_rotation.parts.camera_rotation_x, &offset_mat);
     SetRotMatrix(offset_mat_ptr);
     SetTransMatrix(&offset_mat);
     neg_offset.vx = -transform->camera_position.parts.camera_position_x;
@@ -51,10 +32,10 @@ void compose_and_install_camera_transform(void)
     neg_offset.vz = -transform->camera_position.parts.camera_position_z;
     RotTrans(&neg_offset, &rotated_pos, &gte_flags);
     TransMatrix(&offset_mat, &rotated_pos);
-    RotMatrix((SVECTOR *)&transform->view_rotation_offset.parts.view_rotation_offset_x, &base_mat);
+    RotMatrix((GteShortVector *)&transform->view_rotation_offset.parts.view_rotation_offset_x, &base_mat);
     SetRotMatrix(&base_mat);
     SetTransMatrix(&base_mat);
-    RotTrans((SVECTOR *)&transform->view_offset.parts.view_offset_x, &rotated_pos, &gte_flags);
+    RotTrans((GteShortVector *)&transform->view_offset.parts.view_offset_x, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
     advance_timed_entity_motion(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);

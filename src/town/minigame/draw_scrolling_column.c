@@ -8,7 +8,7 @@ typedef struct {
 } Rect;
 
 extern void MoveImage(Rect *rect, s32 x, s32 width);
-extern u8 D_800244B8[][12];
+extern u8 slot_machine_column_tiles[][12];
 
 /* Draws a scrolling column of tiles, clipping at the top edge. */
 void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y)
@@ -29,7 +29,7 @@ void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y)
     rect.h = 0x20;
     do {
         if ((row >= 0) || (scroll_y != 0)) {
-            tile = D_800244B8[column][(base_index + row) % 12];
+            tile = slot_machine_column_tiles[column][(base_index + row) % 12];
             row_y = ((2 - row) << 5) - scroll_y;
             dest_y = row_y + 0x80;
             rect.x = ((tile & 3) * 0x10) + 0x180;

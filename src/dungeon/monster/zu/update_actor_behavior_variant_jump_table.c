@@ -3,7 +3,7 @@
 extern void update_actor_behavior_variant_e(void);
 
 /* jump_table; owner: dungeon/func_80F9F938. */
-const u32 D_80158808[12] __attribute__((aligned(4))) = {
+const u32 zu_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_actor_behavior_variant_e + 0x434),
     (u32)((u8 *)update_actor_behavior_variant_e + 0x434),
     (u32)((u8 *)update_actor_behavior_variant_e + 0x434),

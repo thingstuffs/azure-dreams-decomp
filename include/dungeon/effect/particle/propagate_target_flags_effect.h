@@ -462,8 +462,8 @@ typedef struct Effect {
  union { EffectState state; Motion motion; } payload;
 } Effect;
 typedef union NativeOffsets58 { s16 pairs[8][2]; LocalPoints raw; OffsetTable signed_pairs; } NativeOffsets58;
-extern const NativeOffsets58 D_80024004;
-extern const RectTable D_80024024;
+extern const NativeOffsets58 target_effect_direction_steps;
+extern const RectTable target_particle_texture_rects;
 extern s16 particle_activity;
 extern PackedVec3 staged_particle_sprite_data;
 s32 rand(void);

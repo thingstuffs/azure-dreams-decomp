@@ -57,20 +57,20 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->unk_10 = D_80171384;
+        node->update_callback = D_80171384;
 
         ((S_80D65C5C_4 *)(node->position))->unk_02 =
-            ((MovingPosition *)(source->unk_08))->unk_02;
+            ((MovingPosition *)(source->unk_08))->x;
         ((S_80D65C5C_4 *)(node->position))->unk_06 =
-            ((MovingPosition *)(source->unk_08))->unk_06;
+            ((MovingPosition *)(source->unk_08))->y;
         ((S_80D65C5C_4 *)(node->position))->unk_0A =
-            ((MovingPosition *)(source->unk_08))->unk_0A - 0x58;
+            ((MovingPosition *)(source->unk_08))->z - 0x58;
 
         direction_step = (s16 *)((u8 *)actor_direction_step_pairs + (((u32)angle >> 7) & 0x1C));
         ((S_80D65C5C_4 *)(node->position))->unk_02 += direction_step[0] * 0x12;
         ((S_80D65C5C_4 *)(node->position))->unk_06 += direction_step[1] * 0x12;
 
-        node->sprite->unk_06 = 6;
+        node->sprite->depth_bias = 6;
         ((S_80D65C5C_4 *)(node->position))->unk_0C =
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
         ((S_80D65C5C_4 *)(node->position))->unk_10 =

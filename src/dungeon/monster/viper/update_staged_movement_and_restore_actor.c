@@ -20,9 +20,9 @@ typedef struct {
 
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
-extern u8 D_80174AA4[];
+extern u8 viper_frame_set_4[];
 extern u8 viper_frame_set_3[];
-extern u8 D_80170E94[];
+extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
@@ -150,8 +150,8 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         }
         motion->velocity_x = (s32) ((s32) (0 - motion->velocity_x) >> 1);
         motion->velocity_y = (s32) ((s32) (0 - motion->velocity_y) >> 1);
-        animation->frameTable = D_80174AA4;
-        select_sprite_entry(animation, D_80174AA4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        animation->frameTable = viper_frame_set_4;
+        select_sprite_entry(animation, viper_frame_set_4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_96 = 7;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
@@ -168,7 +168,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         } else {
             effect = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
             if (effect != NULL) {
-                (((ObjectNodeHeader *)effect)->unk_10) = &D_800DB618;
+                (((ObjectNodeHeader *)effect)->update_callback) = &D_800DB618;
                 register_node(effect, &D_800DB660);
                 effect_data = effect + 0x20;
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
@@ -233,7 +233,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         animation->frameTable = viper_frame_set_3;
         select_sprite_entry(animation, viper_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->flags & 0x8000) {
-            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
         }
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
@@ -253,10 +253,10 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
                 axis_distance = 0 - axis_distance;
             }
             if (axis_distance >= 0x41) {
-                set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+                set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
             }
         } else {
-            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
         }
         if ((s16) ((u16)motion->x.w.i) != (s16) ((S_801727B4_0 *)action)->unk_A8) {
             return;
@@ -266,9 +266,9 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+        set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
+        ((S_801727B4_0 *)action)->unk_8C = viper_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {

@@ -39,7 +39,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
 
     object = allocate_list_node(0x100, source);
     if (object != NULL) {
-        object->unk_10 = &D_800CB374;
+        object->update_callback = &D_800CB374;
         register_node(object, project_sprite_chain);
         display = object->sprite;
         select_record_entry_and_value(display, &D_800E02CC, 0);
@@ -51,16 +51,16 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
             object->position = source->position;
         } else {
             position = object->position;
-            position->unk_02 = (u16) ((MovingPosition *)(source->position))->unk_02;
-            position->unk_06 = (u16) ((MovingPosition *)(source->position))->unk_06;
-            position->unk_0A = (u16) ((MovingPosition *)(source->position))->unk_0A;
+            position->x = (u16) ((MovingPosition *)(source->position))->x;
+            position->y = (u16) ((MovingPosition *)(source->position))->y;
+            position->z = (u16) ((MovingPosition *)(source->position))->z;
             source_display = source->sprite;
             display_value = source_display->color.word;
             display->tpage_abr = 0x60;
             display->color.word = display_value;
         }
 
-        display->unk_06 = -1;
+        display->depth_bias = -1;
         state = ((void *)object) + 0x20;
         state->unk_A8 = source;
         state->unk_B4 = copy_position;

@@ -186,7 +186,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
         rect[1] = rect_size;
         draw_textured_ellipse(&D_800269D4, rect, 1, 0);
         part = obj->position;
-        obj->unk_10 = (void *)initialize_entity_position_and_motion;
+        obj->update_callback = (void *)initialize_entity_position_and_motion;
         part->unk_02 = source_part->unk_02;
         part->unk_06 = source_part->unk_06;
         part->unk_08.at02.v = source_part->unk_0A;
@@ -259,7 +259,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             SpriteFrameState *sprite;
             u8 *extra;
 
-            particle->unk_10 = move_fade_and_expand_effect;
+            particle->update_callback = move_fade_and_expand_effect;
             register_node(particle, project_sprite_chain);
             motion = particle->position;
             motion->x.w.i = (s16)x;
@@ -339,7 +339,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     do {
         particle = allocate_flagged_object_node(0x202);
         if (particle != NULL) {
-            particle->unk_10 = (void *)advance_effect_motion_and_color_fade;
+            particle->update_callback = (void *)advance_effect_motion_and_color_fade;
             register_node(particle, project_sprite_chain);
             motion = particle->position;
             motion->x.w.i = x;
@@ -574,7 +574,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         case 0:
             resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
-                + actor_direction_sprites), &reference_tile_object.unk_000, (u8 *) effect + 0x28, 0);
+                + actor_direction_sprites), &reference_tile_object.frame_entry, (u8 *) effect + 0x28, 0);
             sin_x = rcos(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16);
             cos_x = rcos(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&dungeon_actor_ring_anchor))->unk_2A.s16 - 0x400);
             state0_move = &view_reference_entity;
@@ -689,7 +689,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             }
             resolve_record_orientation_or_fallback(*(s32 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &dungeon_actor_ring_anchor)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
-                + actor_direction_sprites), &reference_tile_object.unk_000, (u8 *) effect + 0x28, 0);
+                + actor_direction_sprites), &reference_tile_object.frame_entry, (u8 *) effect + 0x28, 0);
             state1_move = &view_reference_entity;
             effect->unk_28.u16 += (u16)state1_move->x.w.i;
             state1_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
@@ -1009,7 +1009,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 search_ticks = effect->unk_8A - 1;
                 effect->unk_8A = search_ticks;
                 if ((search_ticks << 0x10) <= 0) {
-                    new_target = find_eligible_nearby_entity(&reference_tile_object.unk_000);
+                    new_target = find_eligible_nearby_entity(&reference_tile_object.frame_entry);
                     effect->unk_9C = new_target;
                     if (new_target == 0) {
                         effect->unk_30 = 0x10;

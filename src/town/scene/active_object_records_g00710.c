@@ -11,7 +11,7 @@ s32 check_selected_entry_8(S_80017EB8_0 *position) {
     row = position->unk_01;
     column = position->unk_00;
     entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14)
-        + ((s32)((TownResourceLinks *)D_80016000->unk_24)->gridRows))))->unk_0C))->unk_00;
+        + ((s32)((TownResourceLinks *)town_scene_root->unk_24)->gridRows))))->unk_0C))->unk_00;
     if (get_record_value_tier() == 0) {
         if ((u32)(entry_value - 8) < 2U) {
             return 1;
@@ -103,18 +103,18 @@ u8 *record_check_returned(void *unused)
 void prepare_passes_active_object_callback(void) {
     func_80018824((s8 *)town_event_records, 0x100);
     record_check_returned(town_event_records);
-    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 0, 1, town_event_records);
+    scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 0, 1, town_event_records);
 }
 
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
 void prepare_active_object_callback(void) {
     func_80018824((s8 *)town_event_records, 0x100);
     func_80018914(town_event_records);
-    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 1, 1, town_event_records);
+    scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 1, 1, town_event_records);
 }
 
 /* Cache the value at offset 0x24 and return the value at offset 0x20. */
 s32 cache_value_at_offset_0x24(void) {
-    D_8001B31C = D_8001B318->unk_24;
-    return D_8001B318->unk_20;
+    D_8001B31C = scene_registered_event_handle->unk_24;
+    return scene_registered_event_handle->unk_20;
 }

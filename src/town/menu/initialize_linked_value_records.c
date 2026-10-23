@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80126A88[];
+extern s32 menu_initial_value_pairs[];
 extern u8 catalog_display_node_slots[];
 
 /* Initialize 14 entries from alternating source values and set their linked halfwords to 0x800. */
@@ -15,7 +15,7 @@ void initialize_linked_value_records(void) {
     initial_value = 0x800;
     entry_table = catalog_display_node_slots;
     entry_slot = (void **)(entry_table + 0x38);
-    source_values = D_80126A88;
+    source_values = menu_initial_value_pairs;
     do {
         *(s32 *)*entry_slot = *source_values;
         source_values += 2;

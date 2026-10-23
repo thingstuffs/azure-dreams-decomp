@@ -142,7 +142,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                         s32 dy;
 
                         dx = (s32)scan_actor_along_heading(
-                            object, actor->unk_24, actor->unk_25,
+                            object, actor->tile_x, actor->tile_y,
                             (*(s16 *)((u8 *)object + 0x2A)), 0x10);
                         (*(void * *)((u8 *)object + 0x60)) = (void *)dx;
                         dx = abs(*(s8 *)((u8 *)object + 0x72));
@@ -163,7 +163,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(object);
@@ -210,14 +210,14 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     sprite->tpage_abr = dim_channel;
                     sprite->flags |= 0x0C;
                     effect_pos = (*(void * *)((u8 *)object + 8));
-                    effect_pos->unk_02 = ((u16)motion->x.w.i);
-                    effect_pos->unk_06 = ((u16)motion->y.w.i);
-                    effect_pos->unk_0A = ((u16)motion->z.w.i);
+                    effect_pos->x = ((u16)motion->x.w.i);
+                    effect_pos->y = ((u16)motion->y.w.i);
+                    effect_pos->z = ((u16)motion->z.w.i);
 
                     dx = (rand() & 0x3F) - 0x20;
                     dy = (rand() & 0x3F) - 0x20;
-                    effect_pos->unk_02 += dx;
-                    effect_pos->unk_06 += dy;
+                    effect_pos->x += dx;
+                    effect_pos->y += dy;
                     sprite->scale_x = 0x1000;
                     sprite->scale_y = 0x1000;
 
@@ -284,7 +284,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+            set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             if (*(u8 * *)&actor->frameTable != blume_direction_frames) {
                 u8 *facing_frames;
                 s32 facing_index;

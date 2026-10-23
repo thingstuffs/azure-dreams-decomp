@@ -301,8 +301,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         }
         if ((get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = visual->unk_24;
-            effect_y = visual->unk_25;
+            effect_x = visual->tile_x;
+            effect_y = visual->tile_y;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
@@ -365,8 +365,8 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
         clear_slot_and_update_linked_state(globals16->unk_110);
         if ((get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
-            effect_x = visual->unk_24;
-            effect_y = visual->unk_25;
+            effect_x = visual->tile_x;
+            effect_y = visual->tile_y;
             effect_flags = 0x3000;
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;

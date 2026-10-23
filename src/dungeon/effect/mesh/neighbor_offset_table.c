@@ -3,7 +3,7 @@
 
 
 /* Exact physical numeric span; owner unresolved. */
-const u32 D_80024004[9] __attribute__((aligned(4))) = {
+const u32 mesh_neighbor_offsets[9] __attribute__((aligned(4))) = {
     0x00000020,
     0x00200020,
     0x00200000,

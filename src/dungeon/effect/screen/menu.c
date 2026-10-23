@@ -419,9 +419,9 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             u16 source_z;
 
             pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
-            coords->unk_00.at02.v = pos_record->unk_02;
-            coords->unk_04.at02.v = pos_record->unk_06;
-            source_z = pos_record->unk_0A;
+            coords->unk_00.at02.v = pos_record->x;
+            coords->unk_04.at02.v = pos_record->y;
+            source_z = pos_record->z;
             coords->unk_08.at02.v = source_z;
 
             if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
@@ -1029,10 +1029,10 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         x_component = 0x1000;
         scratch->scale_z = x_component;
         scratch->scale_y = y_component;
-        x_component = sprite->unk_20;
+        x_component = sprite->offset_x;
         scratch->sprite_width = x_component;
         x_component = (s16)x_component;
-        y_component = sprite->unk_22;
+        y_component = sprite->offset_y;
         x += x_component;
         scratch->translate_x = x;
         scratch->translate_z = 0;
@@ -1430,7 +1430,7 @@ typedef struct EntityHdr {
     u16 f88;
 } EntityHdr;
 
-extern u8 D_80079444[];
+extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
 extern void * allocate_list_node();
@@ -1458,7 +1458,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
         transform->f2 = ((u16)view_reference_entity.x.w.i);
         transform->f6 = ((u16)view_reference_entity.y.w.i);
         transform->fA = (*entity_ref)->f88;
-        select_record_entry_and_value(sprite, D_80079444, 0);
+        select_record_entry_and_value(sprite, menu_effect_sprite_entries, 0);
 
         {
             u32 color;
@@ -1846,7 +1846,7 @@ extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
 extern s32 draw_linked_sprites_clipped();
-extern u8 D_80079444[];
+extern u8 menu_effect_sprite_entries[];
 struct Work;
 struct Out;
 struct Render;
@@ -1921,7 +1921,7 @@ void *create_item_target_selector(u8 *selection_data) {
             } else if (part_index == 1) {
                 sprite->f8 = D_800DF368;
             } else {
-                select_record_entry_and_value(sprite, D_80079444, 0);
+                select_record_entry_and_value(sprite, menu_effect_sprite_entries, 0);
                 sprite->f14 |= 0xC;
             }
             {

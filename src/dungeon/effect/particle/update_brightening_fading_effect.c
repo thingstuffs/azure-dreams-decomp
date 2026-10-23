@@ -21,8 +21,8 @@
    /* ((S_8002401C_0 *)obj)->unk_04 in update_directional_actor_effect */
 
 extern s32 D_80027328;
-extern u8 D_80027374[];
-extern u8 D_800273BE;
+extern u8 bright_effect_palette_work[];
+extern u8 bright_effect_config_byte;
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
@@ -61,9 +61,9 @@ void update_directional_actor_effect(void *object)
         config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
         D_80027328 = 0;
         source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
-        D_800273BE = config_byte;
+        bright_effect_config_byte = config_byte;
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
-        D_8002732C = source_obj;
+        bright_effect_source_actor = source_obj;
 
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
@@ -158,8 +158,8 @@ void update_directional_actor_effect(void *object)
     }
 
     terrain_effect_update_count = 0;
-    D_80027374[8] = (palette->unk_004 & 0x1F) + 0x80;
-    D_80027374[9] = palette->unk_004 & 0x1F;
+    bright_effect_palette_work[8] = (palette->unk_004 & 0x1F) + 0x80;
+    bright_effect_palette_work[9] = palette->unk_004 & 0x1F;
 }
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
@@ -240,7 +240,7 @@ void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_81
 #define NULL 0
 
 extern s32 D_80027380;
-extern s32 D_800273B0;
+extern s32 bright_effect_sprite_source;
 extern s32 D_800DF334;
 
 /* Creates an object, initializes its parts, and loads its graphics. */
@@ -262,12 +262,12 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
         rect[1] = rect_size;
         draw_textured_ellipse(&D_80027380, rect, 1, 0);
         part = obj->position;
-        obj->unk_10 = update_brightening_fading_effect;
+        obj->update_callback = update_brightening_fading_effect;
         part->unk_02 = source->unk_02;
         part->unk_06 = source->unk_06;
         part->unk_08.at02.v = source->unk_0A;
         part = obj->sprite;
-        part->unk_08.at00.v = &D_800273B0;
+        part->unk_08.at00.v = &bright_effect_sprite_source;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
         ((S_8195ED3C_0 *)obj)->unk_2C = offset - 0x20;
@@ -369,7 +369,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
             return NULL;
         }
         coord = (u8 *)obj + 0x20;
-        obj->unk_10 = update_effect_and_spawn_fragments;
+        obj->update_callback = update_effect_and_spawn_fragments;
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
         render->x.w.i = world_x;
@@ -378,7 +378,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
         ((S_8195EF44_5 *)coord)->unk_3A = world_y;
         render->z.w.i = world_z;
         ((S_8195EF44_5 *)coord)->unk_3C = world_z;
-        work->unk_20 = 0x1000;
+        work->offset_x = 0x1000;
         work->scale_y = 0x1000;
         work->scale_x = 0x1000;
         work->tpage_abr = 0x20;
@@ -396,7 +396,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
 #include "shared/object_flags.h"
 
 extern u8 D_80027334[][8];
-extern u8 D_800273BE;
+extern u8 bright_effect_config_byte;
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
 void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin) {
@@ -434,7 +434,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                 random_value = func_80069EF8() & 7;
                 terrain_effect_height_grid[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
                 tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor, tile_x & 0xFFFF, tile_y & 0xFFFF);
-                if (tile != 0 && tile != D_8002732C) {
+                if (tile != 0 && tile != bright_effect_source_actor) {
                     *(u16 *)(*(u8 **)((u8 *)tile - 0x18) + 0xA) =
                         terrain_effect_height_grid[grid_y][grid_x] + origin->height;
                 }
@@ -461,9 +461,9 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                     tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor,
                                          (((u16)origin->x >> 6) + scratch) & 0xFFFF,
                                          (((u16)origin->y >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
-                    if (tile != 0 && tile != D_8002732C) {
+                    if (tile != 0 && tile != bright_effect_source_actor) {
                         apply_attack_power_and_element_effects(
-                            tile, 16, D_800273BE, 9,
+                            tile, 16, bright_effect_config_byte, 9,
                             (s16)calculate_planar_heading(grid_x_fixed >> 16,
                                                grid_y_fixed >> 16, 3, 3),
                             D_800273C0, 2);
@@ -832,7 +832,7 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
 
         callback = animate_tile_heights_and_transition;
 
-        object->unk_10 = callback;
+        object->update_callback = callback;
         register_node(init_object, dispatch_seven_by_seven_tile_grid);
         position = object->position;
         position->x.w.i = x;
@@ -1067,7 +1067,7 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     tile_row_copy = tile_row;
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->unk_10 = advance_ballistic_fading_effect;
+        object->update_callback = advance_ballistic_fading_effect;
         register_node(object, (s32)draw_linked_object_chain);
         position = object->position;
         position->x.w.i = x;
@@ -1103,9 +1103,9 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u16 D_800273CC[];
-extern u8 D_8002744C[9];
-extern u8 D_8002744D[9];
+extern u16 bright_effect_height_samples[];
+extern u8 bright_effect_center_column[9];
+extern u8 bright_effect_center_row[9];
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
@@ -1130,9 +1130,9 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
 
     tile_y = center_y - 3;
     row = 0;
-    sample_row = D_800273CC;
-    *D_8002744C = center_x;
-    *D_8002744D = center_y;
+    sample_row = bright_effect_height_samples;
+    *bright_effect_center_column = center_x;
+    *bright_effect_center_row = center_y;
     do {
         tile_x = center_x - 3;
         col = 0;
@@ -1147,7 +1147,7 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
             map = ((u8 *)dungeon_actor_ring_anchor);
             *sample_ptr = 0 - tile_sample;
             tile = find_eligible_entry_at_coordinates(map, (u16)tile_x, (u16)tile_y);
-            if ((tile != NULL) && (tile != (s32)D_8002732C)) {
+            if ((tile != NULL) && (tile != (s32)bright_effect_source_actor)) {
                 tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
             }
             sample_x = (s16)tile_x;
@@ -1177,9 +1177,9 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u16 D_800273CC[];
-extern u8 D_8002744C[9];
-extern u8 D_8002744D[9];
+extern u16 bright_effect_height_samples[];
+extern u8 bright_effect_center_column[9];
+extern u8 bright_effect_center_row[9];
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
 void restore_saved_map_tile_region(void)
@@ -1199,9 +1199,9 @@ void restore_saved_map_tile_region(void)
     dungeon_state = ((u8 *)(&g_game_work));
     map = (DungeonMap *)(dungeon_state + 0x1DC);
     rows_copied = 0;
-    source_row = D_800273CC;
-    center_row = D_8002744D[0];
-    center_column = D_8002744C[0];
+    source_row = bright_effect_height_samples;
+    center_row = bright_effect_center_row[0];
+    center_column = bright_effect_center_column[0];
     row = center_row - 3;
     first_column = center_column - 3;
     do {
@@ -1419,7 +1419,7 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_80027374[12];
+extern u8 bright_effect_palette_work[12];
 typedef struct TextureConfig {
     u8 pad0[4];
     u16 word4;
@@ -1490,7 +1490,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         scratch->w70 = 0;
         scratch->w80 = 0x400000;
         scratch->w88 = 0x400040;
-        texture_config = (TextureConfig *)D_80027374;
+        texture_config = (TextureConfig *)bright_effect_palette_work;
         texture_word = texture_config->word4;
         record->f14.h[1] = texture_word;
         texture_word = texture_config->word6;
@@ -2048,7 +2048,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
 #define NULL 0
 #endif
 
-extern s32 D_800273B0;
+extern s32 bright_effect_sprite_source;
 extern u8 linked_mesh_processor_address[];
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
@@ -2073,12 +2073,12 @@ void *allocate_nine_position_objects(void *position)
     source_pos = position;
     slot = 0;
     object_handler = interpolate_target_and_finish_transition;
-    control_handler = &D_800273B0;
+    control_handler = &bright_effect_sprite_source;
     last_slot = 8;
     do {
         object = allocate_flagged_object_node(2);
         if (object != NULL) {
-            object->unk_10 = object_handler;
+            object->update_callback = object_handler;
             register_node(object, &linked_mesh_processor_address);
             positions = object->position;
             pos_x = source_pos->unk_02;

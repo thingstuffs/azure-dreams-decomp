@@ -28,8 +28,8 @@ s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Sprite
 
     target_direction = probe_directional_neighbor(
         actor,
-        target->unk_24,
-        target->unk_25,
+        target->tile_x,
+        target->tile_y,
         actor->facing);
 
     if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {

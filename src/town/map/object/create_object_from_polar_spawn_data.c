@@ -48,7 +48,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_data = object->position;
-        object->unk_10 = &D_800BB894;
+        object->update_callback = &D_800BB894;
         *(Copy24 *)object_data = *(Copy24 *)spawn_data;
         object_state = ((void *)object) + 0x20;
         object_state->unk_48 = state_48;

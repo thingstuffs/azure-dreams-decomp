@@ -33,6 +33,6 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
     object->sprite = runtime + 0x24C;
     *(s32 *)(runtime + 0x258) = card_boot_link_slot_window_entries(runtime + 0x25C);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
-    object->unk_10 = D_80023EC4;
+    object->update_callback = D_80023EC4;
     return object;
 }

@@ -44,7 +44,7 @@ s32 create_offset_effect_object(IntVector3 *source_pos) {
     position->velocity_x = 0x100000;
     position->velocity_y = 0;
     position->z.v = offset_z;
-    object->unk_10 = &call_owner_callback;
+    object->update_callback = &call_owner_callback;
     object_state->unk_90 = 2;
     load_indexed_state_value(object_state, position, render_state);
     render_state->scale_y = 0x1000;

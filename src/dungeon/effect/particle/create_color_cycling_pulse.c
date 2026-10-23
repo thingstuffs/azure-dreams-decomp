@@ -57,7 +57,7 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         node = (u8 *)object + 0x20;
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
-        (object->unk_10) = &D_801671AC;
+        (object->update_callback) = &D_801671AC;
         register_node(object, project_sprite_chain);
 
         control = (object->sprite);

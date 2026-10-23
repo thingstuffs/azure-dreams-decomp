@@ -40,13 +40,13 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
 
     move_ticks = ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16;
     if (move_ticks != 0) {
-        target_x = tile_pos->unk_24;
+        target_x = tile_pos->tile_x;
         axis_pos = motion->x.w.i;
         target_x <<= 6;
         axis_pos -= 0x20;
         motion->velocity_x = (s32) ((s32) ((target_x - axis_pos) << 0x10) / move_ticks);
         axis_pos = motion->y.w.i - 0x20;
-        motion->velocity_y = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos)
+        motion->velocity_y = (s32) ((s32) (((tile_pos->tile_y << 6) - axis_pos)
             << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16);
     }
     ticks_left = (u16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 - 1;
@@ -62,20 +62,20 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             actor->flags1C = (s32) (actor->flags1C | ACTOR_REFRESH_GROUND);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
-            tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->room_index;
+            tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
-            if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
-                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+            if ((find_valid_nearby_position(actor, tile_pos->tile_x, tile_pos->tile_y, &resolved_x, &resolved_y) << 0x10) == 0) {
+                set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 begin_actor_random_warp(move_state, motion, tile_pos, actor);
                 return 0;
             } else {
-                tile_pos->unk_24 = resolved_x;
-                tile_pos->unk_25 = resolved_y;
-                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+                tile_pos->tile_x = resolved_x;
+                tile_pos->tile_y = resolved_y;
+                set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 contact_flags = actor->flags1C;
-                contact_x = tile_pos->unk_24;
-                contact_y = tile_pos->unk_25;
+                contact_x = tile_pos->tile_x;
+                contact_y = tile_pos->tile_y;
                 contact_tile_mask = 0x3000;
                 if (contact_flags & 0x2000) {
                     contact_tile_mask = 0x300;
@@ -89,8 +89,8 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             }
         }
         if ((check_neighbor_tile_blocking(((s16)actor->movement_facing), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
-            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_x));
-            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_y));
+            tile_pos->tile_x = (u8) (tile_pos->tile_x + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_x));
+            tile_pos->tile_y = (u8) (tile_pos->tile_y + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_y));
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
         } else {
             motion->velocity_z = 0;
@@ -98,10 +98,10 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             motion->velocity_x = 0;
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
-            tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->room_index;
+            tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
-            ground_height = sample_terrain_surface_height((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20,
+            ground_height = sample_terrain_surface_height((tile_pos->tile_x << 6) | 0x20, (tile_pos->tile_y << 6) | 0x20,
                 (s16) (((u16)motion->z.w.i) - 0x20));
             if (ground_height < 0x200) {
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
@@ -110,17 +110,17 @@ s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteF
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
             actor->flags1C = (s32) ((actor->flags1C | ACTOR_REFRESH_GROUND) & 0xFFDFFFFF);
-            if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
-                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+            if ((find_valid_nearby_position(actor, tile_pos->tile_x, tile_pos->tile_y, &resolved_x, &resolved_y) << 0x10) == 0) {
+                set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 begin_actor_random_warp(move_state, motion, tile_pos, actor);
                 return 0;
             } else {
-                tile_pos->unk_24 = resolved_x;
-                tile_pos->unk_25 = resolved_y;
-                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+                tile_pos->tile_x = resolved_x;
+                tile_pos->tile_y = resolved_y;
+                set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 stop_flags = actor->flags1C;
-                stop_x = tile_pos->unk_24;
-                stop_y = tile_pos->unk_25;
+                stop_x = tile_pos->tile_x;
+                stop_y = tile_pos->tile_y;
                 stop_tile_mask = 0x3000;
                 if (stop_flags & 0x2000) {
                     stop_tile_mask = 0x300;

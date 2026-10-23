@@ -15,7 +15,7 @@ void run_action_then_fallback_on_flag(s32 *value, s32 context, SpriteFlagsView *
 
     previous_value = *value;
     dispatch_actor_interaction_actions(value, context, record);
-    if ((previous_value == *value) && (record->unk_14 & 0x6000)) {
+    if ((previous_value == *value) && (record->flags & 0x6000)) {
         initialize_scene_action_record(value, context, record);
     }
 }

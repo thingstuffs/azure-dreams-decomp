@@ -7,8 +7,7 @@
 
 struct Decoder;
 struct Func800391ECState;
-struct Func80039694State;
-struct Func80039C74State;
+struct ScriptReader;
 struct Func80039D48Reader;
 struct Func80039DBCReader;
 struct Func80039E1CReader;
@@ -29,7 +28,6 @@ struct S_800395F0_0;
 struct S_80039640_0;
 struct S_8003965C_0;
 struct S_80039760_0;
-struct S_800399EC_0;
 struct S_80039A88_0;
 struct S_80039ACC_0;
 struct S_80039ED0_0;
@@ -86,10 +84,10 @@ void vm_op_23_jump_absolute(struct S_8003965C_0 *vm);
 void vm_op_26_jump_by_byte_index(struct S_80039760_0 *vm);
 
 /* vm_op_jump_if_flag_bit_clear.c */
-void vm_op_43_jump_if_flag_bit_clear(struct Func80039C74State *state);
+void vm_op_43_jump_if_flag_bit_clear(struct ScriptReader *state);
 
 /* vm_op_jump_if_flag_bit_set.c */
-u32 vm_op_24_jump_if_flag_bit_set(struct Func80039694State *state);
+u32 vm_op_24_jump_if_flag_bit_set(struct ScriptReader *state);
 
 /* vm_op_jump_if_negative.c */
 void vm_op_65_jump_if_negative(struct Func8003A684State *state);
@@ -113,7 +111,7 @@ void vm_op_62_jump_if_zero(struct Func8003A54CState *state);
 void vm_op_72_jump_to_value(struct Func8003A9B8State *vm);
 
 /* vm_op_load_value_indexed_pointer.c */
-void vm_op_79_load_value_indexed_pointer(struct RuntimeState *state);
+void vm_op_79_load_value_indexed_pointer(struct ScriptReader *state);
 
 /* vm_op_multiply_values.c */
 void vm_op_73_multiply_values(struct Decoder *script);
@@ -162,7 +160,7 @@ void vm_op_61_set_difference_result(struct Func8003A500State *state);
 void vm_op_84_set_loop_counter(struct RuntimeState *state);
 
 /* vm_op_set_owner_byte.c */
-void vm_op_05_set_owner_byte(struct S_800399EC_0 *script_ctx);
+void vm_op_05_set_owner_byte(struct ScriptReader *script_ctx);
 
 /* vm_op_set_state_two.c */
 void vm_op_11_set_state_two(struct S_80039208_0 *script_ctx);
@@ -171,7 +169,7 @@ void vm_op_11_set_state_two(struct S_80039208_0 *script_ctx);
 void vm_op_56_skip_byte(ScriptCounterView *script_ctx);
 
 /* vm_op_store_immediate_indexed_word.c */
-void vm_op_58_store_immediate_indexed_word(struct RuntimeState *state);
+void vm_op_58_store_immediate_indexed_word(struct ScriptReader *state);
 
 /* vm_op_store_table_pointer_value.c */
 void vm_op_57_store_table_pointer_value(struct Func8003A29CState *state);

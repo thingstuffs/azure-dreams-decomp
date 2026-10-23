@@ -33,7 +33,7 @@ typedef struct S_80165018_4 {
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern s32 rand(void);
-extern u8 D_80164BC4[];
+extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
 
 /* Create an effect at a randomized offset from its parent and initialize its state. */
@@ -48,23 +48,23 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
 
     effect = allocate_list_node(0x211, parent);
     if (effect != 0) {
-        effect->unk_10 = D_80164DA4;
+        effect->update_callback = D_80164DA4;
         jitter = rand() & 7;
-        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_02 + offset_x;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->x + offset_x;
         coordinate -= 3;
         coordinate += jitter;
         (effect->position)->x.w.i = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->y + offset_y;
         coordinate -= 3;
         coordinate += jitter;
         (effect->position)->y.w.i = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z;
+        coordinate = ((MovingPosition *)((*(void * *)&parent->z)))->z + offset_z;
         coordinate -= 3;
         coordinate += jitter;
         (effect->position)->z.w.i = (s16)coordinate;
-        effect->sprite->unk_06 = 0;
+        effect->sprite->depth_bias = 0;
         state = effect->sprite;
         effect_data = (u8 *)effect + 0x20;
         state->flags = state->flags | 0xC;
@@ -75,7 +75,7 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
         transform->unk_0C = 0;
         effect_data->unk_32 = effect_size;
         effect_data->unk_34 = effect_size;
-        register_node(effect, D_80164BC4);
+        register_node(effect, child_particle_draw_address);
         ((S_80165018_0 *)effect)->unk_20 = effect_value;
         effect_data->unk_08 = effect_value;
     }

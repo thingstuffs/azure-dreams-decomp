@@ -137,9 +137,9 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     }
 
     ((S_80172610_4 *)context)->unk_14 = ((S_80172610_3 *)linked)->unk_14;
-    output->unk_02 = source->unk_02;
-    output->unk_06 = source->unk_06;
-    output->unk_0A = source->unk_0A;
+    output->x = source->x;
+    output->y = source->y;
+    output->z = source->z;
 
     effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     effect = view_direction_depth_biases[effect_index];

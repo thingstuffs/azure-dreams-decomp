@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
 
@@ -10,17 +11,12 @@ extern int D_800814A0;
 
 /* Linked-list-style node with a 16-bit flags/state field at offset 0x1E
  * (same layout used by func_80040418's Node type in code.c). */
-typedef struct Node {
-    struct Node *next;       /* 0x00 */
-    unsigned char pad[0x1E - 4];
-    unsigned short field_1E; /* 0x1E */
-} Node;
 
 /* Sets bit 0x8000 in the node and global flags when the node exists. */
-void table_set_bit_hex_8000_in_node_global_flags_node_exists(Node *node)
+void table_set_bit_hex_8000_in_node_global_flags_node_exists(ObjectNodeHeader *node)
 {
     if (node != 0) {
-        node->field_1E |= NODE_REMOVE;
+        node->flags |= NODE_REMOVE;
         D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

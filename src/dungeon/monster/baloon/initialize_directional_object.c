@@ -32,8 +32,8 @@ s32 initialize_directional_object(void *action_state, s32 action_param, SpriteFr
         return -1;
     }
 
-    direction = probe_directional_neighbor(actor, sprite->unk_24,
-                         sprite->unk_25,
+    direction = probe_directional_neighbor(actor, sprite->tile_x,
+                         sprite->tile_y,
                          ((ActorRecord *)actor)->facing);
     result = 0;
     if ((check_entity_interaction_compatibility(actor, direction) << 16) == 0) {

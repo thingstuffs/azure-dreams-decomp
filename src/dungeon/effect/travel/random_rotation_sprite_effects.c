@@ -46,7 +46,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
 
     obj = (ovl_18b8824_818988CC_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = (void *)interpolate_view_parameters;
+        obj->update_callback = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
         fields->unk_0C = context;
         fields->unk_10 = 0;

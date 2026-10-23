@@ -158,7 +158,7 @@ extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern s32 rsin(s32 angle);
 extern s32 rand(void);
-extern u8 D_800DED70[];
+extern u8 homing_particle_sprite_entries[];
 s32 rand();                          /* extern */
 extern SpriteSourceEntry landing_sprite_entries[];
 
@@ -247,7 +247,7 @@ void update_directional_actor_effect(void *input, void *output)
             offsets[0] = 0;
         }
         particle_data = (u8 *)particle + 0x20;
-        particle->unk_10 = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
+        particle->update_callback = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
         register_node(particle, (s32)project_sprite_chain);
         random_value = 0x00800000u;
         sprite = particle->sprite;
@@ -277,7 +277,7 @@ void update_directional_actor_effect(void *input, void *output)
         sprite->source = ((S_FUNC_8197C800_BODY_9 *)rising_sprite_entries)->unk_04;
         random_value |= 0x8080u;
         sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
+        sprite->frame_ticks = 0;
         sprite->color.word = (void *)random_value;
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
         ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
@@ -314,7 +314,7 @@ void update_directional_actor_effect(void *input, void *output)
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                particle->unk_10 = particle_script;
+                particle->update_callback = particle_script;
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
@@ -374,7 +374,7 @@ void update_directional_actor_effect(void *input, void *output)
                         sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                     }
                     sprite->unk_04 = 0;
-                    sprite->unk_05 = 0;
+                    sprite->frame_ticks = 0;
                     sprite->color.word = (void *)(color | 0x6060u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
                     ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
@@ -389,7 +389,7 @@ void update_directional_actor_effect(void *input, void *output)
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                particle->unk_10 = particle_script_debris;
+                particle->update_callback = particle_script_debris;
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
@@ -452,7 +452,7 @@ void update_directional_actor_effect(void *input, void *output)
                         sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                     }
                     sprite->unk_04 = 0;
-                    sprite->unk_05 = 0;
+                    sprite->frame_ticks = 0;
                     sprite->color.word = (void *)(color | 0x1010u);
                     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
                     ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
@@ -686,7 +686,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->flags = state->flags | 0xC;
                     data_word = particle_data[1];
                     state->unk_04 = 0;
-                    state->unk_05 = 0;
+                    state->frame_ticks = 0;
                     state->color.word = (0xC00000 | 0x6060);
                     state->source = data_word;
                     data_word = (s32)actor->field0;
@@ -809,7 +809,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
     ((S_8197D468_1 *)owner)->unk_52 = (u16) (((S_8197D468_1 *)owner)->unk_52 | 0x8000);
     if (sprite->flags & 0x6000) {
         sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
+        sprite->frame_ticks = 0;
         sprite->flags = (u16) (sprite->flags & 0x9FFF);
     }
     advance_sprite_animation_and_textures(sprite);
@@ -830,7 +830,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             sprite_frames = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite_flags = sprite->flags;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->scale_y = 0x400U;
             sprite->scale_x = 0x400U;
             sprite->tpage_abr = 0;
@@ -857,7 +857,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             sprite->unk_00 = &landing_sprite_entries;
             effect_data = (void *) ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->source = effect_data;
         }
         motion->z.v = (s32) (motion->z.v
@@ -876,7 +876,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
-                    particle->unk_10 = (void *)move_sprite_until_animation_ends;
+                    particle->update_callback = (void *)move_sprite_until_animation_ends;
                     register_node(particle, (s32)project_sprite_chain);
                     particle_sprite = particle->sprite;
                     (particle->position)->x.v =
@@ -896,12 +896,12 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
                     particle_sprite->scale_y = 0xC00;
                     particle_sprite->scale_x = 0xC00;
                     particle_sprite->tpage_abr = 0x20;
-                    particle_sprite->unk_00 = D_800DED70;
+                    particle_sprite->unk_00 = homing_particle_sprite_entries;
                     particle_sprite->flags = (u16) (particle_sprite->flags | 0xC);
-                    particle_frames = ((SpriteSourceEntry *)D_800DED70)->unk_04;
+                    particle_frames = ((SpriteSourceEntry *)homing_particle_sprite_entries)->source;
                     particle_color |= 0x6060;
                     particle_sprite->unk_04 = 0;
-                    particle_sprite->unk_05 = 0;
+                    particle_sprite->frame_ticks = 0;
                     particle_sprite->color.word = particle_color;
                     particle_sprite->source = particle_frames;
                     effect_data = ((S_8197D468_0 *)effect)->unk_00;

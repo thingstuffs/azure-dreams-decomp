@@ -37,7 +37,7 @@ void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsig
     if (effect != 0) {
         effect_data = ((void *)effect) + 0x20;
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
-        effect->unk_10 = &emit_randomized_relative_particles;
+        effect->update_callback = &emit_randomized_relative_particles;
         *((s16 *) (((u8 *) effect_data) + 0x1E)) = 0x32;
         render_setup = effect->sprite;
         render_setup->tpage_abr = 0x20;

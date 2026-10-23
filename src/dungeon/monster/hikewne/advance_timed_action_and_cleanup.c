@@ -11,7 +11,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 hikewne_action_resume_address[];
-extern u8 D_80174108[];
+extern u8 hikewne_frame_set_16[];
 
 typedef struct S_80172864_0 {
     u8 pad_00[0x8C];
@@ -62,10 +62,10 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFra
             !(sprite->flags & 0x8000)) {
             return;
         }
-        sprite->frameTable = D_80174108;
+        sprite->frameTable = hikewne_frame_set_16;
         select_sprite_entry(
             sprite,
-            D_80174108[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            hikewne_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         state = ((S_80172864_0 *)action)->unk_9B.n;
         ((S_80172864_0 *)action)->unk_96.u = 0;

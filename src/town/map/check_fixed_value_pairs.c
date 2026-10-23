@@ -9,7 +9,7 @@ typedef struct {
     s32 value[4];
 } TownFourWords;
 
-extern TownFiveWords D_800894D0;
+extern TownFiveWords building_pair_indices;
 extern TownFourWords D_800895F0;
 extern u8 D_800133A6;
 extern u8 D_800133BA;
@@ -19,7 +19,7 @@ extern u8 D_800133E6;
 /* Checks fixed value pairs and requires all four table values among five indexed pairs. */
 s32 check_fixed_value_pairs(void)
 {
-    TownFiveWords pair_indices = D_800894D0;
+    TownFiveWords pair_indices = building_pair_indices;
     TownFourWords required_values = D_800895F0;
     u8 *pair_base;
     s32 required_value;

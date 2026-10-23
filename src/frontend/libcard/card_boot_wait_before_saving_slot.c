@@ -1,14 +1,8 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
-
-typedef struct S_80026398_0 {
-    s32 * unk_00;
-    u8 pad_04[0x48];
-    s32 unk_4C;
-} S_80026398_0;   /* arg0 in card_boot_wait_before_saving_slot; pointer addresses record offset 0x10 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -16,9 +10,9 @@ typedef struct S_80026398_0 {
 void card_boot_wait_before_saving_slot(void *record_data) {
     s32 countdown;
 
-    countdown = ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_4C - 1;
-    ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_4C = countdown;
+    countdown = ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown - 1;
+    ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown = countdown;
     if (countdown < 0) {
-        ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800262BC;
+        ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_800262BC;
     }
 }

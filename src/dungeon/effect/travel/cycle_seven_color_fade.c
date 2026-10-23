@@ -75,7 +75,7 @@ s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 rend
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = lower_animated_sprite;
+        object->update_callback = lower_animated_sprite;
         object_data = (B28_818B6954_S_818B6954_1 *)((u8 *)object + 0x20);
         ((B28_818B6954_S_818B6954_0 *)object)->unk_20 = context_value;
         object_data->unk_04 = 0;
@@ -748,7 +748,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
     if (obj != NULL) {
         update_handler = update_spark_effect;
         part = ((void *)obj) + 0x20;
-        obj->unk_10 = update_handler;
+        obj->update_callback = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;
         part->unk_0E.s16 = 0;
         part->unk_10 = 0;

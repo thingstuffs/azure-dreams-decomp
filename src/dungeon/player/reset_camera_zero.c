@@ -11,7 +11,7 @@ extern s32 has_action_input_without_modifier(void);
 
 extern u8 D_800DD008[8];
 extern u8 D_800DD010[8];
-extern StateFunc D_800DD168[];
+extern StateFunc player_action_handlers[];
 
 /* Advances the camera reset animation and resumes actor state handling. */
 void to_camera_zero_00(void *actor, void *context, void *animation, void *transform)
@@ -45,7 +45,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
                 }
                 handle_player_input(actor, context, animation, transform);
                 if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-                    D_800DD168[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                    player_action_handlers[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
                 }
             }
         }
@@ -57,7 +57,7 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
             }
             handle_player_input(actor, context, animation, transform);
             if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-                D_800DD168[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                player_action_handlers[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
                 return;
             }
         }

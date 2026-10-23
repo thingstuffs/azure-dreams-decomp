@@ -106,7 +106,7 @@ extern s16 func_800BB784(s32, s32, s16);
 extern s8 D_8006BDA8;
 extern s8 D_8006BDB8;
 extern s16 D_8006BDD0[];
-extern void *D_800803DC;
+extern void *beldo_old_target_actor;
 extern u8 free_node_list_head[];
 extern s8 cd_queue_buffered_argument_word_1;
 extern s32 D_80085990;
@@ -180,7 +180,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
                 u8 *turn_state;
                 {
                     u8 *target_position = free_node_list_head;
-                    s32 target_facing = ((S_8127C3E0_4 *)D_800803DC)->unk_2A;
+                    s32 target_facing = ((S_8127C3E0_4 *)beldo_old_target_actor)->unk_2A;
                     s32 direction_offset =
                         ((((S_8127C3E0_1 *)actor_arg)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position[0x24] +
@@ -243,7 +243,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
             if (func_8009EB6C(
                     ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
                     target_position[0x24], target_position[0x25]) != 0) {
-                if ((s16)func_8009EF24(D_800803DC, actor_arg) < 0x81) {
+                if ((s16)func_8009EF24(beldo_old_target_actor, actor_arg) < 0x81) {
                     if (func_80099330(
                             ((s16)((S_8127C3E0_1 *)actor_arg)->unk_2A.u >> 9) & 0xFFFF,
                             ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v,
@@ -310,7 +310,7 @@ void step_beldo_old_toward_target(void *move_state_arg, void *action_context, vo
         if (turn_index == 0 &&
             *(u16 *)&cd_queue_buffered_argument_word_1 != ((S_8127C3E0_2 *)position_arg)->unk_24.at00u.v) {
             if (func_80098F70(actor_arg,
-                    (u8 *)((S_8127C3E0_4 *)D_800803DC)->unk_58 + 0x20) != 0) {
+                    (u8 *)((S_8127C3E0_4 *)beldo_old_target_actor)->unk_58 + 0x20) != 0) {
                 return;
             }
         }

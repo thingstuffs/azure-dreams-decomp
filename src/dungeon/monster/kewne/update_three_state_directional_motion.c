@@ -129,7 +129,7 @@ void update_three_state_directional_motion(void *action, void *motion, SpriteFra
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 advance_state:
         U8(action, 0x9B)++;
         return;

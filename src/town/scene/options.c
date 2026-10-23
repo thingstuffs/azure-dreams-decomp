@@ -41,7 +41,7 @@ void update_enabled_event_cells(void) {
     register void *position;
     void *group_flags;
 
-    entry_flags = D_80016000->unk_38;
+    entry_flags = town_scene_root->town_state;
     if (func_8001876C(1) == 0) {
         second_variant_active = func_8001876C(2);
         variant = 2;
@@ -55,7 +55,7 @@ void update_enabled_event_cells(void) {
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
         ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = context->unk_20;
+        dispatch_ptr = context->services;
     } else {
         variant = 0;
         initial_x = 4;
@@ -65,7 +65,7 @@ void update_enabled_event_cells(void) {
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
         ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = context->unk_20;
+        dispatch_ptr = context->services;
     }
     count_offset = variant * 8;
     dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
@@ -88,7 +88,7 @@ y_cell:
                             cell_value = x_offset + y_offset;
                             cell_x = ((SignedPair16 *)position)->unk_00 + x_offset;
                             cell_y = ((SignedPair16 *)position)->unk_02 + y_offset;
-                            D_80016000->unk_20->callback_2D0(cell_x,
+                            town_scene_root->services->callback_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;
                             if (y_offset < 2) goto y_cell;

@@ -102,8 +102,8 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, ObjectPosition *
                 s32 tile_x;
                 s32 tile_y;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
-                tile_x = (ent->unk_24 << 6) | 0x20;
-                tile_y = (ent->unk_25 << 6) | 0x20;
+                tile_x = (ent->tile_x << 6) | 0x20;
+                tile_y = (ent->tile_y << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 ((S_800D2E9C_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;

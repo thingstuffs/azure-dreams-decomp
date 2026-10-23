@@ -70,7 +70,7 @@ void spawn_randomized_timed_objects(void *source)
                 object = new_object;
                 callback = &D_800BFFF4;
                 coords = ((void *)object) + 0x20;
-                object->unk_10 = (s32 *)kind;
+                object->update_callback = (s32 *)kind;
                 register_node(object, callback);
                 random_value = rand();
                 coord_term = town->view.camera_position.parts.camera_position_x;
@@ -106,7 +106,7 @@ void spawn_randomized_timed_objects(void *source)
     ((S_800BFB8C_0 *)source)->unk_0E = next_value;
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
-            (u16)(((ObjectStatusPrefix16 *)source)[-1].unk_00 | NODE_REMOVE);
+            (u16)(((ObjectStatusPrefix16 *)source)[-1].flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 

@@ -22,7 +22,7 @@ void *create_type_212_effect_object(MovingPosition *source) {
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = &D_80024374;
+        object->update_callback = &D_80024374;
         appearance = object->sprite;
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
@@ -32,9 +32,9 @@ void *create_type_212_effect_object(MovingPosition *source) {
         appearance->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
         components = object->position;
-        components->unk_02 = source->unk_02;
-        components->unk_06 = source->unk_06;
-        components->unk_0A = source->unk_0A;
+        components->x = source->x;
+        components->y = source->y;
+        components->z = source->z;
         result = object;
         return result;
     } else {

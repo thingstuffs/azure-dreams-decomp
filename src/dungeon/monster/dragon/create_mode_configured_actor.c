@@ -27,13 +27,13 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_8016AA28;
+        obj->update_callback = D_8016AA28;
         work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
-        part_a = obj->unk_08;
-        part_a->unk_0A = saved_value_0a;
-        part_b = obj->unk_0C;
+        part_a = obj->position;
+        part_a->z = saved_value_0a;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_byte_25;
         actor = work;

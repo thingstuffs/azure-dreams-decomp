@@ -168,7 +168,7 @@ s32 draw_entry_overlays(void) {
     page_state = &g_game_work.draw_buffer;
     entry = &reference_tile_object;
     alternate_page = CUR_PAGE != (void *)upper_draw_context;
-    rotation = entry->unk_006;
+    rotation = entry->depth_bias;
     page_index = (u16) alternate_page;
     if (!(entry->sprite_flags & 0x80)) {
         coord = view_reference_entity;

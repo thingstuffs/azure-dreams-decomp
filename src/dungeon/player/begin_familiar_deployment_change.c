@@ -1,14 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-
-
-typedef struct S_8008DB0C_1 {
-    u8 pad_00[0x8A];
-    s16 unk_8A;
-} S_8008DB0C_1;   /* call_obj in begin_familiar_deployment_change */
-
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 get_special_table_data_index(s32);
@@ -51,7 +45,7 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
         } else {
             action_kind = 0x88;
             action_obj = obj;
-            field_value = ((S_8008DB0C_1 *)action_obj)->unk_8A;
+            field_value = ((ActorRecord *)action_obj)->unk_8A;
             action_arg = 0;
         }
         append_packed_action_record(action_obj, action_kind, field_value, action_arg);

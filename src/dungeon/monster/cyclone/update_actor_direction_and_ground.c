@@ -78,7 +78,7 @@ struct Entity {
 
 extern u8 cyclone_action_resume_address;
 extern u8 cyclone_move_direction_frames[8];
-extern u8 D_80176490[8];
+extern u8 cyclone_fade_direction_frames[8];
 extern ActorCallback cyclone_callbacks[];
 
 extern void select_indirect_table_entry(Entity *, u8, s8);
@@ -138,7 +138,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         {
             u16 updated_flags;
 
-            if (input_entity->data == D_80176490 && dir_sprite_flag[direction_index] != 0) {
+            if (input_entity->data == cyclone_fade_direction_frames && dir_sprite_flag[direction_index] != 0) {
                 updated_flags = input_entity->flags14 | 1;
             } else {
                 updated_flags = input_entity->flags14 & 0xFFFE;

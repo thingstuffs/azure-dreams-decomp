@@ -80,7 +80,7 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
         } else {
             timer = controller->unk_96.s;
             if (timer != 0) {
-                axis_step = entity->unk_24;
+                axis_step = entity->tile_x;
                 axis_pos = transform->x.w.i;
                 axis_step <<= 6;
                 axis_pos -= 0x20;
@@ -89,7 +89,7 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
                 axis_pos = transform->y.w.i;
                 transform->velocity_x = axis_step;
                 axis_pos -= 0x20;
-                axis_step = (entity->unk_25 << 6) - axis_pos;
+                axis_step = (entity->tile_y << 6) - axis_pos;
                 axis_step = (axis_step << 16) / controller->unk_96.s;
                 transform->velocity_y = axis_step;
             }
@@ -108,7 +108,7 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(transform, entity->tile_x, entity->tile_y);
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }

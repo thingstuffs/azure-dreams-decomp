@@ -8,5 +8,5 @@
 
 /* Returns the byte at offset 0x114 in the referenced record. */
 u8 get_referenced_object_active_flag(void) {
-    return ((u8)((TownProgressState *)D_80016000->unk_40)->unk_114);
+    return ((u8)((TownProgressState *)town_scene_root->event_data)->unk_114);
 }

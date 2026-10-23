@@ -3,7 +3,7 @@
 extern void start_selected_actor_action(void);
 
 /* jump_table; owner: dungeon/func_8100D034. */
-const u32 D_8016A858[7] __attribute__((aligned(4))) = {
+const u32 garuda_slot_f_action_cases[7] __attribute__((aligned(4))) = {
     (u32)((u8 *)start_selected_actor_action + 0x11C),
     (u32)((u8 *)start_selected_actor_action + 0x114),
     (u32)((u8 *)start_selected_actor_action + 0x10C),

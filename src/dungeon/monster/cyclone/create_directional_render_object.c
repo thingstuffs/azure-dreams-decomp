@@ -53,13 +53,13 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
 
     object = allocate_flagged_object_node(0x312);
     if (object != NULL) {
-        object->unk_10 = &D_8017573C;
+        object->update_callback = &D_8017573C;
         register_node(object, project_sprite_chain);
         object_state = ((void *)object) + 0x20;
         ((S_80175858_1 *)object_state)->unk_04.s =
             (u16)((S_80175858_2 *)direction_ref)->unk_2A;
         render_data = object->sprite;
-        render_data->unk_28 =
+        render_data->animation_resource =
             ((S_80175858_4 *)render_ref)->unk_28;
         render_attr = ((S_80175858_4 *)render_ref)->unk_12;
         render_data->color.word = 0x808080;

@@ -220,7 +220,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = (void *)animate_spiral_grayscale_effect;
+        object->update_callback = (void *)animate_spiral_grayscale_effect;
         state = ((void *)object) + 0x20;
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_20 = 0;
         state->unk_02 = 0;

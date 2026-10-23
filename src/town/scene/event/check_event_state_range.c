@@ -12,8 +12,8 @@ typedef s32 (*Callback)(s32);
 s32 check_event_state_range(void) {
     s32 stateCode;
 
-    ((Callback)D_80016000->unk_20->callback_248)(0);
+    ((Callback)town_scene_root->services->callback_248)(0);
     stateCode =
-        ((TownPositionState *)D_80016000->unk_1C)->x;
+        ((TownPositionState *)town_scene_root->position)->x;
     return stateCode >= 0x3E0 ? stateCode < 0x3E5 : stateCode >= 0x3DC;
 }

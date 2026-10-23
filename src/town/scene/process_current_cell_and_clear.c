@@ -24,7 +24,7 @@ typedef struct S_80016B0C_2 {
 
 
 extern s32 scene_cell_dispatch_code;
-extern void *D_80019B90;
+extern void *scene_current_cell_pointer;
 
 extern s32 func_80018504(void);
 extern void set_scene_entry_flag_k(void);
@@ -41,7 +41,7 @@ s32 process_current_cell_and_clear(void) {
     s32 cell_index;
     u8 *cells;
 
-    state = *(void **)((s8 *)(&D_80016000));
+    state = *(void **)((s8 *)(&town_scene_root));
     cell_index = state->unk_08;
     cells = state->unk_40;
     scene_cell_dispatch_code = cells[cell_index * 8 + 4];
@@ -53,12 +53,12 @@ s32 process_current_cell_and_clear(void) {
             func_80019458(F_sbs14_pad09);
         }
 
-        ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_40
-                + ((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_08 * 8))->unk_04 = 0;
+        ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&town_scene_root))))->unk_40
+                + ((S_80016B0C_1 *)(*(void **)((s8 *)(&town_scene_root))))->unk_08 * 8))->unk_04 = 0;
         scene_cell_dispatch_code = 0;
         set_scene_entry_flag_k();
     } else {
-        func_80018D54(D_80019B90, fallback_args);
+        func_80018D54(scene_current_cell_pointer, fallback_args);
         func_80019638();
     }
 

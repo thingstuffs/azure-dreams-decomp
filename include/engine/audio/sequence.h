@@ -4,6 +4,20 @@
 
 #include "common.h"
 
+/* audio_sequence_slots: allocate_sequence_bank_slot registers a recognized
+ * sequence header, and sound_activate_loaded_sequence_slot reads that same
+ * header word into audio_sequence_data_base. All table walks use 0x0C-byte
+ * records. reset_sound_slots initializes 16 entries; ordinary callers keep
+ * their existing 8-entry extern bounds. The gain fields retain unsigned
+ * halfword accesses; signed gain projections are separate. */
+typedef struct SoundSequenceSlot {
+    /* 0x00 */ s16 sequence_id; /* -1 marks a free entry */
+    /* 0x02 */ s16 state;
+    /* 0x04 */ s32 data_address; /* integer representation is intentional */
+    /* 0x08 */ u16 left_gain;
+    /* 0x0A */ u16 right_gain;
+} SoundSequenceSlot;
+
 struct PlaybackState;
 struct S_80055E84;
 struct S_80056654_0;

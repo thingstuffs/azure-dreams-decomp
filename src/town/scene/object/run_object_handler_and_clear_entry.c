@@ -34,16 +34,16 @@ s32 run_object_handler_and_clear_entry(S_80016844_0 *object, s32 context) {
     result = 0;
     if (func_8001868C(F_s34_sero_quickstart) != 0) {
         initialize_state_two_entries_pointer(object->unk_18);
-        ((S_80016844_2 *)(((D_80016000->unk_08 * 8) +
-                   ((s32)D_80016000->unk_40))))->unk_04 = 0;
+        ((S_80016844_2 *)(((town_scene_root->entry_index * 8) +
+                   ((s32)town_scene_root->event_data))))->unk_04 = 0;
         return func_800177CC(object, context);
     }
     if (func_8001868C(F_s34_sero_start) != 0) {
         initialize_state_two_entries_pointer(object->unk_18);
         result = func_800176B8(object, context);
         if (result != 0) {
-            ((S_80016844_3 *)(((D_80016000->unk_08 * 8) +
-                       ((s32)D_80016000->unk_40))))->unk_04 = 0;
+            ((S_80016844_3 *)(((town_scene_root->entry_index * 8) +
+                       ((s32)town_scene_root->event_data))))->unk_04 = 0;
         }
     }
     return result;

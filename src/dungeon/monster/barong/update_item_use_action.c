@@ -36,7 +36,7 @@ extern u8 D_80171030[];
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 D_80175594[];
-extern u8 D_801755CC[];
+extern u8 barong_frame_set_3[];
 extern LocalPacket D_801755D4;
 
 typedef struct S_801731C8_0 {
@@ -162,7 +162,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                     s32 dy;
 
                     dx = (s32)scan_actor_along_heading(
-                        actor, sprite->unk_24, sprite->unk_25,
+                        actor, sprite->tile_x, sprite->tile_y,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                     (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = abs(*(s8 *)((u8 *)actor + 0x72));
@@ -180,7 +180,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                 u8 *animations;
                 s32 direction;
 
-                animations = D_801755CC;
+                animations = barong_frame_set_3;
                 sprite->frameTable = animations;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
@@ -194,7 +194,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -263,7 +263,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                     s16 color_choice;
 
                     ((S_801731C8_5 *)particle)->unk_22 = 8;
-                    particle->unk_10 = particle_script;
+                    particle->update_callback = particle_script;
                     register_node(particle, project_sprite_chain);
                     particle_part = particle->sprite;
                     ((S_801731C8_6 *)particle_part)->unk_10 = low_color;
@@ -353,7 +353,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             if (*(u8 * *)&sprite->frameTable != barong_direction_frames) {
                 u8 *animations;
                 s32 direction;

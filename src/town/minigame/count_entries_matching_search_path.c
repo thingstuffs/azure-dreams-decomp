@@ -104,7 +104,7 @@ extern u8 D_80022C2C[];
 extern s16 D_800272A0[];
 extern s16 D_800272B0[];
 extern s32 scene_object_payload_alias;
-extern u8 D_800930E4[];
+extern u8 town_interaction_action_address[];
 extern s32 town_position_callback_address[3];
 
 extern int abs(int);
@@ -359,7 +359,7 @@ void count_entries_matching_search_path(void *scene)
             break;
         }
         initialize_town_context_action();
-        ((S_8002191C_3 *)global)->unk_00 = D_800930E4;
+        ((S_8002191C_3 *)global)->unk_00 = town_interaction_action_address;
         draw.h14 = ((S_8002191C_0 *)scene)->unk_34.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
         draw.h18 = 3;

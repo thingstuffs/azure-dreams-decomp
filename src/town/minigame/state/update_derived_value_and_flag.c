@@ -27,7 +27,7 @@ void update_derived_value_and_flag(void *object) {
     objectData = ((S_80021028_0 *)object)->unk_04;
     ((S_80021028_0 *)object)->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
     if (objectData->unk_04 & 0x8000) {
-        object_view[-1].unk_00 = (u16) (object_view[-1].unk_00 | 0x8000);
+        object_view[-1].flags = (u16) (object_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

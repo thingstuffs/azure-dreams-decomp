@@ -53,7 +53,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_801711A4[];
+extern u8 kraken_action_resume_address[];
 extern u8 D_8017406C[];
 extern u8 kraken_frame_set_1[];
 extern u8 D_80174194[];
@@ -81,7 +81,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
     s32 component_work_2;
     u8 *particle_work;
 
-    if (((ActorActionTimerView *)actor)->unk_9B == 1) {
+    if (((ActorActionTimerView *)actor)->phase == 1) {
         particle_or_dir_index = 6;
         particle_update = D_8017406C;
         do {
@@ -89,28 +89,28 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             if (particle != 0) {
                 particle_work = (u8 *)particle + 0x20;
                 register_node(particle, project_sprite_chain);
-                particle_sprite = ((ProjectileObject *)particle)->unk_0C;
-                ((ProjectileObject *)particle)->unk_10 = particle_update;
+                particle_sprite = ((ProjectileObject *)particle)->sprite;
+                ((ProjectileObject *)particle)->update_callback = particle_update;
 
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_02 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_02 =
                     ((u16) motion->x.w.i) + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_06 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_06 =
                     ((u16) motion->y.w.i) + (rand() & 0xF) - 8;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_0A =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_0A =
                     ((u16) motion->z.w.i) + (rand() & 0xF) - 8;
 
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_0C =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_0C =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_10 =
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_10 =
                     ((rand() & 0xFF) - 0x80) << 10;
-                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->unk_08))->unk_14 = (-4 - (rand() & 3)) << 16;
+                ((S_80172D1C_8 *)(((ProjectileObject *)particle)->position))->unk_14 = (-4 - (rand() & 3)) << 16;
 
                 ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
-                sprite_flags = sprite->unk_28;
+                sprite_flags = sprite->animation_resource;
                 component_work = particle_sprite->flags | 0xC;
                 particle_sprite->scale_y = 0x1800;
                 particle_sprite->scale_x = 0x1800;
-                particle_sprite->unk_28 = sprite_flags;
+                particle_sprite->animation_resource = sprite_flags;
                 particle_sprite->flags = component_work;
                 component_work_2 = sprite->clut;
                 particle_sprite->tpage_abr = 0x20;
@@ -123,7 +123,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
     }
 
     particle_or_dir_index = (((EntityRec *)entity)->unk_6A >> 9) & 7;
-    state = ((ActorActionTimerView *)actor)->unk_9B;
+    state = ((ActorActionTimerView *)actor)->phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -135,19 +135,19 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             break;
         }
         if (sprite->flags & 0x8000) {
-            ((ActorActionTimerView *)actor)->unk_96.s = 0;
-            ((ActorActionTimerView *)actor)->unk_9B = 2;
+            ((ActorActionTimerView *)actor)->timer.s = 0;
+            ((ActorActionTimerView *)actor)->phase = 2;
             break;
         }
 
         motion->velocity_x = dir_step_x[particle_or_dir_index] << 18;
         motion->velocity_y = dir_step_y[particle_or_dir_index] << 18;
-        ((ActorActionTimerView *)actor)->unk_9B++;
+        ((ActorActionTimerView *)actor)->phase++;
         state_timer = -1;
         if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             state_timer = 8;
         }
-        ((ActorActionTimerView *)actor)->unk_96.s = state_timer;
+        ((ActorActionTimerView *)actor)->timer.s = state_timer;
         velocity_x = motion->velocity_x;
         motion->velocity_x = velocity_x - velocity_x / 4;
         velocity_y = motion->velocity_y;
@@ -157,32 +157,32 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
     case 1:
         motion->velocity_x -= dir_step_x[particle_or_dir_index] << 14;
         motion->velocity_y -= dir_step_y[particle_or_dir_index] << 14;
-        timer = ((ActorActionTimerView *)actor)->unk_96.s;
+        timer = ((ActorActionTimerView *)actor)->timer.s;
         if (timer > 0) {
-            ((ActorActionTimerView *)actor)->unk_96.s = ((ActorActionTimerView *)actor)->unk_96.u - 1;
+            ((ActorActionTimerView *)actor)->timer.s = ((ActorActionTimerView *)actor)->timer.u - 1;
         } else {
             if (sprite->flags & 0x6000) {
-                ((ActorActionTimerView *)actor)->unk_96.s = 0;
+                ((ActorActionTimerView *)actor)->timer.s = 0;
             }
         }
-        if (((ActorActionTimerView *)actor)->unk_96.s != 0) {
+        if (((ActorActionTimerView *)actor)->timer.s != 0) {
             break;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((ActorActionTimerView *)actor)->unk_9B = 0;
+            ((ActorActionTimerView *)actor)->phase = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             begin_actor_display_action(actor, motion, sprite, D_80174194);
             break;
         }
-        ((ActorActionTimerView *)actor)->unk_96.s = 8;
-        ((ActorActionTimerView *)actor)->unk_9B++;
+        ((ActorActionTimerView *)actor)->timer.s = 8;
+        ((ActorActionTimerView *)actor)->phase++;
         break;
 
     case 2:
-        if (((ActorActionTimerView *)actor)->unk_96.s != 0) {
-            speed_work = sprite->unk_24;
+        if (((ActorActionTimerView *)actor)->timer.s != 0) {
+            speed_work = sprite->tile_x;
             component_work = motion->x.w.i;
             speed_work <<= 6;
             component_work -= 0x20;
@@ -191,7 +191,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             speed_work >>= 1;
             motion->velocity_x = speed_work;
 
-            speed_work = sprite->unk_25;
+            speed_work = sprite->tile_y;
             component_work = motion->y.w.i;
             speed_work <<= 6;
             component_work -= 0x20;
@@ -207,13 +207,13 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             speed_work += component_work;
             ((S_80172D1C_2 *)motion)->unk_10.s = speed_work;
         }
-        next_timer = ((ActorActionTimerView *)actor)->unk_96.u - 1;
-        ((ActorActionTimerView *)actor)->unk_96.s = next_timer;
+        next_timer = ((ActorActionTimerView *)actor)->timer.u - 1;
+        ((ActorActionTimerView *)actor)->timer.s = next_timer;
         if ((next_timer << 16) <= 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = kraken_frame_set_1;
             select_sprite_entry(sprite,
                           kraken_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
@@ -221,7 +221,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
-            ((ActorActionTimerView *)actor)->unk_8C = D_801711A4;
+            ((ActorActionTimerView *)actor)->next_action = kraken_action_resume_address;
         }
     }
 }

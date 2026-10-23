@@ -247,9 +247,9 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
     scratch->unk_7C = 0;
     scratch->unk_74 = 0;
     scratch->unk_20 = (u8 *)render_root + 0xB0;
-    scratch->unk_00 = position->unk_02;
-    scratch->unk_02 = position->unk_06;
-    scratch->unk_04 = position->unk_0A;
+    scratch->unk_00 = position->x;
+    scratch->unk_02 = position->y;
+    scratch->unk_04 = position->z;
     packet = render_root->unk_8D0;
     scratch->unk_C0 = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     sprite->unk_14 |= 0x8000;

@@ -54,6 +54,6 @@ extern void update_map_cell_flags_with_item_limit();
 extern s32 has_pending_dungeon_activity();
 extern s32 display_text_with_fullwidth_adjustment();
 extern u8 D_80170854[];
-extern u8 D_80173FD0[];
+extern u8 tyrant_frame_set_1[];
 void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor);
 #endif

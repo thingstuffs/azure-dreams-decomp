@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 
-extern s16 D_801760D8;
+extern s16 encounter_blink_update_flag;
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
@@ -99,7 +99,7 @@ void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
     }
 
     case 2:
-        if (D_801760D8 == 0) {
+        if (encounter_blink_update_flag == 0) {
             return;
         }
         ((S_80165AB8_0 *)object)->ticks.s = 0;

@@ -11,9 +11,9 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
 {
     u8 *state = (u8 *)entity + 0x20;
 
-    sprite->unk_26 =
-        find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+    sprite->room_index =
+        find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
 
     ((S_800B22F0_1 *)state)->unk_88 =
         sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i),
@@ -25,7 +25,7 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
     sprite->flags |= 0x8000;
     clear_entry_flag_and_link_owner(entity);
 
-    cycle_map_cell_flags(sprite->unk_24, sprite->unk_25,
+    cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                   (((S_800B22F0_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     ((S_800B22F0_1 *)state)->unk_AD = 1;
@@ -68,9 +68,9 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
         ((S_800B23F8_2 *)part_a)->unk_0A = part_a_s16;
         value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
         kind_test = 1;
-        ((SpriteFrameState *)value_or_part_b)->unk_25 = byte_25;
+        ((SpriteFrameState *)value_or_part_b)->tile_y = byte_25;
         byte_or_work = (long)work;
-        ((SpriteFrameState *)value_or_part_b)->unk_24 = saved_byte_24;
+        ((SpriteFrameState *)value_or_part_b)->tile_x = saved_byte_24;
 
         kind = mode & 3;
         if (kind == kind_test) {

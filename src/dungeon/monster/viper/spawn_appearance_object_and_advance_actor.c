@@ -101,7 +101,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
                 create_tracked_effect(spawned_obj, 0, 0, 0);
-                spawned_obj->unk_10 = &func_80173770;
+                spawned_obj->update_callback = &func_80173770;
             }
             ((S_8017390C_1 *)actor_data)->unk_48 = 0;
             ((S_8017390C_1 *)actor_data)->unk_49 = 0;

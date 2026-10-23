@@ -172,8 +172,8 @@ extern void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_
 extern func_80092868_TownState map_runtime_state;
 extern s16 map_scene_selector_alias[];
 extern s32 loaded_sprite_bundle_attributes;
-extern u8 D_8008FFC0[];
-extern u8 D_800970FC[];
+extern u8 familiar_deploy_update_address[];
+extern u8 player_motion_draw_address[];
 extern u8 town_actor_control[];
 extern u8 D_800D0420[];
 extern u8 town_motion_list[];
@@ -183,13 +183,13 @@ extern s32 camera_height_mode[];
 extern s32 scene_object_payload_alias;
 extern s32 D_80097D54;
 extern u8 town_scene_record_handlers[];
-extern s32 D_800D0438;
+extern s32 town_scene_init_callback;
 extern s32 D_800D0178;
 extern u8 window_node_list_storage[];
 extern s32 town_position_callback_address[3];
 extern u8 D_800A5638[];
-extern s32 D_80091260;
-extern s32 D_80091528;
+extern s32 actor_input_dispatch_address;
+extern s32 actor_input_interaction_address;
 extern s16 D_800D01F8[];
 
 #endif

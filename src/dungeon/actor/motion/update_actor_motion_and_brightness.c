@@ -82,8 +82,8 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Spri
         if (entity_flags & 0x40000000) {
             (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
             ground_height_raw = sample_terrain_surface_height(
-                (sprite->unk_24 << 6) | 0x20,
-                (sprite->unk_25 << 6) | 0x20,
+                (sprite->tile_x << 6) | 0x20,
+                (sprite->tile_y << 6) | 0x20,
                 (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
             ((S_800D4158_2 *)entity)->unk_90.at02.v += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
             (*(s16 *)((u8 *)entity_ref + 0x88)) = ground_height_raw;

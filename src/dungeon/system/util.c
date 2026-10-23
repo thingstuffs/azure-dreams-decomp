@@ -480,7 +480,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
     s32 damage;
     u8 max_hp;
 
-    if ((entity->flags1C & ACTOR_POISONED) && ((entity->hp + entity->unk_64) >= 2)) {
+    if ((entity->flags1C & ACTOR_POISONED) && ((entity->hp + entity->hp_delta) >= 2)) {
         max_hp = entity->max_hp;
         rounded_hp = max_hp + 0xF;
         entity->movement_facing = (s16) (((u16)entity->facing) + 0x800);
@@ -488,7 +488,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
             rounded_hp = max_hp + 0x1E;
         }
         damage = rounded_hp >> 4;
-        current_hp = entity->hp + entity->unk_64;
+        current_hp = entity->hp + entity->hp_delta;
         if ((current_hp - damage) <= 0) {
             damage = current_hp - 1;
         }
@@ -496,7 +496,7 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
             entity->flags1C = (s32) (entity->flags1C & 0xDFFFFFFF);
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
                 create_actor_value_popup(3, entity, (s16) damage, 0);
-                entity->unk_64 = (s16) ((u16) entity->unk_64 - damage);
+                entity->hp_delta = (s16) ((u16) entity->hp_delta - damage);
                 spawn_randomized_particle_burst(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20,
                     1);
                 return;
@@ -1023,7 +1023,7 @@ s32 check_action_boundary_and_set_flag(void) {
 #include "shared/dungeon_status.h"
 
 extern s8 dungeon_event_pending_flag[];
-extern s8 D_800E045C[];
+extern s8 restore_actor_script[];
 
 extern s32 call_script(void *arg);
 extern void runtime_clear_state_and_entry_range(void);
@@ -1035,7 +1035,7 @@ void clear_pending_item_action_state(void) {
             dungeon_event_pending_flag[0] = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        call_script(&D_800E045C[0]);
+        call_script(&restore_actor_script[0]);
         runtime_clear_state_and_entry_range();
     }
 }

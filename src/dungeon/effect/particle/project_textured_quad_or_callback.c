@@ -10,7 +10,7 @@ struct ObjectPosition;
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
 void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
-const u8 D_80024004[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
+const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
@@ -18,7 +18,7 @@ const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 
 typedef s32 M2C_UNK;
 
-extern const u8 D_80024004[48];
+extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern u8 D_800E1C8A[38];
 
@@ -55,7 +55,7 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
         } else if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = expand_text_control_codes(&D_80024004, message_end);
+            message_end = expand_text_control_codes(&no_effect_target_prefix, message_end);
             message_end = append_entity_display_text(entity, message_end);
             message_end = expand_text_control_codes(&D_80024034, message_end);
             clear_byte_and_advance(message_end);
@@ -798,19 +798,19 @@ void create_terrain_seeking_point_effect(
     if (effect_ptr != NULL) {
         effect_ptr->unk_10 = (s32)advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_02 + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->x + jitter;
         effect_pos += x_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_06 + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->y + jitter;
         effect_pos += y_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_obj = effect_ptr;
         effect_ptr = effect_offset_32(effect_obj);
-        effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_0A + jitter;
+        effect_pos = ((MovingPosition *)source_obj->unk_08)->z + jitter;
         effect_pos += z_offset - 0x10;
         ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
@@ -1526,7 +1526,7 @@ L0_adjust_z:
                     ((S_800259D8_5 *)entry)->unk_44 = entity;
                     ((S_800259D8_5 *)entry)->unk_48 = sprite;
                     ((S_800259D8_5 *)entry)->unk_4C = effect;
-                    spawn->unk_10 = (void *)update_effect_quad_and_completion;
+                    spawn->update_callback = (void *)update_effect_quad_and_completion;
                     register_node(spawn_copy, tbl);
                 }
                 work = spawn->sprite;
@@ -1649,7 +1649,7 @@ L1_calc:
                 ((S_800259D8_5 *)entry)->unk_1C = 0;
                 ((S_800259D8_5 *)entry)->unk_1A = 0x40;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                spawn->unk_10 = spawn_randomized_spark_burst;
+                spawn->update_callback = spawn_randomized_spark_burst;
                 register_node(spawn, draw_chained_object_records);
                 work = spawn->sprite;
                 work->unk_10 = 0x20;

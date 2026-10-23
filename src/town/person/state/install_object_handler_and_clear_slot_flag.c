@@ -11,13 +11,13 @@ typedef struct {
     u8 pad2[6];
 } S_80082660;
 
-extern s32 D_800C3988;
+extern s32 person_slot_flag_handler_address;
 extern S_80082660 object_index_slots[];
 
 /* Set the object's data pointer and clear its indexed table entry's flag. */
 void install_object_handler_and_clear_slot_flag(void *object) {
     s32 entry_index;
-    *(void **)((u8 *)object + 0x54) = &D_800C3988;
+    *(void **)((u8 *)object + 0x54) = &person_slot_flag_handler_address;
     entry_index = *(s32 *)((u8 *)object + 0x60);
     object_index_slots[entry_index].field1 = 0;
 }

@@ -36,7 +36,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
     scene_state = &g_game_work;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect->unk_10 = D_800244A4;
+        effect->update_callback = D_800244A4;
         adjusted_random = rand();
         random_value = adjusted_random;
         effect_state = (u8 *)effect + 0x20;
@@ -58,10 +58,10 @@ void mark_owner_on_target_completion(MovingPosition *origin)
                                       scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = origin->unk_02 +
+        position->x.w.i = origin->x +
             ((rsin(effect_state->unk_08) * 2) >> 8);
-        position->y.w.i = origin->unk_06 +
+        position->y.w.i = origin->y +
             ((rcos(effect_state->unk_08) * 2) >> 8);
-        position->z.w.i = origin->unk_0A;
+        position->z.w.i = origin->z;
     }
 }

@@ -15,7 +15,7 @@ typedef struct S_800C0C48_0 {
 /* extern */
 extern void D_800C0C28();
 extern s16 paired_scene_flag_ids[66];
-extern s16 D_800D25C0[66];
+extern s16 scene_resident_flag_ids[66];
 void set_resident_bitmap_bit(s16 value);
 
 void clear_resident_bitmap_bit(s32 flag_id);

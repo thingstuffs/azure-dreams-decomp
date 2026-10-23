@@ -84,7 +84,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     node = allocate_list_node(grid_x, ((s32 *)&scene_object_list_anchor.next));
     if (node != NULL) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
-        node->unk_10 = &D_8015EA7C;
+        node->update_callback = &D_8015EA7C;
         state->field13 = 0x28;
         register_node(node, project_sprite_chain);
         flags = (s32) &D_80162038;
@@ -92,10 +92,10 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
         node_data->z.w.i = saved_placement;
         placement = *(DungeonSub2 * *)&node->sprite;
         mode = setup_bits & 3;
-        placement->unk_25 = saved_grid_y;
+        placement->tile_y = saved_grid_y;
         init_state = state;
         placement->frameTable = (void *) flags;
-        placement->unk_24 = saved_grid_x;
+        placement->tile_x = saved_grid_x;
         if (mode == 1) {
             state->field14 |= 0x6000;
             state->field1c |= 0x6000;

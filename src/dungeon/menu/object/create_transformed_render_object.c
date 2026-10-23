@@ -57,7 +57,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     object = allocate_flagged_object_node(alloc_flags);
     if (object != NULL) {
         position = *(void **)((u8 *)object + 8);
-        object->unk_10 = &interpolate_delayed_target_values;
+        object->update_callback = &interpolate_delayed_target_values;
         *(u16 *)(scratchpad + 0x98) = 0;
         *(u16 *)(scratchpad + 0x9A) = 0;
         *(u32 *)(scratchpad + 0x34) = 0x1800;

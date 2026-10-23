@@ -24,8 +24,8 @@ void check_inputs_after_threshold_five(void)
     Rec_D_80016000 *owner;
     CallbackTable *table;
 
-    owner = D_80016000;
-    table = ((CallbackTable *)owner->unk_20);
+    owner = town_scene_root;
+    table = ((CallbackTable *)owner->services);
     callback = table->callback;
     D_800179D8 = &D_80017908;
     callback(zero);

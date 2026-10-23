@@ -10,7 +10,7 @@ void initialize_object_and_replace_callbacks(void) {
     ObjectNodeHeader *object = allocate_flagged_object_node(0x11);
 
     if (object != 0) {
-        object->unk_10 = D_800C1E50;
+        object->update_callback = D_800C1E50;
         if (D_800D4668[0].handler != 0) {
             do {
                 *callback_slot = (Callback)D_800C1EA4;

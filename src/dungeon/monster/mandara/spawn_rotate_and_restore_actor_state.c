@@ -118,7 +118,7 @@ extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, 
 extern s32 sample_terrain_surface_height(u16, u16, s16);
 extern void try_apply_confusion_status(void *, s32, s32);
 
-extern u8 D_800DEC50[];
+extern u8 rotating_particle_sprite_entries[];
 extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
@@ -154,8 +154,8 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     state = effect->unk_9B;
     switch (state) {
     case 0:
-        spawned_object = scan_actor_along_heading(actor, sprite->unk_24,
-            sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
+        spawned_object = scan_actor_along_heading(actor, sprite->tile_x,
+            sprite->tile_y, ((S_80174668_2 *)actor)->unk_2A, 0x10);
         ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
         direction_table = mandara_direction_frames;
         sprite->frameTable = direction_table;
@@ -195,10 +195,10 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             return;
         }
         register_node(effect_alloc, D_80174B98);
-        effect_alloc->unk_10 = D_80174B20;
+        effect_alloc->update_callback = D_80174B20;
         effect_data = ((u8 *)effect_alloc) + 0x20;
-        ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->unk_24 << 6) + 0x20;
-        ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->unk_25 << 6) + 0x20;
+        ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->tile_x << 6) + 0x20;
+        ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->tile_y << 6) + 0x20;
         {
             register u32 color;
             s32 countdown;
@@ -223,7 +223,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = ((u8 *)effect_alloc) + 0x20;
                 tile = *(u8 * *)&effect_alloc->sprite;
-                effect_alloc->unk_10 = D_80175174;
+                effect_alloc->update_callback = D_80175174;
 
                 random = rand();
                 {
@@ -250,10 +250,10 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
                 ((S_80174668_4 *)tile)->unk_1E = 0xC04;
                 ((S_80174668_4 *)tile)->unk_1C = 0xC04;
                 ((S_80174668_4 *)tile)->unk_10 = 0x60;
-                ((S_80174668_4 *)tile)->unk_00 = D_800DEC50;
+                ((S_80174668_4 *)tile)->unk_00 = rotating_particle_sprite_entries;
                 ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
                 {
-                    u32 texture_word = ((u32)((SpriteSourceEntry *)D_800DEC50)->unk_04);
+                    u32 texture_word = ((u32)((SpriteSourceEntry *)rotating_particle_sprite_entries)->source);
                     ((S_80174668_4 *)tile)->unk_04 = 0;
                     ((S_80174668_4 *)tile)->unk_05 = 0;
                     ((S_80174668_4 *)tile)->unk_0C = 0x00208020;

@@ -72,7 +72,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             initial_count = 0x32;
             effect_data->unk_18 = (s16) initial_count;
             effect_data->unk_1A = (s16) initial_count;
-            effect->unk_10 = effect_handler;
+            effect->update_callback = effect_handler;
             register_node(effect, project_sprite_chain);
             appearance = effect->sprite;
             appearance->flags |= 0xC;

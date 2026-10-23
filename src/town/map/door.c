@@ -352,7 +352,7 @@ s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value) {
         s32 object_angle = object->unk_72 & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {
-            if ((scene_object_payload_alias == (s32)&D_80091260) || (scene_object_payload_alias == (s32)&D_80091528)) {
+            if ((scene_object_payload_alias == (s32)&actor_input_dispatch_address) || (scene_object_payload_alias == (s32)&actor_input_interaction_address)) {
                 return 1;
             }
             return 0;

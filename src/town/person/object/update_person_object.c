@@ -28,13 +28,13 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
             *active_flag = 0;
         }
         unlink_node_if_registered(object);
-        ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     update_state_when_active(update_ctx);
     ((Rec_D_80082D58 *)object)->unk_50.as_xcdccad(object, object, update_ctx, display);
-    if (!(((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000)) {
+    if (!(((ObjectRetirementFlags *)object)[-1].flags & 0x8000)) {
         frame_index = quantize_heading_to_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
         if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
             select_record_entry_and_value(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04);

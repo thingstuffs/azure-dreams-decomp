@@ -77,7 +77,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->unk_10 = D_8016AA58;
+        object->update_callback = D_8016AA58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
@@ -85,10 +85,10 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         part_a->unk_0A = value_0A;
         part_b = object->sprite;
         kind = mask & 3;
-        part_b->unk_25 = value_25_input;
+        part_b->tile_y = value_25_input;
         actor = work;
         part_b->frameTable = D_8016E820;
-        part_b->unk_24 = value_24_input;
+        part_b->tile_x = value_24_input;
 
         if (kind == 1) {
             value_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

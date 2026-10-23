@@ -39,10 +39,10 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
 
     slot = func_800373DC(0x136);
     if (slot != 0) {
-        slot->unk_10 = D_8052FA64;
+        slot->update_callback = D_8052FA64;
         func_8003BC18(slot, &score_sprite_draw_callback_address);
-        motion = slot->unk_08;
-        sprite = slot->unk_0C;
+        motion = slot->position;
+        sprite = slot->sprite;
         motion->unk_00 = (s32) (seed->unk_00 + 0xFFF90000);
         motion->unk_04 = (s32) (seed->unk_04 + 0xFFFD0000);
         motion->unk_08 = (s32) seed->unk_08;

@@ -119,7 +119,7 @@ typedef struct {
 } Offset;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern LocalPoints D_80024004;
+extern LocalPoints attached_particle_points;
 extern u8 directional_sprite_entries[];
 extern s16 D_80025338[5];
 s32 get_sprite_attachment_vector(s32, void *, Offset *, s32);     /* extern */
@@ -144,7 +144,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
     SpriteFrameState *spawn_sprite;
 
     parent = ((S_818154FC_0 *)effect)->unk_00;
-    point_table = (u8 *)&D_80024004;
+    point_table = (u8 *)&attached_particle_points;
     points = *(LocalPoints *)point_table;
     point_base = (LocalPoint *)&points;
     state = ((S_818154FC_0 *)effect)->unk_0A.s;
@@ -171,9 +171,9 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
             parent_sprite = parent_node->unk_0C;
             if ((get_sprite_attachment_vector(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
                 || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-                position->unk_00.at02.v = (u16) parent_position->unk_02;
-                position->unk_04.at02.v = (u16) parent_position->unk_06;
-                position_z = parent_position->unk_0A;
+                position->unk_00.at02.v = (u16) parent_position->x;
+                position->unk_04.at02.v = (u16) parent_position->y;
+                position_z = parent_position->z;
                 position->unk_08.at02.v = position_z;
                 if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
                     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
@@ -244,14 +244,14 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
                     ((S_818154FC_0 *)effect)->unk_A8 =
-                        map->unk_24 + table_base[index];
+                        map->tile_x + table_base[index];
                 }
                 {
                     u8 *table_base = (u8 *)dir_step_y;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     ((S_818154FC_0 *)effect)->unk_A9 =
-                        map->unk_25 + table_base[index];
+                        map->tile_y + table_base[index];
                 }
 
                 if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
@@ -262,11 +262,11 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     s32 other_z;
 
                     ((S_818154FC_7 *)work)->unk_08 = 1;
-                    if (((S_818154FC_3 *)parent)->unk_72 != map->unk_24) {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - map->unk_24);
+                    if (((S_818154FC_3 *)parent)->unk_72 != map->tile_x) {
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - map->tile_x);
                         ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                     } else {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - map->unk_25);
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - map->tile_y);
                         ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                     }
 
@@ -305,7 +305,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                     }
                 }
                 spawn_position = node->position;
-                node->unk_10 = &func_800246DC;
+                node->update_callback = &func_800246DC;
                 spawn_position->x.v = ((S_818154FC_0 *)effect)->unk_B0;
                 spawn_position->y.v = ((S_818154FC_0 *)effect)->unk_B4;
                 spawn_position->z.v = ((S_818154FC_0 *)effect)->unk_B8;

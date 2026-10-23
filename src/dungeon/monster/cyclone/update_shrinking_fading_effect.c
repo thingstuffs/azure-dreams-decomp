@@ -70,7 +70,7 @@ extern void *create_directional_render_object(void *, void *, void *);
 extern s32 D_800814A0;
 extern u8 cyclone_action_resume_address[];
 extern u8 cyclone_move_direction_frames[];
-extern u8 D_80176490[];
+extern u8 cyclone_fade_direction_frames[];
 extern u8 D_80176498[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
@@ -153,8 +153,8 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             } else {
                 actor->target = scan_actor_along_heading(
                     actor,
-                    sprite->unk_24,
-                    sprite->unk_25,
+                    sprite->tile_x,
+                    sprite->tile_y,
                     actor->facing,
                     0x10);
                 actor->target_tile_x =
@@ -179,7 +179,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
-        set_record_integer_tile_center(transform_arg, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
         main_actor = primary_actor_record;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
@@ -228,7 +228,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
 
                 view_angle = g_game_work.view.camera_rotation.parts.viewAngle;
                 actor_angle = actor->facing;
-                model_root = *(void **)&sprite->unk_28;
+                model_root = *(void **)&sprite->animation_resource;
                 model_direction =
                     ((view_angle + actor_angle + 0x100) >> 9) & 7;
                 model = *(void **)model_root;
@@ -263,9 +263,9 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             }
             ((S_80172FC0_0 *)anim)->unk_98 |= 8;
             actor->flags1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
-            sprite->frameTable = D_80176490;
+            sprite->frameTable = cyclone_fade_direction_frames;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-            frame = D_80176490[direction];
+            frame = cyclone_fade_direction_frames[direction];
             select_sprite_entry(sprite, frame, 0);
             sprite->scale_y = 0x800;
             sprite->scale_x = 0x800;
@@ -378,7 +378,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
-        set_record_integer_tile_center(transform_arg, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
         ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
         actor->flags1C |= ACTOR_REFRESH_GROUND;
         if (sprite->frameTable != cyclone_move_direction_frames) {

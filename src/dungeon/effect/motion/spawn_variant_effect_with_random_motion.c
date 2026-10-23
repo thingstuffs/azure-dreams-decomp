@@ -58,7 +58,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     if (effect == NULL) {
         return;
     }
-    effect->unk_10 = &advance_effect_fade_and_remove;
+    effect->update_callback = &advance_effect_fade_and_remove;
     register_node(effect, project_sprite_chain);
     motion = effect->position;
     motion->x.w.i = pos_x;

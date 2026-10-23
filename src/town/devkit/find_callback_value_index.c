@@ -9,7 +9,7 @@ typedef struct {
     s32 (*callback)(s32);
 } CallbackOwner;
 
-extern CallbackOwner *D_A0700F58[4];
+extern CallbackOwner *devkit_kind_callback_owner[4];
 extern ValueList D_A0700100[4];
 
 /* Returns the index of the callback value or the table's zero terminator. */
@@ -20,7 +20,7 @@ s32 find_callback_value_index(void)
     s32 index;
 
     values = D_A0700100[0];
-    callback_value = D_A0700F58[0]->callback(11);
+    callback_value = devkit_kind_callback_owner[0]->callback(11);
     for (index = 0; values.v[index] != 0; index++) {
         if (values.v[index] == callback_value) {
             break;

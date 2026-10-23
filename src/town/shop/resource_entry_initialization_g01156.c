@@ -123,7 +123,7 @@ s32 open_twin_souko(s32 option) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
             ((S_800B2BA0_0 *)state)->unk_48 = option;
-            ((ObjectNodeHeader *)((u8 *)state - 0x20))->unk_10 = &handle_item_menu_input_2;
+            ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = &handle_item_menu_input_2;
         }
         return (s32)task;
     }

@@ -123,7 +123,7 @@ void spend_actor_mp();
 s16 sample_terrain_surface_height();
 extern s16 dungeon_room_count;
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
-extern u8 D_80174888[];
+extern u8 garuda_frame_set_3[];
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];
 
@@ -230,11 +230,11 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
             partner_tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
-        sprite_x = sprite->unk_24;
+        sprite_x = sprite->tile_x;
         entity_flags = ((S_func_81008664_3 *)entity)->unk_1C;
         entity_flags &= 0x2000;
         tile_mask = 0x3000;
-        sprite_y = sprite->unk_25;
+        sprite_y = sprite->tile_y;
         if (entity_flags) {
             tile_mask = 0x300;
         }
@@ -356,10 +356,10 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
                 continue;
             }
             partner_sprite->unk_26 = (s8) tile_type;
-            sprite->unk_26 = (s8) tile_type;
-            sprite->unk_24 = partner_sprite->unk_24 + dir_step_x[direction];
-            sprite->unk_25 = partner_sprite->unk_25 + dir_step_y[direction];
-            landing_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20,
+            sprite->room_index = (s8) tile_type;
+            sprite->tile_x = partner_sprite->unk_24 + dir_step_x[direction];
+            sprite->tile_y = partner_sprite->unk_25 + dir_step_y[direction];
+            landing_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20, (sprite->tile_y << 6) | 0x20,
                 (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
             ((S_func_81008664_3 *)entity)->unk_88 = landing_height;
             if (landing_height >= 0x201) {
@@ -450,10 +450,10 @@ place_actors:
                 return;
             }
         }
-        final_x = sprite->unk_24;
+        final_x = sprite->tile_x;
         final_x = ((final_x << 6) + 0x20) << 0x10;
         motion->unk_00 = final_x;
-        final_y = sprite->unk_25;
+        final_y = sprite->tile_y;
         reset_entity = entity;
         ((S_func_81008664_5 *)motion)->unk_10 = 0;
         motion->unk_0C = 0;
@@ -482,8 +482,8 @@ place_actors:
             restore_flags |= restore_mask;
             ((S_func_81008664_3 *)entity)->unk_1C = restore_flags;
             restore_flags &= 0x2000;
-            restore_x = sprite->unk_24;
-            restore_y = sprite->unk_25;
+            restore_x = sprite->tile_x;
+            restore_y = sprite->tile_y;
             restore_tile_mask = 0x3000;
             if (restore_flags) {
                 restore_tile_mask = 0x300;
@@ -505,7 +505,7 @@ place_actors:
             }
             cycle_map_cell_flags(restore_x, restore_y, restore_partner_mask);
         }
-        anim_table3 = D_80174888;
+        anim_table3 = garuda_frame_set_3;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->frameTable = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;

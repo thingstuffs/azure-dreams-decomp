@@ -149,7 +149,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         }
         status->flags1C = (s32) (status->flags1C | 0x40000);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF7);
-        if (status->unk_64 != 0) {
+        if (status->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, &D_80174194) != 0) {
                 return;
             }
@@ -201,7 +201,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     active_actor = primary_actor_record;
                     status->facing = angle;
-                    if (active_actor->unk_9A == 0x11) {
+                    if (active_actor->action_id == 0x11) {
                         next_handler = &update_actor_animation_and_dispatch;
                         begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
                         return;

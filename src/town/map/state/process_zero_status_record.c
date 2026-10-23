@@ -14,7 +14,7 @@ void process_zero_status_record(void *record) {
     if (*((Rec_D_80082D58 *)record)->unk_98.as_pu8 == 0) {
         unlink_scene_list_node(record);
         unlink_node_if_registered(record);
-        ((ObjectRetirementFlags *)record)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)record)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)record)[-1].flags = (u16) (((ObjectRetirementFlags *)record)[-1].flags | 0x8000);
         object_flag_block.v |= 0x8000;
     }
 }

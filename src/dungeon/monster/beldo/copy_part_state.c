@@ -77,18 +77,18 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         dst_part->flags &= 0xFF7F;
     }
 
-    out_pos->unk_02 = part_data->unk_02;
-    out_pos->unk_06 = part_data->unk_06;
-    out_pos->unk_0A = part_data->unk_0A;
+    out_pos->x = part_data->unk_02;
+    out_pos->y = part_data->unk_06;
+    out_pos->z = part_data->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, pos_offset,
                       ((S_81257000_0 *)root)->unk_B6) != 0) {
-        out_pos->unk_02 +=
+        out_pos->x +=
             (pos_offset[0] + ((S_81257000_0 *)root)->unk_B0) / 2;
-        out_pos->unk_06 +=
+        out_pos->y +=
             (pos_offset[1] + ((S_81257000_0 *)root)->unk_B2) / 2;
-        out_pos->unk_0A +=
+        out_pos->z +=
             (pos_offset[2] + ((S_81257000_0 *)root)->unk_B4) / 2;
         ((S_81257000_0 *)root)->unk_B0 = pos_offset[0];
         ((S_81257000_0 *)root)->unk_B2 = pos_offset[1];

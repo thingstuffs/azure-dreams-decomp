@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "shared/actor_action.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -7,7 +9,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80083460.h"
-
 
 extern s32 initialize_timed_motion_step();
 extern s32 get_entity_effect_value();
@@ -21,27 +22,10 @@ extern u8 D_800DCFF8[];
 extern u8 D_800E0597;
 extern u8 D_800E05C3;
 
-
-typedef struct S_80092E90_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80092E90_1;   /* arg2 in update_wake_nearby_monsters */
-
-
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
     union { s16 n; u16 v; u16 n2; } unk_04;   /* accessed as both */
 } S_80092E90_3;   /* countBase in update_wake_nearby_monsters */
-
-typedef struct S_80092E90_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_80092E90_4;   /* arg0 in update_wake_nearby_monsters */
 
 typedef struct S_80092E90_5 {
     u8 pad_00[0x2A];
@@ -81,13 +65,13 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
 
     move_frames = g_dungeon_status.movement_frames_left;
     if (move_frames != 0) {
-        target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
+        target_pos = ((SpriteFrameState *)actor)->tile_x << 6;
         tile_origin = motion->x.w.i - 0x20;
         motion->velocity_x =
             ((target_pos - tile_origin) << 16) / move_frames;
         tile_origin = motion->y.w.i;
         tile_origin -= 0x20;
-        target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
+        target_pos = ((SpriteFrameState *)actor)->tile_y << 6;
         motion->velocity_y =
             ((target_pos - tile_origin) << 16) / g_dungeon_status.movement_frames_left;
     } else {
@@ -101,10 +85,10 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         ((S_80092E90_3 *)count_state)->unk_04.n2 = frame_count - 1;
     }
 
-    state = ((S_80092E90_4 *)controller)->unk_9B;
+    state = ((ActorActionStateView *)controller)->phase;
     switch (state) {
     case 0:
-        if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
+        if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
             return;
         }
         initialize_timed_motion_step(0x10, 8);
@@ -114,11 +98,11 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
             D_800DCFF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
             0,
             1);
-        ((S_80092E90_4 *)controller)->unk_9B++;
+        ((ActorActionStateView *)controller)->phase++;
         return;
 
     case 1:
-        if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
+        if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
             return;
         }
 
@@ -150,8 +134,8 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
-        ((S_80092E90_4 *)controller)->unk_8C = handle_player_input;
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y);
+        ((ActorActionStateView *)controller)->next_action = handle_player_input;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     default:
         return;

@@ -12,10 +12,10 @@ s32 run_event_fe5_attach_data(void) {
     s32 *value;
 
     func_800177BC(F_gosh0000);
-    ptr = D_80016000;
+    ptr = town_scene_root;
     do {
         value = &D_80017D64;
-        ptr = ((Rec_D_80016000 *)ptr)->unk_1C;
+        ptr = ((Rec_D_80016000 *)ptr)->position;
     } while (0);
     ((TownPositionState *)ptr)->unk_40 = value;
     return 0;

@@ -56,7 +56,7 @@ void fade_panel_after_linked_flag(void *effect) {
         color = ((S_805267E0_0 *)effect)->unk_08 + 0xFFF7F7F8;
         ((S_805267E0_0 *)effect)->unk_08 = color;
         if (color <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | 0x8000);
             scene_object_flags |= 0x8000;
         }
         break;

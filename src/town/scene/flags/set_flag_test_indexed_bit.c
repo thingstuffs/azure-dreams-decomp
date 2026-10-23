@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void * D_80016000;
+extern void * town_scene_root;
 
 typedef struct S_80016CCC_0 {
     u8 pad_00[0x18];
@@ -15,7 +15,7 @@ s32 set_flag_test_indexed_bit(s32 bit_index) {
     S_80016CCC_0 *context;
 
     if (bit_index != 0) {
-        context = D_80016000;
+        context = town_scene_root;
         adjusted_id = bit_index;
         if (bit_index < 0) {
             adjusted_id = bit_index + 0x1F;

@@ -88,8 +88,8 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
         }
         if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
-            s32 effect_color_0 = sprite->unk_24;
-            s32 effect_color_1 = sprite->unk_25;
+            s32 effect_color_0 = sprite->tile_x;
+            s32 effect_color_1 = sprite->tile_y;
             s32 effect_mask = 0x3000;
             if (entity_flags & 0x2000) {
                 effect_mask = 0x300;
@@ -109,8 +109,8 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
     detach_record_and_update_slot_state(entity);
     if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
         s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
-        s32 effect_color_0 = sprite->unk_24;
-        s32 effect_color_1 = sprite->unk_25;
+        s32 effect_color_0 = sprite->tile_x;
+        s32 effect_color_1 = sprite->tile_y;
         s32 effect_mask = 0x3000;
         if (entity_flags & 0x2000) {
             effect_mask = 0x300;

@@ -128,7 +128,7 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
     case 1:
         ((S_8017450C_0 *)state)->unk_96.s = 0;
         ((S_8017450C_0 *)state)->unk_9B++;
-        monster->unk_22 = 0xFFEC;
+        monster->offset_y = 0xFFEC;
         monster->scale_x = 0x800;
 
     case 2:
@@ -219,8 +219,8 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
         monster->angle_z = 0x800;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.w.i = (monster->unk_24 << 6) + 0x20;
-        motion->y.w.i = (monster->unk_25 << 6) + 0x20;
+        motion->x.w.i = (monster->tile_x << 6) + 0x20;
+        motion->y.w.i = (monster->tile_y << 6) + 0x20;
         motion->z.w.i = ((S_8017450C_0 *)state)->unk_B6;
         motion->velocity_z = 0x280000;
         ((S_8017450C_0 *)state)->unk_A0 = 0;
@@ -304,8 +304,8 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
         }
         distribute_experience_and_report_gains((void *)actor);
         detach_record_and_update_slot_state((void *)actor);
-        tile_x = monster->unk_24;
-        tile_y = monster->unk_25;
+        tile_x = monster->tile_x;
+        tile_y = monster->tile_y;
         if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
             tile_flags = 0x300;
         } else {

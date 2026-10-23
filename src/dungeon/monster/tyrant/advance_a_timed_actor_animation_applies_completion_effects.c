@@ -41,7 +41,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
     case 0xFF:
         if ((sprite->flags & 0xE000) == 0)
             return;
-        set_record_integer_tile_center(context, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(context, sprite->tile_x, sprite->tile_y);
         volume = 0x100;
         if (action->field98 & 0x8000)
             volume = 0x800;

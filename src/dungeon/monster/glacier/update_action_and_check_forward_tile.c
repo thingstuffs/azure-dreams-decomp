@@ -31,7 +31,7 @@ extern u8 D_80170B48[];
 extern u8 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
 extern u8 glacier_frame_set_1[];
-extern Pair16 D_8017610C[];
+extern Pair16 glacier_direction_offsets[];
 
 typedef struct S_801757E0_0_pre {
     void * unk_00;
@@ -118,7 +118,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                 particle_work = (u8 *)particle;
                 particle_work += 0x20;
                 ((ObjectNodeHeader *)particle_work)->flags = 0x28;
-                particle->unk_10 = D_80170B48;
+                particle->update_callback = D_80170B48;
                 register_node(particle, project_sprite_chain);
 
                 sprite = particle->sprite;
@@ -129,22 +129,22 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = particle->position;
                 if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
-                    particle_transform->unk_02 = ((u16) motion->x.w.i);
-                    particle_transform->unk_06 = ((u16) motion->y.w.i);
-                    particle_transform->unk_0A = ((u16) motion->z.w.i);
-                    particle_transform->unk_02 += offsets[0];
-                    particle_transform->unk_06 += offsets[1];
-                    particle_transform->unk_0A += offsets[2];
+                    particle_transform->x = ((u16) motion->x.w.i);
+                    particle_transform->y = ((u16) motion->y.w.i);
+                    particle_transform->z = ((u16) motion->z.w.i);
+                    particle_transform->x += offsets[0];
+                    particle_transform->y += offsets[1];
+                    particle_transform->z += offsets[2];
                 }
 
                 x = (rand() & 0x1F) - 0x10;
                 y = (rand() & 0x1F) - 0x10;
-                particle_transform->unk_02 += x;
-                particle_transform->unk_06 += y;
+                particle_transform->x += x;
+                particle_transform->y += y;
                 ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
                 ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
-                ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].x << 16;
-                ((S_801757E0_3 *)particle_work)->unk_54.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].y << 16;
+                ((S_801757E0_3 *)particle_work)->unk_50.n += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].x << 16;
+                ((S_801757E0_3 *)particle_work)->unk_54.n += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].y << 16;
                 ((S_801757E0_3 *)particle_work)->unk_58 = -(rand() + 0x50000);
                 ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
 
@@ -185,7 +185,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         }
 
         if (!(((S_801757E0_0 *)actor)->unk_96.s != 0x0A && !(animation->flags & 0x8000))) {
-            directions = D_8017610C;
+            directions = glacier_direction_offsets;
             ((S_801757E0_0 *)actor)->unk_AD.s = 0;
             x = motion->x.w.i +
                 (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
@@ -199,8 +199,8 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                 ((S_801757E0_0 *)actor)->unk_AD.s = 1;
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-                get_offset_map_cell_value_and_flags(animation->unk_24,
-                              animation->unk_25,
+                get_offset_map_cell_value_and_flags(animation->tile_x,
+                              animation->tile_y,
                               (((u16)entity->facing) >> 9) & 7,
                               &collision_flags);
                 if (collision_flags & 0x8400) {
@@ -209,9 +209,9 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
                 if (find_first_entry_matching_keys(entity,
-                        animation->unk_24 +
+                        animation->tile_x +
                             directions[(((u16)entity->facing) >> 9) & 7].x,
-                        animation->unk_25 +
+                        animation->tile_y +
                             directions[(((u16)entity->facing) >> 9) & 7].y,
                         motion->z.w.i) != 0) {
                     ((S_801757E0_0 *)actor)->unk_AD.s = 1;
@@ -236,7 +236,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+        set_record_integer_tile_center(motion, animation->tile_x, animation->tile_y);
 
         if (animation->frameTable != glacier_direction_frames) {
             animation->frameTable = glacier_direction_frames;

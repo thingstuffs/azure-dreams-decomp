@@ -5,13 +5,6 @@
  * fields this function reads (offsets 0x8 and 0x10). Declared >8 bytes so
  * codegen uses %hi/%lo addressing, matching sibling functions elsewhere
  * that touch other fields of the same global. */
-typedef struct {
-    u8 pad00[0x8];
-    s32 unk08;
-    u8 pad0C[0x4];
-    s32 unk10;
-} S_80050308_D80083160;
-
 
 /* Object struct for this function's argument. The object is embedded 0x20
  * bytes into a larger allocation (base = (char*)obj - 0x20, passed to the

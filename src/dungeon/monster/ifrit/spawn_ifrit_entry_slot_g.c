@@ -3,6 +3,6 @@
 extern void build_projected_tile_packets(void);
 
 /* entry; owner: dungeon/func_80A1D000. */
-const u32 D_80170800[1] __attribute__((aligned(4))) = {
+const u32 ifrit_slot_g_entry_pointer[1] __attribute__((aligned(4))) = {
     (u32)build_projected_tile_packets
 };

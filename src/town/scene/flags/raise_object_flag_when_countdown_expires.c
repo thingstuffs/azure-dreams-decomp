@@ -19,7 +19,7 @@ void raise_object_flag_when_countdown_expires(void *record) {
     countdown = ((S_80811034_0 *)record)->unk_02 - 1;
     ((S_80811034_0 *)record)->unk_02 = countdown;
     if ((countdown << 0x10) <= 0) {
-        (*(u16 *)((u8 *)record + -2)) = (u16) (((ObjectStatusPrefix16 *)record)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)record + -2)) = (u16) (((ObjectStatusPrefix16 *)record)[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
     }
 }

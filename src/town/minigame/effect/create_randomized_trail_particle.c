@@ -60,10 +60,10 @@ void create_randomized_trail_particle(S_800267DC_2 *source) {
 
     effect = allocate_flagged_object_node(0x136);
     if (effect != NULL) {
-        effect->unk_10 = D_800268DC;
+        effect->update_callback = D_800268DC;
         register_node(effect, project_sprite_chain);
-        motion = effect->unk_08;
-        sprite = effect->unk_0C;
+        motion = effect->position;
+        sprite = effect->sprite;
         motion->unk_00 = source->unk_00 + 0xFFF90000;
         motion->unk_04 = source->unk_04 + 0xFFFD0000;
         motion->unk_08 = source->unk_08;

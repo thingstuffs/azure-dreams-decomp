@@ -24,7 +24,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_80164E7C;
-extern u8 D_80168C44[];
+extern u8 griffon_frame_set_11[];
 extern u8 D_80168C74[];
 
 /* Advance directional motion and settle the actor at its tile center. */
@@ -90,10 +90,10 @@ void advance_directional_motion_to_center(void *motion_state, ObjectPosition *mo
             begin_actor_display_action(motion_state, motion, sprite, D_80168C74);
             return;
         }
-        sprite->frameTable = D_80168C44;
+        sprite->frameTable = griffon_frame_set_11;
         select_sprite_entry(
             sprite,
-            D_80168C44[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80167234_0 *)motion_state)->unk_9B++;
         return;
@@ -107,10 +107,10 @@ void advance_directional_motion_to_center(void *motion_state, ObjectPosition *mo
             return;
         }
 
-        sprite->frameTable = D_80168C44;
+        sprite->frameTable = griffon_frame_set_11;
         select_sprite_entry(
             sprite,
-            D_80168C44[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80167234_0 *)motion_state)->unk_96.s = 8;
         ((S_80167234_0 *)motion_state)->unk_9B++;
@@ -120,12 +120,12 @@ void advance_directional_motion_to_center(void *motion_state, ObjectPosition *mo
         timer = ((S_80167234_0 *)motion_state)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_x = sprite->unk_24 << 6;
+                s32 target_x = sprite->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
                 motion->velocity_x = ((target_x - current_x) << 15) / timer;
             }
             {
-                s32 target_y = sprite->unk_25 << 6;
+                s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_y - current_y) << 15) / ((S_80167234_0 *)motion_state)->unk_96.s;
@@ -141,9 +141,9 @@ void advance_directional_motion_to_center(void *motion_state, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.v = ((sprite->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((sprite->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        motion->x.v = ((sprite->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((sprite->tile_y << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

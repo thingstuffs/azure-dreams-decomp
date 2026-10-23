@@ -48,7 +48,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = project_sprite_chain;
-            init_root->unk_10 = func_8014CBB8;
+            init_root->update_callback = func_8014CBB8;
             ((S_8014C89C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
@@ -63,8 +63,8 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             part = root->sprite;
             part->frameTable = part_callback;
         }
-        part->unk_24 = saved_part_byte_24;
-        part->unk_25 = saved_byte_25;
+        part->tile_x = saved_part_byte_24;
+        part->tile_y = saved_byte_25;
 
         {
             s32 flags_14;
@@ -135,13 +135,13 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((S_8014C89C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = part->unk_28;
+                    part_value = part->animation_resource;
                     item->tpage_abr = 0x20;
                     item->color.word = 0x00808080;
-                    item->unk_28 = part_value;
+                    item->animation_resource = part_value;
                     child_root = ((S_8014C89C_8 *)slot_base)->unk_A4;
                     call_zero = 0;
-                    child_root->unk_10 = process_effect_block_entries;
+                    child_root->update_callback = process_effect_block_entries;
                     (*(void **)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((view_facing_angle_alias +
                         ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;

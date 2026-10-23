@@ -13,7 +13,7 @@
 void *allocate_list_node();
 s32 register_node();
 s32 rand();
-extern u8 D_80164BC4[];
+extern u8 child_particle_draw_address[];
 extern u8 D_801654F0[];
 
 typedef struct S_801656F8_0 {
@@ -42,14 +42,14 @@ void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        effect->unk_10 = D_801654F0;
+        effect->update_callback = D_801654F0;
         (effect->position)->x.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->unk_02 + offset_x);
+        (((MovingPosition *)((*(void * *)&source->z)))->x + offset_x);
         (effect->position)->y.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->unk_06 + offset_y);
+        (((MovingPosition *)((*(void * *)&source->z)))->y + offset_y);
         (effect->position)->z.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&source->z)))->unk_0A + offset_z);
-        effect->sprite->unk_06 = 6;
+        (((MovingPosition *)((*(void * *)&source->z)))->z + offset_z);
+        effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);
         (effect->position)->velocity_y = (s32)
@@ -59,7 +59,7 @@ void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 
         effect_state->unk_14 = effect_param;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
-        register_node(effect, D_80164BC4);
+        register_node(effect, child_particle_draw_address);
         ((S_801656F8_0 *)effect)->unk_20 = state_value;
         effect_state->unk_08 = state_value;
     }

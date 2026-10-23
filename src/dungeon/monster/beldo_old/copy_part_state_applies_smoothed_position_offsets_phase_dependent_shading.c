@@ -66,7 +66,7 @@ extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
 extern void func_800A4398(s32);
 
-extern s32 D_800803D4[3];
+extern s32 beldo_old_transition_flags[3];
 
 
 
@@ -92,18 +92,18 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
         render_part->unk_14 &= 0xFF7F;
     }
 
-    transform->unk_02 = part_transform->unk_02;
-    transform->unk_06 = part_transform->unk_06;
-    transform->unk_0A = part_transform->unk_0A;
+    transform->x = part_transform->unk_02;
+    transform->y = part_transform->unk_06;
+    transform->z = part_transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (func_8003DA40(motion_part->unk_08, motion_part, offset,
                       ((S_8127B000_0 *)root)->unk_B6) != 0) {
-        transform->unk_02 +=
+        transform->x +=
             (offset[0] + ((S_8127B000_0 *)root)->unk_B0) / 2;
-        transform->unk_06 +=
+        transform->y +=
             (offset[1] + ((S_8127B000_0 *)root)->unk_B2) / 2;
-        transform->unk_0A +=
+        transform->z +=
             (offset[2] + ((S_8127B000_0 *)root)->unk_B4) / 2;
         ((S_8127B000_0 *)root)->unk_B0 = offset[0];
         ((S_8127B000_0 *)root)->unk_B2 = offset[1];
@@ -165,7 +165,7 @@ void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(v
     func_80047454(render_part);
     if (owner->unk_1E & 0x8000) {
         ((S_8127B000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        D_800803D4[0] |= 0x8000;
+        beldo_old_transition_flags[0] |= 0x8000;
     }
 }
 

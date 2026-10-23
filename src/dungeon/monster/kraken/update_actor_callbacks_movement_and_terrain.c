@@ -112,8 +112,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
         if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
             try_move_actor_to_valid_position(actor, motion, sprite_arg, actor);
         }
-        ((TrailMotion *)motion)->unk_00.unk_00 += ((TrailMotion *)motion)->unk_0C;
-        ((TrailMotion *)motion)->unk_04.unk_04 += ((TrailMotion *)motion)->unk_10;
+        ((TrailMotion *)motion)->x.unk_00 += ((TrailMotion *)motion)->velocity_x;
+        ((TrailMotion *)motion)->y.unk_04 += ((TrailMotion *)motion)->velocity_y;
         if (!(((S_80170B64_0 *)actor)->unk_1C & 0x40000) &&
             !(((S_80170B64_0 *)actor)->unk_98 & 8)) {
             ((TrailMotion *)motion)->unk_14 = ((TrailMotion *)motion)->unk_14 +
@@ -169,8 +169,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                     }
                 }
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->unk_00.unk_02.unk_02,
-                        ((TrailMotion *)motion)->unk_04.unk_06.unk_06,
+                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
+                        ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
                         ((S_80170B64_3 *)actor_base)->unk_88;
                     if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
@@ -188,8 +188,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                 ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->unk_00.unk_02.unk_02,
-                        ((TrailMotion *)motion)->unk_04.unk_06.unk_06,
+                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
+                        ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
                         ((S_80170B64_3 *)actor_base)->unk_88;
                     if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
@@ -215,8 +215,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                 ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->unk_00.unk_02.unk_02,
-                        ((TrailMotion *)motion)->unk_04.unk_06.unk_06,
+                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
+                        ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
                         ((S_80170B64_3 *)actor_base)->unk_88;
                     if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
@@ -245,8 +245,8 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                     }
                 }
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->unk_00.unk_02.unk_02,
-                        ((TrailMotion *)motion)->unk_04.unk_06.unk_06,
+                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
+                        ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
                         ((S_80170B64_3 *)actor_base)->unk_88;
                     if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
@@ -272,7 +272,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 ((S_80170B64_3 *)actor_base)->unk_88 = tile_height;
             }
         }
-        ((TrailMotion *)motion)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
+        ((TrailMotion *)motion)->z = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
             (((S_80170B64_3 *)actor_base)->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
         ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }

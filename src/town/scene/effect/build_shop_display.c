@@ -59,9 +59,9 @@ extern s32 func_8052FE94();
 
 extern u8 score_sprite_draw_callback_address[];
 extern u8 menu_entry_draw_callback_address[];
-extern u8 D_8005888C[];
+extern u8 menu_cursor_object_template[];
 extern u8 scene_object_factory_data[];
-extern u8 D_8028E194[];
+extern u8 shop_panel_sprite_entries[];
 extern RootPair D_80526790;
 extern RootPair D_805267A0;
 extern u8 D_805267A8[];
@@ -122,7 +122,7 @@ s32 create_linked_value_display(void)
             ((S_80813AB0_0 *)obj)->unk_76 = i;
             ((S_80813AB0_1 *)part)->unk_1E = scale;
             ((S_80813AB0_1 *)part)->unk_1C = scale;
-            func_80034A1C(part, D_8028E194, 0, packet);
+            func_80034A1C(part, shop_panel_sprite_entries, 0, packet);
             ((S_80813AB0_1 *)part)->unk_0C = 0x00808080;
             ((S_80813AB0_0 *)obj)->unk_6C = D_805267AC;
             func_8023FA58(obj + 0x24, ((S_80813AB0_0 *)obj)->unk_08.p2, D_805301F0);
@@ -205,7 +205,7 @@ s32 create_linked_value_display(void)
         u32 final_color;
 
         ((S_80813AB0_0 *)obj)->unk_10 = D_8052FDF8;
-        func_8003BC18(obj, D_8005888C);
+        func_8003BC18(obj, menu_cursor_object_template);
         final_color = 0x00404040;
         final_dim = 0x1C;
         ((S_80813AB0_0 *)obj)->unk_2C.at00u.v = final_dim;

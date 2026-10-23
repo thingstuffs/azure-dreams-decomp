@@ -30,8 +30,8 @@ s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /
 s32 select_response_for_source_and_target();                     /* extern */
 extern void D_80093B00();
 extern void D_8009B828();
-extern void D_8009B8E8();
-extern void D_8009B9BC();
+extern void actor_target_motion_address();
+extern void town_owner_dispatch_address();
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 extern void *town_target_record;
 extern s32 town_interaction_pending[];
@@ -106,8 +106,8 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             store_the_valid_shared_angle_in_offset_hex_10(actor);
             init_motion_action_callback(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
-            if ((target_handler != &D_8009B828) && (target_handler != &D_8009B8E8)) {
-                if (target_handler != &D_8009B9BC) {
+            if ((target_handler != &D_8009B828) && (target_handler != &actor_target_motion_address)) {
+                if (target_handler != &town_owner_dispatch_address) {
                     ((Rec_func_80094268_arg0 *)actor)->unk_2C = NULL;
                 }
             }

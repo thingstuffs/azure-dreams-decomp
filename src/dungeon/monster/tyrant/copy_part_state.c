@@ -59,16 +59,16 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     object = allocate_list_node(0x112, ((s32 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        (object->unk_10) = D_8016AAA4;
+        (object->update_callback) = D_8016AAA4;
         ((S_8016A898_0 *)result)->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
 
         motion = (object->position);
         motion->unk_0A = held_c;
         part_data = (object->sprite);
-        part_data->unk_25 = held_b;
+        part_data->tile_y = held_b;
         part_data->frameTable = D_8016DFB8;
-        part_data->unk_24 = held_a;
+        part_data->tile_x = held_a;
         state_data = result;
 
         if ((spawn_flags & 3) == 1) {

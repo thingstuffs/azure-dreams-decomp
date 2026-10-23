@@ -31,11 +31,11 @@ void spawn_effect_object_with_packet(void *caller_data)
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         register_node(obj, lit_mesh_renderer_address);
-        obj->unk_10 = D_800BF4CC;
+        obj->update_callback = D_800BF4CC;
         part = obj->sprite;
         part->scale_x = 0x1000;
         part->scale_y = 0x1000;
-        part->unk_20 = 0x1000;
+        part->offset_x = 0x1000;
         part->color.word = 0x808080;
         setup = (u8 *)obj + 0x20;
         part->angle_z = 0;

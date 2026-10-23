@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern void D_800930E4();
+extern void town_interaction_action_address();
 
 typedef struct S_800946FC_0 {
     s32 * unk_00;
@@ -11,6 +11,6 @@ typedef struct S_800946FC_0 {
 
 /* Initializes the object's data pointer and sets its initial value to 0x13. */
 void initialize_actor_interaction_state_19(S_800946FC_0 *object) {
-    object->unk_00 = &D_800930E4;
+    object->unk_00 = &town_interaction_action_address;
     object->unk_0A = 0x13;
 }

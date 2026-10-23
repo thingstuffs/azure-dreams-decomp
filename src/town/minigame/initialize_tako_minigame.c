@@ -126,7 +126,7 @@ s32 initialize_tako_minigame(void)
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
-        object->unk_10 = D_80025BC8;
+        object->update_callback = D_80025BC8;
         ((S_800254A4_1 *)parent_state)->unk_18 = rand() & 1;
     }
 
@@ -138,7 +138,7 @@ create_child:
     object = allocate_flagged_object_node(0x136);
     *child_slot = object;
     if (object != NULL) {
-        object->unk_10 = child_callback;
+        object->update_callback = child_callback;
         register_node(object, project_sprite_chain);
         child_state = (u8 *)object + 0x20;
         draw_state = object->sprite;
@@ -169,7 +169,7 @@ next_left:
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     left_state = (u8 *)object + 0x20;
     if (object != NULL) {
-        object->unk_10 = callback;
+        object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
         left_state->unk_14 = 0x20;
         left_state->unk_18 = 3;
@@ -206,7 +206,7 @@ next_right:
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     right_state = (u8 *)object + 0x20;
     if (object != NULL) {
-        object->unk_10 = callback;
+        object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
         right_state->unk_14 = 0x50;
         right_state->unk_18 = 3;
@@ -239,7 +239,7 @@ next_right_row:
 
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        object->unk_10 = D_80026C54;
+        object->update_callback = D_80026C54;
         register_node(object, &display_registration_tag);
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;

@@ -68,7 +68,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80158A30;
+        obj->update_callback = D_80158A30;
         work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
@@ -76,10 +76,10 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
         part_a->unk_0A = saved_part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_byte_25;
+        part_b->tile_y = saved_byte_25;
         actor = work;
         part_b->frameTable = D_8015BD0C;
-        part_b->unk_24 = saved_byte_24;
+        part_b->tile_x = saved_byte_24;
         do {
 
             if (kind == 1) {

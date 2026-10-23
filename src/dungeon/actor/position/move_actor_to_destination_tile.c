@@ -21,9 +21,9 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPositio
         g_dungeon_status.movement_frames_left = 0;
     }
     if (g_dungeon_status.movement_frames_left != 0) {
-        motion->velocity_x = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10)
+        motion->velocity_x = (s32) ((s32) ((((destination->tile_x << 6) + 0x20) << 0x10)
             - motion->x.v) / (s16) g_dungeon_status.movement_frames_left);
-        motion->velocity_y = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10)
+        motion->velocity_y = (s32) ((s32) ((((destination->tile_y << 6) + 0x20) << 0x10)
             - motion->y.v) / (s16) g_dungeon_status.movement_frames_left);
     }
     actor_flags = actor->unk_A2;
@@ -37,7 +37,7 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPositio
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+        set_record_integer_tile_center(motion, destination->tile_x, destination->tile_y);
         destination->flags = (u16) (destination->flags | 0x4000);
         if (actor->unk_100 >= 0) {
             begin_player_trap_trigger(actor, motion, destination, saved_context);

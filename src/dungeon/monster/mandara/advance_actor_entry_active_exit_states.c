@@ -118,7 +118,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
         effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
-            effect->unk_10 = D_80174424;
+            effect->update_callback = D_80174424;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -207,7 +207,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
             effect_state = (u8 *)effect + 0x20;
             if (effect != 0) {
-                effect->unk_10 = D_80174424;
+                effect->update_callback = D_80174424;
                 ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
                 facing = ((S_8017382C_0 *)action)->unk_AC.s;
                 ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -229,7 +229,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
         if (g_dungeon_status.flags & 0x1000) {
             return;
         }
-        if (actor->unk_64 != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(action, context, sprite, 0) != 0) {
                 return;
             }
@@ -278,7 +278,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             s8 tile;
 
             check_actor = ((u8 *)(&reference_tile_object));
-            tile = *(s8 *)&sprite->unk_26;
+            tile = *(s8 *)&sprite->room_index;
             if ((tile != reference_tile_object.room_index) || (tile < 0)) {
                 s32 distance;
 
@@ -310,7 +310,7 @@ second_call:
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 facing;
-            effect->unk_10 = D_80174424;
+            effect->update_callback = D_80174424;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;

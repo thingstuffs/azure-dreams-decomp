@@ -12,7 +12,7 @@ extern s32 runtime_directory_entry_count;
 extern GpTablePrefix runtime_resource_directory;
 extern GpTablePrefix runtime_directory_defaults;
 extern u8 runtime_dispatch_mode_alias[];
-extern u8 D_80016000[];
+extern u8 runtime_single_resource_data[];
 
 extern void bind_and_load_indexed_resource_record(s32 key, s32 index);
 

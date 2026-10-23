@@ -19,7 +19,7 @@ void decrement_current_entry_counter_condition(void) {
     S_800169F8_1 *entry;
 
     if (func_8001894C(F_sbs07_pad29) != 0) {
-        entry = (D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40);
+        entry = (town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data);
         counter = entry->unk_02;
         if (counter != 0) {
             entry->unk_02 = (u8) (counter - 1);

@@ -159,10 +159,10 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
         MovingPosition *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
         s32 z_adjustment;
         u16 source_z;
-        position->unk_02 = source->unk_02;
-        position->unk_06 = source->unk_06;
+        position->x = source->x;
+        position->y = source->y;
         z_adjustment = entity_height_offsets[((S_800B0D34_1 *)info)->unk_13] + 0x50;
-        source_z = source->unk_0A;
-        position->unk_0A = source_z - z_adjustment;
+        source_z = source->z;
+        position->z = source_z - z_adjustment;
     }
 }

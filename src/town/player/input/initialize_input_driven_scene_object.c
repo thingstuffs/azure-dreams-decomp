@@ -3,7 +3,7 @@
 
 void dispatch_sound_by_global_flag(void);                            /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h" /* extern */
-extern s32 D_80092CD4;
+extern s32 town_input_object_address;
 
 typedef struct S_800945B8_0 {
     u8 pad_00[0x14];
@@ -15,5 +15,5 @@ void initialize_input_driven_scene_object(s32 **outputData, S_800945B8_0 *state,
     dispatch_sound_by_global_flag();
     state->unk_14 = 0xFFEF0000;
     call_the_handler_selects_nonzero_entry(D_800D0140, (struct Rec_func_80094268_arg0 *)(outputData), (void *)(setupValue));
-    *outputData = &D_80092CD4;
+    *outputData = &town_input_object_address;
 }

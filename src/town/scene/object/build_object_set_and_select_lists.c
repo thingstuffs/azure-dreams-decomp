@@ -65,7 +65,7 @@ extern u8 D_80016094[];
 extern u8 D_800160A0[];
 extern u8 D_800160CC[];
 extern u8 D_800160FC[];
-extern u8 D_8001DC10[];
+extern u8 scene_object_image_data[];
 
 /* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
 void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
@@ -125,10 +125,10 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                         record->unk_00 = updated_flags;
                         next_object_set = populate_and_dispatch_entry_records(p,
                               (void *)((TownEventEntryValueView *)((variant_index * 0x10) +
-                                            (u8 *)record->unk_10))->unk_08,
+                                            (u8 *)record->unk_10))->value,
                               updated_flags, record_index);
                         if ((next_object_set - 0x14) != p) {
-                            find_masked_record_and_initialize(D_8001DC10, record);
+                            find_masked_record_and_initialize(scene_object_image_data, record);
                             record->unk_04 = p;
                             p = next_object_set;
                         }
@@ -145,7 +145,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
             } while (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0);
         }
 
-        callbacks = D_80016000->unk_20;
+        callbacks = town_scene_root->services;
         (*(TownCallback *)((u8 *)callbacks + 0x168))
         (D_80016094, D_800160A0,
             (u32)(p - (u8 *)ost_w) / 20);
@@ -185,10 +185,10 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
         } while (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0);
     }
 
-    ((TownCallback)D_80016000->unk_20->callback_168)
+    ((TownCallback)town_scene_root->services->callback_168)
     (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
 
-    cd_header_entry = D_8001DC10;
+    cd_header_entry = scene_object_image_data;
     cdhd_cnt = 1;
     if (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0) {
         do {
@@ -197,6 +197,6 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
         } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
     }
     report_count =
-        ((TownCallback)D_80016000->unk_20->callback_168);
+        ((TownCallback)town_scene_root->services->callback_168);
     report_count(D_80016094, D_800160FC, cdhd_cnt);
 }

@@ -8,7 +8,7 @@
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
 extern M2C_UNK D_80026FB0;
-extern u8 D_80028808;
+extern u8 linked_graphic_sprite_entries;
 
 typedef struct S_80027070_3 {
     u8 pad_00[0x4];
@@ -26,14 +26,14 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object->unk_10 = &D_80026FB0;
+        object->update_callback = &D_80026FB0;
         register_node(object, project_sprite_chain);
         position = object->position;
         position->x.w.i = x;
         position->y.w.i = y;
         position->z.w.i = z;
         graphics = object->sprite;
-        graphics->source = (void *) ((graphic_index * 0xC) + &D_80028808);
+        graphics->source = (void *) ((graphic_index * 0xC) + &linked_graphic_sprite_entries);
         graphics->scale_y = 0x1000;
         graphics->scale_x = 0x1000;
         graphics->tpage_abr = 0x20;

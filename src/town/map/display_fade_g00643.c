@@ -103,7 +103,7 @@ void build_two_display_entries(s32 data_id, s32 position_offset)
 
     display_obj = allocate_flagged_object_node(1);
     if (display_obj != 0) {
-        display_obj->unk_10 = D_800BC390;
+        display_obj->update_callback = D_800BC390;
         display_data = (u8 *)display_obj + 0x20;
         register_node(display_obj, &display_registration_tag);
         *(s16 *)(display_data + 0xC) = 0x64;

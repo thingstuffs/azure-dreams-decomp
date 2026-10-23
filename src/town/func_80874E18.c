@@ -18,7 +18,7 @@ typedef struct {
 extern InputTable devkit_globals_page;
 extern s16 D_80700BB2[];
 extern State *devkit_state_slots[3];
-extern CallbackOwner *D_80701984[4];
+extern CallbackOwner *devkit_callback_owner[4];
 
 #define STATE_ROOT devkit_state_slots[0]
 
@@ -42,13 +42,13 @@ s32 record_devkit_input_and_advance_slot(s32 slot) {
         return func_80701060(word, old_value);
     }
 
-    if (D_80701984[0]->callback(2) != 0) {
+    if (devkit_callback_owner[0]->callback(2) != 0) {
         STATE_ROOT->flags |= 0x40000000;
     } else {
         STATE_ROOT->flags &= ~0x40000000;
     }
     if (test_indexed_flag_bit(D_80700BB2[0]) == 0) {
-        callback = D_80701984[0]->callback(2);
+        callback = devkit_callback_owner[0]->callback(2);
         if (callback == 0) {
             return slot;
         }

@@ -8,7 +8,7 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern s32 D_80175F38;
+extern s32 golem_frame_set_3;
 
 s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
 void select_sprite_entry(void *, s32, s32);
@@ -55,7 +55,7 @@ void advance_timed_target_flags(void *state, void *output, SpriteFrameState *tar
     s32 signed_ticks;
     u16 target_flags;
 
-    if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {
+    if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &golem_frame_set_3) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;

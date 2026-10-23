@@ -1,4 +1,5 @@
 #include "modules/main_title_callbacks.h"
+#include "shared/object_links.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -9,9 +10,7 @@
 #include "main/data.h"
 #include "sdk/libgte.h"
 
-typedef struct S_80089608_0_pre {
-    u16 unk_00;
-} S_80089608_0_pre;   /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
 
 typedef struct S_80089608_0 {
     void * unk_00;
@@ -54,15 +53,6 @@ typedef struct S_80089608_7 {
 
 extern s32 linked_sprite_renderer_address[3];
 
-typedef struct {
-    s32 w0;
-    s32 w1;
-    s32 w2;
-} __attribute__((packed)) Packed12;
-typedef struct {
-    s32 w0;
-    s32 w1;
-} __attribute__((packed)) Packed8;
 typedef struct {
     s32 w0;
     s32 w1;
@@ -158,7 +148,7 @@ void update_settings_effect(void *effect) {
         ((S_80089608_0 *)effect)->unk_0E.s -= 12;
         break;
     case 0xFF:
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
@@ -170,7 +160,7 @@ void update_settings_effect(void *effect) {
         element = allocate_flagged_object_node(0x111);
         if (element != NULL) {
             sprite = element->sprite;
-            element->unk_10 = callback;
+            element->update_callback = callback;
             register_node(element, &linked_sprite_renderer_address);
             x_product = rcos(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
@@ -192,7 +182,7 @@ void update_settings_effect(void *effect) {
             sprite->flags = (u16) (sprite->flags | 0xC);
             sprite->source = (s32) ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_00;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->color.word =
                 (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
             ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;

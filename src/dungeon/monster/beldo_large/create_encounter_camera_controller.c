@@ -12,7 +12,7 @@ typedef struct {
 
 extern s32 register_node();
 extern s32 D_801717A8;
-extern PackedVec D_80173B40;
+extern PackedVec encounter_object_position_template;
 extern void *beldo_camera_object;
 
 
@@ -69,7 +69,7 @@ void create_encounter_camera_controller(void) {
         render_flags = render_state->unk_14;
         beldo_camera_object = object;
         render_state->unk_14 = render_flags | 0x80;
-        (*(PackedVec *)((u8 *)object + 0x48)) = D_80173B40;
+        (*(PackedVec *)((u8 *)object + 0x48)) = encounter_object_position_template;
         render_state->unk_08 = (u8 *)object + 0x48;
     }
 }

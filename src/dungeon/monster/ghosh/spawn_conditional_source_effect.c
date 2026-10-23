@@ -58,7 +58,7 @@ s32 rand();
 extern M2C_UNK D_800777F4;
 extern u8 D_8016E528;
 extern void *ghosh_actor_node[];
-extern TableEntry D_80174708[];
+extern TableEntry ghosh_effect_direction_offsets[];
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void spawn_conditional_source_effect(void) {
@@ -89,7 +89,7 @@ void spawn_conditional_source_effect(void) {
         if (effect != NULL) {
             effect_state = ((void *)effect) + 0x20;
             effect_state->unk_12 = 3;
-            effect->unk_10 = &D_8016E528;
+            effect->update_callback = &D_8016E528;
             register_node(effect, project_sprite_chain);
             sprite = effect->sprite;
             sprite->flags = (u16) (sprite->flags & 0xFFF3);
@@ -106,7 +106,7 @@ void spawn_conditional_source_effect(void) {
             sprite = effect->sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            sprite->unk_06 = (s16) (D_80174708[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
+            sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->unk_02.u;
             effect_state->unk_48 = (s8) (rounded_x / 64);

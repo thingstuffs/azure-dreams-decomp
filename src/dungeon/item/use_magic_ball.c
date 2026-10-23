@@ -170,7 +170,7 @@ scan_next:
         data[3] &= 0xDF;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else {
-        current_object->unk_98 &= 0xFF7F;
+        current_object->action_state_flags &= 0xFF7F;
         ((S_800C0E88_2 *)object)->unk_09 = 0xFF;
 
         slot = (data[0] - 1) * 3;
@@ -212,7 +212,7 @@ scan_next:
 
         status = &g_dungeon_status;
         status->active_actor = object;
-        primary_actor_record->unk_98 |= 0x80;
+        primary_actor_record->action_state_flags |= 0x80;
         ((S_800C0E88_1 *)data)->unk_02.u--;
 
         message_start = get_unused_text_buffer();

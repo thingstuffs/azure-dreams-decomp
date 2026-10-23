@@ -32,7 +32,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         work = obj;
         work = (u8 *)work + 0x20;
         actor = work;
-        obj->unk_10 = D_8014CA30;
+        obj->update_callback = D_8014CA30;
         work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
@@ -40,9 +40,9 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         part_a->unk_0A = saved_arg3;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_arg2;
+        part_b->tile_y = saved_arg2;
         part_b->frameTable = D_8014FD0C;
-        part_b->unk_24 = saved_arg1;
+        part_b->tile_x = saved_arg1;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

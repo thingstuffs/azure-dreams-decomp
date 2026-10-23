@@ -1,7 +1,7 @@
 #include "common.h"
 
 struct S_80044AAC; void link_typed_list_node(struct S_80044AAC *, struct S_80044AAC *);
-extern u8 D_800D162C[];
+extern u8 shop_display_presets[];
 extern u8 D_800D1630[];
 
 /* Ease two objects toward preset coordinates and shades, then pass them in coordinate order. */
@@ -24,7 +24,7 @@ void interpolate_paired_object_positions_and_shades(void **pair_state)
     void *shade_data;
 
     item_index = 0;
-    preset_table = D_800D162C;
+    preset_table = shop_display_presets;
     shade_table = D_800D1630;
     coord_offset = item_index;
     item_entry = pair_state;

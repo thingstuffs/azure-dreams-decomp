@@ -10,7 +10,7 @@ typedef struct {
 
 extern void format_reversed_decimal_space_padded(s32 value, u16 width, char *buf);
 extern void MoveImage(void *record, s32 y, s32 x);
-extern u8 D_800808ED[];
+extern u8 numeric_character_flags[];
 
 /* Draw the first formatted number with mode-dependent filler glyphs. */
 void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
@@ -33,7 +33,7 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
             if (fill_mode != 0) {
 
                 character = *char_ptr;
-                if ((*((u8 *)((u32)character + (u32)D_800808ED)) & 4) == 0) {
+                if ((*((u8 *)((u32)character + (u32)numeric_character_flags)) & 4) == 0) {
                     glyph_coord = 0x1C0;
                     record.first = glyph_coord;
                 } else {
@@ -42,7 +42,7 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
             } else {
 
                 character = *char_ptr;
-                if ((*((u8 *)((u32)character + (u32)D_800808ED)) & 4) != 0) {
+                if ((*((u8 *)((u32)character + (u32)numeric_character_flags)) & 4) != 0) {
 plus:
                     glyph_coord = (character << 2) + 0x100;
                     record.first = glyph_coord;

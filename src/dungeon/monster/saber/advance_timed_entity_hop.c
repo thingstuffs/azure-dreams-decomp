@@ -77,7 +77,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
         hop_frames = ((S_80166BAC_0 *)action)->unk_9E.s;
         ((S_80166BAC_0 *)action)->unk_90 -= ((S_80166BAC_0 *)action)->unk_A4;
         if (hop_frames != 0) {
-            target_x = map_entity->unk_24;
+            target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -87,7 +87,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((map_entity->unk_25 << 6) - pos_y) << 16) /
+                (((map_entity->tile_y << 6) - pos_y) << 16) /
                 ((S_80166BAC_0 *)action)->unk_9E.s;
 
             ((S_80166BAC_0 *)action)->unk_A4 =
@@ -115,7 +115,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
             map_entity->frameTable = D_80168E14;
             select_sprite_entry(
                 map_entity,
@@ -145,7 +145,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+    set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -162,8 +162,8 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                map_entity->unk_24,
-                map_entity->unk_25,
+                map_entity->tile_x,
+                map_entity->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);

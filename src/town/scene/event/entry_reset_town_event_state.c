@@ -29,17 +29,17 @@ void restore_pending_town_event(void) {
 
     if (func_80018964(Fp_pool_open) == 0) {
         u8 *page = (u8 *)0x80010000;
-        ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->unk_20))->callback_27C)(0);
-        ((s32 (*)(s32, s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->unk_20))->callback_2F4)(-1, -5);
+        ((s32 (*)(s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->services))->callback_27C)(0);
+        ((s32 (*)(s32, s32))((TownServiceTable *)(((Rec_D_80016000 *)(((S_8059E540_2 *)page)->unk_6000))->services))->callback_2F4)(-1, -5);
     }
     reset_town_event_state();
     state = ((S_8059E540_0 *)D_80010000)->unk_6000;
     new_value = (s32 *)&D_80010000[0xD07C];
-    ((TownPositionState *)state->unk_1C)->unk_40 = new_value;
-    pending = *(s32 **)((s8 *)state->unk_40 + (state->unk_08 * 8));
+    ((TownPositionState *)state->position)->unk_40 = new_value;
+    pending = *(s32 **)((s8 *)state->event_data + (state->entry_index * 8));
     if (pending != NULL) {
-        ((TownPositionState *)state->unk_1C)->unk_40 = pending;
-        *(s32 **)((s8 *)state->unk_40 + (state->unk_08 * 8)) = 0;
+        ((TownPositionState *)state->position)->unk_40 = pending;
+        *(s32 **)((s8 *)state->event_data + (state->entry_index * 8)) = 0;
     }
     *(s32 **)&D_80019148[0] = &D_80018EE4;
 }

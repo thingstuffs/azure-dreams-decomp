@@ -127,8 +127,8 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             effect_actor = actor;
             effect_flags = 0x2000;
             target_tile_x = reference_tile_object.tile_position.parts.tile_x;
-            sprite_tile_x = sprite->unk_24;
-            sprite_tile_y = sprite->unk_25;
+            sprite_tile_x = sprite->tile_x;
+            sprite_tile_y = sprite->tile_y;
             tile_dx = target_tile_x - sprite_tile_x;
             target_tile_y = reference_tile_object.tile_position.parts.tile_y;
             tile_dx = __builtin_abs(tile_dx);
@@ -139,21 +139,21 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             spend_actor_mp(effect_actor, effect_flags);
         }
 
-            if (reference_tile_object.tile_position.parts.tile_x == sprite->unk_24) {
-                if (reference_tile_object.tile_position.parts.tile_y > sprite->unk_25) {
+            if (reference_tile_object.tile_position.parts.tile_x == sprite->tile_x) {
+                if (reference_tile_object.tile_position.parts.tile_y > sprite->tile_y) {
                     direction = 2;
                 } else {
                     direction = 6;
                 }
-            } else if (reference_tile_object.tile_position.parts.tile_y == sprite->unk_25) {
-                direction = (sprite->unk_24 >= reference_tile_object.tile_position.parts.tile_x) * 4;
-            } else if (sprite->unk_24 < reference_tile_object.tile_position.parts.tile_x) {
-                if (sprite->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
+            } else if (reference_tile_object.tile_position.parts.tile_y == sprite->tile_y) {
+                direction = (sprite->tile_x >= reference_tile_object.tile_position.parts.tile_x) * 4;
+            } else if (sprite->tile_x < reference_tile_object.tile_position.parts.tile_x) {
+                if (sprite->tile_y < reference_tile_object.tile_position.parts.tile_y) {
                     direction = 1;
                 } else {
                     direction = 7;
                 }
-            } else if (sprite->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
+            } else if (sprite->tile_y < reference_tile_object.tile_position.parts.tile_y) {
                 direction = 3;
             } else {
                 direction = 5;
@@ -354,8 +354,8 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             display_text_with_fullwidth_adjustment(text_start);
 
         case 8:
-            target_x = ((sprite->unk_24 << 6) + 0x20) << 16;
-            target_y = ((sprite->unk_25 << 6) + 0x20) << 16;
+            target_x = ((sprite->tile_x << 6) + 0x20) << 16;
+            target_y = ((sprite->tile_y << 6) + 0x20) << 16;
             target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
             return_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (return_ticks >= 0xE) {
@@ -411,13 +411,13 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             sprite->frameTable = baloon_default_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
-            sprite->unk_05 = 1;
+            sprite->frame_ticks = 1;
             ((S_80175CD8_0 *)action)->unk_A2.s = 0;
             ((S_80175CD8_0 *)action)->unk_9E = 0;
             ((S_80175CD8_0 *)action)->unk_90.at02.v = -0x20;
             ((EntityRec *)actor)->unk_88 = ((S_80175CD8_0 *)action)->unk_B4.u;
-            motion->x.w.i = (sprite->unk_24 << 6) + 0x20;
-            motion->y.w.i = (sprite->unk_25 << 6) + 0x20;
+            motion->x.w.i = (sprite->tile_x << 6) + 0x20;
+            motion->y.w.i = (sprite->tile_y << 6) + 0x20;
             motion->z.w.i = ((u16)((EntityRec *)actor)->unk_88) +
                 ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
 

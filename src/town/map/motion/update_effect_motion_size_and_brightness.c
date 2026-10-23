@@ -46,12 +46,12 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
         sprite->scale_y = size;
         sprite->scale_x = size;
         sprite->color.word = (s32) (sprite->color.word + 0x80808);
-        position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
-            - 0x2))->unk_0E - position->unk_02) >> 2));
-        position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
-            - 0x2))->unk_10 - position->unk_06) >> 2));
-        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
-            - 0x2))->unk_12 - position->unk_0A) >> 2));
+        position->x = (s16) ((u16) position->x + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
+            - 0x2))->unk_0E - position->x) >> 2));
+        position->y = (s16) ((u16) position->y + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
+            - 0x2))->unk_10 - position->y) >> 2));
+        position->z = (s16) ((u16) position->z + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields
+            - 0x2))->unk_12 - position->z) >> 2));
         grow_end_state = 0xFF;
         if (!((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0)) {
             ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;

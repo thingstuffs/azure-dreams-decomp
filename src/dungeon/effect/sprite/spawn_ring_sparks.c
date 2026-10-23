@@ -7,7 +7,7 @@ void register_node(void *, void *);                /* extern */
 s32 rsin(s32);                           /* extern */
 s32 rcos(s32);                           /* extern */
 extern M2C_UNK D_80025528;
-extern u8 D_800C95C0[12];
+extern u8 ring_spark_draw_address[12];
 
 typedef struct S_81959E04_2 {
     u8 pad_00[0x2];
@@ -33,8 +33,8 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z) {
     do {
         obj = allocate_flagged_object_node(0x212);
         if (obj != NULL) {
-            obj->unk_10 = &D_80025528;
-            register_node(obj, D_800C95C0);
+            obj->update_callback = &D_80025528;
+            register_node(obj, ring_spark_draw_address);
             part = obj->position;
             part->x.w.i = x;
             part->y.w.i = y;

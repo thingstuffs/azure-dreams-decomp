@@ -84,14 +84,14 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
             s32 tile_delta;
             s32 axis_pos;
 
-            tile_delta = sprite->unk_24 << 6;
+            tile_delta = sprite->tile_x << 6;
             axis_pos = ((EntityRec *)motion)->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
 
             axis_pos = ((EntityRec *)motion)->y.w.i;
-            tile_delta = sprite->unk_25 << 6;
+            tile_delta = sprite->tile_y << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             ((EntityRec *)motion)->unk_10 =
@@ -117,7 +117,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             {
                 u8 *anim_table = D_800E2460;
 
@@ -159,7 +159,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 0x10);
     advance_status_timers(actor);
     {
@@ -178,7 +178,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((S_801730C4_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }

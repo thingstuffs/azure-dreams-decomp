@@ -104,10 +104,10 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         }
         timer = ((S_80173964_0 *)action)->unk_96.s;
         if (timer != 0) {
-            target_x = actor->unk_24 << 6;
+            target_x = actor->tile_x << 6;
             current_x = motion->x.w.i - 0x20;
             motion->velocity_x = ((target_x - current_x) << 16) / timer;
-            target_y = actor->unk_25 << 6;
+            target_y = actor->tile_y << 6;
             current_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
@@ -127,7 +127,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         if (actor->frameTable == D_80174DFC) {
             actor->frameTable = saber_direction_frames;
             select_sprite_entry(

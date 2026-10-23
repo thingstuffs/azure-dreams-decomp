@@ -10,7 +10,7 @@ extern void *D_80017C7C;
 
 /* Selects a data table using the current object's ID at offset 8. */
 void get_saved_entry_count(void) {
-    switch (*(s32 *)((u8 *)D_80016000 + 8)) {
+    switch (*(s32 *)((u8 *)town_scene_root + 8)) {
     case 37:
         D_80017C7C = D_80016524;
         return;

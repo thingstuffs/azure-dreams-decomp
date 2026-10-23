@@ -53,10 +53,10 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         init_flags = 0x01000340;
         init_size = 0x00200020;
         effect_params = D_80026484;
-        ((MovingSprite *)part)->unk_0C.at00.v = color;
-        ((MovingSprite *)part)->unk_1E = 0x555;
-        ((MovingSprite *)part)->unk_1C = 0x555;
-        ((MovingSprite *)part)->unk_08 = D_80026490;
+        ((MovingSprite *)part)->color.at00.v = color;
+        ((MovingSprite *)part)->scale_y = 0x555;
+        ((MovingSprite *)part)->scale_x = 0x555;
+        ((MovingSprite *)part)->source = D_80026490;
         ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
         ((UnsignedWordView *)D_80026476)->unk_00 = 0;
@@ -79,14 +79,14 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 break;
             }
         }
-        ((MovingMotion *)motion)->unk_00.at02.v = ((MovingPosition *)record)->unk_02;
-        ((MovingMotion *)motion)->unk_04.at02.v = ((MovingPosition *)record)->unk_06;
+        ((MovingMotion *)motion)->unk_00.at02.v = ((MovingPosition *)record)->x;
+        ((MovingMotion *)motion)->unk_04.at02.v = ((MovingPosition *)record)->y;
         if (((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_14 & 0x8000) {
-            u16 height = ((MovingPosition *)record)->unk_0A - 64;
+            u16 height = ((MovingPosition *)record)->z - 64;
             ((MovingMotion *)motion)->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         } else {
-            u16 height = ((MovingPosition *)record)->unk_0A + ((OriginOffsetView *)scratch)->unk_04;
+            u16 height = ((MovingPosition *)record)->z + ((OriginOffsetView *)scratch)->unk_04;
             ((MovingMotion *)motion)->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
         }
@@ -95,11 +95,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         if (!(((MovingEffectState *)self)->unk_12 & 4)) {
             register_node(self - 32, project_sprite_chain);
-            ((MovingSprite *)part)->unk_10 = 32;
-            ((MovingSprite *)part)->unk_0C.at02.v = 128;
-            ((MovingSprite *)part)->unk_0C.at01.v = 128;
-            ((MovingSprite *)part)->unk_0C.at00u.v = 128;
-            ((MovingSprite *)part)->unk_14 |= 0xC;
+            ((MovingSprite *)part)->tpage_abr = 32;
+            ((MovingSprite *)part)->color.at02.v = 128;
+            ((MovingSprite *)part)->color.at01.v = 128;
+            ((MovingSprite *)part)->color.at00u.v = 128;
+            ((MovingSprite *)part)->flags |= 0xC;
             ((MovingEffectState *)self)->unk_12 |= 4;
         }
         {
@@ -112,12 +112,12 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                                           entity_height_offsets[0];
                 {
                     u8 *target_record = ((MovingActor_pre *)owner)[-1].unk_00;
-                    u8 x = ((MovingTile *)target_record)->unk_24 +
+                    u8 x = ((MovingTile *)target_record)->tile_x +
                            ((u8 *)dir_step_x)[((MovingEffectState *)self)->unk_16.s * 2];
                     ((MovingEffectState *)self)->unk_1C.at02.v = x;
                     ((MovingEffectState *)self)->unk_20.at00.v = x;
                     {
-                        u8 y = ((MovingTile *)target_record)->unk_25 +
+                        u8 y = ((MovingTile *)target_record)->tile_y +
                                ((u8 *)dir_step_y)[((MovingEffectState *)self)->unk_16.s * 2];
                         ((MovingEffectState *)self)->unk_1C.at03.v = y;
                         ((MovingEffectState *)self)->unk_20.at01.v = y;
@@ -125,11 +125,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                     {
                         s32 owner_coord = ((MovingActor *)owner)->unk_70.at02.v;
                         s32 record_coord =
-                            ((MovingTile *)target_record)->unk_24;
+                            ((MovingTile *)target_record)->tile_x;
                         s32 tile_distance;
                         if (owner_coord == record_coord) {
                             owner_coord = ((MovingActor *)owner)->unk_70.at03.v;
-                            record_coord = ((MovingTile *)target_record)->unk_25;
+                            record_coord = ((MovingTile *)target_record)->tile_y;
                         }
                         tile_distance = owner_coord - record_coord;
                         tile_distance = abs(tile_distance);
@@ -240,7 +240,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                     u16 next_state = ((MovingEffectState *)self)->unk_0A.u + 1;
                     u16 height = ((MovingTarget *)target)->unk_88;
                     ((MovingEffectState *)self)->unk_0A.u = next_state;
-                    ((MovingHeight *)D_800269C8)->unk_00 = height;
+                    ((MovingHeight *)particle_target_height)->unk_00 = height;
                 }
                 break;
             }
@@ -281,9 +281,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         ((MovingEffectState *)self)->unk_0A.u++;
     case 4:
-        ((MovingSprite *)part)->unk_0C.at00u.v -= ((MovingSprite *)part)->unk_0C.at00u.v >> 2;
-        ((MovingSprite *)part)->unk_0C.at01.v -= ((MovingSprite *)part)->unk_0C.at01.v >> 2;
-        ((MovingSprite *)part)->unk_0C.at02.v -= ((MovingSprite *)part)->unk_0C.at02.v >> 2;
+        ((MovingSprite *)part)->color.at00u.v -= ((MovingSprite *)part)->color.at00u.v >> 2;
+        ((MovingSprite *)part)->color.at01.v -= ((MovingSprite *)part)->color.at01.v >> 2;
+        ((MovingSprite *)part)->color.at02.v -= ((MovingSprite *)part)->color.at02.v >> 2;
         if (!(((MovingSpawnFlags *)(((MovingEffectState *)self)->unk_2C.p))->unk_1E & 0x8000)) {
             break;
         }
@@ -305,11 +305,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             height_step >>= 4;
             ((MovingMotion *)motion)->unk_08.at00.v += height_step;
         }
-        ((MovingSprite *)part)->unk_0C.at00u.v -= ((MovingSprite *)part)->unk_0C.at00u.v >> 1;
-        ((MovingSprite *)part)->unk_0C.at01.v -= ((MovingSprite *)part)->unk_0C.at01.v >> 1;
-        ((MovingSprite *)part)->unk_0C.at02.v -= ((MovingSprite *)part)->unk_0C.at02.v >> 1;
+        ((MovingSprite *)part)->color.at00u.v -= ((MovingSprite *)part)->color.at00u.v >> 1;
+        ((MovingSprite *)part)->color.at01.v -= ((MovingSprite *)part)->color.at01.v >> 1;
+        ((MovingSprite *)part)->color.at02.v -= ((MovingSprite *)part)->color.at02.v >> 1;
         func_8002495C(motion, part);
-        if (((MovingSprite *)part)->unk_0C.at00u.v < 2) {
+        if (((MovingSprite *)part)->color.at00u.v < 2) {
             ((MovingEffectState *)self)->unk_0A.u++;
         }
         break;

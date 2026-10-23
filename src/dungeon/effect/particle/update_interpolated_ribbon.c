@@ -56,7 +56,7 @@ extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];
-extern u8 D_80167C30[];
+extern u8 ribbon_particle_update_address[];
 extern s16 ribbon_vertices[][8][2][3];
 
 /* Spawn seven colored segments from interpolated vertices and advance the effect lifetime. */
@@ -103,7 +103,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             payload = (ObjectPayload *)((u8 *)object + 0x20);
             payload->unk_18 = 1;
             payload->unk_1A = 1;
-            object->unk_10 = D_80167C30;
+            object->update_callback = ribbon_particle_update_address;
             register_node(object, D_80166914);
 
             sprite = object->sprite;
@@ -135,7 +135,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
                     payload->unk_0C = payload->unk_0D = payload->unk_0E = 0;
             }
 
-            sprite->unk_06 = 0;
+            sprite->depth_bias = 0;
             select_record_entry_and_value(sprite, ribbon_sprite_entries, 0);
 
             vertex_index = 0;

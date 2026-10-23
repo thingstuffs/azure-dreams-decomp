@@ -10,5 +10,5 @@ typedef struct TownServiceSlot2DC {
 
 /* Run town service callback 0x2DC with zero (this TOWN module's copy of the town/func_8035A5E4 wrapper shape). */
 void run_service_callback_zero(void) {
-    ((TownServiceSlot2DC *)D_80016000->unk_20)->callback_2DC(0);
+    ((TownServiceSlot2DC *)town_scene_root->services)->callback_2DC(0);
 }

@@ -7,7 +7,7 @@ extern void register_node();
 extern s32 rand();
 
 extern u8 D_80025098[9];
-extern u8 D_80025AF0[9];
+extern u8 random_variant_sprite_entries[9];
 extern u8 clipped_sprite_renderer_address[9];
 
 typedef struct S_818C3A3C_0 {
@@ -66,8 +66,8 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     if (effect != 0) {
         handler = D_80025098;
         effect_state = (u8 *)effect + 0x20;
-        effect_name = D_80025AF0;
-        effect->unk_10 = handler;
+        effect_name = random_variant_sprite_entries;
+        effect->update_callback = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
         ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
         call_zero = 0;

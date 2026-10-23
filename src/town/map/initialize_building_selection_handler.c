@@ -11,7 +11,7 @@ typedef struct Obj {
 
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
-extern s32 D_800B7B8C;
+extern s32 building_resource_update_address;
 extern s32 D_800B7E78;
 extern s32 D_800B7F8C;
 
@@ -37,7 +37,7 @@ void initialize_building_selection_handler(void) {
             if (entry_kind >= 0x21) {
                 if (entry_kind < 0x29) {
                     if (entry_kind >= 0x26) {
-                        obj->handler = &D_800B7B8C;
+                        obj->handler = &building_resource_update_address;
                         return;
                     }
                 }

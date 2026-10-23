@@ -5,7 +5,7 @@ typedef struct { u8 pad0[8]; TownTarget *target; } TownContext;
 typedef struct { u32 x; u32 y; } TownPosition;
 typedef struct { u8 pad0[0x6C]; u16 timer; } TownObject;
 
-extern TownContext *D_8008267C;
+extern TownContext *person_offset_target_owner;
 extern void apply_object_setup_and_update(TownObject *, TownPosition *, s32);
 
 /* Move toward the offset target position and finish when the timer expires. */
@@ -21,7 +21,7 @@ void move_toward_offset_target(TownObject *object, TownPosition *position, s32 f
     u32 target_y;
     u16 timer;
 
-    target = D_8008267C->target;
+    target = person_offset_target_owner->target;
     raw_x = target->x;
     raw_y = target->y;
     timer = object->timer - 1;

@@ -31,7 +31,7 @@ void *allocate_randomized_effect_object(s32 state_value)
     if (object == 0) {
         return 0;
     }
-    object->unk_10 = D_800A2690;
+    object->update_callback = D_800A2690;
     state = ((void *)object) + 0x20;
     initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
     state->unk_04 = initial_count;

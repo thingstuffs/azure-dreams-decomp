@@ -27,7 +27,7 @@ extern s32 advance_actor_path();
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
 extern u8 ghosh_frame_set_3[];
-extern u8 D_80174694[];
+extern u8 ghosh_frame_set_9[];
 extern u8 D_801746FC[];
 extern u8 *ghosh_script_cursor[];
 extern s16 ghosh_script_repeat_count[];
@@ -97,13 +97,13 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     case 0xF0:
         if (((S_8016EF10_1 *)actor)->unk_9B == 0) {
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
-            if (*(u8 **)&entity->frameTable != D_80174694) {
-                entity->frameTable = D_80174694;
+            if (*(u8 **)&entity->frameTable != ghosh_frame_set_9) {
+                entity->frameTable = ghosh_frame_set_9;
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-                select_sprite_entry(entity, D_80174694[direction_index], 0);
+                select_sprite_entry(entity, ghosh_frame_set_9[direction_index], 0);
             }
-            if (create_five_point_effect(entity->unk_24,
-                              entity->unk_25,
+            if (create_five_point_effect(entity->tile_x,
+                              entity->tile_y,
                               ((S_8016EF10_1 *)actor)->unk_88,
                               D_800DF45C, 0x2800, 0x208020,
                               D_8016EEBC) == 0) {

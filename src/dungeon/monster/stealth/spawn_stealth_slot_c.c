@@ -26,17 +26,17 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
     object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        object->unk_10 = func_80158A8C;
+        object->update_callback = func_80158A8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_height;
         part1 = *(void ** *)&object->sprite;
-        part1->unk_25 = tile_y;
+        part1->tile_y = tile_y;
         actor = result;
         part1->frameTable = D_8015BD30;
         kind = flags & 3;
-        part1->unk_24 = tile_x;
+        part1->tile_x = tile_x;
         if (kind == 1) {
             result->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             result->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

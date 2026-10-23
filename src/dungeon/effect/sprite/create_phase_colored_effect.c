@@ -73,7 +73,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->unk_10 = D_80024BB0;
+        node->update_callback = D_80024BB0;
         base = (u8 *)node + 0x20;
         ((S_818BD52C_0 *)node)->unk_20 = owner->unk_00;
         base->unk_04 = 0;

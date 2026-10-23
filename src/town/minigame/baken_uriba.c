@@ -85,7 +85,7 @@ void baken_uriba(void)
     allocation = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (allocation != 0) {
         buffer = (u8 *)allocation + 0x20;
-        allocation->unk_10 = D_80020900;
+        allocation->update_callback = D_80020900;
     }
 
     screen.text.x = 0x14;

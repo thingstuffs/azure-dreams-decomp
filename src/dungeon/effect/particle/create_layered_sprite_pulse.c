@@ -42,7 +42,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
             effect_state = ((void *)effect) + 0x20;
             effect_state->unk_18 = initial_ticks;
             effect_state->unk_1A = initial_ticks;
-            effect->unk_10 = effect_data;
+            effect->update_callback = effect_data;
             register_node(effect, project_sprite_chain);
             render_params = effect->sprite;
             render_params->tpage_abr = 0x60;
@@ -57,7 +57,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
             sprite->color.c.b = 0;
             sprite->color.c.g = 0;
             sprite->color.c.r = 0;
-            sprite->unk_06 = 0;
+            sprite->depth_bias = 0;
             sprite->clut = 0x7DCF;
             sprite->flags = (u16) (sprite->flags | 0x100);
             select_record_entry_and_value(sprite, ribbon_sprite_entries, 0);

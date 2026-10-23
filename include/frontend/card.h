@@ -516,4 +516,8 @@ s32 update_global_dialog_state(s32 flag_linked_object);
 /* update_object_and_flag_linked.c */
 void update_object_and_flag_linked(void *object_data, s32 first_value, s32 second_value);
 
+void card_boot_open_events(void);
+void card_boot_init_server(void);
+void card_boot_close_events(void);
+
 #endif

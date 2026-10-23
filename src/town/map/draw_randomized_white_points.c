@@ -97,16 +97,16 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
                 s32 base_radius = ((S_800BB218_2 *)object)->unk_97;
                 radius_offset = (point_index / 8) % 12 + 0x48;
                 ((S_800BB218_0 *)scratch)->unk_14 =
-                    coords->unk_02 + ((x_scale * (base_radius + radius_offset)) >> 8);
+                    coords->x + ((x_scale * (base_radius + radius_offset)) >> 8);
             }
 
             ((S_800BB218_0 *)scratch)->unk_16 =
-                coords->unk_06 +
+                coords->y +
                 (((rcos(angle) >> 4) *
                   (((S_800BB218_2 *)object)->unk_97 + radius_offset)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_18 =
-                coords->unk_0A -
+                coords->z -
                 (((rsin((point_index % 16) << 6) >> 4) *
                   (((S_800BB218_2 *)object)->unk_66 + 0x10)) >> 8);
 

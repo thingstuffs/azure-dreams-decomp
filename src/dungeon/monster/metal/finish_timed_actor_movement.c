@@ -52,7 +52,7 @@ typedef struct {
 
 extern u8 metal_action_resume_address[];
 extern u8 metal_movement_frames[];
-extern u8 D_801742E8[];
+extern u8 metal_frame_set_2[];
 
 extern void select_sprite_entry(Actor *, u8, s32);
 extern s32 rsin(s32);
@@ -94,13 +94,13 @@ void finish_timed_actor_movement(State *action, Motion *motion, SpriteFrameState
             s32 x_velocity;
             s32 current_y;
 
-            target_x = actor->unk_24 << 6;
+            target_x = actor->tile_x << 6;
             current_x = motion->x2 - 0x20;
             x_velocity = ((target_x - current_x) << 16) /
                          action->timer9E;
             current_y = motion->y6 - 0x20;
             motion->dxC = x_velocity;
-            motion->dy10 = (((actor->unk_25 << 6) - current_y) << 16) /
+            motion->dy10 = (((actor->tile_y << 6) - current_y) << 16) /
                          action->timer9E;
             action->velocityA0 = -rsin(action->timer9E * 0x199) << 10;
         }
@@ -121,10 +121,10 @@ void finish_timed_actor_movement(State *action, Motion *motion, SpriteFrameState
         motion->dz14 = 0;
         motion->dy10 = 0;
         motion->dxC = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
-        actor->frameTable = D_801742E8;
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
+        actor->frameTable = metal_frame_set_2;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
-        select_sprite_entry(actor, D_801742E8[direction_index & 7], 0);
+        select_sprite_entry(actor, metal_frame_set_2[direction_index & 7], 0);
         action->state9B++;
         break;
     default:
@@ -139,7 +139,7 @@ void finish_timed_actor_movement(State *action, Motion *motion, SpriteFrameState
     motion->dz14 = 0;
     motion->dy10 = 0;
     motion->dxC = 0;
-    set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+    set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
@@ -158,7 +158,7 @@ void finish_timed_actor_movement(State *action, Motion *motion, SpriteFrameState
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = get_rounded_facing_and_rounding_flag(
-                actor->unk_24, actor->unk_25, reference_tile_object.tile_position.parts.tile_x,
+                actor->tile_x, actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }

@@ -34,7 +34,7 @@ extern void spend_actor_mp(void *, s32);
 extern u8 garuda_action_resume_address[];
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
-extern u8 D_801748B0[];
+extern u8 garuda_frame_set_4[];
 
 /* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
 void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
@@ -89,7 +89,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
         move_ticks = ((S_80173A08_0 *)action)->unk_B0.s;
         ((S_80173A08_0 *)action)->unk_90 -= ((S_80173A08_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            target_x = sprite->unk_24;
+            target_x = sprite->tile_x;
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
@@ -98,7 +98,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
             world_y = motion->y.w.i;
             world_y -= 0x20;
             motion->velocity_y =
-                (((sprite->unk_25 << 6) - world_y) << 16) /
+                (((sprite->tile_y << 6) - world_y) << 16) /
                 ((S_80173A08_0 *)action)->unk_B0.s;
 
             arc_base = (0 - rsin(((S_80173A08_0 *)action)->unk_B0.s * 0x199)) << 10;
@@ -118,9 +118,9 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
             ((S_80173A08_0 *)action)->unk_90 = 0;
             ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
             entity->flags1C |= entity_mask;
-            (sprite->frameTable) = D_801748B0;
+            (sprite->frameTable) = garuda_frame_set_4;
             facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-            select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
+            select_sprite_entry(sprite, garuda_frame_set_4[facing_index & 7], 0);
             ((S_80173A08_0 *)action)->unk_9B++;
         }
                         /* fall through */
@@ -132,10 +132,10 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        (sprite->frameTable) = D_801748B0;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+        (sprite->frameTable) = garuda_frame_set_4;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-        select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
+        select_sprite_entry(sprite, garuda_frame_set_4[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_9B++;
 
         break;
@@ -152,7 +152,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
@@ -169,7 +169,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }

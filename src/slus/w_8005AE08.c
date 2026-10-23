@@ -1,22 +1,16 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 #include "slus.h"
 
 /* Sound driver "sequence slot" table; 8 entries, 12 bytes each. */
-typedef struct S_80086C00 {
-    s16 field_0;   /* 0x0: -1 == free slot */
-    s16 field_2;   /* 0x2: type/status */
-    s32 field_4;   /* 0x4: data pointer / word value */
-    u16 field_8;   /* 0x8 */
-    u16 field_A;   /* 0xA */
-} S_80086C00;
 
-extern S_80086C00 audio_sequence_slots[8];
+extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Registers a recognized sequence header in the first free slot, returning its index or -1 on failure. */
 s16 allocate_sequence_bank_slot(void *header, s32 sequence_id)
 {
     u32 magic = *(u32 *)header;
-    S_80086C00 *slot;
+    SoundSequenceSlot *slot;
     s32 slot_index;
     s32 free_id;
 
@@ -27,10 +21,10 @@ s16 allocate_sequence_bank_slot(void *header, s32 sequence_id)
     free_id = -1;
     slot = audio_sequence_slots;
     while (slot_index < 8) {
-        if (slot->field_0 == free_id) {
-            slot->field_4 = (s32)header;
-            slot->field_0 = sequence_id;
-            slot->field_2 = 2;
+        if (slot->sequence_id == free_id) {
+            slot->data_address = (s32)header;
+            slot->sequence_id = sequence_id;
+            slot->state = 2;
             return slot_index;
         }
         slot_index++;

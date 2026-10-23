@@ -40,8 +40,8 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
             ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
         }
 
-        x = actor->unk_24;
-        y = actor->unk_25;
+        x = actor->tile_x;
+        y = actor->tile_y;
         tile_mask = (move_data->flags1C & 0x2000) ? 0x300 : 0x3000;
         update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
@@ -53,16 +53,16 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
             (u8 *)motion + 0x98);
         x = (s16)check_movement_clearance_and_height(heading, actor, move_data, 0x20);
 
-        actor->unk_24 =
+        actor->tile_x =
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_74;
         tile_mask = 0x3000;
-        actor->unk_25 =
+        actor->tile_y =
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_7C;
         (*(u16 *)&move_data->unk_8A)++;
 
         {
-            s32 next_x = actor->unk_24;
-            s32 next_y = actor->unk_25;
+            s32 next_x = actor->tile_x;
+            s32 next_y = actor->tile_y;
 
             if (move_data->flags1C & 0x2000) {
                 tile_mask = 0x300;

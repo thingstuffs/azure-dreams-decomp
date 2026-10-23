@@ -27,14 +27,14 @@ s32 advance_town_scene_finish_early(s32 kind, void *param)
             void *ptr;
 
             func_8001A554(F_sbs32_pad31);
-            ptr = *(void **)((u8 *)(&D_80016000));
+            ptr = *(void **)((u8 *)(&town_scene_root));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D6B0;
         } else {
             void *ptr;
 
             func_8001A554(F_sbs32_pad31);
-            ptr = *(void **)((u8 *)(&D_80016000));
+            ptr = *(void **)((u8 *)(&town_scene_root));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
@@ -48,7 +48,7 @@ s32 advance_town_scene_finish_early(s32 kind, void *param)
         void *ptr;
         s32 first_arg;
 
-        ptr = *(void **)((u8 *)(&D_80016000));
+        ptr = *(void **)((u8 *)(&town_scene_root));
         ptr = *(void **)((s8 *)ptr + 0x20);
         first_arg = 0xF;
         ptr = *(void **)((s8 *)ptr + 0x2F8);

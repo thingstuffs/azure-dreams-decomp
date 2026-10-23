@@ -8,15 +8,15 @@
 /* Spell projectile work at object node +0x20; create_actor_spell_effect initializes its caster and context.
  * func_80024020 advances launch, travel, impact and cleanup phases. */
 typedef struct ProjectileState {
-    void *unk_00; /* caster actor work pointer, supplied by create_actor_spell_effect */
-    void *unk_04; /* launch/action context; leading flags bit 0x80 releases the projectile */
+    void *caster; /* caster actor work pointer, supplied by create_actor_spell_effect */
+    void *launch_context; /* launch/action context; leading flags bit 0x80 releases the projectile */
     u8 pad_08[1];
-    u8 unk_09; /* spell variant byte passed to apply_attack_power_and_element_effects */
-    union { s16 s; u16 u; } unk_0A; /* projectile phase: 0 await launch, 1 delay, 2 travel, 3 impact, 4 unlink, 5 cleanup */
-    union { s32 s; u16 u; } unk_0C; /* phase countdown in update ticks; also offsets the emitted particle trail */
-    s32 unk_10; /* child-activity flags; bit 0x8000 postpones cleanup for this update */
+    u8 spell_variant; /* spell variant byte passed to apply_attack_power_and_element_effects */
+    union { s16 s; u16 u; } phase; /* projectile phase: 0 await launch, 1 delay, 2 travel, 3 impact, 4 unlink, 5 cleanup */
+    union { s32 s; u16 u; } phase_ticks; /* phase countdown in update ticks; also offsets the emitted particle trail */
+    s32 child_flags; /* child-activity flags; bit 0x8000 postpones cleanup for this update */
     u8 pad_14[0x3C];
-    union { s16 s; u16 u; } unk_50; /* travel/cleanup countdown, decremented once per projectile update */
+    union { s16 s; u16 u; } travel_ticks; /* travel/cleanup countdown, decremented once per projectile update */
 } ProjectileState;
 
 /* Position and velocity part of pooled projectile/particle nodes, reserved by allocate_list_node.
@@ -25,18 +25,18 @@ typedef struct ProjectileMotion {
     union {
         s32 s; /* complete signed 16.16 X coordinate */
         struct { u8 pad_00[2]; s16 unk_02; /* signed integer X, divided by 64 for the tile column */ } h;
-    } unk_00; /* world X in signed 16.16 units */
+    } x; /* world X in signed 16.16 units */
     union {
         s32 s; /* complete signed 16.16 Y coordinate */
         struct { u8 pad_04[2]; s16 unk_06; /* signed integer Y, divided by 64 for the tile row */ } h;
-    } unk_04; /* world Y in signed 16.16 units */
+    } y; /* world Y in signed 16.16 units */
     union {
         s32 s; /* complete signed 16.16 height */
         struct { u8 pad_08[2]; u16 unk_0A; /* integer height bits, passed to terrain queries */ } h;
-    } unk_08; /* world height in 16.16 units */
-    s32 unk_0C; /* X increment per update, in 16.16 world units */
-    s32 unk_10; /* Y increment per update, in 16.16 world units */
-    s32 unk_14; /* height increment per update, in 16.16 world units */
+    } z; /* world height in 16.16 units */
+    s32 velocity_x; /* X increment per update, in 16.16 world units */
+    s32 velocity_y; /* Y increment per update, in 16.16 world units */
+    s32 velocity_z; /* height increment per update, in 16.16 world units */
 } ProjectileMotion;
 
 /* Sprite-part view shared by projectile and particle callbacks; allocate_list_node reserves the part.
@@ -80,9 +80,9 @@ typedef struct ProjectileActor {
  * Actor/effect constructors install the update callback at +0x10; work begins at node +0x20. */
 typedef struct ProjectileObject {
     u8 pad_00[8];
-    void *unk_08; /* position/motion part pointer, assigned by the node allocator */
-    void *unk_0C; /* sprite/frame part pointer, assigned by the node allocator */
-    void *unk_10; /* object update callback installed by the actor or effect constructor */
+    void *position; /* position/motion part pointer, assigned by the node allocator */
+    void *sprite; /* sprite/frame part pointer, assigned by the node allocator */
+    void *update_callback; /* object update callback installed by the actor or effect constructor */
 } ProjectileObject;
 
 /* Particle work at node +0x20, initialized by func_80024020 after allocate_list_node.

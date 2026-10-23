@@ -5,7 +5,7 @@
 typedef struct {
     s32 value[5];
 } TownFiveWords;
-extern TownFiveWords D_800894D0;
+extern TownFiveWords building_pair_indices;
 
 typedef struct S_800B8B00_0 {
     u8 pad_00[0x33A4];
@@ -32,7 +32,7 @@ void store_normalized_building_code(s32 code) {
     u8 *store_base;
 
     stored_code = code;
-    slot_ids = D_800894D0;
+    slot_ids = building_pair_indices;
     code_index = code - 1;
     switch (code_index) {
     case 0x5:

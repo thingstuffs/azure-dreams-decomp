@@ -105,7 +105,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         }
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, picket_frame_set_4) != 0) {
                 return;
             }
@@ -122,15 +122,15 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_801718DC(actor, context, sprite, entity);
             return;
         }
@@ -179,12 +179,12 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
             s16 facing_angle;
 
             facing_angle = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &distance);
             player = primary_actor_record;
             entity->facing = facing_angle;
-            if (player->unk_9A == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &D_80174F38, update_dungeon_actor_behavior_facing_animation_state);
                 return;
             }
@@ -217,10 +217,10 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
             if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }

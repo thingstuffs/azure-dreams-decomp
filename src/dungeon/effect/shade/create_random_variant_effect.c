@@ -20,7 +20,7 @@ s32 register_node();
 s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_80025AF0[];
+extern SpriteSourceEntry random_variant_sprite_entries[];
 
 typedef struct S_818C370C_0 {
     u8 pad_00[0x8];
@@ -58,7 +58,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &func_80024C48;
+        object->update_callback = &func_80024C48;
         ((S_818C370C_0 *)object)->unk_20 = owner;
         state->unk_0E = 0;
         state->unk_10 = 0;
@@ -74,7 +74,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         render_data->flags = render_data->flags | 0xC;
         render_data->tpage_abr = render_data->tpage_abr | 0x20;
         render_data->flags = render_data->flags | 0x100;
-        select_record_entry_and_value(render_data, &D_80025AF0, 0);
+        select_record_entry_and_value(render_data, &random_variant_sprite_entries, 0);
         angle_random = rand();
         render_data->angle_z = angle_random % 0x1000;
         scale = 0x1400 / (s16)state->unk_14;

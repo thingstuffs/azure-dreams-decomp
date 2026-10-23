@@ -5,7 +5,7 @@
 
 /* Set the scene position record: state word 1, x = 0x15, y = 8. */
 void set_scene_position_0x15_8(void) {
-    *(s32 *)D_80016000->unk_1C = 1;
-    ((TownPositionState *)D_80016000->unk_1C)->x = 0x15;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 8;
+    *(s32 *)town_scene_root->position = 1;
+    ((TownPositionState *)town_scene_root->position)->x = 0x15;
+    ((TownPositionState *)town_scene_root->position)->y = 8;
 }

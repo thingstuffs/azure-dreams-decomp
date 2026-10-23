@@ -142,7 +142,7 @@ s32 SetPolyFT4();
 s32 SetSemiTrans();
 s16 GetTPage();
 s16 GetClut();
-extern u8 D_80024004[24];
+extern u8 target_sprite_scale_pairs[24];
 void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual);
 void advance_effect_state_and_frame(void *effect);
 s32 render_linked_jittered_effect_strips(void *node_data);

@@ -28,13 +28,13 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80170A3C;
+        obj->update_callback = D_80170A3C;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
-        part_a = obj->unk_08;
-        part_a->unk_0A = saved_value;
-        part_b = obj->unk_0C;
+        part_a = obj->position;
+        part_a->z = saved_value;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
@@ -62,7 +62,7 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80170E68;
+        actor->unk_8C = &naplass_action_continuation_address;
         part_b->unk_14 |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

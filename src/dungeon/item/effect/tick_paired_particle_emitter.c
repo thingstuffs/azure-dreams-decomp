@@ -93,7 +93,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
     do {
         effect_item = allocate_flagged_object_node(0x202);
         if (effect_item != 0) {
-            effect_item->unk_10 = effect_def;
+            effect_item->update_callback = effect_def;
             effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
             register_node(effect_item, project_sprite_chain);
             effect_state->field12 = (random_values[0] & 0xF) + 0x10;

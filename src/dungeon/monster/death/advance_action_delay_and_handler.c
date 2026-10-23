@@ -90,7 +90,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, action_info->unk_24, action_info->unk_25);
+        set_record_integer_tile_center(motion, action_info->tile_x, action_info->tile_y);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {

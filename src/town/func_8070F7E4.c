@@ -7,5 +7,5 @@ extern u8 D_8001B0D8[];
 
 /* Run town service callback 0X218 with this module's record D_8001B0D8 (this TOWN module's copy of the town/func_8032D78C wrapper). */
 void run_scene_record_service_c(void) {
-    D_80016000->unk_20->callback_218(D_8001B0D8);
+    town_scene_root->services->callback_218(D_8001B0D8);
 }

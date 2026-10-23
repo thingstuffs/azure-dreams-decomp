@@ -77,7 +77,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
     object = allocate_list_node(pos_x, ((void *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_state = ((void *)object) + 0x20;
-        object->unk_10 = &func_80158A7C;
+        object->update_callback = &func_80158A7C;
         object_state->unk_13 = MONSTER_KILLER;
         register_node(object, project_sprite_chain);
         config_value = (s32) &D_8015C038;
@@ -85,10 +85,10 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
         base_data->unk_0A = saved_value;
         placement = object->sprite;
         mode_or_flags = init_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         extended_state = object_state;
         placement->frameTable = (void *) config_value;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (mode_or_flags == 1) {
             object_state->unk_14 = (s32) (object_state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
             object_state->unk_1C = (s32) (object_state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));

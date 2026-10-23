@@ -6,7 +6,7 @@ typedef struct {
 } TownPair;
 
 extern u16 D_80701DCE[];
-extern TownPair D_80701DFC[];
+extern TownPair devkit_shop_flag_links[];
 
 extern s32 test_flag_list_terminator(s32 index);
 extern void set_entry_bit_flag(s32 index, s32 value);
@@ -20,7 +20,7 @@ s32 advance_selected_flag_row(s32 index) {
     if (test_linked_flag(D_80701DCE[0]) == 0 &&
         test_linked_flag(0x1F9) != 0) {
         if (test_flag_list_terminator(index) != 0) {
-            set_linked_flag(D_80701DFC[index].field_0);
+            set_linked_flag(devkit_shop_flag_links[index].field_0);
             clear_linked_flag(0x1F9);
             return advance_clear_flag_row();
         }

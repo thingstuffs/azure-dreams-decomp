@@ -7,7 +7,7 @@ void install_object_handler_and_clear_slot_flag(void *object);
 
 /* Calls the object handler when either monitored status flag is set. */
 void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFlagsView *status) {
-    if (status->unk_14 & 0x6000) {
+    if (status->flags & 0x6000) {
         install_object_handler_and_clear_slot_flag(object);
     }
 }

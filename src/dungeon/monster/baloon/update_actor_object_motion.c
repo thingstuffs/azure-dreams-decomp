@@ -243,8 +243,8 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
     if (flags & 0x40000000) {
         ((S_80171964_2 *)base)->unk_1C.u = flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (part_arg->unk_24 << 6) | 0x20,
-            (part_arg->unk_25 << 6) | 0x20,
+            (part_arg->tile_x << 6) | 0x20,
+            (part_arg->tile_y << 6) | 0x20,
             (s16)(((S_80171964_2 *)base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(u16 *)((u8 *)object_arg + (0x92))) += ((S_80171964_2 *)base)->unk_88 - ground_height;

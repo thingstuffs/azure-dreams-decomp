@@ -430,7 +430,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                 if (((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE) {
                     if ((check_active_object_state_567() << 16) == 0) {
                         ActorRecord *player = primary_actor_record;
-                        if (player->unk_9A == 0x11) {
+                        if (player->action_id == 0x11) {
                             ActorRecord *player_target = player->target;
                             if (player_target != NULL) {
                                 if (!(player_target->flags14 & ACTOR_CLASS_ENABLED)) {
@@ -522,7 +522,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 25:
     roll_actor_flag_once(creature, 0x10);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -560,7 +560,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 44:
     roll_actor_flag_once(creature, 4);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -600,7 +600,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     case 43:
     roll_actor_flag_once(creature, 0x20);
     {
-        u16 ability_flags = ((ActorRecord *)creature)->unk_98;
+        u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
         if (!(ability_flags & 0x100)) {
             break;
         }
@@ -619,7 +619,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 34:
     roll_actor_flag_once(creature, 0x20);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -647,7 +647,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     case 41:
     roll_actor_flag_once(creature, 0x10);
     scan_index = 0;
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     do {
@@ -678,20 +678,20 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     case 40:
     roll_actor_flag_once(creature, 0x40);
     {
-        u16 ability_flags = ((ActorRecord *)creature)->unk_98;
+        u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
         if (ability_flags & 0x100) {
-            ((ActorRecord *)creature)->unk_98 = ability_flags | 0x8000;
+            ((ActorRecord *)creature)->action_state_flags = ability_flags | 0x8000;
             break;
         }
-        ((ActorRecord *)creature)->unk_98 = ability_flags & 0x7FFF;
+        ((ActorRecord *)creature)->action_state_flags = ability_flags & 0x7FFF;
         break;
     }
 
     case 26:
     roll_actor_flag_once(creature, 2);
     {
-        u16 ability_flags = ((ActorRecord *)creature)->unk_98;
-        ((ActorRecord *)creature)->unk_98 = ability_flags & 0x7FFF;
+        u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
+        ((ActorRecord *)creature)->action_state_flags = ability_flags & 0x7FFF;
         if (!(ability_flags & 0x100)) {
             break;
         }
@@ -707,12 +707,12 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((get_entity_effect_value(target, STATUS_SLEEP) << 16) != 0) {
         break;
     }
-    ((ActorRecord *)creature)->unk_98 |= 0x8000;
+    ((ActorRecord *)creature)->action_state_flags |= 0x8000;
     break;
 
     case 35:
     roll_actor_flag_once(creature, 4);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -729,7 +729,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 38:
     roll_actor_flag_once(creature, 2);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -750,8 +750,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     case 39:
     roll_actor_flag_once(creature, 0x10);
     {
-        u16 ability_flags = ((ActorRecord *)creature)->unk_98;
-        ((ActorRecord *)creature)->unk_98 = ability_flags & 0x7FFF;
+        u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
+        ((ActorRecord *)creature)->action_state_flags = ability_flags & 0x7FFF;
         if (!(ability_flags & 0x100)) {
             break;
         }
@@ -769,14 +769,14 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
     {
         ((ActorRecord *)creature)->action_flags = 0x8009;
-        ((ActorRecord *)creature)->unk_98 |= 0x8000;
+        ((ActorRecord *)creature)->action_state_flags |= 0x8000;
         return 5;
     }
 
     case 32:
     if (creature[0x49] == 0) {
         roll_actor_flag_once(creature, 2);
-        if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+        if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
             break;
         }
         STEPVEC(neighbor);
@@ -808,8 +808,8 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 36:
     {
-        u16 ability_flags = ((ActorRecord *)creature)->unk_98;
-        ((ActorRecord *)creature)->unk_98 = ability_flags & 0x7FFF;
+        u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
+        ((ActorRecord *)creature)->action_state_flags = ability_flags & 0x7FFF;
     }
     if (creature[0x49] != 0) {
         break;
@@ -821,7 +821,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     {
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
-        s32 ability_flags = ((ActorRecord *)creature)->unk_98;
+        s32 ability_flags = ((ActorRecord *)creature)->action_state_flags;
         s32 x_delta, y_distance, y_delta;
         (*(u16 *)&((ActorRecord *)creature)->facing) = action_result;
         ability_flags |= 0x8000;
@@ -831,7 +831,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         *(u16 *)(creature + 0xAA) = target_y;
         target_y <<= 16;
         target_y >>= 16;
-        ((ActorRecord *)creature)->unk_98 = ability_flags;
+        ((ActorRecord *)creature)->action_state_flags = ability_flags;
         x_delta = ((TileObject *)position)->tile_position.parts.tile_x;
         x_delta -= target_x;
         x_delta = abs(x_delta);
@@ -855,7 +855,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 37:
     roll_actor_flag_once(creature, 0x20);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     ((ActorRecord *)creature)->action_flags = 0x8009;
@@ -865,7 +865,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     if ((s16)get_tile_chebyshev_distance(position, ((u8 *)(&reference_tile_object))) >= 2) {
         if (creature[0xB5] == 0) {
             roll_actor_flag_once(creature, 8);
-            if (((ActorRecord *)creature)->unk_98 & 0x100) {
+            if (((ActorRecord *)creature)->action_state_flags & 0x100) {
                 ((ActorRecord *)creature)->action_flags = 0x800A;
                 return 6;
             }
@@ -889,7 +889,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 42:
     roll_actor_flag_once(creature, 4);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -959,7 +959,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     case 27:
     roll_actor_flag_once(creature, 4);
     scan_index = 0;
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     do {
@@ -1002,7 +1002,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 23:
     roll_actor_flag_once(creature, 0x10);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -1024,7 +1024,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         break;
     }
     roll_actor_flag_once(creature, 0x20);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     {
@@ -1057,7 +1057,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 29:
     roll_actor_flag_once(creature, 8);
-    if (!(((ActorRecord *)creature)->unk_98 & 0x100)) {
+    if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
     }
     STEPVEC(neighbor);

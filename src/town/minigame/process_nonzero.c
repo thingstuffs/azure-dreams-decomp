@@ -28,7 +28,7 @@ extern s32 loaded_town_resource_attributes[];
 extern s16 view_facing_angle_alias;
 extern u8 D_80083220[];
 
-extern u8 D_800D2398[];
+extern u8 minigame_motion_frames[];
 extern u8 town_minigame_directional_frames[];
 
 /* Updates entity state and selects direction-dependent table entries. */
@@ -56,7 +56,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
     case 1:
         initial_magnitude = loaded_town_resource_attributes[0];
         ((SpriteFrameState *)entity_data)->frameTable = town_minigame_directional_frames;
-        ((SpriteFrameState *)entity_data)->unk_28 = initial_magnitude;
+        ((SpriteFrameState *)entity_data)->animation_resource = initial_magnitude;
         select_sprite_entry(entity_data,
             town_minigame_directional_frames[((view_facing_angle_alias +
                 ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
@@ -65,9 +65,9 @@ void process_nonzero(void *object, void *output, void *entity_data)
         /* fallthrough */
     case 2:
         if (((MinigameBody *)state_base)->unk_08 == 2) {
-            (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
+            (*(void * *)((u8 *)entity_data + 0x2C)) = minigame_motion_frames;
             select_sprite_entry(entity_data,
-                D_800D2398[((*(s16 *)(D_80083220 + 8) +
+                minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
                     ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
@@ -90,7 +90,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
         magnitude = ((MinigameBody *)state_base)->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF < magnitude) {
-            direction_table = D_800D2398;
+            direction_table = minigame_motion_frames;
             (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
             select_sprite_entry(entity_data,
                 direction_table[((view_facing_angle_alias + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],

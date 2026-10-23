@@ -37,7 +37,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80171248[];
 extern s32 metal_action_resume_address;
-extern u8 D_801742C8[];
+extern u8 metal_frame_set_1[];
 extern u8 D_80174310[];
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -58,7 +58,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        object->unk_10 = D_80171248;
+        object->update_callback = D_80171248;
         ((S_80171080_1 *)result)->unk_13 = MONSTER_METAL;
         register_node(object, project_sprite_chain);
 
@@ -66,15 +66,15 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
             void *handler;
 
             part0 = object->position;
-            handler = D_801742C8;
+            handler = metal_frame_set_1;
             part0->unk_0A = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
-            part1->unk_25 = variant;
+            part1->tile_y = variant;
             result_copy = result;
             part1->frameTable = handler;
         }
-        part1->unk_24 = kind_id;
+        part1->tile_x = kind_id;
 
         if (kind == 1) {
             flags0 = ((ObjectNodeHeader *)result)->unk_14;

@@ -73,7 +73,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
         frames_left = ((S_80ADF3AC_0 *)action)->unk_9E.s;
         ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
         if (frames_left != 0) {
-            target_x = sprite->unk_24;
+            target_x = sprite->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -81,7 +81,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->unk_25 << 6) - pos_y) << 16) /
+                (((sprite->tile_y << 6) - pos_y) << 16) /
                 ((S_80ADF3AC_0 *)action)->unk_9E.s;
             ((S_80ADF3AC_0 *)action)->unk_A4 =
                 (-rsin(((S_80ADF3AC_0 *)action)->unk_9E.s * 0x199)) << 10;
@@ -105,7 +105,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = D_8015CE14;
             select_sprite_entry(
                 sprite,
@@ -132,7 +132,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
     shared_state = &g_dungeon_status;
@@ -147,8 +147,8 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24,
-                sprite->unk_25,
+                sprite->tile_x,
+                sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &target_distance);

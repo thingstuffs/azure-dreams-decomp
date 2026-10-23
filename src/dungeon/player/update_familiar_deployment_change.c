@@ -1,4 +1,6 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/object_links.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/actor/callback.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
@@ -57,7 +59,6 @@ typedef union ScratchS1 {
     void **base;
 } ScratchS1;
 
-
 typedef struct S_8009345C_0 {
     u8 pad_00[0x8C];
     ActorCallback action_callback; /* 0x8C */
@@ -67,10 +68,7 @@ typedef struct S_8009345C_0 {
     u8 phase; /* 0x9B */
 } S_8009345C_0;   /* actor in update_familiar_deployment_change */
 
-typedef struct S_8009345C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8009345C_1;   /* entity in update_familiar_deployment_change */
+   /* entity in update_familiar_deployment_change */
 
 typedef struct S_8009345C_2 {
     u8 pad_00[0x2A];
@@ -95,9 +93,7 @@ typedef struct S_8009345C_4 {
     union { u16 u; s16 s; } slot; /* 0x00 */   /* accessed as both */
 } S_8009345C_4;   /* &D_800DD262 in update_familiar_deployment_change */
 
-typedef struct S_8009345C_5_pre {
-    u16 unk_00;
-} S_8009345C_5_pre;   /* 0x2-byte header immediately before the payload. */
+   /* 0x2-byte header immediately before the payload. */
 
 typedef struct S_8009345C_7 {
     u8 unk_00;
@@ -192,7 +188,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
     state = ((S_8009345C_0 *)actor)->phase;
     switch (state) {
     case 0:
-        if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
+        if (!(((SpriteFrameState *)entity)->flags & 0x6000)) {
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = familiar_save_restore_frames;
@@ -200,9 +196,9 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             >> 9) & 7], 0, 1);
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
-        entity_flags = ((S_8009345C_1 *)entity)->unk_14;
+        entity_flags = ((SpriteFrameState *)entity)->flags;
         D_800DD260 = 0;
-        ((S_8009345C_1 *)entity)->unk_14 = (u16) (entity_flags | 0x200);
+        ((SpriteFrameState *)entity)->flags = (u16) (entity_flags | 0x200);
         ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
         selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
         slot_bits = ((S_8009345C_2 *)context)->unk_8A.u;
@@ -245,7 +241,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
         unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
         removed_object = ((S_8009345C_2 *)context)->unk_60;
-        ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00
+        ((ObjectStatusPrefix16 *)removed_object)[-1].flags = (u16) (((ObjectStatusPrefix16 *)removed_object)[-1].flags
             | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         if (selected_item_record_alias[0] == NULL) {
@@ -293,9 +289,9 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
                 ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-                ((S_8009345C_12 *)object_position)->unk_02 = (u16) map->unk_02;
-                ((S_8009345C_12 *)object_position)->unk_06 = (u16) map->unk_06;
-                ((S_8009345C_12 *)object_position)->unk_0A = (s16) (map->unk_0A - 0x10);
+                ((S_8009345C_12 *)object_position)->unk_02 = (u16) map->x;
+                ((S_8009345C_12 *)object_position)->unk_06 = (u16) map->y;
+                ((S_8009345C_12 *)object_position)->unk_0A = (s16) (map->z - 0x10);
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
@@ -340,14 +336,14 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         ((S_8009345C_0 *)actor)->phase++;
         return;
     case 8:
-        if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
+        if (!(((SpriteFrameState *)entity)->flags & 0x6000)) {
             return;
         }
         ((S_8009345C_0 *)actor)->action_callback = handle_player_input;
         process_unflagged_linked_entries_alt(((S_8009345C_2 *)context)->unk_5C);
         process_unflagged_linked_entries(((S_8009345C_2 *)context)->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
-        ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
+        ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags & 0xFDFF);
     case 6:
         ((S_8009345C_0 *)actor)->phase++;
         return;

@@ -69,7 +69,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         do {
             object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                object->unk_10 = object_type;
+                object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
                 sprite = *(u8 * *)&object->sprite;
                 motion = ((u8 *)object) + 0x20;
@@ -95,7 +95,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 sprite->color.word = 0x101010;
             }
             spawn_count--;
@@ -119,7 +119,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
             object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             motion = ((u8 *)object) + 0x20;
             if (object != 0) {
-                object->unk_10 = object_type;
+                object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
                 sprite = *(u8 * *)&object->sprite;
 
@@ -151,7 +151,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 sprite->color.word = 0x808080;
             }
             spawn_count--;

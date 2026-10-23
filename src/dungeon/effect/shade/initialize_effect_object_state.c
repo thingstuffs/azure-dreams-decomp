@@ -34,9 +34,9 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     render_config->tpage_abr = 0x20;
     render_config->flags = render_config->flags | 0xC;
     object_position = object->position;
-    object_position->unk_02 = position->unk_02.as_u16;
-    object_position->unk_06 = position->unk_06.as_u16;
-    object_position->unk_0A = position->unk_0A.as_u16;
+    object_position->x = position->unk_02.as_u16;
+    object_position->y = position->unk_06.as_u16;
+    object_position->z = position->unk_0A.as_u16;
     render_data = object->sprite;
     render_data->scale_y = 0x800;
     render_data->scale_x = 0x800;

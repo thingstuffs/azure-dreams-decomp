@@ -17,7 +17,7 @@ u8 advance_to_next_enabled_entry(void) {
     s32 next_index;
     u8 *entry_id;
 
-    start_index = ((s8)town_event_state->unk_02);
+    start_index = ((s8)town_event_state->entry_index);
     next_index = start_index + 1;
     if (next_index != start_index) {
         Entry *entries = town_selection_records;
@@ -36,6 +36,6 @@ u8 advance_to_next_enabled_entry(void) {
             entry_id++;
         } while (next_index != start_index);
     }
-    town_event_state->unk_02 = next_index;
+    town_event_state->entry_index = next_index;
     return D_80017BB0[next_index];
 }

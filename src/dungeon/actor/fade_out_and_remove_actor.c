@@ -22,7 +22,7 @@ extern void unlink_node(void *);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void detach_record_and_update_slot_state(void *);
-extern s32 D_800C6AEC;
+extern s32 actor_fade_draw_address;
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
 void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor)
@@ -44,7 +44,7 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
         unlink_node(actor);
         visual->clut -= 0x80;
         visual->flags |= 0xC;
-        register_node(actor, &D_800C6AEC);
+        register_node(actor, &actor_fade_draw_address);
         visual->color.c.code = 0;
         ((S_800ACBE4_0 *)actor_data)->unk_9B++;
         return;
@@ -68,8 +68,8 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
     }
     detach_record_and_update_slot_state(actor);
     actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;
-    effect_x = visual->unk_24;
-    effect_y = visual->unk_25;
+    effect_x = visual->tile_x;
+    effect_y = visual->tile_y;
     effect_size = 0x3000;
     if (actor_status & 0x2000) {
         effect_size = 0x300;

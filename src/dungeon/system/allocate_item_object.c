@@ -77,7 +77,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         ((S_80025198_1 *)state)->unk_18 = value_18;
         ((S_80025198_1 *)state)->unk_1C = (s32) ((S_80025198_2 *)descriptor_data)->unk_00;
         set_item_data_from_lookup(state, descriptor_data, setup_arg);
-        (object->unk_10) = 0;
+        (object->update_callback) = 0;
         if (runtime_dispatch_state.mode != 1) {
             clear_state_flag_bit();
         }

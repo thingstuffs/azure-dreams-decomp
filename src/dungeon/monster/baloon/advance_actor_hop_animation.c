@@ -78,12 +78,12 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
         ((S_801733B4_0 *)motion)->unk_90.at00.v -= ((S_801733B4_0 *)motion)->unk_A4;
         if (((S_801733B4_0 *)motion)->unk_AA.u != 0) {
             ((EntityRec *)position)->unk_0C =
-                (((sprite->unk_24 << 6) -
+                (((sprite->tile_x << 6) -
                   ({ ((EntityRec *)position)->x.w.i - 0x20; })) << 16) /
                 ((S_801733B4_0 *)motion)->unk_AA.u;
             y_offset = ((EntityRec *)position)->y.w.i - 0x20;
             ((EntityRec *)position)->unk_10 =
-                (((sprite->unk_25 << 6) - y_offset) << 16) /
+                (((sprite->tile_y << 6) - y_offset) << 16) /
                 ((S_801733B4_0 *)motion)->unk_AA.u;
             ((S_801733B4_0 *)motion)->unk_A4 =
                 (-rsin(((S_801733B4_0 *)motion)->unk_AA.u * 0x199)) << 10;
@@ -104,7 +104,7 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
             ((EntityRec *)position)->flags14 = 0;
             ((EntityRec *)position)->unk_10 = 0;
             ((EntityRec *)position)->unk_0C = 0;
-            set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = D_800E2370;
             select_sprite_entry(sprite,
                 D_800E2370[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -132,7 +132,7 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
         ((EntityRec *)position)->flags14 = 0;
         ((EntityRec *)position)->unk_10 = 0;
         ((EntityRec *)position)->unk_0C = 0;
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
@@ -147,7 +147,7 @@ void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState 
             if (!(actor_flags & 0x410)) {
                 if (actor_flags & 0x20000) {
                     ((S_801733B4_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
                 }
             }

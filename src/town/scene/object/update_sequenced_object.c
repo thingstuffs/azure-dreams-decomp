@@ -467,7 +467,7 @@ void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
         break;
     case 0x109:
         func_8023FB18(in0);
-        (*(u16 *)((u8 *)in0 + -2)) = (u16) (((ObjectStatusPrefix16 *)in0)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)in0 + -2)) = (u16) (((ObjectStatusPrefix16 *)in0)[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
         return;
     }

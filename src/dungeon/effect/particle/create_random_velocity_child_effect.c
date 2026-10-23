@@ -13,7 +13,7 @@
 void *allocate_list_node();
 s32 register_node();
 s32 rand();
-extern u8 D_80164BC4[];
+extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
 
 typedef struct S_80164ED0_0 {
@@ -39,14 +39,14 @@ void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        effect->unk_10 = D_80164DA4;
+        effect->update_callback = D_80164DA4;
         (effect->position)->x.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->unk_02 + offset_x);
+        (((MovingPosition *)((*(void * *)&parent->z)))->x + offset_x);
         (effect->position)->y.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y);
+        (((MovingPosition *)((*(void * *)&parent->z)))->y + offset_y);
         (effect->position)->z.w.i = (s16)
-        (((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z);
-        effect->sprite->unk_06 = 6;
+        (((MovingPosition *)((*(void * *)&parent->z)))->z + offset_z);
+        effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
         (effect->position)->velocity_y = (s32)
@@ -56,7 +56,7 @@ void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16
         (((rand() & 0x7FFF) - 0x4000) << 6);
         effect_data->unk_32 = pair_value;
         effect_data->unk_34 = pair_value;
-        register_node(effect, D_80164BC4);
+        register_node(effect, child_particle_draw_address);
         ((S_80164ED0_0 *)effect)->unk_20 = state_value;
         effect_data->unk_08 = state_value;
     }

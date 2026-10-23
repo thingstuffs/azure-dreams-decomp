@@ -1,13 +1,9 @@
 #include "common.h"
-
-typedef struct CallbackSlot {
-    s8 type;
-    s8 value;
-} CallbackSlot;
+#include "shared/actor_status.h"
 
 typedef struct CallbackObject {
     u8 pad_00[0x2C];
-    CallbackSlot slots[4];
+    ActorStatusSlot slots[4];
 } CallbackObject;
 
 #include "shared/sys_flags.h"
@@ -19,7 +15,7 @@ extern void set_or_clear_actor_status_slot(CallbackObject *object, s32 type, s32
 /* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */
 void replay_actor_status_slots(CallbackObject *object)
 {
-    CallbackSlot saved_slots[4];
+    ActorStatusSlot saved_slots[4];
     s32 initial_type = 0x1B;
     s32 slot_index;
     u8 *page = (u8 *)0x80010000;

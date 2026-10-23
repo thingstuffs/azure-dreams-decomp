@@ -1,0 +1,57 @@
+{
+  "module": "main_card_server",
+  "runtime_views": {
+    "D_80083E98": {
+      "symbol": "D_80083E98",
+      "kind": "runtime_data",
+      "vma": 2148023960,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_card_server.imports.json",
+      "declaration": "include/frontend/card.h"
+    },
+    "D_80084118": {
+      "symbol": "D_80084118",
+      "kind": "runtime_data",
+      "vma": 2148024600,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_card_server.imports.json",
+      "declaration": "include/frontend/card.h"
+    },
+    "D_80084130": {
+      "symbol": "D_80084130",
+      "kind": "runtime_data",
+      "vma": 2148024624,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_card_server.imports.json",
+      "declaration": "include/frontend/card.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80020000": "retail_string",
+    "D_80020028": "retail_string",
+    "D_80028550": "word_default",
+    "D_80028554": "word_default",
+    "D_80028558": "word_default",
+    "D_8002855C": "word_default",
+    "D_80028560": "word_default",
+    "D_80028564": "word_default",
+    "D_80028568": "word_default",
+    "D_8002856C": "word_default",
+    "D_800287C8": "word_default",
+    "D_800287D0": "word_default",
+    "D_800287D8": "word_default",
+    "D_80083E98": "word_default",
+    "D_80084118": "word_default",
+    "D_80084130": "word_default"
+  },
+  "address_only_anchors": {}
+}

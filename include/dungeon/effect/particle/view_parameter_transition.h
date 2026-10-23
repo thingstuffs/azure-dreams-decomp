@@ -155,7 +155,7 @@ typedef struct S_80024488_6 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_80024488_6;
-extern const u8 D_80024004[48];
+extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern const s16 D_80024038[8][2];
 extern s16 D_80025308;

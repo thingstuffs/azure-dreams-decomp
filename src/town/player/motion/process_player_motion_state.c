@@ -6,12 +6,12 @@
 
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 #include "town/player/initialize_record_with_handler_table_api.h"
-extern u8 D_800970FC[];
+extern u8 player_motion_draw_address[];
 
 
 /* Processes the object, clears its indexed flag, and invokes the next handler. */
 void process_player_motion_state(Rec_func_80094268_arg0 *object, s32 forwardedArg1, s32 forwardedArg2) {
-    register_node_if_unregistered(object, &D_800970FC);
+    register_node_if_unregistered(object, &player_motion_draw_address);
     object_index_slots[object->unk_40].unk_00 = 0;
     initialize_record_with_handler_table((Struct8009B1C8 *)(object), forwardedArg1, forwardedArg2);
 }

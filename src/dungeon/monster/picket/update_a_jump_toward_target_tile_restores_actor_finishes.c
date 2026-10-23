@@ -64,13 +64,13 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         ((S_80172540_0 *)jump_state)->unk_90 -= ((S_80172540_0 *)jump_state)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = map_entity->unk_24 << 6;
+                s32 target_x = map_entity->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = map_entity->unk_25 << 6;
+                s32 target_y = map_entity->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -92,7 +92,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
             map_entity->frameTable = picket_frame_set_5;
             select_sprite_entry(
                 map_entity,
@@ -108,7 +108,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+        set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
         {
@@ -127,7 +127,7 @@ void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, 
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    map_entity->unk_24, map_entity->unk_25,
+                    map_entity->tile_x, map_entity->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             }
         }

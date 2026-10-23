@@ -3,7 +3,7 @@
 
 
 /* Exact numeric span; owner-unresolved. */
-const u32 D_80170854[8] __attribute__((aligned(4))) = {
+const u32 blume_slot_g_direction_steps[8] __attribute__((aligned(4))) = {
     0x00000001,
     0x00020002,
     0x00010000,

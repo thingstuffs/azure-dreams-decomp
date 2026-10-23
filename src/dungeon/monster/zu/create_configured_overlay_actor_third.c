@@ -70,7 +70,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80164A70;
+        obj->update_callback = D_80164A70;
         ((S_80F93000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
@@ -78,10 +78,10 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
         part_a->z.w.i = saved_spawn;
         part_b = *(void ** *)&obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = work;
         part_b->frameTable = D_80168AD4;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             left = ((S_80F93000_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

@@ -452,9 +452,9 @@ void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_v
     if (object != NULL) {
         target_values = object->unk_08;
         object->unk_10 = tint_effect_and_advance_motion;
-        target_values->unk_02 = (u16) source_values->unk_02;
-        target_values->unk_06 = (u16) source_values->unk_06;
-        target_values->unk_0A = (u16) source_values->unk_0A;
+        target_values->x = (u16) source_values->x;
+        target_values->y = (u16) source_values->y;
+        target_values->z = (u16) source_values->z;
         object->unk_20 = object_value;
         spawn_ring_effects(target_values, setup_value);
     }
@@ -496,7 +496,7 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
 
    /* arg0 in create_radial_effect_node */
 
-extern u8 D_800DE938[];
+extern u8 spark_sprite_entries[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
 void *create_radial_effect_node(MovingPosition *source_coords)
@@ -509,17 +509,17 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 
     node = allocate_flagged_object_node(0x202);
     if (node != 0) {
-        node->unk_10 = advance_sprite_on_alternate_ticks_until_complete;
+        node->update_callback = advance_sprite_on_alternate_ticks_until_complete;
         register_node(node, (s32)project_sprite_chain);
         coords = node->position;
-        coords->unk_02 = source_coords->unk_02;
-        coords->unk_06 = source_coords->unk_06;
-        coords->unk_0A = source_coords->unk_0A;
+        coords->x = source_coords->x;
+        coords->y = source_coords->y;
+        coords->z = source_coords->z;
         part = node->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         part->color.word = 0x808080;
-        select_record_entry_and_value(part, D_800DE938, 0);
+        select_record_entry_and_value(part, spark_sprite_entries, 0);
         part->tpage_abr = 0x20;
         part->flags |= 0xC;
         effect_index = 0;
@@ -634,16 +634,16 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     do {
         effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
-            effect->unk_10 = callback;
+            effect->update_callback = callback;
             register_node(effect, (s32)draw_linked_sprites_clipped);
             angle = effect_index << 8;
             position = effect->position;
-            value = origin->unk_02 + (rcos(angle) >> 7);
+            value = origin->x + (rcos(angle) >> 7);
             position->x.w.i = value;
-            value = origin->unk_06 + (rsin(angle) >> 7);
+            value = origin->y + (rsin(angle) >> 7);
             position->y.w.i = value;
             position->z.w.i =
-                (s16)(origin->unk_0A - 0x100);
+                (s16)(origin->z - 0x100);
             component = effect->sprite;
             component->scale_x = 0x800;
             component->scale_y = 0x1CCC;
@@ -749,12 +749,12 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
-        object->unk_10 = move_and_fade_effect;
+        object->update_callback = move_and_fade_effect;
         register_node(object, (s32)draw_linked_sprites_clipped);
         position = object->position;
-        position->unk_02 = source_pos->unk_02;
-        position->unk_06 = source_pos->unk_06;
-        position->unk_0A = source_pos->unk_0A;
+        position->x = source_pos->x;
+        position->y = source_pos->y;
+        position->z = source_pos->z;
         render_state = object->sprite;
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
@@ -959,11 +959,11 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
     }
     for (;;) {
-        u16 coord = position->unk_02;
+        u16 coord = position->x;
         ((S_800252E0_1 *)scratch)->unk_00 = coord;
-        coord = position->unk_06;
+        coord = position->y;
         ((S_800252E0_1 *)scratch)->unk_02 = coord;
-        ((S_800252E0_1 *)scratch)->unk_04 = position->unk_0A;
+        ((S_800252E0_1 *)scratch)->unk_04 = position->z;
         packet = ((S_800252E0_1 *)scratch)->unk_18;
         ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
         ((S_800252E0_1 *)scratch)->unk_C0 = RotTransPers(
@@ -1041,7 +1041,7 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
     if (node != 0) {
         s32 mode_test;
 
-        node->unk_10 = update_spark_effect;
+        node->update_callback = update_spark_effect;
         register_node(node, (s32)queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
@@ -1050,17 +1050,17 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
             s32 value_0a;
 
             if (mode_test == 0) {
-                payload->unk_02 =
-                    (u16)((source->unk_02 + (rand() & 0x1F)) - 0x10);
-                payload->unk_06 =
-                    (u16)((source->unk_06 + (rand() & 0x1F)) - 0x10);
-                value_0a = source->unk_0A - 0x50;
+                payload->x =
+                    (u16)((source->x + (rand() & 0x1F)) - 0x10);
+                payload->y =
+                    (u16)((source->y + (rand() & 0x1F)) - 0x10);
+                value_0a = source->z - 0x50;
             } else {
-                payload->unk_02 = source->unk_02;
-                payload->unk_06 = source->unk_06;
-                value_0a = source->unk_0A;
+                payload->x = source->x;
+                payload->y = source->y;
+                value_0a = source->z;
             }
-            payload->unk_0A = value_0a;
+            payload->z = value_0a;
         }
         node->sprite->color.c.r = 0xF0;
         {
@@ -1138,7 +1138,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
-        object->unk_10 = fade_effect_color_below_eight;
+        object->update_callback = fade_effect_color_below_eight;
         register_node(object, (s32)process_linked_mesh_states_mode_0);
         transition = object->position;
         transition->x.w.i = (u16) endpoints->unk_02;

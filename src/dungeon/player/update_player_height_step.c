@@ -16,8 +16,8 @@ void process_unflagged_linked_entries();                         /* extern */
 void process_unflagged_linked_entries_alt();                         /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern u8 D_800DD040[];
-extern u8 D_800DD058[];
+extern u8 player_height_step_frames[];
+extern u8 player_landing_frame_set[];
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
 void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model) {
@@ -51,8 +51,8 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
             process_unflagged_linked_entries(model->unk_5C);
             g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
-            sprite->frameTable = D_800DD040;
-            set_sprite_animation_frame(sprite, D_800DD040[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
+            sprite->frameTable = player_height_step_frames;
+            set_sprite_animation_frame(sprite, player_height_step_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8
                 + 1);
             play_sound_if_enabled(0x50A);
@@ -70,13 +70,13 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
     case 9:
     case 11:
         if (g_dungeon_status.movement_frames_left != 0) {
-            motion_value = sprite->unk_24 << 6;
+            motion_value = sprite->tile_x << 6;
             coord_or_ticks = motion->x.w.i;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
             motion->velocity_x = motion_value / g_dungeon_status.movement_frames_left;
             coord_or_ticks = motion->y.w.i;
-            motion_value = sprite->unk_25;
+            motion_value = sprite->tile_y;
             coord_or_ticks -= 0x20;
             motion_value <<= 6;
             motion_value -= coord_or_ticks;
@@ -90,10 +90,10 @@ void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameS
             g_dungeon_status.movement_frames_left = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
-                sprite->frameTable = D_800DD058;
-                set_sprite_animation_frame(sprite, D_800DD058[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7],
+                sprite->frameTable = player_landing_frame_set;
+                set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7],
                     0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 =
                     (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);

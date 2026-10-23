@@ -33,7 +33,7 @@ s32 create_object_from_three_values(s32 *values)
     created_object = object;
     if (created_object != 0) {
         object_data = &D_800BBCA0;
-        object->unk_10 = object_data;
+        object->update_callback = object_data;
         ((ObjectPosition *)*(s32 * *)&object->position)->x.v = values[0];
         values_src = values;
         ((ObjectPosition *)*(s32 * *)&object->position)->y.v = values_src[1];

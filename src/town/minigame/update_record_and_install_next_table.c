@@ -44,7 +44,7 @@ void update_record_and_install_next_table(void *effect, S_80026748_1 *motion, S_
     transform->unk_1C = scale;
     if ((u32) (scale & 0xFFFF) < 0x201U) {
         render_state->unk_58 = (u16) (render_state->unk_58 & 0xFFFE);
-        effect_view[-1].unk_00 = (u16) (effect_view[-1].unk_00 | 0x8000);
+        effect_view[-1].flags = (u16) (effect_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

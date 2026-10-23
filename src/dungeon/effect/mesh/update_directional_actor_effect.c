@@ -280,9 +280,9 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
             position = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_08;
-            ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->unk_02;
-            ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->unk_06;
-            position_z = position->unk_0A;
+            ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->x;
+            ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->y;
+            position_z = position->z;
             ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z;
 
             if (!(((S_8199AAD4_1 *)source)->unk_14 & 0x8000)) {

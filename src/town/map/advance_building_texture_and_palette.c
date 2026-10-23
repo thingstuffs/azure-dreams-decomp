@@ -2,14 +2,14 @@
 
 extern u16 building_upload_rect[];
 extern u8 D_80110EC8[];
-extern u8 D_801110C8[];
-extern u8 D_801112C8[];
-extern u8 D_801114C8[];
-extern u8 D_801116C8[];
+extern u8 building_texture_frame_one[];
+extern u8 building_texture_frame_two[];
+extern u8 building_texture_frame_three[];
+extern u8 building_texture_backup[];
 extern u8 D_801118C8[];
 extern u8 D_80111AC8[];
 extern u8 D_80111CC8[];
-extern u8 D_80111EC8[];
+extern u8 building_palette_backup[];
 extern u8 D_80111EE8[];
 extern u8 D_80111F08[];
 extern u8 D_80111F28[];
@@ -49,7 +49,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        LoadImage(rect, D_801110C8, upload_arg);
+        LoadImage(rect, building_texture_frame_one, upload_arg);
         break;
 
     case 8:
@@ -59,7 +59,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        LoadImage(rect, D_801112C8, upload_arg);
+        LoadImage(rect, building_texture_frame_two, upload_arg);
         break;
 
     case 12:
@@ -69,7 +69,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        LoadImage(rect, D_801114C8, upload_arg);
+        LoadImage(rect, building_texture_frame_three, upload_arg);
         break;
 
     default:
@@ -84,7 +84,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         ((s16 *)rect)[1] = 0x80;
         ((s16 *)rect)[2] = 8;
         rect[3] = 0x20;
-        LoadImage(rect, D_801116C8);
+        LoadImage(rect, building_texture_backup);
         break;
 
     case 4:
@@ -133,7 +133,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
-        LoadImage(rect, D_80111EC8);
+        LoadImage(rect, building_palette_backup);
         return;
 
     case 2:

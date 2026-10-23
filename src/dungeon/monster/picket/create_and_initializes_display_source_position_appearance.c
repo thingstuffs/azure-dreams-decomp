@@ -81,10 +81,10 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
         (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
-        transform = ((ProjectileObject *)object)->unk_08;
+        transform = ((ProjectileObject *)object)->position;
         data_base_2 = source;
         coord_value = ((S_80174D48_1 *)data_base_2)->unk_00;
-        sprite = ((ProjectileObject *)object)->unk_0C;
+        sprite = ((ProjectileObject *)object)->sprite;
         transform->unk_00 = coord_value;
         transform->unk_04 = ((S_80174D48_1 *)data_base_2)->unk_04;
         coord_z = ((S_80174D48_1 *)data_base_2)->unk_08;
@@ -116,6 +116,6 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
         create_tracked_effect(active_object, zero, zero, zero);
-        ((ProjectileObject *)object)->unk_10 = D_80174978;
+        ((ProjectileObject *)object)->update_callback = D_80174978;
     }
 }

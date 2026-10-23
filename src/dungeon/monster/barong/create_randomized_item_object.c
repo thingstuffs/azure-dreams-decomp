@@ -100,7 +100,7 @@ extern s32 select_random_replacement_item(DungeonArg *selection, u8 *context);
 extern DungeonGroup item_category_groups[];
 extern s32 item_display_icon_words[256];
 extern s32 D_801747F0;
-extern DirectionVector D_801755E0[];
+extern DirectionVector barong_direction_vectors[];
 
 /* Creates a dungeon entity with the supplied position, direction, and object data. */
 void create_randomized_item_object(void *owner, SourcePosition *source_pos, void *unused,
@@ -137,8 +137,8 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     position->y.w.i = source_pos->y;
     position->z.w.i = source_pos->z - 0x20;
 
-    work->x = D_801755E0[(object->mode >> 9) & 7].x << 18;
-    work->y = D_801755E0[(object->mode >> 9) & 7].y << 18;
+    work->x = barong_direction_vectors[(object->mode >> 9) & 7].x << 18;
+    work->y = barong_direction_vectors[(object->mode >> 9) & 7].y << 18;
     work->z = 0xFFF80000;
     work->scale = 0x14900;
     work->mode = (object->mode >> 9) & 7;
@@ -146,7 +146,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     render = entity->render;
     render->scale_y = 0x1000;
     render->scale_x = 0x1000;
-    render->unk_06 = D_801755E0[(object->mode >> 9) & 7].y * 6;
+    render->depth_bias = barong_direction_vectors[(object->mode >> 9) & 7].y * 6;
 
     *(u16 *)((u8 *)owner + 0xA2) = 0x4D;
     work->x_cell = (s16)source_pos->x / 0x40;

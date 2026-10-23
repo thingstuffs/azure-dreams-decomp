@@ -58,7 +58,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 3:
         object_index = 0x1C;
         do {
-            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->aux;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);
@@ -72,7 +72,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 7:
         object_index = 0x1C;
         do {
-            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->aux;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);

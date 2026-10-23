@@ -14,7 +14,7 @@ extern void register_node();
 extern s32 rand(void);
 extern u8 D_80025764[12];
 extern u8 D_8002822C[12];
-extern u8 D_800C95C0[12];
+extern u8 ring_spark_draw_address[12];
 /* Spawn two pairs of effects at random offsets around the source. */
 void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_param)
 {
@@ -26,7 +26,7 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
     do {
         effect = allocate_list_node(0x212, source);
         if (effect != 0) {
-            effect->unk_10 = D_80025764;
+            effect->update_callback = D_80025764;
             register_node(effect, project_sprite_chain);
             effect_data = ((u8 *) effect) + 0x20;
             *((s16 *) (((u8 *) (effect->position)) + 2)) =
@@ -40,7 +40,7 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             render_data->scale_y = 0x1000;
             render_data->scale_x = 0x1000;
             render_data->color.word = render_param;
-            render_data->unk_06 = 8;
+            render_data->depth_bias = 8;
             *((s16 *) (((u8 *) effect_data) + 0x36)) = effect_param;
             *((s16 *) (((u8 *) effect_data) + 0x30)) = (rand() & 0xFF) | 0x80;
         }
@@ -51,8 +51,8 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
     do {
         effect = allocate_list_node(0x212, source);
         if (effect != 0) {
-            effect->unk_10 = D_80025764;
-            register_node(effect, D_800C95C0);
+            effect->update_callback = D_80025764;
+            register_node(effect, ring_spark_draw_address);
             effect_data = ((u8 *) effect) + 0x20;
             *((s16 *) (((u8 *) (effect->position)) + 2)) =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;

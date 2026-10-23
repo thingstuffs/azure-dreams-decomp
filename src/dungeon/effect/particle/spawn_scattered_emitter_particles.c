@@ -66,11 +66,11 @@ void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, 
     void *particle_render;
 
     parent = ((S_7FFE9150_0 *)emitter)->unk_24;
-    position->x.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_02
+    position->x.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->x
         + ((S_7FFE9150_0 *)emitter)->unk_3C);
-    position->y.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_06
+    position->y.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->y
         + ((S_7FFE9150_0 *)emitter)->unk_3E);
-    position->z.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_0A
+    position->z.w.i = (s16)(((MovingPosition *)(((S_7FFE9150_2 *)parent)->unk_08))->z
         + ((S_7FFE9150_0 *)emitter)->unk_40);
     age = ((S_7FFE9150_0 *)emitter)->unk_16 + 1;
     ((S_7FFE9150_0 *)emitter)->unk_16 = age;

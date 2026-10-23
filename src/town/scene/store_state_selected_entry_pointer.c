@@ -20,6 +20,6 @@ s32 store_state_selected_entry_pointer(S_8001CF9C_0 *table, s32 entry_index) {
 
     state_pointers[0] = &D_8001F0D8;
     state_pointers[1] = &D_8001F18C;
-    ((TownEventEntryValueView *)(((entry_index * 0x10) + table->unk_10)))->unk_08 = state_pointers[town_event_state->dispatchState];
+    ((TownEventEntryValueView *)(((entry_index * 0x10) + table->unk_10)))->value = state_pointers[town_event_state->dispatchState];
     return 0;
 }

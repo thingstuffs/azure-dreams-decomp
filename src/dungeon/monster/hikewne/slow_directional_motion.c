@@ -20,7 +20,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 hikewne_action_resume_address;
-extern u8 D_80174148;
+extern u8 hikewne_motion_frame_set;
 
 /* Slows directional motion, then recenters the entity on its tile. */
 void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion, Rec_D_80082E80 *tile_state, void *entity)
@@ -47,7 +47,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile_state, &D_80174148);
+            begin_actor_display_action(motion_state, motion, tile_state, &hikewne_motion_frame_set);
             return;
         }
         if (((SpriteFrameState *)tile_state)->flags & 0x8000) {
@@ -87,7 +87,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile_state, &D_80174148);
+            begin_actor_display_action(motion_state, motion, tile_state, &hikewne_motion_frame_set);
             return;
         }
         motion_state->unk_96.s = 8;
@@ -100,14 +100,14 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             s32 tile_coord;
             s32 offset_coord;
 
-            tile_coord = ((SpriteFrameState *)tile_state)->unk_24 << 6;
+            tile_coord = ((SpriteFrameState *)tile_state)->tile_x << 6;
             offset_coord = motion->x.w.i;
             offset_coord -= 0x20;
             motion->velocity_x = ((tile_coord - offset_coord) << 15) / timer;
 
             offset_coord = motion->y.w.i;
             offset_coord -= 0x20;
-            tile_coord = ((SpriteFrameState *)tile_state)->unk_25 << 6;
+            tile_coord = ((SpriteFrameState *)tile_state)->tile_y << 6;
             motion->velocity_y =
                 ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
         }
@@ -121,8 +121,8 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)tile_state)->unk_24,
-            ((SpriteFrameState *)tile_state)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)tile_state)->tile_x,
+            ((SpriteFrameState *)tile_state)->tile_y);
         {
 
             x_speed_or_entity = ((s32)g_dungeon_status.pending_display_owner);

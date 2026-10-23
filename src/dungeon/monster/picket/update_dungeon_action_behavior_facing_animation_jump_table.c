@@ -3,7 +3,7 @@
 extern void update_dungeon_action_behavior_facing_animation_state(void);
 
 /* jump_table; owner: dungeon/func_80EA38F4. */
-const u32 D_80158808[12] __attribute__((aligned(4))) = {
+const u32 picket_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_dungeon_action_behavior_facing_animation_state + 0x410),
     (u32)((u8 *)update_dungeon_action_behavior_facing_animation_state + 0x410),
     (u32)((u8 *)update_dungeon_action_behavior_facing_animation_state + 0x410),

@@ -42,11 +42,11 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
 
     obj = (Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = &D_80165580;
+        obj->update_callback = &D_80165580;
         register_node(obj, project_sprite_chain);
         sprite = *(Sprite * *)&obj->sprite;
         sprite->tpage_abr = 0x20;
-        sprite->unk_06 = 6;
+        sprite->depth_bias = 6;
         sprite->flags |= 0xC;
         {
             ObjectPosition *position;

@@ -15,7 +15,7 @@ typedef struct Obj {
     SlotA **unk0xA8;
 } Obj;
 
-extern u8 D_80078CDC[];
+extern u8 item_menu_slot_handler_address[];
 
 extern void func_800B3558(void *ptr);
 extern void position_decimal_digit_parts(void *ptr);
@@ -32,7 +32,7 @@ void initialize_four_slot_object_variant(Obj *object) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {
-        obj->unk0xA8[slot_index]->unk00 = D_80078CDC;
+        obj->unk0xA8[slot_index]->unk00 = item_menu_slot_handler_address;
         obj->unk0xA8[slot_index]->unk04->unk08 = slot_index << 7;
     }
 

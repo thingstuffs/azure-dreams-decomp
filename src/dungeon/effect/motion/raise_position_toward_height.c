@@ -18,7 +18,7 @@
 #include "dungeon/player/object.h"
 
 void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
-const u8 D_80024004[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
+const u8 level_not_decreased_suffix[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
 const Rect D_80024038 = {832,256,96,88};
 const Rect D_80024040 = {832,256,2,2};
 
@@ -26,7 +26,7 @@ extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
 extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
 extern void adjust_source_value_and_finalize(void *context, void *source);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern const u8 D_80024004[];
+extern const u8 level_not_decreased_suffix[];
 
 /* Runs action 0x53 on the target after state and threshold checks. */
 extern u32 RotTransPers(void *, void *, void *, void *);
@@ -71,7 +71,7 @@ void try_lower_actor_level(void *target, s32 threshold_arg, void *owner_context)
         }
     }
 
-    adjust_source_value_and_finalize(target, D_80024004);
+    adjust_source_value_and_finalize(target, level_not_decreased_suffix);
     create_actor_value_popup(0x53, target, -1, 1);
 }
 
@@ -228,7 +228,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)handle_raise_position_toward_queried_height_set_flags_countdown_expires;
+        spawned->update_callback = (void *)handle_raise_position_toward_queried_height_set_flags_countdown_expires;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -933,7 +933,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 register_node(child_object, (s32)project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->tpage_abr = 32;
-                sprite->unk_06 = 6;
+                sprite->depth_bias = 6;
                 sprite->flags |= 0xC;
                 child_pos = motion_or_child->unk_8.ptr;
                 ((S_func_8190B2D0_7 *)child_data)->unk_A = 0;

@@ -72,8 +72,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case STATUS_NO_TILE_OCCUPANCY - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((MovingTile *)position)->unk_24;
-        tile_y = ((MovingTile *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->tile_x;
+        tile_y = ((MovingTile *)position)->tile_y;
         clear_mask = 0x3000;
         if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             clear_mask = 0x300;
@@ -82,8 +82,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case STATUS_PLAYER_SIDE - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((MovingTile *)position)->unk_24;
-        tile_y = ((MovingTile *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->tile_x;
+        tile_y = ((MovingTile *)position)->tile_y;
         enable_clear_mask = 0x3000;
         if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             enable_clear_mask = 0x300;
@@ -91,8 +91,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
         updated_flags = ((ActorRecord *)object)->flags1C | ACTOR_PLAYER_SIDE;
         ((ActorRecord *)object)->flags1C = updated_flags;
-        tile_x = ((MovingTile *)position)->unk_24;
-        tile_y = ((MovingTile *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->tile_x;
+        tile_y = ((MovingTile *)position)->tile_y;
         set_mask = 0x3000;
         if (updated_flags & ACTOR_PLAYER_SIDE) {
             set_mask = 0x300;
@@ -101,16 +101,16 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case STATUS_BRAINWASH - 1:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((MovingTile *)position)->unk_24;
-        tile_y = ((MovingTile *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->tile_x;
+        tile_y = ((MovingTile *)position)->tile_y;
         disable_clear_mask = 0x3000;
         if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             disable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
         ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C & ~ACTOR_PLAYER_SIDE);
-        tile_x = ((MovingTile *)position)->unk_24;
-        tile_y = ((MovingTile *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->tile_x;
+        tile_y = ((MovingTile *)position)->tile_y;
         set_mask = 0x3000;
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;

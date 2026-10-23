@@ -54,7 +54,7 @@ extern void func_80164BA4(void *);
 
 extern u8 beldo_large_action_resume_address[];
 extern u8 beldo_large_frame_set_3[];
-extern u8 D_80173A40[];
+extern u8 beldo_large_frame_set_11[];
 extern u8 D_80175392[];
 extern u8 D_80175DC0;
 extern u8 encounter_recovery_flag;
@@ -93,9 +93,9 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         if (encounter_recovery_flag == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            (actor->frameTable) = D_80173A40;
+            (actor->frameTable) = beldo_large_frame_set_11;
             select_sprite_entry(actor,
-                D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                beldo_large_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         } else {
             if (D_80175DC0 == 0) {
@@ -104,9 +104,9 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-            (actor->frameTable) = D_80173A40;
+            (actor->frameTable) = beldo_large_frame_set_11;
             select_sprite_entry(actor,
-                D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                beldo_large_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         return;

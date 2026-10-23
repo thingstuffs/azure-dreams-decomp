@@ -52,24 +52,24 @@ void update_oriented_offset_effect_position(void *state, MovingPosition *positio
     if (resolve_record_orientation_or_fallback(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
         base_position = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_08;
         if (((S_800B328C_0 *)state)->unk_8C != 0) {
-            old_x = (s16) position->unk_02;
-            old_y = (s16) position->unk_06;
-            old_z_shifted = position->unk_0A << 0x10;
-            new_x = base_position->unk_02 + offset[0];
-            position->unk_02 = new_x;
+            old_x = (s16) position->x;
+            old_y = (s16) position->y;
+            old_z_shifted = position->z << 0x10;
+            new_x = base_position->x + offset[0];
+            position->x = new_x;
             new_position[0] = new_x;
-            new_y = base_position->unk_06 + offset[1];
-            position->unk_06 = new_y;
+            new_y = base_position->y + offset[1];
+            position->y = new_y;
             new_position[1] = new_y;
-            new_z = base_position->unk_0A + offset[2];
-            position->unk_0A = new_z;
+            new_z = base_position->z + offset[2];
+            position->z = new_z;
             new_position[2] = new_z;
             create_attenuating_moving_effect(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
                 ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
         } else {
-            position->unk_02 = (u16) (base_position->unk_02 + offset[0]);
-            position->unk_06 = (u16) (base_position->unk_06 + offset[1]);
-            position->unk_0A = (u16) (base_position->unk_0A + offset[2]);
+            position->x = (u16) (base_position->x + offset[0]);
+            position->y = (u16) (base_position->y + offset[1]);
+            position->z = (u16) (base_position->z + offset[2]);
             ((S_800B328C_0 *)state)->unk_8C = 1;
         }
     } else if (((S_800B328C_0 *)state)->unk_8C != 0) {

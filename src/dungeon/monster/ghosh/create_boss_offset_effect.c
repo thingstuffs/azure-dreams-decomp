@@ -25,7 +25,7 @@ void create_boss_offset_effect(void) {
         effect_state = ((u8 *)effect) + 0x20;
         *(s16 *)(effect_state + 0x16) = 0x1E;
         *(s16 *)(effect_state + 0x18) = 0x1E;
-        effect->unk_10 = &D_801723D0;
+        effect->update_callback = &D_801723D0;
         register_node(effect, project_sprite_chain);
         sprite = *(u8 * *)&effect->sprite;
         *(s16 *)(sprite + 0x10) = 0x20;

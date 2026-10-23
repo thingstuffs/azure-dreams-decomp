@@ -267,7 +267,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             ((S_80174704_0 *)action)->unk_96.u = 0x10;
             ((S_80174704_0 *)action)->unk_9B++;
             decrement_monster_entry_count(((S_80174704_1 *)actor)->unk_13, 3);
-            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
             object = (u8 *)actor - 0x20;
             ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
@@ -283,7 +283,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
         ((S_80174704_0 *)action)->unk_9B++;
         decrement_monster_entry_count(((S_80174704_1 *)actor)->unk_13, 3);
-        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
         object = (u8 *)actor - 0x20;
         ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;

@@ -69,12 +69,12 @@ s32 register_node();
 /* extern */
 extern void D_800BC6CC();
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_800F15E4[];
+extern SpriteSourceEntry town_directional_sprite_entries[];
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 /* extern */
 extern void D_800BC764();
-extern M2C_UNK D_800D20CC;
+extern M2C_UNK town_map_motion_defaults;
 extern s32 D_800D20E4;
 
 extern void advance_sprite_animation_and_textures(void *);

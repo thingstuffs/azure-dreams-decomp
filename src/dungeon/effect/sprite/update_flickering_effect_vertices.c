@@ -48,7 +48,7 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     u16 duration;
     state_obj = state;
     source = source_data;
-    actor = state_obj->unk_00;
+    actor = state_obj->caster;
     owner = (void *) ((u8 *) actor - 0x20);
     header_raw = actor->unk_2A;
     coord_x = header_raw >> 8;
@@ -56,20 +56,20 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     actor_data = ((TrailObject *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)((u8 *)dir_step_x + dir_offset);
     step_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
-    if (state_obj->unk_0A == 1) {
-        motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
-        motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-        coord_x = (s16)sample_terrain_surface_height(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
+    if (state_obj->phase == 1) {
+        motion->x.unk_00 = (s32) (motion->x.unk_00 + motion->velocity_x);
+        motion->y.unk_04 = (s32) (motion->y.unk_04 + motion->velocity_y);
+        coord_x = (s16)sample_terrain_surface_height(motion->x.unk_02.unk_02, motion->y.unk_06.unk_06,
             (s16) (((TrailHeightView *) owner->unk_08)->unk_0A - 0x30));
         if (coord_x < 0x200) {
-            motion->unk_0A = coord_x;
+            motion->z = coord_x;
         }
     }
-    phase = state_obj->unk_0A;
-    state_obj->unk_50 = (u16) (state_obj->unk_50 - 1);
+    phase = state_obj->phase;
+    state_obj->phase_ticks = (u16) (state_obj->phase_ticks - 1);
     switch (phase) {
     case 0:
-    if (!(*state_obj->unk_04 & 0x80)) {
+    if (!(*state_obj->launch_flags & 0x80)) {
         return;
     }
     {
@@ -138,13 +138,13 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     if (distance_or_script < abs_y) {
         distance_or_script = abs_y;
     }
-    state_obj->unk_50 = (u16) (distance_or_script * 0xC);
-    motion->unk_00.unk_00 = (s32) (((actor_data->unk_24 << 6) + 0x20) << 0x10);
-    motion->unk_04.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
-    motion->unk_0C = (s32) ((step_x << 0x16) / 12);
-    motion->unk_10 = (s32) ((step_y << 0x16) / 12);
+    state_obj->phase_ticks = (u16) (distance_or_script * 0xC);
+    motion->x.unk_00 = (s32) (((actor_data->unk_24 << 6) + 0x20) << 0x10);
+    motion->y.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
+    motion->velocity_x = (s32) ((step_x << 0x16) / 12);
+    motion->velocity_y = (s32) ((step_y << 0x16) / 12);
     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
+    state_obj->phase = (s16) ((u16) state_obj->phase + 1);
     return;
 
     case 1:
@@ -161,58 +161,58 @@ next_effect:
     if (effect != 0) {
         effect->unk_10 = distance_or_script;
         register_node(effect, draw_jittered_triangle_trails);
-        duration = state_obj->unk_50;
+        duration = state_obj->phase_ticks;
         effect_data = (TrailParticleData *) ((u8 *) effect + 0x20);
         effect_data->unk_54 = coord_y;
         effect_data->unk_52 = duration;
         effect_data->unk_4C = (s16) (rand() & 0xFFF);
         effect_data->unk_4E = (u16) motion->unk_14;
-        effect_data->unk_04 = (s32) motion->unk_00.unk_00;
-        effect_data->unk_08 = (s32) motion->unk_04.unk_04;
+        effect_data->unk_04 = (s32) motion->x.unk_00;
+        effect_data->unk_08 = (s32) motion->y.unk_04;
         effect_data->unk_0C = 0;
-        velocity_x = motion->unk_0C;
+        velocity_x = motion->velocity_x;
         effect_data->unk_1C = velocity_x;
         effect_data->unk_10 = velocity_x;
-        velocity_y = motion->unk_10;
+        velocity_y = motion->velocity_y;
         effect_data->unk_24 = 0xFFFD0000;
         effect_data->unk_18 = 0xFFFD0000;
         effect_data->unk_20 = velocity_y;
         effect_data->unk_14 = velocity_y;
-        effect_data->unk_50 = (u16) motion->unk_0A;
+        effect_data->unk_50 = (u16) motion->z;
         effect->unk_20 = state_obj;
-        effect_data->unk_56 = (s16) ((u16) state_obj->unk_0A - 1);
+        effect_data->unk_56 = (s16) ((u16) state_obj->phase - 1);
     }
     coord_x -= 1;
     if (coord_x >= 0) {
         goto next_effect;
     }
-    if ((s16) state_obj->unk_50 > 0) {
+    if ((s16) state_obj->phase_ticks > 0) {
         return;
     }
-    state_obj->unk_50 = 5U;
-    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
+    state_obj->phase_ticks = 5U;
+    state_obj->phase = (s16) ((u16) state_obj->phase + 1);
     if (actor->unk_60 != 0) {
         return;
     }
 start_hit:
-    state_obj->unk_0A = 3;
+    state_obj->phase = 3;
     return;
     case 3:
     if (actor->unk_60 != 0) {
-        apply_attack_power_and_element_effects(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
+        apply_attack_power_and_element_effects(actor->unk_60, 0x10, state_obj->spell_variant, 4, (s32) (s16) actor->unk_2A, actor, 2);
     }
-    state_obj->unk_50 = 0x10U;
-    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
+    state_obj->phase_ticks = 0x10U;
+    state_obj->phase = (s16) ((u16) state_obj->phase + 1);
     return;
     case 4:
-    if ((s16) state_obj->unk_50 > 0) {
+    if ((s16) state_obj->phase_ticks > 0) {
         return;
     }
-    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
+    state_obj->phase = (s16) ((u16) state_obj->phase + 1);
     return;
     case 5:
-    if (state_obj->unk_52 & 0x8000) {
-        state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
+    if (state_obj->child_flags & 0x8000) {
+        state_obj->child_flags = (s16) ((u16) state_obj->child_flags & 0x7FFF);
         return;
     }
     g_dungeon_status.active_actor = 0;

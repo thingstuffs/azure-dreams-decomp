@@ -132,7 +132,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
                         s32 dy;
 
                         dx = (s32)scan_actor_along_heading(
-                            actor, sprite->unk_24, sprite->unk_25,
+                            actor, sprite->tile_x, sprite->tile_y,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                         (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                         dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -162,7 +162,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -205,7 +205,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (*(u8 * *)&sprite->frameTable != nyuel_frame_set_2) {
             u8 *direction_frames;
             s32 direction;

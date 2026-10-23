@@ -38,11 +38,11 @@ struct S_80045340_Entry;
 extern s32 register_node(struct RegistrationNode *, s32 registration_id);
 extern s32 func_8004491C(struct RegistrationNode *, s32 registration_id);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
-extern u8 D_80020014[], D_80024420[];
+extern u8 D_80020014[], minigame_source_bounds[];
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
 extern s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32);
 extern void update_bouncing_pickup(void *, void *, SpriteFrameState *);
-extern s32 D_8002445C[];
+extern s32 minigame_pickup_sprite_sources[];
 
 
 #endif

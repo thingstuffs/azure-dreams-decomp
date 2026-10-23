@@ -11,7 +11,7 @@ extern u8 D_80026484[];
 extern u8 D_80026490[];
 extern u8 row_quad_top_color[];
 extern u8 row_quad_bottom_color[];
-extern u8 D_800269C8[];
+extern u8 particle_target_height[];
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);

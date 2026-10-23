@@ -46,7 +46,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type) {
     }
     node = (ObjectNodeHeader *)entity - 1;
     tile = node->sprite;
-    spawn_randomized_particle_burst((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
+    spawn_randomized_particle_burst((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20,
         entity->ground_height, 0x802080, 0x20, 1);
     /*
      * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when

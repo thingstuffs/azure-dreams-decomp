@@ -22,8 +22,8 @@ void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
     s16 *entry;
 
     state0 = town_event_state;
-    if (state0->unk_06 == 0) {
-        state0->unk_06 = 1;
+    if (state0->response_latch == 0) {
+        state0->response_latch = 1;
         table = D_80018094;
     } else {
         table = D_800180B4;
@@ -33,15 +33,15 @@ void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
         TownEventState *state1;
 
         state1 = town_event_state;
-        if (state1->unk_04 == 4) {
-            if (D_80016000->unk_20->callback_2D4(0, table) == 2) {
+        if (state1->selected_entry == 4) {
+            if (town_scene_root->services->callback_2D4(0, table) == 2) {
                 if (count_enabled_town_entries() >= 3) {
                     return D_80020F85;
                 }
             }
             return D_80020FC7;
         }
-        return table[state1->unk_04];
+        return table[state1->selected_entry];
     }
 
     for (index = 0; D_80018074[index] != 0; index += 2) {

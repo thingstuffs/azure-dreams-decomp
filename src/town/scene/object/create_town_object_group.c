@@ -71,7 +71,7 @@ extern void func_8006E590();
 extern void func_8006E8B8();
 extern void func_8023FA58();
 
-extern u8 D_8003D588[];
+extern u8 town_hud_object_template[];
 extern u8 D_8052643C[];
 extern Copy8 D_80526440[];
 extern u8 D_80529AC4[];
@@ -113,7 +113,7 @@ void create_town_object_group(void)
         void *setup_table;
         s32 color;
 
-        func_8003BC18(object, D_8003D588);
+        func_8003BC18(object, town_hud_object_template);
         color = 0x808080;
         setup_target = (u8 *)object + 0x2C;
         saved_state = (u8 *)object + 0x78;
@@ -156,7 +156,7 @@ void create_town_object_group(void)
             void *setup_table;
 
             setup_target = (u8 *)object + 0x28;
-            func_8003BC18(object, D_8003D588);
+            func_8003BC18(object, town_hud_object_template);
             object_state = ((S_8080E59C_0 *)object)->unk_08;
             render_part = ((S_8080E59C_0 *)object)->unk_0C;
             setup_table = D_805300C4;

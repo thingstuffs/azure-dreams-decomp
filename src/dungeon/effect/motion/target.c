@@ -46,7 +46,7 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
     advance_sprite_animation_and_textures(visual);
     if (visual->flags & 0x6000) {
         visual->unk_04 = 0;
-        visual->unk_05 = 0;
+        visual->frame_ticks = 0;
     }
 
     if ((u8)visual->color.c.r >= 0x60U) {
@@ -288,7 +288,7 @@ void copy_selected_table_pair(void *record_field, s32 pair_index) {
     Row_818E786C_S_8002506C_1 *linked_record;
     Row_818E786C_S_8002506C_2 *pair;
 
-    __builtin_memcpy(value_pairs, D_80024004, 24);
+    __builtin_memcpy(value_pairs, target_sprite_scale_pairs, 24);
     if ((u32)(pair_index & 0xFFFF) >= 6U) {
         pair_index = 0;
     }

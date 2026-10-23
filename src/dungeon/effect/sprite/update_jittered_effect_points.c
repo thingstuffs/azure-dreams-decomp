@@ -165,8 +165,8 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
             owner->unk_73 = record->unk_25;
         } else {
             sprite = ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
-            owner->unk_72 = sprite->unk_24;
-            owner->unk_73 = sprite->unk_25;
+            owner->unk_72 = sprite->tile_x;
+            owner->unk_73 = sprite->tile_y;
         }
 
         SELF->unk_0A.u++;
@@ -211,7 +211,7 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
             sprite->unk_00 = moving_sprite_entries;
             sprite->source = ((S_func_819A6800_9 *)(moving_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->color.word = 0x00606060;
             record->unk_20 = SELF;
             effect_data->unk_4C = 0;
@@ -420,7 +420,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                 effect = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
                 effect_data = ((void *)effect) + 0x20;
                 if (effect != 0) {
-                    effect->unk_10 = update_randomized_intermediate_points;
+                    effect->update_callback = update_randomized_intermediate_points;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
@@ -516,9 +516,9 @@ void update_jittered_effect_points(void *effect) {
     owner = ((S_80024810_0 *)effect)->unk_00;
     target = (void *) (((S_80024810_0 *)effect)->unk_34 - 0x20);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    ((S_80024810_0 *)effect)->unk_24 = (u16) ((MovingPosition *)(target->unk_08))->unk_02;
-    ((S_80024810_0 *)effect)->unk_26 = (u16) ((MovingPosition *)(target->unk_08))->unk_06;
-    ((S_80024810_0 *)effect)->unk_28 = (s16) (((MovingPosition *)(target->unk_08))->unk_0A - 0x20);
+    ((S_80024810_0 *)effect)->unk_24 = (u16) ((MovingPosition *)(target->unk_08))->x;
+    ((S_80024810_0 *)effect)->unk_26 = (u16) ((MovingPosition *)(target->unk_08))->y;
+    ((S_80024810_0 *)effect)->unk_28 = (s16) (((MovingPosition *)(target->unk_08))->z - 0x20);
     ((S_80024810_0 *)effect)->unk_04 = (u16) view_reference_entity.x.w.i;
     ((S_80024810_0 *)effect)->unk_06 = (u16) view_reference_entity.y.w.i;
     ((S_80024810_0 *)effect)->unk_08 = (u16) view_reference_entity.z.w.i;

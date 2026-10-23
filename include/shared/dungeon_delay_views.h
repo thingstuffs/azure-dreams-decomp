@@ -62,7 +62,7 @@ typedef struct DelaySpriteColor {
         struct { s32 v; /* whole color/command word, cleared at effect completion */ } at00u;
         struct { u8 pad[0x1]; u8 v; /* green modulation byte */ } at01;
         struct { u8 pad[0x2]; u8 v; /* blue modulation byte */ } at02;
-    } unk_0C; /* packed little-endian RGB modulation and primitive command byte */
+    } color; /* packed little-endian RGB modulation and primitive command byte */
 } DelaySpriteColor;   /* arg2 in func_800247D8 */
 
 /* Position/vertical-motion slice of the rising effect, reserved by allocate_list_node.

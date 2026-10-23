@@ -5,7 +5,7 @@
 
 #include "common.h"
 
-extern s32 D_800CF85C[];
+extern s32 town_resource_ids[];
 extern u8 D_80080EA8[];
 extern void file_load_com(void *object);
 extern u8 town_resource_queue[15];

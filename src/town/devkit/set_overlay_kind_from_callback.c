@@ -16,7 +16,7 @@ typedef struct {
 
 extern UnalignedWord D_A0700140;
 extern u8 *D_A0700F40;
-extern CallbackOwner *D_A0700F58;
+extern CallbackOwner *devkit_kind_callback_owner;
 extern OverlayWork D_000012F0;
 
 /* Set the overlay work kind from the callback result using a copy of the stored word. */
@@ -31,5 +31,5 @@ void set_overlay_kind_from_callback(void)
     work_offset = (unsigned long)&D_000012F0;
     overlay_base = D_A0700F40;
     overlay_work = (OverlayWork *)(overlay_base + work_offset);
-    overlay_work->kind = D_A0700F58->callback(&callback_input);
+    overlay_work->kind = devkit_kind_callback_owner->callback(&callback_input);
 }

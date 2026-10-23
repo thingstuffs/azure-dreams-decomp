@@ -37,17 +37,17 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
 
     obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
-        obj->unk_10 = D_80174A00;
+        obj->update_callback = D_80174A00;
         register_node(obj, project_sprite_chain);
 
         prim = obj->sprite;
-        prim->unk_28 = source->unk_28.at00_s32.v;
+        prim->animation_resource = source->unk_28.at00_s32.v;
         prim->color.c.b = 0x80;
         prim->color.c.g = 0x80;
         prim->color.c.r = 0x80;
         prim->scale_y = 0x2000;
         prim->scale_x = 0x2000;
-        prim->unk_06 = 1;
+        prim->depth_bias = 1;
         prim->flags |= 0xC;
         prim->tpage_abr |= 0x20;
         select_sprite_entry(prim, 0x39, 0);

@@ -37,15 +37,15 @@ s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
         return 1;
     }
     player = &reference_tile_object;
-    if (player->room_index != *(s8 *)&actor->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
+    if (player->room_index != *(s8 *)&actor->room_index && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->mp == 0) {
         return 1;
     }
 
-    entry_index = find_entry_at_tile_coordinates(actor->unk_24,
-                                  actor->unk_25,
+    entry_index = find_entry_at_tile_coordinates(actor->tile_x,
+                                  actor->tile_y,
                                   target->ground_height);
     result = 1;
     if (entry_index >= 0) {

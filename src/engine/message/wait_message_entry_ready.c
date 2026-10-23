@@ -1,12 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-typedef struct Entry {
-    u8 pad_0[1];
-    s8 field_1;
-    u8 pad_2[6];
-} Entry;
-
 typedef struct Object {
     u8 pad_0[0x10];
     void (*callback)(void);

@@ -391,7 +391,7 @@ extern M2C_UNK D_800249FC;
 extern M2C_UNK D_80025B48;
 
 extern u8 D_80024C0C[16];
-extern u8 D_80025B38[9];
+extern u8 shaded_quad_frame_set[9];
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_shaded_quads(void *state, void *position, void *appearance);
 void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work);

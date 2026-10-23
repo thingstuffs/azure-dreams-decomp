@@ -5,7 +5,7 @@
 
 extern void select_sprite_entry();
 
-extern u8 D_80170E94[];
+extern u8 golem_action_continuation_address[];
 extern u8 golem_direction_frames[];
 extern u8 golem_alt_direction_frames[];
 
@@ -55,7 +55,7 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
             select_sprite_entry(animation,
                 golem_direction_frames[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
-            entity->unk_8C = D_80170E94;
+            entity->unk_8C = golem_action_continuation_address;
             entity->unk_A6 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }

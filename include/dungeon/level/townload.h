@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
-extern s32 D_800CF85C[];
+extern s32 town_resource_ids[];
 extern u8 town_resource_queue[16];
 extern s32 town_resource_descriptors[16];
 extern u8 D_80080EA8[];

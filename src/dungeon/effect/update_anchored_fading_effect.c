@@ -58,7 +58,7 @@ typedef struct S_800B45E0_4 {
 
 
 s32 register_node();
-extern s32 D_80044C54;
+extern s32 attached_fade_draw_address;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */
 void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
@@ -89,13 +89,13 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
     anchor = ((S_800B45E0_0 *)effect)->unk_14;
     if (anchor != NULL) {
         motion->unk_02 = (u16) (motion->unk_02 - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
-        ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_02;
+        ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->x;
         motion->unk_06 = (u16) (motion->unk_06 - (((S_800B45E0_0 *)effect)->unk_1A
-            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06));
-        ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06;
+            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->y));
+        ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->y;
         motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B45E0_0 *)effect)->unk_1C
-            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A));
-        ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
+            - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->z));
+        ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->z;
     }
     phase = ((S_800B45E0_0 *)effect)->unk_08;
     switch (phase) {
@@ -105,7 +105,7 @@ void update_anchored_fading_effect(void *effect, S_800B45E0_2 *motion, S_800B45E
         ((S_800B45E0_0 *)effect)->unk_04.at00.v = 0x200000;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        register_node(effect - 0x20, &D_80044C54);
+        register_node(effect - 0x20, &attached_fade_draw_address);
         ((S_800B45E0_0 *)effect)->unk_0A = 0x10U;
         ((S_800B45E0_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B45E0_0 *)effect)->unk_08 + 1);
     case 1:

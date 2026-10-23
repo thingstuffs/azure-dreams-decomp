@@ -25,7 +25,7 @@ void handle_conditional_event_callback(s32 context, s32 unused, s32 event_code) 
     void *selected_data;
 
     if ((event_code == 0x1E) && (check_callback_record_bytes(0xD, 1) != 0)) {
-        D_80016000->unk_20->callback_078(0);
+        town_scene_root->services->callback_078(0);
         set_script_flag_bit(Ftt_fkoya_isaku_scene01_ok);
         set_current_entry_script_flag();
     }

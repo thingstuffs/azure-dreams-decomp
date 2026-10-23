@@ -174,7 +174,7 @@ typedef struct ActorRecord {
     /* 0x058 */ void * previous_actor_header; /* previous live actor list entry, pointing to its ObjectNodeHeader */
     /* 0x05C */ int next_actor_header; /* next live actor list entry, stored as the address of its ObjectNodeHeader */
     /* 0x060 */ void * target;                    /* the actor an action targets (actor data; header at -0x20) */
-    /* 0x064 */ short unk_64; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
+    /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
     /* 0x066 */ unsigned char max_mp; /* effective maximum MP; doubled template MP is capped at 255 */
     /* 0x067 */ unsigned char pad_67[1];
     /* 0x068 */ unsigned char base_attack; /* effective baseline attack; doubled template attack is capped at 255 */
@@ -201,10 +201,10 @@ typedef struct ActorRecord {
         struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
     } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
     /* 0x094 */ short unk_94;
-    /* 0x096 */ unsigned short unk_96;
-    /* 0x098 */ unsigned short unk_98;
-    /* 0x09A */ unsigned char unk_9A; /* actor action-table selector; id meanings depend on the dispatcher */
-    /* 0x09B */ unsigned char unk_9B; /* phase byte within the selected action; reset when a new action starts */
+    /* 0x096 */ unsigned short action_timer;
+    /* 0x098 */ unsigned short action_state_flags;
+    /* 0x09A */ unsigned char action_id; /* actor action-table selector; id meanings depend on the dispatcher */
+    /* 0x09B */ unsigned char action_phase; /* phase byte within the selected action; reset when a new action starts */
     /* 0x09C */ signed char unk_9C;
     /* 0x09D */ union { signed char s; unsigned char u; } unk_9D;
     /* 0x09E */ union { short s; unsigned short u; } unk_9E;

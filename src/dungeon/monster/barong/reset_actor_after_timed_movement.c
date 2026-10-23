@@ -102,14 +102,14 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         timer = ((S_801738B8_0 *)object)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_coord = actor->unk_24 << 6;
+                s32 target_coord = actor->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
 
                 motion->velocity_x =
                     ((target_coord - current_coord) << 16) / timer;
             }
             {
-                s32 target_coord = actor->unk_25 << 6;
+                s32 target_coord = actor->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
 
                 motion->velocity_y =
@@ -132,7 +132,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         if (actor->frameTable == D_80175564) {
             (actor->frameTable) = barong_direction_frames;
             select_sprite_entry(actor,

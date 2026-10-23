@@ -8,7 +8,7 @@ s32 contains_record_value_in_byte_0(s32 target_value) {
     s32 entry_index;
     u8 *entry;
 
-    entry = (u8 *)D_80016000->unk_38 + 0x33A4;
+    entry = (u8 *)town_scene_root->town_state + 0x33A4;
     for (entry_index = 0; entry_index < 34; entry_index++) {
         if (entry[0] == target_value) {
             return 1;

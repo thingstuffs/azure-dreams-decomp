@@ -33,7 +33,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = func_8015EA3C;
+        obj->update_callback = func_8015EA3C;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
@@ -41,10 +41,10 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
         part_a->unk_0A = saved_value_0a;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
-        part_b->unk_25 = saved_value_25;
+        part_b->tile_y = saved_value_25;
         actor = work;
         part_b->frameTable = D_80162194;
-        part_b->unk_24 = saved_value_24;
+        part_b->tile_x = saved_value_24;
 
         if (kind == 1) {
             flags_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

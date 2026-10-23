@@ -19,14 +19,14 @@ s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
     state->unk_9C = initial_value;
-    object->unk_10 = update_entity_relative_position;
+    object->update_callback = update_entity_relative_position;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
     state->unk_60 = resource_index;
     render_data->source = D_800D68B0[resource_index];
     register_node(object, project_sprite_chain);
-    ((s32 (*)(void *, s32, void *))object->unk_10)(state, callback_arg, render_data);
+    ((s32 (*)(void *, s32, void *))object->update_callback)(state, callback_arg, render_data);
     return (s32)object;
 }
 

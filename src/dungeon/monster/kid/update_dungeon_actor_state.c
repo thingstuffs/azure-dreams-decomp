@@ -140,15 +140,15 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite_in->unk_24, sprite_in->unk_25);
-    sprite_in->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite_in->tile_x, sprite_in->tile_y);
+    sprite_in->room_index = room_id;
 
     if (((S_80171400_1 *)entity)->unk_6D > 0) {
         if (((S_80171400_1 *)entity)->unk_1C & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite_in->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite_in->tile_x == reference_tile_object.tile_position.word) {
             func_80171B28(actor, context, sprite_in, entity);
             return;
         }
@@ -191,11 +191,11 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
             s16 direction;
 
             direction = get_rounded_facing_and_rounding_flag(
-                sprite_in->unk_24, sprite_in->unk_25,
+                sprite_in->tile_x, sprite_in->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             ((S_80171400_1 *)entity)->unk_2A = direction;
-            if (player->unk_9A != 0x11) {
+            if (player->action_id != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }
@@ -229,10 +229,10 @@ void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sp
             if (!(((S_80171400_1 *)entity)->unk_1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        sprite_in->unk_24, sprite_in->unk_25,
+                        sprite_in->tile_x, sprite_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_80171400_1 *)entity)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        sprite_in->unk_24, sprite_in->unk_25,
+                        sprite_in->tile_x, sprite_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                 }
             }

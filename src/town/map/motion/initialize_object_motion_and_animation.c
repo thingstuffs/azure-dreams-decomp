@@ -14,7 +14,7 @@ extern void select_record_entry_and_value(s32, s32, s32);
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern u8 D_800BC990[];
-extern u8 D_800D20CC[];
+extern u8 town_map_motion_defaults[];
 extern s32 D_800D211C[];
 extern s32 D_800D212C;
 
@@ -24,7 +24,7 @@ void initialize_object_motion_and_animation(Func800BF66CObject *object, s32 moti
     object->field50 = 0;
     register_node((u8 *)object - 0x20, project_sprite_chain);
     object->fieldA6 = 2;
-    configure_the_set_mode_n_1(object, motion, D_800D20CC);
+    configure_the_set_mode_n_1(object, motion, town_map_motion_defaults);
     select_record_entry_and_value(anim, D_800D211C[object->fieldA6], 0);
     object->field48 = D_800D212C;
 }

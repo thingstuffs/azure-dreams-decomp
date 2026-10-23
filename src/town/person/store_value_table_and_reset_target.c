@@ -12,5 +12,5 @@ s32 get_facing_sector();
 void store_value_table_and_reset_target(Rec_func_80094268_arg0 *object, SpriteFrameState *target, s32 *value_table) {
     object->unk_78 = value_table;
     clear_object_status_and_dispatch_target(object, target, object->unk_78[get_facing_sector(object->unk_72.as_s16)], 0);
-    target->unk_05 = 0;
+    target->frame_ticks = 0;
 }

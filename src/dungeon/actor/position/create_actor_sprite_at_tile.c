@@ -74,18 +74,18 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         sprite->color.c.r = 0x80;
         sprite->scale_y = 0x1400;
         sprite->scale_x = 0x1400;
-        sprite->unk_24 = saved_tile_x;
-        sprite->unk_25 = saved_tile_y;
-        object->unk_10 = &update_actor_gravity;
+        sprite->tile_x = saved_tile_x;
+        sprite->tile_y = saved_tile_y;
+        object->update_callback = &update_actor_gravity;
         state->unk_8C = &advance_actor_status_turn;
-        sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        sprite->room_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         state->unk_88 = sample_terrain_surface_height(*(u16 *)&position->x.w.i, *(u16 *)&position->y.w.i, position->z.w.i);
         sprite->color.word = 0x2C808080;
         sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
-        flag_tile_x = sprite->unk_24;
-        flag_tile_y = sprite->unk_25;
+        flag_tile_x = sprite->tile_x;
+        flag_tile_y = sprite->tile_y;
         tile_flags = 0x3000;
         if (state->unk_1C & 0x2000) {
             tile_flags = 0x300;

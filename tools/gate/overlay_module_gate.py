@@ -488,6 +488,44 @@ def sections(path):
  b=path.read_bytes();off=struct.unpack_from('<I',b,32)[0];ent,num,ni=struct.unpack_from('<HHH',b,46);hs=[struct.unpack_from('<10I',b,off+i*ent) for i in range(num)];s=b[hs[ni][4]:hs[ni][4]+hs[ni][5]]
  return [{'name':s[h[0]:].split(b'\0',1)[0].decode(),'type':h[1],'flags':h[2],'size':h[5]} for h in hs]
 
+def bind_native_entries(m, raw, registry, names):
+ """Bind only complete registered function entries, preserving source order.
+
+ The global name table retains synthetic row identities. Native modules link
+ at proven load addresses; this is a TU-local symbol spelling change, with no
+ instruction, data, import or section-order substitution.
+ """
+ text=raw.decode()
+ entries=re.findall(r'^\s*\.ent\s+(\S+)\s*$',text,re.M)
+ if len(entries)!=len(m['members']):raise ValueError('native entry count differs from registered members')
+ if len(set(entries))!=len(entries) or len({a['function'] for a in m['members']})!=len(entries):raise ValueError('duplicate native entry')
+ bindings={}
+ for name,member in zip(entries,m['members']):
+  row=registry[member['id']];target=member['function']
+  original=member['id'].split('/',1)[-1]
+  allowed={n for n in (row.get('func'),row.get('true_name'),original,target) if n}
+  if names.get(name,name) not in allowed:raise ValueError('native entry order/name differs: '+member['id'])
+  if names.get(target,target)!=target:raise ValueError('ambiguous canonical native entry: '+target)
+  if names.get(name,name)!=target:bindings[name]=target
+ if not bindings:return raw,bindings
+ pattern=re.compile(r'\b('+'|'.join(re.escape(n) for n in sorted(bindings,key=len,reverse=True))+r')\b')
+ lines=[line if re.match(r'\s*\.(ascii|asciz|string)\b',line) else pattern.sub(lambda match:bindings[match[0]],line)
+        for line in text.splitlines(keepends=True)]
+ return ''.join(lines).encode(),bindings
+
+
+def retain_native_name_lookups(env, bindings, names, name_tools):
+ """Keep the original GCC entry-name lookups in the compile name witness."""
+ trace=env.get('CCPROC_NAMES_TRACE')
+ if not trace or not bindings:return
+ value=name_tools.read(trace)
+ value['tokens']=sorted(set(value['tokens'])|set(bindings))
+ value['rows']=name_tools.project(value['tokens'],names)
+ evidence=name_tools.evidence_at(env.get('CCPROC_CONFIG_ROOT'),list(value.get('sets',{})))
+ value['sets']=name_tools.project_sets(value['tokens'],names,evidence)
+ name_tools.write(trace,value)
+
+
 def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  root=Path(root).absolute();out=Path(out).absolute()
  import overlay_scoped_fingerprint as scoped
@@ -534,7 +572,13 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
   env['MASPSX_NORETURN_FILE']=str(evidence)
  gcc=root/'toolchain/compilers'/('gcc-'+module_compiler(m));asm=out/'module.s';obj=out/'module.o'
  command([gcc/'gcc','-B'+str(gcc)+'/', '-S',*module_cflags(m),'-I'+str(root/'include'),'-w',source,'-o',asm],root,env,out/'compile.log')
- raw=asm.read_bytes();proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',raw);(out/'sectioned.s').write_bytes(proc)
+ raw=asm.read_bytes()
+ name_path=Path(gate_tool(root,'ccproc.py')).resolve().with_name('name_inputs.py')
+ name_spec=importlib.util.spec_from_file_location('native_name_inputs',name_path)
+ name_tools=importlib.util.module_from_spec(name_spec);name_spec.loader.exec_module(name_tools)
+ names=name_tools.table(root/'config/names.tsv')
+ entry_raw,entry_bindings=bind_native_entries(m,raw,rows(root),names)
+ proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',entry_raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
  shutil.copy2(obj,out/'module.untrimmed.o')
  cooked,_=N.prepare_object(m,obj.read_bytes(),root/'tools/build/slus_rodata_trim.py');obj.write_bytes(cooked)
@@ -560,7 +604,8 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  (out/'retail.bin').write_bytes(retail)
  if data!=retail:raise ValueError('whole-module retail mismatch')
  # Assemble the very same gcc stream, canonical names but no GAS section split.
- canon=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-only','--names-tsv',root/'config/names.tsv'],root,env,out/'names.log',raw)
+ canon=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-only','--names-tsv',root/'config/names.tsv'],root,env,out/'names.log',entry_raw)
+ retain_native_name_lookups(env,entry_bindings,names,name_tools)
  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
  (out/'IN.S').write_bytes(A.aspsx_input(canon.decode()))
  # ASPSX has a DOS path-length limit; use a short directory in the private root.

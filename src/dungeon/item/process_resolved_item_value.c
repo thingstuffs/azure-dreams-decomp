@@ -25,7 +25,7 @@ extern s32 generate_random_value(void);
 typedef struct { s32 w[12]; } Packet48;
 typedef struct { s16 x; u16 y; } DirectionPair;
 typedef struct { DirectionPair v[8]; } DirectionTable;
-extern DirectionTable D_80024004;
+extern DirectionTable resolved_item_direction_table;
 extern u8 D_80024024[];
 extern u8 D_80024E5C[];
 extern u8 D_80025B40[];
@@ -138,7 +138,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
     void *packet_destination;
 
     owner = (effect_state->next);
-    directions = D_80024004;
+    directions = resolved_item_direction_table;
     phase = (((ResolvedEffect *)effect_state)->phase);
     owner_header = owner - 0x20;
     owner_motion = (owner_header->position);
@@ -207,7 +207,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             *(Packet48 *)spawn_sprite = *(Packet48 *)source_sprite;
             spawn_sprite->tpage_abr = 0x20;
             spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
-            (spawned->unk_10) = ((u32)D_80024E5C);
+            (spawned->update_callback) = ((u32)D_80024E5C);
             register_node(spawned, ((u32)sprite_chain_projector_address));
             spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);

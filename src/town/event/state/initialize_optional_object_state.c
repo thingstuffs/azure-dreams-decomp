@@ -21,7 +21,7 @@ void initialize_optional_object_state(void *object, s32 context, Rec_D_80082E80 
     ((Rec_func_80094268_arg0 *)object)->unk_8E = 0;
     ((SpriteFrameState *)state)->unk_00 = 0;
     ((SpriteFrameState *)state)->unk_04 = 0;
-    ((SpriteFrameState *)state)->unk_05 = 0;
+    ((SpriteFrameState *)state)->frame_ticks = 0;
     if (init_value != 0) {
         ((Rec_func_80094268_arg0 *)object)->unk_58 = init_value;
         select_object_value_by_height_band(object, object, (struct EntityRec *)(context), state);

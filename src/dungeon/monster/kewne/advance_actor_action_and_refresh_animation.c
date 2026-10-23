@@ -73,7 +73,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
             if (global_base->flags & 0x1000) {
                 return;
             }
-            if (actor_state->unk_64 != 0) {
+            if (actor_state->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, context, render_record, 0) != 0) {
                     return;
                 }
@@ -118,7 +118,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&render_record->unk_26;
+                s8 tile = *(s8 *)&render_record->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {

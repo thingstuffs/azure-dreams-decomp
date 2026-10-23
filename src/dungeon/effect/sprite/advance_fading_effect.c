@@ -67,7 +67,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
-        obj->unk_10 = (void *)advance_fading_effect;
+        obj->update_callback = (void *)advance_fading_effect;
         render = obj->sprite;
         *((s8 *) (((s8 *) obj) + 0x24)) = 0;
         white = 0x80;

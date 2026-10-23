@@ -9,5 +9,5 @@ typedef struct TownStateByteView {
 } TownStateByteView;
 
 u8 get_state_record_byte(void) {
-    return ((TownStateByteView *)D_80016000->unk_38)->state_byte;
+    return ((TownStateByteView *)town_scene_root->town_state)->state_byte;
 }

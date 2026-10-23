@@ -96,12 +96,12 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             }
             flags_page = (u8 *)0x80010000;
             if (actor->unk_B4 == 0 && !(((S_8016D6F0_5 *)flags_page)->unk_3714 & 8)) {
-                if (entity->unk_64 != 0) {
+                if (entity->hp_delta != 0) {
                     if (begin_ready_actor_directional_action(actor, actor_id, sprite, ghosh_ready_action_frames) != 0) {
                         return;
                     }
                 }
-            } else if (entity->unk_64 != 0) {
+            } else if (entity->hp_delta != 0) {
                 reference_base = &g_dungeon_status;
                 if (((s32)reference_base->pending_display_owner) ==
                     (u32)((u8 *)entity - 0x20)) {
@@ -138,7 +138,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, STATUS_SLEEP) << 0x10) != 0) {
                 reference_pos = &reference_tile_object;
-                room_id = *(s8 *)&sprite->unk_26;
+                room_id = *(s8 *)&sprite->room_index;
                 if (((room_id == reference_pos->room_index && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&
                     (generate_random_value() & 7) == 0) {

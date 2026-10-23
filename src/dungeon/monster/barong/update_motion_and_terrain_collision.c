@@ -72,7 +72,7 @@ typedef struct S_801747F0_3 {
 } S_801747F0_3;   /* tile in update_motion_and_terrain_collision */
 
 
-extern u8 D_801755E0[16];
+extern u8 barong_direction_vectors[16];
 
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
@@ -222,7 +222,7 @@ fall:
             velocity_y = ((S_801747F0_0 *)motion)->unk_58;
             accel_y = ((S_801747F0_0 *)motion)->unk_64;
             velocity_y += accel_y;
-            directions = D_801755E0;
+            directions = barong_direction_vectors;
             ((S_801747F0_0 *)motion)->unk_58 = velocity_y;
         }
         direction = (((S_801747F0_0 *)motion)->unk_24 * 4) + directions;

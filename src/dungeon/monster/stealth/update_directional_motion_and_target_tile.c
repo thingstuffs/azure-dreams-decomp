@@ -107,11 +107,11 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
     case 2:
         return_timer = action->unk_96.s;
         if (return_timer != 0) {
-            target_x = target->unk_24 << 6;
+            target_x = target->tile_x << 6;
             origin_x = motion->x.w.i - 0x20;
             motion->velocity_x =
                 ((target_x - origin_x) << 15) / return_timer;
-            target_y = target->unk_25 << 6;
+            target_y = target->tile_y << 6;
             origin_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - origin_y) << 15) /
@@ -127,7 +127,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, target->unk_24, target->unk_25);
+        set_record_integer_tile_center(motion, target->tile_x, target->tile_y);
 
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;

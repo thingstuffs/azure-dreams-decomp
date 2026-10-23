@@ -49,7 +49,7 @@ extern s32 rand();
 extern void register_node(void *, void *);
 
 extern u8 D_80024F4C[];
-extern u8 D_80025DF8[];
+extern u8 tinted_sprite_entries[];
 
 /* Allocate and initialize a randomized object from the source and initial data. */
 s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
@@ -64,7 +64,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         payload = (u8 *)object + 0x20;
-        object->unk_10 = D_80024F4C;
+        object->update_callback = D_80024F4C;
         ((S_818BDB44_0 *)object)->unk_20 = source;
         payload->unk_0E = 0;
         payload->unk_10 = 0;
@@ -82,7 +82,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         part->color.c.g = 0x80;
         part->color.c.r = 0x80;
         part->clut = 0x7E01;
-        part->source = D_80025DF8;
+        part->source = tinted_sprite_entries;
         part->flags = part->flags | 0xC;
         part->tpage_abr = part->tpage_abr | 0x20;
         part->flags = part->flags | 0x100;

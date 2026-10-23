@@ -69,7 +69,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
         ((S_80172158_0 *)action)->unk_90 =
             ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            x_delta = sprite->unk_24;
+            x_delta = sprite->tile_x;
             axis_pos = motion->x.w.i;
             x_delta <<= 6;
             axis_pos -= 0x20;
@@ -78,7 +78,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
             motion->velocity_x = x_delta / move_ticks;
             axis_pos = motion->y.w.i - 0x20;
             motion->velocity_y =
-                (((sprite->unk_25 << 6) - axis_pos) << 16) /
+                (((sprite->tile_y << 6) - axis_pos) << 16) /
                 (s16)((S_80172158_0 *)action)->unk_9E;
             ((S_80172158_0 *)action)->unk_A0 =
                 (-rsin(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
@@ -99,7 +99,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = nyuel_frame_set_2;
             select_sprite_entry(
                 sprite,
@@ -118,7 +118,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
 
@@ -135,7 +135,7 @@ void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFr
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }

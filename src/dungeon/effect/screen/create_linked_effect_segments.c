@@ -75,7 +75,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
         segment_state = ((void *)segment) + 0x20;
         if (segment != NULL) {
             coords = segment->position;
-            segment->unk_10 = &D_80024728;
+            segment->update_callback = &D_80024728;
             x = (u16) position->unk_02;
             coords->unk_02 = x;
             coords->unk_0E = x;

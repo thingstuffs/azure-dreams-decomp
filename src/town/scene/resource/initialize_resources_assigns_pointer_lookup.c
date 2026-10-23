@@ -28,6 +28,6 @@ void initialize_resources_assigns_pointer_lookup(void) {
         func_8001A554(F_sbs32_pad06);
         func_8001A554(F_okami_give_cape);
         func_8001A5CC(F_sbs32_pad25);
-        ((TownPositionState *)D_80016000->unk_1C)->unk_40 = &D_8002116C;
+        ((TownPositionState *)town_scene_root->position)->unk_40 = &D_8002116C;
     }
 }

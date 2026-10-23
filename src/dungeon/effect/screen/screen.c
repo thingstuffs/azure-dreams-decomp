@@ -88,11 +88,11 @@ void advance_linked_segment_flash(void *effect, Rec_func_800243C4_arg1 *position
 
         base_position = ((S_800243C4_5 *)(((S_800243C4_0 *)effect)->unk_08))->unk_08;
         position->unk_02 =
-            base_position->unk_02 + ((S_800243C4_0 *)effect)->unk_24;
+            base_position->x + ((S_800243C4_0 *)effect)->unk_24;
         position->unk_06 =
-            base_position->unk_06 + ((S_800243C4_0 *)effect)->unk_26;
+            base_position->y + ((S_800243C4_0 *)effect)->unk_26;
         position->unk_0A.as_s16 =
-            base_position->unk_0A + ((S_800243C4_0 *)effect)->unk_28.u;
+            base_position->z + ((S_800243C4_0 *)effect)->unk_28.u;
         if (create_linked_effect_segments(position) != 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
             ((S_800243C4_0 *)effect)->unk_2C.u = ((S_800243C4_0 *)effect)->unk_2C.u + 1;

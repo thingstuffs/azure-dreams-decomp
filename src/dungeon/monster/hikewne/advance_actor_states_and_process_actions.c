@@ -66,7 +66,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
             return;
         }
 
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, animation, 0) != 0) {
                 return;
             }

@@ -75,8 +75,8 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
     }
 
     path_entry = (u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s;
-    if (entity->unk_24 == ((S_80171FC8_2 *)path_entry)->unk_74 &&
-        entity->unk_25 == ((S_80171FC8_2 *)path_entry)->unk_7C) {
+    if (entity->tile_x == ((S_80171FC8_2 *)path_entry)->unk_74 &&
+        entity->tile_y == ((S_80171FC8_2 *)path_entry)->unk_7C) {
         hp = ((S_80171FC8_3 *)motion_state)->unk_92;
         energy = ((S_80171FC8_0 *)path_state)->unk_88;
         ((S_80171FC8_3 *)motion_state)->unk_92 = hp + 0x20;
@@ -85,8 +85,8 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
         ((S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
     } else {
         flags = ((S_80171FC8_0 *)path_state)->unk_1C;
-        old_x = entity->unk_24;
-        old_y = entity->unk_25;
+        old_x = entity->tile_x;
+        old_y = entity->tile_y;
         distance = 0x3000;
         if (flags & 0x2000) {
             distance = 0x300;
@@ -94,18 +94,18 @@ void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState 
 
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
-        entity->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state
+        entity->tile_x = ((S_80171FC8_4 *)((u8 *)path_state
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
-        entity->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state
+        entity->tile_y = ((S_80171FC8_4 *)((u8 *)path_state
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
-        cycle_map_cell_flags(entity->unk_24, entity->unk_25,
+        cycle_map_cell_flags(entity->tile_x, entity->tile_y,
                       (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_80171FC8_0 *)path_state)->unk_2A =
-            get_rounded_facing_and_rounding_flag(old_x, old_y, entity->unk_24,
-                          entity->unk_25, (u8 *)motion_state + 0x98);
+            get_rounded_facing_and_rounding_flag(old_x, old_y, entity->tile_x,
+                          entity->tile_y, (u8 *)motion_state + 0x98);
     }
 
     ((S_80171FC8_3 *)motion_state)->unk_9A = 0xF;

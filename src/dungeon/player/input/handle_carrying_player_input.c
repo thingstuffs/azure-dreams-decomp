@@ -34,7 +34,7 @@ s32 has_pending_actor_or_turn_action();                          /* extern */
               /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                          /* extern */
-extern M2C_UNK D_800245A8;
+extern M2C_UNK player_menu_action_data;
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
 extern void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[];
@@ -67,16 +67,10 @@ typedef struct S_8008EAC8_7 {
     s32 unk_AC;
 } S_8008EAC8_7;
 
-typedef struct S_8008EAC8_8 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-} S_8008EAC8_8;
-
 typedef struct S_8008EAC8_9 {
     u8 pad_00[0x3];
     u8 unk_03;
 } S_8008EAC8_9;
-
 
 /* Handles commands while carrying an object, including movement, menus, familiar actions, putting it
    down, and throwing. */
@@ -117,7 +111,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
         select_position_data_and_update_owner(sprite, entity);
         ((EntityRec *)aux_entity)->unk_10 = 0;
         ((EntityRec *)aux_entity)->unk_0C = 0;
-        set_record_integer_tile_center(aux_entity, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(aux_entity, sprite->tile_x, sprite->tile_y);
     }
     sprite->flags = (u16) (sprite->flags & 0xF7FF);
     ((Rec_func_8008ACDC_arg0 *)object)->unk_9B.as_s8 = 0;
@@ -273,7 +267,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         slot >>= 5;
                         {
                             s32 fourth;
-                            fourth = ((S_8008EAC8_8 *)(((slot * 4) + (u8 *)object)))->unk_D0;
+                            fourth = ((FamiliarItemSlotView *)(((slot * 4) + (u8 *)object)))->item_address;
                             request_familiar_deployment_change(object, aux_entity, sprite, fourth, slot);
                         }
                         return;
@@ -330,9 +324,9 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                 if (flag_200 && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0) && !(g_dungeon_status.flags & 4)) {
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 =
                         (u16) (((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0xFDFF);
-                    if ((lookup_definition_pair_value(sprite->unk_24, sprite->unk_25) << 0x10)
+                    if ((lookup_definition_pair_value(sprite->tile_x, sprite->tile_y) << 0x10)
                         != 0) {
-                        begin_player_menu_action(object, aux_entity, sprite, &D_800245A8);
+                        begin_player_menu_action(object, aux_entity, sprite, &player_menu_action_data);
                         return;
                         return;
                     }

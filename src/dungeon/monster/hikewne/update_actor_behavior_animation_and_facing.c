@@ -121,7 +121,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
                 sprite,
                 hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
-            sprite->unk_05 = 1;
+            sprite->frame_ticks = 1;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
             ((S_801714D4_0 *)actor_arg)->unk_9E = 0;
         }
@@ -152,15 +152,15 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     actor_tail = actor_head;
 #undef actor_arg
 #define actor_arg actor_tail
-    tile_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = tile_index;
 
     if (stats->unk_6D > 0) {
         if (((u32)stats->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             select_movement_direction_and_advance(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -198,11 +198,11 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         case 5:
         case 6:
             angle = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             owner = primary_actor_record;
             stats->facing = angle;
-            if (owner->unk_9A == 0x11) {
+            if (owner->action_id == 0x11) {
                 callback = (void *)update_actor_behavior_animation_and_facing;
                 begin_actor_spell_action(actor_arg, context_arg, sprite, 0, callback);
                 return;
@@ -242,12 +242,12 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     {
 
         if ((s16)test_neighbor_position_relation(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) == 0) {
             return;
         }
         stats->facing = get_rounded_facing_and_rounding_flag(
-            sprite->unk_24, sprite->unk_25,
+            sprite->tile_x, sprite->tile_y,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
     }
 #undef actor_arg

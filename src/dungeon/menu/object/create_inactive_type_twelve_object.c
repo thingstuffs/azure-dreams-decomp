@@ -71,7 +71,7 @@ void create_inactive_type_twelve_object(void) {
     if (!(dungeon_floor_flags & 0x80)) {
         object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
-            object->unk_10 = D_8009E038;
+            object->update_callback = D_8009E038;
             register_node(object, D_8009E798);
             {
                 u16 field_value;

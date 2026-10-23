@@ -35,7 +35,7 @@ typedef struct S_800AB538_3 {
 extern s32 rsin();
 
 extern u8 view_reference_entity[];
-extern s16 D_8008378A;
+extern s16 actor_hop_target_height;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
 s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render)
@@ -83,7 +83,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.s;
         if (frames_left != 0) {
             {
-                s16 *target_height = &D_8008378A;
+                s16 *target_height = &actor_hop_target_height;
 
                 height_offset = rsin(frames_left << 6) >> 4;
                 ((S_800AB538_3 *)motion)->unk_14 =
@@ -100,8 +100,8 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
         if (frames_left < 0) {
             (*(s32 *)((u8 *)motion + 0x14)) = 0;
-            ((S_800AB538_1 *)render)->unk_88 = (u16)D_8008378A;
-            ((S_800AB538_3 *)motion)->unk_0A.u = (u16)D_8008378A;
+            ((S_800AB538_1 *)render)->unk_88 = (u16)actor_hop_target_height;
+            ((S_800AB538_3 *)motion)->unk_0A.u = (u16)actor_hop_target_height;
             ((S_800AB538_0 *)animation)->unk_92 = 0;
             next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
             ((S_800AB538_0 *)animation)->unk_9B = next_state;

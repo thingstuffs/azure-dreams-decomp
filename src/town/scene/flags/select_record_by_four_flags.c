@@ -47,7 +47,7 @@ void select_record_by_four_flags(void)
             } while (flag_index < 4);
 
             if (flag_index == 4) {
-                void *root = *(void **)((s8 *)(&D_80016000));
+                void *root = *(void **)((s8 *)(&town_scene_root));
                 void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
 
                 ((S_8001C7A0_1 *)owner)->unk_10.s = record->next;
@@ -58,7 +58,7 @@ void select_record_by_four_flags(void)
     }
 
     {
-        void *root = *(void **)((s8 *)(&D_80016000));
+        void *root = *(void **)((s8 *)(&town_scene_root));
         void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
 
         ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;

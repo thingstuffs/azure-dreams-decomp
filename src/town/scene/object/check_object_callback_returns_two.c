@@ -10,7 +10,7 @@ s32 check_object_callback_returns_two(void) {
     s32 callback_result;
 
     if (count_listed_enabled_records() >= 2) {
-        callback_result = (*(Callback *)((s8 *)*(void **)((s8 *)D_80016000 + 0x20) + 0x2D4))(0);
+        callback_result = (*(Callback *)((s8 *)*(void **)((s8 *)town_scene_root + 0x20) + 0x2D4))(0);
         if (callback_result == 2)
             return 1;
     }

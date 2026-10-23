@@ -122,12 +122,12 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
 
     case 0xFF:
     {
-        s32 tile_x = sprite->unk_24 << 6;
+        s32 tile_x = sprite->tile_x << 6;
         s32 position_x = ((T_80172664_S_80172664_3 *)motion)->unk_02 - 0x20;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = ((tile_x - position_x) << 15) >> 1;
     }
         {
-            s32 tile_y = sprite->unk_25 << 6;
+            s32 tile_y = sprite->tile_y << 6;
             s32 position_y = ((T_80172664_S_80172664_3 *)motion)->unk_06 - 0x20;
             ((T_80172664_S_80172664_3 *)motion)->unk_10 = ((tile_y - position_y) << 15) >> 1;
         }
@@ -136,9 +136,9 @@ void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState
         }
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((T_80172664_S_80172664_1 *)animation)->unk_8C = &D_80170E7C;
+        ((T_80172664_S_80172664_1 *)animation)->unk_8C = &unicorn_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (((T_80172664_S_80172664_0 *)actor)->unk_6D == 0) {

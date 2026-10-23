@@ -68,30 +68,30 @@ void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState 
     }
 
     next_cell = (u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s;
-    if (actor->unk_24 == ((ActorStatusBytesView *)next_cell)->unk_74
-        && actor->unk_25 == ((ActorStatusBytesView *)next_cell)->unk_7C) {
+    if (actor->tile_x == ((ActorStatusBytesView *)next_cell)->path_x
+        && actor->tile_y == ((ActorStatusBytesView *)next_cell)->path_y) {
         move_offset = ((S_80171A18_3 *)motion)->unk_92;
         remaining_offset = ((S_80171A18_0 *)move_state)->unk_88;
         ((S_80171A18_3 *)motion)->unk_92 = move_offset + 0x20;
         ((S_80171A18_0 *)move_state)->unk_88 = remaining_offset - 0x20;
         ((S_80171A18_0 *)move_state)->unk_8A.u = ((S_80171A18_0 *)move_state)->unk_8A.u + 1;
     } else {
-        old_x = actor->unk_24;
-        old_y = actor->unk_25;
+        old_x = actor->tile_x;
+        old_y = actor->tile_y;
         occupancy_mask = 0x3000;
         if (((S_80171A18_0 *)move_state)->unk_1C & 0x2000) {
             occupancy_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
-        actor->unk_24 = ((ActorStatusBytesView *)((u8 *)move_state
-            + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_74;
-        actor->unk_25 = ((ActorStatusBytesView *)((u8 *)move_state
-            + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_7C;
+        actor->tile_x = ((ActorStatusBytesView *)((u8 *)move_state
+            + ((S_80171A18_0 *)move_state)->unk_8A.s))->path_x;
+        actor->tile_y = ((ActorStatusBytesView *)((u8 *)move_state
+            + ((S_80171A18_0 *)move_state)->unk_8A.s))->path_y;
         ((S_80171A18_0 *)move_state)->unk_8A.u++;
 
-        new_x = actor->unk_24;
-        new_y = actor->unk_25;
+        new_x = actor->tile_x;
+        new_y = actor->tile_y;
         occupancy_mask = 0x3000;
         if (((S_80171A18_0 *)move_state)->unk_1C & 0x2000) {
             occupancy_mask = 0x300;
@@ -99,7 +99,7 @@ void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState 
         cycle_map_cell_flags(new_x, new_y, occupancy_mask);
 
         ((S_80171A18_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
-            old_x, old_y, actor->unk_24, actor->unk_25,
+            old_x, old_y, actor->tile_x, actor->tile_y,
             (u8 *)motion + 0x98);
     }
     ((S_80171A18_3 *)motion)->unk_9A = 0xF;

@@ -30,7 +30,7 @@ typedef struct TownOutput {
 } TownOutput;
 
 extern TownRoot *town_script_state_slots[];
-extern TownOutput D_80100B50;
+extern TownOutput shop_target_position;
 extern s32 D_80100B68;
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */
@@ -53,11 +53,11 @@ s32 select_a_town_entry_writes_root_relative_coordinates_output(s32 entryIndex) 
     entries = owner->entries;
     rootX = root->x;
     rootY = root->y;
-    D_80100B50.first = 0;
+    shop_target_position.first = 0;
     entryOffsetOrAddress += (u32)entries;
     entry = (TownEntry *)entryOffsetOrAddress;
     entryX = entry->x;
-    output = &D_80100B50;
+    output = &shop_target_position;
     output->second = 0;
     entryX += rootX;
     ((TownOutputHalf *)&output->first)->coordinate = entryX;

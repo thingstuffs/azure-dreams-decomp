@@ -8,7 +8,7 @@ typedef struct {
 } CallbackOwner;
 
 extern u8 devkit_overlay_page[0x1000];
-extern CallbackOwner *D_A0700F58[4];
+extern CallbackOwner *devkit_kind_callback_owner[4];
 
 extern s32 func_80700304(s32, s32, s32, s32);
 extern s32 func_80700590(s32, u8 *);
@@ -40,12 +40,12 @@ s32 update_flagged_selection_index(s32 initial_index, s32 input1, s32 input2, s3
         *byte_ptr |= 1 << offset;
         return func_80700590(offset, byte_ptr);
     }
-    D_A0700F58[0]->callback(2);
+    devkit_kind_callback_owner[0]->callback(2);
     record = *(void **)0xA0700F40;
     record->unk_0E = (u8) record->unk_0E;
     result = func_80700DC0(*(s16 *)0xA0700F2A);
     if (result == 0) {
-        if (D_A0700F58[0]->callback(2) != 0) {
+        if (devkit_kind_callback_owner[0]->callback(2) != 0) {
             index += 1;
         }
         *(s32 *)0xA0700F3C = index;

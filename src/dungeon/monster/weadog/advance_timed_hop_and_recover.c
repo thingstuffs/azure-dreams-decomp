@@ -83,7 +83,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
         hop_ticks = ((S_801670E0_0 *)motion_state)->unk_9E.u;
         ((S_801670E0_0 *)motion_state)->unk_90 -= ((S_801670E0_0 *)motion_state)->unk_A0;
         if (hop_ticks != 0) {
-            target_x = sprite->unk_24;
+            target_x = sprite->tile_x;
             position_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             position_x -= 0x20;
@@ -92,7 +92,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             position_y = ((EntityRec *)motion)->y.w.i;
             position_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((sprite->unk_25 << 6) - position_y) << 16) /
+                (((sprite->tile_y << 6) - position_y) << 16) /
                 ((S_801670E0_0 *)motion_state)->unk_9E.u;
             ((S_801670E0_0 *)motion_state)->unk_A0 =
                 (-rsin(((S_801670E0_0 *)motion_state)->unk_9E.u * 0x199)) << 10;
@@ -114,7 +114,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
             sprite->frameTable = D_80168ED8;
             select_sprite_entry(
@@ -148,7 +148,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -164,7 +164,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((S_801670E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24, sprite->unk_25,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }

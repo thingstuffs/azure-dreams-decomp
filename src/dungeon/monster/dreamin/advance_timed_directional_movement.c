@@ -22,7 +22,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170E68;
+extern u8 dreamin_action_continuation_address;
 extern u8 dreamin_frame_set_1[];
 
 /* Updates timed directional movement and settles the entity at its grid position. */
@@ -135,11 +135,11 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
     case 3:
         frames_left = ((S_80172D24_1 *)action)->unk_96.u;
         if (frames_left != 0) {
-            target_x = sprite->unk_24 << 6;
+            target_x = sprite->tile_x << 6;
             position_x = ((EntityRec *)motion)->x.w.i - 0x20;
             ((EntityRec *)motion)->unk_0C = ((target_x - position_x) << 15) / frames_left;
 
-            target_y = sprite->unk_25 << 6;
+            target_y = sprite->tile_y << 6;
             position_y = ((EntityRec *)motion)->y.w.i - 0x20;
             ((EntityRec *)motion)->unk_10 =
                 ((target_y - position_y) << 15) / ((S_80172D24_1 *)action)->unk_96.u;
@@ -154,13 +154,13 @@ void advance_timed_directional_movement(void *action, void *motion, SpriteFrameS
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80172D24_1 *)action)->unk_8C = &D_80170E68;
+        ((S_80172D24_1 *)action)->unk_8C = &dreamin_action_continuation_address;
         break;
     default:
         return;

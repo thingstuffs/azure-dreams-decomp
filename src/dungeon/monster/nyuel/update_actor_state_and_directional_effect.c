@@ -60,7 +60,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
                 return;
             }
 
-            if ((actor->unk_64 != 0) &&
+            if ((actor->hp_delta != 0) &&
                 begin_ready_actor_directional_action(controller, context, sprite, 0)) {
                 return;
             }

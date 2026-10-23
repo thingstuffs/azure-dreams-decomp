@@ -13,10 +13,10 @@ extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_pr
 extern void update_positions_from_origin(void *origin);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
 
-extern s32 D_800D0B14;
+extern s32 town_saved_motion_pointer;
 
 
-extern u8 D_80100D60[];
+extern u8 town_event_motion_pair[];
 extern s16 town_motion_x_step;
 extern s16 town_motion_y_step;
 
@@ -37,7 +37,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
     if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(controller, object, saved_arg);
-            D_800D0B14 = 0;
+            town_saved_motion_pointer = 0;
             return;
         }
     } else if (town_action_state_flag == 0) {
@@ -46,7 +46,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
 
     if ((((s32)buttons->pressed_buttons) & 0x40) && town_orbit_radius >= 0x800) {
         initialize_record_with_pointer_and_code(controller, object, saved_arg);
-        D_800D0B14 = 0;
+        town_saved_motion_pointer = 0;
         return;
     }
 
@@ -79,7 +79,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
         }
     }
 
-    position = D_80100D60;
+    position = town_event_motion_pair;
     wave = rcos(*(s16 *)(position + 2) - 0x400);
     *(s32 *)position += 0x500000 - (wave << 10);
     rise = town_orbit_radius;

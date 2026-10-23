@@ -38,8 +38,8 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         part_a = obj->position;
         part_a->z.w.i = saved_spawn;
         part_b = obj->sprite;
-        part_b->unk_24 = saved_kind_id;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_x = saved_kind_id;
+        part_b->tile_y = saved_variant;
         actor = work;
         kind = flags & 3;
 
@@ -75,7 +75,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                 }
             }
         }
-        obj->unk_10 = func_8015EA58;
+        obj->update_callback = func_8015EA58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         ((S_8015E854_4 *)actor)->unk_9A = 0xFF;
         ((S_8015E854_4 *)actor)->unk_9C = -1;

@@ -32,12 +32,12 @@ s32 create_owner_following_sprite(s32 state_value) {
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
     state->unk_9C = state_value;
-    object->unk_10 = compute_offset_position_linked_object;
+    object->update_callback = compute_offset_position_linked_object;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
     render_data->source = lookup_item_category_mapped_value(0xD, 3);
     register_node(object, project_sprite_chain);
-    ((s32 (*)(void *, s32, void *))object->unk_10)(state, callback_arg, render_data);
+    ((s32 (*)(void *, s32, void *))object->update_callback)(state, callback_arg, render_data);
     return (s32)object;
 }

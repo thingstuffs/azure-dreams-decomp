@@ -57,7 +57,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void * actor_update_node_cursor;
-extern u8 D_80170E7C;
+extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D7C;
 extern u8 D_80174D84;
 extern u8 D_80174D8C;

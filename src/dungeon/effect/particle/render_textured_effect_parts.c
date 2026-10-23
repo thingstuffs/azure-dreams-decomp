@@ -17,7 +17,7 @@
 #include "shared/dungeon_status.h"
 
 void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile_burst_and_impact;
-const PathBlock D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
+const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
 
 /* Decrement the record counter, process update data, and flag depletion. */
 void render_textured_effect_parts(void *record_data, void *unused, void *update_data) {
@@ -52,13 +52,13 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
         header = (D8181A8C0Header *)((u8 *)object + 0x20);
         header->f2 = 1;
         header->f4 = 1;
-        object->unk_10 = &render_textured_effect_parts;
+        object->update_callback = &render_textured_effect_parts;
         register_node(object, (s32)project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
         asset = *(D8181A8C0Asset * *)&object->sprite;
         asset->tpage_abr = asset_param;
-        asset->unk_06 = 0;
+        asset->depth_bias = 0;
         asset->flags = (s16) (asset->flags | 0xC);
         position = *(D8181A8C0Vector * *)&object->position;
         position->x.w.i = offset_x;
@@ -275,7 +275,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)advance_scattered_directional_particle;
+        spawned->update_callback = (void *)advance_scattered_directional_particle;
         jitter_x = rand() & 0x1F;
         position_x = source_obj->position->x.w.i;
         dest_x = spawned->position;
@@ -366,14 +366,14 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         state = effect + 0x20;
         state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
-        ((ObjectNodeHeader *)effect)->unk_10 = &cycle_moving_effect_phase;
+        ((ObjectNodeHeader *)effect)->update_callback = &cycle_moving_effect_phase;
         register_node(effect, (s32)project_sprite_chain);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((ObjectNodeHeader *)effect)->position;
-        position->x.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_02 + offset_x);
-        position->y.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_06 + offset_y);
-        position->z.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->unk_0A + offset_z);
+        position->x.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->x + offset_x);
+        position->y.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->y + offset_y);
+        position->z.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->z + offset_z);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->unk_1E = 0x1000;
         render->unk_1C = 0x1000;
@@ -450,7 +450,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
     u16 origin_height;
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
-    velocity_table = D_80024004;
+    velocity_table = textured_particle_direction_offsets;
     task = (u8 *)source - 0x20;
     origin = task->unk_08;
     ((S_80024BE8_0 *)effect)->unk_82++;
@@ -474,9 +474,9 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         source_sprite = task->unk_0C;
         if ((get_sprite_attachment_vector(source_sprite->unk_08, source_sprite, offset, 0) != 0) ||
             (((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
-            motion->x.w.i = origin->unk_02;
-            motion->y.w.i = origin->unk_06;
-            origin_height = origin->unk_0A;
+            motion->x.w.i = origin->x;
+            motion->y.w.i = origin->y;
+            origin_height = origin->z;
             motion->z.w.i = origin_height;
 
             if (!(((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
@@ -604,7 +604,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
                 impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
-                    impact->unk_10 = grow_timed_sprite_effect;
+                    impact->update_callback = grow_timed_sprite_effect;
                     register_node(impact, (s32)draw_linked_sprites_clipped);
                     impact_sprite = (s32)(impact->sprite);
                     ((SpriteFrameState *)impact_sprite)->tpage_abr = 0;
@@ -759,7 +759,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         impact = allocate_flagged_object_node(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
-            impact->unk_10 = create_radial_height_offset_effect;
+            impact->update_callback = create_radial_height_offset_effect;
             register_node(impact, (s32)project_sprite_chain);
             particle_sprite = impact->sprite;
             particle_sprite->tpage_abr = 0;
@@ -782,19 +782,19 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             switch (side) {
             case 0:
                 particle_position->y.w.i = ((u16) motion->y.w.i) + 8;
-                particle_sprite->unk_06 = 7;
+                particle_sprite->depth_bias = 7;
                 break;
             case 1:
                 particle_position->x.w.i = ((u16) motion->x.w.i) - 8;
-                particle_sprite->unk_06 = 7;
+                particle_sprite->depth_bias = 7;
                 break;
             case 2:
                 particle_position->x.w.i = ((u16) motion->x.w.i) + 8;
-                particle_sprite->unk_06 = 7;
+                particle_sprite->depth_bias = 7;
                 break;
             case 3:
                 particle_position->y.w.i = ((u16) motion->y.w.i) - 8;
-                particle_sprite->unk_06 = -7;
+                particle_sprite->depth_bias = -7;
                 break;
             }
 

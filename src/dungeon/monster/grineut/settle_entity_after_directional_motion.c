@@ -24,7 +24,7 @@ extern void begin_actor_display_action(void *actor, void *unused, void *display,
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_80152E54;
-extern u8 D_80156150[];
+extern u8 grineut_frame_set_8[];
 extern u8 D_80156178[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
@@ -87,10 +87,10 @@ void settle_entity_after_directional_motion(void *action, ObjectPosition *motion
             begin_actor_display_action(action, motion, sprite, D_80156178);
             return;
         } else {
-            sprite->frameTable = D_80156150;
+            sprite->frameTable = grineut_frame_set_8;
             select_sprite_entry(
                 sprite,
-                D_80156150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80155238_1 *)action)->unk_9B++;
             return;
@@ -103,10 +103,10 @@ void settle_entity_after_directional_motion(void *action, ObjectPosition *motion
             return;
         }
 
-        sprite->frameTable = D_80156150;
+        sprite->frameTable = grineut_frame_set_8;
         select_sprite_entry(
             sprite,
-            D_80156150[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80155238_1 *)action)->unk_96.s = 8;
         ((S_80155238_1 *)action)->unk_9B++;
@@ -116,12 +116,12 @@ void settle_entity_after_directional_motion(void *action, ObjectPosition *motion
         timer = ((S_80155238_1 *)action)->unk_96.s;
         if (timer != 0) {
             {
-                s32 tile_x = sprite->unk_24 << 6;
+                s32 tile_x = sprite->tile_x << 6;
                 s32 offset_x = motion->x.w.i - 0x20;
                 motion->velocity_x = ((tile_x - offset_x) << 15) / timer;
             }
             {
-                s32 tile_y = sprite->unk_25 << 6;
+                s32 tile_y = sprite->tile_y << 6;
                 s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((tile_y - offset_y) << 15) / ((S_80155238_1 *)action)->unk_96.s;
@@ -137,9 +137,9 @@ void settle_entity_after_directional_motion(void *action, ObjectPosition *motion
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        motion->x.v = ((sprite->unk_24 << 6) + 0x20) << 16;
-        motion->y.v = ((sprite->unk_25 << 6) + 0x20) << 16;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        motion->x.v = ((sprite->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((sprite->tile_y << 6) + 0x20) << 16;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_addr = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_addr == (s32)((u8 *)entity - 0x20)) {

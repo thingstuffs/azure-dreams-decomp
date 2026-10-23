@@ -18450,6 +18450,112 @@
    "review_inputs": [
     "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
    ]
+  },
+  {
+   "key": "town_threshold_counter_ll34_594800_80016000",
+   "module": "town_threshold_counter",
+   "image": "town/ll34_594800_80016000",
+   "home_image": "town/ll34_581000_80016000",
+   "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+   },
+   "members": [
+    {
+     "home": "town/func_80601310",
+     "row": "town/func_806156E0"
+    },
+    {
+     "home": "town/func_80601338",
+     "row": "town/func_80615708"
+    }
+   ],
+   "imports": [
+    {
+     "symbol": "D_80016000",
+     "kind": "data",
+     "vma": 2147573760,
+     "foff": 5851136,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+    },
+    {
+     "symbol": "D_80017FB8",
+     "kind": "data",
+     "vma": 2147586664,
+     "foff": 5864040,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+    }
+   ],
+   "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+   },
+   "review_inputs": [
+    "docs/evidence/town_threshold_counter_ll34_594800_80016000.placement.json"
+   ]
+  },
+  {
+   "key": "town_threshold_counter_ll34_5b2000_80016000",
+   "module": "town_threshold_counter",
+   "image": "town/ll34_5b2000_80016000",
+   "home_image": "town/ll34_581000_80016000",
+   "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+   },
+   "members": [
+    {
+     "home": "town/func_80601310",
+     "row": "town/func_80632230"
+    },
+    {
+     "home": "town/func_80601338",
+     "row": "town/func_80632258"
+    }
+   ],
+   "imports": [
+    {
+     "symbol": "D_80016000",
+     "kind": "data",
+     "vma": 2147573760,
+     "foff": 5971968,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_threshold_counter_ll34_5b2000_80016000.placement.json"
+    },
+    {
+     "symbol": "D_80017FB8",
+     "kind": "data",
+     "vma": 2147579784,
+     "foff": 5977992,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_threshold_counter_ll34_5b2000_80016000.placement.json"
+    }
+   ],
+   "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+   },
+   "review_inputs": [
+    "docs/evidence/town_threshold_counter_ll34_5b2000_80016000.placement.json"
+   ]
   }
  ]
 }

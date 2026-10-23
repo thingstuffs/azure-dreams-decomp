@@ -44,7 +44,7 @@ void create_encounter_view_darkener(void)
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->unk_10) = D_801701CC;
+        (object->update_callback) = D_801701CC;
         register_node(object, linked_sprite_renderer_address);
 
         axis_state = (object->position);

@@ -2,11 +2,11 @@
 
 extern u8 D_800136B8;
 extern void *town_map_entry_list[];
-extern u8 D_80082E78;
+extern u8 town_map_event_kind;
 extern u8 D_800D1A0C[];
-extern u8 D_800D1D1C[];
-extern u8 D_800D1D24[];
-extern u8 D_800D1D2C[];
+extern u8 town_map_primary_entry[];
+extern u8 town_map_secondary_entry[];
+extern u8 town_map_tertiary_entry[];
 extern u8 D_800D1D54[];
 extern u8 D_800D1D5C[];
 extern u8 D_800D1D64[];
@@ -19,7 +19,7 @@ extern u8 D_800D1DD4[];
 extern u8 D_800D1DDC[];
 extern u8 D_800D1DE4[];
 extern u8 D_800D1DEC[];
-extern u8 D_800D1E7C[];
+extern u8 town_map_optional_entry[];
 extern u8 town_map_variants[];
 extern u8 town_map_selection_state[];
 
@@ -33,11 +33,11 @@ void build_map_variant_entry_list(void) {
     u8 *map_records;
 
     count = 1;
-    town_map_entry_list[0] = D_800D1D1C;
-    if ((u32)(D_80082E78 - 0x16) >= 2U) {
+    town_map_entry_list[0] = town_map_primary_entry;
+    if ((u32)(town_map_event_kind - 0x16) >= 2U) {
         count = 3;
-        town_map_entry_list[1] = D_800D1D24;
-        town_map_entry_list[2] = D_800D1D2C;
+        town_map_entry_list[1] = town_map_secondary_entry;
+        town_map_entry_list[2] = town_map_tertiary_entry;
     }
     map_records = town_map_variants;
     switch (map_records[town_map_selection_state[6] << 5]) {
@@ -48,7 +48,7 @@ void build_map_variant_entry_list(void) {
         case 0xC: town_map_entry_list[count++] = D_800D1D64; break;
         case 0xD: town_map_entry_list[count++] = D_800D1D6C; break;
         }
-        town_map_entry_list[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = town_map_optional_entry;
         break;
     case 0xF:
         switch ((*(u8 *)0x800136B8)) {
@@ -57,7 +57,7 @@ void build_map_variant_entry_list(void) {
         case 0xC: town_map_entry_list[count++] = D_800D1DC4; break;
         case 0xD: town_map_entry_list[count++] = D_800D1DCC; break;
         }
-        town_map_entry_list[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = town_map_optional_entry;
         break;
     case 0x10:
         switch ((*(u8 *)0x800136B8)) {
@@ -66,7 +66,7 @@ void build_map_variant_entry_list(void) {
         case 0xC: town_map_entry_list[count++] = D_800D1DE4; break;
         case 0xD: town_map_entry_list[count++] = D_800D1DEC; break;
         }
-        town_map_entry_list[count++] = D_800D1E7C;
+        town_map_entry_list[count++] = town_map_optional_entry;
         break;
     default:
         i = 0;

@@ -66,7 +66,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->unk_10 = D_80170A58;
+        object->update_callback = D_80170A58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
@@ -74,10 +74,10 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         part_a->unk_0A = value_0A;
         part_b = object->sprite;
         kind = mask & 3;
-        part_b->unk_25 = value_25;
+        part_b->tile_y = value_25;
         actor = work;
         part_b->frameTable = ifrit_direction_frames;
-        part_b->unk_24 = value_24;
+        part_b->tile_x = value_24;
 
         if (kind == 1) {
             value_14 = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

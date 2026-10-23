@@ -13,7 +13,7 @@ extern u8 D_807007C8[];
 extern u8 D_807007D0[];
 extern TownCallbackOwner *devkit_list_methods[];
 extern s32 D_80700710[];
-extern s32 D_8070070C[];
+extern s32 devkit_scene_list_length[];
 
 /* Reports the supplied kind and the stored mode and scene number (sno). */
 void dev_report_kind_mode_sno_alt(s32 kind) {
@@ -25,5 +25,5 @@ void dev_report_kind_mode_sno_alt(s32 kind) {
     callback = devkit_list_methods[0]->func68;
     callback(callback_data, D_807007C8, D_80700710[0]);
     callback = devkit_list_methods[0]->func68;
-    callback(callback_data, D_807007D0, D_8070070C[0]);
+    callback(callback_data, D_807007D0, devkit_scene_list_length[0]);
 }

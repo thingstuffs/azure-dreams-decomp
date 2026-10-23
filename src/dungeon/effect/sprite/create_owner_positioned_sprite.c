@@ -46,7 +46,7 @@ Object *allocate_list_node();
 void register_node();
 void draw_textured_ellipse();
 extern u8 D_80025AC4[12];
-extern u8 D_800281FC[12];
+extern u8 screen_effect_sprite_entries[12];
 extern u8 D_80028238[12];
 extern u8 D_80028250[12];
 
@@ -59,16 +59,16 @@ void create_owner_positioned_sprite(Object *owner, s16 angle) {
 
     spawned = allocate_list_node(0x212, owner);
     if (spawned != 0) {
-        spawned->unk_10 = D_80025AC4;
+        spawned->update_callback = D_80025AC4;
         register_node(spawned, project_sprite_chain);
         (*(Sprite * *)&spawned->position)->x = owner->sprite->x;
         (*(Sprite * *)&spawned->position)->y = owner->sprite->y;
         (*(Sprite * *)&spawned->position)->z = owner->sprite->z;
         node = *(Node * *)&spawned->sprite;
-        node->source = D_800281FC;
+        node->source = screen_effect_sprite_entries;
         node->scale_y = 0x2800;
         node->scale_x = 0x2800;
-        node->unk_06 = 8;
+        node->depth_bias = 8;
         node->angle_z = angle + 0x400;
         tail = (ObjectTail *)((u8 *)spawned + 0x20);
         node->color.word = 0x808080;

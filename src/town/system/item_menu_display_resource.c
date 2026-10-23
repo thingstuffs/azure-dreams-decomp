@@ -59,7 +59,7 @@ void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resourc
             payload->unk_D4 = link_item_menu_display_entries(payload->unk_D8);
             initialize_item_menu_list_display(payload, parent, resource_id, resource_data, x, y, context);
             register_node(object, draw_tinted_node_sprites_scratch);
-            object->unk_10 = advance_item_menu_object_animation;
+            object->update_callback = advance_item_menu_object_animation;
         } else {
             release_null_terminated_entries((u8 *)object + 0xFC);
             object->flags |= 0x8000;

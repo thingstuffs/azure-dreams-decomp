@@ -46,7 +46,7 @@ void *allocate_object_with_child_render_entries(s32 kind, s32 part_x, s32 part_y
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = project_sprite_chain;
-            init_root->unk_10 = D_8014CBF8;
+            init_root->update_callback = D_8014CBF8;
             ((S_8014C8DC_1 *)object)->unk_13 = MONSTER_KID;
             register_node(init_root, setup);
         }
@@ -61,8 +61,8 @@ void *allocate_object_with_child_render_entries(s32 kind, s32 part_x, s32 part_y
             part = root->sprite;
             part->frameTable = part_callback;
         }
-        part->unk_24 = saved_part_x;
-        part->unk_25 = saved_part_y;
+        part->tile_x = saved_part_x;
+        part->tile_y = saved_part_y;
 
         {
             s32 flags_14;
@@ -133,13 +133,13 @@ void *allocate_object_with_child_render_entries(s32 kind, s32 part_x, s32 part_y
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((S_8014C8DC_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                    part_value = part->unk_28;
+                    part_value = part->animation_resource;
                     item->tpage_abr = 0x20;
                     item->color.word = 0x00808080;
-                    item->unk_28 = part_value;
+                    item->animation_resource = part_value;
                     outer_child = ((S_8014C8DC_8 *)outer_base)->unk_A4;
                     call_zero = 0;
-                    outer_child->unk_10 = child_object_update_address;
+                    outer_child->update_callback = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = ((view_facing_angle_alias +
                         ((S_8014C8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;

@@ -89,7 +89,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, ObjectPosition *mot
                 s32 target_x;
                 s32 current_x;
 
-                target_x = tile->unk_24 << 6;
+                target_x = tile->tile_x << 6;
                 current_x = motion->x.w.i - 0x20;
                 motion->velocity_x =
                     ((target_x - current_x) << 15) >> 1;
@@ -98,7 +98,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, ObjectPosition *mot
                 s32 target_z;
                 s32 current_z;
 
-                target_z = tile->unk_25 << 6;
+                target_z = tile->tile_y << 6;
                 current_z = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_z - current_z) << 15) >> 1;
@@ -112,7 +112,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, ObjectPosition *mot
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

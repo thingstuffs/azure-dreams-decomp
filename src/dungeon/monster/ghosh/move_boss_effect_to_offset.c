@@ -46,8 +46,8 @@ void move_boss_effect_to_offset(s32 offset_index) {
     entity = ((S_80171168_0 *)(*ghosh_boss_node))->unk_0C;
     entity_id = ((S_80171168_0 *)(*ghosh_boss_node))->unk_08;
     entity->flags = (u16) (entity->flags & 0xFF7F);
-    old_x = entity->unk_24;
-    old_y = entity->unk_25;
+    old_x = entity->tile_x;
+    old_y = entity->tile_y;
     if (entity_state->unk_1C & 0x2000) {
         old_cell_mask = 0x300;
     }
@@ -55,11 +55,11 @@ void move_boss_effect_to_offset(s32 offset_index) {
     origin = &reference_tile_object;
     offset_pair = &offset_pair[offset_index];
     offset_bytes = (u8 *)offset_pair;
-    entity->unk_24 = (u8) (origin->tile_position.parts.tile_x + offset_bytes[0]);
-    entity->unk_25 = (u8) (origin->tile_position.parts.tile_y + offset_bytes[1]);
-    set_record_integer_tile_center(entity_id, entity->unk_24, entity->unk_25);
-    new_x = entity->unk_24;
-    new_y = entity->unk_25;
+    entity->tile_x = (u8) (origin->tile_position.parts.tile_x + offset_bytes[0]);
+    entity->tile_y = (u8) (origin->tile_position.parts.tile_y + offset_bytes[1]);
+    set_record_integer_tile_center(entity_id, entity->tile_x, entity->tile_y);
+    new_x = entity->tile_x;
+    new_y = entity->tile_y;
     new_cell_mask = 0x3000;
     if (entity_state->unk_1C & 0x2000) {
         new_cell_mask = 0x300;

@@ -381,7 +381,7 @@ extern u8 D_80173C74[];
 extern u8 actor_turn_angle_offsets[];
 extern u8 D_80173C8C[];
 extern u8 dragon_frame_set_2[];
-extern u8 D_80173C9C[];
+extern u8 dragon_frame_set_3[];
 extern u8 effect_update_tag[];
 extern u8 actor_update_node_cursor[];
 extern u8 dragon_frame_set_1[];

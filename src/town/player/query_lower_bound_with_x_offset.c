@@ -9,8 +9,8 @@ typedef struct {
 } Vec3s32;
 
 s16 find_minimum_sampled_position(s32, s32, s32);
-extern void *D_800D0418[3];
-extern s32 D_800FE5D0[3];
+extern void *town_secondary_probe_samples[3];
+extern s32 town_secondary_probe_offset[3];
 
 /* Return the lower probe result, sampling an X offset when the displacement exceeds the limit. */
 s32 query_lower_bound_with_x_offset(Vec3s32 *input_pos) {
@@ -22,13 +22,13 @@ s32 query_lower_bound_with_x_offset(Vec3s32 *input_pos) {
     probe_pos.x = input_pos->x;
     probe_pos.y = input_pos->y;
     probe_pos.z = input_pos->z;
-    initial_result = find_minimum_sampled_position((s32)(&probe_pos), (s32)(D_800D0418[0]), 6);
-    x_delta = D_800FE5D0[0];
+    initial_result = find_minimum_sampled_position((s32)(&probe_pos), (s32)(town_secondary_probe_samples[0]), 6);
+    x_delta = town_secondary_probe_offset[0];
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }
     probe_pos.y = input_pos->y - (x_delta / 2);
-    result = find_minimum_sampled_position((s32)(&probe_pos), (s32)(D_800D0418[0]), 6);
+    result = find_minimum_sampled_position((s32)(&probe_pos), (s32)(town_secondary_probe_samples[0]), 6);
     if (result < initial_result) {
         return result;
     }

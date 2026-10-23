@@ -209,8 +209,8 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
 
     if (((S_8017112C_0 *)actor)->unk_1C & 0x40000000) {
         ((S_8017112C_0 *)actor)->unk_1C &= 0xBFFFFFFF;
-        floor_height = sample_terrain_surface_height((monster_arg->unk_24 << 6) | 0x20,
-                              (monster_arg->unk_25 << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((monster_arg->tile_x << 6) | 0x20,
+                              (monster_arg->tile_y << 6) | 0x20,
                               (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
         if (floor_height < 0x200) {
             (*(u16 *)((u8 *)entity_arg + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;

@@ -29,7 +29,7 @@ extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(vo
 
 extern s32 town_money[];
 extern TownRewardValues D_80020278;
-extern u8 D_80024488[];
+extern u8 minigame_pickup_bounds[];
 extern s32 D_800244DC[];
 extern s32 pickup_reward_total[];
 extern u8 D_800D0420[];
@@ -100,7 +100,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
                 sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
                 ((SpriteFrameState *)sprite)->clut = 0;
                 ((SpriteFrameState *)sprite)->unk_04 = 0;
-                ((SpriteFrameState *)sprite)->unk_05 = 0;
+                ((SpriteFrameState *)sprite)->frame_ticks = 0;
                 ((SpriteFrameState *)sprite)->source = sprite_data;
                 ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
                 ((S_800236BC_1 *)object)->unk_06.s = 150;
@@ -109,7 +109,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
                 ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
             }
         }
-        collision_addr = (u32)&D_80024488;
+        collision_addr = (u32)&minigame_pickup_bounds;
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) == 0) {
             return;
         }
@@ -138,7 +138,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
             ((S_800236BC_1 *)object)->unk_06.s = 31;
             ((S_800236BC_1 *)object)->unk_04.u++;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) == 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_pickup_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -155,7 +155,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
         return;
 
     case 4:
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(minigame_pickup_bounds, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
             town_money[0] += reward_amount;

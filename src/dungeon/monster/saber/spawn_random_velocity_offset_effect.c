@@ -48,21 +48,21 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     u32 angle_page;
     MovingPosition *reference_pos;
 
-    work.xyz[0] = position->unk_02;
-    work.xyz[1] = position->unk_06;
-    work.xyz[2] = position->unk_0A;
+    work.xyz[0] = position->x;
+    work.xyz[1] = position->y;
+    work.xyz[2] = position->z;
     position_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
 
     reference_pos = ((S_80AC5820_1 *)state)->unk_A8;
-    work.xyz[0] = reference_pos->unk_02;
-    work.xyz[1] = reference_pos->unk_06;
-    work.xyz[2] = reference_pos->unk_0A;
+    work.xyz[0] = reference_pos->x;
+    work.xyz[1] = reference_pos->y;
+    work.xyz[2] = reference_pos->z;
     reference_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
     angle_page = (u32)resident_globals_page;
     angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
-    ((SpriteFrameState *)result)->unk_06 = position_value - reference_value - *angle_bias * 2;
+    ((SpriteFrameState *)result)->depth_bias = position_value - reference_value - *angle_bias * 2;
 
     advance_sprite_animation_and_textures(result);
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;

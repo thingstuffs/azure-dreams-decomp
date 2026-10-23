@@ -23,7 +23,7 @@ extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
 extern s32 D_800D215C[];
 extern s32 D_800D216C[][2];
-extern s32 D_800D219C[][3];
+extern s32 town_item_layout_coordinates[][3];
 extern s32 D_800D21B4[];
 extern s8 D_800D2238[];
 extern u8 D_800D225C[];
@@ -185,9 +185,9 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.h[5] = query_lowered_transform_position(position.w);
         x_or_object.object = create_positioned_graphic_object_2(position.w, copy_record_state_to_destination, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
-        *((s32 *) (y_or_state.object + 0xA0)) = D_800D219C[entry_index][0];
-        *((s32 *) (y_or_state.object + 0xA4)) = D_800D219C[entry_index][1];
-        *((s32 *) (y_or_state.object + 0xA8)) = D_800D219C[entry_index][2];
+        *((s32 *) (y_or_state.object + 0xA0)) = town_item_layout_coordinates[entry_index][0];
+        *((s32 *) (y_or_state.object + 0xA4)) = town_item_layout_coordinates[entry_index][1];
+        *((s32 *) (y_or_state.object + 0xA8)) = town_item_layout_coordinates[entry_index][2];
         if (object_type == 0x17) {
             display_data = *((void **) (x_or_object.object + 0xC));
             alt_display_flags = *((u16 *) (((u8 *) display_data) + 0x14));

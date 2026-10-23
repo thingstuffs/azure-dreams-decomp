@@ -33,7 +33,7 @@ s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_80025E04[];
+extern SpriteSourceEntry flash_sprite_entries[];
 
 /* Creates a colored object, copies its transform, and applies a vertical offset. */
 s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index, s32 y_offset) {
@@ -53,7 +53,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     saved_y_offset = y_offset;
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = &func_800248C0;
+        object->update_callback = &func_800248C0;
         ((S_818BD1C4_0 *)object)->unk_20 = (s32) *owner_id;
         state = ((void *)object) + 0x20;
         state->unk_06 = 0;
@@ -82,7 +82,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         visual->flags = (u16) (visual->flags | 0xC);
         visual->tpage_abr = (u16) (visual->tpage_abr | 0x60);
         visual->flags = (u16) (visual->flags | 0x100);
-        select_record_entry_and_value(data_ptr, &D_80025E04, 0);
+        select_record_entry_and_value(data_ptr, &flash_sprite_entries, 0);
         phase_rounded = rand();
         phase_value = phase_rounded;
         if (phase_value < 0) {

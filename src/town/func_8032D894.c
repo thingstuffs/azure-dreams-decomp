@@ -33,12 +33,12 @@ void apply_target_grid_rectangle(s32 target_x, s32 target_y)
     target_x <<= 6;
     target_y <<= 6;
     current_rect.w = 0;
-    coord_offset = ((S_80018094_1 *)((D_80016000->unk_08 << 5) +
-            *((s32 *)D_80016000->unk_30)))->unk_0C + 0x20;
+    coord_offset = ((S_80018094_1 *)((town_scene_root->unk_08 << 5) +
+            *((s32 *)town_scene_root->unk_30)))->unk_0C + 0x20;
     target_x += coord_offset;
     target_rect.x = target_x;
-    coord_offset = ((S_80018094_1 *)((D_80016000->unk_08 << 5) +
-            *((s32 *)D_80016000->unk_30)))->unk_0E + 0x20;
+    coord_offset = ((S_80018094_1 *)((town_scene_root->unk_08 << 5) +
+            *((s32 *)town_scene_root->unk_30)))->unk_0E + 0x20;
     target_rect.w = 0;
     target_y += coord_offset;
     target_rect.y = target_y;

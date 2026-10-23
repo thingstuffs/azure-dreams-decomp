@@ -78,7 +78,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         object_work = (u8 *)object + 0x20;
         object_work->unk_96 = initial_value;
         object_work->unk_AA = initial_value;
-        object->unk_10 = D_800D6FEC;
+        object->update_callback = D_800D6FEC;
         object_work->unk_B0 = anchor;
         object_data = object->sprite;
         *(S_80D653B8_2 *)object_data = *object_template;
@@ -90,7 +90,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         object_data->color.c.r = 0x80;
         object_data->tpage_abr = 0x20;
         object_data->clut = 0xFF80;
-        object_data->unk_06 = -6;
+        object_data->depth_bias = -6;
         object_data->flags |= 0xC;
         register_node(object, project_sprite_chain);
 
@@ -104,9 +104,9 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         }
 
         position = object->position;
-        position->unk_02 = anchor->unk_02;
-        position->unk_06 = anchor->unk_06;
-        position->unk_0A =
+        position->x = anchor->unk_02;
+        position->y = anchor->unk_06;
+        position->z =
             anchor->unk_0A + anchor->unk_16;
     }
 }

@@ -18,7 +18,7 @@ void initialize_shop_window_layout(void *ui) {
         0x2F;
     process_shop_record_and_subrecord((s32)(header));
     position_shop_row_widgets(ui);
-    initialize_scaled_entry_cursor(ui + 0x28, (struct S8004CBFC_a1 *)(&D_800792DC), (int *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08));
+    initialize_scaled_entry_cursor(ui + 0x28, (struct S8004CBFC_a1 *)(&shop_cursor_template), (int *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08));
     row = 4;
     lower_y = 0xC8;
     right_y = 0x55;

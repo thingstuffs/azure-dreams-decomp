@@ -241,10 +241,10 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
         return 0;
     }
     if ((callback_id & 0xC0000000) == 0xC0000000) {
-        object->unk_10 = D_800D3950[(u16)callback_id];
+        object->update_callback = D_800D3950[(u16)callback_id];
     }
     if ((callback_id & 0xC0000000) != 0xC0000000) {
-        object->unk_10 = callback_id;
+        object->update_callback = callback_id;
     }
 
     if (callback_id & 1) {
@@ -341,7 +341,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     } else {
         callback_render = render_data;
     }
-    ((func_8009FCC4_Callback)*(u32 *)&object->unk_10)(state, position, callback_render);
+    ((func_8009FCC4_Callback)*(u32 *)&object->update_callback)(state, position, callback_render);
     return 1;
 }
 
@@ -750,7 +750,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-    created->unk_10 = dispatch_object_or_switch_alternate_state;
+    created->update_callback = dispatch_object_or_switch_alternate_state;
     initialize_object_and_maybe_play_sound(object, object, position, render_state);
     del_t_item_w_ptr(object_data);
     return created;

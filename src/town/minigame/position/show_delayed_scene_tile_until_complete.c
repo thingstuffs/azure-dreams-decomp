@@ -52,7 +52,7 @@ void show_delayed_scene_tile_until_complete(void *object)
     case 1:
         if (status_data->unk_2A & 1) {
             page = 0x80080000;
-            ((ObjectStatusPrefix16 *)object)[-1].unk_00 |= 0x8000;
+            ((ObjectStatusPrefix16 *)object)[-1].flags |= 0x8000;
             ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
         }
         break;

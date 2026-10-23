@@ -139,7 +139,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
                             >> 9) & 7],
                         1);
-                    entity_in->unk_05 = 1;
+                    entity_in->frame_ticks = 1;
                     motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
                     ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
                     ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
@@ -184,15 +184,15 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         }
     }
 
-    room_id = find_active_rect_containing_point(entity_in->unk_24, entity_in->unk_25);
-    entity_in->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(entity_in->tile_x, entity_in->tile_y);
+    entity_in->room_index = room_id;
 
     if (((S_801719DC_1 *)actor_in)->unk_6D > 0) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor_in);
             return;
         }
-        if (*(u16 *)&entity_in->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&entity_in->tile_x == reference_tile_object.tile_position.word) {
             func_801721D8(motion_in, context_in, entity_in, actor_in);
             return;
         }
@@ -233,12 +233,12 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(
-                entity_in->unk_24, entity_in->unk_25,
+                entity_in->tile_x, entity_in->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
             player = primary_actor_record;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
-            if (player->unk_9A == 0x11) {
+            if (player->action_id == 0x11) {
                 begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &death_action_resume_address);
                 return;
             }
@@ -271,10 +271,10 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        entity_in->unk_24, entity_in->unk_25,
+                        entity_in->tile_x, entity_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_801719DC_1 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        entity_in->unk_24, entity_in->unk_25,
+                        entity_in->tile_x, entity_in->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }
@@ -297,7 +297,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             select_sprite_entry(entity_in,
                 ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
-            entity_in->unk_05 = 1;
+            entity_in->frame_ticks = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;

@@ -82,7 +82,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
         move_frames = ((S_80154B4C_0 *)action)->unk_9E.s;
         ((S_80154B4C_0 *)action)->unk_90 -= ((S_80154B4C_0 *)action)->unk_A4;
         if (move_frames != 0) {
-            target_x = sprite->unk_24;
+            target_x = sprite->tile_x;
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
@@ -91,7 +91,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             world_y = motion->y.w.i;
             world_y -= 0x20;
             motion->velocity_y =
-                (((sprite->unk_25 << 6) - world_y) << 16) /
+                (((sprite->tile_y << 6) - world_y) << 16) /
                 ((S_80154B4C_0 *)action)->unk_9E.s;
 
             ((S_80154B4C_0 *)action)->unk_A4 =
@@ -121,7 +121,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             state_anims = D_8015757C;
             sprite->frameTable = state_anims;
             select_sprite_entry(sprite,
@@ -156,7 +156,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     motion->velocity_y = 0;
     motion->velocity_x = 0;
     sprite->scale_y = 0x1000;
-    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
@@ -173,8 +173,8 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                sprite->unk_24,
-                sprite->unk_25,
+                sprite->tile_x,
+                sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
                 &facing_aux);

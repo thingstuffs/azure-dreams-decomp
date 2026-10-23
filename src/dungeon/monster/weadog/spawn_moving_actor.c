@@ -16,7 +16,7 @@ typedef struct {
     u8 bytes[32];
 } __attribute__((packed)) Copy32;
 
-extern Copy32 D_80170808;
+extern Copy32 weadog_slot_g_direction_steps;
 extern u8 D_80077C50[];
 extern u8 D_801708BC[];
 extern s32 weadog_action_resume_address;
@@ -31,7 +31,7 @@ extern void spend_actor_mp(void *, s32);
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
 void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *sprite, void *actor) {
-    Copy32 direction_vectors = D_80170808;
+    Copy32 direction_vectors = weadog_slot_g_direction_steps;
     s32 state;
     u16 timer;
     u16 flags;
@@ -69,7 +69,7 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
             }
             spawned_actor = allocate_flagged_object_node(0x12);
             if (spawned_actor != 0) {
-                spawned_actor->unk_10 = D_801708BC;
+                spawned_actor->update_callback = D_801708BC;
                 spawned_work = (u8 *)spawned_actor + 0x20;
                 register_node(spawned_actor, project_sprite_chain);
                 spawned_sprite = spawned_actor->sprite;
@@ -94,7 +94,7 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
                 direction_index = ((u16)S16_AT(actor, 0x2A) >> 7) & 0x1C;
                 direction_ptr = direction_index + (u8 *)direction_ptr;
                 direction_y = *(volatile u16 *)((u8 *)direction_ptr + 2);
-                spawned_sprite->unk_06 = direction_y * 6;
+                spawned_sprite->depth_bias = direction_y * 6;
                 S16_AT(action_work, 0xA4) = 0x4D;
                 tile_coord = S16_AT(position, 2);
                 if (tile_coord < 0) {
@@ -138,7 +138,7 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
         S32_AT(position, 0x14) = 0;
         S32_AT(position, 0x10) = 0;
         S32_AT(position, 0x0C) = 0;
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         if (PTR_AT(sprite, 0x2C) == weadog_frame_set_3) {
             return;
         }

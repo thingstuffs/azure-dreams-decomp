@@ -4,11 +4,6 @@
 #include "common.h"
 #include "slus.h"
 
-typedef struct RuntimeState {
-    u8 pad_00[0x10];
-    u32 flags_10;
-} RuntimeState;
-
 typedef struct CursorInfo {
     u8 pad_00[0x26];
     u8 count_26;

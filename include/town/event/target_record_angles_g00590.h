@@ -25,7 +25,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 extern IntVector3 D_80100D48, D_80100D68;
-extern PositionRotationPair D_80100D60;
+extern PositionRotationPair town_event_motion_pair;
 
 extern u16 D_80100D40, D_80100D42, town_motion_x_step, town_motion_y_step;
 extern void draw_random_colored_line(s32, s32);

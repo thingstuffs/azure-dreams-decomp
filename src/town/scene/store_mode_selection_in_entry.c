@@ -23,27 +23,27 @@ extern s32 build_entry_list(s32);
 s32 store_mode_2_selection_in_entry(S_8001BFF4_1 *context, s32 entry_index) {
     u8 mode;
 
-    mode = town_event_state->unk_05;
+    mode = town_event_state->selection_mode;
     if (mode == 2) {
-        if (((Callback)D_80016000->unk_20->callback_2D4)(0) == mode) {
-            if (check_event_value_in_list(town_event_state->unk_04) != 0) {
-                ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
-                    build_selected_entry_output(town_event_state->unk_04);
+        if (((Callback)town_scene_root->services->callback_2D4)(0) == mode) {
+            if (check_event_value_in_list(town_event_state->selected_entry) != 0) {
+                ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->value =
+                    build_selected_entry_output(town_event_state->selected_entry);
                 return 0;
             } else {
-                ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
+                ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->value =
                     build_selected_entry_output(0);
                 return 0;
             }
         } else {
             s32 selection;
 
-            if (check_event_value_in_list(town_event_state->unk_04) != 0) {
-                selection = town_event_state->unk_04;
+            if (check_event_value_in_list(town_event_state->selected_entry) != 0) {
+                selection = town_event_state->selected_entry;
             } else {
                 selection = 0;
             }
-            ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
+            ((TownEventEntryValueView *)((u8 *)context->unk_10 + entry_index * 0x10))->value =
                 build_entry_list(selection);
             return 0;
         }

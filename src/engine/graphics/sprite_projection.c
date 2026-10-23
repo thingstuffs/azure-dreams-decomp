@@ -1,15 +1,14 @@
 /* Sprite-group traversal, projection and visible textured-quad submission. */
 #include "slus/gp_shared_81510.h"
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/scratchpad.h"
 #include "engine/entity.h"
 #include "engine/graphics.h"
 #include "sdk/libgte.h"
 
-
 /* Inferred present ownership of the retail zero word. */
 s32 sprite_command_depth_scale = 0;
-
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
 
@@ -148,19 +147,12 @@ typedef struct ScratchOt {
     s32 depth_offset;
 } ScratchOt;
 
-typedef struct OtTag {
-    u32 addr : 24;
-    u32 len : 8;
-} OtTag;
-
 typedef s32 (*CommandFn)(void *, void *, Entry *, Command *, Packet *);
-
-
 
 #define SP8(base, off)  ((base)->b[(off)])
 #define SPS8(base, off) ((base)->sb[(off)])
 typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
-typedef struct { u8 pad0[0x14]; u16 flags; } EntryFlags;
+
 #define SP16(base, off) ((base)->h[(off) / 2])
 #define SPS16(base, off) ((base)->sh[(off) / 2])
 #define SP32(base, off) ((base)->w[(off) / 4])
@@ -422,8 +414,8 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         u32 depth = SP32(scratch, 0xC0);
                         u32 depth_offset = SP32(scratch, 0xCC);
                         if (depth + depth_offset < 0x1D6U) {
-                            ((OtTag *)packet)->addr = ((OtTag *)(((ScratchOt *)scratch)->ot + depth + depth_offset))->addr;
-                            ((OtTag *)(((ScratchOt *)scratch)->ot + ((ScratchOt *)scratch)->depth + ((ScratchOt *)scratch)->depth_offset))->addr = (u32)packet;
+                            ((GpuLinkTag *)packet)->addr = ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + depth + depth_offset))->addr;
+                            ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + ((ScratchOt *)scratch)->depth + ((ScratchOt *)scratch)->depth_offset))->addr = (u32)packet;
                         }
                     }
                     packet++;

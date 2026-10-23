@@ -15,7 +15,7 @@ typedef struct State {
 extern u8 D_80018348[];
 extern s32 D_800183D0;
 extern s32 D_800183D4;
-extern u8 D_800183D8[];
+extern u8 scene_service_arguments[];
 
 /* Stores the selected table value and chains the state's callbacks on the shared buffer. */
 void chain_table_value_through_services(void) {
@@ -25,7 +25,7 @@ void chain_table_value_through_services(void) {
 
     value_table = D_80018348;
     selected_value = value_table[D_800183D4 * 4];
-    state_slot = ((State * *)(&D_80016000));
+    state_slot = ((State * *)(&town_scene_root));
     D_800183D0 = (s32)selected_value;
-    (*state_slot)->data20->callback3C(D_800183D8, (*state_slot)->data20->callback48(selected_value, D_800183D8));
+    (*state_slot)->data20->callback3C(scene_service_arguments, (*state_slot)->data20->callback48(selected_value, scene_service_arguments));
 }

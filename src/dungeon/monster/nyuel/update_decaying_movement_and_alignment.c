@@ -91,13 +91,13 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition
         timer = action->unk_96.s;
         if (timer > 0) {
             {
-                s32 target_pos = tile_state->unk_24 << 6;
+                s32 target_pos = tile_state->tile_x << 6;
                 s32 current_pos = motion->x.w.i - 0x20;
                 motion->velocity_x =
                     ((target_pos - current_pos) << 16) / timer;
             }
             {
-                s32 target_pos = tile_state->unk_25 << 6;
+                s32 target_pos = tile_state->tile_y << 6;
                 s32 current_pos = motion->y.w.i - 0x20;
                 motion->velocity_y =
                     ((target_pos - current_pos) << 16) / action->unk_96.s;
@@ -119,7 +119,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
+            set_record_integer_tile_center(motion, tile_state->tile_x, tile_state->tile_y);
 
             tracked_actor = ((s32)g_dungeon_status.pending_display_owner);
             if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {

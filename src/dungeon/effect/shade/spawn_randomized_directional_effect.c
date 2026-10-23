@@ -75,19 +75,19 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        effect->unk_10 = D_800D5CA0;
+        effect->update_callback = D_800D5CA0;
         (effect->position)->x.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->unk_02;
+            ((MovingPosition *)((*(void * *)&source->z)))->x;
         (effect->position)->y.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
+            ((MovingPosition *)((*(void * *)&source->z)))->y;
         (effect->position)->z.w.i =
-            ((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x14;
+            ((MovingPosition *)((*(void * *)&source->z)))->z - 0x14;
         direction = ((angle >> 7) & 0x1C) + (u8 *)actor_direction_step_pairs;
         pos_x = effect->position;
         pos_x->unk_02 += direction->unk_00 * 0x10;
         pos_y = effect->position;
         pos_y->unk_06 += direction->unk_02 * 0x10;
-        effect->sprite->unk_06 = 6;
+        effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x =
             ((rand() & 0x7FFF) - 0x4000) << 6;
         (effect->position)->velocity_y =

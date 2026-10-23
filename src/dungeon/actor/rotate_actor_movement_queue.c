@@ -52,8 +52,8 @@ void rotate_actor_movement_queue(MovingTile *position, void *state) {
             u8 tile_y;
 
             flags = ((S_800A9AFC_0 *)state)->unk_1C;
-            tile_x = position->unk_24;
-            tile_y = position->unk_25;
+            tile_x = position->tile_x;
+            tile_y = position->tile_y;
             clear_mask = 0x3000;
             if (flags & 0x2000) {
                 clear_mask = 0x300;
@@ -63,10 +63,10 @@ void rotate_actor_movement_queue(MovingTile *position, void *state) {
         next_x = ((S_800A9AFC_0 *)state)->unk_74;
         next_y = ((S_800A9AFC_0 *)state)->unk_7C;
         memmove(state + 0x74, state + 0x75, 0xF);
-        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_73 = (u8) position->unk_24;
-        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_7B = (u8) position->unk_25;
-        position->unk_24 = next_x;
-        position->unk_25 = next_y;
+        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_73 = (u8) position->tile_x;
+        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_7B = (u8) position->tile_y;
+        position->tile_x = next_x;
+        position->tile_y = next_y;
         ((S_800A9AFC_0 *)state)->unk_88 = (u16) ((S_800A9AFC_0 *)state)->unk_8A;
         ((S_800A9AFC_0 *)state)->unk_2A = (u16) ((S_800A9AFC_0 *)state)->unk_6A;
         if (status_result == 0) {
@@ -75,8 +75,8 @@ void rotate_actor_movement_queue(MovingTile *position, void *state) {
             u8 tile_y;
 
             flags = ((S_800A9AFC_0 *)state)->unk_1C;
-            tile_x = position->unk_24;
-            tile_y = position->unk_25;
+            tile_x = position->tile_x;
+            tile_y = position->tile_y;
             set_mask = 0x3000;
             if (flags & 0x2000) {
                 set_mask = 0x300;

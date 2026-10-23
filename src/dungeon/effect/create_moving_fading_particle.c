@@ -13,8 +13,8 @@ s32 rcos();
 extern s16 D_80026476;
 extern void move_linked_effect_along_path(void *, s32, void *);
 extern s32 func_80024ED0(void *, void *, void *);
-extern u8 D_800265C8[];
-extern u8 D_800269C8[];
+extern u8 particle_quad_vertices[];
+extern u8 particle_target_height[];
 
 typedef struct ParticleNode {
     u8 pad_00[0x8];
@@ -63,15 +63,15 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
 
     object = allocate_list_node(0x202, allocation_head);
     if (object != 0) {
-        object->unk_10 = (void *)move_linked_effect_along_path;
+        object->update_callback = (void *)move_linked_effect_along_path;
         register_node(object, (s32)func_80024ED0);
         positions = object->position;
         positions->x.w.i = (s16) (*(u16 *)&origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
         positions->y.w.i = (s16) (*(u16 *)&origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
         height = *(u16 *)&origin->z.w.i + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
-        if ((*(s16 *)D_800269C8) < height) {
-            positions->z.w.i = (*(s16 *)D_800269C8);
+        if ((*(s16 *)particle_target_height) < height) {
+            positions->z.w.i = (*(s16 *)particle_target_height);
         }
         *((u16 *)&positions->velocity_x + 1) = (u16) *(u16 *)&origin->x.w.i;
         *((u16 *)&positions->velocity_y + 1) = (u16) *(u16 *)&origin->y.w.i;
@@ -85,7 +85,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         object_data->unk_18 = radius;
         object_data->unk_22 = slot_index;
         if ((s16) slot_index < 0x71) {
-            position_table = D_800265C8;
+            position_table = particle_quad_vertices;
             position_slot = &position_table[(s16) slot_index * 8];
             origin_x = *((u16 *)&positions->velocity_x + 1);
             paired_slot = &position_table[((s16) slot_index + 0x10) * 8];

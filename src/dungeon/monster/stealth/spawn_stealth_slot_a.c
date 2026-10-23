@@ -67,17 +67,17 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         work = ((void *)object) + 0x20;
-        object->unk_10 = &D_8014CA8C;
+        object->update_callback = &D_8014CA8C;
         work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = object->position;
         part_a->unk_0A = attr_c;
         part_b = object->sprite;
-        part_b->unk_25 = attr_b;
+        part_b->tile_y = attr_b;
         work_copy = work;
         part_b->frameTable = &D_8014FD30;
         kind = spawn_flags & 3;
-        part_b->unk_24 = attr_a;
+        part_b->tile_x = attr_a;
         if (kind == 1) {
             work->unk_14 = (s32) (work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
             work->unk_1C = (s32) (work->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));

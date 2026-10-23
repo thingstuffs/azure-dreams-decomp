@@ -34,8 +34,8 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         part_a = *(u8 * *)&object->position;
         part_a->z.w.i = attr_c;
         part_b = (long)*(u8 * *)&object->sprite;
-        ((SpriteFrameState *)part_b)->unk_24 = attr_a;
-        ((SpriteFrameState *)part_b)->unk_25 = attr_b;
+        ((SpriteFrameState *)part_b)->tile_x = attr_a;
+        ((SpriteFrameState *)part_b)->tile_y = attr_b;
         work_copy = (long)work;
 
         if ((spawn_flags & 3) == 1) {
@@ -68,7 +68,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             }
         }
 
-        object->unk_10 = func_8014CA58;
+        object->update_callback = func_8014CA58;
         initialize_actor_sprite_and_animation(object, part_a, (u8 *)part_b, (s16)flags_s16);
 
         *(u8 *)((u8 *)work_copy + 0x9A) = 0xFF;

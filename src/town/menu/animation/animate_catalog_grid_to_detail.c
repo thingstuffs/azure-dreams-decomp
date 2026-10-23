@@ -42,7 +42,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->unk_08;
+            entry_data = entry->aux;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;
@@ -88,7 +88,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->unk_08;
+            entry_data = entry->aux;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;
@@ -113,7 +113,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->unk_08;
+            entry_data = entry->aux;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
                 entry_index++;

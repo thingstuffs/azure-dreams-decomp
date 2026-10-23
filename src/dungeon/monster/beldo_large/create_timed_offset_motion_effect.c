@@ -58,7 +58,7 @@ void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s
     if (obj != 0) {
         work = ((u8 *)obj) + 0x20;
         ((S_80170D2C_0 *)work)->unk_18 = duration;
-        obj->unk_10 = D_80170BB0;
+        obj->update_callback = D_80170BB0;
         register_node(obj, project_sprite_chain);
         packet = *(u8 * *)&obj->sprite;
         ((S_80170D2C_2 *)packet)->unk_10 = 0x20;

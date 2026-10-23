@@ -57,7 +57,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
             }
             object = allocate_flagged_object_node(object_flags);
             if (object != 0) {
-                object->unk_10 = callback;
+                object->update_callback = callback;
                 register_node(object, &linked_mesh_processor_address);
                 coords = object->position;
                 *((s16 *)&coords->velocity_x + 1) = x;
@@ -67,7 +67,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
                 *((s16 *)&coords->velocity_z + 1) = z;
                 coords->z.w.i = z;
                 render = object->sprite;
-                render->unk_06 = 0x10;
+                render->depth_bias = 0x10;
                 if (group_index != 0) {
                     render->scale_y = 0x100;
                 } else {

@@ -15,7 +15,7 @@ typedef struct ObjectPayloadView {
 /* Catalog object data pointer at +0x08; extent 0x0C. */
 typedef struct CatalogObjectPayloadView {
     unsigned char pad_00[0x8];
-    void * unk_08;
+    void * aux;
 } CatalogObjectPayloadView;
 
 /* Three default record words copied into the catalog secondary record. */

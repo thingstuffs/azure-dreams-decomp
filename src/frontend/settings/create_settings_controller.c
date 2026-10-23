@@ -105,7 +105,7 @@ void create_settings_controller(void) {
     object = allocate_flagged_object_node(0x11);
     if (object != NULL) {
         parent_state = ((void *)object) + 0x20;
-        object->unk_10 = (void *)update_settings_menu_animation;
+        object->update_callback = (void *)update_settings_menu_animation;
         register_node(object, queue_settings_sprite_grid);
         ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
         ((S_80088BD0_9 *)(object->position))->unk_06 = 0xF0;
@@ -124,7 +124,7 @@ void create_settings_controller(void) {
         if (object != NULL) {
             child_state = ((void *)object) + 0x20;
             sprite = object->sprite;
-            object->unk_10 = (void *)update_settings_effect_object;
+            object->update_callback = (void *)update_settings_effect_object;
             register_node(object, &draw_linked_sprites);
             ((S_80088BD0_9 *)(object->position))->unk_02 = -0x40;
             ((S_80088BD0_9 *)(object->position))->unk_06 = sprite_y;
@@ -133,7 +133,7 @@ void create_settings_controller(void) {
             sprite->scale_x = unit_scale;
             sprite_id = ((S_80088BD0_4 *)((s8 *)sprite_ids + (s32)id_offset))->unk_00;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
+            sprite->frame_ticks = 0;
             sprite->color.word = 0x808080;
             sprite->source = sprite_id;
             ((S_80088BD0_5 *)((s8 *)child_state - 0x20))->unk_20 = parent_state;
@@ -147,7 +147,7 @@ void create_settings_controller(void) {
     } while (child_index >= 0);
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
-        object->unk_10 = (void *)sync_object_with_sub_object;
+        object->update_callback = (void *)sync_object_with_sub_object;
         register_node(object, &display_registration_tag);
         effect_state = ((void *)object) + 0x20;
         effect_state->unk_0C = 0x60;
@@ -167,7 +167,7 @@ void create_settings_controller(void) {
         if (object != NULL) {
             child_state = ((void *)object) + 0x20;
             sprite = object->sprite;
-            object->unk_10 = (void *)update_settings_phase_motion;
+            object->update_callback = (void *)update_settings_phase_motion;
             register_node(object, &draw_linked_sprites);
             ((S_80088BD0_9 *)(object->position))->unk_06 = 0xE9;
             if (child_index != 0) {
@@ -190,7 +190,7 @@ void create_settings_controller(void) {
     } while (child_index >= 0);
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
-        object->unk_10 = (void *)update_settings_effect;
+        object->update_callback = (void *)update_settings_effect;
         ((S_80088BD0_0 *)object)->unk_20.p32 = parent_state;
         ((S_80088BD0_0 *)object)->unk_2E = 0xE00;
     }

@@ -77,18 +77,18 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         render_part->flags &= 0xFF7F;
     }
 
-    output_pos->unk_02 = transform->unk_02;
-    output_pos->unk_06 = transform->unk_06;
-    output_pos->unk_0A = transform->unk_0A;
+    output_pos->x = transform->unk_02;
+    output_pos->y = transform->unk_06;
+    output_pos->z = transform->unk_0A;
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81269000_0 *)root)->unk_B6) != 0) {
-        output_pos->unk_02 +=
+        output_pos->x +=
             (offset[0] + ((S_81269000_0 *)root)->unk_B0) / 2;
-        output_pos->unk_06 +=
+        output_pos->y +=
             (offset[1] + ((S_81269000_0 *)root)->unk_B2) / 2;
-        output_pos->unk_0A +=
+        output_pos->z +=
             (offset[2] + ((S_81269000_0 *)root)->unk_B4) / 2;
         ((S_81269000_0 *)root)->unk_B0 = offset[0];
         ((S_81269000_0 *)root)->unk_B2 = offset[1];

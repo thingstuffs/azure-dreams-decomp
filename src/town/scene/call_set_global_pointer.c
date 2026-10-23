@@ -12,7 +12,7 @@ void call_set_global_pointer(s32 first_input, s32 second_input, s32 third_input)
     Rec_D_80016000 *base;
 
     func_800182A8(first_input, second_input, third_input);
-    base = D_80016000;
+    base = town_scene_root;
     D_80019BB8 = &D_8001691C;
-    D_80019BBC = ((s32)base->unk_40) + 8;
+    D_80019BBC = ((s32)base->event_data) + 8;
 }

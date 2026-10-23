@@ -73,39 +73,39 @@ void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sp
             sprite,
             beldo_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
-        sprite->unk_05 = 1;
+        sprite->frame_ticks = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;
         ((S_801719C0_2 *)motion)->unk_9E = 0;
     }
 
     step = (u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s;
-    if (sprite->unk_24 == ((S_801719C0_3 *)step)->unk_74 &&
-        sprite->unk_25 == ((S_801719C0_3 *)step)->unk_7C) {
+    if (sprite->tile_x == ((S_801719C0_3 *)step)->unk_74 &&
+        sprite->tile_y == ((S_801719C0_3 *)step)->unk_7C) {
         u16 remaining_offset = ((S_801719C0_0 *)path)->unk_88;
         ((S_801719C0_2 *)motion)->unk_92 += 0x20;
         ((S_801719C0_0 *)path)->unk_88 = remaining_offset - 0x20;
         ((S_801719C0_0 *)path)->unk_8A.u++;
     } else {
-        old_x = sprite->unk_24;
-        old_y = sprite->unk_25;
+        old_x = sprite->tile_x;
+        old_y = sprite->tile_y;
         tile_mask = 0x3000;
         if (((S_801719C0_0 *)path)->unk_1C & 0x2000) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-        sprite->unk_24 =
+        sprite->tile_x =
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_74;
-        sprite->unk_25 =
+        sprite->tile_y =
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_7C;
         ((S_801719C0_0 *)path)->unk_8A.u++;
 
-        cycle_map_cell_flags(sprite->unk_24, sprite->unk_25,
+        cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                       (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_801719C0_0 *)path)->unk_2A =
-            get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->unk_24,
-                          sprite->unk_25, (u8 *)motion + 0x98);
+            get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->tile_x,
+                          sprite->tile_y, (u8 *)motion + 0x98);
     }
     ((S_801719C0_2 *)motion)->unk_9A = 0xF;
     ((S_801719C0_2 *)motion)->unk_8C = 0;

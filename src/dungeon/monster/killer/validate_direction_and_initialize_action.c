@@ -69,7 +69,7 @@ s32 validate_direction_and_initialize_action(Arg0 *action_state, s32 action_id, 
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->unk_24, sprite->unk_25, actor->field_2a);
+    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->field_2a);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return result;
     }

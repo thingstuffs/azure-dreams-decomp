@@ -38,7 +38,7 @@ void *create_motion_copy_sprite(s32 node_value, void *initial_data)
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
 
-        node->unk_10 = D_800240C0;
+        node->update_callback = D_800240C0;
         register_node(node, D_800241D4);
         fields = (u8 *)node + 0x20;
         ((S_818C2E40_0 *)node)->unk_20 = node_value;

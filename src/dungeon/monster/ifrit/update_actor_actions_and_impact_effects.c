@@ -243,7 +243,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     effect_state = (u8 *)effect + 0x20;
-                    effect->unk_10 = tick_object_motion_and_expire;
+                    effect->update_callback = tick_object_motion_and_expire;
                     effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0];
                     effect->position->y.w.i =
@@ -278,7 +278,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
-                    effect->unk_10 = callback;
+                    effect->update_callback = callback;
                     effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0] + (rand() & 0xF) - 8;
                     effect->position->y.w.i =

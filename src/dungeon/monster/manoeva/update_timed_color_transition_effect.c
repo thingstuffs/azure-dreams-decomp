@@ -8,7 +8,7 @@
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define U32_AT(p, off) (*(u32 *)((u8 *)(p) + (off)))
 
-extern s32 D_800C6AEC;
+extern s32 actor_fade_draw_address;
 
 extern void register_node();
 extern void unlink_node();
@@ -53,7 +53,7 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFr
         unlink_node(effect);
         render_data->clut -= 0x80;
         render_data->flags |= 0xC;
-        register_node(effect, &D_800C6AEC);
+        register_node(effect, &actor_fade_draw_address);
         render_data->color.c.code = 0;
         U16_AT(effect_state, 0x1E)++;
         break;

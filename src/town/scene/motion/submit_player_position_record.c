@@ -13,13 +13,13 @@ void submit_player_position_record(void) {
     s32 second_value;
 
     D_800190C0[0] =
-        ((TownPositionState *)D_80016000->unk_1C)->x
+        ((TownPositionState *)town_scene_root->position)->x
     << 16;
     second_value =
-        ((TownPositionState *)D_80016000->unk_1C)->y;
+        ((TownPositionState *)town_scene_root->position)->y;
     fixed_values = D_800190C0;
     fixed_values[2] = 0;
     fixed_values[1] = second_value << 16;
-    ((s32 (*) (s32))D_80016000->unk_20->callback_208)(0);
-    ((s32 (*) (s32))D_80016000->unk_20->callback_228)(0);
+    ((s32 (*) (s32))town_scene_root->services->callback_208)(0);
+    ((s32 (*) (s32))town_scene_root->services->callback_228)(0);
 }

@@ -71,16 +71,16 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     if (object != NULL) {
         actor_state = ((void *)object) + 0x20;
         actor = actor_state;
-        object->unk_10 = D_8015EA58;
+        object->update_callback = D_8015EA58;
         actor_state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         attributes = object->position;
         attributes->unk_0A = saved_value;
         placement = object->sprite;
         kind_or_bits = spawn_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         placement->frameTable = &D_8016220C;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (kind_or_bits == 1) {
             flags_14 = actor_state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             flags_1c = actor_state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

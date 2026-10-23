@@ -56,7 +56,7 @@ typedef struct {
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 D_800ABB20;
-extern s32 D_800D1464;
+extern s32 radial_sprite_entries;
 extern s32 rsin(s32 value);
 extern s32 rcos(s32 value);
 

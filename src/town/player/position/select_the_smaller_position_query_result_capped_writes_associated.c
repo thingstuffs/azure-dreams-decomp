@@ -10,7 +10,7 @@ typedef struct { s32 x; s32 y; s32 z; } Vec3i;
 typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
 s16 select_lowest_corrected_probe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item, s32 best_value, s32 initial_item);
 extern s16 forward_surface_query_with_argument(LocalRecord *, s32 *);
-extern Vec4i *D_800D0408;
+extern Vec4i *town_corrected_probe_samples;
 extern s32 town_collision_motion[];
 
 /* Selects the smaller position query result, capped at 64, and writes its associated value. */
@@ -33,7 +33,7 @@ s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *
     local_pos.x = position[0];
     local_pos.y = position[1];
     local_pos.z = position[2] - height_base[5];
-    candidate_result = select_lowest_corrected_probe(&local_pos, D_800D0408, 4, query_value_ptr, min_result, *out_value);
+    candidate_result = select_lowest_corrected_probe(&local_pos, town_corrected_probe_samples, 4, query_value_ptr, min_result, *out_value);
     if (candidate_result < min_result) {
         min_result = candidate_result;
         *out_value = query_value;

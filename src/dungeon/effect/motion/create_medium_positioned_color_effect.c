@@ -78,12 +78,12 @@ void create_medium_positioned_color_effect(S_7FFEAC44_3 *source, s32 color) {
         render_state->unk_14 =
             (u16)(render_state->unk_14 | 0xC);
         position = effect->unk_08;
-        position->unk_02 =
-            (u16)((MovingPosition *)(source->unk_08))->unk_02;
-        position->unk_06 =
-            (u16)((MovingPosition *)(source->unk_08))->unk_06;
-        position->unk_0A =
-            (u16)((MovingPosition *)(source->unk_08))->unk_0A;
+        position->x =
+            (u16)((MovingPosition *)(source->unk_08))->x;
+        position->y =
+            (u16)((MovingPosition *)(source->unk_08))->y;
+        position->z =
+            (u16)((MovingPosition *)(source->unk_08))->z;
         sprite = effect->unk_0C;
         sprite->unk_0C.at02.v = 0x80;
         sprite->unk_0C.at01.v = 0x80;

@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_frame_render",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "frame_render.c",
+    "module_index": 134230
+  },
+  "members": [
+    "dungeon/func_80083D40",
+    "dungeon/func_80083E28",
+    "dungeon/func_80084084"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00244 - CL:dungeon/func_80083E28, CL:dungeon/func_80084084. Grouping by tools/tu/infer_groups.py (group G00244); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Contiguous text and call-locality joins from the complete 403-unit scan; inferred grouping under decision 72(b). The outer file boundaries remain unknown.",
+    "Members are the contiguous registered home rows 0xA3D40..0xA4340 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

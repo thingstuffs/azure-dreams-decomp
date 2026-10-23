@@ -6,7 +6,7 @@
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 s16 query_lowered_transform_position();                          /* extern */
 void apply_object_setup_and_update(void *, s32, s32);     /* extern */
-extern M2C_UNK D_800CE8CC;
+extern M2C_UNK person_bounce_handler_address;
 
 
 /* Advance vertical motion, clamp at the landing height, and bounce or finish. */
@@ -24,7 +24,7 @@ void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec
             return;
         }
         motion->flags14 = 0xFFF60000;
-        actor->unk_54 = &D_800CE8CC;
+        actor->unk_54 = &person_bounce_handler_address;
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

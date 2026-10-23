@@ -31,7 +31,7 @@ extern void begin_actor_move_to_target_facing();
 extern void update_actor_action_transition();
 
 extern u8 uboat_action_frames[];
-extern u8 D_800E2430[];
+extern u8 u_boat_motion_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Advance an actor action through animation completion and status checks. */
@@ -63,7 +63,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameSt
         if (g_dungeon_status.flags & 0x1000) {
             return;
         }
-        if (actor->unk_64 != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(action, actor_index, sprite, 0) != 0) {
                 return;
             }
@@ -105,9 +105,9 @@ void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameSt
         if (actor->mp == 0) {
             return;
         }
-        (sprite->frameTable) = D_800E2430;
+        (sprite->frameTable) = u_boat_motion_frames;
         select_sprite_entry(sprite,
-                      D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      u_boat_motion_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;

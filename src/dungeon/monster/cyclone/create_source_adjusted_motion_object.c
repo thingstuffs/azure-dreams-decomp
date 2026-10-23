@@ -19,7 +19,7 @@ extern void register_node(void *object, void *callback);
 extern void select_sprite_entry(void *object, s32 kind, s32 value);
 extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 
-extern u8 D_80175978;
+extern u8 cyclone_spawn_update_address;
 
 typedef struct S_80175D04_0 {
     u8 pad_00[0x2A];
@@ -83,11 +83,11 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
 
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        (object->unk_10) = &D_80175978;
+        (object->update_callback) = &cyclone_spawn_update_address;
         register_node(object, project_sprite_chain);
 
         render = (object->sprite);
-        render->unk_28 = source->unk_28;
+        render->animation_resource = source->unk_28;
         render->scale_y = 0x800;
         render->scale_x = 0x800;
         render->color.word = 0x00808080;
@@ -104,11 +104,11 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         source_offset.x = 0;
         if (resolve_record_orientation_or_fallback(source->unk_08, source, &source_offset, 1) != 0) {
             ((S_80175D04_4 *)motion)->unk_04.at02.v += source_offset.x;
-            child_pos->unk_02 = ((S_80175D04_4 *)motion)->unk_04.at02.v;
+            child_pos->x = ((S_80175D04_4 *)motion)->unk_04.at02.v;
             ((S_80175D04_4 *)motion)->unk_08.at02.v += source_offset.y;
-            child_pos->unk_06 = ((S_80175D04_4 *)motion)->unk_08.at02.v;
+            child_pos->y = ((S_80175D04_4 *)motion)->unk_08.at02.v;
             ((S_80175D04_4 *)motion)->unk_0E += source_offset.z;
-            child_pos->unk_0A = ((S_80175D04_4 *)motion)->unk_0E;
+            child_pos->z = ((S_80175D04_4 *)motion)->unk_0E;
         }
 
         ((S_80175D04_4 *)motion)->unk_10 =

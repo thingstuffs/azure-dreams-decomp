@@ -88,7 +88,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             if (global_base->flags & 0x1000) {
                 break;
             }
-            if (actor->unk_64 != 0) {
+            if (actor->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(controller, context_in, object, 0) != 0) {
                     break;
                 }
@@ -133,7 +133,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&((SpriteFrameState *)object)->unk_26;
+                s8 tile = *(s8 *)&((SpriteFrameState *)object)->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {

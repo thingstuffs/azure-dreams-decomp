@@ -122,7 +122,7 @@ void update_actor_behavior_from_position(void *actor, void *context, SpriteFrame
                     select_sprite_entry(sprite,
                         reset_anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    sprite->unk_05 = 1;
+                    sprite->frame_ticks = 1;
                     ((S_801590EC_0 *)actor)->unk_A2.s = 0;
                     ((S_801590EC_0 *)actor)->unk_9E = 0;
                 }
@@ -133,7 +133,7 @@ void update_actor_behavior_from_position(void *actor, void *context, SpriteFrame
                     select_sprite_entry(sprite,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    sprite->unk_05 = 1;
+                    sprite->frame_ticks = 1;
                     ((S_801590EC_0 *)actor)->unk_A2.s = 0;
                     ((S_801590EC_0 *)actor)->unk_9E = 0;
                 }
@@ -143,7 +143,7 @@ void update_actor_behavior_from_position(void *actor, void *context, SpriteFrame
         entity->flags1C |= 0x40000;
         ((S_801590EC_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8015DE48) != 0) {
                 return;
             }
@@ -166,15 +166,15 @@ void update_actor_behavior_from_position(void *actor, void *context, SpriteFrame
         }
     }
 
-    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-    sprite->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+    sprite->room_index = room_id;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
             func_80159854(actor, context, sprite, entity);
             return;
         }
@@ -215,12 +215,12 @@ sw_case567:
                 s16 facing_angle;
 
                 facing_angle = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &facing_aux);
                 player = primary_actor_record;
                 entity->facing = facing_angle;
-                if (player->unk_9A == 0x11) {
+                if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8015DE98, update_actor_behavior_from_position);
                     return;
                 }
@@ -251,10 +251,10 @@ sw_case567:
             if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->unk_24, sprite->unk_25,
+                        sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &facing_aux);
                     return;
@@ -262,7 +262,7 @@ sw_case567:
             }
         }
     } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
-        if (primary_actor_record->unk_9A == 0x17) {
+        if (primary_actor_record->action_id == 0x17) {
             func_8015A358(actor, context, sprite, entity);
         }
     }

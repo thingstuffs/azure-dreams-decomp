@@ -45,6 +45,6 @@ void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfwor
 
     display->scale_y = 0xAAA;
     display->scale_x = 0xAAA;
-    display->unk_06 = 9;
+    display->depth_bias = 9;
     return object;
 }

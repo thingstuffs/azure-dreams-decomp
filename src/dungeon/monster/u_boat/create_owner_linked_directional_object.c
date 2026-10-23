@@ -17,7 +17,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
     object_data = ((u8 *)object) + 0x20;
     if (object != 0) {
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
-        object->unk_10 = D_800D5594;
+        object->update_callback = D_800D5594;
         ((S_80D3B0B8_0 *)object_data)->unk_AC = owner_data - 0x20;
         ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
         ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
@@ -48,7 +48,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
             sprite->color.c.r = 0x80;
             sprite->scale_y = sprite_field_1e;
         }
-        sprite->unk_06 =
+        sprite->depth_bias =
             view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;

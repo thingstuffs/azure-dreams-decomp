@@ -76,7 +76,7 @@ void *allocate_sprite_data_object(s32 user_data) {
     if (object != NULL) {
         sprite = object->unk_0C;
         object->unk_10 = (void *)follow_selection_and_blink_sprite;
-        select_record_entry_and_value(sprite, &D_80079444, 0);
+        select_record_entry_and_value(sprite, &menu_effect_sprite_entries, 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.word = 0x2C808080;
@@ -964,7 +964,7 @@ void initialize_children_or_shutdown(void *owner)
         ((S_80026190_17 *)entity)->unk_6A = source_slot;
         unlink_node((void *)object_or_kind);
         retire_tracked_effect_by_id((void *)object_or_kind);
-        update_map_cell_flags_with_item_limit(parent->unk_24, parent->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(parent->tile_x, parent->tile_y, 0x300);
         ((S_80026190_17 *)entity)->unk_87 = 0xFF;
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)draw_and_restore_fading_object;
     }
@@ -1044,7 +1044,7 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
         if ((dark_frames_left << 0x10) > 0) {
             return;
         }
-        ((ObjectStatusPrefix16 *)effect)[-1].unk_00 |= NODE_REMOVE;
+        ((ObjectStatusPrefix16 *)effect)[-1].flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     default:

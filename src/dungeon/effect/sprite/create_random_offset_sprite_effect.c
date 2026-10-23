@@ -26,7 +26,7 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect->unk_10 = &func_8002418C;
+        effect->update_callback = &func_8002418C;
         sprite = effect->sprite;
         *((s32 *)(((s8 *)effect) + 0x20)) = effect_param;
         color = 0x80;

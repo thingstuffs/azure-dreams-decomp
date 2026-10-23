@@ -22,7 +22,7 @@ extern s32 D_80022F60;
 extern s32 D_8002390C;
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
-extern s32 D_800F9B40;
+extern s32 gym_sprite_source;
 
 extern void create_gym_mesh_object(void *, s32, void *, void *);
 extern void register_node(void *, void *);
@@ -82,9 +82,9 @@ s32 initialize_gym_minigame(void)
         render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
         render_record->scale_y = 0x1000;
         render_record->scale_x = 0x1000;
-        render_record->source = &D_800F9B40;
+        render_record->source = &gym_sprite_source;
         render_record->unk_04 = 0;
-        render_record->unk_05 = 0;
+        render_record->frame_ticks = 0;
         render_record->color.word = 0x00808080;
         object_data = (u8 *)object_or_slot + 0x20;
         (*(void * volatile *)((u8 *)object_data + 0x4C)) = shared_data;

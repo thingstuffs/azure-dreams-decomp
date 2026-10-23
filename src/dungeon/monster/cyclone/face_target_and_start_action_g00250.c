@@ -22,8 +22,8 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
             if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
                 target = ((S_801722E4_5_pre *)(actor->target))[-1].unk_00;
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24,
-                    sprite->unk_25,
+                    sprite->tile_x,
+                    sprite->tile_y,
                     target->unk_24,
                     target->unk_25,
                     &distance);
@@ -72,8 +72,8 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, Spri
     attempt = 0;
     direction = ((u16)((u16)actor->facing) >> 9) & 7;
     step_offset = direction << 1;
-    tile_x = sprite->unk_24;
-    tile_y = sprite->unk_25;
+    tile_x = sprite->tile_x;
+    tile_y = sprite->tile_y;
     x_step = (s16 *)((u8 *)((s8 *)dir_step_x) + step_offset);
     ((S_80172438_2 *)action_state)->unk_B2 = 0;
     call_direction = direction;

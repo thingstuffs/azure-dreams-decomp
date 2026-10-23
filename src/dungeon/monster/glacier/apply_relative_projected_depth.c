@@ -49,14 +49,14 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     S_8102F20C_3 *result;
 
     result = output;
-    coords.x0 = position->unk_02;
-    coords.x1 = position->unk_06;
-    coords.x2 = position->unk_0A;
+    coords.x0 = position->x;
+    coords.x1 = position->y;
+    coords.x2 = position->z;
     depth_delta = RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
     base_position = ((S_8102F20C_1 *)entity)->reference_position;
-    coords.x0 = base_position->unk_02;
-    coords.x1 = base_position->unk_06;
-    coords.x2 = base_position->unk_0A;
+    coords.x0 = base_position->x;
+    coords.x1 = base_position->y;
+    coords.x2 = base_position->z;
     depth_delta = depth_delta - RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
     depth_bias = view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;

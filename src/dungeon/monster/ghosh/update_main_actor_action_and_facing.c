@@ -119,20 +119,20 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
         if (actor->unk_B4 == 0) {
             if (!((u16)*((s16 *)&system_update_flags) & 8)) {
-                if (entity->unk_64 != 0) {
+                if (entity->hp_delta != 0) {
                     if (begin_ready_actor_directional_action(actor, context, map_actor, ghosh_ready_action_frames) != 0) {
                         return;
                     }
                 }
             } else {
-                if (entity->unk_64 != 0) {
+                if (entity->hp_delta != 0) {
                     if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
                         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
                     }
                 }
             }
         } else {
-            if (entity->unk_64 != 0) {
+            if (entity->hp_delta != 0) {
                 if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
                     *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
                 }
@@ -151,14 +151,14 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             g_dungeon_status.active_actor = 0;
         }
     }
-    tile_index = find_active_rect_containing_point(map_actor->unk_24, map_actor->unk_25);
-    map_actor->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(map_actor->tile_x, map_actor->tile_y);
+    map_actor->room_index = tile_index;
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&map_actor->unk_24 == reference_tile_object.tile_position.word) {
+        if (*(u16 *)&map_actor->tile_x == reference_tile_object.tile_position.word) {
             advance_actor_path(actor, context, map_actor, entity);
             return;
         }
@@ -200,7 +200,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 5:
         case 6:
         case 7:
-            target_angle = get_rounded_facing_and_rounding_flag(map_actor->unk_24, map_actor->unk_25, reference_tile_object.tile_position.parts.tile_x,
+            target_angle = get_rounded_facing_and_rounding_flag(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, &target_distance);
             active_actor = (u8 *)*((int *)(&primary_actor_record));
             entity->facing = target_angle;
@@ -238,11 +238,11 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     if (entity_flags & 0x430) {
         return;
     }
-    if ((test_neighbor_position_relation(map_actor->unk_24, map_actor->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10)
+    if ((test_neighbor_position_relation(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10)
         == 0) {
         return;
     }
-    entity->facing = get_rounded_facing_and_rounding_flag(map_actor->unk_24, map_actor->unk_25, reference_tile_object.tile_position.parts.tile_x,
+    entity->facing = get_rounded_facing_and_rounding_flag(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
         reference_tile_object.tile_position.parts.tile_y, &target_distance);
     return;
 }

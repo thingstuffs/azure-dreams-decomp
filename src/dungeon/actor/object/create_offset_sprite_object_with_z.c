@@ -33,7 +33,7 @@ void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_8002
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
-        object->unk_10 = &D_80027164;
+        object->update_callback = &D_80027164;
         register_node(object, project_sprite_chain);
         part = object->position;
         part->x.w.i = pos_x;

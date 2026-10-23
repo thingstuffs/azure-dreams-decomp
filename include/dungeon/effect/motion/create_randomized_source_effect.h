@@ -357,7 +357,7 @@ void drain_audio_commands_and_service_channels(void);
 void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 void play_sound_if_enabled(s32);
 extern u8 D_80024048[];
-extern u8 D_800DED70[];
+extern u8 homing_particle_sprite_entries[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
 extern s32 clipped_sprite_renderer_address();

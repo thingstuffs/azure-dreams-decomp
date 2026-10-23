@@ -28,14 +28,14 @@ void apply_half_step_position_deltas(S_80019DE0_0 *deltas) {
     S_80019DE0_1 *first_target;
     TownPositionState *second_target;
 
-    ((s32 (*) (s32))D_80016000->unk_20->callback_258)(1);
+    ((s32 (*) (s32))town_scene_root->services->callback_258)(1);
     first_delta = deltas->unk_00;
-    first_target = D_80016000->unk_1C;
+    first_target = town_scene_root->position;
     shifted_delta = (u32) first_delta << 0x10;
     first_target->unk_04 = (s32) (first_target->unk_04 + ((s32) (((s32) shifted_delta >> 0x10) + (shifted_delta
         >> 0x1F)) >> 1));
     second_delta = deltas->unk_02;
-    second_target = D_80016000->unk_1C;
+    second_target = town_scene_root->position;
     shifted_delta = (u32) second_delta << 0x10;
     second_target->y = (s32) (second_target->y + ((s32) (((s32) shifted_delta >> 0x10) + (shifted_delta
         >> 0x1F)) >> 1));

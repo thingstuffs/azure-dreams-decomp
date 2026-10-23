@@ -9,6 +9,6 @@ void func_80018BD0(s32);                     /* extern */
 s32 reset_two_flags_state_callback(void) {
     func_80018BD0(F_hos_first_cheriru);
     func_80018BD0(F_hos_first_hush);
-    D_80016000->unk_20->callback_2F8(0x10, 0x200);
+    town_scene_root->services->callback_2F8(0x10, 0x200);
     return 0;
 }

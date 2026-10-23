@@ -12,7 +12,7 @@ s16 check_tile_entry_at_adjusted_height(s32 context, s32 data, SpriteFrameState 
     u16 saved_value;
 
     saved_value = ((u16)state->unk_88);
-    state->unk_88 = sample_terrain_surface_height((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20, (s16) (saved_value - 0x20));
+    state->unk_88 = sample_terrain_surface_height((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20, (s16) (saved_value - 0x20));
     result = find_flagged_tile_entry(context, data, tile, state);
     state->unk_88 = saved_value;
     return result;

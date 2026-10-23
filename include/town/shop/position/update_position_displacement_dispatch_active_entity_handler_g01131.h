@@ -101,7 +101,7 @@ typedef struct S_8009F4C0_2 {
 } S_8009F4C0_2;
 
 s32 rsin();
-extern s32 D_80093328;
+extern s32 town_timed_state_address;
 extern M2C_UNK D_80093524[3];
 extern s32 add_motion_deltas_to_position(void *);
 extern s32 process_the_item_index_available_report_success();

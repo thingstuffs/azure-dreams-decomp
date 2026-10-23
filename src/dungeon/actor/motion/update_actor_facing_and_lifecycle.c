@@ -14,7 +14,7 @@ extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern u8 D_800C9F34;
+extern u8 actor_motion_resume_address;
 extern Callback actor_facing_callbacks[];
 
 
@@ -42,7 +42,7 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
 
     if (update_flags & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
-        if (early_callback == (Callback)&D_800C9F34) {
+        if (early_callback == (Callback)&actor_motion_resume_address) {
             early_callback(state, motion, part, state);
             return;
         } else {
@@ -164,8 +164,8 @@ void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, Spri
             adjusted_flags = object_flags & 0xBFFFFFFF;
             ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
             target_height = sample_terrain_surface_height(
-                (part->unk_24 << 6) | 0x20,
-                (part->unk_25 << 6) | 0x20,
+                (part->tile_x << 6) | 0x20,
+                (part->tile_y << 6) | 0x20,
                 (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
             if (target_height < 0x200) {
                 (*(u16 *)((u8 *)state + (0x92))) += ((S_800C9AAC_2 *)secondary)->unk_88 - target_height;

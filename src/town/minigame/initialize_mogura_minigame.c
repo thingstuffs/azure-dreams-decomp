@@ -83,7 +83,7 @@ s32 initialize_mogura_minigame(void)
     object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
-        object->unk_10 = &D_800243D8;
+        object->update_callback = &D_800243D8;
         ((S_80024100_1 *)parent_state)->unk_0A = 0x1E;
         random_value = rand();
         ((S_80024100_1 *)parent_state)->unk_04 = random_value & 3;
@@ -97,7 +97,7 @@ s32 initialize_mogura_minigame(void)
         object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
-            object->unk_10 = update_callback;
+            object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
             element->unk_16.s = 0xB4;
             element->unk_18 = 3;
@@ -118,7 +118,7 @@ s32 initialize_mogura_minigame(void)
         object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
-            object->unk_10 = update_callback;
+            object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
             element->unk_16.s = 0xC4;
             element->unk_18 = 3;
@@ -152,7 +152,7 @@ s32 initialize_mogura_minigame(void)
             S_80024100_2 *third_element;
             render_data = &display_registration_tag;
             third_element = (u8 *)object + 0x20;
-            object->unk_10 = update_callback;
+            object->update_callback = update_callback;
             register_node(object, render_data);
             element_flags = third_element->unk_16.u;
             third_element->unk_0C.at02.v = 0xB0;

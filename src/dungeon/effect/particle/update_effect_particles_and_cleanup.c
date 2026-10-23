@@ -394,9 +394,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             && !(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
             return;
         }
-        ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) parent_position->unk_02;
-        ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) parent_position->unk_06;
-        parent_height = parent_position->unk_0A;
+        ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) parent_position->x;
+        ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) parent_position->y;
+        parent_height = parent_position->z;
         ((S_818FF710_5 *)motion)->unk_08.at02.v = parent_height;
         if (!(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
             ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_00.at02.v + offset[0]);
@@ -424,18 +424,18 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
             effect->target_height = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A
                 - (entity_height_offsets[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
-            origin = ((SpriteLinkPrefixView *)parent)[-1].unk_00;
-            effect->next_tile_x = (s8) (origin->unk_24 + ((u8 *)dir_step_x)[effect->direction * 2]);
-            effect->next_tile_y = (s8) (origin->unk_25 + ((u8 *)dir_step_y)[effect->direction * 2]);
+            origin = ((SpriteLinkPrefixView *)parent)[-1].sprite;
+            effect->next_tile_x = (s8) (origin->tile_x + ((u8 *)dir_step_x)[effect->direction * 2]);
+            effect->next_tile_y = (s8) (origin->tile_y + ((u8 *)dir_step_y)[effect->direction * 2]);
             parent_tile = ((S_818FF710_2 *)parent)->unk_72;
             tile_distance = parent_tile;
-            origin_tile = origin->unk_24;
+            origin_tile = origin->tile_x;
             if (tile_distance != origin_tile) {
                 tile_distance = tile_distance - origin_tile;
             } else {
                 parent_tile = ((S_818FF710_2 *)parent)->unk_73;
                 tile_distance = parent_tile;
-                origin_tile = origin->unk_25;
+                origin_tile = origin->tile_y;
                 tile_distance = tile_distance - origin_tile;
             }
             if (tile_distance < 0) {
@@ -504,7 +504,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
                 effect->timer = 0U;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 impact_target = ((S_818FF710_2 *)parent)->unk_60;
-                target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].unk_00;
+                target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].sprite;
                 if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) >= 4U) {
                     target_hit_flags->unk_14 = (u16) (target_hit_flags->unk_14 | 0x800);
                     hit_target = ((S_818FF710_2 *)parent)->unk_60;
@@ -588,7 +588,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         child_effect = ((void *)first_object) + 0x20;
         if (first_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (first_object->unk_10) = &D_800246F8;
+            (first_object->update_callback) = &D_800246F8;
             register_node(first_object, project_sprite_chain);
             first_sprite = (first_object->sprite);
             first_sprite->unk_06 = 0;
@@ -622,7 +622,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         child_effect = ((void *)second_object) + 0x20;
         if (second_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (second_object->unk_10) = &advance_timed_visual_effect;
+            (second_object->update_callback) = &advance_timed_visual_effect;
             register_node(second_object, project_sprite_chain);
             second_sprite = (second_object->sprite);
             second_sprite->unk_14 &= 0xFFF3;
@@ -654,7 +654,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         child_effect = ((void *)third_object) + 0x20;
         if (third_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (third_object->unk_10) = &D_800245EC;
+            (third_object->update_callback) = &D_800245EC;
             register_node(third_object, project_sprite_chain);
             second_sprite = (S_818FF710_18 *)(third_object->sprite);
             ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
@@ -693,7 +693,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             child_effect->unk_38 = ((void *)first_object) + 0x20;
             child_effect->unk_3C = ((void *)third_object) + 0x20;
             child_effect->unk_40 = ((void *)second_object) + 0x20;
-            (fourth_object->unk_10) = &update_tiled_fade_effect;
+            (fourth_object->update_callback) = &update_tiled_fade_effect;
             register_node(particle_owner, sprite_resource);
             second_sprite = (S_818FF710_18 *)(fourth_object->sprite);
             ((S_818FF710_24 *)((void *)second_sprite))->unk_06 = 0;

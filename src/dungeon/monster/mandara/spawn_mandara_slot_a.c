@@ -94,7 +94,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     created = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (created != 0) {
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
-        created->unk_10 = &D_8014CB40;
+        created->update_callback = &D_8014CB40;
         actor_state->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
@@ -102,10 +102,10 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         position->unk_0A = heading;
         monster = created->sprite;
         kind = spawn_flags & 3;
-        monster->unk_25 = tile_y;
+        monster->tile_y = tile_y;
         actor = actor_state;
         monster->frameTable = &D_80151258;
-        monster->unk_24 = tile_x;
+        monster->tile_x = tile_x;
 
         if (kind == 1) {
             actor_state->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

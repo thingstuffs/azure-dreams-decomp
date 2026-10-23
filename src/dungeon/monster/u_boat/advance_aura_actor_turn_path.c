@@ -79,8 +79,8 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
                 create_owner_linked_directional_object(actor, actor_slot, entity);
             }
         }
-        old_x_early = entity->unk_24;
-        old_y = entity->unk_25;
+        old_x_early = entity->tile_x;
+        old_y = entity->tile_y;
         effect_status = get_entity_effect_value(state, STATUS_NO_TILE_OCCUPANCY);
         old_x = old_x_early;
         if ((effect_status << 0x10) == 0) {
@@ -103,16 +103,16 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
             path_step->unk_74, path_step->unk_7C,
             (u8 *)actor + 0x98);
         move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
-        entity->unk_24 = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_74;
-        entity->unk_25 = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_7C;
+        entity->tile_x = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_74;
+        entity->tile_y = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_7C;
         ((S_80172144_0 *)state)->unk_8A = (u16)((S_80172144_0 *)state)->unk_8A + 1;
         if ((effect_status << 0x10) == 0) {
             s32 new_x;
             s32 new_y;
 
             tile_flags = 0x3000;
-            new_x = entity->unk_24;
-            new_y = entity->unk_25;
+            new_x = entity->tile_x;
+            new_y = entity->tile_y;
             if (((S_80172144_0 *)state)->unk_1C & ACTOR_PLAYER_SIDE) {
                 tile_flags = 0x300;
             }

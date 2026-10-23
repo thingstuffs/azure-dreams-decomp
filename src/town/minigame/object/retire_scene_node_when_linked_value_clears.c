@@ -15,7 +15,7 @@ typedef struct S_80024070_0 {
 void retire_scene_node_when_linked_value_clears(void *record) {
     ObjectStatusPrefix16 *record_view = record;
     if (*((S_80024070_0 *)record)->unk_0C == 0) {
-        record_view[-1].unk_00 = (u16) (record_view[-1].unk_00 | 0x8000);
+        record_view[-1].flags = (u16) (record_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

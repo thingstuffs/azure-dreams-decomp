@@ -18,11 +18,11 @@ s32 sum_enabled_record_weights(void) {
     u8 *record;
 
     total_weight = 0;
-    type_table = **(u8 ***)((u8 *)D_80016000 + 0x30);
+    type_table = **(u8 ***)((u8 *)town_scene_root + 0x30);
     weights = D_80016164;
     record_index = total_weight;
     do {
-        record_data = *(u8 **)((u8 *)D_80016000 + 0x38);
+        record_data = *(u8 **)((u8 *)town_scene_root + 0x38);
         record = record_data + (record_index * 2);
         flags = type_table[(record[0x33A4] << 5) + 2];
         if (flags & 1) {

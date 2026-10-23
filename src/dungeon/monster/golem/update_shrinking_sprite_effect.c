@@ -13,7 +13,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern u8 D_80170E94;
+extern u8 golem_action_continuation_address;
 extern Callback D_80175F70[];
 
    /* monster in update_shrinking_sprite_effect */
@@ -54,7 +54,7 @@ void update_shrinking_sprite_effect(void *entity, S_80170A84_2 *motion, SpriteFr
     if (g_dungeon_status.flags & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)entity + 0x8C));
 
-        if (early_callback == (Callback)&D_80170E94) {
+        if (early_callback == (Callback)&golem_action_continuation_address) {
             early_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -152,8 +152,8 @@ void update_shrinking_sprite_effect(void *entity, S_80170A84_2 *motion, SpriteFr
 
             if (((S_80170A84_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80170A84_1 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
-                                      (monster->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->tile_x << 6) | 0x20,
+                                      (monster->tile_y << 6) | 0x20,
                                       (s16)(((S_80170A84_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170A84_1 *)actor)->unk_88.u - floor_height;
                 ((S_80170A84_1 *)actor)->unk_88.u = floor_height;

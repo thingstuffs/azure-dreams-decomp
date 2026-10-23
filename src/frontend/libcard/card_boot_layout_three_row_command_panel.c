@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800233D0_arg0.h"
-
 
 typedef struct S_80023600_2 {
     u8 pad_00[0x1A8];
@@ -39,10 +39,7 @@ typedef struct S_80023600_7 {
     void * unk_04;
 } S_80023600_7;
 
-typedef struct S_80023600_8 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80023600_8;   /* ((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04 in card_boot_layout_three_row_command_panel */
+   /* ((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04 in card_boot_layout_three_row_command_panel */
 
 typedef struct S_80023600_9 {
     u8 pad_00[0x8];
@@ -67,7 +64,6 @@ typedef struct S_80023600_12 {
     s16 unk_08;
     s16 unk_0A;
 } S_80023600_12;
-
 
 #include "frontend/libcard/interfaces.h"
 #include "frontend/libcard.h"
@@ -94,7 +90,7 @@ void card_boot_layout_three_row_command_panel(void *panel) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    ((S_80023600_8 *)(((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)panel)->unk_1A0))->unk_04))->unk_0A = 0x1A;
+    ((SignedWidgetYView *)(((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)panel)->unk_1A0))->unk_04))->unk_0A = 0x1A;
     do {
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_08 = lower_x;
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_0A = lower_y;

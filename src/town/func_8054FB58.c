@@ -3,4 +3,4 @@
 #include "shared/town_root.h"
 extern u8 D_80017A38[];
 
-void submit_scene_entry_data_a(void) { D_80016000->unk_20->callback_218(D_80017A38); }
+void submit_scene_entry_data_a(void) { town_scene_root->services->callback_218(D_80017A38); }

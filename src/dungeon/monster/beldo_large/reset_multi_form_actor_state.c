@@ -7,7 +7,7 @@ struct ObjectNodeHeader;
 
 extern void call_script();
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
-extern u8 D_800E045C[];
+extern u8 restore_actor_script[];
 extern s32 beldo_actor_nodes;
 
 /* Reset state flags, relink the two attached objects, and submit the global buffer. */
@@ -29,5 +29,5 @@ void reset_multi_form_actor_state(s32 reset_arg_a, s32 reset_arg_b, s32 reset_ar
         }
         object_index++;
     } while (object_index < 2);
-    call_script(D_800E045C);
+    call_script(restore_actor_script);
 }

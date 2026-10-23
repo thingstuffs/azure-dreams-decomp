@@ -574,7 +574,7 @@ void update_animated_target_effect(void *effect)
         do {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != NULL) {
-                particle->unk_10 = particle_data;
+                particle->update_callback = particle_data;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
                 particle_state = (u8 *)particle + 0x20;
@@ -594,7 +594,7 @@ void update_animated_target_effect(void *effect)
                 sprite->flags |= 0xC;
                 display_link = ((S_8002466C_8 *)display)->unk_04;
                 sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
+                sprite->frame_ticks = 0;
                 sprite->color.word = 0x808080;
                 sprite->source = display_link;
                 ((S_8002466C_6 *)particle)->unk_20 = ((S_8002466C_0 *)effect)->unk_00;

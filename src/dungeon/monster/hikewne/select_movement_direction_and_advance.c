@@ -121,8 +121,8 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
             if (((void *)current_angle) != 0) {
                 s16 target_angle = get_rounded_facing_and_rounding_flag(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].unk_00))->unk_24,
-                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].unk_00))->unk_25,
+                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].sprite))->tile_x,
+                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].sprite))->tile_y,
                     (u8 *)move_data + 0x98);
                 ((S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
                 ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
@@ -252,9 +252,9 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
             }
 
             ((S_80171C34_1 *)actor_data)->unk_2A.s = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->path_x =
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->path_y =
                 ((S_80171C34_2 *)position_data)->unk_24.at01.v;
             ((S_80171C34_1 *)actor_data)->unk_71.u++;
 

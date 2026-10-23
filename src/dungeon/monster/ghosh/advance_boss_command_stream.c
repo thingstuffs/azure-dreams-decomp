@@ -33,7 +33,7 @@ extern void update_boss_timed_animation(void *, void *, SpriteFrameState *, void
 extern u8 D_80174A9C[];
 extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
-extern u8 *D_80174AB4;
+extern u8 *ghosh_command_stream;
 extern s16 D_80174AB8;
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
@@ -64,7 +64,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         return 0;
     }
 
-    stream = D_80174AB4;
+    stream = ghosh_command_stream;
     if (stream == 0) {
         result = 0;
         return result;
@@ -82,7 +82,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     elapsed_ticks = *(u16 *)&D_80174AB8 + 1;
     D_80174AB8 = elapsed_ticks;
     if ((s32)duration < elapsed_ticks) {
-        D_80174AB4 = stream + 2;
+        ghosh_command_stream = stream + 2;
         D_80174AB8 = 0;
         ((S_80174320_1 *)obj)->unk_9B = 0;
     }
@@ -145,7 +145,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            create_linked_facing_sprite(entity->unk_24, entity->unk_25,
+            create_linked_facing_sprite(entity->tile_x, entity->tile_y,
                 ((S_80174320_2 *)context_arg)->unk_0A);
             retain_spawn_resource(0x15, 1);
         }
@@ -176,8 +176,8 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             create_boss_offset_effect();
-            audio_x = entity->unk_24;
-            audio_y = entity->unk_25;
+            audio_x = entity->tile_x;
+            audio_y = entity->tile_y;
             audio_param = 0x3000;
             if (((S_80174320_1 *)obj)->unk_1C & 0x2000) {
                 audio_param = 0x300;

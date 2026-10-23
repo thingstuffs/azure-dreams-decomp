@@ -10,7 +10,7 @@
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
 void set_sprite_animation_frame(); /* extern */
-extern void D_80093A94();
+extern void dungeon_familiar_deploy_update_address();
 
 typedef struct S_80093D8C_0 {
     u8 pad_00[0x8];
@@ -32,18 +32,18 @@ void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, R
     effect = allocate_list_node(0x310, sort_order - 0x20);
     if (effect != NULL) {
         position = effect->unk_08;
-        effect->unk_10 = &D_80093A94;
-        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
-        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
-        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
+        effect->unk_10 = &dungeon_familiar_deploy_update_address;
+        position->x = (u16) ((u16)source_pos->x.w.i);
+        position->y = (u16) ((u16)source_pos->y.w.i);
+        position->z = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->unk_0C;
-        sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
+        sprite->animation_resource = (s32) owner->unk_28.at00_s32.v;
         sprite->scale_y = 0x1000;
         sprite->flags = 0xCU;
         sprite->tpage_abr = 0x20;
         sprite->color.word = 0xF8F8F8;
         sprite->scale_x = 0;
-        sprite->unk_06 = 4;
+        sprite->depth_bias = 4;
         sprite->flags = (u16) (sprite->flags | 0x200);
         set_sprite_animation_frame(sprite, 0xD0, 0, 2);
         register_node(effect, project_sprite_chain);

@@ -125,8 +125,8 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 s32 actor_flags;
 
                 actor_flags = ((S_800CB9DC_1 *)actor)->unk_1C;
-                tile_x = ((MovingTile *)actor_data)->unk_24;
-                tile_y = ((MovingTile *)actor_data)->unk_25;
+                tile_x = ((MovingTile *)actor_data)->tile_x;
+                tile_y = ((MovingTile *)actor_data)->tile_y;
                 tile_mask = 0x3000;
                 if (actor_flags & 0x2000) {
                     tile_mask = 0x300;

@@ -60,7 +60,7 @@ extern u8 D_800892EC[];
 /* extern */
 extern char D_800892D8[];
 extern Vec3s D_800892F0;
-extern char D_800892F4[];
+extern char stat_text_format_separator[];
 extern char D_800892F8[];
 extern char D_800892FC[];
 extern u8 *remap_flagged_string_bytes(u8 *text);

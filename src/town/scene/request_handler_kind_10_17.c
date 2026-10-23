@@ -14,7 +14,7 @@ void request_handler_kind_10_17(void)
     args[0] = 0x10;
     args[2] = 0;
     args[3] = 0;
-    D_80017FB8[0] = ((Callback)*(void **)((s8 *)*(void **)((s8 *)D_80016000 + 0x20) + 0x50))(args);
+    D_80017FB8[0] = ((Callback)*(void **)((s8 *)*(void **)((s8 *)town_scene_root + 0x20) + 0x50))(args);
 }
 
 /* MECHANISM: The four-byte args array yields the 0x20 frame with only $ra saved.

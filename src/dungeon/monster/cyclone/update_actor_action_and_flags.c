@@ -79,7 +79,7 @@ void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameSta
             return;
         }
 
-        if (entity->unk_64 != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, action_ctx, anim, 0) != 0) {
                 return;
             }

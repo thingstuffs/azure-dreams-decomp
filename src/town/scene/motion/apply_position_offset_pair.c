@@ -25,10 +25,10 @@ void apply_position_offset_pair(void *offsets)
     s32 *object;
     u16 second_offset;
 
-    root = *(void **)((s8 *)(&D_80016000));
+    root = *(void **)((s8 *)(&town_scene_root));
     (*(Callback *)((u8 *)(root->unk_20) + 0x258))(1);
 
-    base = *(u8 **)((s8 *)(&D_80016000));
+    base = *(u8 **)((s8 *)(&town_scene_root));
     object = ((S_80019E7C_1 *)base)->unk_1C.p;
     object[1] += *(s16 *)offsets;
     second_offset = *(u16 *)((u8 *)offsets + 2);

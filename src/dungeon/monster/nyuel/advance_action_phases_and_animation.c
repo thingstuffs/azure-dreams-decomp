@@ -14,8 +14,8 @@ s32 advance_status_timers();
 s32 play_sound_if_enabled();
 void spend_actor_mp();
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state);
-extern u8 D_80174F30;
-extern u8 D_80174F38;
+extern u8 nyuel_frame_set_9;
+extern u8 nyuel_frame_set_10;
 extern u8 nyuel_frame_set_4;
 
 typedef struct S_80172524_0 {
@@ -59,9 +59,9 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = (u8 *)&D_80174F30;
+        sprite->frameTable = (u8 *)&nyuel_frame_set_9;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
-            >> 9) & 7) + (u32)&D_80174F30), 0);
+            >> 9) & 7) + (u32)&nyuel_frame_set_9), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
     case 2:
@@ -71,9 +71,9 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
             return;
         }
         play_sound_if_enabled(0x808);
-        sprite->frameTable = (u8 *)&D_80174F38;
+        sprite->frameTable = (u8 *)&nyuel_frame_set_10;
         select_sprite_entry(sprite, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
-            >> 9) & 7) + (u32)&D_80174F38), 0);
+            >> 9) & 7) + (u32)&nyuel_frame_set_10), 0);
         ((S_80172524_0 *)action)->unk_9B.n++;
         return;
     case 3:
@@ -103,12 +103,12 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         ((S_80172524_0 *)action)->unk_96.u = move_ticks;
         if ((s16) move_ticks > 0) {
             {
-                s32 target_coord = sprite->unk_24 << 6;
+                s32 target_coord = sprite->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
                 motion->velocity_x = ((target_coord - current_coord) << 0x10) / (s16) move_ticks;
             }
             {
-                s32 target_coord = sprite->unk_25 << 6;
+                s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
                 motion->velocity_y = ((target_coord - current_coord) << 0x10) / ((S_80172524_0 *)action)->unk_96.s;
             }
@@ -130,12 +130,12 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         ((S_80172524_0 *)action)->unk_96.u = settle_ticks;
         if ((s16) settle_ticks > 0) {
             {
-                s32 target_coord = sprite->unk_24 << 6;
+                s32 target_coord = sprite->tile_x << 6;
                 s32 current_coord = motion->x.w.i - 0x20;
                 motion->velocity_x = ((target_coord - current_coord) << 0x10) / (s16) settle_ticks;
             }
             {
-                s32 target_coord = sprite->unk_25 << 6;
+                s32 target_coord = sprite->tile_y << 6;
                 s32 current_coord = motion->y.w.i - 0x20;
                 motion->velocity_y = ((target_coord - current_coord) << 0x10) / ((S_80172524_0 *)action)->unk_96.s;
             }
@@ -147,7 +147,7 @@ void advance_action_phases_and_animation(void *action, ObjectPosition *motion, S
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;

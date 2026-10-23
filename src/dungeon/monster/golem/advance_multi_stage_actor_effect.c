@@ -18,9 +18,9 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(void *, void *, void *);
 
-extern void D_80170E94;
+extern void golem_action_continuation_address;
 extern u8 golem_direction_frames[8];
-extern u8 D_80175F40[8];
+extern u8 golem_frame_set_4[8];
 extern u8 golem_frame_set_1[8];
 
 typedef struct S_801735BC_0 {
@@ -64,9 +64,9 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         if ((s16)timer > 0) {
             return;
         }
-        object->frameTable = D_80175F40;
+        object->frameTable = golem_frame_set_4;
         select_sprite_entry(object,
-            D_80175F40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            golem_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         entity->flags14 = 0;
         entity->unk_10 = 0;
@@ -130,10 +130,10 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        set_record_integer_tile_center(entity, object->unk_24, object->unk_25);
+        set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &golem_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         break;
 
@@ -150,10 +150,10 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        set_record_integer_tile_center(entity, object->unk_24, object->unk_25);
+        set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &golem_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         break;
     default:

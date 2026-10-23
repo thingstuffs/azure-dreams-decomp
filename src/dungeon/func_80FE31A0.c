@@ -131,7 +131,7 @@ extern void create_two_row_object_group(void *, s16);
 extern u8 effect_update_tag[];
 extern u8 D_8016A838[16];
 extern u8 dungeon_action_resume_address;
-extern u8 D_8016E038[];
+extern u8 killer_slot_f_default_frames[];
 extern u8 D_8016E078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
@@ -227,8 +227,8 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
 
                         target = scan_actor_along_heading(
                             actor_data,
-                            sprite->unk_24,
-                            sprite->unk_25,
+                            sprite->tile_x,
+                            sprite->tile_y,
                             actor_data->facing.s,
                             0x10);
                         actor_data->target = target;
@@ -260,7 +260,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     effect->phase = 0;
                     effect->facing = actor_data->facing.u;
                     {
-                        s32 sprite_flags = sprite->unk_28;
+                        s32 sprite_flags = sprite->animation_resource;
                         effect_sprite = effect->sprite;
 
                         effect_sprite->scaleY = 0x1000;
@@ -303,7 +303,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
         advance_status_timers(actor_data);
@@ -341,15 +341,15 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
             effect->phase = 0xFF;
             actor->effect = 0;
         }
-        sprite->frameTable = D_8016E038;
+        sprite->frameTable = killer_slot_f_default_frames;
         select_sprite_entry(
             sprite,
-            D_8016E038[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
+            killer_slot_f_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }

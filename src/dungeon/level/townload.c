@@ -5,8 +5,8 @@
 s32 resource_value_table_contains(s32 value) {
     s32 i = 0;
 
-    while (D_800CF85C[i] != 0) {
-        if (value == D_800CF85C[i]) {
+    while (town_resource_ids[i] != 0) {
+        if (value == town_resource_ids[i]) {
             return 1;
         }
         i++;

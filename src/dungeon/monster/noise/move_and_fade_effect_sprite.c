@@ -72,10 +72,10 @@ void move_and_fade_effect_sprite(void *effect, void *motion, SpriteFrameState *s
     depth = RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
 
     origin = ((S_80D23000_2 *)effect)->unk_A8;
-    projection.xyz[0] = origin->unk_02;
-    projection.xyz[1] = origin->unk_06;
-    projection.xyz[2] = origin->unk_0A;
-    sprite->unk_06 = depth -
+    projection.xyz[0] = origin->x;
+    projection.xyz[1] = origin->y;
+    projection.xyz[2] = origin->z;
+    sprite->depth_bias = depth -
         RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
         view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80D23000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 

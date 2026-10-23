@@ -26,7 +26,7 @@ extern void DrawSync();
 extern void StoreImage();
 void update_active_building_entries(void);
 
-extern u8 g_game_work[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], town_tile_grid[];
+extern u8 g_game_work[], D_80110EC8[], building_texture_backup[], building_palette_backup[], D_8012F004[], town_tile_grid[];
 extern u16 building_upload_rect[];
 /* Initialize drawing state and upload image and palette data. */
 void initialize_building_graphics(void)
@@ -67,14 +67,14 @@ void initialize_building_graphics(void)
     image_rect[1] = 0x80;
     image_rect[2] = image_width;
     image_rect[3] = 0x80;
-    StoreImage(image_rect, D_801116C8);
+    StoreImage(image_rect, building_texture_backup);
 
     palette_rect = building_upload_rect;
     building_upload_rect[0] = 0;
     palette_rect[1] = 0x1FB;
     palette_rect[2] = 0x40;
     palette_rect[3] = 1;
-    StoreImage(palette_rect, D_80111EC8);
+    StoreImage(palette_rect, building_palette_backup);
     DrawSync(0);
 
     draw_buffer = town_tile_grid;

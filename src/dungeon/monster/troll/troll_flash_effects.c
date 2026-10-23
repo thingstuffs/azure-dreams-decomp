@@ -214,7 +214,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     effect_state = (u8 *)effect + 0x20;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_18 = 2;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_1A = 2;
-    effect->unk_10 = update_stepped_rgb_flash;
+    effect->update_callback = update_stepped_rgb_flash;
     register_node(init_effect, init_data);
 
     part = effect->sprite;
@@ -356,7 +356,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     effect_state = (u8 *)effect + 0x20;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
-    effect->unk_10 = (void *)&update_normalized_gray_fade;
+    effect->update_callback = (void *)&update_normalized_gray_fade;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
     effect_data = effect->sprite;
     template_data = sprite_template;
@@ -583,7 +583,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
     object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
-        object->unk_10 = &update_tracked_attachment_sprite;
+        object->update_callback = &update_tracked_attachment_sprite;
         register_node(object, project_sprite_chain);
 
         render = object->sprite;
@@ -650,7 +650,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     init_flags = spawn_flags;
     if (object != 0) {
         result = (ActorRecord *)((u8 *)object + 0x20);
-        object->unk_10 = D_801720B4;
+        object->update_callback = D_801720B4;
         *(s8 *)((u8 *)result + 0x13) = 0x16;
         register_node(object, project_sprite_chain);
 
@@ -661,10 +661,10 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         ((T_80171D64_S_80171D64_2 *)position)->unk_0A = initial_height;
         sprite = object->sprite;
         
-        sprite->unk_24 = saved_x;
+        sprite->tile_x = saved_x;
         sprite->frameTable = (void *)default_frames;
         record_kind = 0x20;
-        sprite->unk_25 = saved_y;
+        sprite->tile_y = saved_y;
         record_addr = (s32)result;
         result->unk_4B = record_kind;
         result->unk_48 = call_position;

@@ -17,7 +17,7 @@ typedef struct S_80172334_0 {
 } S_80172334_0;   /* arg0 in advance_timed_directional_reset */
 
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
-extern u8 D_80175F20;
+extern u8 golem_frame_set_2;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
 void advance_timed_directional_reset(void *state, s32 unused, SpriteFrameState *sprite, EntityRec *orientation) {
@@ -26,7 +26,7 @@ void advance_timed_directional_reset(void *state, s32 unused, SpriteFrameState *
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;
     ((S_80172334_0 *)state)->unk_A6 = ticks;
     if ((u32) (ticks & 0xFFFF) >= 0x3DU) {
-        u8 *direction_table = &D_80175F20;
+        u8 *direction_table = &golem_frame_set_2;
 
         ((S_80172334_0 *)state)->unk_A6 = 0x3CU;
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;

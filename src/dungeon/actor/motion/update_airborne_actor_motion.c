@@ -117,12 +117,12 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
         }
         motion->velocity_z = 0;
         ((S_800974DC_0 *)action)->unk_96.s = 2U;
-        delta = (u32)sprite->unk_24 << 6;
+        delta = (u32)sprite->tile_x << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
         motion->velocity_x = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         coord = motion->y.w.i - 0x20;
-        delta = ((u32)sprite->unk_25 << 6) - (u32)coord;
+        delta = ((u32)sprite->tile_y << 6) - (u32)coord;
         motion->velocity_y = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
         return;
@@ -136,7 +136,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         process_unflagged_linked_entries(actor->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
         ((S_800974DC_0 *)action)->unk_8C = &handle_actor_commands_and_facing;

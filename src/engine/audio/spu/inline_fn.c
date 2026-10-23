@@ -48,12 +48,7 @@ typedef struct
     volatile u16 field_1AA;
 }
 S_80079958;
-typedef struct
-{
-    S_80079958 *ptr;
-    u32 pad[2];
-}
-S_80079958_hdr;
+
 extern s32 spu_reverb_start_address[];
 extern s32 spu_reverb_mode[];
 extern u16 spu_reverb_depth_left[];

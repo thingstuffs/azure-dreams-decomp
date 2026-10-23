@@ -1,16 +1,10 @@
 #include "common.h"
+#include "engine/script.h"
 
 #include "common.h"
 
-typedef struct {
-    u8 pad_00[0x1C];
-    u8 *read_ptr;
-    u8 pad_20[0x60];
-    u8 *values;
-} Func8003A904State;
-
 /* Handle an event-script table read by loading a little-endian word into the destination value slot. */
-void vm_op_71_load_value_indexed_word(Func8003A904State *state) {
+void vm_op_71_load_value_indexed_word(ScriptReader *state) {
     u8 *operands;
     u8 *address_bytes;
     u8 *entry;
@@ -21,14 +15,14 @@ void vm_op_71_load_value_indexed_word(Func8003A904State *state) {
     u32 address_byte_2;
     u32 value;
 
-    operands = state->read_ptr;
+    operands = state->cursor;
     dst_index = operands[0];
-    values = state->values;
+    values = state->data;
     operands = operands + 1;
-    state->read_ptr = operands;
+    state->cursor = operands;
     src_index = operands[0];
     address_bytes = operands + 1;
-    state->read_ptr = address_bytes;
+    state->cursor = address_bytes;
 
     table_offset = *(u32 *)(values + (src_index * 4) + 0x48);
     address_byte_2 = address_bytes[2];
@@ -36,7 +30,7 @@ void vm_op_71_load_value_indexed_word(Func8003A904State *state) {
     entry = (u8 *)((u32)operands[1] + ((u32)address_bytes[1] << 8)
                    + (address_byte_2 << 16) + ((u32)address_bytes[3] << 24)
                    + table_offset);
-    state->read_ptr = operands + 5;
+    state->cursor = operands + 5;
 
     value = entry[0];
     *(u32 *)(values + (dst_index * 4) + 0x48) = value;

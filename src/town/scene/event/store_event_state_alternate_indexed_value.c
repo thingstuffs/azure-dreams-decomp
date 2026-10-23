@@ -16,7 +16,7 @@ extern s32 func_8001ABB4();
 
 /* In event state 6, store func_8001ABB4() in the indexed entry and return 0; otherwise return 1. */
 s32 store_event_state_6_alternate_indexed_value(TownStateEntryTable *table, s32 index) {
-    if (town_event_state->unk_05 == 6) {
+    if (town_event_state->selection_mode == 6) {
         table->entries[index].unk_08 = func_8001ABB4();
         return 0;
     }

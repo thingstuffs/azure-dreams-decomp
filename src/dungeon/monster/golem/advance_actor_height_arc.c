@@ -49,7 +49,7 @@ extern void spend_actor_mp(void *, s32);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern void create_primitive_state_object(void *, void *, void *);
 
-extern u8 D_80170E94;
+extern u8 golem_action_continuation_address;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */
 /* Checks terrain ahead, arcs Golem toward a target or tile, resolves damage, then returns to its tile and
@@ -75,14 +75,14 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
         ((S_80172D08_0 *)action)->unk_AF = 0;
         if (actor->target == 0) {
             direction = (((u16)actor->facing) >> 9) & 7;
-            if ((s16)check_layer_offset_height(record->unk_24 << 6,
-                                   record->unk_25 << 6,
+            if ((s16)check_layer_offset_height(record->tile_x << 6,
+                                   record->tile_y << 6,
                                    actor->ground_height,
                                    direction << 9) == 0) {
                 terrain_height = sample_terrain_surface_height(
-                    (((record->unk_24 +
+                    (((record->tile_x +
                        ((s16 *)((s8 *)dir_step_x))[direction]) << 6) + 0x20) & 0xFFE0,
-                    (((record->unk_25 +
+                    (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
                 if ((u16)(terrain_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
@@ -167,9 +167,9 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
-                    (((record->unk_24 +
+                    (((record->tile_x +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (((record->unk_25 +
+                    (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
                 arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7);
@@ -269,9 +269,9 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 terrain_height = sample_terrain_surface_height(
-                    (((record->unk_24 +
+                    (((record->tile_x +
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (((record->unk_25 +
+                    (((record->tile_y +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
                 arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
@@ -297,10 +297,10 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, record->unk_24,
-                          record->unk_25);
+            set_record_integer_tile_center(motion, record->tile_x,
+                          record->tile_y);
             spend_actor_mp(actor, 0x200);
-            ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
+            ((S_80172D08_0 *)action)->unk_8C = &golem_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;

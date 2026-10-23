@@ -7,7 +7,7 @@ extern s32 update_actor_movement_to_tile(void);
 extern void advance_status_timers(void *);
 extern void set_actor_action_state_eight(void *, s32, s32);
 
-extern u8 D_800C9F34;
+extern u8 actor_motion_resume_address;
 
 
 typedef struct S_800CAAC8_0 {
@@ -44,7 +44,7 @@ void advance_actor_movement_to_tile(void *entity_ptr, s32 input_arg_1, s32 input
             set_actor_action_state_eight(entity_ptr, update_arg_1, update_arg_2);
             return;
         }
-        ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &D_800C9F34;
+        ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &actor_motion_resume_address;
     }
 
     if (g_dungeon_status.flags & 0x80) {

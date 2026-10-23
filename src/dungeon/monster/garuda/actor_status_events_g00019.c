@@ -107,7 +107,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, SpriteFrameS
             on_actor_status_updated(entity_in);
             if ((get_entity_effect_value(entity_in, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite_in->unk_26;
+                s8 tile = *(s8 *)&sprite_in->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite_in) < 2)) {
@@ -211,7 +211,7 @@ void advance_entity_directional_events(void *entity, void *context, SpriteFrameS
             return;
         }
 
-        if (actor->unk_64 != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(entity, context, sprite, 0) != 0) {
                 return;
             }

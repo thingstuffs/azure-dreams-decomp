@@ -6,7 +6,7 @@
 #include "records/Rec_func_8009B828_arg0.h"
 
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis();              /* extern */
-extern void D_8009B8E8();
+extern void actor_target_motion_address();
 extern s32 town_target_height_offset[];
 
 
@@ -21,6 +21,6 @@ void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *tar
     parameters->flags14 = 0;
     parameters->z.v = combinedValue;
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(target, parameters);
-    owner->unk_50 = &D_8009B8E8;
+    owner->unk_50 = &actor_target_motion_address;
     owner->unk_6C.as_s16 = 4;
 }

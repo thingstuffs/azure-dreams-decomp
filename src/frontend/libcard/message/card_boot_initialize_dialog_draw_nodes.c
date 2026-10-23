@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/gpu_packets.h"
 #include "frontend/libcard/message.h"
 
 typedef struct Template4 {
@@ -8,22 +9,16 @@ typedef struct Template4 {
     s32 unkC;
 } Template4;
 
-typedef struct Template3 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} Template3;
-
 typedef struct Node {
     s32 unk0;
     Template4 *data;
-    Template3 *common;
+    DisplayPositionWords *common;
     s32 unkC;
 } Node;
 
 typedef struct Entity {
     u8 pad0[0x8B0];
-    Template3 common;
+    DisplayPositionWords common;
     u8 pad1[0x8CC - 0x8BC];
     Node *ptr_array[7];
     Node node_array[7];
@@ -31,7 +26,7 @@ typedef struct Entity {
 } Entity;
 
 extern Template4 display_block_defaults;
-extern Template3 display_vector_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize entity nodes with template data and link them to shared common data. */
 void card_boot_initialize_dialog_draw_nodes(Entity *entity, s32 node_count)

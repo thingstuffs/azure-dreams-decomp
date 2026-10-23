@@ -57,7 +57,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, Sprit
             play_sound_if_enabled(0x804);
         }
         if (animation->flags & 0xE000) {
-            set_record_integer_tile_center(actor_id, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
             ((S_801727EC_0 *)action_state)->unk_8C = &killer_action_resume_address;
             g_dungeon_status.active_actor = 0;

@@ -25,7 +25,7 @@ extern s32 write_script_flag_range();
 extern s32 func_8001DCD4();
 
 #define CURRENT_FLOOR() \
-((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_24))->unk_74))->unk_2A
+((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_24))->unk_74))->unk_2A
 
 /* Advance the counter up to five and process the current floor unless an early exit applies. */
 s32 advance_floor_event_counter(s32 fallback_arg_a, s32 fallback_arg_b) {

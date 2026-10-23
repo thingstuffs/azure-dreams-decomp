@@ -73,22 +73,22 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
             effect_render->tpage_abr = 0x20;
             effect_render->flags = (u16) (effect_render->flags | 0xC);
             effect_pos = effect->position;
-            effect_pos->unk_02 = (u16) position->unk_02;
-            effect_pos->unk_06 = (u16) position->unk_06;
-            effect_pos->unk_0A = (u16) position->unk_0A;
+            effect_pos->x = (u16) position->x;
+            effect_pos->y = (u16) position->y;
+            effect_pos->z = (u16) position->z;
             effect_render = effect->sprite;
             effect_render->scale_y = 0x1800;
             effect_render->scale_x = 0x1800;
             effect_render->color.c.b = 0x80;
             effect_render->color.c.g = 0x80;
             effect_render->color.c.r = 0x80;
-            effect_render->unk_06 = (u16) *(u16 *)&sprite->unk_06;
-            effect->unk_10 = &D_800D586C;
+            effect_render->depth_bias = (u16) *(u16 *)&sprite->depth_bias;
+            effect->update_callback = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
-                effect_pos->unk_02 = (u16) (effect_pos->unk_02 + delta.x);
-                effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
-                effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
+                effect_pos->x = (u16) (effect_pos->x + delta.x);
+                effect_pos->y = (u16) (effect_pos->y + delta.y);
+                effect_pos->z = (u16) (effect_pos->z + delta.z);
             }
             select_record_entry_and_value(effect->sprite, effect_sprite_sources, 0);
         }

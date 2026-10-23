@@ -67,7 +67,7 @@ void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80170CC8;
+        obj->update_callback = D_80170CC8;
         work->unk_13 = MONSTER_PICKET;
         register_node(obj, project_sprite_chain);
 
@@ -75,10 +75,10 @@ void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         part_a->unk_0A = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = work;
         part_b->frameTable = picket_frame_set_1;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             left = work->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

@@ -31,7 +31,7 @@ void set_record_integer_tile_center(void *, u8, u8);
 s16 sample_terrain_surface_height(u16, u16, s16);
 void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg);
 void process_actor_status_transitions(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
-extern s32 D_800E2178;
+extern s32 tile_actor_sprite_entries;
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
@@ -69,21 +69,21 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        sprite->unk_24 = saved_x;
-        sprite->unk_25 = saved_y;
+        sprite->tile_x = saved_x;
+        sprite->tile_y = saved_y;
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
-        select_record_entry_and_value(sprite, &D_800E2178, 0);
-        object->unk_10 = &update_actor_floor_contact;
+        select_record_entry_and_value(sprite, &tile_actor_sprite_entries, 0);
+        object->update_callback = &update_actor_floor_contact;
         state->unk_8C = &process_actor_status_transitions;
-        sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        sprite->room_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         state->unk_88 = sample_terrain_surface_height(*(u16 *)&position->x.w.i, *(u16 *)&position->y.w.i, position->z.w.i);
         sprite->color.word = 0x2C808080;
         sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);
-        call_x = sprite->unk_24;
-        call_y = sprite->unk_25;
+        call_x = sprite->tile_x;
+        call_y = sprite->tile_y;
         tile_flags = 0x3000;
         if (state->unk_1C & 0x2000) {
             tile_flags = 0x300;

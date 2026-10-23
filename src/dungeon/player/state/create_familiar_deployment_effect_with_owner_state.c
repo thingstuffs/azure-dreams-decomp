@@ -27,7 +27,7 @@ typedef struct S_80093C70_5 {
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
 void set_sprite_animation_frame(); /* extern */
-extern void D_80093A94();
+extern void dungeon_familiar_deploy_update_address();
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
 void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
@@ -40,17 +40,17 @@ void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec 
     effect = allocate_list_node(0x310, priority - 0x20);
     if (effect != NULL) {
         position = effect->position;
-        effect->unk_10 = &D_80093A94;
-        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
-        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
-        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
+        effect->update_callback = &dungeon_familiar_deploy_update_address;
+        position->x = (u16) ((u16)source_pos->x.w.i);
+        position->y = (u16) ((u16)source_pos->y.w.i);
+        position->z = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->sprite;
-        sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
+        sprite->animation_resource = (s32) owner->unk_28.at00_s32.v;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         flags = sprite->flags;
         sprite->flags = (u16) (flags | 0x200);
-        sprite->unk_06 = 4;
+        sprite->depth_bias = 4;
         if (reference_tile_object.sprite_flags & 1) {
             sprite->flags = (u16) (sprite->flags | 1);
         }

@@ -1,15 +1,9 @@
 #include "common.h"
+#include "engine/script.h"
 #include "engine/script/vm.h"
 
-typedef struct RuntimeState {
-    u8 pad0[0x1C];
-    u8 *cursor;
-    u8 pad20[0x60];
-    u8 *base;
-} RuntimeState;
-
 /* Store a VM table word as little-endian bytes at an encoded address plus a word offset. */
-void vm_op_58_store_immediate_indexed_word(RuntimeState *state) {
+void vm_op_58_store_immediate_indexed_word(ScriptReader *state) {
     u8 *dst;
     u8 *src;
     u8 *addr_bytes;
@@ -39,7 +33,7 @@ void vm_op_58_store_immediate_indexed_word(RuntimeState *state) {
     dst = (u8 *)(addr_byte0 + (addr_byte1 << 8) +
                  (addr_byte2 << 16) + (addr_byte3 << 24) +
                  dst_offset);
-    src = (u8 *)((src_index * 4) + (u32)state->base);
+    src = (u8 *)((src_index * 4) + (u32)state->data);
 
     dst[0] = *(s32 *)(src + 0x48);
     dst[1] = *(s32 *)(src + 0x48) >> 8;

@@ -53,7 +53,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     object = allocate_flagged_object_node(0x15);
     if (object != 0) {
         palette_entries = palette.value;
-        object->unk_10 = D_80023FA8;
+        object->update_callback = D_80023FA8;
         register_node(object, linked_sprite_renderer_address);
 
         primitive = object->sprite;
@@ -88,7 +88,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
         primitive->scale_x = palette_value;
         palette_value = palette_entries[palette_index];
         primitive->unk_04 = 0;
-        primitive->unk_05 = 0;
+        primitive->frame_ticks = 0;
         primitive->color.word = tint_color;
         primitive->source = palette_value;
     }

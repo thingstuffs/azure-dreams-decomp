@@ -24,11 +24,11 @@ typedef struct State8081FF68 {
 
 extern u8 D_80020224[];
 extern s32 town_money[];
-extern s32 D_80024638[];
+extern s32 slot_bet_display_object[];
 extern s16 slot_payout_digits[8];
 extern s16 D_800244E8[16];
-extern u8 D_800244B8[0x30];
-extern u8 D_80024488[0x10];
+extern u8 slot_machine_column_tiles[0x30];
+extern u8 minigame_pickup_bounds[0x10];
 extern u8 D_80024470[];
 extern u8 D_800236BC[];
 extern u8 D_80023BCC[];
@@ -151,7 +151,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         SD_Call(0x523);
-        D_80024638[0] = (s32)create_dual_buffer_object(0, -80, 64);
+        slot_bet_display_object[0] = (s32)create_dual_buffer_object(0, -80, 64);
         D_800834C8[0] = 0;
         create_familiar_deployment_effect_with_owner_state();
         money[0] -= 100;
@@ -220,7 +220,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         town_money[0] += state->count * 100;
-        set_object_data_pointer_2((void *)D_80024638[0]);
+        set_object_data_pointer_2((void *)slot_bet_display_object[0]);
         state->mode.s = 0;
         return;
     }
@@ -286,7 +286,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     angle = 2;
                     do {
                         s32 *symbol_out = &symbols[index][angle];
-                        u8 *strip = &D_800244B8[index * 12];
+                        u8 *strip = &slot_machine_column_tiles[index * 12];
                         *symbol_out = strip[(angle + ((ReelObject *)state->slot[index])->unk_2A) % 12];
                     } while (--angle >= 0);
                 } while (--index >= 0);
@@ -385,7 +385,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             if ((state->flags & 1) != 0) {
                 coin = allocate_flagged_object_node(0x100);
                 if (coin != NULL) {
-                    coin->unk_10 = D_80023BCC;
+                    coin->update_callback = D_80023BCC;
                 }
             }
 
@@ -450,7 +450,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             s16 *digits = slot_payout_digits;
             if ((s16)digits[0] + (s16)digits[1] + (s16)digits[2] == 0) {
                 if ((state->flags & 2) == 0) {
-                    void *bet_display = (void *)D_80024638[0];
+                    void *bet_display = (void *)slot_bet_display_object[0];
                     state->count = 0;
                     set_object_data_pointer_2(bet_display);
                     state->timer.u = 10;
@@ -470,7 +470,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     return;
                 }
                 payout_obj = coin;
-                coin->unk_10 = D_800236BC;
+                coin->update_callback = D_800236BC;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_00 =
                     ((IntVector3 *)position)->x + (s32)0xFEC00000;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_04 =
@@ -504,12 +504,12 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     ((SpriteFrameState *)primitive)->unk_00 = sprite_data;
                     ((SpriteFrameState *)primitive)->source = ((SlotSpriteData *)sprite_data)->unk_04;
                     ((SpriteFrameState *)primitive)->unk_04 = 0;
-                    ((SpriteFrameState *)primitive)->unk_05 = 0;
+                    ((SpriteFrameState *)primitive)->frame_ticks = 0;
                     ((SpriteFrameState *)primitive)->color.word = 0x00808080;
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                configure_the_set_mode_n_1(payout_state + 8, coin->position, D_80024488);
+                configure_the_set_mode_n_1(payout_state + 8, coin->position, minigame_pickup_bounds);
             }
         }
     }

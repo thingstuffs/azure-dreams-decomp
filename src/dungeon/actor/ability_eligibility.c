@@ -100,8 +100,8 @@ s32 check_row_column_or_diagonal_alignment(MovingTile *source, MovingTile *targe
     s32 y_delta;
     s32 x_delta;
 
-    x_delta = position_delta_abs(source->unk_24, target->unk_24);
-    y_delta = position_delta_abs(source->unk_25, target->unk_25);
+    x_delta = position_delta_abs(source->tile_x, target->tile_x);
+    y_delta = position_delta_abs(source->tile_y, target->tile_y);
 
     aligned = 0;
     if ((x_delta == y_delta) || (x_delta == 0) || (y_delta == 0)) {
@@ -124,7 +124,7 @@ s32 check_tile_path_clear(void *source, void *target) {
 
     source_pos = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_00;
     target_pos = ((S_800A36B4_1 *)((u8 *)target - 0x14))->unk_00;
-    step_x = source_pos->unk_24 - target_pos->unk_24;
+    step_x = source_pos->tile_x - target_pos->tile_x;
     check_param = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_3E;
     if (step_x != 0) {
         if (step_x > 0) {
@@ -133,7 +133,7 @@ s32 check_tile_path_clear(void *source, void *target) {
             step_x = -1;
         }
     }
-    step_y = source_pos->unk_25 - target_pos->unk_25;
+    step_y = source_pos->tile_y - target_pos->tile_y;
     if (step_y != 0) {
         if (step_y > 0) {
             step_y = 1;
@@ -141,12 +141,12 @@ s32 check_tile_path_clear(void *source, void *target) {
             step_y = -1;
         }
     }
-    tile_x = source_pos->unk_24;
-    tile_y = source_pos->unk_25;
+    tile_x = source_pos->tile_x;
+    tile_y = source_pos->tile_y;
     height = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_9C;
 
-    while (tile_x != target_pos->unk_24 ||
-           tile_y != target_pos->unk_25) {
+    while (tile_x != target_pos->tile_x ||
+           tile_y != target_pos->tile_y) {
         check_height = height;
         if ((check_layer_offset_height((tile_x << 6) & 0xFFC0,
                            (tile_y << 6) & 0xFFC0,
@@ -605,14 +605,14 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
     s16 floor_index, map_index;
     u8 *floor_entry, *map_entry;
 
-    lookup_code = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
+    lookup_code = lookup_definition_pair_value(entity->tile_x, entity->tile_y);
     if ((lookup_code << 16) != 0) {
         *(s16 *)temporary_item_record = (s16)(lookup_code | 0x1400);
         ((PlayerRecord *)primary_actor_record)->selected_floor_entry = 0;
         return;
     } else {
-        map_index_bits = (u32)find_entry_at_tile_coordinates(entity->unk_24,
-                                            entity->unk_25,
+        map_index_bits = (u32)find_entry_at_tile_coordinates(entity->tile_x,
+                                            entity->tile_y,
                                             search_state->ground_height) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
         if (map_index >= 0) {
@@ -627,8 +627,8 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
             return;
         }
 
-        floor_index_bits = (u32)find_floor_item_at_world_position(entity->unk_24,
-                                              entity->unk_25,
+        floor_index_bits = (u32)find_floor_item_at_world_position(entity->tile_x,
+                                              entity->tile_y,
                                               search_state->ground_height) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {

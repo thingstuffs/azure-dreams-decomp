@@ -22,13 +22,13 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
     s32 timer_next;
     s32 timer_init;
 
-    state = controller->unk_9B;
+    state = controller->phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity_data);
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        controller->unk_9B++;
+        controller->phase++;
 
         if (entity_data->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -38,8 +38,8 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
             return;
         }
         if (actor->flags & 0x8000) {
-            controller->unk_96.u = 0;
-            controller->unk_9B = 2;
+            controller->timer.u = 0;
+            controller->phase = 2;
             return;
         }
 
@@ -47,17 +47,17 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
         if (entity_data->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_init = 8;
         }
-        controller->unk_96.u = timer_init;
+        controller->timer.u = timer_init;
     case 1:
-        timer_signed = controller->unk_96.s;
-        timer_unsigned = controller->unk_96.u;
+        timer_signed = controller->timer.s;
+        timer_unsigned = controller->timer.u;
         if (timer_signed > 0) {
-            controller->unk_96.u = timer_unsigned - 1;
+            controller->timer.u = timer_unsigned - 1;
         } else if (actor->flags & 0x6000) {
-            controller->unk_96.u = 0;
+            controller->timer.u = 0;
         }
 
-        if (controller->unk_96.s != 0) {
+        if (controller->timer.s != 0) {
             return;
         }
         if (entity_data->unk_28 == 0) {
@@ -67,12 +67,12 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
             begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
-        controller->unk_96.u = 1;
-        controller->unk_9B++;
+        controller->timer.u = 1;
+        controller->phase++;
         return;
     case 2:
-        timer_next = controller->unk_96.u - 1;
-        controller->unk_96.u = timer_next;
+        timer_next = controller->timer.u - 1;
+        controller->timer.u = timer_next;
         if ((timer_next << 16) > 0) {
             return;
         }
@@ -80,12 +80,12 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity_data - 0x20)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        controller->unk_8C = &weadog_action_resume_address;
+        controller->next_action = &weadog_action_resume_address;
 
         return;
     default:

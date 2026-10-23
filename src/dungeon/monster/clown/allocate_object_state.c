@@ -31,17 +31,17 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;
-        object->unk_10 = &D_8014CA58;
+        object->update_callback = &D_8014CA58;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config = object->position;
         config->unk_0A = saved_type;
         placement = object->sprite;
         mode = init_flags & 3;
-        placement->unk_25 = saved_y;
+        placement->tile_y = saved_y;
         extended_state = state;
         placement->frameTable = &D_8015020C;
-        placement->unk_24 = saved_x;
+        placement->tile_x = saved_x;
         if (mode == 1) {
             state_flags = state->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             update_flags = state->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);

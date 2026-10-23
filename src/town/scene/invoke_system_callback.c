@@ -7,5 +7,5 @@
 
 /* Invoke the system object callback with 0x25 and 0x200. */
 void invoke_system_callback_25(void) {
-    D_80016000->unk_20->callback_238(0x25, 0x200);
+    town_scene_root->services->callback_238(0x25, 0x200);
 }

@@ -21,7 +21,7 @@ s32 run_scene_callbacks_with_mode_value_shift(void) {
     TownContext **context_ptr;
     s32 previous_value;
 
-    context_ptr = (TownContext **)((s8 *)(&D_80016000));
+    context_ptr = (TownContext **)((s8 *)(&town_scene_root));
 
     {
         TownContext *context;

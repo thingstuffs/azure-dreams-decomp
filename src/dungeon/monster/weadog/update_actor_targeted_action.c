@@ -122,10 +122,10 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
                 {
                     u8 facing;
 
-                    action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
-                    facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
+                    action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].sprite);
+                    facing = ((MovingTile *)((u8 *)action_kind))->tile_x;
                     actor->target_tile_x = facing;
-                    facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
+                    facing = ((MovingTile *)((u8 *)action_kind))->tile_y;
                     actor->target_tile_y = facing;
                 }
             } else if (item_action_definitions[*action_data].kind == 2) {
@@ -134,10 +134,10 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
                     {
                         u8 facing;
 
-                        action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
-                        facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
+                        action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].sprite);
+                        facing = ((MovingTile *)((u8 *)action_kind))->tile_x;
                         actor->target_tile_x = facing;
-                        facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
+                        facing = ((MovingTile *)((u8 *)action_kind))->tile_y;
                         actor->target_tile_y = facing;
                     }
                 }
@@ -145,8 +145,8 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
 
                 actor->target = scan_actor_along_heading(
                     actor,
-                    sprite->unk_24,
-                    sprite->unk_25,
+                    sprite->tile_x,
+                    sprite->tile_y,
                     actor->facing,
                     0x10);
 
@@ -164,7 +164,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -258,7 +258,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         if (sprite->frameTable != weadog_frame_set_3) {
             sprite->frameTable = weadog_frame_set_3;

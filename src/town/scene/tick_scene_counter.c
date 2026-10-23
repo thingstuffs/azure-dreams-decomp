@@ -15,7 +15,7 @@ s32 tick_scene_counter(void) {
             void *context;
             u8 *entry;
 
-            context = *(void **)((u8 *)(&D_80016000));
+            context = *(void **)((u8 *)(&town_scene_root));
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
             entry[1] -= 1;
         }
@@ -24,7 +24,7 @@ s32 tick_scene_counter(void) {
             void *context;
             u8 *entry;
 
-            context = *(void **)((u8 *)(&D_80016000));
+            context = *(void **)((u8 *)(&town_scene_root));
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
 
             if (entry[1] == 0) {

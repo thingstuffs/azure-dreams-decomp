@@ -32,7 +32,7 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
     object = func_800373DC(0x136);
     if (object != NULL) {
         ((ObjectWithInitialWords *)object)->initial_words = *init_data;
-        object->unk_10 = D_8052F2C8;
+        object->update_callback = D_8052F2C8;
         func_8003BC18(object, score_sprite_draw_callback_address);
         position = object->position;
         sprite = object->sprite;
@@ -43,7 +43,7 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
         sprite->scale_x = 0x1000;
         sprite->source = (s32)D_8028E170;
         sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
+        sprite->frame_ticks = 0;
         sprite->color.word = 0x808080;
         sprite->flags = sprite->flags | 0x80;
     }

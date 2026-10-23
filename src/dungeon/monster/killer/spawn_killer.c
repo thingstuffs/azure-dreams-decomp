@@ -37,7 +37,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_80170A7C[];
 extern u8 killer_action_resume_address[];
 #include "dungeon/monster/killer.h"
-extern u8 D_80174088[];
+extern u8 killer_frame_set_2[];
 extern void *spawn_killer(s16, s32, s32, s32);
 extern u8 D_801712B8[];
 extern u8 D_801712E4[];
@@ -83,7 +83,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;
-        created->unk_10 = D_80170A7C;
+        created->update_callback = D_80170A7C;
         ((S_80FDB000_1 *)result)->unk_13 = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
@@ -91,10 +91,10 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         position->z.w.i = saved_spawn;
         part_b = created->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = result;
         part_b->frameTable = killer_direction_frames;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
             ((S_80FDB000_1 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -111,7 +111,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
                         ((S_80FDB000_1 *)result)->unk_1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                             (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80174088;
+                        part_b->frameTable = killer_frame_set_2;
                     }
                 }
             }

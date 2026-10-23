@@ -140,7 +140,7 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameStat
             on_actor_status_updated(actor_arg);
             if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) != 0) {
                 room_base = &reference_tile_object;
-                target_room = *(s8 *)&target->unk_26;
+                target_room = *(s8 *)&target->room_index;
                 if (!(((target_room != room_base->room_index) || (target_room < 0))
                       && get_tile_chebyshev_distance(room_base, target) >= 2)) {
                     if ((generate_random_value() & 7) == 0) {

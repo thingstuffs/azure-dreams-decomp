@@ -123,7 +123,7 @@ void position_shop_row_widgets(struct Rec_func_800B0C68_arg0 *);
 void position_shop_child_elements(struct Rec_func_800B0C68_arg0 *);
 void populate_shop_item_rows(struct S_800B0FD4_0 *);
 extern M2C_UNK D_800788E0;
-struct S8004CBFC_a1; extern struct S8004CBFC_a1 D_800792DC;
+struct S8004CBFC_a1; extern struct S8004CBFC_a1 shop_cursor_template;
 extern M2C_UNK D_800D15F4;
 extern s32 D_800B0824[];
 extern void initialize_shop_parts(void *, void *, void *);

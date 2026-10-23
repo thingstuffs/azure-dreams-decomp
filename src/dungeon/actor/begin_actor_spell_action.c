@@ -117,8 +117,8 @@ void begin_actor_spell_action(void *actor, s32 effect_param, SpriteFrameState *t
                 if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
                     ((S_800AAF00_0 *)object)->unk_60 = scan_actor_along_heading(
                         object,
-                        target->unk_24,
-                        target->unk_25,
+                        target->tile_x,
+                        target->tile_y,
                         ((S_800AAF00_0 *)object)->unk_2A.s,
                         type_data[0x13]);
 

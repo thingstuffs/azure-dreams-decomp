@@ -18,9 +18,9 @@ extern s16 sample_terrain_surface_height();
 extern s32 death_action_resume_address;
 extern u8 death_direction_frames[8];
 extern u8 D_80174644[8];
-extern u8 D_80174654[8];
-extern u8 D_8017465C[8];
-extern u8 D_80174664[8];
+extern u8 death_frame_set_4[8];
+extern u8 death_frame_set_5[8];
+extern u8 death_frame_set_6[8];
 extern u8 D_8017466C[8];
 extern Callback D_801746A0[];
 
@@ -155,8 +155,8 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (frame_table != D_80174654 && frame_table != D_8017465C &&
-                           frame_table != D_80174664) {
+                } else if (frame_table != death_frame_set_4 && frame_table != death_frame_set_5 &&
+                           frame_table != death_frame_set_6) {
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 }
             }
@@ -240,8 +240,8 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (frame_table != D_80174654 && frame_table != D_8017465C &&
-                           frame_table != D_80174664) {
+                } else if (frame_table != death_frame_set_4 && frame_table != death_frame_set_5 &&
+                           frame_table != death_frame_set_6) {
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 }
             }
@@ -266,8 +266,8 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
     entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;
     if (entity_flags & 0x40000000) {
         ((S_801713A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
-                              (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
+                              (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
                               (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =

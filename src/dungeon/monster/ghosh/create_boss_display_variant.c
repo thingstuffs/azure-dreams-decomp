@@ -59,11 +59,11 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
 
     node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->unk_10 = D_80170D60;
+        node->update_callback = D_80170D60;
         register_node(node, project_sprite_chain);
         setup_sub = *(Sub * *)&node->sprite;
         setup_sub->tpage_abr = 0x20;
-        setup_sub->unk_06 = 6;
+        setup_sub->depth_bias = 6;
         setup_sub->flags |= 0xC;
         position = node->position;
         position->x.v = origin->unk_00;

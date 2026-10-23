@@ -33,9 +33,9 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
         ((S_80158854_0 *)work)->unk_13 = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
-        part_a = obj->unk_08;
-        ((SignedHeightView *)part_a)->unk_0A = saved_height;
-        part_b = obj->unk_0C;
+        part_a = obj->position;
+        ((SignedHeightView *)part_a)->z = saved_height;
+        part_b = obj->sprite;
         part_b->unk_24 = saved_tile_x;
         part_b->unk_25 = saved_tile_y;
         actor = work;
@@ -74,7 +74,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
                 }
             }
         }
-        obj->unk_10 = func_80158A58;
+        obj->update_callback = func_80158A58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)saved_spawn_flags);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;

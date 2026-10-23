@@ -73,14 +73,14 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         ((S_801722BC_0 *)action)->unk_90 -= ((S_801722BC_0 *)action)->unk_A0;
         move_ticks = ((S_801722BC_0 *)action)->unk_9E.u;
         if (move_ticks != 0) {
-            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->tile_x << 6;
             axis_pos = motion->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_x = (tile_delta << 16) / move_ticks;
 
             axis_pos = motion->y.w.i;
-            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            tile_delta = ((SpriteFrameState *)sprite)->tile_y << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
@@ -106,8 +106,8 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
-                          ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x,
+                          ((SpriteFrameState *)sprite)->tile_y);
 
             ((SpriteFrameState *)sprite)->frameTable = D_801765F8;
             select_sprite_entry(
@@ -125,8 +125,8 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
-                      ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x,
+                      ((SpriteFrameState *)sprite)->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -143,8 +143,8 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing =
-                    get_rounded_facing_and_rounding_flag(((SpriteFrameState *)sprite)->unk_24,
-                                  ((SpriteFrameState *)sprite)->unk_25,
+                    get_rounded_facing_and_rounding_flag(((SpriteFrameState *)sprite)->tile_x,
+                                  ((SpriteFrameState *)sprite)->tile_y,
                                   reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }

@@ -56,7 +56,7 @@ extern s32 select_nearby_target_and_start_action(void *action_state, void *unuse
 
 extern u8 pulunpa_frame_set_2[];
 extern u8 D_80176358[];
-extern M2C_UNK D_80176360;
+extern M2C_UNK pulunpa_frame_set_3;
 extern u8 D_80176370[];
 
 static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *direction_map) {
@@ -81,14 +81,14 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     }
     if (creature->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
-        if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
+        if (((S_80173B98_2 *)sprite)->unk_2C == &pulunpa_frame_set_3) {
             return;
         }
         set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
     if (creature->flags1C & ACTOR_ASLEEP) {
-        if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
+        if (((S_80173B98_2 *)sprite)->unk_2C == &pulunpa_frame_set_3) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -111,7 +111,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         }
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
-        if (creature->unk_64 != 0) {
+        if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, &D_80176370) != 0) {
                 return;
             }

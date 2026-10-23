@@ -20,7 +20,7 @@ void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, 
         init_result = set_item_menu_flag_and_return_one(state, init_config);
         state->init_result = init_result;
         if (init_result != 0) {
-            object->unk_10 = &D_800B0490;
+            object->update_callback = &D_800B0490;
             display_object = create_item_menu_child_at_position(object, x, y, display_config, state->init_result, state);
             state->child = display_object;
             if (display_object == 0) {
@@ -37,7 +37,7 @@ void finish_item_menu_child_and_release_list(void *record) {
     s32 record_value;
     s32 global_flags;
 
-    ((ObjectRetirementFlags *)record)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)record)[-1].unk_00 | 0x8000);
+    ((ObjectRetirementFlags *)record)[-1].flags = (u16) (((ObjectRetirementFlags *)record)[-1].flags | 0x8000);
     global_flags = object_flag_block.v | 0x8000;
     record_value = ((S_800B06C4_0 *)record)->child;
     object_flag_block.v = global_flags;

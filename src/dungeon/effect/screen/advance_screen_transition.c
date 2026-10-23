@@ -52,11 +52,11 @@ extern void play_sound_if_enabled(s32);
 
 extern u8 D_80028F68[];
 extern u8 screen_transition_pixels[];
-extern s16 D_8002966C[6];
-extern u8 D_8002966E[12];
-extern s32 D_80029670[3];
+extern s16 linked_monster_effect_updated[6];
+extern u8 linked_monster_attack_option[12];
+extern s32 linked_monster_attack_event[3];
 extern u16 sprite_effect_update_count[];
-extern u8 D_800281FC[12];
+extern u8 screen_effect_sprite_entries[12];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void advance_screen_transition(State *ctx)
@@ -76,13 +76,13 @@ void advance_screen_transition(State *ctx)
     rect_words[1] = 0x00400020;
     decode_and_upload_image(D_80028F68, (Rect *)rect_words);
     upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
-    D_8002966C[0] = 1;
-    D_8002966E[0] = ctx->field_9;
-    D_80029670[0] = (s32)ctx->field_0;
+    linked_monster_effect_updated[0] = 1;
+    linked_monster_attack_option[0] = ctx->field_9;
+    linked_monster_attack_event[0] = (s32)ctx->field_0;
 
     object = primary_actor_record;
-    ((PlayerRecord *)object)->unk_F4 = D_800281FC;
-    object->unk_96 = 0x14;
+    ((PlayerRecord *)object)->unk_F4 = screen_effect_sprite_entries;
+    object->action_timer = 0x14;
     object->unk_A8 = ctx->field_8;
     ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
 
@@ -127,7 +127,7 @@ case 1:
         break;
 
     case 4:
-        if (D_8002966C[0] != 0) {
+        if (linked_monster_effect_updated[0] != 0) {
             break;
         }
         ctx->timer_1A = 0x20;

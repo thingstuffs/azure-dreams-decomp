@@ -73,7 +73,7 @@ typedef struct {
 
 extern Record12 town_minigame_path_records[];
 extern s32 loaded_town_resource_attributes[];
-extern u8 D_800D2388[];
+extern u8 path_actor_direction_frames[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
 void update_path_following_actor(void *actor, ObjectPosition *motion, void *sprite) {
@@ -146,16 +146,16 @@ void update_path_following_actor(void *actor, ObjectPosition *motion, void *spri
     case 1:
         ((S_80023260_0 *)actor)->unk_2A = 0x800;
         sprite_config = loaded_town_resource_attributes[0];
-        directions = D_800D2388;
+        directions = path_actor_direction_frames;
         ((SpriteFrameState *)sprite)->frameTable = directions;
-        ((SpriteFrameState *)sprite)->unk_28 = sprite_config;
-        select_sprite_entry(sprite, D_800D2388[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        ((SpriteFrameState *)sprite)->animation_resource = sprite_config;
+        select_sprite_entry(sprite, path_actor_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
         break;
     case 3:
-        ((SpriteFrameState *)sprite)->frameTable = D_800D2388 - 8;
-        select_sprite_entry(sprite, (D_800D2388 - 8)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
+        ((SpriteFrameState *)sprite)->frameTable = path_actor_direction_frames - 8;
+        select_sprite_entry(sprite, (path_actor_direction_frames - 8)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((S_80023260_0 *)actor)->unk_18.p = idle_state;
         break;

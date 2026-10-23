@@ -1,16 +1,12 @@
 #include "common.h"
+#include "shared/actor_status.h"
 
 #include "common.h"
 #include "engine/message.h"
 
 typedef struct {
-    s8 type;
-    s8 value;
-} Slot;
-
-typedef struct {
     u8 pad[0x2C];
-    Slot slots[4];
+    ActorStatusSlot slots[4];
 } SlotOwner;
 
 /* Clear slots of the requested type and notify the owner after each match. */

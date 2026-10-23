@@ -5,7 +5,7 @@ extern s32 check_callback_record_bytes(s32, s32);
 extern s32 get_script_flag_mask(s32);
 
 extern u8 D_8001C350[];
-extern s32 D_8001C360;
+extern s32 scene_response_enabled;
 extern u8 scene_event_buffer[];
 extern u8 D_8001DDA4[];
 extern u8 D_8001E1AB[];
@@ -15,7 +15,7 @@ u8 *select_town_byte_array(void) {
     if (get_script_flag_mask(Ftt_pad89) != 0) {
         return D_8001E1AB;
     }
-    if (D_8001C360 != 0) {
+    if (scene_response_enabled != 0) {
         if (check_callback_record_bytes(0xD, 7) != 0) {
             return D_8001DDA4;
         }

@@ -36,7 +36,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
 
     effect = allocate_list_node(0x211, source);
     if (effect != 0) {
-        effect->unk_10 = &func_801718E4;
+        effect->update_callback = &func_801718E4;
         entry = (u8 *)&direction_table + ((angle >> 7) & 0x1C);
         *((u16 *) (((s8 *) (effect->position)) + 2)) =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));
@@ -50,7 +50,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         y_position = effect->position;
         *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
             + (((s32) ((*((u16 *) (entry + 2))) << 0x10)) >> 0xC));
-        effect->sprite->unk_06 = 6;
+        effect->sprite->depth_bias = 6;
         source = ((void *)effect) + 0x20;
         if (spread_mode == 0) {
             *((s32 *) (((s8 *) (effect->position)) + 0xC)) =

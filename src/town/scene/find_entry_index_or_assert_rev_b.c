@@ -34,7 +34,7 @@ s32 find_entry_8_index_or_assert_rev_b(Entry *entries, s32 key)
         }
     }
 
-    D_80016000->unk_20->callback_168(D_80016080, D_800160A8, 39);
-    D_80016000->unk_20->callback_174(1);
+    town_scene_root->services->callback_168(D_80016080, D_800160A8, 39);
+    town_scene_root->services->callback_174(1);
     return index;
 }

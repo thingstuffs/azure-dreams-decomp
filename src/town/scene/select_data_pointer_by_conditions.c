@@ -26,7 +26,7 @@ void select_data_pointer_by_conditions(void **out_data) {
     if (func_800198D0(F_veld_kill) != 0) {
         selected_data = &D_80017530;
     } else if (func_800198D0(sn_open_sekkyo_end) != 0) {
-        state_index = D_80016000->unk_08;
+        state_index = town_scene_root->entry_index;
         if (func_800198D0(condition_ids.values[state_index]) == 0) {
             selected_data = &D_80017598;
         } else {

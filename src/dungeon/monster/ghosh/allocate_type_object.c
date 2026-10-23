@@ -11,7 +11,7 @@ typedef struct {
 extern void register_node(void *, void *);
 
 extern u8 linked_sprite_renderer_address[];
-extern Copy12 D_80077818;
+extern Copy12 ghosh_sprite_payload_template;
 extern u8 D_8016ABC8[];
 
 
@@ -46,7 +46,7 @@ void allocate_type_12_object(void)
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->unk_10) = D_8016ABC8;
+        (object->update_callback) = D_8016ABC8;
         register_node(object, linked_sprite_renderer_address);
 
         primary_state = (object->position);
@@ -61,7 +61,7 @@ void allocate_type_12_object(void)
         secondary_state->unk_0D = 0;
         secondary_state->unk_0C = 0;
 
-        (*(Copy12 *)((u8 *)object + 0x4C)) = D_80077818;
+        (*(Copy12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
         secondary_state->unk_08 = (u8 *)object + 0x4C;
     }
 }

@@ -199,7 +199,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
             s32 x_step;
 
             x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
-            x_step = ((MovingTile *)((void *) x_work))->unk_24;
+            x_step = ((MovingTile *)((void *) x_work))->tile_x;
             x_work = position->unk_02;
             x_step <<= 6;
             x_work -= 0x20;
@@ -212,7 +212,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
 
                 y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
                 height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
-                y_step = ((MovingTile *)((void *) y_work))->unk_25;
+                y_step = ((MovingTile *)((void *) y_work))->tile_y;
                 y_work = position->unk_06;
                 y_step <<= 6;
                 y_work -= 0x20;
@@ -277,9 +277,9 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_02 = (u16) position->unk_02;
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_06 = (u16) position->unk_06;
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_0A = (u16) position->unk_0A;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->x = (u16) position->unk_02;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->y = (u16) position->unk_06;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->z = (u16) position->unk_0A;
     }
     ((S_800C4F20_0 *)anim)->unk_2C = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2C + 1);
     transform->unk_1A = (u16) (transform->unk_1A - 0x80);

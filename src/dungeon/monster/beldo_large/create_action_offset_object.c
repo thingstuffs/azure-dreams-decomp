@@ -10,9 +10,9 @@ void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
 extern M2C_UNK D_80077854;
 extern void initialize_action_offset_and_notify(void *action, void *position);
-extern s16 D_80173AFC[];
+extern s16 beldo_large_direction_offsets[];
 extern void *beldo_script_node;
-extern void *D_80175DB8;
+extern void *encounter_offset_object;
 
 typedef struct S_801715D0_3 {
     u8 pad_00[0x24];
@@ -52,25 +52,25 @@ void create_action_offset_object(void) {
     owner_state = beldo_script_node + 0x20;
     object = allocate_list_node(0x12, beldo_script_node);
     if (object != NULL) {
-        object->unk_10 = &initialize_action_offset_and_notify;
+        object->update_callback = &initialize_action_offset_and_notify;
         object_state = ((void *)object) + 0x20;
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
         render_flags->flags = (u16) ((render_flags->flags & 0xFFF3) | 0x80);
         object_state->unk_24 = owner_state;
         object_pos = object->position;
-        object_pos->unk_02 = (u16) owner_pos->unk_02;
-        object_pos->unk_06 = (u16) owner_pos->unk_06;
-        object_pos->unk_0A = (u16) owner_pos->unk_0A;
-        direction_table = (u8 *)&D_80173AFC;
+        object_pos->x = (u16) owner_pos->x;
+        object_pos->y = (u16) owner_pos->y;
+        object_pos->z = (u16) owner_pos->z;
+        direction_table = (u8 *)&beldo_large_direction_offsets;
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->unk_02 = (u16) (object_pos->unk_02 + (((S_801715D0_7 *)direction)->unk_00 * 6));
+        object_pos->x = (u16) (object_pos->x + (((S_801715D0_7 *)direction)->unk_00 * 6));
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->unk_06 = (u16) (object_pos->unk_06 + (((S_801715D0_7 *)direction)->unk_02 * 6));
+        object_pos->y = (u16) (object_pos->y + (((S_801715D0_7 *)direction)->unk_02 * 6));
         sprite = object->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        owner_x = (s16) owner_pos->unk_02;
+        owner_x = (s16) owner_pos->x;
         tile_x = owner_x - 0x20;
         if (tile_x < 0) {
             tile_x = (s32) (owner_x + 0x1F) >> 6;
@@ -78,7 +78,7 @@ void create_action_offset_object(void) {
             tile_x >>= 6;
         }
         object_state->unk_58 = (s8) tile_x;
-        owner_y = (s16) owner_pos->unk_06;
+        owner_y = (s16) owner_pos->y;
         tile_y = owner_y - 0x20;
         if (tile_y < 0) {
             tile_y = (s32) (owner_y + 0x1F) >> 6;
@@ -87,7 +87,7 @@ void create_action_offset_object(void) {
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;
             sprite->source = &D_80077854;
-            D_80175DB8 = object;
+            encounter_offset_object = object;
         } else {
             tile_y >>= 6;
             object_state->unk_59 = (s8) tile_y;
@@ -95,7 +95,7 @@ void create_action_offset_object(void) {
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;
             sprite->source = &D_80077854;
-            D_80175DB8 = object;
+            encounter_offset_object = object;
         }
     }
 }

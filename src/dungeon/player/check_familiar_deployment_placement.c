@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -19,16 +20,6 @@ typedef struct S_8009402C_2 {
     u8 pad_00[0x13];
     s8 unk_13;
 } S_8009402C_2;   /* temp_v0_2 in check_familiar_deployment_placement */
-
-typedef struct S_8009402C_3 {
-    u8 pad_00[0x8A];
-    s16 unk_8A;
-} S_8009402C_3;   /* tail_base in check_familiar_deployment_placement */
-
-typedef struct S_8009402C_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8009402C_4;   /* temp_v0_3 in check_familiar_deployment_placement */
 
 typedef struct S_8009402C_5 {
     u8 pad_00[0xAC];
@@ -67,8 +58,8 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
             return blocked_result;
         }
         direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-        next_x = ((SpriteFrameState *)position)->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        next_y = ((SpriteFrameState *)position)->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        next_x = ((SpriteFrameState *)position)->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        next_y = ((SpriteFrameState *)position)->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
         if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
              (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
@@ -81,8 +72,8 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
             return 1;
         }
     }
-    selected_slot = ((S_8009402C_5 *)(((((S_8009402C_3 *)actor_base)->unk_8A * 4) + actor)))->unk_AC;
-    if ((selected_slot != NULL) && !(((S_8009402C_4 *)selected_slot)->unk_1C & 0x20000)) {
+    selected_slot = ((S_8009402C_5 *)(((((ActorRecord *)actor_base)->unk_8A * 4) + actor)))->unk_AC;
+    if ((selected_slot != NULL) && !(((ActorRecord *)selected_slot)->flags1C & 0x20000)) {
         return 2;
     }
     clear_player_linked_action_flags();

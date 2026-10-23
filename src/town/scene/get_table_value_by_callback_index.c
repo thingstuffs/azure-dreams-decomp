@@ -15,7 +15,7 @@ extern ValueTable D_80019158;
 s32 get_table_value_by_callback_index(void)
 {
     ValueTable valueTable = D_80019158;
-    void *callbackTable = *(void **)((u8 *)D_80016000 + 0x20);
+    void *callbackTable = *(void **)((u8 *)town_scene_root + 0x20);
     Callback getValueIndex = *(Callback *)((u8 *)callbackTable + 0x2D4);
 
     return valueTable.values[getValueIndex(0)];

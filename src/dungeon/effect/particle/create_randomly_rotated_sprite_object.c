@@ -50,7 +50,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 
     obj = (B22_818928F8_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = advance_accelerating_spin_effect;
+        obj->update_callback = advance_accelerating_spin_effect;
         state = (u8 *)obj + 0x20;
         state->unk_0C = context;
         state->unk_10 = 0;
@@ -117,7 +117,7 @@ void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, 
 #define NULL 0
 #endif
 
-extern s32 D_800E2178;
+extern s32 tile_actor_sprite_entries;
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
@@ -128,7 +128,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = accelerate_and_expire_animated_sprite;
+        object->update_callback = accelerate_and_expire_animated_sprite;
         state = ((void *)object) + 0x20;
         ((B22_81892AF0_S_81892AF0_0 *)object)->unk_20 = state_value;
         state->unk_04 = 0;
@@ -137,7 +137,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        select_record_entry_and_value(sprite, &D_800E2178, 0);
+        select_record_entry_and_value(sprite, &tile_actor_sprite_entries, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         register_node(object, project_sprite_chain);
@@ -408,7 +408,7 @@ void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *so
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern s32 D_800E2178;
+extern s32 tile_actor_sprite_entries;
 s32 rand(void);
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
@@ -430,7 +430,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        select_record_entry_and_value(sprite, &D_800E2178, 0);
+        select_record_entry_and_value(sprite, &tile_actor_sprite_entries, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         register_node(effect, project_sprite_chain);

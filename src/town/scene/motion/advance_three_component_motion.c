@@ -31,7 +31,7 @@ void advance_three_component_motion(void *timer_state, void *motion) {
     ticks_left = ((S_8081508C_1 *)timer_state)->unk_0E - 1;
     ((S_8081508C_1 *)timer_state)->unk_0E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)timer_state + -2)) = (u16) (((ObjectStatusPrefix16 *)timer_state)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)timer_state + -2)) = (u16) (((ObjectStatusPrefix16 *)timer_state)[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
     }
 }

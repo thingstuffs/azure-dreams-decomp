@@ -41,7 +41,7 @@ typedef struct {
 } Copy4;
 
 extern void *D_80170898[];
-extern u8 D_80173EB4[8];
+extern u8 beldo_frame_set_3[8];
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();
@@ -64,7 +64,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         object_data = ((void *)object) + 0x20;
-        object->unk_10 = D_80170898;
+        object->update_callback = D_80170898;
         ((S_80170B50_1 *)object_data)->unk_B6 = offset_id;
         ((S_80170B50_1 *)object_data)->unk_AC = (s32) (owner_data - 0x20);
         ((S_80170B50_1 *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
@@ -78,22 +78,22 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
             copy_dst += 0x10;
         } while (copy_src != (((void *)sprite_template) + 0x30));
         register_node(object, project_sprite_chain, copy_dst, copy_src);
-        sprite->frameTable = &D_80173EB4;
-        select_sprite_entry(sprite, *((u8 *)&D_80173EB4 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+        sprite->frameTable = &beldo_frame_set_3;
+        select_sprite_entry(sprite, *((u8 *)&beldo_frame_set_3 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         sprite_flags = sprite->flags | 0xC;
         sprite->flags = sprite_flags;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0x80;
         position = object->position;
-        position->unk_02 = (u16) base_position->unk_02;
-        position->unk_06 = (u16) base_position->unk_06;
-        position->unk_0A = (u16) base_position->unk_0A;
+        position->x = (u16) base_position->x;
+        position->y = (u16) base_position->y;
+        position->z = (u16) base_position->z;
         owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
         if (resolve_record_orientation_or_fallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
-            position->unk_02 = (u16) (position->unk_02 + ((S_80170B50_1 *)object_data)->unk_B0);
-            position->unk_06 = (u16) (position->unk_06 + ((S_80170B50_1 *)object_data)->unk_B2);
-            position->unk_0A = (u16) (position->unk_0A + ((S_80170B50_1 *)object_data)->unk_B4);
+            position->x = (u16) (position->x + ((S_80170B50_1 *)object_data)->unk_B0);
+            position->y = (u16) (position->y + ((S_80170B50_1 *)object_data)->unk_B2);
+            position->z = (u16) (position->z + ((S_80170B50_1 *)object_data)->unk_B4);
         }
         sprite->scale_x = (u16) sprite_template->scale_x;
         sprite_height = (u16) sprite_template->scale_y;

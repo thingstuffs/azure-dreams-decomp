@@ -47,7 +47,7 @@ extern s16 floor_generation_state[3];
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set_2[];
 extern u8 picket_frame_set_1[];
-extern u8 D_80174F58[];
+extern u8 picket_frame_set_8[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
 
@@ -92,7 +92,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
     }
     switch (state_id) {
     case 0:
-        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25,
+        update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y,
             (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         (*(u8 **)((u8 *)actor + 0x2C)) = picket_frame_set_2;
         select_sprite_entry(actor,
@@ -111,9 +111,9 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        (*(u8 **)((u8 *)actor + 0x2C)) = D_80174F58;
+        (*(u8 **)((u8 *)actor + 0x2C)) = picket_frame_set_8;
         select_sprite_entry(actor,
-            D_80174F58[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
+            picket_frame_set_8[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         ((S_80174428_1 *)state)->unk_96.s = 0;
         motion->velocity_x = (-x_step) << 18;
@@ -165,17 +165,17 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         world = &reference_tile_object;
         level = floor_generation_state;
         ((S_80174428_1 *)state)->unk_96.s = 0;
-        x_step = actor->unk_24;
-        y_step = actor->unk_25;
+        x_step = actor->tile_x;
+        y_step = actor->tile_y;
 
         for (;;) {
             if (--attempts_left <= 0) {
-                actor->unk_24 = (u8)x_step;
-                actor->unk_25 = (u8)y_step;
+                actor->tile_x = (u8)x_step;
+                actor->tile_y = (u8)y_step;
                 ((S_80174428_1 *)state)->unk_9B++;
                 return;
             }
-            direction_offset = select_dungeon_spawn_tile(&actor->unk_24, &actor->unk_25);
+            direction_offset = select_dungeon_spawn_tile(&actor->tile_x, &actor->tile_y);
             if (direction_offset < 0) {
                 continue;
             }
@@ -183,8 +183,8 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
                 *(s16 *)((u8 *)level + 6) >= 2) {
                 continue;
             }
-            direction_offset = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
-                (actor->unk_25 << 6) | 0x20,
+            direction_offset = sample_terrain_surface_height((actor->tile_x << 6) | 0x20,
+                (actor->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
             raw_direction = direction_offset < 0x201;
             if (raw_direction) {
@@ -208,8 +208,8 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             refresh_actor_proximity_state(object);
-            height = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
-                (actor->unk_25 << 6) | 0x20,
+            height = sample_terrain_surface_height((actor->tile_x << 6) | 0x20,
+                (actor->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
             ((S_80174428_2 *)actor)->unk_2C = picket_frame_set_1;
@@ -217,9 +217,9 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             select_sprite_entry(actor,
                 ((u8 *)actor->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
                     >> 9) & 7], 0);
-            cycle_map_cell_flags(actor->unk_24, actor->unk_25,
+            cycle_map_cell_flags(actor->tile_x, actor->tile_y,
                 (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
-            set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+            set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             actor->scale_y = 0x1000;
             actor->scale_x = 0x1000;
             ((S_80174428_1 *)state)->unk_8C = picket_action_resume_address;

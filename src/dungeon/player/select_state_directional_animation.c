@@ -4,7 +4,7 @@
 #include "shared/entity.h"
 #include "dungeon/player.h"
 
-extern u8 D_800DD050[];
+extern u8 player_tile_motion_frames[];
 extern u8 D_800DD0E0[];
 
 extern void set_sprite_animation_frame(void *, s16, s16, s32);
@@ -25,7 +25,7 @@ void select_state_16_directional_animation(void *entity, void *unused, void *ani
             page = alternate_page;
         } else {
             current_page = (*(u8 * *) ((u8 *)animation + 0x2C));
-            page = D_800DD050;
+            page = player_tile_motion_frames;
         }
         if (current_page != page) {
             entity = animation;

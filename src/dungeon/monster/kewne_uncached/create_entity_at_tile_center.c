@@ -21,23 +21,23 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
             active_action_object[0] = parent;
         }
         entity = (ActorRecord *)((u8 *)parent + 0x20);
-        parent->unk_10 = update_actor_scripts_and_motion;
+        parent->update_callback = update_actor_scripts_and_motion;
         ((u8 *)&entity->unk_10)[3] = 0x39;
         register_node(parent, project_sprite_chain);
         tile_state = parent->sprite;
         position = parent->position;
-        tile_state->unk_24 = tile_x;
-        tile_state->unk_25 = tile_y;
+        tile_state->tile_x = tile_x;
+        tile_state->tile_y = tile_y;
         tile_state->frameTable = kewne_uncached_frame_set_1;
-        position->x.w.i = (s16)((tile_state->unk_24 << 6) + 0x20);
-        position->y.w.i = (s16)((tile_state->unk_25 << 6) + 0x20);
+        position->x.w.i = (s16)((tile_state->tile_x << 6) + 0x20);
+        position->y.w.i = (s16)((tile_state->tile_y << 6) + 0x20);
         position->z.w.i = height;
         entity->facing = (s16)(get_direction_toward_target_position(position) << 9);
         ((u8 *)&entity->unk_10)[3] = 2;
         entity->flags14 |= 0x6000;
         entity->flags1C |= 0x6000;
         initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
-        entity->unk_9A = 0xFF;
+        entity->action_id = 0xFF;
         entity->unk_9C = -1;
         entity->unk_8C.address = kewne_uncached_action_resume_address;
         entity->unk_90.parts.high.s = -0x20;
@@ -196,7 +196,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         actor_in->unk_B9 = 1U;
                         enqueue_runtime_pool_script(&D_8006EE9C);
                         entity->pending_turn_updates = 0U;
-                        actor_in->unk_9B = 0;
+                        actor_in->action_phase = 0;
                         actor_in->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
                         facing_actor = (*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00);
@@ -216,7 +216,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     if (((event_1->tile_position.parts.tile_y << 6) + 0x20) == view_reference_entity.y.w.i) {
                                         enqueue_runtime_pool_script(&D_8006F9D0);
                                         entity->pending_turn_updates = 0U;
-                                        actor_in->unk_9B = 0;
+                                        actor_in->action_phase = 0;
                                         actor_in->unk_B8 = 1U;
                                         (*(s32 *)&actor_in->unk_B0) =
                                             (s32) ((*(s32 *)&actor_in->unk_B0) | 0x20);
@@ -233,7 +233,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x20))) {
                                 enqueue_runtime_pool_script(&D_8006F9D0);
                                 entity->pending_turn_updates = 0U;
-                                actor_in->unk_9B = 0;
+                                actor_in->action_phase = 0;
                                 actor_in->unk_B8 = 1U;
                                 (*(s32 *)&actor_in->unk_B0) = (s32) ((*(s32 *)&actor_in->unk_B0) | 0x20);
                             }
@@ -249,7 +249,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             == view_reference_entity.y.w.i) {
                                             enqueue_runtime_pool_script(&D_800FB8DF);
                                             entity->pending_turn_updates = 0U;
-                                            actor_in->unk_9B = 0;
+                                            actor_in->action_phase = 0;
                                             actor_in->unk_B8 = 1U;
                                             (*(s32 *)&actor_in->unk_B0) =
                                                 (s32) ((*(s32 *)&actor_in->unk_B0) | 0x4000);
@@ -259,7 +259,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                 if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0x1C) {
                                     enqueue_runtime_pool_script(&D_800FB8DF);
                                     entity->pending_turn_updates = 0U;
-                                    actor_in->unk_9B = 0;
+                                    actor_in->action_phase = 0;
                                     actor_in->unk_B8 = 1U;
                                     (*(s32 *)&actor_in->unk_B0) =
                                         (s32) ((*(s32 *)&actor_in->unk_B0) | 0x4000);
@@ -276,7 +276,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                         == position_3->y.w.i)) {
                                     enqueue_runtime_pool_script(&D_80070684);
                                     entity->pending_turn_updates = 0U;
-                                    actor_in->unk_9B = 0;
+                                    actor_in->action_phase = 0;
                                     actor_in->unk_B8 = 1U;
                                     (*(s32 *)&actor_in->unk_B0) =
                                         (s32) ((*(s32 *)&actor_in->unk_B0) | 0x200);
@@ -292,7 +292,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             == position_4->y.w.i)) {
                                         enqueue_runtime_pool_script(&D_800FBAD7);
                                         entity->pending_turn_updates = 0U;
-                                        actor_in->unk_9B = 0;
+                                        actor_in->action_phase = 0;
                                         actor_in->unk_B8 = 1U;
                                         (*(s32 *)&actor_in->unk_B0) =
                                             (s32) ((*(s32 *)&actor_in->unk_B0) | 0x8000);
@@ -307,7 +307,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         == view_reference_entity.y.w.i) {
                                                         enqueue_runtime_pool_script(&D_8006F47A);
                                                         entity->pending_turn_updates = 0U;
-                                                        actor_in->unk_9B = 0;
+                                                        actor_in->action_phase = 0;
                                                         actor_in->unk_B8 = 1U;
                                                         (*(s32 *)&actor_in->unk_B0) =
                                                             (s32) ((*(s32 *)&actor_in->unk_B0) | 2);
@@ -318,7 +318,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                  != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
                                                 enqueue_runtime_pool_script(&D_8006F47A);
                                                 entity->pending_turn_updates = 0U;
-                                                actor_in->unk_9B = 0;
+                                                actor_in->action_phase = 0;
                                                 actor_in->unk_B8 = 1U;
                                                 (*(s32 *)&actor_in->unk_B0) =
                                                     (s32) ((*(s32 *)&actor_in->unk_B0) | 2);
@@ -334,7 +334,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                             == view_reference_entity.y.w.i) {
                                                             enqueue_runtime_pool_script(&D_8006F50D);
                                                             entity->pending_turn_updates = 0U;
-                                                            actor_in->unk_9B = 0;
+                                                            actor_in->action_phase = 0;
                                                             actor_in->unk_B8 = 1U;
                                                             (*(s32 *)&actor_in->unk_B0) =
                                                                 (s32) ((*(s32 *)&actor_in->unk_B0) | 4);
@@ -345,7 +345,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
                                                     enqueue_runtime_pool_script(&D_8006F50D);
                                                     entity->pending_turn_updates = 0U;
-                                                    actor_in->unk_9B = 0;
+                                                    actor_in->action_phase = 0;
                                                     actor_in->unk_B8 = 1U;
                                                     (*(s32 *)&actor_in->unk_B0) =
                                                         (s32) ((*(s32 *)&actor_in->unk_B0) | 4);
@@ -363,7 +363,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         if ((scan_10[scan_index_10 * 4 + 0x249] == scan_kind) && (scan_10[scan_index_10 * 4 + 0x248] == scan_group)) {
                                                             enqueue_runtime_pool_script(&D_8006F6B9);
                                                             entity->pending_turn_updates = 0U;
-                                                            actor_in->unk_9B = 0;
+                                                            actor_in->action_phase = 0;
                                                             actor_in->unk_B8 = 1U;
                                                             (*(s32 *)&actor_in->unk_B0) |= 0x10;
                                                             break;
@@ -383,7 +383,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                             if ((scan_80[scan_index_80 * 4 + 0x249] == scan_kind) && (scan_80[scan_index_80 * 4 + 0x248] == scan_group)) {
                                                                 enqueue_runtime_pool_script(&D_8006FFB7);
                                                                 entity->pending_turn_updates = 0U;
-                                                                actor_in->unk_9B = 0;
+                                                                actor_in->action_phase = 0;
                                                                 actor_in->unk_B8 = 1U;
                                                                 (*(s32 *)&actor_in->unk_B0) |= 0x80;
                                                                 break;
@@ -403,7 +403,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                 if ((scan_100[scan_index_100 * 4 + 0x249] == scan_kind) && ((scan_type = scan_100[scan_index_100 * 4 + 0x248]) == scan_group)) {
                                                                     enqueue_runtime_pool_script(&D_800703D9);
                                                                     entity->pending_turn_updates = 0U;
-                                                                    actor_in->unk_9B = 0;
+                                                                    actor_in->action_phase = 0;
                                                                     actor_in->unk_B8 = scan_type;
                                                                     (*(s32 *)&actor_in->unk_B0) |= 0x100;
                                                                     break;
@@ -425,7 +425,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                 + 0x20) == position_7->y.w.i)) {
                                                                 enqueue_runtime_pool_script(&D_8006FD01);
                                                                 entity->pending_turn_updates = 0U;
-                                                                actor_in->unk_9B = 0;
+                                                                actor_in->action_phase = 0;
                                                                 actor_in->unk_B8 = 1U;
                                                                 (*(s32 *)&actor_in->unk_B0) =
                                                                     (s32) ((*(s32 *)&actor_in->unk_B0) | 0x40);
@@ -445,7 +445,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                         == position_8->y.w.i)) {
                                                                     enqueue_runtime_pool_script(&D_80070AF8);
                                                                     entity->pending_turn_updates = 0U;
-                                                                    actor_in->unk_9B = 0;
+                                                                    actor_in->action_phase = 0;
                                                                     actor_in->unk_B8 = 1U;
                                                                     (*(s32 *)&actor_in->unk_B0) =
                                                                         (s32) ((*(s32 *)&actor_in->unk_B0)
@@ -467,7 +467,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                         + 0x20) == position_9->y.w.i)) {
                                                                         enqueue_runtime_pool_script(&D_80070C11);
                                                                         entity->pending_turn_updates = 0U;
-                                                                        actor_in->unk_9B = 0;
+                                                                        actor_in->action_phase = 0;
                                                                         actor_in->unk_B8 = 1U;
                                                                         (*(s32 *)&actor_in->unk_B0) =
                                                                             (s32) ((*(s32 *)&actor_in->unk_B0)
@@ -493,7 +493,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     enqueue_runtime_pool_script(&D_80070E63);
                                                                                     entity->pending_turn_updates =
                                                                                         0U;
-                                                                                    actor_in->unk_9B =
+                                                                                    actor_in->action_phase =
                                                                                         0;
                                                                                     actor_in->unk_B8 =
                                                                                         1U;
@@ -518,7 +518,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     == position_11->y.w.i)) {
                                                                                 enqueue_runtime_pool_script(&D_800FB3C8);
                                                                                 entity->pending_turn_updates = 0U;
-                                                                                actor_in->unk_9B = 0;
+                                                                                actor_in->action_phase = 0;
                                                                                 actor_in->unk_B8 = 1U;
                                                                                 (*(s32 *)&actor_in->unk_B0) =
                                                                                     (s32) ((*(s32 *)&actor_in->unk_B0)
@@ -559,7 +559,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                                     enqueue_runtime_pool_script(&D_800FBD96);
                                                                                                     entity->pending_turn_updates =
                                                                                                         0U;
-                                                                                                    actor_in->unk_9B =
+                                                                                                    actor_in->action_phase =
                                                                                                         0;
                                                                                                     actor_in->unk_B8 =
                                                                                                         1U;
@@ -610,7 +610,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         if (update_actor != NULL) {
             update_actor(actor_in, motion_in, sprite, entity);
         }
-        kewne_uncached_callbacks[actor_in->unk_9A](actor_in, motion_in, sprite, entity);
+        kewne_uncached_callbacks[actor_in->action_id](actor_in, motion_in, sprite, entity);
         if ((s16) previous_state != (s8) entity->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
         }
@@ -620,7 +620,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         velocity_y = motion_in->velocity_y;
         motion_in->x.v = motion_x + velocity_x;
         motion_in->y.v = motion_y + velocity_y;
-        if (!(entity->flags1C & 0x40000) && !(actor_in->unk_98 & 8)) {
+        if (!(entity->flags1C & 0x40000) && !(actor_in->action_state_flags & 8)) {
             motion_in->velocity_z = (s32) (motion_in->velocity_z
                 + (actor_in->unk_9D.s * 0x14000));
             actor_in->unk_9D.u += 1;
@@ -679,7 +679,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                             + (rsin((s16) bob_phase_wide * 0xAA) << 6));
                     }
                 }
-                if (!(actor_in->unk_98 & 8)) {
+                if (!(actor_in->action_state_flags & 8)) {
                     tail_acc = actor_in->unk_90.parts.high.u;
                     height = actor_in->unk_90.parts.high.s;
                     if (height >= -0x1F) {
@@ -699,7 +699,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 actor_in->unk_A0.value = 0;
                 actor_in->unk_90.value = (s32) (actor_in->unk_90.value
                     - landing_offset);
-                if (!(actor_in->unk_98 & 8)) {
+                if (!(actor_in->action_state_flags & 8)) {
                     landing_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
                         ((u16) motion_in->y.w.i), (s16) ((u16)entity->ground_height - 0x20))
                         - (u16)entity->ground_height;
@@ -729,7 +729,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 actor_in->unk_A0.value = 0;
                 actor_in->unk_90.value = (s32) (actor_in->unk_90.value
                     - bob_offset);
-                if (!(actor_in->unk_98 & 8)) {
+                if (!(actor_in->action_state_flags & 8)) {
                     ground_delta = sample_terrain_surface_height(((u16) motion_in->x.w.i),
                         ((u16) motion_in->y.w.i), (s16) ((u16)entity->ground_height - 0x20))
                         - (u16)entity->ground_height;
@@ -761,7 +761,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                             + (rsin((s16) fixed_bob_phase_wide * 0xAA) << 6));
                     }
                 }
-                if (!(actor_in->unk_98 & 8)) {
+                if (!(actor_in->action_state_flags & 8)) {
                     tail_acc = actor_in->unk_90.parts.high.u;
                     height = actor_in->unk_90.parts.high.s;
                     if (height >= -0x1F) {
@@ -777,8 +777,8 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         entity_flags = entity->flags1C;
         if (entity_flags & 0x40000000) {
             entity->flags1C = (s32) (entity_flags & 0xBFFFFFFF);
-            ground_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20,
-                (sprite->unk_25 << 6) | 0x20, (s16) ((u16)entity->ground_height - 0x20));
+            ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                (sprite->tile_y << 6) | 0x20, (s16) ((u16)entity->ground_height - 0x20));
             if (ground_height < 0x200) {
                 actor_in->unk_90.parts.high.s = (s16) ((u16) actor_in->unk_90.parts.high.s
                     + ((u16)entity->ground_height - ground_height));

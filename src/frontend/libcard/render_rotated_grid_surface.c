@@ -44,6 +44,6 @@ void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode)
     base->sprite = work + 0xB2C;
     ((S_80024D58_1 *)work)->unk_B38 = update_effect_color_rotation_and_motion(work + 0xB3C);
     func_80024D18(work, parent);
-    base->unk_10 = 0;
+    base->update_callback = 0;
     return base;
 }

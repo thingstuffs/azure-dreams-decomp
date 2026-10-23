@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 
 extern s32 D_800183D0[];
-extern s32 D_800183D8[];
+extern s32 scene_service_arguments[];
 
 typedef struct S_func_8065C250_0 {
     void *unk_00;
@@ -22,8 +22,8 @@ typedef struct S_func_8065C250_2 {
 
 // Calls two callbacks with shared arguments, passing the first callback's result to the second.
 void chain_services_48_3c(void) {
-    S_func_8065C250_0 *dispatchRoot = (S_func_8065C250_0 *)((s8 *)(&D_80016000));
-    s32 *sharedArguments = D_800183D8;
+    S_func_8065C250_0 *dispatchRoot = (S_func_8065C250_0 *)((s8 *)(&town_scene_root));
+    s32 *sharedArguments = scene_service_arguments;
     s32 callbackResult;
 
     callbackResult = ((S_func_8065C250_2 *)((S_func_8065C250_1 *)dispatchRoot->unk_00)->unk_20)->unk_48(D_800183D0[0],

@@ -50,7 +50,7 @@ void *allocate_object_with_failure_flag(void) {
             header->field_38 = source_table;
             object->sprite = run_object_setup_and_finalize(data, source_table[0]);
             initialize_complemented_state(object);
-            object->unk_10 = D_800DC8F8;
+            object->update_callback = D_800DC8F8;
             register_node(object, dungeon_menu_tag);
             return object;
         }

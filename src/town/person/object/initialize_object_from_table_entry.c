@@ -15,8 +15,8 @@ typedef struct {
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern D_80082660_entry object_index_slots[];
-extern M2C_UNK D_800CE8CC;
-extern s32 D_800D72D4[];
+extern M2C_UNK person_bounce_handler_address;
+extern s32 person_reaction_object_entries[];
 
 
 typedef struct S_800CED24_1 {
@@ -28,10 +28,10 @@ typedef struct S_800CED24_1 {
 void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, S_800CED24_1 *state, s32 init_data) {
     s8 entry_value;
 
-    initialize_object_entries((Struct800C5724 *)(object), (s8 *)(init_data), &D_800D72D4);
+    initialize_object_entries((Struct800C5724 *)(object), (s8 *)(init_data), &person_reaction_object_entries);
     object_index_slots[5].unk0 = 0;
     entry_value = object_index_slots[object->unk_60].unk2;
-    object->unk_54 = &D_800CE8CC;
+    object->unk_54 = &person_bounce_handler_address;
     object->unk_90.as_s16 = (s16) entry_value;
     state->unk_14 = 0xFFF60000;
 }

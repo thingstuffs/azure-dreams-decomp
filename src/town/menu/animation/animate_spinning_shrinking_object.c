@@ -111,9 +111,9 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
 
     translation = &scratch->translation;
     PushMatrix();
-    scratch->translation.x = point->unk_02;
-    scratch->translation.y = point->unk_06;
-    scratch->translation.z = point->unk_0A - (object->half_height / 2);
+    scratch->translation.x = point->x;
+    scratch->translation.y = point->y;
+    scratch->translation.z = point->z - (object->half_height / 2);
     scratch->scale.x = object->extent.signed_value;
     scratch->scale.y = object->extent.signed_value;
     scratch->scale.z = object->extent.signed_value;

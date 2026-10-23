@@ -40,7 +40,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 baloon_default_frames[];
-extern u8 D_800E23A8[];
+extern u8 baloon_frame_set_1[];
 extern u8 D_80171964[];
 extern s32 baloon_action_resume_address;
 
@@ -68,7 +68,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80171964;
+        obj->update_callback = D_80171964;
         work->unk_13 = MONSTER_BALOON;
         register_node(obj, project_sprite_chain);
 
@@ -76,10 +76,10 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         part_a->unk_0A = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
+        part_b->tile_y = saved_variant;
         actor = work;
         part_b->frameTable = baloon_default_frames;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_x = saved_kind_id;
         work->unk_9E = 0;
 
         if (kind == 1) {
@@ -99,7 +99,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                     if (left & 1) {
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_800E23A8;
+                        part_b->frameTable = baloon_frame_set_1;
                     }
                 }
             }

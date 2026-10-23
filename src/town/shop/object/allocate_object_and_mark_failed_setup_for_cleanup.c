@@ -28,7 +28,7 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
             object->sprite = (void *) (((void *)object) + 0xA8);
             state->unk_94 = link_monster_status_display_entries(state->unk_98);
             initialize_entry_object(state, resource_id, slot_index, x, y, z);
-            object->unk_10 = &invoke_object_first_callback;
+            object->update_callback = &invoke_object_first_callback;
             register_node(object, &draw_tinted_node_sprites_scratch);
             return object;
         }

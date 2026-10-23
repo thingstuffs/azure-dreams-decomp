@@ -99,17 +99,17 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         s32 scale;
 
         work = (u8 *)created + 0x20;
-        (created ->unk_10) = func_80170B40;
+        (created ->update_callback) = func_80170B40;
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = (*(u8 * *)&created ->position);
         position->z.w.i = value3_saved;
         monster = (*(u8 * *)&created ->sprite);
-        monster->unk_25 = value2_byte;
+        monster->tile_y = value2_byte;
         actor = work;
         monster->frameTable = func_80175258;
-        monster->unk_24 = value1_saved;
+        monster->tile_x = value1_saved;
 
         kind = (s32)mode & 3;
         if (kind == 1) {

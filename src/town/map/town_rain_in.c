@@ -31,7 +31,7 @@ void town_rain_in(s16 x, s16 y) {
 
     object = allocate_list_node(2, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        object->unk_10 = spawn_randomized_timed_objects;
+        object->update_callback = spawn_randomized_timed_objects;
         ((S_800BFB00_0 *)object)->unk_20 = ((u16)view_reference_entity.x.w.i);
         state = (s8 *)object + 0x20;
         state->unk_02 = ((u16)view_reference_entity.y.w.i);

@@ -51,9 +51,9 @@ s32 apply_scratch_parameters_to_chain(void *object, MovingPosition *position, S_
     scratch = (u8 *)0x1F800000;
 
     do {
-        ((S_80099A1C_0 *)scratch)->unk_00 = position->unk_02;
-        ((S_80099A1C_0 *)scratch)->unk_02 = position->unk_06;
-        ((S_80099A1C_0 *)scratch)->unk_04 = position->unk_0A;
+        ((S_80099A1C_0 *)scratch)->unk_00 = position->x;
+        ((S_80099A1C_0 *)scratch)->unk_02 = position->y;
+        ((S_80099A1C_0 *)scratch)->unk_04 = position->z;
 
         transform_result = RotTransPers(
             scratch,

@@ -5,7 +5,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-struct S_8003DE58_Ent;
+struct SpriteFrameState;
 struct S_8003DE58_Vec;
 struct S_8003DF0C;
 struct S_8003FE78;
@@ -123,8 +123,8 @@ void reset_game_state_preserving_session_fields(void);
 void reset_runtime_slot_state(void);
 
 /* resolve_record_orientation_or_fallback.c */
-struct S_8004CAE8 *func_8003DE58(struct S_8004CAE8 *records, struct S_8003DE58_Ent *actor, struct S_8003DE58_Vec *out_vec, s16 record_id);
-struct S_8004CAE8 *resolve_record_orientation_or_fallback(struct S_8004CAE8 *records, struct S_8003DE58_Ent *actor, struct S_8003DE58_Vec *out_vec, s16 record_id);
+struct S_8004CAE8 *func_8003DE58(struct S_8004CAE8 *records, struct SpriteFrameState *actor, struct S_8003DE58_Vec *out_vec, s16 record_id);
+struct S_8004CAE8 *resolve_record_orientation_or_fallback(struct S_8004CAE8 *records, struct SpriteFrameState *actor, struct S_8003DE58_Vec *out_vec, s16 record_id);
 
 /* restore_actor_stats_from_snapshot.c */
 void restore_actor_stats_from_snapshot(struct S_80041E28_Dst *dst, struct S_80041E28_Src *src);

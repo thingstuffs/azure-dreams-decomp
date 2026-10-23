@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/gpu_packets.h"
 
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -7,14 +8,8 @@ typedef struct S_8002E5D8 {
     s32 unkC;
 } S_8002E5D8;
 
-typedef struct S_8002E5E8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8002E5E8;
-
 extern S_8002E5D8 display_block_defaults;
-extern S_8002E5E8 display_vector_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -28,20 +23,14 @@ typedef struct {
 
 typedef struct {
     s32 unk0;
-    s32 unk4;
-    s32 unk8;
-} S_8000F6E0_a2;
-
-typedef struct {
-    s32 unk0;
     S_8000F6E0_a1 *unk4;
-    S_8000F6E0_a2 *unk8;
+    DisplayPositionWords *unk8;
 } S_8000F6E0_a0;
 
 /* Copy and link entity templates, clear its state, and set primary field defaults. */
-void card_boot_initialize_message_render_templates(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, S_8000F6E0_a2 *secondary_data) {
+void card_boot_initialize_message_render_templates(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, DisplayPositionWords *secondary_data) {
     S_8002E5D8 *primary_template = &display_block_defaults;
-    S_8002E5E8 *secondary_template = &display_vector_defaults;
+    DisplayPositionWords *secondary_template = &display_vector_defaults;
     s32 *secondary_head;
 
     primary_data->unk0 = primary_template->unk0;
@@ -50,9 +39,9 @@ void card_boot_initialize_message_render_templates(S_8000F6E0_a0 *entity, S_8002
     primary_data->unk8 = primary_template->unk8;
     primary_data->unkC = primary_template->unkC;
 
-    ((S_8002E5E8 *)secondary_data)->unk0 = *secondary_head;
-    ((S_8002E5E8 *)secondary_data)->unk4 = secondary_template->unk4;
-    ((S_8002E5E8 *)secondary_data)->unk8 = secondary_template->unk8;
+    ((DisplayPositionWords *)secondary_data)->unk0 = *secondary_head;
+    ((DisplayPositionWords *)secondary_data)->unk4 = secondary_template->unk4;
+    ((DisplayPositionWords *)secondary_data)->unk8 = secondary_template->unk8;
 
     entity->unk4 = (S_8000F6E0_a1 *)primary_data;
     entity->unk8 = secondary_data;

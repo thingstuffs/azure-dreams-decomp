@@ -121,8 +121,8 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     packet = ((GpuContext *)(table[0]))->packetCursor;
     sprite->flags |= 0x8000;
     PushMatrix();
-    ((S_800D07C8_0 *)scratch)->unk_108 = sprite->unk_20;
-    ((S_800D07C8_0 *)scratch)->unk_10A = sprite->unk_22;
+    ((S_800D07C8_0 *)scratch)->unk_108 = sprite->offset_x;
+    ((S_800D07C8_0 *)scratch)->unk_10A = sprite->offset_y;
     ((S_800D07C8_0 *)scratch)->unk_30 = sprite->scale_x * 2;
     ((S_800D07C8_0 *)scratch)->unk_34 = sprite->scale_y * 2;
     ((S_800D07C8_0 *)scratch)->unk_38 = 0;

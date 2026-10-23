@@ -42,12 +42,12 @@ s32 find_nearest_point_3s(s32 entries, s32 eval_context, s32 entry_count) {
     }
 
     if (best_entry == 0) {
-        object = *(void **)((s8 *)(&D_80016000));
+        object = *(void **)((s8 *)(&town_scene_root));
         dispatch = *(void **)((s8 *)object + 0x20);
         report_assert = *(TownCopyFn *)((s8 *)dispatch + 0x168);
         report_assert(D_80016130, D_80016158, 0x40);
 
-        object = *(void **)((s8 *)(&D_80016000));
+        object = *(void **)((s8 *)(&town_scene_root));
         dispatch = *(void **)((s8 *)object + 0x20);
         set_fn = *(TownSetFn *)((s8 *)dispatch + 0x174);
         set_fn(1);

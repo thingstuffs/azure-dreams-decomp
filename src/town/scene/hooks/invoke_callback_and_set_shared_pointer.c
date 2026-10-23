@@ -9,8 +9,8 @@ void invoke_callback_and_set_shared_pointer(void) {
     void *field_base;
     s32 field_value;
 
-    town_state = D_80016000;
-    field_base = town_state->unk_38;
+    town_state = town_scene_root;
+    field_base = town_state->town_state;
     field_value = *(s16 *)((u8 *)field_base + 0x35BC);
     D_80017548[0] = D_80017478;
     if (field_value < 20) {
@@ -26,5 +26,5 @@ void invoke_callback_and_set_shared_pointer(void) {
    a direct lh, lets its low-half address fill the delay, and puts sw in the branch slot. */
 
 s16 invoke_state_callback_with_zero(void) {
-    return D_80016000->unk_38->unk_35BC;
+    return town_scene_root->town_state->unk_35BC;
 }

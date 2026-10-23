@@ -488,7 +488,7 @@ void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 valu
 
     object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != 0) {
-        object->unk_10 = process_effect_modes_and_completion;
+        object->update_callback = process_effect_modes_and_completion;
         state = ((void *)object) + 0x20;
         state->unk_26 = value_26;
         state->unk_0C = value_0c;

@@ -6,13 +6,6 @@
 #include "engine/node.h"
 #include "slus.h"
 
-
-
-typedef struct S_80013714 {
-    u16 flags;      /* 0x0 */
-    u8 pad[8];      /* keep size > 8 to force %hi/%lo addressing */
-} S_80013714;
-
 /* Allocates and initializes a node with the requested flags and links it at the list head. */
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
 {

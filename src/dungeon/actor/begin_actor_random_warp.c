@@ -29,8 +29,8 @@ void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void 
     entity->unk_98 = entity->unk_98 | 8;
     flags = entity_state->flags1C | 0x10000;
     entity_state->flags1C = flags;
-    tile_x = ((SpriteFrameState *)position)->unk_24;
-    tile_y = ((SpriteFrameState *)position)->unk_25;
+    tile_x = ((SpriteFrameState *)position)->tile_x;
+    tile_y = ((SpriteFrameState *)position)->tile_y;
     tile_mask = 0x3000;
     if (flags & 0x2000) {
         tile_mask = 0x300;
@@ -40,8 +40,8 @@ void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void 
     while ((s16)select_dungeon_spawn_tile(tile_x_ptr, (u8 *)position + 0x25) < 0) {
         tile_x_ptr = (u8 *)position + 0x24;
     }
-    ((SpriteFrameState *)position)->unk_26 = find_active_rect_containing_point(((SpriteFrameState *)position)->unk_24,
-        ((SpriteFrameState *)position)->unk_25);
+    ((SpriteFrameState *)position)->room_index = find_active_rect_containing_point(((SpriteFrameState *)position)->tile_x,
+        ((SpriteFrameState *)position)->tile_y);
     refresh_actor_proximity_state(entity_state);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
 }

@@ -15,7 +15,7 @@ s32 get_a_random_sign_either_n_1_n_1(void) {
 }
 
 void create_linked_effect_segments(ParticleWork *work, ParticlePosition *position) {
-    *(s16 *)D_80026428 = 1;
+    *(s16 *)rectangle_effect_updated = 1;
     if (position->z.half.high < (s16)sample_terrain_surface_height(position->x, position->y, (s16)((u16)position->z.half.high + 2))) {
         position->z.word += 0x20000 + (rand() & 0xFFF);
     }
@@ -31,7 +31,7 @@ void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32
     ObjectNodeHeader *node = allocate_list_node(0x211, owner);
     NewParticleWork *work;
     if (node != 0) {
-        node->unk_10 = create_linked_effect_segments;
+        node->update_callback = create_linked_effect_segments;
         (*(ParticleVector * *)&node->position)->x = owner->position->x + (rand() & 31) + (dx - 16);
         (*(ParticleVector * *)&node->position)->y = owner->position->y + (rand() & 31) + (dy - 16);
         (*(ParticleVector * *)&node->position)->z = owner->position->z + (rand() & 31) + (dz - 16);

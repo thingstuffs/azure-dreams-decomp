@@ -14,9 +14,9 @@ extern s32 func_8001A6D0();
 
 /* Stores the lookup result in the selected entry when the current record has code 7. */
 s32 store_lookup_in_state_7_entry(S_8001ADF8_1 *entry_table, s32 entry_index) {
-    if (town_event_state->unk_05 == 7) {
-        ((TownEventEntryValueView *)(((entry_index * 0x10) + entry_table->unk_10)))->unk_08 =
-            func_8001A6D0(town_event_state->unk_03);
+    if (town_event_state->selection_mode == 7) {
+        ((TownEventEntryValueView *)(((entry_index * 0x10) + entry_table->unk_10)))->value =
+            func_8001A6D0(town_event_state->saved_entry);
         return 0;
     }
     return 1;

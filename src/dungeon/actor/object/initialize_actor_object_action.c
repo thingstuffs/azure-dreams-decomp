@@ -8,7 +8,7 @@
 
 extern s32 register_node();
 extern void unlink_node();
-extern s32 D_800C6AEC;
+extern s32 actor_fade_draw_address;
 
 
 /* Resets object state, runs object setup, and updates property and status flags. */
@@ -23,7 +23,7 @@ void initialize_actor_object_action(void *object_state, void *unused_context, Re
     object = object_state - 0x20;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     unlink_node(object);
-    register_node(object, &D_800C6AEC);
+    register_node(object, &actor_fade_draw_address);
     properties->unk_0C.at03_s8.v = 0;
     properties->unk_0C.at02_s8.v = 0;
     properties->unk_0C.at01_s8.v = 0;

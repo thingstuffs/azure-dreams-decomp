@@ -24,21 +24,21 @@ void create_user_data_object(s32 user_data) {
 
     object = allocate_flagged_object_node(0x15);
     if (object != NULL) {
-        object->unk_10 = &D_80023E64;
+        object->update_callback = &D_80023E64;
         color = 0x800000;
         instance_data = (u8 *)object + 0x20;
         register_node(object, &linked_sprite_renderer_address);
         render_state = object->sprite;
         instance_data->unk_04 = user_data;
-        ((SignedPositionView *)(object->position))->unk_02 = 0xF0;
-        ((SignedPositionView *)(object->position))->unk_06 = 0xAC;
-        ((SignedPositionView *)(object->position))->unk_0A = 0;
+        ((SignedPositionView *)(object->position))->x = 0xF0;
+        ((SignedPositionView *)(object->position))->y = 0xAC;
+        ((SignedPositionView *)(object->position))->z = 0;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
-        render_state->unk_06 = 0x10;
+        render_state->depth_bias = 0x10;
         render_state->source = &D_80079438;
         render_state->unk_04 = 0;
-        render_state->unk_05 = 0;
+        render_state->frame_ticks = 0;
         color |= 0x8080;
         render_state->color.word = color;
         render_state->flags = (u16) (render_state->flags | 0xC);

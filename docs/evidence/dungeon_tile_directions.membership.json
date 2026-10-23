@@ -1,0 +1,23 @@
+{
+  "module": "dungeon_tile_directions",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "tile_directions.c",
+    "module_index": 134231
+  },
+  "members": [
+    "dungeon/func_800CB680",
+    "dungeon/func_800CB9CC",
+    "dungeon/func_800CBBD8",
+    "dungeon/func_800CBC58"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00301 - CL:dungeon/func_800CB680, CL:dungeon/func_800CB9CC, CL:dungeon/func_800CBBD8, CL:dungeon/func_800CBF3C, CL:dungeon/func_800CBFFC. Grouping by tools/tu/infer_groups.py (group G00301); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Contiguous text and call-locality joins from the complete 403-unit scan; inferred grouping under decision 72(b). The outer file boundaries remain unknown.",
+    "Members are the contiguous registered home rows 0xEB680..0xEBEE8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

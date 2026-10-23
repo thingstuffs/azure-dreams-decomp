@@ -34,7 +34,7 @@ extern void unlink_entity_node(void *);
 extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void clear_actor_action_markers(u8 *state);
 
-extern u16 D_800834E2;
+extern u16 actor_direction_dispatch_key;
 extern s8 spell_effect_selector_cache;
 extern u8 * ghosh_actor_node;
 extern s32 D_801748C8[];
@@ -63,7 +63,7 @@ void reset_map_state_and_process_entries(void) {
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     active_object = ghosh_actor_node;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
-    lookup_key = D_800834E2;
+    lookup_key = actor_direction_dispatch_key;
     sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
     map_object = ((ActiveObjectFieldView_81326794 *)active_object)->field_0C;
     spell_effect_selector_cache = -1;

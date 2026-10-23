@@ -260,8 +260,8 @@ void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion
     height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
     if (height_sum & 0x40000000) {
         ((S_801653A8_2 *)entity_base)->unk_1C = height_sum & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->unk_24 << 6) | 0x20,
-                              (((SpriteFrameState *)sprite)->unk_25 << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((((SpriteFrameState *)sprite)->tile_x << 6) | 0x20,
+                              (((SpriteFrameState *)sprite)->tile_y << 6) | 0x20,
                               (s16)(((S_801653A8_2 *)entity_base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =

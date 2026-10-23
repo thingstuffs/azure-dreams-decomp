@@ -14,8 +14,8 @@ s32 select_handler_by_state_code_0x798(void) {
     s32 saved_value;
     s32 current_value;
 
-    object_slot = &D_80016000;
-    ((Callback1)(*object_slot)->unk_20->callback_258)(15);
+    object_slot = &town_scene_root;
+    ((Callback1)(*object_slot)->services->callback_258)(15);
 
     {
         Rec_D_80016000 *object;
@@ -23,16 +23,16 @@ s32 select_handler_by_state_code_0x798(void) {
 
         object = *object_slot;
         do {
-            methods = object->unk_20;
+            methods = object->services;
         } while (0);
-        initial_state = object->unk_1C;
+        initial_state = object->position;
         saved_value = initial_state->x;
         ((Callback2)methods->callback_248)(1, initial_state);
     }
 
-    ((Callback1)(*object_slot)->unk_20->callback_244)(1);
+    ((Callback1)(*object_slot)->services->callback_244)(1);
 
-    updated_state = (*object_slot)->unk_1C;
+    updated_state = (*object_slot)->position;
     if (updated_state->unk_00 != 3) {
         return 0;
     }

@@ -152,26 +152,26 @@ void create_random_color_offset_effect(
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        ((ProjectileObject *)effect)->unk_10 = D_801712C4;
+        ((ProjectileObject *)effect)->update_callback = D_801712C4;
 
-        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_02 =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02 + held_offset_x;
-        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_06 =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
-        ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_0A =
-            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
+        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x =
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x + held_offset_x;
+        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y =
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y + held_offset_y;
+        ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z =
+            ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
         if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
-            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_02 += source_offset.x;
-            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_06 += source_offset.y;
-            ((SignedPositionView *)(((ProjectileObject *)effect)->unk_08))->unk_0A += source_offset.z;
+            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->x += source_offset.x;
+            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->y += source_offset.y;
+            ((SignedPositionView *)(((ProjectileObject *)effect)->position))->z += source_offset.z;
         }
 
         effect_data = (u8 *)effect + 0x20;
-        ((S_80171498_3 *)effect_data)->unk_5A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
-        ((S_80171498_3 *)effect_data)->unk_5E = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
-        ((S_80171498_3 *)effect_data)->unk_62 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
+        ((S_80171498_3 *)effect_data)->unk_5A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
+        ((S_80171498_3 *)effect_data)->unk_5E = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
+        ((S_80171498_3 *)effect_data)->unk_62 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
         if (resolve_record_orientation_or_fallback(((DelayMotionZ *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
@@ -180,13 +180,13 @@ void create_random_color_offset_effect(
             ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
         }
 
-        ((S_80171498_3 *)effect_data)->unk_36 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
-        ((S_80171498_3 *)effect_data)->unk_38 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
-        ((S_80171498_3 *)effect_data)->unk_3A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
+        ((S_80171498_3 *)effect_data)->unk_36 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->x;
+        ((S_80171498_3 *)effect_data)->unk_38 = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->y;
+        ((S_80171498_3 *)effect_data)->unk_3A = ((MovingPosition *)(((S_80171498_1 *)parent)->unk_08))->z;
 
         step = 0;
         do {
-            steer_effect_toward_target(effect_data, ((ProjectileObject *)effect)->unk_08, ((ProjectileObject *)effect)->unk_0C);
+            steer_effect_toward_target(effect_data, ((ProjectileObject *)effect)->position, ((ProjectileObject *)effect)->sprite);
             step++;
         } while (step < 10);
 

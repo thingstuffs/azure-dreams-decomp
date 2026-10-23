@@ -31,7 +31,7 @@ extern void update_action_and_directional_frame(void *, void *, void *, void *);
 extern s32 func_801720E0(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
-extern u8 D_80170E68[];
+extern u8 dreamin_action_continuation_address[];
 #include "dungeon/monster/dreamin.h"
 extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];
@@ -90,7 +90,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
 
             actor->unk_98 &= 0xFFF3;
 
-            if (state->unk_64 != 0) {
+            if (state->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(actor, context, sprite, dreamin_frame_set_1) != 0) {
                     return;
                 }
@@ -107,8 +107,8 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             }
         }
 
-        result = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
-        sprite->unk_26 = result;
+        result = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        sprite->room_index = result;
 
         if (state->pending_turn_updates > 0) {
             if (((u32)state->flags1C) & ACTOR_PARALYZED) {
@@ -116,7 +116,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+            if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
                 func_801715CC(actor, context, sprite, state);
                 return;
             }
@@ -158,12 +158,12 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             case 6:
             case 7:
                 result = get_rounded_facing_and_rounding_flag(
-                    sprite->unk_24, sprite->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                 player = primary_actor_record;
                 state->facing = result;
-                if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_8017389C, D_80170E68);
+                if (player->action_id == 0x11) {
+                    begin_actor_spell_action(actor, context, sprite, D_8017389C, dreamin_action_continuation_address);
                     return;
                 }
                                         /* fallthrough */
@@ -174,7 +174,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(actor, context, sprite, D_8017389C, D_80170E68);
+                begin_actor_spell_action(actor, context, sprite, D_8017389C, dreamin_action_continuation_address);
                 return;
 
             case 4:
@@ -197,10 +197,10 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 !(((S_80170E68_4 *)entry)->unk_0C & 2)) {
                 if ((flags & 0x430) == 0) {
                     if ((s16)test_neighbor_position_relation(
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(
-                            sprite->unk_24, sprite->unk_25,
+                            sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                         state->facing = result;
                     }

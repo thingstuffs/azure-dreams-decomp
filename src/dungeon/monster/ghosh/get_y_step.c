@@ -174,10 +174,10 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                 initialized_bit = (s32)(find_adjacent_actor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
                 if ((void *)initialized_bit != NULL) {
                     source_x = position->unk_24.at00.v;
-                    target_position = ((SpriteLinkPrefixView *)(void *)initialized_bit)[-1].unk_00;
+                    target_position = ((SpriteLinkPrefixView *)(void *)initialized_bit)[-1].sprite;
                     source_y = position->unk_24.at01.v;
-                    dest_x = target_position->unk_24;
-                    dest_y = target_position->unk_25;
+                    dest_x = target_position->tile_x;
+                    dest_y = target_position->tile_y;
                     motion_flags = motion + 0x98;
                     ((S_8016BF74_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(source_x, source_y, dest_x, dest_y, motion_flags);
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -301,9 +301,9 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                     }
                 }
                 ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
-                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 =
+                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->path_x =
                     (u8) position->unk_24.at00.v;
-                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C =
+                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->path_y =
                     (u8) position->unk_24.at01.v;
                 next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
                 x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);

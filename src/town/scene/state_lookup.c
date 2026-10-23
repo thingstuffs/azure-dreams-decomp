@@ -1,5 +1,45 @@
-#include "script_symbols.h"
+/* State lookup with entry predicate overrides
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00638 - CL:town/func_8046F1C8, CL:town/func_8046F224, CL:town/image_3ef000@3EF164.
+ * CL:town/func_8046F1C8
+ * CL:town/func_8046F224
+ * CL:town/image_3ef000@3EF164
+ */
+#include "town/scene.h"
+
+/* Private declarations retained from the member sources. */
+/* State lookup with entry predicate overrides */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00638 - CL:town/func_8046F1C8, CL:town/func_8046F224, CL:town/image_3ef000@3EF164. */
+
 #include "modules/town_ovl_3ef1c8.h"
+#include "script_symbols.h"
+
+s32 check_any_entry_matches_predicate(void) {
+    u8 *entry = &D_8001A92C;
+
+    if (D_8001A92C != 0) {
+        do {
+            if (town_table_contains_first_byte_b(*entry) != 0) {
+                return 1;
+            }
+            entry++;
+        } while (*entry != 0);
+    }
+    return 0;
+}
+
+/* Runs three flag handlers once the required flag is set and the shared completion flag is clear. */
+s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag) {
+    if (func_8001A510(requiredFlag) == 0) {
+        return 1;
+    }
+    if (func_8001A510(F_sbs22_pad39) != 0) {
+        return 1;
+    }
+    func_8001A418(F_sbs22_pad39);
+    func_8001A418(completionFlag);
+    func_8001A490(requiredFlag);
+    return 0;
+}
 
 /* Selects dialogue data from progress thresholds and lookup overrides, setting the associated flags. */
 s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context) {
@@ -30,6 +70,3 @@ s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value
     }
     return result;
 }
-/* MECHANISM: The true-space CFG turns apparent configure_active_object_two_16/B0/B8 calls into local joins.
-   One s0 result pointer reproduces the 0x18 frame and tail layout.
-   Omitting check_any_entry_matches_predicate's explicit arg reuses the branch-delay a0 setup and closes word 58. */

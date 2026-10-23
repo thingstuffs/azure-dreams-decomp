@@ -69,7 +69,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     obj = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->unk_10 = D_80170AE8;
+        obj->update_callback = D_80170AE8;
         ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
         register_node(obj, &sprite_chain_projector_address);
 
@@ -77,8 +77,8 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         part_a->z.w.i = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
-        part_b->unk_25 = saved_variant;
-        part_b->unk_24 = saved_kind_id;
+        part_b->tile_y = saved_variant;
+        part_b->tile_x = saved_kind_id;
         actor = work;
         part_b->frameTable = cyclone_move_direction_frames;
 

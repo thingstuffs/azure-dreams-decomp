@@ -9,9 +9,9 @@ s32 process_unflagged_linked_entries();
 s32 process_unflagged_linked_entries_alt();
 s32 set_record_integer_tile_center();
 extern s32 player_action_tag;
-extern u8 D_800DD040[];
-extern u8 D_800DD058[];
-extern u8 D_800DD0C8[];
+extern u8 player_height_step_frames[];
+extern u8 player_landing_frame_set[];
+extern u8 player_throw_frame_set[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
 void update_carrying_player_step(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
@@ -47,9 +47,9 @@ void update_carrying_player_step(u8 *entity_in, s32 *motion_in, u16 *sprite_in, 
         }
         *(s32 *)((u8 *)motion + 0x14) = vertical_speed;
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
-            anim_table = D_800DD0C8;
+            anim_table = player_throw_frame_set;
         } else {
-            anim_table = D_800DD040;
+            anim_table = player_height_step_frames;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
         process_unflagged_linked_entries_alt(*(s32 *)((u8 *)actor + 0x5C));
@@ -100,7 +100,7 @@ void update_carrying_player_step(u8 *entity_in, s32 *motion_in, u16 *sprite_in, 
         *(u8 **)((u8 *)entity + 0x8C) = next_handler;
         return;
         }
-        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD058;
+        *(u8 **)((u8 *)sprite + 0x2C) = player_landing_frame_set;
         set_sprite_animation_frame(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor
             + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
         g_dungeon_status.movement_frames_left = 1;

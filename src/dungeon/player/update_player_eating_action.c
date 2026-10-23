@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -21,15 +22,12 @@ void play_sound_if_enabled(s32);
 void display_text_with_fullwidth_adjustment(s8 *text);
 void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 extern s32 held_item_record;
-extern s32 D_8008D470;
+extern s32 player_item_render_update_address;
 extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
 extern u8 D_800E06EB[];
 
-typedef struct S_8009255C_3 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_8009255C_3;   /* call_arg in update_player_eating_action */
+   /* call_arg in update_player_eating_action */
 
 typedef struct S_8009255C_7 {
     u8 pad_00[0x8C];
@@ -50,7 +48,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
     ObjectNodeHeader *spawned;
     ObjectPosition *position;
     S_8009255C_7 *spawned_state;
-    S_8009255C_3 *animation_actor;
+    SpriteAnimationTableView *animation_actor;
     u8 *animation_entry;
     u8 *animation_table;
 
@@ -61,7 +59,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
                transform->facing + 0x100) >> 9) & 7) == 2) {
             animation_actor = actor;
             animation_table = D_800DD100;
-            animation_actor->unk_2C = animation_table;
+            animation_actor->frame_table = animation_table;
             animation_entry = (u8 *)((s32)(((g_game_work.view.camera_rotation.parts.viewAngle +
                                     transform->facing + 0x100) >> 9) &
                                   7) +
@@ -88,7 +86,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
         spawned = create_item_render_object(
             controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
-            spawned->unk_10 = (s32)&D_8008D470;
+            spawned->update_callback = (s32)&player_item_render_update_address;
             position = spawned->position;
             position->x.w.i =
                 (actor->unk_24 << 6) + 0x20;

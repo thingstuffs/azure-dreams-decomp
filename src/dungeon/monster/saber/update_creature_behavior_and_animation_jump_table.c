@@ -3,7 +3,7 @@
 extern void update_creature_behavior_and_animation(void);
 
 /* jump_table; owner: dungeon/func_80ADDF28. */
-const u32 D_80158808[12] __attribute__((aligned(4))) = {
+const u32 saber_slot_c_behavior_targets[12] __attribute__((aligned(4))) = {
     (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),
     (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),
     (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),

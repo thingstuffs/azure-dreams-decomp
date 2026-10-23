@@ -1,0 +1,21 @@
+{
+  "module": "town_handler_commands",
+  "ledger_group": {
+    "container": "town",
+    "module": "handler_commands.c",
+    "module_index": 134236
+  },
+  "members": [
+    "town/func_8065C34C",
+    "town/func_8065C3AC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00679 - PD:town/ll34_5db800_80016000:80018340, PD:town/ll34_5db800_80016000:800183D0. Grouping by tools/tu/infer_groups.py (group G00679); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Byte-bound evidence and ordered registered home rows from the complete 403-unit scan. Inferred grouping under decision 72(b); outer file boundaries remain unknown.",
+    "Members are the contiguous registered home rows 0x5DC34C..0x5DC3FC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

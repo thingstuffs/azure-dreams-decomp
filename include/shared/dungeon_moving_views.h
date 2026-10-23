@@ -52,19 +52,19 @@ typedef struct MovingObject {
 
 typedef struct MovingSprite {
     u8 pad_00[0x8];
-    void * unk_08;
+    void * source;
     union {
         struct { u32 v; } at00;
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
+    } color;   /* overlapping accesses */
+    u16 tpage_abr;
     u8 pad_12[0x2];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 scale_x;
+    u16 scale_y;
 } MovingSprite;   /* part in func_80024050 */
 
 typedef struct SignedWordView {
@@ -141,11 +141,11 @@ typedef struct MovingMotion {
  * Effect constructors copy these components from the owner position. */
 typedef struct MovingPosition {
     u8 pad_00[0x2];
-    u16 unk_02; /* integer X component of the position, in world units */
+    u16 x; /* integer X component of the position, in world units */
     u8 pad_04[0x2];
-    u16 unk_06; /* integer Y component on the ground plane, in world units */
+    u16 y; /* integer Y component on the ground plane, in world units */
     u8 pad_08[0x2];
-    u16 unk_0A; /* integer height component, in world units */
+    u16 z; /* integer height component, in world units */
 } MovingPosition;   /* record in func_80024050 */
 
 typedef struct OriginOffsetView {
@@ -176,8 +176,8 @@ typedef struct MovingTargetPosition {
  * Sprite constructors initialize these coordinates; item effects read them. */
 typedef struct MovingTile {
     u8 pad_00[0x24];
-    u8 unk_24; /* map column; world tile center is (column << 6) + 32 */
-    u8 unk_25; /* map row; world tile center is (row << 6) + 32 */
+    u8 tile_x; /* map column; world tile center is (column << 6) + 32 */
+    u8 tile_y; /* map row; world tile center is (row << 6) + 32 */
 } MovingTile;   /* target_record in func_80024050 */
 
 typedef struct MovingHeight {

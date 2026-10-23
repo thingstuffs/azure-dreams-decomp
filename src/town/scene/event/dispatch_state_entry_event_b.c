@@ -25,7 +25,7 @@ s32 dispatch_state_entry_event_8(void) {
             return 1;
         }
     }
-    callback_owner = D_80016000;
-    ((Callback)callback_owner->unk_20->callback_2F8)(0x10, 0x200);
+    callback_owner = town_scene_root;
+    ((Callback)callback_owner->services->callback_2F8)(0x10, 0x200);
     return 0;
 }

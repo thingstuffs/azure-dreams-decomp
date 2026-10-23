@@ -91,7 +91,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         position[0x24] = (u8)tile_x;
         position[0x25] = (u8)tile_y;
         ((Rec_D_80082E80 *)object)->unk_88.as_u16 = *(u16 *)(task_data + 8);
-        task->unk_10 = &D_800C1EC4;
+        task->update_callback = &D_800C1EC4;
         *(void **)(task_data + 0xC) = object;
         *(s16 *)(task_data + 2) = 0x20;
         *(s16 *)(task_data + 4) = position[0x24];

@@ -14,7 +14,7 @@ typedef struct S_8001A3FC_1 {
 
 
 extern s32 D_8001C370;
-extern s32 D_8001C374;
+extern s32 scene_current_entry_value;
 
 /* Save the current context value and dispatch the selected entry's type callback. */
 void save_context_and_dispatch_entry_type(void) {
@@ -25,12 +25,12 @@ void save_context_and_dispatch_entry_type(void) {
     s32 entry_offset;
 
     entry_base = &D_8001C370;
-    entry_index = D_80016000->unk_14;
+    entry_index = town_scene_root->unk_14;
     entry_offset = entry_index * 0x1C;
     entry = (void *)(entry_offset + *entry_base);
     type = entry->unk_00;
-    D_8001C374 = ((s32)D_80016000->unk_00);
+    scene_current_entry_value = ((s32)town_scene_root->unk_00);
     (*(TownCallback *)((u8 *)((entry->unk_00 * 0x10) +
               entry->unk_10) + 4))(entry, type,
-                           ((s32)D_80016000->unk_00));
+                           ((s32)town_scene_root->unk_00));
 }

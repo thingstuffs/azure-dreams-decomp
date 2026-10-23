@@ -178,7 +178,7 @@ extern s16 GetClut(s32, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 extern u8 moving_sprite_entries[];
-extern u8 D_800DEC50[];
+extern u8 rotating_particle_sprite_entries[];
 extern u8 shared_sprite_entries[];
 
 extern void fade_packed_object_color_to_zero(void *);
@@ -288,7 +288,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
                         {
                             void *texture;
 
-                            texture = D_800DEC50;
+                            texture = rotating_particle_sprite_entries;
                             part->unk_00 = texture;
                         }
                         part->unk_0C = 0x00282828;
@@ -324,13 +324,13 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
         }
     }
         if (object->unk_60 == 0) {
-            object->unk_72.u8_72 = owner->unk_24;
-            object->unk_73.u8_73 = owner->unk_25;
+            object->unk_72.u8_72 = owner->tile_x;
+            object->unk_73.u8_73 = owner->tile_y;
         } else {
 
             part = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
-            object->unk_72.u8_72 = ((MovingTile *)part)->unk_24;
-            object->unk_73.u8_73 = ((MovingTile *)part)->unk_25;
+            object->unk_72.u8_72 = ((MovingTile *)part)->tile_x;
+            object->unk_73.u8_73 = ((MovingTile *)part)->tile_y;
         }
         model = object_base->unk_0C;
         if (resolve_record_orientation_or_fallback(model->unk_08, model, coord_offset, 0) == 0) {

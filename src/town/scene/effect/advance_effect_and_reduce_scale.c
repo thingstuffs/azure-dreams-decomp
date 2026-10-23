@@ -46,8 +46,8 @@ void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
     ((S_80814CC4_3 *)scale)->unk_1E = next_scale;
     if ((u16) ((S_80814CC4_3 *)scale)->unk_1C < 0x201U) {
         ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
-        flags = &effect_view[-1].unk_00;
-        *flags = (u16) (effect_view[-1].unk_00 | 0x8000);
+        flags = &effect_view[-1].flags;
+        *flags = (u16) (effect_view[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
     }
 }

@@ -58,9 +58,9 @@ void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *sourc
     display_flags->unk_10 = 0x20;
     display_flags->unk_14 = display_flags->unk_14 | 0xC;
     object_position = object->unk_08;
-    object_position->unk_02 = position->unk_02;
-    object_position->unk_06 = position->unk_06;
-    object_position->unk_0A = position->unk_0A;
+    object_position->x = position->x;
+    object_position->y = position->y;
+    object_position->z = position->z;
     display_state = object->unk_0C;
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;

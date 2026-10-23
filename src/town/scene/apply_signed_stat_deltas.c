@@ -12,10 +12,10 @@ void apply_signed_stat_deltas(void *stat_deltas)
     void *first_stats;
     void *second_stats;
 
-    (*(Callback *)((s8 *)*(void **)((s8 *)D_80016000 + 0x20) + 0x258))(1);
+    (*(Callback *)((s8 *)*(void **)((s8 *)town_scene_root + 0x20) + 0x258))(1);
 
-    first_stats = *(void **)((s8 *)D_80016000 + 0x1C);
+    first_stats = *(void **)((s8 *)town_scene_root + 0x1C);
     *(s32 *)((s8 *)first_stats + 4) += *(s16 *)((s8 *)stat_deltas + 0);
-    second_stats = *(void **)((s8 *)D_80016000 + 0x1C);
+    second_stats = *(void **)((s8 *)town_scene_root + 0x1C);
     *(s32 *)((s8 *)second_stats + 8) += *(s16 *)((s8 *)stat_deltas + 2);
 }

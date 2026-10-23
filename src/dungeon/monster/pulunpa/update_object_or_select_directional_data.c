@@ -12,7 +12,7 @@ extern u8 pulunpa_advance_actor_state_and_dispatch_address[];
 extern u8 D_801762C8[];
 #include "dungeon/monster/pulunpa.h"
 extern u8 D_80176328[];
-extern u8 D_80176360[];
+extern u8 pulunpa_frame_set_3[];
 
 /* Updates object state or selects a source table entry from the target direction. */
 /* Updates Pulunpa's parent-relative motion and floor traps, then restores the idle frames for its normal
@@ -42,7 +42,7 @@ void update_object_or_select_directional_data(void *object_arg, void *context, v
         source->frameTable = D_801762C8;
         select_sprite_entry(source, D_801762C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
             0);
-    } else if (state_table == D_80176360) {
+    } else if (state_table == pulunpa_frame_set_3) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }

@@ -51,9 +51,9 @@ void advance_timed_sprite_flashing_sequence(void *action, void *motion, SpriteFr
             resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
-        ((MotionDeltaView *)motion)->unk_14 = 0;
-        ((MotionDeltaView *)motion)->unk_10 = 0;
-        ((MotionDeltaView *)motion)->unk_0C = 0;
+        ((MotionDeltaView *)motion)->velocity_z = 0;
+        ((MotionDeltaView *)motion)->velocity_y = 0;
+        ((MotionDeltaView *)motion)->velocity_x = 0;
         sprite->frameTable = weadog_frame_set_2;
         select_sprite_entry(sprite,
             weadog_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

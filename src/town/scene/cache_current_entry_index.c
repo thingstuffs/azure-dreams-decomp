@@ -18,7 +18,7 @@ extern s32 selected_scene_row_index;
 s32 cache_current_entry_index(void) {
     void *selected_record;
 
-    selected_record = ((s32)D_80016000->unk_40) + (D_80016000->unk_08 * 8);
+    selected_record = ((s32)town_scene_root->event_data) + (town_scene_root->entry_index * 8);
     selected_scene_row_index = (s32) ((S_805D3860_1 *)selected_record)->unk_06;
     scene_charge = ((S_805D3860_1 *)selected_record)->unk_00;
     return ((S_805D3860_1 *)selected_record)->unk_00;

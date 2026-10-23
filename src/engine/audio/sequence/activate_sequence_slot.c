@@ -3,14 +3,6 @@
 #include "engine/audio/spu.h"
 
 typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s32 field_4;
-    u16 field_8;
-    u16 field_A;
-} S_80086C00;
-
-typedef struct {
     s32 field_0;
     s32 field_4;
     u16 field_8;
@@ -23,7 +15,7 @@ extern s32 audio_voice_masks[64];
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 64];
 extern s32 audio_update_guard[4];
-extern S_80086C00 audio_sequence_slots[8];
+extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Dispatches type-3 requests for active channels and marks the selected slot active. */
 void activate_sequence_slot(s16 slot_index)
@@ -32,7 +24,7 @@ void activate_sequence_slot(s16 slot_index)
     u8 *channel;
     s32 channel_index;
     s32 *channel_flags;
-    S_80086C00 *slots;
+    SoundSequenceSlot *slots;
 
     channel_index = 0;
     audio_update_guard[0] = 1;
@@ -63,7 +55,7 @@ loop:
         }
     }
     slots = audio_sequence_slots;
-    slots[slot_index].field_2 = 1;
+    slots[slot_index].state = 1;
     audio_sequence_active[0] = 1;
     audio_update_guard[0] = 0;
 }

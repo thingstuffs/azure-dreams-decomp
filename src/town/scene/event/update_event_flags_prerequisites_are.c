@@ -27,7 +27,7 @@ s32 update_event_flags_prerequisites_are(void) {
         return 1;
     }
     {
-        s8 *context = *(s8 **)((u8 *)(&D_80016000));
+        s8 *context = *(s8 **)((u8 *)(&town_scene_root));
         s8 *callback_table = *(s8 **)(context + 0x20);
         s32 (*fallback_fn)(s32, s32) = *(s32 (**)(s32, s32))(callback_table + 0x2F8);
         fallback_fn(0xF, 0x200);

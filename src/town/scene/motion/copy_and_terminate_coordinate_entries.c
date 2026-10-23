@@ -26,14 +26,14 @@ UA32 *copy_and_terminate_coordinate_entries(UA32 *buffer)
 
     result = buffer;
     global_page = (u8 *)0x80010000;
-    state = D_80016000;
+    state = town_scene_root;
     grid_rows = ((TownResourceLinks *)state->unk_24)->gridRows;
     header_page = 0x80020000;
     header = &D_8001C31C;
     *result = *header;
 
-    state = D_80016000;
-    entry_list = state->unk_38;
+    state = town_scene_root;
+    entry_list = state->town_state;
     entry_ptr = (UA32 **)entry_list->entries;
     write_ptr = (u8 *)result + 4;
     if (*(UA32 **)entry_list->entries != 0) {

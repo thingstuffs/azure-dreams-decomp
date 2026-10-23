@@ -6,6 +6,6 @@
 
 /* Set the town substate values to 800 and 1184. */
 void set_scene_substate_offsets(void) {
-    ((TownPositionState *)D_80016000->unk_1C)->x = 800;
-    ((TownPositionState *)D_80016000->unk_1C)->y = 1184;
+    ((TownPositionState *)town_scene_root->position)->x = 800;
+    ((TownPositionState *)town_scene_root->position)->y = 1184;
 }

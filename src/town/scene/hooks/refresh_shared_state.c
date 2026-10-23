@@ -15,6 +15,6 @@ void refresh_shared_state(void) {
 
     process_flagged_type_0x18_entries();
     call_value_handler_mode_0(town_event_records);
-    context = D_80016000->unk_38;
-    context->unk_2D5C = (s32) (((signed int)context->unk_2D5C) - scene_price);
+    context = town_scene_root->town_state;
+    context->money = (s32) (((signed int)context->money) - scene_price);
 }

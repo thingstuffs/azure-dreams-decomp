@@ -18,7 +18,7 @@ s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height();
 
 extern u8 D_800F8BBC[9];
-extern u8 D_8016F78C[9];
+extern u8 ghosh_motion_resume_address[9];
 extern Callback ghosh_attack_handlers[];
 
 typedef struct S_8016F2E0_0 {
@@ -94,7 +94,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
 
     if (g_dungeon_status.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (paused_callback == (Callback)&D_8016F78C) {
+        if (paused_callback == (Callback)&ghosh_motion_resume_address) {
             paused_callback(entity, motion, sprite, actor);
             return;
         }
@@ -194,8 +194,8 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20,
-                                      (sprite->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                                      (sprite->tile_y << 6) | 0x20,
                                       (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor_height;
                 ((S_8016F2E0_3 *)actor)->unk_88.u = floor_height;

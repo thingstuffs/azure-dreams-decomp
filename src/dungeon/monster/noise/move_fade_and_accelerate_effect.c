@@ -37,7 +37,7 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVe
     effect->unk_08 = effect->unk_04.unk_04;
 
     if ((life_left << 16) <= 0) {
-        ((ObjectRetirementFlags *)((u8 *)effect - 2))->unk_00 |= 0x8000;
+        ((ObjectRetirementFlags *)((u8 *)effect - 2))->flags |= 0x8000;
         flag_page = (s32 *)0x80080000;
         flag_page[0x14A0 / sizeof(s32)] =
             flag_page[0x14A0 / sizeof(s32)] | 0x8000;
@@ -63,7 +63,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     if (effect == NULL) {
         return;
     }
-    effect->unk_10 = &move_fade_and_accelerate_effect;
+    effect->update_callback = &move_fade_and_accelerate_effect;
     (effect->position)->x.w.i =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + x_offset);
     (effect->position)->y.w.i =
@@ -112,14 +112,14 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (T_80171190_Work *)((u8 *)obj + 0x20);
-        obj->unk_10 = D_80171358;
+        obj->update_callback = D_80171358;
         work->byte13 = 0x17;
         register_node(obj, project_sprite_chain);
 
         resource = noise_direction_frames;
-        part_a = obj->unk_08;
-        part_a->unk_0A = saved_spawn;
-        part_b = obj->unk_0C;
+        part_a = obj->position;
+        part_a->z = saved_spawn;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

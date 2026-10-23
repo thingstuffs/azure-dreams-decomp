@@ -11,7 +11,7 @@
 extern s32 register_node();
 extern s32 rand();
 extern M2C_UNK D_800254E0;
-extern M2C_UNK D_80025DF8;
+extern M2C_UNK tinted_sprite_entries;
 
 typedef struct S_818BDD8C_0 {
     u8 pad_00[0x8];
@@ -69,7 +69,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        object->unk_10 = &D_800254E0;
+        object->update_callback = &D_800254E0;
         ((S_818BDD8C_0 *)object)->unk_20 = owner;
         state->unk_10 = 0;
         state->unk_14 = (u16)owner->unk_12;
@@ -78,7 +78,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
         render->clut = 0x7E01;
-        render->source = &D_80025DF8;
+        render->source = &tinted_sprite_entries;
         render->flags |= 0xC;
         render->tpage_abr |= 0x20;
         render->flags |= 0x100;

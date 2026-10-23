@@ -112,8 +112,8 @@ void *create_user_data_object_b(s32 user_data)
         part->source = D_800F148C;
         part->unk_00 = 0;
         part->unk_04 = 0;
-        part->unk_05 = 0;
-        part->unk_06 = -0x10;
+        part->frame_ticks = 0;
+        part->depth_bias = -0x10;
         register_node(object, D_800345B8);
         return_object = object;
         flags = part->flags;

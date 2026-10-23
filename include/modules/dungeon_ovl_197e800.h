@@ -897,7 +897,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
 void *allocate_nine_position_objects(void *position);
 typedef struct Bank56Counter { u16 value; u16 rest[4]; } Bank56Counter;
 extern s16 terrain_effect_update_count;
-extern void *D_8002732C;
+extern void *bright_effect_source_actor;
 extern void *D_800273C0;
 extern u8 D_80027398[];
 extern u16 terrain_effect_height_grid[8][8];

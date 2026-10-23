@@ -22,7 +22,7 @@ s32 draw_linked_sprites(void *first_payload, ObjectPosition *first_coords, Sprit
         if (!(record->flags & 0x80)) {
             scratch[0] = *(u16 *)&coords->x.w.i;
             scratch[1] = *(u16 *)&coords->y.w.i;
-            draw_sprite_parts(payload, record, (s16)(*(u16 *)&coords->z.w.i + *(u16 *)&record->unk_06));
+            draw_sprite_parts(payload, record, (s16)(*(u16 *)&coords->z.w.i + *(u16 *)&record->depth_bias));
         }
 
         next_node = ((ObjectNodeHeader *)payload)[-1].chain_next;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void unlink_entity_node(s32 node);
-extern s32 D_80174714;
+extern s32 beldo_effect_stream;
 extern s32 beldo_active_entity;
 extern s16 D_80174718;
 extern s32 D_80173F90;
@@ -54,7 +54,7 @@ void process_global_effect_slots_after_reset(void) {
     flags_base->unk_371C = saved_state;
     saved_value = D_80173FBC;
     active_state->unk_B8 = 0;
-    D_80174714 = saved_value;
+    beldo_effect_stream = saved_value;
 
     do {
         slot_offset = (slot_index << 16) >> 14;

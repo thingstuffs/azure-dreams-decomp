@@ -5,7 +5,7 @@
 #include "common.h"
 
 /* Regular (>8B) globals accessed via %hi/%lo. */
-extern unsigned char D_80016000[0x10];
+extern unsigned char resource_queue_input_buffer[0x10];
 extern unsigned char D_80023000[0x10];
 
 /* <=8B global -> $gp small-data STORE, but its address-of must stay %hi/%lo. */
@@ -20,7 +20,7 @@ extern void *func_80047AB0(void *a0, unsigned short a1, int a2, int a3, void *a4
 #include "common.h"
 
 /* Regular (>8B) globals accessed via %hi/%lo. */
-extern unsigned char D_80016000[0x10];
+extern unsigned char resource_queue_input_buffer[0x10];
 extern unsigned char D_80023000[0x10];
 
 /* <=8B global -> $gp small-data store (as -G8 sees size<=8 for this symbol
@@ -36,7 +36,7 @@ extern void *upload_image_tiles(void *a0, unsigned short a1, int a2, int a3, voi
 /* S_80016000: opaque >8B blob (16 bytes) whose address is passed around by
    this wave's siblings; no fields are dereferenced inside THIS function
    (field accesses happen inside the callees, not decompiled in this wave). */
-extern u8 D_80016000[0x10];
+extern u8 resource_queue_input_buffer[0x10];
 
 /* S_8008152C: <=8B global (gp-relative store in THIS TU) that simply holds
    a pointer value published by the sibling wrappers. */

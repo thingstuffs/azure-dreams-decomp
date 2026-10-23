@@ -10,6 +10,6 @@
 void scale_record_value_and_add_offset(void) {
     TownPositionState *record;
 
-    record = D_80016000->unk_1C;
+    record = town_scene_root->position;
     record->x = (s32) ((record->x << 6) + 0x220);
 }

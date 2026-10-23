@@ -68,7 +68,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->unk_10 = D_801711B0;
+        object->update_callback = D_801711B0;
         work->unk_13 = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);
 
@@ -78,8 +78,8 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         part_b = object->sprite;
         work_copy = work;
         part_b->frameTable = uboat_default_frames;
-        part_b->unk_24 = held_value_24;
-        part_b->unk_25 = held_value_25;
+        part_b->tile_x = held_value_24;
+        part_b->tile_y = held_value_25;
 
         if (kind == 1) {
             work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);

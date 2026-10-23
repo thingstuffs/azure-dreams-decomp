@@ -58,7 +58,7 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
         }
         ((S_8016F78C_0 *)actor)->unk_98 = (u16) (((S_8016F78C_0 *)actor)->unk_98 & 0xFFF3);
-        if (!((((ActorRecord *)entity)->unk_64 == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
+        if (!((((ActorRecord *)entity)->hp_delta == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }
         if (entity->flags1C & ACTOR_LIFTED) {
@@ -70,8 +70,8 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
             return;
         }
     }
-    sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24,
-        sprite->unk_25);
+    sprite->room_index = find_active_rect_containing_point(sprite->tile_x,
+        sprite->tile_y);
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity);

@@ -22,7 +22,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
     ObjectNodeHeader *object;
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
-        object->unk_10 = &D_8002609C;
+        object->update_callback = &D_8002609C;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         *((s32 *) (((s8 *) (object->position)) + 0)) = x;
@@ -33,7 +33,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         *((s32 **) (((s8 *) sprite) + 0)) = &map_animation_sprite_entries;
         resource_word = *((s32 *) (((s8 *) (&map_animation_sprite_entries)) + 4));
         sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
+        sprite->frame_ticks = 0;
         sprite->color.word = color;
         sprite_alias = sprite;
         sprite_alias->source = (s32) resource_word;

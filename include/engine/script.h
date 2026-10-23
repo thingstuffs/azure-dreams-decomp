@@ -5,6 +5,17 @@
 #include "common.h"
 #include "records/Rec_func_800381D0_arg0.h"
 
+/* Event-script reader projection used by operand decoders and message-byte
+ * dispatch. The cursor advances at +0x1C; +0x80 is the linked byte buffer or
+ * VM value-table base. Cursor-only users make no claim about the tail.
+ * These handlers use pointers, with no aggregate copies or reader arrays. */
+typedef struct ScriptReader {
+    /* 0x00 */ u8 pad_00[0x1C];
+    /* 0x1C */ u8 *cursor;
+    /* 0x20 */ u8 pad_20[0x60];
+    /* 0x80 */ u8 *data;
+} ScriptReader;
+
 struct Func80039578State;
 struct Func800395B0State;
 struct Func80039730State;

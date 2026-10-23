@@ -27,9 +27,9 @@ void update_effect_countdown(void *object, MovingPosition *output, void *update_
     MovingPosition *source;
 
     source = ((S_800D6FEC_0 *)object)->unk_B0;
-    output->unk_02 = (u16) source->unk_02;
-    output->unk_06 = (u16) source->unk_06;
-    output->unk_0A = (u16) source->unk_0A;
+    output->x = (u16) source->x;
+    output->y = (u16) source->y;
+    output->z = (u16) source->z;
     advance_sprite_animation_and_textures(update_arg);
     remaining = ((S_800D6FEC_0 *)object)->unk_96 - 1;
     ((S_800D6FEC_0 *)object)->unk_96 = remaining;

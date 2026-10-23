@@ -5,32 +5,32 @@
 
 /* Pass three signed record components and a query argument to find_min_qualifying_plane_height. */
 s16 forward_surface_query_with_argument(SignedPositionView *record, s32 query_arg) {
-    return find_min_qualifying_plane_height(record->unk_02, record->unk_06, record->unk_0A, query_arg);
+    return find_min_qualifying_plane_height(record->x, record->y, record->z, query_arg);
 }
 
 /* Pass three signed record components to find_highest_surface_within_range. */
 s16 forward_highest_surface_query(SignedPositionView *record) {
-    return find_highest_surface_within_range(record->unk_02, record->unk_06, record->unk_0A);
+    return find_highest_surface_within_range(record->x, record->y, record->z);
 }
 
 /* Pass three signed record components to find_smallest_surface_x_across_tiles. */
 s16 forward_smallest_surface_x_query(SignedPositionView *record) {
-    return find_smallest_surface_x_across_tiles(record->unk_02, record->unk_06, record->unk_0A);
+    return find_smallest_surface_x_across_tiles(record->x, record->y, record->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
 s16 evaluate_surface_components_a(SignedPositionView *components) {
-    return find_greatest_cell_intersection(components->unk_02, components->unk_06, components->unk_0A);
+    return find_greatest_cell_intersection(components->x, components->y, components->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
 s16 evaluate_surface_components_b(SignedPositionView *components) {
-    return find_lowest_surface_height(components->unk_02, components->unk_06, components->unk_0A);
+    return find_lowest_surface_height(components->x, components->y, components->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
 s16 evaluate_surface_components_c(SignedPositionView *components) {
-    return find_highest_valid_cell_height(components->unk_02, components->unk_06, components->unk_0A);
+    return find_highest_valid_cell_height(components->x, components->y, components->z);
 }
 
 /* Set the two view scales from the stored shift counts. */

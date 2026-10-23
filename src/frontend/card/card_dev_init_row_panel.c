@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/widget_views.h"
 #include "frontend/card.h"
 
 typedef struct S_8001C8C8_1 {
@@ -42,10 +43,7 @@ typedef struct S_8001C8C8_7 {
     void * unk_04;
 } S_8001C8C8_7;
 
-typedef struct S_8001C8C8_8 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8001C8C8_8;   /* ((S_8001C8C8_3 *)(((S_8001C8C8_1 *)arg0)->unk_1B8))->unk_04 in card_dev_init_row_panel */
+   /* ((S_8001C8C8_3 *)(((S_8001C8C8_1 *)arg0)->unk_1B8))->unk_04 in card_dev_init_row_panel */
 
 typedef struct S_8001C8C8_9 {
     u8 pad_00[0x8];
@@ -70,7 +68,6 @@ typedef struct S_8001C8C8_12 {
     s16 unk_08;
     s16 unk_0A;
 } S_8001C8C8_12;
-
 
 void func_80403698();                      /* extern */
 void initialize_values();       /* extern */
@@ -106,7 +103,7 @@ void card_dev_init_row_panel(void *panel) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    ((S_8001C8C8_8 *)(((S_8001C8C8_3 *)(((S_8001C8C8_1 *)panel)->unk_1B8))->unk_04))->unk_0A = 0x22;
+    ((SignedWidgetYView *)(((S_8001C8C8_3 *)(((S_8001C8C8_1 *)panel)->unk_1B8))->unk_04))->unk_0A = 0x22;
     for (; row < 4; row++) {
         row_cursor = (S_8001C8C8_2 *)((u32 *)panel + row);
         ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(row_cursor->unk_1F0))->unk_04))->unk_08 = lower_x;

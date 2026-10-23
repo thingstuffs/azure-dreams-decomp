@@ -1,11 +1,7 @@
 #include "common.h"
+#include "shared/actor_status.h"
 
 #include "common.h"
-
-typedef struct {
-    s8 type;
-    s8 value;
-} S_80042900_Effect;
 
 typedef struct {
     u8 pad0[0x14];
@@ -13,7 +9,7 @@ typedef struct {
     u8 pad1[(0x28 - 0x14) - 4];
     u8 field_0x28;
     u8 pad2[(0x2C - 0x28) - 1];
-    S_80042900_Effect effects[4];
+    ActorStatusSlot effects[4];
 } S_80042900;
 
 /* Returns an effect value, 0x100 for a zero-valued match, or a type-specific fallback. */

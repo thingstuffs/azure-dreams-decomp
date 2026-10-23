@@ -62,7 +62,7 @@ typedef struct S_801652FC_3 {
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node();
-extern u8 D_80164BC4[];
+extern u8 child_particle_draw_address[];
 extern u8 D_80165164[];
 
 /* Creates an offset object and initializes its source position and motion parameters. */
@@ -85,19 +85,19 @@ void create_converging_fading_particle(
 
     object = allocate_list_node(0x211, source_obj);
     if (object != 0) {
-        object->unk_10 = D_80165164;
+        object->update_callback = D_80165164;
 
         ((S_801652FC_3 *)(object->position))->unk_02 =
-            ((MovingPosition *)(source_obj->unk_08))->unk_02 + saved_offset_x;
+            ((MovingPosition *)(source_obj->unk_08))->x + saved_offset_x;
         ((S_801652FC_3 *)(object->position))->unk_06 =
-            ((MovingPosition *)(source_obj->unk_08))->unk_06 + saved_offset_y;
+            ((MovingPosition *)(source_obj->unk_08))->y + saved_offset_y;
         ((S_801652FC_3 *)(object->position))->unk_0A =
-            ((MovingPosition *)(source_obj->unk_08))->unk_0A + saved_offset_z - 40;
+            ((MovingPosition *)(source_obj->unk_08))->z + saved_offset_z - 40;
 
         state = (u8 *)object + 0x20;
-        ((S_801652FC_0 *)state)->unk_42 = ((MovingPosition *)(source_obj->unk_08))->unk_02;
-        ((S_801652FC_0 *)state)->unk_44 = ((MovingPosition *)(source_obj->unk_08))->unk_06;
-        ((S_801652FC_0 *)state)->unk_46 = ((MovingPosition *)(source_obj->unk_08))->unk_0A;
+        ((S_801652FC_0 *)state)->unk_42 = ((MovingPosition *)(source_obj->unk_08))->x;
+        ((S_801652FC_0 *)state)->unk_44 = ((MovingPosition *)(source_obj->unk_08))->y;
+        ((S_801652FC_0 *)state)->unk_46 = ((MovingPosition *)(source_obj->unk_08))->z;
 
         quotient_x = -(saved_offset_x << 16) / ((s16)duration / 8);
         calculation = quotient_x / 2;
@@ -127,7 +127,7 @@ void create_converging_fading_particle(
         ((S_801652FC_0 *)state)->unk_60 = (rounded_z / 4);
 
         ((S_801652FC_0 *)state)->unk_32 = duration;
-        register_node(object, D_80164BC4, quotient_x);
+        register_node(object, child_particle_draw_address, quotient_x);
         rounded_x = initial_value;
         ((S_801652FC_1 *)object)->unk_20 = rounded_x;
         ((S_801652FC_0 *)state)->unk_08 = initial_value;
