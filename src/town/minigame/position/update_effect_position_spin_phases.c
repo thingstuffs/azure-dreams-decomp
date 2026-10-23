@@ -1,6 +1,37 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/entity_objects.h"
+#include "shared/sprite_frame_state.h"
+
+/* Context reached through the callback work's first word. Only the fields
+ * read or written by this spin controller are described here. */
+typedef struct SpinContext {
+    u8 pad_00[0x14];
+    s32 unk_14;
+    s16 state;
+    union { s16 s; u16 u; } angle;
+    u8 pad_1C[6];
+    s16 kind;
+    s16 sector;
+} SpinContext;
+
+typedef struct SpinPhaseWork {
+    SpinContext *context;
+    s32 previous_x;
+    s32 previous_y;
+    u8 pad_0C[0x4C];
+    s32 target_x;
+    s32 target_y;
+    union {
+        Fixed1616 fixed;
+        struct { u16 frac, i; } bits;
+    } target_height;
+    u8 pad_64[8];
+    s32 unk_6C;
+    s16 phase;
+    union { s16 s; u16 u; } phase_value;
+    u16 stop_ticks;
+} SpinPhaseWork;
 extern int abs(int);
 
 typedef struct {
@@ -17,19 +48,15 @@ extern s32 SquareRoot0(s32);
 extern void LoadImage(LocalPoint *, void *);
 extern void SD_Call(s32);
 
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
-void update_effect_position_spin_phases(void *state_arg, void *target_arg, void *effect_arg)
+void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg)
 {
     ObjectPosition *world_pos = &view_reference_entity;
     ObjectPosition *close_pos;
     s32 dx = (world_pos->x.v + (s32)0xFCA00000) >> 16;
     s32 dy = (world_pos->y.v + (s32)0xFCA00000) >> 16;
-    void *spin_data;
+    SpinContext *spin_data;
     s32 prev_angle;
     LocalPoint point;
     s32 distance;
@@ -51,32 +78,32 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
     s32 value_wrap;
     u32 phase;
 
-    spin_data = *(void **)state_arg;
-    prev_angle = U16(effect_arg, 0x1A);
+    spin_data = state_arg->context;
+    prev_angle = effect_arg->angle_z;
     point = *(LocalPoint *)D_8002004C;
     dx_squared = dx * dx;
     dy_squared = dy * dy;
     distance = SquareRoot0(dx_squared + dy_squared);
-    S32(state_arg, 0x60) = S32(target_arg, 8);
+    state_arg->target_height.fixed.v = target_arg->z.v;
 
     if (world_pos->y.v > 0x035FFFFF ? distance < 185 : distance < 193) {
         close_pos = &view_reference_entity;
-        if (close_pos->z.w.i >= S16(target_arg, 0xA)) {
-            close_pos->x.v = S32(state_arg, 4);
-            close_pos->y.v = S32(state_arg, 8);
+        if (close_pos->z.w.i >= target_arg->z.w.i) {
+            close_pos->x.v = state_arg->previous_x;
+            close_pos->y.v = state_arg->previous_y;
         }
-        S32(state_arg, 0x58) = close_pos->x.v;
-        S32(state_arg, 0x5C) = close_pos->y.v;
+        state_arg->target_x = close_pos->x.v;
+        state_arg->target_y = close_pos->y.v;
         if (distance < 128) {
             value_close = (128 - distance) >> 1;
-            U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
+            state_arg->target_height.bits.i = state_arg->target_height.bits.i - value_close;
         }
     } else if (distance < 209) {
         ObjectPosition *mid_pos;
         mid_pos = &view_reference_entity;
-        if (mid_pos->z.w.i >= S16(target_arg, 0xA)) {
-            mid_pos->x.v = S32(state_arg, 4);
-            mid_pos->y.v = S32(state_arg, 8);
+        if (mid_pos->z.w.i >= target_arg->z.w.i) {
+            mid_pos->x.v = state_arg->previous_x;
+            mid_pos->y.v = state_arg->previous_y;
         }
 
         abs_dx = dx;
@@ -84,69 +111,69 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
         abs_dy = dy;
         abs_dy = abs(abs_dy);
         if (abs_dx > abs_dy || mid_pos->y.v <= 0x033FFFFF) {
-            S32(state_arg, 0x5C) = mid_pos->y.v;
+            state_arg->target_y = mid_pos->y.v;
             if (dx > 0) {
-                S32(state_arg, 0x58) = mid_pos->x.v - 0x00280000;
+                state_arg->target_x = mid_pos->x.v - 0x00280000;
             } else {
-                S32(state_arg, 0x58) = mid_pos->x.v + 0x00280000;
+                state_arg->target_x = mid_pos->x.v + 0x00280000;
             }
         } else {
-            S32(state_arg, 0x58) = mid_pos->x.v;
+            state_arg->target_x = mid_pos->x.v;
             if (dy > 0) {
-                S32(state_arg, 0x5C) = mid_pos->y.v - 0x00280000;
+                state_arg->target_y = mid_pos->y.v - 0x00280000;
             } else {
-                S32(state_arg, 0x5C) = mid_pos->y.v + 0x00280000;
+                state_arg->target_y = mid_pos->y.v + 0x00280000;
             }
         }
     } else {
-        S32(state_arg, 0x58) = 0x03600000;
-        S32(state_arg, 0x5C) = 0x03600000;
+        state_arg->target_x = 0x03600000;
+        state_arg->target_y = 0x03600000;
     }
 
-    S32(state_arg, 4) = S32(((u8 *)(&view_reference_entity)), 0);
-    S32(state_arg, 8) = S32(((u8 *)(&view_reference_entity)), 4);
+    state_arg->previous_x = view_reference_entity.x.v;
+    state_arg->previous_y = view_reference_entity.y.v;
 
     {
-        s32 scaled_speed = S32(spin_data, 0x14) / ((S16(spin_data, 0x22) << 8) + 0x300);
+        s32 scaled_speed = spin_data->unk_14 / ((spin_data->kind << 8) + 0x300);
         s32 base_speed = scaled_speed + 0x40;
-        speed_limit = ((3 - S16(spin_data, 0x22)) << 5) + base_speed;
+        speed_limit = ((3 - spin_data->kind) << 5) + base_speed;
     }
 
-    phase = S16(state_arg, 0x70);
+    phase = state_arg->phase;
     switch (phase) {
 
     case 0:
-        value_idle = U8(effect_arg, 0xE);
+        value_idle = effect_arg->color.c.b;
         value_idle += (128 - value_idle) >> 1;
-        U8(effect_arg, 0xE) = value_idle;
-        U8(effect_arg, 0xD) = value_idle;
-        U8(effect_arg, 0xC) = value_idle;
-        S32(state_arg, 0x6C) = 0x00080000;
+        effect_arg->color.c.b = value_idle;
+        effect_arg->color.c.g = value_idle;
+        effect_arg->color.c.r = value_idle;
+        state_arg->unk_6C = 0x00080000;
         break;
 
     case 1:
-        reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
-        value_accel = U16(state_arg, 0x72) + reduced_speed;
-        U16(state_arg, 0x72) = value_accel;
+        reduced_speed = (state_arg->phase_value.s + 16) >> 4;
+        value_accel = state_arg->phase_value.u + reduced_speed;
+        state_arg->phase_value.u = value_accel;
         if ((s16)value_accel > speed_limit) {
-            U16(state_arg, 0x72) = speed_limit;
-            S16(state_arg, 0x70) = 2;
+            state_arg->phase_value.u = speed_limit;
+            state_arg->phase = 2;
         }
-        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
+        effect_arg->angle_z += state_arg->phase_value.u;
         break;
 
     case 2:
-        U16(effect_arg, 0x1A) += speed_limit;
-        if (distance >= 161 && S32(((u8 *)(&view_reference_entity)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
-            S16(state_arg, 0x72) = speed_limit;
-            S16(state_arg, 0x70) = 3;
+        effect_arg->angle_z += speed_limit;
+        if (distance >= 161 && view_reference_entity.y.v > 0x03600000 && spin_data->state == 5) {
+            state_arg->phase_value.s = speed_limit;
+            state_arg->phase = 3;
         }
         break;
 
     case 3:
-        dx = U16(effect_arg, 0x1A) & 0x7FF;
+        dx = effect_arg->angle_z & 0x7FF;
         if (dx >= 0x6AB) {
-            S16(spin_data, 0x24) = 0;
+            spin_data->sector = 0;
         } else {
             dy = 0x155;
             distance = 4;
@@ -158,64 +185,64 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
             }
             value_sector = distance & 1;
             if (value_sector) {
-                S16(spin_data, 0x24) = 1;
+                spin_data->sector = 1;
             } else {
-                S16(spin_data, 0x24) = 2;
+                spin_data->sector = 2;
             }
         }
-        S16(spin_data, 0x1A) = 0;
+        spin_data->angle.s = 0;
 
     case 4:
-        if (S16(spin_data, 0x22) == 2) {
+        if (spin_data->kind == 2) {
             dx = 6;
         } else {
             dx = 5;
         }
-        value_decel = S16(state_arg, 0x72) >> dx;
-        reduced_speed = U16(state_arg, 0x72) - value_decel;
-        U16(state_arg, 0x72) = reduced_speed;
-        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-        U16(spin_data, 0x1A) += U16(state_arg, 0x72);
-        if (S16(state_arg, 0x72) < (1 << dx)) {
-            S16(state_arg, 0x74) = 0;
-            S16(state_arg, 0x70) = 5;
+        value_decel = state_arg->phase_value.s >> dx;
+        reduced_speed = state_arg->phase_value.u - value_decel;
+        state_arg->phase_value.u = reduced_speed;
+        effect_arg->angle_z += state_arg->phase_value.u;
+        spin_data->angle.u += state_arg->phase_value.u;
+        if (state_arg->phase_value.s < (1 << dx)) {
+            state_arg->stop_ticks = 0;
+            state_arg->phase = 5;
         }
         break;
 
     case 5:
-        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-        U16(spin_data, 0x1A) += U16(state_arg, 0x72);
-        value_stop = U16(state_arg, 0x74) + 1;
-        U16(state_arg, 0x74) = value_stop;
+        effect_arg->angle_z += state_arg->phase_value.u;
+        spin_data->angle.u += state_arg->phase_value.u;
+        value_stop = state_arg->stop_ticks + 1;
+        state_arg->stop_ticks = value_stop;
         if ((value_stop & 3) == 0) {
-            U16(state_arg, 0x72) -= 2;
+            state_arg->phase_value.u -= 2;
         }
-        if (S16(state_arg, 0x72) < 4) {
-            S16(state_arg, 0x70) = 0;
+        if (state_arg->phase_value.s < 4) {
+            state_arg->phase = 0;
         }
         break;
 
     case 6:
-        S16(state_arg, 0x70) = 7;
-        S16(state_arg, 0x72) = 0;
+        state_arg->phase = 7;
+        state_arg->phase_value.s = 0;
 
     case 7:
         for (dx = 0; dx < 3; dx++) {
             point.x = 122 + dx * 16;
             point.y = 6;
-            icon_frame = (S16(state_arg, 0x72) >> 1) + dx;
+            icon_frame = (state_arg->phase_value.s >> 1) + dx;
             LoadImage(&point, (void *)((icon_frame % 3) * 32 + (s32)D_800245DC));
         }
-        value_draw = U16(state_arg, 0x72);
-        U16(state_arg, 0x72) = value_draw + 1;
+        value_draw = state_arg->phase_value.u;
+        state_arg->phase_value.u = value_draw + 1;
         if ((s16)value_draw >= 198) {
-            S16(state_arg, 0x70) = 0;
+            state_arg->phase = 0;
         }
 
     }
 
-    value_wrap = U16(effect_arg, 0x1A) & 0xFFF;
-    U16(effect_arg, 0x1A) = value_wrap;
+    value_wrap = effect_arg->angle_z & 0xFFF;
+    effect_arg->angle_z = value_wrap;
     if ((prev_angle >> 8) != ((u32)value_wrap >> 8)) {
         SD_Call(0x701);
     }

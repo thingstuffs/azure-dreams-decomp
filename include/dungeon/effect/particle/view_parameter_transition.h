@@ -159,7 +159,36 @@ extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
 extern const s16 D_80024038[8][2];
 extern s16 D_80025308;
-void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display);
+/* Work at node +0x20 for the moving color effect. The two views keep
+ * signed flight arithmetic and unsigned countdown updates on the same bytes. */
+typedef struct MovingColorWork {
+    u8 *owner;
+    struct { u16 flags; } *animation;
+    u8 pad_08;
+    u8 variant;
+    s16 state;
+    u8 pad_0C[0x6C];
+    union { s16 s; u16 u; } target_height;
+    u8 flags;
+    union { s8 s; u8 u; } flight_ticks;
+    u8 pad_7C[2];
+    s16 direction;
+    u8 pad_80[2];
+    union { s16 s; u16 u; } timer;
+    u8 pad_84[4];
+    s16 initial_ticks;
+    s16 ticks_squared;
+    u8 pad_8C[6];
+    s16 sprite_phase;
+    union {
+        u8 bytes[12];
+        struct { u8 pad_00[8]; u8 unk_9C; u8 pad_09[3]; } fields;
+    } sprite_data;
+    u8 next_tile_x;
+    u8 next_tile_y;
+} MovingColorWork;
+
+void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8 *effect_pos, u8 *effect_display);
 void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect);
 s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *start_coords);
 void create_randomized_transform_effect(u8 *state, UnkArg1 *position);

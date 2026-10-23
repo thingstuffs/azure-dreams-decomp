@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/mesh.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 /* Mesh and point rendering, star effects, and projectile trails with target hit animation. */
@@ -21,8 +22,7 @@ extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
-void update_projectile_trail_and_hit_effect(void *, void *, void *);
-void (*const dungeon_189a800_entry)(void *, void *, void *) = update_projectile_trail_and_hit_effect;
+void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
 const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
@@ -1619,18 +1619,18 @@ extern void project_sprite_chain(void);
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Update a projectile effect, its trail, and the target hit animation. */
-void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sprite) {
+void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     u16 origin_offset[4];
     PointTable direction_steps;
     void *owner;
     ObjectNodeHeader *object;
     void *object_data;
     void *effect_object;
-    void *owner_sprite;
-    void *origin_sprite;
-    void *target_data;
+    SpriteFrameState *owner_sprite;
+    SpriteFrameState *origin_sprite;
+    SpriteFrameState *target_data;
     u16 offset_value;
-    void *spawn_sprite;
+    SpriteFrameState *spawn_sprite;
     void *hit_target;
     void *target;
     u16 render_flags;
@@ -1649,112 +1649,112 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
     s32 effect_z;
     s32 tile_distance;
 
-    owner = PTR(effect, 0);
+    owner = effect->owner;
     direction_steps = D_80024074;
-    state_index = S16(effect, 0xA);
+    state_index = effect->state.s;
     object = (u8 *)owner - 0x20;
     object_data = object->position;
 
     switch (state_index) {
 
     case 0:
-        U32(sprite, 0xC) = 0x00808080;
-        U16(sprite, 0x1E) = 0x1000;
-        U16(sprite, 0x1C) = 0x1000;
+        sprite->color.word = 0x00808080;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
         *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
-        PTR(sprite, 8) = (u8 *)effect + 0x98;
+        sprite->source = (u8 *)effect + 0x98;
         {
             u16 facing = U16(owner, 0x2A);
             point_cloud_update_flag[0] = 1;
-            U16(effect, 0x7E) = (facing >> 9) & 7;
+            effect->direction.u = (facing >> 9) & 7;
         }
-        U16(effect, 0xA) += 1;
+        effect->state.u += 1;
 
     case 1:
         origin_sprite = object->sprite;
-        if (get_sprite_attachment_vector(PTR(origin_sprite, 8), origin_sprite, origin_offset, 0) == 0) {
+        if (get_sprite_attachment_vector(origin_sprite->source, origin_sprite, origin_offset, 0) == 0) {
             if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
                 return;
             }
         }
 
-        U16(motion, 2) = U16(object_data, 2);
-        U16(motion, 6) = U16(object_data, 6);
+        motion->x.w.i = U16(object_data, 2);
+        motion->y.w.i = U16(object_data, 6);
         owner_z = U16(object_data, 0xA);
-        U16(motion, 0xA) = owner_z;
+        motion->z.w.i = owner_z;
         if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
-            U16(motion, 2) = U16(motion, 2) + origin_offset[0];
-            U16(motion, 6) = U16(motion, 6) + origin_offset[1];
-            effect_z = U16(motion, 0xA) + origin_offset[2];
-            U16(motion, 0xA) = effect_z;
+            motion->x.w.i = (u16)motion->x.w.i + origin_offset[0];
+            motion->y.w.i = (u16)motion->y.w.i + origin_offset[1];
+            effect_z = (u16)motion->z.w.i + origin_offset[2];
+            motion->z.w.i = effect_z;
         } else {
-            U16(motion, 0xA) = owner_z - 0x40;
+            motion->z.w.i = owner_z - 0x40;
         }
 
-        if (!(U16(PTR(effect, 4), 0) & 0x80)) {
+        if (!(effect->animation->flags & 0x80)) {
             return;
         }
 
-        if (!(U8(effect, 0x7A) & 4)) {
+        if (!(effect->flags & 4)) {
             effect_object = (u8 *)effect - 0x20;
             register_node(effect_object, project_sprite_chain);
-            U16(sprite, 0x10) = 0x20;
-            U8(sprite, 0xD) = 0x80;
-            U8(sprite, 0xC) = 0x80;
-            U8(sprite, 0xE) = 0x20;
-            U16(sprite, 0x14) |= 0xC;
-            U8(effect, 0x7A) |= 4;
+            sprite->tpage_abr = 0x20;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
+            sprite->color.c.b = 0x20;
+            sprite->flags |= 0xC;
+            effect->flags |= 4;
         }
 
         hit_target = PTR(owner, 0x60);
         offset_value = 0x10;
         if (hit_target != 0) {
             object = PTR(hit_target, -0x18);
-            U16(effect, 0x74) = U16(object, 2);
-            U16(effect, 0x76) = U16(object, 6);
+            effect->target_x.u = U16(object, 2);
+            effect->target_y.u = U16(object, 6);
             {
                 s32 height = entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] + 0x20;
-                U16(effect, 0x78) = U16(object, 0xA) - height;
+                effect->target_z.u = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
-            U8(effect, 0xA4) = U8(owner_sprite, 0x24) + *(u8 *)&dir_step_x[S16(effect, 0x7E)];
-            U8(effect, 0xA5) = U8(owner_sprite, 0x25) + *(u8 *)&dir_step_y[S16(effect, 0x7E)];
+            effect->next_tile_x = owner_sprite->unk_24 + *(u8 *)&dir_step_x[effect->direction.s];
+            effect->next_tile_y = owner_sprite->unk_25 + *(u8 *)&dir_step_y[effect->direction.s];
             {
                 s32 grid;
                 tile_distance = S8(owner, 0x72);
-                grid = U8(owner_sprite, 0x24);
+                grid = owner_sprite->unk_24;
                 if (tile_distance != grid) {
                     tile_distance -= grid;
                 } else {
                     tile_distance = S8(owner, 0x73);
-                    grid = U8(owner_sprite, 0x25);
+                    grid = owner_sprite->unk_25;
                     tile_distance -= grid;
                 }
             }
             if (tile_distance < 0) {
                 tile_distance = -tile_distance;
             }
-            U8(effect, 0x7B) = tile_distance * 2 - 1;
+            effect->travel_ticks.u = tile_distance * 2 - 1;
         } else {
-            U8(effect, 0x7B) = (u32)offset_value;
-            offset_value = (u16)direction_steps.p[S16(effect, 0x7E)].x << 4;
+            effect->travel_ticks.u = (u32)offset_value;
+            offset_value = (u16)direction_steps.p[effect->direction.s].x << 4;
             {
                 s16 travel_ticks;
                 u16 y_step;
-                U16(effect, 0x74) = U16(motion, 2) + (u32)offset_value;
-                y_step = direction_steps.p[S16(effect, 0x7E)].y;
-                travel_ticks = U8(effect, 0x7B);
+                effect->target_x.u = (u16)motion->x.w.i + (u32)offset_value;
+                y_step = direction_steps.p[effect->direction.s].y;
+                travel_ticks = effect->travel_ticks.u;
                 travel_ticks = (s8)travel_ticks;
-                U16(effect, 0x76) = U16(motion, 6) + y_step * (s8)travel_ticks;
+                effect->target_y.u = (u16)motion->y.w.i + y_step * (s8)travel_ticks;
             }
-            U16(effect, 0x78) = U16(owner, 0x88) - 0x50;
+            effect->target_z.u = U16(owner, 0x88) - 0x50;
         }
 
-        S32(motion, 0xC) = direction_steps.p[S16(effect, 0x7E)].x << 16;
-        S32(motion, 0x10) = direction_steps.p[S16(effect, 0x7E)].y << 16;
-        S32(motion, 0x14) = ((S16(effect, 0x78) << 16) - S32(motion, 8)) / S8(effect, 0x7B);
-        U16(effect, 0x82) = 0;
-        U16(effect, 0xA) += 1;
+        motion->velocity_x = direction_steps.p[effect->direction.s].x << 16;
+        motion->velocity_y = direction_steps.p[effect->direction.s].y << 16;
+        motion->velocity_z = ((effect->target_z.s << 16) - motion->z.v) / effect->travel_ticks.s;
+        effect->timer.u = 0;
+        effect->state.u += 1;
         return;
 
     case 2:
@@ -1770,79 +1770,79 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
 
                 spawn_sprite = object->sprite;
 
-                U16(spawn_sprite, 0x10) = 0x20;
-                U16(spawn_sprite, 0x14) |= 0xC;
+                spawn_sprite->tpage_abr = 0x20;
+                spawn_sprite->flags |= 0xC;
                 {
-                    void *spawn_pos = object->position;
-                    U16(spawn_pos, 2) = U16(motion, 2);
-                    U16(spawn_pos, 6) = U16(motion, 6);
-                    U16(spawn_pos, 0xA) = U16(motion, 0xA);
+                    ObjectPosition *spawn_pos = object->position;
+                    spawn_pos->x.w.i = (u16)motion->x.w.i;
+                    spawn_pos->y.w.i = (u16)motion->y.w.i;
+                    spawn_pos->z.w.i = (u16)motion->z.w.i;
                 }
                 spawn_sprite = object->sprite;
-                U16(spawn_sprite, 0x1E) = 0x1000;
-                U16(spawn_sprite, 0x1C) = 0x1000;
-                U8(spawn_sprite, 0xD) = trail_color;
-                U8(spawn_sprite, 0xC) = trail_color;
-                U8(spawn_sprite, 0xE) = 0x10;
+                spawn_sprite->scale_y = 0x1000;
+                spawn_sprite->scale_x = 0x1000;
+                spawn_sprite->color.c.g = trail_color;
+                spawn_sprite->color.c.r = trail_color;
+                spawn_sprite->color.c.b = 0x10;
                 U8(object_data, 0x38) = 0x10;
                 U8(object_data, 0x37) = trail_color;
                 U8(object_data, 0x36) = trail_color;
                 *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026934;
-                PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
+                spawn_sprite->source = (u8 *)object + 0x64;
             }
 
-            if ((s16)check_adjacent_tile_height_clearance(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
+            if ((s16)check_adjacent_tile_height_clearance((u16)motion->x.w.i, (u16)motion->y.w.i, motion->z.w.i,
                                    PTR(owner, 0x60)) != 0) {
                 {
-                    U16(effect, 0xA) = 7;
-                    U16(effect, 0x82) = 0;
-                    render_flags = U16(sprite, 0x14);
+                    effect->state.u = 7;
+                    effect->timer.u = 0;
+                    render_flags = sprite->flags;
                     render_flags |= 0x80;
-                    U16(sprite, 0x14) = render_flags;
+                    sprite->flags = render_flags;
                     return;
                 }
             }
 
-            U8(effect, 0x7B) = U8(effect, 0x7B) - 1;
-            if (S8(effect, 0x7B) <= 0) {
+            effect->travel_ticks.u = effect->travel_ticks.u - 1;
+            if (effect->travel_ticks.s <= 0) {
                 if (PTR(owner, 0x60) != 0) {
                     {
-                        U16(effect, 0xA) = 3;
-                        U16(effect, 0x82) = 0;
+                        effect->state.u = 3;
+                        effect->timer.u = 0;
                         object = PTR(PTR(owner, 0x60), -0x18);
-                        U16(motion, 2) = U16(object, 2);
-                        U16(motion, 6) = U16(object, 6);
-                        U16(motion, 0xA) = U16(effect, 0x78);
+                        motion->x.w.i = U16(object, 2);
+                        motion->y.w.i = U16(object, 6);
+                        motion->z.w.i = effect->target_z.u;
                         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                         return;
                     }
                 }
-                U16(effect, 0xA) = 7;
-                U16(effect, 0x82) = 0;
-                render_flags = U16(sprite, 0x14);
-                U8(sprite, 0xE) = 0;
-                U8(sprite, 0xD) = 0;
-                U8(sprite, 0xC) = 0;
+                effect->state.u = 7;
+                effect->timer.u = 0;
+                render_flags = sprite->flags;
+                sprite->color.c.b = 0;
+                sprite->color.c.g = 0;
+                sprite->color.c.r = 0;
                 render_flags |= 0x80;
-                U16(sprite, 0x14) = render_flags;
+                sprite->flags = render_flags;
                 return;
             }
 
-            S32(motion, 0xC) = ((S16(effect, 0x74) << 16) - S32(motion, 0)) / S8(effect, 0x7B);
-            S32(motion, 0x10) = ((S16(effect, 0x76) << 16) - S32(motion, 4)) / S8(effect, 0x7B);
-            S32(motion, 0x14) = ((S16(effect, 0x78) << 16) - S32(motion, 8)) / S8(effect, 0x7B);
-            S32(motion, 0) += S32(motion, 0xC);
-            S32(motion, 4) += S32(motion, 0x10);
-            S32(motion, 8) += S32(motion, 0x14);
+            motion->velocity_x = ((effect->target_x.s << 16) - motion->x.v) / effect->travel_ticks.s;
+            motion->velocity_y = ((effect->target_y.s << 16) - motion->y.v) / effect->travel_ticks.s;
+            motion->velocity_z = ((effect->target_z.s << 16) - motion->z.v) / effect->travel_ticks.s;
+            motion->x.v += motion->velocity_x;
+            motion->y.v += motion->velocity_y;
+            motion->z.v += motion->velocity_z;
         } while (1);
 
     case 3:
-        if (S16(effect, 0x96) == 0) {
-            U16(effect, 0x96) = 1;
-            U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
+        if (effect->impact_phase.s == 0) {
+            effect->impact_phase.u = 1;
+            effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 + 0x18;
         } else {
-            U16(effect, 0x96) = 0;
-            U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
+            effect->impact_phase.u = 0;
+            effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 - 0x18;
         }
 
         object = allocate_flagged_object_node(0x12);
@@ -1854,40 +1854,40 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
             S16(object_data, 0xC) = -0xDE;
             object->unk_10 = initialize_star_effect_sequence;
             spawn_sprite = object->sprite;
-            U16(spawn_sprite, 0x10) = 0x20;
-            U16(spawn_sprite, 0x14) |= 0xC;
+            spawn_sprite->tpage_abr = 0x20;
+            spawn_sprite->flags |= 0xC;
             {
-                void *spawn_pos = object->position;
-                U16(spawn_pos, 2) = U16(motion, 2);
-                U16(spawn_pos, 6) = U16(motion, 6);
-                U16(spawn_pos, 0xA) = U16(motion, 0xA);
+                ObjectPosition *spawn_pos = object->position;
+                spawn_pos->x.w.i = (u16)motion->x.w.i;
+                spawn_pos->y.w.i = (u16)motion->y.w.i;
+                spawn_pos->z.w.i = (u16)motion->z.w.i;
             }
             *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026940;
-            PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
+            spawn_sprite->source = (u8 *)object + 0x64;
         }
-        U8(effect, 0x92) = 0;
-        U8(effect, 0x91) = 0;
-        U8(effect, 0x90) = 0;
-        U16(effect, 0xA) = 4;
-        U16(effect, 0x82) = 0;
+        effect->blue = 0;
+        effect->green = 0;
+        effect->red = 0;
+        effect->state.u = 4;
+        effect->timer.u = 0;
         return;
 
     case 4:
     {
-        u16 next_tick = U16(effect, 0x82) + 1;
+        u16 next_tick = effect->timer.u + 1;
         fade_out_tick = (s16)next_tick;
-        U16(effect, 0x82) = next_tick;
+        effect->timer.u = next_tick;
     }
         if (fade_out_tick < 0x14) {
-            U8(sprite, 0xC) = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
-            U8(sprite, 0xD) = ((0x14 - S16(effect, 0x82)) * 0xE0) / 0x14;
-            U8(sprite, 0xE) = ((0x14 - S16(effect, 0x82)) * 0x20) / 0x14;
-            if (S16(effect, 0x96) == 0) {
-                U16(effect, 0x96) = 1;
-                U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
+            sprite->color.c.r = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
+            sprite->color.c.g = ((0x14 - effect->timer.s) * 0xE0) / 0x14;
+            sprite->color.c.b = ((0x14 - effect->timer.s) * 0x20) / 0x14;
+            if (effect->impact_phase.s == 0) {
+                effect->impact_phase.u = 1;
+                effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 + 0x18;
             } else {
-                U16(effect, 0x96) = 0;
-                U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
+                effect->impact_phase.u = 0;
+                effect->sprite_data.unk_A0 = effect->sprite_data.unk_A0 - 0x18;
             }
 
             particle_index = 0;
@@ -1901,7 +1901,7 @@ loop_0:
                     base_color = 0x0020E0E0;
                     particle_color &= 0xFF;
                     brightness = particle_color | 0x80;
-                    create_terrain_seeking_colored_point(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
+                    create_terrain_seeking_colored_point(target, effect->direction.s, base_color, brightness, 0, 0, 0);
                 }
                 particle_index += 1;
             }
@@ -1911,51 +1911,51 @@ loop_0:
 
         }
 
-        U16(effect, 0x82) = 0;
-        U16(effect, 0xA) += 1;
+        effect->timer.u = 0;
+        effect->state.u += 1;
         return;
 
     case 5:
-        U16(effect, 0x82) = U16(effect, 0x82) + 1;
-        blue_scaled = S16(effect, 0x82) * 0x20;
-        U8(effect, 0x92) = blue_scaled / 0x28;
-        green_scaled = S16(effect, 0x82) * 8;
-        green_scaled = (green_scaled - S16(effect, 0x82)) * 32;
-        U8(effect, 0x91) = green_scaled / 0x28;
-        red_scaled = S16(effect, 0x82) * 8;
-        red_scaled = (red_scaled - S16(effect, 0x82)) * 32;
-        U8(effect, 0x90) = red_scaled / 0x28;
+        effect->timer.u = effect->timer.u + 1;
+        blue_scaled = effect->timer.s * 0x20;
+        effect->blue = blue_scaled / 0x28;
+        green_scaled = effect->timer.s * 8;
+        green_scaled = (green_scaled - effect->timer.s) * 32;
+        effect->green = green_scaled / 0x28;
+        red_scaled = effect->timer.s * 8;
+        red_scaled = (red_scaled - effect->timer.s) * 32;
+        effect->red = red_scaled / 0x28;
 
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
-            particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
+            particle_color = (effect->blue << 16) + (effect->green << 8) + effect->red;
             create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
                                 (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
         }
-        if (S16(effect, 0x82) >= 0x28) {
-            U16(effect, 0x82) = 0;
-            U16(effect, 0xA) += 1;
+        if (effect->timer.s >= 0x28) {
+            effect->timer.u = 0;
+            effect->state.u += 1;
             return;
         }
         return;
 
     case 6:
     {
-        u16 next_tick = U16(effect, 0x82) + 1;
+        u16 next_tick = effect->timer.u + 1;
         target_tick = (s16)next_tick;
-        U16(effect, 0x82) = next_tick;
+        effect->timer.u = next_tick;
     }
         if (target_tick >= 0x24) {
-            U8(effect, 0x92) = ((0x46 - target_tick) * 0x20) / 0x23;
-            U8(effect, 0x91) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
-            U8(effect, 0x90) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
+            effect->blue = ((0x46 - target_tick) * 0x20) / 0x23;
+            effect->green = ((0x46 - effect->timer.s) * 0xE0) / 0x23;
+            effect->red = ((0x46 - effect->timer.s) * 0xE0) / 0x23;
         }
 
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
-            particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
+            particle_color = (effect->blue << 16) + (effect->green << 8) + effect->red;
             create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
@@ -1965,16 +1965,16 @@ loop_0:
         target = PTR(owner, 0x60);
         U32(target, 0x1C) |= 0x10000000;
         target_data = PTR(target, -0x14);
-        if (S16(effect, 0x82) >= 0x24) {
-            U8(target_data, 0xC) -= 3;
-            U8(target_data, 0xD) -= 3;
-            U8(target_data, 0xE) += 2;
+        if (effect->timer.s >= 0x24) {
+            target_data->color.c.r -= 3;
+            target_data->color.c.g -= 3;
+            target_data->color.c.b += 2;
         } else {
-            U8(target_data, 0xC) += 3;
-            U8(target_data, 0xD) += 3;
-            U8(target_data, 0xE) -= 2;
+            target_data->color.c.r += 3;
+            target_data->color.c.g += 3;
+            target_data->color.c.b -= 2;
         }
-        if (S16(effect, 0x82) < 0x46) {
+        if (effect->timer.s < 0x46) {
             return;
         }
 
@@ -1983,22 +1983,22 @@ loop_0:
             target_data = PTR(released, -0x14);
             U32(released, 0x1C) &= 0xEFFFFFFF;
         }
-        U8(target_data, 0xE) = 0x80;
-        U8(target_data, 0xD) = 0x80;
-        U8(target_data, 0xC) = 0x80;
-        try_apply_wind_protection(PTR(owner, 0x60), U8(effect, 9), owner);
-        U16(effect, 0x82) = 0x14;
-        U16(effect, 0xA) += 1;
+        target_data->color.c.b = 0x80;
+        target_data->color.c.g = 0x80;
+        target_data->color.c.r = 0x80;
+        try_apply_wind_protection(PTR(owner, 0x60), effect->variant, owner);
+        effect->timer.u = 0x14;
+        effect->state.u += 1;
         return;
 
     case 7:
-        finish_tick = U16(effect, 0x82);
-        U16(effect, 0x82) = finish_tick + 1;
+        finish_tick = effect->timer.u;
+        effect->timer.u = finish_tick + 1;
         if ((s16)finish_tick < 0x15) {
             return;
         }
         effect_busy = point_cloud_update_flag[0];
-        U16(effect, 0x82) = finish_tick;
+        effect->timer.u = finish_tick;
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;

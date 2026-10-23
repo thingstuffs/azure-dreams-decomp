@@ -693,11 +693,22 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
 void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg);
 void switch_active_object_index(void *object, s16 new_index);
 void initialize_children_or_shutdown(void *owner);
-void initialize_fading_effect(void *effect, void *control);
+/* Work shared by the fade controller and its four-quadrant draw callback. */
+typedef struct MenuFadeRect {
+    union { s16 s; u16 u; } x;
+    union { s16 s; u16 u; } y;
+    union { s16 s; u16 u; } extent_x;
+    union { s16 s; u16 u; } extent_y;
+    SpriteColor color;
+    union { s16 s; u16 u; } frames_left;
+    union { s16 s; u16 u; } state;
+} MenuFadeRect;
+
+void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control);
 void *initialize_available_object(s16 initialValue);
 s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params);
 void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
-s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg);
+s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg);
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
 void select_record_entry_and_value();  /* extern */

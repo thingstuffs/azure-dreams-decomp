@@ -13,16 +13,16 @@
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_185e800_entry)(u8 *, u8 *) = run_delayed_sprite_projectile;
+void (*const dungeon_185e800_entry)(DelayedTargetEffect *, ObjectPosition *) = run_delayed_sprite_projectile;
 
 /* Move the effect toward its target, emit particles, and apply the delayed target effect. */
-void run_delayed_sprite_projectile(u8 *self, u8 *motion)
+void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *motion)
 {
     u8 *owner;
     u8 *owner_record;
     u8 *owner_object;
     ObjectNodeHeader *particle;
-    u8 *particle_data;
+    DelayParticle *particle_data;
     SpriteFrameState *child_data;
     u8 *animation;
     u8 *particle_texture;
@@ -35,9 +35,9 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
     u32 color;
     s16 origin_offset[3];
 
-    owner = F(self, u8 *, 0);
+    owner = self->owner;
     owner_object = owner - 32;
-    state = F(self, s16, 10);
+    state = self->state.s;
     owner_record = F(owner, u8 *, -20);
     if (state != 0 && state < 5) {
         particles_left = 16;
@@ -45,16 +45,16 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
         do {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
-                particle_data = ((u8 *)particle) + 32;
+                particle_data = (DelayParticle *)((u8 *)particle + 32);
                 child_data = *(u8 * *)&particle->sprite;
                 particle->unk_10 = advance_delayed_fading_sprite;
 
-                F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
+                F(F(particle, u8 *, 8), u32, 0) = (u32)motion->x.v +
                     (((rand() & 0x1ff) - 255) << 13);
-                F(F(particle, u8 *, 8), u32, 4) = F(motion, u32, 4) +
+                F(F(particle, u8 *, 8), u32, 4) = (u32)motion->y.v +
                     (((rand() & 0x1ff) - 255) << 13);
                 color = 0xf00000;
-                F(F(particle, u8 *, 8), u32, 8) = F(motion, u32, 8) +
+                F(F(particle, u8 *, 8), u32, 8) = (u32)motion->z.v +
                     (((rand() & 0x1ff) - 255) << 11);
 
                 F(child_data, u16, 20) |= 0xc;
@@ -67,20 +67,20 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
                 child_data->unk_04 = 0;
                 child_data->unk_05 = 0;
                 F(child_data, u32, 12) = color;
-                F(particle, void *, 32) = self;
-                F(particle_data, u16, 72) = rand() & 3;
-                F(particle_data, u16, 74) = 24;
-                F(particle_data, u16, 76) = 0;
+                particle_data->unk_00 = self;
+                particle_data->unk_48 = rand() & 3;
+                particle_data->fade_step.u = 24;
+                particle_data->unk_4C.u = 0;
             }
             particles_left--;
         } while (particles_left >= 0);
     }
 
-    state = F(self, s16, 10);
+    state = self->state.s;
     state_index = state;
     switch (state_index) {
     case 0:
-        animation = F(self, u8 *, 4);
+        animation = self->animation;
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
         if ((F(owner, u8 *, 96) = scan_actor_along_heading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
@@ -98,62 +98,62 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
             origin_offset[1] = 0;
             origin_offset[0] = 0;
         }
-        F(motion, u16, 2) = F(F(owner_object, u8 *, 8), u16, 2) + origin_offset[0];
-        F(motion, u16, 6) = F(F(owner_object, u8 *, 8), u16, 6) + origin_offset[1];
-        F(motion, u16, 10) = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset[2];
-        F(self, u16, 80) = 8;
+        motion->x.w.i = F(F(owner_object, u8 *, 8), u16, 2) + origin_offset[0];
+        motion->y.w.i = F(F(owner_object, u8 *, 8), u16, 6) + origin_offset[1];
+        motion->z.w.i = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset[2];
+        self->timer.u = 8;
         {
             s32 target_x = F(owner, s8, 114) * 64;
-            s32 origin_x = F(motion, u16, 2) - 32;
+            s32 origin_x = (u16)motion->x.w.i - 32;
             F(motion, u16, 14) = target_x - origin_x;
         }
-        F(motion, s32, 12) /= F(self, s16, 80);
+        motion->velocity_x /= self->timer.s;
         {
             s32 target_y = F(owner, s8, 115) * 64;
-            s32 origin_y = F(motion, u16, 6) - 32;
+            s32 origin_y = (u16)motion->y.w.i - 32;
             F(motion, u16, 18) = target_y - origin_y;
         }
-        F(motion, s32, 16) /= F(self, s16, 80);
+        motion->velocity_y /= self->timer.s;
         F(motion, s16, 22) = sample_terrain_surface_height(
-            F(motion, u16, 2), F(motion, u16, 6),
+            (u16)motion->x.w.i, (u16)motion->y.w.i,
             (s16)(F(F(owner_object, u8 *, 8), u16, 10) - 48)) -
-            (F(motion, u16, 10) + 176);
-        F(motion, s32, 20) /= F(self, s16, 80);
+            ((u16)motion->z.w.i + 176);
+        motion->velocity_z /= self->timer.s;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        state = F(self, s16, 10) + 1;
-        F(self, s16, 10) = state;
+        state = self->state.s + 1;
+        self->state.s = state;
         return;
 
     case 1:
-        F(motion, u32, 0) += F(motion, s32, 12);
-        F(motion, u32, 4) += F(motion, s32, 16);
-        F(motion, u32, 8) += F(motion, s32, 20);
-        timer = F(self, u16, 80) - 1;
-        F(self, u16, 80) = timer;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
+        timer = self->timer.u - 1;
+        self->timer.u = timer;
         if (timer > 0)
             return;
-        F(self, u16, 80) = 12;
-        state = F(self, s16, 10) + 1;
-        F(self, s16, 10) = state;
+        self->timer.u = 12;
+        state = self->state.s + 1;
+        self->state.s = state;
         return;
 
     case 2:
-        timer = F(self, u16, 80) - 1;
-        F(self, u16, 80) = timer;
+        timer = self->timer.u - 1;
+        self->timer.u = timer;
         if (timer > 0)
             return;
         if (F(owner, s32, 96) == 0) {
-            F(self, u16, 80) = 8;
-            F(self, u16, 10) = 5;
+            self->timer.u = 8;
+            self->state.u = 5;
             return;
         }
-        state = F(self, s16, 10) + 1;
-        F(self, u16, 80) = 20;
-        F(self, s16, 10) = state;
+        state = self->state.s + 1;
+        self->timer.u = 20;
+        self->state.s = state;
         return;
 
     case 3:
-        timer = F(self, s16, 80);
+        timer = self->timer.s;
         if (timer % 3 == 0) {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
@@ -168,7 +168,7 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
                 spawn_coord -= 510;
                 spawn_coord <<= 13;
                 spawn_coord >>= 1;
-                spawn_coord += F(motion, u32, 0);
+                spawn_coord += (u32)motion->x.v;
                 F(F(particle, u8 *, 8), u32, 0) = spawn_coord;
 
                 spawn_coord = rand();
@@ -178,10 +178,10 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
                 spawn_coord -= 510;
                 spawn_coord <<= 13;
                 spawn_coord >>= 1;
-                spawn_coord += F(motion, u32, 4);
+                spawn_coord += (u32)motion->y.v;
                 F(F(particle, u8 *, 8), u32, 4) = spawn_coord;
 
-                F(F(particle, u8 *, 8), u32, 8) = F(motion, u32, 8) + 0x100000;
+                F(F(particle, u8 *, 8), u32, 8) = (u32)motion->z.v + 0x100000;
                 F(F(particle, u8 *, 8), u32, 20) = 0x40000;
 
                 F(child_data, u16, 30) = 0xa00;
@@ -190,43 +190,43 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
                 F(child_data, void *, 0) = landing_sprite_entries;
                 F(child_data, u16, 20) |= 0xe;
                 child_data->source = F(landing_sprite_entries, u32, 4);
-                particle_data = ((u8 *)particle) + 32;
+                particle_data = (DelayParticle *)((u8 *)particle + 32);
                 child_data->unk_04 = 0;
                 child_data->unk_05 = 0;
                 F(child_data, u32, 12) = 0;
-                F(particle, void *, 32) = self;
-                F(particle_data, u16, 72) = 8;
-                F(particle_data, u16, 76) = 0;
+                particle_data->unk_00 = self;
+                particle_data->unk_48 = 8;
+                particle_data->unk_4C.u = 0;
             }
         }
-        timer = F(self, u16, 80) - 1;
-        F(self, u16, 80) = timer;
+        timer = self->timer.u - 1;
+        self->timer.u = timer;
         if (timer > 0)
             return;
-        state = F(self, s16, 10) + 1;
-        F(self, u16, 80) = 13;
-        F(self, s16, 10) = state;
+        state = self->state.s + 1;
+        self->timer.u = 13;
+        self->state.s = state;
         return;
 
     case 4:
-        timer = F(self, u16, 80) - 1;
-        F(self, u16, 80) = timer;
+        timer = self->timer.u - 1;
+        self->timer.u = timer;
         if (timer > 0)
             return;
         if (F(owner, s32, 96) != 0) {
-            apply_attack_power_and_element_effects(F(owner, void *, 96), 10, F(self, u8, 9), 2,
+            apply_attack_power_and_element_effects(F(owner, void *, 96), 10, self->variant, 2,
                           F(owner, s16, 42), owner, 2);
         }
-        F(self, u16, 80) = 16;
-        state = F(self, s16, 10) + 1;
-        F(self, s16, 10) = state;
+        self->timer.u = 16;
+        state = self->state.s + 1;
+        self->state.s = state;
         return;
 
     case 5:
-        timer = F(self, u16, 80) - 1;
-        F(self, u16, 80) = timer;
-        if ((F(self, s16, 82) & 0x8000) != 0) {
-            F(self, u16, 82) &= 0x7fff;
+        timer = self->timer.u - 1;
+        self->timer.u = timer;
+        if ((self->child_activity.s & 0x8000) != 0) {
+            self->child_activity.u &= 0x7fff;
             return;
         }
         if (timer > 0)
@@ -244,23 +244,23 @@ void run_delayed_sprite_projectile(u8 *self, u8 *motion)
 #include "shared/object_flags.h"
 
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
-void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, SpriteFrameState *sprite) {
-    void *owner;
+void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion, SpriteFrameState *sprite) {
+    DelayOwner *owner;
     s16 phase;
     u16 delay;
     u8 shade;
     DelayPosition *position = motion;
 
-    owner = *(void **)effect;
-    *(u16 *)((u8 *)owner + 0x52) |= 0x8000;
-    phase = *(s16 *)((u8 *)effect + 0x4C);
+    owner = effect->unk_00;
+    owner->unk_52 |= 0x8000;
+    phase = effect->unk_4C.s;
     switch (phase) {
     case 0:
-        delay = *(u16 *)((u8 *)effect + 0x48) - 1;
-        *(u16 *)((u8 *)effect + 0x48) = delay;
+        delay = effect->unk_48 - 1;
+        effect->unk_48 = delay;
         if ((delay << 0x10) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            *(u16 *)((u8 *)effect + 0x4C) += 1;
+            effect->unk_4C.u += 1;
         }
         break;
 
@@ -274,17 +274,17 @@ void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, SpriteFr
             sprite->unk_05 = 0;
         }
 
-        if ((s32)sprite->color.c.r <= *(s16 *)((u8 *)effect + 0x4A)) {
+        if ((s32)sprite->color.c.r <= effect->fade_step.s) {
             sprite->color.word = 0;
             *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
-        shade = sprite->color.c.g - *(u8 *)((u8 *)effect + 0x4A);
+        shade = sprite->color.c.g - effect->fade_step.bytes.low;
         sprite->color.c.g = shade;
         sprite->color.c.r = shade;
-        sprite->color.c.b -= *(u8 *)((u8 *)effect + 0x4A) * 2;
+        sprite->color.c.b -= effect->fade_step.bytes.low * 2;
         break;
     }
 }

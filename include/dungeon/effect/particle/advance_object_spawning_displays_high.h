@@ -189,6 +189,35 @@ void expand_rotating_countdown_sprite(void *countdownState, s32 unused, void *an
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
 void decrement_object_counter(void *object);
 void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
-void advance_actor_tint_particle_sequence(struct ObjectNodeHeader *effect, void *effect_pos, void *effect_data);
+/* Work at node +0x20 for advance_actor_tint_particle_sequence. Attachment
+ * coordinates are returned by get_sprite_attachment_vector; the previous and
+ * midpoint copies seed the particles between successive attachment positions. */
+typedef struct TintParticleSequence {
+    u8 pad_00[4];
+    struct { u16 flags; } *animation;
+    u8 variant;
+    u8 pad_09;
+    union { s16 s; u16 u; } state;
+    union { s16 s; u16 u; } attachment_x;
+    union { s16 s; u16 u; } attachment_y;
+    union { s16 s; u16 u; } attachment_z;
+    union { s16 s; u16 u; } previous_x;
+    union { s16 s; u16 u; } previous_y;
+    union { s16 s; u16 u; } previous_z;
+    union { s16 s; u16 u; } midpoint_x;
+    union { s16 s; u16 u; } midpoint_y;
+    union { s16 s; u16 u; } midpoint_z;
+    u8 pad_1E[2];
+    union { s16 s; u16 u; } timer;
+    u8 pad_22[4];
+    union { s16 s; u16 u; } facing;
+    u8 pad_28[2];
+    u16 tick;
+    u8 pad_2C[0x38];
+    void *display_a;
+    void *display_b;
+} TintParticleSequence;
+
+void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *effect_pos, void *effect_data);
 
 #endif

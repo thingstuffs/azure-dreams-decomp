@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 
 struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
@@ -915,7 +916,6 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
 #include "shared/game_work.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
@@ -923,29 +923,40 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
 
 
 
-typedef struct {
-    u8 pad70[0x70];
-    u16 h70;
-    u16 h72;
-    u16 h74;
-    u16 h76;
-    u16 h78;
-    u16 h7A;
-    u16 h7C;
-    u16 h7E;
-    u16 h80;
-    u16 h82;
-    u16 h84;
-    u16 h86;
-    u16 h88;
-    u16 h8A;
-    u8 pad8C[8];
-    s32 w94;
-    s32 w98;
-    s32 wA0;
-    s32 wA8;
-    s32 wB0;
-} Scratch_800B39E4;
+/* Scratchpad used by draw_transformed_sprite_parts. The projection helper
+ * writes one XY/depth pair per corner; texture arithmetic also reads the low
+ * halfwords of its 32-bit working values. */
+typedef struct SpritePartWork {
+    s16 input_x;
+    s16 input_y;
+    u8 pad_04[4];
+    union { s32 value; u16 low; } texture_u;
+    union { s32 value; u16 low; } texture_v;
+    union { s32 value; u16 low; } texture_width;
+    union { s32 value; u16 low; } texture_height;
+    u8 pad_18[8];
+    s32 ordering_table;
+    u16 sprite_flags;
+    u8 pad_26[0xA];
+    s32 scale_x;
+    s32 scale_y;
+    s32 scale_z;
+    u8 pad_3C[4];
+    s32 translate_x;
+    s32 translate_y;
+    s32 translate_z;
+    u8 pad_4C[4];
+    u8 matrix[0x20];
+    struct { u16 x, y, z, pad; } corners[4];
+    u8 pad_90[4];
+    s32 unk_94;
+    struct { s32 xy, depth; } projected[4];
+    u8 pad_B8[8];
+    s32 unk_C0;
+    u8 pad_C4[0x44];
+    u16 sprite_width;
+    u16 sprite_height;
+} SpritePartWork;
 
 typedef struct {
     u8 bytes[12];
@@ -967,12 +978,12 @@ extern void func_80067EF4(void *, s32, s32, ...);
 void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode)
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
-    Scratch_800B39E4 *scratch = (Scratch_800B39E4 *)0x1F800000;
-    u8 *sprite = P32(context, -0x14);
+    SpritePartWork *scratch = (SpritePartWork *)0x1F800000;
+    SpriteFrameState *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
     GpuContext *root = g_game_work.draw_buffer;
-    Record *part = P32(sprite, 8);
+    Record *part = sprite->source;
     GpuContext **global_slot = ((GpuContext * *)(&g_game_work));
     u8 *scratch_base;
     u8 *packet;
@@ -982,17 +993,17 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     s32 tex_result;
     s32 y_component;
 
-    U16(scratch, 0x8C) = 0;
-    U16(scratch, 0x84) = 0;
-    U16(scratch, 0x7C) = 0;
-    U16(scratch, 0x74) = 0;
+    scratch->corners[3].z = 0;
+    scratch->corners[2].z = 0;
+    scratch->corners[1].z = 0;
+    scratch->corners[0].z = 0;
     packet = root->packetCursor;
     mode_bits = draw_mode << 16;
-    S32(scratch, 0x20) = depth;
-    S32(scratch, 0xC0) = 0;
+    scratch->ordering_table = depth;
+    scratch->unk_C0 = 0;
     if (mode_bits != 0) {
         func_80067EF4(packet, 0, 0, mode_bits);
-        AddPrim(S32(scratch, 0x20), packet);
+        AddPrim(scratch->ordering_table, packet);
         packet += 12;
     }
     PushMatrix();
@@ -1005,123 +1016,123 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         s32 raw_y;
         s32 x_component;
 
-        raw_x = U16(input, 0);
-        S16(scratch, 0x00) = raw_x;
-        raw_y = U16(input, 2);
+        raw_x = input[0];
+        scratch->input_x = raw_x;
+        raw_y = input[1];
         x = (s16)raw_x;
-        S16(scratch, 0x02) = raw_y;
+        scratch->input_y = raw_y;
         scratch_base = (u8 *)0x1F800000;
-        x_component = U16(sprite, 0x1C);
+        x_component = sprite->scale_x;
         y = (s16)raw_y;
-        S32(scratch, 0x30) = x_component;
-        y_component = U16(sprite, 0x1E);
+        scratch->scale_x = x_component;
+        y_component = sprite->scale_y;
         x_component = 0x1000;
-        S32(scratch, 0x38) = x_component;
-        S32(scratch, 0x34) = y_component;
-        x_component = U16(sprite, 0x20);
-        U16(scratch, 0x108) = x_component;
+        scratch->scale_z = x_component;
+        scratch->scale_y = y_component;
+        x_component = sprite->unk_20;
+        scratch->sprite_width = x_component;
         x_component = (s16)x_component;
-        y_component = U16(sprite, 0x22);
+        y_component = sprite->unk_22;
         x += x_component;
-        S32(scratch, 0x40) = x;
-        S32(scratch, 0x48) = 0;
-        U16(scratch, 0x10A) = y_component;
+        scratch->translate_x = x;
+        scratch->translate_z = 0;
+        scratch->sprite_height = y_component;
         y_component <<= 16;
         y_component >>= 16;
         y += y_component;
-        S32(scratch, 0x44) = y;
-        TransMatrix((u8 *)scratch + 0x50, (u8 *)scratch + 0x40,
+        scratch->translate_y = y;
+        TransMatrix(scratch->matrix, &scratch->translate_x,
                       x, y);
-        RotMatrix(sprite + 0x16, scratch_base + 0x50);
-        ScaleMatrix(scratch_base + 0x50, (u8 *)scratch + 0x30);
+        RotMatrix(&sprite->angle_x, scratch_base + 0x50);
+        ScaleMatrix(scratch_base + 0x50, &scratch->scale_x);
         SetRotMatrix(scratch_base + 0x50);
         SetTransMatrix(scratch_base + 0x50);
-        U16(scratch, 0x24) = U16(sprite, 0x14);
+        scratch->sprite_flags = sprite->flags;
         scratch_base += 0x94;
     }
 
     do {
-        scratch = (Scratch_800B39E4 *)0x1F800000;
+        scratch = (SpritePartWork *)0x1F800000;
         if (!(U8(part, 0) & 0x20)) {
             s32 edge;
             s16 edge1;
             s16 edge2;
-            S32(scratch, 8) = U8(part, 8);
-            S32(scratch, 0xC) = U8(part, 9);
-            S32(scratch, 0x10) = U8(part, 0xA);
-            S32(scratch, 0x14) = U8(part, 0xB);
+            scratch->texture_u.value = U8(part, 8);
+            scratch->texture_v.value = U8(part, 9);
+            scratch->texture_width.value = U8(part, 0xA);
+            scratch->texture_height.value = U8(part, 0xB);
 
             {
-                if (((U8(part, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
+                if (((U8(part, 0) ^ scratch->sprite_flags) & 1) != 0) {
 
                     edge_byte = U8(part, 2);
-                    y_component = U16(scratch, 0x108);
-                    extent = U16(scratch, 0x10);
+                    y_component = scratch->sprite_width;
+                    extent = scratch->texture_width.low;
                     edge1 = (s8)edge_byte;
                     edge1 = -edge1 - y_component;
-                    U16(scratch, 0x80) = edge1;
-                    U16(scratch, 0x70) = edge1;
+                    scratch->corners[2].x = edge1;
+                    scratch->corners[0].x = edge1;
                     edge1 -= extent;
-                    U16(scratch, 0x88) = edge1;
-                    U16(scratch, 0x78) = edge1;
+                    scratch->corners[3].x = edge1;
+                    scratch->corners[1].x = edge1;
                 } else {
 
                     edge_byte = U8(part, 2);
-                    y_component = U16(scratch, 0x108);
-                    extent = U16(scratch, 0x10);
+                    y_component = scratch->sprite_width;
+                    extent = scratch->texture_width.low;
                     edge1 = (s8)edge_byte;
                     edge1 -= y_component;
-                    U16(scratch, 0x80) = edge1;
-                    U16(scratch, 0x70) = edge1;
+                    scratch->corners[2].x = edge1;
+                    scratch->corners[0].x = edge1;
                     edge1 += extent;
-                    U16(scratch, 0x88) = edge1;
-                    U16(scratch, 0x78) = edge1;
+                    scratch->corners[3].x = edge1;
+                    scratch->corners[1].x = edge1;
                 }
             }
 
             {
-                if (((U8(part, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
+                if (((U8(part, 0) ^ scratch->sprite_flags) & 2) != 0) {
 
                     edge_byte = U8(part, 3);
-                    y_component = U16(scratch, 0x10A);
-                    extent = U16(scratch, 0x14);
+                    y_component = scratch->sprite_height;
+                    extent = scratch->texture_height.low;
                     edge2 = (s8)edge_byte;
                     edge2 = -edge2 - y_component;
-                    U16(scratch, 0x7A) = edge2;
-                    U16(scratch, 0x72) = edge2;
+                    scratch->corners[1].y = edge2;
+                    scratch->corners[0].y = edge2;
                     edge2 -= extent;
-                    U16(scratch, 0x8A) = edge2;
-                    U16(scratch, 0x82) = edge2;
+                    scratch->corners[3].y = edge2;
+                    scratch->corners[2].y = edge2;
                 } else {
 
                     edge_byte = U8(part, 3);
-                    y_component = U16(scratch, 0x10A);
-                    extent = U16(scratch, 0x14);
+                    y_component = scratch->sprite_height;
+                    extent = scratch->texture_height.low;
                     edge2 = (s8)edge_byte;
                     edge2 -= y_component;
-                    U16(scratch, 0x7A) = edge2;
-                    U16(scratch, 0x72) = edge2;
+                    scratch->corners[1].y = edge2;
+                    scratch->corners[0].y = edge2;
                     edge2 += extent;
-                    U16(scratch, 0x8A) = edge2;
-                    U16(scratch, 0x82) = edge2;
+                    scratch->corners[3].y = edge2;
+                    scratch->corners[2].y = edge2;
                 }
             }
 
-            func_80065320((u16 *)scratch + 0x38, (u16 *)scratch + 0x4C, scratch_base);
-            func_80065320((u16 *)scratch + 0x3C, (u16 *)scratch + 0x50, scratch_base);
-            func_80065320((u16 *)scratch + 0x40, (u16 *)scratch + 0x54, scratch_base);
-            func_80065320((u16 *)scratch + 0x44, (u16 *)scratch + 0x58, scratch_base);
+            func_80065320(&scratch->corners[0], &scratch->projected[0], scratch_base);
+            func_80065320(&scratch->corners[1], &scratch->projected[1], scratch_base);
+            func_80065320(&scratch->corners[2], &scratch->projected[2], scratch_base);
+            func_80065320(&scratch->corners[3], &scratch->projected[3], scratch_base);
 
             {
                 s32 vertex_xy;
 
-                vertex_xy = S32(scratch, 0x98);
+                vertex_xy = scratch->projected[0].xy;
                 S32(packet, 8) = vertex_xy;
-                vertex_xy = S32(scratch, 0xA0);
+                vertex_xy = scratch->projected[1].xy;
                 S32(packet, 0x10) = vertex_xy;
-                vertex_xy = S32(scratch, 0xA8);
+                vertex_xy = scratch->projected[2].xy;
                 S32(packet, 0x18) = vertex_xy;
-                depth = S32(scratch, 0xB0);
+                depth = scratch->projected[3].xy;
                 vertex_xy = 9;
                 U8(packet, 3) = vertex_xy;
                 S32(packet, 0x20) = depth;
@@ -1130,38 +1141,38 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
             {
                 s32 tex_extent;
 
-                tex_extent = S32(scratch, 0x10);
-                y_component = S32(scratch, 8);
+                tex_extent = scratch->texture_width.value;
+                y_component = scratch->texture_u.value;
                 tex_extent -= 1;
                 tex_result = tex_extent + y_component;
-                S32(scratch, 0x10) = tex_result;
+                scratch->texture_width.value = tex_result;
                 if (tex_result & 0x100) {
                     tex_extent = tex_result - 1;
-                    S32(scratch, 0x10) = tex_extent;
+                    scratch->texture_width.value = tex_extent;
                 }
             }
             {
                 s32 tex_extent;
 
-                tex_extent = S32(scratch, 0x14);
-                y_component = S32(scratch, 0xC);
+                tex_extent = scratch->texture_height.value;
+                y_component = scratch->texture_v.value;
                 tex_extent -= 1;
                 tex_result = tex_extent + y_component;
-                S32(scratch, 0x14) = tex_result;
+                scratch->texture_height.value = tex_result;
                 if (tex_result & 0x100) {
                     tex_extent = tex_result - 1;
-                    S32(scratch, 0x14) = tex_extent;
+                    scratch->texture_height.value = tex_extent;
                 }
             }
 
-            S32(scratch, 0x14) <<= 8;
-            S32(scratch, 0xC) <<= 8;
+            scratch->texture_height.value <<= 8;
+            scratch->texture_v.value <<= 8;
 
             {
                 s32 clut;
-                s32 clut_offset = U16(sprite, 0x12);
+                s32 clut_offset = sprite->clut;
                 if (clut_offset != 0) {
-                    if (U16(scratch, 0x24) & 0x100) {
+                    if (scratch->sprite_flags & 0x100) {
                         U16(packet, 0x0E) = clut_offset;
                     } else {
                         clut = U16(part, 6);
@@ -1173,12 +1184,12 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 }
             }
 
-            S16(packet, 0x0C) = U16(scratch, 0xC) + U16(scratch, 8);
-            S16(packet, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
+            S16(packet, 0x0C) = scratch->texture_v.low + scratch->texture_u.low;
+            S16(packet, 0x14) = scratch->texture_v.low + scratch->texture_width.low;
 
             {
                 s32 page_input;
-                s32 page_offset = U16(sprite, 0x10);
+                s32 page_offset = sprite->tpage_abr;
                 if (page_offset != 0) {
                     page_input = U16(part, 4);
                     page_input &= 0xFF9F;
@@ -1195,13 +1206,13 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 u16 right_u;
                 s32 left_x;
 
-                edge_work = U16(scratch, 0x14);
-                uv_work = U16(scratch, 8);
+                edge_work = scratch->texture_height.low;
+                uv_work = scratch->texture_u.low;
                 left_x = S16(packet, 8);
                 edge_work |= uv_work;
                 S16(packet, 0x1C) = edge_work;
-                uv_work_2 = U16(scratch, 0x14);
-                right_u = U16(scratch, 0x10);
+                uv_work_2 = scratch->texture_height.low;
+                right_u = scratch->texture_width.low;
                 edge_work = S16(packet, 0x20);
                 uv_work_2 |= right_u;
                 edge_work = edge_work < left_x;
@@ -1230,8 +1241,8 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 s32 part_code = U8(part, 1);
                 s32 draw_code;
                 s32 draw_flags;
-                U8(sprite, 0x0F) = part_code;
-                draw_flags = U16(scratch, 0x24);
+                sprite->color.c.code = part_code;
+                draw_flags = scratch->sprite_flags;
                 draw_code = draw_flags & 8;
                 if (draw_code != 0) {
                     draw_code = draw_flags & 4;
@@ -1240,17 +1251,17 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                     } else {
                         draw_code = part_code | 2;
                     }
-                    U8(sprite, 0x0F) = draw_code;
+                    sprite->color.c.code = draw_code;
                 }
             }
 
             {
                 u8 *draw_packet;
                 s32 color_code;
-                color_code = S32(sprite, 0x0C);
+                color_code = sprite->color.word;
                 draw_packet = packet;
                 S32(packet, 4) = color_code;
-                AddPrim(S32(scratch, 0x20), draw_packet);
+                AddPrim(scratch->ordering_table, draw_packet);
                 packet += 40;
 
             }
@@ -1276,7 +1287,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         s32 end_mode_bits = saved_mode << 16;
         if (end_mode_bits != 0) {
             func_80067EF4(packet, 0, 1);
-            AddPrim(S32(scratch, 0x20), packet);
+            AddPrim(scratch->ordering_table, packet);
             packet += 12;
         }
     }

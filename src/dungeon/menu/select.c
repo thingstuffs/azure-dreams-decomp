@@ -1,4 +1,6 @@
 #include "shared/object_node_flags.h"
+#include "shared/object_links.h"
+#include "shared/gpu_packets.h"
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
 #include "dungeon/level.h"
 #include "dungeon/menu.h"
@@ -978,12 +980,9 @@ void initialize_children_or_shutdown(void *owner)
     return;
 }
 #include "dungeon/menu/select.h"
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
 /* Sets up a shaded rectangle, fades its center to gray over eight updates, and fades it out when state
    3 is set. */
-void initialize_fading_effect(void *effect, void *control)
+void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
 {
     s16 state;
     s16 dark_frames;
@@ -995,66 +994,63 @@ void initialize_fading_effect(void *effect, void *control)
     u8 light_color;
     u8 light_next_color;
 
-    state = S16_AT(effect, 0xE);
+    state = effect->state.s;
     switch (state) {
     case 0:
         register_node((u8 *)effect - 0x20, &queue_four_shaded_quadrants);
-        S16_AT(effect, 0) = 0x50;
-        S16_AT(effect, 4) = 0xA0;
-        S16_AT(effect, 2) = 0x58;
-        S16_AT(effect, 6) = 0xB0;
-        S16_AT(control, 0xA) = 0x40;
-        S16_AT(effect, 0xC) = 8;
-        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        effect->x.s = 0x50;
+        effect->extent_x.s = 0xA0;
+        effect->y.s = 0x58;
+        effect->extent_y.s = 0xB0;
+        control->z.w.i = 0x40;
+        effect->frames_left.s = 8;
+        effect->state.s = (s16)(effect->state.u + 1);
                         /* fall through */
     case 1:
-        light_frames = S16_AT(effect, 0xC);
+        light_frames = effect->frames_left.s;
         if (light_frames != 0) {
-            light_color = U8_AT(effect, 0xA);
+            light_color = effect->color.c.b;
             light_next_color =
                 light_color + ((0x60 - light_color) / light_frames);
-            U8_AT(effect, 0xA) = light_next_color;
-            U8_AT(effect, 9) = light_next_color;
-            U8_AT(effect, 8) = light_next_color;
+            effect->color.c.b = light_next_color;
+            effect->color.c.g = light_next_color;
+            effect->color.c.r = light_next_color;
         }
-        light_frames_left = U16_AT(effect, 0xC) - 1;
-        S16_AT(effect, 0xC) = light_frames_left;
+        light_frames_left = effect->frames_left.u - 1;
+        effect->frames_left.s = light_frames_left;
         if ((light_frames_left << 0x10) > 0) {
             return;
         }
-        U8_AT(effect, 0xA) = 0x60;
-        U8_AT(effect, 9) = 0x60;
-        U8_AT(effect, 8) = 0x60;
-        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        effect->color.c.b = 0x60;
+        effect->color.c.g = 0x60;
+        effect->color.c.r = 0x60;
+        effect->state.s = (s16)(effect->state.u + 1);
         return;
     case 3:
-        S16_AT(effect, 0xC) = 8;
-        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        effect->frames_left.s = 8;
+        effect->state.s = (s16)(effect->state.u + 1);
                         /* fall through */
     case 4:
-        dark_frames = S16_AT(effect, 0xC);
+        dark_frames = effect->frames_left.s;
         if (dark_frames != 0) {
-            dark_color = U8_AT(effect, 0xA);
+            dark_color = effect->color.c.b;
             dark_next_color = dark_color + ((0 - dark_color) / dark_frames);
-            U8_AT(effect, 0xA) = dark_next_color;
-            U8_AT(effect, 9) = dark_next_color;
-            U8_AT(effect, 8) = dark_next_color;
+            effect->color.c.b = dark_next_color;
+            effect->color.c.g = dark_next_color;
+            effect->color.c.r = dark_next_color;
         }
-        dark_frames_left = U16_AT(effect, 0xC) - 1;
-        S16_AT(effect, 0xC) = dark_frames_left;
+        dark_frames_left = effect->frames_left.u - 1;
+        effect->frames_left.s = dark_frames_left;
         if ((dark_frames_left << 0x10) > 0) {
             return;
         }
-        U16_AT(effect, -2) |= NODE_REMOVE;
+        ((ObjectStatusPrefix16 *)effect)[-1].unk_00 |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     default:
         return;
     }
 }
-#undef S16_AT
-#undef U16_AT
-#undef U8_AT
 #include "dungeon/menu/select.h"
 
 /* Creates a selection menu controller, sets the initial value, and starts its message mode and script. */
@@ -1073,10 +1069,10 @@ void *initialize_available_object(s16 initialValue) {
     return object;
 }
 #include "dungeon/menu/select.h"
+/* Projects a three-by-three terrain preview and its actor sprites, then restores the view transform. */
 #define S16(b, o) (*(s16 *)((u8 *)(b) + (o)))
 #define U16(b, o) (*(u16 *)((u8 *)(b) + (o)))
 #define S32(b, o) (*(s32 *)((u8 *)(b) + (o)))
-/* Projects a three-by-three terrain preview and its actor sprites, then restores the view transform. */
 s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params)
 {
     s16 saved_rotation[4];
@@ -1347,89 +1343,92 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
 #include "dungeon/menu/select.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
-#define U8(base, offset) (*(u8 *)((u8 *)(base) + (offset)))
-#define S16(base, offset) (*(s16 *)((u8 *)(base) + (offset)))
-#define U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
-#define S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
-#define PTR(base, offset) (*(u8 **)((u8 *)(base) + (offset)))
+/* POLY_G4 packet: four packed color words interleaved with screen points. */
+typedef struct MenuShadeQuad {
+    u32 tag;
+    SpriteColor color0;
+    s16 x0, y0;
+    SpriteColor color1;
+    s16 x1, y1;
+    SpriteColor color2;
+    s16 x2, y2;
+    SpriteColor color3;
+    s16 x3, y3;
+} MenuShadeQuad;
+
 /* Queues four shaded quads fading from each linked rectangle's center color to black at its edges. */
-s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg)
+s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg)
 {
-    u8 *rect_data;
-    u8 *owner;
-    u8 **render_state_ptr;
+    MenuFadeRect *rect_data;
+    ObjectPosition *owner;
+    GpuContext **render_state_ptr;
     s32 quadrant;
-    u8 *render_state;
-    u8 *packet;
-    u8 *next_node;
+    GpuContext *render_state;
+    MenuShadeQuad *packet;
+    ObjectNodeHeader *next_node;
     u16 center_coord;
     s16 edge_coord;
     s32 packet_word;
 
     rect_data = rect_arg;
     owner = owner_arg;
-    render_state_ptr = (u8 **)((s8 *)(&g_game_work));
+    render_state_ptr = (GpuContext **)&g_game_work;
     for (;;) {
         quadrant = 3;
         do {
             render_state = *render_state_ptr;
-            packet = PTR(render_state, 0x8D0);
-            PTR(render_state, 0x8D0) = packet + 0x24;
+            packet = render_state->packetCursor;
+            render_state->packetCursor = (u8 *)(packet + 1);
 
-            center_coord = U16(rect_data, 0);
-            U16(packet, 0x18) = center_coord;
-            U16(packet, 8) = center_coord;
+            center_coord = rect_data->x.u;
+            packet->x2 = center_coord;
+            packet->x0 = center_coord;
 
             if (quadrant & 1) {
-                edge_coord = U16(rect_data, 0) - U16(rect_data, 4);
+                edge_coord = rect_data->x.u - rect_data->extent_x.u;
             } else {
-                edge_coord = U16(rect_data, 0) + U16(rect_data, 4);
+                edge_coord = rect_data->x.u + rect_data->extent_x.u;
             }
-            S16(packet, 0x20) = edge_coord;
-            S16(packet, 0x10) = edge_coord;
+            packet->x3 = edge_coord;
+            packet->x1 = edge_coord;
 
-            center_coord = U16(rect_data, 2);
-            U16(packet, 0x12) = center_coord;
-            U16(packet, 0xA) = center_coord;
+            center_coord = rect_data->y.u;
+            packet->y1 = center_coord;
+            packet->y0 = center_coord;
 
             if (quadrant & 2) {
-                edge_coord = U16(rect_data, 2) - U16(rect_data, 6);
+                edge_coord = rect_data->y.u - rect_data->extent_y.u;
             } else {
-                edge_coord = U16(rect_data, 2) + U16(rect_data, 6);
+                edge_coord = rect_data->y.u + rect_data->extent_y.u;
             }
-            S16(packet, 0x22) = edge_coord;
-            S16(packet, 0x1A) = edge_coord;
+            packet->y3 = edge_coord;
+            packet->y2 = edge_coord;
 
-            packet_word = S32(rect_data, 8);
-            S32(packet, 0x1C) = 0;
-            S32(packet, 0xC) = 0;
-            S32(packet, 0x14) = 0;
-            S32(packet, 4) = packet_word;
+            packet_word = rect_data->color.word;
+            packet->color3.word = 0;
+            packet->color1.word = 0;
+            packet->color2.word = 0;
+            packet->color0.word = packet_word;
             SetPolyG4(packet);
 
             quadrant--;
-            U8(packet, 7) |= 2;
-            AddPrim(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
+            packet->color0.c.code |= 2;
+            AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
         } while (quadrant >= 0);
 
         render_state = *render_state_ptr;
-        packet = PTR(render_state, 0x8D0);
-        PTR(render_state, 0x8D0) = packet + 0xC;
+        packet = render_state->packetCursor;
+        render_state->packetCursor = (u8 *)packet + 0xC;
         packet_word = GetTPage(0, 2, 0, 0);
         SetDrawMode(packet, 0, 0, packet_word & 0xFFFF, 0);
-        AddPrim(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
+        AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
 
-        next_node = PTR(rect_data, -8);
-        rect_data = next_node + 0x20;
+        next_node = ((ObjectNodeHeader *)rect_data)[-1].chain_next;
+        rect_data = (MenuFadeRect *)(next_node + 1);
         if (next_node == 0) {
             break;
         }
-        owner = PTR(next_node, 8);
+        owner = next_node->position;
     }
     return 0;
 }
-#undef U8
-#undef S16
-#undef U16
-#undef S32
-#undef PTR

@@ -3,6 +3,19 @@
 #include "common.h"
 #include "m2c_compat.h"
 /* One shared game-view inventory for the delayed-effect producers and callbacks. */
+/* Parent work for the delayed targeted effect at node +0x20. Child callbacks
+ * set the activity word while the parent waits for its last particles to fade. */
+typedef struct DelayedTargetEffect {
+    u8 *owner;
+    struct { u16 flags; } *animation;
+    u8 pad_08;
+    u8 variant;
+    union { s16 s; u16 u; } state;
+    u8 pad_0C[0x44];
+    union { s16 s; u16 u; } timer;
+    union { s16 s; u16 u; } child_activity;
+} DelayedTargetEffect;
+
 /* Position/motion prefix of delayed particle nodes, reserved by allocate_list_node.
  * advance_delayed_fading_sprite adds the horizontal motion increments after registration. */
 typedef struct {
@@ -25,7 +38,11 @@ typedef struct DelayParticle {
     void * unk_00; /* owner work pointer; its +0x52 child-activity bit is set during updates */
     u8 pad_04[0x44];
     u16 unk_48; /* phase countdown in update ticks; reset to 16 before the rising phase */
-    u8 pad_4A[0x2];
+    union {
+        u16 u;
+        s16 s;
+        struct { u8 low, high; } bytes;
+    } fade_step; /* per-update red/green decrement; blue loses twice its low byte */
     union { u16 u; s16 s; } unk_4C; /* effect phase: 0 brighten, 1 rise and emit children, 2 fade */
 } DelayParticle;   /* r_arg0 in func_800247D8 */
 

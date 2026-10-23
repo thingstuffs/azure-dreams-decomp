@@ -4,7 +4,7 @@
 #include "dungeon/effect/travel.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
-void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = follow_brighten;
+void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
 #include "shared/entity_height_offsets.h"
@@ -26,11 +26,11 @@ extern s16 set_item_w0(u8, u8, u8, u8);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
-void follow_brighten(u8 *self, u8 *motion, u8 *part)
+void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part)
 {
     u8 *owner;
     u8 *owner_base;
-    u8 *owner_motion;
+    ObjectPosition *owner_motion;
     void *target;
     s32 state;
     s16 spawn_height;
@@ -56,8 +56,8 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
     s16 attach_offset[3];
     s32 texture_init[2];
 
-    owner = F(self, void *, 0);
-    state = F(self, s16, 0xA);
+    owner = self->owner;
+    state = self->state.s;
     owner_base = (u8 *)owner - 0x20;
     owner_motion = F(owner_base, void *, 8);
     switch (state) {
@@ -65,15 +65,15 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         color = 0x00808080;
         texture_flags = 0x01000340;
         texture_size = 0x00200020;
-        F(part, u32, 0xC) = color;
-        F(part, u16, 0x1E) = 0x800;
-        F(part, u16, 0x1C) = 0x800;
-        F(part, void *, 8) = D_800257E8;
-        F(self, u16, 0x1A) = (F(owner, u16, 0x2A) >> 9) & 7;
+        part->color.word = color;
+        part->scale_y = 0x800;
+        part->scale_x = 0x800;
+        part->source = D_800257E8;
+        self->direction.u = (F(owner, u16, 0x2A) >> 9) & 7;
         texture_init[0] = texture_flags;
         texture_init[1] = texture_size;
         draw_textured_ellipse(D_800257D0, texture_init, 1, 0);
-        F(self, u16, 0xA)++;
+        self->state.u++;
 
     case 1:
         if (get_sprite_attachment_vector(F(F(owner_base, void *, 0xC), void *, 8),
@@ -83,25 +83,25 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             }
         }
 
-        F(motion, u16, 2) = F(owner_motion, u16, 2);
-        F(motion, u16, 6) = F(owner_motion, u16, 6);
+        motion->x.w.i = (u16)owner_motion->x.w.i;
+        motion->y.w.i = (u16)owner_motion->y.w.i;
         if (F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
-            F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) - 0x40;
+            motion->z.w.i = (u16)owner_motion->z.w.i - 0x40;
         } else {
-            F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) + attach_offset[2];
+            motion->z.w.i = (u16)owner_motion->z.w.i + attach_offset[2];
         }
 
-        if ((F(F(self, void *, 4), u16, 0) & 0x80) == 0) {
+        if ((self->animation->flags & 0x80) == 0) {
             break;
         }
-        if ((F(self, u8, 0x16) & 4) == 0) {
+        if ((self->flags & 4) == 0) {
             register_node((u8 *)self - 0x20, (s32)project_sprite_chain);
-            F(part, u16, 0x10) = 0x20;
-            F(part, u8, 0x0E) = 0x80;
-            F(part, u8, 0x0D) = 0x80;
-            F(part, u8, 0x0C) = 0x80;
-            F(part, u16, 0x14) |= 0xC;
-            F(self, u8, 0x16) |= 4;
+            part->tpage_abr = 0x20;
+            part->color.c.b = 0x80;
+            part->color.c.g = 0x80;
+            part->color.c.r = 0x80;
+            part->flags |= 0xC;
+            self->flags |= 4;
         }
 
         if (F(owner, void *, 0x60) != 0) {
@@ -110,29 +110,29 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             u8 *height_table;
             u8 tile_coord;
             source_data = F(F(owner, void *, 0x60), void *, -0x18);
-            F(self, u16, 0x10) = F(source_data, u16, 2);
-            F(self, u16, 0x12) = F(source_data, u16, 6);
+            self->target_x = F(source_data, u16, 2);
+            self->target_y = F(source_data, u16, 6);
             height_table = entity_height_offsets;
             target_type = F(F(owner, void *, 0x60), u8, 0x13);
             height_offset = height_table[target_type];
             height_offset += 0x20;
             target_height = F(source_data, u16, 0xA);
-            F(self, u16, 0x14) = target_height - height_offset;
+            self->target_z.u = target_height - height_offset;
 
             {
                 s16 direction;
-                direction = F(self, s16, 0x1A);
+                direction = self->direction.s;
                 source_data = F(owner, void *, -0x14);
                 tile_coord = F(source_data, u8, 0x24) + dir_step_x[direction];
-                F(self, u8, 0x20) = tile_coord;
-                F(self, u8, 0x22) = tile_coord;
+                self->current_tile.tile.x.u = tile_coord;
+                self->previous_tile.tile.x.u = tile_coord;
             }
             {
                 s16 direction;
-                direction = F(self, s16, 0x1A);
+                direction = self->direction.s;
                 tile_coord = F(source_data, u8, 0x25) + dir_step_y[direction];
-                F(self, u8, 0x21) = tile_coord;
-                F(self, u8, 0x23) = tile_coord;
+                self->current_tile.tile.y.u = tile_coord;
+                self->previous_tile.tile.y.u = tile_coord;
             }
             {
                 s32 owner_coord;
@@ -149,172 +149,172 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 if (tile_distance < 0) {
                     tile_distance = -tile_distance;
                 }
-                F(self, u16, 0x18) = tile_distance + 1;
+                self->tiles_left = tile_distance + 1;
             }
         } else {
-            F(self, u16, 0x18) = 8;
-            F(self, u16, 0x10) = F(motion, u16, 2);
-            F(self, u16, 0x12) = F(motion, u16, 6);
-            F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
+            self->tiles_left = 8;
+            self->target_x = (u16)motion->x.w.i;
+            self->target_y = (u16)motion->y.w.i;
+            self->target_z.u = F(owner, u16, 0x88) - 0x50;
         }
-        direction_step = dir_step_x[F(self, s16, 0x1A)];
+        direction_step = dir_step_x[self->direction.s];
         F(motion, s16, 0x0E) = direction_step << 3;
-        direction_step = dir_step_y[F(self, s16, 0x1A)];
+        direction_step = dir_step_y[self->direction.s];
         F(motion, s16, 0x12) = direction_step << 3;
-        state_step = F(self, u16, 0xA);
-        F(self, u16, 0x1C) = 0;
-        F(self, u16, 0x0A) = state_step + 1;
+        state_step = self->state.u;
+        self->unk_1C = 0;
+        self->state.u = state_step + 1;
         break;
 
     case 2:
     {
         s32 next_velocity;
-        velocity = F(motion, s32, 0x0C);
-        position = F(motion, s32, 0);
+        velocity = motion->velocity_x;
+        position = motion->x.v;
         position += velocity;
-        F(motion, s32, 0) = position;
-        next_velocity = F(motion, s32, 0x0C);
+        motion->x.v = position;
+        next_velocity = motion->velocity_x;
         position = next_velocity >> 4;
         next_velocity += position;
         velocity = abs(next_velocity);
         position = 0x200000;
         over_limit = velocity > position;
-        F(motion, s32, 0x0C) = next_velocity;
+        motion->velocity_x = next_velocity;
         if (over_limit) {
             position = -0x200000;
             if (next_velocity > 0) {
                 position = 0x200000;
             }
-            F(motion, s32, 0x0C) = position;
+            motion->velocity_x = position;
         }
     }
         {
             s32 next_velocity;
-            velocity = F(motion, s32, 0x10);
-            position = F(motion, s32, 4);
+            velocity = motion->velocity_y;
+            position = motion->y.v;
             position += velocity;
-            F(motion, s32, 4) = position;
-            next_velocity = F(motion, s32, 0x10);
+            motion->y.v = position;
+            next_velocity = motion->velocity_y;
             position = next_velocity >> 4;
             next_velocity += position;
             velocity = abs(next_velocity);
             position = 0x200000;
             over_limit = velocity > position;
-            F(motion, s32, 0x10) = next_velocity;
+            motion->velocity_y = next_velocity;
             if (over_limit) {
                 position = -0x200000;
                 if (next_velocity > 0) {
                     position = 0x200000;
                 }
-                F(motion, s32, 0x10) = position;
+                motion->velocity_y = position;
             }
         }
 
-        z_delta = F(self, s16, 0x14) << 16;
-        z_pos = F(motion, s32, 8);
+        z_delta = self->target_z.s << 16;
+        z_pos = motion->z.v;
         z_delta -= z_pos;
         z_delta >>= 3;
         z_pos += z_delta;
-        F(motion, s32, 8) = z_pos;
+        motion->z.v = z_pos;
         create_effect_from_endpoints(motion, part);
 
-        coord = F(motion, s16, 2);
+        coord = motion->x.w.i;
         if (coord < 0) {
             coord += 0x3F;
         }
-        F(self, s8, 0x20) = coord >> 6;
-        coord = F(motion, s16, 6);
+        self->current_tile.tile.x.s = coord >> 6;
+        coord = motion->y.w.i;
         if (coord < 0) {
             coord += 0x3F;
         }
-        F(self, s8, 0x21) = coord >> 6;
-        if (F(self, s16, 0x22) == F(self, s16, 0x20)) {
+        self->current_tile.tile.y.s = coord >> 6;
+        if (self->previous_tile.packed == self->current_tile.packed) {
             break;
         }
 
         if (F(owner, void *, 0x60) != 0) {
-            if (F(self, s16, 0x28) == 0) {
-                if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
+            if (self->sound_played == 0) {
+                if ((s16)set_item_w0(self->current_tile.tile.x.u, self->current_tile.tile.y.u,
                                      F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
-                    F(self, s16, 0x28) = 1;
+                    self->sound_played = 1;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
             }
         }
         if (F(owner, void *, 0x60) != 0 &&
-            F(owner, s16, 0x72) == F(self, s16, 0x20)) {
-            F(motion, u16, 2) = F(self, u16, 0x10);
-            F(motion, u16, 6) = F(self, u16, 0x12);
-            F(motion, u16, 0xA) = F(self, u16, 0x14);
-            F(self, u16, 0x0A)++;
+            F(owner, s16, 0x72) == self->current_tile.packed) {
+            motion->x.w.i = self->target_x;
+            motion->y.w.i = self->target_y;
+            motion->z.w.i = self->target_z.u;
+            self->state.u++;
             break;
         }
 
-        coord = F(self, u8, 0x20);
-        z_pos = F(self, u16, 0x18);
+        coord = self->current_tile.tile.x.u;
+        z_pos = self->tiles_left;
         z_pos -= 1;
-        target = F(self, u8, 0x21);
-        F(self, u16, 0x18) = z_pos;
+        target = self->current_tile.tile.y.u;
+        self->tiles_left = z_pos;
         z_pos <<= 16;
-        F(self, u8, 0x22) = coord;
-        F(self, u8, 0x23) = target;
+        self->previous_tile.tile.x.u = coord;
+        self->previous_tile.tile.y.u = target;
         if (z_pos != 0) {
-            cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
+            cell_center_x = (((s32)self->current_tile.tile.x.s << 6) + 0x20) & 0xFFE0;
             height_result = check_left_tile_and_center_height(
                 cell_center_x,
-                (((s32)F(self, s8, 0x21) << 6) + 0x20) & 0xFFE0,
-                F(motion, s16, 0x0A));
+                (((s32)self->current_tile.tile.y.s << 6) + 0x20) & 0xFFE0,
+                motion->z.w.i);
             if ((height_result << 16) == 0) {
                 break;
             }
         }
-        F(self, u16, 0x0A) = 0x10;
+        self->state.u = 0x10;
         break;
 
     case 3:
         spawn_target = F(owner, void *, 0x60);
         spawn_height = F(spawn_target, s16, 0x88);
-        F(self, void *, 0x0C) = create_initialized_effect_object((s32)self, motion, spawn_height, (s32)spawn_target);
-        if (F(self, void *, 0x0C) == 0) {
+        self->child = create_initialized_effect_object((s32)self, motion, spawn_height, (s32)spawn_target);
+        if (self->child == 0) {
             break;
         }
-        F(part, u16, 0x14) |= 0x80;
-        state_step = F(self, u16, 0x0A);
+        part->flags |= 0x80;
+        state_step = self->state.u;
         state_step++;
-        F(self, u16, 0x0A) = state_step;
+        self->state.u = state_step;
 
     case 4:
-        state_step = (long)F(self, void *, 0x0C);
+        state_step = (long)self->child;
         if ((F((void *)state_step, u16, 0x1E) & 0x8000) == 0) {
             break;
         }
         target = F(owner, void *, 0x60);
         if (target != 0) {
-            apply_indexed_effect_condition(target, F(self, u8, 9), owner);
+            apply_indexed_effect_condition(target, self->variant, owner);
         }
-        F(self, u16, 0x0A) = 0x11;
+        self->state.u = 0x11;
         break;
 
     case 16:
-        F(motion, s32, 0) += F(motion, s32, 0x0C);
-        F(motion, s32, 4) += F(motion, s32, 0x10);
-        z_delta = F(self, s16, 0x14) << 16;
-        z_pos = F(motion, s32, 8);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        z_delta = self->target_z.s << 16;
+        z_pos = motion->z.v;
         z_delta -= z_pos;
         z_delta >>= 3;
         z_pos += z_delta;
-        F(motion, s32, 8) = z_pos;
-        red = F(part, u8, 0x0C);
-        green = F(part, u8, 0x0D);
-        blue = F(part, u8, 0x0E);
-        F(part, u8, 0x0C) = red - (red >> 1);
-        F(part, u8, 0x0D) = green - (green >> 1);
-        F(part, u8, 0x0E) = blue - (blue >> 1);
+        motion->z.v = z_pos;
+        red = part->color.c.r;
+        green = part->color.c.g;
+        blue = part->color.c.b;
+        part->color.c.r = red - (red >> 1);
+        part->color.c.g = green - (green >> 1);
+        part->color.c.b = blue - (blue >> 1);
         create_effect_from_endpoints(motion, part);
-        if (F(part, u8, 0x0C) >= 2) {
+        if (part->color.c.r >= 2) {
             break;
         }
-        F(self, u16, 0x0A)++;
+        self->state.u++;
         break;
 
     case 17:

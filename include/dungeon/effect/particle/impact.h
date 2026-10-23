@@ -42,11 +42,29 @@ void ScaleMatrix(void *, void *);
 s32 play_sound_if_enabled(s32);
 extern s16 impact_effect_update_flag;
 extern void *D_80028630;
+/* Pooled particle callback work shared by the shrinking and rotating variants.
+ * The constructors seed accelerations at +0x88..+0x90; each update integrates
+ * them into velocity, advances sprite animation and decrements the lifetime. */
+typedef struct ImpactParticleWork {
+    u8 pad_00[0x28];
+    u16 ticks_left;
+    u16 anim_ticks;
+    s16 rotation_axis; /* rotating variant: 0 rotates X, 1 rotates Z */
+    u8 pad_2E[0x4E];
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 accel_x;
+    s32 accel_y;
+    s32 accel_z;
+} ImpactParticleWork;
+
 void scale_effect_by_phase(void *);
-void advance_effect_motion_and_animation(void *, void *, struct SpriteFrameState *);
+void advance_effect_motion_and_animation(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 void shrink_effect_and_spawn_particles(void *, void *);
 s32 draw_linked_meshes(void *, void *, void *);
-void advance_rotating_ballistic_particle_and_expire(void *, void *, struct SpriteFrameState *);
-void update_owner_following_effect(void *, void *, void *);
-void update_effect_motion_and_visual(void *, void *, struct SpriteFrameState *);
+void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
+struct OwnerFollowingWork;
+void update_owner_following_effect(struct OwnerFollowingWork *, struct ObjectPosition *, struct SpriteFrameState *);
+void update_effect_motion_and_visual(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 #endif

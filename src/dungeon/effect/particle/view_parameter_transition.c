@@ -15,7 +15,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-void (*const dungeon_188e800_entry)(u8 *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
+void (*const dungeon_188e800_entry)(MovingColorWork *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
 const u8 D_80024004[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
@@ -277,6 +277,8 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 
 
 
+typedef struct RotatingStatusPrefix { u16 flags; } RotatingStatusPrefix;
+
 /* Updates a rotating dungeon effect through delay, contraction, fade, and completion. */
 void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
     s16 phase;
@@ -298,24 +300,22 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
     phase = anim->state;
     switch (phase) {
     case 0:
-        delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = delay_timer;
+        delay_timer = anim->timer - 1;
+        anim->timer = delay_timer;
         if ((delay_timer << 0x10) <= 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim
-                - 0x2))->unk_02.u + 1);
+            anim->state = (s16) ((u16) anim->state + 1);
         }
         break;
     case 1:
-        shrink_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim
-            - 0x2))->unk_10;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = shrink_angle;
+        shrink_angle = (u16) anim->angle - anim->angle2;
+        anim->angle = shrink_angle;
         if (shrink_angle < 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (shrink_angle + 0x1000);
+            anim->angle = (s16) (shrink_angle + 0x1000);
         }
-        if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x7F8) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
+        if ((s16) anim->angle2 < 0x7F8) {
+            anim->angle2 = (u16) (anim->angle2 + 8);
         }
-        radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
+        radius = anim->count;
         if (radius >= 0x41) {
             if (radius >= 0x65) {
                 radius_step = 3;
@@ -326,7 +326,7 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
             } else {
                 radius_step = 1;
             }
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C
+            anim->count = (s16) ((u16) anim->count
                 - radius_step);
             effect->x1C -= 0x46;
             effect->y1E -= 0x46;
@@ -335,22 +335,22 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
             effect->e += 4;
             break;
         }
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u
+        anim->timer = 0x28U;
+        anim->state = (s16) ((u16) anim->state
             + 1);
         break;
     case 2:
-        fade_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = fade_angle;
+        fade_angle = (u16) anim->angle - anim->angle2;
+        anim->angle = fade_angle;
         if (fade_angle < 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (fade_angle + 0x1000);
+            anim->angle = (s16) (fade_angle + 0x1000);
         }
-        if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x100) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
+        if ((s16) anim->angle2 < 0x100) {
+            anim->angle2 = (u16) (anim->angle2 + 8);
         }
-        radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
+        radius = anim->count;
         if (radius >= 0x1B) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) (radius - 1);
+            anim->count = (s16) (radius - 1);
         }
         fade_level = effect->c;
         if (fade_level >= 2U) {
@@ -359,25 +359,24 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
             effect->e -= 2;
         }
         if (effect->c == 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0U;
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim
-                - 0x2))->unk_02.u + 1);
+            anim->timer = 0U;
+            anim->state = (s16) ((u16) anim->state + 1);
         }
         effect->x1C -= 0x14;
         effect->y1E += 0xC8;
         break;
     case 3:
-        finish_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = finish_timer;
+        finish_timer = anim->timer - 1;
+        anim->timer = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00
+            ((RotatingStatusPrefix *)anim)[-1].flags = (u16) (((RotatingStatusPrefix *)anim)[-1].flags
                 | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
     if (effect->flags14 & 0x8000) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
+        ((RotatingStatusPrefix *)anim)[-1].flags = (u16) (((RotatingStatusPrefix *)anim)[-1].flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     return;
@@ -397,7 +396,7 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
 
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
-void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
+void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8 *effect_pos, u8 *effect_display) {
     s16 origin_offset[4];
     OffsetPair direction_offsets[8];
     u8 *display = effect_display;
@@ -409,10 +408,10 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
     void **jump_table;
     s32 state;
 
-    owner = PTR_AT(effect_data, 0x00);
+    owner = effect_data->owner;
     copy_page = (u8 *)0x80020000;
     *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
-    state = S16_AT(effect_data, 0x0A);
+    state = effect_data->state;
     entity = owner - 0x20;
     source = PTR_AT(entity, 0x08);
     switch (state) {
@@ -422,14 +421,14 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
         U16_AT(display, 0x1C) = 0x1000;
         copy_page = (u8 *)0x80020000;
         copy_source = D_800252FC;
-        memcpy(effect_data + 0x94, copy_source, 12);
-        PTR_AT(display, 0x08) = effect_data + 0x94;
+        memcpy(effect_data->sprite_data.bytes, copy_source, 12);
+        PTR_AT(display, 0x08) = effect_data->sprite_data.bytes;
         {
             u32 owner_bits = U16_AT(owner, 0x2A);
 
             D_80025308 = 1;
-            S16_AT(effect_data, 0x7E) = (owner_bits >> 9) & 7;
-            S16_AT(effect_data, 0x0A)++;
+            effect_data->direction = (owner_bits >> 9) & 7;
+            effect_data->state++;
         }
 
     case 1:
@@ -452,36 +451,36 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             U16_AT(effect_pos, 0x06) += (u16)origin_offset[1];
             U16_AT(effect_pos, 0x0A) += (u16)origin_offset[2];
             {
-                u8 *task = effect_data - 0x20;
+                u8 *task = (u8 *)effect_data - 0x20;
 
-                if (!(U8_AT(effect_data, 0x7A) & 4)) {
+                if (!(effect_data->flags & 4)) {
                     register_node(task, (s32)project_sprite_chain);
                     U16_AT(display, 0x10) = 0x20;
                     U8_AT(display, 0x0E) = 0x14;
                     U8_AT(display, 0x0D) = 0x14;
                     U8_AT(display, 0x0C) = 0x14;
                     U16_AT(display, 0x14) |= 0x0C;
-                    U8_AT(effect_data, 0x7A) |= 4;
+                    effect_data->flags |= 4;
                 }
             }
         } else {
             U16_AT(effect_pos, 0x0A) = (u16)(state - 0x40);
             {
-                u8 *task = effect_data - 0x20;
+                u8 *task = (u8 *)effect_data - 0x20;
 
-                if (!(U8_AT(effect_data, 0x7A) & 4)) {
+                if (!(effect_data->flags & 4)) {
                     register_node(task, (s32)project_sprite_chain);
                     U16_AT(display, 0x10) = 0x20;
                     U8_AT(display, 0x0E) = 0x14;
                     U8_AT(display, 0x0D) = 0x14;
                     U8_AT(display, 0x0C) = 0x14;
                     U16_AT(display, 0x14) |= 0x0C;
-                    U8_AT(effect_data, 0x7A) |= 4;
+                    effect_data->flags |= 4;
                 }
             }
         }
 
-        if (!(U16_AT(PTR_AT(effect_data, 0x04), 0x00) & 0x80)) {
+        if (!(effect_data->animation->flags & 0x80)) {
             break;
         }
 
@@ -505,24 +504,24 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                     target -= table;
 
                     table = (u32)((u8 *)dir_step_x);
-                    S16_AT(effect_data, 0x78) = target;
-                    target = S16_AT(effect_data, 0x7E);
+                    effect_data->target_height.s = target;
+                    target = effect_data->direction;
                     sprite = PTR_AT(owner, -0x14);
                     target <<= 1;
                     target += table;
                     table = U8_AT(sprite, 0x24);
                     target = U8_AT((u8 *)target, 0x00);
                     table += target;
-                    U8_AT(effect_data, 0xA0) = table;
+                    effect_data->next_tile_x = table;
 
                     table = (u32)((u8 *)dir_step_y);
-                    target = S16_AT(effect_data, 0x7E);
+                    target = effect_data->direction;
                     target <<= 1;
                     target += table;
                     table = U8_AT(sprite, 0x25);
                     target = U8_AT((u8 *)target, 0x00);
                     table += target;
-                    U8_AT(effect_data, 0xA1) = table;
+                    effect_data->next_tile_y = table;
                 }
 
                 {
@@ -537,29 +536,29 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                     delta = owner_axis - sprite_axis;
                 }
                 delta = abs(delta);
-                U8_AT(effect_data, 0x7B) = (u8)((delta * 2) - 1);
+                effect_data->flight_ticks.u = (u8)((delta * 2) - 1);
             } else {
                 s32 height = U16_AT(owner, 0x88);
-                U8_AT(effect_data, 0x7B) = 0x20;
-                S16_AT(effect_data, 0x78) = (s16)(height - 0x50);
+                effect_data->flight_ticks.u = 0x20;
+                effect_data->target_height.s = (s16)(height - 0x50);
             }
 
         }
-        S32_AT(effect_pos, 0x0C) = direction_offsets[S16_AT(effect_data, 0x7E)].x << 16;
-        S32_AT(effect_pos, 0x10) = (u16)direction_offsets[S16_AT(effect_data, 0x7E)].y << 16;
-        S32_AT(effect_pos, 0x14) = ((S16_AT(effect_data, 0x78) << 16) -
-            S32_AT(effect_pos, 0x08)) / S8_AT(effect_data, 0x7B);
+        S32_AT(effect_pos, 0x0C) = direction_offsets[effect_data->direction].x << 16;
+        S32_AT(effect_pos, 0x10) = (u16)direction_offsets[effect_data->direction].y << 16;
+        S32_AT(effect_pos, 0x14) = ((effect_data->target_height.s << 16) -
+            S32_AT(effect_pos, 0x08)) / effect_data->flight_ticks.s;
         {
-            s8 timer = S8_AT(effect_data, 0x7B);
+            s8 timer = effect_data->flight_ticks.s;
             s16 timer_copy;
             s32 duration_squared;
 
             timer_copy = timer;
             duration_squared = timer * timer_copy;
-            S16_AT(effect_data, 0x82) = 0;
-            S16_AT(effect_data, 0x0A)++;
-            S16_AT(effect_data, 0x88) = S8_AT(effect_data, 0x7B);
-            S16_AT(effect_data, 0x8A) = duration_squared;
+            effect_data->timer.s = 0;
+            effect_data->state++;
+            effect_data->initial_ticks = effect_data->flight_ticks.s;
+            effect_data->ticks_squared = duration_squared;
         }
         break;
     }
@@ -573,70 +572,70 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 s32 particle_color;
                 s32 particle_param;
 
-                task = effect_data - 0x20;
+                task = (u8 *)effect_data - 0x20;
                 particle_color = 0x002020E0;
                 random &= 0xFF;
                 particle_param = random | 0x80;
-                spawn_parent_attached_effect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                spawn_parent_attached_effect(task, effect_data->direction, particle_color, particle_param, 0, 0, 0);
             }
         }
 
-        if (S16_AT(effect_data, 0x92) == 0) {
-            S16_AT(effect_data, 0x92) = 1;
-            U8_AT(effect_data, 0x9C) += 0x18;
+        if (effect_data->sprite_phase == 0) {
+            effect_data->sprite_phase = 1;
+            effect_data->sprite_data.fields.unk_9C += 0x18;
         } else {
-            S16_AT(effect_data, 0x92) = 0;
-            U8_AT(effect_data, 0x9C) -= 0x18;
+            effect_data->sprite_phase = 0;
+            effect_data->sprite_data.fields.unk_9C -= 0x18;
         }
 
         {
-            s32 timer = S16_AT(effect_data, 0x88);
-            s32 remaining = S8_AT(effect_data, 0x7B);
+            s32 timer = effect_data->initial_ticks;
+            s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
             U8_AT(display, 0x0C) = (((timer * timer) * 7) << 5) /
-                S16_AT(effect_data, 0x8A) + 0x14;
+                effect_data->ticks_squared + 0x14;
         }
         {
-            s32 timer = S16_AT(effect_data, 0x88);
-            s32 remaining = S8_AT(effect_data, 0x7B);
+            s32 timer = effect_data->initial_ticks;
+            s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
             U8_AT(display, 0x0D) = ((timer * timer) << 7) /
-                S16_AT(effect_data, 0x8A) + 0x14;
+                effect_data->ticks_squared + 0x14;
         }
         {
-            s32 timer = S16_AT(effect_data, 0x88);
-            s32 remaining = S8_AT(effect_data, 0x7B);
+            s32 timer = effect_data->initial_ticks;
+            s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
             U8_AT(display, 0x0E) = ((timer * timer) << 7) /
-                S16_AT(effect_data, 0x8A) + 0x14;
+                effect_data->ticks_squared + 0x14;
         }
 
         if ((check_adjacent_tile_height_clearance(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
                 S16_AT(effect_pos, 0x0A), PTR_AT(owner, 0x60)) << 16) != 0) {
-            S16_AT(effect_data, 0x0A) = 8;
-            S16_AT(effect_data, 0x82) = 0;
+            effect_data->state = 8;
+            effect_data->timer.s = 0;
             U8_AT(display, 0x0E) = 0;
             U8_AT(display, 0x0D) = 0;
             U8_AT(display, 0x0C) = 0;
             break;
         }
 
-        U8_AT(effect_data, 0x7B)--;
-        if (S8_AT(effect_data, 0x7B) <= 0) {
+        effect_data->flight_ticks.u--;
+        if (effect_data->flight_ticks.s <= 0) {
             if (PTR_AT(owner, 0x60) != 0) {
 
-                S16_AT(effect_data, 0x0A) = 3;
-                S16_AT(effect_data, 0x82) = 0;
+                effect_data->state = 3;
+                effect_data->timer.s = 0;
                 copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
                 U16_AT(effect_pos, 0x02) = U16_AT(copy_source, 0x02);
                 U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
-                U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
+                U16_AT(effect_pos, 0x0A) = effect_data->target_height.u;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 break;
             }
 
-            S16_AT(effect_data, 0x0A) = 8;
-            S16_AT(effect_data, 0x82) = 0;
+            effect_data->state = 8;
+            effect_data->timer.s = 0;
             U8_AT(display, 0x0E) = 0;
             U8_AT(display, 0x0D) = 0;
             U8_AT(display, 0x0C) = 0;
@@ -651,12 +650,12 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
 
     case 3:
     {
-        if (S16_AT(effect_data, 0x92) == 0) {
-            S16_AT(effect_data, 0x92) = 1;
-            U8_AT(effect_data, 0x9C) += 0x18;
+        if (effect_data->sprite_phase == 0) {
+            effect_data->sprite_phase = 1;
+            effect_data->sprite_data.fields.unk_9C += 0x18;
         } else {
-            S16_AT(effect_data, 0x92) = 0;
-            U8_AT(effect_data, 0x9C) -= 0x18;
+            effect_data->sprite_phase = 0;
+            effect_data->sprite_data.fields.unk_9C -= 0x18;
         }
 
         source = (u8 *)allocate_flagged_object_node(0x212);
@@ -665,12 +664,12 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
 
             entity = source + 0x20;
             {
-                u16 spawn_count = U16_AT(effect_data, 0x82);
+                u16 spawn_count = effect_data->timer.u;
                 S16_AT(entity, 0x0A) = 0x80;
                 S16_AT(entity, 0x02) = 8 - spawn_count;
             }
             {
-                s32 spawn_counter = S16_AT(effect_data, 0x82);
+                s32 spawn_counter = effect_data->timer.s;
                 S16_AT(entity, 0x0C) = spawn_counter << 9;
             }
             copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
@@ -706,10 +705,10 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             }
         }
 
-        S16_AT(effect_data, 0x82)++;
-        if (S16_AT(effect_data, 0x82) == 8) {
-            S16_AT(effect_data, 0x0A) = 4;
-            S16_AT(effect_data, 0x82) = 0;
+        effect_data->timer.s++;
+        if (effect_data->timer.s == 8) {
+            effect_data->state = 4;
+            effect_data->timer.s = 0;
         }
         break;
     }
@@ -719,19 +718,19 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
         s32 fade_frame;
         u8 *target_display;
 
-        U16_AT(effect_data, 0x82)++;
-        fade_frame = S16_AT(effect_data, 0x82);
+        effect_data->timer.u++;
+        fade_frame = effect_data->timer.s;
         if (fade_frame < 20) {
-            U8_AT(display, 0x0C) = ((20 - S16_AT(effect_data, 0x82)) * 0xE0) / 20;
-            U8_AT(display, 0x0D) = ((20 - S16_AT(effect_data, 0x82)) * 0x80) / 20;
-            U8_AT(display, 0x0E) = ((20 - S16_AT(effect_data, 0x82)) * 0x80) / 20;
+            U8_AT(display, 0x0C) = ((20 - effect_data->timer.s) * 0xE0) / 20;
+            U8_AT(display, 0x0D) = ((20 - effect_data->timer.s) * 0x80) / 20;
+            U8_AT(display, 0x0E) = ((20 - effect_data->timer.s) * 0x80) / 20;
 
-            if (S16_AT(effect_data, 0x92) == 0) {
-                S16_AT(effect_data, 0x92) = 1;
-                U8_AT(effect_data, 0x9C) += 0x18;
+            if (effect_data->sprite_phase == 0) {
+                effect_data->sprite_phase = 1;
+                effect_data->sprite_data.fields.unk_9C += 0x18;
             } else {
-                S16_AT(effect_data, 0x92) = 0;
-                U8_AT(effect_data, 0x9C) -= 0x18;
+                effect_data->sprite_phase = 0;
+                effect_data->sprite_data.fields.unk_9C -= 0x18;
             }
 
             for (entity = 0; (s32)entity < 4; entity++) {
@@ -741,21 +740,21 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                     s32 particle_color;
                     s32 particle_param;
 
-                    task = effect_data - 0x20;
+                    task = (u8 *)effect_data - 0x20;
                     particle_color = 0x002020E0;
                     random &= 0xFF;
                     particle_param = random | 0x80;
-                    spawn_parent_attached_effect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                    spawn_parent_attached_effect(task, effect_data->direction, particle_color, particle_param, 0, 0, 0);
                 }
             }
         }
 
-        if (S16_AT(effect_data, 0x82) >= 50) {
+        if (effect_data->timer.s >= 50) {
             u8 *target = PTR_AT(owner, 0x60);
 
             S32_AT(target, 0x1C) |= 0x10000000;
             target_display = PTR_AT(target, -0x14);
-            if (S16_AT(effect_data, 0x82) >= 76) {
+            if (effect_data->timer.s >= 76) {
                 U8_AT(target_display, 0x0E) += 3;
                 U8_AT(target_display, 0x0D) += 3;
                 U8_AT(target_display, 0x0C) -= 4;
@@ -766,7 +765,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             }
         }
 
-        if (S16_AT(effect_data, 0x82) >= 101) {
+        if (effect_data->timer.s >= 101) {
             u8 *target = PTR_AT(owner, 0x60);
             target_display = PTR_AT(target, -0x14);
 
@@ -774,26 +773,26 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             U8_AT(target_display, 0x0E) = 0x80;
             U8_AT(target_display, 0x0D) = 0x80;
             U8_AT(target_display, 0x0C) = 0x80;
-            apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), U8_AT(effect_data, 0x09), owner);
-            S16_AT(effect_data, 0x0A) = 8;
-            S16_AT(effect_data, 0x82) = 0x1E;
+            apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), effect_data->variant, owner);
+            effect_data->state = 8;
+            effect_data->timer.s = 0x1E;
         }
         break;
     }
 
     case 8:
     {
-        u16 old_frame = U16_AT(effect_data, 0x82);
+        u16 old_frame = effect_data->timer.u;
         s16 next_frame = (s16)(old_frame + 1);
 
-        U16_AT(effect_data, 0x82) = (u16)next_frame;
+        effect_data->timer.u = (u16)next_frame;
         if (next_frame >= 31) {
             {
                 s32 effect_active = D_80025308;
-                U16_AT(effect_data, 0x82) = old_frame;
+                effect_data->timer.u = old_frame;
                 if (effect_active == 0) {
                     g_dungeon_status.active_actor = 0;
-                    U16_AT(effect_data, -2) |= NODE_REMOVE;
+                    ((RotatingStatusPrefix *)effect_data)[-1].flags |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
                     D_80025308 = 0;

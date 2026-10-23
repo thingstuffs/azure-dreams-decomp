@@ -1,21 +1,61 @@
+#include "common.h"
 #include "shared/audio_commands.h"
+#include "shared/object_links.h"
+#include "shared/sprite_source.h"
+#include "shared/object_node.h"
+#include "records/Rec_func_800249DC_arg0.h"
+
+/* Callback body of the directional projectile; child callbacks mark activity
+ * at +0x10 while the controller waits to retire. */
+typedef struct DirectionalEffectWork {
+    struct ActorRecord *owner;
+    u16 *animation_flags;
+    u8 pad_08[2];
+    union { s16 s; u16 u; } state;
+    u8 pad_0C[4];
+    s32 child_flags;
+    u8 pad_14[0x3C];
+    union { s16 s; u16 u; } ticks_left;
+    union { s16 s; u16 u; } frame;
+} DirectionalEffectWork;
 /* Directional particle travel, target impact geometry, and timed status effects. */
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_190681c.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-#include "modules/dungeon_ovl_190681c.h"
+
+/* Two child callbacks share the parent word and phase offset. The moving
+ * child reuses its callback's existing target/velocity record. */
+typedef union DirectionalChildWork {
+    DirectionalEffectWork *owner;
+    struct {
+        Rec_func_800249DC_arg0 motion;
+        s16 state;
+    } trail;
+    struct {
+        DirectionalEffectWork *owner;
+        u8 pad_04[8];
+        s16 x, y, z;
+        u8 pad_12[0x3A];
+        s16 state;
+    } impact;
+} DirectionalChildWork;
+
+typedef struct DirectionalChildNode {
+    ObjectNodeHeader header;
+    DirectionalChildWork work;
+} DirectionalChildNode;
 
 /* Moves a particle effect to a directional target, animates its impact, and attempts the target status
    effect. */
-void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) {
-    u8 *actor;
-    u8 *actor_data;
-    u8 *actor_header;
-    ObjectNodeHeader *particle;
+void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPosition *motion, void *context_arg) {
+    ActorRecord *actor;
+    SpriteFrameState *actor_data;
+    ObjectNodeHeader *actor_header;
+    DirectionalChildNode *particle;
     SpriteFrameState *render_data;
-    u8 *particle_data;
+    DirectionalChildWork *particle_data;
     s32 count;
     s32 state;
     s32 tile_x;
@@ -30,18 +70,17 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
     u8 *template_data = fading_sprite_entries;
 
     {
-        actor = (u8 *)S32(effect, 0);
-        original_count = U16(effect, 80);
-        state = S16(effect, 10);
+        actor = effect->owner;
+        original_count = effect->ticks_left.u;
+        state = effect->state.s;
         count = original_count - 1;
     }
-    actor_data = (u8 *)S32(actor, -20);
-    actor_header = actor;
-    actor_header -= 32;
+    actor_data = ((ObjectNodeHeader *)actor)[-1].sprite;
+    actor_header = (ObjectNodeHeader *)actor - 1;
 
-    U16(effect, 80) = (u16)count;
+    effect->ticks_left.u = (u16)count;
     if (state > 0) {
-        actor = (u8 *)S32(effect, 0);
+        actor = effect->owner;
         switch (state) {
         case 1:
             original_count = (s16)count;
@@ -61,29 +100,29 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
         }
         distance = count;
         while (distance >= 0) {
-            particle = (u8 *)allocate_list_node(786, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(786, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 register_node(particle, project_sprite_chain);
-                render_data = (u8 *)*(s32 *)&particle->sprite;
-                particle->unk_10 = (s32)spawn_callback;
-                ((ObjectPosition *)*(s32 *)&particle->position)->x.w.i = (u16)(U16(motion, 2) +
+                render_data = particle->header.sprite;
+                particle->header.unk_10 = spawn_callback;
+                particle->header.position->x.w.i = (u16)((u16)motion->x.w.i +
                                                  (rand() & 0x1ff) - 256);
-                ((ObjectPosition *)*(s32 *)&particle->position)->y.w.i = (u16)(U16(motion, 6) +
+                particle->header.position->y.w.i = (u16)((u16)motion->y.w.i +
                                                  (rand() & 0x1ff) - 256);
-                particle_data = ((u8 *)particle) + 32;
-                ((ObjectPosition *)*(s32 *)&particle->position)->z.w.i = (u16)(U16(motion, 10) +
+                particle_data = &particle->work;
+                particle->header.position->z.w.i = (u16)((u16)motion->z.w.i +
                                                   (rand() & 0xf) - 8);
-                S32(particle_data, 28) = S32(motion, 0);
-                S32(particle_data, 32) = S32(motion, 4);
-                S32(particle_data, 36) = S32(motion, 8);
-                S32(particle_data, 52) = S32(motion, 12);
-                S32(particle_data, 56) = S32(motion, 16);
-                S32(particle_data, 60) = S32(motion, 20);
-                U16(particle_data, 72) = U16(effect, 80);
+                particle_data->trail.motion.unk_1C = motion->x.v;
+                particle_data->trail.motion.unk_20 = motion->y.v;
+                particle_data->trail.motion.unk_24 = motion->z.v;
+                particle_data->trail.motion.unk_34 = motion->velocity_x;
+                particle_data->trail.motion.unk_38 = motion->velocity_y;
+                particle_data->trail.motion.unk_3C = motion->velocity_z;
+                particle_data->trail.motion.unk_48 = effect->ticks_left.u;
 
                 {
                     s16 flags;
-                    u8 *tpl;
+                    SpriteSourceEntry *tpl;
                     render_data->scale_y = 4096;
                     render_data->scale_x = 4096;
                     render_data->tpage_abr = 32;
@@ -91,62 +130,62 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                     render_data->color.word = 0x101010;
                     render_data->unk_00 = (s32)template_data;
                     render_data->flags = flags | 0xc;
-                    tpl = (u8 *)*(s32 *)&render_data->unk_00;
-                    render_data->source = S32(tpl, 4);
+                    tpl = render_data->unk_00;
+                    render_data->source = tpl->unk_04;
                     render_data->unk_04 = 0;
                     render_data->unk_05 = 0;
                 }
-                S32(particle, 32) = (s32)effect;
-                S16(particle_data, 76) = 0;
+                particle->work.owner = effect;
+                particle_data->trail.state = 0;
             }
             distance--;
         }
     }
 
     {
-        s32 mode = S16(effect, 10);
+        s32 mode = effect->state.s;
         switch (mode) {
         case 0:
         {
             s32 target;
             s32 delta_x;
             s32 abs_y;
-            if ((U16(S32(effect, 4), 0) & 0x80) != 0) {
-                if (resolve_record_orientation_or_fallback(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
+            if ((*effect->animation_flags & 0x80) != 0) {
+                if (resolve_record_orientation_or_fallback(actor_header->sprite->source, actor_header->sprite, offset, 0) == 0) {
                     offset[1] = 0;
                     offset[0] = 0;
-                    offset[2] = (U16(actor_data, 20) & 0x8000) ? -48 : 0;
+                    offset[2] = (actor_data->flags & 0x8000) ? -48 : 0;
                 }
-                target = scan_actor_along_heading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
+                target = scan_actor_along_heading(actor, actor_data->unk_24, actor_data->unk_25, actor->facing,
                                        (s16)get_definition_entry_byte_13(36));
-                S32(actor, 96) = target;
+                actor->target = target;
                 if (target == 0) {
-                    U8(actor, 114) = U8(actor_data, 36);
-                    U8(actor, 115) = U8(actor_data, 37);
+                    actor->target_tile_x = actor_data->unk_24;
+                    actor->target_tile_y = actor_data->unk_25;
                 } else {
-                    render_data = (u8 *)S32(target, -20);
+                    render_data = ((ObjectNodeHeader *)target)[-1].sprite;
                     if ((render_data->flags & 0x8000) != 0) {
-                        if ((U16(context_arg, 20) & 0x8000) != 0) {
-                            U16(effect, 10) = 240;
+                        if ((((SpriteFrameState *)context_arg)->flags & 0x8000) != 0) {
+                            effect->state.u = 240;
                             return;
                         }
                     }
-                    U8(actor, 114) = render_data->unk_24;
-                    U8(actor, 115) = render_data->unk_25;
+                    actor->target_tile_x = render_data->unk_24;
+                    actor->target_tile_y = render_data->unk_25;
                 }
                 {
-                    u8 *effect_header = effect - 32;
+                    u8 *effect_header = (u8 *)effect - 32;
                     u8 *callback = handle_spawn_initialize_randomized_offset_parent;
-                    S32(motion, 0) = S32(S32(actor_header, 8), 0) + ((s32)offset[0] << 16);
-                    S32(motion, 4) = S32(S32(actor_header, 8), 4) + ((s32)offset[1] << 16);
-                    S32(motion, 8) = S32(S32(actor_header, 8), 8) + ((s32)offset[2] << 16);
+                    motion->x.v = actor_header->position->x.v + ((s32)offset[0] << 16);
+                    motion->y.v = actor_header->position->y.v + ((s32)offset[1] << 16);
+                    motion->z.v = actor_header->position->z.v + ((s32)offset[2] << 16);
                     register_node(effect_header, callback);
                 }
-                delta_x = S8(actor, 114);
-                delta_y = U8(actor_data, 36);
-                abs_y = U8(actor_data, 37);
+                delta_x = actor->target_tile_x;
+                delta_y = actor_data->unk_24;
+                abs_y = actor_data->unk_25;
                 delta_x -= delta_y;
-                delta_y = S8(actor, 115);
+                delta_y = actor->target_tile_y;
                 distance = abs(delta_x);
                 delta_y -= abs_y;
                 abs_y = abs(delta_y);
@@ -155,38 +194,38 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                 if (distance < 4)
                     distance = 4;
                 frames = distance << 2;
-                U16(effect, 80) = (u16)frames;
-                abs_y = S8(actor, 114);
-                delta_x = S16(motion, 2);
+                effect->ticks_left.u = (u16)frames;
+                abs_y = actor->target_tile_x;
+                delta_x = motion->x.w.i;
                 abs_y <<= 6;
                 distance = abs_y + 32;
                 frames = (s16)frames;
                 delta_x = distance - delta_x;
                 delta_x /= frames;
-                velocity_y = S8(actor, 115);
+                velocity_y = actor->target_tile_y;
                 velocity_y <<= 6;
                 abs_y = velocity_y + 32;
-                velocity_y = S16(motion, 6);
+                velocity_y = motion->y.w.i;
                 state = delta_x << 16;
-                S32(motion, 12) = state;
-                delta_x = S16(effect, 80);
+                motion->velocity_x = state;
+                delta_x = effect->ticks_left.s;
                 velocity_y = abs_y - velocity_y;
                 velocity_y /= delta_x;
-                S32(motion, 16) = velocity_y << 16;
-                tile_x = (S8(actor, 114) << 6) & 0xffc0;
-                tile_y = (S8(actor, 115) << 6) & 0xffc0;
-                distance = (s16)sample_terrain_surface_height(tile_x, tile_y, U16(S32(actor_header, 8), 10) - 48) - 192;
+                motion->velocity_y = velocity_y << 16;
+                tile_x = (actor->target_tile_x << 6) & 0xffc0;
+                tile_y = (actor->target_tile_y << 6) & 0xffc0;
+                distance = (s16)sample_terrain_surface_height(tile_x, tile_y, (u16)actor_header->position->z.w.i - 48) - 192;
                 {
                     s32 velocity_z;
                     s32 travel_frames;
-                    velocity_z = S16(motion, 10);
-                    travel_frames = S16(effect, 80);
+                    velocity_z = motion->z.w.i;
+                    travel_frames = effect->ticks_left.s;
                     velocity_z = (distance - velocity_z) / travel_frames;
-                    S32(motion, 20) = velocity_z << 16;
+                    motion->velocity_z = velocity_z << 16;
                 }
-                U16(effect, 82) = 0;
+                effect->frame.u = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                U16(effect, 10) = (u16)(U16(effect, 10) + 1);
+                effect->state.u = (u16)(effect->state.u + 1);
                 return;
             }
             break;
@@ -195,19 +234,19 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
         case 1:
         {
             s16 frame_counter;
-            if (S16(effect, 80) >= 0) {
-                S32(motion, 0) += S32(motion, 12);
-                S32(motion, 4) += S32(motion, 16);
-                S32(motion, 8) += S32(motion, 20);
+            if (effect->ticks_left.s >= 0) {
+                motion->x.v += motion->velocity_x;
+                motion->y.v += motion->velocity_y;
+                motion->z.v += motion->velocity_z;
             }
-            frame_counter = (u16)U16(effect, 82) + 1;
-            U16(effect, 82) = (u16)frame_counter;
+            frame_counter = (u16)effect->frame.u + 1;
+            effect->frame.u = (u16)frame_counter;
             if (frame_counter >= 8) {
-                U16(effect, 82) = 4;
+                effect->frame.u = 4;
             }
-            if (S16(effect, 80) <= 0 && S16(effect, 82) == 7) {
-                U16(effect, 80) = 8;
-                U16(effect, 10) = (u16)(U16(effect, 10) + 1);
+            if (effect->ticks_left.s <= 0 && effect->frame.s == 7) {
+                effect->ticks_left.u = 8;
+                effect->state.u = (u16)(effect->state.u + 1);
                 return;
             }
             break;
@@ -215,76 +254,76 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
 
         case 2:
         {
-            u16 frame_counter = (u16)U16(effect, 82) + 1;
-            U16(effect, 82) = frame_counter;
-            if (S16(effect, 80) == mode) {
-                if (S32(actor, 96) != 0) {
-                    particle = (u8 *)allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
+            u16 frame_counter = (u16)effect->frame.u + 1;
+            effect->frame.u = frame_counter;
+            if (effect->ticks_left.s == mode) {
+                if (actor->target != 0) {
+                    particle = allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
                         register_node(particle, D_80024C7C);
-                        particle->unk_10 = (s32)D_80024B60;
+                        particle->header.unk_10 = D_80024B60;
                         {
-                            s32 coordinate = S8(actor, 114);
-                            particle_data = ((u8 *)particle) + 32;
-                            S16(particle_data, 12) = coordinate << 6;
-                            coordinate = S8(actor, 115);
-                            S16(particle_data, 14) = coordinate << 6;
-                            S16(particle_data, 16) = U16(motion, 10);
+                            s32 coordinate = actor->target_tile_x;
+                            particle_data = &particle->work;
+                            particle_data->impact.x = coordinate << 6;
+                            coordinate = actor->target_tile_y;
+                            particle_data->impact.y = coordinate << 6;
+                            particle_data->impact.z = (u16)motion->z.w.i;
                         }
-                        S32(particle, 32) = (s32)effect;
-                        S16(particle_data, 76) = 0;
+                        particle->work.owner = effect;
+                        particle_data->impact.state = 0;
                     }
                 }
             }
-            if (S16(effect, 80) <= 0) {
-                if (S32(actor, 96) != 0) {
-                    U16(effect, 10) = 240;
+            if (effect->ticks_left.s <= 0) {
+                if (actor->target != 0) {
+                    effect->state.u = 240;
                     return;
                 }
-                unlink_node(effect - 32);
-                U16(effect, 10) = 255;
+                unlink_node((u8 *)effect - 32);
+                effect->state.u = 255;
                 return;
             }
             break;
         }
 
         case 240:
-            unlink_node(effect - 32);
-            U16(effect, 80) = 10;
+            unlink_node((u8 *)effect - 32);
+            effect->ticks_left.u = 10;
             initialize_timed_motion_step(8, 16);
-            U16(effect, 10) = (u16)(U16(effect, 10) + 1);
+            effect->state.u = (u16)(effect->state.u + 1);
             return;
 
         case 241:
-            copy_selected_table_pair(S32(actor, 96), S16(effect, 80));
-            if (S16(effect, 80) == 6 && try_trigger_target_record_effect(S32(actor, 96), 4, actor) == 0 &&
-                S32(actor, 96) != 0) {
-                try_apply_effect_four_by_chance(S32(actor, 96), U8(current_spell_effect_variant, 0) == 255 ? 255 : 16, 4);
+            copy_selected_table_pair(actor->target, effect->ticks_left.s);
+            if (effect->ticks_left.s == 6 && try_trigger_target_record_effect(actor->target, 4, actor) == 0 &&
+                actor->target != 0) {
+                try_apply_effect_four_by_chance(actor->target, current_spell_effect_variant[0] == 255 ? 255 : 16, 4);
             }
-            if (S16(effect, 80) > 0)
+            if (effect->ticks_left.s > 0)
                 break;
-            unlink_node(effect - 32);
-            U16(effect, 10) = 255;
+            unlink_node((u8 *)effect - 32);
+            effect->state.u = 255;
             return;
 
         case 255:
         {
             s32 effect_flags;
-            effect_flags = S32(effect, 16);
+            effect_flags = effect->child_flags;
             if ((effect_flags & 0x8000) != 0) {
-                S32(effect, 16) = effect_flags & ~0x8000;
+                effect->child_flags = effect_flags & ~0x8000;
                 return;
             } else {
-                U16(effect, 80) = 10;
-                U16(effect, 10) = (u16)(U16(effect, 10) + 1);
+                effect->ticks_left.u = 10;
+                effect->state.u = (u16)(effect->state.u + 1);
                 return;
             }
         }
 
         case 256:
-            if (S16(effect, 80) < 0) {
+            if (effect->ticks_left.s < 0) {
                 g_dungeon_status.active_actor = 0;
-                U16(effect, -2) = (u16)(U16(effect, -2) | 0x8000);
+                ((ObjectStatusPrefix16 *)effect)[-1].unk_00 = (u16)(((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
             break;

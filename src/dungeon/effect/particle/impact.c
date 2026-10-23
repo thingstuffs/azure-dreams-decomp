@@ -438,31 +438,31 @@ s32 update_palette_particle_transition(s32 limit) {
 extern void advance_sprite_animation_and_textures(void *visual);
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
-void advance_effect_motion_and_animation(void *effect, void *position, SpriteFrameState *visual) {
+void advance_effect_motion_and_animation(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame_count;
     u16 frames_left;
 
-    *(s32 *)((u8 *)position + 0) += *(s32 *)((u8 *)effect + 0x7C);
-    *(s32 *)((u8 *)position + 4) += *(s32 *)((u8 *)effect + 0x80);
-    *(s32 *)((u8 *)position + 8) += *(s32 *)((u8 *)effect + 0x84);
-    accel_y = *(s32 *)((u8 *)effect + 0x8C);
-    accel_z = *(s32 *)((u8 *)effect + 0x90);
-    *(s32 *)((u8 *)effect + 0x7C) += *(s32 *)((u8 *)effect + 0x88);
-    *(s32 *)((u8 *)effect + 0x80) += accel_y;
-    *(s32 *)((u8 *)effect + 0x84) += accel_z;
+    position->x.v += effect->velocity_x;
+    position->y.v += effect->velocity_y;
+    position->z.v += effect->velocity_z;
+    accel_y = effect->accel_y;
+    accel_z = effect->accel_z;
+    effect->velocity_x += effect->accel_x;
+    effect->velocity_y += accel_y;
+    effect->velocity_z += accel_z;
     visual->scale_x -= 0xC8;
     visual->scale_y -= 0xC8;
-    frame_count = *(u16 *)((u8 *)effect + 0x2A);
+    frame_count = effect->anim_ticks;
     impact_effect_update_flag = 1;
     frame_count += 1;
-    *(u16 *)((u8 *)effect + 0x2A) = frame_count;
+    effect->anim_ticks = frame_count;
     if (!(frame_count & 1)) {
         advance_sprite_animation_and_textures(visual);
     }
-    frames_left = *(u16 *)((u8 *)effect + 0x28) - 1;
-    *(u16 *)((u8 *)effect + 0x28) = frames_left;
+    frames_left = effect->ticks_left - 1;
+    effect->ticks_left = frames_left;
     if ((frames_left << 0x10) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -975,7 +975,7 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
 extern void advance_sprite_animation_and_textures(void *render_state);
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
-void advance_rotating_ballistic_particle_and_expire(void *state, void *position, SpriteFrameState *render_state) {
+void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *state, ObjectPosition *position, SpriteFrameState *render_state) {
     s32 x_step;
     s32 y_step;
     s32 z_step;
@@ -983,39 +983,39 @@ void advance_rotating_ballistic_particle_and_expire(void *state, void *position,
     u16 ticks_left;
     u16 frame_count;
 
-    frame_count = *(u16 *)((u8 *)state + 0x2A);
+    frame_count = state->anim_ticks;
     impact_effect_update_flag = 1;
     frame_count = frame_count + 1;
-    *(u16 *)((u8 *)state + 0x2A) = frame_count;
+    state->anim_ticks = frame_count;
     if (!(frame_count & 1)) {
         advance_sprite_animation_and_textures(render_state);
     }
-    if (*(s16 *)((u8 *)state + 0x2C) == 0) {
+    if (state->rotation_axis == 0) {
         render_state->angle_x = render_state->angle_x + 0x190;
     }
-    if (*(s16 *)((u8 *)state + 0x2C) == 1) {
+    if (state->rotation_axis == 1) {
         render_state->angle_z = render_state->angle_z + 0x190;
     }
-    x_step = *(s32 *)((u8 *)state + 0x7C);
-    *(s32 *)((u8 *)state + 0x84) += *(s32 *)((u8 *)state + 0x90);
+    x_step = state->velocity_x;
+    state->velocity_z += state->accel_z;
     if (x_step < 0) {
         x_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)position + 2) += x_step >> 16;
-    y_step = *(s32 *)((u8 *)state + 0x80);
+    position->x.w.i = (u16)position->x.w.i + (x_step >> 16);
+    y_step = state->velocity_y;
     if (y_step < 0) {
         y_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)position + 6) += y_step >> 16;
-    z_step = *(s32 *)((u8 *)state + 0x84);
+    position->y.w.i = (u16)position->y.w.i + (y_step >> 16);
+    z_step = state->velocity_z;
     if (z_step < 0) {
         z_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)position + 0xA) += z_step >> 16;
+    position->z.w.i = (u16)position->z.w.i + (z_step >> 16);
     end_flag = render_state->flags & 0x8000;
     render_state->flags = end_flag;
-    if ((end_flag != 0) || (ticks_left = *(u16 *)((u8 *)state + 0x28) - 1,
-                            *(u16 *)((u8 *)state + 0x28) = ticks_left,
+    if ((end_flag != 0) || (ticks_left = state->ticks_left - 1,
+                            state->ticks_left = ticks_left,
                             ((ticks_left << 16) <= 0))) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -1382,29 +1382,42 @@ typedef struct {
     s32 words[4];
 } Aligned16;
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define VU16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-#define PACKED_AT(p, o) (((PackedWord *)((u8 *)(p) + (o)))->value)
 
 extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
 extern void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 
 extern s16 D_8002992C;
 
+
+/* The leading 0x20 bytes receive the expanded sprite-entry transform. */
+typedef struct OwnerFollowingWork {
+    u8 transform[0x20];
+    ObjectNodeHeader *owner;
+    u8 pad_24[8];
+    union { s16 s; u16 u; } state;
+    u8 pad_2E[2];
+    u16 move_ticks;
+    u16 anim_ticks;
+    s16 entry_step;
+    u8 pad_36[2];
+    s16 max_index;
+    s16 min_index;
+    u8 pad_3C[0x14];
+    s32 rise_speed;
+    u8 pad_54[8];
+    s32 rise_accel;
+} OwnerFollowingWork;
+
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
-void update_owner_following_effect(void *effect_in, void *position_in, void *visual_in)
+void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition *position_in, SpriteFrameState *visual_in)
 {
     LocalPoints offsets;
     u8 *copy_src;
-    u8 *owner;
-    u8 *owner_pos;
-    u8 *owner_visual;
+    ObjectNodeHeader *owner;
+    ObjectPosition *owner_pos;
+    SpriteFrameState *owner_visual;
     u8 *world;
     s32 fade;
     s32 half_tile;
@@ -1423,55 +1436,55 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
 
     impact_effect_update_flag = 1;
     half_tile = 0x20;
-    S16_AT(visual_in, 0x10) = half_tile;
-    U16_AT(visual_in, 0x14) |= 0xC;
-    owner = PTR_AT(effect_in, 0x20);
+    visual_in->tpage_abr = half_tile;
+    visual_in->flags |= 0xC;
+    owner = effect_in->owner;
     world = ((u8 *)primary_actor_record);
 
     if (owner == 0) {
-        state = S16_AT(effect_in, 0x2C);
+        state = effect_in->state.s;
         switch (state) {
         case 0:
-            move_ticks = U16_AT(effect_in, 0x30);
-            anim_ticks = U16_AT(effect_in, 0x32);
+            move_ticks = effect_in->move_ticks;
+            anim_ticks = effect_in->anim_ticks;
             move_ticks--;
             anim_ticks++;
-            VU16_AT(effect_in, 0x32) = anim_ticks;
+            effect_in->anim_ticks = anim_ticks;
             anim_ticks = (anim_ticks << 16) >> 16;
-            U16_AT(effect_in, 0x30) = move_ticks;
+            effect_in->move_ticks = move_ticks;
             if (anim_ticks < 0x19) {
                 fade = anim_ticks << 8;
-                U16_AT(visual_in, 0x20) = fade;
-                U16_AT(visual_in, 0x1E) = fade;
-                U16_AT(visual_in, 0x1C) = fade;
-                S16_AT(effect_in, 0x3A) = 0;
-                S16_AT(effect_in, 0x38) = 1;
-                S16_AT(effect_in, 0x34) = 1;
-                resolve_and_step_entry_index(visual_in, (u8 *)effect_in + 0x34,
-                              S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
-                copy_and_expand_effect_record(effect_in, S32_AT(visual_in, 0));
+                visual_in->unk_20 = fade;
+                visual_in->scale_y = fade;
+                visual_in->scale_x = fade;
+                effect_in->min_index = 0;
+                effect_in->max_index = 1;
+                effect_in->entry_step = 1;
+                resolve_and_step_entry_index(visual_in, &effect_in->entry_step,
+                              effect_in->min_index, effect_in->max_index);
+                copy_and_expand_effect_record(effect_in, visual_in->unk_00);
                 break;
             }
-            U16_AT(effect_in, 0x30) = 0;
-            U16_AT(effect_in, 0x32) = 0;
-            U16_AT(effect_in, 0x2C) = U16_AT(effect_in, 0x2C) + 1;
+            effect_in->move_ticks = 0;
+            effect_in->anim_ticks = 0;
+            effect_in->state.u = effect_in->state.u + 1;
             break;
         case 1:
-            next_tick = U16_AT(effect_in, 0x32) + 1;
-            U16_AT(effect_in, 0x32) = next_tick;
+            next_tick = effect_in->anim_ticks + 1;
+            effect_in->anim_ticks = next_tick;
             if (next_tick & 1) {
-                S16_AT(effect_in, 0x3A) = state;
-                S16_AT(effect_in, 0x38) = 0xF;
-                S16_AT(effect_in, 0x34) = state;
-                resolve_and_step_entry_index(visual_in, (u8 *)effect_in + 0x34,
-                              S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
-                copy_and_expand_effect_record(effect_in, S32_AT(visual_in, 0));
+                effect_in->min_index = state;
+                effect_in->max_index = 0xF;
+                effect_in->entry_step = state;
+                resolve_and_step_entry_index(visual_in, &effect_in->entry_step,
+                              effect_in->min_index, effect_in->max_index);
+                copy_and_expand_effect_record(effect_in, visual_in->unk_00);
             }
-            if (S16_AT(((u8 *)primary_actor_record), 0x96) == 0) {
-                U16_AT(effect_in, 0x30) = 0;
-                S32_AT(effect_in, 0x50) = 0x200000;
-                S32_AT(effect_in, 0x5C) = 0;
-                U16_AT(effect_in, 0x2C) = U16_AT(effect_in, 0x2C) + 1;
+            if ((s16)primary_actor_record->unk_96 == 0) {
+                effect_in->move_ticks = 0;
+                effect_in->rise_speed = 0x200000;
+                effect_in->rise_accel = 0;
+                effect_in->state.u = effect_in->state.u + 1;
             }
             break;
         case 2:
@@ -1483,16 +1496,16 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
             s32 biased_x;
             s32 biased_y;
 
-            S32_AT(position_in, 0x14) = S32_AT(position_in, 8);
-            rise_speed = S32_AT(effect_in, 0x50) + S32_AT(effect_in, 0x5C);
-            S32_AT(effect_in, 0x50) = rise_speed;
-            S32_AT(position_in, 8) += rise_speed;
-            pos_x = S16_AT(position_in, 2);
+            position_in->velocity_z = position_in->z.v;
+            rise_speed = effect_in->rise_speed + effect_in->rise_accel;
+            effect_in->rise_speed = rise_speed;
+            position_in->z.v += rise_speed;
+            pos_x = position_in->x.w.i;
             biased_x = pos_x - 0x20;
             if (biased_x < 0) {
                 biased_x = pos_x + 0x1F;
             }
-            pos_y = S16_AT(position_in, 6);
+            pos_y = position_in->y.w.i;
             biased_y = pos_y - 0x20;
             if (biased_y < 0) {
                 biased_y = pos_y + 0x1F;
@@ -1514,19 +1527,19 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
                     process_entries_at_coordinates(world,
                                   (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
                                   (tile_y = base_y + point->y),
-                                  S16_AT(position_in, 0xA),
-                                  (s16)(U16_AT(position_in, 0xA) - 0x40));
-                    offset_x = S16_AT(point, 0);
+                                  position_in->z.w.i,
+                                  (s16)((u16)position_in->z.w.i - 0x40));
+                    offset_x = (s16)point->x;
                     update_timed((u8 *)effect_in - 0x20,
-                                  (s16)(U16_AT(position_in, 2) + (offset_x << 6)),
-                                  (s16)(U16_AT(position_in, 6) + ((s32)(point->y << 16) >> 10)),
-                                  S16_AT(position_in, 0xA), S16_AT(position_in, 0x16));
+                                  (s16)((u16)position_in->x.w.i + (offset_x << 6)),
+                                  (s16)((u16)position_in->y.w.i + ((s32)(point->y << 16) >> 10)),
+                                  position_in->z.w.i, S16_AT(position_in, 0x16));
                     row++;
                 } while (row < 3);
             } while (++column < 3);
 
-            next_tick = U16_AT(effect_in, 0x30) + 1;
-            U16_AT(effect_in, 0x30) = next_tick;
+            next_tick = effect_in->move_ticks + 1;
+            effect_in->move_ticks = next_tick;
             if (next_tick >= 0x28) {
                 D_8002992C = 0;
                 D_80028630 = 0;
@@ -1537,30 +1550,30 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
             break;
         }
     } else {
-        if (U16_AT(owner, 0x1E) & 0x8000) {
+        if (owner->flags & 0x8000) {
             U16_AT(effect_in, -2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        owner_pos = PTR_AT(owner, 8);
-        S16_AT(position_in, 2) = U16_AT(owner_pos, 2);
-        S16_AT(position_in, 6) = U16_AT(owner_pos, 6);
-        S16_AT(position_in, 0xA) = U16_AT(owner_pos, 0xA);
-        owner = PTR_AT(effect_in, 0x20);
-        flags = U16_AT(visual_in, 0x14);
-        owner_visual = PTR_AT(owner, 0xC);
+        owner_pos = owner->position;
+        position_in->x.w.i = (u16)owner_pos->x.w.i;
+        position_in->y.w.i = (u16)owner_pos->y.w.i;
+        position_in->z.w.i = (u16)owner_pos->z.w.i;
+        owner = effect_in->owner;
+        flags = visual_in->flags;
+        owner_visual = owner->sprite;
         flags |= 0xC;
-        U16_AT(visual_in, 0x14) = flags;
-        S16_AT(visual_in, 0x10) = half_tile;
-        set_mesh_entry_address(visual_in, S8_AT(owner_visual, 4));
-        copy_and_expand_effect_record(effect_in, S32_AT(visual_in, 0));
-        U16_AT(visual_in, 0x1C) = U16_AT(owner_visual, 0x1C);
-        U16_AT(visual_in, 0x1E) = U16_AT(owner_visual, 0x1E);
-        U16_AT(visual_in, 0x20) = U16_AT(owner_visual, 0x20);
-        S32_AT(visual_in, 0xC) = S32_AT(owner_visual, 0xC);
-        U16_AT(visual_in, 0x16) = U16_AT(owner_visual, 0x16);
-        U16_AT(visual_in, 0x18) = U16_AT(owner_visual, 0x18);
-        U16_AT(visual_in, 0x1A) = U16_AT(owner_visual, 0x1A);
+        visual_in->flags = flags;
+        visual_in->tpage_abr = half_tile;
+        set_mesh_entry_address(visual_in, owner_visual->unk_04);
+        copy_and_expand_effect_record(effect_in, visual_in->unk_00);
+        visual_in->scale_x = owner_visual->scale_x;
+        visual_in->scale_y = owner_visual->scale_y;
+        visual_in->unk_20 = owner_visual->unk_20;
+        visual_in->color.word = owner_visual->color.word;
+        visual_in->angle_x = owner_visual->angle_x;
+        visual_in->angle_y = owner_visual->angle_y;
+        visual_in->angle_z = owner_visual->angle_z;
     }
 }
 
@@ -1869,31 +1882,31 @@ void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_i
 extern void advance_sprite_animation_and_textures(void *visual);
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
-void update_effect_motion_and_visual(void *effect, void *position, SpriteFrameState *visual) {
+void update_effect_motion_and_visual(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame;
     u16 ticks_left;
 
-    *(s32 *)((u8 *)position + 0) += *(s32 *)((u8 *)effect + 0x7C);
-    *(s32 *)((u8 *)position + 4) += *(s32 *)((u8 *)effect + 0x80);
-    *(s32 *)((u8 *)position + 8) += *(s32 *)((u8 *)effect + 0x84);
-    accel_y = *(s32 *)((u8 *)effect + 0x8C);
-    accel_z = *(s32 *)((u8 *)effect + 0x90);
-    *(s32 *)((u8 *)effect + 0x7C) += *(s32 *)((u8 *)effect + 0x88);
-    *(s32 *)((u8 *)effect + 0x80) += accel_y;
-    *(s32 *)((u8 *)effect + 0x84) += accel_z;
+    position->x.v += effect->velocity_x;
+    position->y.v += effect->velocity_y;
+    position->z.v += effect->velocity_z;
+    accel_y = effect->accel_y;
+    accel_z = effect->accel_z;
+    effect->velocity_x += effect->accel_x;
+    effect->velocity_y += accel_y;
+    effect->velocity_z += accel_z;
     visual->scale_x -= 500;
     visual->scale_y -= 500;
-    frame = *(u16 *)((u8 *)effect + 0x2A);
+    frame = effect->anim_ticks;
     impact_effect_update_flag = 1;
     frame += 1;
-    *(u16 *)((u8 *)effect + 0x2A) = frame;
+    effect->anim_ticks = frame;
     if (!(frame & 1)) {
         advance_sprite_animation_and_textures(visual);
     }
-    ticks_left = *(u16 *)((u8 *)effect + 0x28) - 1;
-    *(u16 *)((u8 *)effect + 0x28) = ticks_left;
+    ticks_left = effect->ticks_left - 1;
+    effect->ticks_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -17,4 +17,7 @@ void update_converging_fading_particle(void *effect, ObjectPosition *position);
 void update_spark_emitter_effect(void *effect, ObjectPosition *position);
 void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual);
 
+struct DirectionalEffectWork;
+void update_directional_actor_effect(struct DirectionalEffectWork *effect, ObjectPosition *motion, void *context);
+
 #endif

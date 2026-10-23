@@ -1,26 +1,6 @@
 #include "common.h"
+#include "town/paired_indicators.h"
 #include "shared/dungeon_moving_views.h"
-
-typedef struct S_80024334_0 {
-    void * unk_00;
-    u8 pad_04[0x4];
-    s16 unk_08;
-} S_80024334_0;   /* arg0 in apply_minigame_object_tint */
-
-typedef struct S_80024334_1 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u8 pad_0A[0x2];
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    s32 unk_14;
-    u8 pad_18[0xC];
-    u16 unk_24;
-} S_80024334_1;   /* obj in apply_minigame_object_tint */
 
 typedef struct S_80024334_2 {
     u8 pad_00[0xC];
@@ -33,30 +13,30 @@ typedef struct S_80024334_2 {
 
 
 /* Apply object flags and tint, and copy the selected value triplet. */
-void apply_minigame_object_tint(S_80024334_0 *state, MovingPosition *selected_values, S_80024334_2 *render_state) {
-    S_80024334_1 *source;
+void apply_minigame_object_tint(IndicatorChild *state, MovingPosition *selected_values, S_80024334_2 *render_state) {
+    PairedIndicators *source;
 
-    source = state->unk_00;
+    source = state->source;
 
-    if (source->unk_24 & 1) {
+    if (source->flags & 1) {
         render_state->unk_14 |= 0x80;
     } else {
         render_state->unk_14 &= 0xFF7F;
     }
 
-    if (source->unk_14 != 0) {
+    if (source->blink_color != 0) {
         render_state->unk_0C = 0x808080;
     } else {
         render_state->unk_0C = 0xFFFFFF;
     }
 
-    if (state->unk_08 != 0) {
-        selected_values->unk_02 = source->unk_04;
-        selected_values->unk_06 = source->unk_06;
-        selected_values->unk_0A = source->unk_08;
+    if (state->use_first != 0) {
+        selected_values->unk_02 = source->first_x;
+        selected_values->unk_06 = source->first_y;
+        selected_values->unk_0A = source->first_z;
     } else {
-        selected_values->unk_02 = source->unk_0C;
-        selected_values->unk_06 = source->unk_0E;
-        selected_values->unk_0A = source->unk_10;
+        selected_values->unk_02 = source->second_x;
+        selected_values->unk_06 = source->second_y;
+        selected_values->unk_0A = source->second_z;
     }
 }

@@ -19,7 +19,6 @@ struct S_80045C34;
 s32 draw_linked_sprites_clipped(u8 *,s32,struct S_80045C34 *);
 s32 func_80045C34(u8 *,s32,struct S_80045C34 *);
 s32 process_linked_mesh_states_mode_0(void *,s32,void *);
-void follow_brighten(u8 *,u8 *,u8 *);
 void tint_effect_and_advance_motion(void *,void *);
 void *create_initialized_effect_object(s32,MovingPosition *,s16,s32);
 void advance_sprite_on_alternate_ticks_until_complete(void *,s32,void *);

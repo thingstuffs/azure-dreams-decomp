@@ -1,11 +1,23 @@
 #include "common.h"
-
-#define S8_AT(p, o) (*(s8 *)((u8 *)(p) + (o)))
-#define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
+#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_links.h"
+#include "town/paired_indicators.h"
+
+/* Work passed with the node's motion and sprite parts. The callback integrates
+ * and bounces the position, then awards the value selected by kind. */
+typedef struct FallingTownWork {
+    IndicatorOwner *owner;
+    union { s16 s; u16 u; } state;
+    union { s16 s; u16 u; } timer;
+    u8 unk_08[0x15];
+    s8 unk_1D;
+    u8 pad_1E[0x36];
+    s16 kind;
+} FallingTownWork;
+
 
 typedef struct {
     s32 v[3];
@@ -25,7 +37,7 @@ extern u8 D_8053016C[16];
 extern s32 D_805301C0[4];
 
 /* Per-frame step for the falling town object: integrate its motion and bounce it when it reaches the ground. */
-void step_falling_town_object(void *obj, void *motion, void *part) {
+void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, SpriteFrameState *part) {
     Copy12 values;
     s32 *valuep;
     s32 object_value;
@@ -38,109 +50,109 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
     values = D_80526760;
     valuep = values.v;
 
-    S32_AT(motion, 0) += S32_AT(motion, 0xC);
-    S32_AT(motion, 4) += S32_AT(motion, 0x10);
-    S32_AT(motion, 8) += S32_AT(motion, 0x14);
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 
-    U16_AT(PTR_AT(obj, 0), 0x62) |= 2;
-    state = S16_AT(obj, 4);
+    obj->owner->blink_flags |= 2;
+    state = obj->state.s;
 
     switch (state) {
     case 0:
         func_8003EA54(part);
-        S32_AT(motion, 0x14) += 0x40000;
-        S8_AT(obj, 0x1D) = 0;
-        if (S32_AT(motion, 8) < 0) {
+        motion->velocity_z += 0x40000;
+        obj->unk_1D = 0;
+        if (motion->z.v < 0) {
             return;
         }
-        S32_AT(motion, 8) = 0;
-        U16_AT(obj, 6) = 15;
-        S32_AT(motion, 0xC) = ((func_80071494() % 448) - 128) << 12;
-        S32_AT(motion, 0x10) = ((func_80071494() % 160) + 64) << 12;
-        S32_AT(motion, 0x14) = -0x100000;
-        U16_AT(obj, 4)++;
+        motion->z.v = 0;
+        obj->timer.u = 15;
+        motion->velocity_x = ((func_80071494() % 448) - 128) << 12;
+        motion->velocity_y = ((func_80071494() % 160) + 64) << 12;
+        motion->velocity_z = -0x100000;
+        obj->state.u++;
         return;
     case 1:
         func_8003EA54(part);
-        S32_AT(motion, 0x14) += 0x40000;
-        timer1 = U16_AT(obj, 6) - 1;
-        U16_AT(obj, 6) = timer1;
-        if (S32_AT(motion, 8) < 0) {
+        motion->velocity_z += 0x40000;
+        timer1 = obj->timer.u - 1;
+        obj->timer.u = timer1;
+        if (motion->z.v < 0) {
             return;
         }
         if ((s16)timer1 > 0) {
-            S32_AT(motion, 8) = 0;
-            S32_AT(motion, 0x14) = -S32_AT(motion, 0x14);
+            motion->z.v = 0;
+            motion->velocity_z = -motion->velocity_z;
             return;
         }
-        S32_AT(motion, 8) = 0;
-        S32_AT(motion, 0x10) = 0;
-        S32_AT(motion, 0xC) = 0;
-        S32_AT(motion, 0x14) = ((func_80071494() & 0xFF) << 11) + 0xFFEB0000;
-        U16_AT(obj, 6) = (func_80071494() & 0xF) + 30;
-        U16_AT(obj, 4)++;
+        motion->z.v = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        motion->velocity_z = ((func_80071494() & 0xFF) << 11) + 0xFFEB0000;
+        obj->timer.u = (func_80071494() & 0xF) + 30;
+        obj->state.u++;
         return;
     case 2:
         func_8003EA54(part);
-        S32_AT(motion, 0x14) += 0x30000;
-        U16_AT(obj, 6)--;
-        if (S32_AT(motion, 8) >= 0) {
-            S32_AT(motion, 8) = 0;
-            if (S16_AT(obj, 6) < 0) {
-                object_value = D_805301C0[S16_AT(obj, 0x54)];
-                S16_AT(part, 0x12) = 0;
-                S8_AT(part, 4) = 0;
-                S8_AT(part, 5) = 0;
-                S32_AT(part, 8) = object_value;
-                S32_AT(motion, 0x14) = 0;
-                U16_AT(obj, 6) = 150;
-                U16_AT(obj, 4)++;
+        motion->velocity_z += 0x30000;
+        obj->timer.u--;
+        if (motion->z.v >= 0) {
+            motion->z.v = 0;
+            if (obj->timer.s < 0) {
+                object_value = D_805301C0[obj->kind];
+                part->clut = 0;
+                part->unk_04 = 0;
+                part->unk_05 = 0;
+                part->source = object_value;
+                motion->velocity_z = 0;
+                obj->timer.u = 150;
+                obj->state.u++;
             } else {
-                S32_AT(motion, 0x14) = -S32_AT(motion, 0x14) >> 1;
+                motion->velocity_z = -motion->velocity_z >> 1;
             }
         }
         call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
-            scene_value_total = values.v[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
+            scene_value_total = values.v[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
             return;
         }
         return;
     case 3:
-        timer3 = U16_AT(obj, 6);
+        timer3 = obj->timer.u;
         timer3--;
-        U16_AT(obj, 6) = timer3;
+        obj->timer.u = timer3;
         if ((s16)timer3 < 0) {
-            U16_AT(obj, 6) = 31;
-            U16_AT(obj, 4)++;
+            obj->timer.u = 31;
+            obj->state.u++;
         }
         call_result = func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
-            scene_value_total = valuep[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
+            scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
             return;
         }
         return;
     case 4:
         if (func_80240810(D_8053016C, motion, score_bounce_motion_data, town_motion_state) != 0) {
-            scene_value_total = valuep[S16_AT(obj, 0x54)] * 1000 + scene_value_total;
+            scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             S16_AT(obj, 4) = 255;
         }
-        if ((U16_AT(obj, 6) >> 2) & 1) {
-            U16_AT(part, 0x14) |= 0x80;
+        if ((obj->timer.u >> 2) & 1) {
+            part->flags |= 0x80;
         } else {
-            U16_AT(part, 0x14) &= 0xFF7F;
+            part->flags &= 0xFF7F;
         }
-        timer4 = U16_AT(obj, 6);
+        timer4 = obj->timer.u;
         timer4--;
-        U16_AT(obj, 6) = timer4;
+        obj->timer.u = timer4;
         if ((s16)timer4 > 0) {
             return;
         }
-        U16_AT(obj, 4) = 255;
+        obj->state.u = 255;
         return;
     case 255:
-        func_8023FB18((u8 *)obj + 8);
+        func_8023FB18(obj->unk_08);
         U16_AT(obj, -2) |= 0x8000;
         scene_object_flags |= 0x8000;
         return;

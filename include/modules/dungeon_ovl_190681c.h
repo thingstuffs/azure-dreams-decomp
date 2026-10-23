@@ -1,17 +1,12 @@
 #ifndef DUNGEON_OVL_190681C_H
 #define DUNGEON_OVL_190681C_H
 #include "common.h"
-#include "m2c_compat.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/game_work.h"
-#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
 typedef struct Row_818E6F98_Primitive {
@@ -78,6 +73,5 @@ extern u8 D_80024B60[];
 extern u8 D_800249DC[];
 extern u8 fading_sprite_entries[];
 extern u8 current_spell_effect_variant[];
-void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg);
 s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position);
 #endif

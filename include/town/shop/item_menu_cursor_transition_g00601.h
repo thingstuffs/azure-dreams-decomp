@@ -4,73 +4,44 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0FD4, CL:town/func_800B10F4. */
 
 #include "common.h"
-#include "m2c_compat.h"
 
-#define F(e, t, o) (*(t *)((s8 *)(e) + (o)))
+/* Primitive/color record reached through each row display's +4 data slot. */
+typedef struct ItemMenuRowPrimitive {
+    s8 red, green, blue;
+    u8 pad_03[5];
+    s16 x, y;
+} ItemMenuRowPrimitive;
 
-typedef struct S_800AE734_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x14];
-    void * unk_20;
-    u8 pad_24[0x14];
-    void * unk_38;
-    u8 pad_3C[0x14];
-    void * unk_50;
-} S_800AE734_1;
+typedef struct ItemMenuRowDisplay {
+    u8 pad_00[4];
+    ItemMenuRowPrimitive *data;
+} ItemMenuRowDisplay;
 
-typedef struct S_800AE734_2 {
-    u8 pad_00[0x4];
-    union { void * s; s8 * u; } unk_04;   /* accessed as both */
-} S_800AE734_2;
+/* Four pointer planes, six slots apart: +8, +20, +38 and +50. Names
+ * describe their demonstrated horizontal positions, not the text contents. */
+typedef struct ItemMenuRows {
+    u8 pad_00[4];
+    ItemMenuRowDisplay *cursor;
+    ItemMenuRowDisplay *left[6];
+    ItemMenuRowDisplay *middle[6];
+    ItemMenuRowDisplay *text[6];
+    ItemMenuRowDisplay *right[6];
+} ItemMenuRows;
 
-typedef struct S_800AE734_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AE734_3;
-
-typedef struct S_800AE734_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AE734_4;
-
-typedef struct S_800AE734_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AE734_5;
-
-typedef struct S_800AE734_6 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-    u8 pad_03[0x5];
-    s16 unk_08;
-} S_800AE734_6;
-
-typedef struct S_800AE734_7 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_800AE734_7;
-
-typedef struct S_800AE734_8 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_800AE734_8;
-
-typedef struct S_800AE734_9 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_800AE734_9;
-
-typedef struct S_800AE734_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
+typedef struct ItemMenuTransition {
+    u8 pad_00[4];
+    s32 duration;
+    s32 progress;
+    u8 pad_0C[0x10];
+    s32 end_row;
+    s32 start_row;
+    u8 pad_24[4];
+    s32 entry_count;
     u8 pad_2C[0xAC];
-    s32 unk_D8;
-} S_800AE734_0;
+    ItemMenuRows *rows;
+} ItemMenuTransition;
 
-/* Functions defined in this translation unit. */
-void style_item_menu_entry_records(S_800AE734_0 *collection);
-void animate_item_menu_cursor_transition(void *state);
+void style_item_menu_entry_records(ItemMenuTransition *collection);
+void animate_item_menu_cursor_transition(ItemMenuTransition *state);
 
 #endif

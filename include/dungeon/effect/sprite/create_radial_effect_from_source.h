@@ -21,7 +21,8 @@ void *create_object_offset(MovingPosition *, s16, s16, s16, s32);
 void advance_the_effect_state_updates_motion_sets_display_color(void *, s32, struct S_80025160_1 *);
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *, void *, void *);
 void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, SpriteFrameState *);
-void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *, void *, void *);
+struct RadialQuadWork;
+void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *);
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"

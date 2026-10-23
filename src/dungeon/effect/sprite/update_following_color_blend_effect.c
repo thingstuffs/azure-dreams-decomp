@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -7,11 +9,6 @@
 #include "shared/object_flags.h"
 extern int abs(int);
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
-#define S32(p, off) FIELD(p, s32, off)
-#define U16(p, off) FIELD(p, u16, off)
-#define S16(p, off) FIELD(p, s16, off)
-#define U8(p, off) FIELD(p, u8, off)
 
 typedef struct {
     s16 x;
@@ -25,21 +22,26 @@ typedef struct {
     s32 z;
 } Vec3i;
 
-typedef struct {
-    u8 pad00[0x34];
+/* Callback work after the object header. Angles retain both access signs;
+ * target coordinates are reached over steps updates before the final fade. */
+typedef struct FollowingColorEffect {
+    u8 pad_00[8];
+    ObjectNodeHeader *node;
+    union { s16 s; u16 u; } angle_x, angle_y, angle_z;
+    u8 pad_12[2];
+    union { s16 s; u16 u; } target_x, target_y, target_z;
+    u8 pad_1A[0x12];
+    union { s16 s; u16 u; } phase;
+    s16 chase_phase;
+    union { s16 s; u16 u; } steps;
+    u8 pad_32[2];
     u16 frame;
-} AnimState;
+    u8 pad_36[2];
+    s16 brightness_bias;
+    s16 speed;
+} FollowingColorEffect;
 
-typedef struct S_81958F28_0 {
-    u8 pad_00[0x8];
-    void *unk_08;
-} S_81958F28_0;   /* state in tint_effect_and_advance_motion */
-
-typedef struct S_81958F28_1 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-} S_81958F28_1;   /* node in tint_effect_and_advance_motion */
+typedef struct FollowingColorPrefix { u16 flags; } FollowingColorPrefix;
 
 extern void interpolate_view_parameters(void *, s16, Vec3i *);
 extern void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
@@ -52,7 +54,7 @@ extern s32 linked_mesh_processor_address;
 extern s32 *actor_direction_sprites;
 
 /* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
-void update_following_color_blend_effect(AnimState *state, void *pos, void *tint) {
+void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosition *pos, SpriteFrameState *tint) {
     Vec3s effect;
     Vec3i delta;
     Vec3s color;
@@ -62,49 +64,49 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
     u16 fade;
     u16 raw;
     s16 phase;
-    void *node;
-    void *target;
-    void *child;
+    ObjectNodeHeader *node;
+    ObjectPosition *target;
+    SpriteFrameState *child;
 
     sprite_effect_update_count++;
     state->frame++;
-    phase = S16(state, 0x2C);
+    phase = state->phase.s;
 
     switch (phase) {
     case 0:
         register_node((u8 *)state - 0x20, &linked_mesh_processor_address);
-        U16(state, 0x2C)++;
+        state->phase.u++;
     case 1:
-        node = ((S_81958F28_0 *)state)->unk_08;
+        node = state->node;
         if (node == 0) {
-            phase = S16(state, 0x2E);
+            phase = state->chase_phase;
             if (phase == 0) {
                 spawn_spiraling(
-                    S16(pos, 2),
-                    S16(pos, 6),
-                    S16(pos, 0xA),
-                    S16(state, 0x14),
-                    S16(state, 0x16),
-                    S16(state, 0x18),
+                    pos->x.w.i,
+                    pos->y.w.i,
+                    pos->z.w.i,
+                    state->target_x.s,
+                    state->target_y.s,
+                    state->target_z.s,
                     &color);
 
                 {
                     u16 value;
-                    raw = U16(state, 0xC);
+                    raw = state->angle_x.u;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    U16(state, 0xC) = value;
+                    state->angle_x.u = value;
                 }
                 {
                     u16 value;
-                    raw = U16(state, 0xE);
+                    raw = state->angle_y.u;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    U16(state, 0xE) = value;
+                    state->angle_y.u = value;
                 }
                 {
                     u16 value;
-                    raw = U16(state, 0x10);
+                    raw = state->angle_z.u;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    U16(state, 0x10) = value;
+                    state->angle_z.u = value;
                 }
                 {
                     u16 value;
@@ -130,13 +132,13 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                     s32 isClose;
 
                     diff = color.x;
-                    currentValue = S16(state, 0xC);
+                    currentValue = state->angle_x.s;
                     diff = diff - currentValue;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     currentValue = (u16)color.x;
                     if (!isClose) {
-                        color.x = (U16(state, 0xC) & 0xF000) | (currentValue & 0xFFF);
+                        color.x = (state->angle_x.u & 0xF000) | (currentValue & 0xFFF);
                     }
                 }
 
@@ -145,27 +147,27 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                     s32 isClose;
 
                     diff = color.y;
-                    currentValue = S16(state, 0xE);
+                    currentValue = state->angle_y.s;
                     diff = diff - currentValue;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     currentValue = (u16)color.y;
                     if (!isClose) {
-                        color.y = (U16(state, 0xE) & 0xF000) | (currentValue & 0xFFF);
+                        color.y = (state->angle_y.u & 0xF000) | (currentValue & 0xFFF);
                     }
                 }
 
                 {
                     s32 isClose;
 
-                    diff = color.z - S16(state, 0x10);
+                    diff = color.z - state->angle_z.s;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     {
                         s32 rawValue;
                         s32 newValue;
 
-                        rawValue = U16(state, 0x10);
+                        rawValue = state->angle_z.u;
                         if (!isClose) {
                             newValue = rawValue & 0xF000;
                             newValue |= ((u16)color.z & 0xFFF);
@@ -174,25 +176,25 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                     }
                 }
 
-                U16(state, 0xC) += (color.x - S16(state, 0xC)) >> 2;
-                U16(state, 0xE) += (color.y - S16(state, 0xE)) >> 2;
-                U16(state, 0x10) += (color.z - S16(state, 0x10)) >> 2;
+                state->angle_x.u += (color.x - state->angle_x.s) >> 2;
+                state->angle_y.u += (color.y - state->angle_y.s) >> 2;
+                state->angle_z.u += (color.z - state->angle_z.s) >> 2;
 
-                interpolate_view_parameters((u8 *)state + 0xC, S16(state, 0x3A), &delta);
-                S32(pos, 0) += delta.x;
-                S32(pos, 4) += delta.y;
-                S32(pos, 8) += delta.z;
+                interpolate_view_parameters(&state->angle_x, state->speed, &delta);
+                pos->x.v += delta.x;
+                pos->y.v += delta.y;
+                pos->z.v += delta.z;
 
-                S16(state, 0x3A) = 0xA0;
-                U16(state, 0x30)--;
-                if (S16(state, 0x30) <= 0) {
+                state->speed = 0xA0;
+                state->steps.u--;
+                if (state->steps.s <= 0) {
                     ObjectPosition *base = &view_reference_entity;
                     s32 tableAddress;
                     color.x = *(u16 *)&base->x.w.i;
                     color.y = *(u16 *)&base->y.w.i;
-                    color.z = U16(((u8 *)dungeon_actor_ring_anchor), 0x88) - 0x50;
+                    color.z = (u16)dungeon_actor_ring_anchor->ground_height - 0x50;
                     tableAddress =
-                        ((g_game_work.view.camera_rotation.parts.viewAngle + S16(((u8 *)dungeon_actor_ring_anchor), 0x2A) + 0x100) >> 7) & 0x1C;
+                        ((g_game_work.view.camera_rotation.parts.viewAngle + dungeon_actor_ring_anchor->facing + 0x100) >> 7) & 0x1C;
                     tableAddress += (s32)actor_direction_sprites;
                     resolve_record_orientation_or_fallback(
                         *(s32 *)tableAddress,
@@ -200,105 +202,105 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                         &effect,
                         0);
                     color.x += effect.x;
-                    S16(state, 0x14) = color.x;
+                    state->target_x.s = color.x;
                     color.y += effect.y;
-                    S16(state, 0x16) = color.y;
+                    state->target_y.s = color.y;
                     color.z += effect.z;
-                    S16(state, 0x18) = color.z;
-                    S16(state, 0x2E) = 1;
-                    S16(state, 0x30) = 8;
+                    state->target_z.s = color.z;
+                    state->chase_phase = 1;
+                    state->steps.s = 8;
                 }
                 {
                     u32 shade;
-                    shade = U8(tint, 0xC);
+                    shade = tint->color.c.r;
                     if (shade < 0x80) {
-                        S32(tint, 0xC) += 0x00080808;
+                        tint->color.word += 0x00080808;
                     }
                 }
             } else if (phase == 1) {
-                steps = S16(state, 0x30);
+                steps = state->steps.s;
                 if (steps > 0) {
-                    U16(pos, 2) += (S16(state, 0x14) - S16(pos, 2)) / steps;
-                    U16(pos, 6) += (S16(state, 0x16) - S16(pos, 6)) / S16(state, 0x30);
-                    U16(pos, 0xA) += (S16(state, 0x18) - S16(pos, 0xA)) / S16(state, 0x30);
+                    pos->x.w.i += (state->target_x.s - pos->x.w.i) / steps;
+                    pos->y.w.i += (state->target_y.s - pos->y.w.i) / state->steps.s;
+                    pos->z.w.i += (state->target_z.s - pos->z.w.i) / state->steps.s;
                 }
-                U16(state, 0x30)--;
-                if (S16(state, 0x30) <= 0) {
-                    S16(state, 0x30) = 0;
-                    U16(pos, 2) = U16(state, 0x14);
-                    U16(pos, 6) = U16(state, 0x16);
-                    U16(pos, 0xA) = U16(state, 0x18);
+                state->steps.u--;
+                if (state->steps.s <= 0) {
+                    state->steps.s = 0;
+                    pos->x.w.i = state->target_x.u;
+                    pos->y.w.i = state->target_y.u;
+                    pos->z.w.i = state->target_z.u;
                     if (func_80025344(
-                            S16(state, 0x14),
-                            S16(state, 0x16),
-                            (s16)(U16(state, 0x18) + 0x10),
+                            state->target_x.s,
+                            state->target_y.s,
+                            (s16)(state->target_z.u + 0x10),
                             0)) {
                         iter = 3;
                         do {
                             func_80025344(
-                                S16(state, 0x14),
-                                S16(state, 0x16),
-                                (s16)(U16(state, 0x18) + 0x10),
+                                state->target_x.s,
+                                state->target_y.s,
+                                (s16)(state->target_z.u + 0x10),
                                 (s16)iter);
                             iter--;
                         } while (iter >= 2);
-                        S16(state, 0x30) = 8;
-                        U16(state, 0x2C)++;
+                        state->steps.s = 8;
+                        state->phase.u++;
                     }
                 }
             }
-            if (U16(state, 0x34) & 1) {
-                S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
-                S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
-                S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
+            if (state->frame & 1) {
+                pos->velocity_x += (pos->x.v - pos->velocity_x) >> 2;
+                pos->velocity_y += (pos->y.v - pos->velocity_y) >> 2;
+                pos->velocity_z += (pos->z.v - pos->velocity_z) >> 2;
             }
             return;
         }
-        if (U16(node, 0x1E) & 0x8000) {
-            S16(state, 0x30) = 2;
-            U16(state, 0x2C)++;
+        if (node->flags & 0x8000) {
+            state->steps.s = 2;
+            state->phase.u++;
         }
-        node = ((S_81958F28_0 *)state)->unk_08;
-        target = ((S_81958F28_1 *)node)->unk_08;
-        S32(pos, 0) += (S32(target, 0) - S32(pos, 0)) >> 2;
-        S32(pos, 4) += (S32(target, 4) - S32(pos, 4)) >> 2;
-        S32(pos, 8) += (S32(target, 8) - S32(pos, 8)) >> 2;
+        node = state->node;
+        target = node->position;
+        pos->x.v += (target->x.v - pos->x.v) >> 2;
+        pos->y.v += (target->y.v - pos->y.v) >> 2;
+        pos->z.v += (target->z.v - pos->z.v) >> 2;
 
-        if (U16(state, 0x34) & 1) {
-            S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
-            S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
-            S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
+        if (state->frame & 1) {
+            pos->velocity_x += (pos->x.v - pos->velocity_x) >> 2;
+            pos->velocity_y += (pos->y.v - pos->velocity_y) >> 2;
+            pos->velocity_z += (pos->z.v - pos->velocity_z) >> 2;
         }
 
-        node = ((S_81958F28_0 *)state)->unk_08;
-        child = ((S_81958F28_1 *)node)->unk_0C;
-        if (U8(child, 0xC) < U8(tint, 0xC)) {
-            U8(tint, 0xC) = U8(child, 0xC);
+        node = state->node;
+        child = node->sprite;
+        if (child->color.c.r < tint->color.c.r) {
+            tint->color.c.r = child->color.c.r;
         }
-        if (U8(child, 0xD) < U8(tint, 0xD)) {
-            U8(tint, 0xD) = U8(child, 0xD);
+        if (child->color.c.g < tint->color.c.g) {
+            tint->color.c.g = child->color.c.g;
         }
-        if (U8(child, 0xE) < U8(tint, 0xE)) {
-            U8(tint, 0xE) = U8(child, 0xE);
+        if (child->color.c.b < tint->color.c.b) {
+            tint->color.c.b = child->color.c.b;
         }
-        if ((s32)U8(tint, 0xC) < 0x80 - (S16(state, 0x38) * 8)) {
-            S32(tint, 0xC) += 0x00080808;
+        if ((s32)tint->color.c.r < 0x80 - (state->brightness_bias * 8)) {
+            tint->color.word += 0x00080808;
         }
         return;
     case 2:
-        if (U16(state, 0x34) & 1) {
-            S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
-            S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
-            S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
+        if (state->frame & 1) {
+            pos->velocity_x += (pos->x.v - pos->velocity_x) >> 2;
+            pos->velocity_y += (pos->y.v - pos->velocity_y) >> 2;
+            pos->velocity_z += (pos->z.v - pos->velocity_z) >> 2;
         }
-        fade = U8(tint, 0xC);
-        fade -= fade / S16(state, 0x30);
-        U8(tint, 0xC) = fade;
-        U8(tint, 0xD) = fade;
-        U8(tint, 0xE) = fade;
-        U16(state, 0x30)--;
-        if (S16(state, 0x30) <= 0) {
-            U16(state, -2) |= 0x8000;
+        fade = tint->color.c.r;
+        fade -= fade / state->steps.s;
+        tint->color.c.r = fade;
+        tint->color.c.g = fade;
+        tint->color.c.b = fade;
+        state->steps.u--;
+        if (state->steps.s <= 0) {
+            ((FollowingColorPrefix *)state)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
