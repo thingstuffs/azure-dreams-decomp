@@ -22,10 +22,12 @@ typedef struct {
     s16 unk06;
 } S_8004878C_hdr;
 
-/* RLE-style byte decoder; only the argument setup (src/dst pointers) needs
- * to match, so declare it minimally. */
-
-/* Decodes and uploads an image, wrapping the decode buffer when needed. */
+/*
+ * Decodes and uploads an image, wrapping the decode buffer when needed.
+ *
+ * RLE-style byte decoder; only the argument setup (src/dst pointers) needs to match, so declare it
+ * minimally.
+ */
 void decode_compressed_image_to_vram(void *src, S_8004878C_hdr *rect)
 {
     s32 pixel_count;

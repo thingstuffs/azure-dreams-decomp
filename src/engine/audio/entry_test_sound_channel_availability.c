@@ -1,12 +1,12 @@
 #include "common.h"
 #include "engine/audio.h"
+#include "slus.h"
 
 typedef struct {
     s16 v[4];
 } S_80032E0C;
 
 extern S_80032E0C D_80032E0C[];
-extern void stop_matching_effect_voices();
 
 /* Sends packed codes and region offsets for available lookup entries across 48 slots. */
 void stop_flagged_sound_voices(void) {

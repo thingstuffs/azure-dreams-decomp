@@ -2,11 +2,16 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5AC8, PD:town/engine:800D5AD0, PD:town/engine:800D5AF8, PD:town/engine:800D5AFC. */
 #include "town/person/object_slot_context_g00665.h"
 
+/* Registers the object in scene slot 47 using the four local setup tables. */
 void initialize_scene_slot_47_context(void *object, s32 unused, void *context)
 {
     initialize_object_and_register_slot(object, 47, (s32)D_800D5AF8, (s32)D_800D5AFC, (s32)D_800D5AC8, (s32)D_800D5AD0);
 }
 
+/*
+ * Registers scene slot 0x17 using the four local tables, sets render halfword 9 to 0x280, and
+ * clears flag 0x100 in halfword 10.
+ */
 void initialize_object_slot_0x17(void *context, s32 unused, u16 *stateWords) {
     initialize_object_and_register_slot(context, 0x17, (s32)D_800D5AF8, (s32)D_800D5AFC, (s32)D_800D5AC8,
                   (s32)D_800D5AD0);

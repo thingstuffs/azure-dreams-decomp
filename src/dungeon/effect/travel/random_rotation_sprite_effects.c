@@ -70,6 +70,10 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     return 0;
 }
 
+/*
+ * Increments the linked object and entry counters, advances sprite animation, and flags removal
+ * when animation flags 0x6000 are set.
+ */
 void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, SpriteFrameState *target)
 {
     void *object;
@@ -188,6 +192,10 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
     }
 }
 
+/*
+ * Increments the linked object counter and advances sprite animation, setting local and global
+ * removal flags when animation flags 0x6000 are set.
+ */
 void mark_owner_on_target_completion(void *object_ref, s32 unused, SpriteFrameState *target) {
     u8 *object;
 

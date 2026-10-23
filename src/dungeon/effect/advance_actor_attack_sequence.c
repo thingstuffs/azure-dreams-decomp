@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -89,7 +90,7 @@ void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, v
     jt_index = ((S_800B348C_0 *)action_state)->unk_9B;
     switch (jt_index) {
     case 0:
-        actor->flags14 = (s32) (actor->flags14 & ~7);
+        actor->flags14 = (s32) (actor->flags14 & ~ACTOR_ELEMENT_MASK);
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
         D_800DF248[0] = 0;
         return;
@@ -329,7 +330,7 @@ bump_state_9b:
             }
             process_unflagged_linked_entries(actor->next_actor_header);
             end_base = (s32 *)((u32)&g_dungeon_status.turn_scale);
-            end_mask = -8;
+            end_mask = ~ACTOR_ELEMENT_MASK;
             end_base->flags = (u16) (end_base->flags | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = handle_player_input;
             end_timer_state = D_800DF248[0];

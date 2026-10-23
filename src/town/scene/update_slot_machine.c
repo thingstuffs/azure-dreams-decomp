@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 #define COUNT_VALUE (scene_value_total)
 #define COUNT_STORE(x) (scene_value_total = (x))
@@ -66,14 +67,6 @@ typedef struct S_func_80811C54_4 {
     s16 unk_74;
 } S_func_80811C54_4;
 
-typedef struct S_func_80811C54_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_80811C54_5;
 
 typedef struct S_func_80811C54_6 {
     void *unk_00;
@@ -512,7 +505,7 @@ matrix_outer:
         }
 
         {
-            S_func_80811C54_5 *motion;
+            ObjectPosition *motion;
             S_func_80811C54_6 *sprite;
             s32 tint;
             s32 sprite_offset;
@@ -523,16 +516,16 @@ matrix_outer:
                 return;
             }
             effect_obj->unk_10 = D_8052D770;
-            ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_00 =
+            ((ObjectPosition *)effect_obj->unk_08)->x.v =
                 position_or_effect->unk_00.s + (s32)0xFEC00000;
-            ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_04 =
+            ((ObjectPosition *)effect_obj->unk_08)->y.v =
                 position_or_effect->unk_04 + (s32)0xFFC00000;
-            ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_08 =
+            ((ObjectPosition *)effect_obj->unk_08)->z.v =
                 position_or_effect->unk_08 + (s32)0xFFC00000;
             motion = effect_obj->unk_08;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
-            ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_14 = 0x40000;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            ((ObjectPosition *)effect_obj->unk_08)->velocity_z = 0x40000;
             func_8003BC18(effect_obj, score_sprite_draw_callback_address);
             sprite = effect_obj->unk_0C;
             sprite->unk_1E = 0x1000;

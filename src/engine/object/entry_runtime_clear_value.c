@@ -5,7 +5,7 @@
 #include "engine/object.h"
 #include "slus/data.h"
 
-/* Calls runtime_clear_value for each of the 20 records starting at D_800816C0. */
+/* Clears each of the twenty 0x64-byte records in runtime_object_pool. */
 void clear_twenty_runtime_records(void) {
     void *record;
     s32 record_index;

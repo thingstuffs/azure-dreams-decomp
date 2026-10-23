@@ -13,7 +13,10 @@ typedef struct {
     S_8004AE68_Rec *rec;
 } S_8004AE68_Outer;
 
-/* Compares two records by subtracting their key-indexed table values. */
+/*
+ * Returns the left record_sort_key_weights value minus the right value, indexing through each
+ * nested record key.
+ */
 s32 table_handle_compares_two_records_subtracting_key_indexed_table_values(S_8004AE68_Outer *left, S_8004AE68_Outer *right)
 {
     return record_sort_key_weights[left->rec->key] - record_sort_key_weights[right->rec->key];

@@ -1,3 +1,5 @@
+#include "shared/actor_property_flags.h"
+#include "shared/actor_status_flags.h"
 /* Actor motion rendering (G00340). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
 #include "dungeon/effect/actor_motion_rendering_g00340.h"
@@ -8,7 +10,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1
     s32 entity_flags;
     s32 next_state;
 
-    if ((entity->flags1C & 0x2000) || (entity->flags14 & 0x4000)) {
+    if ((entity->flags1C & ACTOR_PLAYER_SIDE) || (entity->flags14 & ACTOR_PARTY_MEMBER)) {
         if ((u32)(actor->unk_9A.as_u8 - 0x13) >= 2U) {
             if (entity->unk_6D == 0) {
                 if (pending_marked_actor_count == 0) {
@@ -41,7 +43,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1
                         return;
                     }
                     entity->flags14 = entity_flags & 0xFFBFFFFF;
-                    next_state = entity_flags & 0x4000;
+                    next_state = entity_flags & ACTOR_PARTY_MEMBER;
                     if (!next_state) {
                         next_state = 2;
                     } else {

@@ -1,5 +1,9 @@
 #include "modules/town_ovl_5ff1d0.h"
 
+/*
+ * Returns whether func_80017978 accepts the supplied inputs, skipping that call until
+ * func_80018604 reaches 5.
+ */
 s32 check_inputs_after_threshold_five(s32 check_value, s32 check_data) {
     s32 check_passed;
 

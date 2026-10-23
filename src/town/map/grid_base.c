@@ -3,6 +3,7 @@
 
 extern u16 town_tile_grid[];
 
+/* Returns the current value of town_tile_grid. */
 static __inline__ u16 *grid_base(void) { return town_tile_grid; }
 
 /* Copies a width-and-height-prefixed block to the destination grid, skipping zero entries. */

@@ -25,7 +25,7 @@ extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *d
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 extern void func_80171510(void *, void *, void *, void *);
-extern void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
+extern void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, SpriteFrameState *position, u8 *actor);
 extern s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *, void *, void *, void *);
 extern void func_80172110(void *, void *, void *, void *);
 extern s32 func_80172228(void *, void *, void *, s32);

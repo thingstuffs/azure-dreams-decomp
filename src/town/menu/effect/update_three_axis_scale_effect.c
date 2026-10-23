@@ -16,8 +16,6 @@ typedef struct S_800A70EC_1 {
     s16 unk_20;
 } S_800A70EC_1;   /* arg3 in update_three_axis_scale_effect */
 
-/* extern */
-
 /* Update the countdown-driven scale effect and clear it when the countdown expires. */
 void update_three_axis_scale_effect(S_800A70EC_0 *state, s32 unused_1, s32 unused_2, S_800A70EC_1 *scale) {
     s32 z_wave;

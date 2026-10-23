@@ -12,10 +12,12 @@
  * despite the other TU's `void` signature) is captured here as a pointer. */
 extern void *create_callback_pair_default();
 
-/* Parses/tokenizes string a1 into buffer a0, using a2 as an auxiliary
- * argument (still unmatched, INCLUDE_ASM'd in code.c). */
-
-/* Parses nonblank text into a new 0x100-byte buffer, returning NULL if blank or allocation fails. */
+/*
+ * Parses nonblank text into a new 0x100-byte buffer, returning NULL if blank or allocation fails.
+ *
+ * Parses/tokenizes string a1 into buffer a0, using a2 as an auxiliary argument (still unmatched,
+ * INCLUDE_ASM'd in code.c).
+ */
 void *alloc_parsed_string(char *text, int parse_arg)
 {
     void *buffer = 0;

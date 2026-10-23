@@ -94,10 +94,6 @@ typedef struct {
     u16 flags;
     u16 pad16;
 } floor_spawns_isolated_8028BF0C_SpawnPosition;
-typedef struct {
-    u32 initial[1];
-    s32 limits[1];
-} floor_spawns_isolated_8028BF0C_SpawnTables;
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 #define floor_spawns_isolated_8028BF0C_PAGE_8008 ((u8 *)0x80080000)
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
@@ -116,7 +112,10 @@ extern s32 has_recorded_value_pair(s32, s32);
 extern s16 D_8001F6F8[];
 extern s32 random_dungeon_range_16(s32, s32);
 extern u8 D_80010000[];
-extern floor_spawns_isolated_8028BF0C_SpawnTables level_experience_table[];
+/* One leading experience word followed by the 100 threshold words built by
+ * build_cubic_cumulative_table. These are overlapping word views, not pairs
+ * of initial/limit arrays repeated at an eight-byte stride. */
+extern u32 level_experience_table[101];
 extern s32 entity_level_thresholds[];
 extern floor_spawns_isolated_8028BF0C_SpawnPosition dungeon_floor_object_positions[];
 extern u8 *D_800735C4[];

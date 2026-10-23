@@ -731,6 +731,10 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
 #include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
+/*
+ * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
+ * from D_80174528.
+ */
 void set_actor_directional_animation(void *object, void *unused, SpriteFrameState *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
@@ -948,6 +952,10 @@ void start_actor_directional_animation(void *actor_state, s32 action_param, void
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * On completed tile movement, spends MP and advances status timers; resumes behavior and clears
+ * the timer only after a positive signed floor-trap result. /
+ */
 void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_movement_to_tile(state,motion,sprite,actor)!=0) {
   spend_actor_mp(actor,4);
@@ -1065,6 +1073,10 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Resumes actor behavior after linked motion completes and the signed floor-trap check returns
+ * positive.
+ */
 void update_linked_actor_motion_and_trap(E_80172850_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_linked_actor_motion(state,motion,sprite,actor)!=0 &&
     (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
@@ -1359,16 +1371,19 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
 }
 #include "dungeon/monster/volcano.h"
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
 #include "dungeon/monster/volcano.h"
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor) {
  update_actor_hop_and_shrink(state,motion,sprite,actor);
 }
 #include "dungeon/monster/volcano.h"
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
 {
     advance_actor_removal(state, action, source, target);
@@ -1376,6 +1391,10 @@ void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrame
 
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs update_actor_hop_and_grow and installs update_actor_behavior_facing_and_animation_2 when it
+ * returns nonzero.
+ */
 void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
@@ -1586,6 +1605,11 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Resumes behavior after parent motion and a positive signed floor-trap result; during motion,
+ * restores volcano_frame_set_3 when the alternate frames are active and actor flags 0x208 are
+ * clear.
+ */
 void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_801737DC_RenderState *sprite,E_801737DC_RenderActor *actor) {
  if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
   if((check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
@@ -1596,32 +1620,56 @@ void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Resumes actor behavior after thrown travel completes and the signed floor-trap check returns
+ * positive.
+ */
 void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_thrown_actor_travel(state,motion,sprite,actor)!=0 &&
     (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_facing_and_animation_2
+ * when it returns nonzero.
+ */
 void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_ActionState *state,void *motion,void *sprite,void *actor) {
  if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs update_spinning_actor_fall and installs update_actor_behavior_facing_and_animation_2 when
+ * it returns nonzero.
+ */
 void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs update_actor_fade_in and installs update_actor_behavior_facing_and_animation_2 when it
+ * returns nonzero.
+ */
 void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_facing_and_animation_2
+ * when it returns positive.
+ */
 void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor) {
  if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Runs propagate_actor_action_flag and installs update_actor_behavior_facing_and_animation_2 when
+ * it returns nonzero.
+ */
 void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
  if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
@@ -1892,6 +1940,10 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
 #include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
+/*
+ * Increments the 16-bit counter and, while its signed value is below nine, adds 0x100 to Y scale
+ * and copies it to X scale. Advances sprite animation each update.
+ */
 void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record) {
     u16 step;
     u16 field_value;
@@ -1960,6 +2012,10 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
    order. The moved shape selects 2.7.2-cdk-G0. */
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Appends the entity text and expanded D_801745CC message to an unused text buffer, terminates it,
+ * and displays it with fullwidth adjustment.
+ */
 void display_formatted_actor_message(void *record) {
  u8 *original;
  u8 *current;
@@ -1972,6 +2028,10 @@ void display_formatted_actor_message(void *record) {
 }
 #include "dungeon/monster/volcano.h"
 
+/*
+ * Appends the entity display text to an unused buffer, expands the D_801745F8 message after it,
+ * terminates the text, and displays it with fullwidth adjustment.
+ */
 void display_entity_action_message(void *record) {
  u8 *original;
  u8 *current;

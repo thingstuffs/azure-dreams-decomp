@@ -7,7 +7,7 @@
 extern u8 D_80019440[];
 extern void process_flagged_entries_follow_four(u8 *entries);
 
-/* Process the entry list D_80019440 in mode 1. */
+/* Calls process_flagged_entries_follow_four with D_80019440. */
 void process_entry_list_mode_1(void) {
     process_flagged_entries_follow_four(D_80019440);
 }

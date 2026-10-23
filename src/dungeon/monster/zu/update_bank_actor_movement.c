@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -418,11 +419,8 @@ extern u8 zu_frame_set_1[];
 /* Updates actor behavior, animation, and facing from its status and dungeon state. */
 /* Selects Zu's movement, attacks, spells, and turn processing, then maintains its idle frames and facing
  * near the player. */
-void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, void *stats_in)
+void update_bank_actor_state(void *actor, void *context, SpriteFrameState *sprite, void *stats_in)
 {
-    void *actor;
-    void *context;
-    SpriteFrameState *sprite;
     ActorUnsignedFlagsView *stats;
     s32 angle_aux;
     s32 status_flags;
@@ -430,14 +428,11 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
     u16 action_state;
     u32 dungeon_flags = g_dungeon_status.flags;
 
-    actor = actor_in;
-    context = context_in;
-    sprite = sprite_in;
     stats = stats_in;
 
     if (dungeon_flags & 0x1000) {
         ((S_80171138_0 *)actor)->unk_9A = 0xE;
-        advance_bank_actor_path(actor_in, context_in);
+        advance_bank_actor_path(actor, context, sprite, stats_in);
         return;
     }
 
@@ -640,7 +635,7 @@ typedef struct S_80171670_2 {
    /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in advance_bank_actor_path */
 
 /* Advance the entity along its stored path and update its movement state. */
-void advance_bank_actor_path(void *motion, s32 unused, void *entity, void *path_state)
+void advance_bank_actor_path(void *motion, void *unused, void *entity, void *path_state)
 {
     SpriteTableView *entity_view = entity;
     u8 *anim_table;
@@ -833,14 +828,14 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
             }
         }
     } else if (position_data->room_index >= 0 &&
-               dungeon_rooms[position_data->room_index].flags & 2) {
+               dungeon_rooms[position_data->room_index].flags & ROOM_HOLY_BEAM) {
         select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
-            (blocker->flags1C & 0x2000) &&
+            (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
                     ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,

@@ -6,6 +6,10 @@ extern u8 D_800D7574[];
 extern u8 D_800D759C[];
 extern u8 D_800D75A0[];
 
+/*
+ * Registers the object in scene slot 45 using the four local setup tables and sets the context
+ * halfword at offset 0x12 to 0x40.
+ */
 void initialize_scene_slot_45(void *object, s32 unused, void *context)
 {
     initialize_object_and_register_slot(object, 45, (s32)D_800D759C, (s32)D_800D75A0, (s32)D_800D756C, (s32)D_800D7574);

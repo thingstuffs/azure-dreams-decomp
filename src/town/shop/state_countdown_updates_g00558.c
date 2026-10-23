@@ -19,7 +19,10 @@ void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object,
     select_a_town_entry_writes_root_relative_coordinates_output(result);
 }
 
-/* Run both updates, decrement the countdown, and check for completion. */
+/*
+ * Runs both context updates and resolves collider overlap, then decrements the 16-bit countdown
+ * and resets object state when the signed result is zero or negative.
+ */
 void run_both_updates_decrement_countdown_check_completion(S_8009ECF0_0 *state, s32 update_ctx, s32 update_data, s32 finish_ctx) {
     u16 countdown;
 

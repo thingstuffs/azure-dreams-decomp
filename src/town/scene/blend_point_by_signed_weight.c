@@ -10,9 +10,7 @@ typedef struct S_8001A8DC_1 {
     u16 unk_02;
 } S_8001A8DC_1;   /* base in blend_point_2s_by_signed_weight */
 
-   /* out in blend_point_2s_by_signed_weight */
-
-/* Blend two points using the signed weight over the absolute weight sum; return the scaled y delta. */
+   /* Blend two points using the signed weight over the absolute weight sum; return the scaled y delta. */
 s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
 {
     s32 scaled_y_delta;

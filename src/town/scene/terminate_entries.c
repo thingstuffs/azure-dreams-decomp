@@ -16,6 +16,10 @@ typedef struct S_func_8065C05C_1 {
 } S_func_8065C05C_1;
 
 
+/*
+ * Clears the first two bytes after count four-byte entries and returns the original entry-table
+ * base.
+ */
 static __inline__ S_func_8065C05C_0 *terminate_entries(S_func_8065C05C_0 *base, s32 count)
 {
     u32 offset = count * 4;

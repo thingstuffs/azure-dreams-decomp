@@ -11,10 +11,6 @@ typedef struct S_800B6FB8_0 {
     s16 unk_1E;
 } S_800B6FB8_0;   /* draw in initialize_building_graphics */
 
-typedef struct S_800B6FB8_1 {
-    u8 pad_00[0x16];
-    u16 unk_16;
-} S_800B6FB8_1;   /* status in initialize_building_graphics */
 
 typedef struct S_800B6FB8_2 {
     u8 pad_00[0x1DC];
@@ -60,7 +56,7 @@ void initialize_building_graphics(void)
     image_width = 8;
     image_rect[2] = image_width;
     image_rect[3] = 0x80;
-    ((S_800B6FB8_1 *)status)->unk_16 &= 0xFFFE;
+    ((RuntimeDispatchState *)status)->flags16 &= 0xFFFE;
     StoreImage(first_rect, image_data);
 
     building_upload_rect[0] = 0x330;

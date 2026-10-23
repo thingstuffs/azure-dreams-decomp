@@ -52,7 +52,7 @@ extern void create_owner_linked_directional_object(void *, void *, void *);
 extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table,
     s32 fallback_state);
 extern void advance_aura_actor_turn_path(void *, void *, void *, void *);
-extern void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *position, u8 *actor);
+#include "dungeon/monster/u_boat.h"
 extern s32 try_turn_actor_toward_target(void *, void *, void *, void *);
 extern void begin_actor_action(void *, void *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);

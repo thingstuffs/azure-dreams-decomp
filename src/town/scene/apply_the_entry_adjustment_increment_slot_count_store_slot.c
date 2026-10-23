@@ -6,7 +6,10 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-/* Apply the entry adjustment, increment its slot count, and store its slot value. */
+/*
+ * For an unflagged entry, subtracts its adjustment from the current value and clears the pending
+ * delta. Increments the selected slot byte and stores the entry value in the indexed word table.
+ */
 void apply_the_entry_adjustment_increment_slot_count_store_slot(s32 state_base, void *value_record, void *entry)
 {
     int adjusted_value;

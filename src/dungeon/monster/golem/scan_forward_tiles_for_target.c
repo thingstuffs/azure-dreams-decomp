@@ -23,20 +23,6 @@ typedef struct S_80172504_0 {
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
 } S_80172504_0;   /* entity in scan_forward_tiles_for_target */
 
-typedef struct S_80172504_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s16 unk_A8;
-    s16 unk_AA;
-    s16 unk_AC;
-    u8 unk_AE;
-} S_80172504_1;   /* state in scan_forward_tiles_for_target */
 
 typedef struct S_80172504_2 {
     u8 pad_00[0x24];
@@ -56,7 +42,7 @@ extern void apply_camera_offset_and_select_target();
 
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
-s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void *origin, void *actor) {
+s32 scan_forward_tiles_for_target(GolemActionWork *action_state, void *transfer_data, void *origin, void *actor) {
     u32 dir_index;
     u16 initial_direction;
     s16 *delta_x;
@@ -98,8 +84,8 @@ s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void 
     tile_y = ((S_80172504_2 *)origin)->unk_25;
     delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction = dir_index;
-    ((S_80172504_1 *)action_state)->unk_A8 = tile_x;
-    ((S_80172504_1 *)action_state)->unk_AA = tile_y;
+    action_state->target_x = tile_x;
+    action_state->target_y = tile_y;
 
     do {
         delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
@@ -137,8 +123,8 @@ s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void 
             check_result = find_eligible_entry_at_coordinates(actor, step_x, step_y);
         }
         if (check_result != 0) {
-            ((S_80172504_1 *)action_state)->unk_AE = 2;
-            ((S_80172504_1 *)action_state)->unk_AC = step_count + 1;
+            action_state->mode = 2;
+            action_state->steps = step_count + 1;
             ((S_80172504_0 *)actor)->unk_60 = check_result;
             break;
         }
@@ -150,21 +136,21 @@ s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void 
             tile_x = (s32)initial_direction;
             next_y = tile_y + (u16)*delta_y;
             tile_y = next_y;
-            ((S_80172504_1 *)action_state)->unk_AA = next_y;
-            ((S_80172504_1 *)action_state)->unk_A8 = (s32)initial_direction;
+            action_state->target_y = next_y;
+            action_state->target_x = (s32)initial_direction;
         }
     } while (step_count < 8);
 
-    ((S_80172504_1 *)action_state)->unk_9A = 0x1A;
-    ((S_80172504_1 *)action_state)->unk_9B = 0;
-    ((S_80172504_1 *)action_state)->unk_8C = 0;
-    ((S_80172504_1 *)action_state)->unk_96 = 8;
+    action_state->state = 0x1A;
+    action_state->phase = 0;
+    action_state->callback.word = 0;
+    action_state->duration = 8;
     ((S_80172504_0 *)actor)->unk_84 = 0x7E;
     ((S_80172504_0 *)actor)->unk_85 = 8;
     advance_status_timers(actor);
     ((S_80172504_0 *)actor)->unk_6D--;
     copy_dest = (u8 *)actor - 0x20;
-    if (((S_80172504_1 *)action_state)->unk_AE == 2) {
+    if (action_state->mode == 2) {
         prepare_directional_attack(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
                       (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
     } else {

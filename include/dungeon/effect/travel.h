@@ -15,7 +15,7 @@ typedef union TrackingTilePair {
 } TrackingTilePair;
 
 typedef struct TrackingEffect {
-    void *owner;
+    ActorRecord *owner;
     struct { u16 flags; } *animation;
     u8 pad_08;
     u8 variant;

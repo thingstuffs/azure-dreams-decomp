@@ -52,6 +52,10 @@ void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
     DrawSync(0);
 }
 
+/*
+ * Increments the parent counter, advances sprite animation, and flags the owner for removal when
+ * animation flags 0x6000 are set.
+ */
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state) {
     owner->parent->flags++;
     advance_sprite_animation_and_textures(state);
@@ -443,6 +447,10 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
     return 0;
 }
 
+/*
+ * Dispatches effect states 4 and 5 to their circular segment builders and state 6 to fading; other
+ * states do nothing, and the result is always zero.
+ */
 s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, void *third_ptr)
 {
     switch (((ovl_18d0850_818B15F4_Func818B15F4Arg *)state_ptr)->state) {

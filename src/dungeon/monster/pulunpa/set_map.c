@@ -59,6 +59,10 @@ extern u8 D_80176358[];
 extern M2C_UNK pulunpa_frame_set_3;
 extern u8 D_80176370[];
 
+/*
+ * Installs the supplied sprite direction map and selects its eight-way entry using creature facing
+ * relative to the camera.
+ */
 static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *direction_map) {
     (sprite->frameTable) = (void *)direction_map;
     select_sprite_entry(sprite, direction_map[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)

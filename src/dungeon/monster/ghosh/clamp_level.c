@@ -133,6 +133,7 @@ typedef struct S_8016B0E8_16 {
     s32 unk_AC;
 } S_8016B0E8_16;
 
+/* Caps unsigned levels of 26 or higher at 25 and returns the 16-bit result. */
 static __inline__ u16 clamp_level(u32 level)
 {
     if (level >= 26)
@@ -140,9 +141,10 @@ static __inline__ u16 clamp_level(u32 level)
     return level;
 }
 
-/* Update actor state, animation, movement, and terrain height. */
-/* Initializes Ghosh's experience and scripted events, then runs callbacks, updates facing, and resolves
- * movement and ground height. */
+/*
+ * Initializes Ghosh's experience and scripted events, then runs callbacks, updates facing, and
+ * resolves movement and ground height.
+ */
 void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, void *sprite) {
     register s32 (*update_callback)(void *, void *, void *, void *);
     register s32 (*paused_callback)(void *, void *, void *, void *);

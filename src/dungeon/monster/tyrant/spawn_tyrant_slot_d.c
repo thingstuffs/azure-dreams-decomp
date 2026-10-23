@@ -110,7 +110,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
         record_alias->unk_9C = -1;
         record_alias->unk_8C = &D_8015EF68;
         child_0C->flags = (u16) (child_0C->flags | 0xC);
-        record_alias->unk_AA = (s16) ((u16) record->unk_14 & 7);
+        record_alias->unk_AA = (s16) ((u16) record->unk_14 & ACTOR_ELEMENT_MASK);
         try_move_actor_to_valid_position(record_alias, child_08, child_0C, record);
     }
     return record;

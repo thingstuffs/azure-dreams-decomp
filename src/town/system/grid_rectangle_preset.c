@@ -44,6 +44,7 @@ static void apply_target_grid_rectangle(s32 target_x, s32 target_y)
     points_within_squared_threshold(&current_rect, &target_rect, 0x20);
 }
 
+/* Calls apply_target_grid_rectangle with 0x10, 7. */
 void apply_rectangle_preset_10x7(void) {
     apply_target_grid_rectangle(0x10, 7);
 }

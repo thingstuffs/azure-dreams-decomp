@@ -9,7 +9,10 @@ typedef struct {
 
 extern u32 audio_sequence_timing_division[4];
 
-/* Scales the value according to D_800869A8[0], carrying remainders for power-of-two divisors. */
+/*
+ * Scales the value according to audio_sequence_timing_division, carrying low-bit remainders for
+ * division by 2, 4, or 8; division by 3 discards the remainder.
+ */
 void scale_value_with_remainder(S_80059814 *state) {
     switch (audio_sequence_timing_division[0]) {
     case 0x30:

@@ -1,10 +1,7 @@
 #include "common.h"
+#include "shared/town_root.h"
 #include "shared/record_ptrs.h"
 
-typedef struct S_8001C7A0_0 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-} S_8001C7A0_0;   /* root in select_record_by_four_flags */
 
 typedef struct S_8001C7A0_1 {
     u8 pad_00[0x10];
@@ -48,7 +45,7 @@ void select_record_by_four_flags(void)
 
             if (flag_index == 4) {
                 void *root = *(void **)((s8 *)(&town_scene_root));
-                void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
+                void *owner = ((Rec_D_80016000 *)root)->position;
 
                 ((S_8001C7A0_1 *)owner)->unk_10.s = record->next;
                 return;
@@ -59,7 +56,7 @@ void select_record_by_four_flags(void)
 
     {
         void *root = *(void **)((s8 *)(&town_scene_root));
-        void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
+        void *owner = ((Rec_D_80016000 *)root)->position;
 
         ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;
     }

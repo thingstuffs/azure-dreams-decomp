@@ -4,6 +4,7 @@
 /* Original-file evidence (G00684): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. */
 
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -24,7 +25,7 @@ typedef struct S_800CB8CC_1 {
 } S_800CB8CC_1;
 
 /* extern */
-struct S_800CB7D0_0;
+
 
 /* extern */
 typedef struct S_800CB9B8_1 {
@@ -79,7 +80,7 @@ void unlink_node_if_registered(void *block_data);
 /* extern */
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
-s32 is_default_object_data(struct S_800CB7D0_0 *);
+s32 is_default_object_data(Rec_func_80094268_arg0 *);
 void configure_the_set_mode_n_3(struct Rec_D_800CFCB4 *, s32, s32);
 void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32);
 /* extern */

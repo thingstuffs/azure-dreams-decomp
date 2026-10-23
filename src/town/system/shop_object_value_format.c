@@ -19,9 +19,10 @@ extern s32 build_positioned_text_glyphs(void *, u8 *, s32);
 void flag_object_for_removal(unsigned short *object);
 s32 create_callback_pair_default();
 s32 func_8004B404();
-/* extern */
-
-/* Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported categories. */
+/*
+ * Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported
+ * categories.
+ */
 static s32 format_item_value_and_flag_marker(void *output, Item *item) {
     u8 text[0x20];
     u8 category;

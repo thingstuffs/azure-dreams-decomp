@@ -3,6 +3,7 @@
 
 extern u8 D_80019678;
 
+/* Returns the address of D_80019678. */
 u8 *get_scene_entry_bytes(void) {
     return &D_80019678;
 }

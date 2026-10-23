@@ -9,6 +9,7 @@ void process_lshop_entries(s32, s32);             /* extern */
 /* Calls process_lshop_entries with the supplied value and a zero second argument. */
 void process_lshop_entries();                /* extern */
 
+/* Calls process_lshop_entries with value, 0. */
 void process_lshop_value(s32 value) {
     process_lshop_entries(value, 0);
 }

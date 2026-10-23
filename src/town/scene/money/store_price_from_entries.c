@@ -4,7 +4,7 @@
 extern s32 func_800189FC(void *entries, s32 value);
 extern s32 scene_price;
 
-/* Stores the result of func_800189FC for D_8001B218 in D_8001B210. */
+/* Computes scene_price from town_event_records using func_800189FC in mode 1. */
 void store_price_from_entries(void) {
     scene_price = func_800189FC(town_event_records, 1);
 }

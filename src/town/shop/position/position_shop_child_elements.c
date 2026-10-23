@@ -31,7 +31,10 @@ typedef struct S_800B0D0C_5 {
     s16 unk_0A;
 } S_800B0D0C_5;   /* ((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78))->unk_04 in position_shop_child_elements */
 
-/* Positions the two child elements at (-95, 48) and (97, 48). */
+/*
+ * Writes X/Y offsets (-95, 48) and (97, 48) into the linked elements reached through child fields
+ * 0x74 and 0x78.
+ */
 void position_shop_child_elements(Rec_func_800B0C68_arg0 *parentObject) {
     ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_74))->unk_04))->unk_08 =
         -0x5F;

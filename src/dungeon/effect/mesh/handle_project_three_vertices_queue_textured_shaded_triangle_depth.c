@@ -78,7 +78,11 @@ extern s32 *effect_position_source;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
-/* Project three vertices and queue a textured, shaded triangle by depth. */
+/*
+ * Allocates a shaded textured triangle using CLUT 0x7DCF and texture page (0x300, 0x100),
+ * translates and projects its vertices, and links it into the ordering table only for depths below
+ * 0x1E0.
+ */
 s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976F70 *state;

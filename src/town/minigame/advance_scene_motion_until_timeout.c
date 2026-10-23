@@ -1,15 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_80026B00_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80026B00_0;   /* arg1 in advance_scene_motion_until_timeout */
 
 typedef struct S_80026B00_1 {
     u16 unk_00;
@@ -19,12 +12,12 @@ typedef struct S_80026B00_1 {
 
 
 /* Advance the position and flag the record and global state when its timer expires. */
-void advance_scene_motion_until_timeout(void *record_data, S_80026B00_0 *motion) {
+void advance_scene_motion_until_timeout(void *record_data, ObjectPosition *motion) {
     u16 ticks_left;
 
-    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
-    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
-    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
+    motion->x.v = (s32) (motion->x.v + motion->velocity_x);
+    motion->y.v = (s32) (motion->y.v + motion->velocity_y);
+    motion->z.v = (s32) (motion->z.v + motion->velocity_z);
     ticks_left = ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_10 - 1;
     ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_10 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

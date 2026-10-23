@@ -9,7 +9,7 @@
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);     /* extern */
+struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object_and_play_sound(s32 * *, s32, s32);     /* extern */
 void initialize_action_handler_with_count_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
@@ -28,11 +28,6 @@ struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 typedef struct S_80092320_1 {
     u8 unk_00;
 } S_80092320_1;   /* &D_800CFCEF in update_actor_movement_actions */
-
-typedef struct S_80092320_2 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80092320_2;   /* state in update_actor_movement_actions */
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
@@ -55,7 +50,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (((s32)state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state(action, (struct S_800942B0_0 *)(actor), context);
+        initialize_actor_action_state(action, (struct ObjectPosition *)(actor), context);
         return;
     }
     ticks_left = action->unk_0A.as_u16 - 1;

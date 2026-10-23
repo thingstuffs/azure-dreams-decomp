@@ -10,7 +10,10 @@ typedef struct {
     s32 unused[3];
 } StackRecord;
 
-/* Evaluate a position after subtracting its stored offset from the first component. */
+/*
+ * Copies the position with its stored X offset subtracted and returns the minimum indexed query
+ * over two D_800CFD58 entries.
+ */
 s16 handle_evaluate_position_after_subtracting_stored_offset_first_component(void *position) {
     StackRecord record;
 

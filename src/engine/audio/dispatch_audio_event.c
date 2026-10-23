@@ -3,18 +3,18 @@
 #include "engine/audio.h"
 #include "engine/audio/sequence.h"
 
-/* Canonical status-block struct (established in w_800540A8.c / w_80054C58.c /
-   w_800559B4.c / w_8005440C.c / w_80054E00.c). This function only reads
-   flags1 (offset 0x0). */
-
-/* Canonical task/timer object struct (established in w_800559B4.c /
-   w_800540A8.c / w_80054C58.c / w_80054E00.c). Only its address is taken by
-   this function, no fields accessed here. */
-
-/* Canonical task/event object struct (established in w_8005440C.c). Only its
-   address is taken by this function, no fields accessed here. */
-
-/* Dispatches packed events by status nibble and enabled event flags. */
+/*
+ * Dispatches packed events by status nibble and enabled event flags.
+ *
+ * Canonical status-block struct (established in w_800540A8.c / w_80054C58.c / w_800559B4.c /
+ * w_8005440C.c / w_80054E00.c). This function only reads flags1 (offset 0x0).
+ *
+ * Canonical task/timer object struct (established in w_800559B4.c / w_800540A8.c / w_80054C58.c /
+ * w_80054E00.c). Only its address is taken by this function, no fields accessed here.
+ *
+ * Canonical task/event object struct (established in w_8005440C.c). Only its address is taken by
+ * this function, no fields accessed here.
+ */
 void dispatch_audio_event(s32 event) {
     s32 event_bits = event;
     register s16 packed_event = event_bits;

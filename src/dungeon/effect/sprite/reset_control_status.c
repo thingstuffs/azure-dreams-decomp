@@ -2,7 +2,7 @@
 
 extern s8 spell_effect_selector_cache;
 
-/* Resets D_800DCF4D to -1. */
+/* Stores -1 in spell_effect_selector_cache so the selection must be refreshed. */
 void invalidate_spell_effect_selection(void) {
     spell_effect_selector_cache = -1;
 }

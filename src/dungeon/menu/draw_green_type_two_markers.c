@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "common.h"
 
 extern s16 dungeon_floor_marker_entries[8];
@@ -17,7 +18,7 @@ void draw_green_type_two_markers(void) {
             break;
         }
         color = 0x208020;
-        create_transformed_render_object(record[1], record[2], color, 1, 0);
+        create_transformed_render_object(record[1], record[2], color, FLOOR_ELEVATOR_VISIBLE, 0);
     }
 
 }

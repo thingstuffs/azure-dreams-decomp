@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -41,7 +42,7 @@ s32 use_item_to_reveal_traps(EntityRec *target, s32 item, s16 use_type, s32 use_
         }
     } else {
         display_formatted_context_message(D_800E1258, use_context, use_type);
-        dungeon_floor_flags |= 0x800;
+        dungeon_floor_flags |= FLOOR_REVEAL_TRAPS;
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;

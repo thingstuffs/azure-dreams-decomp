@@ -3,11 +3,13 @@
 
 
 
-/* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
- * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
-
-
-/* Changes a selected tone's fields and envelope bits, or configures SPU reverb from a channel command. */
+/*
+ * Changes a selected tone's fields and envelope bits, or configures SPU reverb from a channel
+ * command.
+ *
+ * Rodata owner: the row's switch emits its jump table(s) into this object's .rodata, placed at the
+ * retail address by config/slus_modules.json (assets/800.bin carve).
+ */
 void apply_tone_parameter_command(S_80057A94 *command) {
     S_80057A94_cell *cell;
     S_80057A94_msg message;

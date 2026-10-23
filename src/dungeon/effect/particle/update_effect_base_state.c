@@ -8,6 +8,10 @@
 void (*const dungeon_1864800_entry)(void *, void *, void *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
+/*
+ * Returns the signed 16-bit difference between the target grid coordinate scaled by 64 and the
+ * start adjusted by 32.
+ */
 static __inline__ s16 delta_axis(s8 target, u16 start) {
     s32 t = target;
     t <<= 6;
@@ -301,7 +305,11 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
 }
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
-/* Updates an effect_base's position, colors, countdown, and completion flags. */
+/*
+ * Advances the two position halfwords, sets successive color words to 0x00808080, then subtracts
+ * 0x00202020 from all five. After the color countdown and a three-count delay, marks the effect
+ * and global object flags for removal.
+ */
 void update_effect_base_state(s32 effect_or_count) {
     union { S_81844F2C_0 *v; } effect = {0};
     u32 *cursor;

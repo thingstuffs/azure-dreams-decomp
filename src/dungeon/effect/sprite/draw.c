@@ -496,6 +496,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
     return 0;
 }
 
+/* Maps a random low bit to either -1 or 1. */
 s32 choose_random_sign(void) {
     s32 sign;
 

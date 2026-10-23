@@ -22,6 +22,7 @@ typedef struct SignedStateView {
     s16 value;
 } SignedStateView;
 
+/* Reads the effect through SignedStateView and returns its signed 16-bit value. */
 static __inline__ s16 load_signed_state(ColorEffect *effect)
 {
     s16 value;

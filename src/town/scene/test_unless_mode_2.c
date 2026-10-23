@@ -4,7 +4,7 @@ extern s32 func_800198D0();
 extern s16 D_8001648C;
 extern s32 scene_choice_index;
 
-/* Test D_8001648C with func_800198D0 unless D_80019BB4 is 2. */
+/* Returns whether func_800198D0 accepts D_8001648C, skipping the test when scene_choice_index is 2. */
 s32 test_unless_2(void) {
     s32 check_passed;
 

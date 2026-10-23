@@ -2,6 +2,10 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_80012358. */
 #include "frontend/card/save_copy_completion_g00392.h"
 
+/*
+ * Builds the card save description and initializes the text editor context with the same owner and
+ * value.
+ */
 void initialize_save_description(void *owner, s32 value) { card_boot_build_save_description(owner, value); initialize_text_editor_context(owner, value); }
 
 /* Process five context entries if checks pass, or schedule the fallback callback. */

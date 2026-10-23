@@ -19,7 +19,7 @@ void add_byte_pair_and_copy_byte_pair(struct S_8004DA24_dst *destination, struct
 s32 *alloc_buffer_array(s32 *buffers, s32 buffer_count);
 
 /* alloc_object.c */
-void *alloc_object_100(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc_arg3);
+void *alloc_object_100(char *text, s32 initial_octave, s32 unused_2, s32 extra_value);
 void *func_8004DC14(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc_arg3);
 
 /* alloc_pointer_pool.c */

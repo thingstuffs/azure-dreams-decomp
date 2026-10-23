@@ -690,7 +690,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         }
     }
     ent2->unk6a = a->unk2a;
-    if (ent2->unk13 != 0 && (ent2->flags1c & 0x238) == 0 && (ent2->unk46 & 0x8000) == 0) {
+    if (ent2->unk13 != 0 && (ent2->flags1c & (ACTOR_MP_EMPTY | ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_ASLEEP)) == 0 && (ent2->unk46 & 0x8000) == 0) {
         ent2->unk2a = a->unk2a + 0x800;
     }
     a->flags14 |= 0x4000000;
@@ -722,7 +722,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
             value -= (s16)value >> 2;
         }
     }
-    if ((ent2->flags1c & 0x238) == 0 && (s16)value < 0x80) {
+    if ((ent2->flags1c & (ACTOR_MP_EMPTY | ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_ASLEEP)) == 0 && (s16)value < 0x80) {
         return ent2;
     }
     value = generate_random_value();
@@ -752,7 +752,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
      */
-    if ((ent2->flags1c & 0x238) != 0) {
+    if ((ent2->flags1c & (ACTOR_MP_EMPTY | ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_ASLEEP)) != 0) {
         u8 d;
         s32 rnd;
 
@@ -1050,10 +1050,10 @@ typedef struct S_8009D218_1_pre {
     u8 pad_04[0x14];
 } S_8009D218_1_pre;   /* the 0x18 bytes before entity in try_trigger_target_record_effect, addressed as entity[-1] */
 
-/* extern */
-
-/* Tests actor effects and a linked item chance, creating a pulsing effect and returning 1 when an
-   effect is triggered. */
+/*
+ * Tests actor effects and a linked item chance, creating a pulsing effect and returning 1 when an
+ * effect is triggered.
+ */
 s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record) {
     u8 *value_ptr;
 

@@ -4,6 +4,7 @@
 
 extern u8 devkit_globals_page[];
 
+/* Adds 31 to negative bit indices and leaves nonnegative indices unchanged. */
 static __inline__ s32 rounded_bit_index(s32 bit_index) {
     s32 rounded_index = bit_index;
     if (bit_index < 0) rounded_index = bit_index + 31;

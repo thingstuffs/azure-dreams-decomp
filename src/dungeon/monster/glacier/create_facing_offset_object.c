@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 
 struct ObjectPosition;
 #include "shared/object_node.h"
@@ -152,7 +153,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
             secondary_block->flags14 |= 0x100000;
             secondary_x = secondary_child->x24;
             secondary_y = secondary_child->y25;
-            if (secondary_block->flags1c & 0x2000) {
+            if (secondary_block->flags1c & ACTOR_PLAYER_SIDE) {
                 mode = 0x300;
             } else {
                 mode = 0x3000;

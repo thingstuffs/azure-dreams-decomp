@@ -17,6 +17,10 @@ typedef struct {
 } ChainHeader;
 extern void transform_mesh_and_append_draw_packets(void *, s32, ChainPayload *, s16);
 
+/*
+ * Transforms and queues each linked mesh using its payload kind, follows the chain headers, and
+ * returns zero at the end.
+ */
 s32 draw_linked_mesh_chain(void *body, s32 value, ChainPayload *payload) {
     ChainHeader *next;
     do {

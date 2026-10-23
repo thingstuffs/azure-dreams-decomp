@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/position_views.h"
 #include "shared/dungeon_trail_views.h"
 #include "shared/object_links.h"
 #include "shared/object_payload.h"
@@ -101,21 +102,6 @@ typedef struct S_80527D5C_8 {
     u8 pad_0C[0x1C];
     u16 unk_28;
 } S_80527D5C_8;
-
-typedef struct S_80527D5C_9 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_80527D5C_9;
-
-typedef struct S_80527D5C_10 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_80527D5C_10;
-
 
 
 /* extern */
@@ -373,11 +359,11 @@ void run_collection_round_sequence(void *sequence) {
                     s32 distance_x;
                     s32 delta_x;
 
-                    delta_x = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_02;
-                    coord_delta = ((S_80527D5C_10 *)position)->unk_02;
+                    delta_x = ((SignedPositionView *)((void *) coord_or_sound))->x;
+                    coord_delta = ((SignedPositionView *)position)->x;
                     delta_x -= coord_delta;
-                    coord_delta = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_06;
-                    coord_or_sound = ((S_80527D5C_10 *)position)->unk_06;
+                    coord_delta = ((SignedPositionView *)((void *) coord_or_sound))->y;
+                    coord_or_sound = ((SignedPositionView *)position)->y;
                     distance_x = __builtin_abs(delta_x);
                     coord_delta -= coord_or_sound;
                     if (coord_delta < 0) {

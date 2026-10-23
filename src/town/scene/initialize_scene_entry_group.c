@@ -5,6 +5,10 @@ extern void initialize_object_entries(void *, s8 *, s32 *);
 extern void run_record_countdown_follow_up(void *, s32, s32);
 extern s32 D_800D58CC[];
 
+/*
+ * Initializes entries from D_800D58CC, clears the indexed object slot, and installs
+ * run_record_countdown_follow_up with count 5.
+ */
 void initialize_scene_entry_group_5(void *object, s32 unused, void *output)
 {
     initialize_object_entries(object, output, D_800D58CC);

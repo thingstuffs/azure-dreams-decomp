@@ -1,5 +1,9 @@
 #include "common.h"
 extern s32 *devkit_state_slots;
+/*
+ * Returns zero for bit zero and one for bit one; other indices return the selected bit mask from
+ * devkit_state_slots.
+ */
 s32 test_indexed_flag_bit(s32 bit) {
     if (bit != 0) {
         if (bit != 1) {

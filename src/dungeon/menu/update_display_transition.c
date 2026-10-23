@@ -92,6 +92,12 @@ typedef struct S_800DC1F8_13 {
 
 /* extern */
 
+enum DisplayTurnStage {
+    DISPLAY_TURN_FIRST_QUARTER = 0,
+    DISPLAY_TURN_SECOND_QUARTER = 1,
+    DISPLAY_TURN_THIRD_QUARTER = 2,
+};
+
 /* Updates a display transition, synchronizes rotation and shading, and refreshes its counters. */
 void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
     s32 phase_offset;
@@ -120,7 +126,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
     if (transition->unk_18 != 0) {
         stage = transition->unk_28;
         switch (stage) {
-        case 0:
+        case DISPLAY_TURN_FIRST_QUARTER:
             if ((((u16) *state->unk_08 >> 0xA) & 3) == 1) {
                 SD_Call(0x504);
                 flag_or_delay = transition->unk_20;
@@ -133,16 +139,16 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
                 flag_or_delay ^= 1;
                 transition->unk_24 = flag_or_delay;
             }
-        case 1:
+        case DISPLAY_TURN_SECOND_QUARTER:
             if ((((u16) *state->unk_08 >> 0xA) & 3) == 2) {
                 transition->unk_1C = 0x10;
                 transition->unk_28 = (s32) (transition->unk_28 + 1);
             }
             break;
-        case 2:
+        case DISPLAY_TURN_THIRD_QUARTER:
             if ((((u16) *state->unk_08 >> 0xA) & 3) == 3) {
                 SD_Call(0x504);
-                transition->unk_28 = 0;
+                transition->unk_28 = DISPLAY_TURN_FIRST_QUARTER;
                 transition->unk_24 = (s32) (transition->unk_24 ^ 1);
                 transition->unk_20 = (s32) (transition->unk_20 ^ 1);
             }
@@ -196,7 +202,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
             frames_left = transition->unk_18 - 1;
             transition->unk_18 = frames_left;
             if (frames_left == 0) {
-                transition->unk_28 = 0;
+                transition->unk_28 = DISPLAY_TURN_FIRST_QUARTER;
                 *state->unk_08 = 0;
                 *((S_800DC1F8_11 *)(transition->unk_3C))->unk_88 = 0x800;
                 neutral_shade = 0x80U;

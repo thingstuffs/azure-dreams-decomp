@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470C64, CL:town/func_80470D04. */
 #include "town/scene/scene_choice_g00709.h"
 
+/* Calls func_8001A418 with F_sbs22_pad34. */
 void invoke_handler_with_code_79_e(void) {
     func_8001A418(F_sbs22_pad34);
 }

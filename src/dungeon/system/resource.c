@@ -25,6 +25,7 @@ void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count
     }
 }
 
+/* Sums field_4 across the requested number of resource_cache_records entries. */
 s32 sum_resource_bytes(s32 entry_count) {
     s32 sum;
     s32 entry_index;
@@ -184,6 +185,10 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     return 0;
 }
 
+/*
+ * Finds the resource key or installs it when absent, then moves a nonzero resulting index to the
+ * front of the cache.
+ */
 void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resource_id) {
     s32 entry_index;
 
@@ -233,6 +238,10 @@ void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
     call_script(data);
 }
 
+/*
+ * Walks eight-byte resource descriptors until their second word is zero, extracts the
+ * flag/group/ID bit fields, and ensures each resource is at the cache front.
+ */
 void ensure_packed_resource_list(u8 *entries_in) {
     u8 *entries;
     u32 packed_fields;

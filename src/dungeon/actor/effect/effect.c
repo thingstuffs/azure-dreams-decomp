@@ -652,26 +652,20 @@ extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
 
-#define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
-#define S8(p, o)  (*(s8  *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 typedef struct {
     s32 vx, vy, vz, pad;
 } Vec4;
 
 /* Draw visible entity sprite quads and their translucent shadows. */
-s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
+s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params) {
     s32 entity_index;
-    u8 *scratch;
+    FloorItemScratch *scratch;
     GameWork *render_state;
-    u8 *render_ctx;
-    u8 *entity;
-    u8 *prim;
-    u8 *sprite;
+    GpuContext *render_ctx;
+    FloorItemPosition *entity;
+    FloorItemQuad *prim;
+    FloorItemSprite *sprite;
     s32 world_z, depth, angle_y_offset, sort_depth;
     s32 tex_u, tex_width, tex_v, tex_height;
     s32 tex_left;
@@ -684,231 +678,233 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     s32 screen_bottom;
     struct { u16 a, b, c; } camera_angles;
     Vec4 shadow_scale;
-    u8 *vertex0, *vertex1, *vertex2, *vertex3, *screen0, *screen1, *screen2, *screen3, *depth_out;
-    u8 *flags_out;
-    u8 *entities;
-    u8 *view_matrix;
-    u8 *rotation_matrix;
-    u8 *transform;
+    FloorItemVertex *vertex0, *vertex1, *vertex2, *vertex3;
+    FloorItemScreen *screen0, *screen1, *screen2, *screen3;
+    u32 *depth_out;
+    u32 *flags_out;
+    FloorItemPosition *entities;
+    FloorItemMatrix *view_matrix;
+    FloorItemMatrix *rotation_matrix;
+    FloorItemMatrix *transform;
     u8 *matrix_page;
     s32 depth_offset, flags_offset;
-    u8 *matrix_or_prim;
+    void *matrix_or_prim;
     s32 angle_z;
     s32 angle_y;
 
+    scratch = (FloorItemScratch *)0x1F800000;
     matrix_page = (u8 *)0x80070000;
     depth_offset = 0x90;
     flags_offset = 0x94;
     entity_index = 0;
-    view_matrix = sprite_projection_matrix;
-    rotation_matrix = (u8 *)0x1F8000D0;
-    transform = (u8 *)0x1F800050;
-    vertex0 = (u8 *)0x1F800070;
-    vertex1 = (u8 *)0x1F800078;
-    vertex2 = (u8 *)0x1F800080;
-    scratch = (u8 *)0x1F800000;
+    view_matrix = (FloorItemMatrix *)sprite_projection_matrix;
+    rotation_matrix = &scratch->rotation;
+    transform = &scratch->transform;
+    vertex0 = &scratch->vertices[0];
+    vertex1 = &scratch->vertices[1];
+    vertex2 = &scratch->vertices[2];
     render_state = &g_game_work;
-    render_ctx = *(u8 **)&g_game_work.draw_buffer;
-    prim = *(u8 **)(render_ctx + 0x8D0);
-    U32(scratch, 0x20) = (u32)(render_ctx + 0xB0);
-    U32(scratch, 0xE4) = 0;
-    U32(scratch, 0xE8) = 0;
-    U32(scratch, 0xEC) = 0;
-    U16(scratch, 0x8C) = 0;
-    U16(scratch, 0x84) = 0;
-    U16(scratch, 0x7C) = 0;
-    U16(scratch, 0x74) = 0;
+    render_ctx = g_game_work.draw_buffer;
+    prim = (FloorItemQuad *)render_ctx->packetCursor;
+    scratch->ordering_table = (u32)&render_ctx->orderTag;
+    scratch->rotation.t[0] = 0;
+    scratch->rotation.t[1] = 0;
+    scratch->rotation.t[2] = 0;
+    scratch->vertices[3].z.u = 0;
+    scratch->vertices[2].z.u = 0;
+    scratch->vertices[1].z.u = 0;
+    scratch->vertices[0].z.u = 0;
     camera_angles.a = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_x;
     camera_angles.b = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_y;
     camera_angles.c = *(u16 *)&render_state->view.camera_rotation.parts.viewAngle;
 
     do {
         if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)dungeon_ground_items)))->b1 != 0) {
-            entities = (u8 *)((Ent12 *)dungeon_ground_item_positions);
-            entity = entities + entity_index * 12;
-            U16(scratch, 0) = (U8(entity, 0) << 6) + 0x20;
-            U16(scratch, 2) = (U8(entity, 1) << 6) + 0x20;
-            world_z = U16(entity, 4);
-            U16(scratch, 4) = world_z;
-            sprite = *(u8 **)(entity + 8);
-            U16(entity, 2) = world_z;
-            depth = RotTransPers(scratch, scratch + 0xB8, scratch + depth_offset, scratch + flags_offset);
-            U32(scratch, 0xC0) = depth;
-            U32(view_matrix, 0x1C) = depth * 4;
-            U32(scratch, 0xC0) -= 2;
-            sort_depth = U32(scratch, 0xC0);
+            entities = (FloorItemPosition *)dungeon_ground_item_positions;
+            entity = entities + entity_index;
+            scratch->world_x = (entity->tile_x << 6) + 0x20;
+            scratch->world_y = (entity->tile_y << 6) + 0x20;
+            world_z = entity->ground_height;
+            scratch->world_z = world_z;
+            sprite = entity->sprite;
+            entity->height = world_z;
+            depth = RotTransPers(scratch, &scratch->origin_x, (u8 *)scratch + depth_offset, (u8 *)scratch + flags_offset);
+            scratch->sort_depth = depth;
+            view_matrix->t[2] = depth * 4;
+            scratch->sort_depth -= 2;
+            sort_depth = scratch->sort_depth;
             if ((u32)sort_depth < 0x1E0) {
                 PushMatrix();
                 matrix_or_prim = rotation_matrix;
-                U16(scratch, 0xB8) = U16(scratch, 0xB8) - 0xA0;
-                U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
-                U16(scratch, 0x100) = U16(render_params, 0x16);
-                angle_z = U16(render_params, 0x1A) - camera_angles.b;
-                U16(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + angle_z;
+                scratch->origin_x = scratch->origin_x - 0xA0;
+                scratch->origin_y = scratch->origin_y - 0x78;
+                scratch->angle_x = render_params->angle_x;
+                angle_z = render_params->angle_z - camera_angles.b;
+                scratch->angle_z = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + angle_z;
                 angle_y = (camera_angles.c + 0x100) & 0x1FF;
-                angle_y_offset = U16(render_params, 0x18) - 0x100;
-                U16(scratch, 0x102) = angle_y + angle_y_offset;
-                RotMatrix(scratch + 0x100, matrix_or_prim);
-                vertex3 = scratch + 0x88;
-                screen0 = scratch + 0xF0;
-                screen1 = scratch + 0xF4;
-                screen2 = scratch + 0xF8;
-                screen3 = scratch + 0xFC;
-                depth_out = scratch + 0x90;
-                flags_out = scratch + 0x94;
+                angle_y_offset = render_params->angle_y - 0x100;
+                scratch->angle_y = angle_y + angle_y_offset;
+                RotMatrix(&scratch->angle_x, matrix_or_prim);
+                vertex3 = &scratch->vertices[3];
+                screen0 = &scratch->screen[0];
+                screen1 = &scratch->screen[1];
+                screen2 = &scratch->screen[2];
+                screen3 = &scratch->screen[3];
+                depth_out = &scratch->depth;
+                flags_out = &scratch->flags;
                 CompMatrix(view_matrix, rotation_matrix, transform);
                 SetTransMatrix(transform);
                 SetRotMatrix(transform);
                 for (;;) {
-                    if (!(U8(sprite, 0) & 0x20)) {
-                        tex_u = U8(sprite, 0x8);
-                        U32(scratch, 8) = tex_u;
-                        tex_width = U8(sprite, 0xA);
-                        U32(scratch, 0x10) = tex_width;
+                    if (!(sprite->flags.u & 0x20)) {
+                        tex_u = sprite->u;
+                        scratch->tex_u.word = tex_u;
+                        tex_width = sprite->width;
+                        scratch->tex_width.word = tex_width;
                         if (tex_u + tex_width >= 0x100) {
-                            U32(scratch, 0x10) = tex_width - 1;
+                            scratch->tex_width.word = tex_width - 1;
                         }
-                        tex_v = U8(sprite, 0x9);
-                        U32(scratch, 0xC) = tex_v;
-                        tex_height = U8(sprite, 0xB);
-                        U32(scratch, 0x14) = tex_height;
+                        tex_v = sprite->v;
+                        scratch->tex_v.word = tex_v;
+                        tex_height = sprite->height;
+                        scratch->tex_height.word = tex_height;
                         if (tex_v + tex_height >= 0x100) {
-                            U32(scratch, 0x14) = tex_height - 1;
+                            scratch->tex_height.word = tex_height - 1;
                         }
-                        offset_x_byte = U8(sprite, 0x2);
+                        offset_x_byte = sprite->offset_x;
                         quad_left = (s8)offset_x_byte;
-                        S16(scratch, 0x80) = quad_left;
-                        S16(scratch, 0x70) = quad_left;
-                        quad_right = quad_left + U16(scratch, 0x10);
-                        S16(scratch, 0x88) = quad_right;
-                        S16(scratch, 0x78) = quad_right;
-                        offset_y_byte = U8(sprite, 0x3);
+                        scratch->vertices[2].x.s = quad_left;
+                        scratch->vertices[0].x.s = quad_left;
+                        quad_right = quad_left + scratch->tex_width.low;
+                        scratch->vertices[3].x.s = quad_right;
+                        scratch->vertices[1].x.s = quad_right;
+                        offset_y_byte = sprite->offset_y;
                         quad_top = (s8)offset_y_byte;
-                        S16(scratch, 0x7A) = quad_top;
-                        S16(scratch, 0x72) = quad_top;
-                        quad_bottom = quad_top + U16(scratch, 0x14);
-                        S16(scratch, 0x8A) = quad_bottom;
-                        S16(scratch, 0x82) = quad_bottom;
+                        scratch->vertices[1].y.s = quad_top;
+                        scratch->vertices[0].y.s = quad_top;
+                        quad_bottom = quad_top + scratch->tex_height.low;
+                        scratch->vertices[3].y.s = quad_bottom;
+                        scratch->vertices[2].y.s = quad_bottom;
                         RotTransPers4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                             depth_out, flags_out);
-                        U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
-                        U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
-                        U16(prim, 0x10) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
-                        U16(prim, 0x12) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
-                        U16(prim, 0x18) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
-                        U16(prim, 0x1A) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
-                        U16(prim, 0x20) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
-                        screen_bottom = U16(scratch, 0xFE) + U16(scratch, 0xBA);
-                        U16(prim, 0x22) = screen_bottom;
+                        prim->vertex[0].x.u = scratch->screen[0].x + scratch->origin_x;
+                        prim->vertex[0].y.u = scratch->screen[0].y + scratch->origin_y;
+                        prim->vertex[1].x.u = scratch->screen[1].x + scratch->origin_x;
+                        prim->vertex[1].y.u = scratch->screen[1].y + scratch->origin_y;
+                        prim->vertex[2].x.u = scratch->screen[2].x + scratch->origin_x;
+                        prim->vertex[2].y.u = scratch->screen[2].y + scratch->origin_y;
+                        prim->vertex[3].x.u = scratch->screen[3].x + scratch->origin_x;
+                        screen_bottom = scratch->screen[3].y + scratch->origin_y;
+                        prim->vertex[3].y.u = screen_bottom;
                         visible = 0;
-                        if ((u16)(U16(prim, 0x8) + 0x20) < 0x181) {
-                            visible = (u16)(U16(prim, 0xA) + 0x20) < 0x121;
+                        if ((u16)(prim->vertex[0].x.u + 0x20) < 0x181) {
+                            visible = (u16)(prim->vertex[0].y.u + 0x20) < 0x121;
                         }
                         visible1 = 0;
-                        if ((u16)(U16(prim, 0x10) + 0x20) < 0x181) {
-                            visible1 = (u16)(U16(prim, 0x12) + 0x20) < 0x121;
+                        if ((u16)(prim->vertex[1].x.u + 0x20) < 0x181) {
+                            visible1 = (u16)(prim->vertex[1].y.u + 0x20) < 0x121;
                         }
                         visible2 = 0;
                         visible = visible | visible1;
-                        if ((u16)(U16(prim, 0x18) + 0x20) < 0x181) {
-                            visible2 = (u16)(U16(prim, 0x1A) + 0x20) < 0x121;
+                        if ((u16)(prim->vertex[2].x.u + 0x20) < 0x181) {
+                            visible2 = (u16)(prim->vertex[2].y.u + 0x20) < 0x121;
                         }
                         visible3 = 0;
                         visible |= visible2;
                         visible2 = visible;
-                        if ((u16)(U16(prim, 0x20) + 0x20) < 0x181) {
+                        if ((u16)(prim->vertex[3].x.u + 0x20) < 0x181) {
                             visible3 = (u16)(screen_bottom + 0x20) < 0x121;
                         }
                         if ((visible2 | visible3) != 0) {
-                            tex_right = U32(scratch, 0x10);
-                            tex_left = U32(scratch, 8);
-                            tex_bottom = U32(scratch, 0x14);
-                            tex_top = U32(scratch, 0xC);
-                            U32(scratch, 0x10) = tex_right + tex_left;
-                            U32(scratch, 0x14) = (tex_bottom + tex_top) << 8;
-                            U32(scratch, 0xC) <<= 8;
-                            S32(prim, 0xC) = U32(scratch, 0xC) + U32(scratch, 8) + (U16(sprite, 0x6) << 16);
-                            S32(prim, 0x14) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(sprite, 0x4) << 16);
-                            S16(prim, 0x1C) = U32(scratch, 0x14) + U32(scratch, 8);
-                            S16(prim, 0x24) = U32(scratch, 0x14) + U32(scratch, 0x10);
-                            if ((s16)U16(scratch, 0x50) >= 0x1800) {
-                                U8(prim, 0x14) = U8(prim, 0x24)--;
+                            tex_right = scratch->tex_width.word;
+                            tex_left = scratch->tex_u.word;
+                            tex_bottom = scratch->tex_height.word;
+                            tex_top = scratch->tex_v.word;
+                            scratch->tex_width.word = tex_right + tex_left;
+                            scratch->tex_height.word = (tex_bottom + tex_top) << 8;
+                            scratch->tex_v.word <<= 8;
+                            prim->vertex[0].uv.word = scratch->tex_v.word + scratch->tex_u.word + (sprite->clut << 16);
+                            prim->vertex[1].uv.word = scratch->tex_v.word + scratch->tex_width.word + (sprite->tpage << 16);
+                            prim->vertex[2].uv.pair = scratch->tex_height.word + scratch->tex_u.word;
+                            prim->vertex[3].uv.pair = scratch->tex_height.word + scratch->tex_width.word;
+                            if ((s16)scratch->transform.m[0][0] >= 0x1800) {
+                                prim->vertex[1].uv.bytes.u = prim->vertex[3].uv.bytes.u--;
                             }
-                            if ((s16)U16(scratch, 0x58) >= 0x1800) {
-                                U8(prim, 0x1D) = U8(prim, 0x25)--;
+                            if ((s16)scratch->transform.m[1][1] >= 0x1800) {
+                                prim->vertex[2].uv.bytes.v = prim->vertex[3].uv.bytes.v--;
                             }
-                            if (S16(prim, 0x8) > S16(prim, 0x20)) {
-                                U8(prim, 0x14) = U8(prim, 0x14) - 1;
-                                U8(prim, 0x24) = U8(prim, 0x24) - 1;
+                            if (prim->vertex[0].x.s > prim->vertex[3].x.s) {
+                                prim->vertex[1].uv.bytes.u = prim->vertex[1].uv.bytes.u - 1;
+                                prim->vertex[3].uv.bytes.u = prim->vertex[3].uv.bytes.u - 1;
                             }
-                            if (S16(prim, 0xA) > S16(prim, 0x22)) {
-                                U8(prim, 0x1D) = U8(prim, 0x1D) - 1;
-                                U8(prim, 0x25) = U8(prim, 0x25) - 1;
+                            if (prim->vertex[0].y.s > prim->vertex[3].y.s) {
+                                prim->vertex[2].uv.bytes.v = prim->vertex[2].uv.bytes.v - 1;
+                                prim->vertex[3].uv.bytes.v = prim->vertex[3].uv.bytes.v - 1;
                             }
-                            S32(prim, 0x4) = S32(render_params, 0xC);
+                            prim->color.word = render_params->color.word;
                             SetPolyFT4(prim);
                             matrix_or_prim = prim;
-                            AddPrim(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
-                            prim += 40;
+                            AddPrim(scratch->ordering_table + scratch->sort_depth * 4, matrix_or_prim);
+                            prim++;
                             PushMatrix();
-                            shadow_scale.vz = (s32)(s16)(*(u16 *)(scratch + 4)) - 4;
-                            shadow_scale.vz = ((shadow_scale.vz - (s32)(s16)(*(u16 *)(scratch + 4))) << 5) + 0x1000;
+                            shadow_scale.vz = (s32)(s16)(scratch->world_z) - 4;
+                            shadow_scale.vz = ((shadow_scale.vz - (s32)(s16)(scratch->world_z)) << 5) + 0x1000;
                             if (shadow_scale.vz < 0) {
                                 shadow_scale.vz = 0;
                             }
-                            U16(scratch, 0x102) = 0;
+                            scratch->angle_y = 0;
                             shadow_scale.vx = shadow_scale.vz;
                             shadow_scale.vy = shadow_scale.vz / 2;
-                            U16(scratch, 0x100) = -camera_angles.a;
-                            U16(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z - camera_angles.b;
-                            RotMatrix(scratch + 0x100, rotation_matrix);
+                            scratch->angle_x = -camera_angles.a;
+                            scratch->angle_z = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z - camera_angles.b;
+                            RotMatrix(&scratch->angle_x, rotation_matrix);
                             CompMatrix(matrix_page - 0x32D0, rotation_matrix, transform);
                             ScaleMatrix(transform, &shadow_scale);
                             SetTransMatrix(transform);
                             SetRotMatrix(transform);
-                            U16(scratch, 0x70) = U16(scratch, 0x70) + 6;
-                            U16(scratch, 0x78) = U16(scratch, 0x78) + 6;
+                            scratch->vertices[0].x.u = scratch->vertices[0].x.u + 6;
+                            scratch->vertices[1].x.u = scratch->vertices[1].x.u + 6;
                             RotTransPers4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                                 depth_out, flags_out);
-                            U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
-                            U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
-                            U16(prim, 0x10) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
-                            U16(prim, 0x12) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
-                            U16(prim, 0x18) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
-                            U16(prim, 0x1A) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
-                            U16(prim, 0x20) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
-                            U16(prim, 0x22) = U16(scratch, 0xFE) + U16(scratch, 0xBA);
-                            S32(prim, 0xC) = U32(scratch, 0xC) + U32(scratch, 8) + 0x7FC00000;
-                            S32(prim, 0x14) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(sprite, 0x4) << 16);
-                            S16(prim, 0x1C) = U32(scratch, 0x14) + U32(scratch, 8);
-                            S16(prim, 0x24) = U32(scratch, 0x14) + U32(scratch, 0x10);
-                            if (S16(prim, 0x8) > S16(prim, 0x20)) {
-                                U8(prim, 0x14) = U8(prim, 0x14) - 1;
-                                U8(prim, 0x24) = U8(prim, 0x24) - 1;
+                            prim->vertex[0].x.u = scratch->screen[0].x + scratch->origin_x;
+                            prim->vertex[0].y.u = scratch->screen[0].y + scratch->origin_y;
+                            prim->vertex[1].x.u = scratch->screen[1].x + scratch->origin_x;
+                            prim->vertex[1].y.u = scratch->screen[1].y + scratch->origin_y;
+                            prim->vertex[2].x.u = scratch->screen[2].x + scratch->origin_x;
+                            prim->vertex[2].y.u = scratch->screen[2].y + scratch->origin_y;
+                            prim->vertex[3].x.u = scratch->screen[3].x + scratch->origin_x;
+                            prim->vertex[3].y.u = scratch->screen[3].y + scratch->origin_y;
+                            prim->vertex[0].uv.word = scratch->tex_v.word + scratch->tex_u.word + 0x7FC00000;
+                            prim->vertex[1].uv.word = scratch->tex_v.word + scratch->tex_width.word + (sprite->tpage << 16);
+                            prim->vertex[2].uv.pair = scratch->tex_height.word + scratch->tex_u.word;
+                            prim->vertex[3].uv.pair = scratch->tex_height.word + scratch->tex_width.word;
+                            if (prim->vertex[0].x.s > prim->vertex[3].x.s) {
+                                prim->vertex[1].uv.bytes.u = prim->vertex[1].uv.bytes.u - 1;
+                                prim->vertex[3].uv.bytes.u = prim->vertex[3].uv.bytes.u - 1;
                             }
-                            if (S16(prim, 0xA) > S16(prim, 0x22)) {
-                                U8(prim, 0x1D) = U8(prim, 0x1D) - 1;
-                                U8(prim, 0x25) = U8(prim, 0x25) - 1;
+                            if (prim->vertex[0].y.s > prim->vertex[3].y.s) {
+                                prim->vertex[2].uv.bytes.v = prim->vertex[2].uv.bytes.v - 1;
+                                prim->vertex[3].uv.bytes.v = prim->vertex[3].uv.bytes.v - 1;
                             }
-                            S32(prim, 0x4) = S32(render_params, 0xC);
+                            prim->color.word = render_params->color.word;
                             SetPolyFT4(prim);
-                            U8(prim, 0x7) = U8(prim, 0x7) | 2;
-                            AddPrim(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, prim);
-                            prim += 40;
+                            prim->color.bytes.code = prim->color.bytes.code | 2;
+                            AddPrim(scratch->ordering_table + scratch->sort_depth * 4, prim);
+                            prim++;
                             PopMatrix();
                         }
                     }
-                    if (S8(sprite, 0) < 0) {
+                    if (sprite->flags.s < 0) {
                         break;
                     }
-                    sprite += 12;
+                    sprite++;
                 }
                 PopMatrix();
             }
         }
         entity_index += 1;
     } while (entity_index < 64);
-    *(u8 **)(*(u8 **)&render_state->draw_buffer + 0x8D0) = prim;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)prim;
     return 0;
 }
 #include "common.h"

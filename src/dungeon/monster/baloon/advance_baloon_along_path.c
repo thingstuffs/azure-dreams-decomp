@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -42,7 +43,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
 
         x = actor->tile_x;
         y = actor->tile_y;
-        tile_mask = (move_data->flags1C & 0x2000) ? 0x300 : 0x3000;
+        tile_mask = (move_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000;
         update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
         heading = get_rounded_facing_and_rounding_flag(
@@ -64,7 +65,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
             s32 next_x = actor->tile_x;
             s32 next_y = actor->tile_y;
 
-            if (move_data->flags1C & 0x2000) {
+            if (move_data->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;
             }
             cycle_map_cell_flags(next_x, next_y, tile_mask);
@@ -79,7 +80,7 @@ void advance_baloon_along_path(void *motion, s32 actor_index, SpriteFrameState *
             ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
         }
 
-        (move_data->flags1C) |= 0x40000000;
+        (move_data->flags1C) |= ACTOR_REFRESH_GROUND;
         if (g_dungeon_status.flags & 0x80) {
             ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 0;
             return;

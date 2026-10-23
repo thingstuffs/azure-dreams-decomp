@@ -5,6 +5,10 @@ extern void initialize_object_entries(void *, s8 *, s32 *);
 extern void func_800C899C(void *, s32, s32);
 extern s32 D_800D62BC[];
 
+/*
+ * Initializes entries from D_800D62BC, clears the indexed object slot, and installs func_800C899C
+ * with count 8.
+ */
 void initialize_scene_entry_group_8(void *object, s32 unused, void *output)
 {
     initialize_object_entries(object, output, D_800D62BC);

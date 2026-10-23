@@ -4,7 +4,10 @@
 #include "town/shop/shop_state_initialization_g00599.h"
 #include "shared/object_flags.h"
 
-/* Copy a global state word and a 17-word block into the record. */
+/*
+ * Copies runtime_script_state word 0x20 to record word 0xC and its Record68 block at word 0x32 to
+ * record word 0xD.
+ */
 void copy_global_state_and_record_block(s32 *record) {
     s32 *base = (s32 *)&runtime_script_state;
 

@@ -54,7 +54,10 @@ void process_indexed_entry_record(s32 entry_index) {
     process_all_lookup_entries(entry_index, (entry_index << 6) + &D_800FC428);
 }
 
-/* Call upload_town_movie_pixel_data with fixed parameters when D_8006ADD4 equals 0x13000C. */
+/*
+ * Uploads the 32-by-128 pixel block at D_800FC428 to VRAM (0x360, 0x100) only for scene selector
+ * 0x13000C.
+ */
 void upload_town_movie_pixel_data_2(void) {
     if (map_scene_selector_alias == 0x13000C) {
         upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, &D_800FC428);
@@ -76,7 +79,10 @@ void advance_index_and_mark_completion(s32 *currentIndex)
     }
 }
 
-/* Initialize an allocated node and store its data pointer in D_800CFCA8. */
+/*
+ * Allocates an object node, selects D_8008C304 as its handler, and saves its cleared data area in
+ * town_map_processor.
+ */
 void create_town_map_entry_processor(void)
 {
     S_8008EC14_node *node = allocate_flagged_object_node(0);

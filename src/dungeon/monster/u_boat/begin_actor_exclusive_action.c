@@ -37,8 +37,10 @@ typedef struct S_func_80D40744_1 {
 
 extern void advance_status_timers(void *);
 
-/* Initializes an entity action when the global state permits it. */
-/* Claims an exclusive U-Boat action when dungeon activity allows it; otherwise selects idle state 14. */
+/*
+ * Claims an exclusive U-Boat action when dungeon activity allows it; otherwise selects idle state
+ * 14.
+ */
 void begin_actor_exclusive_action(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
 {
     s32 state_or_flags;

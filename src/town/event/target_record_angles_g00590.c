@@ -26,6 +26,7 @@ void apply_two_records_to_target(s32 target, s32 setup_data)
     transform_and_queue_mesh_quads(&D_800D119C, target);
 }
 
+/* Adds the supplied offset to position X and returns the previously read rotation angle. */
 static inline s32 add_x_and_get_angle(IntVector3 *position, s32 x_offset, PositionRotationPair *rotation)
 {
     s32 next_angle = rotation->angle;

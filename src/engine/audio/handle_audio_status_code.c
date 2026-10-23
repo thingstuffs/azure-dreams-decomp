@@ -3,11 +3,14 @@
 #include "engine/audio.h"
 #include "engine/audio/sequence.h"
 
-/* Canonical status-block struct at D_800847D0 (see src/w_800552C8.c, src/w_80054C58.c, etc.) */
-
-/* Canonical "task/timer object" struct (see src/w_800552C8.c). */
-
-/* Clears, activates, or deactivates a status effect according to the supplied code. */
+/*
+ * Clears, activates, or deactivates a status effect according to the supplied code.
+ *
+ * Canonical status-block struct at sound_playback_state (see src/w_800552C8.c, src/w_80054C58.c,
+ * etc.)
+ *
+ * Canonical "task/timer object" struct (see src/w_800552C8.c).
+ */
 void handle_audio_status_code(u8 code) {
     switch (code) {
     case 0x71:

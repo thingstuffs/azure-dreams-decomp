@@ -58,7 +58,10 @@ extern S_80085458 audio_voice_records[64];
 
 extern void audio_update_voice_vibrato(S_80085458 *envelope);
 
-/* Refresh all 16 entity slots, then update active D_80085458 slots. */
+/*
+ * Steps oscillation and ramps for all 16 audio channels, then updates vibrato, tremolo, and pitch
+ * for voices whose channel index is below 16.
+ */
 void sound_update_voice_modulation_slots(void) {
     S_80084960 *entity;
     s32 slot;

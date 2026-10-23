@@ -25,6 +25,10 @@ void apply_small_random_value_gain(void *target, s32 effect_param) {
     }
 }
 
+/*
+ * Increments the owner counter, advances animation, randomizes the sprite angle modulo 0x1000, and
+ * restarts D_80025238 when flags 0x6000 are set.
+ */
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    SpriteFrameState *target) {
     Row_818A48C4_Func818A48C4Object *source;
@@ -69,6 +73,10 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
     return 0;
 }
 
+/*
+ * Increments the referenced object counter and passes the low 32 bits of the value to the sprite
+ * animation update.
+ */
 void advance_counted_sprite_animation(void **object_ref, long long value) {
     void *object;
     u16 *counter;
@@ -190,6 +198,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
     return result;
 }
 
+/* Increments the referenced object counter and stores a random angle modulo 0x1000 in the target. */
 void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
     s32 random_value;
     s32 random_quotient;

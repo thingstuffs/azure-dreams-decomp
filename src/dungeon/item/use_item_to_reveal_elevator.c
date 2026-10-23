@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -41,7 +42,7 @@ s32 use_item_to_reveal_elevator(EntityRec *target, s32 action_id, s16 action_typ
         }
     } else {
         display_formatted_context_message(D_800E1224, action_param, action_type);
-        dungeon_floor_flags |= 0x100;
+        dungeon_floor_flags |= FLOOR_REVEAL_ELEVATOR;
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;

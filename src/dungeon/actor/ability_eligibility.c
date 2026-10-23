@@ -659,6 +659,10 @@ u8 *get_stored_or_fallback_data(void) {
     return temporary_item_record;
 }
 
+/*
+ * Scans up to four floor-marker entries for the key pair and returns its value, stopping with zero
+ * at the first value below two or on no match.
+ */
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
     s32 entryIndex;
     s16 entryValue;

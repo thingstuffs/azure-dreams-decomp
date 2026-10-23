@@ -12,7 +12,10 @@ typedef struct {
     s32 y;
 } Func97514Object;
 
-/* Adjust the object vector toward the selected angle and limit its magnitude. */
+/*
+ * Adds sine/cosine input acceleration scaled by 64 and limits the resulting vector to its previous
+ * magnitude or 0x80000, whichever is larger.
+ */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude(Func97514Object *object) {
     s16 angle;
     s32 delta_x;

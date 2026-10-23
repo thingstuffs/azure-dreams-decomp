@@ -22,23 +22,7 @@ const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,3
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* state in func_8002403C */
-
-   /* scratch in func_8002403C */
-
-   /* input in func_8002403C */
-
-   /* packet in func_8002403C */
-
-   /* the 0x8 bytes before node in func_8002403C, addressed as node[-1] */
-
-   /* node in func_8002403C */
-
-   /* previous in func_8002403C */
-
-   /* final_state in func_8002403C */
-
-/* Project linked nodes and enqueue shaded point primitives with their draw modes. */
+   /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
 s32 project_linked_shaded_points(void *start_node, void *start_coords)
 {
     u8 **state_ptr;

@@ -19,7 +19,7 @@ typedef struct S_800A79F0_1 {
 
 void initialize_randomized_scale_timer(S_800A79F0_0 *);
 /* Update opposing scale offsets until the countdown ends, then restore unit scale. */
-void update_opposing_scale_effect(S_800A79F0_0 *state, s32 finish_arg1, S_800A79F0_1 *scale, s32 finish_arg3) {
+void update_opposing_scale_effect(S_800A79F0_0 *state, s32 unused_1, S_800A79F0_1 *scale, s32 unused_3) {
     u16 ticks_left;
     s32 scale_wave;
     s32 scale_offset;

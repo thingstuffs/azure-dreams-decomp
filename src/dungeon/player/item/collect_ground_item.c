@@ -1,3 +1,4 @@
+#include "shared/monster_ids.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/item_ids.h"
@@ -135,7 +136,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     ground_items = dungeon_ground_items;
     ground_item = &ground_items[(s16) item_lookup];
     if ((ground_item->kind == ITEM_KIND_COIN) || ((ground_item->kind == 12) && (ground_item->unk_00 == ITEM_BLUE_COLLAR))
-        || ((ground_item->kind == ITEM_KIND_EGG) && (ground_item->unk_00 == 1))) {
+        || ((ground_item->kind == ITEM_KIND_EGG) && (ground_item->unk_00 == MONSTER_HIKEWNE))) {
         named_item = &dungeon_ground_items[(s16) item_lookup];
         message = append_typed_formatted_value(named_item, message);
         if (named_item->kind == ITEM_KIND_COIN) {

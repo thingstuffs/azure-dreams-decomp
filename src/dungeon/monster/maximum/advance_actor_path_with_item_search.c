@@ -93,9 +93,10 @@ extern s16 func_80171EBC(void *, void *, void *, void *);
 extern s8 actor_turn_angle_offsets;
 extern u8 D_80082E80_b[];
 
-/* Chooses a movement direction, advances the actor, and updates its movement history. */
-/* Steers Maximum toward nearby floor items or its movement target, tries clear headings, and records the
- * path and occupancy. */
+/*
+ * Steers Maximum toward nearby floor items or its movement target, tries clear headings, and
+ * records the path and occupancy.
+ */
 void advance_actor_path_with_item_search(void *move_state, void *caller_context, void *position_arg, void *actor_arg) {
     s16 target_x;
     s16 target_y;

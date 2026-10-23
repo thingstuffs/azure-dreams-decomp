@@ -1,3 +1,4 @@
+#include "shared/monster_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -67,7 +68,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     S_800C08A4_1 *position;
 
     if (action == 0xD) {
-        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((generate_random_value() & 1) != 0)) {
+        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != MONSTER_TROLL) || ((generate_random_value() & 1) != 0)) {
             return process_record_and_update_linked_state(target, context);
         }
     }
@@ -79,7 +80,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;
     if ((u32) entity <= (u32) compare_ptr) {
-        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
+        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != MONSTER_TROLL) {
             display_actor_item_status_message(entity, target);
             if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
                 place_actor_item(entity, target);

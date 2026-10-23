@@ -24,8 +24,8 @@ extern s32 audio_update_guard[4];
 #include "engine/audio/channel_voice.h"
 
 /* Dispatches to the first done or empty slot and returns the result, or -1 if none is available. */
-s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 dispatch_arg3, s16 dispatch_arg4,
-    s16 dispatch_arg5, s16 dispatch_arg6)
+s16 start_sequence_in_free_slot(s16 bank, s16 program, s16 tone, s16 note, s16 fine_note,
+    s16 left_gain, s16 right_gain)
 {
     s32 slot;
 
@@ -55,8 +55,8 @@ s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispat
     }
 
     if (slot != -1) {
-        slot = (s16) start_voice_on_channel((s16) slot, dispatch_arg0, dispatch_arg1, dispatch_arg2, dispatch_arg3, dispatch_arg4,
-            dispatch_arg5, dispatch_arg6);
+        slot = (s16) start_voice_on_channel((s16) slot, bank, program, tone, note, fine_note,
+            left_gain, right_gain);
     }
 
     audio_update_guard[0] = 0;

@@ -15,6 +15,7 @@ typedef struct S_800B2190_2 {
     void * unk_04;
 } S_800B2190_2;
 
+/* Clears the byte at 0x80010303 plus 0x54 times the low five bits of record byte 3. */
 static void clear_indexed_table_flag(void *record) {
     u8 *page = (u8 *)0x80010000;
     page[((((u8 *)record)[3] & 0x1F) * 0x54) + 0x303] = 0;

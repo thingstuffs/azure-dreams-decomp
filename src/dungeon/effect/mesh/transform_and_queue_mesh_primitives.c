@@ -1622,7 +1622,7 @@ extern void project_sprite_chain(void);
 void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     u16 origin_offset[4];
     PointTable direction_steps;
-    void *owner;
+    ActorRecord *owner;
     ObjectNodeHeader *object;
     void *object_data;
     void *effect_object;
@@ -1664,7 +1664,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
         sprite->source = (u8 *)effect + 0x98;
         {
-            u16 facing = U16(owner, 0x2A);
+            u16 facing = (u16)owner->facing;
             point_cloud_update_flag[0] = 1;
             effect->direction.u = (facing >> 9) & 7;
         }
@@ -1673,7 +1673,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
     case 1:
         origin_sprite = object->sprite;
         if (get_sprite_attachment_vector(origin_sprite->source, origin_sprite, origin_offset, 0) == 0) {
-            if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
+            if (!(object->sprite->flags & 0x8000)) {
                 return;
             }
         }
@@ -1682,7 +1682,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         motion->y.w.i = U16(object_data, 6);
         owner_z = U16(object_data, 0xA);
         motion->z.w.i = owner_z;
-        if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
+        if (!(object->sprite->flags & 0x8000)) {
             motion->x.w.i = (u16)motion->x.w.i + origin_offset[0];
             motion->y.w.i = (u16)motion->y.w.i + origin_offset[1];
             effect_z = (u16)motion->z.w.i + origin_offset[2];
@@ -1706,14 +1706,14 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             effect->flags |= 4;
         }
 
-        hit_target = PTR(owner, 0x60);
+        hit_target = owner->target;
         offset_value = 0x10;
         if (hit_target != 0) {
             object = PTR(hit_target, -0x18);
             effect->target_x.u = U16(object, 2);
             effect->target_y.u = U16(object, 6);
             {
-                s32 height = entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] + 0x20;
+                s32 height = entity_height_offsets[U8(owner->target, 0x13)] + 0x20;
                 effect->target_z.u = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
@@ -1747,7 +1747,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 travel_ticks = (s8)travel_ticks;
                 effect->target_y.u = (u16)motion->y.w.i + y_step * (s8)travel_ticks;
             }
-            effect->target_z.u = U16(owner, 0x88) - 0x50;
+            effect->target_z.u = (u16)owner->ground_height - 0x50;
         }
 
         motion->velocity_x = direction_steps.p[effect->direction.s].x << 16;
@@ -1792,7 +1792,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             }
 
             if ((s16)check_adjacent_tile_height_clearance((u16)motion->x.w.i, (u16)motion->y.w.i, motion->z.w.i,
-                                   PTR(owner, 0x60)) != 0) {
+                                   owner->target) != 0) {
                 {
                     effect->state.u = 7;
                     effect->timer.u = 0;
@@ -1805,11 +1805,11 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
 
             effect->travel_ticks.u = effect->travel_ticks.u - 1;
             if (effect->travel_ticks.s <= 0) {
-                if (PTR(owner, 0x60) != 0) {
+                if (owner->target != 0) {
                     {
                         effect->state.u = 3;
                         effect->timer.u = 0;
-                        object = PTR(PTR(owner, 0x60), -0x18);
+                        object = PTR(owner->target, -0x18);
                         motion->x.w.i = U16(object, 2);
                         motion->y.w.i = U16(object, 6);
                         motion->z.w.i = effect->target_z.u;
@@ -1926,13 +1926,13 @@ loop_0:
         red_scaled = (red_scaled - effect->timer.s) * 32;
         effect->red = red_scaled / 0x28;
 
-        object = PTR(PTR(owner, 0x60), -0x18);
+        object = PTR(owner->target, -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (effect->blue << 16) + (effect->green << 8) + effect->red;
-            create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            create_random_radial_vector_effect((entity_height_offsets[U8(owner->target, 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
+                                (entity_height_offsets[U8(owner->target, 0x13)] >> 1)));
         }
         if (effect->timer.s >= 0x28) {
             effect->timer.u = 0;
@@ -1953,16 +1953,16 @@ loop_0:
             effect->red = ((0x46 - effect->timer.s) * 0xE0) / 0x23;
         }
 
-        object = PTR(PTR(owner, 0x60), -0x18);
+        object = PTR(owner->target, -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (effect->blue << 16) + (effect->green << 8) + effect->red;
-            create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            create_random_radial_vector_effect((entity_height_offsets[U8(owner->target, 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
+                                (entity_height_offsets[U8(owner->target, 0x13)] >> 1)));
         }
 
-        target = PTR(owner, 0x60);
+        target = owner->target;
         U32(target, 0x1C) |= 0x10000000;
         target_data = PTR(target, -0x14);
         if (effect->timer.s >= 0x24) {
@@ -1979,14 +1979,14 @@ loop_0:
         }
 
         {
-            void *released = PTR(owner, 0x60);
+            void *released = owner->target;
             target_data = PTR(released, -0x14);
             U32(released, 0x1C) &= 0xEFFFFFFF;
         }
         target_data->color.c.b = 0x80;
         target_data->color.c.g = 0x80;
         target_data->color.c.r = 0x80;
-        try_apply_wind_protection(PTR(owner, 0x60), effect->variant, owner);
+        try_apply_wind_protection(owner->target, effect->variant, owner);
         effect->timer.u = 0x14;
         effect->state.u += 1;
         return;

@@ -5,7 +5,7 @@
 
 extern void allocate_item_without_data_override(void *a0, void *a1, s32 a2, void *a3);
 
-/* Calls func_8004B634 and drain_cd_command_queue, then forwards the pointers to func_800253A0 with mode 3. */
+/* Submits and drains CD task 6, then allocates the item with mode 3 and the supplied data pointers. */
 void open_view_alternate(void *first_data, void *second_data, void *extra_data)
 {
     submit_global_cd_command_six();

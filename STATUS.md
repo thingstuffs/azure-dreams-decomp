@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-23T17:05:04Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-23T21:07:59Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -70,7 +70,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 4041 rows, 2,427,252 bytes (30.2%); records used: 98.
+On shared record headers (T7, `include/records/`): 4074 rows, 2,430,584 bytes (30.3%); records used: 98.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,993 rows (7,004,888 B).
 
@@ -83,11 +83,10 @@ Defects still present in the current tree (files = source files, bytes = image b
 | goto | 140 | 366,956 | 4.6% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
-| any fidelity site | 1 | 23,668 | 0.3% |
 | any live audit site, unnarrowed | 1,643 | 2,611,008 | 32.5% |
 | do{}while(0) scheduling barrier | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,589 | 3,849,996 | 48.0% |
+| local address-named struct | 2,551 | 3,841,996 | 47.9% |
 | clean shape | 8,160 | 7,661,348 | 95.4% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -102,13 +101,13 @@ Defects still present in the current tree (files = source files, bytes = image b
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 1 | 23,668 | 0.3% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 0 | 0 | 0.0% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,611,008 | 32.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2589 | 3,849,996 | 48.0% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2551 | 3,841,996 | 47.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8160 | 7,661,348 | 95.4% |
 
 </details>

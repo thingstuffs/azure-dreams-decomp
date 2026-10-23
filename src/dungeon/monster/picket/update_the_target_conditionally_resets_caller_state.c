@@ -16,7 +16,11 @@ void spend_actor_mp();            /* extern */
                 /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
 
-/* Updates the target and conditionally resets the caller state. */
+/*
+ * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing
+ * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
+ * under dungeon status flag 0x80. /
+ */
 void update_the_target_conditionally_resets_caller_state(S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 3);

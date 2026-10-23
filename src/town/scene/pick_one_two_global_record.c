@@ -7,7 +7,7 @@
 extern u8 scene_mode_event_data[];
 extern u8 scene_event_data[];
 
-/* Pick one of two global records by the selector. */
+/* Returns scene_event_data for selector four or scene_mode_event_data for all other selectors. */
 u8 *pick_one_two_global_records(s32 unused_a, s32 unused_b, s32 selector) {
     if (selector == 4) {
         return scene_event_data;

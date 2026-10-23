@@ -43,6 +43,12 @@ typedef struct S_80091430_2_pre {
 
    /* (*(void **)((u8 *)arg0 + 0x104)) in update_familiar_command_selection */
 
+enum FamiliarCommandPhase {
+    FAMILIAR_COMMAND_OPEN = 0,
+    FAMILIAR_COMMAND_INPUT = 1,
+    FAMILIAR_COMMAND_RESTORE_INPUT = 2,
+};
+
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
 void update_familiar_command_selection(void *state, s32 context_a, void *context_b, void *actor_ptr) {
     ActorRecord *actor = actor_ptr;
@@ -63,7 +69,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
 
     phase = (*(u8 *)((u8 *)state + 0x9B));
     switch (phase) {
-    case 0:
+    case FAMILIAR_COMMAND_OPEN:
         selection_ready = create_familiar_selection_marker(state + 0x104);
         (*(s32 *)((u8 *)state + 0xC8)) = selection_ready;
         if (selection_ready == 0) {
@@ -81,7 +87,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
             submit_script_with_registered_context(&D_80088970);
         }
         (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
-    case 1:
+    case FAMILIAR_COMMAND_INPUT:
         selection_result = resolve_player_input_facing((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state
             + 0x104)) + 0x2A);
         selection_code = (s16) selection_result;
@@ -207,7 +213,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
             }
         }
         return;
-    case 2:
+    case FAMILIAR_COMMAND_RESTORE_INPUT:
         (*(s32 *)((u8 *)state + 0xC8)) = 0;
         enqueue_script_message_command();
         dungeon_floor_flags &= ~0x2000;

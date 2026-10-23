@@ -27,6 +27,7 @@ typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u
 typedef union PackedColor { u32 word; struct { u8 r; u8 g; u8 b; u8 code; } channel; } PackedColor;
 typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor color1; s16 x1; s16 y1; } LineG2;
 
+/* Writes the packed start and end colors into the line primitive. */
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
 s32 RotTransPers(void *, void *, void *, void *);
 s32 GetTPage(s32, s32, s32, s32);

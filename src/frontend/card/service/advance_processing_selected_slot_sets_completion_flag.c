@@ -12,7 +12,11 @@ extern void invoke_callback_for_four_global_values(void);
 extern s32 func_80408644(s32 slot_index);
 extern s32 func_80408674(s32 selected_slot);
 
-/* Advances processing for the selected slot and sets its completion flag. */
+/*
+ * Polls the selected card slot, starts and waits for a detected card event, and sets the channel
+ * completion flag on state-three completion. Resets operation state and returns status one for an
+ * already marked slot, two for completion, or five for an unknown state.
+ */
 s32 advance_processing_selected_slot_sets_completion_flag(void) {
     s32 status;
     u32 *slot_flag;

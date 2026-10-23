@@ -14,6 +14,10 @@ extern void unlink_node_if_registered(void *a0);
 extern void func_80033D08(void *a0);
 extern s32 get_item_chk();
 
+/*
+ * Initializes tagged data in the object payload, unlinks the object from both scene lists, and
+ * sets local and global removal flags.
+ */
 static void update_the_data_set_local_global_flags(void *object, void *update_data)
 {
     copy_a_pointer_table_initializes_extra_data_tag_hex_13(update_data, (u8 *)object + 0x4C);
@@ -23,6 +27,10 @@ static void update_the_data_set_local_global_flags(void *object, void *update_da
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
+/*
+ * Returns zero when get_item_chk finds no item; otherwise updates the indexed item data and
+ * removal flags and returns one.
+ */
 s32 process_the_item_index_available_report_success(s32 context) {
     s32 item_index;
 

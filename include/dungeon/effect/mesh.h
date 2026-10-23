@@ -6,7 +6,7 @@
 /* Projectile callback work at node +0x20. The +0x98 sprite template is
  * installed in sprite->source and its +8 byte is alternated during impact. */
 typedef struct ProjectileEffect {
-    void *owner;
+    ActorRecord *owner;
     struct { u16 flags; } *animation;
     u8 pad_08;
     u8 variant;

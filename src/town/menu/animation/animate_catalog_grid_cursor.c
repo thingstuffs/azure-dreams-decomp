@@ -1,3 +1,4 @@
+#include "town/menu/catalog.h"
 #include "common.h"
 
 typedef struct SpriteFields {
@@ -52,7 +53,7 @@ void animate_catalog_grid_cursor(TownObject *object)
 
     state = ((TownObject *)(object))->state;
     switch (state) {
-    case 1:
+    case CATALOG_CURSOR_NUMBER:
         column = ((TownObject *)(object))->column;
         row_offset = ((TownObject *)(object))->row << 3;
         slot_base = (row_offset + column) * 3;
@@ -66,12 +67,12 @@ void animate_catalog_grid_cursor(TownObject *object)
             *((TownObject *)(object))->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) % 10];
         }
         break;
-    case 2:
+    case CATALOG_CURSOR_HIDE:
         hidden_sprite = ((TownObject *)(object))->town->display->src;
         hidden_sprite->f6 = 0;
         hidden_sprite->f4 = 0;
         return;
-    case 3:
+    case CATALOG_CURSOR_POSITION:
         ((TownObject *)(object))->town->display->src->f8 = catalog_cursor_rows[((TownObject *)(object))->row];
         ((TownObject *)(object))->town->display->src->fA = catalog_cursor_columns[((TownObject *)(object))->index];
         break;

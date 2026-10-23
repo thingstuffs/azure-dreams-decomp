@@ -12,7 +12,10 @@ extern u8 town_building_slot_rectangles[];
 
 extern s8 town_map_variant;
 extern s32 request_scene_state_with_parameters();
-/* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
+/*
+ * Requests scene state 0xB at the selected building rectangle bottom center and clears the
+ * selection. Uses rectangle zero and clears town_map_variant when no match is found.
+ */
 void clear_selected_entry_at_bottom_center(void)
 {
     s32 entry_index = 0x20;

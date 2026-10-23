@@ -2,6 +2,7 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/item.h"
 
 /* g_game_work.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as g_game_work the
  * offsets and the schedule change: cc1 listing differs). */
@@ -22,7 +23,7 @@ struct S_80082E60 {
 
 
 
-/* Stores the value in D_80082E60 and clears its two flag bytes. */
+/* Stores the next callback in runtime_dispatch_state and clears its two phase flag bytes. */
 void set_scene_phase_callback(int value) {
     struct S_80082E60 *state = ((struct S_80082E60 *)&runtime_dispatch_state);
 
@@ -38,7 +39,7 @@ extern struct {
     int f3;
 } cd_cue_parameters;
 
-/* Stores four values in consecutive fields of D_8006CE34. */
+/* Copies the four supplied words into cd_cue_parameters in order. */
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3)
 {
     struct { int f0; int f1; int f2; int f3; } *values = &cd_cue_parameters;
@@ -53,7 +54,7 @@ void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int valu
 extern int runtime_callback_entries[8];
 extern void *runtime_callback_write_cursor;
 
-/* Points D_800814E0 at D_80083C68 and clears its first word. */
+/* Resets runtime_callback_write_cursor to the list start and writes the initial null terminator. */
 void reset_scene_frame_callback_list(void) {
     runtime_callback_write_cursor = runtime_callback_entries;
     runtime_callback_entries[0] = 0;
@@ -84,7 +85,10 @@ extern struct {
     short field8;
 } timed_entity_motion_state;
 
-/* Sets the countdown, amount, and per-tick quotient in D_80083CA8. */
+/*
+ * Stores the countdown and total amount, then computes the per-tick quotient in
+ * timed_entity_motion_state.
+ */
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount) {
     timed_entity_motion_state.field8 = countdown;
     timed_entity_motion_state.field6 = amount;
@@ -104,7 +108,7 @@ void bind_global_triplet_source(void *state)
 
 extern unsigned char audio_force_center_pan[16];
 
-/* Sets D_8007382A to 1 and returns 1. */
+/* Enables audio_force_center_pan and returns one. */
 int audio_enable_mono_mix(void) {
     unsigned char *flag = &audio_force_center_pan[0];
     int enabled = 1;
@@ -123,7 +127,7 @@ typedef struct {
 
 extern Struct80085FA8 audio_sequence_tracks[];
 
-/* Sets both value fields of every active entry in D_80085FA8. */
+/* Sets both tempo step fields at offsets 0x20 and 0x24 in every active audio_sequence_tracks entry. */
 void audio_set_all_track_tempo_steps(int unused, int value) {
     unsigned int index;
     unsigned int count;
@@ -178,7 +182,7 @@ typedef struct {
 
 extern D_80083D78_t display_resource_cache_keys;
 
-/* Resets the four short fields of D_80083D78 to -1. */
+/* Sets all four display_resource_cache_keys halfwords to -1. */
 void invalidate_four_sprite_resource_slots(void) {
     display_resource_cache_keys.a = -1;
     display_resource_cache_keys.b = -1;
@@ -186,33 +190,17 @@ void invalidate_four_sprite_resource_slots(void) {
     display_resource_cache_keys.d = -1;
 }
 
-/* D_8007359C: a pointer-sized global that (per the target's lui/lw access pattern) is
- * itself a pointer stored inside a larger (>8 byte) data object, forcing gcc to emit
- * a %hi/%lo access rather than a $gp-relative one. It points to an array of 0x14 (20)
- * byte structs; this function indexes that array and returns the word at offset 4. */
-
-typedef struct {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-} Entry8007359C; /* size 0x14 */
-
-/* declared as a small array (size > 8 bytes) purely to force hi/lo addressing for
- * element 0, matching the target's lui/lw access to the pointer value itself. */
-extern Entry8007359C *monster_species_table[4];
-
-/* Returns the word at offset 4 of the indexed D_8007359C entry. */
+/* Species records share the twenty-byte item-category layout. ID zero is a
+ * special sentinel; retain the integer-return interface used by existing code. */
 int monster_get_species_name_text(int index)
 {
-    Entry8007359C *entries = monster_species_table[0];
-    return entries[index].unk4;
+    ItemRecord *entries = monster_species_table[0];
+    return (int)entries[index].text_04;
 }
 
 extern int vram_row_upload_cache[128];
 
-/* Clears all 128 words of D_80082EC0 in reverse order. */
+/* Clears all 128 vram_row_upload_cache words from the last entry to the first. */
 void clear_runtime_slot_word_table(void) {
     s32 index;
 
@@ -229,7 +217,10 @@ extern int find_sprite_resource_slot_by_id(short);
 struct Target_827C { char pad[0x28]; void *entry; };
 struct Source_827C { char pad[0xC]; struct Target_827C *target; };
 
-/* Assigns the resolved D_80083D08 entry to the source target and returns the source. */
+/*
+ * Resolves the sprite resource ID, stores the matching slot address in the source target, and
+ * returns the source.
+ */
 struct Source_827C *bind_sprite_resource_slot_record(struct Source_827C *source, short entry_id) {
     source->target->entry = &sprite_resource_slots[find_sprite_resource_slot_by_id(entry_id)];
     return source;
@@ -241,7 +232,7 @@ typedef struct { short a, b; } TableValuePair;
 extern TableValuePair D_80013564[];
 extern int find_item_data_slot(int first_value, int second_value);
 
-/* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
+/* Finds the item data slot and clears both halfwords when the returned index is below 20. */
 void item_clear_recorded_category_pair(int first_value, int second_value)
 {
     int index = find_item_data_slot(first_value, second_value);
@@ -268,7 +259,10 @@ extern Entry80084960 audio_channel_controls[];
 
 extern void activate_scene_resource_and_clear_view_callbacks(void);
 
-/* Copies field_B into field_18 of D_80082E60, then calls activate_scene_resource_and_clear_view_callbacks. */
+/*
+ * Sign-extends the current dispatch mode into its saved field, then activates the scene resource
+ * and clears view callbacks.
+ */
 void scene_save_previous_mode_and_reset_callbacks(void)
 {
     runtime_dispatch_state.field_18 = ((signed char)runtime_dispatch_state.field_B);
@@ -279,7 +273,10 @@ extern u8 indexed_count_byte_table[16];
 extern u8 indexed_byte_table_count_plus_five;
 extern u8 indexed_byte_table_double_count_plus_five;
 
-/* Updates two byte counters from count and returns the indexed D_80080B18 byte. */
+/*
+ * Caches count plus five and twice count plus five, then returns the indexed byte from
+ * indexed_count_byte_table.
+ */
 u8 select_display_spacing_table_entry(s32 index, s32 count)
 {
     u8 *table;
@@ -295,7 +292,7 @@ extern char secondary_optional_resource_descriptor[16]; /* >8B forces hi/lo addr
 
 extern void resource_load_current_optional_descriptor(void);
 
-/* Stores the address of D_800812C8 in D_8006ADC0, then calls resource_load_current_optional_descriptor. */
+/* Selects secondary_optional_resource_descriptor and starts loading the optional resource. */
 void load_secondary_optional_resource_descriptor(void)
 {
     char **pointer_slot = (char **)optional_resource_descriptor;
@@ -323,7 +320,7 @@ extern unsigned char sound_ram_reserve_mode[9];
 extern void SpuSetReverb(int value);
 extern void SpuReserveReverbWorkArea(int value);
 
-/* Clears D_8007382B and calls both reset routines with zero. */
+/* Clears sound_ram_reserve_mode and disables both SPU reverb and its reserved work area. */
 void audio_disable_reverb(void)
 {
     sound_ram_reserve_mode[0] = 0;
@@ -331,21 +328,23 @@ void audio_disable_reverb(void)
     SpuReserveReverbWorkArea(0);
 }
 
-/* Returns the word at offset 4 of the indexed D_80084960 entry. */
+/* Returns the indexed audio_channel_controls word at offset 4. */
 int audio_get_channel_pan(int unused, short index)
 {
     return audio_channel_controls[index].unk04;
 }
 
-/* Returns the word at offset 0x1C of the indexed D_80084960 entry. */
+/* Returns the indexed audio_channel_controls pitch-bend word at offset 0x1C. */
 int audio_get_channel_pitch_bend(int unused, short index) {
     return audio_channel_controls[index].unk1C;
 }
 
-/* D_80084960 is an array of structs, each 0x9C (156) bytes; offset 0x1C
-   holds a 32-bit field (getter audio_get_channel_pitch_bend does a plain lw from +0x1C). */
-
-/* Stores the low seven bits of value in the indexed D_80084960 entry. */
+/*
+ * Stores the low seven bits of value in the indexed audio_channel_controls entry.
+ *
+ * audio_channel_controls is an array of structs, each 0x9C (156) bytes; offset 0x1C holds a 32-bit
+ * field (getter audio_get_channel_pitch_bend does a plain lw from +0x1C).
+ */
 void audio_set_channel_pitch_bend_value(s32 unused, s16 index, s32 value) {
     audio_channel_controls[index].unk1C = value & 0x7F;
 }
@@ -364,7 +363,7 @@ extern StructADBC map_runtime_state;
 
 extern void submit_cd_command_six_and_drain(s32 a0);
 
-/* Copies field4 to field0 of D_8006ADBC and forwards nonzero values to func_80053C3C. */
+/* Copies map_runtime_state.field4 into field0 and submits CD task 6 when that value is nonzero. */
 void resource_load_current_optional_descriptor(void) {
     s32 value = map_runtime_state.field4;
 

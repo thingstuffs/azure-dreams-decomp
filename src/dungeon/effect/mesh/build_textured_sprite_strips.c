@@ -472,18 +472,17 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
-/* Draw-environment page reached through g_game_work.unk_000: an ordering-table head at +0x8B0 and the
- * packet allocation cursor at +0x8D0 (partial layout; GpuContext does not cover +0x8B0). */
-
-/* Screen position: x, then y (a page-relative row). */
-
-/* Clip/fill rectangle: origin, then the size word copied verbatim. */
-
-/* Link packet: tag word (next address + length), then payload. */
-
-/* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
+/*
+ * Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
- * reproduce the retail allocation and call-argument order. */
+ * reproduce the retail allocation and call-argument order.
+ *
+ * Screen position: x, then y (a page-relative row).
+ *
+ * Clip/fill rectangle: origin, then the size word copied verbatim.
+ *
+ * Link packet: tag word (next address + length), then payload.
+ */
 void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
@@ -651,12 +650,14 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
 #include "shared/entity.h"
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
-/* Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA);
- * the z slot's word is also bumped as one s32 (+0x20000 raises z by 2). */
-
-/* Effect record: the object header precedes it. */
-
-/* Raises the source toward its height limit and flags the object when its counter expires. */
+/*
+ * Raises the source toward its height limit and flags the object when its counter expires.
+ *
+ * Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA); the
+ * z slot's word is also bumped as one s32 (+0x20000 raises z by 2).
+ *
+ * Effect record: the object header precedes it.
+ */
 void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
 {
     u16 x;
@@ -745,11 +746,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
-   /* the 0x2 bytes before arg0 in update_effect_animation_slots, addressed as arg0[-1] */
-
-   /* arg0 in update_effect_animation_slots */
-
-/* Update eight animation slots and mark completion when the countdown expires. */
+   /* Update eight animation slots and mark completion when the countdown expires. */
 void update_effect_animation_slots(void *anim_state)
 {
     s16 next_phase;
@@ -796,9 +793,11 @@ void update_effect_animation_slots(void *anim_state)
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
-/* Effect record: the object header precedes it. */
-
-/* Decrement the record counter and set completion flags when it reaches zero. */
+/*
+ * Decrement the record counter and set completion flags when it reaches zero.
+ *
+ * Effect record: the object header precedes it.
+ */
 void tick_effect_record(CountdownRecord *record)
 {
     u16 counter;

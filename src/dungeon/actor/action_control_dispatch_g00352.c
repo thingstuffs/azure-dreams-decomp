@@ -20,6 +20,10 @@ void invoke_action_21_or_default(void) {
     drain_cd_command_queue();
 }
 
+/*
+ * Requests scene state 0x21 on floor 0x28 in mode 0x11 when the save and resident-bit gates permit
+ * it, marking the request pending. Otherwise submits and drains CD task 6.
+ */
 void trigger_action_21_or_update_control(void) {
     if (scene_mode_code == 0x11) {
         SaveImage *save = (SaveImage *)0x80010000;

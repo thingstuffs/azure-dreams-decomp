@@ -9,8 +9,6 @@ s32 func_800CDF00();     /* extern */
 s32 func_800CDF94();
 
 
-/* extern */
-
 /* Advance motion, clamp at its limit, and handle the remaining steps. */
 void advance_motion_and_clamp_limit(Rec_func_80094268_arg0 *entity, EntityRec *motion, s32 context) {
     s16 steps_left;

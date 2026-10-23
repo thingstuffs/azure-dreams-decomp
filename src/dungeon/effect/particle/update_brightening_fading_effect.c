@@ -166,17 +166,7 @@ void update_directional_actor_effect(void *object)
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before arg0 in update_brightening_fading_effect, addressed as arg0[-1] */
-
-   /* arg0 in update_brightening_fading_effect */
-
-   /* arg1 in update_brightening_fading_effect */
-
-   /* arg2 in update_brightening_fading_effect */
-
-   /* ((S_8195EB88_0 *)arg0)->unk_0C in update_brightening_fading_effect */
-
-/* Updates the effect position, brightens and fades its primitive, and marks completion. */
+   /* Updates the effect position, brightens and fades its primitive, and marks completion. */
 void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
 {
     s16 phase;
@@ -514,6 +504,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 #define PFIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
 
+/* Stores the rectangle width at offset 0x10 and the V coordinate in word 3. */
 static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 {
     VFIELD(rect, s32, 0x10) = width;
@@ -886,22 +877,7 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in func_80025540 */
-
-   /* arg1 in func_80025540 */
-
-   /* *global in func_80025540 */
-
-   /* arg2 in func_80025540 */
-
-   /* packet in func_80025540 */
-
-   /* texture in func_80025540 */
-
-   /* (u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
-                              ((S_8195FD40_0 *)scratch)->unk_20) in func_80025540 */
-
-/* Transform a textured quad and add it to the ordering table if visible. */
+   /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
@@ -1231,25 +1207,7 @@ void restore_saved_map_tile_region(void)
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in select_containing_cell_surface */
-
-   /* map_entry in select_containing_cell_surface */
-
-   /* best in select_containing_cell_surface */
-
-   /* current in select_containing_cell_surface */
-
-   /* copy_vertex in select_containing_cell_surface */
-
-   /* plane_ptr in select_containing_cell_surface */
-
-   /* dot_vertex in select_containing_cell_surface */
-
-   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in select_containing_cell_surface */
-
-   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in select_containing_cell_surface */
-
-/* Select a cell surface at the given position using plane height and containment tests. */
+   /* Select a cell surface at the given position using plane height and containment tests. */
 void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
     u8 *polygon;
@@ -1430,6 +1388,7 @@ typedef struct TextureConfig {
     u8 byteB;
 } TextureConfig;
 
+/* Subtracts the 160-pixel screen center from X and adds the supplied offset. */
 static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
@@ -1744,9 +1703,7 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *mat
 #include "common.h"
 #include "m2c_compat.h"
 
-   /* arg2 in create_terrain_tile_quad */
-
-/* Creates a terrain tile quad using grid heights and the supplied origin. */
+   /* Creates a terrain tile quad using grid heights and the supplied origin. */
 void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 left_x;
     s16 right_x;
@@ -1899,15 +1856,19 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
 
 extern void **actor_direction_sprites;
 
-/* Interpolate the target position, fade its color, and finish the transition. */
-/* MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
-   dispatch tree's last `beq ==3` is followed by case 0's body (an if-chain puts case 3's body
-   right after the default jump and jump.c inverts the test).  case 0 falls through into case 1.
-   The `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from
-   case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
-   in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
-   which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
-/* Moves a point toward the actor's sprite offset, flashes and fades it, then may create a tile grid ahead. */
+/*
+ * Moves a point toward the actor's sprite offset, flashes and fades it, then may create a tile
+ * grid ahead.
+ *
+ * MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
+ * dispatch tree's last `beq ==3` is followed by case 0's body (an if-chain puts case 3's body
+ * right after the default jump and jump.c inverts the test). case 0 falls through into case 1. The
+ * `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from case 1
+ * ends with the same `state->state = value + 1; return` tail as case 2 (written out in both arms),
+ * and case 2's step != 0 path repeats case 3's flag-setting tail. The 0x80080000 page plus 0x2E80
+ * is the symbol reference_tile_object, which is what frees the $2 pin; one u16 carrying the 5 and
+ * the 4 keeps the join value in v0.
+ */
 void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;

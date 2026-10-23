@@ -42,9 +42,10 @@ typedef struct S_80174800_4 {
 
 extern s32 prepare_directional_attack();
 
-/* Update the actor for each eligible list entry at the target tile and height. */
-/* Scans the actor ring at the target tile and height, preparing an attack for each entry outside classes
- * 0x33-0x36. */
+/*
+ * Scans the actor ring at the target tile and height, preparing an attack for each entry outside
+ * classes 0x33-0x36.
+ */
 void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
     s32 match_x = tile_x;

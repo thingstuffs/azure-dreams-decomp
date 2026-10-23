@@ -14,6 +14,10 @@ typedef struct S_80083160_View {
     S_8008E94C_Sub sub;
 } S_80083160_View;
 
+/*
+ * Wraps X/Y with the map masks, combines them using the row shift, and adds twice the signed
+ * low-halfword tile index to the cell-data base.
+ */
 static s32 map_cell_address_at_tile(s32 tile_x, s32 tile_y)
 {
     S_80083160_View *map_state = ((S_80083160_View *)&g_game_work);
@@ -24,6 +28,10 @@ static s32 map_cell_address_at_tile(s32 tile_x, s32 tile_y)
     return map_state->sub.f0 + ((tile_index << 0x10) >> 0xF);
 }
 
+/*
+ * Divides signed world X/Y by 64 with truncation toward zero and passes the resulting tile
+ * coordinates to map_cell_address_at_tile; the address is discarded.
+ */
 void town_map_mod_read_p(s16 world_x, s16 world_y) {
     s32 tile_x;
     s32 tile_y;

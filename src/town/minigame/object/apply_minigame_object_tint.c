@@ -1,33 +1,28 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "town/paired_indicators.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80024334_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_80024334_2;   /* arg2 in apply_minigame_object_tint */
 
    /* arg1 in apply_minigame_object_tint */
 
 
 /* Apply object flags and tint, and copy the selected value triplet. */
-void apply_minigame_object_tint(IndicatorChild *state, MovingPosition *selected_values, S_80024334_2 *render_state) {
+void apply_minigame_object_tint(IndicatorChild *state, MovingPosition *selected_values, SpriteFrameState *render_state) {
     PairedIndicators *source;
 
     source = state->source;
 
     if (source->flags & 1) {
-        render_state->unk_14 |= 0x80;
+        render_state->flags |= 0x80;
     } else {
-        render_state->unk_14 &= 0xFF7F;
+        render_state->flags &= 0xFF7F;
     }
 
     if (source->blink_color != 0) {
-        render_state->unk_0C = 0x808080;
+        render_state->color.word = 0x808080;
     } else {
-        render_state->unk_0C = 0xFFFFFF;
+        render_state->color.word = 0xFFFFFF;
     }
 
     if (state->use_first != 0) {

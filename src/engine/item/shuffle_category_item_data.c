@@ -11,13 +11,6 @@ typedef struct S_8004AA78_Rec {
 } S_8004AA78_Rec;
 
 /* 20-byte category-table entry: count @0x2, records pointer @0xC. */
-typedef struct S_8004AA78_CategoryEntry {
-    u8 pad0[2];
-    u8 count;
-    u8 pad1[9];
-    S_8004AA78_Rec *records;
-    u8 pad2[4];
-} S_8004AA78_CategoryEntry;
 
 /* Stack workspace: indices[0x40] then ptrs[] at +0x40 (matches retail lw offset). */
 typedef struct S_8004AA78_Buf {
@@ -25,7 +18,6 @@ typedef struct S_8004AA78_Buf {
     s32 ptrs[0x40];
 } S_8004AA78_Buf;
 
-extern S_8004AA78_CategoryEntry itemCategoryTable[];
 
 /* Shuffles nonzero item pointers among occupied records in a category. */
 void shuffle_category_item_data(s32 category) {

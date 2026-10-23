@@ -14,7 +14,10 @@ typedef struct S_8008F548_1 {
     s32 unk_10;
 } S_8008F548_1;   /* arg1 in set_the_flag_initialize_associated_state */
 
-/* Set the object flag and initialize the associated state. */
+/*
+ * Sets the object flag at offset 0x38, stores the supplied initial state at offset 4, and clears
+ * its motion word at offset 0x10.
+ */
 void set_the_flag_initialize_associated_state(S_8008F548_0 *object, S_8008F548_1 *state, s32 initial_value) {
     object->unk_38 = 1;
     state->unk_04 = initial_value;

@@ -10,7 +10,10 @@ typedef struct S_8004F95C {
     s32 counter;
 } S_8004F95C;
 
-/* Updates state, advances its counter, and disables its callback when the prior count reaches the limit. */
+/*
+ * Reorders and interpolates the menu entries, then installs the idle callback when the previous
+ * counter value reaches the limit.
+ */
 void animate_selection_menu_index_transition(S_8004F95C *state) {
     reorder_and_interpolate_selection_menu_entries(state);
     if (state->counter++ >= state->limit) {

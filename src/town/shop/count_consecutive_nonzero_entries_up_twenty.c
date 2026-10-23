@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Count consecutive nonzero entries, up to twenty. */
+/* Counts the initial nonzero words at 0x8001029C, stopping at the first zero or after 20 entries. */
 s32 count_consecutive_nonzero_entries_up_twenty(void) {
     s32 *entry;
     s32 i;

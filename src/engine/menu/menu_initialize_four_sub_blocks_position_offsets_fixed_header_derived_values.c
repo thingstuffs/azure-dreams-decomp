@@ -26,7 +26,10 @@ typedef struct {
     /* 0x90 */ s32 unk90;
 } S_8004A030;
 
-/* Initializes four object sub-blocks with position offsets and fixed or header-derived values. */
+/*
+ * Positions the first menu block relative to screen center (160, 128), binds the next three blocks
+ * to header values, and initializes their fixed offsets plus the supplied half-extent.
+ */
 void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(S_8004A030 *object, s32 x, s32 y, s16 extent)
 {
     S_8004A030_Sub *block;

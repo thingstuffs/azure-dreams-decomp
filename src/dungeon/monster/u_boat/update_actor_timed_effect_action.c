@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -97,7 +98,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
                 finish_phase = 5;
                 global_flags = dungeon_floor_flags;
                 ((S_8017558C_0 *)action)->unk_96 = finish_phase;
-                dungeon_floor_flags = global_flags | 0x800000;
+                dungeon_floor_flags = global_flags | FLOOR_MAP_VIEW_HOLD;
                 ((S_8017558C_0 *)action)->unk_9B = finish_phase;
             }
             sprite->flags = (u16) (sprite->flags | 0x6000);

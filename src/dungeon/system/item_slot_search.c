@@ -48,6 +48,10 @@ s32 find_and_clear_empty_item_slot(void) {
     }
     return (s16)empty_index;
 }
+/*
+ * Searches up to 20 words at 0x8001029C, stopping at the first zero; returns the matching index or
+ * -1.
+ */
 s32 find_table_value_index(s32 target_value) {
     s32 *table = (s32 *)0x80010000;
     s32 entry_index;

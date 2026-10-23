@@ -186,9 +186,11 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
     }
 }
 
-/* Shaded tile primitive (code 0x6A, 3 words). */
-
-/* Projects linked points and queues shaded tiles with draw-mode packets. */
+/*
+ * Projects linked points and queues shaded tiles with draw-mode packets.
+ *
+ * Shaded tile primitive (code 0x6A, 3 words).
+ */
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
@@ -412,6 +414,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
+/* Masks the random value to seven bits and forces bits 0x60 in the result. */
 static __inline__ u8 particle_alpha_from_random(s32 random_bits)
 {
     return (random_bits & 0x7F) | 0x60;

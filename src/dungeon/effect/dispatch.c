@@ -111,6 +111,7 @@ typedef struct Face {
     s8 flags;
 } Face;
 
+/* Sign-extends the low 16 bits of the input to a 32-bit depth value. */
 static __inline__ s32 narrow_depth(s32 value)
 {
     return (s16)value;

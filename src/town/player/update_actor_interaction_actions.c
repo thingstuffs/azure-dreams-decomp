@@ -23,12 +23,6 @@ typedef struct S_800930E4_1 {
 
    /* self in update_actor_interaction_actions */
 
-typedef struct S_800930E4_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800930E4_3;   /* state in update_actor_interaction_actions */
 
 /* Updates the target and dispatches actions based on its value, a countdown, and state flags. */
 void update_actor_interaction_actions(void *self_arg, SignedHeightView *target_arg, s32 context_arg) {

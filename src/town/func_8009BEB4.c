@@ -16,6 +16,10 @@ extern u8 D_800D01D8[];
 
 extern void clear_entity_record_fields(void *record);
 
+/*
+ * Selects D_800D01D8, clears both bytes of object slot one and the entity motion fields, and
+ * installs target_action_update_address with count 0x15.
+ */
 void initialize_scene_state_twenty_one(SceneActionReset *object, void *position, void *handler_context) {
     call_the_handler_selects_nonzero_entry((s32 *) D_800D01D8, (Rec_func_80094268_arg0 *) object, handler_context);
     object_index_slots[1].unk_00 = 0;

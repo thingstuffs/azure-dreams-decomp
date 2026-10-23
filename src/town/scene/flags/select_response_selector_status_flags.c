@@ -17,11 +17,11 @@ extern char *award_next_unearned_milestone(s32, s32, s32, s32);
 char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection, s32 extra)
 {
     s32 selector = selection;
-    s32 arg2_val;
+    s32 saved_selector;
     u32 table_index;
 
     table_index = selector - 12;
-    arg2_val = selector;
+    saved_selector = selector;
     switch (table_index) {
     case 7:
         return scene_choice_text;
@@ -76,7 +76,7 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
     case 40:
     case 41:
     case 42:
-        return award_next_unearned_milestone(selector, value, arg2_val, extra);
+        return award_next_unearned_milestone(selector, value, saved_selector, extra);
     default:
         return scene_string_fallback;
     }

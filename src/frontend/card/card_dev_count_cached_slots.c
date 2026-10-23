@@ -5,10 +5,6 @@
  * hi/lo rather than $gp; .set binds the overlay-local absolute address. */
 extern u8 card_slot_header_cache[];
 
-/* Count non-zero s32 heads of the 5×0x80-byte slots starting at D_8009DDD8.
- * Shape: load → increment offset → maybe count++. The increment is free of
- * the loaded value, so it fills the beqz delay slot (retail schedule). A
- * for-loop that increments after the if leaves that delay as nop. */
 /* Count nonzero heads in the five 0x80-byte slots. */
 s32 card_dev_count_cached_slots(void) {
     s32 count;

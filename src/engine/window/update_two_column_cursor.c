@@ -22,7 +22,7 @@ struct Object {
 extern void confirm_list_menu_choice(Object *, void *, void *);
 
 /* Move the two-column menu cursor and handle confirmation input. */
-void handle_two_column_menu_input(Object *menu, void *confirm_arg1, void *confirm_arg2) {
+void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) {
     s32 next_cursor;
     s32 prev_cursor;
     s32 cursor;
@@ -73,6 +73,6 @@ void handle_two_column_menu_input(Object *menu, void *confirm_arg1, void *confir
         menu->unk4D = cursor;
     }
     if (((u32)input_state->pressed_buttons) & 0x40) {
-        confirm_list_menu_choice(menu, confirm_arg1, confirm_arg2);
+        confirm_list_menu_choice(menu, unused_1, unused_2);
     }
 }

@@ -10,9 +10,7 @@ extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);
 extern s32 check_masked_value_in_current_range();
 extern s16 terrain_height_limits[];
 
-   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in select_object_value_by_height_band */
-
-/* Selects one of three object values using a position-based table difference. */
+   /* Selects one of three object values using a position-based table difference. */
 void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
 {
     s32 table_index;

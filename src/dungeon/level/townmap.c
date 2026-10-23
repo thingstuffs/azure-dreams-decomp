@@ -24,6 +24,10 @@ void process_pending_resource_load(void)
     }
 }
 
+/*
+ * Writes the value as four command bytes, stores the command opcode, and starts the town resource
+ * script.
+ */
 void write_resource_command(s32 value, s32 command) {
     town_resource_command[3] = (s8)(value >> 8);
     town_resource_command[2] = value;
@@ -33,6 +37,7 @@ void write_resource_command(s32 value, s32 command) {
     call_script(&town_resource_command);
 }
 
+/* Calls write_resource_command with D_800CFBA0[entry_index], 0x23. */
 void send_resource_command_23(s32 entry_index) {
     write_resource_command(D_800CFBA0[entry_index], 0x23);
 }
@@ -118,11 +123,13 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
     }
 }
 
+/* Sets town_map_status to 0xFF and returns one. */
 s32 town_map_del(void) {
     town_map_status = 0xFF;
     return 1;
 }
 
+/* Clears town_map_status and returns one. */
 s32 clear_town_map_status(void) {
     town_map_status = 0;
     return 1;
@@ -187,6 +194,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
 }
 
+/* Calls object - > unk_68 with (struct Struct_7FFEE2A0 *)object. */
 void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object) {
     object->unk_68((struct Struct_7FFEE2A0 *)object);
 }
@@ -219,6 +227,10 @@ void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA
     }
 }
 
+/*
+ * Subtracts 0x200 from the inner field at offset 0x0A; once negative, clamps it to zero and
+ * restores indexed town-map input state.
+ */
 void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *state) {
     state->sub->unkA -= 0x200;
     if ((s16)state->sub->unkA < 0) {
@@ -229,6 +241,10 @@ void decrease_inner_value_and_load_indexed_state(town_map_7FFEE36C_MainStruct *s
     }
 }
 
+/*
+ * Adds 0x200 to the inner field at offset 8; once positive, clamps it to zero and restores indexed
+ * town-map input state.
+ */
 void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) {
     town_map_7FFEE3F0_SubStruct *sub = actor->sub;
 
@@ -241,6 +257,10 @@ void advance_inner_value_and_load_indexed_state(town_map_7FFEE3F0_Actor *actor) 
     }
 }
 
+/*
+ * Subtracts 0x200 from the inner field at offset 8; once negative, clamps it to zero and restores
+ * indexed town-map input state.
+ */
 void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object) {
     object->sub->unk8 -= 0x200;
     if ((s16)object->sub->unk8 < 0) {
@@ -354,6 +374,10 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
     return;
 }
 
+/*
+ * Selects the countdown callback for map status 0xFF or the input handler for status zero; leaves
+ * other statuses unchanged.
+ */
 void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
     s32 *handler;
     u32 status = town_map_status;
@@ -368,6 +392,7 @@ void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
     state->unk_68 = handler;
 }
 
+/* Clears the referenced runtime record and callback, then sets local and global removal flags. */
 void release_town_map_record(void *record) {
     int global_flags;
     runtime_clear_value(*(void **)record);

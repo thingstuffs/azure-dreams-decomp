@@ -8,8 +8,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/golem.h"
-
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
+
 
 typedef struct TileEntry {
     u8 pad[12];
@@ -51,7 +51,7 @@ extern s32 require_object_flag();
 /* Update an actor's dungeon actions, status, facing, and animation. */
 /* Dispatches Golem's movement, attacks, spells, and turn processing, creating a sprite copy for its
  * alternate mode. */
-void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *sprite, void *stats) {
+void update_dungeon_actor_actions(GolemActionWork *actor, void *context, SpriteFrameState *sprite, ActorRecord *stats) {
     s16 heading_flags;
     s32 tile_index;
     u32 action_index;
@@ -63,13 +63,13 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
     u8 *anim_entry;
     register void *anim_sprite;
 
-    if ((F(actor, u8, 0xAE) == 0) && (g_dungeon_status.flags & 0x1000)) {
-        F(actor, u8, 0x9A) = 14;
+    if ((actor->mode == 0) && (g_dungeon_status.flags & 0x1000)) {
+        actor->state = 14;
         func_801716B4(actor, context, sprite, stats);
         return;
     }
 
-    if (F(stats, u8, 0x25) == 0) {
+    if (stats->mp == 0) {
         require_object_flag(actor, stats);
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == &golem_alt_direction_frames) {
@@ -195,7 +195,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             }
             sprite->frameTable = golem_direction_frames;
             select_sprite_entry(sprite,
-                golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+                golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7], 0);
             update_actor_status_and_mp(stats);
             return;
 
@@ -213,12 +213,12 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
             return;
 
         case 8:
-            if (F(actor, u8, 0xAE) != 0) {
-                if (F(stats, u32, 0x1C) & ACTOR_CONFUSED) {
-                    s32 turn_flags = F(stats, s32, 0x14);
+            if (actor->mode != 0) {
+                if (stats->flags1C & ACTOR_CONFUSED) {
+                    s32 turn_flags = stats->flags14;
                     if ((turn_flags & 0x80000000) == 0) {
-                        F(stats, u32, 0x14) = (u32)turn_flags | 0x80000000;
-                        F(stats, u16, 0x2A) +=
+                        stats->flags14 = (u32)turn_flags | 0x80000000;
+                        stats->facing +=
                             (generate_random_value() & 7) << 9;
                     }
                 }
@@ -294,7 +294,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         create_copied_render_object(actor, context, sprite);
         sprite->frameTable = active_anims;
         anim_sprite = sprite;
-        anim_entry = active_anims + (((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7);
+        anim_entry = active_anims + (((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7);
     } else {
         void *current_anims;
         u8 *idle_anims;
@@ -309,7 +309,7 @@ void update_dungeon_actor_actions(void *actor, void *context, SpriteFrameState *
         sprite->frameTable = next_anims;
         anim_sprite = sprite;
         anim_entry = (u8 *)((unsigned long)
-            (((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7) +
+            (((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7) +
             (unsigned long)next_anims);
     }
 

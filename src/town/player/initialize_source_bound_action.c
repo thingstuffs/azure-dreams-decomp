@@ -7,9 +7,7 @@
 void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
 
 
-   /* arg1 in initialize_source_bound_action */
-
-/* Initialize the record with its handler, count, and a value from the source record. */
+   /* Initialize the record with its handler, count, and a value from the source record. */
 void initialize_source_bound_action(Rec_func_80094268_arg0 *record, UnsignedCountdownView *source_record, void *ptr2) {
     call_the_handler_selects_nonzero_entry((s32 *) D_800D00D0, record, ptr2);
     record->unk_00.as_pm = &update_threshold_timed_action;

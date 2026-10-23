@@ -4,7 +4,11 @@
 
 s16 secondary_transition_slot_index = 0;
 
-/* Updates controller and dispatch state, then allocates a slot and schedules func_80043DB8 if callbacks do not signal completion. */
+/*
+ * Resets the GPU scratch cursor, updates controller input, and loads the selected dispatch
+ * resources. Saves the previous scene mode on callback completion, or reserves slot type 5/8 and
+ * schedules rendering otherwise.
+ */
 void load_object_scene_dispatch_resources(void)
 {
     unsigned int source_value;
@@ -27,7 +31,7 @@ void load_object_scene_dispatch_resources(void)
     }
 }
 
-/* Runs the per-tick update and installs func_80043E04 when the current slot is free. */
+/* Renders a scene frame and advances to confirmation once the selected transition slot is free. */
 void render_object_scene_until_slot_idle(void) {
     render_object_scene_frame();
     if (runtime_transition_slots[secondary_transition_slot_index].type == 0) {
@@ -35,7 +39,10 @@ void render_object_scene_until_slot_idle(void) {
     }
 }
 
-/* Updates the frame, then allocates a slot and installs func_80043E60 if signaled, otherwise calls update_shoulder_button_angle. */
+/*
+ * Renders a frame, then reserves transition slot type 6/8 and installs the finish phase when
+ * signaled; otherwise updates the shoulder-button angle.
+ */
 void await_object_scene_confirmation(void) {
     render_object_scene_frame();
     if (runtime_dispatch_state.unk_0E != 0) {

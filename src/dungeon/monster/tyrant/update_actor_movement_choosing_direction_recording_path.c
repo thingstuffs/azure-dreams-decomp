@@ -5,7 +5,7 @@
 /* Updates actor movement, choosing a direction and recording its path. */
 /* Chooses Tyrant's next clear step, with a flagged nearby-target shortcut, then records the path and
  * updates tile occupancy. */
-void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
+void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, SpriteFrameState *position, ActorRecord *actor)
 {
     s32 limit_turn;
     s16 step_index;
@@ -23,14 +23,14 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     state_flags = state->flags;
     limit_turn = 0;
 
-    if ((state_flags & 0x4000) || S8_AT(actor, 0x71) >= 0) {
+    if ((state_flags & 0x4000) || (s8)actor->movement_queue_state >= 0) {
         if (U8_AT(actor, 0x12) >= 2 ||
             (check_action_eligibility_updates_actor_state_directional_animation_success(move_work, entry_context, position, actor) << 16) == 0) {
             update_actor_status_and_mp(actor);
             return;
         }
         if (state->active_actor == actor) {
-            U16_AT(actor, 0x46) = 0xC008;
+            actor->action_flags = 0xC008;
         }
         return;
     }
@@ -40,38 +40,38 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     }
 
     update_actor_proximity_flag(position, actor, 3, 6, move_work + 0x9C);
-    actor_flags = S32_AT(actor, 0x1C);
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_link = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            target_link = find_adjacent_actor(actor, position->tile_x, position->tile_y);
             if (target_link != 0) {
                 turn_flags = (s32)PTR_AT(target_link, -0x14);
 
-                U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
                     U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
-                U8_AT(actor, 0x71) &= 0x7F;
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
             {
-                turn_flags = S32_AT(actor, 0x14);
+                turn_flags = actor->flags14;
 
                 if (!(turn_flags & 0x80000000)) {
-                    S32_AT(actor, 0x14) = turn_flags | 0x80000000;
+                    actor->flags14 = turn_flags | 0x80000000;
                     turn_limit = generate_random_value();
-                    current_angle = U16_AT(actor, 0x2A) + ((turn_limit & 7) << 9);
-                    U16_AT(actor, 0x2A) = current_angle;
+                    current_angle = (u16)actor->facing + ((turn_limit & 7) << 9);
+                    actor->facing = current_angle;
                 }
             }
         } else {
-            if (probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                              S16_AT(actor, 0x2A)) != 0) {
-                U8_AT(actor, 0x71) &= 0x7F;
+            if (probe_directional_neighbor(actor, position->tile_x, position->tile_y,
+                              actor->facing) != 0) {
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
         }
     } else if (actor_flags & 0x2000) {
-        if (U16_AT(actor, 0x46) & 0x8000) {
+        if (actor->action_flags & 0x8000) {
         } else if (!(actor_flags & 0x20000)) {
             select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
         } else {
@@ -83,28 +83,28 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 u8 *target = reference_tile_object;
 
                 direction = (U8_AT(actor, 0x45) +
-                             ((s32)(U16_AT(primary_actor_record, 0x2A) << 16) >> 25)) & 7;
+                             ((s32)((u16)primary_actor_record->facing << 16) >> 25)) & 7;
                 offset = direction * 2;
                 target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dir_step_x), offset);
                 target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dir_step_y), offset);
-                if ((U8_AT(position, 0x24) == (u16)target_x) &&
-                    (U8_AT(position, 0x25) == (u16)target_y)) {
-                    U8_AT(actor, 0x71) &= 0x7F;
+                if ((position->tile_x == (u16)target_x) &&
+                    (position->tile_y == (u16)target_y)) {
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 }
 
                 {
                     u8 *angle_work = move_work + 0x98;
                     s16 next_angle = get_rounded_facing_and_rounding_flag(
-                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        position->tile_x, position->tile_y,
                         (s16)target_x, (s16)target_y, angle_work);
 
-                    U16_AT(actor, 0x2A) = next_angle;
+                    actor->facing = next_angle;
                     if ((check_movement_clearance_and_height(next_angle, position, actor, 0x20) << 16) <= 0) {
                         u8 *fallback = (u8 *)&reference_tile_position_alias - 0x24;
 
-                        U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                            U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        actor->facing = get_rounded_facing_and_rounding_flag(
+                            position->tile_x, position->tile_y,
                             U8_AT(fallback, 0x24), U8_AT(fallback, 0x25), angle_work);
                     }
                 }
@@ -113,7 +113,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 u8 *target = (u8 *)&reference_tile_position_alias - 0x24;
 
                 if ((test_neighbor_position_relation(
-                         U8_AT(position, 0x24), U8_AT(position, 0x25),
+                         position->tile_x, position->tile_y,
                          U8_AT(target, 0x24), U8_AT(target, 0x25)) << 16) != 0) {
                     limit_turn = 1;
                 }
@@ -124,7 +124,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
         s32 offset;
         u8 *tile_table;
 
-        tile_kind = S8_AT(position, 0x26);
+        tile_kind = (s8)position->room_index;
         if (tile_kind >= 0) {
             tile_table = (u8 *)dungeon_rooms;
             offset = tile_kind * 0x14;
@@ -133,50 +133,50 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
         if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
             select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
         } else
-            if (U16_AT(actor, 0x46) & 0x8000) {
+            if (actor->action_flags & 0x8000) {
             } else {
-                target_link = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+                target_link = find_adjacent_actor(actor, position->tile_x, position->tile_y);
                 if (!(U16_AT(move_work, 0x98) & 0x8000)) {
                 } else if (target_link == 0) {
                 } else if ((check_diagonal_side_height(
-                         ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                         U8_AT(position, 0x24), U8_AT(position, 0x25),
-                         (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                         ((actor->facing >> 9) & 0xFFFF),
+                         position->tile_x, position->tile_y,
+                         (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
                     turn_flags = (s32)PTR_AT(target_link, -0x14);
 
-                    U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                    actor->facing = get_rounded_facing_and_rounding_flag(
+                        position->tile_x, position->tile_y,
                         U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
-                    U8_AT(actor, 0x71) &= 0x7F;
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 } else {
-                    if (probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                      S16_AT(actor, 0x2A)) != 0) {
+                    if (probe_directional_neighbor(actor, position->tile_x, position->tile_y,
+                                      actor->facing) != 0) {
                         if ((check_diagonal_side_height(
-                                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-                            U8_AT(actor, 0x71) &= 0x7F;
+                                 ((actor->facing >> 9) & 0xFFFF),
+                                 position->tile_x, position->tile_y,
+                                 (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                            actor->movement_queue_state &= 0x7F;
                             return;
                         }
                     }
-                    if (!(S32_AT(actor, 0x1C) & 0x20000)) {
+                    if (!(actor->flags1C & 0x20000)) {
                         select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
                     } else {
                         u8 *goal = (u8 *)&reference_tile_position_alias - 0x24;
                         u8 *angle_work = move_work + 0x98;
 
-                        U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                            U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        actor->facing = get_rounded_facing_and_rounding_flag(
+                            position->tile_x, position->tile_y,
                             U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
                         if ((test_neighbor_position_relation(
-                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                 position->tile_x, position->tile_y,
                                  U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) != 0) {
                             if ((check_diagonal_side_height(
-                                     ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                     (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-                                U8_AT(actor, 0x71) &= 0x7F;
+                                     ((actor->facing >> 9) & 0xFFFF),
+                                     position->tile_x, position->tile_y,
+                                     (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                                actor->movement_queue_state &= 0x7F;
                                 return;
                             }
                         }
@@ -189,7 +189,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     angle_steps = actor_turn_angle_offsets;
 
     for (; step_index < 8; step_index++) {
-        current_angle = S16_AT(actor, 0x2A);
+        current_angle = actor->facing;
         if (U16_AT(move_work, 0x98) & 2) {
             trial_angle = current_angle - angle_steps[step_index];
         } else {
@@ -199,75 +199,75 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
             if (step_index >= 3) {
                 turn_limit = limit_turn;
                 if (turn_limit != 0) {
-                    U8_AT(actor, 0x71) &= 0x7F;
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 }
             }
-            U16_AT(actor, 0x2A) = trial_angle;
+            actor->facing = trial_angle;
             {
                 u8 *path_slot;
 
-                path_slot = actor;
-                path_slot += U8_AT(actor, 0x71) & 0x7F;
-                U8_AT(path_slot, 0x74) = U8_AT(position, 0x24);
-                path_slot = actor;
-                path_slot += U8_AT(actor, 0x71) & 0x7F;
-                U8_AT(path_slot, 0x7C) = U8_AT(position, 0x25);
+                path_slot = (u8 *)actor;
+                path_slot += actor->movement_queue_state & 0x7F;
+                U8_AT(path_slot, 0x74) = position->tile_x;
+                path_slot = (u8 *)actor;
+                path_slot += actor->movement_queue_state & 0x7F;
+                U8_AT(path_slot, 0x7C) = position->tile_y;
             }
-            U8_AT(actor, 0x71)++;
+            actor->movement_queue_state++;
 
             update_map_cell_flags_with_item_limit(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                (S32_AT(actor, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+                position->tile_x, position->tile_y,
+                (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
 
             {
-                s32 move_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
+                s32 move_offset = ((u16)actor->facing >> 8) & 0xE;
                 s32 step = (s32)dir_step_x;
 
                 step += move_offset;
-                U8_AT(position, 0x24) += *(u8 *)step;
-                U8_AT(position, 0x25) += U8_AT(((s8 *)dir_step_y), move_offset);
+                position->tile_x += *(u8 *)step;
+                position->tile_y += U8_AT(((s8 *)dir_step_y), move_offset);
             }
             cycle_map_cell_flags(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                (S32_AT(actor, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+                position->tile_x, position->tile_y,
+                (actor->flags1C & 0x2000) ? 0x300 : 0x3000);
             break;
         }
 
         if ((step_index == 0) &&
             (U16_AT(&reference_tile_position_alias, 0) != U16_AT(position, 0x24)) &&
             ((check_entity_relation(
-                  actor, S32_AT(primary_actor_record, 0x58) + 0x20) << 16) != 0)) {
+                  actor, (s32)primary_actor_record->previous_actor_header + 0x20) << 16) != 0)) {
             return;
         }
     }
 
     if (step_index >= 8) {
-        U8_AT(actor, 0x71) &= 0x7F;
-        U16_AT(actor, 0x46) &= 0x7FFF;
+        actor->movement_queue_state &= 0x7F;
+        actor->action_flags &= 0x7FFF;
         update_actor_status_and_mp(actor);
         return;
     }
 
-    U16_AT(actor, 0x46) &= 0x7FFF;
-    U8_AT(move_work, 0x9C) = U8_AT(position, 0x26);
-    U8_AT(actor, 0x6D)--;
+    actor->action_flags &= 0x7FFF;
+    U8_AT(move_work, 0x9C) = position->room_index;
+    actor->pending_turn_updates--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
 
         (*(u16 *)&move_state->activity_counts.parts.pending_movement_count)++;
     }
-    if (S8_AT(actor, 0x6D) == 0) {
-        U8_AT(actor, 0x71) &= 0x7F;
+    if (actor->pending_turn_updates == 0) {
+        actor->movement_queue_state &= 0x7F;
         return;
     }
 
     step_index = sample_terrain_surface_height(
-        (U8_AT(position, 0x24) << 6) | 0x20,
-        (U8_AT(position, 0x25) << 6) | 0x20,
-        (s16)(U16_AT(actor, 0x88) - 0x20));
+        (position->tile_x << 6) | 0x20,
+        (position->tile_y << 6) | 0x20,
+        (s16)((u16)actor->ground_height - 0x20));
     if (step_index < 0x200) {
-        U16_AT(actor, 0x88) = step_index;
+        actor->ground_height = step_index;
     }
     return;
 }

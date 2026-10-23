@@ -10,7 +10,10 @@ void call_the_handler_selects_nonzero_entry(s32 *entries, Rec_func_80094268_arg0
     }
 }
 
-/* Applies a selected source byte to the destination and adjusts its sixth byte. */
+/*
+ * Selects a sprite frame through the view-relative angle sector and adds two divided by
+ * animation_tick_scale to destination byte 5.
+ */
 void apply_a_selected_source_byte_destination_adjusts_sixth_byte(u8 *sourceBytes, s32 selection, u8 *destination) {
     s32 offset;
 

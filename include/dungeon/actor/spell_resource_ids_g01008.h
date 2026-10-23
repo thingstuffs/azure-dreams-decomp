@@ -74,7 +74,8 @@ typedef struct S_800A94A0_9 {
     s16 unk_88;
 } S_800A94A0_9;
 
-extern u8 spell_resource_ids[9];
+/* 49 resource slots occupy the byte span before the next spell table. */
+extern u8 spell_resource_ids[49];
 /* *D_800E3D7C in create_actor_spell_effect */
 extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];

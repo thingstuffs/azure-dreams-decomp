@@ -2,7 +2,10 @@
 /* Original-file evidence (G00540): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80099028, CL:town/func_80099080, PD:town/engine:800FE5D4. */
 #include "town/player/position_upper_bound_g00540.h"
 
-/* Query the position after subtracting the global Z offset. */
+/*
+ * Subtracts D_800FE5D4 from a copy of Z and returns max_adjusted_z_query over four entries from
+ * D_800D040C.
+ */
 s32 handle_query_position_after_subtracting_global_z_offset(Vec3i *position) {
     LocalVec pos;
 

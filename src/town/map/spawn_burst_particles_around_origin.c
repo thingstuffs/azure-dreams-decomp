@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -28,10 +29,6 @@ typedef struct S_800BBCA0_3 {
     s16 unk_4C;
 } S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
 
-typedef struct S_800BBCA0_5 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800BBCA0_5;   /* spriteType in spawn_burst_particles_around_origin */
 
 extern s32 test_resident_bit(s32);
 extern void *allocate_list_node(s32, void *);
@@ -93,7 +90,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 sprite->flags |= 0xC;
                 ((S_800BBCA0_3 *)motion)->unk_48 = 6;
                 sprite->unk_00 = sprite_type;
-                sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
+                sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
                 sprite->color.word = 0x101010;
@@ -149,7 +146,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
                 ((S_800BBCA0_3 *)motion)->unk_48 = 0xF;
                 ((S_800BBCA0_3 *)motion)->unk_4C = 1;
                 sprite->unk_00 = sprite_type;
-                sprite->source = ((S_800BBCA0_5 *)sprite_type)->unk_04;
+                sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
                 sprite->color.word = 0x808080;

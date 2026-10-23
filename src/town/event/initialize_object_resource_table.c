@@ -8,7 +8,7 @@ extern s32 D_800F8BCC[];
 extern s32 D_800F8BD8[];
 
 /* Assign the object data table and initialize it with the shared tables. */
-void initialize_object_resource_table(void *object, s32 setup_arg1, s32 setup_arg2) {
+void initialize_object_resource_table(void *object, s32 context, s32 state) {
     *(void **)((u8 *)object + 0x7C) = D_800D06F8;
-    select_object_state_by_mode(object, setup_arg1, setup_arg2, D_800F8BCC, D_800F8BD8, town_object_resource_table);
+    select_object_state_by_mode(object, context, state, D_800F8BCC, D_800F8BD8, town_object_resource_table);
 }

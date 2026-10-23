@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
@@ -61,24 +62,24 @@ void *select_object_by_flags_and_keys(Func8180F0F4_Obj *first, Func8180F0F4_Obj 
         do {
             second_traits = second->field14;
         } while (0);
-        first_mask = first_traits & 7;
-        resolved_mask = second_traits & 7;
+        first_mask = first_traits & ACTOR_ELEMENT_MASK;
+        resolved_mask = second_traits & ACTOR_ELEMENT_MASK;
         if (first_mask == resolved_mask) {
             resolved_mask = first_mask;
-        } else if (first_traits & 1) {
-            resolved_mask = 1;
-            if (second_traits & 2) {
-                resolved_mask = 2;
+        } else if (first_traits & ACTOR_ELEMENT_FIRE) {
+            resolved_mask = ACTOR_ELEMENT_FIRE;
+            if (second_traits & ACTOR_ELEMENT_WATER) {
+                resolved_mask = ACTOR_ELEMENT_WATER;
             }
-        } else if (first_traits & 2) {
-            resolved_mask = 2;
-            if (second_traits & 4) {
-                resolved_mask = 4;
+        } else if (first_traits & ACTOR_ELEMENT_WATER) {
+            resolved_mask = ACTOR_ELEMENT_WATER;
+            if (second_traits & ACTOR_ELEMENT_WIND) {
+                resolved_mask = ACTOR_ELEMENT_WIND;
             }
-        } else if (first_traits & 4) {
-            resolved_mask = 4;
-            if (second_traits & 1) {
-                resolved_mask = 1;
+        } else if (first_traits & ACTOR_ELEMENT_WIND) {
+            resolved_mask = ACTOR_ELEMENT_WIND;
+            if (second_traits & ACTOR_ELEMENT_FIRE) {
+                resolved_mask = ACTOR_ELEMENT_FIRE;
             }
         }
         *out_mask = resolved_mask;

@@ -11,7 +11,7 @@ void call_script(s32);                         /* extern */
 void submit_object_resource_data();                         /* extern */
 void set_default_scene_data_pointer();     /* extern */
 struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
-struct S_800945B8_0; void initialize_input_driven_scene_object(s32 * *, struct S_800945B8_0 *, s32);     /* extern */
+struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void init_timed_dispatch_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
@@ -36,14 +36,6 @@ struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 extern void *town_target_record;
 extern s32 town_interaction_pending[];
 extern s32 *town_player_action_callback;
-
-
-typedef struct S_800927EC_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800927EC_1;   /* state in update_actor_movement_and_interaction */
 
 
 typedef struct S_800927EC_4 {
@@ -79,7 +71,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         }
     }
     if (((s32)input->pressed_buttons) & 0x10) {
-        initialize_input_driven_scene_object(actor, (struct S_800945B8_0 *)(position), context);
+        initialize_input_driven_scene_object(actor, (struct ObjectPosition *)(position), context);
         return;
     }
     if (((s32)input->pressed_buttons) & 0x80) {

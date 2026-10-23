@@ -5,7 +5,7 @@
 extern s32 audio_voice_count[4];
 extern s32 audio_voice_masks[64];
 
-/* Combines flags from D_80073740 and passes them to func_8005E97C. */
+/* Combines the active audio voice masks and passes them to SpuSetKey with selector 0. */
 void dispatch_combined_driver_flags(void) {
     s32 flags;
     s32 flag_index;

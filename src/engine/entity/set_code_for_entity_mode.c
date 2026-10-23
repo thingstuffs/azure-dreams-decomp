@@ -12,9 +12,6 @@ typedef struct {
 /* a one-byte code; an extern, so absolute (lui/sb) in ASPSX */
 extern u8 entity_spawn_variant_code;
 
-/* summary: if entity's field_0x13 == 0x16 (some "type" tag), inspect field_0x48
-   (a sub-state/mode byte) and record a resulting code into D_800E2968:
-   0xD -> 0xF, 0xF -> 0xA, otherwise leave D_800E2968 unchanged. */
 /* Maps modes 0xD and 0xF of type 0x16 entities to global codes 0xF and 0xA. */
 void set_code_for_entity_mode(S_8004397C_Entity *entity)
 {

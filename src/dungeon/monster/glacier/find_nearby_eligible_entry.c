@@ -1,3 +1,4 @@
+#include "shared/monster_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
 
@@ -55,7 +56,7 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
                 (height = ((S_801748FC_0 *)current)->unk_88,
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&
-                ((u32)(((S_801748FC_0 *)current)->unk_13 - 0x33) >= 4U)) {
+                ((u32)(((S_801748FC_0 *)current)->unk_13 - MONSTER_WALL_OF_FIRE) >= 4U)) {
                 scratch = check_entity_eligibility(current);
                 scratch <<= 0x10;
                 if (scratch != 0) {

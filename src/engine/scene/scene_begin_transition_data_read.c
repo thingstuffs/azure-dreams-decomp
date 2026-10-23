@@ -3,9 +3,11 @@
 #include "slus.h"
 #include "slus/data.h"
 
-/* Control_CD(kind, callback, arg) - registers a callback in some table */
-
-/* Clears the state byte and registers two callbacks, binding the default handler to it. */
+/*
+ * Clears the state byte and registers two callbacks, binding the default handler to it.
+ *
+ * Control_CD(kind, callback, arg) - registers a callback in some table
+ */
 void scene_begin_transition_data_read(u8 *state)
 {
     *state = 0;

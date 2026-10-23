@@ -9,7 +9,7 @@ typedef struct S_80039B84_0 {
     s32 * unk_10;
 } S_80039B84_0;   /* arg0 in vm_op_35_install_action */
 
-/* Set the event-script context's callback to func_80038A08. */
+/* Installs noop_installed_script_action as the script callback. */
 void vm_op_35_install_action(S_80039B84_0 *script) {
     script->unk_10 = &noop_installed_script_action;
 }

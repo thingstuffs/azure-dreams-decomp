@@ -25,7 +25,6 @@ typedef struct S_80F606C0_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_80F606C0_1;   /* arg1 in update_shrinking_homing_effect */
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 /* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
 void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, SpriteFrameState *transform) {
     s16 phase;

@@ -6,6 +6,40 @@
 
 struct S_80042A80_Item;
 
+/* Twenty-byte category record. Category 19 uses text_04 as the species name
+ * and text_08 as its description; other categories select their text by state.
+ * data is a runtime item-data slot in categories that allocate item state.
+ * The last two halfwords are selected by calc_item_value and its callback. */
+typedef struct ItemRecord {
+    u16 flags;
+    s16 unk_02;
+    const char *text_04;
+    const char *text_08;
+    void *data;
+    u16 value0;
+    u16 value1;
+} ItemRecord;
+
+/* Record format (+0) selects 20- versus 12-byte entries. Name format (+0x10)
+ * independently selects the modifier/status text emitted by format_item_name.
+ * Unknown trailing bytes remain live/unknown, rather than claimed padding. */
+typedef struct ItemCategory {
+    u8 record_format;
+    u8 flags;
+    u8 count;
+    u8 multiplier_index;
+    const char *label;
+    s32 (*callback)(s32, void *, void *, void *);
+    void *records;
+    u8 name_format;
+    u8 unk_11[3];
+} ItemCategory;
+
+extern ItemCategory itemCategoryTable[];
+/* Element zero holds the category-19 records. [4] preserves the resident
+ * pointer object's non-small-data addressing; it is not a species count. */
+extern ItemRecord *monster_species_table[4];
+
 /* calc_item_value.c */
 s32 calc_item_value(u8 *item, s32 use_value1);
 

@@ -1072,6 +1072,11 @@ s32 relink_flame_path(void *entity_arg, void *primary_context_arg, void *seconda
     return result;
 }
 
+/*
+ * Spends MP and advances status timers when movement completes, resuming the actor handler only
+ * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
+ * 0x80 during movement or after an accepted trap check. /
+ */
 void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         spend_actor_mp(target, 4);
@@ -1087,6 +1092,10 @@ void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused,
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs initialize_destination_state only when it succeeds
+ * and the signed floor-trap check returns positive.
+ */
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1563,16 +1572,19 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, SpriteFrameState *s
     }
 }
 
+/* Runs the shared hop and shrink update, then clears the record halfword at offset 0xB6. */
 void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render) {
     update_actor_hop_and_shrink(record, motion, scale, render);
     record->unk_B6 = 0;
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_flame_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/* Runs update_actor_hop_and_grow and installs initialize_destination_state when it returns nonzero. */
 void grow_hopping_flame(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1857,6 +1869,11 @@ void wait_for_flame_mp(void *entity, void *context, SpriteFrameState *anim, void
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_flame_parent_motion(R06_80173C34_Actor *actor, s32 action, SpriteFrameState *entity, R06_80173C34_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1871,6 +1888,10 @@ void update_flame_parent_motion(R06_80173C34_Actor *actor, s32 action, SpriteFra
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs initialize_destination_state only when it succeeds
+ * and the signed floor-trap check returns positive.
+ */
 void create_randomized_rotated_effect(Resource06CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1880,6 +1901,10 @@ void create_randomized_rotated_effect(Resource06CallbackState *state, void *enti
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs initialize_destination_state when it returns
+ * nonzero.
+ */
 void finish_actor_terrain_interpolation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1887,6 +1912,7 @@ void finish_actor_terrain_interpolation_then_initialize_destination(Resource06Ca
     }
 }
 
+/* Runs update_spinning_actor_fall and installs initialize_destination_state when it returns nonzero. */
 void finish_spinning_actor_fall_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1894,6 +1920,7 @@ void finish_spinning_actor_fall_then_initialize_destination(Resource06CallbackSt
     }
 }
 
+/* Runs update_actor_fade_in and installs initialize_destination_state when it returns nonzero. */
 void finish_actor_fade_in_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1925,9 +1952,12 @@ s32 project_flame_sprite_chain(void *initial_payload, s32 entry_data, R06_80173E
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
-
-/* Projects linked effect positions and queues brightness-scaled pixel and drawing-mode packets by depth. */
+/*
+ * Projects linked effect positions and queues brightness-scaled pixel and drawing-mode packets by
+ * depth.
+ *
+ * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
+ */
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
@@ -2130,10 +2160,15 @@ void advance_actor_action_and_update_status(
     }
 }
 
-/* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)advance_randomized_motion_and_complete) / ((u8 *)append_linked_shaded_point_packets) as HIGH/LO pairs itself (the lui in the beqz delay slot).
-   The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
-
-/* Projects an effect quad, clips it by depth and screen bounds, then queues a colored textured polygon. */
+/*
+ * Projects an effect quad, clips it by depth and screen bounds, then queues a colored textured
+ * polygon.
+ *
+ * MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)advance_randomized_motion_and_complete) /
+ * ((u8 *)append_linked_shaded_point_packets) as HIGH/LO pairs itself (the lui in the beqz delay
+ * slot). The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced
+ * record.
+ */
 void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -2301,6 +2336,10 @@ s32 project_textured_quad_chain(void *initial_state, void *context, void *data) 
     }
 }
 
+/*
+ * Decrements the 16-bit lifetime and sets local and global removal flags when the signed result is
+ * zero or negative.
+ */
 void advance_record_countdown(void *record_data) {
     u16 remaining_count;
 
@@ -2813,6 +2852,10 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs initialize_destination_state when it returns
+ * positive.
+ */
 void finish_actor_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -2820,6 +2863,10 @@ void finish_actor_floor_trap_then_initialize_destination(Resource06CallbackState
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs initialize_destination_state when it returns
+ * positive.
+ */
 void finish_actor_action_flag_propagation_then_initialize_destination(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

@@ -6,6 +6,10 @@
 #include "shared/object_flags.h"
 
 
+/*
+ * Calls the indexed inventory_menu_handlers entry with the context and the address of that handler
+ * entry.
+ */
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
     DispatchFunc *table;
     DispatchFunc *handler_entry;
@@ -15,6 +19,7 @@ void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
     (*handler_entry)(context, (void *)handler_entry);
 }
 
+/* Writes index times 16 minus 0x38 to the vertical offset of both linked entries. */
 void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
     s16 offset;
 
@@ -23,6 +28,7 @@ void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, 
     ((ovl_1830850_81810888_S_80025888_4 *)(((ovl_1830850_81810888_S_80025888_2 *)(pair->unk_08))->unk_04))->unk_0A = offset;
 }
 
+/* Returns zero without reading or changing state. */
 s32 inventory_menu_returns_zero(void *menu) { return 0; }
 
 /* Restores the saved item category record when present, otherwise copies the original text back. */
@@ -48,6 +54,10 @@ void restore_item_text_before_edit(void *item_object)
     strcpy(((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);
 }
 
+/*
+ * Selects null data when the object byte-pair check passes, or inventory_default_entry_data
+ * otherwise.
+ */
 void inventory_select_null_or_default_data(void *object)
 {
     if (check_object_byte_pairs_content(*(s32 *)((u8 *)*(void **)((u8 *)object + 0x18) + 0x28))) {
@@ -58,6 +68,7 @@ void inventory_select_null_or_default_data(void *object)
     **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = inventory_default_entry_data;
 }
 
+/* Returns whether the context is type 4 and its linked object fails the byte-pair content check. */
 s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
     s32 check_passed;
 
@@ -124,6 +135,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
     inventory_select_null_or_default_data(menu);
 }
 
+/* Calls inventory_handle_menu_actions_and_repeat with menu. */
 void update_inventory_menu(void *menu) { inventory_handle_menu_actions_and_repeat(menu); }
 
 /* Steps the inventory opening transform for five updates, then installs its regular menu callback. */
@@ -142,10 +154,12 @@ void inventory_apply_step_and_reset_after_five(ovl_1830850_81810BF4_Entity *enti
     inventory_handle_menu_actions_and_repeat((ovl_1830850_81810A0C_DungeonArg *)entity);
 }
 
+/* Clears the word addressed by the entry field at offset 4. */
 void inventory_clear_entry_value(ovl_1830850_81810C4C_S_80025C4C_0 *entry) {
     *entry->unk_04 = 0;
 }
 
+/* Stores D_800789B8 through the destination field at offset 4. */
 void set_destination_byte_pointer(ovl_1830850_81810C58_S_80025C58_0 *dest) {
     *dest->unk_04 = D_800789B8;
 }
@@ -207,6 +221,10 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
     packet->unk_00 = (u8)(flags | 0x80);
 }
 
+/*
+ * Calls build_reverse_indexed_chain with context, item_window_chain_indices, 13 and returns its
+ * result.
+ */
 S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context) {
     return build_reverse_indexed_chain(context, item_window_chain_indices, 13);
 }
@@ -293,6 +311,10 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
     *(s32 **)(data - 0x10) = (void *)inventory_apply_step_and_reset_after_five;
 }
 
+/*
+ * Initializes the text editor context, binds the three embedded owner-data blocks, and initializes
+ * pointers from the linked owner state.
+ */
 void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
     initialize_text_editor_context(object, init_value, init_value_2, init_value_3);
     inventory_initialize_owner_patch_and_state(object, object + 0x44, object + 0x1C, object + 0x2C);
@@ -347,11 +369,16 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     return obj;
 }
 
+/* Flags the referenced object for removal and clears its handle. */
 void inventory_clear_referenced_handle(ovl_1830850_81811250_S_80026250_0 *context) {
     flag_optional_object_for_removal(*context->unk_14);
     *context->unk_14 = 0;
 }
 
+/*
+ * For a nonnull object, releases its referenced handle and display entries, then sets the object
+ * and global removal flags.
+ */
 void inventory_process_resources_and_set_flags(void *object)
 {
     u16 object_flags;
@@ -367,6 +394,7 @@ void inventory_process_resources_and_set_flags(void *object)
     }
 }
 
+/* Clears the data word at offset 0x10 and the referenced entry value in the object payload. */
 void inventory_clear_object_field_and_entry(s32 object_addr) {
     ovl_1830850_818112EC_S_800262EC_0 *object_data;
 
@@ -375,6 +403,7 @@ void inventory_clear_object_field_and_entry(s32 object_addr) {
     inventory_clear_entry_value(object_data->unk_54);
 }
 
+/* Sets the payload state to 1 and restores its destination byte pointer. */
 void inventory_set_embedded_state_one(s32 object_addr) {
     ovl_1830850_81811314_S_80026314_0 *state;
 
@@ -383,6 +412,7 @@ void inventory_set_embedded_state_one(s32 object_addr) {
     set_destination_byte_pointer(state->unk_54);
 }
 
+/* Sets the payload type to 4 and positions both linked entries for index 4. */
 void inventory_set_embedded_state_four(s32 object_addr) {
     ovl_1830850_81811340_S_80026340_0 *state;
 

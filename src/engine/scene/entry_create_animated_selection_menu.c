@@ -38,12 +38,14 @@ extern void init_gauge_object(void *a0, void *a1);
 extern void enqueue_script_message_command(void);
 extern void invoke_leading_object_callback(void *a0);
 
-/* Retail materializes a fresh %hi(D_800814A0) for the store after the |= load
- * destroyed the address register; cdk cc1 otherwise CSEs the address across
- * load+store. The absolute-bound section alias (LEAD-24 idiom, same cohort as
- * w_80050DA8/w_80051F58, same global) forces per-access lui. */
-
-/* Creates an owner and its companion object, flagging failed setup for cleanup. */
+/*
+ * Creates an owner and its companion object, flagging failed setup for cleanup.
+ *
+ * Retail materializes a fresh %hi(D_800814A0) for the store after the |= load destroyed the
+ * address register; cdk cc1 otherwise CSEs the address across load+store. The absolute-bound
+ * section alias (LEAD-24 idiom, same cohort as w_80050DA8/w_80051F58, same global) forces
+ * per-access lui.
+ */
 void *create_gauge_with_selection_menu(s32 context)
 {
     void *owner;

@@ -9,7 +9,7 @@ typedef struct RuntimeCallbacks {
 
 extern RuntimeCallbacks *overlay_trace_methods;
 
-/* Invoke the runtime callback at offset 0x60 with zero. */
+/* Calls overlay_trace_methods - > invoke with 0. */
 void invoke_runtime_callback_offset_zero(void) {
     overlay_trace_methods->invoke(0);
 }

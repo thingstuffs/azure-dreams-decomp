@@ -20,7 +20,10 @@ extern void func_80404688(s32 entry_object);
 extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 
-/* Updates state callbacks and processes five entries if the state check succeeds. */
+/*
+ * Returns to menu input when the card operation is already complete or succeeds, processing five
+ * entries on success. On failure, opens message 0x13 and installs the follow-up handler.
+ */
 void process_five_object_entries(S_func_804061C4_0 *state)
 {
     s32 entry;

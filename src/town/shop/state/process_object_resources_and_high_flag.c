@@ -9,7 +9,6 @@ extern void release_null_terminated_entries(void *a0);
 extern void flag_object_for_removal(void *a0);
 extern void func_800B5020(void *a0);
 
-// Process an object's associated resources and set its and the global high-bit flags.
 /* Releases display entries and linked resources, then marks the object and global list for cleanup. */
 void process_object_resources_and_high_flag(u8 *object)
 {

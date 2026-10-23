@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -75,7 +76,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
     } else {
         record_obj = ((S_800BF7FC_0_pre *)target)[-1].unk_00;
         record_index = ((S_800BF7FC_1 *)record_obj)->unk_26;
-        if (record_index >= 0 && !(dungeon_rooms[record_index].flags & 2)) {
+        if (record_index >= 0 && !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
             if (create_timed_region_flag_expiry(((S_800BF7FC_1 *)record_obj)->unk_24,
                               ((S_800BF7FC_1 *)record_obj)->unk_25,
                               ((EntityRec *)target)->unk_88,
@@ -84,7 +85,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
             }
 
             record = &dungeon_rooms[((S_800BF7FC_1 *)record_obj)->unk_26];
-            record->flags |= 2;
+            record->flags |= ROOM_HOLY_BEAM;
             create_view_color_flash(0x20C0C0, 1);
             random_value = get_unused_text_buffer();
             event_value = random_value;

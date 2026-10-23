@@ -8,7 +8,10 @@ extern s32 start_sound_effect_program_voices(s32 a0, void *a1, u16 a2, u16 a3, s
 
 extern u16 primary_voice_volume_scale_alias[8];   /* size>8 forces %hi/%lo addressing */
 
-/* Scales D_800847EE's level by volume scale [0] and starts the voices with a primary and an optional secondary gain. */
+/*
+ * Stops matching effect voices, scales the primary gain, and splits it into primary and secondary
+ * voice programs when the capped audio meter contributes a nonzero gain.
+ */
 void sound_start_scaled_primary_and_secondary_voices(s32 target_id, void *target_data)
 {
     s32 scale_value;

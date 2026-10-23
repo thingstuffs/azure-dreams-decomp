@@ -7,6 +7,13 @@
 extern u8 familiar_save_frames[];
 extern void step_actor_animation(void *, s32);
 
+enum DeploymentOverlayState {
+    DEPLOY_OVERLAY_GROW = 0,
+    DEPLOY_OVERLAY_WAIT_SAVE = 1,
+    DEPLOY_OVERLAY_SHRINK = 2,
+    DEPLOY_OVERLAY_REMOVE = 3,
+};
+
 /* Updates an object's scale and brightness through its transition modes. */
 void update_familiar_deployment_overlay(void *object_data, void *unused, void *state_data) {
     u8 *obj = (u8 *)object_data;
@@ -28,7 +35,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
     }
     mode = *(s16 *)(obj + 4);
     switch (mode) {
-    case 0:
+    case DEPLOY_OVERLAY_GROW:
         grow_scale = *(u16 *)(state + 0x1C);
         *(u16 *)(state + 0x1C) = (u16)(grow_scale + ((s32)(0x1000 - grow_scale) / 4));
         grow_ticks = *(u16 *)(obj + 6) - 1;
@@ -40,7 +47,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
             *(u16 *)(obj + 4) = mode_next;
         }
         return;
-    case 1:
+    case DEPLOY_OVERLAY_WAIT_SAVE:
         if (*(s16 *)(obj + 8) == 0) {
             brightness = *(u8 *)(state + 0xC);
             if (brightness >= 0x81U) {
@@ -64,7 +71,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
         *(u16 *)(obj - 2) |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
-    case 2:
+    case DEPLOY_OVERLAY_SHRINK:
         scale_or_ticks = *(u16 *)(state + 0x1C);
         *(u16 *)(state + 0x1C) = (u16)(scale_or_ticks + ((s32)(0 - scale_or_ticks) / 4));
         shrink_ticks = *(u16 *)(obj + 6) - 1;
@@ -76,7 +83,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
             *(u16 *)(obj + 4) = mode_next;
         }
         return;
-    case 3:
+    case DEPLOY_OVERLAY_REMOVE:
         *(u16 *)(obj - 2) |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;

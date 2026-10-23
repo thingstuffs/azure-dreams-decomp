@@ -21,6 +21,7 @@ extern struct {
     int force_large;
 } free_node_list_head;
 
+/* Returns the current value of value. */
 inline s32 inline_fn(s32 value)
 {
     return value;

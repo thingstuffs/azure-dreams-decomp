@@ -5,6 +5,10 @@
 extern s32 update_linked_actor_motion(void *, void *, void *, void *);
 
 
+/*
+ * Updates linked actor motion and restores facing animation once motion succeeds and the
+ * floor-trap check returns positive.
+ */
 void update_linked_actor_motion_and_check_floor_trap(void *actor, void *motion, void *render, void *context)
 {
     if (update_linked_actor_motion(actor, motion, render, context) &&

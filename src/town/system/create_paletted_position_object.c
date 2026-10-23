@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/position_views.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
@@ -9,15 +10,6 @@ typedef struct S_80956E6C_0 {
     void * unk_10;
 } S_80956E6C_0;   /* object in create_paletted_position_object */
 
-typedef struct S_80956E6C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_80956E6C_1;   /* position in create_paletted_position_object */
-
-typedef struct S_80956E6C_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80956E6C_2;   /* position2 in create_paletted_position_object */
 
 typedef struct S_80956E6C_4 {
     u8 pad_00[0x48];
@@ -45,7 +37,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     u32 tint_color;
     s32 palette_value;
     ObjectNodeHeader *object;
-    S_80956E6C_1 *position;
+    SignedPositionView *position;
     u32 aux_value;
     SpriteFrameState *primitive;
 
@@ -62,13 +54,13 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
         position = object->position;
         if (negative) {
             value = -value;
-            position->unk_02 = value;
+            position->x = value;
         } else {
-            position->unk_02 = value;
+            position->x = value;
         }
         value = 0x80;
         aux_value = (u32)object->position;
-        ((S_80956E6C_2 *)aux_value)->unk_06 = value;
+        ((SignedPositionView *)aux_value)->y = value;
 
         aux_value = 0x60;
         primitive->tpage_abr = aux_value;

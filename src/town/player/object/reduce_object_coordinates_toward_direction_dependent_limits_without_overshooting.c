@@ -12,7 +12,10 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s16 input_angle_with_offset(s32, s16);
 
-/* Reduce object coordinates toward direction-dependent limits without overshooting. */
+/*
+ * For held input, reduces oversized X/Y components by sine/cosine steps scaled by 64 and clamps at
+ * direction-dependent limits scaled by 128.
+ */
 void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(TownObject *object) {
     s16 direction;
     s32 y_direction;

@@ -162,11 +162,16 @@ extern u8 homing_particle_sprite_entries[];
 s32 rand();                          /* extern */
 extern SpriteSourceEntry landing_sprite_entries[];
 
+/* Converts the grid coordinate to units of 64 and adds random modulo 64. */
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 {
     return (grid << 6) + random % 64;
 }
 
+/*
+ * Converts the grid coordinate to units of 64 and adds random modulo 32 plus a centered offset of
+ * 16.
+ */
 static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
 {
     s32 scaled = grid << 6;

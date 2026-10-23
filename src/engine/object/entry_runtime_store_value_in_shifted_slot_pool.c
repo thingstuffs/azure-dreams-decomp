@@ -16,7 +16,10 @@ extern State80082A38 runtime_script_state;
 extern s32 service_script_controller(void);
 extern void call_script(void *reset_value);
 
-/* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
+/*
+ * Enqueues the supplied value, first clearing slots 10 through 14 and starting
+ * runtime_pool_service_script when that script is not already active. Returns one.
+ */
 s32 enqueue_runtime_pool_script(void *input_data) {
     s32 entry_index;
 

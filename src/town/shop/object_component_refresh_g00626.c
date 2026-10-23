@@ -3,7 +3,7 @@
 #include "town/shop/object_component_refresh_g00626.h"
 #include "shared/object_flags.h"
 
-/* Passes each of five paired entry values to func_8004E99C. */
+/* Flags both referenced objects for removal in each of five paired entries from the owner table. */
 void submit_five_paired_entry_values(S_800B4648_0 *owner) {
     s32 entry_value;
     s32 entry_offset;

@@ -4,6 +4,7 @@
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
 extern s32 interpolate_actor_to_terrain_tile();
 
+/* Runs terrain-tile interpolation and installs dispatch_target_action when it completes. */
 void interpolate_actor_to_terrain_tile_and_dispatch(void *actor, void *motion, void *render, void *context)
 {
     if (interpolate_actor_to_terrain_tile(actor, motion, render, context)) {

@@ -764,7 +764,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-/* Clear D_800DCF4F and decrement the sixth counter in D_80083460. */
+/* Clears dungeon_event_pending_flag and decrements the pending action count. */
 void clear_counted_action(void) {
 
     dungeon_event_pending_flag[0] = 0;
@@ -786,7 +786,7 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
 
 extern u8 camera_transition_timer;
 
-/* Returns whether D_800E3D20 is set while bit 1 of D_80013714 is clear. */
+/* Returns one while camera_transition_timer is active and system_update_flags bit 1 is clear. */
 s32 is_dungeon_action_blocked(void) {
     if (!(system_update_flags & 2) && camera_transition_timer) {
         return 1;
@@ -1022,7 +1022,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         target = source->unk_60;
         experience = (rounded_exp - 1) / recipient_count;
 
-        if (target->flags14 & 0x4000) {
+        if (target->flags14 & ACTOR_PARTY_MEMBER) {
             member_index = 1;
             do {
                 member = ((S_800A2DB8_5 *)((u8 *)dungeon_actor_ring_anchor + member_index * 4))->unk_AC;
@@ -1079,7 +1079,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         accumulate_experience_award(target, experience);
         final_target = source->unk_60;
         popup_code = 0x83;
-        if (final_target->flags14 & 0x2000) {
+        if (final_target->flags14 & ACTOR_CLASS_ENABLED) {
             popup_code = 0x82;
         }
         create_actor_value_popup(popup_code, final_target, source->unk_06.s, 1);
@@ -1139,7 +1139,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
     result = 0;
     targetEntity = entity->target;
     hasFlag = 0;
-    if ((targetEntity != NULL) && (targetEntity->flags14 & 0x4000)) {
+    if ((targetEntity != NULL) && (targetEntity->flags14 & ACTOR_PARTY_MEMBER)) {
         flagBits = entity->flags14 & ACTOR_PARTY_MEMBER;
         hasFlag = flagBits != 0;
     }
@@ -1157,7 +1157,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             }
         }
         if ((result != 0) && (targetData = entity->target, (targetData != NULL))) {
-            if (targetData->unk_14 & 0x4000) {
+            if (targetData->unk_14 & ACTOR_PARTY_MEMBER) {
                 if (!(entity->flags14 & ACTOR_PARTY_MEMBER)) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;

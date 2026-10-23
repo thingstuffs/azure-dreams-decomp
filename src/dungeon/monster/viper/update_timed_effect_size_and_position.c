@@ -19,9 +19,10 @@ typedef struct Page8008 {
     u32 flags;
 } Page8008;
 
-/* Update a timed effect's size and position, then set its completion flags. */
-/* Shrinks the sprite in staged steps, moves it vertically in state 2, and marks the effect for removal in
- * state 3. */
+/*
+ * Shrinks the sprite in staged steps, moves it vertically in state 2, and marks the effect for
+ * removal in state 3.
+ */
 void update_timed_effect_size_and_position(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;

@@ -33,7 +33,11 @@ typedef struct S_80095840_3 {
 
 
 
-/* Selects an eligible source entry and stores its pointer in the destination. */
+/*
+ * Uses the angle table to select the source or an available alternate slot, rejecting entry types
+ * one and three. Stores the selected pointer and returns two for the source, one for an alternate,
+ * or zero with a cleared pointer.
+ */
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source)
 {
     S_80095840_0 *result;

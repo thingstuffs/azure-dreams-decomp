@@ -19,9 +19,10 @@ s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
 extern u8 D_80176480;
 
-/* Update the actor action state and directional animation when both checks pass. */
-/* Starts Cyclone's directional attack when an action slot is free, consumes a pending turn, and prepares
- * damage. */
+/*
+ * Starts Cyclone's directional attack when an action slot is free, consumes a pending turn, and
+ * prepares damage.
+ */
 void finish_actor_tile_move_and_check_trap(void *action_state, s32 action_ctx, SpriteFrameState *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {

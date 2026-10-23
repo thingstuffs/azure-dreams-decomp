@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level.h"
 
+/* Searches all 64 ground-item slots for a nonempty item at X/Y, excluding the supplied slot. */
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
 {
     s32 slot;
@@ -131,7 +132,7 @@ main_loop:
                 if (special_flag != 0) {
                     s32 page_value;
 
-                    page_value = ((generate_random_value() & 0xF) == 0) ? 2 : 1;
+                    page_value = ((generate_random_value() & 0xF) == 0) ? ITEM_BIG_PITA_FRUIT : ITEM_PITA_FRUIT;
                     item_subtype = page_value;
                     crystal_pending = 0;
                     page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
@@ -223,29 +224,29 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
         if (((s16 *)current_dungeon_floor)[0] == 12) {
             if (((floor_spawns_isolated_8028B660_S_8001E660_0 *)(dungeon_actor_ring_anchor))->unk_FB == 0) {
                 *out_group = 12;
-                *out_index = 4;
+                *out_index = ITEM_BLUE_COLLAR;
                 ((u8 *)floor_special_item_selected)[0] = 1;
                 return 1;
             }
         } else if (((s16 *)current_dungeon_floor)[0] == 15) {
             if ((test_resident_bit(0x145E) != 0) && (test_resident_bit(0x1460) == 0)
-                && ((has_recorded_value_pair(0xD, 1) << 0x10) == 0)) {
+                && ((has_recorded_value_pair(0xD, ITEM_GURUS_POT) << 0x10) == 0)) {
                 *out_group = 0xD;
-                *out_index = 1;
+                *out_index = ITEM_GURUS_POT;
                 ((u8 *)floor_special_item_selected)[0] = 1;
                 return 1;
             }
         } else if (((s16 *)current_dungeon_floor)[0] == 28) {
-            if ((test_resident_bit(0xFC3) != 0) && (test_resident_bit(0xFAD) == 0) && ((has_recorded_value_pair(1, 8) << 0x10) == 0)) {
-                *out_group = 1;
-                *out_index = 8;
+            if ((test_resident_bit(0xFC3) != 0) && (test_resident_bit(0xFAD) == 0) && ((has_recorded_value_pair(ITEM_KIND_HERB, ITEM_HEALING_HERB) << 0x10) == 0)) {
+                *out_group = ITEM_KIND_HERB;
+                *out_index = ITEM_HEALING_HERB;
                 ((u8 *)floor_special_item_selected)[0] = 1;
                 return 1;
             }
         } else if (((s16 *)current_dungeon_floor)[0] == 20) {
-            if ((test_resident_bit(0xAC) != 0) && (test_resident_bit(0x12C6) == 0) && ((has_recorded_value_pair(0xD, 6) << 0x10) == 0)) {
+            if ((test_resident_bit(0xAC) != 0) && (test_resident_bit(0x12C6) == 0) && ((has_recorded_value_pair(0xD, ITEM_BLUE_CAPE) << 0x10) == 0)) {
                 *out_group = 0xD;
-                *out_index = 6;
+                *out_index = ITEM_BLUE_CAPE;
                 ((u8 *)floor_special_item_selected)[0] = 1;
                 return 1;
             }
@@ -272,18 +273,18 @@ void init_random_floor_item_parameters(void *entity_data) {
     case_value = ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_01;
     output_value = output_flags;
     switch (case_value) {
-    case 4:
+    case ITEM_KIND_BALL:
         output_value = 1;
-        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != 0x11) {
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != ITEM_ACID_RAIN_BALL) {
             output_value = (generate_random_value() & 7) | 4;
         }
         output_flags = -0x80;
         break;
-    case 15:
-        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 == 9) {
+    case ITEM_KIND_SWORD:
+        if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 == ITEM_DARK_SWORD) {
             output_flags |= 0x40;
         }
-    case 17:
+    case ITEM_KIND_SHIELD:
         if (!(generate_random_value() & 3)) {
             adjusted_value = (generate_random_value() & 3) - 1;
             output_value = adjusted_value;
@@ -291,7 +292,7 @@ void init_random_floor_item_parameters(void *entity_data) {
                 output_flags |= 0x40;
             }
         }
-    case 16:
+    case ITEM_KIND_WAND:
         minus_128 = -0x80;
         combined_flags = output_flags | minus_128;
         output_flags = combined_flags;
@@ -301,10 +302,10 @@ void init_random_floor_item_parameters(void *entity_data) {
         output_value = -1;
         output_flags = combined_flags | 0x40;
         break;
-    case 18:
+    case ITEM_KIND_EGG:
         output_value = ((u32)(generate_random_value() & 0xFFFF) % 40U) + 0x3C;
         break;
-    case 1:
+    case ITEM_KIND_HERB:
     default:
         break;
     }
@@ -312,6 +313,7 @@ void init_random_floor_item_parameters(void *entity_data) {
     ((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_03 = output_flags;
 }
 
+/* Clears the 64 words of dungeon_ground_items in reverse order. */
 void clear_dungeon_cell_entries(void) {
     s32 entry_index;
 
@@ -623,7 +625,7 @@ void restore_spawns_and_place_floor_traps(void) {
     floor_spawns_isolated_8028BF0C_S_8001EF0C_0 *object;
 
     slot = 0;
-    initial = level_experience_table->initial;
+    initial = level_experience_table;
     limits = (s32 *)(initial + 1);
     meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)floor_objects);
     position = dungeon_floor_object_positions;
@@ -741,6 +743,7 @@ void restore_spawns_and_place_floor_traps(void) {
     }
 }
 
+/* Clears the 32 words of floor_objects in reverse order. */
 void clear_dungeon_object_entries(void) {
     s32 entry_index;
 

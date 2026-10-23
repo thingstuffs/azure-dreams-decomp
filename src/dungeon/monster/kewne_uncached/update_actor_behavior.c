@@ -1,15 +1,16 @@
+#include "dungeon/monster/kewne_uncached.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
+
+#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
+#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
@@ -23,7 +24,7 @@ extern u8 D_80175C78[];
 extern u8 resident_globals_page[];
 
 /* Updates action movement and directional animation through three states. */
-void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *object, void *actor)
+void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *object, ActorRecord *actor)
 {
     s32 delta_x;
     s32 delta_y;
@@ -35,7 +36,7 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
     u16 flags;
     s32 state;
 
-    state = U8(action, 0x9B);
+    state = action->action_phase;
     switch (state) {
     case 0:
     {
@@ -44,22 +45,22 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
         flags = object->flags;
         if (flags & 0x8000) {
             object->flags = flags | 0x6000;
-            U8(action, 0x9B) = 2;
-            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
+            action->action_phase = 2;
+            resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
             return;
         }
         if ((flags & 0x6000) == 0) {
             return;
         }
-        if (S16(action, 0x92) != 0) {
+        if (action->unk_90.parts.high.s != 0) {
             return;
         }
-        PTR(object, 0x2C) = D_80175C78;
-        facing_ptr = &D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        object->frameTable = D_80175C78;
+        facing_ptr = &D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7];
         select_sprite_entry(object, *facing_ptr, 0);
-        U16(action, 0x96) = 0;
+        action->action_timer = 0;
         play_sound_if_enabled(0x808);
-        U8(action, 0x9B)++;
+        action->action_phase++;
         return;
     }
 
@@ -71,12 +72,12 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
         s32 motion_y;
         s32 signed_value;
 
-        anim_table = U16(action, 0x96);
+        anim_table = action->action_timer;
         direction_base = (u8 *)&dir_step_x;
         next_tick = anim_table + 1;
         anim_table -= 3;
-        U16(action, 0x96) = next_tick;
-        direction_off = (U16(actor, 0x2A) >> 8) & 0xE;
+        action->action_timer = next_tick;
+        direction_off = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
         direction_base = (u8 *)(direction_off + (s32)direction_base);
         delta_x = *(s16 *)direction_base;
@@ -87,26 +88,26 @@ void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *objec
         signed_value = -signed_value;
         delta_y = signed_value << 16;
         if (anim_table) {
-            motion_x = S32(motion, 0xC) - delta_x;
-            motion_y = S32(motion, 0x10) - delta_y;
-            S32(motion, 0xC) = motion_x;
-            S32(motion, 0x10) = motion_y;
+            motion_x = motion->velocity_x - delta_x;
+            motion_y = motion->velocity_y - delta_y;
+            motion->velocity_x = motion_x;
+            motion->velocity_y = motion_y;
         } else {
             signed_value = (s16)next_tick;
             if (signed_value < 0x12) {
-                motion_x = S32(motion, 0xC) + delta_x;
-                motion_y = S32(motion, 0x10) + delta_y;
-                S32(motion, 0xC) = motion_x;
-                S32(motion, 0x10) = motion_y;
+                motion_x = motion->velocity_x + delta_x;
+                motion_y = motion->velocity_y + delta_y;
+                motion->velocity_x = motion_x;
+                motion->velocity_y = motion_y;
             } else {
-                S32(motion, 0x14) = 0;
-                S32(motion, 0x10) = 0;
-                S32(motion, 0xC) = 0;
+                motion->velocity_z = 0;
+                motion->velocity_y = 0;
+                motion->velocity_x = 0;
             }
         }
         object_type = object->unk_04;
         if (object_type == 5 && (object->flags & 0x9000)) {
-            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
             anim_table = 0x80170000;
         } else {
             anim_table = 0x80170000;

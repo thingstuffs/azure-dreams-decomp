@@ -9,6 +9,10 @@ extern void select_sprite_entry(void *, u8, s32);
 extern void advance_status_timers(void *);
 extern u8 beldo_large_frame_set_6[];
 
+/*
+ * Selects the supplied direction frame table and its eight-way entry from the actor facing
+ * relative to the camera.
+ */
 static __inline__ void dispatch_table(SpriteFrameState *sprite, ActorRecord *actor, u8 *direction_table) {
     u32 direction_entry;
     sprite->frameTable = direction_table;
@@ -17,9 +21,10 @@ static __inline__ void dispatch_table(SpriteFrameState *sprite, ActorRecord *act
     select_sprite_entry(sprite, *(u8 *)direction_entry, 0);
 }
 
-/* Reset state and select a direction-dependent sprite entry from one of four tables. */
-/* Starts the directional action for Beldo's current form, selects its sprite table, and advances status
- * and turn counts. */
+/*
+ * Starts the directional action for Beldo's current form, selects its sprite table, and advances
+ * status and turn counts.
+ */
 void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, ActorRecord *actor) {
     s32 table_kind;
     u32 direction_entry;

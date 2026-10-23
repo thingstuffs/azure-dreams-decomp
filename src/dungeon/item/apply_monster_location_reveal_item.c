@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -41,7 +42,7 @@ s32 apply_monster_location_reveal_item(EntityRec *target, s32 item, s16 action_t
         }
     } else {
         display_formatted_context_message(D_800E1279, source, action_type);
-        dungeon_floor_flags |= 0x400;
+        dungeon_floor_flags |= FLOOR_REVEAL_MONSTERS;
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;

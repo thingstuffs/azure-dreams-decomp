@@ -2,7 +2,10 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8D04, CL:town/func_800B8D2C. */
 #include "town/shop/monster_status_display_chains_g00632.h"
 
-/* Chains nodes using D_800D17AC indices until an index reaches 24. */
+/*
+ * Calls build_reverse_indexed_chain with (struct S_800491F4 * *)nodes,
+ * monster_status_chain_indices, 24 and returns its result.
+ */
 void *link_monster_status_main_entries(s32 nodes) {
     return build_reverse_indexed_chain((struct S_800491F4 **)nodes, monster_status_chain_indices, 24);
 }

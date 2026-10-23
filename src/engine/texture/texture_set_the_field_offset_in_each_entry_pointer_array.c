@@ -5,7 +5,10 @@ typedef struct {
     /* 0x8 */ s32 unk8;
 } UnkStruct491CC;
 
-/* Sets the field at offset 0x8 in each entry of a pointer array. */
+/*
+ * Writes the supplied word to offset 8 in each of count records addressed by the entry pointer
+ * array.
+ */
 void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(UnkStruct491CC **entries, s32 value, s32 count)
 {
     s32 index;

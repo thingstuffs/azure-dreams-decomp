@@ -22,7 +22,6 @@ typedef struct {
 extern s16 D_80175218[];
 extern void project_sprite_commands(void *, s32, Entry *, s16);
 
-/* Process linked entries whose 0x80 flag is clear, refreshing scratch state for each. */
 /* Projects visible entries in the linked sprite chain using the current transition depth adjustment. */
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused)
 {

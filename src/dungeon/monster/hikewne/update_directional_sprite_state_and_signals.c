@@ -16,9 +16,10 @@ extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 extern u8 hikewne_frame_set_2[];
 
-/* Updates the directional sprite state and signals the controller after the actor update. */
-/* Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback after a
- * floor trap. */
+/*
+ * Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback
+ * after a floor trap.
+ */
 void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *direction_table;

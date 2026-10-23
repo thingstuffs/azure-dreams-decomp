@@ -5,6 +5,11 @@
 #include "shared/object_flags.h"
 
 #include "shared/object_node.h"/* Creates an object, selects its data, and initializes its state. */
+/*
+ * Creates a town effect storing the byte-sized category/index, using item_effect_descriptor for
+ * category 0x12 or the category lookup otherwise. Registers sprite projection and initializes its
+ * adjusted vector.
+ */
 void create_indexed_effect_object(s32 index, s32 kind) {
     s32 object_id;
     S_800A8184_1 *state;

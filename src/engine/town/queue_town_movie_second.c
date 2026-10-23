@@ -8,7 +8,7 @@
 
 extern u8 town_movie_callback_list[];
 
-/* Passes D_8006AE34 and the shared D_800717D0 context to append_town_movie_list_node. */
+/* Appends town_movie_descriptor_1 to town_movie_callback_list. */
 void queue_town_movie_second(void) {
     append_list_tail(&town_movie_callback_list, &town_movie_descriptor_1);
 }

@@ -784,7 +784,7 @@ s32 initialize_shared_state_from_table(void) {
     return 0;
 }
 
-/* Passes D_80100AF4 to process_object_pointer_array and returns zero. */
+/* Processes monster_status_window as an object pointer array and returns zero. */
 s32 pass_shared_data_to_window_handler(void) {
     process_object_pointer_array(monster_status_window);
     return 0;
@@ -803,7 +803,7 @@ s32 create_selected_record_view(void)
     return 0;
 }
 
-/* Return the high-bit flag from D_80100AF0->unk_1E. */
+/* Returns flag 0x8000 from the active item-view record. */
 s32 get_current_high_bit_flag(void) {
     return active_item_view->unk_1E & 0x8000;
 }

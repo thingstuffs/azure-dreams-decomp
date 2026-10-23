@@ -43,6 +43,10 @@ static s32 directional_buttons_to_angle(s32 buttons) {
     }
 }
 
+/*
+ * Converts held directional buttons to an angle, preserving -1 for no direction; otherwise adds
+ * the supplied offset and wraps with mask 0xFFF.
+ */
 s32 input_angle_with_offset(s32 unused, s32 angle_offset) {
     s32 base_angle;
 

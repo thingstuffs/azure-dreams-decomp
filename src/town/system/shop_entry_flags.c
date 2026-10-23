@@ -15,6 +15,7 @@ typedef struct S_800AD7F8_1 {
 extern s32 func_8004A618(u8 *);
 extern s32 func_8004A638(u8 *);
 
+/* Toggles bit 0x20 in the selected four-byte entry unless its byte-3 flags include 0x80. */
 void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
     u8 flags;
     S_800AD7F8_1 *entry;

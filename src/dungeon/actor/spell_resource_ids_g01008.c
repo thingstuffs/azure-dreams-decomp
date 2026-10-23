@@ -7,6 +7,10 @@ struct ObjectPosition;
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "shared/object_flags.h"
 
+/*
+ * Looks up the spell resource and, when the player-linked flag is set, substitutes 0x33, 0x3A, and
+ * 0x42 for IDs 0x32, 0x39, and 0x40.
+ */
 s32 resolve_spell_effect_resource_id(s16 index) {
     s32 compare;
 
@@ -66,7 +70,7 @@ s16 resolve_alternate_spell_id(s32 tile_index)
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
 void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
     s32 message;
-    s32 name_text;
+    const unsigned char *name_text;
     s32 effect_data;
     s32 text_context;
     s32 new_text_context;
@@ -161,10 +165,10 @@ set_effect_scale:
             message = expand_text_control_codes(D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 effect_id = resolve_alternate_spell_id(effect_id);
-                name_text = item_action_definitions[effect_id].unk_08;
+                name_text = item_action_definitions[effect_id].alternate_name;
                 message = expand_text_control_codes(name_text, message);
             } else {
-                name_text = item_action_definitions[effect_id].unk_00;
+                name_text = item_action_definitions[effect_id].normal_name;
                 message = expand_text_control_codes(name_text, message);
             }
             clear_byte_and_advance(expand_text_control_codes(&D_80089080, message));

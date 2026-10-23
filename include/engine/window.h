@@ -89,7 +89,7 @@ void select_menu_initializer_from_message_handler(void *object);
 void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object);
 
 /* entry_sd_call.c */
-void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 action_arg1, s32 action_arg2);
+void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 unused_1, s32 unused_2);
 
 /* grow_window_extent.c */
 void display_sound_selection_and_prepare_playback(struct Func80035AF8State *state);
@@ -187,7 +187,7 @@ void update_cursor_callback(s32 unused_0, s32 unused_1, s32 value);
 void update_menu_choice_timed(struct Object *object);
 
 /* update_two_column_cursor.c */
-void handle_two_column_menu_input(struct Object *menu, void *confirm_arg1, void *confirm_arg2);
+void handle_two_column_menu_input(struct Object *menu, void *unused_1, void *unused_2);
 
 /* update_window_extents.c */
 void update_window_extents(struct Func80037C7CState *state, s32 offset);

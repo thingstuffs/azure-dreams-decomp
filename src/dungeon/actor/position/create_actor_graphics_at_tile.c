@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/monster_ids.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -18,7 +21,7 @@ s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 
-void advance_actor_status_turn_second(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
+void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
 s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEF08[];
@@ -64,11 +67,11 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        state->unk_13 = 0x34;
+        state->unk_13 = MONSTER_WALL_OF_ICE;
         kind = (s16) saved_kind;
         if (kind == 1) {
-            state->unk_14 = (s32) (state->unk_14 | 0x2000);
-            state->unk_1C = (s32) (state->unk_1C | 0x2000);
+            state->unk_14 = (s32) (state->unk_14 | ACTOR_CLASS_ENABLED);
+            state->unk_1C = (s32) (state->unk_1C | ACTOR_PLAYER_SIDE);
         }
         register_node(object, &process_actor_state_chain);
         position = object->position;
@@ -94,14 +97,14 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         call_x = graphics->tile_x;
         call_y = graphics->tile_y;
         tile_flags = 0x3000;
-        if (state->unk_1C & 0x2000) {
+        if (state->unk_1C & ACTOR_PLAYER_SIDE) {
             tile_flags = 0x300;
         }
         cycle_map_cell_flags(call_x, call_y, tile_flags);
         state->unk_9A = 0xE;
         state->unk_9C = -1;
         state->unk_9E = 0;
-        state->unk_1C = (s32) (state->unk_1C | 0x40000200);
+        state->unk_1C = (s32) (state->unk_1C | (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP));
     }
     return state;
 }

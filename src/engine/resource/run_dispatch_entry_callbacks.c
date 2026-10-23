@@ -29,7 +29,10 @@ typedef struct S_8006CE80 {
 extern S_8006CE80 dispatch_resource_records[];
 
 
-/* Runs an entry's callbacks, returning 1 if the flag at D_80082E60.unk_0E is set after a call, otherwise 0. */
+/*
+ * Runs the selected resource entry callbacks until the null terminator or
+ * runtime_dispatch_state.unk_0E becomes nonzero; returns one only for that completion signal.
+ */
 s32 run_dispatch_entry_callbacks(u16 entry_id)
 {
     S_8006CE80 *entry;

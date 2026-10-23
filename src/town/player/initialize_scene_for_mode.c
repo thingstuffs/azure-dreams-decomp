@@ -159,12 +159,12 @@ void plt_init_sleep_set(void) {
     town_scene_init_callback = &initialize_global_scene_record;
 }
 
-/* Initialize the town scene and its render state. */
+/* Invokes initialize_scene_for_mode with no arguments. */
 void initialize_scene_render_state(void) {
     initialize_scene_for_mode();
 }
 
-/* Initialize the town scene and its render object. */
+/* Invokes initialize_scene_for_mode with no arguments. */
 void initialize_scene_render_object(void) {
     initialize_scene_for_mode();
 }
@@ -344,11 +344,14 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
     }
 }
 
-/* MECHANISM: The three arguments stay in s1/s2/s3 and D_80083160 in s0, yielding the retail 0x28 frame.
-   A one-sided schedule barrier preserves both clamp tails; ASM_TAILSLOT_PIN sinks the dead OR into its j slot.
-   Memory fences retain the clear/store call sequence and force the post-store signed-halfword reload. */
-
-/* func_800909A0: Moves the camera offset toward zero in steps of 16. */
+/*
+ * to_camera_zero_00: Moves the camera offset toward zero in steps of 16.
+ *
+ * MECHANISM: The three arguments stay in s1/s2/s3 and g_game_work in s0, yielding the retail 0x28
+ * frame. A one-sided schedule barrier preserves both clamp tails; ASM_TAILSLOT_PIN sinks the dead
+ * OR into its j slot. Memory fences retain the clear/store call sequence and force the post-store
+ * signed-halfword reload.
+ */
 s32 to_camera_zero_00() {
     GameWork *camera_state = &g_game_work;
     s16 camera_offset = camera_state->view.camera_rotation.parts.viewAngle;

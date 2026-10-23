@@ -345,6 +345,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
     } while (edge < 5);
 }
 
+/* Adds the radius-scaled trigonometric component to the fixed-point center coordinate. */
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
 {
     return center + (((trig >> 4) * radius) << 8);
@@ -353,7 +354,11 @@ static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
 typedef union { s32 value; struct { u16 low, high; } half; } PointCoord;
 typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoords;
 
-/* Build and queue interpolated vertical quads around five perimeter points. */
+/*
+ * Builds two colored vertical quads for each of five radial targets, interpolating their moving
+ * edges from adjacent saved X/Y points over the supplied duration. Projects and queues each quad
+ * with its draw mode only for depths below 0x1E0.
+ */
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
     void *effect = effect_in;

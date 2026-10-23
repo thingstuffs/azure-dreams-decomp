@@ -5,7 +5,7 @@
 
 extern u8 runtime_script_state[];
 
-/* Passes the global object D_80082A38 to set_flag_if_list_nonempty. */
+/* Sets the list-present flag for runtime_script_state when its controller list is nonempty. */
 void flag_script_list_nonempty(void) {
     set_flag_if_list_nonempty(&runtime_script_state);
 }

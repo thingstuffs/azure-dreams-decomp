@@ -3,12 +3,8 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct S_8001C31C_0 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-} S_8001C31C_0;   /* *D_8001E950 in is_event_state_two */
 
 /* Check whether the first entry's state byte is 2. */
 s32 is_event_state_two(void) {
-    return ((S_8001C31C_0 *)(((u8 *)town_event_state)))->unk_04 == 2;
+    return ((TownEventState *)(((u8 *)town_event_state)))->selected_entry == 2;
 }

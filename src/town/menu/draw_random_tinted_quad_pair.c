@@ -78,13 +78,7 @@ typedef struct S_800A1354_4 {
     u8 * unk_5C;
 } S_800A1354_4;   /* obj in draw_random_tinted_quad_pair */
 
-   /* ((S_800A1354_4 *)obj)->unk_54 in draw_random_tinted_quad_pair */
-
-   /* ((S_800A1354_4 *)obj)->unk_58 in draw_random_tinted_quad_pair */
-
-   /* ((S_800A1354_4 *)obj)->unk_5C in draw_random_tinted_quad_pair */
-
-/* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
+   /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
 void draw_random_tinted_quad_pair(u8 *effect)
 {
     u8 **render_ctx_addr = (u8 **)((u8 *)(&g_game_work));

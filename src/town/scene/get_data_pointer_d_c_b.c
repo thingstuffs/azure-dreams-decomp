@@ -4,7 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_8001D0C0;
 
-/* Returns a pointer to D_8001D0C0. */
+/* Returns the address of D_8001D0C0. */
 s32 *get_data_pointer_1_d_0_c_0(void) {
     return &D_8001D0C0;
 }

@@ -27,6 +27,7 @@ typedef struct S_800D6804_1 {
 } S_800D6804_1;   /* arg0 in advance_decaying_effect_state */
 
 
+/* Adds the current velocity to the position and reduces the velocity to three quarters. */
 static __inline__ void decay_step(S_800D6804_0 *s)
 {
     s->unk_08 += s->unk_14;

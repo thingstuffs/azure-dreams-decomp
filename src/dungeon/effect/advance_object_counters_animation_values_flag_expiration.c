@@ -24,7 +24,11 @@ typedef struct S_800251F0_1 {
 
 extern u8 D_80020000[];
 
-/* Advance object counters and animation values, and flag expiration. */
+/*
+ * Counts down the effect lifetime, advances an eight-step byte pattern, and grows a value trail up
+ * to 32 entries. Increases trail values by two each update and flags removal when the timer
+ * reaches zero.
+ */
 void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
 {
     u8 *object_bytes;

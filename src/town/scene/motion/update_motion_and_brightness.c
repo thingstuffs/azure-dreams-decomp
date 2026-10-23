@@ -1,12 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_links.h"
 
-typedef struct S_80814610_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80814610_0;   /* arg1 in update_motion_and_brightness */
 
 typedef struct S_80814610_1 {
     u8 pad_00[0xC];
@@ -25,13 +20,13 @@ extern s32 scene_object_flags;
 void update_motion_and_brightness(void *object, void *motion, void *visual) {
     s32 velocity;
     u8 brightness;
-    __typeof__(((S_80814610_0 *)motion)->unk_08) hoisted_1;
+    __typeof__(((ObjectPosition *)motion)->z.v) hoisted_1;
 
-    velocity = ((S_80814610_0 *)motion)->unk_14;
+    velocity = ((ObjectPosition *)motion)->velocity_z;
     if (velocity != 0) {
-        hoisted_1 = ((S_80814610_0 *)motion)->unk_08;
-        ((S_80814610_0 *)motion)->unk_08 = (s32) (hoisted_1 + velocity);
-        ((S_80814610_0 *)motion)->unk_14 = (s32) (((S_80814610_0 *)motion)->unk_14 + 0x18000);
+        hoisted_1 = ((ObjectPosition *)motion)->z.v;
+        ((ObjectPosition *)motion)->z.v = (s32) (hoisted_1 + velocity);
+        ((ObjectPosition *)motion)->velocity_z = (s32) (((ObjectPosition *)motion)->velocity_z + 0x18000);
         brightness = ((S_80814610_1 *)visual)->unk_0E - 0x20;
         ((S_80814610_1 *)visual)->unk_0E = brightness;
         ((S_80814610_1 *)visual)->unk_0D = brightness;

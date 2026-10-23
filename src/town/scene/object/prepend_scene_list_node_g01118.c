@@ -5,7 +5,6 @@
 
 /* Insert a nonnull node immediately after the list head. */
 s32 prepend_scene_list_node(Node *node) {
-    extern Node town_actor_control[];
     u32 page = 0x800D0000;
 
     if (node != NULL) {
@@ -22,21 +21,23 @@ s32 prepend_scene_list_node(Node *node) {
 
 /* Insert a non-null node before the global list sentinel. */
 s32 append_scene_list_node(Node *node) {
-    extern u8 town_actor_control[];
     Node *head;
 
     if (node != NULL) {
-        head = ((List *)town_actor_control)->head;
-        node->next = (Node *)town_actor_control;
+        head = town_actor_control->prev;
+        node->next = town_actor_control;
         node->prev = head;
-        ((List *)town_actor_control)->head->next = node;
-        ((List *)town_actor_control)->head = node;
+        town_actor_control->prev->next = node;
+        town_actor_control->prev = node;
         return 1;
     }
     return 0;
 }
 
-/* Insert a record and initialize its two values and status flags. */
+/*
+ * On successful scene-list insertion, stores the two supplied values, marks byte 0x15 present, and
+ * clears mode byte 0x14.
+ */
 void handle_insert_initialize_two_values_status_flags(Rec_D_800CFCB4 *node, s32 value_08, s32 value_0c) {
     if (prepend_scene_list_node(node) != 0) {
         node->unk_08 = value_08;

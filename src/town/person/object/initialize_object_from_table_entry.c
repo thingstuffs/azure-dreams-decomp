@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -19,13 +20,8 @@ extern M2C_UNK person_bounce_handler_address;
 extern s32 person_reaction_object_entries[];
 
 
-typedef struct S_800CED24_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800CED24_1;   /* arg1 in initialize_object_from_table_entry */
-
 /* Initializes the object from its table entry and resets the companion state. */
-void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, S_800CED24_1 *state, s32 init_data) {
+void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, ObjectPosition *state, s32 init_data) {
     s8 entry_value;
 
     initialize_object_entries((Struct800C5724 *)(object), (s8 *)(init_data), &person_reaction_object_entries);
@@ -33,5 +29,5 @@ void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, S_800CED
     entry_value = object_index_slots[object->unk_60].unk2;
     object->unk_54 = &person_bounce_handler_address;
     object->unk_90.as_s16 = (s16) entry_value;
-    state->unk_14 = 0xFFF60000;
+    state->velocity_z = 0xFFF60000;
 }

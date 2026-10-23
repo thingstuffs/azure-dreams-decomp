@@ -14,7 +14,7 @@ void init_ground_input_fallback(s32 * *, void *, void *);
 struct Rec_func_80094268_arg0; void initialize_randomized_object_action(struct Rec_func_80094268_arg0 *, s32, s32);
 struct Rec_func_80094268_arg0; void init_periodic_effect_action(struct Rec_func_80094268_arg0 *, s32, s32);
 struct Rec_func_80094268_arg0; void init_threshold_countdown_action(struct Rec_func_80094268_arg0 *, void *, void *);
-struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);
+struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
 struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);
 struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
@@ -70,7 +70,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
 
     input_flags = ((s32)input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct S_800942B0_0 *)(position), context);
+        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(position), context);
         return;
     }
 

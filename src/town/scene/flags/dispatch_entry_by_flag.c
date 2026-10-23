@@ -1,6 +1,10 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
+/*
+ * When F_sbs22_pad29 is set, clears D_8001B208 and returns func_80019928; otherwise applies the
+ * signed indexed value and returns one.
+ */
 s32 dispatch_entry_by_799_flag(s32 context, s32 entryIndex) {
     s32 result;
 

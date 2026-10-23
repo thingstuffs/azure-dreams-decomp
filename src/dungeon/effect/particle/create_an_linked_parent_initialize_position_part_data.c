@@ -274,7 +274,10 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
 
 extern s16 parent_effect_update_flag;
 
-/* Fade the primitive and flag the effect when its countdown expires. */
+/*
+ * Clamps nonzero primitive brightness above 64, reduces it by five, and decrements the lifetime.
+ * Sets parent_effect_update_flag each update and flags removal when the signed lifetime expires.
+ */
 void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2A);
 

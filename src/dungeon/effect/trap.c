@@ -125,7 +125,7 @@ s32 check_entity_chance_and_trigger_parent_action(void *entity, s32 input_a, s32
     void *rng_entity = entity;
 
     if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) != 0) {
-        if (((EntityRec *)entity)->flags14 & 0x4000) {
+        if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
             roll = 1;
             return roll;
         }
@@ -652,13 +652,10 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
 #include "common.h"
 #include "shared/object_flags.h"
 
-#define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
 
 /* Fade the color toward 0xE0, then to black, and flag completion. */
-void fade_trap_color_to_black(void *fade, void *unused, void *color) {
+void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState *color) {
     s16 steps;
     s16 brighten_left;
     s16 darken_left;
@@ -667,30 +664,30 @@ void fade_trap_color_to_black(void *fade, void *unused, void *color) {
     u8 red;
     u8 green;
 
-    if (S16(fade, 0) == 0) {
-        red = U8(color, 0xC);
-        U8(color, 0xC) = red + ((0xE0 - red) / S16(fade, 2));
-        green = U8(color, 0xD);
-        steps = S16(fade, 2);
-        blue = U8(color, 0xE);
-        U8(color, 0xD) = green + ((0xE0 - green) / steps);
-        blue_step = (0xE0 - blue) / S16(fade, 2);
-        U8(color, 0xE) = blue + blue_step;
-        brighten_left = U16(fade, 2) - 1;
-        S16(fade, 2) = brighten_left;
+    if (fade->phase.s == 0) {
+        red = color->color.c.r;
+        color->color.c.r = red + ((0xE0 - red) / fade->frames_left.s);
+        green = color->color.c.g;
+        steps = fade->frames_left.s;
+        blue = color->color.c.b;
+        color->color.c.g = green + ((0xE0 - green) / steps);
+        blue_step = (0xE0 - blue) / fade->frames_left.s;
+        color->color.c.b = blue + blue_step;
+        brighten_left = fade->frames_left.u - 1;
+        fade->frames_left.s = brighten_left;
         if ((brighten_left << 16) <= 0) {
-            S16(fade, 2) = 0x10;
-            U16(fade, 0)++;
+            fade->frames_left.s = 0x10;
+            fade->phase.u++;
             return;
         }
     } else {
-        U8(color, 0xC) = U8(color, 0xC) - (U8(color, 0xC) / S16(fade, 2));
-        U8(color, 0xD) = U8(color, 0xD) - (U8(color, 0xD) / S16(fade, 2));
-        U8(color, 0xE) = U8(color, 0xE) - (U8(color, 0xE) / S16(fade, 2));
-        darken_left = U16(fade, 2) - 1;
-        S16(fade, 2) = darken_left;
+        color->color.c.r = color->color.c.r - (color->color.c.r / fade->frames_left.s);
+        color->color.c.g = color->color.c.g - (color->color.c.g / fade->frames_left.s);
+        color->color.c.b = color->color.c.b - (color->color.c.b / fade->frames_left.s);
+        darken_left = fade->frames_left.u - 1;
+        fade->frames_left.s = darken_left;
         if ((darken_left << 16) <= 0) {
-            U16(fade, -2) |= 0x8000;
+            ((ObjectNodeHeader *)((u8 *)fade - 0x20))->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -721,12 +718,6 @@ typedef struct DescBlock {
     u16 mode;
 } DescBlock;
 
-typedef struct TailBlock {
-    u8 pad0[2];
-    s16 kind;
-    s16 value;
-    s16 arg;
-} TailBlock;
 
 typedef struct ObjectBlock {
     u8 pad0[8];
@@ -744,7 +735,7 @@ extern s32 register_node();
 /* Create an object at grid coordinates and initialize its display and tail data. */
 ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
     ObjectBlock *obj;
-    TailBlock *tail;
+    TrapFadeWork *tail;
     CoordBlock *coords;
     DescBlock *desc;
 
@@ -763,10 +754,10 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
         desc->copy = desc->mode;
         desc->size = (size_mode << 16) != 0 ? 0x60 : 0x20;
         desc->pre6 = 0x20;
-        tail = (TailBlock *)((u8 *)obj + 0x20);
+        tail = (TrapFadeWork *)((u8 *)obj + 0x20);
         tail->value = value;
-        tail->kind = 4;
-        tail->arg = size_mode;
+        tail->frames_left.s = 4;
+        tail->mode = size_mode;
     }
     return obj;
 }
@@ -1419,7 +1410,7 @@ s32 attempt_trap_request_eight_slots(void *object) {
         amount = 0x400;
     }
     if (roll_threshold_effect_variant_a(object, amount, 8) == 0) {
-        if (((EntityRec *)object)->flags14 & 0x4000) {
+        if (((EntityRec *)object)->flags14 & ACTOR_PARTY_MEMBER) {
             display_fixed_item_action_message();
             return 1;
         }
@@ -1948,7 +1939,7 @@ extern void attempt_action_six_if_eligible(void *, s32, s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
-s32 apply_chance_based_trap_effect(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
+s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 unused_3)
 {
     s16 roll;
     s32 random_value;

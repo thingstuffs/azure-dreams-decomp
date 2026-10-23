@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/monster/tyrant/spawn_api_slot_a.h"
 #include "shared/monster_ids.h"
@@ -103,7 +104,7 @@ void *spawn_tyrant_in_slot_a(s16 input0, s16 input1, s16 input2, s16 input3) {
         record_alias->unk_9C = -1;
         record_alias->unk_8C = &D_8014CF68;
         child_0C->flags = (u16) (child_0C->flags | 0xC);
-        record_alias->unk_AA = (s16) ((u16) record->unk_14 & 7);
+        record_alias->unk_AA = (s16) ((u16) record->unk_14 & ACTOR_ELEMENT_MASK);
         try_move_actor_to_valid_position(record_alias, child_08, child_0C, record);
     }
     return record;

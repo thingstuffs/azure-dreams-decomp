@@ -9,6 +9,7 @@ typedef struct TownValuePair {
 extern void *D_800189D0;
 extern s32 D_800189D4;
 
+/* Caches the second D_800189D0 pair value in D_800189D4 and returns its first value. */
 s32 process_ids_zero(void) {
     TownValuePair *values;
 

@@ -44,6 +44,7 @@ extern u8 D_80127F48[16];
 extern u8 catalog_detail_fallback[16];
 extern u8 D_801289EC[16];
 
+/* Returns eight times the signed row plus the entry index. */
 static __inline__ s32 menu_row_index(s16 row, s16 index)
 {
     return (row << 3) + index;

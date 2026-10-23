@@ -28,8 +28,8 @@ extern s32 check_left_tile_and_center_height(s32, s32, s16);
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
 void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part)
 {
-    u8 *owner;
-    u8 *owner_base;
+    ActorRecord *owner;
+    ObjectNodeHeader *owner_base;
     ObjectPosition *owner_motion;
     void *target;
     s32 state;
@@ -45,7 +45,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
     s32 z_pos;
     s32 z_delta;
     s32 coord;
-    u8 *spawn_target;
+    ActorRecord *spawn_target;
     s32 cell_center_x;
     u32 red;
     u32 green;
@@ -58,8 +58,8 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
 
     owner = self->owner;
     state = self->state.s;
-    owner_base = (u8 *)owner - 0x20;
-    owner_motion = F(owner_base, void *, 8);
+    owner_base = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+    owner_motion = owner_base->position;
     switch (state) {
     case 0:
         color = 0x00808080;
@@ -69,23 +69,23 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         part->scale_y = 0x800;
         part->scale_x = 0x800;
         part->source = D_800257E8;
-        self->direction.u = (F(owner, u16, 0x2A) >> 9) & 7;
+        self->direction.u = ((u16)owner->facing >> 9) & 7;
         texture_init[0] = texture_flags;
         texture_init[1] = texture_size;
         draw_textured_ellipse(D_800257D0, texture_init, 1, 0);
         self->state.u++;
 
     case 1:
-        if (get_sprite_attachment_vector(F(F(owner_base, void *, 0xC), void *, 8),
-                          F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
-            if ((F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
+        if (get_sprite_attachment_vector(owner_base->sprite->source,
+                          owner_base->sprite, attach_offset, 0) == 0) {
+            if ((owner_base->sprite->flags & 0x8000) == 0) {
                 break;
             }
         }
 
         motion->x.w.i = (u16)owner_motion->x.w.i;
         motion->y.w.i = (u16)owner_motion->y.w.i;
-        if (F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
+        if (owner_base->sprite->flags & 0x8000) {
             motion->z.w.i = (u16)owner_motion->z.w.i - 0x40;
         } else {
             motion->z.w.i = (u16)owner_motion->z.w.i + attach_offset[2];
@@ -104,16 +104,16 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             self->flags |= 4;
         }
 
-        if (F(owner, void *, 0x60) != 0) {
+        if (owner->target != 0) {
             void *source_data;
             u8 target_type;
             u8 *height_table;
             u8 tile_coord;
-            source_data = F(F(owner, void *, 0x60), void *, -0x18);
+            source_data = F(owner->target, void *, -0x18);
             self->target_x = F(source_data, u16, 2);
             self->target_y = F(source_data, u16, 6);
             height_table = entity_height_offsets;
-            target_type = F(F(owner, void *, 0x60), u8, 0x13);
+            target_type = F(owner->target, u8, 0x13);
             height_offset = height_table[target_type];
             height_offset += 0x20;
             target_height = F(source_data, u16, 0xA);
@@ -137,10 +137,10 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             {
                 s32 owner_coord;
                 s32 tile_distance;
-                owner_coord = F(owner, s8, 0x72);
+                owner_coord = owner->target_tile_x;
                 z_pos = F(source_data, u8, 0x24);
                 if (owner_coord == z_pos) {
-                    owner_coord = F(owner, s8, 0x73);
+                    owner_coord = owner->target_tile_y;
                     z_pos = F(source_data, u8, 0x25);
                     tile_distance = owner_coord - z_pos;
                 } else {
@@ -155,7 +155,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             self->tiles_left = 8;
             self->target_x = (u16)motion->x.w.i;
             self->target_y = (u16)motion->y.w.i;
-            self->target_z.u = F(owner, u16, 0x88) - 0x50;
+            self->target_z.u = (u16)owner->ground_height - 0x50;
         }
         direction_step = dir_step_x[self->direction.s];
         F(motion, s16, 0x0E) = direction_step << 3;
@@ -232,16 +232,16 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             break;
         }
 
-        if (F(owner, void *, 0x60) != 0) {
+        if (owner->target != 0) {
             if (self->sound_played == 0) {
                 if ((s16)set_item_w0(self->current_tile.tile.x.u, self->current_tile.tile.y.u,
-                                     F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
+                                     (u8)owner->target_tile_x, (u8)owner->target_tile_y) < 5) {
                     self->sound_played = 1;
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
             }
         }
-        if (F(owner, void *, 0x60) != 0 &&
+        if (owner->target != 0 &&
             F(owner, s16, 0x72) == self->current_tile.packed) {
             motion->x.w.i = self->target_x;
             motion->y.w.i = self->target_y;
@@ -272,8 +272,8 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         break;
 
     case 3:
-        spawn_target = F(owner, void *, 0x60);
-        spawn_height = F(spawn_target, s16, 0x88);
+        spawn_target = owner->target;
+        spawn_height = spawn_target->ground_height;
         self->child = create_initialized_effect_object((s32)self, motion, spawn_height, (s32)spawn_target);
         if (self->child == 0) {
             break;
@@ -288,7 +288,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         if ((F((void *)state_step, u16, 0x1E) & 0x8000) == 0) {
             break;
         }
-        target = F(owner, void *, 0x60);
+        target = owner->target;
         if (target != 0) {
             apply_indexed_effect_condition(target, self->variant, owner);
         }

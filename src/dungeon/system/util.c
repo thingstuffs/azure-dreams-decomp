@@ -828,7 +828,7 @@ extern s32 write_status_prefix_bytes(s32 dst);
 extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
-void display_actor_item_status_message(s32 actor, void *item, s32 buffer_arg2, s32 buffer_arg3) {
+void display_actor_item_status_message(s32 actor, void *item, s32 unused_2, s32 unused_3) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;

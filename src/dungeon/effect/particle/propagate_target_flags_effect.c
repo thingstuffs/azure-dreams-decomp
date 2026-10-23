@@ -306,11 +306,7 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     }
 }
 
-   /* arg0 in func_8196B074 */
-
-   /* arg1 in func_8196B074 */
-
-/* Advance motion, resolve collisions, and mark expired objects for removal. */
+   /* Advance motion, resolve collisions, and mark expired objects for removal. */
 void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_id) {
     s32 height;
     u16 remaining_ticks;
@@ -754,13 +750,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
     }
 }
 
-   /* the 0x2 bytes before obj in func_8196BE48, addressed as obj[-1] */
-
-   /* obj in func_8196BE48 */
-
-   /* arg2 in func_8196BE48 */
-
-/* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
+   /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
 void update_timed(void *effect_data, s32 unused, void *sprite) {
     u8 *effect = effect_data;
     u8 *global_page = (u8 *)&particle_activity - 0x69B4;
@@ -793,13 +783,7 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
     }
 }
 
-   /* the 0x2 bytes before arg0 in advance_effect_animation, addressed as arg0[-1] */
-
-   /* arg0 in advance_effect_animation */
-
-   /* arg2 in advance_effect_animation */
-
-/* Advance the effect animation and flag completion when its countdown expires. */
+   /* Advance the effect animation and flag completion when its countdown expires. */
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform) {
     u8 next_u;
 
@@ -818,15 +802,7 @@ void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *tran
     }
 }
 
-   /* arg1 in update_renders */
-
-   /* arg0 in update_renders */
-
-   /* arg2 in update_renders */
-
-   /* camera in update_renders */
-
-/* Updates and renders a shrinking object with collision and lifetime checks. */
+   /* Updates and renders a shrinking object with collision and lifetime checks. */
 void advance_particle_emitting_projectile(void *object, void *position, void *render_state)
 {
     s32 height;
@@ -907,13 +883,7 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
     }
 }
 
-   /* arg1 in func_8196C280 */
-
-   /* arg0 in func_8196C280 */
-
-   /* arg2 in func_8196C280 */
-
-/* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
+   /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
 void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite) {
     u16 age;
     u16 reduced_scale_x;

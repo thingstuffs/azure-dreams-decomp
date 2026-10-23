@@ -9,6 +9,10 @@ extern s8 town_action_reset_byte;
 extern s32 target_action_update_address;
 extern s32 D_800D01A8;
 
+/*
+ * Selects D_800D01A8, clears town_action_reset_byte and entity motion fields, and installs
+ * target_action_update_address with count 60.
+ */
 void init_sixty_tick_target_action(Rec_func_80094268_arg0 *object, s32 motion_context, void *handler_context) {
     call_the_handler_selects_nonzero_entry((s32 *) &D_800D01A8, object, handler_context);
     town_action_reset_byte = 0;

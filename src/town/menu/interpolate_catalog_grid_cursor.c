@@ -2,23 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_80125800_1 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80125800_1;   /* obj in interpolate_catalog_grid_cursor */
-
-typedef struct S_80125800_2 {
-    u8 pad_00[0x184];
-    void * unk_184;
-} S_80125800_2;   /* ((S_80125800_1 *)obj)->unk_58 in interpolate_catalog_grid_cursor */
-
-typedef struct S_80125800_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80125800_3;   /* ((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184 in interpolate_catalog_grid_cursor */
-
-
-
 
 typedef struct SpriteFields {
     u32 pad0;
@@ -57,14 +40,6 @@ extern void *catalog_normal_digits[10];
 extern s16 catalog_cursor_columns[8];
 extern u8 catalog_number_marker[16];
 
-typedef struct S_80125800_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    u8 pad_08[0x9];
-    u8 unk_11;
-    u8 unk_12;
-} S_80125800_0;   /* obj in interpolate_catalog_grid_cursor */
 
 /* Updates an available entry's number sprites and interpolates a display field. */
 void interpolate_catalog_grid_cursor(TownObject *obj) {

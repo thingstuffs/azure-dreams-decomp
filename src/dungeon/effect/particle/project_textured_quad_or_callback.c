@@ -774,6 +774,7 @@ typedef struct S_func_81875B38_5 {
 
 extern s32 rand();
 
+/* Returns the typed effect payload at byte offset 0x20 from the supplied node address. */
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
     return (S_func_81875B38_2 *)((u8 *)p + 0x20);
 }

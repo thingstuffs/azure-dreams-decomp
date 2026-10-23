@@ -15,9 +15,10 @@ void begin_actor_exclusive_action(void *, s32, void *, s32, s32);
 extern u8 resident_globals_page[];
 
 
-/* Turn toward the target and start an action once aligned. */
-/* Checks a compatible neighbor within 64 height units, then starts U-Boat's normal attack or exclusive
- * action mode. */
+/*
+ * Checks a compatible neighbor within 64 height units, then starts U-Boat's normal attack or
+ * exclusive action mode.
+ */
 s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 action_context, Rec_D_80082E80 *target,
     ActorRecord *actor) {
     s32 target_angle;

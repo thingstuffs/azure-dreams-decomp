@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/item_ids.h"
+#include "engine/item.h"
 
 #include "common.h"
 #include "sdk/libc.h"
@@ -15,20 +16,11 @@ typedef struct {
     char *unk4;
 } StrPair;
 
-/* Category entry is 0x14 bytes; kind@0 selects 12- vs 20-byte records; records@0xC */
-typedef struct {
-    u8 kind;
-    u8 pad[0xB];
-    void *records;
-    u8 pad2[4];
-} CatEnt;
-
 extern s32 record_has_type_twenty(Item *);
 extern s32 read_item_category_flag_ten(Item *);
 extern s32 submit_script_with_registered_context(char *);
 extern char *rindex(char *, s32);
 
-extern CatEnt itemCategoryTable[];
 extern char item_name_suffix_buffer[0x40];
 
 /* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
@@ -36,8 +28,8 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
     char *item_text;
     s32 item_id;
     s32 record_words;
-    CatEnt *category;
-    CatEnt *category_table;
+    ItemCategory *category;
+    ItemCategory *category_table;
     s32 category_id;
 
     if ((item == 0) || (item->unk1 == ITEM_KIND_NONE)) {
@@ -49,7 +41,7 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
         category_table = itemCategoryTable;
         category_id = item->unk1;
         category = category_table + category_id;
-        if (category->kind == 0) {
+        if (category->record_format == 0) {
             item_id = item->unk0;
             record_words = item_id * 4;
         } else {

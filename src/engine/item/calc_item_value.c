@@ -2,37 +2,20 @@
 #include "engine/item.h"
 #include "slus/data.h"
 
-typedef struct ItemRecord {
-    u8 pad[0x10];
-    u16 value0;
-    u16 value1;
-} ItemRecord;
-
-typedef struct ItemCategory {
-    u8 pad0[3];
-    u8 multiplierIndex;
-    u8 pad4[4];
-    s32 (* callback)(s32, void *, void *, void *);
-    ItemRecord *records;
-    u8 pad10[4];
-} ItemCategory;
-
-extern ItemCategory itemCategoryTable[];
-
 /* Returns the selected item value scaled by its category multiplier and adjusted by its callback. */
 s32 calc_item_value(u8 *item, s32 use_value1) {
     ItemCategory *category;
     ItemRecord *record;
 
     category = &itemCategoryTable[item[1]];
-    record = &category->records[item[0]];
+    record = &((ItemRecord *)category->records)[item[0]];
 
     {
         s32 multiplier;
         s32 value;
         s32 (*callback)(s32, void *, void *, void *);
 
-        multiplier = item_value_multipliers[category->multiplierIndex];
+        multiplier = item_value_multipliers[category->multiplier_index];
 
         if (use_value1 == 0) {
             value = record->value0 * multiplier;

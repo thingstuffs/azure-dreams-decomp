@@ -3,7 +3,6 @@
 extern u8 town_selection_records[96];
 s32 func_8001E670();
 
-// Count entries 1 through 7 whose field at offset 4 passes func_8001E670.
 /* Counts entries 1 through 7 whose associated town selection flag is set. */
 s32 count_enabled_town_entries(void) {
     s32 matchingEntryCount;

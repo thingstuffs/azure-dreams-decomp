@@ -7,126 +7,126 @@
 /* Advance position, clamp velocity, and steer acceleration toward the target. */
 /* Clamps the effect's speed on all three axes and steers it toward stored coordinates, reducing
  * acceleration near the target. */
-void steer_effect_toward_target(void *motion, void *position, void *unused)
+void steer_effect_toward_target(SteeringEffectWork *motion, ObjectPosition *position, void *unused)
 {
     s32 target_delta;
-    S32_AT(position, 0x0) += S32_AT(motion, 0x40);
-    S32_AT(position, 0x4) += S32_AT(motion, 0x44);
-    S32_AT(position, 0x8) += S32_AT(motion, 0x48);
+    position->x.v += motion->velocity_x;
+    position->y.v += motion->velocity_y;
+    position->z.v += motion->velocity_z;
 
-    S32_AT(motion, 0x40) += S32_AT(motion, 0x4c);
-    S32_AT(motion, 0x44) += S32_AT(motion, 0x50);
-    S32_AT(motion, 0x48) += S32_AT(motion, 0x54);
+    motion->velocity_x += motion->accel_x;
+    motion->velocity_y += motion->accel_y;
+    motion->velocity_z += motion->accel_z;
 
-    if (S32_AT(motion, 0x40) > 0x40000) {
-        S32_AT(motion, 0x40) = 0x40000;
+    if (motion->velocity_x > 0x40000) {
+        motion->velocity_x = 0x40000;
     }
-    if (S32_AT(motion, 0x40) < -0x40000) {
-        S32_AT(motion, 0x40) = -0x40000;
+    if (motion->velocity_x < -0x40000) {
+        motion->velocity_x = -0x40000;
     }
-    if (S32_AT(motion, 0x44) > 0x40000) {
-        S32_AT(motion, 0x44) = 0x40000;
+    if (motion->velocity_y > 0x40000) {
+        motion->velocity_y = 0x40000;
     }
-    if (S32_AT(motion, 0x44) < -0x40000) {
-        S32_AT(motion, 0x44) = -0x40000;
+    if (motion->velocity_y < -0x40000) {
+        motion->velocity_y = -0x40000;
     }
-    if (S32_AT(motion, 0x48) > 0x40000) {
-        S32_AT(motion, 0x48) = 0x40000;
+    if (motion->velocity_z > 0x40000) {
+        motion->velocity_z = 0x40000;
     }
-    if (S32_AT(motion, 0x48) < -0x40000) {
-        S32_AT(motion, 0x48) = -0x40000;
+    if (motion->velocity_z < -0x40000) {
+        motion->velocity_z = -0x40000;
     }
 
-    if (S16_AT(motion, 0x5a) > S16_AT(position, 0x2)) {
-        target_delta = S16_AT(motion, 0x5a) - S16_AT(position, 0x2);
+    if (motion->target_x.w.i > position->x.w.i) {
+        target_delta = motion->target_x.w.i - position->x.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
-        S32_AT(motion, 0x4c) = (target_delta >= 17) ? 0x10000 : 0x1000;
+        motion->accel_x = (target_delta >= 17) ? 0x10000 : 0x1000;
     } else {
-        target_delta = S16_AT(motion, 0x5a) - S16_AT(position, 0x2);
+        target_delta = motion->target_x.w.i - position->x.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
-        S32_AT(motion, 0x4c) = (target_delta >= 17) ? -0x10000 : -0x1000;
+        motion->accel_x = (target_delta >= 17) ? -0x10000 : -0x1000;
     }
 
-    if (S16_AT(motion, 0x5e) > S16_AT(position, 0x6)) {
-        target_delta = S16_AT(motion, 0x5e) - S16_AT(position, 0x6);
+    if (motion->target_y.w.i > position->y.w.i) {
+        target_delta = motion->target_y.w.i - position->y.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
-        S32_AT(motion, 0x50) = (target_delta >= 17) ? 0x10000 : 0x1000;
+        motion->accel_y = (target_delta >= 17) ? 0x10000 : 0x1000;
     } else {
-        target_delta = S16_AT(motion, 0x5e) - S16_AT(position, 0x6);
+        target_delta = motion->target_y.w.i - position->y.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
-        S32_AT(motion, 0x50) = (target_delta >= 17) ? -0x10000 : -0x1000;
+        motion->accel_y = (target_delta >= 17) ? -0x10000 : -0x1000;
     }
 
-    if (S16_AT(motion, 0x62) > S16_AT(position, 0xa)) {
-        target_delta = S16_AT(motion, 0x62) - S16_AT(position, 0xa);
+    if (motion->target_z.w.i > position->z.w.i) {
+        target_delta = motion->target_z.w.i - position->z.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
         if (target_delta >= 17) {
-            S32_AT(motion, 0x54) = 0x10000;
+            motion->accel_z = 0x10000;
         } else {
-            S32_AT(motion, 0x54) = 0x1000;
+            motion->accel_z = 0x1000;
         }
     } else {
-        target_delta = S16_AT(motion, 0x62) - S16_AT(position, 0xa);
+        target_delta = motion->target_z.w.i - position->z.w.i;
         if (target_delta < 0) {
             target_delta = -target_delta;
         }
         if (target_delta >= 17) {
-            S32_AT(motion, 0x54) = -0x10000;
+            motion->accel_z = -0x10000;
         } else {
-            S32_AT(motion, 0x54) = -0x1000;
+            motion->accel_z = -0x1000;
         }
     }
 
 }
 
 /* Advance the effect, then move and fade it until its timer expires. */
-void initialize_shared_state_active_entries(void *effect, void *position, s32 update_param)
+void initialize_shared_state_active_entries(SteeringEffectWork *effect, ObjectPosition *position, s32 update_param)
 {
     s32 state;
 
-    state = ((S_801712C4_0 *)effect)->unk_17;
-    ((S_801712C4_0 *)effect)->unk_32.u = ((S_801712C4_0 *)effect)->unk_32.u - 1;
+    state = effect->state;
+    effect->timer.u = effect->timer.u - 1;
     switch (state) {
     case 0:
         steer_effect_toward_target(effect, position, update_param);
         steer_effect_toward_target(effect, position, update_param);
-        if (((S_801712C4_0 *)effect)->unk_32.s == 0) {
-            ((S_801712C4_0 *)effect)->unk_32.u = 0x10;
-            ((S_801712C4_0 *)effect)->unk_34 = 0x10;
-            ((S_801712C4_0 *)effect)->unk_17++;
+        if (effect->timer.s == 0) {
+            effect->timer.u = 0x10;
+            effect->fade_length = 0x10;
+            effect->state++;
         }
-        ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_00.at00.v;
+        effect->draw_color = effect->color.at00.v;
         break;
     case 1:
-        ((IntVector3 *)position)->x += ((S_801712C4_0 *)effect)->unk_40;
-        ((IntVector3 *)position)->y += ((S_801712C4_0 *)effect)->unk_44;
-        ((IntVector3 *)position)->z += ((S_801712C4_0 *)effect)->unk_48;
-        ((IntVector3 *)position)->x += ((S_801712C4_0 *)effect)->unk_40;
-        ((IntVector3 *)position)->y += ((S_801712C4_0 *)effect)->unk_44;
-        ((IntVector3 *)position)->z += ((S_801712C4_0 *)effect)->unk_48;
+        position->x.v += effect->velocity_x;
+        position->y.v += effect->velocity_y;
+        position->z.v += effect->velocity_z;
+        position->x.v += effect->velocity_x;
+        position->y.v += effect->velocity_y;
+        position->z.v += effect->velocity_z;
 
-        ((S_801712C4_0 *)effect)->unk_04.at00.v =
-            (((S_801712C4_0 *)effect)->unk_00.at00u.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-            ((S_801712C4_0 *)effect)->unk_34;
-        ((S_801712C4_0 *)effect)->unk_04.at01.v =
-            (((S_801712C4_0 *)effect)->unk_00.at01.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-            ((S_801712C4_0 *)effect)->unk_34;
-        ((S_801712C4_0 *)effect)->unk_04.at02.v =
-            (((S_801712C4_0 *)effect)->unk_00.at02.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-            ((S_801712C4_0 *)effect)->unk_34;
-        ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_04.at00u.v;
+        effect->fade_color.at00.v =
+            (effect->color.at00u.v * effect->timer.s) /
+            effect->fade_length;
+        effect->fade_color.at01.v =
+            (effect->color.at01.v * effect->timer.s) /
+            effect->fade_length;
+        effect->fade_color.at02.v =
+            (effect->color.at02.v * effect->timer.s) /
+            effect->fade_length;
+        effect->draw_color = effect->fade_color.at00u.v;
 
-        if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
+        if (effect->timer.s <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -148,7 +148,7 @@ void create_random_color_offset_effect(
     s32 color_mid;
     void *source_data;
     void *effect;
-    void *effect_data;
+    SteeringEffectWork *effect_data;
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
@@ -190,16 +190,16 @@ void create_random_color_offset_effect(
             step++;
         } while (step < 10);
 
-        ((S_80171498_3 *)effect_data)->unk_14 = initial_14;
-        ((S_80171498_3 *)effect_data)->unk_32 = initial_32;
+        effect_data->param_14 = initial_14;
+        effect_data->timer.s = initial_32;
         register_node(effect, D_80170ED8);
 
         color_high = rand();
         color_mid = rand();
-        ((S_80171498_3 *)effect_data)->unk_00 =
+        effect_data->color.at00.v =
             ((color_high & 0xFF) << 16) |
             ((color_mid & 0xFF) << 8) |
             (rand() & 0xFF);
-        ((S_80171498_3 *)effect_data)->unk_08 = ((S_80171498_3 *)effect_data)->unk_00;
+        effect_data->draw_color = effect_data->color.at00.v;
     }
 }

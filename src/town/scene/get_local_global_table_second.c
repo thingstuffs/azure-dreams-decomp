@@ -3,11 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
-typedef struct S_80016D18_1 {
-    u8 pad_00[0x78];
-    s32 (*unk_78)(s32);
-} S_80016D18_1;   /* ((S_80016D18_0 *)(*(void **)D_80016000))->unk_20 in get_local_global_table */
-
 
 extern s32 func_800197FC();
 void func_8001A554(s32);
@@ -15,10 +10,6 @@ void func_8001A5CC(s32);
 extern s32 func_8001A64C();
 extern s32 D_8002116C;
 
-typedef struct S_80016D18_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80016D18_0;   /* *(void **)D_80016000 in get_local_global_table */
 
 /* Processes event conditions and returns the corresponding data pointer, or null. */
 s32 *get_local_global_table(void) {

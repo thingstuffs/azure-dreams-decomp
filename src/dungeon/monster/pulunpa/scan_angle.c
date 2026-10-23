@@ -33,6 +33,10 @@ void update_actor_status_and_mp(void *);
 void build_and_display_encoded_message(void *);
 extern u8 D_80176348[];
 
+/*
+ * Converts the direction index to an angle by shifting it left nine bits, returning the signed low
+ * halfword.
+ */
 static __inline__ s16 scan_angle(s32 direction)
 {
     return direction << 9;

@@ -13,9 +13,10 @@ s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
 extern u8 baloon_attack_frames;
 
-/* Resets an eligible entity's action state and starts its directional animation. */
-/* Claims an action slot for Baloon, selects directional attack frames, consumes a pending turn, and
- * prepares damage. */
+/*
+ * Claims an action slot for Baloon, selects directional attack frames, consumes a pending turn,
+ * and prepares damage.
+ */
 void update_actor_status_and_motion(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {

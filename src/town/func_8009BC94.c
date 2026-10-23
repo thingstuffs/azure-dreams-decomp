@@ -8,6 +8,10 @@
 #include "town/player/object/entity_record_fields.h"
 extern s32 D_80098608;
 
+/*
+ * Selects D_800D00A8, clears the indexed object slot and entity motion fields, and installs
+ * D_80098608 with count 0xA.
+ */
 void init_eased_value_action(Rec_func_80094268_arg0 *object, s32 context, void *handler_context) {
     call_the_handler_selects_nonzero_entry((s32 *) D_800D00A8, object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;

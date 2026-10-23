@@ -21,11 +21,13 @@ void mark_object_removal_for_inner_release(unsigned short *object)
     }
 }
 
-/* --- wave-60 --- */
-
-/* Ring-buffer size accumulator. */
-
-/* Adds the amount to the global accumulator. */
+/*
+ * Adds the amount to the global accumulator.
+ *
+ * --- wave-60 ---
+ *
+ * Ring-buffer size accumulator.
+ */
 void adjust_resource_decode_buffer_capacity(int amount)
 {
     gpu_scratch_ring_size = gpu_scratch_ring_size + amount;

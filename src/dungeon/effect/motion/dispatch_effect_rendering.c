@@ -4,7 +4,10 @@ extern s32 draw_concentric_effect_layers(void *, s32, s32);
 extern s32 draw_cylindrical(void *, s32, s32);
 extern s32 func_80024EF8(void *, s32, s32);
 
-/* Dispatch effect rendering by effect type. */
+/*
+ * Dispatches effect type 3 to concentric layers, 4 to draw_cylindrical, and 5 to func_80024EF8;
+ * other types draw nothing, and all paths return zero.
+ */
 s32 dispatch_effect_rendering(void *effect, s32 position, s32 render_param)
 {
     s32 dispatch_index;

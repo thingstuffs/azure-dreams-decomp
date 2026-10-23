@@ -32,7 +32,11 @@ extern u8 D_8016FDDC[8];
 extern u8 D_8016FDE4[8];
 extern u8 D_8016FDEC[8];
 
-/* Advances the actor's action animation and triggers timed effects. */
+/*
+ * Stops motion and selects directional attack frames for action codes 13, 14, or 15. Schedules
+ * sounds, damage, and the extra action-15 effects by tick or animation completion, then charges
+ * MP, advances status timers, and releases the active actor.
+ */
 void advance_the_actor_s_action_animation_triggers_timed_effects(void *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor)
 {
     s16 timer;

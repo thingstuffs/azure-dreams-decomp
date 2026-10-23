@@ -26,9 +26,10 @@ typedef struct S_8016F79C_1 {
     s16 unk_2A;
 } S_8016F79C_1;   /* s2 in apply_script_direction_record */
 
-/* Sets the target field from the record or source field and restores two record words. */
-/* Faces the linked Beldo actor toward the record's octant, copies the player's facing when coincident, and
- * restores X/Y. */
+/*
+ * Faces the linked Beldo actor toward the record's octant, copies the player's facing when
+ * coincident, and restores X/Y.
+ */
 void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
     u8 *source_base = (u8 *)(&scene_object_list_anchor.next);
     register u8 *source_data = (u8 *)(source_base + 0x20);

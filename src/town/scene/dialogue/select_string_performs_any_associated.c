@@ -9,7 +9,10 @@ extern char D_800213D4[];
 extern char *award_next_unearned_milestone(s32);
 extern void func_8001A554(s32);
 
-/* Selects a string and performs any associated action. */
+/*
+ * Returns selector-specific dialogue for IDs 12, 18, and 19, processes F_sbs32_pad08 for ID 19,
+ * and delegates IDs 52 through 54 to milestone awards. Uses scene_string_fallback for other IDs.
+ */
 char *select_string_performs_any_associated(s32 unused_0, s32 unused_1, s32 selector)
 {
 

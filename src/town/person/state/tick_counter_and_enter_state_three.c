@@ -6,24 +6,17 @@ typedef struct ReactionState ReactionState;
 /* extern */
 void func_800CDF00(Rec_func_80094268_arg0 *actor, ReactionState *state, s8 *output);
 
-typedef struct S_800CD9F4_0 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-    u8 pad_6E[0x22];
-    s16 unk_90;
-} S_800CD9F4_0;   /* arg0 in tick_counter_and_enter_state_three */
-
 
 s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
 /* Decrement the counter when the check returns zero and enter state 3 when it expires. */
-void tick_counter_and_enter_state_three(S_800CD9F4_0 *object, s32 context_a, s32 context_b, s32 check_arg) {
+void tick_counter_and_enter_state_three(Rec_func_80094268_arg0 *object, s32 context_a, s32 context_b, s32 check_arg) {
     u16 remaining_count;
 
     if (select_object_setup_path(object, context_a, context_b, check_arg) == 0) {
-        remaining_count = object->unk_6C - 1;
-        object->unk_6C = remaining_count;
+        remaining_count = object->unk_6C.as_u16 - 1;
+        object->unk_6C.as_u16 = remaining_count;
         if ((remaining_count << 0x10) <= 0) {
-            object->unk_90 = 3;
+            object->unk_90.as_s16 = 3;
             func_800CDF00(object, context_a, context_b);
         }
     }

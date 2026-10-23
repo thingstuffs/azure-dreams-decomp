@@ -1,3 +1,5 @@
+#include "shared/actor_status_flags.h"
+#include "dungeon/level/room_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/item_ids.h"
 #include "dungeon/level/tile_flags.h"
@@ -192,7 +194,10 @@ extern s32 dungeon_mode_state[];
 
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
-/* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
+/*
+ * Processes active nodes with flag 0x1000, then clears dungeon_floor_flags bit 28 unless the word
+ * at 0x80012090 is one.
+ */
 void process_flagged_nodes_and_clear_global_bit(void) {
     ActiveNode *node = active_node_list_head.head;
 
@@ -502,7 +507,7 @@ s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, Func
                 (u16)(position->y +
                       *(u16 *)((u8 *)dir_step_y + offset_or_height)));
             if (monster_index >= 0 &&
-                (dungeon_rooms[monster_index].flags & 2) &&
+                (dungeon_rooms[monster_index].flags & ROOM_HOLY_BEAM) &&
                 !(actor->flags & 0x2000)) {
                 return 0;
             }
@@ -657,7 +662,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                         (monster_index = find_active_rect_containing_point((actor_or_height->x + *x_step) & 0xFFFF,
                                                        (actor_or_height->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
-                        !(dungeon_rooms[monster_index].flags & 2) ||
+                        !(dungeon_rooms[monster_index].flags & ROOM_HOLY_BEAM) ||
                         (result = 0, ((body->flags & 0x2000) != 0)))) {
                         return result;
                     }
@@ -780,8 +785,8 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
         y = wrapped_y;
         object = find_eligible_actor_at_tile_and_height(((s32)primary_actor_record), x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
-            if (object->flags1c & 0x2000) {
-                if (!(object->flags1c & 0x628)) {
+            if (object->flags1c & ACTOR_PLAYER_SIDE) {
+                if (!(object->flags1c & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP | ACTOR_CONFUSED))) {
                     if (!(object->mask14 & 0x40000000)) {
                         if (object->value6c + ((object->value6e * g_dungeon_status.turn_scale) >> 8) < 0x100) {
                             return -1;
@@ -1354,6 +1359,7 @@ extern s32 get_actor_height_difference(void *, void *);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
+/* Adds the supplied tile offset to the center coordinate. */
 static __inline__ s16 offset_tile(u16 center, u16 offset)
 {
     return center + offset;

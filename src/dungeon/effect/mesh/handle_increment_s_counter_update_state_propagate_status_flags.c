@@ -4,7 +4,10 @@
 
 extern void advance_sprite_animation_and_textures(void *state);
 
-/* Increment the object's counter, update state, and propagate status flags. */
+/*
+ * Increments the linked object's counter and advances sprite animation; flags removal when the
+ * sprite reports 0x6000.
+ */
 void handle_increment_s_counter_update_state_propagate_status_flags(void *object_slot, s32 unused, SpriteFrameState *state) {
     u8 *object;
 

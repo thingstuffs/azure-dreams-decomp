@@ -7,7 +7,10 @@ extern s32 func_800175B0(void);
 extern s32 func_800198D0(s32 condition_id);
 extern s32 func_80019A8C(void);
 
-// Resets D_80019BB0[0] and returns whether the paired-ID check or threshold check succeeds.
+/*
+ * Clears scene_update_state and accepts the egg flag without the Niko love flag, or the secondary
+ * check with a value of at least 20.
+ */
 s32 get_current_state_result(void) {
     scene_update_state[0] = 0;
 

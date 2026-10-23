@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/position_views.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -11,12 +12,6 @@ typedef struct S_800B9998_0 {
     s8 * unk_98;
 } S_800B9998_0;   /* arg0 in deactivate_object_triggered */
 
-typedef struct S_800B9998_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800B9998_2;   /* p1 in deactivate_object_triggered */
 
 typedef struct S_800B9998_3 {
     u8 pad_00[0x1A];
@@ -66,8 +61,8 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     }
     town_state = &view_reference_entity;
     dx = town_state->x.w.i;
-    dy = ((S_800B9998_2 *)position_data)->unk_02;
-    position_y = ((S_800B9998_2 *)position_data)->unk_06;
+    dy = ((SignedPositionView *)position_data)->x;
+    position_y = ((SignedPositionView *)position_data)->y;
     dx -= dy;
     dx = abs(dx);
     dx = (s16)dx;

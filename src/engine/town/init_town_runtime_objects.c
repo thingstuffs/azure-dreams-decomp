@@ -6,7 +6,7 @@
 #include "slus.h"
 #include "slus/data.h"
 
-/* Applies func_8003C758 to the three global runtime objects. */
+/* Finds or loads the three initial town object resources in order 0, 2, 1. */
 void init_town_runtime_objects(void) {
     find_or_load_runtime_resource_key(&town_initial_object_resource_0);
     find_or_load_runtime_resource_key(&town_initial_object_resource_2);

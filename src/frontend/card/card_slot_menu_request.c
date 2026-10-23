@@ -13,6 +13,7 @@ static void card_boot_set_slot_menu_request(S_80025B38_0 *object, s32 value) {
     object->unk_20 = value;
 }
 
+/* Calls card_boot_set_slot_menu_request with object, value. */
 void card_boot_initialize_slot_menu_request(void *object, s32 value) {
     card_boot_set_slot_menu_request(object, value);
 }

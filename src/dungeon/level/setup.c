@@ -9,6 +9,7 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
+/* Writes opposing (x, y, x) and (-x, -y, -x) light vectors and clears the third vector. */
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 {
     *(s16 *)(view_state + 0x38) = x;
@@ -151,11 +152,16 @@ void reset_dungeon_runtime_state(void) {
     }
 }
 
-/* MECHANISM: Named D_80083460 and D_80081468 bases reproduce the retail held-address forms.
-   D_800E3D70 and D_80012D60 use their symbol addresses without duplicated byte displacements.
-   Holding the 0x800E0000 page in s0 removes one addiu and closes the branch-displacement cascade. */
-
-/* Initializes a dungeon entry or restored run, including familiars, resource slots, and scene state. */
+/*
+ * Resets dungeon records and familiar storage, starts a new first floor or restores the saved
+ * floor, and loads the sprite bundle when needed. Prepares item categories and any pending CD
+ * resource request, installs monster data, invalidates sprite slots, and clears the button latch.
+ *
+ * MECHANISM: Named g_dungeon_status and floor_generation_state bases reproduce the retail
+ * held-address forms. The player_turn_fraction and 0x80012D60 symbol addresses avoid duplicated
+ * byte displacements. Holding the 0x800E0000 page in s0 removes one addiu and closes the
+ * branch-displacement cascade.
+ */
 void initialize_dungeon_floor_state(void) {
     s32 floor_data;
     s32 floor_index;
@@ -548,10 +554,10 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     }
 }
 
-/* MECHANISM: The body holds the D_80083160 base through the early branch and hoists its 0x1dc table
-   pointer before both nested loops. The map pointer and signed inner bound split v1->t4 and s0->t5;
-   BASE[index] fixes the neighbor addu order. */
-
+/*
+ * Applies rectangle tile flags using power-of-two masks from the two halfwords in the game-work
+ * block at offset 0x1DC.
+ */
 void apply_state_index_tile_masks(void)
 {
     void *state = ((u8 *)(&g_game_work));
@@ -562,10 +568,12 @@ void apply_state_index_tile_masks(void)
                   (s16)(1 << *(s16 *)((u8 *)state + 0x16)));
 }
 
-/* MECHANISM: Keep the natural 24-byte call frame with only $ra saved at 0x10. */
-
-/* Initializes seven resource cache slots with four kind-1 entries, two kind-3 entries, and one kind-2
-   entry. */
+/*
+ * Initializes seven resource cache slots with four kind-1 entries, two kind-3 entries, and one
+ * kind-2 entry.
+ *
+ * MECHANISM: Keep the natural 24-byte call frame with only $ra saved at 0x10.
+ */
 void initialize_dungeon_record_kinds(void)
 {
     s16 next_type1_count;
@@ -662,6 +670,7 @@ void initialize_dungeon_region_records(void) {
     record->unk_04 = 0;
 }
 
+/* Clears seven bytes in the dungeon actor-anchor block starting at offset 0x24. */
 void clear_dungeon_state_bytes(void) {
     s32 byte_index;
     s32 clear_base;
@@ -775,6 +784,7 @@ void init_koh_properties_and_entry_tables(void)
     }
 }
 
+/* Disables random pickups by clearing random_pickup_enabled. */
 void clear_dungeon_progress_state(void) {
     random_pickup_enabled = 0;
 }

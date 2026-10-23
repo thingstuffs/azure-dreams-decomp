@@ -1,3 +1,5 @@
+#include "shared/monster_ids.h"
+#include "dungeon/level/floor_flags.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -73,20 +75,20 @@ void draw_nearby_map_markers(s32 draw_param) {
         dungeon_floor_flags &= ~0x1000;
         redraw_type_three_floor_markers();
     }
-    if (dungeon_floor_flags & 0x400) {
-        dungeon_floor_flags &= ~0x400;
+    if (dungeon_floor_flags & FLOOR_REVEAL_MONSTERS) {
+        dungeon_floor_flags &= ~FLOOR_REVEAL_MONSTERS;
         draw_red_active_entry_markers();
     }
-    if (dungeon_floor_flags & 0x200) {
-        dungeon_floor_flags &= ~0x200;
+    if (dungeon_floor_flags & FLOOR_REVEAL_ITEMS) {
+        dungeon_floor_flags &= ~FLOOR_REVEAL_ITEMS;
         draw_blue_enabled_entry_markers();
     }
-    if (dungeon_floor_flags & 0x800) {
-        dungeon_floor_flags &= ~0x800;
+    if (dungeon_floor_flags & FLOOR_REVEAL_TRAPS) {
+        dungeon_floor_flags &= ~FLOOR_REVEAL_TRAPS;
         draw_purple_entry_markers();
     }
-    if (dungeon_floor_flags & 0x100) {
-        dungeon_floor_flags &= ~0x100;
+    if (dungeon_floor_flags & FLOOR_REVEAL_ELEVATOR) {
+        dungeon_floor_flags &= ~FLOOR_REVEAL_ELEVATOR;
         draw_green_type_two_markers();
     }
 
@@ -114,7 +116,7 @@ void draw_nearby_map_markers(s32 draw_param) {
             union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
                 object.value = *(u8 * *)&((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
-                if (!(dungeon_floor_flags & 4)) {
+                if (!(dungeon_floor_flags & FLOOR_MONSTERS_VISIBLE)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
                         *(s8 *)(object.value + 0x26) != reference_tile_object.room_index) {
                         distance = get_tile_chebyshev_distance(object.value,
@@ -126,15 +128,15 @@ void draw_nearby_map_markers(s32 draw_param) {
                 }
 
                 kind.value = 0;
-                if ((entryType.value = entry[0x13]) == 0x1e) {
+                if ((entryType.value = entry[0x13]) == MONSTER_MANOEVA) {
                     if ((entryFlag.value = entry[0xad]) != 0) {
                         kind.value = 2;
                     } else {
                         kind.value = 1;
                     }
-                } else if ((entryType.value = entry[0x13]) != 0x23 ||
+                } else if ((entryType.value = entry[0x13]) != MONSTER_STEALTH ||
                            (*(s16 *)(entry + 0xa6)) == 0 ||
-                           (dungeon_floor_flags & 4)) {
+                           (dungeon_floor_flags & FLOOR_MONSTERS_VISIBLE)) {
                     kind.value = 1;
                 }
 
@@ -160,7 +162,7 @@ void draw_nearby_map_markers(s32 draw_param) {
     colour[0] = 0;
     do {
         if (info[playerAndIndex].active != 0) {
-            if ((dungeon_floor_flags & 2) ||
+            if ((dungeon_floor_flags & FLOOR_ITEMS_VISIBLE) ||
                 get_masked_grid_nibble(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
                 append_adjusted_type_two_entry(mapEntry[playerAndIndex].x,
@@ -175,7 +177,7 @@ void draw_nearby_map_markers(s32 draw_param) {
     colour[2] = 0;
     colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
-        if ((dungeon_floor_flags & 1) ||
+        if ((dungeon_floor_flags & FLOOR_ELEVATOR_VISIBLE) ||
             get_masked_grid_nibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             append_adjusted_type_two_entry((u16)objectEntry[playerAndIndex].x,
@@ -193,7 +195,7 @@ void draw_nearby_map_markers(s32 draw_param) {
         if (info[playerAndIndex].active != 0 &&
             info[playerAndIndex].exists != 0 &&
             !(info[playerAndIndex].flags & 0x40)) {
-            if ((dungeon_floor_flags & 8) ||
+            if ((dungeon_floor_flags & FLOOR_TRAPS_VISIBLE) ||
                 (!(info[playerAndIndex].flags & 0x80) &&
                  get_masked_grid_nibble(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {

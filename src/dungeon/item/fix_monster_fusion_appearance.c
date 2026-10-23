@@ -1,3 +1,4 @@
+#include "shared/monster_ids.h"
 
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
@@ -75,7 +76,7 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
          */
-        if (((S_800BE120_0 *)entity)->unk_13 >= 2) {
+        if (((S_800BE120_0 *)entity)->unk_13 >= MONSTER_KEWNE) {
             if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
                 if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
                     if (feed_actor_restore_mp(entity,
@@ -102,7 +103,7 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
 
     new_context = stored;
     if (new_context == 0 &&
-        ((((S_800BE120_0 *)entity)->unk_13 < 2) ||
+        ((((S_800BE120_0 *)entity)->unk_13 < MONSTER_KEWNE) ||
          (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
          (((S_800BE120_0 *)entity)->unk_48.at01.v != 0))) {
         new_context = get_unused_text_buffer();

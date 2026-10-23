@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 extern s32 check_entity_relation();
 extern s8 find_active_rect_containing_point();
 extern s32 can_entity_gain_level();
-static void advance_actor_along_path_points();
+static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
 extern void set_actor_action_state_eight();
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
@@ -37,7 +37,7 @@ void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 cont
 
     if (g_dungeon_status.flags & 0x1000) {
         actor_state->unk_9A.as_s8 = 0xE;
-        advance_actor_along_path_points(actor_state);
+        advance_actor_along_path_points(actor_state, context, position, entity);
         return;
     }
     if (!(g_dungeon_status.flags & 0x2000)) {

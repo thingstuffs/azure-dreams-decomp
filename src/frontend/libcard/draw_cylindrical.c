@@ -3,7 +3,10 @@
 
 extern void noop_release_notification();
 
-/* Clear words referenced by three pointer arrays, notifying func_8004E994 for the first array. */
+/*
+ * Clears the words referenced by the three-, four-, and ten-entry pointer tables, calling
+ * noop_release_notification for the first three entries.
+ */
 void draw_cylindrical(void *object) {
     s32 slot_index;
     void *four_slot_base;

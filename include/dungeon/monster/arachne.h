@@ -931,7 +931,7 @@ void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackSta
 void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor);
 void finish_actor_fade_in_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor);
 void dim_effect_after_delay(void *effect);
-s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 callback_arg2);
+s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2);
 s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused);
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias);
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data);

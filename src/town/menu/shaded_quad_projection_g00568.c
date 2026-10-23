@@ -74,11 +74,13 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 }
 
+/* Returns the signed low halfword of the trigonometric value times radius shifted right 16 bits. */
 static __inline__ s16 scale_trig(s32 trig, s32 radius)
 {
     return (trig * radius) >> 16;
 }
 
+/* Adds the offset to the base coordinate and returns the signed low halfword. */
 static __inline__ s16 offset_coord(s16 base, s32 offset)
 {
     return base + offset;

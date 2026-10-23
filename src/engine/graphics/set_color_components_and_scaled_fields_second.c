@@ -15,7 +15,7 @@ struct S_800505BC {
 extern void decay_gauge_counters(S_800505BC *state, s32 callback_arg1, s32 callback_arg2);
 
 /* Advances the ratio ramp, switches callbacks at count three, and decays the counters. */
-void advance_gauge_color_then_decay(S_800505BC *state, s32 callback_arg1, s32 callback_arg2) {
+void advance_gauge_color_then_decay(S_800505BC *state, s32 unused_1, s32 unused_2) {
     state->counter += 1;
     set_color_components_and_scaled_fields(&state->unk58, state->counter, 3);
 
@@ -24,5 +24,5 @@ void advance_gauge_color_then_decay(S_800505BC *state, s32 callback_arg1, s32 ca
         state->func = decay_gauge_counters;
     }
 
-    decay_gauge_counters(state, callback_arg1, callback_arg2);
+    decay_gauge_counters(state, unused_1, unused_2);
 }

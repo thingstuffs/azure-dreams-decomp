@@ -6,9 +6,12 @@
 #include "slus.h"
 #include "slus/data.h"
 
-/* extern decls for callees; sizes/types from asm inspection */
-
-/* Resets sound state and slot tables, then initializes the record list at D_80086CC0. */
+/*
+ * Resets sound state and slot tables, then initializes the record list at
+ * spu_allocation_record_storage.
+ *
+ * extern decls for callees; sizes/types from asm inspection
+ */
 void audio_reset_sequence_subsystem(void)
 {
     reset_audio_sequence_state_default();

@@ -161,7 +161,10 @@ void *create_panel_effect_object(void *owner)
 
 extern ObjectNodeHeader * allocate_flagged_object_node();
 
-/* Add 0x20 to a nonzero result from func_8003FC64(0), preserving zero. */
+/*
+ * Allocates an unflagged object node and returns its data address at offset 0x20, or zero if
+ * allocation fails.
+ */
 s32 allocate_panel_offset_or_zero(void) {
     s32 value;
     s32 adjusted_value;
@@ -249,6 +252,10 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags) {
  */
 #include "common.h"
 
+/*
+ * Writes the halfword at offset 6 in each 12-byte record, including the terminating record whose
+ * signed tag is negative.
+ */
 void stamp_halfword_across_records(void *list, s16 value) {
     for (;;) {
         s32 tag = *(s8 *)list;
@@ -331,7 +338,7 @@ s32 check_global_record_field_zero(void) {
 
 extern u8 held_item_kind_alias;
 
-/* Returns whether D_80081485 is zero. */
+/* Returns whether held_item_kind_alias is zero. */
 s32 check_global_data_byte_zero(void) {
     return held_item_kind_alias == 0;
 }
@@ -380,6 +387,12 @@ typedef struct S_800B14FC_3_pre {
 
 #include "dungeon/menu/panel_callbacks.h"
 
+enum HudFadeState {
+    HUD_FADE_IN = 0,
+    HUD_FADE_HOLD = 1,
+    HUD_FADE_OUT = 2,
+};
+
 extern void func_8004E994(void *object);
 
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
@@ -395,16 +408,16 @@ void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
     if ((*(hud_fade_predicate_fn *)dispatch_entry)() != 0 &&
-        ((S_800B14FC_0 *)effect)->unk_20.s < 2) {
+        ((S_800B14FC_0 *)effect)->unk_20.s < HUD_FADE_OUT) {
         ((S_800B14FC_0 *)effect)->unk_22.s = 4;
-        ((S_800B14FC_0 *)effect)->unk_20.s = 2;
+        ((S_800B14FC_0 *)effect)->unk_20.s = HUD_FADE_OUT;
     }
 
     state = ((S_800B14FC_0 *)effect)->unk_20.s;
     switch (state) {
-    case 1:
+    case HUD_FADE_HOLD:
         return;
-    case 0:
+    case HUD_FADE_IN:
         {
             s16 steps;
             s16 countdown = ((S_800B14FC_0 *)effect)->unk_26.s;
@@ -449,7 +462,7 @@ void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
             return;
         }
 
-    case 2:
+    case HUD_FADE_OUT:
         {
             s16 steps;
             steps = ((S_800B14FC_0 *)effect)->unk_22.s;
@@ -836,7 +849,7 @@ extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
-    u16 subroutine_arg4;
+    u16 saved_flags;
     S_800B1B10_4 *owner_held = owner;
     s32 a_held = value_a;
     s32 b_held = value_b;
@@ -863,7 +876,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     SpriteFrameState *meta;
 
     call_kind = 0x12;
-    subroutine_arg4 = flags_held;
+    saved_flags = flags_held;
     alloc_data = &scene_object_list_anchor;
     obj = (s32) allocate_list_node(call_kind, alloc_data);
     compact_s16 = compact_held;
@@ -975,7 +988,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
         }
         ((S_800B1B10_2 *)sub)->unk_22 = 4;
-        flags_held = subroutine_arg4;
+        flags_held = saved_flags;
         ((S_800B1B10_2 *)sub)->unk_26 = flags_held;
     }
 }
@@ -1049,6 +1062,13 @@ typedef struct S_800B1F34_2 {
     s32 unk_1C;
 } S_800B1F34_2;   /* global in advance_timed_panel_motion */
 
+enum PanelMotionState {
+    PANEL_MOTION_INIT = 0,
+    PANEL_MOTION_ACCELERATE = 1,
+    PANEL_MOTION_REVERSE = 2,
+    PANEL_MOTION_WAIT = 3,
+};
+
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
 void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 {
@@ -1058,10 +1078,10 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 
     state = animation->unk_04.s;
     switch (state) {
-    case 0:
+    case PANEL_MOTION_INIT:
         animation->unk_06 = 0x10;
         animation->unk_04.u++;
-    case 1:
+    case PANEL_MOTION_ACCELERATE:
         motion->unk_14 -= 0x4000;
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
@@ -1070,7 +1090,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
             animation->unk_04.u++;
         }
         break;
-    case 2:
+    case PANEL_MOTION_REVERSE:
         motion->unk_14 += 0x6000;
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
@@ -1078,7 +1098,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
             animation->unk_06 = 0x3C;
             animation->unk_04.u++;
         }
-    case 3:
+    case PANEL_MOTION_WAIT:
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {

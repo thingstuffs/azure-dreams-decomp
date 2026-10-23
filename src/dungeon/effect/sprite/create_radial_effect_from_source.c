@@ -940,7 +940,11 @@ extern u32 RotTransPers4(
     void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, ...);
 extern void SetPolyG4(void *);
 
-/* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
+/*
+ * Joins adjacent 16-vertex rows of staged_glow_data with translucent shaded quads, alternating the
+ * two edge colors by row. Projects each quad and queues it with its draw mode when its biased
+ * depth is below 0x1E0, then saves the primitive cursor.
+ */
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 {
     s32 quad_index = 0;
@@ -1100,7 +1104,11 @@ typedef struct Global814A0 {
     s32 unused[2];
 } Global814A0;
 
-/* Advances the effect state, updates its motion, and sets its display color. */
+/*
+ * Steps the blue effect through growth, a shared-flag wait, a 16-tick delay, and a final sweep to
+ * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
+ * 0x6F.
+ */
 void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s32 context, S_80025160_1 *visual) {
     s16 state;
     u16 value;
@@ -1191,7 +1199,11 @@ typedef struct
 }
 TableEntry;
 extern s32 RotTransPers(void *, void *, void *, void *);
-/* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
+/*
+ * Walks the linked nodes and interpolates one line endpoint according to the signed blend, saving
+ * extended positive-blend points into staged_glow_data. Projects the endpoints and queues a
+ * half-brightness gradient line and draw mode at their average depth when it is below 0x1E0.
+ */
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line)
 {
     {
@@ -1412,7 +1424,10 @@ typedef struct Motion {
 extern u16 D_80026326;
 extern void advance_sprite_animation_and_textures(void *color);
 
-/* Advance and fade the effect, flagging expiration when its timer runs out. */
+/*
+ * Integrates velocity with X/Y damping and Z acceleration 0x4000, fades each color channel by one
+ * quarter, and advances animation. Flags removal when the signed 16-bit lifetime expires.
+ */
 void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Motion *motion, SpriteFrameState *color)
 {
     u16 *counter = &D_80026326;
@@ -1673,7 +1688,10 @@ typedef struct GlobalState {
     void *next;
 } GlobalState;
 
-/* Project linked quads and queue their shaded primitives and draw modes by depth. */
+/*
+ * Projects each linked quad with a depth bias of -8 and queues its translucent shaded packet and
+ * draw-mode packet for depths below 0x1E0, then saves the packet cursor.
+ */
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *quad) {
     GlobalState **render_states = ((GlobalState **)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
@@ -1880,7 +1898,11 @@ extern s32 set_or_clear_actor_status_slot(s32, s32, s32);
 extern void adjust_source_value_and_finalize(s32, void *);
 extern u8 D_800E1D01[9];
 
-/* Checks the target using a scaled low-byte value and conditionally applies D_800E1D01. */
+/*
+ * Unless the initial target effect succeeds, requests status 0x16 for the low input byte divided
+ * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
+ * -1/slot-zero success-test bug.
+ */
 void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(s32 target, s32 value, void *unused) {
     u8 pinnedValue = value;
     if (try_trigger_target_record_effect(target, 2) == 0) {

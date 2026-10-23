@@ -36,12 +36,6 @@ extern void clear_alternate_texture_regions(s32);
 extern s32 SD_Call(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
 
-typedef struct S_800243D8_0 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-} S_800243D8_0;   /* object in advance_object_spawning_displays_high */
 
 typedef struct S_800243D8_1 {
     u8 pad_00[0xA0];

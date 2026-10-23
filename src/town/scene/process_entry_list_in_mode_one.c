@@ -7,7 +7,7 @@
 extern u8 D_800188D0[];
 extern void func_80017108(u8 *entries);
 
-/* Process the entry list D_800188D0 in mode 1. */
+/* Calls func_80017108 with D_800188D0. */
 void process_entry_list_in_mode_one(void) {
     func_80017108(D_800188D0);
 }

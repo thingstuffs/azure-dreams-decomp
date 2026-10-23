@@ -15,6 +15,10 @@ extern s32 generate_random_value(void);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
 
+/*
+ * Tests the entry halfword against the direction selector: below two for 0, equal to two for 1, or
+ * zero for 2; other selectors fail.
+ */
 static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
     u8 match = 0;
     switch (direction) {

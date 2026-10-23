@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
@@ -63,6 +64,12 @@ typedef struct S_800927E4_10 {
     s8 unk_02;
 } S_800927E4_10;   /* entity in func_800927E4 */
 
+enum PlayerItemUsePhase {
+    PLAYER_ITEM_ALIGN = 0,
+    PLAYER_ITEM_DISPLAY = 1,
+    PLAYER_ITEM_COMPLETE = 2,
+};
+
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
 void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     u16 offset[3];
@@ -78,7 +85,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
 
     state_or_text = ((S_800927E4_0 *)action)->unk_9B;
     switch (state_or_text) {
-    case 0:
+    case PLAYER_ITEM_ALIGN:
         if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
             u8 *anim_table = player_carry_frames;
@@ -125,7 +132,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
             actor->facing = next_angle;
         }
         return;
-    case 1:
+    case PLAYER_ITEM_DISPLAY:
         if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, offset, 0) == 0 &&
             !(sprite->unk_14.at00_u16.v & 0x8000)) {
             return;
@@ -162,7 +169,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
                 effect->unk_9C = (u8 *)action + 0x108;
 
                 entity = ((S_800927E4_0 *)action)->unk_110;
-                if (entity != 0 && entity->unk_01 == 4 &&
+                if (entity != 0 && entity->unk_01 == ITEM_KIND_BALL &&
                     entity->unk_02 != 0) {
                     effect->unk_AE = 1;
                     effect->unk_A8 = 0x3C;
@@ -175,7 +182,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
             state_or_text = append_typed_formatted_value(((S_800927E4_0 *)action)->unk_110, state_or_text);
             text = expand_text_control_codes(D_800E06F7, state_or_text);
             entity = ((S_800927E4_0 *)action)->unk_110;
-            if (entity->unk_01 != 4) {
+            if (entity->unk_01 != ITEM_KIND_BALL) {
                 text = process_eligible_object_value(entity, text);
             }
             clear_byte_and_advance(text);
@@ -185,7 +192,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
         ((S_800927E4_0 *)action)->unk_96 = 0x1E;
         ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
         return;
-    case 2:
+    case PLAYER_ITEM_COMPLETE:
         if ((sprite->unk_14.at00_u16.v & 0x8000) ||
             (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
              ((S_800927E4_0 *)action)->unk_96 = timer,

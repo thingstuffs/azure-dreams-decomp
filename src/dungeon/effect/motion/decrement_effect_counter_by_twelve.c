@@ -4,6 +4,10 @@
 #include "shared/object_flags.h"
 
 
+/*
+ * Sets D_800259AC, subtracts twelve from the signed 16-bit counter at offset 0x32, and flags
+ * removal at zero or below.
+ */
 void decrement_effect_counter_by_twelve(void *object)
 {
     u8 *object_bytes = object;

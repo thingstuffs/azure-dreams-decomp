@@ -11,4 +11,6 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, Spri
 void update_movement_height_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
 void update_staged_movement_and_idle(void *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor);
 
+void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

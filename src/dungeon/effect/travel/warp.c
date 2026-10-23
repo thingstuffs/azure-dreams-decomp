@@ -584,11 +584,13 @@ void *move_effect_toward_target(MovingPosition *src)
 #include "shared/object_node.h"
 #include "shared/dir_step.h"
 
-/* 16.16 fixed-point coordinate: the whole part is the high halfword. */
-
-/* The effect record the callback runs on (the object header precedes it). */
-
-/* Update position, reduce movement speed, and flag completion when speed runs out. */
+/*
+ * Update position, reduce movement speed, and flag completion when speed runs out.
+ *
+ * 16.16 fixed-point coordinate: the whole part is the high halfword.
+ *
+ * The effect record the callback runs on (the object header precedes it).
+ */
 void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *position)
 {
     s16 next_speed;
@@ -691,9 +693,11 @@ typedef struct RenderData {
     s32 color;
 } RenderData;
 
-/* The follower's record (the object header precedes it): it tracks the object stored at +8. */
-
-/* Copy the owner's position and colour; flag completion once the owner is finished. */
+/*
+ * Copy the owner's position and colour; flag completion once the owner is finished.
+ *
+ * The follower's record (the object header precedes it): it tracks the object stored at +8.
+ */
 void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, RenderData *render)
 {
     ObjectNodeHeader *owner;
@@ -1141,6 +1145,7 @@ extern u8 D_80027580[];
 
 extern s32 has_enough_available_runtime_nodes(s32);
 
+/* Reads the signed halfword at the supplied byte offset in the direction table. */
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
     return *(s16 *)(offset + (u32)table);
 }
@@ -1263,11 +1268,14 @@ void update_traveling(FrameState *dst, AnimEntry *src)
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
-/* Animation player state; entry is the current entry in the owner's table (0x16-byte AnimEntry stride). */
-
-/* Owner of the animation table. */
-
-/* Resolve the current entry, apply an index step, and enforce the index bounds. */
+/*
+ * Resolve the current entry, apply an index step, and enforce the index bounds.
+ *
+ * Animation player state; entry is the current entry in the owner's table (0x16-byte AnimEntry
+ * stride).
+ *
+ * Owner of the animation table.
+ */
 void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
@@ -1303,11 +1311,14 @@ void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, 
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
-/* Animation player state (see advance_animation_index_within_bounds): the first word is the current entry in the owner's table. */
-
-/* Owner of the animation table. */
-
-/* Sets the player's current entry address using a 22-byte stride. */
+/*
+ * Sets the player's current entry address using a 22-byte stride.
+ *
+ * Animation player state (see advance_animation_index_within_bounds): the first word is the
+ * current entry in the owner's table.
+ *
+ * Owner of the animation table.
+ */
 void set_animation_entry_address(AnimPlayer *player, s16 entry_index) {
     player->entry = ((AnimOwner *)player->owner)->table + (entry_index * 0x16);
 }

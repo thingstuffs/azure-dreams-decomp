@@ -14,8 +14,11 @@
 #define PPTR(v)     ((void *)(u32)(v))
 #define PVAL(p)     ((u32)(p))
 
-/* port body: port/hal/resident_gap2.c:632 */
-/* Uploads pixel data to the specified VRAM rectangle. */
+/*
+ * Uploads pixel data to the specified VRAM rectangle.
+ *
+ * port body: port/hal/resident_gap2.c:632
+ */
 void upload_pixel_rectangle(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
     s16 rect[4];

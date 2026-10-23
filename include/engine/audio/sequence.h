@@ -175,7 +175,7 @@ void sound_update_voice_modulation_slots(void);
 void start_channel_note(u8 channel_id, s16 note, u8 velocity);
 
 /* start_sequence_in_free_slot.c */
-s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 dispatch_arg3, s16 dispatch_arg4, s16 dispatch_arg5, s16 dispatch_arg6);
+s16 start_sequence_in_free_slot(s16 bank, s16 program, s16 tone, s16 note, s16 fine_note, s16 left_gain, s16 right_gain);
 
 /* stop_timer_updates.c */
 void stop_timer_2_updates(void);

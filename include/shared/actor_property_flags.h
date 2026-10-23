@@ -5,7 +5,13 @@
  * +0x1C uses the same 0x2000 value for current side instead. Party membership
  * is also copied to +0x1C by familiar constructors. Resistance bits are set
  * by apply_entity_effects and suppress the matching active status. */
+/* Genus bits are copied to live +0x1C too. apply_genus_change_item selects
+ * the decoded fire/water/wind text when it writes 1/2/4 respectively. */
 enum ActorPropertyFlags {
+    ACTOR_ELEMENT_FIRE = 0x1,
+    ACTOR_ELEMENT_WATER = 0x2,
+    ACTOR_ELEMENT_WIND = 0x4,
+    ACTOR_ELEMENT_MASK = 0x7,
     ACTOR_RESIST_BLIND = 0x10,
     ACTOR_RESIST_PARALYSIS = 0x20,
     ACTOR_RESIST_POISON = 0x40,

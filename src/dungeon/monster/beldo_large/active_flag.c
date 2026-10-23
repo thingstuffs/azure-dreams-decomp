@@ -30,6 +30,7 @@ void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* exte
 extern u8 beldo_large_frame_set_8[16];
 extern void *beldo_script_node;
 
+/* Extracts flag 0x2000 from the supplied word. */
 static __inline__ u16 active_flag(u32 value)
 {
     return value & 0x2000;

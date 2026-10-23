@@ -4,21 +4,8 @@
 #include "engine/item.h"
 #include "sdk/libc.h"
 
-typedef struct ItemRecord {
-    s16 f0;
-    s16 f1;
-    u8 pad0[8];
-    void *ptr;
-    u8 pad1[4];
-} ItemRecord;
 
-typedef struct ItemCategory {
-    u8 pad0[0xC];
-    ItemRecord *records;
-    u8 pad1[4];
-} ItemCategory;
 
-extern ItemCategory itemCategoryTable[];
 extern void *alloc_item_data_slot(s32 category, s32 item);
 extern void *get_item_data_record(s32 category, s32 item);
 
@@ -37,7 +24,7 @@ void *get_or_create_item_data(s32 category, s32 item)
             bzero(item_data, 0x13);
             categories = itemCategoryTable;
             records = categories[category].records;
-            records[item].ptr = item_data;
+            records[item].data = item_data;
         }
     }
 

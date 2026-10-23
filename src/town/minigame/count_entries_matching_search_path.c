@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/position_views.h"
 #include "shared/entity.h"
 #include "shared/town_handler_entries.h"
 #include "shared/tile_object.h"
@@ -55,19 +56,6 @@ typedef struct S_8002191C_6 {
 
    /* node in count_entries_matching_search_path */
 
-typedef struct S_8002191C_8 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_8002191C_8;   /* node_pos in count_entries_matching_search_path */
-
-typedef struct S_8002191C_9 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_8002191C_9;   /* compare in count_entries_matching_search_path */
 
 typedef struct TownDraw32 {
     s16 h00;
@@ -390,8 +378,8 @@ void count_entries_matching_search_path(void *scene)
                 s32 delta0;
                 s32 delta1;
 
-                delta0 = abs(((S_8002191C_8 *)node_pos)->unk_02 - ((S_8002191C_9 *)compare)->unk_02);
-                delta1 = abs(((S_8002191C_8 *)node_pos)->unk_06 - ((S_8002191C_9 *)compare)->unk_06);
+                delta0 = abs(((SignedPositionView *)node_pos)->x - ((SignedPositionView *)compare)->x);
+                delta1 = abs(((SignedPositionView *)node_pos)->y - ((SignedPositionView *)compare)->y);
                 if (delta0 + delta1 < 0x20) {
                     ((S_8002191C_6 *)node_part)->unk_08 = node_flags | 1;
                     ((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s]++;

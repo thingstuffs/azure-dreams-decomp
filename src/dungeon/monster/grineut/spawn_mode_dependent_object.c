@@ -907,6 +907,11 @@ s32 relink_grineut_path(void *entity_arg, void *primary_context_arg, void *secon
     return result;
 }
 
+/*
+ * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing
+ * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
+ * under dungeon status flag 0x80. /
+ */
 void move_grineut_to_tile(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
@@ -1045,6 +1050,10 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs dispatch_monster_move_attack_spell only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void update_grineut_linked_motion(Resource07CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1528,21 +1537,28 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_grineut(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_grineut_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs dispatch_monster_move_attack_spell when it returns
+ * nonzero.
+ */
 void grow_hopping_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1818,6 +1834,11 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_grineut_parent_motion(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *entity, R07_80173EF4_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1832,6 +1853,10 @@ void update_grineut_parent_motion(R07_80173EF4_Actor *actor, s32 action, R07_801
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs dispatch_monster_move_attack_spell only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void update_thrown_grineut(Resource07CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1841,6 +1866,10 @@ void update_thrown_grineut(Resource07CallbackState *state, void *entity, void *p
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_monster_move_attack_spell when it
+ * returns nonzero.
+ */
 void settle_grineut_on_tile(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1848,6 +1877,10 @@ void settle_grineut_on_tile(Resource07CallbackState *state, void *motion, void *
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs dispatch_monster_move_attack_spell when it returns
+ * nonzero.
+ */
 void update_spinning_grineut_fall(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1855,6 +1888,7 @@ void update_spinning_grineut_fall(Resource07CallbackState *state, void *motion, 
     }
 }
 
+/* Runs update_actor_fade_in and installs dispatch_monster_move_attack_spell when it returns nonzero. */
 void fade_in_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1862,6 +1896,10 @@ void fade_in_grineut(Resource07CallbackState *state, void *motion, void *positio
     }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs dispatch_monster_move_attack_spell when it
+ * returns positive.
+ */
 void resolve_grineut_floor_trap(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -1869,6 +1907,10 @@ void resolve_grineut_floor_trap(Resource07CallbackState *state, void *motion, vo
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs dispatch_monster_move_attack_spell when it returns
+ * positive.
+ */
 void propagate_grineut_action_flag(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

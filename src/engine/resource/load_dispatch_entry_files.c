@@ -15,6 +15,9 @@ typedef struct S_8006CE80 {
     s32 unk08;
 } S_8006CE80;
 
+/* [100] is an addressing aid, not an allocation bound. Only a 35-record
+ * structural prefix is established before nested callback-argument data;
+ * callers supply entry_index. Do not enumerate this declaration with sizeof. */
 extern S_8006CE80 dispatch_resource_records[100];
 
 /* Calls file_load_com for each value in the indexed entry's zero-terminated list. */

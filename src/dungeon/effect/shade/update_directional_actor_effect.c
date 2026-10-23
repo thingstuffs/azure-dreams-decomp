@@ -410,13 +410,15 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     }
 }
 
-/* MECHANISM: Two 16-byte plus one packed 8-byte by-value args preserve the 0x28/s0-s3 hold set.
-   Scalarized copy bursts color through v0,v1,a0,a1 while the allocation result is held in a2.
-   A derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw;
-   the paired tail source reads then also eliminate both downstream branch-displacement drifts. */
-
-/* Sends three effects toward a monster or forward tile, tints and attacks the target, then waits for
-   cleanup. */
+/*
+ * Sends three effects toward a monster or forward tile, tints and attacks the target, then waits
+ * for cleanup.
+ *
+ * MECHANISM: Two 16-byte plus one packed 8-byte by-value args preserve the 0x28/s0-s3 hold set.
+ * Scalarized copy bursts color through v0,v1,a0,a1 while the allocation result is held in a2. A
+ * derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw; the
+ * paired tail source reads then also eliminate both downstream branch-displacement drifts.
+ */
 void update_three_way_target_effect(void *effect_arg, void *position) {
     s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;

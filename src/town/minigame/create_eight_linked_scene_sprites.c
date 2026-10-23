@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -15,12 +16,6 @@ typedef struct S_8002082C_1 {
     void * unk_20;
 } S_8002082C_1;   /* object in create_eight_linked_scene_sprites */
 
-typedef struct S_8002082C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_8002082C_2;   /* image in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_3 {
     u8 pad_00[0x34];
@@ -46,7 +41,7 @@ void create_eight_linked_scene_sprites(void *owner) {
     s32 slot_index;
     SpriteFrameState *object_data;
     S_8002082C_1 *object;
-    S_8002082C_2 *image;
+    MovingPosition *image;
 
     slot_index = 7;
     do {
@@ -59,8 +54,8 @@ void create_eight_linked_scene_sprites(void *owner) {
             object->unk_20 = owner;
             image = object->unk_08;
             object_data = object->unk_0C;
-            image->unk_02 = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_0;
-            image->unk_06 = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_2;
+            image->x = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_0;
+            image->y = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_2;
             object_data->tpage_abr = 0x60;
             object_data->color.word = 0;
             object_data->scale_y = 0x1000;

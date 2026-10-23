@@ -7,6 +7,7 @@ typedef struct {
 extern s32 update_actor_fade_in(void);
 extern u8 actor_action_resume_address[];
 
+/* Runs the actor fade-in step and installs actor_action_resume_address when it completes. */
 void run_actor_fade_in(CallbackOwner *owner) {
     if (update_actor_fade_in() != 0) {
         owner->callback = actor_action_resume_address;

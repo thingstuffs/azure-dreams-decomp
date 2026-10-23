@@ -1,18 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
 #include "shared/object_index_slots.h"
 
-typedef struct S_800C4D80_0 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-    u8 pad_12[0x4E];
-    s32 unk_60;
-    u8 pad_64[0xA];
-    u16 unk_6E;
-    u8 pad_70[0x2];
-    u16 unk_72;
-    u8 pad_74[0xC];
-    void * unk_80;
-} S_800C4D80_0;   /* data in trget_psn_ang_set */
 
 typedef struct S_800C4D80_1 {
     u8 pad_00[0xC];
@@ -47,7 +36,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
     void *object;
     S_800C4D80_1 *entry;
     S_800C4D80_2 *child;
-    S_800C4D80_0 *object_data;
+    Rec_func_80094268_arg0 *object_data;
 
     table = object_index_slots;
     object_index = object_slot;
@@ -60,13 +49,13 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
             if (object_index == 1) {
                 object_kind = entry->unk_10;
                 if (object_kind != message_motion_type_a && object_kind != message_motion_type_b) {
-                    object_data->unk_10 = angle;
+                    object_data->unk_10.as_u16 = angle;
                     return;
                 }
             }
             child = object_data->unk_80;
             object_data->unk_6E = angle;
-            object_data->unk_72 = angle;
+            object_data->unk_72.as_u16 = angle;
             initialize_object_entries(object_data, entry->unk_0C,
                           child->unk_04);
         }

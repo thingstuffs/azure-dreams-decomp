@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/minigame_body.h"
 #include "shared/vector.h"
 #include "town/scene/effect.h"
@@ -54,13 +55,6 @@ typedef struct S_8052F2C8_5 {
 
    /* spawn_data in animate_rising_effect_object */
 
-typedef struct S_8052F2C8_8 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_8052F2C8_8;   /* position in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_9 {
     u8 pad_00[0x4];
@@ -247,9 +241,9 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 func_8003BC18(work, score_sprite_draw_callback_address);
                 position = ((S_8052F2C8_3 *)work)->unk_08;
                 entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
-                ((S_8052F2C8_8 *)position)->unk_00 = ((IntVector3 *)state_held)->x;
-                ((S_8052F2C8_8 *)position)->unk_04 = ((IntVector3 *)state_held)->y;
-                ((S_8052F2C8_8 *)position)->unk_08 = ((IntVector3 *)state_held)->z;
+                ((ObjectPosition *)position)->x.v = ((IntVector3 *)state_held)->x;
+                ((ObjectPosition *)position)->y.v = ((IntVector3 *)state_held)->y;
+                ((ObjectPosition *)position)->z.v = ((IntVector3 *)state_held)->z;
                 work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
                 ((S_8052F2C8_3 *)work)->unk_20 = root;
                 ((S_8052F2C8_3 *)work)->unk_24 = work_value;
@@ -257,10 +251,10 @@ void animate_rising_effect_object(void *obj, void *state_in, void *input) {
                 ((S_8052F2C8_9 *)entity_data)->unk_1C = scale;
                 if (count != 0) {
                     ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E188;
-                    ((S_8052F2C8_8 *)position)->unk_10 = 0x80000;
+                    ((ObjectPosition *)position)->velocity_y = 0x80000;
                 } else {
                     ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E17C;
-                    ((S_8052F2C8_8 *)position)->unk_10 = 0xFFF80000;
+                    ((ObjectPosition *)position)->velocity_y = 0xFFF80000;
                 }
                 ((S_8052F2C8_9 *)entity_data)->unk_04 = 0;
                 ((S_8052F2C8_9 *)entity_data)->unk_05 = 0;

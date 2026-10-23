@@ -1,8 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "dungeon/effect/sprite.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Return whether the 64-entry table lacks the byte pair 1, 0x12. */
 s32 ground_items_lack_special_pair(void) {
     s32 entry_index;

@@ -2,9 +2,10 @@
 #include "dungeon/monster/garuda.h"
 
 
-/* Project sprite entries into textured quads and append visible quads to the ordering table. */
-/* Projects flipped sprite quads with depth and screen checks, dispatches custom drawing entries, and
- * queues packets. */
+/*
+ * Projects flipped sprite quads with depth and screen checks, dispatches custom drawing entries,
+ * and queues packets.
+ */
 void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias) {
     s32 screen_y3;
     register s32 view_rot_z;

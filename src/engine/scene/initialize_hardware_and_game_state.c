@@ -37,17 +37,18 @@ extern u8 controller_port_two_reply[0x22];
 extern u8 floor_generation_state[8];
 extern u8 scene_mode_code[];
 
-/* D_80012094, D_80012098, D_80012D6E, D_80013180, D_80013184, D_80013186 all
- * share the same %hi() page (0x8001xxxx) in the retail binary and are
- * accessed off ONE materialised base register across this whole block,
- * despite being far apart -- so the retail source used fixed absolute
- * addresses here (like the established `bzero((void*)0x80013564, ...)`
- * idiom elsewhere in this codebase), letting gcc CSE/constant-fold the
- * shared %hi at compile time instead of via 6 independent extern symbols. */
-
-/* mirror/shadow copies of the same three D_80013180-group fields */
-
-/* Initialize video, CD, pads, graphics, configuration defaults, and stream state. */
+/*
+ * Initialize video, CD, pads, graphics, configuration defaults, and stream state.
+ *
+ * D_80012094, D_80012098, D_80012D6E, D_80013180, D_80013184, D_80013186 all share the same %hi()
+ * page (0x8001xxxx) in the retail binary and are accessed off ONE materialised base register
+ * across this whole block, despite being far apart -- so the retail source used fixed absolute
+ * addresses here (like the established `bzero((void*)0x80013564, ...)` idiom elsewhere in this
+ * codebase), letting gcc CSE/constant-fold the shared %hi at compile time instead of via 6
+ * independent extern symbols.
+ *
+ * mirror/shadow copies of the same three D_80013180-group fields
+ */
 void initialize_hardware_and_game_state(void)
 {
     void **stream_slot = D_80083160;

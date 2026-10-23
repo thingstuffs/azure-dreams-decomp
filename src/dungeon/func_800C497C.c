@@ -19,12 +19,7 @@ typedef struct S_800CA0DC_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_800CA0DC_0;   /* arg3 in advance_actor_along_path_points */
 
-   /* arg2 in advance_actor_along_path_points */
-
-
-   /* (u8 *)arg3 + ((S_800CA0DC_0 *)arg3)->unk_8A.s in advance_actor_along_path_points */
-
-/* Advances to the next path coordinate and updates movement state and timing. */
+   /* Advances to the next path coordinate and updates movement state and timing. */
 void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path)
 {
     s32 step_count;

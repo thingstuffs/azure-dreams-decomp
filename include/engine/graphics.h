@@ -219,7 +219,7 @@ void select_sprite_entry(struct SpriteFrameState *object, s16 table_index, s16 e
 void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s32 numerator, s32 denominator);
 
 /* set_color_components_and_scaled_fields_second.c */
-void advance_gauge_color_then_decay(struct S_800505BC *state, s32 callback_arg1, s32 callback_arg2);
+void advance_gauge_color_then_decay(struct S_800505BC *state, s32 unused_1, s32 unused_2);
 
 /* set_sprite_animation_frame.c */
 void set_sprite_animation_frame(struct S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);

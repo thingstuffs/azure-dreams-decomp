@@ -19,7 +19,7 @@ typedef struct CursorState {
 extern void confirm_menu_choice(CursorState *, s32, s32);
 
 /* Wrap the cursor on directional input and dispatch the selected action. */
-void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 action_arg1, s32 action_arg2)
+void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 unused_1, s32 unused_2)
 {
     GameWork *runtime;
     u32 next_cursor;
@@ -50,6 +50,6 @@ void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 action_arg1, s32
         cursor->cursor_4D = flags_or_count;
     }
     if (((u32)runtime->pressed_buttons) & 0x40) {
-        confirm_menu_choice(cursor, action_arg1, action_arg2);
+        confirm_menu_choice(cursor, unused_1, unused_2);
     }
 }

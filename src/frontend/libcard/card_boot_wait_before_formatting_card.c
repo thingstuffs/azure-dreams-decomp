@@ -10,8 +10,6 @@ typedef struct S_8002765C_0 {
 } S_8002765C_0;   /* arg0 in card_boot_wait_before_formatting_card; pointer addresses record offset 0x10 */
 
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Decrement the record's countdown and switch its handler when it becomes negative. */
 void card_boot_wait_before_formatting_card(void *record_data) {
     s32 countdown;

@@ -3,4 +3,5 @@
 
 extern u8 D_80017800[];
 extern void *D_800178D0;
+/* Stores D_80017800 in D_800178D0. */
 void bind_scene_pointer(void) { D_800178D0 = D_80017800; }

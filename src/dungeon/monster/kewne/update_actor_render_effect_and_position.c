@@ -206,6 +206,10 @@ void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject
     }
 }
 
+/*
+ * Adds radius times the trigonometric value shifted right eight bits to the center, returning a
+ * signed 16-bit coordinate.
+ */
 static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)
 {
     return center + ((radius * trig) >> 8);

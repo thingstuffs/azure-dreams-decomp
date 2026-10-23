@@ -9,9 +9,7 @@ void initialize_optional_object_state(); /* extern */
 extern M2C_UNK D_800D0690;
 
 
-   /* arg2 in select_object_state_by_mode */
-
-/* Select a state value and update the record according to its mode flag. */
+   /* Select a state value and update the record according to its mode flag. */
 void select_object_state_by_mode(Rec_D_800CFCB4 *record, s32 context, EffectStateWordView *state, s32 default_value,
     s32 alternate_value, s32 update_value) {
     if (record->unk_94 != 0) {

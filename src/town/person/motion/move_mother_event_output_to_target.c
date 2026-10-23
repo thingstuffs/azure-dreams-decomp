@@ -1,22 +1,12 @@
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
+#include "shared/dungeon_moving_views.h"
 
 
 extern void *D_800834A0;
 
 extern void apply_object_setup_and_update(void *, void *, s32);
 
-
-typedef struct S_800C7CF0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_800C7CF0_0;   /* D_800834A0 in move_mother_event_output_to_target */
-
-typedef struct S_800C7CF0_1 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-} S_800C7CF0_1;   /* object in move_mother_event_output_to_target */
 
 typedef struct S_800C7CF0_2 {
     u8 pad_00[0x2];
@@ -32,10 +22,10 @@ void move_mother_event_output_to_target(void *object, void *out, s32 setup_conte
     u16 target_y;
     u16 frames;
 
-    target_x = ((S_800C7CF0_0 *)D_800834A0)->unk_02;
-    target_y = ((S_800C7CF0_0 *)D_800834A0)->unk_06 - 0x42;
-    frames = ((S_800C7CF0_1 *)object)->unk_6C - 1;
-    ((S_800C7CF0_1 *)object)->unk_6C = frames;
+    target_x = ((MovingPosition *)D_800834A0)->x;
+    target_y = ((MovingPosition *)D_800834A0)->y - 0x42;
+    frames = ((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16 - 1;
+    ((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16 = frames;
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
@@ -52,5 +42,5 @@ void move_mother_event_output_to_target(void *object, void *out, s32 setup_conte
     ((S_800C7CF0_2 *)out)->unk_06 =
         (s16)((u16)((S_800C7CF0_2 *)out)->unk_06 +
               ((s16)target_y - ((S_800C7CF0_2 *)out)->unk_06) /
-              (s16)((S_800C7CF0_1 *)object)->unk_6C);
+              (s16)((Rec_func_80094268_arg0 *)object)->unk_6C.as_u16);
 }

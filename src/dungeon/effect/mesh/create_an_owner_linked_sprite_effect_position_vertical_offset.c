@@ -41,7 +41,11 @@ extern s32 register_node();
 extern s32 D_8002548C;
 extern s32 D_800DEB70;
 
-/* Create an owner-linked sprite effect at the supplied position with a vertical offset. */
+/*
+ * Allocates type 0x212 with handler D_8002548C and gray D_800DEB70 sprite data at scale 0x1800.
+ * Copies the supplied position with half the owner height offset subtracted from Z and registers
+ * sprite projection.
+ */
 void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 *owner, S_81977D08_3 *position)
 {
     ObjectPosition *effect_pos;

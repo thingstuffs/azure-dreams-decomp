@@ -8,7 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player.h"
 #include "engine/cd.h"
-/* Forwards the third argument to func_800478B8. */
+/* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
     advance_sprite_animation_and_textures(value);
 }
@@ -941,8 +941,6 @@ typedef struct S_807AFAE4_1 {
     u16 unk_42;
 } S_807AFAE4_1;   /* arg0 in func_800F72E4; pointer addresses record offset 0x18 */
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Initializes a linked object from the source record and invokes play_sound_if_enabled on success. */
 void create_linked_particle_controller(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
@@ -1374,8 +1372,6 @@ void begin_active_object_action(void) {
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Calls play_sound_if_enabled with the fixed argument 0xB4. */
 void play_b4_sound(void) {

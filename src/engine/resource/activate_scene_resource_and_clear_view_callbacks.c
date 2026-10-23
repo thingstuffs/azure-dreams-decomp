@@ -24,10 +24,12 @@ struct S_80082E60 {
 
 
 
-/* D_80083160: shared state table; four u32 fields at these offsets are
- * cleared here (declared >8 bytes to force %hi/%lo addressing). */
-
-/* Saves and processes the state byte, then clears pending state and four shared table fields. */
+/*
+ * Saves and processes the state byte, then clears pending state and four shared table fields.
+ *
+ * g_game_work: shared state table; four u32 fields at these offsets are cleared here (declared >8
+ * bytes to force %hi/%lo addressing).
+ */
 void activate_scene_resource_and_clear_view_callbacks(void)
 {
     u8 state_byte = ((struct S_80082E60 *)&runtime_dispatch_state)->field_8.b;

@@ -16,10 +16,10 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-typedef struct List {
-    Node *head;
-    s32 pad[2];
-} List;
+/* Entry zero is the circular-list sentinel prefix of a larger control object.
+ * The unsized view preserves its non-small-data addressing; no Node-array
+ * extent or enclosing control-record size is asserted. */
+extern Node town_actor_control[];
 
 /* Functions defined in this translation unit. */
 s32 prepend_scene_list_node(Node *node);

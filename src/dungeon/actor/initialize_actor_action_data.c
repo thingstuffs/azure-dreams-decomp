@@ -9,6 +9,10 @@ typedef struct {
 
 extern s32 fade_actor_to_removal(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value);
 
+/*
+ * Advances removal fading and decrements the bounded counter on completion; otherwise sets value12
+ * to 0x7E40 and sets flag 0x100.
+ */
 void initialize_actor_action_data(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value) {
     if (fade_actor_to_removal(first_ptr, second_ptr, record, value) != 0) {
         decrement_bounded_counter();

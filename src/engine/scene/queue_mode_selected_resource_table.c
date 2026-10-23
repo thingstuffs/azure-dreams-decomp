@@ -7,7 +7,10 @@
 
 extern u8 runtime_dispatch_mode_alias[9];
 
-/* Select a table based on D_80082E6A[0] and pass it to Control_CD. */
+/*
+ * Queues the secondary resource table in dispatch mode 2 and the primary table in other modes as
+ * CD task 6.
+ */
 void queue_mode_selected_resource_table(void)
 {
     void *table = &primary_mode_resource_table;

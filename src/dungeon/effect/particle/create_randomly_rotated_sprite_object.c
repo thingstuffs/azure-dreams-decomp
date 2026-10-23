@@ -3,7 +3,7 @@
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
-void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
+void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -154,11 +154,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-   /* the 0x2 bytes before arg0 in func_800243F8, addressed as arg0[-1] */
-
-   /* arg0 in func_800243F8 */
-
-/* Increment both counters and set completion flags when the count reaches its limit. */
+   /* Increment both counters and set completion flags when the count reaches its limit. */
 void expire_counted_child_effect(void *counterState) {
     u16 incrementedCount;
     B22_81892BF8_S_81892BF8_1 *linkedCounter;
@@ -355,11 +351,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
 #include "shared/object_flags.h"
-   /* the 0x2 bytes before arg0 in func_800248F8, addressed as arg0[-1] */
-
-   /* arg0 in func_800248F8 */
-
-/* Advance the object counters, apply the initial frame offset, and flag completion. */
+   /* Advance the object counters, apply the initial frame offset, and flag completion. */
 void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_context) {
     s16 frame;
     B22_818930F8_S_818930F8_1 *object;
@@ -383,13 +375,10 @@ void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_co
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-   /* the 0x2 bytes before arg0 in func_800249B8, addressed as arg0[-1] */
-
-   /* arg0 in func_800249B8 */
-
-   /* arg1 in func_800249B8 */
-
-/* Increment the linked counter, reduce the source value by four, and process and flag the target status. */
+   /*
+ * Increment the linked counter, reduce the source value by four, and process and flag the target
+ * status.
+ */
 void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
     B22_818931B8_S_818931B8_1 *counter_state;
 
@@ -476,26 +465,21 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
 #include "shared/entity.h"
 extern int abs(int);
 
-#define U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
-#define S8_AT(p, n) (*(s8 *)((u8 *)(p) + (n)))
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
-#define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
-#define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
-#define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 #define probe scratch.probe
 #define result scratch.result
 #define map_flags scratch.map_flags
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
-void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
+void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part)
 {
     B22_81893474_EffectState *state;
-    B22_81893474_Motion *motion;
+    ObjectPosition *motion;
     B22_81893474_ColorPart *part;
-    void *owner;
-    void *owner_data;
-    void *owner_node;
-    void *owner_motion;
+    ActorRecord *owner;
+    ObjectNodeHeader *owner_data;
+    SpriteFrameState *owner_node;
+    ObjectPosition *owner_motion;
     B22_81893474_Scratch scratch;
     register TileObject *origin;
     s32 target_z;
@@ -503,8 +487,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
     s32 state_id;
     s32 source_z;
     s32 adjusted_z;
-    s16 *target_pos;
-    void *spawned_effect;
+    EffectTargetPosition *target_pos;
+    ActorRecord *spawned_effect;
 
     state = effect_state;
     motion = effect_motion;
@@ -516,58 +500,58 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
     case 0:
         origin = &reference_tile_object;
         {
-            u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
-            u32 offset = (U16_AT(primary_actor_record, 0x2A) >> 8) & 0xE;
+            SpriteFrameState *node = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
+            u32 offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
 
-            U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(
-                node[0x24], node[0x25],
+            owner->facing = get_rounded_facing_and_rounding_flag(
+                node->tile_x, node->tile_y,
                 origin->tile_position.parts.tile_x + U16_AT((u8 *)dir_step_x + offset, 0),
                 origin->tile_position.parts.tile_y + U16_AT((u8 *)dir_step_y + offset, 0), &result);
         }
         state->timer = 0;
         state->state++;
-        state->direction = (U16_AT(owner, 0x2A) >> 9) & 7;
+        state->direction = ((u16)owner->facing >> 9) & 7;
         state->status = 0;
         part->color = 0x00808080;
 
     case 1:
-        owner_data = (u8 *)owner - 0x20;
-        owner_node = PTR_AT(owner_data, 0xC);
-        if (resolve_record_orientation_or_fallback(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
-            if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
+        owner_data = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+        owner_node = owner_data->sprite;
+        if (resolve_record_orientation_or_fallback(owner_node->source, owner_node, probe, 0) == 0) {
+            if (!(owner_data->sprite->flags & 0x8000)) {
                 break;
             }
         }
-        owner_motion = PTR_AT(owner_data, 8);
-        U16_AT(motion, 2) = U16_AT(owner_motion, 2);
-        U16_AT(motion, 6) = U16_AT(owner_motion, 6);
-        source_z = U16_AT(owner_motion, 0xA);
-        U16_AT(motion, 0xA) = source_z;
-        if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
-            U16_AT(motion, 2) += probe[0];
-            U16_AT(motion, 6) += probe[1];
-            U16_AT(motion, 0xA) += probe[2];
+        owner_motion = owner_data->position;
+        motion->x.w.i = (u16)owner_motion->x.w.i;
+        motion->y.w.i = (u16)owner_motion->y.w.i;
+        source_z = (u16)owner_motion->z.w.i;
+        motion->z.w.i = source_z;
+        if (!(owner_data->sprite->flags & 0x8000)) {
+            motion->x.w.i += probe[0];
+            motion->y.w.i += probe[1];
+            motion->z.w.i += probe[2];
         } else {
-            U16_AT(motion, 0xA) = source_z - 0x40;
+            motion->z.w.i = source_z - 0x40;
         }
         if (!(U16_AT(state->image, 0) & 0x80)) {
             break;
         }
-        target_pos = scratch.work;
+        target_pos = &scratch.work;
                         /* This expression is intentionally kept in its retail form. */
-        if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+        if ((owner_data->flags | 0x2000) != 0) {
             TileObject *position_base = &reference_tile_object;
-            void *direction_node = primary_actor_record;
+            ActorRecord *direction_node = primary_actor_record;
 
             {
                 u8 *x_table = (u8 *)dir_step_x;
-                direction_bits = U16_AT(direction_node, 0x2A);
+                direction_bits = (u16)direction_node->facing;
                 state->x = position_base->tile_position.parts.tile_x +
                     ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
             {
                 u8 *y_table = (u8 *)dir_step_y;
-                direction_bits = U16_AT(direction_node, 0x2A);
+                direction_bits = (u16)direction_node->facing;
                 state->y = position_base->tile_position.parts.tile_y +
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
@@ -580,22 +564,22 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             s32 tile_coord;
 
             tile_coord = state->x;
-            S16_AT(target_pos, 2) = tile_coord * 64 + 0x20;
+            target_pos->x.w.i = tile_coord * 64 + 0x20;
             tile_coord = state->y;
             height_node = primary_actor_record;
-            S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
-            S16_AT(target_pos, 0xA) = height_node->ground_height - 0x20;
+            target_pos->y.w.i = tile_coord * 64 + 0x20;
+            target_pos->z.w.i = height_node->ground_height - 0x20;
         }
-        S16_AT(target_pos, 0xA) = get_surface_height_at_record(target_pos);
-        state->z = S16_AT(target_pos, 0xA);
+        target_pos->z.w.i = get_surface_height_at_record(target_pos);
+        state->z = target_pos->z.w.i;
         get_offset_map_cell_value_and_flags(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
-            (target_z = S16_AT(target_pos, 0xA)) > 0x200 ||
-            (check_left_tile_and_center_height(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
+            (target_z = target_pos->z.w.i) > 0x200 ||
+            (check_left_tile_and_center_height((u16)target_pos->x.w.i, (u16)target_pos->y.w.i, target_z) << 16) != 0 ||
             (increment_bounded_counter() << 16) == 0) {
             state->state = 7;
         } else {
-            if ((U16_AT(owner_data, 0x1E) | 0x2000) == 0) {
+            if ((owner_data->flags | 0x2000) == 0) {
                 state->status = 2;
             } else {
                 state->status = 1;
@@ -607,26 +591,26 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             s32 delta_y;
             s32 delta_z;
 
-            delta_x = S16_AT(target_pos, 2) - S16_AT(motion, 2);
+            delta_x = target_pos->x.w.i - motion->x.w.i;
             delta_x = abs(delta_x);
             probe[0] = delta_x;
-            delta_y = S16_AT(target_pos, 6) - S16_AT(motion, 6);
+            delta_y = target_pos->y.w.i - motion->y.w.i;
             delta_y = abs(delta_y);
             probe[1] = delta_y;
             {
                 s32 motion_z;
 
-                delta_z = S16_AT(target_pos, 0xA);
-                motion_z = S16_AT(motion, 0xA);
+                delta_z = target_pos->z.w.i;
+                motion_z = motion->z.w.i;
                 delta_z -= motion_z;
             }
             delta_z = abs(delta_z);
             probe[2] = delta_z;
         }
         state->duration = 12;
-        S32_AT(motion, 0xC) = (S32_AT(target_pos, 0) - S32_AT(motion, 0)) / state->duration;
-        S32_AT(motion, 0x10) = (S32_AT(target_pos, 4) - S32_AT(motion, 4)) / state->duration;
-        S32_AT(motion, 0x14) = (S32_AT(target_pos, 8) - S32_AT(motion, 8)) / state->duration;
+        motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
+        motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
+        motion->velocity_z = (target_pos->z.v - motion->z.v) / state->duration;
         create_randomly_rotated_sprite_object(state, motion, state->duration);
         create_randomly_rotated_sprite_object(state, motion, state->duration);
         create_randomly_rotated_sprite_object(state, motion, state->duration);
@@ -634,9 +618,9 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         break;
 
     case 2:
-        S32_AT(motion, 0) += S32_AT(motion, 0xC);
-        S32_AT(motion, 4) += S32_AT(motion, 0x10);
-        S32_AT(motion, 8) += S32_AT(motion, 0x14);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         if (state->timer < state->duration) {
             break;
         }
@@ -677,7 +661,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             spawned_effect = create_actor_at_tile(state->status, state->x, state->y, state->z);
             func_80042640(spawned_effect, 51);
             variation = generate_random_value();
-            effect_id = U8_AT(state, 9);
+            effect_id = state->id;
             strength = effect_id >> 1;
             strength += effect_id << 1;
             strength += variation & 3;
@@ -686,8 +670,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             if (strength >= 256) {
                 clamped_strength = 255;
             }
-            U8_AT(spawned_effect, 0x28) = clamped_strength;
-            U8_AT(spawned_effect, 0x29) = clamped_strength;
+            spawned_effect->hp = clamped_strength;
+            spawned_effect->max_hp = clamped_strength;
         }
         state->timer = 0;
         state->state++;
@@ -698,13 +682,13 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             break;
         }
         g_dungeon_status.active_actor = 0;
-        U16_AT(state, -2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 7:
-        S32_AT(motion, 0) += S32_AT(motion, 0xC);
-        S32_AT(motion, 4) += S32_AT(motion, 0x10);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         if (state->timer >= state->duration) {
             state->state = 6;
             state->timer = 0;

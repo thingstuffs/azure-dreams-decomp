@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -39,10 +40,6 @@ typedef struct S_800BA00C_1 {
     void * unk_10;
 } S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
 
-typedef struct S_800BA00C_3 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800BA00C_3;   /* input in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_5 {
     u8 pad_00[0x66];
@@ -50,7 +47,7 @@ typedef struct S_800BA00C_5 {
 } S_800BA00C_5;   /* (*(void * *)((u8 *)entity + 0x9C)) in initialize_effect_with_child_sprites */
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
-void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
+void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position)
 {
     void *part_callback;
     GameWork *work;
@@ -122,8 +119,8 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             sprite->source = part_index + 0x1A;
             sprite->color.c.b = blue;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-            ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
-            ((S_800BA00C_1 *)obj)->unk_04 = position->unk_04;
+            ((S_800BA00C_1 *)obj)->unk_00 = position->x.v;
+            ((S_800BA00C_1 *)obj)->unk_04 = position->y.v;
             angle = (s8)quadrant;
             if ((*(s8 *)((u8 *)entity + 0x97)) == angle) {
                 angle = ((S_800BA00C_5 *)((*(void * *)((u8 *)entity + 0x9C))))->unk_66;
@@ -167,9 +164,9 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
             sprite_angle += angle_offset;
             sprite->angle_z = sprite_angle;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-            depth = position->unk_00;
+            depth = position->x.v;
             ((S_800BA00C_1 *)obj)->unk_00 = depth;
-            offset_y = position->unk_04;
+            offset_y = position->y.v;
             depth = 0xFF2C0000;
             ((S_800BA00C_1 *)obj)->unk_08.i = depth;
             depth = 0x200000;
@@ -201,9 +198,9 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         sprite->scale_x = scale;
         sprite->angle_z = sprite_angle;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-        depth = position->unk_00;
+        depth = position->x.v;
         ((S_800BA00C_1 *)obj)->unk_00 = depth;
-        offset_y = position->unk_04;
+        offset_y = position->y.v;
         depth = 0xFF2C0000;
         ((S_800BA00C_1 *)obj)->unk_08.i = depth;
         depth = 0x200000;
@@ -232,8 +229,8 @@ void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
         sprite->color.c.b = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         sprite->source = 0x19;
-        ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
-        position_y = position->unk_04;
+        ((S_800BA00C_1 *)obj)->unk_00 = position->x.v;
+        position_y = position->y.v;
         ((S_800BA00C_1 *)obj)->unk_08.i = 0;
         ((S_800BA00C_1 *)obj)->unk_04 = position_y;
     }

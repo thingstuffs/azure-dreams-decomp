@@ -36,6 +36,10 @@ s32 has_listed_resource_in_slots(void) {
     return any_found;
 }
 
+/*
+ * Searches the first 15 queued town resource indices for descriptor D_80080EA8; returns the slot
+ * or -1.
+ */
 s32 find_slot_for_resource_entry(void) {
     s32 slot_index = 0;
     u8 *entry_indices = town_resource_queue;

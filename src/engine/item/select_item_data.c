@@ -5,14 +5,6 @@
 #include "engine/item.h"
 typedef struct
 {
-    u8 kind;
-    u8 pad[0xB];
-    void *records;
-    u8 pad2[4];
-}
-S_8004AC3C_CategoryEntry;
-typedef struct
-{
     s16 a;
     s16 b;
     s32 f4;
@@ -44,14 +36,13 @@ typedef struct
 }
 S_80082E6A;
 extern S_80082E6A runtime_dispatch_mode_alias;
-extern S_8004AC3C_CategoryEntry itemCategoryTable[];
 extern s32 resolve_record_value(S_8004AC3C_Item *);
 /* Select item data by category and state, and report its mode. */
 s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
 {
     s32 item_flags;
-    S_8004AC3C_CategoryEntry *categories;
-    S_8004AC3C_CategoryEntry *category;
+    ItemCategory *categories;
+    ItemCategory *category;
     s32 data_addr;
     u8 kind;
     *out_mode = 0;
@@ -69,14 +60,14 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
                 }
                 else {
                     data_addr =
-                        ((S_8004AC3C_Rec20 *) itemCategoryTable[((S_8004AC3C_Item *) item)->unk1].records)[item->unk0].fC;
+                        ((S_8004AC3C_Rec20 *) itemCategoryTable[item->unk1].records)[item->unk0].fC;
                 }
                 *out_mode = 4;
             }
             else {
                 categories = itemCategoryTable;
                 category = categories + item->unk1;
-                data_addr = (category->kind == 0)
+                data_addr = (category->record_format == 0)
                     ? (((S_8004AC3C_Rec20 *) category->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) category->records)[item->unk0].f4);
             }
         }
@@ -86,13 +77,13 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
             data_addr = 0x80010324 + ((item->unk3 & 0x1F) * 0x54);
         }
     else {
-        S_8004AC3C_CategoryEntry *categories;
+        ItemCategory *categories;
         if (item->unk1 == 0x16) {
             *out_mode = 7;
         }
         categories = itemCategoryTable;
         category = categories + item->unk1;
-        data_addr = (category->kind == 0)
+        data_addr = (category->record_format == 0)
             ? (((S_8004AC3C_Rec20 *) category->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) category->records)[item->unk0].f4);
     }
     return data_addr;

@@ -47,7 +47,10 @@ typedef struct S_800B3FB8_2 {
     s32 unk_10;
 } S_800B3FB8_2;   /* arg1 in update_four_slot_element_values_and_positions */
 
-/* Updates the values and positions of four elements in the selected slot. */
+/*
+ * Updates four display elements in the selected slot from the owner and layout, creating paired
+ * text values with modes one and 0x90 and offsetting the second copy by (-1, +1).
+ */
 void update_four_slot_element_values_and_positions(Rec_func_800B3FB8_arg0 *owner, S_800B3FB8_2 *layout, s32 slot_index) {
     s32 slot_offset;
     S_800B3FB8_0 *element;

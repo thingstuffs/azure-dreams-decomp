@@ -26,6 +26,7 @@ s32 register_node();
 void select_record_entry_and_value();
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 
+/* Returns the union of the supplied flag word and mask. */
 static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
 {
     return flags | mask;

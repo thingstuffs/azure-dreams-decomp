@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
@@ -156,12 +157,15 @@ void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
     return result;
 }
 
-/* MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
-   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
-   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */
-
-/* Runs actor behavior callbacks, updates facing and sprite tint, and advances motion with terrain
-   landing checks. */
+/*
+ * Runs actor behavior callbacks, updates facing and sprite tint, and advances motion with terrain
+ * landing checks.
+ *
+ * MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw /
+ * addiu). The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds
+ * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
+ * retail's.
+ */
 void update_block_motion_and_facing_slot_d(void *entity, CL_CC5000_80170C24_S_80170C24_2 *motion, void *monster)
 {
     void *actor = entity;
@@ -601,14 +605,14 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, void *context, 
             }
         }
     } else if (position_data->room_index >= 0 &&
-               dungeon_rooms[position_data->room_index].flags & 2) {
+               dungeon_rooms[position_data->room_index].flags & ROOM_HOLY_BEAM) {
         select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
-            (blocker->flags1C & 0x2000) &&
+            (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
                     ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
@@ -728,6 +732,10 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, void *context, 
     }
 }
 
+/*
+ * Sets action state 0x10, clears its tick, and selects the local eight-way sprite frame table
+ * using actor facing relative to the camera.
+ */
 void begin_block_hop_slot_d(CL_CC5000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CC5000_80171F58_S_80171F58_1 *render_state, CL_CC5000_80171F58_S_80171F58_2 *entity) {
     state->action = 0x10;
     state->action_tick = 0;
@@ -847,6 +855,10 @@ s32 check_block_action_ready_slot_d(void *entity_arg, void *primary_context_arg,
     return result;
 }
 
+/*
+ * When tile movement finishes, spends MP and advances status timers; installs the turn-action
+ * dispatcher and clears its counter only after a positive signed floor-trap check. /
+ */
 void finish_block_tile_move_slot_d(void *state_arg,void *position,void *render_state,void *entity) {
     S_801723DC_0 *state=state_arg;
     if (update_actor_movement_to_tile(state,position,render_state,entity) != 0) {
@@ -1003,6 +1015,10 @@ void update_block_hop_slot_d(void *action, ObjectPosition *motion, SpriteFrameSt
     }
 }
 
+/*
+ * Installs the local turn-action dispatcher after linked motion completes and the signed
+ * floor-trap check returns positive.
+ */
 void finish_block_linked_motion_slot_d(S_80172944_0 *state,void *position,void *render_state,void *entity) {
     if ((update_linked_actor_motion(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
         state->CL_CC5000_80172944_handler = dispatch_block_turn_actions_slot_d;
@@ -1338,18 +1354,25 @@ void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectP
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void update_block_defeat_slot_d(void *state,void *position,void *render_state,void *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void update_block_hop_shrink_slot_d(void *state,void *position,void *render_state,void *entity) {
     update_actor_hop_and_shrink(state,position,render_state,entity);
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void update_block_removal_slot_d(void *state,void *position,void *render_state,void *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs dispatch_block_turn_actions_slot_d when it returns
+ * nonzero.
+ */
 void finish_block_hop_grow_slot_d(S_80173364_0 *state,void *position,void *render_state,void *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
         state->CL_CC5000_80173364_handler = dispatch_block_turn_actions_slot_d;
@@ -1597,6 +1620,11 @@ void wait_block_mp_recovery_slot_d(void *actor_in, s32 actor_index, void *target
     }
 }
 
+/*
+ * Installs the turn-action dispatcher after parent motion and a positive signed floor-trap check;
+ * during motion, restores the local direction frames when alternate frames are active and flags
+ * 0x208 are clear.
+ */
 void update_block_parent_motion_slot_d(S_80173A38_0 *state, void *position, CL_CC5000_80173A38_S_80173A38_1 *sprite, CL_CC5000_80173A38_S_80173A38_2 *actor) {
     if (update_actor_transform_from_parent(state,position,sprite,actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
@@ -1608,24 +1636,37 @@ void update_block_parent_motion_slot_d(S_80173A38_0 *state, void *position, CL_C
     }
 }
 
+/*
+ * Installs the local turn-action dispatcher after thrown travel completes and the signed
+ * floor-trap check returns positive.
+ */
 void finish_block_thrown_travel_slot_d(S_80173B00_0 *state,void *position,void *render_state,void *entity) {
     if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
         state->CL_CC5000_80173B00_handler = dispatch_block_turn_actions_slot_d;
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_block_turn_actions_slot_d when it
+ * returns nonzero.
+ */
 void finish_block_terrain_move_slot_d(S_80173B64_0 *state,void *position,void *render_state,void *entity) {
     if (interpolate_actor_to_terrain_tile(state,position,render_state,entity) != 0) {
         state->CL_CC5000_80173B64_handler = dispatch_block_turn_actions_slot_d;
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs dispatch_block_turn_actions_slot_d when it returns
+ * nonzero.
+ */
 void finish_block_spinning_fall_slot_d(S_80173B9C_0 *state,void *position,void *render_state,void *entity) {
     if (update_spinning_actor_fall(state,position,render_state,entity) != 0) {
         state->CL_CC5000_80173B9C_handler = dispatch_block_turn_actions_slot_d;
     }
 }
 
+/* Runs update_actor_fade_in and installs dispatch_block_turn_actions_slot_d when it returns nonzero. */
 void finish_block_fade_in_slot_d(S_80173BD4_0 *state,void *position,void *render_state,void *entity) {
     if (update_actor_fade_in(state,position,render_state) != 0) {
         state->CL_CC5000_80173BD4_handler = dispatch_block_turn_actions_slot_d;
@@ -1692,11 +1733,13 @@ void create_gray_fading_sprite_slot_d(void *unused_context, Rec_func_80173CFC_ar
     }
 }
 
-/* MECHANISM: The four-argument ABI keeps source_pos/scale in s3/s4 while effect, effect_data, and
-   effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set.
-   One packed 12-byte assignment emits the retail lwl/lwr and swl/swr copy. */
-
-/* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
+/*
+ * Transforms four colored vertices and queues a visible shaded quad with the requested depth bias.
+ *
+ * MECHANISM: The four-argument ABI keeps source_pos/scale in s3/s4 while effect, effect_data, and
+ * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
+ * assignment emits the retail lwl/lwr and swl/swr copy.
+ */
 void draw_shaded_effect_quad_slot_d(void *quad, void *position, void *render_info, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -2362,11 +2405,19 @@ void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFra
     }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs dispatch_block_turn_actions_slot_d when it
+ * returns positive.
+ */
 void finish_block_floor_trap_slot_d(CL_CC5000_8017523C_CallbackState *state,void *position,void *sprite,void *entity) {
  if(resolve_actor_floor_trap_once(state,position,sprite,entity) > 0)
   state->handler=dispatch_block_turn_actions_slot_d;
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs dispatch_block_turn_actions_slot_d when it returns
+ * nonzero.
+ */
 void finish_block_action_flag_slot_d(CL_CC5000_80175274_CallbackState *state,void *position,void *sprite,void *entity) {
  if(propagate_actor_action_flag(state,position,sprite,entity) != 0)
   state->handler=dispatch_block_turn_actions_slot_d;

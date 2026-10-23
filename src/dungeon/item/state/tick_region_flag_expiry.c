@@ -1,3 +1,5 @@
+#include "shared/item_ids.h"
+#include "dungeon/level/room_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 typedef struct { u16 unk00; } Pre;
@@ -16,10 +18,10 @@ void tick_region_flag_expiry(void *state)
         countdown = ((State *)state)->unk08 - 1;
         ((State *)state)->unk08 = countdown;
         if ((countdown << 16) <= 0) {
-            if (((State *)state)->unk0A == 1) {
+            if (((State *)state)->unk0A == ITEM_HOLY_BELL) {
                 display_formatted_context_message(&D_800E18C8);
                 entry_index = ((State *)state)->unk0C;
-                dungeon_rooms[entry_index].unk0C = dungeon_rooms[entry_index].unk0C & 0xFFFD;
+                dungeon_rooms[entry_index].unk0C = dungeon_rooms[entry_index].unk0C & ROOM_HOLY_BEAM_CLEAR_MASK;
             }
             ((Pre *)state)[-1].unk00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

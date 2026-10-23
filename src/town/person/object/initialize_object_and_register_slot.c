@@ -17,7 +17,10 @@ typedef struct {
 extern s32 message_motion_type_a;
 extern s32 D_800C3438;
 
-/* Initializes object fields and registers the object in its slot. */
+/*
+ * Installs message_motion_type_a and D_800C3438, stores the four supplied data pointers, and
+ * registers the object header in object_index_slots.
+ */
 void initialize_object_and_register_slot(void *object, s32 slot_index, s32 field_58_value, s32 field_5c_value, s32 field_7c_value,
     s32 field_80_value)
 {

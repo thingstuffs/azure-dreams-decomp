@@ -10,7 +10,10 @@ extern char D_800227FB[];
 extern char *award_next_unearned_milestone(s32);
 extern s32 func_8001A64C(u32);
 
-/* Selects a string, with a state-dependent choice for selector 12. */
+/*
+ * Selects dialogue for IDs 18/19 and milestone awards for IDs 52 through 54; ID 12 chooses between
+ * D_8001D6B5 and D_8001D7A5 using F_sbs32_pad32, with scene_string_fallback for other IDs.
+ */
 char *select_string_state_dependent_choice(s32 unused_0, s32 unused_1, s32 text_id)
 {
     s32 selector = text_id;

@@ -7,17 +7,14 @@
  * Holds a byte-pointer value (base address of a working buffer). */
 extern s32 audio_sequence_data_base[4];
 
-/* D_800869B0: accessed via %hi/%lo (not gp_rel) in this and sibling funcs
- * (read_next_byte_and_finish, func_80058850, init_sequence_playback) -> declare size > 8 bytes.
- * Holds an integer bound/limit, compared unsigned against the loop index. */
-
-/* D_800737D0: hi/lo *address-of* (la, not lw) -> size must be > 8 bytes. Fixed byte
- * buffer compared against via compare_byte_span (strncmp-like helper), 3 bytes at a time. */
-
-/* strncmp-like byte comparator: compares a2 bytes of a0/a1, returns 0 on full match,
- * else the difference of the first mismatching byte pair (or -1 if a2==0). */
-
-/* Scans the working buffer for a three-byte match, returning its end offset or -1. */
+/*
+ * Compares audio_sequence_entry_marker at successive offsets through the unsigned stream limit,
+ * returning the offset just past the three-byte match or -1.
+ *
+ * audio_sequence_stream_limit and audio_sequence_entry_marker are declared larger than eight bytes
+ * to retain hi/lo addressing rather than gp-relative accesses. The former holds the unsigned scan
+ * limit; the latter supplies the three marker bytes.
+ */
 s32 scan_stream_for_three_byte_marker(s32 offset)
 {
     s32 comparison;

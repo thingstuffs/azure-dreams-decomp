@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/def_table.h"
@@ -118,13 +119,13 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
 scan_next:
                 if (slot_scan[8] == 0) {
                     flags = ((S_800C0E88_2 *)object)->unk_14;
-                    if (flags & 1) {
+                    if (flags & ACTOR_ELEMENT_FIRE) {
                         scan_slot = ((data[0] - 1) * 3) + 1;
                         slot_scan[8] = scan_slot;
-                    } else if (flags & 2) {
+                    } else if (flags & ACTOR_ELEMENT_WATER) {
                         scan_slot = ((data[0] - 1) * 3) + 2;
                         slot_scan[8] = scan_slot;
-                    } else if (flags & 4) {
+                    } else if (flags & ACTOR_ELEMENT_WIND) {
                         scan_slot = ((data[0] - 1) * 3) + 3;
                         slot_scan[8] = scan_slot;
                     }

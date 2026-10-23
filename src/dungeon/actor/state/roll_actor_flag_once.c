@@ -9,7 +9,7 @@ typedef struct S_800ADD20_0 {
 
 extern s32 generate_random_value(void);
 /* Once per object, set flag 0x100 if the computed low 16 bits are divisible by divisor. */
-void roll_actor_flag_once(S_800ADD20_0 *object, s32 divisor, s32 calc_arg2, s32 calc_arg3) {
+void roll_actor_flag_once(S_800ADD20_0 *object, s32 divisor, s32 unused_2, s32 unused_3) {
     s32 state_flags;
     u16 result_flags;
 

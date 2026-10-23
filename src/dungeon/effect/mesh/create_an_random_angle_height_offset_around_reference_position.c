@@ -49,7 +49,11 @@ typedef struct TargetObj {
     u8 pad14[0xC];
     TargetSub sub;
 } TargetObj;
-/* Creates an object at a random angle and height offset around the reference position. */
+/*
+ * Allocates a type-0x212 sprite with a random 12-bit angle, radius 0x20, and nonpositive random Z
+ * offset modulo 32 around effect_position_source. Selects expand_fade and registers sprite
+ * projection.
+ */
 void create_an_random_angle_height_offset_around_reference_position(void)
 {
     s32 axis_offset;

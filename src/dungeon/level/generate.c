@@ -1,3 +1,4 @@
+#include "shared/monster_ids.h"
 #include "dungeon/level/tile_flags.h"
 /* Floor layout loading, random room and corridor generation, and special room placement. */
 #include "shared/dungeon_status.h"
@@ -46,10 +47,12 @@ void mask_generation_cell_rect(s16 start_x, s16 start_y, s16 rect_width, s16 rec
     }
 }
 
+/* Calls mask_generation_cell_rect with 0, 0, 0x40, 0x40, 0. */
 void clear_generation_cell_masks(void) {
     mask_generation_cell_rect(0, 0, 0x40, 0x40, 0);
 }
 
+/* Clears the word at offset 0x0C in each of the 36 dungeon-room records. */
 void clear_thirty_six_table_fields(void) {
     s8 *entry;
     s32 remaining;
@@ -981,7 +984,7 @@ s32 setup_dungeon_floor_encounters(void)
             } else if (((s16 *)current_dungeon_floor)[0] == 0x1F && test_resident_bit(0x1389) == 0) {
                 dungeon_floor_object_positions[6] = 1;
                 dungeon_floor_object_positions[7] = 1;
-                ((u8 *)floor_objects)[0] = 0x37;
+                ((u8 *)floor_objects)[0] = MONSTER_BELDO;
                 ((u8 *)floor_objects)[1] = 0x13;
                 ((u8 *)floor_objects)[3] = 0;
                 ((u8 *)floor_objects)[2] = 0x63;
@@ -1042,7 +1045,7 @@ s32 setup_dungeon_floor_encounters(void)
                         u8 *odd_ids;
                         DungeonGlobalStatus *ds;
 
-                        monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
+                        monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
                         level = floor_data[2] + (generate_random_value() & 1);
                         if (level >= 100) {
                             level = 99;
@@ -1069,7 +1072,7 @@ s32 setup_dungeon_floor_encounters(void)
                         u8 *odd_ids;
                         DungeonGlobalStatus *ds;
 
-                        monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
+                        monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
                         level = ((s16 *)current_dungeon_floor)[0] + (generate_random_value() & 1);
                         if (level >= 100) {
                             level = 99;
@@ -1103,7 +1106,7 @@ s32 setup_dungeon_floor_encounters(void)
                     u8 *odd_ids;
                     DungeonGlobalStatus *ds;
 
-                    monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
+                    monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
                     level_bonus = generate_random_value() & 1;
                     i_m = 0;
                     base = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&g_dungeon_status);
@@ -1131,7 +1134,7 @@ s32 setup_dungeon_floor_encounters(void)
                     u8 *odd_ids;
                     DungeonGlobalStatus *ds;
 
-                    monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
+                    monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
                     level_bonus = generate_random_value() & 1;
                     i_m = 0;
                     ds = &g_dungeon_status;
@@ -1174,10 +1177,10 @@ void load_floor_spawn_tables(s16 resource_index)
     floor_generation_track_variant = resource_data[0x40];
 }
 
-/* MECHANISM: Packed 32-byte assignments express both retail unaligned copies.
-   Mixing one direct D_8014A000 copy with a held full-address local creates the retail
-   s1 high-page and s0 full-address roles, 0x28 frame, and 3+3+2 copy-register chunks. */
-
+/*
+ * Replaces code 2 with 0x39 in the indexed four-byte entry at 0x800121E8 when the saved index is
+ * nonnegative.
+ */
 void convert_valid_entry_code_2_to_39(void)
 {
     s32 index;
@@ -1199,10 +1202,12 @@ void convert_valid_entry_code_2_to_39(void)
     }
 }
 
-/* MECHANISM: Frameless leaf; the absolute base selects lui/ori; in-place index *= 4 preserves index-
-   first addu order. */
-
-/* Loads a sound resource into the alternate buffer and optionally starts its sound set. */
+/*
+ * Loads a sound resource into the alternate buffer and optionally starts its sound set.
+ *
+ * MECHANISM: Frameless leaf; the absolute base selects lui/ori; in-place index *= 4 preserves
+ * index- first addu order.
+ */
 s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
     u16 saved_index = 0;
@@ -1352,6 +1357,7 @@ s32 try_add_second_tower_entry(s16 entry_index) {
     return 0;
 }
 
+/* Sets g_dungeon_status.active_actor to one. */
 void set_first_table_entry_active(void) {
     g_dungeon_status.active_actor = 1;
 }
@@ -1664,6 +1670,10 @@ s32 generate_floor_layout(void)
     return 0;
 }
 
+/*
+ * Clears four blocked-direction marks, resets the forward limit to the room-column count, and
+ * clears both side-mark rows.
+ */
 void reset_generation_link_scratch(void) {
     s32 entry_index;
 
@@ -2577,7 +2587,7 @@ void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *re
 }
 
 /* Adds a room-sized special object in a free floor slot unless floor flags disable it. */
-void initialize_random_room_slot(void *room, s32 rng_arg1)
+void initialize_random_room_slot(void *room, s32 unused)
 {
     u8 *slot_data;
     s16 raw_size;
@@ -2683,7 +2693,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
 }
 
 /* Places random floor items in the room and marks eligible item tiles. */
-void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
+void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 unused) {
     s32 random_bits;
     u16 tile_flags;
     s16 count;
@@ -3049,10 +3059,10 @@ void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *
     }
 }
 
-/* MECHANISM: Frameless true-name leaf; narrow inner counters plus top-of-loop sign rematerialization
-   recover both loop shapes. Integer-address D_800E9FFA with scaled-index-first addition closes the
-   final addu. */
-
+/*
+ * While the step count is below nine, increments both counters and advances the paired offset by
+ * 0x20.
+ */
 void advance_generation_step_pair(void *step_state, s32 update_id)
 {
     if ((*((u16 *) (((u8 *) step_state) + 4))) < 9) {
@@ -3062,6 +3072,10 @@ void advance_generation_step_pair(void *step_state, s32 update_id)
     }
 }
 
+/*
+ * While the signed step count is positive, decrements both counters and retreats the paired offset
+ * by 0x20.
+ */
 void retreat_generation_step_pair(void *step_state, s32 update_id)
 {
     if (((s16 *) step_state)[2] > 0) {
@@ -3171,4 +3185,5 @@ x_loop_done:
     goto outer_loop;
 }
 
+/* Returns without reading or changing state. */
 void empty_dungeon_hook(s32 x, s32 y, s16 *tile, s32 kind, s32 amount) { }

@@ -2,7 +2,10 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A218C. */
 #include "town/shop/item_equip_selection_g00560.h"
 
-/* Set the entry flag and save the returned table index on success. */
+/*
+ * Sets entry flag 0x20 and searches 20 four-byte slots at 0x80010248; saves a successful index at
+ * 0x80012D52 and returns the search result.
+ */
 s32 set_the_entry_flag_save_returned_table_index_success(void *entry) {
     s32 entry_index;
 

@@ -5,6 +5,7 @@
 extern void func_804025B8(void *object, void *position, s32 mode);
 extern void func_804025F8(s32 row_value, s32 value, s32 mode);
 
+/* Sets the linked record X halfword to twice column_tripled minus half the object width plus 0xA2. */
 static __inline__ void store_first_coord(
     s32 *record,
     void *object,
@@ -14,11 +15,13 @@ static __inline__ void store_first_coord(
         (s16)((s32)(column_tripled << 1) - (*(s32 *)((u8 *)object + 0x18) / 2) + 0xA2);
 }
 
+/* Calls func_804025F8 with row_value, value, mode. */
 static __inline__ void call_second(s32 value, s32 row_value, s32 mode)
 {
     func_804025F8(row_value, value, mode);
 }
 
+/* Sets the linked record Y halfword to row times 0x11 minus half the object height plus 0x7A. */
 static __inline__ void store_second_coord(s32 *record, void *object, s32 row)
 {
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =

@@ -1,17 +1,10 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 
-typedef struct S_800A86BC_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800A86BC_0;   /* arg1 in update_fading_effect_motion */
 
    /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
 
@@ -24,14 +17,14 @@ typedef struct S_800A86BC_1 {
 extern void advance_sprite_animation_and_textures();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
-void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, SpriteFrameState *primitive) {
+void update_fading_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     u8 shade;
     u16 ticks_left;
 
-    motion->unk_14 = motion->unk_14 + ((S_800A86BC_1 *)effect)->unk_04;
-    motion->unk_00 = motion->unk_00 + motion->unk_0C;
-    motion->unk_04 = motion->unk_04 + motion->unk_10;
-    motion->unk_08 = motion->unk_08 + motion->unk_14;
+    motion->velocity_z = motion->velocity_z + ((S_800A86BC_1 *)effect)->unk_04;
+    motion->x.v = motion->x.v + motion->velocity_x;
+    motion->y.v = motion->y.v + motion->velocity_y;
+    motion->z.v = motion->z.v + motion->velocity_z;
     advance_sprite_animation_and_textures(primitive);
     shade = primitive->color.c.r;
     if (shade != 0) {

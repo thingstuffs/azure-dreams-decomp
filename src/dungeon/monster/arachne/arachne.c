@@ -738,6 +738,10 @@ void choose_arachne_move(void *move_data, void *context, void *position_data, vo
     }
 }
 
+/*
+ * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
+ * from D_80175A64.
+ */
 void advance_linked_actor_motion_script(void *object, void *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
@@ -864,6 +868,11 @@ s32 relink_arachne_path(void *entity_arg, void *primary_context_arg, void *secon
     return result;
 }
 
+/*
+ * On completed movement, spends MP and advances status timers, resuming target selection only
+ * after a positive signed floor-trap result. Clears the secondary action halfword when dungeon
+ * status flag 0x80 is set. /
+ */
 void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
@@ -991,6 +1000,10 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs update_actor_state_and_select_target only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void check_boss_effect_threshold(Resource12CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1498,16 +1511,22 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
     }
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void advance_familiar_defeat_sequence(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_arachne_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs update_actor_state_and_select_target when it returns
+ * nonzero.
+ */
 void finish_actor_hop_and_grow_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1753,6 +1772,11 @@ void resume_actor_target_selection_after_status_animation(void *controller, void
     }
 }
 
+/*
+ * Resumes target selection after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_arachne_parent_motion(R12_80173D64_Actor *actor, s32 action, R12_80173D64_Entity *entity, R12_80173D64_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1767,6 +1791,10 @@ void update_arachne_parent_motion(R12_80173D64_Actor *actor, s32 action, R12_801
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs update_actor_state_and_select_target only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void finish_thrown_actor_travel_and_floor_trap_then_select_target(Resource12CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1776,6 +1804,10 @@ void finish_thrown_actor_travel_and_floor_trap_then_select_target(Resource12Call
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_select_target when it
+ * returns nonzero.
+ */
 void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1783,6 +1815,10 @@ void finish_actor_terrain_interpolation_then_select_target(Resource12CallbackSta
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs update_actor_state_and_select_target when it
+ * returns nonzero.
+ */
 void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1790,6 +1826,10 @@ void finish_spinning_actor_fall_then_select_target(Resource12CallbackState *stat
     }
 }
 
+/*
+ * Runs update_actor_fade_in and installs update_actor_state_and_select_target when it returns
+ * nonzero.
+ */
 void finish_actor_fade_in_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1828,7 +1868,7 @@ void dim_effect_after_delay(void *effect) {
 }
 
 /* Projects curved grids for linked effects and queues their visible line segments by depth. */
-s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 callback_arg2)
+s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
 {
     R12_80173FDC_Frame frame;
     u8 *effect;
@@ -2068,9 +2108,12 @@ s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
-
-/* Transforms line endpoints and queues their colored line and drawing-mode packets at the adjusted depth. */
+/*
+ * Transforms line endpoints and queues their colored line and drawing-mode packets at the adjusted
+ * depth.
+ *
+ * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
+ */
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
     u8 *line_packet;
@@ -2213,6 +2256,10 @@ s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *
     }
 }
 
+/*
+ * Decrements the 16-bit lifetime and sets local and global removal flags when the signed result is
+ * zero or negative.
+ */
 void update_turning_fade_effect_and_model(void *record_data) {
     u16 remaining_count;
 
@@ -2745,6 +2792,10 @@ store_next_state:
     }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_select_target when it
+ * returns positive.
+ */
 void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -2752,6 +2803,10 @@ void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, 
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs update_actor_state_and_select_target when it
+ * returns positive.
+ */
 void finish_actor_action_flag_propagation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

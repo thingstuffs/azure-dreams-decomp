@@ -3,6 +3,10 @@
 #include "dungeon/system/town_map_entry_processor_g00214.h"
 #include "shared/object_flags.h"
 
+/*
+ * Processes the current entry and increments its index; at 128, clears town_map_processor and sets
+ * local and global removal flags.
+ */
 void advance_index_and_mark_completion(void *counterPtr) {
     s32 nextCounter;
 

@@ -107,6 +107,7 @@ extern u8 ribbon_particle_update_address[];
 extern u8 D_80173B4C[];
 extern u8 ribbon_vertices[];
 
+/* Returns the signed 16-bit value at step/7 along the supplied delta from the start value. */
 static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 {
     s16 value = start + delta * step / 7;

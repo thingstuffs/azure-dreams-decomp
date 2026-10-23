@@ -23,7 +23,11 @@ extern s32 process_the_item_index_available_report_success(TownActor *actor, s32
 extern void select_object_value_by_height_band(TownActor *actor, s32 context,
                           MotionVector *motion, s32 extra);
 
-/* Move toward the target and check for completion when the countdown expires. */
+/*
+ * Moves halfway toward view_reference_entity with a Z offset of 0x200000 each update. After
+ * countdown expiry, when item processing fails, restores the target height and selects the next
+ * height-band state.
+ */
 void move_toward_target_check_completion_countdown_expires(TownActor *actor, s32 context,
                    MotionVector *motion, s32 extra)
 {

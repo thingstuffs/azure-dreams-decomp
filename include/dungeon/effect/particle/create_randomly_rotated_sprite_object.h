@@ -14,16 +14,8 @@
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
-typedef struct B22_81893474_Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} B22_81893474_Motion;
 typedef struct B22_81893474_EffectState {
-    void *owner;
+    ActorRecord *owner;
     void *image;
     u8 unk8;
     u8 id;
@@ -43,8 +35,14 @@ typedef struct B22_81893474_ColorPart {
     u8 pad[0xC];
     u32 color;
 } B22_81893474_ColorPart;
+/* Target coordinates passed to terrain helpers; the original work area is
+ * sixteen bytes, followed by the independent orientation probe and flags. */
+typedef struct EffectTargetPosition {
+    Fixed1616 x, y, z;
+    u8 pad_0C[4];
+} EffectTargetPosition;
 typedef struct B22_81893474_Scratch {
-    s16 work[8];
+    EffectTargetPosition work;
     u8 gap[8];
     s16 probe[3];
     u8 result_gap[2];
@@ -312,7 +310,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
 void emit_animated_transform_copies(void *state, s32 draw_context, s32 update_context);
 void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
-void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part);
+void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
 void select_record_entry_and_value(void *, void *, s32);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 GetTPage(s32, s32, s32, s32);

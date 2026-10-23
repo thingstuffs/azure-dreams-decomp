@@ -8,9 +8,13 @@ extern int abs(int);
 s32 ratan2(s32, s32);             /* extern */
 
 
+/* Returns the larger of value and bound, enforcing a lower limit. */
 static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }
 
-/* Move both components toward zero by direction-dependent steps, clamping at zero. */
+/*
+ * Derives X/Y braking steps from the vector angle using sine/cosine times 32, then moves both
+ * motion components toward zero without crossing it.
+ */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record) {
     s32 clamped_x;
     s32 clamped_y;

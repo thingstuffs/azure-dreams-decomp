@@ -2,7 +2,11 @@
 /* Original-file evidence (G00541): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800991C4, CL:town/func_800992D0, CL:town/func_800992FC. */
 #include "town/player/fallback_handler_position_g00541.h"
 
-/* Dispatch to the matching or fallback handler using sentinel-terminated key lists. */
+/*
+ * Computes and publishes a position offset for a matching primary key, requiring a second key
+ * match for town_position_callback_address. Clears town_overlap_origin when neither key list
+ * matches.
+ */
 void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor)
 {
     s32 *key_cursor;
@@ -34,12 +38,16 @@ void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(U
     clear_global_80100_d_20();
 }
 
-/* Clears D_80100D20. */
+/* Clears town_overlap_origin. */
 void clear_global_80100_d_20(void) {
     town_overlap_origin = 0;
 }
 
-/* Computes the record-based position offset and publishes the resulting vector. */
+/*
+ * Looks up the flagged resource record and computes a rotated scale/height offset from D_800D0AE4
+ * plus the supplied vector, publishing computed_position through town_overlap_origin. Clears the
+ * published pointer when no record is found.
+ */
 void compute_the_based_position_offset_publishes_resulting_vector(void *object, IntVector3 *offset, void *resources) {
     Record *record;
     s32 angle;

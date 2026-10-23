@@ -20,7 +20,10 @@ typedef struct TownObject {
 extern TownState town_actor_control;
 extern void init_linked_position_action(TownObject *, IntVector3 *, void *);
 
-/* Move halfway toward the linked position and call func_80094834 when the timer expires. */
+/*
+ * Moves each coordinate halfway toward the linked actor position and starts
+ * init_linked_position_action when the countdown becomes negative.
+ */
 void approach_linked_position_until_timeout(TownObject *object, IntVector3 *position, void *context)
 {
     position->x = (town_actor_control.link->position->x + position->x) / 2;

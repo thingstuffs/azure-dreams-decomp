@@ -21,8 +21,8 @@ void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridO
         /* MATCH: Preserve retail's source register after making call arguments explicit. */
     s32 *source;
         /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
-    S_800BDE7C_0 *call_arg0 = record;
-    TownGridOutputView *call_arg2 = output;
+    S_800BDE7C_0 *saved_record = record;
+    TownGridOutputView *saved_output = output;
 
     state = record->unk_68.s;
     source = record->unk_A0;

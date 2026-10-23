@@ -18,7 +18,11 @@ void call_the_callee_800962_b_8_callee_80096208(void *);                 /* exte
 extern Motion town_collision_motion;
 #define D_80100000 ((s32 *)0x80100000)
 
-/* Resolves movement collisions along one axis using boundary probes and tile offsets. */
+/*
+ * Chooses whether to apply X then Y boundary correction or Y then X from the signs of
+ * town_collision_motion and probes at the previous axis positions. For diagonal movement, uses the
+ * combined previous-position probe or the offsets within the 64-unit tile to choose the order.
+ */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position) {
     s32 probe_coord;
     struct {

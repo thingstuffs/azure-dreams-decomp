@@ -11,7 +11,7 @@ void submit_object_resource_data();                         /* extern */
 struct Rec_func_80094268_arg0; void initialize_motion_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 #include "records/Rec_func_80094268_arg0.h"
 void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
-struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);     /* extern */
+struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);     /* extern */
 struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);     /* extern */
@@ -30,13 +30,6 @@ extern s32 town_actor_control;
 typedef struct S_80090A74_1 {
     u8 unk_00;
 } S_80090A74_1;   /* &D_800CFCEF in dispatch_actor_interaction_actions */
-
-typedef struct S_80090A74_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_80090A74_2;
 
 
 typedef struct S_80090A74_4 {
@@ -71,7 +64,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), height, (struct TownVec * *)(height_data));
     }
     if (((s32)input_state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct S_800942B0_0 *)(record), context);
+        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(record), context);
         return;
     }
     if (((s32)input_state->pressed_buttons) & 0x40) {

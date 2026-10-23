@@ -100,6 +100,7 @@ extern u8 reference_tile_object[];
 extern u16 reference_tile_position_alias;
 extern D_800E2970Entry dungeon_rooms[];
 
+/* Returns the unsigned byte at the supplied byte offset in dir_step_y. */
 static __inline__ u8 get_y_step(s16 byte_offset) {
     return ((u8 *)dir_step_y)[byte_offset];
 }

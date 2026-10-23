@@ -37,7 +37,11 @@ typedef struct {
 
 extern OffsetGlobal effect_position_source;
 
-/* Builds and projects a textured, vertex-colored quad and links it into the ordering table. */
+/*
+ * Builds a four-color textured quad with CLUT 0x7DCF and texture page (0x300, 0x100), translating
+ * the scratch vertices by effect_position_source before projection. Links it into the ordering
+ * table only for depths below 0x1E0 and returns zero.
+ */
 s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 color0, s32 color1, s32 color2, s32 color3) {
     Poly *quad;
     Context *u_right;

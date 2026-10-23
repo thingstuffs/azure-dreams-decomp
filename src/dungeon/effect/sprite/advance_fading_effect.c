@@ -188,6 +188,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
     }
 }
 
+/* Returns the end-minus-start difference as a 32-bit value. */
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 {
     return end - start;
@@ -407,13 +408,15 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
     return 0;
 }
 
-/* MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases.
-   Each interpolation arm keeps its coordinates, steps and mask in arm-local variables
-   (single-lifetime quantities for local-alloc), while delta and line_or_red stay function-wide;
-   the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
-
-/* Moves a line effect to a linked actor or forward tile, emits radial sprites, and applies a nearby
-   status effect. */
+/*
+ * Moves a line effect to a linked actor or forward tile, emits radial sprites, and applies a
+ * nearby status effect.
+ *
+ * MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases. Each
+ * interpolation arm keeps its coordinates, steps and mask in arm-local variables (single-lifetime
+ * quantities for local-alloc), while delta and line_or_red stay function-wide; the masked step_x
+ * read gives the mask the extra reference that orders it ahead of y0.
+ */
 void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {
     u8 *root;

@@ -1,12 +1,8 @@
 #include "common.h"
+#include "shared/town_pointees.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
-
-typedef struct S_806F18F8_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_806F18F8_3;   /* ((S_806F18F8_1 *)state)->unk_1C in submit_position_record_copy */
 
 typedef struct S_806F18F8_4 {
     u8 pad_00[0x208];
@@ -20,8 +16,8 @@ void submit_position_record_copy(void) {
     Rec_D_80016000 *state;
 
     state = town_scene_root;
-    record[0] = ((S_806F18F8_3 *)(state->position))->unk_04;
-    record[1] = ((S_806F18F8_3 *)(state->position))->unk_04;
+    record[0] = ((TownPositionState *)(state->position))->x;
+    record[1] = ((TownPositionState *)(state->position))->x;
     record[2] = 0;
     ((S_806F18F8_4 *)(state->services))->unk_208(0);
     ((s32 (*) (s32 *))town_scene_root->services->callback_228)(record);

@@ -30,7 +30,12 @@ typedef struct S_800AD594_1 {
 
 extern s32 get_entity_effect_value(void *, s32);
 
-/* Apply a modified reduction to an entity's stored amount and handle a drop to zero. */
+/*
+ * For a positive signed kind ID, subtracts a status-adjusted reduction from the actor's 8.8 MP and
+ * applies the stored cap, honoring no-drain, half-drain, and double-drain states. Keeps Kewne and
+ * kind 0x39 above zero in dungeon mode one; otherwise handles exhausted MP by clearing lifted
+ * links and recording the transition in the pending-action count.
+ */
 void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
     s32 remaining_amount;
     s32 reduction;

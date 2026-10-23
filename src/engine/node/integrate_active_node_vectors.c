@@ -25,7 +25,7 @@ typedef struct S_8004027C_vec {
 
 extern Node *active_node_list_head;
 
-/* Add velocity to position for each node in D_80081498 with flag 0x8 set. */
+/* Adds velocity to all three position coordinates for active nodes with flag 0x8. */
 void integrate_active_node_vectors(void) {
     Node *node = active_node_list_head;
 

@@ -15,8 +15,11 @@
 #define PPTR(v)     ((void *)(u32)(v))
 #define PVAL(p)     ((u32)(p))
 
-/* port body: port/hal/resident_gap2.c:201 */
-/* Returns the first unused slot in the twenty-entry pool, or NULL if full. */
+/*
+ * Returns the first unused slot in the twenty-entry pool, or NULL if full.
+ *
+ * port body: port/hal/resident_gap2.c:201
+ */
 void *runtime_find_unused_pool_slot(void)
 {
     u8 *slot = runtime_object_pool;

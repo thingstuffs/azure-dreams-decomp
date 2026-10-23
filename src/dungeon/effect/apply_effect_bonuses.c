@@ -1,3 +1,5 @@
+#include "shared/item_ids.h"
+#include "shared/actor_property_flags.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -53,7 +55,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         s32 value_bonus =
             (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
-        s32 flags = record->flags14 | 1;
+        s32 flags = record->flags14 | ACTOR_ELEMENT_FIRE;
         record->flags14 = flags;
         record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
         return;
@@ -63,7 +65,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         s32 value_bonus =
             (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
-        s32 flags = record->flags14 | 2;
+        s32 flags = record->flags14 | ACTOR_ELEMENT_WATER;
         record->flags14 = flags;
         record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
         return;
@@ -73,16 +75,16 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         s32 value_bonus =
             (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
-        s32 flags = record->flags14 | 4;
+        s32 flags = record->flags14 | ACTOR_ELEMENT_WIND;
         record->flags14 = flags;
         record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
         return;
     }
     case 6:
         type6_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | 1);
-        if (type6_data->unk_01 == 0x10) {
-            if (type6_data->unk_00 == 6) {
+        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_FIRE);
+        if (type6_data->unk_01 == ITEM_KIND_WAND) {
+            if (type6_data->unk_00 == ITEM_SCARLET_WAND) {
                 record->unk_20 = (s16) ((u16) record->unk_20
                     + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
@@ -108,9 +110,9 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         return;
     case 7:
         type7_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | 2);
-        if (type7_data->unk_01 == 0x10) {
-            if (type7_data->unk_00 == 7) {
+        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_WATER);
+        if (type7_data->unk_01 == ITEM_KIND_WAND) {
+            if (type7_data->unk_00 == ITEM_STREAM_WAND) {
                 record->unk_20 = (s16) ((u16) record->unk_20
                     + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
@@ -136,9 +138,9 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         return;
     case 8:
         type8_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | 4);
-        if (type8_data->unk_01 == 0x10) {
-            if (type8_data->unk_00 == 8) {
+        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_WIND);
+        if (type8_data->unk_01 == ITEM_KIND_WAND) {
+            if (type8_data->unk_00 == ITEM_GULF_WAND) {
                 record->unk_20 = (s16) ((u16) record->unk_20
                     + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
@@ -165,36 +167,36 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     case 12:
     case 39:
     case 42:
-        record->flags14 = record->flags14 | 1;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_FIRE;
         return;
     case 13:
     case 40:
     case 43:
-        record->flags14 = record->flags14 | 2;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_WATER;
         return;
     case 15:
     case 18:
-        record->flags14 = record->flags14 | 1;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_FIRE;
         return;
     case 16:
     case 19:
-        record->flags14 = record->flags14 | 2;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_WATER;
         return;
     case 21:
-        record->flags14 = record->flags14 | 1;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_FIRE;
         return;
     case 22:
-        record->flags14 = record->flags14 | 2;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_WATER;
         return;
     case 30:
     case 33:
     case 36:
-        record->flags14 = record->flags14 | 1;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_FIRE;
         return;
     case 31:
     case 34:
     case 37:
-        record->flags14 = record->flags14 | 2;
+        record->flags14 = record->flags14 | ACTOR_ELEMENT_WATER;
         return;
     case 14:
     case 17:
@@ -205,7 +207,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     case 38:
     case 41:
     case 44:
-        updated_flags = record->flags14 | 4;
+        updated_flags = record->flags14 | ACTOR_ELEMENT_WIND;
         record->flags14 = updated_flags;
         return;
     case 48:

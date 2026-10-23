@@ -22,7 +22,10 @@ typedef struct S_80048B8C {
     u8 *listEnd;
 } S_80048B8C;
 
-/* Mark unprocessed type-2 node sequences and set the low six value bits to 14. */
+/*
+ * Walks type-two entry sequences, marks unprocessed roots with flag 8, and replaces each node
+ * value low six bits with 14 through the node carrying terminator flag 0x80.
+ */
 void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(S_80048B8C *entries) {
     u8 *entry_pos;
     S_80048B8C_node *node;

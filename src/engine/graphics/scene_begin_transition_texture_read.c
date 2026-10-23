@@ -3,10 +3,12 @@
 #include "slus.h"
 #include "slus/data.h"
 
-/* opaque global buffer registered as a task/timer entry; size unknown but
-   must be >8 bytes to force %hi/%lo addressing (matches gp-vs-hilo rule) */
-
-/* Clears the task state and registers task 6 and its follow-up callback. */
+/*
+ * Clears the task state and registers task 6 and its follow-up callback.
+ *
+ * opaque global buffer registered as a task/timer entry; size unknown but must be >8 bytes to
+ * force %hi/%lo addressing (matches gp-vs-hilo rule)
+ */
 void scene_begin_transition_texture_read(unsigned char *task_state)
 {
     *task_state = 0;

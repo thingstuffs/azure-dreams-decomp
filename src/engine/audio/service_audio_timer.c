@@ -8,7 +8,7 @@
  * element type reflects the access width, the array length is provisional. */
 extern int audio_timer_update_enabled[4];
 
-/* Call open_timer_2_update_event when D_80086D4C[0] is 1 through 3, then always set D_80073824[0] to 1. */
+/* Updates timer 2 for audio slot service states 1 through 3, then enables audio timer updates. */
 void service_audio_timer(void)
 {
     if (audio_slot_service_word[0] > 0) {

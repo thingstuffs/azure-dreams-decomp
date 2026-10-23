@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #ifdef PERMUTER_PARSER
 #define GEOM_SIDE_EFFECTS() (*(GeomSideEffects *)0)
 #else
@@ -217,7 +218,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     entry_table = (u8 *) (&floor_objects);
 
     entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
-    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & 8))
+    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *entry_table;
         entry_table = &dungeon_floor_object_positions;
@@ -471,7 +472,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
 
                         *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                         *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                        if ((dungeon_floor_flags[0] & 8) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
+                        if ((dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
                         AddPrim(((u8 *) (scr->unk_020))

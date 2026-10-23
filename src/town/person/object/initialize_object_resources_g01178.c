@@ -44,7 +44,10 @@ void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s3
     }
 }
 
-/* Clear the object's slot in the D_80082660 table, then run the shared handler. */
+/*
+ * Clears the object-index slot selected by the word at offset 0x60, then runs
+ * apply_object_setup_and_update.
+ */
 void clear_object_slot_table_run(void *obj, s32 param_a, s32 param_b)
 {
     *(((u8 *) (object_index_slots)) + ((*((s32 *) (((s8 *) obj) + 0x60))) * 8)) = 0;

@@ -7,12 +7,15 @@
  * value in audio_initialize_resident_sequence). */
 extern s32 audio_sequence_data_base[4];
 
-/* S_800869B0: array whose element 0 is a size/count value (unsigned compare
- * against a running index in func_80058850; set to 0xC000 in audio_initialize_resident_sequence). */
-
-/* Fixed 4-byte data blob compared against entries in the D_80085FA4[0] table. */
-
-/* Searches from start_index for D_800330FC's four bytes, returning the index after the match or -1. */
+/*
+ * Searches from start_index for audio_sequence_header_tag's four bytes, returning the index after
+ * the match or -1.
+ *
+ * S_800869B0: array whose element 0 is a size/count value (unsigned compare against a running
+ * index in find_sequence_magic_after_offset; set to 0xC000 in audio_initialize_resident_sequence).
+ *
+ * Fixed 4-byte data blob compared against entries in the audio_sequence_data_base[0] table.
+ */
 s32 find_sequence_magic_after_offset(s32 start_index)
 {
     s32 byte_index = start_index;

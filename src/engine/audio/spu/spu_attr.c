@@ -5,11 +5,12 @@
 
 
 
-/* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
- * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
-
-
-/* Enables/disables SPU reverb and mirrors the active flag in D_800794F8. */
+/*
+ * Enables/disables SPU reverb and mirrors the active flag in spu_reverb_enabled.
+ *
+ * Rodata owner: the row's switch emits its jump table(s) into this object's .rodata, placed at the
+ * retail address by config/slus_modules.json (assets/800.bin carve).
+ */
 s32 SpuSetReverb(s32 enable)
 {
     u16 spu_control;

@@ -8,8 +8,6 @@ s32 select_object_setup_path();         /* extern */
 s32 func_800CDE9C();     /* extern */
 s32 func_800CDFF8();
 
-/* extern */
-
 /* Update spin and vertical motion, then handle ground contact and remaining bounces. */
 void update_spin_vertical_motion_and_bounces(Rec_func_80094268_arg0 *entity, EntityRec *motion, s32 context) {
     s16 remaining_bounces;

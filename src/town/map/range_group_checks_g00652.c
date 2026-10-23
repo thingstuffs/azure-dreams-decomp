@@ -33,8 +33,7 @@ s32 check_masked_value_in_current_range(s32 value) {
     state = (s8 *)&map_runtime_state;
     value &= 0x3FFF;
     if (*(s16 *)(state + 0x18) != 0xC) {
-        find_containing_range_group(value, (s16 * *)(&D_800D4640));
-        return;
+        return find_containing_range_group(value, (s16 * *)(&D_800D4640));
     }
     if (*(s16 *)(state + 0x1A) == 0xD) {
         if (find_containing_range_group(value, (s16 * *)(&D_800D4658)) != 0) {

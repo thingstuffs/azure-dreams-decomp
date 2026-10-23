@@ -11,7 +11,10 @@ typedef struct {
 extern s16 find_minimum_sampled_position(UnkStruct *, s32 *, s32);
 extern s32 D_800CFD98[];
 
-/* Check the position with its second coordinate adjusted by the stored offset. */
+/*
+ * Copies the position with its stored Y offset subtracted and returns the minimum of two samples
+ * using D_800CFD98.
+ */
 s16 check_the_position_second_coordinate_adjusted_stored_offset(void *source_record) {
     UnkStruct adjusted_position;
 

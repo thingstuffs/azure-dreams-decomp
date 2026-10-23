@@ -29,6 +29,10 @@ extern s32 func_800B2400(void *);
 static void sort_selected_record_entries(void *);
 extern void set_object_data_pointer_if_present(void *);
 
+/*
+ * Calls sort_entries_by_category with ((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14))* 4)+
+ * record)))->unk_3C.
+ */
 static void sort_selected_record_entries(void *record) {
     sort_entries_by_category(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
 }

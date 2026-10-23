@@ -104,6 +104,7 @@ typedef struct S_func_80174228_10 {
 #define OUTX ((S_func_80174228_0 *)storage)->unk_78
 #define OUTY ((S_func_80174228_0 *)storage)->unk_7A
 
+/* Returns the signed input divided by 23 with integer truncation. */
 static __inline__ s16 divide_tex(s16 n) { return n / 23; }
 extern s32 RotTransPers();
 extern s16 GetTPage();
@@ -113,9 +114,10 @@ extern void transform_rotated_vertices();
 
 extern u8 D_8017087C[];
 
-/* Render linked items as shaded textured strips using projected bounds and a mirrored height profile. */
-/* Draws each linked effect as 23 shaded texture strips with a mirrored height profile and center
- * displacement. */
+/*
+ * Draws each linked effect as 23 shaded texture strips with a mirrored height profile and center
+ * displacement.
+ */
 s32 render_linked_items_as_textured_strips(u8 *item_data)
 {
     u8 storage[0x80];

@@ -2,12 +2,20 @@
 #include "dungeon/actor/object/initialize_action_object_type_three.h"
 
 
+/*
+ * Selects type_three_action_handler_table, installs update_movement_and_expire_state, and sets the
+ * action count to 3.
+ */
 void initialize_action_object_type_three(Rec_func_80094268_arg0 *object) {
     call_the_handler_selects_nonzero_entry(&type_three_action_handler_table, object);
     object->unk_00.as_pm = (void *)update_movement_and_expire_state;
     object->unk_0A.as_s16 = 3;
 }
 
+/*
+ * Dispatches the mode-selected sound, sets flags14 to 0xFFEF0000, selects D_800D00B0, and installs
+ * update_actor_and_dispatch_state with count zero.
+ */
 void initialize_actor_action_state(Rec_func_80094268_arg0 *object, EntityRec *state, s32 setupArg) {
     dispatch_sound_by_global_flag();
     state->flags14 = 0xFFEF0000;
@@ -16,22 +24,32 @@ void initialize_actor_action_state(Rec_func_80094268_arg0 *object, EntityRec *st
     object->unk_0A.as_s16 = 0;
 }
 
+/* Installs update_threshold_and_interaction and clears the action counter. */
 void initialize_threshold_interaction_action(Rec_func_8009431C_arg0 *record) {
     record->unk_00.as_pm = (void *)update_threshold_and_interaction;
     record->unk_0A = 0;
 }
 
+/* Selects D_800D00C0, installs update_countdown_and_fallback, and sets the action count to 6. */
 void initialize_action_object_type_six(Rec_func_80094268_arg0 *object) {
     call_the_handler_selects_nonzero_entry(&D_800D00C0, object);
     object->unk_00.as_pm = (void *)update_countdown_and_fallback;
     object->unk_0A.as_s16 = 6;
 }
 
+/*
+ * Selects action_object_handler_table and installs update_threshold_bound_object as the object
+ * callback.
+ */
 void initialize_action_object(s32 **object) {
     call_the_handler_selects_nonzero_entry(&action_object_handler_table, object);
     *object = (void *)update_threshold_bound_object;
 }
 
+/*
+ * Stores the shared angle, selects D_800D0108, and installs update_actor_movement_actions with
+ * count 6.
+ */
 void initialize_movement_action_count_six(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra) {
     store_the_valid_shared_angle_in_offset_hex_10(object);
     call_the_handler_selects_nonzero_entry(&D_800D0108, object, context);
@@ -39,6 +57,10 @@ void initialize_movement_action_count_six(Rec_func_80094268_arg0 *object, s32 se
     object->unk_0A.as_s16 = 6;
 }
 
+/*
+ * Plays sound 0x50B, stores the shared angle, selects D_800D0110, and installs
+ * update_actor_input_actions.
+ */
 void initialize_action_object_and_play_sound(s32 **object, s32 unused, s32 context) {
     SD_Call(0x50B);
     store_the_valid_shared_angle_in_offset_hex_10(object);
@@ -46,12 +68,17 @@ void initialize_action_object_and_play_sound(s32 **object, s32 unused, s32 conte
     *object = (void *)update_actor_input_actions;
 }
 
+/* Selects D_800D0118 and installs dispatch_actor_interaction_with_fallback with count 6. */
 void initialize_action_handler_with_count_six(ovl_16b08_local_7FFF6D14_InitState *state, void *unused, void *context) {
     call_the_handler_selects_nonzero_entry(D_800D0118, state, context);
     state->callback = (void *)dispatch_actor_interaction_with_fallback;
     state->count = 6;
 }
 
+/*
+ * Plays sound 0x511, selects counted_action_handler_table, and installs
+ * update_actor_with_interaction_state with count 6.
+ */
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *object, s32 unused, s32 context) {
     SD_Call(0x511);
     call_the_handler_selects_nonzero_entry(&counted_action_handler_table, object, context);
@@ -59,11 +86,16 @@ void initialize_action_object_with_counter(Rec_func_80094268_arg0 *object, s32 u
     object->unk_0A.as_s16 = 6;
 }
 
+/* Selects movement_action_handler_table and installs update_actor_movement_and_interaction. */
 void initialize_actor_movement_interaction_action(ovl_16b08_local_7FFF6DBC_InitState *state, void *unused, void *context) {
     call_the_handler_selects_nonzero_entry(movement_action_handler_table, state, context);
     state->callback = (void *)update_actor_movement_and_interaction;
 }
 
+/*
+ * Sets the halfword at offset 0x3E to 6, stores the shared angle, selects D_800D0130, and installs
+ * update_actor_position_and_interaction.
+ */
 void initialize_actor_position_interaction_action(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra) {
     object->unk_3E.as_s16 = 6;
     store_the_valid_shared_angle_in_offset_hex_10(object);
@@ -71,6 +103,10 @@ void initialize_actor_position_interaction_action(Rec_func_80094268_arg0 *object
     object->unk_00.as_pm = (void *)update_actor_position_and_interaction;
 }
 
+/*
+ * Dispatches the mode-selected sound, sets flags14 to 0xFFEF0000, selects D_800D0140, and installs
+ * update_town_object_from_input.
+ */
 void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s32 initContext) {
     dispatch_sound_by_global_flag();
     state->flags14 = 0xFFEF0000;
@@ -78,16 +114,22 @@ void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s3
     *outputSlot = (void *)update_town_object_from_input;
 }
 
+/* Selects D_800D0148 and installs update_threshold_object_with_interaction. */
 void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState *state, void *unused, void *context) {
     call_the_handler_selects_nonzero_entry(D_800D0148, state, context);
     state->callback = (void *)update_threshold_object_with_interaction;
 }
 
+/* Selects action_object_handler_table and installs update_actor_movement_with_radial_effects. */
 void initialize_action_callback_from_entry(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context) {
     call_the_handler_selects_nonzero_entry(action_object_handler_table, state, context);
     state->callback = (void *)update_actor_movement_with_radial_effects;
 }
 
+/*
+ * Stores the shared angle, selects countdown_action_handler_table, and installs
+ * update_threshold_countdown_with_busy_check with count 6.
+ */
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context) {
     store_the_valid_shared_angle_in_offset_hex_10(state, argument, context);
     call_the_handler_selects_nonzero_entry(countdown_action_handler_table, state, context);
@@ -95,6 +137,7 @@ void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState
     state->count = 6;
 }
 
+/* Installs update_actor_interaction_actions and sets the action counter to 0x13. */
 void initialize_actor_interaction_state_19(Rec_func_80094268_arg0 *record) {
     record->unk_00.as_pm = (void *)update_actor_interaction_actions;
     record->unk_0A.as_s16 = 0x13;

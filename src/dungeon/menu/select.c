@@ -2,6 +2,28 @@
 #include "shared/object_links.h"
 #include "shared/gpu_packets.h"
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
+
+enum SelectionMenuState {
+    SELECTION_MENU_INIT = 0,
+    SELECTION_MENU_OPEN = 1,
+    SELECTION_MENU_INPUT = 2,
+    SELECTION_MENU_WAIT_CHILDREN = 3,
+    SELECTION_MENU_CLOSE = 4,
+};
+
+enum PreviewFadeState {
+    PREVIEW_FADE_INIT = 0,
+    PREVIEW_FADE_IN = 1,
+    PREVIEW_FADE_HOLD = 2,
+    PREVIEW_FADE_OUT = 3,
+};
+
+enum SelectionShadeState {
+    SELECTION_SHADE_INIT = 0,
+    SELECTION_SHADE_IN = 1,
+    SELECTION_SHADE_OUT_INIT = 3,
+    SELECTION_SHADE_OUT = 4,
+};
 #include "dungeon/level.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/select.h"
@@ -142,7 +164,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
     state_base = &g_game_work;
     state = ((S_8002520C_0 *)menu)->unk_1C;
     switch ((u32)state) {
-    case 0:
+    case SELECTION_MENU_INIT:
         register_node(menu - 0x20, &render_three_by_three_terrain_grid);
         motion->unk_02 = -0x180;
         motion->unk_06 = -0x20;
@@ -152,7 +174,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         ((S_8002520C_0 *)menu)->unk_22 = 8;
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
                     /* fallthrough */
-    case 1:
+    case SELECTION_MENU_OPEN:
         side_data = (void *)(((S_8002520C_0 *)menu)->unk_22);
         if (((s16)side_data) != 0) {
             motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
@@ -178,7 +200,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             appearance->unk_0C = 0x80U;
             ((S_8002520C_0 *)menu)->unk_22 = 0;
             ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
-            case 2:
+            case SELECTION_MENU_INPUT:
         }
         if (selection_blink_timer[0] == 0) {
             S_8002520C_6 *cell;
@@ -367,7 +389,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             }
         }
         break;
-    case 3:
+    case SELECTION_MENU_WAIT_CHILDREN:
         for (side_count = 0, side_cursor = menu; (s32) side_count < 2; side_count++, side_cursor += 4) {
             side_object = ((S_8002520C_15 *)side_cursor)->unk_0C;
             if ((side_object != NULL) && (((S_8002520C_16 *)side_object)->unk_B6 != 0)) {
@@ -378,7 +400,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
         motion->unk_16 = 8U;
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
         /* fallthrough */
-    case 4:
+    case SELECTION_MENU_CLOSE:
                 exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
                 if (exit_ticks != 0) {
                     motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
@@ -476,7 +498,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
     (*(u16 *)selection_animation_counters) = update_count;
     phase = ((S_80025A14_0 *)state)->unk_72.s;
     switch (phase) {
-    case 0:
+    case PREVIEW_FADE_INIT:
         unit_scale = 0x1000;
         ((S_80025A14_1 *)buffer)->unk_02 = 0;
         ((S_80025A14_1 *)buffer)->unk_06 = 0;
@@ -493,7 +515,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         ((S_80025A14_0 *)state)->unk_73.s = 8;
         ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;
                         /* fall through */
-    case 1:
+    case PREVIEW_FADE_IN:
         fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
         if (fade_ticks != 0) {
             fade_in_value = ((S_80025A14_2 *)obj_arg)->unk_0E;
@@ -513,7 +535,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
             ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
         }
                         /* fall through */
-    case 2:
+    case PREVIEW_FADE_HOLD:
         if (selection_menu_closing != 0) {
             ((S_80025A14_0 *)state)->unk_73.u = 8;
             ((S_80025A14_1 *)buffer)->unk_16 = 8;
@@ -521,7 +543,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
             ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
         }
         break;
-    case 3:
+    case PREVIEW_FADE_OUT:
         fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
         if (fade_ticks != 0) {
             fade_out_value = ((S_80025A14_2 *)obj_arg)->unk_0E;
@@ -600,7 +622,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     render_context = &g_game_work;
     state = object->unk_72.s;
     switch (state) {
-    case 0:
+    case PREVIEW_FADE_INIT:
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0E = 0U;
@@ -617,7 +639,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
         sprite->unk_24 = (u8) (((s8 *)dir_step_x)[direction * 2] + 1);
         sprite->unk_25 = (u8) (((s8 *)dir_step_y)[direction * 2] + 1);
         object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
-    case 1:
+    case PREVIEW_FADE_IN:
         fade_in_ticks = (void *) object->unk_73.s;
         if (fade_in_ticks != NULL) {
             fade_in_level = sprite->unk_0E;
@@ -635,14 +657,14 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
             object->unk_73.u = 0U;
             object->unk_72.u = (u8) (object->unk_72.u + 1);
         }
-    case 2:
+    case PREVIEW_FADE_HOLD:
         if (selection_menu_closing != 0) {
             object->unk_73.u = 8U;
             position->unk_16 = 8;
             object->unk_72.u = (u8) (object->unk_72.u + 1);
         }
         break;
-    case 3:
+    case PREVIEW_FADE_OUT:
         fade_out_ticks = object->unk_73.s;
         if (fade_out_ticks != 0) {
             fade_out_level = sprite->unk_0E;
@@ -806,11 +828,11 @@ void initialize_children_or_shutdown(void *owner)
     if (status->buttons & 0x20) {
         main_child = ((S_80026190_0 *)owner)->unk_00;
         if (main_child != NULL) {
-            ((S_80026190_2 *)main_child)->unk_1C = 3;
+            ((S_80026190_2 *)main_child)->unk_1C = SELECTION_MENU_WAIT_CHILDREN;
         }
         aux_child = ((S_80026190_0 *)owner)->unk_04;
         if (aux_child != NULL) {
-            ((S_80026190_3 *)aux_child)->unk_0E = 3;
+            ((S_80026190_3 *)aux_child)->unk_0E = SELECTION_SHADE_OUT_INIT;
         }
         selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
@@ -996,7 +1018,7 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
 
     state = effect->state.s;
     switch (state) {
-    case 0:
+    case SELECTION_SHADE_INIT:
         register_node((u8 *)effect - 0x20, &queue_four_shaded_quadrants);
         effect->x.s = 0x50;
         effect->extent_x.s = 0xA0;
@@ -1006,7 +1028,7 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
         effect->frames_left.s = 8;
         effect->state.s = (s16)(effect->state.u + 1);
                         /* fall through */
-    case 1:
+    case SELECTION_SHADE_IN:
         light_frames = effect->frames_left.s;
         if (light_frames != 0) {
             light_color = effect->color.c.b;
@@ -1026,11 +1048,11 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
         effect->color.c.r = 0x60;
         effect->state.s = (s16)(effect->state.u + 1);
         return;
-    case 3:
+    case SELECTION_SHADE_OUT_INIT:
         effect->frames_left.s = 8;
         effect->state.s = (s16)(effect->state.u + 1);
                         /* fall through */
-    case 4:
+    case SELECTION_SHADE_OUT:
         dark_frames = effect->frames_left.s;
         if (dark_frames != 0) {
             dark_color = effect->color.c.b;
@@ -1329,6 +1351,10 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
 #undef S32
 #include "dungeon/menu/select.h"
 
+/*
+ * Writes negated camera X/Y rotations and zero Z rotation to scratchpad, then renders the
+ * projected sprite with the supplied depth bias arguments.
+ */
 void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
 {
     s16 *scratch = (s16 *)0x1F800000;

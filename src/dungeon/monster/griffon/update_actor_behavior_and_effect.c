@@ -782,6 +782,10 @@ void choose_griffon_move(void *move_data, void *context, SpriteFrameState *posit
     }
 }
 
+/*
+ * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
+ * from D_80174C4C.
+ */
 void begin_griffon_step_animation(void *object, void *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
@@ -908,6 +912,11 @@ s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secon
     return result;
 }
 
+/*
+ * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing
+ * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
+ * under dungeon status flag 0x80. /
+ */
 void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
@@ -1046,6 +1055,10 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs update_actor_behavior_and_effect only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void advance_a_timed_actor_animation_applies_completion_effects(Resource08CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1526,21 +1539,28 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_griffon_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs update_actor_behavior_and_effect when it returns
+ * nonzero.
+ */
 void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1816,6 +1836,11 @@ void resume_actor_effect_behavior_after_status_animation(void *controller, void 
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_griffon_parent_motion(R08_80173F20_Actor *actor, s32 action, R08_80173F20_Entity *entity, R08_80173F20_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1830,6 +1855,10 @@ void update_griffon_parent_motion(R08_80173F20_Actor *actor, s32 action, R08_801
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs update_actor_behavior_and_effect only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1839,6 +1868,10 @@ void finish_thrown_actor_travel_and_floor_trap_then_resume_effect_behavior(Resou
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_and_effect when it
+ * returns nonzero.
+ */
 void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1846,6 +1879,10 @@ void finish_actor_terrain_interpolation_then_resume_effect_behavior(Resource08Ca
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs update_actor_behavior_and_effect when it returns
+ * nonzero.
+ */
 void create_four_directional_effects(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1853,6 +1890,7 @@ void create_four_directional_effects(Resource08CallbackState *state, void *motio
     }
 }
 
+/* Runs update_actor_fade_in and installs update_actor_behavior_and_effect when it returns nonzero. */
 void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1940,6 +1978,10 @@ void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *sourc
     }
 }
 
+/*
+ * Creates a tinted sprite with scale 16 until the final 15 ticks, then increases its scale by six
+ * per tick. Decrements the signed 16-bit lifetime and flags removal at zero or below.
+ */
 void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
 {
     s32 ticks_left = *(s16 *)((u8 *)effect + 0x1A);
@@ -2223,6 +2265,10 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_and_effect when it returns
+ * positive.
+ */
 void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -2230,6 +2276,10 @@ void finish_actor_floor_trap_then_resume_effect_behavior(Resource08CallbackState
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs update_actor_behavior_and_effect when it returns
+ * positive.
+ */
 void finish_actor_action_flag_propagation_then_resume_effect_behavior(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

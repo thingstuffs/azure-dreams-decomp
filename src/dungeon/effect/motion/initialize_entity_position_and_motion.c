@@ -1292,6 +1292,10 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
     return objects[0];
 }
 
+/*
+ * Copies the leading words, then widens the source halfword and three following bytes into the
+ * destination fields.
+ */
 void inventory_copy_and_sign_extend_record_fields(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src)
 {
     s32 sourceHalfword;
@@ -1304,6 +1308,7 @@ void inventory_copy_and_sign_extend_record_fields(ovl_19a332c_81984A40_Dest81984
     dst->field_1C = src->field_14;
 }
 
+/* Resets the entry substate, clears flags 0x6000, and selects the indexed 0x16-byte animation entry. */
 void inventory_select_entry_and_reset_object(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index) {
     s32 entry_base;
 
@@ -1351,6 +1356,7 @@ void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s3
     obj->unk_14.u &= 0xBFFF;
 }
 
+/* Sets the current animation-entry address using the owner table base and a 0x16-byte stride. */
 void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *object, s16 entry_index) {
     object->unk_00 = (s32) (((ovl_19a332c_81984BC0_S_81984BC0_2 *)(((ovl_19a332c_81984BC0_S_81984BC0_1 *)object)->unk_08))->unk_0C + (entry_index * 0x16));
 }
@@ -1468,13 +1474,15 @@ void clear_object_buffer_and_state(void *tracker) {
     state->view_offset.parts.view_offset_y = (u16) ((s32) (((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12);
 }
 
-/* MECHANISM: Frameless leaf; tracker stays in a1 and D_80083178 in a2 across the CFG.
-   The tracker+0xC pointer is read a second time, after the first-use load and the store to
-   tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
-   paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */
-
-/* Sets camera tracking mode 13, its target and timing, installs the tracking callback, and returns
-   change flags. */
+/*
+ * Sets camera tracking mode 13, its target and timing, installs the tracking callback, and returns
+ * change flags.
+ *
+ * MECHANISM: Frameless leaf; tracker stays in a1 and the 0x80083178 view base in a2 across the
+ * CFG. The tracker+0xC pointer is read a second time, after the first-use load and the store to
+ * tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
+ * paired lw v0/v1 and keeping v1 live for offsets 6/0xA.
+ */
 s32 inventory_reset_shared_state_mode_13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &g_game_work.view;
     ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;

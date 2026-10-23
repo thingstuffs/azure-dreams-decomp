@@ -2,7 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9C24, CL:town/func_800B9C70, CL:town/func_800B9C90. */
 #include "town/map/building_grid_g00638.h"
 
-/* Clear a 128 by 128 grid of signed halfwords. */
+/* Writes zero to all 16,384 consecutive halfwords in row-major order. */
 void clear_halfword_grid_128(s16 *grid) {
     s16 *cell;
     s16 next_row;
@@ -30,7 +30,7 @@ void update_active_building_entries(void) {
     initialize_building_region_resources();
 }
 
-/* Clear the grid and initialize its contents. */
+/* Clears the 128-halfword grid and initializes its building scene objects. */
 void clear_and_initialize_building_grid(s32 grid) {
     clear_halfword_grid_128(grid);
     initialize_building_scene_objects(grid);

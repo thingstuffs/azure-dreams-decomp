@@ -4,6 +4,11 @@
 
 #include "common.h"
 
+/* 58 independent 24-byte initial-stat records end at D_8006D6D8.
+ * The bytes copied by init_monster_from_stats are not presumed padding. */
+typedef MonsterInitialStats EntityInitialStats;
+extern EntityInitialStats initialStatsTable[58];
+
 struct CallbackObject;
 struct S_800423C0_Obj;
 struct S_800423C0_Src;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 typedef struct S_8080E59C_0 {
     u8 pad_00[0x8];
@@ -37,14 +38,6 @@ typedef struct S_8080E59C_1 {
     s16 unk_20;
 } S_8080E59C_1;   /* part in create_town_object_group */
 
-typedef struct S_8080E59C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8080E59C_2;   /* data in create_town_object_group */
 
 typedef struct S_8080E59C_3 {
     u8 pad_00[0x4];
@@ -88,7 +81,7 @@ void create_town_object_group(void)
     void **child_slots;
     void *object;
     S_8080E59C_1 *render_part;
-    S_8080E59C_2 *object_state;
+    ObjectPosition *object_state;
     u8 *child_slot;
     u8 *shared_state;
     s32 child_index;
@@ -137,9 +130,9 @@ void create_town_object_group(void)
         render_part->unk_04 = 0;
         render_part->unk_05 = 0;
         render_part->unk_0C = color;
-        object_state->unk_00 = 0x03600000;
-        object_state->unk_04 = 0x03600000;
-        object_state->unk_08 = 0;
+        object_state->x.v = 0x03600000;
+        object_state->y.v = 0x03600000;
+        object_state->z.v = 0;
         *(Copy24 *)saved_state = *(Copy24 *)object_state;
         ((S_8080E59C_0 *)object)->unk_74.p32 = shared_state;
         func_8023FA58(setup_target, saved_state, setup_table);
@@ -178,9 +171,9 @@ void create_town_object_group(void)
             render_part->unk_0C = 0x808080;
             render_part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
                 (((S_8080E59C_0 *)object)->unk_74.s16 << 2));
-            object_state->unk_00 = (child_index << 23) + 0x04600000;
-            object_state->unk_04 = 0x03600000;
-            object_state->unk_08 = 0;
+            object_state->x.v = (child_index << 23) + 0x04600000;
+            object_state->y.v = 0x03600000;
+            object_state->z.v = 0;
             ((S_8080E59C_0 *)object)->unk_70 = shared_state;
             func_8023FA58(setup_target, object_state, setup_table, render_part);
         }

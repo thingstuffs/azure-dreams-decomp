@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -412,7 +413,7 @@ state1_minus_angle:
         motion->unk_96 = 0;
         motion->unk_A2 = 0;
         pack_and_submit_cell_height_levels();
-        dungeon_floor_flags |= 0x800000;
+        dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
         play_sound_if_enabled(0x80F);
     }
 state3_test:
@@ -477,7 +478,7 @@ state3_test:
             motion->unk_96 = 0;
             motion->unk_A2 = 0;
             pack_and_submit_cell_height_levels();
-            dungeon_floor_flags |= 0x800000;
+            dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
             play_sound_if_enabled(0x80F);
 
         }

@@ -9,7 +9,7 @@
 void call_script(s32);
 void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
-struct S_800945B8_0; void initialize_input_driven_scene_object(s32 * *, struct S_800945B8_0 *, s32);
+struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void play_periodic_sound(s32, s32);
@@ -32,13 +32,6 @@ void update_motion_toward_town_target(void *state, s32 context, void *motion, s3
 extern u8 town_owner_dispatch_address[];
 extern s32 town_actor_control;
 extern s32 *town_player_action_callback;
-
-typedef struct S_80092A84_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_80092A84_1;   /* state in update_actor_position_and_interaction */
 
 
 typedef struct S_80092A84_3 {
@@ -80,7 +73,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
 
     input_flags = ((s32)input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_input_driven_scene_object((s32 * *)(actor), (struct S_800945B8_0 *)(body), context);
+        initialize_input_driven_scene_object((s32 * *)(actor), (struct ObjectPosition *)(body), context);
         return;
     }
     if (input_flags & 0x40) {

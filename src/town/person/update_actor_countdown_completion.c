@@ -8,7 +8,7 @@ void allocate_variant_object(s32, s32, s32);                /* extern */
 
 
 /* Decrement the actor's countdown and run its expiration actions when it expires. */
-void update_actor_countdown_completion(Rec_func_80094268_arg0 *actor, s32 action_arg1, s32 action_arg2) {
+void update_actor_countdown_completion(Rec_func_80094268_arg0 *actor, s32 update_context, s32 setup_context) {
     u16 countdown;
 
     countdown = actor->unk_6C.as_u16 - 1;
@@ -16,6 +16,6 @@ void update_actor_countdown_completion(Rec_func_80094268_arg0 *actor, s32 action
     if ((countdown << 0x10) <= 0) {
         func_800CB73C(actor);
         allocate_variant_object(actor->unk_96.as_s8, actor->unk_88, actor->unk_8A);
-        apply_object_setup_and_update(actor, action_arg1, action_arg2);
+        apply_object_setup_and_update(actor, update_context, setup_context);
     }
 }

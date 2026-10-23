@@ -34,7 +34,11 @@ extern void display_actor_item_status_message(void *, s32);
 extern void clear_selected_item_flag_400(void *);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 
-/* Dispatches an entity action and updates state after handling it. */
+/*
+ * Routes type 0xD actions to linked-state processing and player actions to the pending item
+ * handler. Other targets receive item messages and feeding or placement handling before the
+ * pending action is cleared.
+ */
 s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, s32 action_arg) {
     s32 *entity_state;
     s32 message_pos;

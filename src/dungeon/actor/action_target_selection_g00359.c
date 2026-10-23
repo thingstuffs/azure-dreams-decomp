@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/sprite_frame_state.h"
 /* Action target selection (G00359). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C4A80, CL:dungeon/func_800C4CE4, CL:dungeon/func_800C5028, CL:dungeon/func_800C51DC, CL:dungeon/func_800C5334. */
@@ -43,7 +44,7 @@ s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1
     }
     if ((s8)position->unk_26 < 0) {
         room = find_active_rect_containing_point((position->tileX + (u16)dir_step_x[direction]) & 0xFFFF, (position->tileY + (u16)dir_step_y[direction]) & 0xFFFF);
-        if (room >= 0 && (dungeon_rooms[room].flags & 2) && !(object->unk_1C & 0x2000)) {
+        if (room >= 0 && (dungeon_rooms[room].flags & ROOM_HOLY_BEAM) && !(object->unk_1C & 0x2000)) {
             return 0;
         }
     }
@@ -74,7 +75,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     }
     update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
-    if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & 2)) {
+    if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & ROOM_HOLY_BEAM)) {
         select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
         select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);

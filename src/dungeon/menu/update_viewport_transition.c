@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -76,6 +77,14 @@ typedef struct S_func_8009E038_8 {
     s16 unk_3636;
 } S_func_8009E038_8;
 
+enum ViewportState {
+    VIEWPORT_RESET = 0,
+    VIEWPORT_HOLD = 1,
+    VIEWPORT_FOLLOW = 0x10,
+    VIEWPORT_SHRINK = 0x20,
+    VIEWPORT_RESUME = 0x30,
+};
+
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
 void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
     s32 *context) {
@@ -118,34 +127,34 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
     render = render_params;
     input = &g_game_work;
     if (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000) {
-        if (transition->unk_1A < 0x20) {
-            transition->unk_1A = 0x20;
+        if (transition->unk_1A < VIEWPORT_SHRINK) {
+            transition->unk_1A = VIEWPORT_SHRINK;
         }
     }
     flags = ((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00;
-    if (flags & 0x800000) {
+    if (flags & FLOOR_MAP_VIEW_HOLD) {
         previous_state = transition->unk_1A;
         cleared_flags = flags & ~0x2000;
         (*(s32 *)&dungeon_floor_flags) = cleared_flags;
         if (previous_state >= 2) {
-            transition->unk_1A = 0;
+            transition->unk_1A = VIEWPORT_RESET;
             transition->unk_1C = 8;
         }
         transition->unk_2C = 0U;
         dungeon_floor_flags &= 0xFEFFFFFF;
-    } else if ((u32) ((u16) transition->unk_1A - 0x20) < 0x10U) {
+    } else if ((u32) ((u16) transition->unk_1A - VIEWPORT_SHRINK) < 0x10U) {
         if (!(((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000)) {
-            transition->unk_1A = 0x30;
+            transition->unk_1A = VIEWPORT_RESUME;
         }
     }
-    if (transition->unk_1A != 0 || (dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
+    if (transition->unk_1A != VIEWPORT_RESET || (dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         transition->unk_2C = 0U;
         dungeon_floor_flags &= 0xFEFFFFFF;
     }
     state = transition->unk_1A;
     switch (state) {
-    case 0:
-        if (!((*(s32 *)((u8 *)&dungeon_floor_flags + 0)) & 0x800000)) {
+    case VIEWPORT_RESET:
+        if (!((*(s32 *)((u8 *)&dungeon_floor_flags + 0)) & FLOOR_MAP_VIEW_HOLD)) {
             idle_frames = transition->unk_2C + 1;
             transition->unk_2C = idle_frames;
             if ((s16) idle_frames == 0x1F) {
@@ -197,33 +206,33 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
             transition->unk_04 = 0;
             transition->unk_06 = 0;
             transition->unk_1C = 0;
-            state = 0x800000;
+            state = FLOOR_MAP_VIEW_HOLD;
             if (shared_flags & state) {
                 transition->unk_1C = 0x1E;
                 transition->unk_1A = (s16) ((u16) transition->unk_1A + 1);
             } else if (!(input->buttons & 0x100)) {
                 transition->unk_1C = 4;
-                transition->unk_1A = 0x10;
+                transition->unk_1A = VIEWPORT_FOLLOW;
             }
         }
         break;
-    case 1:
+    case VIEWPORT_HOLD:
         hold_remaining = (u16) transition->unk_1C - 1;
         transition->unk_1C = hold_remaining;
         if ((hold_remaining << 0x10) > 0) {
             break;
         }
-        flags_mask = 0xFF7FFFFF;
+        flags_mask = FLOOR_MAP_VIEW_HOLD_CLEAR_MASK;
         shared_flags = 8;
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         transition->unk_1C = shared_flags;
         shared_flags = flags_page->unk_296C;
-        state = 0x10;
+        state = VIEWPORT_FOLLOW;
         transition->unk_1A = state;
         shared_flags &= flags_mask;
         flags_page->unk_296C = shared_flags;
         break;
-    case 16:
+    case VIEWPORT_FOLLOW:
         move_frames = transition->unk_1C;
         if (move_frames != 0) {
             moving_scale = ((s32) (transition->unk_1E - render->unk_1E) / move_frames) + render->unk_1E;
@@ -298,13 +307,13 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         shared_flags = flags_page->unk_296C;
         transition->unk_2C = 0U;
-        transition->unk_1A = 0;
+        transition->unk_1A = VIEWPORT_RESET;
         state = 1;
         transition->unk_1C = state;
         shared_flags &= flags_mask;
         flags_page->unk_296C = shared_flags;
         break;
-    case 32:
+    case VIEWPORT_SHRINK:
         shrink_scale = render->unk_1E;
         reduced_scale = shrink_scale - (shrink_scale >> 2);
         render->unk_1E = reduced_scale;
@@ -312,8 +321,8 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
             render->unk_1E = 0U;
         }
         break;
-    case 48:
-        transition->unk_1A = 0x10;
+    case VIEWPORT_RESUME:
+        transition->unk_1A = VIEWPORT_FOLLOW;
         transition->unk_1C = 4;
         break;
     }

@@ -19,6 +19,10 @@ extern u8 D_8008BC58[];
 extern u8 town_map_state_ids[];
 extern void* town_map_state_values[];
 
+/*
+ * Subtracts 0x200 from the inner field at offset 8; once negative, clamps it to zero and restores
+ * the callback and indexed state values.
+ */
 void decrease_substructure_value_and_reset(Func8008E3F0Arg* state) {
     state->inner->unk8 -= 0x200;
     if (state->inner->unk8 < 0) {

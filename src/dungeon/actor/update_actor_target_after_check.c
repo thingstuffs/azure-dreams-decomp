@@ -14,9 +14,7 @@ typedef struct S_800D9884_0 {
 s32 advance_status_timers();                     /* extern */
 s32 update_actor_movement_to_tile();                                /* extern */
 void spend_actor_mp();            /* extern */
-                /* extern */
-
-/* Updates the target and resets state after a successful check or a reset flag. */
+                /* Updates the target and resets state after a successful check or a reset flag. */
 void update_actor_target_after_check(S_800D9884_0 *state, void *unused, void *source, void *target) {
     if (update_actor_movement_to_tile() != 0) {
         spend_actor_mp(target, 4);

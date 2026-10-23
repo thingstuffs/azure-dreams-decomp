@@ -34,6 +34,10 @@ void set_record_value_and_data_pointer(void *field_ptr, s32 base_value) {
     ((S_800B4E7C_0 *)((u8 *)field_ptr - 0x10))->unk_00 = &D_800B4C38;
 }
 
+/*
+ * Sets the owner base value and data pointer, binds three embedded blocks at offsets
+ * 0x4C/0x24/0x34, and initializes its four-slot object.
+ */
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value) {
     set_record_value_and_data_pointer(owner, base_value);
     func_800B4CBC(owner + 0x4C, owner + 0x24, owner + 0x34);

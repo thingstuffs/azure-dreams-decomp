@@ -973,6 +973,10 @@ void choose_snowman_move(void *move_data, void *context, SpriteFrameState *posit
     }
 }
 
+/*
+ * Sets action state 0x10, selects camera-relative snowman step frames, and clears the action tick,
+ * counter, substate, and linked action field.
+ */
 void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation) {
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9A.as_s8 = 0x10;
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9B = 0;
@@ -1098,6 +1102,10 @@ s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secon
     return result;
 }
 
+/*
+ * On completed movement, spends MP and advances status timers, then resumes Snowman behavior and
+ * clears its timer only after a positive signed floor-trap check. /
+ */
 void move_snowman_to_tile(void *entity_arg, s32 unused, s32 check_arg, s32 actor_arg) {
     void *entity = entity_arg;
     s32 check_value = check_arg;
@@ -1245,6 +1253,10 @@ void hop_snowman_to_tile(void *action, ObjectPosition *motion, SpriteFrameState 
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs update_snowman_behavior only when it succeeds and
+ * the signed floor-trap check returns positive.
+ */
 void update_snowman_linked_motion(Resource10CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1660,11 +1672,13 @@ void displace_actor_then_recenter(void *action, ObjectPosition *motion, SpriteFr
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_snowman(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_snowman(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
@@ -1675,6 +1689,7 @@ void advance_snowman_removal(void *state, void *motion, void *position, void *ac
     advance_actor_removal(state, motion, position, actor);
 }
 
+/* Runs update_actor_hop_and_grow and installs update_snowman_behavior when it returns nonzero. */
 void grow_hopping_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1919,6 +1934,11 @@ void advance_snowman_mp_action(void *actor_in, s32 actor_index, SpriteFrameState
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_snowman_parent_motion(R10_80174258_Actor *actor, s32 action, SpriteFrameState *entity, R10_80174258_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1933,6 +1953,10 @@ void update_snowman_parent_motion(R10_80174258_Actor *actor, s32 action, SpriteF
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs update_snowman_behavior only when it succeeds and
+ * the signed floor-trap check returns positive.
+ */
 void advance_boss_command_stream(Resource10CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1942,6 +1966,10 @@ void advance_boss_command_stream(Resource10CallbackState *state, void *entity, v
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_snowman_behavior when it returns
+ * nonzero.
+ */
 void settle_snowman_on_tile(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1949,6 +1977,7 @@ void settle_snowman_on_tile(Resource10CallbackState *state, void *motion, void *
     }
 }
 
+/* Runs update_spinning_actor_fall and installs update_snowman_behavior when it returns nonzero. */
 void create_positioned_sprite_effect(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1956,6 +1985,7 @@ void create_positioned_sprite_effect(Resource10CallbackState *state, void *motio
     }
 }
 
+/* Runs update_actor_fade_in and installs update_snowman_behavior when it returns nonzero. */
 void fade_in_snowman(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -2200,10 +2230,12 @@ s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_8017
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
-
-/* Moves the effect along an oscillating directional path, changes its brightness, and expires it at frame
- * 26. */
+/*
+ * Moves the effect along an oscillating directional path, changes its brightness, and expires it
+ * at frame 26.
+ *
+ * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
+ */
 void update_effect_motion_and_brightness(void *effect, void *motion, void *render)
 {
     R10_80174C70_LocalVector direction;
@@ -2653,6 +2685,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
     }
 }
 
+/* Runs resolve_actor_floor_trap_once and installs update_snowman_behavior when it returns positive. */
 void resolve_snowman_floor_trap(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -2660,6 +2693,7 @@ void resolve_snowman_floor_trap(Resource10CallbackState *state, void *motion, vo
     }
 }
 
+/* Runs propagate_actor_action_flag and installs update_snowman_behavior when it returns nonzero. */
 void propagate_snowman_action_flag(Resource10CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor)) {

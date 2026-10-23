@@ -6,7 +6,10 @@ s32 query_position_with_first_component_offset();                           /* e
 void set_the_control_flag_initializes_cleared_trailing_field();             /* extern */
 void set_the_flag_initializes_state();             /* extern */
 
-/* Apply upper and lower boundary adjustments to a fixed-point value. */
+/*
+ * Computes the upper and lower fixed-point bounds and starts the corresponding boundary adjustment
+ * when the value reaches either bound.
+ */
 void apply_upper_lower_boundary_adjustments_fixed_point(s32 context, s32 *value) {
     s32 upper_bound;
     s32 lower_bound;

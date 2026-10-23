@@ -1,4 +1,5 @@
 #include "script_symbols.h"
+#include "shared/town_pointees.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -18,10 +19,6 @@ typedef struct S_func_80016BE8_1 {
     void *unk_20;
 } S_func_80016BE8_1;
 
-typedef struct S_func_80016BE8_2 {
-    u8 pad_00[0x40];
-    void *unk_40;
-} S_func_80016BE8_2;
 
 typedef struct S_func_80016BE8_3 {
     u8 pad_00[0x2F8];
@@ -33,7 +30,7 @@ s32 check_query_0x5c0_zero(void) {
     func_80018BD0(F_hos_first_cheriru);
     func_80018BD0(F_hos_first_hush);
     if (func_80018C50(F_cheril_orei) == 0) {
-        ((S_func_80016BE8_2 *)
+        ((TownPositionState *)
             ((S_func_80016BE8_1 *)
              ((S_func_80016BE8_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;
     }

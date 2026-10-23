@@ -1,3 +1,5 @@
+#include "dungeon/monster/u_boat.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -41,7 +43,7 @@ extern s16 actor_turn_angle_offsets[];
 /* Choose a movement direction, move the actor, and update its path history and height. */
 /* Chooses U-Boat's next clear step, records its path, and updates tile occupancy unless status slot 27
  * suppresses that update. */
-void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *position, u8 *actor) {
+void choose_and_execute_actor_step(void *work_data, void *action_context, SpriteFrameState *position, ActorRecord *actor) {
     DungeonGlobalStatus *turn_state;
     u16 turn_flags;
     s32 movement_flags;
@@ -64,14 +66,14 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     turn_flags = turn_state->flags;
     limit_turn = turn_flags & 0;
 
-    if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
+    if ((turn_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
         if ((U8_AT(actor, 0x12) >= 2) || U8_AT(work_data, 0xB5) ||
             ((try_turn_actor_toward_target(work_data, action_context, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;
         }
         if (turn_state->active_actor == actor) {
-            U16_AT(actor, 0x46) = 0xC008;
+            actor->action_flags = 0xC008;
         }
         return;
     }
@@ -81,77 +83,77 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     }
 
     update_actor_proximity_flag(position, actor, 3, 6, (u8 *)work_data + 0x9C);
-    movement_flags = S32_AT(actor, 0x1C);
+    movement_flags = actor->flags1C;
 
     if (movement_flags & 0x410) {
         if (movement_flags & 0x400) {
-            node = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            node = find_adjacent_actor(actor, position->tile_x, position->tile_y);
             if (node != NULL) {
                 u8 *node_work;
                 s32 history_index;
 
                 parent = PTR_AT(node, -0x14);
                 node_work = (u8 *)work_data + 0x98;
-                U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
                     U8_AT(parent, 0x24), U8_AT(parent, 0x25),
                     node_work);
-                history_index = U8_AT(actor, 0x71);
+                history_index = actor->movement_queue_state;
                 history_index &= 0x7F;
-                U8_AT(actor, 0x71) = history_index;
+                actor->movement_queue_state = history_index;
                 return;
             }
 
-            work_value = S32_AT(actor, 0x14);
+            work_value = actor->flags14;
             if (!(work_value & 0x80000000)) {
-                S32_AT(actor, 0x14) = work_value | 0x80000000;
+                actor->flags14 = work_value | 0x80000000;
                 call_result = generate_random_value();
-                U16_AT(actor, 0x2A) += (call_result & 7) << 9;
+                actor->facing += (call_result & 7) << 9;
             }
         } else {
-            work_value = (s32)probe_directional_neighbor(actor, U8_AT(position, 0x24),
-                                            U8_AT(position, 0x25),
-                                            S16_AT(actor, 0x2A));
+            work_value = (s32)probe_directional_neighbor(actor, position->tile_x,
+                                            position->tile_y,
+                                            actor->facing);
             if (work_value != 0) {
-                U8_AT(actor, 0x71) &= 0x7F;
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
         }
     } else if (movement_flags & 0x2000) {
-        if (!(U16_AT(actor, 0x46) & 0x8000)) {
+        if (!(actor->action_flags & 0x8000)) {
             if (movement_flags & 0x20000) {
             s16 path_angle;
             TileObject *path_center;
             u8 *path_work;
 
             path_center = &reference_tile_object;
-            direction = (U8_AT(actor, 0x45) + (S16_AT(primary_actor_record, 0x2A) >> 9)) & 7;
+            direction = (U8_AT(actor, 0x45) + (primary_actor_record->facing >> 9)) & 7;
             target_x = path_center->tile_position.parts.tile_x +
                        *(u16 *)(dir_step_x + (direction * 2));
             target_y = path_center->tile_position.parts.tile_y +
                        *(u16 *)(dir_step_y + (direction * 2));
 
-            if ((U8_AT(position, 0x24) == (u16)target_x) &&
-                (U8_AT(position, 0x25) == (u16)target_y)) {
-                U8_AT(actor, 0x71) &= 0x7F;
+            if ((position->tile_x == (u16)target_x) &&
+                (position->tile_y == (u16)target_y)) {
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
 
             path_work = (u8 *)work_data + 0x98;
             path_angle = get_rounded_facing_and_rounding_flag(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                position->tile_x, position->tile_y,
                 (s16)target_x, (s16)target_y, path_work);
-            U16_AT(actor, 0x2A) = path_angle;
+            actor->facing = path_angle;
             call_result = check_directional_move_and_terrain(path_angle, position, actor, 0x20);
             if ((call_result << 16) <= 0) {
-                U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
                     reference_tile_object.tile_position.parts.tile_x,
                     reference_tile_object.tile_position.parts.tile_y, path_work);
             }
 
             work_value = test_neighbor_position_relation(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                position->tile_x, position->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y);
             attempt = 0;
@@ -166,41 +168,41 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
         u8 *tile_records;
         u8 *tile_record;
 
-        tile_type = S8_AT(position, 0x26);
+        tile_type = (s8)position->room_index;
         if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
             select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
-        } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
-            node = probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                 S16_AT(actor, 0x2A));
+        } else if (!(actor->action_flags & 0x8000)) {
+            node = probe_directional_neighbor(actor, position->tile_x, position->tile_y,
+                                 actor->facing);
             if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
                 (get_actor_height_difference(node, actor) < 0x81) &&
                 ((check_diagonal_side_height(
-                      ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                      U8_AT(position, 0x24), U8_AT(position, 0x25),
-                      (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
-                U8_AT(actor, 0x71) &= 0x7F;
+                      ((actor->facing >> 9) & 0xFFFF),
+                      position->tile_x, position->tile_y,
+                      (s16)((u16)actor->ground_height - 0x20)) << 16) != 0)) {
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
 
-            if (S32_AT(actor, 0x1C) & 0x20000) {
+            if (actor->flags1C & 0x20000) {
                 TileObject *move_center;
 
                 move_center = &reference_tile_object;
-                U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
                     move_center->tile_position.parts.tile_x, move_center->tile_position.parts.tile_y,
                     (u8 *)work_data + 0x98);
 
                 if ((test_neighbor_position_relation(
-                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        position->tile_x, position->tile_y,
                         move_center->tile_position.parts.tile_x, move_center->tile_position.parts.tile_y) << 16) != 0) {
                     if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                         if ((check_diagonal_side_height(
-                                ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-                            U8_AT(actor, 0x71) &= 0x7F;
+                                ((actor->facing >> 9) & 0xFFFF),
+                                position->tile_x, position->tile_y,
+                                (s16)((u16)actor->ground_height - 0x20)) << 16) != 0) {
+                            actor->movement_queue_state &= 0x7F;
                             return;
                         }
                     }
@@ -216,7 +218,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     angle_step = actor_turn_angle_offsets;
 
     do {
-        node = (void *)S16_AT(actor, 0x2A);
+        node = (void *)actor->facing;
         if (U16_AT(work_data, 0x98) & 2) {
             candidate_angle = ((s32)node) - *angle_step;
         } else {
@@ -228,27 +230,27 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             if (attempt >= 3) {
                 work_value = limit_turn;
                 if (work_value != 0) {
-                    U8_AT(actor, 0x71) &= 0x7F;
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 }
             }
 
-            U16_AT(actor, 0x2A) = candidate_angle;
-            U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x74) =
-                U8_AT(position, 0x24);
-            U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x7C) =
-                U8_AT(position, 0x25);
-            U8_AT(actor, 0x71)++;
+            actor->facing = candidate_angle;
+            U8_AT((u8 *)actor + (actor->movement_queue_state & 0x7F), 0x74) =
+                position->tile_x;
+            U8_AT((u8 *)actor + (actor->movement_queue_state & 0x7F), 0x7C) =
+                position->tile_y;
+            actor->movement_queue_state++;
 
             call_result = get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY);
             if ((call_result << 16) == 0) {
                 s32 old_x;
                 s32 old_y;
 
-                old_x = U8_AT(position, 0x24);
-                old_y = U8_AT(position, 0x25);
+                old_x = position->tile_x;
+                old_y = position->tile_y;
                 tile_mask = 0x3000;
-                if (S32_AT(actor, 0x1C) & 0x2000) {
+                if (actor->flags1C & 0x2000) {
                     tile_mask = 0x300;
                 }
                 update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -258,23 +260,23 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 s8 position_x;
                 u8 *table;
 
-                direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
-                position_x = U8_AT(position, 0x24);
+                direction_offset = ((u16)actor->facing >> 8) & 0xE;
+                position_x = position->tile_x;
                 table = dir_step_x;
                 table += direction_offset;
                 position_x += *table;
-                U8_AT(position, 0x24) = position_x;
-                U8_AT(position, 0x25) += dir_step_y[direction_offset];
+                position->tile_x = position_x;
+                position->tile_y += dir_step_y[direction_offset];
             }
 
             if ((call_result << 16) == 0) {
                 s32 new_x;
                 s32 new_y;
 
-                new_x = U8_AT(position, 0x24);
-                new_y = U8_AT(position, 0x25);
+                new_x = position->tile_x;
+                new_y = position->tile_y;
                 tile_mask = 0x3000;
-                if (S32_AT(actor, 0x1C) & 0x2000) {
+                if (actor->flags1C & 0x2000) {
                     tile_mask = 0x300;
                 }
                 cycle_map_cell_flags(new_x, new_y, tile_mask);
@@ -283,7 +285,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
         }
         if (attempt == 0) {
             if (reference_tile_object.tile_position.word != U16_AT(position, 0x24)) {
-                if ((check_entity_relation(actor, S32_AT(primary_actor_record, 0x58) + 0x20) << 16) != 0) {
+                if ((check_entity_relation(actor, (s32)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -292,30 +294,30 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
         angle_step++;
     } while (attempt < 8);
     if (attempt >= 8) {
-        U8_AT(actor, 0x71) &= 0x7F;
-        U16_AT(actor, 0x46) &= 0x7FFF;
+        actor->movement_queue_state &= 0x7F;
+        actor->action_flags &= 0x7FFF;
         update_actor_status_and_mp(actor);
         return;
     }
 
-    U16_AT(actor, 0x46) &= 0x7FFF;
-    S8_AT(work_data, 0x9C) = U8_AT(position, 0x26);
-    U8_AT(actor, 0x6D)--;
+    actor->action_flags &= 0x7FFF;
+    S8_AT(work_data, 0x9C) = position->room_index;
+    actor->pending_turn_updates--;
     {
         DungeonGlobalStatus *turn_state_tail = &g_dungeon_status;
 
         (*(u16 *)&turn_state_tail->activity_counts.parts.pending_movement_count)++;
     }
-    if (S8_AT(actor, 0x6D) == 0) {
-        U8_AT(actor, 0x71) &= 0x7F;
+    if (actor->pending_turn_updates == 0) {
+        actor->movement_queue_state &= 0x7F;
         return;
     }
     attempt = sample_terrain_surface_height(
-        (U8_AT(position, 0x24) << 6) | 0x20,
-        (U8_AT(position, 0x25) << 6) | 0x20,
-        (s16)(U16_AT(actor, 0x88) - 0x20));
+        (position->tile_x << 6) | 0x20,
+        (position->tile_y << 6) | 0x20,
+        (s16)((u16)actor->ground_height - 0x20));
     if (attempt < 0x200) {
-        U16_AT(actor, 0x88) = attempt;
+        actor->ground_height = attempt;
     }
     return;
 }

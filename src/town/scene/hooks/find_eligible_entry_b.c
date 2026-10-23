@@ -23,7 +23,10 @@ extern void func_80016B98(s32 records, s32 count);
 extern s32 func_800173F4(s32 flag);
 extern s32 script_rescan_request;
 
-/* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80017594 is set. */
+/*
+ * Returns the first entry whose flag check and callback both return zero, restarting the scan
+ * while script_rescan_request is set.
+ */
 s32 find_eligible_entry_b(ScriptContext *context) {
     s32 entry_index;
 

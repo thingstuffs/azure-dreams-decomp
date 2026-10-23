@@ -9,6 +9,10 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/initialize_record_with_handler_table_api.h"
 
+/*
+ * At or above the queried ground height, clamps the motion vector and initializes the next handler
+ * table; below it, adds the fixed 0x20000 motion step.
+ */
 void update_motion_at_ground_threshold(s32 context, EntityRec *actor, s32 action_arg) {
     s16 ground_height;
 

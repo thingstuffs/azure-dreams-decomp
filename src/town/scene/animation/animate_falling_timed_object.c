@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 
 extern void func_80034A1C(void *, ...);
@@ -36,14 +37,6 @@ typedef struct S_8052BCCC_0 {
     void * unk_AC;
 } S_8052BCCC_0;   /* obj in animate_falling_timed_object */
 
-typedef struct S_8052BCCC_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8052BCCC_1;   /* motion in animate_falling_timed_object */
 
 typedef struct S_8052BCCC_2 {
     u8 pad_00[0x8];
@@ -83,9 +76,9 @@ void animate_falling_timed_object(void *obj, void *motion, void *incoming_out) {
     __builtin_memcpy(table, D_805266C0, 12);
     __builtin_memcpy((u8 *)table + 16, D_805266CC, 12);
 
-    ((S_8052BCCC_1 *)motion)->unk_00 += ((S_8052BCCC_1 *)motion)->unk_0C;
-    ((S_8052BCCC_1 *)motion)->unk_04 += ((S_8052BCCC_1 *)motion)->unk_10;
-    ((S_8052BCCC_1 *)motion)->unk_08 += ((S_8052BCCC_1 *)motion)->unk_14;
+    ((ObjectPosition *)motion)->x.v += ((ObjectPosition *)motion)->velocity_x;
+    ((ObjectPosition *)motion)->y.v += ((ObjectPosition *)motion)->velocity_y;
+    ((ObjectPosition *)motion)->z.v += ((ObjectPosition *)motion)->velocity_z;
     ((S_8052BCCC_0 *)obj)->unk_A2 = ((S_8052BCCC_0 *)obj)->unk_A2 - 1;
     ((S_8052BCCC_2 *)aux)->unk_0C |= 1;
 
@@ -128,12 +121,12 @@ state0_finish:
         }
         ((S_8052BCCC_0 *)obj)->unk_A2 = a0;
         ((S_8052BCCC_0 *)obj)->unk_A6 = a0;
-        ((S_8052BCCC_1 *)motion)->unk_10 = (s32)0xFFC00000 / (*(s16 *)((u8 *)(obj) + (0xA2)));
+        ((ObjectPosition *)motion)->velocity_y = (s32)0xFFC00000 / (*(s16 *)((u8 *)(obj) + (0xA2)));
         if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
             ((S_8052BCCC_3 *)out)->unk_14 |= 1;
         if ((*(u16 *)((u8 *)(obj) + (0xA0))) & 1) {
             ((S_8052BCCC_3 *)out)->unk_06 = -256;
-            ((S_8052BCCC_1 *)motion)->unk_10 = 0 - ((S_8052BCCC_1 *)motion)->unk_10;
+            ((ObjectPosition *)motion)->velocity_y = 0 - ((ObjectPosition *)motion)->velocity_y;
         } else {
             ((S_8052BCCC_3 *)out)->unk_06 = -64;
             func_80034A1C(out, D_8028E600, 0);
@@ -146,13 +139,13 @@ state0_finish:
     {
         s32 case1_value;
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
-            ((S_8052BCCC_1 *)motion)->unk_10 = 0;
+            ((ObjectPosition *)motion)->velocity_y = 0;
             phase_u16 = ((S_8052BCCC_0 *)obj)->unk_A6;
             case1_value = (s32)0x800000 / (s16)(phase_u16 * 2);
             ((S_8052BCCC_0 *)obj)->unk_A2 = phase_u16 * 2;
-            ((S_8052BCCC_1 *)motion)->unk_0C = case1_value;
+            ((ObjectPosition *)motion)->velocity_x = case1_value;
             if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
-                ((S_8052BCCC_1 *)motion)->unk_0C = 0 - case1_value;
+                ((ObjectPosition *)motion)->velocity_x = 0 - case1_value;
             func_80034A1C(out, D_8028E590, 0);
             ((S_8052BCCC_0 *)obj)->unk_68 = 2;
             break;
@@ -173,11 +166,11 @@ state0_finish:
                     a0 = value;
                 else
                     a0 = 0 - value;
-                ((S_8052BCCC_1 *)motion)->unk_0C = a0;
-                ((S_8052BCCC_1 *)motion)->unk_10 = 0;
+                ((ObjectPosition *)motion)->velocity_x = a0;
+                ((ObjectPosition *)motion)->velocity_y = 0;
             } else {
-                ((S_8052BCCC_1 *)motion)->unk_0C = 0;
-                ((S_8052BCCC_1 *)motion)->unk_10 = value;
+                ((ObjectPosition *)motion)->velocity_x = 0;
+                ((ObjectPosition *)motion)->velocity_y = value;
             }
             ((S_8052BCCC_0 *)obj)->unk_68 = 3;
             break;
@@ -187,9 +180,9 @@ state0_finish:
 
     case 3:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
-            ((S_8052BCCC_1 *)motion)->unk_10 = 0;
-            ((S_8052BCCC_1 *)motion)->unk_0C = 0;
-            ((S_8052BCCC_1 *)motion)->unk_04 += (s32)0xFFFC0000;
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
+            ((ObjectPosition *)motion)->y.v += (s32)0xFFFC0000;
             (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
             ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
             ((S_8052BCCC_3 *)out)->unk_04 = 0;
@@ -199,20 +192,20 @@ state0_finish:
                 ((S_8052BCCC_0 *)obj)->unk_A2 = 16;
                 phase3 = ((S_8052BCCC_0 *)obj)->unk_A6;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = phase3;
-                ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / ((s16)phase3);
+                ((ObjectPosition *)motion)->velocity_z = ((s32)0xFF900000 - ((ObjectPosition *)motion)->z.v) / ((s16)phase3);
                 ((S_8052BCCC_0 *)obj)->unk_68 = 4;
             } else {
                 s32 pos;
                 s32 acceleration;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = 12;
                 acceleration = (func_80071494() & 0xFF) << 12;
-                pos = ((S_8052BCCC_1 *)motion)->unk_08;
+                pos = ((ObjectPosition *)motion)->z.v;
                 a0 = 0x580000;
                 pos += a0;
                 a0 = (*(s16 *)((u8 *)(obj) + (0xA2)));
                 acceleration -= pos;
                 acceleration /= a0;
-                ((S_8052BCCC_1 *)motion)->unk_14 = acceleration;
+                ((ObjectPosition *)motion)->velocity_z = acceleration;
                 ((S_8052BCCC_0 *)obj)->unk_68 = 5;
             }
             break;
@@ -220,7 +213,7 @@ state0_finish:
         break;
 
     case 4:
-        if (((S_8052BCCC_1 *)motion)->unk_08 <= (s32)0xFFA80000 &&
+        if (((ObjectPosition *)motion)->z.v <= (s32)0xFFA80000 &&
             !(((S_8052BCCC_0 *)obj)->unk_A4 & 2)) {
             ((S_8052BCCC_3 *)out)->unk_06 = 0;
             ((S_8052BCCC_0 *)obj)->unk_48 = D_805266D8;
@@ -235,7 +228,7 @@ state0_finish:
             ((S_8052BCCC_3 *)out)->unk_05 = 0;
         }
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
-            ((S_8052BCCC_1 *)motion)->unk_14 = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
             ((S_8052BCCC_0 *)obj)->unk_68 = 7;
             ((S_8052BCCC_0 *)obj)->unk_A2 = (*(s16 *)((u8 *)(obj) + (0xA6))) * 2 + 20;
         }
@@ -244,7 +237,7 @@ state0_finish:
     case 5:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
             ((S_8052BCCC_0 *)obj)->unk_A2 = 6;
-            ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFFD80000 - ((S_8052BCCC_1 *)motion)->unk_08) /
+            ((ObjectPosition *)motion)->velocity_z = ((s32)0xFFD80000 - ((ObjectPosition *)motion)->z.v) /
                 ((S_8052BCCC_0 *)obj)->unk_A2;
             ((S_8052BCCC_0 *)obj)->unk_68 = 6;
         }
@@ -253,7 +246,7 @@ state0_finish:
     case 6:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
             ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
-            ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / (((S_8052BCCC_0 *)obj)->unk_A2);
+            ((ObjectPosition *)motion)->velocity_z = ((s32)0xFF900000 - ((ObjectPosition *)motion)->z.v) / (((S_8052BCCC_0 *)obj)->unk_A2);
             ((S_8052BCCC_0 *)obj)->unk_68 = 4;
             break;
         }
@@ -280,11 +273,11 @@ state0_finish:
                 a0 = a1;
                 if ((s16)flag != 1)
                     a0 = 0x80000;
-                ((S_8052BCCC_1 *)motion)->unk_0C = a0;
-                ((S_8052BCCC_1 *)motion)->unk_10 = 0;
+                ((ObjectPosition *)motion)->velocity_x = a0;
+                ((ObjectPosition *)motion)->velocity_y = 0;
             } else {
-                ((S_8052BCCC_1 *)motion)->unk_0C = 0;
-                ((S_8052BCCC_1 *)motion)->unk_10 = a1;
+                ((ObjectPosition *)motion)->velocity_x = 0;
+                ((ObjectPosition *)motion)->velocity_y = a1;
             }
             ((S_8052BCCC_0 *)obj)->unk_68 = 8;
         }
@@ -325,9 +318,9 @@ state0_finish:
 
     func_8003EA54(out);
     if ((((S_8052BCCC_0 *)obj)->unk_A4 & 2) && func_80252550(D_8053013C, motion) != 0) {
-        ((S_8052BCCC_1 *)motion)->unk_14 = 0;
-        ((S_8052BCCC_1 *)motion)->unk_10 = 0;
-        ((S_8052BCCC_1 *)motion)->unk_0C = 0;
+        ((ObjectPosition *)motion)->velocity_z = 0;
+        ((ObjectPosition *)motion)->velocity_y = 0;
+        ((ObjectPosition *)motion)->velocity_x = 0;
         {
             void *tail_aux = (*(void **)((u8 *)(obj) + (0xAC)));
             (*(u16 *)((u8 *)(tail_aux) + (6))) += 1;

@@ -62,8 +62,6 @@ void start_gym_func(void) {
 #include "common.h"
 #include "m2c_compat.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Pass the keima resource to handler 6 and finalize the operation. */
 void finalize_keima_resource_operation(void) {
     Control_CD(6, &D_800D4748, 0);
@@ -96,8 +94,6 @@ void start_keima2_func(void) {
 #include "town/minigame/dispatch.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Pass the town resource to handler 6 and finalize the operation. */
 void finalize_town_resource_operation(void) {

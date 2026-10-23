@@ -291,6 +291,10 @@ void start_movie_cd_stream_and_wait_ready(void *playback_state) {
     } while (func_80063424(0x1C0) == 0);
 }
 
+/*
+ * Accepts any held button in scene modes 30, 32, or 1; other modes require a newly pressed button
+ * in mask 0x9F0.
+ */
 static inline s32 movie_skip_requested(s32 buttons,s32 previous) {
     s32 requested = 0;
     if (scene_mode_code == 30 || scene_mode_code == 32 || scene_mode_code == 1) {

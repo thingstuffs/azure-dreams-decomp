@@ -23,11 +23,29 @@ struct S_80083178State {
     struct S_80083178Vector v[4]; /* copies of view offset, rotation offset, camera position and camera rotation, in that order */
 };
 
-/* Monster initial-stats table  = D_8006D168  (adrando initialStatsTable, 24B/record).
- * Fields (adrando): attack, def, agi, luck, mp, hp, xp, spell1, spell2, spell3,
- * level, id, element, pushable, flying — exact offsets TBD (ref/adrando/monsters.js). */
-/* Read-only monster template record selected by species id in init_monster_from_stats. */
-typedef struct { unsigned char data[24]; /* 24-byte template copied into the actor; individual offsets are decoded by init_monster_from_stats */ } MonsterInitialStats;  /* g_MonsterInitialStats */
+/* Twenty-four-byte species template at D_8006D168. init_monster_from_stats
+ * copies +0..+0x13 to the actor and ORs the flag word at +0x14. The level-up
+ * readers use the first six bytes and the signed EXP-reward halfword; ability
+ * updates use three ID/effective/stored-level triples at +8..+0x10.
+ * Initial zeroes at +7, +0xB..+0x10 and +0x17 are live field bytes, not padding. */
+typedef struct MonsterInitialStats {
+    /* 0x00 */ unsigned char attack;
+    /* 0x01 */ unsigned char defense;
+    /* 0x02 */ unsigned char agility;
+    /* 0x03 */ unsigned char luck;
+    /* 0x04 */ unsigned char mp;
+    /* 0x05 */ unsigned char hp;
+    /* 0x06 */ short exp_reward;
+    /* 0x08 */ struct {
+        unsigned char id;
+        unsigned char effective_level;
+        unsigned char stored_level;
+    } abilities[3];
+    /* 0x11 */ unsigned char level;
+    /* 0x12 */ unsigned char unk_12;
+    /* 0x13 */ unsigned char unk_13; /* replaced with species ID by initialization */
+    /* 0x14 */ unsigned int flags;
+} MonsterInitialStats;
 
 /* Trap table = D_80072CD0 (adrando trapTable, 12B/record). */
 typedef struct { unsigned char data[12]; } Trap;                 /* g_TrapTable */

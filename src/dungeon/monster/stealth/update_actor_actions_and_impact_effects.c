@@ -48,9 +48,10 @@ void advance_status_timers(void *);
 void play_sound_if_enabled(s32);
 void spend_actor_mp(void *, s32);
 
-/* Advance the actor action through animation setup, delay, and completion. */
-/* Starts Stealth's directional attack, resolves damage after two ticks, then recenters, spends MP, and
- * updates status. */
+/*
+ * Starts Stealth's directional attack, resolves damage after two ticks, then recenters, spends MP,
+ * and updates status.
+ */
 void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation,
     S_func_801728C4_3 *actor) {
     u16 delay_ticks;

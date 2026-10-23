@@ -53,6 +53,10 @@ static void initialize_nine_entry_links(void *entry_data, s32 enable_flag) {
     set_object_value_and_negation(entry_data, 0);
 }
 
+/*
+ * Attaches the object position, initializes nine links, links the indexed chain, and runs shared
+ * finalization; returns the chain-link result.
+ */
 s32 run_object_setup_and_finalize(s32 *value_ptr, s32 context) {
     s32 result;
 

@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/monster_ids.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -32,7 +35,7 @@ s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 
-extern void advance_actor_status_turn(s32 dispatch_arg0, s32 dispatch_arg1, s32 dispatch_arg2, u8 *state);
+extern void advance_actor_status_turn(s32 actor, s32 action_context, s32 sprite, u8 *state);
 extern M2C_UNK D_800E221C;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */
@@ -58,11 +61,11 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        state->unk_13 = 0x34;
+        state->unk_13 = MONSTER_WALL_OF_ICE;
         kind = (s16) saved_kind;
         if (kind == 1) {
-            state->unk_14 = (s32) (state->unk_14 | 0x2000);
-            state->unk_1C = (s32) (state->unk_1C | 0x2000);
+            state->unk_14 = (s32) (state->unk_14 | ACTOR_CLASS_ENABLED);
+            state->unk_1C = (s32) (state->unk_1C | ACTOR_PLAYER_SIDE);
         }
         register_node(object, project_sprite_chain);
         position = object->position;
@@ -87,13 +90,13 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         flag_tile_x = sprite->tile_x;
         flag_tile_y = sprite->tile_y;
         tile_flags = 0x3000;
-        if (state->unk_1C & 0x2000) {
+        if (state->unk_1C & ACTOR_PLAYER_SIDE) {
             tile_flags = 0x300;
         }
         cycle_map_cell_flags(flag_tile_x, flag_tile_y, tile_flags);
         state->unk_9A = 0xE;
         state->unk_9C = -1;
-        state->unk_1C = (s32) (state->unk_1C | 0x40000200);
+        state->unk_1C = (s32) (state->unk_1C | (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP));
     }
     return state;
 }

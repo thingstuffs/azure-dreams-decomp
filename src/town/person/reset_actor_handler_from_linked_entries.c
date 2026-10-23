@@ -8,6 +8,10 @@ extern void initialize_object_entries(void *state, s8 *output, s32 *entries);
 extern u8 D_800C3C7C[];
 
 
+/*
+ * Initializes entries from linked data offset 0x18, clears the indexed object slot, and installs
+ * D_800C3C7C with count 32.
+ */
 void reset_actor_handler_from_linked_entries(Rec_func_80094268_arg0 *actor, s32 unused, s8 *output) {
     s32 *entries = *(s32 **)((u8 *)actor->unk_80 + 0x18);
 

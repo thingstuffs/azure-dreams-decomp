@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -91,7 +92,7 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     move_mode = 0x3000;
     old_x = sprite->tile_x;
     old_y = sprite->tile_y;
-    if (movement->flags1C & 0x2000) {
+    if (movement->flags1C & ACTOR_PLAYER_SIDE) {
         move_mode = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, move_mode);
@@ -108,12 +109,12 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
     (*(u16 *)&movement->unk_8A)++;
 
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
-                  (movement->flags1C & 0x2000) ? 0x300 : 0x3000);
+                  (movement->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
 
     movement->facing = direction;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_s8 = 0xF;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-    (movement->flags1C) |= 0x40000000;
+    (movement->flags1C) |= ACTOR_REFRESH_GROUND;
 
     if (g_dungeon_status.flags & 0x80) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 0;

@@ -13,6 +13,7 @@ s32 object_render_cancel_switch = 0;
 /* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
 extern u8 *D_80083160[3];
 
+/* Stores the supplied object_render_cancel_switch and returns the stored value. */
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
 {
     object_render_cancel_switch = cancel_switch;
@@ -32,7 +33,12 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
 #define SCR_U16(o) (*(u16 *)(scratch + (o)))
 #define SCR_S32(o) (*(s32 *)(scratch + (o)))
 
-/* Transform and submit textured sprite quads for each node, then invoke its callback. */
+/*
+ * Composes each linked object transform with its parent and the render rotation, then projects
+ * flipped sprite rectangles and queues those with a corner in the screen margin. Applies
+ * texture-page, CLUT, and draw-flag overrides, invokes each node callback after saving the
+ * primitive cursor, and restores the matrix stack.
+ */
 s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(u8 *first_node, u8 *first_transform, u8 *first_context) {
     u8 *scratch;
     u8 *transform;

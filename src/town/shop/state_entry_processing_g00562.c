@@ -29,7 +29,10 @@ void process_entries_in_state_n_19_triggers_associated_sounds(void) {
     }
 }
 
-/* Process table entries referenced by objects of type 0x13. */
+/*
+ * Walks the zero-terminated town item pointer table and processes the 84-byte record selected by
+ * each type-0x13 object byte-3 low five bits.
+ */
 void process_table_entries_referenced_objects_type_hex_13(void) {
     void **object_entry;
     u8 *object;

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_188E800_H
 #define DUNGEON_OVL_188E800_H
 #include "shared/dungeon_effect_views.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
@@ -188,7 +189,7 @@ typedef struct MovingColorWork {
     u8 next_tile_y;
 } MovingColorWork;
 
-void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8 *effect_pos, u8 *effect_display);
+void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, ObjectPosition *effect_pos, SpriteFrameState *effect_display);
 void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect);
 s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *start_coords);
 void create_randomized_transform_effect(u8 *state, UnkArg1 *position);

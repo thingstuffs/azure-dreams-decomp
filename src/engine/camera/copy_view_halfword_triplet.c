@@ -20,8 +20,11 @@ typedef struct {
     SrcStruct *unk20;
 } InStruct;
 
-/* Destination global struct; only offsets 0xBC/0xBE/0xC0 are written. Size forces hi/lo access. */
-/* Copies three nested 16-bit fields into the global state. */
+/*
+ * Copies three nested 16-bit fields into the global state.
+ *
+ * Destination global struct; only offsets 0xBC/0xBE/0xC0 are written. Size forces hi/lo access.
+ */
 void copy_view_halfword_triplet(InStruct *object)
 {
     SrcStruct *source = object->unk20;

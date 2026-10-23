@@ -25,7 +25,10 @@ extern Vec3i town_position_reference_state;
 extern void restart_or_update_midpoint_tracking(void *first_ptr, void *second_ptr);
 extern void apply_and_store_setting(Vec3i *setting);
 
-// Initializes the town transition callback, targets, and position from D_80100D98.
+/*
+ * Installs midpoint tracking and initializes all target references and position coordinates from
+ * town_position_reference_state, then applies the setting.
+ */
 void initialize_transition_state(TownTransition *state) {
     state->callback = restart_or_update_midpoint_tracking;
     state->target = &town_position_reference_state;

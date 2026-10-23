@@ -12,7 +12,7 @@ typedef struct {
     DisplayPositionWords *vec;
 } func_8004CCBC_Obj;
 
-/* Copy the global vector D_8002E5E8 into each object's vector. */
+/* Copies all three words of display_vector_defaults into each object vector. */
 void apply_vector_3_template_to_nodes(func_8004CCBC_Obj **objects, s32 object_count)
 {
     s32 object_index;

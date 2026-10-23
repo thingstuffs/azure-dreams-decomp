@@ -86,6 +86,7 @@ void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 
     }
 }
 
+/* Returns four times the column minus half the context width plus the 0xA2 screen offset. */
 static __inline__ u32 calculate_x(
     void *context,
     s32 column

@@ -2,7 +2,11 @@
 /* Original-file evidence (G00538): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0464, PD:town/engine:800D046C. */
 #include "town/player/direction_entry_status_g00538.h"
 
-/* Selects an available entry matching the current direction and returns its status. */
+/*
+ * Converts held buttons to a camera-relative eight-way direction and searches four available slots
+ * for a matching direction. Saves the entry and slot, returning -1 for entry type one, one for
+ * another match, or zero when absent.
+ */
 s32 select_an_available_entry_matching_direction_returns_status(void *record)
 {
     s16 *direction_ptr;

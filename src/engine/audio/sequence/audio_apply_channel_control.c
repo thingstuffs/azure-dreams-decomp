@@ -3,11 +3,13 @@
 
 
 
-/* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
- * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
-
-
-/* Applies channel controls to sequence state, refreshing voice pitch, volume, sustain or tone parameters. */
+/*
+ * Applies channel controls to sequence state, refreshing voice pitch, volume, sustain or tone
+ * parameters.
+ *
+ * Rodata owner: the row's switch emits its jump table(s) into this object's .rodata, placed at the
+ * retail address by config/slus_modules.json (assets/800.bin carve).
+ */
 void audio_apply_channel_control(u8 channel, u8 control, u32 value)
 {
     S_80084960 *settings = &audio_channel_controls[channel];

@@ -3,12 +3,15 @@
 #include "frontend/libcard.h"
 #include "main/data.h"
 
-/* Shared-page absolute-address idiom (cf. reset_game_state_preserving_session_fields): D_800133A4 lives at
- * offset 0x33A4 within the 0x80010000 page, walked two bytes per iteration. The
- * byte read there indexes the D_80028020 lookup table. The lookup base is bound
- * to a live pointer first so it is materialized ahead of the page base, and the
- * index is added as the first operand so the sum lands in retail's addu order. */
-/* Sums lookup values for 34 indices stored at two-byte intervals. */
+/*
+ * Sums lookup values for 34 indices stored at two-byte intervals.
+ *
+ * Shared-page absolute-address idiom (cf. reset_game_state_preserving_session_fields): the index
+ * array at 0x800133A4 lives at offset 0x33A4 within the 0x80010000 page, walked two bytes per
+ * iteration. The byte read there indexes the D_80028020 lookup table. The lookup base is bound to
+ * a live pointer first so it is materialized ahead of the page base, and the index is added as the
+ * first operand so the sum lands in retail's addu order.
+ */
 s32 card_boot_sum_slot_lookup_values(void) {
     s32 sum = 0;
     s32 entry_index = 0;

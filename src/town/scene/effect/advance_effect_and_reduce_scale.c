@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 
@@ -9,23 +11,11 @@ typedef struct S_80814CC4_0 {
     s32 unk_04;
 } S_80814CC4_0;   /* arg0 in advance_effect_and_reduce_scale */
 
-typedef struct S_80814CC4_1 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_80814CC4_1;   /* arg1 in advance_effect_and_reduce_scale */
 
 typedef struct S_80814CC4_2 {
     u8 pad_00[0x58];
     u16 unk_58;
 } S_80814CC4_2;
-
-typedef struct S_80814CC4_3 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80814CC4_3;   /* arg2 in advance_effect_and_reduce_scale */
 
 
 extern s32 scene_object_flags;
@@ -38,13 +28,13 @@ void advance_effect_and_reduce_scale(void *effect, void *motion, void *scale) {
     void *object;
 
     object = ((S_80814CC4_0 *)effect)->unk_00;
-    ((S_80814CC4_1 *)motion)->unk_00 = (s32) (((S_80814CC4_1 *)motion)->unk_00 + ((S_80814CC4_0 *)effect)->unk_04);
-    ((S_80814CC4_1 *)motion)->unk_04 = (s32) (((S_80814CC4_1 *)motion)->unk_04 + ((S_80814CC4_1 *)motion)->unk_10);
+    ((ObjectPosition *)motion)->x.v = (s32) (((ObjectPosition *)motion)->x.v + ((S_80814CC4_0 *)effect)->unk_04);
+    ((ObjectPosition *)motion)->y.v = (s32) (((ObjectPosition *)motion)->y.v + ((ObjectPosition *)motion)->velocity_y);
     ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 | 1);
-    next_scale = ((S_80814CC4_3 *)scale)->unk_1E - 0x100;
-    ((S_80814CC4_3 *)scale)->unk_1C = next_scale;
-    ((S_80814CC4_3 *)scale)->unk_1E = next_scale;
-    if ((u16) ((S_80814CC4_3 *)scale)->unk_1C < 0x201U) {
+    next_scale = ((SpriteFrameState *)scale)->scale_y - 0x100;
+    ((SpriteFrameState *)scale)->scale_x = next_scale;
+    ((SpriteFrameState *)scale)->scale_y = next_scale;
+    if ((u16) ((SpriteFrameState *)scale)->scale_x < 0x201U) {
         ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
         flags = &effect_view[-1].flags;
         *flags = (u16) (effect_view[-1].flags | 0x8000);

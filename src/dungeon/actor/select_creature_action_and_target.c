@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -498,7 +499,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     {
         s8 room_index = ((TileObject *)position)->room_index;
         if (room_index >= 0) {
-            if (dungeon_rooms[room_index].flags & 2) {
+            if (dungeon_rooms[room_index].flags & ROOM_HOLY_BEAM) {
                 delta_or_result = default_action << 16;
                 return (u32)delta_or_result >> 16;
             }
@@ -520,7 +521,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     switch (creature[0x13]) {
 
-    case 25:
+    case MONSTER_BALOON:
     roll_actor_flag_once(creature, 0x10);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -535,7 +536,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x800A;
     return 6;
 
-    case 22:
+    case MONSTER_TROLL:
     if (creature[0x48] != 0xF) {
         break;
     }
@@ -558,7 +559,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         near_player_pos->tile_position.parts.tile_x, near_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 1;
 
-    case 44:
+    case MONSTER_GOLEM:
     roll_actor_flag_once(creature, 4);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -597,7 +598,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         ranged_player_pos->tile_position.parts.tile_x, ranged_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 5;
 
-    case 43:
+    case MONSTER_TYRANT:
     roll_actor_flag_once(creature, 0x20);
     {
         u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
@@ -617,7 +618,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &action_or_flags);
     return 5;
 
-    case 34:
+    case MONSTER_WEADOG:
     roll_actor_flag_once(creature, 0x20);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -644,7 +645,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     } while (scan_index < 2);
     break;
 
-    case 41:
+    case MONSTER_GARUDA:
     roll_actor_flag_once(creature, 0x10);
     scan_index = 0;
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
@@ -675,7 +676,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     } while (scan_index < 2);
     break;
 
-    case 40:
+    case MONSTER_KILLER:
     roll_actor_flag_once(creature, 0x40);
     {
         u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
@@ -687,7 +688,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         break;
     }
 
-    case 26:
+    case MONSTER_DREAMIN:
     roll_actor_flag_once(creature, 2);
     {
         u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
@@ -710,7 +711,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_state_flags |= 0x8000;
     break;
 
-    case 35:
+    case MONSTER_STEALTH:
     roll_actor_flag_once(creature, 4);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -727,7 +728,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x8009;
     return 5;
 
-    case 38:
+    case MONSTER_ZU:
     roll_actor_flag_once(creature, 2);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -747,7 +748,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x8009;
     return 5;
 
-    case 39:
+    case MONSTER_MANDARA:
     roll_actor_flag_once(creature, 0x10);
     {
         u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
@@ -773,7 +774,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return 5;
     }
 
-    case 32:
+    case MONSTER_PICKET:
     if (creature[0x49] == 0) {
         roll_actor_flag_once(creature, 2);
         if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
@@ -806,7 +807,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x800B;
     return 2;
 
-    case 36:
+    case MONSTER_VIPER:
     {
         u16 ability_flags = ((ActorRecord *)creature)->action_state_flags;
         ((ActorRecord *)creature)->action_state_flags = ability_flags & 0x7FFF;
@@ -853,7 +854,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return 2;
     }
 
-    case 37:
+    case MONSTER_NAPLASS:
     roll_actor_flag_once(creature, 0x20);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -861,7 +862,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x8009;
     return 5;
 
-    case 24:
+    case MONSTER_U_BOAT:
     if ((s16)get_tile_chebyshev_distance(position, ((u8 *)(&reference_tile_object))) >= 2) {
         if (creature[0xB5] == 0) {
             roll_actor_flag_once(creature, 8);
@@ -887,7 +888,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, creature + 0x98);
     goto return_wait;
 
-    case 42:
+    case MONSTER_GLACIER:
     roll_actor_flag_once(creature, 4);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -956,7 +957,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         }
     }
 
-    case 27:
+    case MONSTER_BLUME:
     roll_actor_flag_once(creature, 4);
     scan_index = 0;
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
@@ -984,13 +985,13 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     } while (scan_index < 2);
     break;
 
-    case 9:
-    case 10:
+    case MONSTER_SABER:
+    case MONSTER_SNOWMAN:
     target = find_adjacent_actor(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
     if (target == NULL) {
         break;
     }
-    if ((u32)(target[0x13] - 0x33) >= 4) {
+    if ((u32)(target[0x13] - MONSTER_WALL_OF_FIRE) >= 4) {
         break;
     }
     ((ActorRecord *)creature)->action_flags = 0x8009;
@@ -1000,7 +1001,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
 
-    case 23:
+    case MONSTER_NOISE:
     roll_actor_flag_once(creature, 0x10);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -1019,7 +1020,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     ((ActorRecord *)creature)->action_flags = 0x8009;
     return 5;
 
-    case 28:
+    case MONSTER_VOLCANO:
     if (!(((ActorRecord *)creature)->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
@@ -1055,7 +1056,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return result;
     }
 
-    case 29:
+    case MONSTER_CYCLONE:
     roll_actor_flag_once(creature, 8);
     if (!(((ActorRecord *)creature)->action_state_flags & 0x100)) {
         break;
@@ -1080,7 +1081,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return 5;
     }
 
-    case 21:
+    case MONSTER_PULUNPA:
     if (creature[0xA7] != 0) {
         if (creature[0xA8] == 0) {
             STEPVEC(neighbor);
@@ -1122,7 +1123,7 @@ return_wait:
 check_forward_target:
     {
         u8 kind = creature[0x13];
-        if (kind != 0x1E || (((ActorRecord *)creature)->flags14 & 0x20000000)) {
+        if (kind != MONSTER_MANOEVA || (((ActorRecord *)creature)->flags14 & 0x20000000)) {
             {
 
                 if ((s8)position[0x26] >= 0) {

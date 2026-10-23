@@ -6,15 +6,34 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
+/* Golem callback work rooted at the actor body. The action dispatcher, forward
+ * scan and motion transition share these slots; +0xAE selects the alternate mode. */
+typedef struct GolemActionWork {
+    u8 pad_00[0x8C];
+    union { s32 word; void *address; } callback;
+    u8 pad_90[6];
+    s16 duration;
+    u16 flags;
+    u8 state;
+    u8 phase;
+    u8 pad_9C[0xC];
+    s16 target_x;
+    s16 target_y;
+    s16 steps;
+    u8 mode;
+} GolemActionWork;
+
 s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteFrameState *actor_info, void *acting_actor);
 s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data);
 s32 initialize_directional_animation_action(void *state_ptr, s32 action_arg, void *sprite_ptr, void *entity_ptr);
-s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void *origin, void *actor);
+s32 scan_forward_tiles_for_target(GolemActionWork *action_state, void *transfer_data, void *origin, void *actor);
 
 
 
 
 void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *record, ActorRecord *actor);
 void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target);
+
+void update_dungeon_actor_actions(GolemActionWork *actor, void *context, SpriteFrameState *sprite, ActorRecord *stats);
 
 #endif

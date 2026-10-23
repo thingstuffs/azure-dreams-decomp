@@ -1,3 +1,5 @@
+#include "shared/item_ids.h"
+#include "shared/actor_property_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/def_table.h"
@@ -46,35 +48,35 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
             place_actor_item(target, event);
             return 1;
         }
-        *(s32 *)(target + 0x14) &= -8;
-        *(s32 *)(target + 0x1C) &= -8;
+        *(s32 *)(target + 0x14) &= ~ACTOR_ELEMENT_MASK;
+        *(s32 *)(target + 0x1C) &= ~ACTOR_ELEMENT_MASK;
         {
             u8 *effect_target;
             s32 color_mask;
             s32 effect_code;
             s32 event_type;
             event_type = event[0];
-            if (event_type == 5) {
+            if (event_type == ITEM_LIGHT_SEED) {
                 message = D_800E13FB;
                 effect_target = target - 32;
                 color_mask = 0xF0;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= 1;
-                *(s32 *)(target + 0x1C) |= 1;
-            } else if (event_type == 6) {
+                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_FIRE;
+                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_FIRE;
+            } else if (event_type == ITEM_SEA_SEED) {
                 message = D_800E1402;
                 effect_target = target - 32;
                 color_mask = 0xF00000;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= 2;
-                *(s32 *)(target + 0x1C) |= 2;
+                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_WATER;
+                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_WATER;
             } else {
                 message = genus_change_text;
                 effect_target = target - 32;
                 color_mask = 0xF000;
                 effect_code = 0x81C;
-                *(s32 *)(target + 0x14) |= 4;
-                *(s32 *)(target + 0x1C) |= 4;
+                *(s32 *)(target + 0x14) |= ACTOR_ELEMENT_WIND;
+                *(s32 *)(target + 0x1C) |= ACTOR_ELEMENT_WIND;
             }
             create_colored_effect_with_sound(effect_target, color_mask, effect_code);
         }
@@ -86,12 +88,12 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
                 s32 item = slot[0];
                 s32 flags = *(s32 *)(target + 0x14);
 
-                if (((item_action_definitions[item].unk_10 & 7) & flags) == 0) {
-                    if (flags & 1) {
+                if (((item_action_definitions[item].unk_10 & ACTOR_ELEMENT_MASK) & flags) == 0) {
+                    if (flags & ACTOR_ELEMENT_FIRE) {
                         slot[0] = ((item - 1) / 3) * 3 + 1;
-                    } else if (flags & 2) {
+                    } else if (flags & ACTOR_ELEMENT_WATER) {
                         slot[0] = ((item - 1) / 3) * 3 + 2;
-                    } else if (flags & 4) {
+                    } else if (flags & ACTOR_ELEMENT_WIND) {
                         slot[0] = ((item - 1) / 3) * 3 + 3;
                     }
                 }

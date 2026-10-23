@@ -78,7 +78,11 @@ extern s32 *effect_position_source;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
-/* Project and queue a textured triangle with per-vertex colors. */
+/*
+ * Allocates a shaded textured triangle packet with CLUT 0x7DCF, translates scratch vertices by
+ * effect_position_source, and projects them. Links the packet into the ordering table only for
+ * depths below 0x1E0.
+ */
 s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976CB0 *state;

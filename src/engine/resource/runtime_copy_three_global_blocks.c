@@ -13,7 +13,7 @@ typedef struct {
 extern CopyBlock map_runtime_state[3];
 extern CopyBlock map_change_state[3];
 
-/* Copy three blocks from D_8006ADEC to D_8006ADBC. */
+/* Copies three blocks from map_change_state into map_runtime_state. */
 void runtime_copy_three_global_blocks(void) {
     CopyBlock *destination = map_runtime_state;
     CopyBlock *source = map_change_state;

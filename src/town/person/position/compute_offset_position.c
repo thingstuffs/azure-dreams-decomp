@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_payload.h"
 #include "shared/vector.h"
-
 
 
 typedef struct S_800C52D0_7 {
@@ -28,22 +28,10 @@ typedef struct S_800C52D0_1 {
    /* arg1 in compute_offset_position */
 
 
-
-typedef struct S_800C52D0_4 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800C52D0_4;
-
-typedef struct S_800C52D0_5 {
-    u8 pad_00[0x1A];
-    u16 unk_1A;
-} S_800C52D0_5;   /* arg2 in compute_offset_position */
-
 /* Computes an offset position and subtracts 0x20 from the output state. */
-void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, S_800C52D0_5 *state) {
+void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, SpriteFrameState *state) {
     s32 z_product;
-    S_800C52D0_4 *offsets;
+    SpriteFrameState *offsets;
     IntVector3 *base_pos;
     S_800C52D0_1 *object_data;
 
@@ -51,8 +39,8 @@ void compute_offset_position(S_800C52D0_0 *object, IntVector3 *out_pos, S_800C52
     base_pos = object_data->unk_08;
     offsets = object_data->unk_0C;
     out_pos->y = (s32) base_pos->y;
-    out_pos->x = (s32) (base_pos->x + (offsets->unk_1C * D_800D5138));
-    z_product = ((S_800C52D0_7 *)(((ObjectPayloadView *)offsets)->unk_08))->unk_03 * offsets->unk_1E;
+    out_pos->x = (s32) (base_pos->x + (offsets->scale_x * D_800D5138));
+    z_product = ((S_800C52D0_7 *)(((ObjectPayloadView *)offsets)->unk_08))->unk_03 * offsets->scale_y;
     out_pos->z = (s32) (base_pos->z + ((z_product / 4096) * D_800D513C));
-    state->unk_1A = (u16) (state->unk_1A - 0x20);
+    state->angle_z = (u16) (state->angle_z - 0x20);
 }

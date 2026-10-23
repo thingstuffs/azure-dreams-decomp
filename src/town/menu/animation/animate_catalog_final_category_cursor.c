@@ -1,3 +1,4 @@
+#include "town/menu/catalog.h"
 #include "common.h"
 
 typedef struct HalfFields {
@@ -49,7 +50,7 @@ void animate_catalog_final_category_cursor(TownObject *obj)
     HalfFields *secondary;
 
     switch (((TownObject *)(obj))->state) {
-    case 1:
+    case CATALOG_CURSOR_NUMBER:
         index_base = 1 - ((TownObject *)(obj))->side;
         side_stride8 = index_base << 3;
         side_stride16 = index_base << 4;
@@ -70,7 +71,7 @@ void animate_catalog_final_category_cursor(TownObject *obj)
         }
         break;
 
-    case 2:
+    case CATALOG_CURSOR_HIDE:
     {
         HalfFields *primary = ((TownObject *)(obj))->pool->pair->first;
         primary->field6 = 0;
@@ -78,7 +79,7 @@ void animate_catalog_final_category_cursor(TownObject *obj)
         return;
     }
 
-    case 3:
+    case CATALOG_CURSOR_POSITION:
         ((TownObject *)(obj))->pool->pair->first->field8 = catalog_cursor_rows[((TownObject *)(obj))->side];
         ((TownObject *)(obj))->pool->pair->first->fieldA = catalog_cursor_columns;
         break;

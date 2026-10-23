@@ -3,11 +3,7 @@
 
 #include "common.h"
 #include "slus/data.h"
-
-typedef struct {
-    u8 pad[0x14];
-    s32 flags;
-} InitialStats;
+#include "engine/entity.h"
 
 typedef struct {
     u8 pad[0x13];
@@ -15,7 +11,6 @@ typedef struct {
     s32 flags;
 } Entity;
 
-extern InitialStats initialStatsTable[1];
 
 /* Returns the entity class from shared initial-stat flags or its lowest class flag. */
 s32 get_entity_class(Entity *entity)
@@ -31,17 +26,17 @@ s32 get_entity_class(Entity *entity)
 
         stats_offset += entity_id;
         stats_offset <<= 3;
-        shared_flags = ((InitialStats *)((u8 *)initialStatsTable + stats_offset))->flags & flags;
-        class_bits = shared_flags & 7;
+        shared_flags = ((EntityInitialStats *)((u8 *)initialStatsTable + stats_offset))->flags & flags;
+        class_bits = shared_flags & ACTOR_ELEMENT_MASK;
 
         if (class_bits != 0) {
             u8 *class_table = entity_class_lookup;
             class_id = class_table[class_bits];
-        } else if (flags & 1) {
+        } else if (flags & ACTOR_ELEMENT_FIRE) {
             class_id = 1;
-        } else if (flags & 2) {
+        } else if (flags & ACTOR_ELEMENT_WATER) {
             class_id = 2;
-        } else if (flags & 4) {
+        } else if (flags & ACTOR_ELEMENT_WIND) {
             class_id = 3;
         }
     }

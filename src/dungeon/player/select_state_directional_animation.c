@@ -1,3 +1,4 @@
+#include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -19,7 +20,7 @@ void select_state_16_directional_animation(void *entity, void *unused, void *ani
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_9B.as_u8 = 0;
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = 0;
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 &= 0xFFFE;
-        if (state->flags1C & 0x100000) {
+        if (state->flags1C & ACTOR_CARRYING) {
             u8 *alternate_page = D_800DD0E0;
             current_page = (*(u8 **) ((u8 *)animation + 0x2C));
             page = alternate_page;

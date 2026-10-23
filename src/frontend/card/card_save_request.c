@@ -17,8 +17,6 @@ void card_boot_set_save_menu_request(S_80026720_0 *object, s32 value) {
     object->unk_20 = value;
 }
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Set the object's field at offset 0x20 to the supplied value. */
 void card_boot_initialize_save_menu_request(void *object, s32 value) {
     card_boot_set_save_menu_request(object, value);

@@ -1,3 +1,4 @@
+#include "shared/actor_property_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.h"
 #include "engine/entity.h"
@@ -79,15 +80,15 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         }
         wobble_base += wobble;
         part->clut = wobble_base;
-    } else if (((*(s32 *)((u8 *)actor + 0x14)) & 7) != (*(s16 *)((u8 *)actor + 0xAA))) {
+    } else if (((*(s32 *)((u8 *)actor + 0x14)) & ACTOR_ELEMENT_MASK) != (*(s16 *)((u8 *)actor + 0xAA))) {
         update_owner_class_bits(actor);
-        (*(s16 *)((u8 *)actor + 0xAA)) = (*(u16 *)((u8 *)actor + 0x14)) & 7;
+        (*(s16 *)((u8 *)actor + 0xAA)) = (*(u16 *)((u8 *)actor + 0x14)) & ACTOR_ELEMENT_MASK;
     }
 
     part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
         view_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
-        state_direction = (view_angle >> 9) & 7;
+        state_direction = (view_angle >> 9) & ACTOR_ELEMENT_MASK;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {

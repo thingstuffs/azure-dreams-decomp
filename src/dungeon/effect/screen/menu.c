@@ -915,11 +915,6 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
 #include "common.h"
 #include "shared/game_work.h"
 
-#define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
 
 
@@ -958,9 +953,7 @@ typedef struct SpritePartWork {
     u16 sprite_height;
 } SpritePartWork;
 
-typedef struct {
-    u8 bytes[12];
-} Record;
+
 
 
 extern void PushMatrix();
@@ -979,14 +972,14 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
     SpritePartWork *scratch = (SpritePartWork *)0x1F800000;
-    SpriteFrameState *sprite = P32(context, -0x14);
-    s32 callback_arg = S32(context, -0x18);
+    SpriteFrameState *sprite = ((ObjectNodeHeader *)((u8 *)context - 0x20))->sprite;
+    s32 callback_arg = (s32)((ObjectNodeHeader *)((u8 *)context - 0x20))->position;
     s16 saved_mode = draw_mode;
     GpuContext *root = g_game_work.draw_buffer;
-    Record *part = sprite->source;
+    SpritePartCommand *part = sprite->source;
     GpuContext **global_slot = ((GpuContext * *)(&g_game_work));
     u8 *scratch_base;
-    u8 *packet;
+    SpritePartQuad *packet;
     s32 mode_bits;
     s32 extent;
     u8 edge_byte;
@@ -997,14 +990,14 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
     scratch->corners[2].z = 0;
     scratch->corners[1].z = 0;
     scratch->corners[0].z = 0;
-    packet = root->packetCursor;
+    packet = (SpritePartQuad *)root->packetCursor;
     mode_bits = draw_mode << 16;
     scratch->ordering_table = depth;
     scratch->unk_C0 = 0;
     if (mode_bits != 0) {
         func_80067EF4(packet, 0, 0, mode_bits);
         AddPrim(scratch->ordering_table, packet);
-        packet += 12;
+        packet = (SpritePartQuad *)((u8 *)packet + 12);
     }
     PushMatrix();
 
@@ -1053,19 +1046,19 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
     do {
         scratch = (SpritePartWork *)0x1F800000;
-        if (!(U8(part, 0) & 0x20)) {
+        if (!(part->flags & 0x20)) {
             s32 edge;
             s16 edge1;
             s16 edge2;
-            scratch->texture_u.value = U8(part, 8);
-            scratch->texture_v.value = U8(part, 9);
-            scratch->texture_width.value = U8(part, 0xA);
-            scratch->texture_height.value = U8(part, 0xB);
+            scratch->texture_u.value = part->data.texture.u;
+            scratch->texture_v.value = part->data.texture.v;
+            scratch->texture_width.value = part->data.texture.width;
+            scratch->texture_height.value = part->data.texture.height;
 
             {
-                if (((U8(part, 0) ^ scratch->sprite_flags) & 1) != 0) {
+                if (((part->flags ^ scratch->sprite_flags) & 1) != 0) {
 
-                    edge_byte = U8(part, 2);
+                    edge_byte = part->offset_x;
                     y_component = scratch->sprite_width;
                     extent = scratch->texture_width.low;
                     edge1 = (s8)edge_byte;
@@ -1077,7 +1070,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                     scratch->corners[1].x = edge1;
                 } else {
 
-                    edge_byte = U8(part, 2);
+                    edge_byte = part->offset_x;
                     y_component = scratch->sprite_width;
                     extent = scratch->texture_width.low;
                     edge1 = (s8)edge_byte;
@@ -1091,9 +1084,9 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
             }
 
             {
-                if (((U8(part, 0) ^ scratch->sprite_flags) & 2) != 0) {
+                if (((part->flags ^ scratch->sprite_flags) & 2) != 0) {
 
-                    edge_byte = U8(part, 3);
+                    edge_byte = part->offset_y;
                     y_component = scratch->sprite_height;
                     extent = scratch->texture_height.low;
                     edge2 = (s8)edge_byte;
@@ -1105,7 +1098,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                     scratch->corners[2].y = edge2;
                 } else {
 
-                    edge_byte = U8(part, 3);
+                    edge_byte = part->offset_y;
                     y_component = scratch->sprite_height;
                     extent = scratch->texture_height.low;
                     edge2 = (s8)edge_byte;
@@ -1127,15 +1120,15 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 s32 vertex_xy;
 
                 vertex_xy = scratch->projected[0].xy;
-                S32(packet, 8) = vertex_xy;
+                packet->vertex[0].xy.word = vertex_xy;
                 vertex_xy = scratch->projected[1].xy;
-                S32(packet, 0x10) = vertex_xy;
+                packet->vertex[1].xy.word = vertex_xy;
                 vertex_xy = scratch->projected[2].xy;
-                S32(packet, 0x18) = vertex_xy;
+                packet->vertex[2].xy.word = vertex_xy;
                 depth = scratch->projected[3].xy;
                 vertex_xy = 9;
-                U8(packet, 3) = vertex_xy;
-                S32(packet, 0x20) = depth;
+                packet->tag.bytes.length = vertex_xy;
+                packet->vertex[3].xy.word = depth;
             }
 
             {
@@ -1173,31 +1166,31 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 s32 clut_offset = sprite->clut;
                 if (clut_offset != 0) {
                     if (scratch->sprite_flags & 0x100) {
-                        U16(packet, 0x0E) = clut_offset;
+                        packet->vertex[0].uv.bytes.attr = clut_offset;
                     } else {
-                        clut = U16(part, 6);
-                        U16(packet, 0x0E) = clut_offset + clut;
+                        clut = part->clut;
+                        packet->vertex[0].uv.bytes.attr = clut_offset + clut;
                     }
                 } else {
-                    clut = U16(part, 6);
-                    U16(packet, 0x0E) = clut;
+                    clut = part->clut;
+                    packet->vertex[0].uv.bytes.attr = clut;
                 }
             }
 
-            S16(packet, 0x0C) = scratch->texture_v.low + scratch->texture_u.low;
-            S16(packet, 0x14) = scratch->texture_v.low + scratch->texture_width.low;
+            packet->vertex[0].uv.pair = scratch->texture_v.low + scratch->texture_u.low;
+            packet->vertex[1].uv.pair = scratch->texture_v.low + scratch->texture_width.low;
 
             {
                 s32 page_input;
                 s32 page_offset = sprite->tpage_abr;
                 if (page_offset != 0) {
-                    page_input = U16(part, 4);
+                    page_input = part->tpage;
                     page_input &= 0xFF9F;
                     edge = page_offset + page_input;
                 } else {
-                    edge = U16(part, 4);
+                    edge = part->tpage;
                 }
-                U16(packet, 0x16) = edge;
+                packet->vertex[1].uv.bytes.attr = edge;
             }
             {
                 s16 edge_work;
@@ -1208,37 +1201,37 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
                 edge_work = scratch->texture_height.low;
                 uv_work = scratch->texture_u.low;
-                left_x = S16(packet, 8);
+                left_x = packet->vertex[0].xy.parts.x;
                 edge_work |= uv_work;
-                S16(packet, 0x1C) = edge_work;
+                packet->vertex[2].uv.pair = edge_work;
                 uv_work_2 = scratch->texture_height.low;
                 right_u = scratch->texture_width.low;
-                edge_work = S16(packet, 0x20);
+                edge_work = packet->vertex[3].xy.parts.x;
                 uv_work_2 |= right_u;
                 edge_work = edge_work < left_x;
-                S16(packet, 0x24) = uv_work_2;
+                packet->vertex[3].uv.pair = uv_work_2;
                 if (edge_work != 0) {
-                    uv_work = U8(packet, 0x24);
+                    uv_work = packet->vertex[3].uv.bytes.u;
                     edge_work = uv_work + 0xFF;
-                    U8(packet, 0x24) = edge_work;
-                    U8(packet, 0x14) = uv_work;
+                    packet->vertex[3].uv.bytes.u = edge_work;
+                    packet->vertex[1].uv.bytes.u = uv_work;
                 }
             }
             {
                 s32 bottom_y;
                 s32 top_y;
-                top_y = S16(packet, 0x0A);
-                bottom_y = S16(packet, 0x22);
+                top_y = packet->vertex[0].xy.parts.y;
+                bottom_y = packet->vertex[3].xy.parts.y;
                 if (bottom_y < top_y) {
-                    top_y = U8(packet, 0x25);
+                    top_y = packet->vertex[3].uv.bytes.v;
                     bottom_y = top_y + 0xFF;
-                    U8(packet, 0x25) = bottom_y;
-                    U8(packet, 0x1D) = top_y;
+                    packet->vertex[3].uv.bytes.v = bottom_y;
+                    packet->vertex[2].uv.bytes.v = top_y;
                 }
             }
 
             {
-                s32 part_code = U8(part, 1);
+                s32 part_code = part->code;
                 s32 draw_code;
                 s32 draw_flags;
                 sprite->color.c.code = part_code;
@@ -1259,27 +1252,27 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
                 u8 *draw_packet;
                 s32 color_code;
                 color_code = sprite->color.word;
-                draw_packet = packet;
-                S32(packet, 4) = color_code;
+                draw_packet = (u8 *)packet;
+                packet->color = color_code;
                 AddPrim(scratch->ordering_table, draw_packet);
-                packet += 40;
+                packet++;
 
             }
         } else {
-            callback = P32(part, 8);
+            callback = part->data.callback;
             if (callback != 0) {
                 register s32 callback_result;
                 callback_result = callback(context, callback_arg, sprite, part, packet);
                 if (callback_result > 0) {
                     u32 cached_base = 0x80000000;
-                    part = (Record *)(callback_result | cached_base);
+                    part = (SpritePartCommand *)(callback_result | cached_base);
                 } else {
-                    packet = (u8 *)callback_result;
+                    packet = (SpritePartQuad *)callback_result;
                 }
             }
         }
 
-        if ((s8)U8(part++, 0) < 0) {
+        if ((s8)part++->flags < 0) {
             break;
         }
     } while (1);
@@ -1288,11 +1281,11 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         if (end_mode_bits != 0) {
             func_80067EF4(packet, 0, 1);
             AddPrim(scratch->ordering_table, packet);
-            packet += 12;
+            packet = (SpritePartQuad *)((u8 *)packet + 12);
         }
     }
     PopMatrix();
-    (*global_slot)->packetCursor = packet;
+    (*global_slot)->packetCursor = (u8 *)packet;
     return;
 }
 #include "common.h"
@@ -1300,7 +1293,6 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-#define F(base, type, off) (*(type *)((char *)(base) + (off)))
 
 extern void *screen_effect_target[];
 
@@ -1308,85 +1300,85 @@ extern s32 play_sound_if_enabled();
 extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
-void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg) {
-    void *target;
-    void *target_pos;
+void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg) {
+    ActorRecord *target;
+    ObjectPosition *target_pos;
 
-    if (F(state, s16, 0xC) == 0) {
-        void *tracked_target = F(F(state, void *, 0), void *, 0);
+    if (state->phase.s == 0) {
+        ActorRecord *tracked_target = *state->target;
         if (tracked_target != 0) {
             if (screen_effect_target[0] != tracked_target) {
                 play_sound_if_enabled(0x507);
-                F(state, s16, 0xE) = 4;
-                screen_effect_target[0] = F(F(state, void *, 0), void *, 0);
+                state->frames_left.s = 4;
+                screen_effect_target[0] = *state->target;
             }
         } else {
             void *fallback_target;
             u16 phase;
-            F(state, s16, 0xE) = 4;
+            state->frames_left.s = 4;
             fallback_target = dungeon_actor_ring_anchor;
-            phase = F(state, u16, 0xC);
+            phase = state->phase.u;
             screen_effect_target[0] = fallback_target;
-            F(state, u16, 0xC) = phase + 1;
+            state->phase.u = phase + 1;
         }
-        if (F(marker_arg, u16, 0x1C) < 0x1000) {
-            u16 next_scale = F(marker_arg, u16, 0x1E) + 0x200;
-            F(marker_arg, u16, 0x1E) = next_scale;
-            F(marker_arg, u16, 0x1C) = next_scale;
+        if (marker_arg->scale_x < 0x1000) {
+            u16 next_scale = marker_arg->scale_y + 0x200;
+            marker_arg->scale_y = next_scale;
+            marker_arg->scale_x = next_scale;
             if (next_scale >= 0x1001) {
-                F(marker_arg, u16, 0x1E) = 0x1000;
-                F(marker_arg, u16, 0x1C) = 0x1000;
+                marker_arg->scale_y = 0x1000;
+                marker_arg->scale_x = 0x1000;
             }
         }
     } else {
-        s16 frames_left = F(state, s16, 0xE);
+        s16 frames_left = state->frames_left.s;
         if (frames_left != 0) {
-            u16 scale = F(marker_arg, u16, 0x1E);
+            u16 scale = marker_arg->scale_y;
             u16 next_scale = (u16)((s32)scale - (s32)scale / frames_left);
-            F(marker_arg, u16, 0x1E) = next_scale;
-            F(marker_arg, u16, 0x1C) = next_scale;
+            marker_arg->scale_y = next_scale;
+            marker_arg->scale_x = next_scale;
         } else {
-            F(marker_arg, u16, 0x1E) = 0;
-            F(marker_arg, u16, 0x1C) = 0;
+            marker_arg->scale_y = 0;
+            marker_arg->scale_x = 0;
         }
     }
 
     {
-        void *tracked_target = F(F(state, void *, 0), void *, 0);
+        ActorRecord *tracked_target = *state->target;
         if (tracked_target == 0) {
-            F(marker_arg, s32, 0xC) = 0x808080;
-        } else if (tracked_target == F(dungeon_actor_ring_anchor, void *, 0xAC)) {
-            F(marker_arg, s32, 0xC) = 0x101080;
+            marker_arg->color.word = 0x808080;
+        } else if (tracked_target == dungeon_actor_ring_anchor->unk_AC) {
+            marker_arg->color.word = 0x101080;
         } else {
-            F(marker_arg, s32, 0xC) = 0x801010;
+            marker_arg->color.word = 0x801010;
         }
     }
     target = screen_effect_target[0];
-    target_pos = F((char *)target - 0x18, void *, 0);
-    if (F(state, s16, 0xE) != 0) {
-        F(((void *)(position_arg)), s32, 0) = F(((void *)(position_arg)), s32, 0) + (F(target_pos, s32, 0)
-            - F(((void *)(position_arg)), s32, 0)) / F(state, s16, 0xE);
-        F(((void *)(position_arg)), s32, 4) = F(((void *)(position_arg)), s32, 4) + (F(target_pos, s32, 4)
-            - F(((void *)(position_arg)), s32, 4)) / F(state, s16, 0xE);
-        F(((void *)(position_arg)), s32, 8) = F(((void *)(position_arg)), s32, 8) + (((s32)(F(target, s16, 0x88)
-            - F(((void *)(position_arg)), s16, 0xA))) << 16) / F(state, s16, 0xE);
+    target_pos = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
+    if (state->frames_left.s != 0) {
+        position_arg->x.v = position_arg->x.v + (target_pos->x.v
+            - position_arg->x.v) / state->frames_left.s;
+        position_arg->y.v = position_arg->y.v + (target_pos->y.v
+            - position_arg->y.v) / state->frames_left.s;
+        position_arg->z.v = position_arg->z.v + (((s32)(target->ground_height
+            - position_arg->z.w.i)) << 16) / state->frames_left.s;
         {
-            s16 frames_left = F(state, u16, 0xE) - 1;
-            F(state, u16, 0xE) = frames_left;
+            s16 frames_left = state->frames_left.u - 1;
+            state->frames_left.u = frames_left;
             if (frames_left == 0) {
-                if (F(state, s16, 0xC) == 0) {
-                    F(((void *)(position_arg)), u16, 2) = F(target_pos, u16, 2);
-                    F(((void *)(position_arg)), u16, 6) = F(target_pos, u16, 6);
-                    F(((void *)(position_arg)), u16, 0xA) = F(target, u16, 0x88);
+                if (state->phase.s == 0) {
+                    position_arg->x.w.i = (u16)target_pos->x.w.i;
+                    position_arg->y.w.i = (u16)target_pos->y.w.i;
+                    position_arg->z.w.i = (u16)target->ground_height;
                 } else {
-                    F(state, u16, -2) = F(state, u16, -2) | 0x8000;
+                    ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags = ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags | 0x8000;
                     g_dungeon_status.active_actor = 0;
                     object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
                 }
             }
         }
     }
-    F(marker_arg, u16, 0x1A) = F(marker_arg, u16, 0x1A) + 0x40;
+    marker_arg->angle_z = marker_arg->angle_z + 0x40;
     advance_sprite_animation_and_textures(marker_arg);
 }
 #include "common.h"
@@ -1436,7 +1428,6 @@ extern s16 camera_depth_target[5];
 extern void * allocate_list_node();
 extern s32 register_node();
 extern s32 draw_linked_sprites_clipped();
-extern void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg);
 extern void select_record_entry_and_value();
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
@@ -1444,12 +1435,12 @@ extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPos
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
     Obj_800B4204 *object;
     SubA_800B4204 *transform;
-    SubB_800B4204 *sprite;
-    u8 *owner_data;
+    SpriteFrameState *sprite;
+    FamiliarMarkerWork *owner_data;
 
     object = allocate_list_node(18, &scene_object_list_anchor.next);
     if (object != 0) {
-        owner_data = (u8 *)object + 0x20;
+        owner_data = (FamiliarMarkerWork *)((u8 *)object + 0x20);
         register_node(object, (void *)draw_linked_sprites_clipped);
         object->stateFn = update_familiar_selection_marker;
 
@@ -1465,15 +1456,15 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
             u16 flags;
 
             color = 0x2c808080;
-            sprite->f1E = 256;
-            sprite->f1C = 256;
-            sprite->f10 = 32;
-            flags = sprite->f14;
-            sprite->fC = color;
-            sprite->f6 = 4;
-            sprite->f14 = flags | 0xC;
-            *(s16 *)(owner_data + 0xE) = 4;
-            object->owner = entity_ref;
+            sprite->scale_y = 256;
+            sprite->scale_x = 256;
+            sprite->tpage_abr = 32;
+            flags = sprite->flags;
+            sprite->color.word = color;
+            sprite->depth_bias = 4;
+            sprite->flags = flags | 0xC;
+            owner_data->frames_left.s = 4;
+            owner_data->target = entity_ref;
 
             g_dungeon_status.active_actor = object;
             select_nearby_target_and_initialize_slot(object, transform, 8, camera_depth_target[0]);

@@ -32,13 +32,7 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, s32 ignored_
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-   /* the 0x2 bytes before arg0 in func_800240B8, addressed as arg0[-1] */
-
-   /* arg0 in func_800240B8 */
-
-   /* arg1 in func_800240B8 */
-
-/* Increment counters, reduce the stored value, and propagate status flags. */
+   /* Increment counters, reduce the stored value, and propagate status flags. */
 void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
@@ -103,9 +97,7 @@ s32 create_colored_offset_sprite(s32 context_value, void *source_state, s32 rend
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "shared/object_flags.h"
-   /* the 0x14 bytes before the target, addressed as target[-1] */
-
-/* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
+   /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
@@ -858,15 +850,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
 #include "m2c_compat.h"
 extern int abs(int);
 
-   /* arg0 in advance_movement_toward_reachable_tile */
-
-   /* arg2 in advance_movement_toward_reachable_tile */
-
-   /* arg1 in advance_movement_toward_reachable_tile */
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-
-/* Advance movement toward a target or a reachable tile, then finish the timed action. */
+   /* Advance movement toward a target or a reachable tile, then finish the timed action. */
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;

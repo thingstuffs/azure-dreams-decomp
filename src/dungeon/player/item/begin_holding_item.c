@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -93,7 +94,7 @@ void *begin_holding_item(void *actor, s32 action, void *target, void *item)
     s32 text_cursor;
 
     actor_state = actor;
-    if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != 0)) {
+    if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != ITEM_KIND_NONE)) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
         text_cursor = append_typed_formatted_value(item, text_cursor);
@@ -126,7 +127,7 @@ print_message:
         text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
         clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);
-        if (((S_80098CF8_1 *)item)->unk_00.at01.v == 0x11) {
+        if (((S_80098CF8_1 *)item)->unk_00.at01.v == ITEM_KIND_SHIELD) {
             change_equipped_item_and_notify(actor_state, item);
         } else {
             equip_item_and_update_status(actor_state, item);

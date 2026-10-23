@@ -198,7 +198,7 @@ void configure_decoder_command_flags(s32 *command, s32 flags)
     start_decoder_input_dma(command, *(u16 *)command);
 }
 #include "../../ovmovie/modules/ovmovie_libpress.h"
-/* Send the output DMA request to the decoder. */
+/* Calls start_decoder_output_dma with destination, words. */
 void request_decoder_output_dma(s32 destination, u32 words) { start_decoder_output_dma(destination, words); }
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 
@@ -315,7 +315,7 @@ static s32 wait_for_decoder_output_dma(void) {
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 
 
-/* Return the value pointed to by D_80178380. */
+/* Reads the MDEC status word through movie_mdec_status_register. */
 static u32 read_decoder_status_register(void) {
     return *(s32 *)movie_mdec_status_register;
 }

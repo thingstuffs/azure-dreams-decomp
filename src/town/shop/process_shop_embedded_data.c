@@ -19,9 +19,7 @@ typedef struct S_800B07D0_2 {
 void func_800497F4(Struct800497F4 *object, s32 stop_at_gray);
 struct FrameState; s32 advance_timed_tagged_stream(struct FrameState *);                         /* extern */
 
-   /* arg0 in process_shop_embedded_data */
-
-/* Process the embedded data and pass the record flag bits to its two linked handles. */
+   /* Process the embedded data and pass the record flag bits to its two linked handles. */
 void process_shop_embedded_data(void *record) {
     advance_timed_tagged_stream(record + 0x28);
     func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_74, ((ItemMenuFlagsView *)record)->unk_1C & 2);

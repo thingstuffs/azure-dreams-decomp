@@ -12,7 +12,10 @@ extern char *award_next_unearned_milestone(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
-/* Selects a string by selector and state flags. */
+/*
+ * Selects ID-12 dialogue from F_sbs32_pad11/F_sbs32_pad12 after processing F_sbs32_pad25; handles
+ * IDs 18/19 directly and 52 through 54 as milestone awards, with a default fallback.
+ */
 char *select_string_selector_state_flags(s32 unused_0, s32 unused_1, s32 string_selector)
 {
     s32 selector = string_selector;

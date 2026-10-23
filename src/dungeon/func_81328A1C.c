@@ -1,4 +1,4 @@
 #include "dungeon/system/reserved_hook.h"
 
-/* Reserved callback slot. */
+/* Returns without reading or changing state. */
 void empty_reserved_callback(void) { }

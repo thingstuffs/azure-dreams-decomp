@@ -529,9 +529,9 @@ void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_gener
 s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound);
 void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id);
 void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1);
-void initialize_random_room_slot(void *room, s32 rng_arg1);
+void initialize_random_room_slot(void *room, s32 unused);
 void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id);
-void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1);
+void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 unused);
 void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id);
 void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base);
 void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region);

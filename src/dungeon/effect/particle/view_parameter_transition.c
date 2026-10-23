@@ -396,10 +396,10 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
 
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
-void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8 *effect_pos, u8 *effect_display) {
+void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, ObjectPosition *effect_pos, SpriteFrameState *effect_display) {
     s16 origin_offset[4];
     OffsetPair direction_offsets[8];
-    u8 *display = effect_display;
+    SpriteFrameState *display = effect_display;
     u8 *owner;
     u8 *entity;
     u8 *source;
@@ -416,13 +416,13 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
     source = PTR_AT(entity, 0x08);
     switch (state) {
     case 0:
-        S32_AT(display, 0x0C) = 0x00808080;
-        U16_AT(display, 0x1E) = 0x1000;
-        U16_AT(display, 0x1C) = 0x1000;
+        display->color.word = 0x00808080;
+        display->scale_y = 0x1000;
+        display->scale_x = 0x1000;
         copy_page = (u8 *)0x80020000;
         copy_source = D_800252FC;
         memcpy(effect_data->sprite_data.bytes, copy_source, 12);
-        PTR_AT(display, 0x08) = effect_data->sprite_data.bytes;
+        display->source = effect_data->sprite_data.bytes;
         {
             u32 owner_bits = U16_AT(owner, 0x2A);
 
@@ -455,11 +455,11 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
 
                 if (!(effect_data->flags & 4)) {
                     register_node(task, (s32)project_sprite_chain);
-                    U16_AT(display, 0x10) = 0x20;
-                    U8_AT(display, 0x0E) = 0x14;
-                    U8_AT(display, 0x0D) = 0x14;
-                    U8_AT(display, 0x0C) = 0x14;
-                    U16_AT(display, 0x14) |= 0x0C;
+                    display->tpage_abr = 0x20;
+                    display->color.c.b = 0x14;
+                    display->color.c.g = 0x14;
+                    display->color.c.r = 0x14;
+                    display->flags |= 0x0C;
                     effect_data->flags |= 4;
                 }
             }
@@ -470,11 +470,11 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
 
                 if (!(effect_data->flags & 4)) {
                     register_node(task, (s32)project_sprite_chain);
-                    U16_AT(display, 0x10) = 0x20;
-                    U8_AT(display, 0x0E) = 0x14;
-                    U8_AT(display, 0x0D) = 0x14;
-                    U8_AT(display, 0x0C) = 0x14;
-                    U16_AT(display, 0x14) |= 0x0C;
+                    display->tpage_abr = 0x20;
+                    display->color.c.b = 0x14;
+                    display->color.c.g = 0x14;
+                    display->color.c.r = 0x14;
+                    display->flags |= 0x0C;
                     effect_data->flags |= 4;
                 }
             }
@@ -544,10 +544,10 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             }
 
         }
-        S32_AT(effect_pos, 0x0C) = direction_offsets[effect_data->direction].x << 16;
-        S32_AT(effect_pos, 0x10) = (u16)direction_offsets[effect_data->direction].y << 16;
-        S32_AT(effect_pos, 0x14) = ((effect_data->target_height.s << 16) -
-            S32_AT(effect_pos, 0x08)) / effect_data->flight_ticks.s;
+        effect_pos->velocity_x = direction_offsets[effect_data->direction].x << 16;
+        effect_pos->velocity_y = (u16)direction_offsets[effect_data->direction].y << 16;
+        effect_pos->velocity_z = ((effect_data->target_height.s << 16) -
+            effect_pos->z.v) / effect_data->flight_ticks.s;
         {
             s8 timer = effect_data->flight_ticks.s;
             s16 timer_copy;
@@ -592,31 +592,31 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             s32 timer = effect_data->initial_ticks;
             s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
-            U8_AT(display, 0x0C) = (((timer * timer) * 7) << 5) /
+            display->color.c.r = (((timer * timer) * 7) << 5) /
                 effect_data->ticks_squared + 0x14;
         }
         {
             s32 timer = effect_data->initial_ticks;
             s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
-            U8_AT(display, 0x0D) = ((timer * timer) << 7) /
+            display->color.c.g = ((timer * timer) << 7) /
                 effect_data->ticks_squared + 0x14;
         }
         {
             s32 timer = effect_data->initial_ticks;
             s32 remaining = effect_data->flight_ticks.s;
             timer -= remaining;
-            U8_AT(display, 0x0E) = ((timer * timer) << 7) /
+            display->color.c.b = ((timer * timer) << 7) /
                 effect_data->ticks_squared + 0x14;
         }
 
         if ((check_adjacent_tile_height_clearance(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
-                S16_AT(effect_pos, 0x0A), PTR_AT(owner, 0x60)) << 16) != 0) {
+                effect_pos->z.w.i, PTR_AT(owner, 0x60)) << 16) != 0) {
             effect_data->state = 8;
             effect_data->timer.s = 0;
-            U8_AT(display, 0x0E) = 0;
-            U8_AT(display, 0x0D) = 0;
-            U8_AT(display, 0x0C) = 0;
+            display->color.c.b = 0;
+            display->color.c.g = 0;
+            display->color.c.r = 0;
             break;
         }
 
@@ -636,15 +636,15 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
 
             effect_data->state = 8;
             effect_data->timer.s = 0;
-            U8_AT(display, 0x0E) = 0;
-            U8_AT(display, 0x0D) = 0;
-            U8_AT(display, 0x0C) = 0;
+            display->color.c.b = 0;
+            display->color.c.g = 0;
+            display->color.c.r = 0;
             break;
         }
 
-        S32_AT(effect_pos, 0x00) += S32_AT(effect_pos, 0x0C);
-        S32_AT(effect_pos, 0x04) += S32_AT(effect_pos, 0x10);
-        S32_AT(effect_pos, 0x08) += S32_AT(effect_pos, 0x14);
+        effect_pos->x.v += effect_pos->velocity_x;
+        effect_pos->y.v += effect_pos->velocity_y;
+        effect_pos->z.v += effect_pos->velocity_z;
         break;
     }
 
@@ -679,9 +679,9 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             register_node(source, project_sprite_chain);
 
             {
-                u8 *spawn_display = PTR_AT(source, 0x0C);
-                U16_AT(spawn_display, 0x10) = 0x20;
-                U16_AT(spawn_display, 0x14) |= 0x0C;
+                SpriteFrameState *spawn_display = PTR_AT(source, 0x0C);
+                spawn_display->tpage_abr = 0x20;
+                spawn_display->flags |= 0x0C;
             }
             display = PTR_AT(source, 0x08);
 
@@ -691,16 +691,16 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             trig = rcos(S16_AT(entity, 0x0C));
             S32_AT(display, 0x04) = S32_AT(entity, 0x50) +
                 (S16_AT(entity, 0x0A) * trig * 0x10);
-            S32_AT(display, 0x08) = S32_AT(effect_pos, 0x08) +
+            S32_AT(display, 0x08) = effect_pos->z.v +
                 (entity_height_offsets[U8_AT(PTR_AT(owner, 0x60), 0x13)] << 16);
 
             {
-                u8 *spawn_display = PTR_AT(source, 0x0C);
-                U16_AT(spawn_display, 0x1E) = 0x1000;
-                U16_AT(spawn_display, 0x1C) = 0x1000;
-                U8_AT(spawn_display, 0x0E) = 0x14;
-                U8_AT(spawn_display, 0x0D) = 0x14;
-                U8_AT(spawn_display, 0x0C) = 0x14;
+                SpriteFrameState *spawn_display = PTR_AT(source, 0x0C);
+                spawn_display->scale_y = 0x1000;
+                spawn_display->scale_x = 0x1000;
+                spawn_display->color.c.b = 0x14;
+                spawn_display->color.c.g = 0x14;
+                spawn_display->color.c.r = 0x14;
                 select_record_entry_and_value(spawn_display, ribbon_sprite_entries, 0);
             }
         }
@@ -716,14 +716,14 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
     case 4:
     {
         s32 fade_frame;
-        u8 *target_display;
+        SpriteFrameState *target_display;
 
         effect_data->timer.u++;
         fade_frame = effect_data->timer.s;
         if (fade_frame < 20) {
-            U8_AT(display, 0x0C) = ((20 - effect_data->timer.s) * 0xE0) / 20;
-            U8_AT(display, 0x0D) = ((20 - effect_data->timer.s) * 0x80) / 20;
-            U8_AT(display, 0x0E) = ((20 - effect_data->timer.s) * 0x80) / 20;
+            display->color.c.r = ((20 - effect_data->timer.s) * 0xE0) / 20;
+            display->color.c.g = ((20 - effect_data->timer.s) * 0x80) / 20;
+            display->color.c.b = ((20 - effect_data->timer.s) * 0x80) / 20;
 
             if (effect_data->sprite_phase == 0) {
                 effect_data->sprite_phase = 1;
@@ -755,13 +755,13 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             S32_AT(target, 0x1C) |= 0x10000000;
             target_display = PTR_AT(target, -0x14);
             if (effect_data->timer.s >= 76) {
-                U8_AT(target_display, 0x0E) += 3;
-                U8_AT(target_display, 0x0D) += 3;
-                U8_AT(target_display, 0x0C) -= 4;
+                target_display->color.c.b += 3;
+                target_display->color.c.g += 3;
+                target_display->color.c.r -= 4;
             } else {
-                U8_AT(target_display, 0x0E) -= 3;
-                U8_AT(target_display, 0x0D) -= 3;
-                U8_AT(target_display, 0x0C) += 4;
+                target_display->color.c.b -= 3;
+                target_display->color.c.g -= 3;
+                target_display->color.c.r += 4;
             }
         }
 
@@ -770,9 +770,9 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, u8
             target_display = PTR_AT(target, -0x14);
 
             S32_AT(target, 0x1C) &= 0xEFFFFFFF;
-            U8_AT(target_display, 0x0E) = 0x80;
-            U8_AT(target_display, 0x0D) = 0x80;
-            U8_AT(target_display, 0x0C) = 0x80;
+            target_display->color.c.b = 0x80;
+            target_display->color.c.g = 0x80;
+            target_display->color.c.r = 0x80;
             apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), effect_data->variant, owner);
             effect_data->state = 8;
             effect_data->timer.s = 0x1E;

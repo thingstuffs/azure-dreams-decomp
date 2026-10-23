@@ -55,12 +55,12 @@ s32 lookup_level_experience_threshold(Struct1 *entry, s16 index_offset) {
     return entity_level_thresholds[entry->unk11 + index_offset];
 }
 
-/* Look up a word through the byte index table D_800712AC. */
+/* Indexes item_display_icon_words through primary_packet_limit_indices. */
 s32 lookup_patterned_display_icon(s32 index) {
     return item_display_icon_words[primary_packet_limit_indices[index]];
 }
 
-/* Look up a word through the byte index table D_800712B0. */
+/* Indexes item_display_icon_words through secondary_packet_limit_indices. */
 s32 lookup_unpatterned_display_icon(s32 index) {
     return item_display_icon_words[secondary_packet_limit_indices[index]];
 }
@@ -69,7 +69,7 @@ s32 lookup_unpatterned_display_icon(s32 index) {
 extern void *optional_resource_descriptor[4];
 extern void resource_load_current_optional_descriptor(void);
 
-/* Set the list tail to D_800812D0 and process the list. */
+/* Selects primary_optional_resource_descriptor and starts loading that optional resource descriptor. */
 void load_primary_optional_resource_descriptor(void)
 {
     optional_resource_descriptor[0] = (void *)primary_optional_resource_descriptor;

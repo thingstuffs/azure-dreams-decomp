@@ -45,9 +45,7 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
     }
 }
 
-   /* the 0x2 bytes before arg0 in func_80024124, addressed as arg0[-1] */
-
-/* Advance effect motion and lifetime, updating its object and marking completion. */
+   /* Advance effect motion and lifetime, updating its object and marking completion. */
 void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object)
 {
     u16 timer;

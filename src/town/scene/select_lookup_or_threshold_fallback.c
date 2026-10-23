@@ -1,5 +1,9 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/*
+ * Returns D_8001B6D0 on the negative-threshold check; otherwise queries D_8001A984 with
+ * scene_response_context and substitutes D_8001F560 when the follow-up check succeeds.
+ */
 s32 select_lookup_or_threshold_fallback(s32 value, s32 check_value, s32 lookup_value) {
     s32 result;
 

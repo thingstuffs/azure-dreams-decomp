@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
@@ -50,44 +51,44 @@ s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
     }
     item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&reference_tile_object.selected_item))->unk_00.as_pv))->unk_01;
     switch (item_type) {
-    case 15:
-    case 16:
+    case ITEM_KIND_SWORD:
+    case ITEM_KIND_WAND:
         equipment_item = NULL;
         if (((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
             equipment_item = ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
         }
         equip_item_and_update_status(actor_base, equipment_item);
         break;
-    case 17:
+    case ITEM_KIND_SHIELD:
         accessory_item = NULL;
         if (((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
             accessory_item = ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
         }
         change_equipped_item_and_notify(actor_base, accessory_item);
         break;
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
+    case ITEM_KIND_HERB:
+    case ITEM_KIND_FRUIT:
+    case ITEM_KIND_SEED:
+    case ITEM_KIND_BALL:
+    case ITEM_KIND_SCROLL:
+    case ITEM_KIND_CRYSTAL:
+    case ITEM_KIND_BELL:
+    case ITEM_KIND_GLASSES:
+    case ITEM_KIND_LOUPE:
+    case ITEM_KIND_SAND:
     case 11:
     case 12:
     case 13:
-    case 14:
+    case ITEM_KIND_COIN:
         result = dispatch_dungeon_category_action(actor_base, ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u, 3, 0);
         break;
-    case 18:
+    case ITEM_KIND_EGG:
         actor->unk_BC = (void *) ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
         begin_target_flagged_action(actor, saved_x, saved_y, actor_base);
         break;
-    case 19:
-    case 20:
-    case 21:
+    case ITEM_KIND_FAMILIAR:
+    case ITEM_KIND_ELEVATOR:
+    case ITEM_KIND_TRAP:
     default:
         break;
     }

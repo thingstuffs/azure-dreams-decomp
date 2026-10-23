@@ -7,6 +7,10 @@ extern s32 func_8001868C(s32 flag);
 extern void initialize_state_two_entries_pointer(s32 flag);
 extern void func_800177CC(Town654Request *, s32);
 
+/*
+ * Initializes the request entry pointers from flag_18 while F_niko_selro_asa is set, then
+ * processes the request and parameter through func_800177CC.
+ */
 void init_request_if_flag_1455(Town654Request *request, s32 parameter)
 {
     if (func_8001868C(F_niko_selro_asa) != 0) initialize_state_two_entries_pointer(request->flag_18);

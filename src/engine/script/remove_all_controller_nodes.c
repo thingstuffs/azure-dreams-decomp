@@ -16,8 +16,11 @@
 #define PPTR(v)     ((void *)(u32)(v))
 #define PVAL(p)     ((u32)(p))
 
-/* port body: port/hal/resident_gap2.c:353 */
-/* Removes every node from the controller's list and cleans up its owning object. */
+/*
+ * Removes every node from the controller's list and cleans up its owning object.
+ *
+ * port body: port/hal/resident_gap2.c:353
+ */
 void remove_all_controller_nodes(void *controller)
 {
     u8 *list_head = (u8 *)controller + 8;

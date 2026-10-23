@@ -21,7 +21,10 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern void func_800652AC(IntVector3 *, IntVector3 *, IntVector3 *);
 
-/* Moves the actor perpendicular to the selected direction unless the step changes sides. */
+/*
+ * Forms a perpendicular step of sine/cosine times 32 from the held input direction and applies it
+ * only when the side-test sign is unchanged after movement.
+ */
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(Actor *actor)
 {
     IntVector3 direction;

@@ -1,11 +1,12 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-/* D_80083160: shared state table (own view here); only the s16 field at
- * +0xC8 is read via this view. */
-
-
-/* Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors. */
+/*
+ * Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors.
+ *
+ * g_game_work: shared state table (own view here); only the s16 field at +0xC8 is read via this
+ * view.
+ */
 s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount)
 {
     GameWork *sharedState = &g_game_work;

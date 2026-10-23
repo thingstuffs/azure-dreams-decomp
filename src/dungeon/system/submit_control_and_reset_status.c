@@ -2,7 +2,7 @@
 #include "dungeon/system/submit_control_and_reset_status.h"
 
 
-/* Submit D_800DF3DC and reset D_800DCF4D to -1. */
+/* Submits D_800DF3DC as CD task 6 and invalidates spell_effect_selector_cache. */
 void submit_control_and_reset_status(void) {
     Control_CD(6, &D_800DF3DC, 0);
     spell_effect_selector_cache = -1;

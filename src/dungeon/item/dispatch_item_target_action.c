@@ -10,7 +10,7 @@ extern s32 process_record_and_update_linked_state(void *request, s32 record_data
 extern s32 clear_slot_and_update_linked_state(void *slot);
 extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
 extern s32 place_actor_item(void *object_context, void *target);
-extern s32 display_actor_item_status_message(void *actor, void *item, s32 buffer_arg2);
+extern s32 display_actor_item_status_message(void *actor, void *item, s32 unused_2);
 extern s32 feed_actor_restore_mp(void *state, s32 mode, void *item);
 
 typedef struct {

@@ -797,12 +797,14 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
     return -1;
 }
 
-/* MECHANISM: The true-rowbase CFG holds arg2 in $s3 and the status base in $s2 at cdk-G0.
-   An unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40
-   without emitting body code; source-based byte indexing preserves the final call operands. */
-
-/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
- * state. */
+/*
+ * Claims an action slot, starts the directional attack animation, and prepares its target and
+ * damage state.
+ *
+ * MECHANISM: The true-rowbase CFG holds arg2 in $s3 and the status base in $s2 at cdk-G0. An
+ * unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40 without
+ * emitting body code; source-based byte indexing preserves the final call operands.
+ */
 void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
@@ -864,6 +866,11 @@ s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *seconda
     return result;
 }
 
+/*
+ * Spends MP and advances status timers when movement completes, resuming the actor handler only
+ * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
+ * 0x80 during movement or after an accepted trap check. /
+ */
 void finish_actor_tile_move_then_dispatch_transition(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         spend_actor_mp(target, 4);
@@ -879,6 +886,10 @@ void finish_actor_tile_move_then_dispatch_transition(void *state, s32 unused, s3
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs update_actor_state_and_dispatch_transition only
+ * when it succeeds and the signed floor-trap check returns positive.
+ */
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1225,21 +1236,28 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
+/* Runs the shared hop and shrink update, then clears the halfword at offset 0xA2. */
 void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, void *data) {
     update_actor_hop_and_shrink(state, context, data);
     state->unk_A2 = 0;
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_clown_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs update_actor_state_and_dispatch_transition when it
+ * returns nonzero.
+ */
 void finish_actor_hop_and_grow_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1469,6 +1487,11 @@ void advance_clown_mp_action(void *actor, void *context, SpriteFrameState *anima
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_clown_parent_motion(R16_80173468_Actor *actor, s32 action, SpriteFrameState *entity, R16_80173468_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1483,6 +1506,10 @@ void update_clown_parent_motion(R16_80173468_Actor *actor, s32 action, SpriteFra
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs update_actor_state_and_dispatch_transition only
+ * when it succeeds and the signed floor-trap check returns positive.
+ */
 void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1492,6 +1519,10 @@ void finish_thrown_actor_travel_and_floor_trap_then_dispatch_transition(Resource
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_dispatch_transition
+ * when it returns nonzero.
+ */
 void finish_actor_terrain_interpolation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1499,6 +1530,10 @@ void finish_actor_terrain_interpolation_then_dispatch_transition(Resource16Callb
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs update_actor_state_and_dispatch_transition when it
+ * returns nonzero.
+ */
 void finish_spinning_actor_fall_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1506,6 +1541,10 @@ void finish_spinning_actor_fall_then_dispatch_transition(Resource16CallbackState
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs update_actor_state_and_dispatch_transition when it
+ * returns nonzero.
+ */
 void finish_actor_action_flag_propagation_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor)) {
@@ -1513,6 +1552,10 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(Resource16Cal
     }
 }
 
+/*
+ * Runs update_actor_fade_in and installs update_actor_state_and_dispatch_transition when it
+ * returns nonzero.
+ */
 void finish_actor_fade_in_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1520,6 +1563,10 @@ void finish_actor_fade_in_then_dispatch_transition(Resource16CallbackState *stat
     }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_dispatch_transition when
+ * it returns positive.
+ */
 void finish_actor_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -1551,10 +1598,12 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
-
-/* Moves the effect in an expanding spiral, advances its sprite, fades its color, and expires it on
- * timeout. */
+/*
+ * Moves the effect in an expanding spiral, advances its sprite, fades its color, and expires it on
+ * timeout.
+ *
+ * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
+ */
 void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
     s16 life;
     s16 next_life;

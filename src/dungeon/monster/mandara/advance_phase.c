@@ -48,14 +48,17 @@ extern void SetPolyFT4(void *);
 extern void SetSemiTrans(void *, s32);
 extern s32 GetTPage(s32, s32, s32, s32);
 
+/* Adds 80 and four times the layer index to the phase. */
 static __inline__ s32 advance_phase(s32 phase, s32 layer)
 {
     phase += 80;
     return phase + (layer << 2);
 }
 
-/* Draw layered, wavy textured strips over the projected bounds of linked objects. */
-/* Projects linked objects into four layers of wavy textured strips and queues them at their average depth. */
+/*
+ * Projects linked objects into four layers of wavy textured strips and queues them at their
+ * average depth.
+ */
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance)
 {
     s16 bounds[4];

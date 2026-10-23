@@ -19,9 +19,11 @@ typedef struct {
 extern S_80081480_8004B568 gpu_scratch_write_pointer;
 extern S_8008148C_8004B568 gpu_scratch_buffer_base;
 
-/* RLE-style byte decoder; returns the advanced dst pointer ($a1 at exit). */
-
-/* Reads two adjacent VRAM blocks and decodes their data into a buffer at 0x80016000. */
+/*
+ * Reads two adjacent VRAM blocks and decodes their data into a buffer at 0x80016000.
+ *
+ * RLE-style byte decoder; returns the advanced dst pointer ($a1 at exit).
+ */
 void read_vram_blocks_to_buffer(void)
 {
     RECT_8004B568 rect;

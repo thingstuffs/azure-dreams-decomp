@@ -4,6 +4,10 @@
 extern s32 get_script_flag_mask(s32 flagIndex);
 extern void set_indexed_entry_flag(s32 record, s32 entry_index);
 
+/*
+ * Sets the indexed entry flag and returns one only while F_s24_door_open has a nonzero script flag
+ * mask.
+ */
 s32 dispatch_if_condition_1463(s32 dispatch_value, s32 dispatch_option) {
     if (get_script_flag_mask(F_s24_door_open) != 0) {
         set_indexed_entry_flag(dispatch_value, dispatch_option);

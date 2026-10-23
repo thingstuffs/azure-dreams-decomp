@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -18,7 +19,7 @@ void draw_red_active_entry_markers(s32 setup_arg_0, s32 setup_arg_1, s32 setup_a
     while ((node = *(u8 **)(node + 0x5C) + 0x20) != ((u8 *)dungeon_actor_ring_anchor)) {
         if (*(s8 *)(node + 0x13) > 0) {
             owner = *(u8 * *)&((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
-            create_transformed_render_object(owner[0x24], owner[0x25], 0x202080, 4,
+            create_transformed_render_object(owner[0x24], owner[0x25], 0x202080, FLOOR_MONSTERS_VISIBLE,
                           marker_count++);
         }
     }

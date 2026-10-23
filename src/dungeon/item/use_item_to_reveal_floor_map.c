@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -44,7 +45,7 @@ s32 use_item_to_reveal_floor_map(EntityRec *target, s32 item, s16 target_kind, s
     } else {
         display_formatted_context_message(D_800E11FD, target_data, target_kind);
         pack_and_submit_cell_height_levels();
-        dungeon_floor_flags |= 0x800000;
+        dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
         play_sound_if_enabled(0x80F);
     }
 

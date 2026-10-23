@@ -11,7 +11,10 @@ typedef struct {
     unsigned char unk3;
 } S_80049330;
 
-/* Resolve the record's low 5-bit field when unk0 is set, otherwise return D_800814A8[0]. */
+/*
+ * Resolves the low five bits of the record code when its first word is set; otherwise returns
+ * primary_actor_record.
+ */
 int resolve_record_value(S_80049330 *record)
 {
     if (record->unk0 != 0) {

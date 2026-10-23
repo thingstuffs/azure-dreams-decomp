@@ -3,7 +3,7 @@
 
 extern s16 floor_generation_state[3];
 
-// Handle changes to D_80081468[2] and update its cached value.
+/* Redraws the floor-generation value when it differs from the cached value, then updates the cache. */
 void update_cached_global_value(s32 *cachedValue) {
     if (floor_generation_state[2] != *cachedValue) {
         draw_filler_first_number(floor_generation_state[2], *cachedValue, 2, 0x18C, 0x1B8, 0);

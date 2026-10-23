@@ -10,7 +10,7 @@ typedef struct S_8016DECC_0 {
     s8 unk_9B;
 } S_8016DECC_0;
 
-/* Clears two fields in the state block at D_80174704 + 0x20. */
+/* Clears the two action fields at offsets 0x9B and 0x96 in the Ghosh actor data. */
 void reset_active_encounter_action_state(void) {
     S_8016DECC_0 *state;
 

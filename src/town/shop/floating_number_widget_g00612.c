@@ -3,7 +3,11 @@
 #include "town/shop/floating_number_widget_g00612.h"
 #include "shared/object_node.h"
 
-/* Initialize panel content and element positions. */
+/*
+ * Binds the panel heading, supplied value, and decoded fullwidth text to their display records,
+ * positions the heading and value at Y zero/15 and the lower text at X 0x43/0x67, Y 0x88, and
+ * refreshes both numeric displays.
+ */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
 {
     ((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_00 = (s32) D_80078D6C;
@@ -26,7 +30,7 @@ void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
     func_800B18F8(panel->unk_08);
 }
 
-/* Store two values in the pair. */
+/* Stores the supplied first and second words in pair offsets 0 and 4. */
 void store_pair_values(S_800B1B04_0 *pair, s32 first, s32 second) {
     pair->unk_00 = first;
     pair->unk_04 = second;

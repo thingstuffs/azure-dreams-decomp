@@ -9,7 +9,10 @@ typedef struct {
 
 extern S_800869C0 audio_ram_blocks[16];
 
-/* Removes the first matching entry from D_800869C0, shifts later entries down, and calls sort_entries_by_key. */
+/*
+ * Removes the first matching address from audio_ram_blocks, shifts subsequent records through the
+ * zero terminator, and sorts the remaining entries.
+ */
 void release_sound_ram_block(u32 addr)
 {
     s32 i;

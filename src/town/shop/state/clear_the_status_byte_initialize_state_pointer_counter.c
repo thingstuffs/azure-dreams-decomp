@@ -15,7 +15,10 @@ typedef struct S_8009EB20_1 {
     s16 unk_6C;
 } S_8009EB20_1;   /* arg0 in clear_the_status_byte_initialize_state_pointer_counter */
 
-/* Clear the status byte and initialize the state pointer and counter. */
+/*
+ * Clears status byte 0x15 and installs move_toward_target_check_completion_countdown_expires with
+ * count eight.
+ */
 void clear_the_status_byte_initialize_state_pointer_counter(S_8009EB20_1 *state, S_8009EB20_0 *status) {
     status->unk_15 = 0;
     state->unk_50 = &move_toward_target_check_completion_countdown_expires;

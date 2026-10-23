@@ -13,9 +13,10 @@ typedef struct S_801761AC_0 {
 extern s32 set_or_clear_actor_status_slot();
 extern s32 generate_random_value();
 
-/* Roll a random slot for the actor and, when it lands below 16, request effect 0x19 on it; returns 1 when that request succeeded. */
-/* For a non-player actor, rolls against its byte at +3 to request status 0x19; returns 1 only if the
- * request succeeds. */
+/*
+ * For a non-player actor, rolls against its byte at +3 to request status 0x19; returns 1 only if
+ * the request succeeds.
+ */
 s32 request_random_slot_effect(S_801761AC_0 *actor) {
     s32 seed;
     register s32 divisor;

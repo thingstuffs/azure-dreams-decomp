@@ -30,9 +30,10 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
 
 
-/* Selects the mode table and updates the dungeon object state. */
-/* Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the floor-trap
- * result. */
+/*
+ * Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the
+ * floor-trap result.
+ */
 void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, SpriteFrameState *state, DungeonInput *input) {
     s32 mode;
     u8 *mode_table;

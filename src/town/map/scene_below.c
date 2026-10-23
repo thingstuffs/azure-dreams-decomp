@@ -30,6 +30,7 @@ extern u16 building_upload_rect[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
+/* Returns whether scene is less than bound. */
 static __inline__ s16 scene_below(s32 scene, s32 bound)
 {
     return scene < bound;

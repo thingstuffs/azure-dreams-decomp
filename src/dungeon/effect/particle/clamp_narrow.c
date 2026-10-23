@@ -116,6 +116,7 @@ extern void D_80166D14();
 extern u8 ribbon_particle_update_address[];
 extern PositionTableEntry ribbon_vertices[];
 
+/* Narrows the input to a signed 16-bit result. */
 static __inline__ s16 clamp_narrow(s32 value)
 {
     return value;

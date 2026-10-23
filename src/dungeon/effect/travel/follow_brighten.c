@@ -22,6 +22,7 @@
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_18ac800_entry)(u8 *, u8 *, u8 *) = follow_brighten;
 
+/* Scales the coordinate by 64, adds the cell-center offset 32, and masks the result with 0xFFE0. */
 static __inline__ s32 align_effect_coord(s32 coord)
 {
     return ((coord << 6) + 32) & 0xFFE0;

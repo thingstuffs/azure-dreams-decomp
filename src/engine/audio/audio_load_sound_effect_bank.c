@@ -22,19 +22,11 @@ extern u8 sound_effect_loaded_record_ids[];
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
-/* switch dispatcher on pad events; takes no arguments (matched, gcc 2.7.2, code.c) */
-
-/* registers a callback (kind, callback-ptr, arg) (matched, code.c) */
-
-/* runs one step of the main loop while a condition holds (matched, code.c) */
-
-/* setter for D_800814C8 (matched, gcc 2.7.2, code.c) */
-
-/* masks a0 to 16 bits and forwards to func_80055778, sign-extends result (matched, code.c) */
-
-/* tests availability bit n of D_800847D0 (matched, gcc 2.8.1, w_8005405C.c) */
-
-/* Activates an unprocessed record, registers its callbacks, and waits for availability. */
+/*
+ * Skips an already loaded bank; otherwise drains audio work, loads both descriptor payloads
+ * through CD, installs the scratch sound payload, and requests the slot load. Services audio
+ * commands and waits until the bank channel reports availability.
+ */
 void audio_load_sound_effect_bank(s16 record_id)
 {
     S_8006E61C *record;

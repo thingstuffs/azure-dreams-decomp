@@ -5,7 +5,10 @@ typedef struct {
     u8 unk1;
 } S_8004AFE8;
 
-/* Counts consecutive pointer entries whose target byte matches the first target byte. */
+/*
+ * Counts the initial run of records whose field at offset 1 matches the first record, advancing
+ * the supplied pointer table.
+ */
 s32 table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte(S_8004AFE8 **entries)
 {
     s32 count;

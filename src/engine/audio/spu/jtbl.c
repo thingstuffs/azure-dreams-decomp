@@ -5,11 +5,12 @@
 
 
 
-/* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
- * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
-
-
-/* Returns the active/key-on state of the first selected voice, or -1 if none is selected. */
+/*
+ * Returns the active/key-on state of the first selected voice, or -1 if none is selected.
+ *
+ * Rodata owner: the row's switch emits its jump table(s) into this object's .rodata, placed at the
+ * retail address by config/slus_modules.json (assets/800.bin carve).
+ */
 s32 SpuGetKeyStatus(s32 voice_mask)
 {
     s32 voice;

@@ -22,7 +22,11 @@ void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE
     }
 }
 
-/* Updates motion toward the target and resolves the entity when its countdown expires. */
+/*
+ * Moves halfway toward the view reference with a 0x200000 Z offset, then resolves the item after
+ * countdown expiry. On success updates slot/type flags and clears the linked signal; otherwise
+ * restores saved X/Y and initializes the type-dependent motion state.
+ */
 void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode) {
     s32 result[5];
     s8 *linked_flag;
@@ -71,7 +75,10 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity,
     }
 }
 
-/* Initialize entity flags, transform, and type-dependent variant. */
+/*
+ * Sets both state bytes, clears all motion deltas, sets Z to -0x200000, and installs D_8009EE9C
+ * with a random 12-bit phase. Selects variant 0x58 for type 0x12 or 0x59 otherwise.
+ */
 void initialize_entity_flags_transform_type_dependent_variant(void *entity, void *state, void *transform, s32 unused)
 {
     s32 variant_id;
@@ -131,7 +138,11 @@ s32 get_target_itemp(void) {
     return 0;
 }
 
-/* Update the target offset, advance the phase, and handle the active event. */
+/*
+ * Sets target Z from the saved origin plus a sine offset and advances phase by 0x40. For the
+ * matching active event and D_800935BC payload, processes input, allocates callbacks, plays sound
+ * 0x513, and synchronizes town state.
+ */
 void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, s32 context) {
     s32 active_event;
 
@@ -147,7 +158,11 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state, s32
     }
 }
 
-/* Jitter the position and pulse the scale until the countdown expires. */
+/*
+ * Jitters Z by -8 through 7 fixed-point units and pulses opposite X/Y scales around 0x1000 using a
+ * countdown-driven sine wave. Restores both scales and initializes type-dependent motion when the
+ * countdown expires.
+ */
 void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale) {
     s16 ticks_left;
     s32 scale_x_wave;
@@ -173,7 +188,11 @@ void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 valu
     record->unk_50.as_pm = &D_8009F2A8;
 }
 
-/* Initialize the town entity record and synchronize its slot state. */
+/*
+ * Builds an 0x54-byte actor snapshot and packed entry for the selected town slot, synchronizes
+ * type/index fields, and applies the mode-selected object state. Installs the jitter/pulse
+ * callback with a ten-tick countdown.
+ */
 void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
     void *stored_entry;
     s32 unused_value;

@@ -2,7 +2,10 @@
 #include "shared/object_flags.h"
 
 
-/* Updates an effect's lifetime, fades its color, and advances its motion. */
+/*
+ * Decrements the signed lifetime and flags removal when it expires; otherwise fades RGB toward
+ * zero using the remaining ticks, integrates motion, and adds Z acceleration 0x60000.
+ */
 void update_an_effect_s_lifetime_fades_color_advances_motion(void *effect, s32 *motion, u8 *color_data)
 {
     u16 ticks_left;

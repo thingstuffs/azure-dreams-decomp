@@ -3,7 +3,7 @@
  */
 #include "town/scene/flags/call_reset_dispatch_state_flags_g01229.h"
 
-/* Call reset_dispatch_state_and_flags, increment the byte at D_8001E950, and return zero. */
+/* Resets dispatch state and flags, increments the first town event byte, and returns zero. */
 s32 call_reset_dispatch_state_flags(s32 first_value, s32 second_value) {
     reset_dispatch_state_and_flags();
     town_event_state->unk_00 += 1;

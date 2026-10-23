@@ -81,7 +81,7 @@ s32 town_map_del(void) {
     return 1;
 }
 
-/* Clears D_800FC418 and returns success. */
+/* Clears the town map status byte and returns one. */
 s32 clear_town_map_status(void) {
     (*((s8 *)town_map_status)) = 0;
     return 1;

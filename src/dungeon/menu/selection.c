@@ -5,15 +5,24 @@
 #include "shared/object_flags.h"
 
 
+/* Sets the linked entry halfword at offset 8 to index times eight minus 0x18. */
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index) {
     ((ovl_1831370_81811370_S_80026370_2 *)(((ovl_1831370_81811370_S_80026370_1 *)(object->unk_04))->unk_04))->unk_08 = (s16) ((index * 8) - 0x18);
 }
 
+/*
+ * Calls advance_index_with_single_wrap with target, input_value,
+ * text_editor_pair_limits[lookup_index] and returns its result.
+ */
 s32 adjust_selection_by_item_count(s32 input_value, s32 target, s32 lookup_index)
 {
     return advance_index_with_single_wrap(target, input_value, text_editor_pair_limits[lookup_index]);
 }
 
+/*
+ * Releases the previous object handle, creates a replacement through func_8004DC14 with mode zero,
+ * and stores the returned handle.
+ */
 void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, s32 source) {
     release_object_handle(object);
     *object->unk_0C = func_8004DC14(source, 0);
@@ -59,6 +68,10 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
     }
 }
 
+/*
+ * Moves the selection backward through the item count and applies the resulting index to the
+ * linked entry offset.
+ */
 void update_embedded_state_from_table(s32 object_addr) {
     s32 updated_value;
     ovl_1831370_81811508_S_80026508_0 *state;
@@ -69,6 +82,10 @@ void update_embedded_state_from_table(s32 object_addr) {
     set_indexed_object_field(state->unk_70, updated_value);
 }
 
+/*
+ * Clears the text buffer using the indexed pair limit, rebinds the entry address, and resets both
+ * selection and linked entry offset to zero.
+ */
 void clear_object_buffer_and_state(s32 objectAddress)
 {
     ovl_1831370_8181154C_S_8002654C_0 *objectState;
@@ -81,6 +98,10 @@ void clear_object_buffer_and_state(s32 objectAddress)
     set_indexed_object_field(objectState->unk_70, 0);
 }
 
+/*
+ * Writes a character pair at the current selection, rebinds the entry address, and advances the
+ * selection and linked entry offset.
+ */
 void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
     s32 updatedValue;
     s32 *object;
@@ -93,6 +114,10 @@ void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
     set_indexed_object_field(object[28], updatedValue);
 }
 
+/*
+ * Clears the text buffer using the indexed pair limit, copies the supplied string, and rebinds the
+ * current entry address.
+ */
 void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
     ovl_1831370_8181161C_Func8181161CData *textData = (ovl_1831370_8181161C_Func8181161CData *)(object + 0x20);
 
@@ -104,6 +129,10 @@ void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
 /* Forward the complete menu object to its update routine. */
 void forward_menu_object_to_selection_updater(ovl_1831370_8181140C_MenuState *menu) { update_menu_selection_from_input(menu); }
 
+/*
+ * Writes the current step scaled by 0x400 to the linked halfword, then advances it and switches to
+ * selection updates after step four. Processes menu input each update.
+ */
 void apply_step_and_reset_after_five(s32 *step) {
     s32 step_value = *step << 10;
 
@@ -149,6 +178,10 @@ void set_descriptor_fields_and_flag(void *descriptor)
     *(u8 *)descriptor |= 0x80;
 }
 
+/*
+ * Calls build_reverse_indexed_chain with value, menu_selection_chain_indices, 4 and returns its
+ * result.
+ */
 S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value) {
     return build_reverse_indexed_chain(value, menu_selection_chain_indices, 4);
 }
@@ -181,6 +214,10 @@ void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, 
     owner->unk4->unkF = 4;
 }
 
+/*
+ * Binds the indexed data and embedded text destinations, resets the entry offset, and initializes
+ * the text object with dimensions 0x68 by 0x88.
+ */
 void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst)
 {
     *dst->dst0 = D_80029508[src->word10];
@@ -206,6 +243,10 @@ void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typ
     ((ovl_1831370_8181192C_S_8002692C_0 *)((u8 *)recordFields - 0x10))->unk_00 = (void *)apply_step_and_reset_after_five;
 }
 
+/*
+ * Initializes object phase data, binds its three embedded owner blocks, and fills the linked
+ * destination fields.
+ */
 void initialize_embedded_object_state(void *state, s32 parent, s32 type, s32 config) {
     initialize_object_phase_data(state, parent, type, config);
     initialize_owner_defaults(state, state + 0x60, state + 0x38, state + 0x48);
@@ -252,6 +293,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
     return object;
 }
 
+/* Flags a nonzero referenced handle for removal and clears the handle word. */
 void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
     s32 handle;
 
@@ -262,6 +304,10 @@ void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
     }
 }
 
+/*
+ * For a nonnull object, releases the referenced handle and display resource, then sets local and
+ * global removal flags.
+ */
 void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
 {
     ovl_1831370_81811B94_CleanupData *cleanup;
@@ -275,6 +321,7 @@ void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
     }
 }
 
+/* Returns one only for a nonnull object whose word at offset 0x28 is zero. */
 u32 has_available_object(void *object) {
     if (object != 0) {
         if (*(s32 *)((s8 *)object + 0x28) == 0) {

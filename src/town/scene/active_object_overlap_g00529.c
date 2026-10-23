@@ -3,7 +3,10 @@
  */
 #include "town/scene/active_object_overlap_g00529.h"
 
-/* Tests whether two offset boxes overlap or touch on all three axes. */
+/*
+ * Adds each box origin to its supplied offset and returns one only when all three inclusive
+ * intervals overlap; touching faces count as overlap.
+ */
 s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(Box *box_a, Box *offset_a, Box *box_b, Box *offset_b)
 {
     s32 axis_a;
@@ -25,7 +28,10 @@ s32 low_12_values_within_511(s32 value_a, s32 value_b) {
     return (u32) (((value_a & 0xFFF) - (value_b & 0xFFF)) + 0x1FF) < 0x3FFU;
 }
 
-/* Finds the first eligible active node in the circular list. */
+/*
+ * Searches the circular list for the first active node whose offset box overlaps the origin,
+ * requiring a low-12-bit angle match within 511 for node types two and three.
+ */
 Node *handle_finds_first_eligible_active_node_in_circular_list(Node *origin) {
     s32 node_field_c;
     s32 node_field_8;

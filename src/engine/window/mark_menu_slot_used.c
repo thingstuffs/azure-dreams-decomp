@@ -22,7 +22,10 @@ typedef struct S_func_800368D0_1 {
     u8 unk_50;
 } S_func_800368D0_1;
 
-/* Writes 0xFF to the selected buffer byte and selects func_800368F8 as the callback. */
+/*
+ * Marks the selected menu buffer byte 0xFF and installs noop_after_menu_slot_release as the
+ * callback.
+ */
 void mark_menu_slot_used(S_func_800368D0_0 *state) {
     u8 *buffer;
     s16 byte_offset;

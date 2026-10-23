@@ -2,8 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008D024_arg0.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-
 /* Set unk_9A to 0x29 and clear unk_9B and unk_8C. */
 void initialize_action_state_29(Rec_func_8008D024_arg0 *record) {
     record->unk_9A = 0x29;

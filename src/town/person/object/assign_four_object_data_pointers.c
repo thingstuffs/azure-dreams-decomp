@@ -15,7 +15,10 @@ typedef struct S_800C8928_0 {
     s32 * unk_80;
 } S_800C8928_0;   /* arg0 in assign_four_object_data_pointers */
 
-/* Assign the four object data pointers. */
+/*
+ * Binds object fields 0x58/0x5C to D_800D6360/D_800D6364 and fields 0x7C/0x80 to
+ * D_800D6330/D_800D6338.
+ */
 void assign_four_object_data_pointers(S_800C8928_0 *object) {
     object->unk_58 = &D_800D6360;
     object->unk_5C = &D_800D6364;

@@ -10,11 +10,6 @@ typedef struct S_805D2FC4_2 {
 } S_805D2FC4_2;   /* ((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32) in func_805D2FC4 */
 
 
-typedef struct S_805D2FC4_1 {
-    s32 unk_00;
-} S_805D2FC4_1;   /* &D_80019AFC in func_805D2FC4 */
-
-
 s32 func_80017E1C(void);
 s32 func_80018504();                    /* extern */
 s32 func_800194D8();                         /* extern */

@@ -5,11 +5,16 @@
 #include "shared/object_flags.h"
 
 
+/* Clears the two words referenced by the menu state destination pointers. */
 void clear_menu_state_values(ovl_1831cd8_81811CD8_S_80026CD8_0 *state) {
     *state->unk_0C = 0;
     *state->unk_10 = 0;
 }
 
+/*
+ * Stores D_800789B8 through the entry destination pointer and writes the supplied value through
+ * its paired pointer.
+ */
 void set_entry_destination_and_value(Rec_func_80026CF0_arg0 *record, s32 value) {
     *record->unk_0C = &D_800789B8;
     *record->unk_10 = value;
@@ -40,6 +45,10 @@ void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 
         (s16)(row_y + ((((ovl_1831cd8_81811D0C_S_80026D0C_6 *)(element->unk_00))->unk_0B >> 1) + 0xF));
 }
 
+/*
+ * Creates callback resource 0x91 and, on success, configures it with the supplied data and size
+ * 0x48; returns zero on creation failure.
+ */
 s32 configure_menu_resource(s32 setup_value, s32 setup_data) {
     s32 resource;
 
@@ -108,6 +117,10 @@ s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence) {
     return -1;
 }
 
+/*
+ * Searches 19-byte records from the starting index through slot 63 for a matching field at offset
+ * 0x57D2, returning the index or -1.
+ */
 s32 find_menu_entry_from_index(s32 target_value, s32 start_index)
 {
     s32 index;
@@ -143,6 +156,10 @@ s32 find_menu_entry_pair_occurrence(s32 target_value, s32 prefix_value, s32 targ
     return -1;
 }
 
+/*
+ * Searches 19-byte records from the starting index through slot 63 for both matching bytes at
+ * offsets 0x57D1 and 0x57D2, returning the index or -1.
+ */
 s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 start_index)
 {
     s32 i;
@@ -263,6 +280,10 @@ s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_ty
     return buffer;
 }
 
+/*
+ * Flags the old resource for removal, refreshes the stored half-byte length, and creates a
+ * replacement resource; returns the record.
+ */
 void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     flag_object_for_removal(record->unk_08);
     record->unk_04 = get_half_byte_length(record->unk_00);
@@ -270,6 +291,10 @@ void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_
     return record;
 }
 
+/*
+ * Flags the old resource for removal, counts matching entries, and packs a replacement resource
+ * using that count; returns the record.
+ */
 void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     s32 resource_value;
 
@@ -280,6 +305,10 @@ void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     return record;
 }
 
+/*
+ * Flags the old resource for removal and rebuilds its text page with a pair-match count plus five;
+ * returns the state.
+ */
 void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 replacementInput, s32 calculationInput) {
     s32 adjustedValue;
 
@@ -290,6 +319,10 @@ void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 r
     return state;
 }
 
+/*
+ * Refreshes the record resource in mode zero; other modes rebuild the entry resource, using the
+ * derived text page for state 0x13.
+ */
 void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value)
 {
     if (mode == 0) {
@@ -303,6 +336,10 @@ void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value
     refresh_menu_derived_value(state, value, extra_value);
 }
 
+/*
+ * Installs the countdown callback with the saved count, restores default object data, and clears
+ * the embedded menu state.
+ */
 void reset_menu_object_state_2(void *record) {
     ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_00 = (void *)tick_menu_countdown;
     ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_10 = (s32) ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_14;
@@ -501,14 +538,20 @@ void handle_menu_button_input(void *menu) {
     position_menu_grid_entries(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
 }
 
+/* Calls the indexed menu_enabled_callbacks entry only when record word 8 is nonzero. */
 void invoke_enabled_menu_callback(s32 *record) {
     if (record[8] != 0) {
         menu_enabled_callbacks[record[5]](record);
     }
 }
 
+/* Calls invoke_enabled_menu_callback with record. */
 void update_enabled_menu_callback(s32 *record) { invoke_enabled_menu_callback(record); }
 
+/*
+ * Advances the tagged stream and switches to the enabled callback updater with count zero on
+ * completion, then invokes the enabled menu callback.
+ */
 void handle_menu_record_check(void *record) {
     if (advance_timed_tagged_stream(record + 0x2C) != 0) {
         ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
@@ -517,6 +560,10 @@ void handle_menu_record_check(void *record) {
     invoke_enabled_menu_callback(record);
 }
 
+/*
+ * Copies the rectangle template and sets its height to current times 0x90 divided by maximum plus
+ * four, then draws it with shared_primitive_color.
+ */
 void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     ovl_1831cd8_81812AD0_RECT rect;
 
@@ -525,6 +572,10 @@ void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, shared_primitive_color);
 }
 
+/*
+ * Writes the ratio numerator times 0x90 divided by denominator into the linked entry halfword at
+ * offset 0x0A.
+ */
 void store_scaled_menu_ratio(ovl_1831cd8_81812B44_S_80027B44_0 *object, s32 numerator, s32 denominator) {
     ((ovl_1831cd8_81812B44_S_80027B44_2 *)(((ovl_1831cd8_81812B44_S_80027B44_1 *)(object->unk_04))->unk_04))->unk_0A =
         (s16) ((s32) (numerator * 0x90) / denominator);
@@ -588,6 +639,10 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
     }
 }
 
+/*
+ * Updates the scaled ratio, progress bar, entry positions, and named resources from the object
+ * values, then advances its tagged stream.
+ */
 void update_menu_object_data(void *object) {
     store_scaled_menu_ratio(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
     draw_menu_progress_bar(object, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
@@ -596,6 +651,10 @@ void update_menu_object_data(void *object) {
     advance_timed_tagged_stream(object + 0x2C);
 }
 
+/*
+ * Updates the scaled ratio, progress bar, entry positions, and named resources from
+ * current/maximum, then advances the tagged stream.
+ */
 void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     store_scaled_menu_ratio(state->entries, state->current, state->maximum);
     draw_menu_progress_bar(state, state->current, state->maximum);
@@ -604,6 +663,11 @@ void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     advance_timed_tagged_stream(state->cursor);
 }
 
+/*
+ * Runs the indexed update callback and increments the counter; after the limit, restores the entry
+ * destination and grid positions and installs the record checker. Invokes the enabled callback
+ * each update.
+ */
 void dispatch_menu_update_callback(s32 *state) {
     menu_update_callbacks[state[5]](state);
     state[0]++;
@@ -615,6 +679,10 @@ void dispatch_menu_update_callback(s32 *state) {
     invoke_enabled_menu_callback(state);
 }
 
+/*
+ * Runs the indexed countdown callback and decrements the counter; once negative, clamps it to zero
+ * and installs the record checker. Invokes the enabled callback each update.
+ */
 void tick_menu_countdown(s32 *countdownState) {
     menu_countdown_callbacks[countdownState[5]](countdownState);
     countdownState[0]--;
@@ -625,6 +693,11 @@ void tick_menu_countdown(s32 *countdownState) {
     invoke_enabled_menu_callback(countdownState);
 }
 
+/*
+ * Runs the page countdown callback and, once the count is negative, refreshes state using a value
+ * rounded to a multiple of 72 and installs the update callback. Invokes the enabled callback each
+ * update.
+ */
 void run_menu_countdown_callback(s32 *state) {
     menu_page_countdown_callbacks[state[5]](state);
     state[0]--;
@@ -636,6 +709,10 @@ void run_menu_countdown_callback(s32 *state) {
     invoke_enabled_menu_callback(state);
 }
 
+/*
+ * Reduces the linked fade halfword from 0x400 using the counter-to-limit ratio and advances the
+ * counter. Switches to the enabled updater and clears the count after the limit.
+ */
 void advance_menu_value_fade(void *state) {
     s32 nextStep;
 
@@ -651,12 +728,21 @@ void advance_menu_value_fade(void *state) {
     invoke_enabled_menu_callback(state);
 }
 
+/*
+ * Calls build_reverse_indexed_chain with nodes, & menu_context_chain_indices, 15 and returns its
+ * result.
+ */
 S_800491F4 *link_menu_record_nodes(S_800491F4 **nodes) {
     return build_reverse_indexed_chain(nodes, &menu_context_chain_indices, 15);
 }
 
+/* Calls build_reverse_indexed_chain with nodes, menu_entry_chain_indices, 15 and returns its result. */
 S_800491F4 *build_menu_entry_chain(S_800491F4 **nodes) { return build_reverse_indexed_chain(nodes, menu_entry_chain_indices, 15); }
 
+/*
+ * Copies the menu template and, for mode one, overrides both pairs of halfwords with -0x31 and
+ * 0x63; returns the object.
+ */
 void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object, s32 mode) {
     copy_menu_record_template(object);
     if (mode == 1) {
@@ -729,6 +815,10 @@ void initialize_menu_panel_rows(void *panel, void *widgets) {
     ((ovl_1831cd8_818130FC_S_800280FC_8 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_38))->unk_00 = 0;
 }
 
+/*
+ * Stores a 0x20-wide range and the supplied value, sets mode 4, clears the count, and installs the
+ * value-fade callback.
+ */
 void initialize_menu_record_range(void *record, s32 range_start, s32 value) {
     *(s32 *)((u8 *)record + 0x44) = range_start;
     range_start += 0x20;
@@ -739,6 +829,10 @@ void initialize_menu_record_range(void *record, s32 range_start, s32 value) {
     *(u8 **)((u8 *)record - 0x10) = (void *)advance_menu_value_fade;
 }
 
+/*
+ * Initializes the range and fade state, binds the three embedded header records, and initializes
+ * panel rows through the linked entry pointer.
+ */
 void initialize_menu_object_from_data(void *object, s32 init_value, s32 init_value_2) {
     initialize_menu_record_range(object, init_value, init_value_2);
     initialize_menu_header_records(object, object + 0x78, object + 0x50, object + 0x60);
@@ -866,6 +960,7 @@ void retire_menu_object(void *object)
     }
 }
 
+/* Clears the embedded state word at offset 0x20 and both referenced menu values. */
 void clear_menu_embedded_state(s32 object_addr) {
     ovl_1831cd8_81813620_S_80028620_0 *state;
 
@@ -874,6 +969,7 @@ void clear_menu_embedded_state(s32 object_addr) {
     clear_menu_state_values(state->unk_88);
 }
 
+/* Sets the menu ready flag to one. */
 void mark_menu_object_ready(ovl_1831cd8_81813648_ReadyState *state) { state->ready = 1; }
 
 /* Writes four 12-byte packets from two templates and the supplied coordinates, including offset copies. */
@@ -920,6 +1016,7 @@ void *build_menu_draw_packets(void *packet, void *coords) {
     return packet;
 }
 
+/* Copies both unaligned chunks of menu_record_template to the destination and returns it. */
 ovl_1831cd8_81813774_UnalignedBlock12 *copy_menu_record_template(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
     dest[0] = menu_record_template.chunks[0];
     dest[1] = menu_record_template.chunks[1];

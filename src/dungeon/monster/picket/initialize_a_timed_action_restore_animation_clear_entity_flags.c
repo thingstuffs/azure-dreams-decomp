@@ -26,9 +26,11 @@ typedef struct S_80174BF8_0 {
     u8 unk_9B;
 } S_80174BF8_0;   /* arg0 in initialize_a_timed_action_restore_animation_clear_entity_flags */
 
-   /* counter in initialize_a_timed_action_restore_animation_clear_entity_flags */
-
-/* Initialize a timed action, then restore animation and clear the entity flags. */
+   /*
+ * Plays sound 0x50C, creates the display effect, and waits for the countdown or animation
+ * completion. Restores the directional picket frames and handler, charges MP, advances status
+ * timers, and clears pending turn and action state.
+ */
 void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0 *action, void *context, SpriteFrameState *animation, ActorRecord *entity)
 {
     void *entity_arg;

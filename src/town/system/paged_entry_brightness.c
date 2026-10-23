@@ -78,6 +78,10 @@ static void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 
     }
 }
 
+/*
+ * Prepares the linked page object, then populates its entries with brightness using the source
+ * block at offset 0x1C and count at 0x3C.
+ */
 void prepare_linked_record_data(Rec_func_800B2DA0_arg1 *record) {
     void *source_record;
 

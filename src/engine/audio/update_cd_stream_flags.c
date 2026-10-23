@@ -5,10 +5,12 @@
 #include "engine/audio.h"
 #include "slus.h"
 
-/* Canonical status block shared across the D_800847D0 family (established in
-   w_80054E00.c / w_800540A8.c / w_80054C58.c / w_800559B4.c). */
-
-/* When subsystem bit 4 is set, clears flag 0x200 and commits or arms the countdown. */
+/*
+ * When subsystem bit 4 is set, clears flag 0x200 and commits or arms the countdown.
+ *
+ * Canonical status block shared across the sound_playback_state family (established in
+ * w_80054E00.c / w_800540A8.c / w_80054C58.c / w_800559B4.c).
+ */
 void update_cd_stream_flags(void) {
     if (get_cd_flags_with_conditional_bit() & 4) {
         sound_playback_state.flags04 &= ~0x200;

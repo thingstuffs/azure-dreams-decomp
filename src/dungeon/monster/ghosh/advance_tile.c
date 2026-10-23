@@ -61,6 +61,7 @@ s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
+/* Adds the indexed byte from the direction table to the tile coordinate and returns the low byte. */
 static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 {
     return tile + *(const u8 *)((u32)index + (u32)table);

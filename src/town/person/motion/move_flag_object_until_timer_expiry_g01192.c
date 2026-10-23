@@ -37,7 +37,7 @@ void move_flag_object_until_timer_expiry(TownCf814State *motion, TownCf814Obj *t
     }
 }
 
-/* Runs a 32-tick movement phase with velocity (0, -4). */
+/* Calls move_flag_object_until_timer_expiry with state_addr, object_addr, unused, 0x20, 0, - 4. */
 void run_32_tick_movement_phase(s32 state_addr, s32 object_addr, s32 unused) {
     move_flag_object_until_timer_expiry(state_addr, object_addr, unused, 0x20, 0, -4);
 }

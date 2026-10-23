@@ -3,6 +3,10 @@
 extern s32 find_entry_8_index_or_assert(s32 entries, s32 entry_id);
 extern void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
 
+/*
+ * Finds the eight-byte entry by key, uses its selector to index the resource table, and submits
+ * the first three halfwords to update_dependent_entry_ids.
+ */
 void apply_entry_keyed_values(s32 entryTable, void *resource, s32 entryKey) {
     s32 selector;
     s32 table;

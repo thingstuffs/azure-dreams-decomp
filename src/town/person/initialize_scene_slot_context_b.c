@@ -6,6 +6,7 @@ extern u8 D_800D67B4[];
 extern u8 D_800D67DC[];
 extern u8 D_800D67E0[];
 
+/* Registers the object in scene slot 18 using the four local setup tables. */
 void initialize_scene_slot_18_context(void *object, s32 unused, void *context)
 {
     initialize_object_and_register_slot(object, 18, (s32)D_800D67DC, (s32)D_800D67E0, (s32)D_800D67AC, (s32)D_800D67B4);

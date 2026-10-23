@@ -58,7 +58,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
     return object;
 }
 
-/* Clears all 20 entries in D_80100AA0. */
+/* Clears all 20 shop_record_queue words in reverse order. */
 void clear_entry_table(void) {
     s32 *entry;
     s32 index;
@@ -100,12 +100,15 @@ void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
     shop_record_queue[slot].bytes.unk3 = record->bytes.unk3;
 }
 
-/* Returns the address of D_80100AA0. */
+/* Returns the address of shop_record_queue. */
 s32 *get_address_global_80100_aa_0(void) {
     return (s32 *)&shop_record_queue;
 }
 
-/* Shift entries left until a free entry or the limit, then clear the tail. */
+/*
+ * Shifts shop_record_queue words left while the current word second byte is nonzero, stopping
+ * after at most 19 moves and clearing the vacated word.
+ */
 void handle_shift_entries_left_until_free_entry_limit_clear_tail(void) {
     s32 entry_index;
     s32 *entries = (s32 *)&shop_record_queue[0];

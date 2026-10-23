@@ -4,7 +4,10 @@
 #include "town/menu/view_effect_state_g00567.h"
 #include "shared/object_node.h"
 
-/* Updates state from global values and triggers a refresh every 15 calls. */
+/*
+ * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a
+ * randomized effect whenever the countdown is reset to 15.
+ */
 void update_view_driven_state(State *state) {
 
     state->field_8 = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;

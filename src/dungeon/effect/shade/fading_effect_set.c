@@ -244,11 +244,14 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
     }
 }
 
-/* MECHANISM: Hold owner[9] in a u32 local after the first two zero stores.
-   Its live range claims $a0, leaving the allocator result in $a1; u32 avoids
-   the redundant andi and collapses the +1-word branch-displacement cascade. */
-
-/* Shrinks and brightens a sprite, then signals its owner and removes it when the animation finishes. */
+/*
+ * Shrinks and brightens a sprite, then signals its owner and removes it when the animation
+ * finishes.
+ *
+ * MECHANISM: Hold owner[9] in a u32 local after the first two zero stores. Its live range claims
+ * $a0, leaving the allocator result in $a1; u32 avoids the redundant andi and collapses the
+ * +1-word branch-displacement cascade.
+ */
 void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState *effect) {
     u16 scale;
     u8 brightness;
@@ -301,6 +304,7 @@ void delay_and_fade_particle(s32 value, void *source_data) {
     }
 }
 
+/* Returns the end-minus-start difference as a 32-bit value. */
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 {
     return end - start;
@@ -525,13 +529,15 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
     return result;
 }
 
-/* MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases.
-   Each interpolation arm keeps its coordinates, steps and mask in arm-local variables
-   (single-lifetime quantities for local-alloc), while coord_delta and line stay function-wide;
-   the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
-
-/* Moves a line effect to a linked actor or forward tile, runs two arrival effects, and applies a
-   nearby status effect. */
+/*
+ * Moves a line effect to a linked actor or forward tile, runs two arrival effects, and applies a
+ * nearby status effect.
+ *
+ * MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases. Each
+ * interpolation arm keeps its coordinates, steps and mask in arm-local variables (single-lifetime
+ * quantities for local-alloc), while coord_delta and line stay function-wide; the masked step_x
+ * read gives the mask the extra reference that orders it ahead of y0.
+ */
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
 {
     u8 *root;

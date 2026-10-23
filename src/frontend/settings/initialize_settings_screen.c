@@ -26,6 +26,7 @@ typedef struct Sol9Copy8 {
     u8 bytes[8];
 } Sol9Copy8;
 
+/* Copies the Sol9Copy8 record to the destination; the size argument is unused. */
 static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     *(Sol9Copy8 *)dst = *(const Sol9Copy8 *)src;
     (void)ignored_size;

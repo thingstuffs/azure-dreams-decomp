@@ -9,7 +9,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     s32 dispatch_arg = initial_dispatch_arg;
     u8 *params = initial_params;
     u8 *transform = (u8 *)0x1F8000D0;
-    GlobalSlot *global_addr = g_game_work;
+    GlobalSlot *global_addr = &g_game_work;
     u8 *scratch;
     u8 *manager;
     u8 *initial_manager;
@@ -30,7 +30,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     s32 hard_zero = 0;
 
     global_value = global_addr->value;
-    initial_manager = g_game_work[0].manager;
+    initial_manager = g_game_work.manager;
     scratch = (u8 *)0x1F800000;
     ((S_800B06F0_0 *)scratch)->unk_EC = global_value;
     packet = ((S_800B06F0_1 *)initial_manager)->unk_8D0;

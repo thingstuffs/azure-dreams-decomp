@@ -82,8 +82,10 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 
-/* Retail 8181A9EC (func_800241EC): projects each linked point and queues a brightness-scaled shaded tile
- * followed by a draw-mode packet for it. */
+/*
+ * Projects linked points and queues brightness-scaled shaded tiles and draw-mode packets for
+ * depths below 0x1E0, then saves the packet cursor.
+ */
 s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
@@ -165,11 +167,11 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
     return 0;
 }
 
-/* Effect record: the object header precedes it; velocity is added to position every frame. */
-
-/* Render entry advanced by func_800478B8; only its flags are read here. */
-
-/* Accumulate motion, process the update mode, and mark expired or flagged state. */
+/*
+ * Accumulate motion, process the update mode, and mark expired or flagged state.
+ *
+ * Effect record: the object header precedes it; velocity is added to position every frame.
+ */
 void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFrameState *flags) {
     s32 update_count;
     s32 more_updates;

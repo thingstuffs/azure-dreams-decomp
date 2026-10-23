@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 /* dispatch_dungeon_category_action (dungeon overlay) -- MATCHES at gcc 2.8.1 (words_off=0).
  * s32-returning; the r<0 path does `func_80098B10(); return -1;`. gcc emits a
  * dead `j $Lepi` with the `li v0,-1` return-value setup in ITS delay slot; the
@@ -34,7 +35,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
     void *linked_entity;
     void (*handler)(void *, void *, s16, s32);
 
-    if (*((u8 *)action + 1) == 0x12) {
+    if (*((u8 *)action + 1) == ITEM_KIND_EGG) {
         if ((s16)dispatch_mode != 0x15) {
             allocate_object_at_coordinates(actor, action, dispatch_mode);
             return;
@@ -42,7 +43,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
     }
     type_index = *((u8 *)action + 1) - 1;
     action_index = *((u8 *)action + 0) - 1;
-    if (*((u8 *)action + 1) == 0x15) {
+    if (*((u8 *)action + 1) == ITEM_KIND_TRAP) {
         linked_entity = *(void **)((u8 *)actor - 0x14);
         result = find_entry_at_tile_coordinates(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25),
             *((s16 *)((u8 *)actor + 0x88)));

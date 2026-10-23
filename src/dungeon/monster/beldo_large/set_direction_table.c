@@ -62,6 +62,10 @@ extern void play_sound_if_enabled(s32);
 extern void create_layered_sprite_pulse(DungeonWork *);
 extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
+/*
+ * Installs the supplied sprite table and selects its eight-way entry using the input facing
+ * relative to the camera.
+ */
 static __inline__ void set_direction_table(SpriteFrameState *object, DungeonInput *input, u8 *table) {
     u32 direction_index;
 

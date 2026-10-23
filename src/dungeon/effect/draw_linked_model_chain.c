@@ -17,6 +17,10 @@ typedef struct {
 } ChainHeader;
 extern void transform_shade_and_queue_model_quads(void *, s32, ChainPayload *, s16);
 
+/*
+ * Transforms and queues each linked model using its payload kind, follows the chain headers, and
+ * returns zero at the end.
+ */
 s32 draw_linked_model_chain(void *body, s32 value, ChainPayload *payload) {
     ChainHeader *next;
     do {

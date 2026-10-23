@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800220A8_0 {
@@ -7,12 +8,6 @@ typedef struct S_800220A8_0 {
     void * unk_04;
 } S_800220A8_0;   /* arg0 in update_minigame_approach_motion */
 
-typedef struct S_800220A8_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800220A8_1;   /* arg1 in update_minigame_approach_motion */
 
 typedef struct S_800220A8_2 {
     u8 pad_00[0x18];
@@ -32,25 +27,25 @@ void update_minigame_approach_motion(void *motion_state, void *motion) {
     state = ((S_800220A8_0 *)motion_state)->unk_00;
     switch (state) {
     case 0:
-        if ((((S_800220A8_1 *)motion)->unk_08 += 0x100000) < (s32)0xFF900000) {
+        if ((((ObjectPosition *)motion)->z.v += 0x100000) < (s32)0xFF900000) {
             return;
         }
         ((S_800220A8_0 *)motion_state)->unk_02 = 0;
-        ((S_800220A8_1 *)motion)->unk_14 = -0x40000;
+        ((ObjectPosition *)motion)->velocity_z = -0x40000;
         ((S_800220A8_0 *)motion_state)->unk_00 = 1;
         return;
     case 1:
-        ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
-        ((S_800220A8_1 *)motion)->unk_14 += 0x4000;
-        if (((S_800220A8_1 *)motion)->unk_14 != 0x40000) {
+        ((ObjectPosition *)motion)->z.v += ((ObjectPosition *)motion)->velocity_z;
+        ((ObjectPosition *)motion)->velocity_z += 0x4000;
+        if (((ObjectPosition *)motion)->velocity_z != 0x40000) {
             return;
         }
         ((S_800220A8_0 *)motion_state)->unk_00 = 2;
         return;
     case 2:
-        ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
-        ((S_800220A8_1 *)motion)->unk_14 -= 0x8000;
-        if (((S_800220A8_1 *)motion)->unk_14 != -0x40000) {
+        ((ObjectPosition *)motion)->z.v += ((ObjectPosition *)motion)->velocity_z;
+        ((ObjectPosition *)motion)->velocity_z -= 0x8000;
+        if (((ObjectPosition *)motion)->velocity_z != -0x40000) {
             return;
         }
         ((S_800220A8_0 *)motion_state)->unk_00 = 1;
@@ -60,14 +55,14 @@ void update_minigame_approach_motion(void *motion_state, void *motion) {
         s32 position;
         phase = (((S_800220A8_0 *)motion_state)->unk_02 + 1) & 0x7F;
         ((S_800220A8_0 *)motion_state)->unk_02 = phase;
-        ((S_800220A8_1 *)motion)->unk_08 = (rsin(phase << 6) << 7) - 0x700000;
+        ((ObjectPosition *)motion)->z.v = (rsin(phase << 6) << 7) - 0x700000;
         return;
     }
     case 3: {
         s32 position;
-        position = ((S_800220A8_1 *)motion)->unk_08;
+        position = ((ObjectPosition *)motion)->z.v;
         position += (s32)0xFFF00000;
-        ((S_800220A8_1 *)motion)->unk_08 = position;
+        ((ObjectPosition *)motion)->z.v = position;
         if ((s32)0xFE000000 < position) {
             return;
         }

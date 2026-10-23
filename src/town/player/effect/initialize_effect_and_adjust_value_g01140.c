@@ -102,6 +102,10 @@ void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
     }
 }
 
+/*
+ * Returns the integer Z coordinate times 0xC00 plus 0x30000 when fixed-point Z exceeds -0x400000;
+ * returns zero otherwise.
+ */
 s32 compute_height_based_offset(EntityRec *state) {
     if (state->z.v > -0x400000) {
         return (state->z.w.i * 0xC00) + 0x30000;

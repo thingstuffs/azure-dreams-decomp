@@ -86,9 +86,10 @@ typedef struct S_80F90E88_7 {
 #define getaddr(t) ((t) & address_mask)
 #define setaddr(t, a) ((t) = ((t) & 0xFF000000) | ((a) & address_mask))
 
-/* Draws paired gradient quads from the projected bounds of each linked object. */
-/* Projects each linked effect into two color-gradient quads and queues them with a drawing-mode packet by
- * depth. */
+/*
+ * Projects each linked effect into two color-gradient quads and queues them with a drawing-mode
+ * packet by depth.
+ */
 s32 draw_linked_gradient_quads(void *object) {
     WorkCell work[2];
     TransformRec transform_rec;

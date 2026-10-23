@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 
 
@@ -13,5 +14,34 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFr
 
 void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, SpriteFrameState *part);
 void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+
+
+/* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion
+ * and brightness arithmetic reads the same halves signed and unsigned; the
+ * views below preserve those access widths without recasting each access. */
+typedef union TrailHalf { s16 s; u16 u; u8 byte; } TrailHalf;
+typedef union TrailCoord {
+    s32 value;
+    struct { u16 fraction; TrailHalf whole; } parts;
+} TrailCoord;
+typedef struct TrailVector { TrailCoord x, y, z; } TrailVector;
+typedef struct TrailMotion { TrailVector position, velocity; } TrailMotion;
+typedef struct TrailPoint { TrailHalf x, y, z; u16 pad; } TrailPoint;
+typedef struct ActorTrailWork {
+    /* 0x00 */ TrailMotion *target;
+    /* 0x04 */ ActorRecord *owner;
+    /* 0x08 */ ObjectNodeHeader *follow;
+    /* 0x0C */ TrailVector position;
+    /* 0x18 */ TrailVector previous;
+    /* 0x24 */ TrailPoint history[7];
+    u8 pad_5C[8];
+    /* 0x64 */ TrailHalf state, timer;
+    /* 0x68 */ u16 ticks;
+    /* 0x6A */ TrailHalf brightness;
+    u8 pad_6C[2];
+    /* 0x6E */ TrailHalf shade_offset;
+} ActorTrailWork;
+
+void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coords_out, SpriteFrameState *rgb);
 
 #endif

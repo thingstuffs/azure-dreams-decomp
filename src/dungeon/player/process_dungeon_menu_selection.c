@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
@@ -127,6 +128,12 @@ extern u8 D_800E06E0[3];
 extern s32 familiar_record_slots[];
 extern s32 dungeon_menu_action_state[];
 
+enum DungeonItemMenuPhase {
+    ITEM_MENU_INIT = 0,
+    ITEM_MENU_OPEN = 1,
+    ITEM_MENU_WAIT = 2,
+};
+
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
 void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 tile_x;
@@ -149,7 +156,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
 
     phase = ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8;
     switch (phase) {
-    case 0:
+    case ITEM_MENU_INIT:
         spell_effect_selector_cache = -1;
         read_vram_blocks_to_buffer();
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
@@ -169,7 +176,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             }
         }
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
-    case 1:
+    case ITEM_MENU_OPEN:
         menu = ((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.u(((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_04,
             ((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_08);
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = menu;
@@ -182,7 +189,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         ((S_80090C10_4 *)selection)->unk_04 = 0;
         ((S_80090C10_4 *)selection)->unk_08 = 0;
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
-    case 2:
+    case ITEM_MENU_WAIT:
         break;
     default:
         return;
@@ -199,7 +206,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     switch (selected_item_action_alias) {
     case 1:
         append_packed_action_record(actor, 0x48, get_special_table_data_index(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv), 0);
-        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 == 0x11) {
+        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 == ITEM_KIND_SHIELD) {
             change_equipped_item_and_notify(actor, (*(void **)&selected_item_record_alias));
             selected_item_action_alias = 0;
             break;
@@ -208,7 +215,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         selected_item_action_alias = 0;
         break;
     case 2:
-        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv))->unk_01 == 0x11) {
+        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv))->unk_01 == ITEM_KIND_SHIELD) {
             append_packed_action_record(actor, 0x48, get_special_table_data_index((*(void * *)&actor->unk_50)), 0);
             change_equipped_item_and_notify(actor, NULL);
             selected_item_action_alias = 0;
@@ -245,7 +252,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
                 return;
             }
         }
-        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 != 0x15) {
+        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 != ITEM_KIND_TRAP) {
             return;
         }
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;

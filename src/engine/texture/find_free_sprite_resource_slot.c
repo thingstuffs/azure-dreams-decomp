@@ -11,7 +11,10 @@ typedef struct {
 
 extern S_80047B80 sprite_resource_slots[6];
 
-/* Returns the first free slot index in D_80083D08, or -1 if all slots are occupied. */
+/*
+ * Returns the first of six sprite_resource_slots whose leading word is zero, or -1 when all are
+ * occupied.
+ */
 s32 find_free_sprite_resource_slot(void)
 {
     s32 free_index = -1;

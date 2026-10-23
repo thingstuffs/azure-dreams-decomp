@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 
 
+/* Maps a random low bit to either -1 or 1. */
 s32 get_a_random_sign_either_n_1_n_1(void) {
     s32 sign;
 

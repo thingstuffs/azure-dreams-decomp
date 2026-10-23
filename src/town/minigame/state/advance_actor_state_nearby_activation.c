@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "records/Rec_D_80082D58.h"
 
+/* Returns whether the absolute signed distance exceeds the supplied limit. */
 static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
     return limit < __builtin_abs(distance);
 }

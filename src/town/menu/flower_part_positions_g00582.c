@@ -5,6 +5,10 @@
 #include "shared/object_flags.h"
 
 #include "shared/object_node.h"/* present_flower_set: create a flower gift object and initialize its state and callback data. */
+/*
+ * Creates a town effect with update_linked_part_position, saves the supplied state value, selects
+ * category 0xB/index two sprite data, and registers and invokes its part update.
+ */
 void present_flower_set(s32 initial_value) {
     s32 callback_arg;
     S_800A7FD8_1 *state;

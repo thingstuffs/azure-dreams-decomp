@@ -113,9 +113,10 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
     owner[0x9B]++;
 }
 
-/* Initialize the entity action and select its directional animation when ready. */
-/* Starts Manoeva's directional action when dungeon activity permits, marks its state, and increments the
- * activity count. */
+/*
+ * Starts Manoeva's directional action when dungeon activity permits, marks its state, and
+ * increments the activity count.
+ */
 void initialize_object_and_clear_state(void *action, void *unused, void *animation, EntityRec *entity) {
 
     if (g_dungeon_status.flags & 0x2000) {

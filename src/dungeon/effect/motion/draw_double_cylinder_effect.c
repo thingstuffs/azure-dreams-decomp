@@ -14,7 +14,7 @@ s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 u
 s32 rsin(s32);                                                    /* extern */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */
-s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 draw_arg1, s32 draw_arg2) {
+s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 center, s32 unused_value) {
     s32 primary_size;
     s32 secondary_size;
     u8 fade;
@@ -22,8 +22,8 @@ s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 draw_arg1, s32 dra
     fade = ~(effect->unk_10.u8 * 0x10);
     primary_size = (s32) (rsin((0x10 - effect->unk_10.s16) << 6) * 2) >> 8;
     secondary_size = (s32) ((rsin((0x10 - effect->unk_10.s16) << 6) >> 4) * 0x18) >> 8;
-    draw_shaded_textured_cylinder(effect, draw_arg1, draw_arg2, (s16) (effect->unk_14 << 5), 0x140, (s32) (s16) primary_size, 3, 0x40);
-    draw_shaded_textured_cylinder(effect, draw_arg1, draw_arg2, (s16) ((s32) (0 - (effect->unk_14 << 0x16)) >> 0x10), 0x140,
+    draw_shaded_textured_cylinder(effect, center, unused_value, (s16) (effect->unk_14 << 5), 0x140, (s32) (s16) primary_size, 3, 0x40);
+    draw_shaded_textured_cylinder(effect, center, unused_value, (s16) ((s32) (0 - (effect->unk_14 << 0x16)) >> 0x10), 0x140,
         (s32) (s16) secondary_size, 1, fade & 0xFF);
     return 0;
 }

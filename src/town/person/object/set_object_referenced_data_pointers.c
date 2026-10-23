@@ -1,10 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
 #include "m2c_compat.h"
 
-typedef struct S_800C641C_1 {
-    u8 pad_00[0x80];
-    void * unk_80;
-} S_800C641C_1;   /* arg0 in set_object_referenced_data_pointers */
 
 typedef struct S_800C641C_2 {
     u8 pad_00[0x4];
@@ -15,13 +12,9 @@ typedef struct S_800C641C_2 {
 extern M2C_UNK D_800D5820;
 extern M2C_UNK D_800D5844;
 
-typedef struct S_800C641C_0 {
-    u8 pad_00[0x7C];
-    s32 ** unk_7C;
-} S_800C641C_0;   /* arg0 in set_object_referenced_data_pointers */
 
 /* Sets the object's referenced data pointers to the static data blocks. */
-void set_object_referenced_data_pointers(S_800C641C_0 *object) {
-    *object->unk_7C = &D_800D5820;
-    ((S_800C641C_2 *)(((S_800C641C_1 *)object)->unk_80))->unk_04 = &D_800D5844;
+void set_object_referenced_data_pointers(Rec_func_80094268_arg0 *object) {
+    *object->unk_7C.as_pps32 = &D_800D5820;
+    ((S_800C641C_2 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_04 = &D_800D5844;
 }

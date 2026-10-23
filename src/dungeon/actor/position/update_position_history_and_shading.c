@@ -1,3 +1,4 @@
+#include "dungeon/actor/motion.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -5,11 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
 typedef struct {
     u8 pad[8];
@@ -19,10 +16,10 @@ typedef struct {
 extern s32 rsin(s32, s32);
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
-void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
+void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coords_out, SpriteFrameState *rgb)
 {
-    u8 *linked_obj;
-    u8 *linked_data;
+    ObjectNodeHeader *linked_obj;
+    ActorTrailWork *linked_data;
     TileObject *room;
     u8 *history_src;
     u8 *history_dst;
@@ -31,7 +28,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
     s32 history_index;
     s32 direction_offset;
     s32 shade;
-    u8 *linked_rgb;
+    SpriteFrameState *linked_rgb;
     s32 raw_shade;
     s16 linked_shade;
     s32 final_coord;
@@ -41,27 +38,27 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
     s32 current_z;
     u16 z;
 
-    U16_AT(obj, 0x1A) = U16_AT(obj, 0x2C);
-    U16_AT(obj, 0x1E) = U16_AT(obj, 0x2E);
-    U16_AT(obj, 0x22) = U16_AT(obj, 0x30);
+    obj->previous.x.parts.whole.u = obj->history[1].x.u;
+    obj->previous.y.parts.whole.u = obj->history[1].y.u;
+    obj->previous.z.parts.whole.u = obj->history[1].z.u;
 
     for (history_index = 1; history_index > 0; history_index--) {
-        history_dst = obj + history_index * 8;
-        history_src = obj + (history_index - 1) * 8;
+        history_dst = (u8 *)obj + history_index * 8;
+        history_src = (u8 *)obj + (history_index - 1) * 8;
         U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
         U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
         U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
     }
 
-    final_z = U16_AT(obj, 0x12);
-    z = U16_AT(obj, 0x16);
-    U16_AT(obj, 0x24) = U16_AT(obj, 0x0E);
-    linked_obj = PTR_AT(obj, 8);
-    U16_AT(obj, 0x26) = final_z;
-    U16_AT(obj, 0x28) = z;
+    final_z = obj->position.y.parts.whole.u;
+    z = obj->position.z.parts.whole.u;
+    obj->history[0].x.u = obj->position.x.parts.whole.u;
+    linked_obj = obj->follow;
+    obj->history[0].y.u = final_z;
+    obj->history[0].z.u = z;
 
     if (linked_obj == 0) {
-        switch (S16_AT(obj, 0x64)) {
+        switch (obj->state.s) {
         case 0:
             direction_offset = ((-g_game_work.view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE;
             room = &reference_tile_object;
@@ -71,8 +68,8 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
                 s32 x_current;
 
                 x_target = (room->tile_position.parts.tile_x + *x_adjust) << 6;
-                x_current = S16_AT(obj, 0x0E) - 0x20;
-                U16_AT(obj, 0x0E) += (x_target - x_current) / S16_AT(obj, 0x66);
+                x_current = obj->position.x.parts.whole.s - 0x20;
+                obj->position.x.parts.whole.u += (x_target - x_current) / obj->timer.s;
             }
             y_adjust = (s16 *)(((u8 *)dir_step_y) + direction_offset);
             {
@@ -80,38 +77,38 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
                 s32 y_current;
 
                 y_target = (room->tile_position.parts.tile_y + *y_adjust) << 6;
-                y_current = S16_AT(obj, 0x12) - 0x20;
-                U16_AT(obj, 0x12) += (y_target - y_current) / S16_AT(obj, 0x66);
+                y_current = obj->position.y.parts.whole.s - 0x20;
+                obj->position.y.parts.whole.u += (y_target - y_current) / obj->timer.s;
             }
-            S32_AT(obj, 0x14) +=
+            obj->position.z.value +=
                 (view_reference_entity.z.v -
-                 (rsin(S16_AT(obj, 0x66) * 42, S16_AT(obj, 0x66)) << 12) -
-                 S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
+                 (rsin(obj->timer.s * 42, obj->timer.s) << 12) -
+                 obj->position.z.value) / obj->timer.s;
 
-            if (S16_AT(obj, 0x6A) < 0x80) {
-                U16_AT(obj, 0x6A) += 0x10;
+            if (obj->brightness.s < 0x80) {
+                obj->brightness.u += 0x10;
             }
-            shade = U8_AT(obj, 0x6A);
-            U8_AT(rgb, 0x0D) = shade;
-            U8_AT(rgb, 0x0E) = shade;
-            U8_AT(rgb, 0x0C) = shade;
+            shade = obj->brightness.byte;
+            rgb->color.c.g = shade;
+            rgb->color.c.b = shade;
+            rgb->color.c.r = shade;
 
-            U16_AT(obj, 0x66)--;
-            if (S16_AT(obj, 0x66) <= 0) {
+            obj->timer.u--;
+            if (obj->timer.s <= 0) {
                 final_coord = (room->tile_position.parts.tile_x + *x_adjust) << 6;
-                U16_AT(obj, 0x0E) = final_coord + 0x20;
+                obj->position.x.parts.whole.u = final_coord + 0x20;
                 final_coord = (room->tile_position.parts.tile_y + *y_adjust) << 6;
-                U16_AT(obj, 0x12) = final_coord + 0x20;
-                final_state = U16_AT(obj, 0x64);
-                final_z = U16_AT(((HeightData *)&view_reference_entity), 0x0A);
-                U16_AT(obj, 0x64) = final_state + 1;
-                U16_AT(obj, 0x16) = final_z;
+                obj->position.y.parts.whole.u = final_coord + 0x20;
+                final_state = obj->state.u;
+                final_z = (u16)view_reference_entity.z.w.i;
+                obj->state.u = final_state + 1;
+                obj->position.z.parts.whole.u = final_z;
             }
             break;
         case 1:
-            if (S16_AT(obj, 0x1A) == S16_AT(obj, 0x0E) && S16_AT(obj, 0x1E) == S16_AT(obj, 0x12)) {
-                previous_z = S16_AT(obj, 0x22);
-                current_z = S16_AT(obj, 0x16);
+            if (obj->previous.x.parts.whole.s == obj->position.x.parts.whole.s && obj->previous.y.parts.whole.s == obj->position.y.parts.whole.s) {
+                previous_z = obj->previous.z.parts.whole.s;
+                current_z = obj->position.z.parts.whole.s;
                 if (previous_z == current_z) {
                     U16_AT(obj, -2) |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -121,29 +118,29 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
             break;
         }
     } else {
-        linked_data = linked_obj + 0x20;
-        U16_AT(obj, 0x0E) = U16_AT(linked_data, 0x2C);
-        U16_AT(obj, 0x12) = U16_AT(linked_data, 0x2E);
-        z = U16_AT(linked_data, 0x30);
-        U16_AT(obj, 0x16) = z;
+        linked_data = (ActorTrailWork *)(linked_obj + 1);
+        obj->position.x.parts.whole.u = linked_data->history[1].x.u;
+        obj->position.y.parts.whole.u = linked_data->history[1].y.u;
+        z = linked_data->history[1].z.u;
+        obj->position.z.parts.whole.u = z;
 
-        if (S16_AT(obj, 0x64) == 0) {
-            linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
-            raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
+        if (obj->state.s == 0) {
+            linked_rgb = obj->follow->sprite;
+            raw_shade = linked_rgb->color.c.r - obj->shade_offset.s * 8;
             linked_shade = raw_shade;
             if ((s16)raw_shade < 0) {
                 linked_shade = 0;
             }
-            U8_AT(rgb, 0x0E) = linked_shade;
-            U8_AT(rgb, 0x0D) = linked_shade;
-            U8_AT(rgb, 0x0C) = linked_shade;
+            rgb->color.c.b = linked_shade;
+            rgb->color.c.g = linked_shade;
+            rgb->color.c.r = linked_shade;
 
-            U16_AT(obj, 0x66)--;
-            if (S16_AT(obj, 0x66) <= 0) {
-                U16_AT(obj, 0x64)++;
+            obj->timer.u--;
+            if (obj->timer.s <= 0) {
+                obj->state.u++;
             }
-        } else if (S16_AT(obj, 0x1A) == S16_AT(obj, 0x0E) && S16_AT(obj, 0x1E) == S16_AT(obj, 0x12)) {
-            previous_z = S16_AT(obj, 0x22);
+        } else if (obj->previous.x.parts.whole.s == obj->position.x.parts.whole.s && obj->previous.y.parts.whole.s == obj->position.y.parts.whole.s) {
+            previous_z = obj->previous.z.parts.whole.s;
             current_z = (s16)z;
             if (previous_z == current_z) {
                 U16_AT(obj, -2) |= NODE_REMOVE;
@@ -153,13 +150,13 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
         }
     }
 copy_out:
-    U16_AT(coords_out, 2) = U16_AT(obj, 0x1A);
-    U16_AT(coords_out, 6) = U16_AT(obj, 0x1E);
-    U16_AT(coords_out, 0x0A) = U16_AT(obj, 0x22);
-    U16_AT(coords_out, 0x0E) = U16_AT(obj, 0x0E);
-    U16_AT(coords_out, 0x12) = U16_AT(obj, 0x12);
-    U16_AT(coords_out, 0x16) = U16_AT(obj, 0x16);
-    U16_AT(obj, 0x68)++;
+    coords_out->position.x.parts.whole.u = obj->previous.x.parts.whole.u;
+    coords_out->position.y.parts.whole.u = obj->previous.y.parts.whole.u;
+    coords_out->position.z.parts.whole.u = obj->previous.z.parts.whole.u;
+    coords_out->velocity.x.parts.whole.u = obj->position.x.parts.whole.u;
+    coords_out->velocity.y.parts.whole.u = obj->position.y.parts.whole.u;
+    coords_out->velocity.z.parts.whole.u = obj->position.z.parts.whole.u;
+    obj->ticks++;
 
     return;
 }

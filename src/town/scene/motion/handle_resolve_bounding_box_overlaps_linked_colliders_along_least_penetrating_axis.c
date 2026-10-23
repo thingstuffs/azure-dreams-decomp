@@ -37,7 +37,12 @@ typedef struct CollisionScratch {
     s32 face_index;
 } CollisionScratch;
 
-/* Resolve bounding-box overlaps with linked colliders along the least-penetrating axis. */
+/*
+ * Walks the collider ring, rejects disabled or separated boxes, and dispatches overlapping boxes
+ * to an axis response using the signed face separations. Prefers the Z response when vertical
+ * motion covers its separation; otherwise chooses the least penetration, then clears the per-face
+ * response flags.
+ */
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *collider, void *position) {
     u8 *scratch;
     void *bounds;

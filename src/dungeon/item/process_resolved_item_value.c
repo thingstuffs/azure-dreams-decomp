@@ -114,6 +114,14 @@ typedef union {
 } ResolvedCoordinate;
 typedef struct { ResolvedCoordinate axes[3]; } ResolvedMotion;
 
+enum ResolvedEffectPhase {
+    RESOLVED_EFFECT_INIT = 0,
+    RESOLVED_EFFECT_FOLLOW_OWNER = 1,
+    RESOLVED_EFFECT_SPAWN_COPY = 2,
+    RESOLVED_EFFECT_FOLLOW_COPY = 3,
+    RESOLVED_EFFECT_WAIT_SPRITES = 4,
+};
+
 /* Creates and follows a directional sprite copy, sets target status slot 29, and displays its
    completion message. */
 void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, void *sprite) {
@@ -144,7 +152,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
     owner_motion = (owner_header->position);
     source_sprite = (owner_header->sprite);
     switch (phase) {
-    case 0:
+    case RESOLVED_EFFECT_INIT:
         (((ResolvedSprite *)sprite)->color) = 0x808080;
         (((ResolvedSprite *)sprite)->scale_y) = 0x1000;
         (((ResolvedSprite *)sprite)->scale_x) = 0x1000;
@@ -154,7 +162,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         (((ResolvedEffect *)effect_state)->direction) = (direction >> 9) & 7;
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
-    case 1:
+    case RESOLVED_EFFECT_FOLLOW_OWNER:
         (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (*(u16 *)&owner_motion->x.w.i);
         (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (*(u16 *)&owner_motion->y.w.i);
         (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (*(u16 *)&owner_motion->z.w.i);
@@ -165,7 +173,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         }
     default:
         return;
-    case 2:
+    case RESOLVED_EFFECT_SPAWN_COPY:
         spawned = allocate_list_node(0x112, ((u32)&scene_object_list_anchor));
         if (spawned != 0) {
             spawn_state = ((void *)spawned) + 0x20;
@@ -221,7 +229,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         }
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         return;
-    case 3:
+    case RESOLVED_EFFECT_FOLLOW_COPY:
         if ((((ResolvedEffect *)effect_state)->value) == 0x63) {
             spawned = (((ResolvedEffect *)effect_state)->spawned);
             follow_motion = (((ResolvedEffect *)effect_state)->motion);
@@ -252,7 +260,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             }
         }
         break;
-    case 4:
+    case RESOLVED_EFFECT_WAIT_SPRITES:
         frame = (((ResolvedEffect *)effect_state)->frame);
         next_frame = frame + 1;
         (((ResolvedEffect *)effect_state)->frame) = next_frame;

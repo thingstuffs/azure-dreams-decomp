@@ -120,9 +120,10 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
 }
 
-/* Select a movement direction, move the actor, and update its path history and height. */
-/* Chooses Troll's next clear step toward an actor or player-relative tile, records its path, and updates
- * occupancy and height. */
+/*
+ * Chooses Troll's next clear step toward an actor or player-relative tile, records its path, and
+ * updates occupancy and height.
+ */
 void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *position, u8 *actor) {
     s32 near_target;
     s32 attempt;

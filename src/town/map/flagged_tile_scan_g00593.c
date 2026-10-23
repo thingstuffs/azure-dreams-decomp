@@ -71,7 +71,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
     s32 y_steps_addr;
     u16 *rev_y_step;
     s32 rev_step_dir;
-    grid = scene_geometry;
+    grid = &scene_geometry;
     rev_blocked = 0;
     fwd_blocked = rev_blocked;
     rev_x = start_x;
@@ -80,7 +80,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
     fwd_y = start_y;
     step_count = 0;
     one = 1;
-    map_base = scene_geometry[0].map_base;
+    map_base = scene_geometry.map_base;
     x_steps = (u8 *)((s8 *)dir_step_x);
     rev_count = 0;
     fwd_count = 0;

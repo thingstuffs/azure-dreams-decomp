@@ -18,25 +18,17 @@ typedef struct S_80042A80_Rec20
     u8 pad[18];
 }
 S_80042A80_Rec20;
-typedef struct S_80042A80_CategoryEntry
-{
-    u8 kind;
-    u8 pad1[11];
-    S_80042A80_Rec20 *records;
-    u8 pad2[4];
-}
-S_80042A80_CategoryEntry;
 extern u8 runtime_dispatch_mode_alias[9];
 extern S_80042A80_Rec20 *item_category_tables[3];
-extern S_80042A80_CategoryEntry itemCategoryTable[];
 /* Returns category-dependent item flags when the current mode is 2. */
 s32 get_item_category_flags(S_80042A80_Item *item)
 {
-    S_80042A80_CategoryEntry *category;
+    ItemCategory *category;
     s32 item_flags;
     u8 kind;
     s32 category_index;
     u16 category_id;
+    S_80042A80_Rec20 *records;
     if (runtime_dispatch_mode_alias[0] != 2) {
         return 0;
     }
@@ -52,14 +44,15 @@ s32 get_item_category_flags(S_80042A80_Item *item)
         return item->f3 & 0x80;
     }
     {
-        S_80042A80_CategoryEntry *categories = itemCategoryTable;
+        ItemCategory *categories = itemCategoryTable;
         category_id = item->f1;
         category = &categories[category_id];
     }
-    if (category->kind != 0) {
+    if (category->record_format != 0) {
         return 0;
     }
-    category_index = category->records[item->f0].f0;
+    records = category->records;
+    category_index = records[item->f0].f0;
     category_index &= 0x400;
     category_index <<= 16;
     category_index >>= 16;

@@ -13,11 +13,11 @@ extern s32 func_8001A64C(u32);
 /* Selects text by ID, setting event 0x948 for selector 12. */
 char *select_text_id_setting_event(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
 {
-    s32 arg2_val;
+    s32 saved_selector;
     u32 case_index;
 
     case_index = selector_id - 12;
-    arg2_val = selector_id;
+    saved_selector = selector_id;
     switch (case_index) {
     case 7:
         return scene_choice_text;
@@ -31,7 +31,7 @@ char *select_text_id_setting_event(s32 unused, s32 passthru_1, s32 selector_id, 
     case 40:
     case 41:
     case 42:
-        return award_next_unearned_milestone(selector_id, passthru_1, arg2_val, passthru_3);
+        return award_next_unearned_milestone(selector_id, passthru_1, saved_selector, passthru_3);
     default:
         return scene_string_fallback;
     }

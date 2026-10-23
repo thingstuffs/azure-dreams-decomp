@@ -8,6 +8,7 @@ typedef struct {
     u16 flags;
 } DungeonTile;
 
-extern DungeonTile generation_cells[2];
+/* clear_generation_cell_grid resets 0x1000 six-byte cells (64 by 64). */
+extern DungeonTile generation_cells[4096];
 
 #endif

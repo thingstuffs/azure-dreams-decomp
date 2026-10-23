@@ -38,7 +38,7 @@ void decode_audio_selector(s32 selector) {
             entry_index += 0x10;
         }
         if (saved_selector & 0x1000) {
-            stop_matching_effect_voices();
+            stop_matching_effect_voices(entry_index, entry_offset);
             return;
         }
         sound_start_scaled_primary_and_secondary_voices(entry_index, entry_offset);

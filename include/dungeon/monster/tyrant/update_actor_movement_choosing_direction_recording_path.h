@@ -1,6 +1,8 @@
 #ifndef DUNGEON_OVL_7F0F7800_P03_H
 #define DUNGEON_OVL_7F0F7800_P03_H
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -33,5 +35,5 @@ extern s32 check_action_eligibility_updates_actor_state_directional_animation_su
 extern s16 actor_turn_angle_offsets[8];
 extern u8 reference_tile_object[];
 extern s8 reference_tile_position_alias;
-void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
+void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, SpriteFrameState *position, ActorRecord *actor);
 #endif

@@ -1,3 +1,5 @@
+#include "shared/monster_ids.h"
+#include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -292,7 +294,7 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
         clear_abilities = merged_abilities;
         clear_result_seen = merge_buffer;
         clear_donor_seen = donor_seen;
-        clear_shifted = ((S_800277F4_0 *)result)->unk_14 & ~7;
+        clear_shifted = ((S_800277F4_0 *)result)->unk_14 & ~ACTOR_ELEMENT_MASK;
         ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
         element_mask = merged_element;
         clear_shifted |= element_mask;
@@ -649,7 +651,7 @@ merge_donor_primary:
             clear_slot_and_update_linked_state(donor_runtime);
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&
-                ((result_kind = ((S_800277F4_0 *)result)->unk_13) != 2) &&
+                ((result_kind = ((S_800277F4_0 *)result)->unk_13) != MONSTER_KEWNE) &&
                 (result_kind != 0x39)) {
                 ((S_800277F4_0 *)result)->unk_54 = (s32) (result_traits & 0xFF7FFFFF);
             }

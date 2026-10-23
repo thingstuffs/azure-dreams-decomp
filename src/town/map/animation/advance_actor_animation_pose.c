@@ -40,9 +40,7 @@ typedef struct S_800BE214_0 {
     s32 animation_index; /* 0xA4 */
 } S_800BE214_0;   /* arg0 in advance_actor_animation_pose */
 
-   /* arg1 in advance_actor_animation_pose */
-
-/* Advances the actor animation state and applies a timed pose offset. */
+   /* Advances the actor animation state and applies a timed pose offset. */
 void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, SpriteFrameState *animation) {
     void *animations[9];
     s16 animation_index;

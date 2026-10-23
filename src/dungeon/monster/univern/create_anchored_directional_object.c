@@ -1009,6 +1009,11 @@ s32 relink_univern_path(void *entity_arg, void *primary_context_arg, void *secon
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Spends MP and advances status timers when movement completes, resuming the actor handler only
+ * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
+ * 0x80 during movement or after an accepted trap check. /
+ */
 void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
         spend_actor_mp(target, 4);
@@ -1025,6 +1030,10 @@ void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused,
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs update_linked_actor_motion and installs update_entity_movement_and_ground_height only when
+ * it succeeds and the signed floor-trap check returns positive.
+ */
 void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1646,18 +1655,24 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
 }
 #include "dungeon/monster/univern.h"
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_univern(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 #include "dungeon/monster/univern.h"
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_univern_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs update_actor_hop_and_grow and installs update_entity_movement_and_ground_height when it
+ * returns nonzero.
+ */
 void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -2017,6 +2032,11 @@ void advance_univern_status_action(void *action, void *context, SpriteFrameState
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, SpriteFrameState *entity, R17_80174250_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -2032,6 +2052,10 @@ void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, SpriteF
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs update_thrown_actor_travel and installs update_entity_movement_and_ground_height only when
+ * it succeeds and the signed floor-trap check returns positive.
+ */
 void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -2042,6 +2066,10 @@ void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs update_entity_movement_and_ground_height
+ * when it returns nonzero.
+ */
 void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -2050,6 +2078,10 @@ void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17Ca
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs update_spinning_actor_fall and installs update_entity_movement_and_ground_height when it
+ * returns nonzero.
+ */
 void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -2058,6 +2090,10 @@ void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackSt
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs update_actor_fade_in and installs update_entity_movement_and_ground_height when it returns
+ * nonzero.
+ */
 void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -2066,6 +2102,10 @@ void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *m
 }
 #include "dungeon/monster/univern.h"
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs update_entity_movement_and_ground_height when it
+ * returns positive.
+ */
 void blend_animation_palette_and_complete(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -2077,6 +2117,10 @@ void blend_animation_palette_and_complete(Resource17CallbackState *state, void *
 #include "shared/dungeon_status.h"
 #include "shared/tile_object.h"
 
+/*
+ * Runs propagate_actor_action_flag and installs update_entity_movement_and_ground_height when it
+ * returns positive.
+ */
 void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

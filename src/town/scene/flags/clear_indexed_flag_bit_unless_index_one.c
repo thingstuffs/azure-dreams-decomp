@@ -3,7 +3,10 @@
 
 extern s32 *D_A0700F44[];
 
-/* Clear the indexed flag bit unless the index is one. */
+/*
+ * Clears the selected bit in D_A0700F44 using 32-bit word indexing, leaving reserved bit one
+ * unchanged.
+ */
 void clear_indexed_flag_bit_unless_index_one(s32 bit_index) {
     if (bit_index != 1) {
         D_A0700F44[0][bit_index / 32] &= ~(1 << (bit_index % 32));

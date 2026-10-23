@@ -31,6 +31,10 @@ s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800
     return 1;
 }
 
+/*
+ * Applies the actor value delta, then caps byte 0x28 at the limit in byte 0x29; the first three
+ * arguments are unused.
+ */
 static void apply_actor_delta_and_cap_value(s32 unused_0, s32 unused_1, s32 unused_2, u8 *record) {
     u8 limit;
 

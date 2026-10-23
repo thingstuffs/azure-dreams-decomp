@@ -12,6 +12,10 @@ typedef struct S_80099CE0_2 {
 
 extern s32 D_80099920;
 
+/*
+ * Selects the linked handler table, clears the indexed object slot, and installs D_80099920 with
+ * count 0x20.
+ */
 void init_positive_y_step_action(Rec_func_80094268_arg0 *object, void *unused, void *handler_context) {
     call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;

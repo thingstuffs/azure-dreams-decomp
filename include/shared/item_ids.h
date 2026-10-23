@@ -28,7 +28,19 @@ enum ItemKind {
 
 /* These IDs require their category: equal numbers in other tables differ. */
 enum ItemId {
+    ITEM_HEALING_HERB = 0x8,
+    ITEM_GURUS_POT = 0x1,
+    ITEM_BLUE_CAPE = 0x6,
     ITEM_PITA_FRUIT = 0x1,
+    ITEM_BIG_PITA_FRUIT = 0x2,
+    ITEM_LIGHT_SEED = 0x5,
+    ITEM_SEA_SEED = 0x6,
+    ITEM_ACID_RAIN_BALL = 0x11,
+    ITEM_DARK_SWORD = 0x9,
+    ITEM_SCARLET_WAND = 0x6,
+    ITEM_STREAM_WAND = 0x7,
+    ITEM_GULF_WAND = 0x8,
+    ITEM_HOLY_BELL = 0x1,
     ITEM_BLUE_COLLAR = 0x4,
     ITEM_MEAT = 0x6,
     ITEM_WATER_MEDAL = 0x2,

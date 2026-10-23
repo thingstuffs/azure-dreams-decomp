@@ -56,9 +56,7 @@ typedef struct S_8004BDDC_1 {
     u8 unk_0B;
 } S_8004BDDC_1;   /* arg4 in build_gouraud_quad_packet */
 
-   /* temp_s3 in build_gouraud_quad_packet */
-
-/* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
+   /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *build_gouraud_quad_packet(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {
     void *color_record;
     s8 u_end;

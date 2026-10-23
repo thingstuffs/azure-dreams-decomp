@@ -1,10 +1,8 @@
 /* Item menu page format and its file-private helper. */
 #include "common.h"
+#include "shared/object_links.h"
 void flag_optional_object_for_removal(void *object);
 #include "shared/object_flags.h"
-typedef struct S_800AF148_0_pre {
-    u16 unk_00;
-} S_800AF148_0_pre;
 typedef struct S_800AF148_0 {
     u8 pad_00[0x28];
     s32 unk_28;
@@ -13,8 +11,6 @@ typedef struct S_800AF148_0 {
 } S_800AF148_0;
 void release_null_terminated_entries(u16 **entries);
 void func_8004B248(u16 **entries);
-/* extern */
-
 /* Marks the objects referenced by the requested entries, starting at index 20, for removal. */
 static void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount) {
     s32 **entryCursor;
@@ -43,7 +39,7 @@ void release_item_menu_list_object(s32 objectAddress) {
         objectFields = objectAddress + 0x20;
         send_item_menu_page_entries_to_formatter(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
         release_null_terminated_entries(objectAddress + 0xFC);
-        ((S_800AF148_0_pre *)objectFields)[-1].unk_00 = (u16) (((S_800AF148_0_pre *)objectFields)[-1].unk_00 | 0x8000);
+        ((ObjectRetirementFlags *)objectFields)[-1].flags = (u16) (((ObjectRetirementFlags *)objectFields)[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

@@ -2,12 +2,6 @@
 #include "engine/entity.h"
 #include "slus/data.h"
 
-/* initialStatsTable: monster initial-stats record table, 24 bytes/record
- * (game.h: MonsterInitialStats, adrando-verified at RAM 0x8006d168). Declared
- * with a provisional size > 8 so the compiler/assembler emit a direct
- * %hi/%lo access rather than $gp small-data. */
-extern u8 initialStatsTable[24];
-
 /* D_8006D6D8: word array indexed by monster id (used to seed obj+0x54). */
 
 /* apply_entity_effects: post-init fixup on the struct just filled in (still
@@ -26,7 +20,7 @@ typedef struct {
 void init_monster_from_stats(void *obj, s16 monsterId)
 {
     u8 *dst = (u8 *)obj;
-    u8 *rec = initialStatsTable + (s32)monsterId * 24;
+    u8 *rec = (u8 *)initialStatsTable + (s32)monsterId * 24;
     s32 *d6d8 = &D_8006D6D8[monsterId];
     u32 oldFlags, recFlags;
 

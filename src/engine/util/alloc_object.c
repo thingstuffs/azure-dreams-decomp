@@ -17,11 +17,11 @@ extern void flag_object_for_removal(void *a0);
    site's register setup only (a0=obj, a1=format string, a2=arg value). */
 
 /* Allocates a 0x100-byte note buffer, decodes text, and frees the buffer if decoding produces no entries. */
-void *alloc_object_100(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc_arg3)
+void *alloc_object_100(char *text, s32 initial_octave, s32 unused_2, s32 extra_value)
 {
     void *entries;
 
-    entries = create_callback_pair_default(0x100, initial_octave, alloc_arg2, alloc_arg3);
+    entries = create_callback_pair_default(0x100, initial_octave, unused_2, extra_value);
     if (entries != 0) {
         if (decode_fullwidth_text(entries, text, initial_octave) != 0) {
             if (count_tagged_records(entries) < 0x16) {

@@ -188,13 +188,15 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
     return (short)index;
 }
 
-extern void apply_actor_template_and_direction(void *a0, short a1);
+struct S_800423C0_Obj;
+struct S_800423C0_Src;
+extern void apply_actor_template_and_direction(struct S_800423C0_Obj *obj, s16 unused, struct S_800423C0_Src *source);
 extern void update_owner_class_bits(void *a0);
 
 /* Configure an entity with a signed halfword value and update its status. */
-void apply_actor_template_and_class(void *entity, int value)
+void apply_actor_template_and_class(void *entity, int value, void *source)
 {
-    apply_actor_template_and_direction(entity, (short)value);
+    apply_actor_template_and_direction(entity, (short)value, source);
     update_owner_class_bits(entity);
 }
 
@@ -439,11 +441,12 @@ int get_item_name_with_shared_text_table(void *object) {
     return get_item_name_text(object, item_name_text_table);
 }
 
-extern int get_item_category_flags(void);
+struct S_80042A80_Item;
+extern s32 get_item_category_flags(struct S_80042A80_Item *item);
 
 /* Return flag bit 0x400 from the status query. */
-int read_item_category_flag_ten(void) {
-    return get_item_category_flags() & 0x400;
+int read_item_category_flag_ten(void *item) {
+    return get_item_category_flags(item) & 0x400;
 }
 
 /* Map the first set low flag bit to priority 0, 1, or 2, defaulting to 3. */
@@ -490,7 +493,7 @@ int set_flag_and_return_success(int *flag)
 
 extern void init_paired_packet_records(void *packets, void *record);
 
-/* Initialize a pair of packets from a source record. */
+/* Calls init_paired_packet_records with packets, record. */
 void initialize_packet_pair_from_record(void *packets, void *record)
 {
     init_paired_packet_records(packets, record);
@@ -579,12 +582,12 @@ int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
     return current_sort_rank_table[*left_text] - current_sort_rank_table[*right_text];
 }
 
-extern void selection_sort_elements(void);
+extern void selection_sort_elements(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *));
 
-/* Invoke selection_sort_elements. */
-void forward_selection_sort_request(void)
+/* Sort the supplied elements using their comparator. */
+void forward_selection_sort_request(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *))
 {
-    selection_sort_elements();
+    selection_sort_elements(base, count, size, compar);
 }
 
 extern void create_callback_pair_payload(int a0, int a1, void *a2);
@@ -894,7 +897,7 @@ void resolve_selected_menu_entry(char *object)
 
 extern void handle_object_input(void *a0);
 
-/* Forward the object to handle_object_input. */
+/* Calls handle_object_input with object. */
 void forward_object_input_handler(void *object)
 {
     handle_object_input(object);
@@ -936,7 +939,7 @@ void submit_enabled_saved_display_value(void) {
 extern void run_deferred_callbacks(void *a0);
 extern unsigned char town_movie_callback_list[16];
 
-/* Process the global buffer D_800717D0. */
+/* Calls run_deferred_callbacks with & town_movie_callback_list. */
 void run_town_movie_callbacks(void)
 {
     run_deferred_callbacks(&town_movie_callback_list);
@@ -946,7 +949,7 @@ extern void run_deferred_callbacks(void *a0);
 
 extern char town_transition_callback_list[12];
 
-/* Process the global buffer D_800717E8. */
+/* Calls run_deferred_callbacks with town_transition_callback_list. */
 void run_town_transition_callbacks(void)
 {
     run_deferred_callbacks(town_transition_callback_list);
@@ -955,7 +958,7 @@ void run_town_transition_callbacks(void)
 extern char direct_load_resource_descriptor;
 extern void file_load_com(void *arg);
 
-/* Load the fixed global record D_80080C1C. */
+/* Calls file_load_com with & direct_load_resource_descriptor. */
 void load_direct_resource_descriptor(void)
 {
     file_load_com(&direct_load_resource_descriptor);
@@ -1063,14 +1066,14 @@ short SD_Call(int flags)
     return enqueue_audio_command((unsigned short)flags);
 }
 
-/* Sets volume scale [2] and re-applies it through func_80054D64. */
+/* Stores the CD playback scale in g_volume_scale[2] and reapplies the scaled stream volume. */
 void sound_set_cd_playback_volume_scale(short value)
 {
     g_volume_scale[2] = value;
     apply_scaled_cd_stream_volume();
 }
 
-/* Sets volume scale [0]. */
+/* Stores the signed 16-bit value in g_volume_scale[0] for primary voice gain scaling. */
 void sound_set_voice_gain_scale(short value)
 {
     g_volume_scale[0] = value;
@@ -1099,12 +1102,12 @@ void func_800555FC(void) {
 void func_80055604(void) {
 }
 
-extern void audio_stop_matching_effect_voices(void);
+extern void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel);
 
-/* Invoke audio_stop_matching_effect_voices. */
-void stop_matching_effect_voices(void)
+/* Stops the voices selected by the incoming packed key and channel. */
+void stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
 {
-    audio_stop_matching_effect_voices();
+    audio_stop_matching_effect_voices(packed_key, packed_channel);
 }
 
 /* Clear the global halfword. */
@@ -1197,7 +1200,7 @@ void noop_sequence_status_hook(u8 status) {
 
 extern void service_audio_timer(void);
 
-/* Invoke service_audio_timer. */
+/* Invokes service_audio_timer with no arguments. */
 void service_audio_timer_callback(void)
 {
     service_audio_timer();
@@ -1250,7 +1253,7 @@ void set_sound_flag_update_suppression(short value) {
 
 extern void drain_ready_sound_voice_flags(void);
 
-/* Invoke func_8005ACDC. */
+/* Invokes drain_ready_sound_voice_flags with no arguments. */
 void flush_pending_sound_voice_flags(void)
 {
     drain_ready_sound_voice_flags();
@@ -1343,7 +1346,7 @@ void set_spu_master_volume_pair(s16 first, s16 second) {
 
 extern void audio_reset_and_release_sequence_banks(void);
 
-/* Invoke audio_reset_and_release_sequence_banks. */
+/* Invokes audio_reset_and_release_sequence_banks with no arguments. */
 void reset_and_release_audio_sequence_banks(void)
 {
     audio_reset_and_release_sequence_banks();
@@ -1375,7 +1378,7 @@ void dispatch_audio_driver_halfword_flags(s32 value)
 
 extern void _SpuInit(int channel);
 
-/* Invoke func_8005CA90 with mode zero. */
+/* Calls _SpuInit with 0. */
 void reset_audio_sequence_state_default(void)
 {
     _SpuInit(0);

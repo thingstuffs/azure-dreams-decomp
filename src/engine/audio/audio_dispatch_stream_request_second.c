@@ -1,3 +1,4 @@
+#include "shared/audio_commands.h"
 #include "common.h"
 #include "slus.h"
 
@@ -31,7 +32,7 @@ void drain_audio_commands_and_service_channels(void) {
         case 0x0:
             dispatch_audio_event(command_code);
             break;
-        case 0x300:
+        case AUDIO_PLAY_CD_CUE:
             audio_dispatch_stream_request(command_code);
             break;
         case 0x200:

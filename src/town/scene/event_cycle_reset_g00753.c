@@ -35,7 +35,7 @@ void reset_buffer_and_event_flags(void) {
     func_80018548(F_sbs35_pad16);
 }
 
-/* Advance the counter modulo eight. */
+/* Increments D_80019114 and retains its low three bits, wrapping seven to zero. */
 void advance_counter_modulo_eight(void)
 {
     D_80019114 = (D_80019114 + 1) & 7;

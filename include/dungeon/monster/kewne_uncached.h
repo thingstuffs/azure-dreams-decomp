@@ -10,4 +10,6 @@
 void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
 void update_staged_movement_height_and_animation(void *motion, ObjectPosition *velocity, SpriteFrameState *sprite, ActorRecord *actor);
 
+void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *object, ActorRecord *actor);
+
 #endif

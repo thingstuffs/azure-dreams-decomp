@@ -307,9 +307,11 @@ typedef struct Bank1990800_1990d98_Scratch80024598 {
     u32 index;          /* ordering table slot */
 } Bank1990800_1990d98_Scratch80024598;
 
-/* Shaded point primitive (code 0x6A, 3 words). */
-
-/* Projects a colored point and links its drawing packets into the ordering table. */
+/*
+ * Projects a colored point and links its drawing packets into the ordering table.
+ *
+ * Shaded point primitive (code 0x6A, 3 words).
+ */
 s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *position)
 {
     GpuContext **state_ptr;

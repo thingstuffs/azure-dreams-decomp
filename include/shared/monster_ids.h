@@ -3,7 +3,10 @@
 
 /* Species IDs: monster_species_table[0], 20-byte records, name at +4.
  * Names come from the resident game text (see monster_get_species_name_text).
- * Zero and later duplicate/special IDs are deliberately left unnamed. */
+ * Zero and later duplicate/special IDs are deliberately left unnamed.
+ * Independent domains: 64 species-name records, 58 initial-stat records at
+ * species_base_stats/initialStatsTable, and 57 eight-byte growth records.
+ * These counts are not interchangeable bounds on MonsterId. */
 enum MonsterId {
     MONSTER_HIKEWNE = 0x1,
     MONSTER_KEWNE = 0x2,

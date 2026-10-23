@@ -2,7 +2,9 @@
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
-/* D_80085458[64]: same table layout inferred in src/w_80056A08.c (S_80085458). */
+/* D_80085458: 120-byte voice records. [64] below preserves the old addressing
+ * view, not a proven allocation extent. Every active walk uses audio_voice_count;
+ * the captured active domain is 24. Never enumerate it using sizeof. */
 typedef struct {
     s16 f00, f02, f04;
     u16 f06;

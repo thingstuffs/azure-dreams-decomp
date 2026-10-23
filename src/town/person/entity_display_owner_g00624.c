@@ -42,6 +42,10 @@ void set_record_base_and_data_pointer_alt(void *record_values, s32 base_value) {
     ((S_800B4494_0 *)((u8 *)record_values - 0x10))->unk_00 = &D_800B3E68;
 }
 
+/*
+ * Sets the record base and data pointer, binds three embedded display parts, and initializes the
+ * owner data blocks and entries.
+ */
 void initialize_entity_display_owner(u8 *owner, s32 base_value) {
     set_record_base_and_data_pointer_alt(owner, base_value);
     initialize_entity_display_parts(owner + 0x4C, owner + 0x24, owner + 0x34);

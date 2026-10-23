@@ -1,3 +1,4 @@
+#include "dungeon/level/room_flags.h"
 #include "shared/actor_status_flags.h"
 /* Movement path (G00371). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
@@ -266,7 +267,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             s32 record_index = (s8)cell_record;
 
             if ((record_index < 0) ||
-                !(dungeon_rooms[record_index].flags & 2)) {
+                !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
                 if (!(((u32)status->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                     if ((s16)test_neighbor_position_relation(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
@@ -468,7 +469,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                 }
             } else {
                 room_id = position->unk_26;
-                if ((room_id < 0) || !(dungeon_rooms[room_id].flags & 2)) {
+                if ((room_id < 0) || !(dungeon_rooms[room_id].flags & ROOM_HOLY_BEAM)) {
                     if (((S_800D92C0_0 *)actor)->unk_46 & 0x8000) {
                         goto init_loop;
                     }
@@ -569,6 +570,10 @@ mask_and_return:
     }
 }
 
+/*
+ * Sets action state 0x10, clears its substate, and selects movement frames from the actor heading
+ * relative to the camera.
+ */
 void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, void *headingSource) {
     s32 tableByteOffset;
 

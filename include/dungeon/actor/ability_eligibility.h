@@ -26,14 +26,6 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Copy12;
 
-typedef struct {
-    s32 unk0;
-    void *unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-} Entry8007359C;
-
 typedef struct S_800A34BC_0 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -201,7 +193,7 @@ typedef struct S_800A4ACC_1 {
     s32 unk_00;
 } S_800A4ACC_1;
 
-extern Entry8007359C *monster_species_table[4];
+#include "engine/item.h"
 extern int abs(int);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);

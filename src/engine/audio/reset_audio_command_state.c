@@ -3,13 +3,14 @@
 #include "engine/audio.h"
 #include "slus.h"
 
-/* callee: task/timer-like initializer, already matched in src/code.c */
-
-/* Sibling struct for D_800847D0: fields cleared here are a subset of a larger
-   object; layout inferred purely from the offsets this function touches. */
-
-
-/* Resets the audio command state and task object, then clears playback status fields. */
+/*
+ * Resets the audio command state and task object, then clears playback status fields.
+ *
+ * callee: task/timer-like initializer, already matched in src/code.c
+ *
+ * Sibling struct for sound_playback_state: fields cleared here are a subset of a larger object;
+ * layout inferred purely from the offsets this function touches.
+ */
 void reset_audio_command_state(void) {
     submit_tagged_driver_byte(0, 0, 0);
     initialize_audio_ramp_defaults(&sound_stream_task);

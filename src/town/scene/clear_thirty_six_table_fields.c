@@ -1,16 +1,9 @@
 #include "script_symbols.h"
+#include "shared/town_root.h"
+#include "shared/town_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-typedef struct S_8050E100_0 {
-    u8 pad_00[0x38];
-    void * unk_38;
-} S_8050E100_0;   /* *(void **)D_80016000 in func_8050E100 */
-
-typedef struct S_8050E100_1 {
-    u8 pad_00[0x35BE];
-    s16 unk_35BE;
-} S_8050E100_1;   /* town in func_8050E100 */
 
 extern void (*D_80017618)(void);
 extern s16 town_event_counter;
@@ -22,7 +15,7 @@ extern void clear_thirty_six_table_fields(void);
 void initialize_town_counter_and_callback(void)
 {
     s32 current_town_value;
-    S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&town_scene_root))))->unk_38;
+    TownStateRecord *town = ((Rec_D_80016000 *)(*(void **)((u8 *)(&town_scene_root))))->town_state;
 
     current_town_value = town->unk_35BE;
     D_80017618 = clear_thirty_six_table_fields;

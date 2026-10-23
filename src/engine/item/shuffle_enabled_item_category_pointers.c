@@ -8,14 +8,7 @@
 /* Item-category table entry: kind at 0x0 selects 12-byte vs 20-byte record
  * layout; records pointer at 0xC. Only the byte at offset 0x1 is read here as a
  * per-category bit-flag byte. Established layout from src/w_8004A658.c. */
-typedef struct S_8004AB7C_CategoryEntry {
-    u8 kind;
-    u8 pad1[11];
-    void *records;
-    u8 pad2[4];
-} S_8004AB7C_CategoryEntry;
 
-extern S_8004AB7C_CategoryEntry itemCategoryTable[];
 
 /* External words used to select item categories. */
 extern s32 dungeon_mode_state;
@@ -27,7 +20,7 @@ extern void restore_dungeon_random_seed(s32 a0);
 void shuffle_enabled_item_category_pointers(void)
 {
     s32 category_id;
-    S_8004AB7C_CategoryEntry *category;
+    ItemCategory *category;
 
     queue_mode_selected_resource_table();
     drain_cd_command_queue();
@@ -36,7 +29,7 @@ void shuffle_enabled_item_category_pointers(void)
 
     category = itemCategoryTable;
     for (category_id = 0; category_id < 20; category_id++, category++) {
-        if (((s32)category->pad1[0] >> dungeon_mode_state) & 1) {
+        if (((s32)category->flags >> dungeon_mode_state) & 1) {
             shuffle_category_item_data(category_id);
         }
     }

@@ -12,10 +12,12 @@ typedef struct S_800847F0 {
 
 extern S_800847F0 sound_stream_marker_index;
 
-/* Marker-table arrays: only their addresses are taken here (matching the
- * sibling usage in src/w_8004437C.c), never dereferenced. */
-
-/* Fires event 0x71 and selects the marker table and flag for types 0x21 and 0x22. */
+/*
+ * Fires event 0x71 and selects the marker table and flag for types 0x21 and 0x22.
+ *
+ * Marker-table arrays: only their addresses are taken here (matching the sibling usage in
+ * src/w_8004437C.c), never dereferenced.
+ */
 void select_marker_table(s32 marker_code) {
     u8 marker_type = marker_code & 0xFF;
 

@@ -718,6 +718,10 @@ void advance_actor_path_with_item_search(void *move_data, void *context, void *p
     }
 }
 
+/*
+ * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
+ * from D_80173C8C.
+ */
 void copy_display_orientation_state(void *object, void *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
@@ -844,6 +848,11 @@ s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, void *primary_
     return result;
 }
 
+/*
+ * On completed movement, spends MP and advances status timers, resuming monster dispatch only
+ * after a positive signed floor-trap result. Clears both action halfwords under flag 0x80 during
+ * movement or after an accepted trap check. /
+ */
 void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *unused, void *check_data, void *target) {
     if (update_actor_movement_to_tile() != 0) {
         spend_actor_mp(target, 4);
@@ -977,6 +986,10 @@ finish:
     }
 }
 
+/*
+ * Runs update_linked_actor_motion and installs dispatch_monster_move_attack_spell only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void update_dragon_linked_motion(Resource03CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
@@ -1425,21 +1438,28 @@ void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, Ob
     }
 }
 
+/* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
 void remove_defeated_dragon(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
+/* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
 void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
+/* Runs the shared actor removal sequence with the supplied callback arguments. */
 void advance_dragon_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
+/*
+ * Runs update_actor_hop_and_grow and installs dispatch_monster_move_attack_spell when it returns
+ * nonzero.
+ */
 void grow_hopping_dragon(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
@@ -1685,6 +1705,11 @@ void wait_for_dragon_mp(void *controller, void *context, void *sprite, ActorReco
     }
 }
 
+/*
+ * Resumes the main actor handler after parent motion completes and the signed floor-trap check is
+ * positive; during motion, restores movement frames when the alternate table is active and flags
+ * 0x208 are clear.
+ */
 void update_dragon_parent_motion(R03_80173A30_Actor *actor, s32 action, R03_80173A30_Entity *entity, R03_80173A30_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
@@ -1699,6 +1724,10 @@ void update_dragon_parent_motion(R03_80173A30_Actor *actor, s32 action, R03_8017
     }
 }
 
+/*
+ * Runs update_thrown_actor_travel and installs dispatch_monster_move_attack_spell only when it
+ * succeeds and the signed floor-trap check returns positive.
+ */
 void update_thrown_dragon(Resource03CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
@@ -1708,6 +1737,10 @@ void update_thrown_dragon(Resource03CallbackState *state, void *entity, void *po
     }
 }
 
+/*
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_monster_move_attack_spell when it
+ * returns nonzero.
+ */
 void settle_dragon_on_tile(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
@@ -1715,6 +1748,10 @@ void settle_dragon_on_tile(Resource03CallbackState *state, void *motion, void *p
     }
 }
 
+/*
+ * Runs update_spinning_actor_fall and installs dispatch_monster_move_attack_spell when it returns
+ * nonzero.
+ */
 void fade_entity_colors_to_neutral(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
@@ -1722,6 +1759,7 @@ void fade_entity_colors_to_neutral(Resource03CallbackState *state, void *motion,
     }
 }
 
+/* Runs update_actor_fade_in and installs dispatch_monster_move_attack_spell when it returns nonzero. */
 void fade_in_dragon(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
@@ -1729,6 +1767,10 @@ void fade_in_dragon(Resource03CallbackState *state, void *motion, void *position
     }
 }
 
+/*
+ * Runs resolve_actor_floor_trap_once and installs dispatch_monster_move_attack_spell when it
+ * returns positive.
+ */
 void resolve_dragon_floor_trap(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
@@ -1736,6 +1778,10 @@ void resolve_dragon_floor_trap(Resource03CallbackState *state, void *motion, voi
     }
 }
 
+/*
+ * Runs propagate_actor_action_flag and installs dispatch_monster_move_attack_spell when it returns
+ * positive.
+ */
 void propagate_dragon_action_flag(Resource03CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {

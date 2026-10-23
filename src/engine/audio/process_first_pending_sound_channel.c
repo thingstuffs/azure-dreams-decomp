@@ -2,11 +2,13 @@
 #include "common.h"
 #include "engine/audio.h"
 
-/* Canonical status-block struct at D_800847D0 (see src/w_800552C8.c, src/w_80054C58.c,
-   src/w_80055C50.c, src/w_8005440C.c, src/w_80054D64.c, src/w_800553D4.c, etc.):
-   flags1@0x0, flags2@0x4, field8/fieldC/field10/field14/field18@0x8.. */
-
-/* Reactivates the first locked channel and clears its lock flag. */
+/*
+ * Reactivates the first locked channel and clears its lock flag.
+ *
+ * Canonical status-block struct at sound_playback_state (see src/w_800552C8.c, src/w_80054C58.c,
+ * src/w_80055C50.c, src/w_8005440C.c, src/w_80054D64.c, src/w_800553D4.c, etc.): flags1@0x0,
+ * flags2@0x4, field8/fieldC/field10/field14/field18@0x8..
+ */
 void process_first_pending_sound_channel(void) {
     u32 channel;
     u32 channel_bit;

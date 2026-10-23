@@ -1,3 +1,4 @@
+#include "dungeon/level/floor_flags.h"
 #include "common.h"
 
 extern void submit_activation_command(void);
@@ -29,7 +30,7 @@ void draw_purple_entry_markers(void) {
         if ((floor_objects[i].unk1 != 0) && (floor_objects[i].unk0 != 0) &&
             !(floor_objects[i].unk3 & 0x40)) {
             create_transformed_render_object(dungeon_floor_object_positions[i].unk6, dungeon_floor_object_positions[i].unk7,
-                          0x802080, 8, i);
+                          0x802080, FLOOR_TRAPS_VISIBLE, i);
         }
     }
 }

@@ -11,6 +11,7 @@ void advance_sprite_animation_and_textures(void *entity);
 extern s32 select_record_entry_and_value();
 extern s32 select_sprite_entry(int, short, short);
 
+/* Advances the supplied sprite animation only when the object halfword at offset 0x92 is zero. */
 void dispatch_object_when_idle(Rec_func_80094268_arg0 *object, s32 callback_arg) {
     if (object->unk_92 == 0) {
         advance_sprite_animation_and_textures(callback_arg);

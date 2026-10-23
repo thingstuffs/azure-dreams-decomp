@@ -19,11 +19,6 @@ typedef struct S_800A3918_1 {
     void * unk_74;
 } S_800A3918_1;   /* D_8008274C in advance_animation_phase_and_frame */
 
-typedef struct S_800A3918_2 {
-    u8 pad_00[0xD8A];
-    union { s16 s; u16 u; } unk_D8A;   /* accessed as both */
-} S_800A3918_2;   /* base in advance_animation_phase_and_frame */
-
 
 extern void *D_8008274C;
 extern s32 D_800C5100;

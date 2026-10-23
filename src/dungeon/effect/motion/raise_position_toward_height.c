@@ -183,7 +183,10 @@ typedef struct EffectRecord {
     u16 timer;
 } EffectRecord;
 
-/* Raise the position toward the queried height and set flags when the countdown expires. */
+/*
+ * Raises Z by 0x20000 plus 12-bit jitter while below sampled terrain height, subtracts eight from
+ * the timer, and flags removal when its signed value is zero or negative.
+ */
 void handle_raise_position_toward_queried_height_set_flags_countdown_expires(EffectRecord *state, ObjectPosition *position)
 {
     u16 countdown;
@@ -325,7 +328,11 @@ typedef struct S_8190AEB4_2 {
     s16 unk_90;
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
 
-/* Advances the object animation and draws rectangles in randomized order. */
+/*
+ * Moves and rescales the captured sprite through staged motion, then shuffles 48 column indices
+ * and 44 row indices to clear its VRAM area over 44 updates. Signals the linked state and flags
+ * removal when the clearing sequence finishes.
+ */
 void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform)
 {
     Rect rect;

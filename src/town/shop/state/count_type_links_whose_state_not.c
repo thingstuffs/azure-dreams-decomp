@@ -13,7 +13,10 @@ struct TownLink {
 
 extern s32 town_actor_control;
 
-/* Count type 4 links whose state is not -1. */
+/*
+ * Walks town_actor_control through its circular sentinel and counts links of type four whose state
+ * differs from -1.
+ */
 s32 count_type_n_4_links_whose_state_not_n_1(void)
 {
     TownLink *link = ((TownLink *)&town_actor_control)->next;

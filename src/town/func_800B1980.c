@@ -2,7 +2,10 @@
 
 void flag_optional_object_for_removal(void *object);
 
-/* Pass the first value of each pointed-to entry, starting at slot 20, to func_8004E99C. */
+/*
+ * Flags referenced objects for removal across the requested number of entry-table slots, starting
+ * at slot 20.
+ */
 void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount) {
     s32 **entryCursor;
     s32 *entry;

@@ -69,6 +69,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 RotTransPers(void *, void *, void *, void *);
 
+/* Returns the end-minus-start difference shifted into the high halfword. */
 static __inline__ s32 endpoint_delta(u16 end, u16 start)
 {
     return (end - start) << 16;

@@ -2,7 +2,7 @@
 
 extern s16 scene_selection_index;
 
-/* Clears D_80017AA0. */
+/* Clears scene_selection_index to zero. */
 void reset_selection_index(void) {
     scene_selection_index = 0;
 }

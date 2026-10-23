@@ -1,16 +1,16 @@
 #ifndef SHARED_DEF_TABLE_H
 #define SHARED_DEF_TABLE_H
 
-/* D_8006DE24 (SLUS .data): a read-only table of 0x14-byte definition records indexed by an item / action id (rows
- * call it item_defs, action_table, ability_table, MotionEntry - what the ids name is not proven, so the type stays
- * DefEntry).  Rows reach it by index only (census/cde24.jsonl, r78 phase 8: 60 rows); read-only (lw/lbu).
- *   kind (+0x12): lbu 49 - compared with 2 by nearly every user (`D_8006DE24[id].kind == 2`).
- *   +0x10 / +0x11 / +0x13: lbu; +0x00 / +0x08: lw.  Other fields stay unk_. */
+/* Read-only 0x14-byte spell/action definition at D_8006DE24 (52 text rows).
+ * create_actor_spell_effect selects normal_name at +0 or alternate_name at +8.
+ * Each name is followed by its description; null text slots are allowed.
+ * Keep the shared DefEntry name: non-spell consumers also inspect the trailing
+ * action bytes, whose complete domains have not been established. */
 typedef struct DefEntry {
-    /* 0x00 */ int unk_00;
-    /* 0x04 */ int unk_04;
-    /* 0x08 */ int unk_08;
-    /* 0x0C */ int unk_0C;
+    /* 0x00 */ const unsigned char *normal_name;
+    /* 0x04 */ const unsigned char *normal_description;
+    /* 0x08 */ const unsigned char *alternate_name;
+    /* 0x0C */ const unsigned char *alternate_description;
     /* 0x10 */ unsigned char unk_10;
     /* 0x11 */ unsigned char unk_11;
     /* 0x12 */ unsigned char kind;

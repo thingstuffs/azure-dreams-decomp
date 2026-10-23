@@ -1,3 +1,4 @@
+#include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -29,7 +30,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     if (!(dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
-        if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
+        if ((prefix_id != 0) && ((prefix_kind != ITEM_KIND_SWORD) || (data->unk0 < 0xEU))) {
             out = expand_text_control_codes(prefix_id, out);
         }
     }
@@ -37,12 +38,12 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     if (!(dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         suffix_kind = data->unk1;
         suffix_id = D_800DD784[suffix_kind];
-        if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
+        if ((suffix_id != 0) && ((suffix_kind != ITEM_KIND_SWORD) || (data->unk0 < 0xEU))) {
             out = expand_text_control_codes(suffix_id, out);
         }
         kind = data->unk1;
         switch (kind) {
-        case 4:
+        case ITEM_KIND_BALL:
             if (!(data->unk3 & 0x80)) {
                 format = D_800DD720;
                 value = data->unk2;
@@ -54,10 +55,10 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
                 *out++ = *format++;
             }
             break;
-        case 14:
-        case 18:
-        case 19:
-        case 21:
+        case ITEM_KIND_COIN:
+        case ITEM_KIND_EGG:
+        case ITEM_KIND_FAMILIAR:
+        case ITEM_KIND_TRAP:
             break;
         default:
             if (!(data->unk3 & 0x80)) {

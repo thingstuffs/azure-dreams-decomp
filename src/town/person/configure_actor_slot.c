@@ -8,6 +8,7 @@ extern u8 D_800D5358[];
 extern u8 D_800D535C[];
 
 
+/* Calls func_800C3050 with actor, 0x10, D_800D5358, D_800D535C, D_800D5328, D_800D5330. */
 void configure_actor_slot_16(void *actor) {
     func_800C3050(actor, 0x10, D_800D5358, D_800D535C, D_800D5328, D_800D5330);
 }

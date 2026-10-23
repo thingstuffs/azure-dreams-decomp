@@ -4,6 +4,10 @@
 
 extern s32 func_80406B9C(void *ptr);
 
+/*
+ * Selects D_80406DA0 as the callback when the operation word at offset 0x38 is nonzero, or runs
+ * func_80406B9C otherwise.
+ */
 void reset_object_operation_state(void *ptr) {
     if (*(s32 *)((u8 *)ptr + 0x38) != 0) {
         *(s32 *)((u8 *)ptr - 16) = (s32)&D_80406DA0;

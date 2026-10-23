@@ -117,6 +117,15 @@ typedef struct {
     s16 screen_y;
 } StackArgs;
 
+enum ReturnSacrificeState {
+    RETURN_SACRIFICE_INIT = 0,
+    RETURN_SACRIFICE_FADE_OUT = 1,
+    RETURN_SACRIFICE_RELEASE_ACTOR = 2,
+    RETURN_SACRIFICE_PLAYER_EFFECT = 3,
+    RETURN_SACRIFICE_ACTOR_EFFECT = 16,
+    RETURN_SACRIFICE_WAIT_EFFECT = 17,
+};
+
 /* Advance the object effect through fading, tile cleanup, and completion. */
 void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     StackArgs effect_args;
@@ -157,9 +166,9 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
 
     state = ((S_800C2824_0 *)effect)->unk_04;
     switch (state) {
-    case 0:
+    case RETURN_SACRIFICE_INIT:
         if (!(((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000)) {
-            ((S_800C2824_0 *)effect)->unk_04 = 0x10;
+            ((S_800C2824_0 *)effect)->unk_04 = RETURN_SACRIFICE_ACTOR_EFFECT;
             return;
         }
         effect_args.clip_origin_xy = 0x01800340;
@@ -190,7 +199,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         ((S_800C2824_0 *)effect)->unk_06 = 0x10;
         play_sound_if_enabled(1);
         ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
-    case 1:
+    case RETURN_SACRIFICE_FADE_OUT:
         shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
         faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
         ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
@@ -203,7 +212,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         }
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
-    case 2:
+    case RETURN_SACRIFICE_RELEASE_ACTOR:
         linked_object = detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
         if (linked_object != 0) {
             object_slot = release_entity_slot_and_update_flags(linked_object, 0);
@@ -230,7 +239,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         adjust_source_value_and_finalize(((S_800C2824_0 *)effect)->unk_00, D_800E1640);
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
-    case 3:
+    case RETURN_SACRIFICE_PLAYER_EFFECT:
     {
 
         object_coords = ((u8 *)(&reference_tile_object));
@@ -251,7 +260,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
         return;
     }
-    case 16:
+    case RETURN_SACRIFICE_ACTOR_EFFECT:
         source_object = ((S_800C2824_0 *)effect)->unk_00;
         object_coords = (((ObjectNodeHeader *)((u8 *)source_object - 0x20))->sprite);
         effect_object = source_object;
@@ -264,7 +273,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
-    case 17:
+    case RETURN_SACRIFICE_WAIT_EFFECT:
         wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
         ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
         if ((wait_ticks << 0x10) > 0) {

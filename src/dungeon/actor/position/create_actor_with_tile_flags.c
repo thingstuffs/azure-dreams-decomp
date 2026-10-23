@@ -1,3 +1,6 @@
+#include "shared/actor_status_flags.h"
+#include "shared/actor_property_flags.h"
+#include "shared/monster_ids.h"
 
 struct ObjectNodeHeader;
 #include "common.h"
@@ -57,10 +60,10 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         entity = ((s8 *)object) + 0x20;
-        ((S_800D3F74_0 *)entity)->unk_13 = 0x34;
+        ((S_800D3F74_0 *)entity)->unk_13 = MONSTER_WALL_OF_ICE;
         if (variant == 1) {
-            ((S_800D3F74_0 *)entity)->unk_14 |= 0x2000;
-            ((S_800D3F74_0 *)entity)->unk_1C |= 0x2000;
+            ((S_800D3F74_0 *)entity)->unk_14 |= ACTOR_CLASS_ENABLED;
+            ((S_800D3F74_0 *)entity)->unk_1C |= ACTOR_PLAYER_SIDE;
         }
         register_node(object, project_sprite_chain);
         position = *(s8 * *)&object->position;
@@ -94,13 +97,13 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite_tile_x = sprite->tile_x;
         sprite_tile_y = sprite->tile_y;
         tile_flags = 0x3000;
-        if (((S_800D3F74_0 *)entity)->unk_1C & 0x2000) {
+        if (((S_800D3F74_0 *)entity)->unk_1C & ACTOR_PLAYER_SIDE) {
             tile_flags = 0x300;
         }
         cycle_map_cell_flags(sprite_tile_x, sprite_tile_y, tile_flags);
         ((S_800D3F74_0 *)entity)->unk_9A = 0xE;
         ((S_800D3F74_0 *)entity)->unk_9C = -1;
-        ((S_800D3F74_0 *)entity)->unk_1C |= 0x40000200;
+        ((S_800D3F74_0 *)entity)->unk_1C |= (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP);
     }
     return entity;
 }

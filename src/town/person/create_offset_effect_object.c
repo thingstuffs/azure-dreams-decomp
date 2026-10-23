@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -18,15 +19,11 @@ extern SpriteSourceEntry D_800EE344[];
 
    /* arg0 in create_offset_effect_object */
 
-typedef struct S_800C8A68_3 {
-    u8 pad_00[0x90];
-    s16 unk_90;
-} S_800C8A68_3;
 
 /* Allocate and initialize an object at an offset from the supplied position. */
 s32 create_offset_effect_object(IntVector3 *source_pos) {
     ObjectPosition *position;
-    S_800C8A68_3 *object_state;
+    Rec_func_80094268_arg0 *object_state;
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;
     s32 offset_z;
@@ -45,7 +42,7 @@ s32 create_offset_effect_object(IntVector3 *source_pos) {
     position->velocity_y = 0;
     position->z.v = offset_z;
     object->update_callback = &call_owner_callback;
-    object_state->unk_90 = 2;
+    object_state->unk_90.as_s16 = 2;
     load_indexed_state_value(object_state, position, render_state);
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;

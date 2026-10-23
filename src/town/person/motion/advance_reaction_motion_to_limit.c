@@ -8,8 +8,6 @@ s16 query_lowered_transform_position();                          /* extern */
 s32 func_800C9C94(s32, s32, s32);
 
 
-/* extern */
-
 /* Advance motion and handle reaching the position limit. */
 void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *motion, s32 context) {
     u16 remaining_count;
