@@ -36,23 +36,10 @@ typedef struct S_80173724_1 {
 } S_80173724_1;   /* arg3 in advance_fading_directional_entity */
 
 
-typedef struct S_80173724_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173724_3;   /* arg2 in advance_fading_directional_entity */
 
 
 /* Advance an entity through directional motion, fading, and removal. */
-void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, void *sprite, void *entity) {
+void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
     s32 sound_flags;
     s32 direction_x;
     s32 direction_y;
@@ -103,12 +90,12 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
                 announce_familiar_defeat(entity);
             }
         }
-        ((S_80173724_3 *)sprite)->unk_10 = 0x60;
-        ((S_80173724_3 *)sprite)->unk_14 |= 0xC;
+        sprite->tpage_abr = 0x60;
+        sprite->flags |= 0xC;
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     case 3:
         motion->velocity_z += 0x1C000;
-        if (!(((S_80173724_3 *)sprite)->unk_14 & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
         ((S_80173724_0 *)anim_state)->unk_96 = 0x80U;
@@ -118,9 +105,9 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         ((S_80173724_1 *)entity)->unk_1C.s |= 0x10000000;
         motion->velocity_z += 0x20000;
         brightness = (u8)((S_80173724_0 *)anim_state)->unk_96;
-        ((S_80173724_3 *)sprite)->unk_0E = brightness;
-        ((S_80173724_3 *)sprite)->unk_0D = brightness;
-        ((S_80173724_3 *)sprite)->unk_0C = brightness;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         next_brightness = ((S_80173724_0 *)anim_state)->unk_96 - 0x18;
         ((S_80173724_0 *)anim_state)->unk_96 = next_brightness;
         if ((s16)next_brightness >= 0x18) {
@@ -131,8 +118,8 @@ void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion,
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
-        sound_x = ((S_80173724_3 *)sprite)->unk_24;
-        sound_y = ((S_80173724_3 *)sprite)->unk_25;
+        sound_x = sprite->unk_24;
+        sound_y = sprite->unk_25;
         sound_flags = 0x3000;
         if (((S_80173724_1 *)entity)->unk_1C.s & 0x2000) {
             sound_flags = 0x300;

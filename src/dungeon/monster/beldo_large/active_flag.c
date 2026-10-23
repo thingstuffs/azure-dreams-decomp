@@ -9,16 +9,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-typedef struct S_80173140_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x72];
-    s16 unk_92;
-    u8 pad_94[0xC];
-    s32 unk_A0;
-} S_80173140_1;
 
 typedef struct S_80173140_2 {
     u8 pad_00[0xA];
@@ -59,15 +49,15 @@ void create_scripted_encounter_object(void) {
     s32 origin_y;
     void *object_attrs;
     SpriteFrameState *sprite;
-    void *state;
-    S_80173140_1 *st;
+    ActorRecord *state;
+    ActorRecord *st;
 
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        st = (S_80173140_1 *)state;
+        st = state;
         object->unk_10 = &advance_linked_actor_motion_script;
-        st->unk_13 = MONSTER_KEWNE;
+        ((s8 *)&st->unk_10)[3] = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
         object_attrs = object->position;
         ((S_80173140_2 *)object_attrs)->unk_0A =
@@ -79,18 +69,18 @@ void create_scripted_encounter_object(void) {
         sprite->frameTable = &beldo_large_frame_set_8;
         sprite->unk_25 = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
-        (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
+        st->facing = 0xC00;
         select_sprite_entry(sprite, ((u8 *) sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0xD00)
             >> 9) & 7], 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         flag_mask = 0x40000;
-        state_flags = st->unk_1C | flag_mask;
-        st->unk_1C = state_flags;
-        st->unk_A0 = 0;
-        masked_flags = active_flag(st->unk_1C);
+        state_flags = st->flags1C | flag_mask;
+        st->flags1C = state_flags;
+        st->unk_A0.value = 0;
+        masked_flags = active_flag(st->flags1C);
         initial_offset = -0x20;
-        st->unk_92 = initial_offset;
+        st->unk_90.parts.high.s = initial_offset;
         cell_x = sprite->unk_24;
         cell_y = sprite->unk_25;
         cell_mask = 0x3000;

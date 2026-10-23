@@ -20,6 +20,6 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
 void advance_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
 void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFrameState *sprite, void *actor_info);
 void update_actor_visual_motion(void *object_arg, ObjectPosition *motion_arg, SpriteFrameState *part_arg);
-void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *visual);
+void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual);
 
 #endif

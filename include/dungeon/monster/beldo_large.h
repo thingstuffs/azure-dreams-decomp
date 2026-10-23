@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void create_multi_form_segment_ring(EntityRec *origin);
-void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_in, struct SpriteFrameState *sprite_in);
+void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *motion_in, struct SpriteFrameState *sprite_in);
 
 
 

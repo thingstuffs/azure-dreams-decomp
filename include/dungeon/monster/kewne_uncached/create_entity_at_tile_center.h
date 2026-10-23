@@ -2,49 +2,12 @@
 #define MODULE_DUNGEON_OVL_12C50AC_H
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct {
-    u8 pad0[2];
-    s16 field2;
-    u8 pad4[2];
-    s16 field6;
-    u8 pad8[2];
-    u16 fieldA;
-    u8 padC[0x18];
-    u8 field24;
-    u8 field25;
-    u8 pad26[6];
-    void *field2C;
-} Func812A5000Child;
-
-typedef struct {
-    u8 pad0[8];
-    Func812A5000Child *child1;
-    Func812A5000Child *child0;
-    void *field10;
-} Func812A5000Parent;
-
-typedef struct {
-    u8 pad0[0x13];
-    u8 field13;
-    u32 field14;
-    u8 pad18[4];
-    u32 field1C;
-    u8 pad20[0xA];
-    s16 field2A;
-    u8 pad2C[0x60];
-    void *field8C;
-    u8 pad90[2];
-    s16 field92;
-    u8 pad94[6];
-    u8 field9A;
-    u8 pad9B;
-    s8 field9C;
-} Func812A5000Entity;
 
 void *allocate_list_node();
 void *func_8003FD64();                 /* extern */
@@ -53,7 +16,7 @@ s32 func_8004491C();                /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
 extern void *active_action_object[];
-void update_actor_scripts_and_motion(void *actor_in, ObjectPosition *motion_in, void *sprite_in);
+void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in);
 
 /* Creates and initializes an entity at the center of the specified tile. */
 
@@ -72,44 +35,7 @@ typedef struct S_812A524C_1 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
 } S_812A524C_1;   /* &D_800FBE20 in func_80170A4C */
 
-typedef struct S_812A524C_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x60];
-    void (*unk_8C)(void *, void *, void *, void *);
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_90;   /* overlapping accesses */
-    s16 unk_94;
-    u8 pad_96[0x2];
-    u16 unk_98;
-    u8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x1];
-    union { s8 s; u8 u; } unk_9D;   /* accessed as both */
-    u16 unk_9E;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
-    u8 pad_A4[0xC];
-    s32 unk_B0;
-    u8 pad_B4[0x4];
-    u8 unk_B8;
-    u8 unk_B9;
-} S_812A524C_3;   /* arg0 in func_80170A4C */
 
-typedef struct S_812A524C_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    u16 unk_88;
-} S_812A524C_4;   /* arg3 in func_80170A4C */
 
 typedef struct S_812A524C_5 {
     void * unk_00;
@@ -119,11 +45,6 @@ typedef struct S_812A524C_6 {
     u16 unk_00;
 } S_812A524C_6;   /* &D_80013714 in func_80170A4C */
 
-typedef struct S_812A524C_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_812A524C_7;   /* ev0 in func_80170A4C */
 
 typedef struct S_812A524C_9 {
     u8 pad_00[0x2A];
@@ -132,98 +53,16 @@ typedef struct S_812A524C_9 {
     u8 unk_9A;
 } S_812A524C_9;   /* temp_actor in func_80170A4C */
 
-typedef struct S_812A524C_10 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_10;   /* ev1 in func_80170A4C */
 
-typedef struct S_812A524C_12 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_12;   /* ev2 in func_80170A4C */
 
-typedef struct S_812A524C_14 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_14;   /* ev3 in func_80170A4C */
 
-typedef struct S_812A524C_16 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_16;   /* ev4 in func_80170A4C */
 
-typedef struct S_812A524C_18 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_18;   /* ev5 in func_80170A4C */
 
-typedef struct S_812A524C_21 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_21;   /* ev6 in func_80170A4C */
 
-typedef struct S_812A524C_23 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_23;   /* ev7 in func_80170A4C */
 
-typedef struct S_812A524C_25 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_25;   /* ev8 in func_80170A4C */
 
-typedef struct S_812A524C_27 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_812A524C_27;   /* ev9 in func_80170A4C */
 
-typedef struct S_812A524C_29 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_812A524C_29;   /* ev10 in func_80170A4C */
 
-typedef struct S_812A524C_31 {
-    u8 pad_00[0x24];
-    union {
-        struct { u16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-} S_812A524C_31;   /* ev11 in func_80170A4C */
 
 typedef struct S_812A524C_34 {
     u8 pad_00[0x24];
@@ -236,17 +75,6 @@ typedef struct S_812A524C_36 {
 } S_812A524C_36;   /* &D_800E296C in func_80170A4C */
 
 
-typedef struct S_812A524C_38 {
-    u8 pad_00[0x4];
-    union { s8 s8; u16 u16; } unk_04;   /* accessed as both */
-    u8 pad_06[0xE];
-    union { u16 n; u16 v; } unk_14;   /* accessed as both */
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    union { u8 * p; s32 i; } unk_2C;   /* accessed as both */
-} S_812A524C_38;   /* arg2 in func_80170A4C */
 
 typedef struct S_812A524C_39 {
     u8 pad_00[0x2A];

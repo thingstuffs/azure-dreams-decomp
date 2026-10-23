@@ -11,6 +11,7 @@ void reserve_tw_mon_load(s32 request);
 void jyotyu_set_reserve_all(void);
 void jyotyu_set_reserve_dngn(void);
 void announce_familiar_defeat(void *input_data);
+void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor);
 void begin_action_33_and_dispatch(void *object, s32 unused_1, s32 unused_2, s32 target);
 s32 check_active_object_state_567(void);
 s32 check_enabled_neighbor_height(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled);

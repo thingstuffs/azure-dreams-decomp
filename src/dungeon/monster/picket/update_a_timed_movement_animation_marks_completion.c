@@ -12,22 +12,13 @@ typedef struct S_80174978_0 {
     s16 unk_AA;
 } S_80174978_0;   /* arg0 in update_a_timed_movement_animation_marks_completion */
 
-typedef struct S_80174978_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80174978_1;   /* arg2 in update_a_timed_movement_animation_marks_completion */
 
 
 
 extern void place_item_at_valid_floor_position(s16, s16, s16, s32, void *);
 
 /* Updates a timed movement animation and marks its completion. */
-void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, void *visual) {
+void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosition *motion, SpriteFrameState *visual) {
     s32 state;
     s32 z_step;
     s32 speed_or_z;
@@ -39,7 +30,7 @@ void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosit
     state = ((S_80174978_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        if (((S_80174978_1 *)visual)->unk_14 & 0x8000) {
+        if (visual->flags & 0x8000) {
             ((S_80174978_0 *)actor)->unk_9B = 2;
             return;
         }
@@ -66,10 +57,10 @@ void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosit
         z_step -= current_z;
         z_step >>= 1;
         motion->y.w.i = (u16)motion->y.w.i + z_step;
-        if (((S_80174978_1 *)visual)->unk_1C < 0x1000U) {
-            next_scale = ((S_80174978_1 *)visual)->unk_1E + 0x50;
-            ((S_80174978_1 *)visual)->unk_1E = next_scale;
-            ((S_80174978_1 *)visual)->unk_1C = next_scale;
+        if (visual->scale_x < 0x1000U) {
+            next_scale = visual->scale_y + 0x50;
+            visual->scale_y = next_scale;
+            visual->scale_x = next_scale;
         }
         timer = ((S_80174978_0 *)actor)->unk_96 - 1;
         ((S_80174978_0 *)actor)->unk_96 = timer;
@@ -84,7 +75,7 @@ void update_a_timed_movement_animation_marks_completion(void *actor, ObjectPosit
         place_item_at_valid_floor_position(((S_80174978_0 *)actor)->unk_A8,
                       ((S_80174978_0 *)actor)->unk_AA,
                       (s16)(((u16) motion->z.w.i) - 0x20),
-                      ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
+                      (s32)visual->source, actor + 0x48);
         (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 

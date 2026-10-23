@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -7,19 +8,6 @@ typedef struct S_800ACBE4_0 {
     u8 unk_9B;
 } S_800ACBE4_0;   /* arg0 in fade_out_and_remove_actor */
 
-typedef struct S_800ACBE4_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 unk_0F;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800ACBE4_1;   /* arg2 in fade_out_and_remove_actor */
 
 typedef struct S_800ACBE4_2 {
     u8 pad_00[0x14];
@@ -37,7 +25,7 @@ extern void detach_record_and_update_slot_state(void *);
 extern s32 D_800C6AEC;
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
-void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void *current_actor)
+void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *visual, void *current_actor)
 {
     s32 actor_status;
     s32 actor_flags;
@@ -54,10 +42,10 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void 
     case 0:
         actor = (u8 *)actor_data - 0x20;
         unlink_node(actor);
-        ((S_800ACBE4_1 *)visual)->unk_12 -= 0x80;
-        ((S_800ACBE4_1 *)visual)->unk_14 |= 0xC;
+        visual->clut -= 0x80;
+        visual->flags |= 0xC;
         register_node(actor, &D_800C6AEC);
-        ((S_800ACBE4_1 *)visual)->unk_0F = 0;
+        visual->color.c.code = 0;
         ((S_800ACBE4_0 *)actor_data)->unk_9B++;
         return;
     case 1:
@@ -65,13 +53,13 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void 
     default:
         return;
     }
-    if (((S_800ACBE4_1 *)visual)->unk_0F < 8) {
-        brightness = ((S_800ACBE4_1 *)visual)->unk_0E;
-        ((S_800ACBE4_1 *)visual)->unk_0F++;
-        brightness += -brightness / ((S_800ACBE4_1 *)visual)->unk_0F;
-        ((S_800ACBE4_1 *)visual)->unk_0E = brightness;
-        ((S_800ACBE4_1 *)visual)->unk_0D = brightness;
-        ((S_800ACBE4_1 *)visual)->unk_0C = brightness;
+    if (visual->color.c.code < 8) {
+        brightness = visual->color.c.b;
+        visual->color.c.code++;
+        brightness += -brightness / visual->color.c.code;
+        visual->color.c.b = brightness;
+        visual->color.c.g = brightness;
+        visual->color.c.r = brightness;
         return;
     }
 
@@ -80,8 +68,8 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void 
     }
     detach_record_and_update_slot_state(actor);
     actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;
-    effect_x = ((S_800ACBE4_1 *)visual)->unk_24;
-    effect_y = ((S_800ACBE4_1 *)visual)->unk_25;
+    effect_x = visual->unk_24;
+    effect_y = visual->unk_25;
     effect_size = 0x3000;
     if (actor_status & 0x2000) {
         effect_size = 0x300;

@@ -14,24 +14,6 @@ typedef struct S_80173A3C_0 {
     u8 unk_9B;
 } S_80173A3C_0;   /* arg0 in fade_reshape_and_remove_entity */
 
-typedef struct S_80173A3C_1 {
-    u8 pad_00[0xC];
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173A3C_1;   /* arg2 in fade_reshape_and_remove_entity */
 
 
 
@@ -46,7 +28,7 @@ extern void unlink_entity_node(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
-void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, void *sprite, void *entity)
+void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, SpriteFrameState *sprite, void *entity)
 {
     u8 fade_phase;
     u16 frames_left;
@@ -59,12 +41,12 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
         }
 
         ((S_80173A3C_0 *)fade_state)->unk_9B = 1;
-        ((S_80173A3C_1 *)sprite)->unk_10 = 0x20;
-        ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
-        ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->clut -= 0x80;
+        sprite->flags |= 0xC;
         ((ActorRecord *)entity)->flags1C |= 0x10000000;
         play_sound_if_enabled(0x805);
-        ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
+        sprite->color.word = 0x00808080;
         ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
     case 1:
         break;
@@ -72,19 +54,19 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
         return;
     }
 
-    ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
-    ((S_80173A3C_1 *)sprite)->unk_0C.at01.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at01.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
-    ((S_80173A3C_1 *)sprite)->unk_0C.at02.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at02.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    sprite->color.c.r -= sprite->color.c.r / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    sprite->color.c.g -= sprite->color.c.g / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    sprite->color.c.b -= sprite->color.c.b / ((S_80173A3C_0 *)fade_state)->unk_96.s;
 
-    ((S_80173A3C_1 *)sprite)->unk_1C >>= 2;
-    ((S_80173A3C_1 *)sprite)->unk_1E >>= 1;
-    ((S_80173A3C_1 *)sprite)->unk_1C *= 3;
-    ((S_80173A3C_1 *)sprite)->unk_1E *= 3;
+    sprite->scale_x >>= 2;
+    sprite->scale_y >>= 1;
+    sprite->scale_x *= 3;
+    sprite->scale_y *= 3;
 
     frames_left = ((S_80173A3C_0 *)fade_state)->unk_96.u - 1;
     ((S_80173A3C_0 *)fade_state)->unk_96.u = frames_left;
     if (((s32)frames_left << 16) > 0) {
-        if ((((S_80173A3C_1 *)sprite)->unk_14 & 0x8000) == 0) {
+        if ((sprite->flags & 0x8000) == 0) {
             return;
         }
     }
@@ -106,8 +88,8 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
         }
         if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
-            s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
-            s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
+            s32 effect_color_0 = sprite->unk_24;
+            s32 effect_color_1 = sprite->unk_25;
             s32 effect_mask = 0x3000;
             if (entity_flags & 0x2000) {
                 effect_mask = 0x300;
@@ -127,8 +109,8 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
     detach_record_and_update_slot_state(entity);
     if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
         s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
-        s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
-        s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
+        s32 effect_color_0 = sprite->unk_24;
+        s32 effect_color_1 = sprite->unk_25;
         s32 effect_mask = 0x3000;
         if (entity_flags & 0x2000) {
             effect_mask = 0x300;

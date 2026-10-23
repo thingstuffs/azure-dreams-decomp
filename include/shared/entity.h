@@ -192,19 +192,36 @@ typedef struct ActorRecord {
     /* 0x086 */ unsigned char pad_86[2];
     /* 0x088 */ short ground_height; /* terrain height sampled beneath the actor, in world units */
     /* 0x08A */ short unk_8A;                     /* queued terrain height / throw travel steps (callback variants) */
-    /* 0x08C */ unsigned char pad_8C[10];         /* +0x8C: action callback (candidate); wrappers pass the body as args 0 and 3 */
+    /* 0x08C */ union {
+        void *address; /* callback address; return contracts differ between actor handlers */
+        void (*run)(void *, void *, void *, void *); /* Kewne calls this view and discards any result */
+    } unk_8C;
+    /* 0x090 */ union {
+        int value;
+        struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
+    } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
+    /* 0x094 */ short unk_94;
     /* 0x096 */ unsigned short unk_96;
     /* 0x098 */ unsigned short unk_98;
     /* 0x09A */ unsigned char unk_9A; /* actor action-table selector; id meanings depend on the dispatcher */
     /* 0x09B */ unsigned char unk_9B; /* phase byte within the selected action; reset when a new action starts */
-    /* 0x09C */ unsigned char pad_9C[8];
+    /* 0x09C */ signed char unk_9C;
+    /* 0x09D */ union { signed char s; unsigned char u; } unk_9D;
+    /* 0x09E */ union { short s; unsigned short u; } unk_9E;
+    /* 0x0A0 */ union {
+        int value;
+        struct { unsigned short low; unsigned short high; } parts;
+    } unk_A0; /* callback scratch word with an unsigned high-half view */
     /* 0x0A4 */ int unk_A4;                       /* callback scratch: s32 / s16+2 / u16+2 views */
     /* 0x0A8 */ unsigned char unk_A8;             /* saved species (temporary 0x2E form) or player transition mode */
     /* 0x0A9 */ unsigned char pad_A9[1];
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ void * unk_AC;                    /* player: familiar slot 0; other actors: saved node callback (O08) */
-    /* 0x0B0 */ void * unk_B0;                    /* player: familiar slot 1 */
-    /* 0x0B4 */ unsigned char pad_B4[8];
+    /* 0x0B0 */ void * unk_B0; /* player: familiar slot 1; Kewne reads/writes this slot as a script-bit word */
+    /* 0x0B4 */ unsigned char pad_B4[4];
+    /* 0x0B8 */ unsigned char unk_B8;
+    /* 0x0B9 */ unsigned char unk_B9;
+    /* 0x0BA */ unsigned char pad_BA[2];
 } ActorRecord;                                    /* 0xBC: the pooled actor body */
 
 /* PlayerRecord: the dungeon player's body, 0x12C bytes after its static node header (initialize_dungeon_actor

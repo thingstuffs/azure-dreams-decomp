@@ -50,20 +50,6 @@ typedef struct S_801737C8_2 {
     u8 unk_25;
 } S_801737C8_2;   /* linked in advance_item_visual_action */
 
-typedef struct S_801737C8_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_801737C8_5;   /* child in advance_item_visual_action */
 
    /* coords in advance_item_visual_action */
 
@@ -208,7 +194,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                 object = allocate_flagged_object_node(0x212);
                 if (object != 0) {
                     u8 *effect_data;
-                    void *sprite;
+                    SpriteFrameState *sprite;
                     MovingPosition *effect_pos;
                     s32 dx;
                     s32 dy;
@@ -221,8 +207,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     register_node(object, D_80170FD8);
 
                     sprite = (*(void * *)((u8 *)object + 0x0C));
-                    ((S_801737C8_5 *)sprite)->unk_10 = dim_channel;
-                    ((S_801737C8_5 *)sprite)->unk_14 |= 0x0C;
+                    sprite->tpage_abr = dim_channel;
+                    sprite->flags |= 0x0C;
                     effect_pos = (*(void * *)((u8 *)object + 8));
                     effect_pos->unk_02 = ((u16)motion->x.w.i);
                     effect_pos->unk_06 = ((u16)motion->y.w.i);
@@ -232,32 +218,32 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     dy = (rand() & 0x3F) - 0x20;
                     effect_pos->unk_02 += dx;
                     effect_pos->unk_06 += dy;
-                    ((S_801737C8_5 *)sprite)->unk_1C = 0x1000;
-                    ((S_801737C8_5 *)sprite)->unk_1E = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->scale_y = 0x1000;
 
                     color_bits = rand() & 7;
                     if (color_bits & 1) {
-                        ((S_801737C8_5 *)sprite)->unk_0C = 0x80;
+                        sprite->color.c.r = 0x80;
                     } else {
-                        ((S_801737C8_5 *)sprite)->unk_0C = dim_channel;
+                        sprite->color.c.r = dim_channel;
                     }
                     if (color_bits & 2) {
-                        ((S_801737C8_5 *)sprite)->unk_0D = 0x80;
+                        sprite->color.c.g = 0x80;
                     } else {
-                        ((S_801737C8_5 *)sprite)->unk_0D = dim_channel;
+                        sprite->color.c.g = dim_channel;
                     }
                     if (color_bits & 4) {
-                        ((S_801737C8_5 *)sprite)->unk_0E = 0x80;
+                        sprite->color.c.b = 0x80;
                     } else {
-                        ((S_801737C8_5 *)sprite)->unk_0E = dim_channel;
+                        sprite->color.c.b = dim_channel;
                     }
-                    (*(u8 *)((u8 *)effect_data + 2)) = ((S_801737C8_5 *)sprite)->unk_0C;
-                    (*(u8 *)((u8 *)effect_data + 3)) = ((S_801737C8_5 *)sprite)->unk_0D;
-                    (*(u8 *)((u8 *)effect_data + 4)) = ((S_801737C8_5 *)sprite)->unk_0E;
-                    ((S_801737C8_5 *)sprite)->unk_12 = 0x7DCF;
-                    ((S_801737C8_5 *)sprite)->unk_14 |= 0x100;
+                    (*(u8 *)((u8 *)effect_data + 2)) = sprite->color.c.r;
+                    (*(u8 *)((u8 *)effect_data + 3)) = sprite->color.c.g;
+                    (*(u8 *)((u8 *)effect_data + 4)) = sprite->color.c.b;
+                    sprite->clut = 0x7DCF;
+                    sprite->flags |= 0x100;
                     (*(Copy12 *)((u8 *)effect_data + 0x34)) = *(Copy12 *)D_80175424;
-                    ((S_801737C8_5 *)sprite)->unk_08 = effect_data + 0x34;
+                    sprite->source = effect_data + 0x34;
                     (*(u16 *)((u8 *)effect_data + 0x50)) = 8;
                     (*(u16 *)((u8 *)effect_data + 0x4E)) = 4;
                 }

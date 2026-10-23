@@ -21,28 +21,7 @@ typedef struct S_80170CEC_1 {
     u16 unk_1E;
 } S_80170CEC_1;   /* entity_base in update_rotating_actor_aura */
 
-typedef struct S_80170CEC_2 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x14];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} S_80170CEC_2;   /* record in update_rotating_actor_aura */
 
-typedef struct S_80170CEC_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80170CEC_3;   /* arg2 in update_rotating_actor_aura */
 
 typedef struct S_80170CEC_4 {
     u8 pad_00[0x14];
@@ -71,12 +50,12 @@ extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
-void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *visual) {
+void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual) {
     void *entity;
     void *entity_saved;
     void *source_position;
     void *entity_base;
-    void *record;
+    SpriteFrameState *record;
     u16 old_angle;
     u16 new_angle;
     u16 record_angle;
@@ -86,16 +65,16 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
 
     entity = ((S_80170CEC_0 *)effect)->unk_40;
     source_position = *(void **)((u8 *)effect + 0x44);
-    old_angle = *(u16 *)((u8 *)visual + 0x1A);
+    old_angle = visual->angle_z;
     entity_base = (u8 *)entity - 0x20;
     record = ((S_80170CEC_1 *)entity_base)->unk_0C;
-    record_angle = ((S_80170CEC_2 *)record)->unk_06;
+    record_angle = (u16)record->unk_06;
     new_angle = old_angle + 0x190;
     entity_saved = entity;
-    ((S_80170CEC_3 *)visual)->unk_1A = new_angle;
-    ((S_80170CEC_3 *)visual)->unk_06 = record_angle;
+    visual->angle_z = new_angle;
+    visual->unk_06 = record_angle;
     if (new_angle >= 0x1001) {
-        ((S_80170CEC_3 *)visual)->unk_1A = old_angle - 0xE70;
+        visual->angle_z = old_angle - 0xE70;
     }
 
     state = ((S_80170CEC_0 *)effect)->unk_2C.s;
@@ -109,9 +88,9 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
         fade_step = ((S_80170CEC_0 *)effect)->unk_36.s + 1;
         intensity = ((s32)(s16)fade_step << 7) / ((S_80170CEC_0 *)effect)->unk_38;
         ((S_80170CEC_0 *)effect)->unk_36.s = fade_step;
-        ((S_80170CEC_3 *)visual)->unk_0C = intensity;
-        ((S_80170CEC_3 *)visual)->unk_0D = intensity;
-        ((S_80170CEC_3 *)visual)->unk_0E = intensity;
+        visual->color.c.r = intensity;
+        visual->color.c.g = intensity;
+        visual->color.c.b = intensity;
         if (((S_80170CEC_0 *)effect)->unk_36.u >= 5) {
             ((S_80170CEC_0 *)effect)->unk_2C.u++;
         }
@@ -140,7 +119,7 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
-        kind = ((S_80170CEC_2 *)record)->unk_2C;
+        kind = record->frameTable;
         if ((kind == uboat_ready_frames) || (kind == D_800E2408)) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
@@ -154,8 +133,8 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
         position->x.v = ((S_80170CEC_7 *)source_position)->unk_00;
         position->y.v = ((S_80170CEC_7 *)source_position)->unk_04;
         position->z.v = ((S_80170CEC_7 *)source_position)->unk_08;
-        ((S_80170CEC_3 *)visual)->unk_1C = ((S_80170CEC_2 *)record)->unk_1C;
-        ((S_80170CEC_3 *)visual)->unk_1E = ((S_80170CEC_2 *)record)->unk_1E;
+        visual->scale_x = record->scale_x;
+        visual->scale_y = record->scale_y;
     case 2:
     {
         u16 fade_step;
@@ -164,9 +143,9 @@ void update_rotating_actor_aura(void *effect, ObjectPosition *position, void *vi
         fade_step = ((S_80170CEC_0 *)effect)->unk_36.s - 1;
         intensity = ((s32)(s16)fade_step << 7) / ((S_80170CEC_0 *)effect)->unk_38;
         ((S_80170CEC_0 *)effect)->unk_36.s = fade_step;
-        ((S_80170CEC_3 *)visual)->unk_0C = intensity;
-        ((S_80170CEC_3 *)visual)->unk_0D = intensity;
-        ((S_80170CEC_3 *)visual)->unk_0E = intensity;
+        visual->color.c.r = intensity;
+        visual->color.c.g = intensity;
+        visual->color.c.b = intensity;
         if (((S_80170CEC_0 *)effect)->unk_36.u <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -14,7 +14,7 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
 
 
 
-void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, void *sprite, void *entity);
+void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFrameState *tile, void *actor);
 
 #endif

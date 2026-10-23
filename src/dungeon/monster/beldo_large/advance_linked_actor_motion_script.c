@@ -16,17 +16,6 @@ typedef struct S_80171D74_0 {
     s32 unk_00;
 } S_80171D74_0;   /* D_8008333C in advance_linked_actor_motion_script */
 
-typedef struct S_80171D74_1 {
-    u8 pad_00[0x92];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    s16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 pad_9B[0x3];
-    s16 unk_9E;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
-} S_80171D74_1;   /* arg0 in advance_linked_actor_motion_script */
 
 typedef struct S_80171D74_2 {
     u8 pad_00[0x8];
@@ -150,7 +139,7 @@ extern void *D_80175DB8[16];
 /* Advances a scripted movement sequence and updates the sprite facing. */
 /* Runs Beldo's timed leaps, turns, and sprite effects, changes map flags, and saves party state for a
  * scene change. */
-void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in) {
+void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in) {
     Table32 offset_table;
     Table32 direction_table;
     s16 right_angle;
@@ -212,16 +201,16 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
     owner_state = beldo_script_node[0] + 0x20;
     advance_sprite_animation_and_textures(sprite_in);
-    phase = ((S_80171D74_1 *)state_in)->unk_9A;
+    phase = state_in->unk_9A;
     target_pos = ((S_80171D74_2 *)(beldo_actor_nodes[0]))->unk_08;
     target_state = beldo_actor_nodes[0] + 0x20;
     switch (phase) {
     case 0:
-        wait_frame = ((S_80171D74_1 *)state_in)->unk_96;
-        ((S_80171D74_1 *)state_in)->unk_96 = (u16) (wait_frame + 1);
+        wait_frame = state_in->unk_96;
+        state_in->unk_96 = (u16) (wait_frame + 1);
         if ((s16) wait_frame >= 0x1E) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_y = (s32) 0xFFF80000;
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
@@ -229,45 +218,45 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
     case 1:
         motion_in->y.v = motion_in->y.v
         + motion_in->velocity_y;
-        rise_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = rise_frame;
+        rise_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = rise_frame;
         if ((s16) rise_frame >= 0x38) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_x = 0;
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 2:
-        pause_frame = ((S_80171D74_1 *)state_in)->unk_96;
-        ((S_80171D74_1 *)state_in)->unk_96 = (u16) (pause_frame + 1);
+        pause_frame = state_in->unk_96;
+        state_in->unk_96 = (u16) (pause_frame + 1);
         if ((s16) pause_frame >= 0x1E) {
             u8 next_phase;
-            next_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
+            next_phase = state_in->unk_9A;
+            state_in->unk_96 = 0U;
             next_phase = next_phase + 1;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) next_phase;
+            state_in->unk_9A = (u8) next_phase;
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 3:
-        sway_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = sway_frame;
+        sway_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = sway_frame;
         if ((s16) sway_frame == 3) {
             owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 4) {
+        if ((s16) state_in->unk_96 == 4) {
             owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x12) {
+        if ((s16) state_in->unk_96 == 0x12) {
             owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x14) {
+        if ((s16) state_in->unk_96 == 0x14) {
             owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        if ((s16) state_in->unk_96 == 0x1E) {
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_x = 0;
             motion_in->velocity_y = (s32) 0xFFF80000;
         }
@@ -276,11 +265,11 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
     case 4:
         motion_in->y.v = motion_in->y.v
         + motion_in->velocity_y;
-        lift_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = lift_frame;
+        lift_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = lift_frame;
         if ((s16) lift_frame >= 0x10) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_x = 0;
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
@@ -289,24 +278,24 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
         sprite_in->frameTable = &D_80173DAC;
         select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
-        ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        state_in->unk_96 = 0U;
+        state_in->unk_9A = (u8) (state_in->unk_9A + 1);
         motion_in->velocity_x = (s32) 0x00020000;
         break;
     case 7:
         motion_in->x.v = (s32) (motion_in->x.v
             + motion_in->velocity_x);
-        slide_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = slide_frame;
+        slide_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = slide_frame;
         if ((s16) slide_frame >= 8) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_x = 0;
             sprite_in->flags = (u16) (sprite_in->flags | 0x80);
             motion_in->y.w.i = 1;
             motion_in->x.w.i = 1U;
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 3) {
+        if ((s16) state_in->unk_96 == 3) {
             create_rotating_clipped_sprite((u32 *)(target_pos), 0);
             create_rotating_clipped_sprite((u32 *)(target_pos), 1);
             create_color_cycling_pulse((struct S_8016738C_3 *)(target_pos));
@@ -315,26 +304,26 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
         break;
     case 9:
         create_forward_layered_sprite_pulse(phase, target_state);
-        ((S_80171D74_1 *)state_in)->unk_96 = 0;
-        ((S_80171D74_1 *)state_in)->unk_9A++;
+        state_in->unk_96 = 0;
+        state_in->unk_9A++;
         break;
     case 10:
-        appear_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = appear_frame;
+        appear_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = appear_frame;
         if ((s16) appear_frame >= 2) {
             u8 *offset_base = (u8 *)&offset_table;
             u8 *direction_base;
             s32 angle_input_m;
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             sprite_in->flags = (u16) (sprite_in->flags & 0xFF7F);
             motion_in->x.w.i = (u16) (target_pos->unk_00.at02.v + (SP1_X_AT(offset_base,
                 target_state->unk_2A) * 0x28));
             motion_in->y.w.i = (s16) (target_pos->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base,
                 target_state->unk_2A) * 0x28));
-            ((S_80171D74_1 *)state_in)->unk_92.s = -0x18;
-            ((S_80171D74_1 *)state_in)->unk_9E = 0;
-            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
+            state_in->unk_90.parts.high.s = -0x18;
+            state_in->unk_9E.s = 0;
+            state_in->unk_A0.value = 0;
             angle_input_m = target_state->unk_2A;
             angle_tmp = angle_input_m - 0x400;
             angle_input_m = angle_tmp;
@@ -342,7 +331,7 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
                 angle_input_m = angle_tmp + 0x1000;
             }
             owner_state->unk_2A.n = angle_input_m;
-            ((S_80171D74_1 *)state_in)->unk_94 = 1;
+            state_in->unk_94 = 1;
             sprite_in->frameTable = &D_80173DB4;
             select_sprite_entry(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
@@ -363,11 +352,11 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             motion_in->x.v = pos_x + vel_x;
             motion_in->y.v = pos_y + vel_y;
         }
-        travel_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = travel_frame;
+        travel_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = travel_frame;
         if ((s16) travel_frame >= 0x14) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
@@ -378,27 +367,27 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
         if ((s16) turned_angle >= 0x1000) {
             owner_state->unk_2A.n = (u16) (old_angle - 0xE00);
         }
-        ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        state_in->unk_96 = 0U;
+        state_in->unk_9A = (u8) (state_in->unk_9A + 1);
         target_state->unk_27 = 3;
         goto shared_tail;
     case 15:
-        ((S_80171D74_1 *)state_in)->unk_96 = 0x1EU;
-        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        state_in->unk_96 = 0x1EU;
+        state_in->unk_9A = (u8) (state_in->unk_9A + 1);
                     /* fallthrough */
     case 16:
-        motion_in->velocity_x = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_00.at00_vs32.v - motion_in->x.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-        motion_in->velocity_y = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_04.at00_s32.v - motion_in->y.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        motion_in->velocity_x = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_00.at00_vs32.v - motion_in->x.v) / (s16) state_in->unk_96;
+        motion_in->velocity_y = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_04.at00_s32.v - motion_in->y.v) / (s16) state_in->unk_96;
         motion_in->x.v += motion_in->velocity_x;
         motion_in->y.v += motion_in->velocity_y;
-        return_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = return_frames;
+        return_frames = state_in->unk_96 - 1;
+        state_in->unk_96 = return_frames;
         if ((return_frames << 0x10) <= 0) {
             u8 *direction_entry;
             s32 angle_input_m;
             u32 direction_offset;
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
             sprite_in->frameTable = &beldo_large_frame_set_8;
             select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
@@ -430,21 +419,21 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
         {
             s32 height_offset;
             u16 next_frame;
-            height_offset = ((S_80171D74_1 *)state_in)->unk_92.u;
-            next_frame = ((S_80171D74_1 *)state_in)->unk_96;
+            height_offset = state_in->unk_90.parts.high.u;
+            next_frame = state_in->unk_96;
             height_offset = height_offset - 2;
             next_frame = next_frame + 1;
             arc_frame = next_frame;
-            ((S_80171D74_1 *)state_in)->unk_96 = arc_frame;
-            ((S_80171D74_1 *)state_in)->unk_92.u = height_offset;
+            state_in->unk_96 = arc_frame;
+            state_in->unk_90.parts.high.u = height_offset;
         }
         if ((s16) arc_frame >= 0x28) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_y = 0;
             motion_in->velocity_x = 0;
         }
-        turn_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        turn_frame = (s16) state_in->unk_96;
         if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
             s32 angle_input_m;
             angle_input_m = owner_state->unk_2A.n;
@@ -454,15 +443,15 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
                 angle_input_m = angle_tmp + 0x1000;
             }
             owner_state->unk_2A.n = angle_input_m;
-            if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
+            if ((s16) state_in->unk_96 == 0x1E) {
                 play_sound_if_enabled(0x81A);
             }
         }
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 19:
-        ((S_80171D74_1 *)state_in)->unk_96 = 0x14U;
-        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        state_in->unk_96 = 0x14U;
+        state_in->unk_9A = (u8) (state_in->unk_9A + 1);
         tile_nw = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xBA;
         tile_nw->unk_04 = (u16) (tile_nw->unk_04 & 0x7FFF);
         tile_n = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xC0;
@@ -487,16 +476,16 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
                     /* fallthrough */
     case 20:
         motion_in->x.v += (motion_in->velocity_x
-            - motion_in->x.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+            - motion_in->x.v) / (s16) state_in->unk_96;
         motion_in->y.v += (motion_in->velocity_y
-            - motion_in->y.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+            - motion_in->y.v) / (s16) state_in->unk_96;
         motion_in->z.v += (motion_in->velocity_z
-            - motion_in->z.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-        approach_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = approach_frames;
+            - motion_in->z.v) / (s16) state_in->unk_96;
+        approach_frames = state_in->unk_96 - 1;
+        state_in->unk_96 = approach_frames;
         if ((approach_frames << 0x10) <= 0) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            ((S_80171D74_1 *)state_in)->unk_9A++;
+            state_in->unk_96 = 0;
+            state_in->unk_9A++;
         }
         break;
     case 21:
@@ -509,21 +498,21 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             u16 next_frame;
             if (sprite_in->unk_04 == 0) {
                 sprite_in->flags = (u16) (sprite_in->flags | 0x800);
-                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                bounce_frame = state_in->unk_96;
                 next_frame = bounce_frame + 1;
             } else {
-                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                bounce_frame = state_in->unk_96;
                 next_frame = bounce_frame + 1;
             }
-            ((S_80171D74_1 *)state_in)->unk_96 = next_frame;
+            state_in->unk_96 = next_frame;
             if ((u32) (bounce_frame - 0xA) < 8U) {
-                ((S_80171D74_1 *)state_in)->unk_A0.at00.v = (s32) (rsin(((s32) (next_frame << 0x10) >> 8) - 0xA00)
+                state_in->unk_A0.value = (s32) (rsin(((s32) (next_frame << 0x10) >> 8) - 0xA00)
                     << 8);
                 motion_in->z.w.i = (u16) (owner_state->unk_88
-                    - ((S_80171D74_1 *)state_in)->unk_A0.at02.v);
+                    - state_in->unk_A0.parts.high);
             }
         }
-        spin_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        spin_frame = (s16) state_in->unk_96;
         if ((spin_frame == 0x19) || (spin_frame == 0x1E) || (spin_frame == 0x23) || (spin_frame == 0x28)) {
             s32 angle_input_m;
             angle_input_m = owner_state->unk_2A.n;
@@ -534,18 +523,18 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             }
             owner_state->unk_2A.n = angle_input_m;
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x2D) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_92.s = -0x18;
-            ((S_80171D74_1 *)state_in)->unk_9E = 0;
-            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        if ((s16) state_in->unk_96 >= 0x2D) {
+            state_in->unk_96 = 0U;
+            state_in->unk_90.parts.high.s = -0x18;
+            state_in->unk_9E.s = 0;
+            state_in->unk_A0.value = 0;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->z.w.i = owner_state->unk_88;
         }
         break;
     case 24:
-        spin_up_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = spin_up_frame;
+        spin_up_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = spin_up_frame;
         if (((s16) spin_up_frame == 5) || ((s16) spin_up_frame == 0xA) || ((s16) spin_up_frame == 0xF)
             || ((s16) spin_up_frame == 0x14)) {
             s32 angle_input_m;
@@ -557,10 +546,10 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             }
             owner_state->unk_2A.n = angle_input_m;
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x18) {
+        if ((s16) state_in->unk_96 >= 0x18) {
             u8 *direction_base;
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             sprite_in->frameTable = &beldo_large_frame_set_8;
             sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
             select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
@@ -578,11 +567,11 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             + motion_in->velocity_x);
         motion_in->y.v = (void *) (motion_in->y.v + launch_vel_y);
         motion_in->z.v = (void *) (motion_in->z.v + launch_vel_z);
-        launch_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = launch_frame;
+        launch_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = launch_frame;
         if ((s16) launch_frame >= 0x28) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            ((S_80171D74_1 *)state_in)->unk_9A++;
+            state_in->unk_96 = 0;
+            state_in->unk_9A++;
         }
         break;
     case 30:
@@ -596,8 +585,8 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             direction_y = SP2_Y_AT(direction_base, owner_state->unk_2A.n);
             motion_in->velocity_z = (void *)0xFFFB0000;
             motion_in->velocity_y = (void *) (direction_y << 0x13);
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            ((S_80171D74_1 *)state_in)->unk_9A++;
+            state_in->unk_96 = 0;
+            state_in->unk_9A++;
             break;
         }
     case 31:
@@ -607,19 +596,19 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             + motion_in->velocity_x);
         motion_in->y.v = (void *) (motion_in->y.v + hop_vel_y);
         motion_in->z.v = (void *) (motion_in->z.v + hop_vel_z);
-        hop_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = hop_frame;
+        hop_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = hop_frame;
         if ((s16) hop_frame >= 5) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_z = 0;
             motion_in->velocity_y = 0;
             motion_in->velocity_x = 0;
         }
         break;
     case 32:
-        wobble_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = wobble_frame;
+        wobble_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = wobble_frame;
         if (((s16) wobble_frame == 2) || ((s16) wobble_frame == 8) || ((s16) wobble_frame == 0xA)
             || ((s16) wobble_frame == 0x10) || ((s16) wobble_frame == 0x12)) {
             turn_value = owner_state->unk_2A.n;
@@ -630,7 +619,7 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             }
             owner_state->unk_2A.n = (u16) turn_value;
         }
-        turn_value = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        turn_value = (s16) state_in->unk_96;
         if ((turn_value == 4) || (turn_value == 6) || (turn_value == 0xC) || (turn_value == 0xE) || (turn_value == 0x14)) {
             turn_value = owner_state->unk_2A.n;
             left_angle = turn_value - 0x200;
@@ -640,35 +629,35 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
             }
             owner_state->unk_2A.n = turn_value;
         }
-        turn_value = (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        turn_value = (s16) state_in->unk_96;
         if (turn_value == 0x1A) {
             sprite_in->frameTable = &beldo_large_frame_set_8;
             sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
             select_sprite_entry(sprite_in, beldo_large_frame_set_8[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
-        if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x1E) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+        if ((s16) state_in->unk_96 >= 0x1E) {
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             motion_in->velocity_z = (void *)0xFFF80000;
         }
         break;
     case 33:
         motion_in->z.v = (void *) (motion_in->z.v
             + motion_in->velocity_z);
-        frame_or_height = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = frame_or_height;
+        frame_or_height = state_in->unk_96 + 1;
+        state_in->unk_96 = frame_or_height;
         if ((s16) frame_or_height >= 0xA) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             frame_or_height = ((u16) motion_in->z.w.i);
             motion_in->velocity_z = 0;
             motion_in->velocity_y = 0;
             motion_in->velocity_x = 0;
             owner_height = owner_state->unk_88;
-            ((S_80171D74_1 *)state_in)->unk_9E = 0;
-            ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
-            ((S_80171D74_1 *)state_in)->unk_92.u = (u16) (frame_or_height - owner_height);
+            state_in->unk_9E.s = 0;
+            state_in->unk_A0.value = 0;
+            state_in->unk_90.parts.high.u = (u16) (frame_or_height - owner_height);
             facing_angle = owner_state->unk_2A.n;
             quarter_turn = facing_angle + 0x400;
             facing_angle = quarter_turn;
@@ -683,8 +672,8 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
         break;
     case 34:
         {
-            spiral_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-            ((S_80171D74_1 *)state_in)->unk_96 = spiral_frame;
+            spiral_frame = state_in->unk_96 + 1;
+            state_in->unk_96 = spiral_frame;
             if ((spiral_frame & 3) == 3) {
                 s32 angle_input_m;
                 angle_input_m = owner_state->unk_2A.n;
@@ -695,7 +684,7 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
                 }
                 owner_state->unk_2A.n = angle_input_m;
             }
-            speed = ((0x61 - (s16) ((S_80171D74_1 *)state_in)->unk_96) * 0x60000) / 97;
+            speed = ((0x61 - (s16) state_in->unk_96) * 0x60000) / 97;
             {
                 u8 *direction_base = (u8 *)&direction_table;
                 s32 direction_x = SP2_X_AT(direction_base, owner_state->unk_2A.n);
@@ -708,9 +697,9 @@ void advance_linked_actor_motion_script(void *state_in, ObjectPosition *motion_i
                 motion_in->x.v += motion_in->velocity_x;
                 motion_in->y.v += motion_in->velocity_y;
             }
-            if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x58) {
-                ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-                ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            if ((s16) state_in->unk_96 >= 0x58) {
+                state_in->unk_96 = 0U;
+                state_in->unk_9A = (u8) (state_in->unk_9A + 1);
                 {
                     motion_in->x.w.i = ((u16)view_reference_entity.x.w.i);
                     motion_in->y.w.i = ((u16)view_reference_entity.y.w.i);
@@ -726,34 +715,34 @@ shared_tail:
         break;
     case 40:
         if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         }
         break;
     case 41:
-        effect_wait_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = effect_wait_frame;
+        effect_wait_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = effect_wait_frame;
         if ((s16) effect_wait_frame >= 0x3C) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            ((S_80171D74_1 *)state_in)->unk_9A++;
+            state_in->unk_96 = 0;
+            state_in->unk_9A++;
         }
         break;
     case 45:
         if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         }
         apply_script_direction_record(state_in, motion_in, sprite_in);
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 46:
-        finish_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
-        ((S_80171D74_1 *)state_in)->unk_96 = finish_frame;
+        finish_frame = state_in->unk_96 + 1;
+        state_in->unk_96 = finish_frame;
         if ((s16) finish_frame >= 0x3C) {
-            ((S_80171D74_1 *)state_in)->unk_96 = 0U;
-            ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
+            state_in->unk_96 = 0U;
+            state_in->unk_9A = (u8) (state_in->unk_9A + 1);
         }
         apply_script_direction_record(state_in, motion_in, sprite_in);
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
@@ -768,14 +757,14 @@ shared_tail:
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
         request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
-        ((S_80171D74_1 *)state_in)->unk_9A++;
+        state_in->unk_9A++;
         break;
     case 47:
         snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
         request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
-        ((S_80171D74_1 *)state_in)->unk_9A++;
+        state_in->unk_9A++;
         break;
     case 48:
     default:
@@ -784,10 +773,10 @@ shared_tail:
     if (beldo_script_node[0] != 0) {
         sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
-        if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
+        if (state_in->unk_94 != sprite_dir) {
             select_indirect_table_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable + sprite_dir),
                 sprite_in->unk_04);
-            ((S_80171D74_1 *)state_in)->unk_94 = sprite_dir;
+            state_in->unk_94 = sprite_dir;
         }
         {
             u16 sprite_flags;

@@ -18,7 +18,7 @@ void attempt_actor_directional_action(struct S_8017294C_1 *action_state, s32 act
 
 
 
-void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, void *sprite, void *entity);
+void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, SpriteFrameState *sprite, void *entity);
 
 
 

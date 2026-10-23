@@ -1069,7 +1069,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, entity->pad_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         select_bank_actor_movement(entity, primary_context, secondary_context, entity);
