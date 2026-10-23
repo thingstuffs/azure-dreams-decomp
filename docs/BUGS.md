@@ -49,7 +49,7 @@ The Oleem route reserves one completion, but the pentagram and the returning Man
 
 [adrando entry: Golem idle animation and Select](https://adrando.com/guide/bugs.html).
 
-- **B028**: Select keeps the Golem's idle reservation and null callback armed. After watchdog recovery, Koh's movement check admits a ready familiar's tile even though this Golem cannot move away, allowing both actors onto the same tile. Source: [update_directional_transition_state](../src/dungeon/monster/golem/update_directional_transition_state.c#L66), [classify_adjacent_tile_height](../src/dungeon/level/tile.c#L739), [update_shrinking_sprite_effect](../src/dungeon/monster/golem/update_shrinking_sprite_effect.c#L44).
+- **B028**: Select keeps the Golem's idle reservation and null callback armed. After watchdog recovery, Koh's movement check admits a ready familiar's tile even though this Golem cannot move away, allowing both actors onto the same tile. Source: [update_directional_transition_state](../src/dungeon/monster/golem/update_directional_transition_state.c#L48), [classify_adjacent_tile_height](../src/dungeon/level/tile.c#L739), [update_shrinking_sprite_effect](../src/dungeon/monster/golem/update_shrinking_sprite_effect.c#L44).
 
 The collared Golem starts idle state 23 after 61 eligible idle updates. Completion requires nonzero input with Select clear, so Select keeps its normal callback null. After Koh leaves idle, 901 unchanged busy updates let the watchdog clear the pending count. With ordinary turn scale 0x100 and Golem scale 0x100, the movement classifier permits Koh to enter a healthy familiar's occupied tile because it expects the familiar to move away. The Golem's ready-pass wrapper instead skips its null callback, and Select still blocks idle completion. This proves a sufficient overlap route after watchdog recovery without clearing occupancy. Separate host executions check the actual button handler and the actual movement classifier; no emulator replay is claimed.
 
@@ -113,7 +113,7 @@ Theft stores the item word at actor +0x48. The transformed actor and hidden nati
 - **B015F**: When a lifted familiar stops being a frog, reattaching the replacement clears Koh's tile occupancy after its constructor set it. Source: [end_status_effect_message](../src/engine/message/end_status_effect_message.c#L173).
 - **B015T**: Feeding Tumna to an already lifted familiar restarts lift setup on Koh's shared tile, clearing Koh's occupancy. Source: [update_actor_facing_animation](../src/dungeon/actor/movement_path_g00371.c#L238).
 - **B015E**: Feeding Roche to a lifted familiar turns it into an egg and clears occupancy at Koh's tile. Source: [apply_monster_egg_reversion_item](../src/dungeon/item/apply_monster_egg_reversion_item.c#L154).
-- **B015V**: Freeing a lifted familiar clears actor occupancy at its cached sprite tile, which still names Koh's tile after the carry flag is cleared. Source: [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L330), [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L394).
+- **B015V**: Freeing a lifted familiar clears actor occupancy at its cached sprite tile, which still names Koh's tile after the carry flag is cleared. Source: [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L311), [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L375).
 
 Recall, Free, Tumna, Roche and frog expiry are mapped. Free selects removal state 2. Its phase 3 clears the carried flag; the departure effect moves world coordinates but retains the cached sprite tile on Koh. The final removal clear therefore empties Koh’s occupancy.
 
@@ -151,7 +151,7 @@ Scene 17’s callback list runs room generation at index 7 and ordinary item pop
 
 [adrando entry: Invisible Salamander particles](https://adrando.com/guide/bugs.html).
 
-- **B027**: The Salamander particle command is only 1x1 world units at unit scale, making the intended rising particles too small at combat camera distances. Source: [spawn_salam_particles](../src/dungeon/actor/spawn_salam_particles.c#L78).
+- **B027**: The Salamander particle command is only 1x1 world units at unit scale, making the intended rising particles too small at combat camera distances. Source: [spawn_salam_particles](../src/dungeon/actor/spawn_salam_particles.c#L56).
 
 The sprite command has width and height 1. At unit scale the perspective renderer uses these as world-space spans, so the geometry can disappear at camera distance. The exact camera/GTE packet bounds needed to prove zero area in every case have not been established here; no off-viewport position is asserted.
 

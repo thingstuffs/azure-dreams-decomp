@@ -2,7 +2,7 @@
 
 Choose a game feature, follow its callbacks, and resolve a row ID whenever an
 old address name leads to a missing file. These guides describe the source at
-BASE `964157065`; each feature example links to its implementation.
+snapshot `f4f4ed991`; each feature example links to its implementation.
 
 | Guide | Start here for |
 | --- | --- |
@@ -65,16 +65,21 @@ are represented by [row records](../../ledger/rows.jsonl),
 [inline extents](../../ledger/layout_inline.jsonl), and
 [link lists](../LINK_LISTS.md). A source folder is not a disc container.
 
-The README's source census counts `.c` files under the eight `src/` roots.
-It counts function definitions reported by
-[`cscan.scan`](../../tools/headers/cscan.py) (`kind == 'def'`, function
-declarators), once at their physical spelling, including static helpers and
-separate copies, without expanding includes. A definition is counted as named
-unless its identifier matches `(?:func_|w_|sub_)[0-9A-Fa-f]{8}(?:_.*)?` in full.
-This is a spelling metric, not a claim of recovered original names or reviewed
-gameplay meanings. At BASE there are 6,258 files, 8,213 definitions and 7,557
-named definitions (92.0%). [STATUS.md](../../STATUS.md) counts registered rows
-and image bytes instead.
+The README's source census uses
+[`tools/readability/score.py`](../../tools/readability/score.py), schema
+`readability-v1`. It reads every physical `.c`/`.h` file under `src/` once,
+including local headers, static helpers, K&R definitions and both sides of
+conditional compilation, without expanding includes or multiplying placements.
+At snapshot `f4f4ed991` it finds 6,257 files (6,255 C files and 2 headers) and
+8,252 function definitions. Of those, 8,117 (98.4%) have names other than
+address placeholders: identifiers matching
+`(?:func_|w_|sub_)[0-9A-Fa-f]{8}(?:_.*)?` in full are excluded. This measures
+spelling, not recovered original names or reviewed gameplay meanings.
+
+[Readability methodology](../READABILITY.md) describes the scanner and weighted
+source-debt metrics; its generated tables carry their own baseline label.
+[STATUS.md](../../STATUS.md) instead counts registered rows and image bytes.
+Neither a source definition nor a readability score is a byte-proof receipt.
 
 ## Naming and ownership
 

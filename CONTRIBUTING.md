@@ -1,152 +1,195 @@
 # Contributing
 
-Contributions should make the reconstructed C easier to understand while
-preserving its compiled bytes. Names, types and module boundaries also need
-evidence for their meaning; a successful byte check alone cannot establish it.
+Improve the reconstructed C while preserving its compiled bytes. Support names,
+types and ownership with evidence: a byte match establishes output identity,
+not the meaning of a proposed name. Keep changes small enough to review as one
+function, feature or coherent rename/type change.
 
-## Before anything: legal ground rules
+## Inputs and rights
 
-- Do not add game data to the repository: no disc images, executables, extracted files, hex dumps
-  of retail code or data, or disassembly of retail code. `tools/prepublish_scan.py` checks for
-  these; run it before you open a pull request.
-- You need your own copy of the game to build and compare against retail (see
-  the README).
-- By contributing you agree your original contribution is released under the project licence
-  ([LICENSE](LICENSE)); see [NOTICE](NOTICE) for what the licence does not cover.
+Bring your own NTSC-U disc and follow [BUILD.md](docs/BUILD.md) to provision
+tools. Genuine native-TU assembler comparison additionally needs the pinned
+assembler from your own [Psy-Q SDK](docs/TOOLCHAIN_PSYQ.md).
 
-## Set-up
+Do not submit disc images, extracted game files, retail disassembly or hex
+dumps, compiled objects, SDK payloads, secrets or private machine paths.
+Initialized reconstructed C tables remain game material; [NOTICE](NOTICE)
+explains the rights boundary. Original contributions use the project
+[licence](LICENSE); third-party material retains its own terms.
 
-Follow the [README quick start](README.md#quick-start) from the repository root.
-It creates `bin/` before copying your disc and provisions the required tools.
-Builds and retail-byte verification need your own disc; complete native overlay
-proof also needs the [pinned Psy-Q assembler](docs/TOOLCHAIN_PSYQ.md).
-Source lookup and row-database checks do not need either input.
+## Find the source and record the evidence
 
-## What a good change is
-
-1. **It is still byte-exact.** Nothing is accepted on appearance.
-2. **The C is closer to what a person would write**: typed structs instead of raw offsets, named
-   locals, loops and conditionals that read as loops and conditionals, no leftover compiler
-   workarounds. A readable change that matches beats a clever change that matches.
-3. **It records its evidence.** If you rename or retype something, say what in the game justifies it
-   (a string, a table layout, a call pattern). Guesses about gameplay meaning belong in a comment
-   marked as a guess, not in a name.
-
-## How a change is proven
-
-Start by finding the physical source for the row you want to improve. Run from
-the repository root; these checks need no disc:
+Run from the repository root; these lookups need no disc:
 
 ```sh
-python3 tools/source_layout.py check
 python3 tools/source_layout.py path town/func_8008D54C
+python3 tools/source_layout.py ids src/town/scene/copy_words_backward_from_offset.c
+python3 tools/source_layout.py --root . check
 python3 tools/row_db.py check
 ```
 
-Edit the resolved source in your working tree, keeping the registered compiler
-recipe. Then compare it with retail. **This example requires your extracted
-disc and provisioned tools; module-window proof may also require Psy-Q.**
+Use the resolver's current result for the row you are editing. A physical
+translation unit (TU) can contain several functions or serve multiple image
+placements. Edit its home source and account for every affected consumer.
+Do not recreate a historical per-row file or move source without updating its
+layout and manifests. [LAYOUT.md](docs/LAYOUT.md) maps the tree;
+[the reader guides](docs/guide/README.md) explain features and callbacks.
+
+For a name, cite a string/assertion, dispatch table, callers, data layout or
+field use supporting the meaning. For a type, establish offsets, access
+widths, signedness, alignment and relationships across its users. For a
+control-flow change, explain the behavior and lifetime that the new C expresses.
+Put uncertain interpretations in evidence as hypotheses; retain unknown fields
+instead of assigning unsupported meanings. See [EVIDENCE.md](docs/EVIDENCE.md)
+and [type consolidation](docs/TYPE_CONSOLIDATION.md).
+
+## Prove the changed bytes
+
+Keep the registered compiler and assembler recipe. With your extracted disc
+and tools available, a candidate check for the example row is:
 
 ```sh
-python3 tools/verify.py town/func_8008D54C src/town/scene/copy_words_backward_from_offset.c --gate
+nice -n 10 python3 tools/verify.py town/func_8008D54C \
+    src/town/scene/copy_words_backward_from_offset.c --gate
 ```
 
-Use your row ID and the resolver's path for another function. The verifier is
-the candidate check; `--gate` requests the additional overlay window proof
-when needed. Its output says when registered address evidence makes the row
-scorer equivalent instead. That does not renew a module certificate.
+Replace the ID and path for your change. `--gate` requests the additional
+window check when required; the verifier can report registered scorer/gate
+equivalence instead. This diagnostic is useful for iteration, but it does not
+replace integration proof or renew a module certificate.
 
-The linked window and SLUS image gates are the proof of record. To build all
-of them from a provisioned clone, run the executable first, then the overlay
-view and windows. **Requires your disc and the pinned Psy-Q assembler/loader
-for native module windows.**
+A declaration, shared header or TU edit needs checks of every consuming TU and
+placement. For a rename/type/header rewrite, the complete-TU identity helper
+can record the before state and compare the after state. This optional helper
+also needs `clang` on PATH (`sudo apt-get install clang` on Ubuntu). Set `CHANGED_C` to
+the source path being changed, and include each changed header after `--edit`:
 
 ```sh
-bash tools/build/build_slus.sh -j 4
-bash tools/build/mk_ovl_root.sh
-python3 tools/build/gate_all.py --workers 4
+mkdir -p build/review
+nice -n 10 python3 tools/typing/tu_identity.py snapshot \
+    --edit "$CHANGED_C" --workers 4 --receipt build/review/before.jsonl
+# Make the source/header change, then compare against that snapshot.
+nice -n 10 python3 tools/typing/tu_identity.py compare \
+    --receipt build/review/before.jsonl --workers 4 --results build/review/after.jsonl
 ```
 
-For a focused change, check every affected row/window or executable image.
-A shared header reaches all its users, and a TU may be placed in several
-containers. Refresh certificates whose bound inputs changed; an old passing
-receipt does not prove the new source. See [proof scope](docs/PLAN.md),
-[executable modules](docs/SLUS_MODULES.md) and
-[overlay placements](docs/LL5_MODULE_PLACEMENTS.md).
+The helper discovers the affected physical TUs and checks raw object,
+canonical assembly and canonical object identity. Inspect failures and the
+reported closure; do not present a snapshot made after an edit as a before
+proof. [Rename proof](docs/RENAME_PROOF.md) covers aliases and relocations.
 
-Keep each change small (one function, one module, or one rename batch) and say in the pull
-request which gate you ran and its result.
-
-## Layout of `src/`
-
-Editable source lives under `src/engine/`, `src/frontend/`, `src/town/`,
-`src/dungeon/` and `src/movie/`. Stable row IDs retain container/address names;
-several rows can share a TU, and some placements reuse another row's source.
-Use [the source resolver](docs/SOURCE_LAYOUT.md) and edit the complete physical
-TU. Do not recreate an old per-row file or move sources by hand: the layout,
-module manifests and proof records must agree.
-
-A function with no recovered name keeps an address symbol such as
-`func_800A8714`; data uses names such as `D_80283000`. A symbol alias and a source
-move are different operations.
-
-## Naming conventions
-
-| thing | style | example |
-|---|---|---|
-| new function and global names | `snake_case`, no binary prefix; functions start with a verb where appropriate | `init_monster_from_stats`, `bcd_to_int` |
-| types (struct, union, enum, typedef) | `PascalCase` | `MonsterStats` |
-| local variables, parameters | `snake_case` | `slot_index` |
-| macros and constants | `UPPER_SNAKE_CASE` | |
-| unknown fields | `unk_XX` (hex offset) with explicit padding | `u8 unk_1C;` |
-| unrecovered functions / data | address name | `func_8008D54C`, `D_80283000` |
-
-Preserve an original developer identifier when the disc proves its spelling;
-see [the naming rules](docs/SYMBOLS.md) and
-[decisions 61 and 63](docs/evidence/r97_decisions.md). Names describe the
-supported operation. Record uncertain interpretations as hypotheses in the
-evidence rather than assigning an unsupported gameplay name.
-
-### Where names and types are tracked
-
-- `config/names.tsv` - function and data renames. Columns: address, old name, new name,
-  evidence. Alias lowering preserves canonical linked identities; a spelling
-  change still needs verification. `tools/apply_names.py` accepts proposals, refuses conflicting
-  names, rewrites references and checks touched rows. Inspect its options and
-  dry-run mode before applying your proposal:
-
-  ```sh
-  python3 tools/apply_names.py --help
-  ```
-
-  Applying a proposal requires the disc and provisioned tools. Complete the
-  affected window/image gates afterwards; the rename tool's row checks do not
-  replace them. [Rename proof](docs/RENAME_PROOF.md) explains the object,
-  relocation and shared-header requirements.
-- `ledger/names.jsonl` - machine-maintained rename results, when retained; the
-  public export omits internal event history. Include evidence and compact
-  verification results with your change.
-- `include/shared/`, `include/records/`, `include/modules/` - shared game types. Merge duplicates
-  into the shared type rather than adding a new per-function view (see
-  [docs/TYPE_CONSOLIDATION.md](docs/TYPE_CONSOLIDATION.md)).
-- [Symbol conventions](docs/SYMBOLS.md) and [naming evidence](docs/EVIDENCE.md)
-  explain how to support a proposed name.
-
-## Cleanliness levels
-
-Rows are ranked L0 to L5 (see [docs/PLAN.md](docs/PLAN.md)); `tools/levels.py`
-computes them and `STATUS.md` reports them. Preserve the proof and quality of
-every affected row when improving a function or shared type.
-
-## Generated files
-
-`STATUS.md`, `src/*/INDEX.md` and most of `ledger/` are generated or machine-maintained. Do not edit
-them by hand; use their generators. Keep proof receipts to measurements and
-hashes. For detail above 2 MB, include a compact summary and SHA-256, following
-[decision 62](docs/evidence/r97_decisions.md).
-
-## Before you push
+For complete integration proof in a provisioned checkout:
 
 ```sh
-python3 tools/prepublish_scan.py     # no game bytes, no private paths, no tokens, nothing oversized
+make configure
+make -j4
+make check
 ```
+
+The current image proof must bind the changed sources, headers, recipes and
+tools. Old passing receipts do not prove new inputs. Complete images,
+diagnostic recipe/placement layouts and switch-table contents are compared
+with your disc; imported gaps are accounted separately. Native TUs record
+whether genuine ASPSX comparison ran. Historical module-certificate renewal
+and the all-window loop are retired from this workflow. See
+[what the build check proves](docs/BUILD.md#what-the-check-proves).
+
+Run tests for tools or behavior you changed and include the commands, exit
+statuses and compact results with the pull request. Explain any retained
+limitation or missing required proof. Byte identity and the separate
+[quality levels](docs/PLAN.md) both matter; a readability score alone is not
+proof that a rewrite is safe.
+
+## Naming and house style
+
+| Thing | Style | Example |
+| --- | --- | --- |
+| New functions and globals | Short English `snake_case`, without a binary prefix | `spend_actor_mp` |
+| Types | `PascalCase` | `ActorRecord` |
+| Locals and parameters | `snake_case` | `slot_index` |
+| Constants and macros | `UPPER_SNAKE_CASE` | `ITEM_KIND_HERB` |
+| Unknown fields | Offset-based `unk_XX` with explicit padding | `unk_1C` |
+| Unrecovered functions/data | Keep the address identifier | `func_8008D54C`, `D_80283000` |
+
+Use a verb for a function where it describes the operation; preserve an
+original developer spelling proven by the disc. Names need to be unique within
+a linked image. Follow nearby C formatting and prefer ordinary expressions,
+loops, named locals and typed field access. Retype a declaration rather than
+replacing `value->field` with a cast at each access. Do not introduce extra
+casts, goto, volatile, inline asm, register pins or `M2C_` workarounds to make a
+readability change match. Existing byte-sensitive debt needs an explicit,
+evidenced follow-up rather than an unsupported rewrite.
+
+Reuse `ActorRecord`, `PlayerRecord` and `ObjectPosition` from
+[include/shared/entity.h](include/shared/entity.h). Actor +0x24/+0x25 is
+fractional/integer familiar or monster MP, with `max_mp` at +0x66; the player
+has none. `EntityRec` is a legacy view to avoid in new code. Reuse the existing
+shared types, flags and IDs described in [LAYOUT.md](docs/LAYOUT.md).
+
+### Declarations and ownership
+
+Decision 74 groups prototypes in **one owning header per source folder**,
+`include/<subsystem>/<feature>.h`. Rename declarations with definitions and
+callers. A C file includes its own folder header and the owning headers for
+its callees; do not add local extern lists or a header per function/C file.
+Owning headers include shared type headers. Shared records belong under
+`include/shared/` or `include/records/`; library stand-ins belong under
+`include/sdk/` and must not copy SDK header text. Data externs belong with
+their definition's folder, or in per-image data headers for retail imports.
+Keep a byte-sensitive exception documented when moving it changes output.
+
+Matching copies share one home implementation through placements (decision 75).
+Do not duplicate C to make a second image work. See
+[decisions 61, 73, 74 and 75](docs/evidence/r97_decisions.md) and
+[symbol conventions](docs/SYMBOLS.md).
+
+### Names, constants and generated records
+
+Function/data aliases and evidence live in `config/names.tsv`.
+`python3 tools/apply_names.py --help` describes proposal and dry-run options;
+read them before applying names, then check all affected consumers. Use
+shared concept headers for reused constants and types, and local definitions
+for private implementation details. Keep the reasoning separate from proof
+hashes so a reviewer can assess both.
+
+`STATUS.md`, container `INDEX.md` files and most of `ledger/` are generated or
+machine-maintained. Use their tools rather than hand-editing measurements.
+Do not hand-edit hash-guarded `config/link_graph/` shards. Keep proof attachments
+small; summarize larger results with hashes and reproduction commands rather
+than adding binary output or large dumps.
+
+## Report a problem
+
+Use the repository's issue tracker. Distinguish a build/tool failure, an error
+in the reconstruction or documentation, and a bug already present in the game.
+Include:
+
+- the commit/revision, supported disc region and host/tool versions;
+- exact commands or gameplay steps, expected result and observed result;
+- the affected row ID, symbol, source path or image/offset if known;
+- the first useful error and a compact text log or evidence for the suspected
+  name/type/behavior error.
+
+Do not attach game/SDK files, save data, retail dumps or private paths. You can
+report a source/documentation issue without a disc; state which checks you
+could run. Consult [BUGS.md](docs/BUGS.md) first for preserved gameplay bugs.
+That page maps community reports to code and credits the **adrando randomizer
+guide**; retain that attribution when extending it. A byte-exact reconstruction
+preserves retail behavior, including bugs. Report a proposed behavior fix
+separately and explain that it changes the game's bytes.
+
+## Before submitting
+
+Check source/layout consistency and the links in the public documentation:
+
+```sh
+python3 tools/row_db.py check
+python3 tools/source_layout.py --root . check
+python3 tools/docs/check_links.py README.md CONTRIBUTING.md docs/BUILD.md docs/LAYOUT.md docs/README.md docs/guide
+python3 tools/prepublish_scan.py
+```
+
+Review the diff for unrelated generated changes and include the evidence,
+commands and results needed to reproduce your proof. Do not submit ignored
+build products. For documentation-only changes, link and example checks are
+appropriate; explain any command you could not verify.

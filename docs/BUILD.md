@@ -1,249 +1,184 @@
-# Make build and landing proof
+# Build and verify
 
-Provision the pinned toolchain and extract your own disc using the repository
-setup instructions, then run from the checkout root:
+Build the NTSC-U PlayStation release (`SLUS-006.14`) on Linux x86_64. Run all
+commands from the repository root. You need your own disc image; no game
+files, compiled objects or Psy-Q SDK are distributed. See [NOTICE](../NOTICE).
+
+## 1. Install host prerequisites
+
+On Ubuntu 24.04 or a comparable Debian-based system:
+
+```sh
+sudo apt-get update
+sudo apt-get install build-essential binutils-mipsel-linux-gnu ninja-build \
+    cmake python3-venv python3-yaml git curl
+```
+
+Use GNU Make 4.3 or newer and Python 3.10 or newer. `python3-yaml` is needed
+by the system interpreter as well as the separate Python environment created
+by setup. The pinned GCC executables are static 32-bit x86 binaries: the Linux
+x86_64 kernel must support running 32-bit x86 executables. They need no dynamic
+32-bit userspace loader. The optional wibo loader is a static x86_64 binary.
+Other hosts are not covered by these instructions. The host packages and
+external inputs are listed in [tools/toolchain.lock.json](../tools/toolchain.lock.json).
+
+Clone this repository using the URL from its Code menu and enter the checkout.
+In this example, set `REPOSITORY_URL` to that clone URL first:
+
+```sh
+git clone "$REPOSITORY_URL" azure-dreams-decomp
+cd azure-dreams-decomp
+```
+
+## 2. Supply the disc
+
+Create `bin/` and copy your own BIN/CUE into it:
+
+```sh
+mkdir -p bin
+```
+
+Use the filenames `bin/Azure Dreams.bin` and `bin/Azure Dreams.cue`. The
+supported image is the USA single-data-track **MODE2/2352** dump, not an ISO,
+a PAL/Japanese release or a modified image. Its locked identity is:
+
+| Input | Expected value |
+| --- | --- |
+| BIN size | 298,576,992 bytes |
+| BIN SHA-1 | `fab68454be5e4e48f7a43ac797cc8c47325c6a20` |
+| Executable | `SLUS_006.14` |
+
+Check your image before setup:
+
+```sh
+sha1sum 'bin/Azure Dreams.bin'
+```
+
+Alternatively, point `AZURE_CLEAN_DISC` at your BIN when running setup. That
+variable selects the BIN; it does not convert other disc formats. Retain the
+matching CUE alongside your original image.
+
+## 3. Provision tools and extract the disc
+
+```sh
+export CMAKE_BUILD_PARALLEL_LEVEL=4
+nice -n 10 bash tools/setup.sh
+nice -n 10 bash tools/setup.sh --check
+```
+
+Setup needs network access on its first run. It creates `.venv/`, installs
+splat and test dependencies, downloads and hash-checks the seven stock GCC
+drops, connects the vendored maspsx assembler frontend, and builds the pinned
+mkpsxiso/dumpsxiso with the repository patch. It verifies the disc hash and
+extracts the executable into `baserom/` and overlay containers into
+`work/disc/`. These local inputs and outputs are ignored by Git.
+
+Read any `GAP:` messages before continuing. A nonzero exit means setup is
+incomplete. `--check` checks an already provisioned tree and does not download
+missing dependencies. It also runs the vendored maspsx tests when pytest is
+available. Setup's final suggested window-gate commands are historical; use
+the Make commands below for the current complete-image build.
+
+### Optional genuine assembler comparison
+
+For native translation units, the build can additionally compare maspsx/GNU
+output with genuine **ASPSX 2.79**. Supply it from your own Psy-Q SDK. Setup
+copies only the hash-pinned assembler and obtains the open-source wibo loader;
+it neither supplies nor downloads the proprietary SDK.
+
+Set `PSYQ_DIR` to your SDK directory, then run before configuration:
+
+```sh
+nice -n 10 bash tools/setup.sh --psyq "$PSYQ_DIR"
+nice -n 10 bash tools/setup.sh --check --psyq "$PSYQ_DIR"
+```
+
+The pinned assembler is from SDK 4.4 (4.5 has the same file). SDK headers,
+libraries, compilers and linker are not used. See the exact filenames, hashes
+and local-loader option in [Psy-Q setup](TOOLCHAIN_PSYQ.md).
+
+Without these inputs, Make records `maspsx_only`. A retail match from that
+build does not establish genuine assembler comparison. Native diagnostic
+window gates that require genuine comparison fail if the inputs are absent.
+Rerun `make configure` after installing or changing them.
+
+## 4. Configure, compile and compare
 
 ```sh
 make configure
-make -j8
+make -j4
 make check
 ```
 
-GNU Make 4.3+, the existing Python environment, pinned GCC cells, maspsx, MIPS
-GNU binutils and Ninja (for the existing SLUS configuration tooling) are needed.
-Nothing in the delivery contains game binaries or SDK payloads; `build/` is
-ignored by Git.
+`make configure` generates the managed build views (`build_slus/`,
+`build_ovl/`) and `build/build.mk` from the registered sources and recipes.
+`make -j4` builds the images with at most four Make jobs. Compilation commands
+run with reduced priority. `make check` rebuilds outdated products, compares
+the images with your disc, and writes `build/check.json`. Success prints
+`MATCH` lines and a final `CHECK N/N images SHA-1 MATCH` summary. A mismatch
+prints `DIFF` with the image, offset and symbol information and returns failure.
 
-## What is built
+A clean configuration and build can take substantial time and disk space.
+Generated source views and build products belong in their ignored directories;
+edit the source resolved by [the layout tool](SOURCE_LAYOUT.md), rather than a
+copy under a build view. These commands build registered images, not a new
+playable disc image.
 
-`make configure` creates the existing build views (`build_slus/`, `build_ovl/`)
-and `tools/build/mkbuild.py` projects the registered recipes into
-`build/build.mk`. SLUS commands come from the existing generated Ninja recipe,
-including its partition-coverage and data-piece verification edges, which are
-prerequisites of the SLUS link. Overlay recipes use the production source, flag,
-evidence and placement selectors. Each full physical recipe compiles once;
-registered flag/evidence variants remain distinct. A placement whose home was
-inlined into a module TU compiles the gate's member projection of that span; the
-projection is re-derived from the owner TU at compile time and fails closed when
-`ledger/layout_inline.jsonl` no longer matches the text. The make jobserver
-controls every compile and link job, and each output uses one generated GNU
-linker script.
+## What the check proves
 
-The 402 load/file outputs are the SLUS EXE, MAIN, OVMOVIE, two resident engines,
-60 town views and 337 dungeon banks. Additional `check_<recipe>` images cover
-every compiled recipe absent from those extents, and `check_place_<id>` layouts
-cover registered placements whose shared recipe passed elsewhere; each is
-compared with its exact disc slice. They are diagnostic placements, not runtime
-load claims (`build/.state/outside_recipes.json`, `placement_checks.json`). The
-checker refuses any compiled recipe or registered overlay row left outside a
-matched image. No dead-code retirement is inferred from exclusion.
+The build covers **402 load/file outputs**: SLUS, MAIN, OVMOVIE, two resident
+engines, 60 town views and 337 dungeon banks. Additional `check_<recipe>` and
+`check_place_<id>` images exercise compiled recipes and registered placements
+outside those extents. These extra images are diagnostic layouts, not claims
+that the game loads those combinations at runtime. The current snapshot has
+1,490 checked images; consult [STATUS.md](../STATUS.md) for current coverage.
 
-Explicit `.incbin` gaps import bytes that no source produces yet, so those bytes
-match by construction; origin receipts count object, assembly and imported bytes
-separately. Compiler-local switch tables are linked address-only (NOLOAD), so
-their image bytes are imports too: every placed table is therefore re-linked
-alone with the table loaded and its contents compared with the disc, exactly as
-the window gate does (`local_table_mismatches`); any difference fails the image
-and names the row. Matching these images does not prove complete C
-reconstruction, historical linker recovery or runtime overlay exclusivity.
+The checker:
 
-## What `make check` proves
+- verifies the five disc containers against their registered sizes and hashes,
+  then compares each image with its corresponding disc slice;
+- checks that objects bind their current recipe, source/include inputs, tools
+  and hashes, and that images bind their actual link inputs;
+- refuses omitted images, unused compiled recipes, uncovered registered overlay
+  rows and inputs changing during the check;
+- separately compares loaded compiler-local switch-table contents, even when
+  an image imports the table's bytes;
+- records the actual assembler mode and content-bound results in
+  `build/check.json` for quality accounting.
 
-`make check` rebuilds what is out of date, then:
+Explicit imported gaps copy unresolved bytes from your disc. They match by
+construction and remain separate from compiled C, assembler and library bytes
+in origin accounting. Matching every image proves the covered output bytes;
+it does not prove complete C reconstruction, original source recovery,
+historical linker recovery or runtime overlay exclusivity. Readability levels
+L4/L5 add module/header and source-quality requirements. See
+[quality definitions](PLAN.md), [fidelity limits](FIDELITY.md) and
+[coverage accounting](LINK_LISTS.md).
 
-- verifies each of the five disc files against its committed size and SHA-1
-  (`config/link_graph/files.000.jsonl`) and compares every image with its slice;
-- re-hashes the header, pipeline (build/gate/link tools, maspsx) and link-input
-  (`config/overlays`, `config/link`, `config/link_graph`, `config/*.txt`)
-  stamps, which are content digests, and refuses a stamp that no longer matches
-  its inputs;
-- refuses an object whose proof (recipe, every input including included `.c`
-  files and the owner TU of a projection, object hash) is stale;
-- refuses an image that was not linked from the current objects and link
-  inputs (`build/.state/origins/<image>.json`);
-- refuses an omitted image, an unconsumed recipe, a registered overlay row
-  outside a matched image, or inputs changing during the check;
-- prints one line per image (`MATCH ... assemblers=` or `DIFF <image>
-  offset= disc= symbol=`) and writes `build/check.json`, the content-bound proof
-  read by quality accounting.
+Per-row verification and local overlay-window gates remain useful diagnostics.
+Complete-image proof is the current integration check; module-certificate
+renewal and the historical all-window loop are not required steps for this
+workflow.
 
-Native TUs use the **canonical native build**, including its whole-TU genuine
-ASPSX 2.79 comparison, when the SDK and wibo are installed
-(`tools/setup.sh --psyq DIR`); otherwise configuration records `maspsx_only` and
-never labels the run genuine. Changing the SDK requires `make configure`.
-`make configure` also refreshes the live source/layout attestation; a changed
-compiler cell or placement extent fails instead of being silently blessed.
+## Incremental work and troubleshooting
 
-Incremental rebuilds: a source edit rebuilds its recipe and consuming images;
-a header edit rebuilds recipes whose include closures consume it, including
-SLUS assembly includes. The complete header and pipeline digests are still
-checked independently. Compiler tools invalidate objects; linker tools
-invalidate images. The compiler stamp follows imports reachable from the compile
-entry points, plus the shell and file-loaded compiler/assembler helpers. It binds both source authorities and the executed gate-view copies, refusing
-a stale exported copy. It does
-not enumerate maspsx tests or unrelated fidelity commands. Local Python imports
-observed by a real compile must belong to this closure; an unregistered import
-fails the compile. GCC driver/cc1/cpp inputs are bound to each TU's compiler cell,
-including SLUS TUs. Changes to landing/accounting tools or ordinary documentation
-do not invalidate either. A content-identical regenerated ledger or stamp keeps
-its mtime. An edit under `config/overlays` or `config/link` regenerates the
-projection and relinks images when the link-input content digest changes.
-Adding or removing files needs `make configure`.
+After editing source, run `make -j4` and the relevant checks. Existing source
+and header edits rebuild their consumers; a shared header or shared TU can
+affect several images and containers. Adding/removing files or changing SDK
+inputs requires `make configure`. Configuration and proof use content digests;
+an old receipt alone does not prove a changed tree. See
+[CONTRIBUTING.md](../CONTRIBUTING.md) for candidate checks and evidence.
 
-Build-view tool exports and source-view symlinks also preserve identical bytes
-and targets. The flat gate tool view copies `name_inputs.py` from its build
-authority; the source tree needs no gate symlink or duplicate helper. Retired
-exports are removed. The configure CLI verifies bootstrap
-inputs on every run; configure and check independently compare exported tools
-with their source authorities, including their expected file/directory inventory.
+| Symptom | Next step |
+| --- | --- |
+| Setup reports a wrong disc SHA-1 | Check the region, dump format and locked hash; supply an unmodified supported image |
+| Missing `yaml`, `splat`, MIPS assembler or compiler | Install the host packages, rerun setup, then `--check`; splat belongs in `.venv/`, PyYAML must also import under `python3` |
+| Genuine assembler input is missing or has a wrong hash | Follow [Psy-Q setup](TOOLCHAIN_PSYQ.md); verify the pinned version and configure again |
+| Generated view or input stamp is stale | Rerun `make configure`, then build; edit the source authority rather than generated copies |
+| `DIFF` after a source or type change | Keep the evidenced compiler recipe; inspect the named row/image and reduce the change before retrying |
 
-Name-table changes use per-product witnesses in `build/.state/name-inputs/`.
-`ccproc` records identifiers from GCC's actual assembly before canonicalization,
-including unsuccessful lookups; this handles identifiers created by macros and
-token pasting. String directives remain opaque, as in canonicalization itself.
-Configure projects the effective name table onto that vocabulary and writes the
-witness only when its content changes. Thus adding a formerly absent mapping
-invalidates its consumers, while changing an unused row or an evidence comment
-does not invalidate their objects. Both ordinary and native `--names-only`
-compiles record witnesses. SLUS explicitly selects this checkout's default
-noreturn/sibcall tables and binds only their rows whose canonical symbols occur
-in the assembly vocabulary, including membership misses.
-Link witnesses record the alias lookups actually made
-by `symbol_addr`, including misses. The whole name table stays in the independent
-pipeline witness, but is not an object/link tool prerequisite.
-
-These are compile/link products, separate from configure checkpoints. Object
-proofs hash the exact name witness; image origins bind their link witness. SLUS
-C commands now also write content-bound object proofs. `make check` independently
-reprojects every name witness against the current table, then checks the product
-proofs. Refreshing a witness cannot refresh a stale object proof.
-
-SLUS object rules consume a manifest containing only their selected module row;
-retail spans are materialized from the authority root before writing the slice.
-The registered full manifest remains validated during configuration. Inline
-member projections bind their own provenance record instead of the entire inline
-ledger, and still rederive/validate the member from its owner at compile time.
-
-Recipes, frozen evidence, projected source, image JSON and make fragments preserve
-their mtimes when their bytes are unchanged. The makefile includes a digest of its
-remake inputs, so a real metadata change acknowledges itself through changed
-content rather than an unconditional timestamp touch. A successful compile/link
-acknowledges the publication time of its own new witness on its object/image;
-this is separate from configure's content-preserving output writes.
-
-`make configure` verifies content snapshots of the input trees and generated
-files before reusing the build views and make projection. A changed input or a
-missing/edited generated file runs the corresponding generator again. These
-snapshots are private build caches, never gate receipts. Edits to existing
-source/header files reuse unaffected selection records, native recipes, include
-closures and image layouts. Each record binds its source reads by content,
-including inline owners and reviewed storage sources. The shared guard binds
-all authority/configuration inputs, the complete input name/presence set,
-environment and symlink destinations. Adding a local header that shadows an
-include therefore forces fresh resolution. Metadata/tool changes or missing or
-edited generated files discard the checkpoints. Live graph source hashes are
-refreshed on every changed-input configuration.
-
-Bootstrap also reuses verified views for body edits outside its conservative
-module/partition source read set. Include scans share reads within one generation;
-file and resolution probes are checked again before it completes. Projected
-source spans retain the production inline provenance checks. Configuration reuse
-does not replace the compiler, image or `make check` proofs.
-
-For a fresh enumeration without deleting the build, run
-`python3 tools/build/mkbuild.py generate full`. To assert that the current scoped
-projection emits the same generated files and `build.mk` bytes, run:
-
-```sh
-AZURE_MAKE_SCOPED_EQUIVALENCE=1 PYTHONPATH=tools:tools/tests:. \
-  python3 -m unittest -v tools.tests.test_recipe_cache.ProductionEqualityTests
-```
-
-The comparison excludes only the private configure checkpoint and its receipt.
-The regular make unit suite also exercises same-mtime edits, changed include
-closures/cycles, local header shadowing, source symlinks, owner/review reads,
-authority/environment changes, corrupt outputs and inputs changing mid-generation.
-
-Regression tests for these properties: `tools/tests/test_make_negative.py`
-(synthetic parts always run; `AZURE_MAKE_NEGATIVE=1` mutates a built checkout:
-overlay/SLUS constants, comment-only edit, tampered image/object, unlinked image,
-switch-table swap, included-file and projected-span edits, header edit with an
-old mtime; `=full` adds the linker-catalog and shared-header edits).
-
-## Quality levels
-
-The default `tools/levels.py` rule uses current image proof and registered module
-membership with a consumed shared header. L4 additionally retains all existing
-lower-level requirements, zero pins, zero tail jumps, no assembler imitation and
-the compiler cell predicates. L5 adds the unchanged fidelity-site, computed-goto,
-inline asm, NON_MATCHING and compiler-model predicates. A SHA-1 match alone grants
-neither. `tools/status.py` reports this image proof without validating module
-certificates. Missing or stale make proof fails quality regeneration.
-
-For the transition comparison the old rule remains available:
-
-```sh
-python3 tools/levels.py --legacy-certificates --output build/levels_legacy.jsonl
-python3 tools/status.py --legacy-certificates
-```
-
-## Landing
-
-```sh
-tools/land_make.sh --incremental --jobs 8 --message 'Describe change' patch.diff
-```
-
-The lander requires a clean worktree/index, checks and applies the patch series,
-then runs the steps below, stopping before any commit on the first failure (the
-applied tree is kept for diagnosis; logs and timings in `build/landing/`):
-
-1. privacy scrub of every changed/new file, refusing symlinks and binary files;
-2. "no new debt": changed `src/`/`include/` C may not add inline asm, volatile,
-   NON_MATCHING, `#pragma`, goto or `M2C_` tokens beyond its HEAD version
-   (comments and strings ignored; `--allow-debt CATEGORY` records an accepted
-   exception, never for asm; report in `build/landing/debt.json`);
-3. source layout check, registry, physical graph and source index regeneration;
-4. `make configure`, a **cold** clean of every object, link product and image
-   unless `--incremental` is given, `make -jN`, `make check`;
-5. genuine ASPSX required (`--allow-maspsx-only` to accept a maspsx-only run);
-6. content-bound levels and status regeneration (skipped only when their inputs
-   and outputs are unchanged and the current make proof verifies), the make/lander unit tests
-   (`--test-module` adds more), a final scrub and a freshness re-check of the
-   image proof;
-7. exactly one commit (`--no-commit` performs every proof without it).
-
-The default remains cold: omit `--incremental` for the first landing in a
-checkout or when deliberately requesting a complete rebuild. Once `build/` is
-current, `--incremental` is the normal landing mode; every landing still runs
-`make check`, unit tests and the final proof freshness check. After successful
-configuration, the lander acknowledges the generated Makefile's timestamp so
-an orchestration-tool mtime does not repeat the verified generator during the
-following build and check. Input digest stamps advance with content changes. Accounting reuse
-also verifies its output bytes, so a manually edited levels ledger or status
-page is regenerated.
-
-Historical measurements before content-bound configure reuse, at -j12: configure 4-9 min, cold build
-20-24 min, `make check` 20-25 s, no-op make under 1 s, one-file C edit about 8 s
-plus the check; a cold comment-only landing took 33 min.
-
-## Retirement of the window gate and certificates
-
-The one-time dual proof (cold make check and the full window gate on one commit,
-row cross-check, negative suite, certificate renewal and legacy/default levels
-diff) is recorded with the landing that adopts this path. After the owner's
-decision:
-
-| Current step | Disposition | Successor / retained purpose |
-| --- | --- | --- |
-| `gate_all` window loop and receipt collection in landing | REPLACED BY `make check` | Complete images, extra recipe/placement layouts and table-content probes; keep `overlay_local_gate` for candidate diagnostics |
-| `certify_batch` certificates and renewals | RETIRE as a landing requirement | Canonical native whole-TU/genuine checks run inside make; image proof supplies placement bytes; keep manifest membership/type/ownership validation |
-| Certificate `--validate-only` | RETIRE | `make_evidence.checked_receipt` rechecks current inputs and outputs after accounting |
-| Per-window fingerprints and `inputs_sha` | REPLACED BY make compile/image proofs and content-digest stamps | |
-| Source-layout, registry, source-index, physical graph regeneration | STILL NEEDED | Before configure |
-| L4/L5 certificate dependency | RETIRE after the owner rules on the L4 definition | Current checked image + module shared header, then all pin/tail/fidelity predicates |
-| Privacy scrub, debt scan, unit tests, patch admission, one commit | STILL NEEDED | In `land_make` |
-| SLUS image gate | REPLACED BY the SLUS EXE in `make check` | Keep partition/data/allocation validators used by SLUS configuration |
-| Portable certificate packages | RETIRE from landing | Optional future work |
-
-Do not delete the compiler wrappers, native allocation validators, source quality
-predicates, layout/registry data or disc import accounting.
+For a build bug report, include the revision, host/tool versions, command,
+exit status and the first useful failure. Attach compact text logs; omit game
+files, SDK files, binary dumps and local private paths. The
+[contribution guide](../CONTRIBUTING.md#report-a-problem) distinguishes build
+failures, reconstruction errors and preserved [game bugs](BUGS.md).

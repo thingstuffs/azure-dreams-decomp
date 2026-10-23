@@ -12,6 +12,7 @@ for measured coverage and remaining limitations. The
 |---|---|
 | Start reading the game code by feature | [Subsystem reader guides](guide/README.md) |
 | Build and check the complete registered images | [Make build](BUILD.md) |
+| Understand folders, headers, names and types | [Tree layout](LAYOUT.md) |
 | Find a function after the source reorganization | [Source locations](SOURCE_LAYOUT.md) |
 | Understand what a successful match proves | [Proof and quality levels](PLAN.md), then [fidelity limitations](FIDELITY.md) |
 | Improve a function or field name | [Naming evidence](EVIDENCE.md) and [symbol conventions](SYMBOLS.md) |
@@ -19,6 +20,7 @@ for measured coverage and remaining limitations. The
 | Understand repeated code and disc coverage | [Link lists and byte maps](LINK_LISTS.md) |
 | Build all overlay module windows | [Psy-Q requirement](TOOLCHAIN_PSYQ.md) |
 | Review compilation boundaries | [Executable modules](SLUS_MODULES.md), [function partitions](SLUS_PARTITIONS.md), [overlay module placements](LL5_MODULE_PLACEMENTS.md) |
+| Read known game bugs and their community sources | [Known bugs](BUGS.md) (with adrando guide credit) |
 | Choose further work | [Open work](OPEN_ITEMS.md) |
 
 ## How the proof works
