@@ -90,7 +90,7 @@ void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
 void *card_boot_create_slot_selection_menu(void *init_value, s32 unused);
 
 /* card_boot_create_three_row_command_panel.c */
-void *card_boot_create_three_row_command_panel(s32 init_value);
+void *card_boot_create_three_row_command_panel(void *init_value);
 
 /* card_boot_destroy_slot_selection_menu.c */
 void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *object);
@@ -129,7 +129,7 @@ void card_boot_handle_message_dialog_input(struct S_80022524_0 *menu);
 void card_boot_handle_overwrite_answer(void *object_data);
 
 /* card_boot_initialize_paired_choice_layout.c */
-void card_boot_initialize_paired_choice_layout(s32 record_addr);
+void card_boot_initialize_paired_choice_layout(void *record_addr);
 
 /* card_boot_initialize_paired_choice_panel.c */
 void card_boot_initialize_paired_choice_panel(s8 *record, s32 initial_value);
@@ -138,7 +138,7 @@ void card_boot_initialize_paired_choice_panel(s8 *record, s32 initial_value);
 void card_boot_initialize_save_heading_layout(void *object);
 
 /* card_boot_initialize_three_row_command_panel.c */
-void card_boot_initialize_three_row_command_panel(s32 record);
+void card_boot_initialize_three_row_command_panel(void *record, void *init_value);
 
 /* card_boot_layout_five_entry_list.c */
 void card_boot_layout_five_entry_list(void *context);

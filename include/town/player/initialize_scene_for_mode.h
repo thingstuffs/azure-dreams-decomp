@@ -167,7 +167,7 @@ extern void func_80048AC8(void *, s32);
 extern s16 step_angle_12_toward(s16, s16, s32);
 extern s32 view_relative_angle_sector(s16);
 extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
-extern void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(void *, void *, void *);
+#include "town/player/fallback_handler_position_g00541.h"
 
 extern func_80092868_TownState map_runtime_state;
 extern s16 map_scene_selector_alias[];

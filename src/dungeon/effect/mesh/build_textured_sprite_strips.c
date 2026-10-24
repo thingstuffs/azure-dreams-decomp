@@ -21,7 +21,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
     s32 passes_chance;
     u8 *effect_input;
 
-    if (try_trigger_target_record_effect(entity, 2) != 0) {
+    if (try_trigger_target_record_effect(entity, 2, unused_context) != 0) {
         return;
     }
 

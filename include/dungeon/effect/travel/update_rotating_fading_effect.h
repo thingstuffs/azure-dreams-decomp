@@ -130,7 +130,7 @@ extern void func_80024FB0(void);
 extern void create_effect_render_object(void);
 extern void func_800250E0(void);
 extern void func_80025118(void);
-extern s32 try_trigger_target_record_effect(void *, s32);
+#include "dungeon/effect/screen.h"
 extern s32 get_random_scaled_value(s16 input_value);
 extern void apply_clamped_actor_value_delta(void *);
 extern void cap_pending_actor_value_delta(void *);

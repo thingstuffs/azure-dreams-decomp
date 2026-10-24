@@ -7,8 +7,8 @@
 #include "shared/vector.h"
 
 typedef struct {
-    s32 unk0;
-    s32 unk4;
+    void *unk0;
+    void *unk4;
 } Unk99108;
 
 typedef struct Record {
@@ -19,8 +19,8 @@ typedef struct Record {
 } Record;
 
 extern s32 town_position_callback_address[3];
-extern s32 D_800D04A4[];
-extern s32 D_800D04B8[];
+extern void *D_800D04A4[];
+extern void *D_800D04B8[];
 extern Record *find_flagged_record_by_id(void *entry, u32 target_id);
 extern s32 rcos(s32 angle);
 extern s32 rsin(s32 angle);
@@ -30,10 +30,10 @@ extern IntVector3 computed_position;
 extern IntVector3 *town_overlap_origin;
 
 /* Functions defined in this translation unit. */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor);
+void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, void *forwarded_a, void *forwarded_b);
 void clear_global_80100_d_20(void);
 void compute_the_based_position_offset_publishes_resulting_vector(void *object, IntVector3 *offset, void *resources);
-s32 call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index);
-s32 get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused);
+void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index);
+void *get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused);
 
 #endif

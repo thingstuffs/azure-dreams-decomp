@@ -356,7 +356,7 @@ void card_dev_start_next_screen(struct S_8001EC4C_0 *object);
 void card_dev_store_save_xor_checksum(void *gsw);
 
 /* card_dev_store_word.c */
-void card_dev_store_word(s32 *dest, s32 value);
+void card_dev_store_word(void **dest, void *value);
 
 /* card_dev_update_load_slot_highlight.c */
 void card_dev_update_load_slot_highlight(void *record_data);

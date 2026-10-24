@@ -94,8 +94,8 @@ void vm_op_69_set_immediate_value(struct Func8003A7FCState *state);
 void remove_all_controller_nodes(void *controller);
 
 /* service_script_controller.c */
-void func_800352FC(void);
-void service_script_controller(void);
+s32 func_800352FC(void);
+s32 service_script_controller(void);
 
 /* set_flag_if_list_nonempty.c */
 void set_flag_if_list_nonempty(s8 *result_flag);

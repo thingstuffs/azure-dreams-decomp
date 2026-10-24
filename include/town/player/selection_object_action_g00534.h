@@ -74,7 +74,7 @@ extern s32 town_interaction_pending;
 extern void (*town_player_action_callback)(void *object, void *position, void *callback_data);
 extern u8 item_menu_scene_state[];
 
-extern void initialize_scene_action_record(Rec_func_80094268_arg0 *, void *, void *);
+#include "town/player/action_initializers.h"
 
 /* Functions defined in this translation unit. */
 s32 is_town_state_pair_accepted(void);

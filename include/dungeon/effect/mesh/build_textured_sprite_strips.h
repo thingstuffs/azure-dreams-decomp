@@ -528,7 +528,7 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(u8 *, u8 *);
-extern s32 try_trigger_target_record_effect(u8 *, s32);
+#include "dungeon/effect/screen.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);

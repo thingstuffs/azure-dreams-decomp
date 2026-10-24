@@ -13,7 +13,7 @@ void apply_large_random_value_gain(void *target, s32 amount_input, void *owner) 
     s32 base_amount;
     register s32 adjusted_amount;
 
-    if (try_trigger_target_record_effect(target, 2) == 0) {
+    if (try_trigger_target_record_effect(target, 2, owner) == 0) {
         base_amount = get_random_scaled_value(amount_input & 0xFF) + 16;
         adjusted_amount = base_amount;
         if (*(u8 *)((u8 *)target + 0x28) & 2) {

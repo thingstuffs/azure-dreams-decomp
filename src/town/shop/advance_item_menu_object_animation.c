@@ -43,6 +43,7 @@ extern void D_800AE600();
 /* Advance the object position and transition step, then invoke its callback. */
 void advance_item_menu_object_animation(void *object) {
     s32 next_step;
+    void (*callback)(void *);
     s32 scaled_x;
     s32 scaled_y;
     s32 scaled_z;
@@ -64,11 +65,11 @@ void advance_item_menu_object_animation(void *object) {
     if (next_step >= 5) {
         ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AE600;
     }
-    next_step = (s32)((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
-    if (next_step != 0) {
+    callback = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
+    if (callback != 0) {
         /* The only callback ever installed here is tick_item_menu_selection_delay (by
          * change_item_menu_selection), which takes the display payload; tick clears the slot. */
-        ((void (*)(void *))next_step)(object);
+        callback(object);
     }
 }
 

@@ -28,8 +28,8 @@ s32 is_town_state_pair_accepted(void) {
 void initialize_town_context_action(void) {
     ObjectNodeHeader *context = &scene_object_list_anchor;
     initialize_scene_action_record((Rec_func_80094268_arg0 *)((u8 *)context + 0x20),
-                  ((void *)(s32)context->position),
-                  ((void *)(s32)context->sprite));
+                  context->position,
+                  context->sprite);
 }
 
 /* Checks the current selection, displays rejection messages, or creates and selects an object. */

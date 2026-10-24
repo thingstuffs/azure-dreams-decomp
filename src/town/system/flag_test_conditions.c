@@ -1,6 +1,7 @@
 /* Check development flag test records and require all listed flags. */
 
 #include "common.h"
+#include "town/scene/flags/event_checks.h"
 
 typedef struct S_800165E4_0 {
     u8 pad_00[0x10];
@@ -15,7 +16,6 @@ typedef struct S_800165E4_1 {
 } S_800165E4_1;   /* (void *)entry in set_one */
 
 
-extern s32 check_flag_test_record();
 extern void set_flag_test_indexed_bit();
 extern void clear_indexed_flag_unless_identifier();
 
@@ -29,15 +29,12 @@ s32 set_one(S_800165E4_0 *tableOwner, s32 entryIndex) {
         entryAddress = entryIndex + tableOwner->unk_10;
     } while (0);
     entryValue = ((S_800165E4_1 *)((void *)entryAddress))->unk_0C;
-    if (entryValue == 0) {
-        return 0;
+    if (entryValue != 0 && check_flag_test_record(tableOwner) != 0) {
+        set_flag_test_indexed_bit(entryValue);
+        clear_indexed_flag_unless_identifier(tableOwner->unk_18);
+        return 1;
     }
-    if (check_flag_test_record() == 0) {
-        return 0;
-    }
-    set_flag_test_indexed_bit(entryValue);
-    clear_indexed_flag_unless_identifier(tableOwner->unk_18);
-    return 1;
+    return 0;
 }
 
 extern s32 select_data_array_based_flag(s16);

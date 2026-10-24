@@ -14,13 +14,13 @@ typedef struct S_800238D4_1 {
 extern void process_nonzero(void *record);
 extern void func_800237EC(void *state, s32 value);
 extern s32 card_boot_link_three_row_panel_entries(void *input);
-extern void card_boot_initialize_three_row_command_panel(void *state, s32 init_value);
+#include "frontend/libcard/interfaces.h"
 extern void card_boot_animate_three_row_selection(void *state);
 
 extern u8 menu_backdrop_tag[];
 
 /* Creates or resets the object, initializes its state, and runs its update callback. */
-void *card_boot_create_three_row_command_panel(s32 init_value)
+void *card_boot_create_three_row_command_panel(void *init_value)
 {
     ObjectNodeHeader *object;
     u8 *state;

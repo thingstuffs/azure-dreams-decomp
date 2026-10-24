@@ -17,7 +17,7 @@ extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
-extern s32 try_trigger_target_record_effect(void *, s32);
+#include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
@@ -35,7 +35,7 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
     s32 message;
     s32 message_start;
 
-    if (try_trigger_target_record_effect(target, 4) == 0) {
+    if (try_trigger_target_record_effect(target, 4, unused) == 0) {
         /*
          * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.

@@ -7,28 +7,29 @@
  * match for town_position_callback_address. Clears town_overlap_origin when neither key list
  * matches.
  */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor)
+void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, void *forwarded_a, void *forwarded_b)
 {
-    s32 *key_cursor;
-    s32 entry_key;
+    void **key_cursor;
+    void **match_cursor;
+    void *entry_key;
 
     key_cursor = D_800D04A4;
     if (*key_cursor != 0) {
         do {
             entry_key = entry->unk0;
             if (entry_key == *key_cursor) {
-                if (entry_key == (s32)town_position_callback_address) {
+                if (entry_key == town_position_callback_address) {
                     match_cursor = D_800D04B8;
                     if (*match_cursor != 0) {
                         do {
                             if (entry->unk4 == *match_cursor++) {
-                                compute_the_based_position_offset_publishes_resulting_vector(entry, (IntVector3 *)forwarded_a, (void *)forwarded_b);
+                                compute_the_based_position_offset_publishes_resulting_vector(entry, forwarded_a, forwarded_b);
                                 return;
                             }
                         } while (*match_cursor != 0);
                     }
                 } else {
-                    compute_the_based_position_offset_publishes_resulting_vector(entry, (IntVector3 *)forwarded_a, (void *)forwarded_b);
+                    compute_the_based_position_offset_publishes_resulting_vector(entry, forwarded_a, forwarded_b);
                     return;
                 }
             }
@@ -56,7 +57,7 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
     s32 height;
 
     record = find_flagged_record_by_id(
-        (void *)call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, (u8 *)*(s32 *)((u8 *)object + 0x1C), 4), 0);
+        call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
         angle = (*(u16 *)((u8 *)object + 0x10) - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
@@ -73,15 +74,20 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
 }
 
 /* Passes an indexed byte and the object's signed field to get_second_word_indexed_entry_in_s_nested_table. */
-s32 call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index) {
+void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index) {
     return get_second_word_indexed_entry_in_s_nested_table(object, values[index], ((s8 *)object)[4], 0);
 }
 
 /* Return the second word of an indexed entry in the record's nested table. */
-s32 get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused) {
+void *get_second_word_indexed_entry_in_s_nested_table(void *record, s32 row_index, s32 entry_index, s32 unused) {
+    typedef struct {
+        s32 unk_00;
+        void *data;
+    } ResourceEntry;
     u8 *table_handle = *(u8 **)((u8 *)record + 0x28);
     u8 *table_ref = *(u8 **)table_handle;
-    u8 *rows = *(u8 **)table_ref;
-    u8 *entries = *(u8 **)(((s32)(row_index << 0x10) >> 0xE) + (s32)rows);
-    return *(s32 *)(entries + ((s32)(entry_index << 0x10) >> 0xD) + 4);
+    ResourceEntry **rows = *(ResourceEntry ***)table_ref;
+    ResourceEntry *entries = rows[(s16)row_index];
+    entries += (s16)entry_index;
+    return entries->data;
 }

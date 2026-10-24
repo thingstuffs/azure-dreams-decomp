@@ -22,7 +22,7 @@ const u8 level_not_decreased_suffix[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x
 const Rect D_80024038 = {832,256,96,88};
 const Rect rising_effect_texture_rect = {832,256,2,2};
 
-extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
+#include "dungeon/effect/screen.h"
 extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
 extern void adjust_source_value_and_finalize(void *context, void *source);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
@@ -55,7 +55,7 @@ void try_lower_actor_level(void *target, s32 threshold_arg, void *owner_context)
     s32 value_index;
     s32 threshold;
 
-    if (try_trigger_target_record_effect(target, 4) != 0) {
+    if (try_trigger_target_record_effect(target, 4, owner_context) != 0) {
         return;
     }
 
