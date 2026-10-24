@@ -8,11 +8,6 @@ u32 points_within_squared_threshold(s32 input_1, s32 input_2, s32 threshold)
 {
     s32 threshold_value;
 
-    if (threshold_value) {
-        threshold_value = threshold;
-        return squared_distance_3s(input_1, input_2) < (u32)(threshold_value * threshold_value);
-    } else {
-        threshold_value = threshold;
-        return squared_distance_3s(input_1, input_2) < (u32)(threshold_value * threshold_value);
-    }
+    threshold_value = threshold;
+    return squared_distance_3s(input_1, input_2) < (u32)(threshold_value * threshold_value);
 }

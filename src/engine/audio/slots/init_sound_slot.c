@@ -5,7 +5,7 @@
 typedef struct {
     /* 0x00 */ s16 marker;
     /* 0x02 */ s16 unk02;
-    /* 0x04 */ s32 unk04;
+    /* 0x04 */ void *unk04;
     /* 0x08 */ s32 unk08;
     /* 0x0C */ s32 unk0C;
     /* 0x10 */ s32 unk10;
@@ -59,7 +59,7 @@ s32 init_sound_slot(Sound *sound, s16 requested_slot)
     result_index = slot_index;
     slot = &audio_bank_slots[result_index];
     slot->marker = slot_index;
-    slot->unk04 = (s32)sound;
+    slot->unk04 = sound;
     slot->unk08 = (sound->unk12 << 9) + 0xA20;
     slot->unk14 = sound->unk0C - slot->unk08;
     slot->unk18 = sound->unk18;

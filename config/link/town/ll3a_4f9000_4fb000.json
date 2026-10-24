@@ -8,6 +8,20 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_scene_4f9000",
   "entries": [
     {
+      "row": "town/func_805790C0",
+      "home": "town/func_806C5968",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "foff": "0x4F90C0",
+      "vma": "0x800160C0",
+      "size": 56,
+      "evidence": "docs/evidence/r124w_carve1_run5.md",
+      "bindings": {
+        "0x80018E34": "0x800174C0",
+        "0x800190B4": "0x800175A8",
+        "0x800182E4": "0x80016B10"
+      }
+    },
+    {
       "row": "town/func_805790F8",
       "home": "town/func_800B0DB0",
       "tu": "src/town/shop/item/item_menu_return_zero.c",

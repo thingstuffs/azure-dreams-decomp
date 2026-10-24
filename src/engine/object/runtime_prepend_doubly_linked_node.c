@@ -14,14 +14,14 @@ typedef struct S_80035068_3 {
 
 typedef struct S_80035068_0 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    void *unk_04;
     void * unk_08;
 } S_80035068_0;   /* arg1 in runtime_prepend_doubly_linked_node */
 
 
 /* Insert a node at the front of the owner's doubly linked list. */
 void runtime_prepend_doubly_linked_node(void *owner, S_80035068_0 *node) {
-    node->unk_04 = (s32) (owner + 8);
+    node->unk_04 = owner + 8;
     node->unk_08 = (void *) ((Rec_func_80034F58_arg0 *)owner)->unk_10;
     ((S_80035068_3 *)(((Rec_func_80034F58_arg0 *)owner)->unk_10))->unk_04 = node;
     ((Rec_func_80034F58_arg0 *)owner)->unk_10 = node;

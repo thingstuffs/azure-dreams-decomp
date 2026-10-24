@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_r124w5_ball_1834824",
+  "container": "dungeon",
+  "foff": "0x1834824",
+  "size": 604,
+  "vma": "0x80024024",
+  "evidence": "docs/evidence/r124w_carve1_run5.md",
+  "entries": [
+    {
+      "row": "dungeon/func_81814824",
+      "home": "dungeon/func_81814824",
+      "tu": "src/dungeon/effect/motion/draw_ball_effect_points.c",
+      "foff": "0x1834824",
+      "vma": "0x80024024",
+      "size": 604,
+      "evidence": "docs/evidence/r124w_carve1_run5.md"
+    }
+  ]
+}

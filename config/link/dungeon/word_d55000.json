@@ -21,6 +21,12 @@
     }
   ],
   "census": {
-    "proven_data": 4
+    "proven_code": 0,
+    "library_code": 0,
+    "strongly_code": 0,
+    "proven_data": 4,
+    "noncode_typing_pending": 0,
+    "padding_leftover": 0,
+    "unknown": 0
   }
 }

@@ -10619,3 +10619,12 @@
 0x800163C4	func_800163C4	set_entry_flag_if_5c7	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
 0x80016CC4	func_80016CC4	set_script_flag_94c	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
 0x80016214	func_80016214	start_keima_and_clear_flag	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80023730	func_80023730	init_card_continue_templates	docs/evidence/r124w_carve1_run5.md: complete live section
+0x800237EC	func_800237EC	init_card_continue_nodes	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80023EF4	func_80023EF4	init_card_slot_list_nodes	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80024C70	func_80024C70	init_card_file_list_nodes	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80024D18	func_80024D18	init_card_file_list_panel	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80016110	func_80016110	lookup_keima_entry	docs/evidence/r124w_carve1_run5.md: complete live section
+0x800B1434	func_800B1434	load_menu_display_resource	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80017BDC	func_80017BDC	process_entry_with_exit_flag	docs/evidence/r124w_carve1_run5.md: complete live section
+0x80024024	func_80024024	draw_ball_effect_points	docs/evidence/r124w_carve1_run5.md: complete live section

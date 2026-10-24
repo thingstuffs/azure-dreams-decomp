@@ -13,7 +13,7 @@ int resolve_indexed_value(int index)
     s32 value;
     s32 value_code;
     if (is_type_twenty(index)) {
-        value = *((s32 *) (((u8 *) ((s32)primary_actor_record)) + 0x124));
+        value = *((s32 *) (((u8 *)primary_actor_record) + 0x124));
     }
     else {
         value = familiar_record_slots[index];

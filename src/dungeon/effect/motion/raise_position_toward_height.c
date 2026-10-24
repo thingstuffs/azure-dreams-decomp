@@ -117,8 +117,8 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
 
     for (;;) {
         tile = (PointPacket *)scratch->cursor;
-        scratch->x = (u16)position->x.w.i;
-        scratch->y = (u16)position->y.w.i;
+        scratch->x = position->x.w.i;
+        scratch->y = position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = RotTransPers(scratch, &tile->data,
@@ -127,19 +127,19 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
         if (scratch->index < 0x1E0U) {
             *(u32 *)&tile->r = point->color;
 
-            color_value = (s32)tile->r * point->brightness;
+            color_value = tile->r * point->brightness;
             if (color_value < 0) {
                 color_value += 0xFF;
             }
             tile->r = color_value >> 8;
 
-            color_value = (s32)tile->g * point->brightness;
+            color_value = tile->g * point->brightness;
             if (color_value < 0) {
                 color_value += 0xFF;
             }
             tile->g = color_value >> 8;
 
-            color_value = (s32)tile->b * point->brightness;
+            color_value = tile->b * point->brightness;
             if (color_value < 0) {
                 color_value += 0xFF;
             }

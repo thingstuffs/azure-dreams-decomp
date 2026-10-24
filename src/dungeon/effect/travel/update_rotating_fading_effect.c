@@ -5,7 +5,7 @@
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_travel_effect;
+void (*const dungeon_ovl_18ca83c_entry)(void *effect, void *motion, void *appearance) = advance_target_travel_effect;
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
    applies it. */

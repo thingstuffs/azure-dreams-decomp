@@ -7923,3 +7923,12 @@
 {"id":"town/func_8051EBC4","path":"src/town/scene/flags/set_entry_flag_if_5c7.c"}
 {"id":"town/func_8070DCC4","path":"src/town/scene/flags/set_script_flag_94c.c"}
 {"id":"town/func_8054FA14","path":"src/town/scene/service/start_keima_and_clear_flag.c"}
+{"id":"main/func_80010730","path":"src/frontend/libcard/message/init_card_continue_templates.c"}
+{"id":"main/func_800107EC","path":"src/frontend/libcard/message/init_card_continue_nodes.c"}
+{"id":"main/func_80010EF4","path":"src/frontend/libcard/message/init_card_slot_list_nodes.c"}
+{"id":"main/func_80011C70","path":"src/frontend/libcard/message/init_card_file_list_nodes.c"}
+{"id":"main/func_80011D18","path":"src/frontend/libcard/init_card_file_list_panel.c"}
+{"id":"town/func_8054F910","path":"src/town/scene/lookup_keima_entry.c"}
+{"id":"town/func_800B3CD4","path":"src/town/menu/load_menu_display_resource.c"}
+{"id":"town/func_8032D3DC","path":"src/town/scene/flags/process_entry_with_exit_flag.c"}
+{"id":"dungeon/func_81814824","path":"src/dungeon/effect/motion/draw_ball_effect_points.c"}

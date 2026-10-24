@@ -1142,13 +1142,13 @@
       "size": 192
     },
     {
-      "row": "town/func_80013D48",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x33D48",
-      "vma": "0x800b14a8",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "town/func_800B3CD4",
+      "home": "town/func_800B3CD4",
+      "tu": "src/town/menu/load_menu_display_resource.c",
+      "foff": "0x33CD4",
+      "vma": "0x800B1434",
+      "size": 124,
+      "evidence": "docs/evidence/r124w_carve1_run5.md"
     },
     {
       "row": "town/func_800B41D8",

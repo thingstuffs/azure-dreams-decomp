@@ -72,4 +72,7 @@ void set_indexed_scene_entry_flag(void *object, s32 entry_index);
 extern u8 D_8001798C[];
 extern u8 *D_80017AA4;
 
+struct Rec_func_800165F4_arg0;
+void process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
+
 #endif

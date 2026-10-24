@@ -12,7 +12,7 @@ void initialize_three_component_interpolation(void *state_data, u16 *target, s32
     *(s32 *)((s8 *)state + 0x14) = 0;
     *(s32 *)((s8 *)state + 0x1C) = 0;
     if (duration != 0) {
-        *(s32 *)((s32)state + 0x18) = 0x400 / duration;
+        *(s32 *)((s8 *)state + 0x18) = 0x400 / duration;
     } else {
         *(s32 *)((s8 *)state + 0x18) = 0x1000;
     }

@@ -70,4 +70,15 @@ struct CardChoiceOwner;
 void init_card_choice_templates(void *entry_data, void *block_data, void *vector_data);
 void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
 
+struct CardContinueNodes;
+struct CardSlotListNodes;
+struct CardFileListNodes;
+union CardContinueBlock;
+struct CardContinueVector;
+struct CardContinueEntry;
+void init_card_continue_nodes(struct CardContinueNodes *, s32);
+void init_card_slot_list_nodes(struct CardSlotListNodes *, s32);
+void init_card_file_list_nodes(struct CardFileListNodes *, s32);
+void init_card_continue_templates(struct CardContinueEntry *, union CardContinueBlock *, struct CardContinueVector *);
+
 #endif

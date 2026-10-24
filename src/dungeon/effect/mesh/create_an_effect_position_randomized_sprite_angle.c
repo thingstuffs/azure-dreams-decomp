@@ -5,7 +5,7 @@
 #include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_toward_target_along_direction_advances_action_phases;
+void (*const dungeon_ovl_1930844_entry)(void *state, void *motion, void *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */

@@ -21,4 +21,8 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
 void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, void *animation, ActorRecord *actor);
 void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
+struct PointRecord;
+struct ObjectPosition;
+s32 draw_ball_effect_points(struct PointRecord *, struct ObjectPosition *);
+
 #endif

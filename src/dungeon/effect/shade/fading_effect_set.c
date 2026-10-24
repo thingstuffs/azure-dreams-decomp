@@ -7,7 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "shared/game_work.h"
-void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
+void (*const dungeon_ovl_188898c_entry)(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data) = move_linked_effect_along_path;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {

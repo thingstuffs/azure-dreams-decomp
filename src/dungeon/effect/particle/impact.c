@@ -4,7 +4,7 @@
 struct ObjectPosition;
 #include "dungeon/effect/particle/impact.h"
 #include "shared/sprite_frame_state.h"
-void (* const dungeon_19de800_entry)(void *, void *, void *) = advance_particle_fade_and_cleanup;
+void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections impact_grid_offsets[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
 const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};

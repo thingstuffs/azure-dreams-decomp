@@ -16,18 +16,10 @@ s32 check_record_flag_if_unblocked(void *record)
     void *record_copy;
     int initial_result;
     void *flag_record;
-    if (initial_result) {
-        initial_result = 0;
-        flag_set = initial_result;
-        record_copy = record;
-        flag_record = record_copy;
-    }
-    else {
-        initial_result = 0;
-        flag_set = initial_result;
-        record_copy = record;
-        flag_record = record_copy;
-    }
+    initial_result = 0;
+    flag_set = initial_result;
+    record_copy = record;
+    flag_record = record_copy;
     if (get_script_flag_mask(scene_gate_script_flag) == 0) {
         flag_set = get_script_flag_mask(*(s16 *) (((s8 *) flag_record) + 0x18)) != 0;
     }

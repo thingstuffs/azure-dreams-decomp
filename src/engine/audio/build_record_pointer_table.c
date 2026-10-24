@@ -18,7 +18,7 @@ typedef struct S_80055ADC_arg0
     u8 records[1];
 }
 S_80055ADC_arg0;
-extern u32 audio_selection_record_pointers[];
+extern void *audio_selection_record_pointers[][16];
 // Fills a 16-entry table with record payload pointers, repeating the first pointer for unused slots.
 void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
 {
@@ -28,15 +28,15 @@ void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
     u32 recordOffset = 0x14;
     s32 recordCount;
     s32 slotIndex;
-    u32 *outputSlot;
-    u32 *firstSlot;
+    void **outputSlot;
+    void **firstSlot;
 
     recordCount = (recordBlock->count);
     slotIndex = 0;
     tableByteOffset &= 0xFFFF;
     tableBase = (u8 *)audio_selection_record_pointers;
-    tableByteOffset <<= 6;
-    outputSlot = (u32 *)(tableBase + tableByteOffset);
+    tableByteOffset <<= 4;
+    outputSlot = (void **)tableBase + tableByteOffset;
     firstSlot = outputSlot;
     for (; slotIndex < 16; slotIndex++) {
         recordHeaderSize = 0x10;
@@ -46,7 +46,7 @@ void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
         }
         else {
             S_80055ADC_hdr *recordHeader = (S_80055ADC_hdr *) (((u8 *) recordBlock) + recordOffset);
-            *outputSlot = (u32) (((u8 *) recordHeader) + recordHeaderSize);
+            *outputSlot = ((u8 *) recordHeader) + recordHeaderSize;
             recordOffset = (recordOffset + recordHeaderSize) + recordHeader->len;
         }
         outputSlot++;

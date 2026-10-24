@@ -152,7 +152,7 @@ void apply_sound_selections_and_update(void)
                 selection = (u16)active[3];
                 SD_Call(selection);
             } else if (scene_music_hold[0] == 0) {
-                ((void (*)(s32))SD_Call)(0x71);
+                SD_Call(0x71);
                 drain_audio_commands_and_service_channels();
                 selection = (u16)active[3];
                 SD_Call(selection);

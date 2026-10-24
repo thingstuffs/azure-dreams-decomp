@@ -165,6 +165,15 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
+      "row": "town/func_8032D3DC",
+      "home": "town/func_8032D3DC",
+      "tu": "src/town/scene/flags/process_entry_with_exit_flag.c",
+      "foff": "0x2AD3DC",
+      "vma": "0x80017BDC",
+      "size": 88,
+      "evidence": "docs/evidence/r124w_carve1_run5.md"
+    },
+    {
       "row": "town/func_8028D54C",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
