@@ -1,8 +1,6 @@
-#include "common.h"
+#include "town/map/camera.h"
 
-extern s32 town_camera_chase_state[];
-extern u8 town_position_reference_state[];
-/* Sets the town camera chase target to town_position_reference_state. */
+/* Restore the default camera target. */
 void tcame_chase_tgt_reset(void) {
-    *town_camera_chase_state = (s32) town_position_reference_state;
+    town_camera_chase_state.target = &town_position_reference_state;
 }

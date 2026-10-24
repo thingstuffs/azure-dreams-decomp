@@ -14,7 +14,7 @@ typedef s32 Callback(s32);
 
 typedef s32 (*TownPairCallback)(s32, s32);
 
-typedef s32 (*EventOpcodeHandler)(void);
+typedef void *(*EventOpcodeHandler)(void);
 
 typedef struct S_80019560_0 {
     u8 pad_00[0x20];
@@ -25,26 +25,26 @@ typedef struct S_80019560_0 {
 
 extern s32 func_8001E82C(void);
 extern u8 D_80018A30[];
-extern s32 D_80018448[];
-extern M2C_UNK D_800186A8;
+extern void *D_80018448[];
+extern void *D_800186A8[];
 /* extern */
 void process_history_entries_by_mode(void);
 /* extern */
 void func_8001E578(s32);
 /* extern */
 extern s16 D_800178BA[0x10];
-extern EventOpcodeHandler D_800178E8[0x100];
-extern s32 D_8001E95C[0x10];
+extern EventOpcodeHandler D_800178E8[4];
+extern void *D_8001E95C[0x10];
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u32 func_8001E670(s32 condition_id);
 extern void func_8001E5F0(s32 event_flag_id);
 
 /* Functions defined in this translation unit. */
-s32 call_reset_dispatch_state_flags(s32 first_value, s32 second_value);
-u8 *tick_shop_event_state(void);
-s32 query_event_state_or_reset(void);
-s32 get_callback_selected_table_value(void);
+void *call_reset_dispatch_state_flags(void);
+void *tick_shop_event_state(void);
+void *query_event_state_or_reset(void);
+void *get_callback_selected_table_value(void);
 void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3);
 void reset_dispatch_state_and_flags(void);
 

@@ -3,7 +3,7 @@
 #include "town/person/person_object_lifecycle_g00659.h"
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
-void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, s32 position, s32 motion) {
+void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion) {
     s32 check_result;
     s8 *state_flag;
 
@@ -26,7 +26,7 @@ void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, s32 posit
 }
 
 /* Selects state data, invokes the object callback, and updates motion data and flags. */
-void update_object_motion_and_flags(TargetObj *obj, s32 callback_arg, void *motion_data) {
+void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data) {
     s32 table_index;
     u8 state;
 

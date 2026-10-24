@@ -20,7 +20,7 @@ typedef struct {
     u8 pad0[0x0C];
     s32 *field0c;
     u8 pad10[0x40];
-    s32 (*callback)(void *, s32, void *);
+    void (*callback)(void *, void *, void *);
     u8 pad54[0x10];
     s16 field64;
     u8 pad66[0x0A];
@@ -38,7 +38,7 @@ typedef void (*FuncPtr)(void *, void *, void *);
 struct Rec_func_8008F074_arg0;
 
 void unlink_node_if_registered(void *block_data);
-s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, s32);
+s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, void *);
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
 void call_object_callback(S_800C3960_0 *object, s32 context, void *motion);
@@ -55,8 +55,8 @@ void register_node_if_unregistered(void *block_data, s32 registration_id);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 
 /* Functions defined in this translation unit. */
-void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, s32 position, s32 motion);
-void update_object_motion_and_flags(TargetObj *obj, s32 callback_arg, void *motion_data);
+void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion);
+void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data);
 void dispatch_object_state(void *object, void *context, void *dispatch_data);
 void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, s32 animation);
 

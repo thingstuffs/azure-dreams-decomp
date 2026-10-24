@@ -5,28 +5,28 @@
 
 /* tcame_lock: Save and clear the two camera lock values. */
 void tcame_lock(void) {
-    s32 lock_value_0;
-    s32 lock_value_1;
+    TownCameraCallback lock_value_0;
+    TownCameraCallback lock_value_1;
 
-    lock_value_0 = town_camera_chase_state[9];
-    lock_value_1 = town_camera_chase_state[10];
-    town_camera_chase_state[9] = 0;
-    town_camera_chase_state[10] = 0;
+    lock_value_0 = town_camera_chase_state.select_target;
+    lock_value_1 = town_camera_chase_state.track_target;
+    town_camera_chase_state.select_target = 0;
+    town_camera_chase_state.track_target = 0;
     saved_camera_callbacks[0] = lock_value_0;
     saved_camera_callbacks[1] = lock_value_1;
 }
 
 /* tcame_return: copy the saved camera values into script state slots 9 and 10. */
 void tcame_return(void) {
-    town_camera_chase_state[9] = saved_camera_callbacks[0];
-    town_camera_chase_state[10] = saved_camera_callbacks[1];
+    town_camera_chase_state.select_target = saved_camera_callbacks[0];
+    town_camera_chase_state.track_target = saved_camera_callbacks[1];
 }
 
 /* tcame_return_plus: return the camera and clear its secondary state word. */
 void tcame_return_plus(void) {
-    s32 *camera_state = &town_camera_chase_state[0];
+    TownCameraState *camera_state = &town_camera_chase_state;
 
     tcame_return();
 
-    *(s32 *)((s8 *)camera_state + 4) = 0;
+    camera_state->previous_target = 0;
 }

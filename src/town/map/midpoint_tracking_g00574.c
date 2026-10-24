@@ -4,27 +4,27 @@
 #include "town/map/midpoint_tracking_g00574.h"
 
 /* Restart tracking when the current point changes; otherwise update the midpoint. */
-void restart_or_update_midpoint_tracking(Func800A75ECState *state) {
-    s32 *current;
+void restart_or_update_midpoint_tracking(TownCameraState *state) {
+    IntVector3 *current;
 
-    current = state->current;
-    if (current != state->previous) {
-        state->unk20 = 9;
-        state->callback = (void (*)(void *))reset_or_advance_target_midpoint;
+    current = state->target;
+    if (current != state->previous_target) {
+        state->steps = 9;
+        state->track_target = reset_or_advance_target_midpoint;
         state->unk14 = 0;
         state->unk18 = 0;
-        state->unk1c = 0;
-        state->previous = state->current;
-        reset_or_advance_target_midpoint((TownTransition *)state);
+        state->unk1C = 0;
+        state->previous_target = state->target;
+        reset_or_advance_target_midpoint(state);
         return;
     }
-    state->center_x = (current[0] + state->other[0]) / 2;
-    state->center_y = (state->current[1] + state->other[1]) / 2;
-    state->center_z = (state->current[2] + state->other[2]) / 2;
+    state->x = (current->x + state->other->x) / 2;
+    state->y = (state->target->y + state->other->y) / 2;
+    state->z = (state->target->z + state->other->z) / 2;
 }
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
-void reset_or_advance_target_midpoint(TownTransition *state) {
+void reset_or_advance_target_midpoint(TownCameraState *state) {
     IntVector3 *target;
 
     target = state->target;
@@ -34,20 +34,14 @@ void reset_or_advance_target_midpoint(TownTransition *state) {
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = state->target;
-        restart_or_update_midpoint_tracking((Func800A75ECState *)state);
+        restart_or_update_midpoint_tracking(state);
         return;
     }
-
-    state->x += (((target->x + state->other->x) / 2) - state->x) /
-                state->steps;
-    state->y +=
-        (((state->target->y + state->other->y) / 2) - state->y) /
-        state->steps;
-    state->z +=
-        (((state->target->z + state->other->z) / 2) - state->z) /
-        state->steps;
+    state->x += (((target->x + state->other->x) / 2) - state->x) / state->steps;
+    state->y += (((state->target->y + state->other->y) / 2) - state->y) / state->steps;
+    state->z += (((state->target->z + state->other->z) / 2) - state->z) / state->steps;
     state->steps--;
     if (state->steps <= 0) {
-        state->callback = (void (*)(void *, void *))restart_or_update_midpoint_tracking;
+        state->track_target = restart_or_update_midpoint_tracking;
     }
 }

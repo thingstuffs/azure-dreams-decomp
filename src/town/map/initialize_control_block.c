@@ -1,14 +1,8 @@
-#include "common.h"
+#include "town/map/camera.h"
 #include "shared/entity_objects.h"
-#include "shared/vector.h"
 
-
-extern IntVector3 town_position_reference_state;
-extern u8 map_control_handler_address[];
-extern void initialize_transition_state(void *);
-
-/* Copy the default state and initialize the supplied control block. */
-void initialize_control_block(void *control) {
+/* Copy the default position and initialize the primary camera callbacks. */
+void initialize_control_block(TownCameraState *control) {
     IntVector3 *dst = &town_position_reference_state;
     s32 value;
 
@@ -16,7 +10,7 @@ void initialize_control_block(void *control) {
     value = view_reference_entity.y.v;
     dst->z = view_reference_entity.z.v;
     dst->y = value;
-    *(void **)((u8 *)control + 0x24) = map_control_handler_address;
-    *(s32 *)((u8 *)control + 0x30) = 0;
+    control->select_target = set_object_callback_when_active;
+    control->override_target = 0;
     initialize_transition_state(control);
 }

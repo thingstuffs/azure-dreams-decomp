@@ -4,52 +4,46 @@
 #include "town/map/target_interpolation_g00573.h"
 
 /* Reset state when the value source changes; otherwise copy its three values. */
-void reset_or_copy_state_values(UnkStruct_800A7434 *state) {
-    s32 *values;
+void reset_or_copy_state_values(TownCameraState *state) {
+    IntVector3 *values;
 
-    values = state->unk00;
-    if (values != state->unk04) {
-        state->unk20 = 9;
-        state->unk28 = (void (*)(void))restart_or_advance_target_interpolation;
+    values = state->target;
+    if (values != state->previous_target) {
+        state->steps = 9;
+        state->track_target = restart_or_advance_target_interpolation;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
-        state->unk04 = values;
-        restart_or_advance_target_interpolation((S_800A4C10_0 *)state);
+        state->previous_target = values;
+        restart_or_advance_target_interpolation(state);
         return;
     }
-    state->unk08 = values[0];
-    state->unk0C = state->unk00[1];
-    state->unk10 = state->unk00[2];
+    state->x = values->x;
+    state->y = state->target->y;
+    state->z = state->target->z;
 }
 
 /* Restart interpolation when the target changes, otherwise advance toward its position. */
-void restart_or_advance_target_interpolation(S_800A4C10_0 *state) {
+void restart_or_advance_target_interpolation(TownCameraState *state) {
     s32 steps_left;
-    S_800A4C10_1 *target;
+    IntVector3 *target;
 
-    target = state->unk_00;
-    if (target != state->unk_04) {
-        state->unk_20 = 9;
-        state->unk_14 = 0;
-        state->unk_18 = 0;
-        state->unk_1C = 0;
-        state->unk_04 = target;
-        reset_or_copy_state_values((UnkStruct_800A7434 *)state);
+    target = state->target;
+    if (target != state->previous_target) {
+        state->steps = 9;
+        state->unk14 = 0;
+        state->unk18 = 0;
+        state->unk1C = 0;
+        state->previous_target = target;
+        reset_or_copy_state_values(state);
         return;
     }
-    state->unk_08 +=
-        (target->unk_00 - state->unk_08) /
-        state->unk_20;
-    state->unk_0C +=
-        (((S_800A4C10_2 *)(state->unk_00))->unk_04 - state->unk_0C) /
-        state->unk_20;
-    state->unk_10 +=
-        (((S_800A4C10_2 *)(state->unk_00))->unk_08 - state->unk_10) /
-        state->unk_20;
-    steps_left = state->unk_20 - 1;
-    state->unk_20 = steps_left;
+    state->x += (target->x - state->x) / state->steps;
+    state->y += (state->target->y - state->y) / state->steps;
+    state->z += (state->target->z - state->z) / state->steps;
+    steps_left = state->steps - 1;
+    state->steps = steps_left;
     if (steps_left <= 0) {
-        state->unk_28 = (s32 *)&reset_or_copy_state_values;
+        state->track_target = reset_or_copy_state_values;
     }
 }

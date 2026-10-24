@@ -1,9 +1,6 @@
-#include "common.h"
+#include "town/map/camera.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 town_camera_chase_setting;
-
-/* tcame_chase_fix: set the camera chase fix value. */
-void tcame_chase_fix(s32 value) {
-    town_camera_chase_setting = value;
+/* Use the supplied position as the camera target override. */
+void tcame_chase_fix(IntVector3 *target) {
+    town_camera_chase_state.override_target = target;
 }
