@@ -30,6 +30,19 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8069752C",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x61752C",
+      "vma": "0x8001652c",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x80018A7C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80697564",
       "tu": "src/town/shop/check_shop_value_threshold.c",
       "home": "town/func_8067F564",
@@ -76,31 +89,42 @@
     },
     {
       "row": "town/func_80697764",
-      "tu": "src/town/scene/check_record_value_meets_threshold.c",
-      "home": "town/func_80480494",
+      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "home": "town/func_8032E22C",
       "foff": "0x617764",
       "vma": "0x80016764",
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019438": "0x80018AE0",
-        "0x80016494": "0x80016764"
+        "0x8001C368": "0x80018AE0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_80480494 onto town/func_8032E22C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_8069778C",
-      "tu": "src/town/scene/money/subtract_cached_value_from_money.c",
-      "home": "town/func_805D39AC",
+      "tu": "src/town/scene/tick_scene_state_counter.c",
+      "home": "town/func_804804BC",
       "foff": "0x61778C",
       "vma": "0x8001678C",
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019B00": "0x80018AE0",
-        "0x805D39AC": "0x8001678C"
+        "0x80019438": "0x80018AE0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_805D39AC onto town/func_804804BC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+    },
+    {
+      "row": "town/func_806977B4",
+      "tu": "src/town/scene/add_global_increment_current_state.c",
+      "home": "town/func_804713B8",
+      "foff": "0x6177B4",
+      "vma": "0x800167b4",
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x8001B210": "0x80018AE0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80697834",
@@ -937,16 +961,15 @@
     },
     {
       "row": "town/func_806997D8",
-      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte_c.c",
-      "home": "town/func_804827DC",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
       "foff": "0x6197D8",
       "vma": "0x800187D8",
       "size": 72,
       "bindings": {
-        "0x80016000": "0x80016000",
-        "0x800187DC": "0x800187D8"
+        "0x80016000": "0x80016000"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_804827DC onto town/func_804737B0; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_80699820",

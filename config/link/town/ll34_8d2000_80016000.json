@@ -89,6 +89,19 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_80952598",
+      "tu": "src/town/scene/flags/check_record_flag_if_global_clear.c",
+      "home": "town/func_8094D4D8",
+      "foff": "0x8D2598",
+      "vma": "0x80016598",
+      "size": 88,
+      "bindings": {
+        "0x80016036": "0x8001607E",
+        "0x80016C38": "0x80016CF8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_809525F0",
       "tu": "src/town/system/flag_test_conditions.c",
       "home": "town/func_806D2DE4",

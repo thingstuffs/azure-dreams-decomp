@@ -36,7 +36,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80158A50[];
-extern u8 D_80158E7C;
+extern u8 griffon_slot_c_action_callback;
 extern u8 D_8015CC3C[];
 extern u8 D_8015CC8C[];
 
@@ -108,7 +108,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80158E7C;
+        actor->unk_8C = &griffon_slot_c_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

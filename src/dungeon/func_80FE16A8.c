@@ -33,8 +33,8 @@ extern u8 dungeon_action_resume_address;
 extern u8 killer_slot_f_default_frames[];
 extern u8 D_8016E040[];
 extern u8 D_8016E070[];
-extern u8 D_8016E080[];
-extern u8 D_8016E088[];
+extern u8 bank_actor_default_frames[];
+extern u8 bank_actor_action_frames[];
 
 typedef struct ActionState {
     u8 pad_00[0x8C];
@@ -74,24 +74,24 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
 
     if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable != D_8016E088) {
-            sprite->frameTable = D_8016E080;
+        if (sprite->frameTable != bank_actor_action_frames) {
+            sprite->frameTable = bank_actor_default_frames;
             select_sprite_entry(sprite,
-                D_8016E080[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                bank_actor_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         return;
     }
 
     if (((u32)entity->flags1C) & 0x200) {
-        if (sprite->frameTable == D_8016E088) {
+        if (sprite->frameTable == bank_actor_action_frames) {
             actor->action = 0xD;
             actor->phase = 1;
             actor->handler = 0;
             entity->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor, context, sprite, D_8016E080)) {
+        if (reset_actor_action_state(actor, context, sprite, bank_actor_default_frames)) {
             return;
         }
     }

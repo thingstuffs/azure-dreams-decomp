@@ -9,7 +9,7 @@ typedef struct {
 
 extern s32 func_8001E670(s32 value);
 extern Entry town_selection_records[];
-extern u8 D_80017BB0[];
+extern u8 town_enabled_entry_order[];
 
 /* Select the next entry whose value passes func_8001E670, wrapping at the terminator. */
 u8 advance_to_next_enabled_entry(void) {
@@ -21,7 +21,7 @@ u8 advance_to_next_enabled_entry(void) {
     next_index = start_index + 1;
     if (next_index != start_index) {
         Entry *entries = town_selection_records;
-        u8 *entry_ids = D_80017BB0;
+        u8 *entry_ids = town_enabled_entry_order;
 
         entry_id = &entry_ids[next_index];
         do {
@@ -37,5 +37,5 @@ u8 advance_to_next_enabled_entry(void) {
         } while (next_index != start_index);
     }
     town_event_state->entry_index = next_index;
-    return D_80017BB0[next_index];
+    return town_enabled_entry_order[next_index];
 }

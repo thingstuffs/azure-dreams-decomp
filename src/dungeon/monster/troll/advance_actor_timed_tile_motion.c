@@ -22,13 +22,13 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
-                begin_actor_display_action(controller, transform, entity, D_80175E3C);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_5);
                 break;
             case 14:
-                begin_actor_display_action(controller, transform, entity, D_80175E44);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_6);
                 break;
             case 15:
-                begin_actor_display_action(controller, transform, entity, D_80175E4C);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_7);
                 break;
             }
         } else {
@@ -68,13 +68,13 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
-                begin_actor_display_action(controller, transform, entity, D_80175E3C);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_5);
                 break;
             case 14:
-                begin_actor_display_action(controller, transform, entity, D_80175E44);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_6);
                 break;
             case 15:
-                begin_actor_display_action(controller, transform, entity, D_80175E4C);
+                begin_actor_display_action(controller, transform, entity, troll_frame_set_7);
                 break;
             }
         } else {

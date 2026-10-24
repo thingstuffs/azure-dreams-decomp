@@ -109,7 +109,7 @@ extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s32);
 extern s32 func_80033BC0(s32);
 extern s32 has_recorded_value_pair(s32, s32);
-extern s16 D_8001F6F8[];
+extern s16 spawn_category_weight_totals[];
 extern s32 random_dungeon_range_16(s32, s32);
 extern u8 D_80010000[];
 /* One leading experience word followed by the 100 threshold words built by

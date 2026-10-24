@@ -22,8 +22,8 @@ extern void apply_clamped_actor_value_delta(void *);
 
 #include "dungeon/monster/saber.h"
 
-extern u8 D_80174DFC[];
-extern u8 D_80174E24[];
+extern u8 saber_frame_set_10[];
+extern u8 saber_frame_set[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
 void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity)
@@ -48,7 +48,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, actor, D_80174E24);
+            begin_actor_display_action(action, motion, actor, saber_frame_set);
             return;
         }
         if (actor->flags & 0x8000) {
@@ -99,7 +99,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, actor, D_80174E24);
+            begin_actor_display_action(action, motion, actor, saber_frame_set);
             return;
         }
         timer = ((S_80173964_0 *)action)->unk_96.s;
@@ -128,7 +128,7 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, Sprite
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
-        if (actor->frameTable == D_80174DFC) {
+        if (actor->frameTable == saber_frame_set_10) {
             actor->frameTable = saber_direction_frames;
             select_sprite_entry(
                 actor,

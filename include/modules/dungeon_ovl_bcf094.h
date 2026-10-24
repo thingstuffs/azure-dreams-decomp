@@ -40,7 +40,7 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_80158E9C[];
+extern u8 nyuel_slot_c_action_callback[];
 extern u8 nyuel_frame_set_6[];
 extern u8 D_8015CF00[];
 extern void func_80158A98(void);

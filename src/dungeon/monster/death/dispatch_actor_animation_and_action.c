@@ -30,8 +30,8 @@ extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;
 extern u8 death_direction_frames[];
-extern u8 D_80174644[];
-extern u8 D_80174674[];
+extern u8 death_frame_set_7[];
+extern u8 death_frame_set_8[];
 extern u8 death_frame_set_1[];
 extern u8 death_frame_set_2[];
 
@@ -155,7 +155,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         ((S_801719DC_1 *)actor_in)->unk_1C |= 0x40000;
 
         if (((S_801719DC_1 *)actor_in)->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(motion_in, context_in, entity_in, D_80174644) != 0) {
+            if (begin_ready_actor_directional_action(motion_in, context_in, entity_in, death_frame_set_7) != 0) {
                 return;
             }
         }
@@ -239,7 +239,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
             player = primary_actor_record;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
             if (player->action_id == 0x11) {
-                begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &death_action_resume_address);
+                begin_actor_spell_action(motion_in, context_in, entity_in, death_frame_set_8, &death_action_resume_address);
                 return;
             }
         }
@@ -251,7 +251,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, Spri
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &death_action_resume_address);
+            begin_actor_spell_action(motion_in, context_in, entity_in, death_frame_set_8, &death_action_resume_address);
             return;
 
         case 3:

@@ -32,12 +32,44 @@
       "size": 8
     },
     {
+      "row": "main/func_800122A4",
+      "tu": "src/frontend/libcard/card_boot_wait_before_loading_slot.c",
+      "home": "main/func_800122A4",
+      "foff": "0x2622A4",
+      "vma": "0x800252a4",
+      "size": 40
+    },
+    {
+      "row": "main/func_8001246C",
+      "tu": "src/frontend/libcard/card_boot_wait_before_loading_slot.c",
+      "home": "main/func_800122A4",
+      "foff": "0x26246C",
+      "vma": "0x8002546c",
+      "size": 40,
+      "bindings": {
+        "0x80025230": "0x80025398"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "main/func_8001292C",
       "tu": "src/frontend/libcard/set_record_pair_to_one.c",
       "home": "main/func_8001292C",
       "foff": "0x26292C",
       "vma": "0x8002592C",
       "size": 16
+    },
+    {
+      "row": "main/func_80013398",
+      "tu": "src/frontend/libcard/card_boot_wait_before_loading_slot.c",
+      "home": "main/func_800122A4",
+      "foff": "0x263398",
+      "vma": "0x80026398",
+      "size": 40,
+      "bindings": {
+        "0x80025230": "0x800262BC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "main/func_8001344C",
@@ -62,6 +94,14 @@
       "foff": "0x2640E0",
       "vma": "0x800270E0",
       "size": 224
+    },
+    {
+      "row": "main/func_80014254",
+      "tu": "src/frontend/libcard/link_save_heading_draw_nodes.c",
+      "home": "main/func_80014254",
+      "foff": "0x264254",
+      "vma": "0x80027254",
+      "size": 40
     },
     {
       "row": "main/func_8001431C",

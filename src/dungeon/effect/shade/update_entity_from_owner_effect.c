@@ -17,8 +17,8 @@ extern u8 uboat_action_frames[];
 extern u8 uboat_aura_start_frames[];
 extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2450[];
-extern u8 D_800E2458[];
-extern u8 D_800E2460[];
+extern u8 uboat_timed_motion_frames[];
+extern u8 uboat_timed_motion_frames_alt[];
 
 #define PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
@@ -104,8 +104,8 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
             appearance_type == D_800E2420 ||
             appearance_type == uboat_action_frames ||
             appearance_type == D_800E2450 ||
-            appearance_type == D_800E2458 ||
-            appearance_type == D_800E2460 ||
+            appearance_type == uboat_timed_motion_frames ||
+            appearance_type == uboat_timed_motion_frames_alt ||
             appearance_type == uboat_aura_later_frames ||
             appearance_type == uboat_aura_start_frames) {
             U16(((u8 *)(owner_data)), -2) |= 0x8000;

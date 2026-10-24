@@ -22,10 +22,10 @@ void clear_and_initialize_building_grid(s32);
 
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
-extern u8 D_80110EC8[];
+extern u8 building_texture_frame_zero[];
 extern u8 building_texture_backup[];
 extern u8 building_palette_backup[];
-extern u8 D_80111F48[];
+extern u8 building_palette_frame_zero[];
 extern u16 building_upload_rect[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
@@ -55,7 +55,7 @@ void initialize_building_scene_assets(void) {
     u8 *image_data;
 
     upload_rect = building_upload_rect;
-    image_data = D_80110EC8;
+    image_data = building_texture_frame_zero;
     state_base = ((u8 *)(&g_game_work));
     asset_state = state_base + 0x1DC;
     limit = 0x7F;
@@ -101,7 +101,7 @@ void initialize_building_scene_assets(void) {
         upload_rect[1] = 0x1C1;
         upload_rect[2] = 0x30;
         upload_rect[3] = single_row;
-        StoreImage(upload_rect, D_80111F48);
+        StoreImage(upload_rect, building_palette_frame_zero);
     }
 
     DrawSync(0);

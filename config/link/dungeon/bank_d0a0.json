@@ -52,6 +52,30 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "dungeon/func_7FFEF494",
+      "tu": "src/dungeon/system/get_maximum_sampled_offset_value.c",
+      "home": "dungeon/func_7FFEF494",
+      "foff": "0xF494",
+      "vma": "0x8008cbf4",
+      "size": 156
+    },
+    {
+      "row": "dungeon/func_7FFEF530",
+      "tu": "src/dungeon/system/check_four_vector_half_turn_gaps.c",
+      "home": "dungeon/func_7FFEF530",
+      "foff": "0xF530",
+      "vma": "0x8008cc90",
+      "size": 376
+    },
+    {
+      "row": "dungeon/func_7FFFE4E4",
+      "tu": "src/dungeon/actor/update_falling_motion.c",
+      "home": "dungeon/func_7FFFE4E4",
+      "foff": "0x1E4E4",
+      "vma": "0x8009bc44",
+      "size": 380
+    },
+    {
       "row": "dungeon/func_8002DB1C",
       "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
@@ -77,15 +101,16 @@
     },
     {
       "row": "dungeon/func_8002DC48",
-      "tu": "src/town/person/run_record_countdown_follow_up.c",
-      "home": "town/func_800C90B4",
+      "tu": "src/dungeon/actor/object/advance_object_countdown.c",
+      "home": "dungeon/func_8002DB7C",
       "foff": "0x4DC48",
-      "vma": "0x800cb3a8",
+      "vma": "0x800CB3A8",
       "size": 108,
       "bindings": {
-        "0x800C641C": "0x800CB028"
+        "0x800CB04C": "0x800CB028",
+        "0x800C4174": "0x800C4174"
       },
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8002DCB4",
@@ -122,15 +147,16 @@
     },
     {
       "row": "dungeon/func_8002DE10",
-      "tu": "src/town/person/run_record_countdown_follow_up.c",
-      "home": "town/func_800C90B4",
+      "tu": "src/dungeon/actor/object/advance_object_countdown.c",
+      "home": "dungeon/func_8002DB7C",
       "foff": "0x4DE10",
-      "vma": "0x800cb570",
+      "vma": "0x800CB570",
       "size": 108,
       "bindings": {
-        "0x800C641C": "0x800CB060"
+        "0x800CB04C": "0x800CB060",
+        "0x800C4174": "0x800C4174"
       },
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8002DE7C",
@@ -142,15 +168,16 @@
     },
     {
       "row": "dungeon/func_8002DEDC",
-      "tu": "src/town/person/run_record_countdown_follow_up.c",
-      "home": "town/func_800C90B4",
+      "tu": "src/dungeon/actor/object/advance_object_countdown.c",
+      "home": "dungeon/func_8002DB7C",
       "foff": "0x4DEDC",
-      "vma": "0x800cb63c",
+      "vma": "0x800CB63C",
       "size": 108,
       "bindings": {
-        "0x800C641C": "0x800CB028"
+        "0x800CB04C": "0x800CB028",
+        "0x800C4174": "0x800C4174"
       },
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8002DF48",
@@ -165,6 +192,21 @@
         "0x8008B2BC": "0x8008B2BC"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "dungeon/func_8002DFA8",
+      "tu": "src/town/person/object/assign_four_object_data_pointers.c",
+      "home": "town/func_800CB1C8",
+      "foff": "0x4DFA8",
+      "vma": "0x800cb708",
+      "size": 52,
+      "bindings": {
+        "0x800D6360": "0x800D6A0C",
+        "0x800D6364": "0x800D6A10",
+        "0x800D6330": "0x800D69DC",
+        "0x800D6338": "0x800D69E4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "symbols": {

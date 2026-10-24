@@ -7,7 +7,7 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern u8 D_8053019C[][12];
+extern u8 slot_machine_symbol_strips[][12];
 extern void func_8006E91C(Rect *, s32, s32);
 
 /* Draws a wrapped tile column with vertical scrolling and top-edge clipping. */
@@ -29,7 +29,7 @@ void draw_wrapped_tile_column(s16 column, s16 row, s16 scroll_y)
 
     for (row_offset = -1; row_offset < 3; row_offset++) {
         if (row_offset >= 0 || scroll_y != 0) {
-            tile_id = D_8053019C[column][(row_base + row_offset) % 12];
+            tile_id = slot_machine_symbol_strips[column][(row_base + row_offset) % 12];
             rect.x = ((tile_id & 3) << 4) + 384;
             rect.y = (tile_id >> 2) << 5;
             top_offset = ((2 - row_offset) << 5) - scroll_y;

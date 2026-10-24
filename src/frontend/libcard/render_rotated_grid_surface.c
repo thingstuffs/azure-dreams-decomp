@@ -27,8 +27,8 @@ void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode)
     ObjectNodeHeader *base;
     u8 *work;
 
-    base = D_8002A990;
-    work = D_8002A990 + 0x20;
+    base = card_rotated_grid_object;
+    work = card_rotated_grid_object + 0x20;
     if (find_active_list_node(base) == 0) {
         base = initialize_scene_object_in_buffer(0, base, 0x394);
         register_node(base, menu_backdrop_tag);

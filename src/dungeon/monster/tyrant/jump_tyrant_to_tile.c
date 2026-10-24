@@ -33,7 +33,7 @@ s32 on_actor_status_updated();
 void spend_actor_mp();
 
 
-extern u8 D_8016AF68;
+extern u8 tyrant_slot_f_action_callback;
 extern u8 D_8016DFD8[];
 extern u8 D_8016DFE0[];
 
@@ -140,7 +140,7 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
 
 finish:
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_80172258_0 *)jump)->unk_8C = &D_8016AF68;
+            ((S_80172258_0 *)jump)->unk_8C = &tyrant_slot_f_action_callback;
             on_actor_status_updated(actor);
         }
     }

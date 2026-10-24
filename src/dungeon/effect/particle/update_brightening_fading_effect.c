@@ -85,7 +85,7 @@ void update_directional_actor_effect(void *object)
             clear_row += 8;
         } while (1);
 
-        D_800273A8 = 0;
+        brightening_effect_fade_tick = 0;
         map_data = (u8 *)dungeon_actor_ring_anchor;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
         flag_nearby_seven_by_seven_tiles(
@@ -140,7 +140,7 @@ void update_directional_actor_effect(void *object)
     rect[1] = 0x180;
     rect[2] = 0x70;
     rect[3] = 0x70;
-    draw_textured_ellipse(D_80027398, rect, 0, 2);
+    draw_textured_ellipse(brightening_effect_ellipse_data, rect, 0, 2);
 
     for (row_index = 0, cell_size = 0x10, row = D_800274DC[0], y = 0x180;
          row_index < 7; row_index++) {
@@ -408,7 +408,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
         if (!(state->timer & 3)) {
             initialize_timed_motion_step(8, 16);
         }
-        fade_color = (FadeColor *)&D_80027398;
+        fade_color = (FadeColor *)&brightening_effect_ellipse_data;
         fade_color->red += (0xF0 - fade_color->red) / (s16)state->timer;
         fade_color->green += (0x40 - fade_color->green) / (s16)state->timer;
         fade_color->blue += (0x20 - fade_color->blue) / (s16)state->timer;
@@ -1462,7 +1462,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
         record->fC.b[1] = record->f14.b[1];
         record->f24.b[1] = texture_config->byte9 + texture_config->byteB;
         record->f1C.b[1] = record->f24.b[1];
-        shade = ((u8)D_800273A8 << 7) / 240;
+        shade = ((u8)brightening_effect_fade_tick << 7) / 240;
         *(u8 *)&record->f4.b[0] = shade;
         *(u8 *)&record->f4.b[2] = shade;
         *(u8 *)&record->f4.b[1] = shade;

@@ -16,7 +16,7 @@ typedef struct Object13B18 {
 #include "frontend/libcard/interfaces.h"
 #include "frontend/libcard.h"
 #include "slus.h"
-extern u8 D_80027E68[];
+extern u8 card_choice_cursor_data[];
 
 /* Updates or clears active records, then refreshes the object if any were active. */
 void card_boot_set_paired_choice_animations(Object13B18 *object, s32 *enable_flags, s32 *active_flags)
@@ -31,7 +31,7 @@ void card_boot_set_paired_choice_animations(Object13B18 *object, s32 *enable_fla
             slot_value = object->slots[slot_index];
             updated = 1;
             if (enable_flags[slot_index] != 0) {
-                initialize_scaled_entry_cursor(&object->records[slot_index], (s32)D_80027E68, slot_value);
+                initialize_scaled_entry_cursor(&object->records[slot_index], (s32)card_choice_cursor_data, slot_value);
             } else {
                 *slot_value = 0;
                 object->records[slot_index].unk_04 = 0;

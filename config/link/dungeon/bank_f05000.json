@@ -9,6 +9,23 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F265800: img_f078e0_8016d0e0, r101_rc2_func_80EE64E8, r101_rc2_func_80EE7D14, r101_rc2_func_80EE7FB0, r101_rc2_res_F056D8_F064E8, r101_rc2_res_F06A4C_F078E0 (+4 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80EE5000",
+      "tu": "src/dungeon/monster/weadog/update_weadog_flight.c",
+      "home": "dungeon/func_80EDF000",
+      "foff": "0xF050BC",
+      "vma": "0x8016a8bc",
+      "size": 1564,
+      "bindings": {
+        "0x80170808": "0x8016A808",
+        "0x800A7A7C": "0x800A7A7C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800814A0": "0x800814A0",
+        "0x800A45D8": "0x800A45D8",
+        "0x800A7234": "0x800A7234"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_80EE58B8",
       "tu": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "home": "dungeon/func_80EDF8B8",
@@ -303,42 +320,42 @@
     },
     {
       "row": "dungeon/func_80EE8F7C",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF08F7C",
       "vma": "0x8016E77C",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8016BCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EE8FB4",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF08FB4",
       "vma": "0x8016E7B4",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8016BCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EE8FEC",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF08FEC",
       "vma": "0x8016E7EC",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x8016D2C0": "0x8016D2C0"
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8016BCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EE9024",

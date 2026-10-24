@@ -48,7 +48,7 @@ typedef struct EntityFields {
 } EntityFields;
 
 extern u8 D_800C0404[];
-extern u8 D_800DF4A4[];
+extern u8 return_magic_sprite_data[];
 
 extern EntityFields *allocate_list_node(s32, EntityFields *);
 extern void unlink_node(EntityFields *);
@@ -80,7 +80,7 @@ void *create_linked_actor_fade_effect(EntityFields *source) {
 
         config = entity->fieldC;
         config->tpage_abr = 0x20;
-        config->source = D_800DF4A4;
+        config->source = return_magic_sprite_data;
         size = 0x1000;
         config->scale_y = size;
         config->color.word = 0x808080;

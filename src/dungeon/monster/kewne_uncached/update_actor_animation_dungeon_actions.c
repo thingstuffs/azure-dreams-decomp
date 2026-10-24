@@ -48,7 +48,7 @@ extern s32 func_801551CC(void *, void *, void *, void *);
 extern void func_80157078(void *, void *, void *, void *);
 
 extern u8 D_80153FA4[];
-extern u8 D_80157C30[];
+extern u8 kewne_uncached_frame_set[];
 extern u8 D_80157C38[];
 extern u8 D_80157C88[];
 extern u8 D_80157C90[];
@@ -113,16 +113,16 @@ void update_actor_animation_dungeon_actions(void *actor, void *context, SpriteFr
             current_anim = sprite->frameTable;
             if (current_anim == D_80157CA8) {
                 if (sprite->flags & 0xE000) {
-                    (sprite->frameTable) = D_80157C30;
+                    (sprite->frameTable) = kewne_uncached_frame_set;
                     select_sprite_entry(sprite,
-                        D_80157C30[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        kewne_uncached_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
                     ((S_80153FA4_0 *)actor)->unk_A2.s = 0;
                     ((S_80153FA4_0 *)actor)->unk_9E = 0;
                 }
             } else {
-                void *idle_anim = D_80157C30;
+                void *idle_anim = kewne_uncached_frame_set;
                 if (current_anim != idle_anim) {
                     (sprite->frameTable) = idle_anim;
                     select_sprite_entry(sprite,

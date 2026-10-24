@@ -39,7 +39,7 @@ void write_resource_command(s32 value, s32 command) {
 
 /* Calls write_resource_command with D_800CFBA0[entry_index], 0x23. */
 void send_resource_command_23(s32 entry_index) {
-    write_resource_command(D_800CFBA0[entry_index], 0x23);
+    write_resource_command(town_map_resource_ids[entry_index], 0x23);
 }
 
 /* Allocates and links 11 map objects with runtime slots, returning 0 when setup cannot complete. */
@@ -94,7 +94,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
     resource_cursor = resources;
     count = 0;
     {
-        s8 *link_slots = &D_800CFC2C;
+        s8 *link_slots = &town_map_link_slots;
         while (1) {
             s8 linked_slot = *(s8 *)(count + (s32)link_slots);
             void *linked_data;

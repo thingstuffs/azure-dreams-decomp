@@ -37,7 +37,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_8014CA50[];
-extern M2C_UNK D_8014CE7C;
+extern M2C_UNK griffon_slot_a_action_callback;
 extern u8 D_80150C3C[];
 extern u8 D_80150C8C[];
 
@@ -111,7 +111,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
         initialize_actor_sprite_and_animation(init_part, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8014CE7C;
+        actor->unk_8C = &griffon_slot_a_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

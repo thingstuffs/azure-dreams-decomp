@@ -14,7 +14,7 @@ extern s32 collect_ground_item(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
 
-extern u8 D_800DD0E0[];
+extern u8 player_alternate_motion_frames[];
 
 /* Updates movement toward the destination tile and handles arrival when the timer expires. */
 void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {
@@ -35,7 +35,7 @@ void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, S
     }
     if (!(((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x10)) {
         u8 *old_anim_table = *(u8 * *)&sprite->frameTable;
-        u8 *anim_table = D_800DD0E0;
+        u8 *anim_table = player_alternate_motion_frames;
         if (old_anim_table != anim_table) {
             sprite->frameTable = anim_table;
             set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7], 0,

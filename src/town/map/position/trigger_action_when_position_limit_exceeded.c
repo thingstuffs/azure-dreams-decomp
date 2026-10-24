@@ -15,7 +15,7 @@ typedef struct Position {
 
 extern void SD_Call(s32);
 extern s32 abs(s32);
-extern u8 D_800C1EA4[];
+extern u8 town_map_trigger_handler[];
 
 
 /* Trigger an action and update the object state when either position limit is exceeded. */
@@ -34,5 +34,5 @@ void trigger_action_when_position_limit_exceeded(S_800C1F8C_0 *object)
         return;
     }
     SD_Call(object->argument | 0x1000);
-    object->handler = (map_trigger_callback_fn)D_800C1EA4;
+    object->handler = (map_trigger_callback_fn)town_map_trigger_handler;
 }

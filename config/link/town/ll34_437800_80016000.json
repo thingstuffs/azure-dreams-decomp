@@ -16,6 +16,33 @@
       "size": 48
     },
     {
+      "row": "town/func_804B7A88",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x437A88",
+      "vma": "0x80016288",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x80018DDC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_804B8168",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x438168",
+      "vma": "0x80016968",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018B20",
+        "0x800190B4": "0x80018E34",
+        "0x800182E4": "0x80018044"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80418570",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
@@ -23,6 +50,46 @@
       "vma": "0x80016d70",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_804B86F4",
+      "tu": "src/town/scene/object/set_scene_object_offset_b.c",
+      "home": "town/func_804B86F4",
+      "foff": "0x4386F4",
+      "vma": "0x80016ef4",
+      "size": 40
+    },
+    {
+      "row": "town/func_804B87DC",
+      "tu": "src/town/scene/object/set_scene_object_inner_offsets.c",
+      "home": "town/func_804B87DC",
+      "foff": "0x4387DC",
+      "vma": "0x80016fdc",
+      "size": 40
+    },
+    {
+      "row": "town/func_804B8854",
+      "tu": "src/town/scene/object/set_scene_object_inner_offsets.c",
+      "home": "town/func_804B87DC",
+      "foff": "0x438854",
+      "vma": "0x80017054",
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_804B887C",
+      "tu": "src/town/scene/object/set_scene_object_offset_b.c",
+      "home": "town/func_804B86F4",
+      "foff": "0x43887C",
+      "vma": "0x8001707c",
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80418A68",

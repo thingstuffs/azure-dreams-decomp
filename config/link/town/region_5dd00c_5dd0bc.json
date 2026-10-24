@@ -9,17 +9,17 @@
   "entries": [
     {
       "row": "town/func_8065D00C",
-      "home": "town/func_804D1484",
-      "tu": "src/town/scene/hooks/find_eligible_entry_b.c",
-      "foff": "0x5dd00c",
-      "vma": "0x8001780c",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "home": "town/func_80481D78",
+      "foff": "0x5DD00C",
+      "vma": "0x8001780C",
       "size": 176,
       "bindings": {
-        "0x80017594": "0x800183f0",
-        "0x80016b98": "0x80017720",
-        "0x800173f4": "0x80017f7c"
+        "0x80017C8C": "0x80017720",
+        "0x80019550": "0x800183F0",
+        "0x80018668": "0x80017F7C"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065D00C"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }
   ]
 }

@@ -42,12 +42,12 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
         actor_ptr = (s32)result;
 
         if (variant == 1) {
-            ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+            ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             ((S_80158894_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
         } else if (variant >= 2) {
-            ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+            ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
             ((S_80158894_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
             ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
@@ -57,10 +57,10 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     ((SpriteFrameState *)part_ptr)->frameTable = D_8015CF00;
                 }
-                ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = D_80158E9C;
+                ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = nyuel_slot_c_action_callback;
             ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
             } else {
-                ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+                ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
             }
         }

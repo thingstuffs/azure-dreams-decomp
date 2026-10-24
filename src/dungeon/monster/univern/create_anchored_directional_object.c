@@ -128,7 +128,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                 ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02 = 1;
                 item_index = 0;
                 outer_base = outer;
-                table = ((u8 *)D_801744E4);
+                table = ((u8 *)univern_frame_set);
                 item_offset = 8;
                 do {
                     SpriteFrameState *item;
@@ -1294,10 +1294,10 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             }
 
             sub_actor->flags4 &= 0x7FFF;
-            actor_base->frameTable = (void (*)(void))((u8 *)D_801744E4);
+            actor_base->frameTable = (void (*)(void))((u8 *)univern_frame_set);
             select_sprite_entry(
                 actor_base,
-                ((u8 *)D_801744E4)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)univern_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
             if (!create_actor_spell_effect(ent, item_slot, use_main_link, &state->flags98)) {
                 return;

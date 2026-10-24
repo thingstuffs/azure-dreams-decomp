@@ -53,7 +53,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 
-extern u8 D_8016AA58[];
+extern u8 ifrit_object_callback_4[];
 extern u8 D_8016E820[];
 extern u8 D_8016E860[];
 void func_8016AE84(void *controller, void *context, void *entity, ActorRecord *actor_state);
@@ -77,7 +77,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->update_callback = D_8016AA58;
+        object->update_callback = ifrit_object_callback_4;
         work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 

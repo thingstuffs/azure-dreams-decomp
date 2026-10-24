@@ -45,7 +45,7 @@ extern s32 register_node();
 extern s32 rand();
 extern s32 select_record_entry_and_value();
 
-extern s32 D_800B63A8;
+extern s32 radial_burst_callback;
 extern s32 secondary_sprite;
 
 /* Spawn an offset effect with randomized motion opposite to the source. */
@@ -67,7 +67,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
         motion = effect->unk8;
         sprite = effect->unkC;
         effect_params = &effect->sub20;
-        effect->unk10 = &D_800B63A8;
+        effect->unk10 = &radial_burst_callback;
         register_node(effect, project_sprite_chain);
         x_offsets = dir_step_x;
         y_offset = &dir_step_y[direction];

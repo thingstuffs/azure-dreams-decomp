@@ -471,7 +471,7 @@ extern s16 linked_effect_chain_count[6];
 extern u16 D_80082E94[6];
 extern Row_819A1654_Coord view_reference_entity[];
 
-extern const Row_819A1654_PointTable D_80024054[1];
+extern const Row_819A1654_PointTable linked_effect_octant_offsets[1];
 extern Row_819A1654_Blob12 D_80026180[];
 extern Row_819A1654_Blob12 linked_effect_task_values[];
 extern Row_819A1654_Blob24 D_80026198[];

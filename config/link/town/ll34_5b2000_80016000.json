@@ -584,11 +584,15 @@
     },
     {
       "row": "town/func_8063364C",
-      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte_d.c",
-      "home": "town/func_8063364C",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
       "foff": "0x5B364C",
-      "vma": "0x8001764C",
-      "size": 72
+      "vma": "0x8001764c",
+      "size": 72,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "load_evidence": {

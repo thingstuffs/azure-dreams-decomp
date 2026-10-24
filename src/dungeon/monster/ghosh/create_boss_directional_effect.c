@@ -8,11 +8,11 @@ typedef struct
     u8 b[32];
 }
 DungeonTable;
-extern u8 D_80171704[];
+extern u8 ghosh_object_callback_2[];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 s32 register_node();
 s32 rand();
-extern DungeonTable D_8016A894;
+extern DungeonTable ghosh_effect_direction_vectors;
 extern void func_801718E4(u8 *effect, s32 *motion);
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
@@ -22,7 +22,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
 {
     u16 saved_angle = angle;
     void *effect_obj;
-    DungeonTable direction_table = D_8016A894;
+    DungeonTable direction_table = ghosh_effect_direction_vectors;
     void *y_position;
     void *x_position;
     void *motion;
@@ -81,7 +81,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         *((u16 *) (((s8 *) source) + 0x14)) = saved_angle;
         *((s16 *) (((s8 *) source) + 0x32)) = 7;
         *((s16 *) (((s8 *) source) + 0x34)) = 7;
-        register_node(effect_obj, D_80171704);
+        register_node(effect_obj, ghosh_object_callback_2);
         *((s32 *) source) = initial_value;
         *((s32 *) (((s8 *) source) + 8)) = initial_value;
     }

@@ -72,9 +72,9 @@ s32 func_801722B8();
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1[];
-extern u8 D_80174194[];
+extern u8 kraken_frame_set[];
 extern u8 D_801741AC[];
-extern u8 D_801741C4[];
+extern u8 kraken_frame_set_6[];
 extern u8 kraken_frame_set_2[];
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
@@ -102,8 +102,8 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         if (((S_801711A4_2 *)sprite)->unk_2C == &kraken_frame_set_2) {
             return;
         }
-        (*(void **)((u8 *)sprite + 0x2C)) = &D_801741C4;
-        select_sprite_entry(sprite, *(((u8 *)&D_801741C4) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
+        (*(void **)((u8 *)sprite + 0x2C)) = &kraken_frame_set_6;
+        select_sprite_entry(sprite, *(((u8 *)&kraken_frame_set_6) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
             >> 9) & 7)), 0);
         return;
     }
@@ -126,7 +126,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                     return;
                 }
             }
-            if (reset_actor_action_state(action_actor, context, sprite, &D_801741C4) != 0) {
+            if (reset_actor_action_state(action_actor, context, sprite, &kraken_frame_set_6) != 0) {
                 return;
             }
         }
@@ -150,7 +150,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         status->flags1C = (s32) (status->flags1C | 0x40000);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF7);
         if (status->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, &D_80174194) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, &kraken_frame_set) != 0) {
                 return;
             }
         }

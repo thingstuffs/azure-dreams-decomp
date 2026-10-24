@@ -116,8 +116,8 @@ void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
 extern u32 kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;
-extern M2C_UNK D_8017521C;
-extern u8 D_8017521D;
+extern M2C_UNK kid_image_load_done;
+extern u8 kid_effect_load_done;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
@@ -156,25 +156,25 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&kid_image_commands, (u8 *)(&D_8017521C), 0);
+        run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 0);
         ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        if ((*(u8 *)&D_8017521C) == 0 || direction != 2) {
+        if ((*(u8 *)&kid_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
             return;
         }
-        run_cd_image_commands(&kid_image_commands, (u8 *)(&D_8017521C), 1);
+        run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 1);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
-        (*(s8 *)&D_8017521D) = 0;
-        Control_CD(0xFF, set_byte_one, &D_8017521D);
+        (*(s8 *)&kid_effect_load_done) = 0;
+        Control_CD(0xFF, set_byte_one, &kid_effect_load_done);
         select_nearby_target_and_initialize_slot((s32)(actor - 0x20), position, 8, 0x300);
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
@@ -183,7 +183,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         fade_ticks = previous_ticks - 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
-            effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
+            effect_ready = ((S_80174B20_2 *)(&kid_effect_load_done))->unk_00;
             ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
             if (effect_ready == 0) {
                 return;

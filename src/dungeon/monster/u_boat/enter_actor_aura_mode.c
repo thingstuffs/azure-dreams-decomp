@@ -56,7 +56,7 @@ extern s32 sample_terrain_surface_height();
 extern u8 clipped_sprite_renderer_address[];
 extern u8 uboat_aura_start_frames[];
 extern u8 uboat_aura_later_frames[];
-extern u8 D_800E2488[];
+extern u8 uboat_aura_sprite_data[];
 extern u8 D_80170CEC[];
 #include "dungeon/monster/u_boat.h"
 
@@ -120,7 +120,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 effect_sprite->color.c.b = 0;
                 effect_sprite->color.c.g = 0;
                 effect_sprite->color.c.r = 0;
-                effect_sprite->source = D_800E2488;
+                effect_sprite->source = uboat_aura_sprite_data;
             }
         }
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {

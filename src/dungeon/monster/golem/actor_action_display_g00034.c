@@ -59,7 +59,7 @@ s32 attempt_actor_action_and_display(void *action_out, s32 action_param, SpriteF
         ((S_80172050_2 *)action_out)->unk_8C = 0;
         ((S_80172050_0 *)acting_actor)->unk_84 = action_code;
         ((S_80172050_0 *)acting_actor)->unk_85 = 4;
-        direction_table = &D_80175F48;
+        direction_table = &golem_frame_set;
         (actor_info->frameTable) = direction_table;
         select_sprite_entry(actor_info,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
@@ -80,9 +80,9 @@ void update_eligible_actor_action(void *action_state, s32 action_context, Sprite
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-            (sprite->frameTable) = &D_80175F48;
+            (sprite->frameTable) = &golem_frame_set;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + &D_80175F48), 0);
+                + &golem_frame_set), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 4;
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

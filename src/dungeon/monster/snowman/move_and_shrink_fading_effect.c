@@ -320,7 +320,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     } else {
         if (((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_direction_frames) &&
             ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set_2) &&
-            ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)D_801759B0) &&
+            ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set) &&
             ((SpriteAnimationTableView *)object)->frame_table != ((u8 *)snowman_frame_set_3)) {
             (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_direction_frames);
             select_sprite_entry(object,
@@ -346,9 +346,9 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
                 (((SpriteAnimationTableView *)object)->flags & 0xE000)) {
-                (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)D_801759B0);
+                (*(u8 **)((u8 *)object + 0x2C)) = ((u8 *)snowman_frame_set);
                 select_sprite_entry(object,
-                    ((u8 *)D_801759B0)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                    ((u8 *)snowman_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
                 advance_sprite_animation_and_textures(object);
                 (*(s16 *)((u8 *)actor + 0xA0)) = 6;
                 (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
@@ -357,7 +357,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             }
         }
 
-        if (((SpriteAnimationTableView *)object)->frame_table == ((u8 *)D_801759B0)) {
+        if (((SpriteAnimationTableView *)object)->frame_table == ((u8 *)snowman_frame_set)) {
             timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
             (*(s16 *)((u8 *)actor + 0xA0)) = timer;
             if ((timer << 16) <= 0 &&
@@ -2509,7 +2509,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
         return;
 
     case 1:
-        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)D_80175A80), 0);
+        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)snowman_image_load_done), 0);
         ((R10_80175398_S_80175398_0 *)transition)->unk_AC = 0;
         ((R10_80175398_S_80175398_0 *)transition)->phase++;
         ((R10_80175398_S_80175398_1 *)actor)->unk_8A = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
@@ -2521,18 +2521,18 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
-        if (((u8 *)D_80175A80)[0] == 0 || direction != 2) {
+        if (((u8 *)snowman_image_load_done)[0] == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)D_80175A80), 1);
+        run_cd_image_commands(((u8 *)snowman_image_commands), ((u8 *)snowman_image_load_done), 1);
         sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
-        (*(u8 *)D_80175A81) = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175A81));
+        (*(u8 *)snowman_effect_load_done) = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)snowman_effect_load_done));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->phase++;
@@ -2546,7 +2546,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
         ((R10_80175398_S_80175398_0 *)transition)->timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
-            u8 cd_finished = (*(u8 *)D_80175A81);
+            u8 cd_finished = (*(u8 *)snowman_effect_load_done);
             ((R10_80175398_S_80175398_0 *)transition)->timer.u = old_timer;
             if (cd_finished == 0) {
                 return;

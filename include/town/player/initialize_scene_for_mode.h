@@ -190,6 +190,6 @@ extern s32 town_position_callback_address[3];
 extern u8 D_800A5638[];
 extern s32 actor_input_dispatch_address;
 extern s32 actor_input_interaction_address;
-extern s16 D_800D01F8[];
+extern s16 town_scene_effect_flips[];
 
 #endif

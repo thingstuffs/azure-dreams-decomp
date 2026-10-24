@@ -71,7 +71,7 @@ extern s32 D_800814A0;
 extern u8 cyclone_action_resume_address[];
 extern u8 cyclone_move_direction_frames[];
 extern u8 cyclone_fade_direction_frames[];
-extern u8 D_80176498[];
+extern u8 cyclone_view_direction_entries[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
 /* Starts the selected spell, shrinks and swaps the sprite, fades it out, then restores its appearance and
@@ -234,7 +234,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
                 model = *(void **)model_root;
                 model_table = *(void **)model;
                 selected_model =
-                    ((void **)model_table)[D_80176498[model_direction]];
+                    ((void **)model_table)[cyclone_view_direction_entries[model_direction]];
             }
             {
                 s32 model_data;

@@ -22,7 +22,7 @@ extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
 extern u8 D_80175E50[];
 extern u8 kewne_frame_set_3[];
-extern u8 D_80175EA8[];
+extern u8 kewne_frame_set[];
 
 /* Select and start an actor action based on the target delta. */
 /* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
@@ -97,7 +97,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                 actor->unk_85 = 0;
             } else {
                 action_state->unk_8C = 0;
-                visual_data->frameTable = D_80175EA8;
+                visual_data->frameTable = kewne_frame_set;
                 action_state->unk_9A.as_s8 = 0x18;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;

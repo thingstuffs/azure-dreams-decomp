@@ -38,7 +38,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 
-extern u8 D_8014CA58[];
+extern u8 ifrit_object_callback[];
 extern u8 D_80150820[];
 extern u8 D_80150860[];
 extern M2C_UNK D_8014CE84;
@@ -84,7 +84,7 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->update_callback = D_8014CA58;
+        obj->update_callback = ifrit_object_callback;
         work->unk_13 = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);
 

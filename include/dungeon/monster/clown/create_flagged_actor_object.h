@@ -5,7 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/position_views.h"
 
-extern u8 D_8016AA58[];
+extern u8 clown_object_callback_4[];
 extern s32 D_8016B014;
 extern s32 D_8016E20C;
 extern s32 D_8016E25C;

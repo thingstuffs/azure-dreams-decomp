@@ -9,11 +9,17 @@
   "entries": [
     {
       "row": "town/func_804D1484",
-      "home": "town/func_804D1484",
-      "tu": "src/town/scene/hooks/find_eligible_entry_b.c",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "home": "town/func_80481D78",
       "foff": "0x451484",
       "vma": "0x80016c84",
-      "size": 176
+      "size": 176,
+      "bindings": {
+        "0x80017C8C": "0x80016B98",
+        "0x80019550": "0x80017594",
+        "0x80018668": "0x800173F4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ]
 }

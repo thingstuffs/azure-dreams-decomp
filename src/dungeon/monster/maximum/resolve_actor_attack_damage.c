@@ -72,7 +72,7 @@ s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 extern void effect_update_tag();
 extern void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
-extern u8 D_80173C6C[];
+extern u8 maximum_frame_set_4[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
 /* Starts a targeted spell with a child sprite on frame 45, releases the child after animation, and
@@ -239,9 +239,9 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        if ((*(M2C_UNK * *)&sprite->frameTable) != &D_80173C6C) {
-            sprite->frameTable = &D_80173C6C;
-            select_sprite_entry(sprite, D_80173C6C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7], 0);
+        if ((*(M2C_UNK * *)&sprite->frameTable) != &maximum_frame_set_4) {
+            sprite->frameTable = &maximum_frame_set_4;
+            select_sprite_entry(sprite, maximum_frame_set_4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7], 0);
         }
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;

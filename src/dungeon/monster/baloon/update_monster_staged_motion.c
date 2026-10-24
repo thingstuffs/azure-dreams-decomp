@@ -32,7 +32,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 random_below_limit(s32);
 
 extern u8 baloon_hop_frames[];
-extern LocalTable D_8017088C;
+extern LocalTable baloon_motion_direction_vectors;
 
 typedef struct S_8017450C_0 {
     u8 pad_00[0x90];
@@ -84,7 +84,7 @@ void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFra
     u8 tile_x;
     u8 tile_y;
 
-    direction_table = D_8017088C;
+    direction_table = baloon_motion_direction_vectors;
     actor = (u32)actor_ptr;
 
     switch (((S_8017450C_0 *)state)->unk_9B) {

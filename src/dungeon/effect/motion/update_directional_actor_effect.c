@@ -116,7 +116,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         draw_textured_ellipse(D_800DF334, upload_rect, 1, 0);
         upload_rect[0] = 0x01000360;
         draw_textured_ellipse(D_80024980, upload_rect, 1, 0);
-        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = D_80024998;
+        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;
         create_timed_model_effect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
     case 1:
@@ -418,7 +418,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     register_node(node, (s32)linked_mesh_processor_address);
     position = node->header.position;
     sprite = node->header.sprite;
-    sprite->source = D_80024998;
+    sprite->source = directional_effect_sprite_data;
     sprite->tpage_abr = 0x20;
     sprite->flags |= 0xC;
     state = &node->state;

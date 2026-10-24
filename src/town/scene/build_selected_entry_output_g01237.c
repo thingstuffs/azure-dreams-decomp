@@ -12,7 +12,7 @@ u8 *build_selected_entry_output(s32 selected_index) {
     void *entry;
 
     first_marked = 0;
-    output_base = &D_80017D50;
+    output_base = &town_selected_entry_output;
     if (selected_index != 0) {
         for (entry_index = 1; entry_index < 8; entry_index++) {
             record = &((Record12 *)town_selection_records)[entry_index];
@@ -47,7 +47,7 @@ u8 *build_selected_entry_output(s32 selected_index) {
 
 /* Builds the entry list and flags entries according to the selected index. */
 void *build_entry_list(s32 entry_index) {
-    u8 *entries = &D_80017D50;
+    u8 *entries = &town_selected_entry_output;
 
     if (entry_index != 0) {
         *(s16 *)(entries + (entry_index * 0x14) + 2) = 0x400;
@@ -91,9 +91,9 @@ s32 *build_four_record_value_block(void) {
 
 /* Process two locations in the data block and return its base address. */
 s32 *build_two_record_value_block(void) {
-    copy_callback_value_to_destination(&D_80017F08, &D_80017B0C);
-    copy_callback_value_to_destination(&D_80017F08 + 0x14, &D_80017B18);
-    return &D_80017F08;
+    copy_callback_value_to_destination(&town_callback_output, &D_80017B0C);
+    copy_callback_value_to_destination(&town_callback_output + 0x14, &D_80017B18);
+    return &town_callback_output;
 }
 
 /* Apply three value tables to consecutive global destinations and return their base. */

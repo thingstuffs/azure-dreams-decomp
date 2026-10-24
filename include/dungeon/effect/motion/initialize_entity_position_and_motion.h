@@ -573,7 +573,7 @@ extern s32 rcos(s32);
 extern s32 rsin(s32);
 extern void select_record_entry_and_value(void *, void *, s32);
 extern u8 D_80026AB0[];
-extern u8 D_800269EC[];
+extern u8 positioned_motion_sprite_data[];
 extern s16 curved_trail_sample_count;
 extern ovl_19a332c_8198332C_Coord curved_trail_position;
 s32 rand();

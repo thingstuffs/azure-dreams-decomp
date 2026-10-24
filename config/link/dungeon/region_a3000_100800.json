@@ -29,6 +29,192 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "dungeon/func_800BFE40",
+      "tu": "src/dungeon/effect/mesh/draw_linked_mesh_chain.c",
+      "home": "dungeon/func_800BFE40",
+      "foff": "0xDFE40",
+      "vma": "0x800c55a0",
+      "size": 84
+    },
+    {
+      "row": "dungeon/func_800C31A0",
+      "tu": "src/dungeon/actor/effect/try_apply_effect_four_by_chance.c",
+      "home": "dungeon/func_800C31A0",
+      "foff": "0xE31A0",
+      "vma": "0x800c8900",
+      "size": 128
+    },
+    {
+      "row": "dungeon/func_800C32DC",
+      "tu": "src/dungeon/actor/effect/try_apply_effect_four_by_chance.c",
+      "home": "dungeon/func_800C31A0",
+      "foff": "0xE32DC",
+      "vma": "0x800c8a3c",
+      "size": 128,
+      "bindings": {
+        "0x800C8980": "0x800C8ABC",
+        "0x800E19E8": "0x800E1A1D",
+        "0x80099844": "0x80099844",
+        "0x800DCF18": "0x800DCF0C",
+        "0x800DC1B8": "0x800DC1B8",
+        "0x800E1A01": "0x800E1A2D"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800C38D4",
+      "tu": "src/dungeon/effect/mesh/draw_linked_mesh_chain.c",
+      "home": "dungeon/func_800BFE40",
+      "foff": "0xE38D4",
+      "vma": "0x800c9034",
+      "size": 84,
+      "bindings": {
+        "0x800C55F4": "0x800C9088"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CC978",
+      "tu": "src/dungeon/actor/advance_actor_status_turn.c",
+      "home": "dungeon/func_800CD184",
+      "foff": "0xEC978",
+      "vma": "0x800d20d8",
+      "size": 244,
+      "bindings": {
+        "0x800A9A0C": "0x800A9A0C",
+        "0x80083460": "0x80083460",
+        "0x800AAA54": "0x800AAA54",
+        "0x800AA6B4": "0x800AA6B4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CCA6C",
+      "tu": "src/dungeon/actor/position/decelerate_actor_to_tile.c",
+      "home": "dungeon/func_800CCA6C",
+      "foff": "0xECA6C",
+      "vma": "0x800d21cc",
+      "size": 664
+    },
+    {
+      "row": "dungeon/func_800CCD04",
+      "tu": "src/dungeon/actor/handle_actor_action_result.c",
+      "home": "dungeon/func_800CCD04",
+      "foff": "0xECD04",
+      "vma": "0x800d2464",
+      "size": 68
+    },
+    {
+      "row": "dungeon/func_800CD184",
+      "tu": "src/dungeon/actor/advance_actor_status_turn.c",
+      "home": "dungeon/func_800CD184",
+      "foff": "0xED184",
+      "vma": "0x800d28e4",
+      "size": 244
+    },
+    {
+      "row": "dungeon/func_800CD278",
+      "tu": "src/dungeon/actor/position/decelerate_actor_to_tile.c",
+      "home": "dungeon/func_800CCA6C",
+      "foff": "0xED278",
+      "vma": "0x800d29d8",
+      "size": 664,
+      "bindings": {
+        "0x800AD4D0": "0x800AD4D0",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x800AAA54": "0x800AAA54",
+        "0x800A2B04": "0x800A2B04",
+        "0x80083460": "0x80083460",
+        "0x800D20D8": "0x800D28E4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CD510",
+      "tu": "src/dungeon/actor/handle_actor_action_result.c",
+      "home": "dungeon/func_800CCD04",
+      "foff": "0xED510",
+      "vma": "0x800d2c70",
+      "size": 68,
+      "bindings": {
+        "0x800D1A80": "0x800D1A80",
+        "0x800A56C0": "0x800A56C0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CD9E0",
+      "tu": "src/dungeon/actor/advance_actor_status_turn.c",
+      "home": "dungeon/func_800CD184",
+      "foff": "0xED9E0",
+      "vma": "0x800d3140",
+      "size": 244,
+      "bindings": {
+        "0x800A9A0C": "0x800A9A0C",
+        "0x80083460": "0x80083460",
+        "0x800AAA54": "0x800AAA54",
+        "0x800AA6B4": "0x800AA6B4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CDAD4",
+      "tu": "src/dungeon/actor/position/decelerate_actor_to_tile.c",
+      "home": "dungeon/func_800CCA6C",
+      "foff": "0xEDAD4",
+      "vma": "0x800d3234",
+      "size": 664,
+      "bindings": {
+        "0x800AD4D0": "0x800AD4D0",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x800AAA54": "0x800AAA54",
+        "0x800A2B04": "0x800A2B04",
+        "0x80083460": "0x80083460",
+        "0x800D20D8": "0x800D3140"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800CEED4",
+      "tu": "src/dungeon/actor/position/decelerate_actor_to_tile.c",
+      "home": "dungeon/func_800CCA6C",
+      "foff": "0xEEED4",
+      "vma": "0x800d4634",
+      "size": 664,
+      "bindings": {
+        "0x800AD4D0": "0x800AD4D0",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x800AAA54": "0x800AAA54",
+        "0x800A2B04": "0x800A2B04",
+        "0x80083460": "0x80083460",
+        "0x800D20D8": "0x800D4494"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800D0360",
+      "tu": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
+      "home": "dungeon/func_800D1194",
+      "foff": "0xF0360",
+      "vma": "0x800d5ac0",
+      "size": 480,
+      "bindings": {
+        "0x80083160": "0x80083160"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800D1194",
+      "tu": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
+      "home": "dungeon/func_800D1194",
+      "foff": "0xF1194",
+      "vma": "0x800d68f4",
+      "size": 480
+    },
+    {
       "row": "dungeon/func_800D483C",
       "tu": "src/dungeon/actor/update_actor_defeat_removal_callback.c",
       "home": "dungeon/func_800D481C",
@@ -69,6 +255,20 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "dungeon/func_800D4F64",
+      "tu": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "home": "dungeon/func_800D4F00",
+      "foff": "0xF4F64",
+      "vma": "0x800da6c4",
+      "size": 100,
+      "bindings": {
+        "0x800AC82C": "0x800AC010",
+        "0x800AD9B4": "0x800AD9B4",
+        "0x800D8C64": "0x800D8C64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_800D4FC8",
       "tu": "src/dungeon/actor/run_terrain_tile_interpolation.c",
       "home": "dungeon/func_800D4FC8",
@@ -89,6 +289,40 @@
         "0x800DA728": "0x800DA760"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_800D5038",
+      "tu": "src/dungeon/actor/run_terrain_tile_interpolation.c",
+      "home": "dungeon/func_800D4FC8",
+      "foff": "0xF5038",
+      "vma": "0x800da798",
+      "size": 56,
+      "bindings": {
+        "0x800AC480": "0x800ACE34",
+        "0x800D8C64": "0x800D8C64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_800D5070",
+      "tu": "src/dungeon/level/install_trap_handler_after_floor_trap_check.c",
+      "home": "dungeon/func_800D5070",
+      "foff": "0xF5070",
+      "vma": "0x800da7d0",
+      "size": 56
+    },
+    {
+      "row": "dungeon/func_800D50A8",
+      "tu": "src/dungeon/level/install_trap_handler_after_floor_trap_check.c",
+      "home": "dungeon/func_800D5070",
+      "foff": "0xF50A8",
+      "vma": "0x800da808",
+      "size": 56,
+      "bindings": {
+        "0x800AB464": "0x800AC7EC",
+        "0x800D8C64": "0x800D8C64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ]
 }

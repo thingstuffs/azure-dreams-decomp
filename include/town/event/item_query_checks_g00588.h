@@ -9,7 +9,7 @@
 #include "script_symbols.h"
 #include "engine/object/test_resident_bitmap_bit_api.h"
 
-extern s16 D_800D1054[];
+extern s16 town_query_group_ids[];
 extern s16 D_800D1064[];
 
 

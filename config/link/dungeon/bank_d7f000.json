@@ -218,63 +218,42 @@
     },
     {
       "row": "dungeon/func_80D633BC",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xD833BC",
       "vma": "0x80150BBC",
       "size": 56,
       "bindings": {
-        "0x80171A80": "0x80171A80",
-        "0x80173A60": "0x80173A60",
-        "0x801730C4": "0x801730C4",
-        "0x80172144": "0x80172144",
-        "0x80176084": "0x80176084",
-        "0x80174A68": "0x80174A68",
-        "0x8017558C": "0x8017558C",
-        "0x80173510": "0x80173510",
-        "0x80170F9C": "0x80170F9C"
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8014DA80"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D633F4",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xD833F4",
       "vma": "0x80150BF4",
       "size": 56,
       "bindings": {
-        "0x80171A80": "0x80171A80",
-        "0x80173A60": "0x80173A60",
-        "0x801730C4": "0x801730C4",
-        "0x80172144": "0x80172144",
-        "0x80176084": "0x80176084",
-        "0x80174A68": "0x80174A68",
-        "0x8017558C": "0x8017558C",
-        "0x80173510": "0x80173510",
-        "0x80170F9C": "0x80170F9C"
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8014DA80"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D6342C",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xD8342C",
       "vma": "0x80150C2C",
       "size": 56,
       "bindings": {
-        "0x80171A80": "0x80171A80",
-        "0x80173A60": "0x80173A60",
-        "0x801730C4": "0x801730C4",
-        "0x80172144": "0x80172144",
-        "0x80176084": "0x80176084",
-        "0x80174A68": "0x80174A68",
-        "0x8017558C": "0x8017558C",
-        "0x80173510": "0x80173510",
-        "0x80170F9C": "0x80170F9C"
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8014DA80"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D63464",

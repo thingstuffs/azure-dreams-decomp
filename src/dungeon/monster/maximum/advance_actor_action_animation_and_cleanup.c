@@ -25,7 +25,7 @@ extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
 extern s32 maximum_action_continuation_address;
-extern u8 D_80173C84[];
+extern u8 maximum_frame_set[];
 
 /* Advances the actor action through animation setup, completion, and cleanup. */
 void advance_actor_action_animation_and_cleanup(void *action, s32 actor_id, SpriteFrameState *animation, ActorRecord *actor) {
@@ -41,9 +41,9 @@ void advance_actor_action_animation_and_cleanup(void *action, s32 actor_id, Spri
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
-        animation->frameTable = D_80173C84;
+        animation->frameTable = maximum_frame_set;
         select_sprite_entry(animation,
-            D_80173C84[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            maximum_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801726C4_0 *)action)->unk_9B++;
         return;

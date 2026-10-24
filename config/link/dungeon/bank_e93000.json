@@ -242,6 +242,31 @@
       }
     },
     {
+      "row": "dungeon/func_80E7534C",
+      "tu": "src/dungeon/monster/barong/update_timed_hop_and_landing.c",
+      "home": "dungeon/func_80E6934C",
+      "foff": "0xE9534C",
+      "vma": "0x80160b4c",
+      "size": 996,
+      "bindings": {
+        "0x8016F554": "0x80163554",
+        "0x8016F574": "0x80163574",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x800A2B04": "0x800A2B04",
+        "0x8016F57C": "0x8016357C",
+        "0x800AD594": "0x800AD594",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x80083460": "0x80083460",
+        "0x80082E80": "0x80082E80",
+        "0x800A0818": "0x800A0818",
+        "0x800AD9B4": "0x800AD9B4",
+        "0x8016B6F4": "0x8015F6F4",
+        "0x800A9A04": "0x800A9A04"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_80E75730",
       "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F88C30",
@@ -458,60 +483,42 @@
     },
     {
       "row": "dungeon/func_80E76C38",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xE96C38",
       "vma": "0x80162438",
       "size": 56,
       "bindings": {
-        "0x801747F0": "0x801747F0",
-        "0x801716F4": "0x801716F4",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810",
-        "0x801750F8": "0x801750F8",
-        "0x801731C8": "0x801731C8",
-        "0x801739E8": "0x801739E8"
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8015F6F4"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80E76C70",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xE96C70",
       "vma": "0x80162470",
       "size": 56,
       "bindings": {
-        "0x801747F0": "0x801747F0",
-        "0x801716F4": "0x801716F4",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810",
-        "0x801750F8": "0x801750F8",
-        "0x801731C8": "0x801731C8",
-        "0x801739E8": "0x801739E8"
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8015F6F4"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80E76CA8",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xE96CA8",
       "vma": "0x801624A8",
       "size": 56,
       "bindings": {
-        "0x801747F0": "0x801747F0",
-        "0x801716F4": "0x801716F4",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810",
-        "0x801750F8": "0x801750F8",
-        "0x801731C8": "0x801731C8",
-        "0x801739E8": "0x801739E8"
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8015F6F4"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80E76CE0",

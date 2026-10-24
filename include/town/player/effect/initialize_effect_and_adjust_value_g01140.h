@@ -124,7 +124,7 @@ s32 update_object_and_clear_status_fields();
 extern Rec_D_800CFCB4 town_actor_control;
 extern Rec_D_800FE490 town_motion_list;
 extern s32 D_800A5A98;
-extern s16 D_800D01F8[];
+extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
 extern void step_actor_animation(void *, s32);

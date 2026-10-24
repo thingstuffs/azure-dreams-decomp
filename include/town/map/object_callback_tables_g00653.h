@@ -11,7 +11,7 @@
 typedef map_trigger_callback_fn Callback;
 
 extern u8 D_800C1E50[];
-extern u8 D_800C1EA4[];
+extern u8 town_map_trigger_handler[];
 
 /* Functions defined in this translation unit. */
 void initialize_object_and_replace_callbacks(void);

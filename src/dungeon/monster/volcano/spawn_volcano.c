@@ -47,7 +47,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
             right = ((S_80158854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_80158854_0 *)work)->unk_14 = left;
             ((S_80158854_0 *)work)->unk_1C = right;
-            part_b->unk_2C = D_8015C510;
+            part_b->unk_2C = volcano_slot_c_frame_set;
         } else {
             if (kind >= 2) {
                 ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
@@ -55,7 +55,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
                 right = ((S_80158854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_80158854_0 *)work)->unk_14 = left;
                 ((S_80158854_0 *)work)->unk_1C = right;
-                part_b->unk_2C = D_8015C510;
+                part_b->unk_2C = volcano_slot_c_frame_set;
             } else {
                 if (((spawn_flags & ~3) << 16) == 0) {
                     if (!(((S_80158854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
@@ -67,10 +67,10 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
                     }
                     ;
                     ((S_80158854_4 *)actor)->unk_8C = func_80158E5C;
-                part_b->unk_2C = D_8015C510;
+                part_b->unk_2C = volcano_slot_c_frame_set;
                 } else {
                     ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
-                part_b->unk_2C = D_8015C510;
+                part_b->unk_2C = volcano_slot_c_frame_set;
                 }
             }
         }

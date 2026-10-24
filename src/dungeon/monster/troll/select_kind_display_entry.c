@@ -25,7 +25,7 @@ typedef struct {
     u8 kind48;
 } Obj3;
 
-extern u8 D_8015A4BC[];
+extern u8 troll_slot_c_action_callback[];
 extern s32 D_8015DDC4;
 extern s32 D_8015DDCC;
 extern s32 D_8015DDD4;
@@ -100,7 +100,7 @@ void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Ob
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->field8c = D_8015A4BC;
+            owner->field8c = troll_slot_c_action_callback;
         }
         return;
     }

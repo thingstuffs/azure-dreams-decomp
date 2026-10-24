@@ -33,8 +33,8 @@ extern void update_directional_sprite_state_and_signals(void *, void *, void *, 
 
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
-extern u8 D_801740F0[];
-extern u8 D_80174140[];
+extern u8 hikewne_frame_set[];
+extern u8 hikewne_frame_set_18[];
 extern u8 hikewne_frame_set_1[];
 extern u8 hikewne_frame_set_2[];
 
@@ -99,7 +99,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             stats->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite, D_801740F0) != 0) {
+        if (reset_actor_action_state(actor_arg, context_arg, sprite, hikewne_frame_set) != 0) {
             return;
         }
     }
@@ -130,7 +130,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         ((S_801714D4_0 *)actor_arg)->unk_98 &= 0xFFF7;
 
         if (stats->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, D_80174140) != 0) {
+            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, hikewne_frame_set_18) != 0) {
                 return;
             }
         }

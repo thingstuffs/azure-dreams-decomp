@@ -14,7 +14,7 @@
 #include "dungeon/player.h"
 
 
-extern u32 *D_800DD6B8[];
+extern u32 *dungeon_category_action_handlers[];
 extern u8 floor_objects[];
 
 extern s16 get_special_table_data_index(void *);
@@ -54,7 +54,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         return;
     }
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-    handler_entry = D_800DD6B8[type_index][action_index];
+    handler_entry = dungeon_category_action_handlers[type_index][action_index];
     handler_tag = handler_entry >> 0x18;
     handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
     if (handler_tag != 0) {

@@ -17,7 +17,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);
-extern void D_8016AF68(void);
+extern void tyrant_slot_f_action_callback(void);
 
 typedef struct S_8016A898_0 {
     u8 pad_00[0x13];
@@ -97,7 +97,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         tail_actor = state_data;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
-        (*(Callback *)((u8 *)tail_actor + 0x8C)) = D_8016AF68;
+        (*(Callback *)((u8 *)tail_actor + 0x8C)) = tyrant_slot_f_action_callback;
         tail_flags = part_data->flags;
         tail_entity = (void *)part_data;
         tail_flags |= 0xC;

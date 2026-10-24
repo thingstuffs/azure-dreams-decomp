@@ -32,7 +32,7 @@ extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
-extern u8 D_80175564[];
+extern u8 barong_frame_set_4[];
 extern u8 D_8017558C[];
 
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
@@ -133,7 +133,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
-        if (actor->frameTable == D_80175564) {
+        if (actor->frameTable == barong_frame_set_4) {
             (actor->frameTable) = barong_direction_frames;
             select_sprite_entry(actor,
                 barong_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)

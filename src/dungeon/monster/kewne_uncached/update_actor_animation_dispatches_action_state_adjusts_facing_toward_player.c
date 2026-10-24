@@ -48,7 +48,7 @@ extern s32 func_801611CC(void *, void *, void *, void *);
 extern void func_80163078(void *, void *, void *, void *);
 
 extern u8 D_8015FFA4[];
-extern u8 D_80163C30[];
+extern u8 kewne_uncached_frame_set_3[];
 extern u8 D_80163C38[];
 extern u8 D_80163C88[];
 extern u8 D_80163C90[];
@@ -113,12 +113,12 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
             current_anim = sprite->frameTable;
             if (current_anim != D_80163CA8 || (sprite->flags & 0xE000)) {
                 if (current_anim == D_80163CA8) {
-                    (sprite->frameTable) = D_80163C30;
+                    (sprite->frameTable) = kewne_uncached_frame_set_3;
                     select_sprite_entry(sprite,
-                        D_80163C30[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        kewne_uncached_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                 } else {
-                    void *idle_anim = D_80163C30;
+                    void *idle_anim = kewne_uncached_frame_set_3;
                     if (current_anim == idle_anim) {
                         goto table_done;
                     }

@@ -35,7 +35,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_8016B728;
-extern u8 D_8016EDEC[];
+extern u8 saber_frame_set_8[];
 extern u8 D_8016EE0C[];
 extern u8 D_8016EE14[];
 
@@ -124,11 +124,11 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
         break;
 
     case 3:
-        if (*(u8 * *)&sprite->frameTable != D_8016EDEC) {
-            sprite->frameTable = D_8016EDEC;
+        if (*(u8 * *)&sprite->frameTable != saber_frame_set_8) {
+            sprite->frameTable = saber_frame_set_8;
             select_sprite_entry(
                 sprite,
-                D_8016EDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                saber_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;

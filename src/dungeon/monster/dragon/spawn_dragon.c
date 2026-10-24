@@ -62,7 +62,7 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
         initialize_actor_sprite_and_animation(obj, part_a, part_b, mode_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80158E54;
+        actor->unk_8C = &dragon_slot_c_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

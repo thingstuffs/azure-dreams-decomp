@@ -3,7 +3,7 @@
 
 extern u32 process_checked_entry(s32 object, s32 entryIndex);
 extern void clear_script_flag_bit(s32 bit_index);
-extern u8 D_8001F15A[];
+extern u8 town_entry_check_zero[];
 
 /* Record whether the check returned zero and invoke the handler when it did. */
 s32 record_check_returned(s32 check_input_1, s32 check_input_2) {
@@ -11,9 +11,9 @@ s32 record_check_returned(s32 check_input_1, s32 check_input_2) {
 
     result = process_checked_entry(check_input_1, check_input_2);
     if (result != 0) {
-        D_8001F15A[0] = 0;
+        town_entry_check_zero[0] = 0;
     } else {
-        D_8001F15A[0] = 1;
+        town_entry_check_zero[0] = 1;
         clear_script_flag_bit(Ftt_pad73);
     }
     return result;

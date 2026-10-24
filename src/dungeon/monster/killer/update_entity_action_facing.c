@@ -34,7 +34,7 @@ extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 extern u8 D_80174040[];
 extern u8 D_80174070[];
-extern u8 D_80174080[];
+extern u8 killer_frame_set[];
 extern u8 killer_frame_set_2[];
 
 typedef struct S_80170EA8_0 {
@@ -65,9 +65,9 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
     if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != killer_frame_set_2) {
-            (sprite->frameTable) = D_80174080;
+            (sprite->frameTable) = killer_frame_set;
             select_sprite_entry(sprite,
-                D_80174080[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                killer_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -81,7 +81,7 @@ void update_entity_action_facing(void *actor, void *context, SpriteFrameState *s
             entity->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor, context, sprite, D_80174080)) {
+        if (reset_actor_action_state(actor, context, sprite, killer_frame_set)) {
             return;
         }
     }

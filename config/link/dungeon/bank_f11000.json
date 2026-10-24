@@ -205,6 +205,14 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80EF38E0",
+      "tu": "src/dungeon/monster/weadog/move_actor_to_tile_with_hop.c",
+      "home": "dungeon/func_80EF38E0",
+      "foff": "0xF138E0",
+      "vma": "0x801610e0",
+      "size": 976
+    },
+    {
       "row": "dungeon/func_80EF3CB0",
       "tu": "src/dungeon/actor/install_actor_action_handler.c",
       "home": "dungeon/func_800CEE70",
@@ -392,48 +400,42 @@
     },
     {
       "row": "dungeon/func_80EF4F7C",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF14F7C",
       "vma": "0x8016277C",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8015FCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EF4FB4",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF14FB4",
       "vma": "0x801627B4",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8015FCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EF4FEC",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xF14FEC",
       "vma": "0x801627EC",
       "size": 56,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8015FCE8"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EF5024",

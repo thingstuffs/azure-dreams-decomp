@@ -8,6 +8,33 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_8054F9D4",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x4CF9D4",
+      "vma": "0x800161d4",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x8001795C",
+        "0x800190B4": "0x80017A94",
+        "0x800182E4": "0x80016D10"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8054FB58",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x4CFB58",
+      "vma": "0x80016358",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x80017A38"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8054FBF8",
       "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",

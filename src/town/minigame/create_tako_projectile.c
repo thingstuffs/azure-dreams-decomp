@@ -24,7 +24,7 @@ typedef struct Object136 {
 
 extern void register_node();
 extern u8 D_8002614C[];
-extern u8 D_800F7944[];
+extern u8 tako_particle_sprite_data[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
 void create_tako_projectile(Copy20 *init_data, s32 pos_y)
@@ -46,7 +46,7 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
         data->y.v = pos_y;
         entity->scale_y = 0x1000;
         entity->scale_x = 0x1000;
-        entity->source = (s32)D_800F7944;
+        entity->source = (s32)tako_particle_sprite_data;
         entity->unk_04 = 0;
         entity->frame_ticks = 0;
         entity->color.word = 0x00808080;

@@ -72,7 +72,7 @@ extern s16 query_lowered_transform_position(void *);
 extern u8 gym_object_state_address[];
 extern u8 D_80023994[];
 extern u8 gym_score_update_address[];
-extern u8 D_80023F6C[];
+extern u8 gym_object_callback[];
 extern u8 D_80023FF8[];
 extern u8 D_80024070[];
 
@@ -203,7 +203,7 @@ void update_gym_minigame(GymState *state_obj) {
 
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {
-                    obj->update_callback = D_80023F6C;
+                    obj->update_callback = gym_object_callback;
                     register_node(obj, &display_registration_tag);
                     secondary = (u8 *)obj + 0x20;
                     ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
@@ -399,7 +399,7 @@ loop_0:
 
             obj = allocate_list_node(1, main_state - 0x20);
             if (obj != NULL) {
-                obj->update_callback = D_80023F6C;
+                obj->update_callback = gym_object_callback;
                 register_node(obj, &display_registration_tag);
                 secondary = (u8 *)obj + 0x20;
                 ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;

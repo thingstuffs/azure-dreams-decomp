@@ -73,6 +73,26 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8051FD20",
+      "tu": "src/town/scene/object/configure_active_object_two.c",
+      "home": "town/func_8047E398",
+      "foff": "0x49FD20",
+      "vma": "0x80017520",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8051FD58",
+      "tu": "src/town/scene/service/call_scene_service_280_with_flag_1000.c",
+      "home": "town/func_8051FD58",
+      "foff": "0x49FD58",
+      "vma": "0x80017558",
+      "size": 56
+    },
+    {
       "row": "town/func_8051FE00",
       "tu": "src/town/scene/select_status_code_from_callback.c",
       "home": "town/func_8032E254",
@@ -110,6 +130,14 @@
         "0x80018AEC": "0x80017698"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8051FED4",
+      "tu": "src/town/scene/select_next_eligible_wrapped_entry_second.c",
+      "home": "town/func_8051FED4",
+      "foff": "0x49FED4",
+      "vma": "0x800176d4",
+      "size": 60
     },
     {
       "row": "town/func_8051FF10",

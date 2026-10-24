@@ -32,7 +32,7 @@ typedef struct S_8016B778_5 {
     u16 unk_0C;
 } S_8016B778_5;   /* entry in update_main_actor_action_and_facing */
 
-extern u8 D_801746A4[];
+extern u8 ghosh_frame_set_12[];
 extern u8 ghosh_frame_set_4[];
 #include "dungeon/monster/ghosh.h"
 extern u8 ghosh_frame_set_3[];
@@ -80,7 +80,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         return;
     }
     if (entity->flags1C & ACTOR_ASLEEP) {
-        if (*(u8 **)&map_actor->frameTable == D_801746A4) {
+        if (*(u8 **)&map_actor->frameTable == ghosh_frame_set_12) {
             flag_mask_hi = (s32)0xFFFB0000;
             actor->unk_9A.as_u8 = 0xDU;
             actor->unk_9B.as_s8 = 1;

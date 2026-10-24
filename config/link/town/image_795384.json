@@ -31,6 +31,26 @@
       "foff": "0x796788",
       "vma": "0x80020788",
       "size": 164
+    },
+    {
+      "row": "town/func_8081AAC0",
+      "tu": "src/town/scene/flags/decrement_timer_set_completion_flag.c",
+      "home": "town/func_8081AAC0",
+      "foff": "0x79AAC0",
+      "vma": "0x80024ac0",
+      "size": 68
+    },
+    {
+      "row": "town/func_8081AB04",
+      "tu": "src/town/scene/flags/decrement_timer_set_completion_flag.c",
+      "home": "town/func_8081AAC0",
+      "foff": "0x79AB04",
+      "vma": "0x80024b04",
+      "size": 68,
+      "bindings": {
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ]
 }

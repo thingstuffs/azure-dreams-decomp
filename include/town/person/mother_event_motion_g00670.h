@@ -32,7 +32,7 @@ extern s32 D_800C7674;
 extern s32 mother_event_object_entries;
 extern void D_800C78A8();
 
-extern Timer D_80113220;
+extern Timer mother_event_ticks;
 
 /* Functions defined in this translation unit. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg);

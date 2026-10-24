@@ -10,8 +10,8 @@ extern void *format_unsigned_double_byte_decimal();
 extern void *expand_text_control_codes();
 extern void *copy_selected_text_without_terminator();
 extern u8 *D_800DD720;
-extern s32 D_800DD72C[];
-extern s32 D_800DD784[];
+extern s32 item_type_text_prefixes[];
+extern s32 item_type_text_suffixes[];
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
 u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
@@ -29,7 +29,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     out = buffer;
     if (!(dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         prefix_kind = data->unk1;
-        prefix_id = D_800DD72C[prefix_kind];
+        prefix_id = item_type_text_prefixes[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != ITEM_KIND_SWORD) || (data->unk0 < 0xEU))) {
             out = expand_text_control_codes(prefix_id, out);
         }
@@ -37,7 +37,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     out = copy_selected_text_without_terminator(data, out);
     if (!(dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND)) {
         suffix_kind = data->unk1;
-        suffix_id = D_800DD784[suffix_kind];
+        suffix_id = item_type_text_suffixes[suffix_kind];
         if ((suffix_id != 0) && ((suffix_kind != ITEM_KIND_SWORD) || (data->unk0 < 0xEU))) {
             out = expand_text_control_codes(suffix_id, out);
         }

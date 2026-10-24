@@ -781,27 +781,27 @@ void clear_vram_callback_state(void) {
     card_server_initialized[0] = 0;
 }
 
-extern void *scene_create_resource_transition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, void *task_context);
 
 /* Create an object task with mode zero. */
-void create_resource_transition_for_descriptor_check(void *object)
+void *create_resource_transition_for_descriptor_check(void *object)
 {
-    scene_create_resource_transition(object, 0);
+    return scene_create_resource_transition(object, 0);
 }
 
-extern void *scene_create_resource_transition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, void *task_context);
 
 /* Create an object task with mode one. */
-void create_resource_transition_card(int object) {
-    scene_create_resource_transition(object, 1);
+void create_resource_transition_card(void *object) {
+    scene_create_resource_transition(object, (void *)1);
 }
 
-extern void *scene_create_resource_transition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, void *task_context);
 
 /* Create an object task with mode two and return it. */
 void *create_resource_transition_task(void *owner)
 {
-    return scene_create_resource_transition(owner, 2);
+    return scene_create_resource_transition(owner, (void *)2);
 }
 
 extern void init_object_header_a(void *a0);

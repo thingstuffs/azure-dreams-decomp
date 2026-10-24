@@ -1351,7 +1351,7 @@ typedef struct {
 /* These resident data/code addresses are not present in the catalog for this
  * cold overlay row; the binds retain real link-resolved symbols. */
 
-const Copy32 D_80024058 = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
+const Copy32 textured_quad_octant_offsets = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
 extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
@@ -1384,7 +1384,7 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     s32 i;
 
     obj = ((S_800259D8_0 *)effect)->unk_00;
-    copy = D_80024058;
+    copy = textured_quad_octant_offsets;
     state = ((S_800259D8_0 *)effect)->unk_0A.s;
     base = (u8 *)obj - 0x20;
     entry = ((S_800259D8_1 *)base)->unk_08;

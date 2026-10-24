@@ -13,7 +13,7 @@ extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 initialize_actor_facing_sprite();
 
-extern u8 D_80174DE4[];
+extern u8 saber_frame_set_9[];
 
 typedef struct S_80171CD4_0 {
     u8 pad_00[0x1C];
@@ -56,11 +56,11 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != D_80174DE4) {
-        (entity->frameTable) = D_80174DE4;
+    if (*(u8 **)&entity->frameTable != saber_frame_set_9) {
+        (entity->frameTable) = saber_frame_set_9;
         select_sprite_entry(
             entity,
-            D_80174DE4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            saber_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

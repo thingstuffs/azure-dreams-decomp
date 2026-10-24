@@ -20,7 +20,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern s32 nyuel_action_resume_address;
-extern s32 D_80174F18;
+extern s32 nyuel_frame_set;
 
 /* Updates decaying movement and tile alignment before advancing or finishing the action. */
 void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, EntityRec *actor_data)
@@ -43,7 +43,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile_state, &D_80174F18);
+            begin_actor_display_action(action, motion, tile_state, &nyuel_frame_set);
             return;
         }
         if (tile_state->flags & 0x8000) {
@@ -84,7 +84,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        begin_actor_display_action(action, motion, tile_state, &D_80174F18);
+        begin_actor_display_action(action, motion, tile_state, &nyuel_frame_set);
         return;
 
     case 2:
@@ -113,7 +113,7 @@ void update_decaying_movement_and_alignment(S_80172DB4_0 *action, ObjectPosition
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile_state, &D_80174F18);
+            begin_actor_display_action(action, motion, tile_state, &nyuel_frame_set);
             return;
         } else {
             motion->velocity_z = 0;

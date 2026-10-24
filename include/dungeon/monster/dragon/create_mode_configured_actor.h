@@ -48,7 +48,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA28[];
-extern u8 D_8016AE54;
+extern u8 dragon_slot_f_action_callback;
 extern u8 D_8016DC7C[];
 extern u8 D_8016DCDC[];
 

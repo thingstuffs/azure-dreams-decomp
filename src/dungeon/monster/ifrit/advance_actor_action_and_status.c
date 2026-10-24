@@ -44,7 +44,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80173F28(void *, void *, void *, void *);
 
 extern u8 ifrit_action_resume_address[];
-extern u8 D_80174860[];
+extern u8 ifrit_frame_set[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
 void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFrameState *in_sprite, void *in_actor)
@@ -60,7 +60,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFr
             u8 *direction_frames;
             DungeonGlobalStatus *system_base;
 
-            direction_frames = D_80174860;
+            direction_frames = ifrit_frame_set;
             (in_sprite->frameTable) = direction_frames;
             select_sprite_entry(in_sprite,
                 direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],

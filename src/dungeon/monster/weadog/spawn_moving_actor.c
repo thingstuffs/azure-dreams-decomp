@@ -18,7 +18,7 @@ typedef struct {
 
 extern Copy32 weadog_slot_g_direction_steps;
 extern u8 D_80077C50[];
-extern u8 D_801708BC[];
+extern u8 weadog_object_callback[];
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];
 extern u8 D_80174F18[];
@@ -69,7 +69,7 @@ void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *spr
             }
             spawned_actor = allocate_flagged_object_node(0x12);
             if (spawned_actor != 0) {
-                spawned_actor->update_callback = D_801708BC;
+                spawned_actor->update_callback = weadog_object_callback;
                 spawned_work = (u8 *)spawned_actor + 0x20;
                 register_node(spawned_actor, project_sprite_chain);
                 spawned_sprite = spawned_actor->sprite;

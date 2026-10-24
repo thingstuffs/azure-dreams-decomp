@@ -467,7 +467,7 @@ s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 s32 resolve_actor_floor_trap_once();
 s32 propagate_actor_action_flag();
-extern u8 D_801744E4[];
+extern u8 univern_frame_set[];
 extern u8 view_facing_angle_alias[];
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];

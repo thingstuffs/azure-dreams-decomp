@@ -32,7 +32,7 @@ typedef struct S_80BFD000_4 {
     s8 unk_9C;
 } S_80BFD000_4;   /* actor in spawn_clown_slot_d */
 
-extern u8 D_8015EA58[];
+extern u8 clown_object_callback_3[];
 void *allocate_list_node();
 s32 register_node();
 s16 set_or_clear_actor_status_slot();
@@ -71,7 +71,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     if (object != NULL) {
         actor_state = ((void *)object) + 0x20;
         actor = actor_state;
-        object->update_callback = D_8015EA58;
+        object->update_callback = clown_object_callback_3;
         actor_state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         attributes = object->position;

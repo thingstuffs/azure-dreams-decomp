@@ -121,7 +121,7 @@ extern u8 scene_object_factory_data[16];
 extern u8 collection_round_work[0x20];
 extern s32 town_motion_state[6];
 extern s32 D_802BC5C8[3];
-extern s32 D_80530588[3];
+extern s32 betting_round_handle[3];
 extern u8 D_802483B8[];
 extern u8 betting_sprite_animation[];
 extern u8 D_80290270[];
@@ -265,7 +265,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         if (game->unk_22 != 3) {
             round_handle = func_80232868(0, -0x50, 0x40);
             odds = 6 / (s32) (game->unk_22 + 1);
-            D_80530588[0] = round_handle;
+            betting_round_handle[0] = round_handle;
             game->unk_10 = odds;
             if (func_80052374(odds) == 0) {
                 town_motion_state[5] = 0;
@@ -568,7 +568,7 @@ settle_done:
         finish_delay = game->unk_1A - 1;
         game->unk_1A = finish_delay;
         if ((finish_delay << 0x10) <= 0) {
-            func_80232A08(D_80530588[0]);
+            func_80232A08(betting_round_handle[0]);
             game->unk_18 = 0;
             finish_flags = game->unk_20 | 2;
             game->unk_20 = finish_flags;
@@ -584,7 +584,7 @@ settle_done:
         refund_steps = game->unk_1E - 2;
         game->unk_1E = refund_steps;
         if ((refund_steps << 0x10) <= 0) {
-            func_80232A08(D_80530588[0]);
+            func_80232A08(betting_round_handle[0]);
             game->unk_1E = 0U;
             game->unk_18 = 0;
             finish_flags = game->unk_20 | 0xA;

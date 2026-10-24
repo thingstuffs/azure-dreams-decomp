@@ -27,7 +27,7 @@ extern void spend_actor_mp(void *, s32);
 extern void func_8015921C(void *, void *, void *, void *);
 extern void func_801594FC(void *, void *, void *, void *);
 
-extern u8 D_8015A4BC[];
+extern u8 troll_slot_c_action_callback[];
 extern u8 D_8015DDDC[8];
 extern u8 D_8015DDE4[8];
 extern u8 D_8015DDEC[8];
@@ -101,7 +101,7 @@ void advance_actor_timed_action_sequence_updating(void *action, ObjectPosition *
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            ((S_8015C3C4_0 *)action)->unk_8C = D_8015A4BC;
+            ((S_8015C3C4_0 *)action)->unk_8C = troll_slot_c_action_callback;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

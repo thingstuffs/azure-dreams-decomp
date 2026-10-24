@@ -28,9 +28,9 @@ typedef struct T_80174C44_S_80174C44_4 {
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
-extern u8 D_80175E3C[];
-extern u8 D_80175E44[];
-extern u8 D_80175E4C[];
+extern u8 troll_frame_set_5[];
+extern u8 troll_frame_set_6[];
+extern u8 troll_frame_set_7[];
 void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, void *actor);
 extern void update_actor_behavior();
 #endif

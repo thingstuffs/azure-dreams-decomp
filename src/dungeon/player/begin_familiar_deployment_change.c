@@ -8,11 +8,11 @@ extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 get_special_table_data_index(s32);
 extern void append_packed_action_record(void *, s32, s16, s32);
 
-extern u8 D_800DD130[];
+extern u8 familiar_summon_frames[];
 
 /* Initializes object state and its directional display, then dispatches an action. */
 void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
-    u8 *direction_table = D_800DD130;
+    u8 *direction_table = familiar_summon_frames;
     s32 lookup_result;
     u16 saved_mode;
 

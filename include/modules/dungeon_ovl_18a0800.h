@@ -14,7 +14,7 @@ struct S_80025654_4;
 typedef struct EffectColor { u8 pad[12]; u8 red,green,blue; } EffectColor;
 extern u16 tint_effect_update_count[];
 extern s16 tint_effect_phase_counts[];
-extern u8 D_80025854[];
+extern u8 tinted_travel_sprite_data[];
 struct S_80045C34;
 s32 draw_linked_sprites_clipped(u8 *,s32,struct S_80045C34 *);
 s32 func_80045C34(u8 *,s32,struct S_80045C34 *);

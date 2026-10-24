@@ -5,7 +5,7 @@
 
 /* Pass the global data at D_80017B94 to apply_signed_stat_deltas. */
 void apply_global_delta_record_b(void) {
-    apply_signed_stat_deltas(&D_80017B94);
+    apply_signed_stat_deltas(&town_scene_delta_words_a);
 }
 
 /* Pass D_80017BA4 to func_80019D60. */
@@ -15,10 +15,10 @@ void apply_global_delta_record_c(void) {
 
 /* Passes D_80017B94 to apply_half_step_position_deltas. */
 void apply_global_delta_record_d(void) {
-    apply_half_step_position_deltas(&D_80017B94);
+    apply_half_step_position_deltas(&town_scene_delta_words_a);
 }
 
 /* Passes D_80017B94 to apply_position_offset_pair. */
 void apply_global_delta_record_e(void) {
-    apply_position_offset_pair(&D_80017B94);
+    apply_position_offset_pair(&town_scene_delta_words_a);
 }

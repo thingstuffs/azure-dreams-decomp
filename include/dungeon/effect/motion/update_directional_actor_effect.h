@@ -17,7 +17,7 @@ s32 rcos(s32);
 extern u8 D_800DF334[];
 extern u8 linked_mesh_processor_address[];
 extern u8 D_80024980[];
-extern u8 D_80024998[];
+extern u8 directional_effect_sprite_data[];
 extern s16 D_800249A4;
 extern u16 D_800249A6[5];
 #endif

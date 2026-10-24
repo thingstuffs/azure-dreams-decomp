@@ -18,7 +18,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void hikewne_action_resume_address(void);
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
-extern Callback D_80174168[];
+extern Callback hikewne_behavior_handlers[];
 
 
 typedef struct S_80170DA8_2 {
@@ -70,7 +70,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
     if (update_callback != 0) {
         update_callback(entity, motion, sprite, entity);
     }
-    D_80174168[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, entity);
+    hikewne_behavior_handlers[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, entity);
     if ((s16)previous_state != (*(s8 *)((u8 *)entity + (0x6D)))) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }

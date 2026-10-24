@@ -22,7 +22,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_8015EE54;
+extern u8 grineut_slot_d_action_callback;
 extern u8 grineut_frame_set_10[];
 extern u8 D_80162178[];
 
@@ -143,7 +143,7 @@ void update_directional_movement_and_center(void *action, ObjectPosition *motion
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80161238_1 *)action)->unk_8C = &D_8015EE54;
+        ((S_80161238_1 *)action)->unk_8C = &grineut_slot_d_action_callback;
         break;
     }
 }

@@ -10,7 +10,7 @@ extern s32 D_8008DAB4_2[3];
 /* Processes the global state, optionally flags its linked object, and returns the state value. */
 s32 update_global_dialog_state(s32 flag_linked_object) {
     void *linked_object;
-    u8 *state_data = D_80409508 + 0x20;
+    u8 *state_data = card_message_object + 0x20;
 
     if (func_80047FD8(state_data - 0x20) != 0) {
         if (flag_linked_object != 0) {

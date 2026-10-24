@@ -38,11 +38,11 @@ s32 rand();                                /* extern */
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_8006E51C[];
+extern SpriteSourceEntry random_motion_sprite_data_a[];
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_8006E57C[];
+extern SpriteSourceEntry random_motion_sprite_data_b[];
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_8006E5D4[];
+extern SpriteSourceEntry random_motion_sprite_data_c[];
 
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
@@ -71,8 +71,8 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         *((s16 *)&motion->velocity_x + 1) = (s16) ((rand() & 0x1F) - 0x10);
         *((s16 *)&motion->velocity_y + 1) = (s16) ((rand() & 0x1F) - 0x10);
         *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0x1F));
-        effect_data->unk_08 = &D_8006E5D4;
-        select_record_entry_and_value(sprite, &D_8006E5D4, 0);
+        effect_data->unk_08 = &random_motion_sprite_data_c;
+        select_record_entry_and_value(sprite, &random_motion_sprite_data_c, 0);
         break;
     case 1:
         sprite->source = &D_8006E24C;
@@ -89,16 +89,16 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         effect_data->unk_12 = 1;
         break;
     case 3:
-        effect_data->unk_08 = &D_8006E51C;
-        select_record_entry_and_value(sprite, &D_8006E51C, 0);
+        effect_data->unk_08 = &random_motion_sprite_data_a;
+        select_record_entry_and_value(sprite, &random_motion_sprite_data_a, 0);
         motion->velocity_x = (s32) (rcos(game_state->camera_rotation.parts.viewAngle) << 7);
         velocity_y = rsin(game_state->camera_rotation.parts.viewAngle) << 7;
         motion->velocity_y = velocity_y;
         *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
         break;
     case 4:
-        effect_data->unk_08 = &D_8006E57C;
-        select_record_entry_and_value(sprite, &D_8006E57C, 0);
+        effect_data->unk_08 = &random_motion_sprite_data_b;
+        select_record_entry_and_value(sprite, &random_motion_sprite_data_b, 0);
         motion->velocity_x = (s32) ((0 - rcos(game_state->camera_rotation.parts.viewAngle)) << 7);
         velocity_y = (0 - rsin(game_state->camera_rotation.parts.viewAngle)) << 7;
         motion->velocity_y = velocity_y;

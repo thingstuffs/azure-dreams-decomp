@@ -9,7 +9,7 @@ extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern void handle_player_input(void *, void *, void *, void *);
 extern s32 has_action_input_without_modifier(void);
 
-extern u8 D_800DD008[8];
+extern u8 player_camera_reset_frames[8];
 extern u8 D_800DD010[8];
 extern StateFunc player_action_handlers[];
 
@@ -23,9 +23,9 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
     switch (phase) {
     case 0:
         if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
-            *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
+            *(u8 **)((u8 *)animation + 0x2C) = player_camera_reset_frames;
             set_sprite_animation_frame(animation,
-                D_800DD008[((camera->view.camera_rotation.parts.viewAngle +
+                player_camera_reset_frames[((camera->view.camera_rotation.parts.viewAngle +
                     *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
             *(u8 *)((u8 *)actor + 0x9B) += 1;
         }

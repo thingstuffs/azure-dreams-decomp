@@ -40,7 +40,7 @@ typedef struct {
     Func80BBB094PartC unk20;
 } Func80BBB094Object;
 
-extern u8 D_8014CE9C[];
+extern u8 nyuel_slot_a_action_callback[];
 extern u8 nyuel_frame_set_5[];
 extern u8 D_80150F00[];
 extern u8 D_8014CA98[];

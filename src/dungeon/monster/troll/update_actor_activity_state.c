@@ -495,18 +495,18 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_
             (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = (u32)&D_80175DCC;
+        display->frameTable = (u32)&troll_frame_set;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DCC), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&troll_frame_set), 0);
         return;
     case 15:
         if (*(u8 **)&display->frameTable != troll_kind15_direction_frames ||
             (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = (u32)&D_80175DD4;
+        display->frameTable = (u32)&troll_frame_set_4;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DD4), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&troll_frame_set_4), 0);
         return;
     default:
         return;

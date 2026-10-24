@@ -95,6 +95,26 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "main/func_8001ED2C",
+      "tu": "src/frontend/card/card_dev_save_wait_countdown.c",
+      "home": "main/func_8001ED2C",
+      "foff": "0x26ED2C",
+      "vma": "0x80405d2c",
+      "size": 40
+    },
+    {
+      "row": "main/func_8001EEAC",
+      "tu": "src/frontend/card/card_dev_save_wait_countdown.c",
+      "home": "main/func_8001ED2C",
+      "foff": "0x26EEAC",
+      "vma": "0x80405eac",
+      "size": 40,
+      "bindings": {
+        "0x80405CB8": "0x80405DE0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "main/func_8001EED4",
       "tu": "src/frontend/libcard/card_boot_enter_copying_progress.c",
       "home": "main/func_80012494",
@@ -208,6 +228,14 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "main/func_800205A8",
+      "tu": "src/frontend/card/card_dev_bind_slot_rows_template.c",
+      "home": "main/func_800205A8",
+      "foff": "0x2705A8",
+      "vma": "0x804075a8",
+      "size": 40
+    },
+    {
       "row": "main/func_80020688",
       "tu": "src/frontend/libcard/card_boot_initialize_paired_choice_panel.c",
       "home": "main/func_80013E90",
@@ -235,6 +263,19 @@
         "0x800270E0": "0x80407964"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_80020AEC",
+      "tu": "src/frontend/card/card_dev_bind_slot_rows_template.c",
+      "home": "main/func_800205A8",
+      "foff": "0x270AEC",
+      "vma": "0x80407aec",
+      "size": 40,
+      "bindings": {
+        "0x80408D64": "0x80408D74",
+        "0x80047358": "0x80047358"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "main/func_80020D38",

@@ -14,7 +14,7 @@ typedef struct S_8072A398_5 {
 } S_8072A398_5;   /* (*(void **)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v) + 0x1C)) in submit_position_with_service_258 */
 
 
-extern s32 D_80017B78;
+extern s32 town_service_fixed_position;
 
 typedef struct S_8072A398_0 {
     u8 pad_00[0x4];
@@ -27,10 +27,10 @@ void submit_position_with_service_258(void) {
     s32 *fixed_coords;
 
     ((s32 (*) (s32))town_scene_root->services->callback_258)(0xC);
-    D_80017B78 =
+    town_service_fixed_position =
         ((S_8072A398_4 *)(town_scene_root->position))->unk_04
     << 0x10;
-    fixed_coords = &D_80017B78;
+    fixed_coords = &town_service_fixed_position;
     ((S_8072A398_0 *)fixed_coords)->unk_04 =
         (s32) (((S_8072A398_5 *)((*(void **)((u8 *)(town_scene_root)
         + 0x1C))))->unk_08 << 0x10);

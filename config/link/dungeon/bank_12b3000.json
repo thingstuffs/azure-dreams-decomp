@@ -10,18 +10,18 @@
   "entries": [
     {
       "row": "dungeon/func_81293098",
-      "tu": "src/dungeon/monster/beldo/update_variant_part_brightness.c",
-      "home": "dungeon/func_81269000",
-      "foff": "0x12b3098",
+      "tu": "src/dungeon/monster/beldo/copy_part_state.c",
+      "home": "dungeon/func_81257000",
+      "foff": "0x12B3098",
       "vma": "0x80157898",
       "size": 696,
       "bindings": {
         "0x8003DE58": "0x8003DA40",
+        "0x800A56E0": "0x800A4398",
         "0x800478B8": "0x80047454",
-        "0x800814A0": "0x800803D4",
-        "0x800A56E0": "0x800A4398"
+        "0x800814A0": "0x800803D4"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81269000 onto dungeon/func_81257000; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_81293350",
@@ -846,6 +846,23 @@
         "0x80173F90": "0x8015AF90"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_81296460",
+      "tu": "src/dungeon/func_8127E460.c",
+      "home": "dungeon/func_8127E460",
+      "foff": "0x12B6460",
+      "vma": "0x8015ac60",
+      "size": 268,
+      "bindings": {
+        "0x80173710": "0x8015B710",
+        "0x80173718": "0x8015B718",
+        "0x80172F90": "0x8015AF90",
+        "0x80172FBC": "0x8015AFBC",
+        "0x80173714": "0x8015B714",
+        "0x80098E28": "0x80098E28"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_8129656C",

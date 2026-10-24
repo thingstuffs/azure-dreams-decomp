@@ -6,7 +6,7 @@
 #include "dungeon/player.h"
 
 extern u8 player_tile_motion_frames[];
-extern u8 D_800DD0E0[];
+extern u8 player_alternate_motion_frames[];
 
 extern void set_sprite_animation_frame(void *, s16, s16, s32);
 
@@ -21,7 +21,7 @@ void select_state_16_directional_animation(void *entity, void *unused, void *ani
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = 0;
         ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 &= 0xFFFE;
         if (state->flags1C & ACTOR_CARRYING) {
-            u8 *alternate_page = D_800DD0E0;
+            u8 *alternate_page = player_alternate_motion_frames;
             current_page = (*(u8 **) ((u8 *)animation + 0x2C));
             page = alternate_page;
         } else {

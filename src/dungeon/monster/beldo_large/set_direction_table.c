@@ -49,8 +49,8 @@ typedef struct {
 } DungeonInput;
 
 extern u8 beldo_large_frame_set_6[];
-extern u8 D_801739E8[];
-extern u8 D_801739F0[];
+extern u8 beldo_large_frame_set_17[];
+extern u8 beldo_large_frame_set_18[];
 extern u8 beldo_large_frame_set_2[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_1[];
@@ -89,10 +89,10 @@ void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
             set_direction_table(object, input, beldo_large_frame_set_6);
             break;
         case 1:
-            set_direction_table(object, input, D_801739E8);
+            set_direction_table(object, input, beldo_large_frame_set_17);
             break;
         case 2:
-            set_direction_table(object, input, D_801739F0);
+            set_direction_table(object, input, beldo_large_frame_set_18);
             break;
         case 3:
             set_direction_table(object, input, beldo_large_frame_set_6 + 0x18);

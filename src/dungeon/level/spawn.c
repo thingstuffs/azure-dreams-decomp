@@ -357,9 +357,9 @@ void build_cumulative_item_weights(void)
             }
             total_weight += item_weight;
         }
-        D_8001F6F8[category_index] = total_weight;
+        spawn_category_weight_totals[category_index] = total_weight;
     }
-    D_8001F6F8[category_index] = total_weight;
+    spawn_category_weight_totals[category_index] = total_weight;
 }
 
 /* Selects an eligible category and item by rarity weight, writing zeros if the scan finds none. */
@@ -384,7 +384,7 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     u8 *item_offset;
 
     rng_result = generate_random_value();
-    thresholds = (u16 *)D_8001F6F8;
+    thresholds = (u16 *)spawn_category_weight_totals;
     random_weight = thresholds[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;
     category_index = 1;

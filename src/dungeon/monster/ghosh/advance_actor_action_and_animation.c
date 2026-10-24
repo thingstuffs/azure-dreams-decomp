@@ -24,7 +24,7 @@ void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 void func_8016DAA4(void *, s32, void *, void *);
 
 extern u8 ghosh_action_resume_address[];
-extern u8 D_801746A4[];
+extern u8 ghosh_frame_set_12[];
 extern u8 D_801746AC[];
 #include "dungeon/monster/ghosh.h"
 extern u8 resident_globals_page[];
@@ -77,7 +77,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             return;
         }
         {
-            u8 *dir_table = D_801746A4;
+            u8 *dir_table = ghosh_frame_set_12;
             sprite->frameTable = dir_table;
             select_sprite_entry(
                 sprite,

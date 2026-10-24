@@ -31,7 +31,7 @@ typedef struct S_80171F30_4 {
 
    /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
 
-extern u8 D_80171704[];
+extern u8 ghosh_object_callback_2[];
 extern u8 D_80171CC0[];
 extern u8 D_80171D90[];
 extern u8 D_80171E60[];
@@ -122,7 +122,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     }
 
     call_object = object;
-    init_data = D_80171704;
+    init_data = ghosh_object_callback_2;
     header = object->sprite;
     tail = (u8 *)object + 0x20;
     header->depth_bias = 0;

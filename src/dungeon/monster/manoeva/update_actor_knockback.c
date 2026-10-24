@@ -29,7 +29,7 @@ extern void create_knockback_travel_object(void *,struct ObjectPosition *, void 
 extern void spawn_manoeva_particle_burst(void *,struct SpriteFrameState *);
 
 extern u8 manoeva_action_resume_address[];
-extern u8 D_80176640[];
+extern u8 manoeva_frame_set[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
 void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *actor)
@@ -60,7 +60,7 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(script, motion, tile, D_80176640);
+            begin_actor_display_action(script, motion, tile, manoeva_frame_set);
             return;
         }
         random = generate_random_value() & 3;
@@ -115,7 +115,7 @@ void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, Sprite
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(script, motion, tile, D_80176640);
+            begin_actor_display_action(script, motion, tile, manoeva_frame_set);
         } else {
             script->unk_96.s = 8;
             script->unk_9B++;

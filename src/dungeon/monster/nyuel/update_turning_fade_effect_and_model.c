@@ -100,8 +100,8 @@ extern u8 *actor_effect_color_targets[];
 extern void func_8017487C(u8 *task, void *context, u8 *input);
 extern u32 nyuel_image_commands;
 extern s32 D_80174FB4;
-extern u8 D_80174FCC[];
-extern u8 D_80174FCD[];
+extern u8 nyuel_image_load_done[];
+extern u8 nyuel_effect_load_done[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
@@ -131,14 +131,14 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&nyuel_image_commands, &D_80174FCC, 0);
+        run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 0);
         ((S_801749A8_0 *)sequence)->unk_A8 = 0;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if (D_80174FCC[0] == 0 || direction != 2) {
+        if (nyuel_image_load_done[0] == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
@@ -146,11 +146,11 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
             return;
         }
-        run_cd_image_commands(&nyuel_image_commands, &D_80174FCC, 1);
+        run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 1);
         sound_set_cd_cue_parameters(0, *cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
-        D_80174FCD[0] = 0;
-        Control_CD(0xFF, (s32) set_byte_one, &D_80174FCD);
+        nyuel_effect_load_done[0] = 0;
+        Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
         select_nearby_target_and_initialize_slot(target - 0x20, position, 8, 0x300);
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
@@ -159,7 +159,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         fade_ticks = fade_timer - 1;
         ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
-            ready = D_80174FCD[0];
+            ready = nyuel_effect_load_done[0];
             ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
             if (ready == 0) {
                 return;

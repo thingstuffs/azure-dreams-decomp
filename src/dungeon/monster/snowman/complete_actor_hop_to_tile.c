@@ -34,7 +34,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_801597F4;
-extern u8 D_8015D988[];
+extern u8 snowman_frame_set_6[];
 extern u8 D_8015D9A8[];
 extern u8 D_8015D9B8[];
 
@@ -122,13 +122,13 @@ void finish_snowman_tile_hop(void *action, ObjectPosition *motion, void *sprite,
         break;
 
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == D_8015D988) {
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable == snowman_frame_set_6) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_8015D988;
+        ((SpriteFrameState *)sprite)->frameTable = snowman_frame_set_6;
         select_sprite_entry(
             sprite,
-            D_8015D988[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            snowman_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 

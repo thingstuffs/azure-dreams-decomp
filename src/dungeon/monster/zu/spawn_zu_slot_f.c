@@ -39,7 +39,7 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 
 extern u8 D_8016AA70[];
-extern u8 D_8016EAD4[];
+extern u8 zu_frame_set_6[];
 extern u8 D_8016EAFC[];
 extern u8 D_8016B138[];
 
@@ -80,7 +80,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;
-        part_b->frameTable = D_8016EAD4;
+        part_b->frameTable = zu_frame_set_6;
         part_b->tile_x = held_a;
 
         if (kind == 1) {

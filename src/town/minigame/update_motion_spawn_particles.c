@@ -42,7 +42,7 @@ extern void StoreImage(void *, void *);
 extern s32 rand(void);
 extern void set_linked_object_and_global_flags(void);
 
-extern u8 D_800D231C[];
+extern u8 pool_palette_rect_2[];
 extern u8 pool_palette_rect[];
 extern u8 map_animation_sprite_entries[];
 extern u16 pool_palette_backup[];
@@ -143,7 +143,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             }
         }
 
-        LoadImage(D_800D231C, colors);
+        LoadImage(pool_palette_rect_2, colors);
         DrawSync(0);
         if (state->timer <= 0) {
             state->timer = 0x1E;
@@ -161,7 +161,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             colors[index] = (blue << 10) + ((green << 5) - 0x8000) + red;
             index--;
         } while (index >= 0);
-        LoadImage(D_800D231C, colors);
+        LoadImage(pool_palette_rect_2, colors);
         DrawSync(0);
         if (state->timer <= 0) {
             state->timer = 0x20;
@@ -195,7 +195,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
             output_color--;
             index--;
         } while (index >= 0);
-        LoadImage(D_800D231C, colors);
+        LoadImage(pool_palette_rect_2, colors);
         DrawSync(0);
         if (state->timer <= 0) {
             state->state++;
@@ -204,7 +204,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
     }
 
     case 5:
-        LoadImage(D_800D231C, pool_palette_backup);
+        LoadImage(pool_palette_rect_2, pool_palette_backup);
         DrawSync(0);
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

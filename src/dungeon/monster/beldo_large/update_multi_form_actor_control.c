@@ -41,10 +41,10 @@ extern u8 beldo_large_frame_set_5;
 extern u8 beldo_large_frame_set_1;
 extern u8 beldo_large_frame_set_3;
 extern u8 beldo_large_frame_set_6[];
-extern u8 D_801739E8[];
-extern u8 D_801739F0[];
+extern u8 beldo_large_frame_set_17[];
+extern u8 beldo_large_frame_set_18[];
 extern u8 D_801739F8[];
-extern u8 D_80173A00[];
+extern u8 beldo_large_frame_set_19[];
 extern u8 D_80173A08[];
 extern u8 D_80173A10[];
 extern u8 D_80173A18[];
@@ -124,9 +124,9 @@ void update_multi_form_actor_control(void *actor, void *context, SpriteFrameStat
             if (*(s32 **)&sprite->frameTable == &beldo_large_frame_set_4) {
                 return;
             }
-            (sprite->frameTable) = (s32 *)((u8 *)&D_80173A00 + 0xC0);
+            (sprite->frameTable) = (s32 *)((u8 *)&beldo_large_frame_set_19 + 0xC0);
             table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
-            table_index += (unsigned long)(s32 *)((u8 *)&D_80173A00 + 0xC0);
+            table_index += (unsigned long)(s32 *)((u8 *)&beldo_large_frame_set_19 + 0xC0);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
         }
@@ -219,7 +219,7 @@ block_37:
             active_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
             switch (active_pose) {
             case 0:
-                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80173A00) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, &beldo_large_frame_set_19) != 0) {
                     return;
                 }
                 break;
@@ -335,10 +335,10 @@ block_37:
                 begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_6), (s32)(&update_multi_form_actor_control));
                 return;
             case 1:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739E8), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_17), (s32)(&update_multi_form_actor_control));
                 return;
             case 2:
-                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739F0), (s32)(&update_multi_form_actor_control));
+                begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&beldo_large_frame_set_18), (s32)(&update_multi_form_actor_control));
                 return;
             case 3:
                 begin_actor_spell_action(actor, (s32)(context), sprite, (u8 *)(&D_801739F8), (s32)(&update_multi_form_actor_control));

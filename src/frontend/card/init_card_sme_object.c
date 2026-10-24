@@ -29,11 +29,11 @@ typedef struct {
     u8 unk_20[0x100];
 } Root;
 
-extern Root D_8040C420;
+extern Root card_sme_object;
 
 /* Initializes the memory card state object and its working data. */
 s32 init_card_sme_object(s32 init_option) {
-    Obj *obj = (Obj *)&D_8040C420;
+    Obj *obj = (Obj *)&card_sme_object;
     Sub *card_state = (Sub *)((u8 *)obj + 0x20);
     s32 state_value;
 
@@ -47,9 +47,9 @@ s32 init_card_sme_object(s32 init_option) {
     } else {
         process_embedded_data_and_propagate_flags(obj);
         {
-            u16 flags = D_8040C420.flags;
+            u16 flags = card_sme_object.flags;
             flags &= 0x7FFF;
-            D_8040C420.flags = flags;
+            card_sme_object.flags = flags;
         }
         func_8007BFE0(card_state, 0x180);
     }

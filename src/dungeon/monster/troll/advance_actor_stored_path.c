@@ -43,7 +43,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
         break;
     case 0xE:
         current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
-        direction_table = (u8 *)&D_80175DCC;
+        direction_table = (u8 *)&troll_frame_set;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
         direction_addr =
@@ -54,7 +54,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
         break;
     case 0xF:
         current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
-        direction_table = (u8 *)&D_80175DD4;
+        direction_table = (u8 *)&troll_frame_set_4;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
         direction_addr =

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u16 building_upload_rect[];
-extern u8 D_80110EC8[];
+extern u8 building_texture_frame_zero[];
 extern u8 building_texture_frame_one[];
 extern u8 building_texture_frame_two[];
 extern u8 building_texture_frame_three[];
@@ -39,7 +39,7 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
-        LoadImage(rect, D_80110EC8, upload_arg);
+        LoadImage(rect, building_texture_frame_zero, upload_arg);
         break;
 
     case 4:

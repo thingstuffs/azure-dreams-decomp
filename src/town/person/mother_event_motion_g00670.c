@@ -22,7 +22,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
         }
     }
 
-    frames_left = --D_80113220.value;
+    frames_left = --mother_event_ticks.value;
     if (frames_left <= 0) {
         install_stored_value_handler(object, position, update_arg);
         clear_mother_event_record_field(object, position, update_arg);
@@ -42,7 +42,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
 /* Reset the object callback when the shared countdown expires after a zero check result. */
 void reset_mother_event_callback_on_expiry(s32 object, s32 motion, s32 init_data, s32 check_arg) {
     if (select_object_setup_path(object, motion, init_data, check_arg) == 0) {
-        if (--D_80113220.value <= 0) {
+        if (--mother_event_ticks.value <= 0) {
             initialize_mother_event_with_timer_16((void *)object, motion, init_data);
         }
     }
@@ -139,6 +139,6 @@ void initialize_mother_event_with_timer_16(void *object, s32 unused, s32 init_da
 
     initialize_object_entries(object, (s8 *)(init_data), &mother_event_object_entries);
     *(s32 **)((u8 *)object + 0x50) = &D_800C78A8;
-    timer = &D_80113220;
+    timer = &mother_event_ticks;
     timer->value = 0x10;
 }

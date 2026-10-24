@@ -18,7 +18,7 @@ void initialize_event_selection_state(s32 unused, s32 unused_second)
     if (count_enabled_town_entries() != 0) {
         town_event_state->selected_entry = reset_event_selection_and_advance();
         town_event_state->selection_mode = 2;
-        D_8001E954[0] = choose_valid_entry_or_fallback(town_event_state->selected_entry);
+        town_selected_valid_entry[0] = choose_valid_entry_or_fallback(town_event_state->selected_entry);
     } else {
         town_event_state->selection_mode = 1;
     }

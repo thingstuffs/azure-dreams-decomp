@@ -26,12 +26,12 @@ extern u8 D_80017AF4;
 extern u8 D_80017B00;
 extern u8 D_80017B0C;
 extern u8 D_80017B18;
-extern u8 D_80017D50;
+extern u8 town_selected_entry_output;
 extern u8 D_80017AD0;
 extern u8 D_80017E54[];
 extern M2C_UNK D_80017B24;
 extern u8 D_80017EA4;
-extern u8 D_80017F08;
+extern u8 town_callback_output;
 extern u8 D_80017F44;
 
 /* Shared import declarations; data casts preserve each measured view. */

@@ -5,7 +5,7 @@
 
 
 
-extern IntVector3 D_80019AE0;
+extern IntVector3 town_player_fixed_position;
 
 /* Builds a record with two 16.16 values and a zero third value, then invokes the context callbacks. */
 void set_player_position_record(void) {
@@ -14,9 +14,9 @@ void set_player_position_record(void) {
     s32 source_value2;
 
     context = town_scene_root;
-    D_80019AE0.x = ((TownPositionState *)context->position)->x << 16;
+    town_player_fixed_position.x = ((TownPositionState *)context->position)->x << 16;
     source_value2 = ((TownPositionState *)context->position)->y;
-    output = &D_80019AE0;
+    output = &town_player_fixed_position;
     output->z = 0;
     output->y = source_value2 << 16;
     ((void (*)(s32))context->services->callback_208)(0);

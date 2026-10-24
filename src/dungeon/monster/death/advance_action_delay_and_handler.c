@@ -19,7 +19,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern s32 death_action_resume_address;
-extern s32 D_8017466C;
+extern s32 death_frame_set;
 
 /* Advance the action delay, reset motion, and select the next handler. */
 void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *motion, SpriteFrameState *action_info, EntityRec *actor_data)
@@ -38,7 +38,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, action_info, &D_8017466C);
+            begin_actor_display_action(action, motion, action_info, &death_frame_set);
             return;
         }
         if (action_info->flags & 0x8000) {
@@ -69,7 +69,7 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, action_info, &D_8017466C);
+            begin_actor_display_action(action, motion, action_info, &death_frame_set);
             return;
         } else {
             action->unk_96.s = 2;

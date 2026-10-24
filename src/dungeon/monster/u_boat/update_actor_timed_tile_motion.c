@@ -43,8 +43,8 @@ extern void spend_actor_mp(void *, s32);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
 extern u8 uboat_default_frames[];
-extern u8 D_800E2458[];
-extern u8 D_800E2460[];
+extern u8 uboat_timed_motion_frames[];
+extern u8 uboat_timed_motion_frames_alt[];
 #include "dungeon/monster/u_boat.h"
 
 /* Updates timed actor movement, landing animations, and the next action. */
@@ -60,7 +60,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
             break;
         }
         {
-            u8 *anim_table = D_800E2458;
+            u8 *anim_table = uboat_timed_motion_frames;
 
             sprite->frameTable = anim_table;
             select_sprite_entry(sprite,
@@ -119,7 +119,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState
             ((EntityRec *)motion)->unk_0C = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             {
-                u8 *anim_table = D_800E2460;
+                u8 *anim_table = uboat_timed_motion_frames_alt;
 
                 sprite->frameTable = anim_table;
                 select_sprite_entry(sprite,

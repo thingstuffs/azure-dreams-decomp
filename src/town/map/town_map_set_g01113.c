@@ -58,7 +58,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
     resource_slot = resources;
     index = 0;
     do {
-        link_index = D_800CFC2C[index];
+        link_index = town_map_link_slots[index];
         if (link_index == index) {
             linked_data = 0;
         } else {

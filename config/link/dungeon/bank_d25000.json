@@ -362,6 +362,30 @@
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80D08BC4",
+      "tu": "src/dungeon/monster/troll/advance_timed_action_and_effects.c",
+      "home": "dungeon/func_80CFCBC4",
+      "foff": "0xD28BC4",
+      "vma": "0x801563c4",
+      "size": 872,
+      "bindings": {
+        "0x80163DDC": "0x80157DDC",
+        "0x80163DEC": "0x80157DEC",
+        "0x80163DE4": "0x80157DE4",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x800A56E0": "0x800A56E0",
+        "0x8009C12C": "0x8009C12C",
+        "0x800AD594": "0x800AD594",
+        "0x801604BC": "0x801544BC",
+        "0x80083460": "0x80083460",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x8015F21C": "0x8015321C",
+        "0x8015F4FC": "0x801534FC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_80D097D8",
       "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
       "home": "dungeon/func_800AD90C",

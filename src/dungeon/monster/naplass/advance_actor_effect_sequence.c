@@ -59,7 +59,7 @@ extern void func_80171F94(void *action_state, void *action_context, void *sprite
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
-extern u8 D_801741DC[];
+extern u8 naplass_frame_set[];
 extern u8 naplass_frame_set_5[];
 extern u8 D_801741EC[];
 extern u8 D_801741F4[];
@@ -90,8 +90,8 @@ void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, S
     case 0:
         if (!(sprite->flags & 0xE000))
             return;
-        sprite->frameTable = D_801741DC;
-        select_sprite_entry(sprite, D_801741DC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        sprite->frameTable = naplass_frame_set;
+        select_sprite_entry(sprite, naplass_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);

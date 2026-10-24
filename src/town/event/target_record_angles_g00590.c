@@ -15,14 +15,14 @@ void apply_two_records_to_target(s32 target, s32 setup_data)
     D_800D1178.field10 = record_value;
     D_800D1178.field14 = record_value;
     D_800D1178.field18 = record_value;
-    D_800D1178.fieldA = -D_80100D40;
+    D_800D1178.fieldA = -town_motion_x_phase;
     transform_and_queue_mesh_quads(&D_800D1178, target);
 
     record_value2 = (s16)town_mesh_scale;
     D_800D119C.field10 = record_value2;
     D_800D119C.field14 = record_value2;
     D_800D119C.field18 = record_value2;
-    D_800D119C.field8 = D_80100D42;
+    D_800D119C.field8 = town_motion_y_phase;
     transform_and_queue_mesh_quads(&D_800D119C, target);
 }
 
@@ -44,7 +44,7 @@ void update_positions_from_origin(IntVector3 *origin)
 
     ++origin;
     --origin;
-    D_80100D40 += town_motion_x_step;
+    town_motion_x_phase += town_motion_x_step;
     {
         PositionRotationPair *rotation = &town_event_motion_pair;
 
@@ -53,14 +53,14 @@ void update_positions_from_origin(IntVector3 *origin)
         position->x = origin->x;
         position->y = origin->y;
         position->z = origin->z;
-        D_80100D42 += town_motion_y_step;
+        town_motion_y_phase += town_motion_y_step;
         position->y += rcos(add_x_and_get_angle(
             position, rsin(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
         draw_random_colored_line((s32)position, (s32)origin);
         scale = town_orbit_radius;
-        D_80100D48.x = origin->x + scale * 0x1800;
-        D_80100D48.y = origin->y;
-        D_80100D48.z = origin->z;
-        apply_two_records_to_target((s32)&D_80100D48, (s32)origin);
+        town_motion_offset_position.x = origin->x + scale * 0x1800;
+        town_motion_offset_position.y = origin->y;
+        town_motion_offset_position.z = origin->z;
+        apply_two_records_to_target((s32)&town_motion_offset_position, (s32)origin);
     }
 }

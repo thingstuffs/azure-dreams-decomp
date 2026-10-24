@@ -16,6 +16,22 @@
       "size": 144
     },
     {
+      "row": "town/func_8067F320",
+      "tu": "src/town/scene/lookup_entry_with_special_override.c",
+      "home": "town/func_8067F230",
+      "foff": "0x5FF320",
+      "vma": "0x80016320",
+      "size": 144,
+      "bindings": {
+        "0x80018770": "0x80018790",
+        "0x800188BC": "0x800188BC",
+        "0x80017B0C": "0x80017B0C",
+        "0x80017A54": "0x80017A54",
+        "0x8001A714": "0x8001A854"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8067F410",
       "home": "town/func_8067F230",
       "tu": "src/town/scene/lookup_entry_with_special_override.c",
@@ -49,6 +65,19 @@
         "0x800164A0": "0x800164C0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8067F52C",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x5FF52C",
+      "vma": "0x8001652c",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x80018864"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8067F564",

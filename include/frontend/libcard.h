@@ -27,7 +27,7 @@ void advance_card_boot_stream_pair(s32 record_addr);
 void advance_timed_visual(s32 *dest, s32 value);
 
 /* assign_object_descriptor_check.c */
-void assign_object_descriptor_on_check(s32 object_data_addr);
+void assign_object_descriptor_on_check(void *object_data_addr);
 
 /* build_and_queue_interpolated_vertical_quads_around_five_perimeter_points.c */
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8 *window_state);

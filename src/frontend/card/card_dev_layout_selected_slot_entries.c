@@ -24,7 +24,7 @@ typedef struct {
     u8 pad24[0x80 - 0x24];
 } BigEntry;
 
-extern BigEntry D_8009DDE4[];
+extern BigEntry card_slot_detail_records[];
 
 /* Sets up display element content and positions for the selected entry. */
 void card_dev_layout_selected_slot_entries(u8 *screen) {
@@ -37,7 +37,7 @@ void card_dev_layout_selected_slot_entries(u8 *screen) {
     element->unk0 = (void *) &D_80084158;
 
     element = *(SubStruct **)(screen + 0x1DC);
-    element->unk0 = (void *) func_80051B50(screen + 8, (*(s32 *)screen << 7) + (s32) &D_8009DDE4[0], 1);
+    element->unk0 = (void *) func_80051B50(screen + 8, (*(s32 *)screen << 7) + (s32) &card_slot_detail_records[0], 1);
     element->unk4->unk8 = 0xF0;
     element->unk4->unkA = 0x91;
 
@@ -47,7 +47,7 @@ void card_dev_layout_selected_slot_entries(u8 *screen) {
     element->unk4->unkA = 0x91;
 
     element = *(SubStruct **)(screen + 0x1E8);
-    func_80051804(D_8009DDE4[*(s32 *)screen].unk20, 4, &formatted_value);
+    func_80051804(card_slot_detail_records[*(s32 *)screen].unk20, 4, &formatted_value);
     func_80051900(&formatted_value);
     element->unk0 = (void *) func_80051520(screen + 0x80, &formatted_value, 1);
     element->unk4->unk8 = 0x13F;

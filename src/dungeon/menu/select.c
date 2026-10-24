@@ -510,7 +510,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         ((S_80025A14_2 *)obj_arg)->unk_0C = 0;
         ((S_80025A14_2 *)obj_arg)->unk_28 = reference_tile_object.render_attributes;
         ((S_80025A14_2 *)obj_arg)->unk_14 = reference_tile_object.sprite_flags & 0xFFFC;
-        ((S_80025A14_2 *)obj_arg)->unk_2C = D_800DD008;
+        ((S_80025A14_2 *)obj_arg)->unk_2C = player_camera_reset_frames;
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
         ((S_80025A14_0 *)state)->unk_73.s = 8;
         ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;

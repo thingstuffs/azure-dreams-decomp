@@ -1042,7 +1042,7 @@ void converge_particle_position_and_color(void *transition, S_807AFB48_0 *positi
 #include "shared/dungeon_moving_views.h"
 
 s32 rand();                                /* extern */
-extern M2C_UNK D_800FBE24;
+extern M2C_UNK view_marker_sprite_data;
 
 typedef struct S_807AFC9C_0 {
     u8 pad_00[0x8];
@@ -1083,7 +1083,7 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
         position->y.w.i = (s16) ((origin->y + (rand() & 0x3F)) - 0x20);
         position->z.w.i = (s16) ((origin->z + (rand() & 0x3F)) - 0x20);
         sprite = effect->sprite;
-        sprite->source = &D_800FBE24;
+        sprite->source = &view_marker_sprite_data;
         if (source->unk_14 & 1) {
             sprite->color.c.r = 0x20;
         }
@@ -1319,7 +1319,7 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
 s32 rand();                                /* extern */
-extern M2C_UNK D_800FBE24;
+extern M2C_UNK view_marker_sprite_data;
 
 typedef struct S_807B0238_2 {
     u8 pad_00[0x14];
@@ -1346,7 +1346,7 @@ void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 r
             (s16) ((((MovingPosition *)((*(void **)&source->z)))->z + (rand() & 0x3F)) - 0x20);
         render_data = effect->sprite;
         effect_state = ((void *)effect) + 0x20;
-        render_data->source = &D_800FBE24;
+        render_data->source = &view_marker_sprite_data;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = render_value;

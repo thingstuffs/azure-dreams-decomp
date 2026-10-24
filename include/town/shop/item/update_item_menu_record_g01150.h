@@ -123,7 +123,7 @@ extern void set_item_menu_data_pointer(s32);
 extern void set_item_menu_entry_coordinates(TownObject *);
 void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray);
 s32 advance_timed_tagged_stream(struct FrameState *);
-extern s32 D_800AFD00[];
+extern s32 item_menu_record_callback[];
 
 /* Functions defined in this translation unit. */
 void update_item_menu_record(Rec_func_800AF254_arg1 *record);

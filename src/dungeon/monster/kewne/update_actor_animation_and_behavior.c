@@ -56,7 +56,7 @@ extern u8 D_80175E48[];
 extern u8 D_80175E98[];
 extern u8 kewne_frame_set_1[];
 extern u8 D_80175EB0[];
-extern u8 D_80175EB8[];
+extern u8 kewne_turn_frames[];
 
 /* Updates actor animation and dispatches dungeon behavior based on status and position. */
 /* Selects Kewne's movement, attacks, spells, and turn processing while resetting its idle animation and
@@ -117,7 +117,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
             }
 
             current_anim = sprite->frameTable;
-            if (current_anim == D_80175EB8) {
+            if (current_anim == kewne_turn_frames) {
                 if (sprite->flags & 0xE000) {
                     u8 *reset_anim = kewne_direction_frames;
 

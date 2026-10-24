@@ -32,7 +32,7 @@ void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
 s32 *initialize_shared_script_data(void) {
-    D_801007F4 = town_script_state_slots;
+    town_script_slot_cursor = town_script_state_slots;
     town_script_state_slots[0] = 0;
     return town_script_state_slots;
 }
@@ -42,7 +42,7 @@ void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX
                      func_8009F66C_CoordPair *coords)
 {
     if (coords != NULL) {
-        void **cursor = D_801007F4;
+        void **cursor = town_script_slot_cursor;
 
         coords->x0 = (s16)((s32)(firstX << 16) >> 10);
         coords->y0 = (s16)((s32)(firstY << 16) >> 10);
@@ -50,10 +50,10 @@ void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX
         coords->y1 = (s16)((s32)(secondY << 16) >> 10);
         *cursor = coords;
         cursor++;
-        D_801007F4 = cursor;
+        town_script_slot_cursor = cursor;
         *cursor = NULL;
     }
-    return D_801007F4;
+    return town_script_slot_cursor;
 }
 
 /* Create a record, assign its handler, and run the remaining initialization routines. */
@@ -75,7 +75,7 @@ void update_shared_state_and_clear_flag(void) {
 
     init_and_publish_script_state(state);
     process_zero_terminated_entry_lists(state);
-    D_801007F8[0] = 0;
+    town_overlap_slots[0] = 0;
 }
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
@@ -91,9 +91,9 @@ void build_entry_list_and_process_items(void) {
 
     base = scaled_window_quad_points;
     compute_four_point_coordinate_bounds(base, setup_a, setup_b);
-    collect_overlapping_rectangles(setup_a, setup_b, town_script_state_slots, D_801007F8);
-    entry_cursor = (void **)D_801007F8;
-    if (D_801007F8[0] != 0) {
+    collect_overlapping_rectangles(setup_a, setup_b, town_script_state_slots, town_overlap_slots);
+    entry_cursor = (void **)town_overlap_slots;
+    if (town_overlap_slots[0] != 0) {
         do {
             entry = *entry_cursor;
             item_cursor = entry->unk_0C;
@@ -241,7 +241,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
         return 0;
     }
     if ((callback_id & 0xC0000000) == 0xC0000000) {
-        object->update_callback = D_800D3950[(u16)callback_id];
+        object->update_callback = town_object_callbacks[(u16)callback_id];
     }
     if ((callback_id & 0xC0000000) != 0xC0000000) {
         object->update_callback = callback_id;

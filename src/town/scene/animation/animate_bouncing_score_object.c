@@ -41,7 +41,7 @@ typedef struct State {
 } State;
 
 extern TownRewardValues D_80526448;
-extern s32 D_80530130[];
+extern s32 score_object_images[];
 extern u8 score_bounce_update_address[];
 extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
@@ -183,7 +183,7 @@ case 2:
         }
         st->timer = 180;
         st->state = 4;
-        act->value = D_80530130[st->kind];
+        act->value = score_object_images[st->kind];
         act->height = 0;
         act->mode = 0;
         act->variant = 0;

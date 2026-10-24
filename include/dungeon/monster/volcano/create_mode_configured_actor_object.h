@@ -38,7 +38,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_8016AA58();
 extern void func_8016AE5C();
-extern u8 D_8016E510[];
+extern u8 volcano_frame_set_5[];
 extern u8 D_8016E538[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */

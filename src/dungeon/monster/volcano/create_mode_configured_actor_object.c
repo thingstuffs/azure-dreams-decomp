@@ -47,13 +47,13 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
                 ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
                 ((S_8016A800_0 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
                 ((S_8016A800_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-                arg3_part->frameTable = D_8016E510;
+                arg3_part->frameTable = volcano_frame_set_5;
             } else {
                 if (kind >= 2) {
                     ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
                     ((S_8016A800_0 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
                     ((S_8016A800_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
-                    arg3_part->frameTable = D_8016E510;
+                    arg3_part->frameTable = volcano_frame_set_5;
                 } else {
                     if ((s16)(spawn_flags & ~3) == 0) {
                         if (!(((S_8016A800_0 *)result)->unk_14 & ACTOR_RESIST_SLEEP)) {
@@ -64,10 +64,10 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
                             }
                         }
                         ((S_8016A800_4 *)((void *)arg2_work))->unk_8C = func_8016AE5C;
-                        arg3_part->frameTable = D_8016E510;
+                        arg3_part->frameTable = volcano_frame_set_5;
                     } else {
                         ((S_8016A800_0 *)result)->unk_8C = func_8016AE5C;
-                        arg3_part->frameTable = D_8016E510;
+                        arg3_part->frameTable = volcano_frame_set_5;
                     }
 
                 }

@@ -1017,9 +1017,9 @@ void update_actor_action_and_direction(void *action_state, void *context, Sprite
             ((R06_80172428_S_80172428_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((R06_80172428_S_80172428_1 *)action_state)->unk_9B = 0;
-            sprite->frameTable = ((u8 *)D_8017587C);
+            sprite->frameTable = ((u8 *)flame_frame_set);
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + ((u8 *)D_8017587C)), 0);
+                + ((u8 *)flame_frame_set)), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             ((R06_80172428_S_80172428_1 *)action_state)->unk_98 = (u16) (((R06_80172428_S_80172428_1 *)action_state)->unk_98 | 8);
@@ -1123,7 +1123,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
             resolve_attack_damage_and_effects(actor, sprite,(s16)(((ActorRecord *)actor)->facing),(s16)(1));
             return;
         }
-        direction_frames = ((u8 *)D_8017587C);
+        direction_frames = ((u8 *)flame_frame_set);
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -2698,19 +2698,19 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         angle = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
         raw_direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
         direction = raw_direction & 7;
-        if ((((u8 *)((void **)D_80175924))[-4] == 0) || (direction != 2)) {
+        if ((((u8 *)((void **)flame_transition_object))[-4] == 0) || (direction != 2)) {
             if (direction == 2) {
                 return;
             }
             ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        run_cd_image_commands((u8 *)((s32 *)D_80175904) - 8, (u8 *)((void **)D_80175924) - 4, 1);
+        run_cd_image_commands((u8 *)((s32 *)D_80175904) - 8, (u8 *)((void **)flame_transition_object) - 4, 1);
         sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         effect_id = read_stream_cue_start_offset();
         Control_CD(0x15, effect_id, 0);
-        ((u8 *)D_80175921)[0] = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175921));
+        ((u8 *)flame_effect_load_done)[0] = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)flame_effect_load_done));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;
         ((R06_80175270_S_80175270_0 *)action)->phase++;
@@ -2725,7 +2725,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             frames_left = ((R06_80175270_S_80175270_0 *)action)->timer.u;
             ((R06_80175270_S_80175270_0 *)action)->timer.u = frames_left - 1;
             if ((s16)(frames_left - 1) <= 0) {
-                effect_done = ((u8 *)D_80175921)[0];
+                effect_done = ((u8 *)flame_effect_load_done)[0];
                 ((R06_80175270_S_80175270_0 *)action)->timer.u = frames_left;
                 if (effect_done != 0) {
                     ((R06_80175270_S_80175270_0 *)action)->phase++;
@@ -2760,7 +2760,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             work->unk_08[0] = position->x.v;
             position_y_dst = work->unk_08;
             position_y = position->y.v;
-            ((void **)D_80175924)[0] = work;
+            ((void **)flame_transition_object)[0] = work;
             position_y_dst[1] = position_y;
             position_z_dst = work->unk_08;
             position_z = position->z.v;
@@ -2784,7 +2784,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
 
     case 5:
         {
-            work = ((void **)D_80175924)[0];
+            work = ((void **)flame_transition_object)[0];
             work = work->unk_0C.p;
             if (work->unk_14 & 0xE000) {
                 ((R06_80175270_S_80175270_0 *)action)->timer.s = 0x10;

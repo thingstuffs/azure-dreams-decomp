@@ -23,7 +23,7 @@ typedef struct S_80020DF0_8 {
     void * unk_04;
 } S_80020DF0_8;   /* link in update_snowball_minigame_actor */
 
-extern volatile u16 D_800135C0;
+extern volatile u16 snowball_best_score;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
 extern void *scene_object_payload_alias;
@@ -399,13 +399,13 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         } while (index >= 0);
 
         {
-            s16 best_score = D_800135C0;
+            s16 best_score = snowball_best_score;
             s32 zero = 0;
 
             if (best_score < score_total || score_total == 0x40) {
                 sound_set_cd_cue_parameters(zero, 0x2C3D, 0x01000001, 0x01000271);
                 SD_Call(0x300);
-                D_800135C0 = score_total;
+                snowball_best_score = score_total;
                 set_resident_bit(0x5DA);
             } else {
                 sound_set_cd_cue_parameters(zero, 0x2C3D, zero, 0x01000290);

@@ -69,8 +69,8 @@ extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *o
 extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_3[];
 extern u8 nyuel_frame_set_1[];
-extern u8 D_80174F08[];
-extern u8 D_80174F10[];
+extern u8 nyuel_frame_set_12[];
+extern u8 nyuel_frame_set_11[];
 
 /* Updates entity actions, facing, and animation from state and terrain. */
 /* Selects Nyuel's movement, attacks, spells, and turn processing, dimming its status sprite when its
@@ -138,7 +138,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
         }
         ((S_80170E9C_0 *)entity)->unk_98 = (u16)(((S_80170E9C_0 *)entity)->unk_98 & 0xFFF3);
         if (((S_80170E9C_1 *)state)->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(entity, context, sprite, &D_80174F10) != 0) {
+            if (begin_ready_actor_directional_action(entity, context, sprite, &nyuel_frame_set_11) != 0) {
                 return;
             }
         }
@@ -198,7 +198,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
             ((S_80170E9C_1 *)state)->unk_2A = target_angle;
             if (reference_entity->action_id == 0x11) {
                 resume_handler = (s32 *)update_entity_actions_facing_and_animation;
-                begin_actor_spell_action(entity, context, sprite, &D_80174F08, resume_handler);
+                begin_actor_spell_action(entity, context, sprite, &nyuel_frame_set_12, resume_handler);
                 return;
             }
         case 12:
@@ -208,7 +208,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
         case 2:
         case 3:
             resume_handler = (s32 *)update_entity_actions_facing_and_animation;
-            begin_actor_spell_action(entity, context, sprite, &D_80174F08, resume_handler);
+            begin_actor_spell_action(entity, context, sprite, &nyuel_frame_set_12, resume_handler);
             return;
         case 11:
         default:

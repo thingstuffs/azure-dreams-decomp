@@ -15,7 +15,7 @@ extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
-extern u8 D_80174A00[9];
+extern u8 golem_object_callback[9];
 
 /* Creates and initializes an object, copies its data, and applies queried offsets. */
 s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *source_state)
@@ -27,7 +27,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
 
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        object->update_callback = D_80174A00;
+        object->update_callback = golem_object_callback;
         register_node(object, project_sprite_chain);
 
         primitive = object->sprite;

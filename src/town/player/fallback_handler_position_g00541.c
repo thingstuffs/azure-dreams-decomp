@@ -63,10 +63,10 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;
         town_overlap_origin = &computed_position;
-        computed_position.x = D_800D0AE4.x + offset->x + x;
-        computed_position.y = D_800D0AE4.y + offset->y + y;
+        computed_position.x = town_fallback_origin.x + offset->x + x;
+        computed_position.y = town_fallback_origin.y + offset->y + y;
         height <<= 17;
-        computed_position.z = D_800D0AE4.z + offset->z + height;
+        computed_position.z = town_fallback_origin.z + offset->z + height;
         return;
     }
     town_overlap_origin = 0;

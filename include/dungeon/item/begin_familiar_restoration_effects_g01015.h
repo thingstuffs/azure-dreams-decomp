@@ -82,7 +82,7 @@ s32 register_node();
 /* extern */
 extern s32 clipped_sprite_renderer_address[4];
 extern s32 D_800C1718[4];
-extern s32 D_800DF3C0[4];
+extern s32 familiar_restore_sprite_data[4];
 
 /* Shared import declarations; data casts preserve each measured view. */
 

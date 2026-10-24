@@ -32,6 +32,14 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_809B78EC",
+      "tu": "src/dungeon/monster/kewne/update_actor_behavior_from_position.c",
+      "home": "dungeon/func_809B78EC",
+      "foff": "0x9D78EC",
+      "vma": "0x801590ec",
+      "size": 1456
+    },
+    {
       "row": "dungeon/func_809B7E9C",
       "tu": "src/dungeon/monster/kewne/advance_actor_path_and_facing.c",
       "home": "dungeon/func_8099FE9C",

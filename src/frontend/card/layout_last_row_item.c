@@ -7,7 +7,7 @@ typedef struct {
     s32 index;
 } Struct8001B74C_arg0;
 
-extern s32 D_80408B2C[][4];
+extern s32 card_layout_text_items[][4];
 
 extern void locate_utf16_word_and_report_length(s32 value, s32 value_2, s32 *out_a, s32 *out_b, s32 *out_c);
 extern void position_object_record_and_update_row(void *object, s32 value, s32 value_2, s32 index, s32 value_3);
@@ -21,7 +21,7 @@ void layout_last_row_item(Struct8001B74C_arg0 *object) {
     s32 last_index = D_80408ADD[table_index][0] - 1;
 
     if (D_80408ADD[table_index][1] != 0) {
-        locate_utf16_word_and_report_length(D_80408B2C[table_index][last_index], object->unk0, &resolved_a, &resolved_b, &resolved_c);
+        locate_utf16_word_and_report_length(card_layout_text_items[table_index][last_index], object->unk0, &resolved_a, &resolved_b, &resolved_c);
         position_object_record_and_update_row(object, resolved_a, resolved_b, last_index, resolved_c);
     }
 }

@@ -17,7 +17,7 @@ s32 rcos();                             /* extern */
 void set_record_integer_tile_center();              /* extern */
 void apply_clamped_actor_value_delta();                      /* extern */
 extern u8 player_wait_frames[8];
-extern u8 D_800DCFE0[8];
+extern u8 player_damage_frames_2[8];
 
 
 /* Update death movement and animation, then select the next death state. */
@@ -42,7 +42,7 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
         begin_player_damage_reaction(state, motion, sprite, actor);
         return;
     }
-    if ((((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_800DCFE0)
+    if ((((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == player_damage_frames_2)
         && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         anim_frames = ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 - 1;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = anim_frames;

@@ -35,7 +35,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_8014D728;
-extern u8 D_80150DEC[];
+extern u8 saber_frame_set_3[];
 extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
@@ -124,13 +124,13 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
         break;
 
     case 3:
-        if (*(u8 * *)&sprite->frameTable == D_80150DEC) {
+        if (*(u8 * *)&sprite->frameTable == saber_frame_set_3) {
             break;
         }
-        sprite->frameTable = D_80150DEC;
+        sprite->frameTable = saber_frame_set_3;
         select_sprite_entry(
             sprite,
-            D_80150DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            saber_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     default:
         break;

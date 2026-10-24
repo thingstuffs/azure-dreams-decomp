@@ -38,7 +38,7 @@ typedef struct {
 void register_node(void *, void *);
 void select_sprite_entry(void *, u8, s32);
 extern u8 D_8017573C;
-extern u8 D_80176498[];
+extern u8 cyclone_view_direction_entries[];
 
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
 void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
@@ -68,7 +68,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         render_data->clut = render_attr;
         select_sprite_entry(
             render_data,
-            D_80176498[
+            cyclone_view_direction_entries[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);

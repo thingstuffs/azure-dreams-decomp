@@ -407,60 +407,42 @@
     },
     {
       "row": "dungeon/func_810A4FC4",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x10C4FC4",
       "vma": "0x801567C4",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4",
-        "0x80175018": "0x80175018",
-        "0x81088650": "0x81088650",
-        "0x80175A90": "0x80175A90",
-        "0x8017589C": "0x8017589C",
-        "0x80172D08": "0x80172D08",
-        "0x80172998": "0x80172998",
-        "0x801739E8": "0x801739E8"
-      }
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x80152E94"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_810A4FFC",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x10C4FFC",
       "vma": "0x801567FC",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4",
-        "0x80175018": "0x80175018",
-        "0x81088650": "0x81088650",
-        "0x80175A90": "0x80175A90",
-        "0x8017589C": "0x8017589C",
-        "0x80172D08": "0x80172D08",
-        "0x80172998": "0x80172998",
-        "0x801739E8": "0x801739E8"
-      }
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x80152E94"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_810A5034",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x10C5034",
       "vma": "0x80156834",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x801735B4": "0x801735B4",
-        "0x80175018": "0x80175018",
-        "0x81088650": "0x81088650",
-        "0x80175A90": "0x80175A90",
-        "0x8017589C": "0x8017589C",
-        "0x80172D08": "0x80172D08",
-        "0x80172998": "0x80172998",
-        "0x801739E8": "0x801739E8"
-      }
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x80152E94"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_810A506C",

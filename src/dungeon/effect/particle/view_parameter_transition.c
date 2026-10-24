@@ -61,7 +61,7 @@ extern s32 rsin();
 extern s32 rcos();
 extern void select_record_entry_and_value();
 extern const s16 D_80024038[8][2];
-extern void *D_80024058[9];
+extern void *textured_quad_octant_offsets[9];
 extern u8 D_800252FC[12];
 extern s16 D_80025308;
 extern u8 ribbon_sprite_entries[];

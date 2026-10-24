@@ -11,7 +11,7 @@
 #include "shared/town_root.h"
 
 extern s8 D_80018AF8[];
-extern u16 D_80019114;
+extern u16 town_event_cycle_index;
 extern s8 *D_80019118;
 extern void func_80018548(s32);
 extern void func_800185C0(s32);

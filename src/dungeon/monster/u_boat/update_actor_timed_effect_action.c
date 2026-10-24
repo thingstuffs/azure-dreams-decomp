@@ -53,7 +53,7 @@ extern s32 clipped_sprite_renderer_address[3];
 extern u8 uboat_aura_later_frames[];
 extern u8 u_boat_aura_frames[];
 extern u8 uboat_default_frames[];
-extern u8 D_800E2488[];
+extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
 void *allocate_list_node();               /* extern */
 s32 register_node();               /* extern */
@@ -157,7 +157,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         effect_sprite->color.c.b = 0;
         effect_sprite->color.c.g = 0;
         effect_sprite->color.c.r = 0;
-        effect_sprite->source = D_800E2488;
+        effect_sprite->source = uboat_aura_sprite_data;
         return;
     case 1:
         start_timer = ((S_8017558C_0 *)action)->unk_96 - 1;

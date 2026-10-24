@@ -8,6 +8,31 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_809995A8",
+      "tu": "src/dungeon/monster/hikewne/update_entity_behavior_movement_and_height.c",
+      "home": "dungeon/func_8097B5A8",
+      "foff": "0x9B95A8",
+      "vma": "0x8014cda8",
+      "size": 1836,
+      "bindings": {
+        "0x80083460": "0x80083460",
+        "0x8016B4D4": "0x8014D4D4",
+        "0x800A9E70": "0x800A9E70",
+        "0x8016E168": "0x80150168",
+        "0x800AA36C": "0x800AA36C",
+        "0x80083160": "0x80083160",
+        "0x8006CCF8": "0x8006CCF8",
+        "0x80047738": "0x80047738",
+        "0x800A020C": "0x800A020C",
+        "0x800478B8": "0x800478B8",
+        "0x8016E0E0": "0x801500E0",
+        "0x8016E0E8": "0x801500E8",
+        "0x80047784": "0x80047784",
+        "0x800BCB04": "0x800BCB04"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_8099BD68",
       "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",

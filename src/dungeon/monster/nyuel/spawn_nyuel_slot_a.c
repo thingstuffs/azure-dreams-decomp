@@ -40,12 +40,12 @@ Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 til
 
         mode = spawn_flags & 3;
         if (mode == 1) {
-            result->unk8C = D_8014CE9C;
+            result->unk8C = nyuel_slot_a_action_callback;
             result->unk14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             result->unk1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             partB->frameTable = nyuel_frame_set_5;
         } else if (mode >= 2) {
-            result->unk8C = D_8014CE9C;
+            result->unk8C = nyuel_slot_a_action_callback;
             result->unk14 |= ACTOR_CLASS_ENABLED;
             result->unk1C |= ACTOR_PLAYER_SIDE;
             partB->frameTable = nyuel_frame_set_5;
@@ -63,10 +63,10 @@ Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 til
                     }
                 } else {
                 }
-                resultAlias->unk8C = (void *)D_8014CE9C;
+                resultAlias->unk8C = (void *)nyuel_slot_a_action_callback;
                 partB->frameTable = nyuel_frame_set_5;
             } else {
-                result->unk8C = (void *)D_8014CE9C;
+                result->unk8C = (void *)nyuel_slot_a_action_callback;
                 partB->frameTable = nyuel_frame_set_5;
             }
         }

@@ -36,6 +36,37 @@ typedef struct S_800B3D10_4 {
     u8 unk_01;
 } S_800B3D10_4;
 
+/* Keep the three effect variants expanded at their original case labels. */
+/* May return from the enclosing function and uses the caller locals. */
+#define APPLY_TYPE_BONUS(data, flag, kind, bonus_kind) \
+data = record->unk_4C; \
+record->flags14 = (s32) (record->flags14 | (flag)); \
+if (data->unk_01 == ITEM_KIND_WAND) { \
+    if (data->unk_00 == (kind)) { \
+        record->unk_20 = (s16) ((u16) record->unk_20 \
+            + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+            + 1))); \
+        return; \
+    } \
+    record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant) \
+        + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1))); \
+    return; \
+} \
+bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF); \
+if (bonus_base < 0) { \
+    bonus_base = 0; \
+} \
+if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == (bonus_kind)) { \
+    record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+        + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+        + 1))); \
+} else { \
+    record->unk_20 = (s16) ((u16) record->unk_20 \
+        + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+        + 1))); \
+} \
+return;
+
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
 void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     s32 effect_offset;
@@ -81,89 +112,11 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         return;
     }
     case 6:
-        type6_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_FIRE);
-        if (type6_data->unk_01 == ITEM_KIND_WAND) {
-            if (type6_data->unk_00 == ITEM_SCARLET_WAND) {
-                record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                    + 1)));
-                return;
-            }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
-                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
-            return;
-        }
-        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
-        if (bonus_base < 0) {
-            bonus_base = 0;
-        }
-        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 5) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        } else {
-            record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        }
-        return;
+        APPLY_TYPE_BONUS(type6_data, ACTOR_ELEMENT_FIRE, ITEM_SCARLET_WAND, 5);
     case 7:
-        type7_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_WATER);
-        if (type7_data->unk_01 == ITEM_KIND_WAND) {
-            if (type7_data->unk_00 == ITEM_STREAM_WAND) {
-                record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                    + 1)));
-                return;
-            }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
-                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
-            return;
-        }
-        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
-        if (bonus_base < 0) {
-            bonus_base = 0;
-        }
-        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 6) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        } else {
-            record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        }
-        return;
+        APPLY_TYPE_BONUS(type7_data, ACTOR_ELEMENT_WATER, ITEM_STREAM_WAND, 6);
     case 8:
-        type8_data = record->unk_4C;
-        record->flags14 = (s32) (record->flags14 | ACTOR_ELEMENT_WIND);
-        if (type8_data->unk_01 == ITEM_KIND_WAND) {
-            if (type8_data->unk_00 == ITEM_GULF_WAND) {
-                record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                    + 1)));
-                return;
-            }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
-                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
-            return;
-        }
-        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
-        if (bonus_base < 0) {
-            bonus_base = 0;
-        }
-        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 7) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        } else {
-            record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
-                + 1)));
-        }
-        return;
+        APPLY_TYPE_BONUS(type8_data, ACTOR_ELEMENT_WIND, ITEM_GULF_WAND, 7);
     case 12:
     case 39:
     case 42:
@@ -215,3 +168,5 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         return;
     }
 }
+
+#undef APPLY_TYPE_BONUS

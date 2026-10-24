@@ -224,36 +224,42 @@
     },
     {
       "row": "dungeon/func_80B703EC",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xB903EC",
       "vma": "0x80173BEC",
       "size": 56,
       "bindings": {
-        "0x80175A14": "0x80175A14"
-      }
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x80170E5C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80B70424",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xB90424",
       "vma": "0x80173C24",
       "size": 56,
       "bindings": {
-        "0x80175A14": "0x80175A14"
-      }
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x80170E5C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80B7045C",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xB9045C",
       "vma": "0x80173C5C",
       "size": 56,
       "bindings": {
-        "0x80175A14": "0x80175A14"
-      }
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x80170E5C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80B70494",

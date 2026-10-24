@@ -91,7 +91,7 @@ post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9A = 0xFF;
         ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9C = -1;
-        (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &D_800B2A60;
+        (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &slow_target_action_callback;
         ((SpriteFrameState *)value_or_part_b)->source = part_b_value;
     }
     return work;

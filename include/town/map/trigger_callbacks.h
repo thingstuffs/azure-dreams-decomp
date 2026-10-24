@@ -25,7 +25,7 @@ struct map_trigger_record {
     u8 pad_16[2];
 };
 
-extern map_trigger_record D_800D4668[];
+extern map_trigger_record town_map_callback_entries[];
 void trigger_entity_action_when_allowed(map_trigger_record *record);
 void trigger_action_when_position_limit_exceeded(map_trigger_record *record);
 

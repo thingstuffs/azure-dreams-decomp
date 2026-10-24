@@ -59,7 +59,7 @@ typedef struct OffsetTable {
     OffsetPair entries[8];
 } OffsetTable;
 
-extern OffsetTable D_80170884;
+extern OffsetTable saber_direction_tile_offsets;
 
 extern void initialize_timed_motion_step(u16, u32);
 extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32);
@@ -69,7 +69,7 @@ extern void play_sound_if_enabled(s32);
 /* Process nodes at the target tile and height, triggering type-specific effects. */
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
-    OffsetTable offsets = D_80170884;
+    OffsetTable offsets = saber_direction_tile_offsets;
     void *head = node;
     register void *owner = head;
     s32 match_x = target_x;

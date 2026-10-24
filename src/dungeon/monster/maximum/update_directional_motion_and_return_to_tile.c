@@ -39,7 +39,7 @@ typedef struct {
     u16 field_6a;
 } S810AF65C_3;
 
-extern u8 D_80173C94[];
+extern u8 maximum_frame_set_3[];
 extern u8 maximum_action_continuation_address[];
 
 extern void set_record_integer_tile_center(S810AF65C_1 *, u8, u8);
@@ -73,7 +73,7 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
             motion->field_10 = 0;
             motion->field_0c = 0;
             animation->field_96 = 0;
-            begin_actor_display_action(animation, motion, tile, D_80173C94);
+            begin_actor_display_action(animation, motion, tile, maximum_frame_set_3);
             return;
         }
         if ((tile->field_14 & 0x8000) != 0) {
@@ -113,7 +113,7 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
             motion->field_14 = 0;
             motion->field_10 = 0;
             motion->field_0c = 0;
-            begin_actor_display_action(animation, motion, tile, D_80173C94);
+            begin_actor_display_action(animation, motion, tile, maximum_frame_set_3);
             return;
         }
         animation->field_96 = 4;

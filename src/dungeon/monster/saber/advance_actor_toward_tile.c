@@ -34,7 +34,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_80159728;
-extern u8 D_8015CDEC[];
+extern u8 saber_frame_set_5[];
 extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
@@ -115,13 +115,13 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
         }
         break;
     case 3:
-        if (*(u8 * *)&sprite->frameTable == D_8015CDEC) {
+        if (*(u8 * *)&sprite->frameTable == saber_frame_set_5) {
             break;
         }
-        sprite->frameTable = D_8015CDEC;
+        sprite->frameTable = saber_frame_set_5;
         select_sprite_entry(
             sprite,
-            D_8015CDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            saber_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
     action_timer = ((S_80ADF3AC_0 *)action)->unk_96 - 1;

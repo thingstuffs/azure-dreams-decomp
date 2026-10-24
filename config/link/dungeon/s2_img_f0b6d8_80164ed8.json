@@ -9,18 +9,15 @@
   "entries": [
     {
       "row": "dungeon/func_80EEB6D8",
-      "tu": "src/dungeon/monster/saber/queue_linked_point_packets_slot_c.c",
-      "home": "dungeon/func_80ADD000",
-      "foff": "0xf0b6d8",
-      "vma": "0x80164ed8",
+      "tu": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
+      "home": "dungeon/func_800D1194",
+      "foff": "0xF0B6D8",
+      "vma": "0x80164ED8",
       "size": 480,
       "bindings": {
-        "0x80065420": "0x80065420",
-        "0x80066460": "0x80066460",
-        "0x80067F20": "0x80067F20",
         "0x80083160": "0x80083160"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80ADD000 onto dungeon/func_800D1194; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EECC90",

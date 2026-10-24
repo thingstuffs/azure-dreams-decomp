@@ -12,7 +12,7 @@ typedef struct OffsetTable {
     OffsetPair entries[8];
 } OffsetTable;
 
-extern OffsetTable D_80170884;
+extern OffsetTable saber_direction_tile_offsets;
 #include "dungeon/monster/saber.h"
 
 
@@ -41,7 +41,7 @@ typedef struct S_80174A28_3 {
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
 void advance_directional_effect_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
-    OffsetTable offsets = D_80170884;
+    OffsetTable offsets = saber_direction_tile_offsets;
     s32 coord_value;
 
     switch (((S_80174A28_0 *)action)->unk_9B) {

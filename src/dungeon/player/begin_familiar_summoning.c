@@ -32,7 +32,7 @@ typedef struct S_80095854_1 {
 void set_sprite_animation_frame(); /* extern */
 void cycle_map_cell_flags();           /* extern */
 void update_map_cell_flags_with_item_limit();           /* extern */
-extern u8 D_800DD130;
+extern u8 familiar_summon_frames;
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
@@ -60,9 +60,9 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
         status = value;
     }
     clear_player_linked_action_flags();
-    (*(s32 **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
+    (*(s32 **)((u8 *)pointer_data + 0x2C)) = &familiar_summon_frames;
     set_sprite_animation_frame(pointer_data, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
-        + &D_800DD130), 0, 1);
+        + &familiar_summon_frames), 0, 1);
     reference_tile_object.selected_item = input_value;
     direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
     ((S_80095854_0 *)record)->unk_72 = (s8) (((MovingTile *)pointer_data)->tile_x + *(direction_index + ((s8 *)dir_step_x)));

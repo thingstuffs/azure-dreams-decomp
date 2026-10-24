@@ -50,7 +50,7 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
 int abs(int);
 extern u8 D_80025100[16];
-extern Packed12 D_8002510C;
+extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
 extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void unlink_node(void *);
@@ -409,7 +409,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
         *(u32 *)&render->color0 = 0x00808080;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
-        actor->image_data = D_8002510C;
+        actor->image_data = actor_particle_images;
         render->image = &actor->image_data;
         {
             u32 direction_bits;
@@ -524,7 +524,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                 task_render->color2 = 0x78;
                 task_render->color1 = 0x78;
                 task_render->color0 = 0x78;
-                task->image_data = D_8002510C;
+                task->image_data = actor_particle_images;
                 task_render->image = &task->image_data;
             }
             actor->countdown--;

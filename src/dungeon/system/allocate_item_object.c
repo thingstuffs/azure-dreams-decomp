@@ -13,7 +13,7 @@ extern s32 inventory_allocate_and_initialize_child();
 extern s32 allocate_initialized_child_object();
 extern s32 create_menu_child_object();
 extern s32 window_create_animated_content_panel();
-extern s32 D_80029498;
+extern s32 item_panel_display_ids;
 
 typedef struct S_80025198_0 {
     u8 pad_00[0x20];
@@ -81,8 +81,8 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         if (runtime_dispatch_state.mode != 1) {
             clear_state_flag_bit();
         }
-        display_ids = &D_80029498;
-        ((S_80025198_1 *)state)->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
+        display_ids = &item_panel_display_ids;
+        ((S_80025198_1 *)state)->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
         ((S_80025198_1 *)state)->unk_30 = window_create_animated_content_panel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_04);
         ((S_80025198_1 *)state)->unk_34 = window_create_animated_content_panel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,

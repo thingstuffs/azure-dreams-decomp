@@ -21,6 +21,14 @@
       "evidence": "LL3a attestation sha256:4958fd6616bb39a181dff6e598d3fafbc08a389e2c34c07e1df5afa8a190d59c; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "town/func_80500178",
+      "tu": "src/town/scene/initialize_context_entry_tables_variant_2.c",
+      "home": "town/func_80500178",
+      "foff": "0x480178",
+      "vma": "0x80016178",
+      "size": 56
+    },
+    {
       "row": "town/func_805001B0",
       "home": "town/func_8032ECE4",
       "tu": "src/town/scene/find_entry_index_assert.c",
@@ -270,6 +278,19 @@
         "0x80019D44": "0x80016A10"
       },
       "evidence": "LL3a attestation sha256:04d0c67dfe26189f2efc3c70533a6d091efdb47acda348a628184b7942e95e56; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_80500A6C",
+      "tu": "src/town/scene/flags/query_referenced_flag_table_entry.c",
+      "home": "town/func_80481B84",
+      "foff": "0x480A6C",
+      "vma": "0x80016a6c",
+      "size": 92,
+      "bindings": {
+        "0x800172C8": "0x800161B0",
+        "0x80018668": "0x800173D0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80500AC8",

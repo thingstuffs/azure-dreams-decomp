@@ -38,7 +38,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_8015EA50[];
-extern M2C_UNK D_8015EE7C;
+extern M2C_UNK griffon_slot_d_action_callback;
 extern u8 D_80162C3C[];
 extern u8 D_80162C8C[];
 
@@ -104,7 +104,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
         initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015EE7C;
+        actor->unk_8C = &griffon_slot_d_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

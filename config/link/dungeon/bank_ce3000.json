@@ -231,6 +231,27 @@
       }
     },
     {
+      "row": "dungeon/func_80CC5F20",
+      "tu": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "home": "dungeon/func_80CBFF20",
+      "foff": "0xCE5F20",
+      "vma": "0x8016d720",
+      "size": 272,
+      "bindings": {
+        "0x800AC82C": "0x800AC82C",
+        "0x800AD9B4": "0x800AD9B4",
+        "0x80173B98": "0x8016DB98",
+        "0x80170F20": "0x8016AF20",
+        "0x80176300": "0x80170300",
+        "0x80176360": "0x80170360",
+        "0x801762C8": "0x801702C8",
+        "0x80176328": "0x80170328",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_80CC61AC",
       "tu": "src/dungeon/monster/pulunpa/select_variant_object_data_when_positive.c",
       "home": "dungeon/func_80CC01AC",

@@ -305,48 +305,42 @@
     },
     {
       "row": "dungeon/func_8102C160",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x104C160",
       "vma": "0x8014F960",
       "size": 56,
       "bindings": {
-        "0x80172CE0": "0x80172CE0",
-        "0x80173A08": "0x80173A08",
-        "0x80173010": "0x80173010",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8014D058"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8102C198",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x104C198",
       "vma": "0x8014F998",
       "size": 56,
       "bindings": {
-        "0x80172CE0": "0x80172CE0",
-        "0x80173A08": "0x80173A08",
-        "0x80173010": "0x80173010",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8014D058"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8102C1D0",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0x104C1D0",
       "vma": "0x8014F9D0",
       "size": 56,
       "bindings": {
-        "0x80172CE0": "0x80172CE0",
-        "0x80173A08": "0x80173A08",
-        "0x80173010": "0x80173010",
-        "0x8014D810": "0x8014D810"
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8014D058"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8102C208",
@@ -377,11 +371,35 @@
     },
     {
       "row": "dungeon/func_8102C664",
-      "tu": "src/dungeon/monster/garuda/update_paired_actor_movement_and_tiles.c",
-      "home": "dungeon/func_8102C664",
+      "tu": "src/dungeon/func_8100E664.c",
+      "home": "dungeon/func_8100E664",
       "foff": "0x104C664",
-      "vma": "0x8014FE64",
-      "size": 2476
+      "vma": "0x8014fe64",
+      "size": 2476,
+      "bindings": {
+        "0x8009A3D0": "0x8009A3D0",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8016E8F0": "0x801508F0",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x800DDC40": "0x800DDC40",
+        "0x800A56E0": "0x800A56E0",
+        "0x8016E8F8": "0x801508F8",
+        "0x800A4E2C": "0x800A4E2C",
+        "0x80082E80": "0x80082E80",
+        "0x8008146E": "0x8008146E",
+        "0x8009A2B8": "0x8009A2B8",
+        "0x800BCB04": "0x800BCB04",
+        "0x800AA53C": "0x800AA53C",
+        "0x800AD594": "0x800AD594",
+        "0x8016B058": "0x8014D058",
+        "0x80083460": "0x80083460",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x8009A21C": "0x8009A21C",
+        "0x8016E888": "0x80150888"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "symbols": {

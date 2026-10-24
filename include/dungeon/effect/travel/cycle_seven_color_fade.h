@@ -469,7 +469,7 @@ void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C
 s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source);
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render);
 void select_record_entry_and_value(void *, void *, s32);
-extern u8 D_80025EE4[];
+extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, void *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);
 extern void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);

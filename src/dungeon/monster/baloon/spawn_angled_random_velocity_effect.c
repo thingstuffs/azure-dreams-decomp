@@ -27,7 +27,7 @@ typedef struct Effect {
 extern void *allocate_list_node();
 extern s32 register_node();
 extern s32 rand();
-extern s32 D_800D68F4[];
+extern s32 baloon_object_callback[];
 extern s32 D_800D707C[];
 extern s16 actor_direction_step_pairs[];
 
@@ -114,7 +114,7 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
             base->field14 = angle;
             base->field32 = 0xC;
             base->field34 = 0xC;
-            register_node(effect, &D_800D68F4);
+            register_node(effect, &baloon_object_callback);
             ((S_80D659DC_0 *)effect)->unk_20 = effect_param;
             base->field8 = effect_param;
         }

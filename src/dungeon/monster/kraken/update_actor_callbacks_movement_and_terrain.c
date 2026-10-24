@@ -17,7 +17,7 @@ s32 sample_terrain_surface_height();
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];
 extern u8 kraken_frame_set_1[];
-extern u8 D_801741D4[];
+extern u8 kraken_action_handlers[];
 
 
 typedef struct S_80170B64_0 {
@@ -107,7 +107,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
         if (update_callback != 0) {
             update_callback(actor, motion, sprite_arg, actor);
         }
-        ((s32 (**)(void *, void *, void *, void *))&D_801741D4)
+        ((s32 (**)(void *, void *, void *, void *))&kraken_action_handlers)
         [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
         if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
             try_move_actor_to_valid_position(actor, motion, sprite_arg, actor);

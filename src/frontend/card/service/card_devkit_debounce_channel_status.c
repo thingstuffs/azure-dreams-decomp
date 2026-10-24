@@ -16,20 +16,20 @@ s32 *card_devkit_debounce_channel_status(void)
     if (current_state != 0) {
         slot_index = func_804019A4();
         if (D_80409268[slot_index] == current_state) {
-            D_80409260[slot_index]++;
+            card_channel_state_repeat_count[slot_index]++;
         } else {
-            D_80409260[slot_index] = 0;
+            card_channel_state_repeat_count[slot_index] = 0;
         }
         D_80409268[slot_index] = current_state;
         one = 1;
         if ((current_state == one) || (current_state == 4)) {
-            if (D_80409260[slot_index] >= 4) {
-                D_804094F8[slot_index] = one;
+            if (card_channel_state_repeat_count[slot_index] >= 4) {
+                card_debounced_channel_flags[slot_index] = one;
             }
-        } else if (D_80409260[slot_index] >= 4) {
-            D_804094F8[slot_index] = 0;
+        } else if (card_channel_state_repeat_count[slot_index] >= 4) {
+            card_debounced_channel_flags[slot_index] = 0;
         }
         func_80400948(one, slot_index);
     }
-    return D_804094F8;
+    return card_debounced_channel_flags;
 }

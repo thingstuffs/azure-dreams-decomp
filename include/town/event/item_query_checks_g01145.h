@@ -51,11 +51,11 @@ typedef struct S_800A9D00_2 {
     u16 unk_4C;
 } S_800A9D00_2;
 
-extern s16 D_800D1054[];
+extern s16 town_query_group_ids[];
 extern s16 D_800D1064[];
 extern s32 get_item_sell_money(void *entry);
-extern s8 D_800D1074[];
-extern s32 D_800D1080[];
+extern s8 town_query_item_types[];
+extern s32 town_query_sell_price_limits[];
 extern u8 D_8006BC7A;
 extern s32 *D_800D1038[];
 extern s32 map_scene_selector_alias;

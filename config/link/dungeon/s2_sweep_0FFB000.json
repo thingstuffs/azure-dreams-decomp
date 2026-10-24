@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_80FDB000",
+      "tu": "src/dungeon/monster/killer/spawn_killer.c",
+      "home": "dungeon/func_80FDB000",
+      "foff": "0xFFB0A8",
+      "vma": "0x801708a8",
+      "size": 468
+    },
+    {
       "row": "dungeon/func_80FDB6A8",
       "tu": "src/dungeon/monster/killer/update_entity_action_facing.c",
       "home": "dungeon/func_80FDB6A8",

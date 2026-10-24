@@ -40,7 +40,7 @@ typedef struct {
     s32 d;
 } Copy4;
 
-extern void *D_80170898[];
+extern void *beldo_object_callback[];
 extern u8 beldo_frame_set_3[8];
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
@@ -64,7 +64,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         object_data = ((void *)object) + 0x20;
-        object->update_callback = D_80170898;
+        object->update_callback = beldo_object_callback;
         ((S_80170B50_1 *)object_data)->unk_B6 = offset_id;
         ((S_80170B50_1 *)object_data)->unk_AC = (s32) (owner_data - 0x20);
         ((S_80170B50_1 *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;

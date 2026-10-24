@@ -363,6 +363,14 @@
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80CF0BC4",
+      "tu": "src/dungeon/monster/troll/advance_the_actor_s_action_animation_triggers_timed_effects.c",
+      "home": "dungeon/func_80CF0BC4",
+      "foff": "0xD10BC4",
+      "vma": "0x8016e3c4",
+      "size": 872
+    },
+    {
       "row": "dungeon/func_80CF1444",
       "tu": "src/dungeon/monster/troll/advance_actor_timed_tile_motion.c",
       "home": "dungeon/func_80CEB444",

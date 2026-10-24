@@ -3,9 +3,9 @@
 extern void unlink_entity_node(s32 node);
 extern s32 beldo_effect_stream;
 extern s32 beldo_active_entity;
-extern s16 D_80174718;
+extern s16 beldo_command_ticks;
 extern s32 D_80173F90;
-extern s32 D_80173FBC;
+extern s32 beldo_effect_scripts;
 
 typedef struct FlagsPage {
     u8 pad_00[0x3714];
@@ -44,7 +44,7 @@ void process_global_effect_slots_after_reset(void) {
     active_state = (ActiveState *)(beldo_active_entity + 0x20);
     active_state->unk_BA = 1;
     state_flags = flags_base->unk_3714;
-    D_80174718 = 0;
+    beldo_command_ticks = 0;
     *(s16 *)((u8 *)flags_base + 0x371A) = 0;
     *(s16 *)((u8 *)flags_base + 0x3718) = 0;
     *(s16 *)((u8 *)flags_base + 0x3716) = 0;
@@ -52,7 +52,7 @@ void process_global_effect_slots_after_reset(void) {
     flags_base->unk_3714 = state_flags;
     saved_state = D_80173F90;
     flags_base->unk_371C = saved_state;
-    saved_value = D_80173FBC;
+    saved_value = beldo_effect_scripts;
     active_state->unk_B8 = 0;
     beldo_effect_stream = saved_value;
 

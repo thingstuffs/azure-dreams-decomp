@@ -17,11 +17,16 @@
     },
     {
       "row": "town/func_806C5130",
-      "tu": "src/town/scene/initialize_context_entry_tables_variant_d.c",
-      "home": "town/func_806C5130",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
       "foff": "0x645130",
       "vma": "0x80016130",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x80019054"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_806C5168",

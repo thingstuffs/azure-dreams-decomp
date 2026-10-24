@@ -41,12 +41,12 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
         body_alias = body;
 
         if (attr_b == 1) {
-            body->callback_8C = D_8015EE9C;
+            body->callback_8C = nyuel_slot_d_action_callback;
             body->flags_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             body->flags_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             child_b->frameTable = nyuel_frame_set_7;
         } else if (attr_b >= 2) {
-            body->callback_8C = D_8015EE9C;
+            body->callback_8C = nyuel_slot_d_action_callback;
             body->flags_14 |= ACTOR_CLASS_ENABLED;
             body->flags_1C |= ACTOR_PLAYER_SIDE;
             child_b->frameTable = nyuel_frame_set_7;
@@ -56,10 +56,10 @@ Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) 
                     set_or_clear_actor_status_slot(body, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     child_b->frameTable = D_80162F00;
                 }
-                body_alias->callback_8C = D_8015EE9C;
+                body_alias->callback_8C = nyuel_slot_d_action_callback;
                 child_b->frameTable = nyuel_frame_set_7;
             } else {
-                body->callback_8C = D_8015EE9C;
+                body->callback_8C = nyuel_slot_d_action_callback;
                 child_b->frameTable = nyuel_frame_set_7;
             }
         }

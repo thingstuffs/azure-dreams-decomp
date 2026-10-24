@@ -9,6 +9,29 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F199800: img_fbf270_80158a70_rc5_FBFE70_FC1240, img_fbf270_80158a70_rc5_FC1700_FC325C, r101_rc5_func_80F9F938, r101_rc5_func_80FA1240, sweep_0FBF000",
   "entries": [
     {
+      "row": "dungeon/func_80F9F000",
+      "tu": "src/dungeon/monster/zu/create_configured_overlay_actor_third.c",
+      "home": "dungeon/func_80F93000",
+      "foff": "0xFBF080",
+      "vma": "0x80158880",
+      "size": 496,
+      "bindings": {
+        "0x80083498": "0x80083498",
+        "0x8003FD64": "0x8003FD64",
+        "0x80045340": "0x80045340",
+        "0x80164A70": "0x80158A70",
+        "0x8004491C": "0x8004491C",
+        "0x80168AD4": "0x8015CAD4",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A48F0": "0x800A48F0",
+        "0x80168AFC": "0x8015CAFC",
+        "0x800A9C18": "0x800A9C18",
+        "0x80165138": "0x80159138",
+        "0x800AA36C": "0x800AA36C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_80F9F270",
       "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F87270",
@@ -289,6 +312,59 @@
         "0x800DBA90": "0x800DBA90"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80FA28F4",
+      "tu": "src/dungeon/func_80F908F4.c",
+      "home": "dungeon/func_80F908F4",
+      "foff": "0xFC28F4",
+      "vma": "0x8015c0f4",
+      "size": 364,
+      "bindings": {
+        "0x80083460": "0x80083460",
+        "0x800A2BDC": "0x800A2BDC",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A04F0": "0x800A04F0",
+        "0x8016EB0C": "0x8015CB0C",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x800990FC": "0x800990FC",
+        "0x80099734": "0x80099734",
+        "0x8016A854": "0x80158854",
+        "0x80099194": "0x80099194",
+        "0x80099290": "0x80099290",
+        "0x800A5720": "0x800A5720"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "dungeon/func_80FA2A60",
+      "tu": "src/dungeon/func_80F90A60.c",
+      "home": "dungeon/func_80F90A60",
+      "foff": "0xFC2A60",
+      "vma": "0x8015c260",
+      "size": 896,
+      "bindings": {
+        "0x8016A868": "0x80158868",
+        "0x8016A874": "0x80158874",
+        "0x800C8150": "0x800C8150",
+        "0x8003DE58": "0x8003DE58",
+        "0x80083498": "0x80083498",
+        "0x8003FD64": "0x8003FD64",
+        "0x8016E688": "0x8015C688",
+        "0x8004491C": "0x8004491C",
+        "0x8016E5E0": "0x8015C5E0",
+        "0x800A56E0": "0x800A56E0",
+        "0x8016EB14": "0x8015CB14",
+        "0x80083160": "0x80083160",
+        "0x80047784": "0x80047784",
+        "0x800AD594": "0x800AD594",
+        "0x8016EACC": "0x8015CACC",
+        "0x80083460": "0x80083460",
+        "0x800A4ACC": "0x800A4ACC",
+        "0x8016B138": "0x80159138"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_80FA2DE0",

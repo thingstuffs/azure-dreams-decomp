@@ -76,6 +76,27 @@
       "size": 84
     },
     {
+      "row": "town/func_8046A1E4",
+      "tu": "src/town/scene/event/store_entry_value_in_state_6.c",
+      "home": "town/func_8046A1E4",
+      "foff": "0x3EA1E4",
+      "vma": "0x8001b1e4",
+      "size": 104
+    },
+    {
+      "row": "town/func_8046A24C",
+      "tu": "src/town/scene/event/store_entry_value_in_state_6.c",
+      "home": "town/func_8046A1E4",
+      "foff": "0x3EA24C",
+      "vma": "0x8001b24c",
+      "size": 104,
+      "bindings": {
+        "0x8001E950": "0x8001E950",
+        "0x8001A79C": "0x8001ABB4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8046A2B4",
       "home": "town/func_8046A020",
       "tu": "src/town/scene/event/select_event_data_mode_setup.c",
@@ -90,6 +111,27 @@
         "0x8001B020": "0x8001B2B4"
       },
       "evidence": "LL3a attestation sha256:e3ba37a8faf7d1df606ac3d515259de2bc00e3393704cc9f43e461b90c87befd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_8046A45C",
+      "tu": "src/town/scene/event/store_entry_value_in_state_4.c",
+      "home": "town/func_8046A45C",
+      "foff": "0x3EA45C",
+      "vma": "0x8001b45c",
+      "size": 104
+    },
+    {
+      "row": "town/func_8046A4C4",
+      "tu": "src/town/scene/event/store_entry_value_in_state_4.c",
+      "home": "town/func_8046A45C",
+      "foff": "0x3EA4C4",
+      "vma": "0x8001b4c4",
+      "size": 104,
+      "bindings": {
+        "0x8001E950": "0x8001E950",
+        "0x8001A79C": "0x8001AB68"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8046A960",
@@ -134,6 +176,105 @@
         "0x8001BAC4": "0x8001BB30"
       },
       "evidence": "LL3a attestation sha256:59a4e47d3d4e64271a3d568f44516812805fdf8f496fbc7aa37100b4d1638461; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_8046B48C",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB48C",
+      "vma": "0x8001c48c",
+      "size": 40
+    },
+    {
+      "row": "town/func_8046B4B4",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB4B4",
+      "vma": "0x8001c4b4",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x80017938",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B4DC",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB4DC",
+      "vma": "0x8001c4dc",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x80017944",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B504",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB504",
+      "vma": "0x8001c504",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x80017968",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B52C",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB52C",
+      "vma": "0x8001c52c",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x80017950",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B554",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB554",
+      "vma": "0x8001c554",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x8001795C",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B57C",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB57C",
+      "vma": "0x8001c57c",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x80017974",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8046B5A4",
+      "tu": "src/town/scene/apply_stored_value_c.c",
+      "home": "town/func_8046B48C",
+      "foff": "0x3EB5A4",
+      "vma": "0x8001c5a4",
+      "size": 40,
+      "bindings": {
+        "0x8001792C": "0x8001797C",
+        "0x8001E670": "0x8001E670"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_803CB6C8",
@@ -195,6 +336,14 @@
         "0x8001ade0": "0x8001e670"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046C7CC"
+    },
+    {
+      "row": "town/func_8046C8C4",
+      "tu": "src/town/scene/pass_indexed_entry.c",
+      "home": "town/func_8046C8C4",
+      "foff": "0x3EC8C4",
+      "vma": "0x8001d8c4",
+      "size": 48
     },
     {
       "row": "town/func_8046C8F4",
@@ -349,17 +498,17 @@
     },
     {
       "row": "town/func_8046CF00",
-      "home": "town/func_804D1484",
-      "tu": "src/town/scene/hooks/find_eligible_entry_b.c",
-      "foff": "0x3ecf00",
-      "vma": "0x8001df00",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "home": "town/func_80481D78",
+      "foff": "0x3ECF00",
+      "vma": "0x8001DF00",
       "size": 176,
       "bindings": {
-        "0x80017594": "0x8001e964",
-        "0x80016b98": "0x8001de14",
-        "0x800173f4": "0x8001e670"
+        "0x80017C8C": "0x8001DE14",
+        "0x80019550": "0x8001E964",
+        "0x80018668": "0x8001E670"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CF00"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }
   ]
 }

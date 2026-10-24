@@ -378,7 +378,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
             owner = primary_actor_record;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
             if (owner->action_id == 0x11) {
-                begin_actor_spell_action(entity, context, sprite, ((u8 *)D_80175A8C), ((u8 *)update_actor_state_and_select_target));
+                begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
                 return;
             }
 
@@ -389,7 +389,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(entity, context, sprite, ((u8 *)D_80175A8C), ((u8 *)update_actor_state_and_select_target));
+            begin_actor_spell_action(entity, context, sprite, ((u8 *)arachne_frame_set), ((u8 *)update_actor_state_and_select_target));
             return;
 
         default:
@@ -1061,8 +1061,8 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
             return;
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
-        ((SpriteFrameState *)entity)->frameTable = ((u8 *)D_80175A8C);
-        select_sprite_entry(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_frame_set);
+        select_sprite_entry(entity,(u8)(((u8 *)arachne_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
         next_state += 1;
@@ -2652,7 +2652,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         return;
 
     case 1:
-        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)D_80175B24), 0);
+        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)arachne_image_load_done), 0);
         ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
         ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
         ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
@@ -2660,7 +2660,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
 
     case 2:
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-        if ((*(u8 *)D_80175B24) == 0 || direction != 2) {
+        if ((*(u8 *)arachne_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
@@ -2668,11 +2668,11 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
             return;
         }
 
-        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)D_80175B24), 1);
+        run_cd_image_commands(((u8 *)arachne_image_commands), ((u8 *)arachne_image_load_done), 1);
         sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
-        (*(u8 *)D_80175B25) = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)D_80175B25));
+        (*(u8 *)arachne_effect_load_done) = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((u8 *)arachne_effect_load_done));
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
         ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
@@ -2683,7 +2683,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         next_timer = timer - 1;
         ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
         if ((s16)next_timer <= 0) {
-            cd_ready = (*(u8 *)D_80175B25);
+            cd_ready = (*(u8 *)arachne_effect_load_done);
             ((R12_80175470_S_80175470_0 *)sequence)->timer.u = timer;
             if (cd_ready == 0) {
                 return;

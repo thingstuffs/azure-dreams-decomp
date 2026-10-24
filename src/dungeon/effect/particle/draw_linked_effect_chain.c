@@ -207,7 +207,7 @@ void update_effect_countdown_fields(void *object_data)
 }
 /* Eight direction pairs; scale-one motion and scale-five spawn offsets. */
 const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, 65535}, {0, 65535}, {1, 65535}}};
-const Row_819A1654_PointTable D_80024054[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
+const Row_819A1654_PointTable linked_effect_octant_offsets[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
 /* Moves and animates a sprite while fading its grayscale color in proportion to its remaining lifetime. */
 void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
@@ -460,7 +460,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
     Row_819A1654_World *hit_world;
     void (*particle_callback)(void);
 
-    *(Row_819A1654_PointTable *)&points = *(Row_819A1654_PointTable *)&D_80024054;
+    *(Row_819A1654_PointTable *)&points = *(Row_819A1654_PointTable *)&linked_effect_octant_offsets;
 
     entity->age++;
 

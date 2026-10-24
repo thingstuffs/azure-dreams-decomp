@@ -20,7 +20,7 @@ extern void runtime_clear_value(s32);
 extern s32 allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32);
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);
-extern s8 D_800CFC2C[11];
+extern s8 town_map_link_slots[11];
 void unlink_node_if_registered();
 void copy_window_params(struct Container *, struct Source *);
 void select_record_entry_and_value(void *, void *, s16);

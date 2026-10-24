@@ -313,8 +313,8 @@ void dispatch_block_turn_actions_slot_a(CL_CD7000_8017102C_S_8017102C_0 *state, 
  if(actor->unk_25==0) {
   advance_actor_pending_action(state,motion,sprite,actor);
   if(sprite->unk_2C==cd7000_frame_set_1) return;
-  sprite->unk_2C=D_801512F4;
-  select_sprite_entry(sprite,D_801512F4[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
+  sprite->unk_2C=block_slot_a_frame_set;
+  select_sprite_entry(sprite,block_slot_a_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7],0);
   return;
  }
  {
@@ -326,7 +326,7 @@ void dispatch_block_turn_actions_slot_a(CL_CD7000_8017102C_S_8017102C_0 *state, 
     actor->unk_1C &= 0xFFFBFFFF;
     return;
    }
-   if(reset_actor_action_state(state,motion,sprite,D_801512F4)!=0) return;
+   if(reset_actor_action_state(state,motion,sprite,block_slot_a_frame_set)!=0) return;
   }
   if(!(g_dungeon_status.flags & 0x2000)) {
    if(actor->unk_1C & 0x100) {
@@ -427,11 +427,11 @@ void advance_block_path_slot_a(void *motion, s32 update_param, void *entity, voi
         return;
     }
 
-    if (((CL_CD7000_80171590_S_80171590_1 *)entity)->unk_2C != D_801512AC) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_801512AC;
+    if (((CL_CD7000_80171590_S_80171590_1 *)entity)->unk_2C != block_slot_a_frame_set_2) {
+        (*(u8 * *)((u8 *)entity + 0x2C)) = block_slot_a_frame_set_2;
         select_sprite_entry(
             entity,
-            D_801512AC[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CD7000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            block_slot_a_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((CL_CD7000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -1631,8 +1631,8 @@ void update_block_parent_motion_slot_a(S_80173A38_0 *state, void *position, CL_C
             state->CL_CD7000_80173A38_unk_8C = dispatch_block_turn_actions_slot_a;
         }
     } else if ((sprite->unk_2C == cd7000_frame_set_1) && !(actor->unk_1C & 0x208)) {
-        sprite->unk_2C = D_801512AC;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + D_801512AC), 0);
+        sprite->unk_2C = block_slot_a_frame_set_2;
+        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + block_slot_a_frame_set_2), 0);
     }
 }
 
@@ -2276,14 +2276,14 @@ void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFra
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->phase = next_state;
         return;
     case 1:
-        run_cd_image_commands(&D_8015130C, &D_801513A8, 0);
+        run_cd_image_commands(&D_8015130C, &block_slot_a_image_load_done, 0);
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_A4 = 0;
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CD7000_80174D14_S_80C97514_0 *)state)->phase + 1);
         ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if ((*(u8 *)&D_801513A8) == 0 || direction != 2) {
+        if ((*(u8 *)&block_slot_a_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
@@ -2291,11 +2291,11 @@ void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFra
             return;
         }
 
-        run_cd_image_commands(&D_8015130C, &D_801513A8, 1);
+        run_cd_image_commands(&D_8015130C, &block_slot_a_image_load_done, 1);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
-        (*(s8 *)&D_801513A9) = 0;
-        Control_CD(0xFF, &resource_completion_callback_address, &D_801513A9);
+        (*(s8 *)&block_slot_a_effect_load_done) = 0;
+        Control_CD(0xFF, &resource_completion_callback_address, &block_slot_a_effect_load_done);
         select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->timer = 0x10U;
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->phase = (u8) (((CL_CD7000_80174D14_S_80C97514_0 *)state)->phase + 1);
@@ -2305,7 +2305,7 @@ void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFra
         fade_ticks = previous_ticks - 1;
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->timer = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
-            status = ((CL_CD7000_80174D14_S_80C97514_2 *)(&D_801513A9))->unk_00;
+            status = ((CL_CD7000_80174D14_S_80C97514_2 *)(&block_slot_a_effect_load_done))->unk_00;
             ((CL_CD7000_80174D14_S_80C97514_0 *)state)->timer = previous_ticks;
             if (status == 0) {
                 return;

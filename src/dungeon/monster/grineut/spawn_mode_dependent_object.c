@@ -1004,10 +1004,10 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
-            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174168);
+            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)grineut_frame_set);
             select_sprite_entry(
                 sprite,
-                ((u8 *)D_80174168)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)grineut_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R07_80172478_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
 
             ((R07_80172478_S_80172478_0 *)action)->unk_9B++;

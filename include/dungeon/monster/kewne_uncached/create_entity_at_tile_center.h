@@ -102,7 +102,7 @@ s32 refresh_actor_facing_and_lifecycle();  /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
 extern u16 system_update_flags[8];
 extern u8 D_8006EE9C[16];
-extern u8 D_8006F47A[16];
+extern u8 kewne_spawn_pool_script[16];
 extern u8 D_8006F50D[16];
 extern u8 D_8006F6B9[16];
 extern u8 D_8006F9D0[16];

@@ -76,7 +76,7 @@ void copy_display_template_blocks();
 void func_800B426C(void *);
 /* extern */
 extern M2C_UNK D_800D1658;
-extern M2C_UNK D_800D175C;
+extern M2C_UNK entity_display_gradient_color;
 /* arg0 in set_record_base_and_data_pointer_alt; pointer addresses record offset 0x10 */
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void D_800B3E68();

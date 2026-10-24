@@ -14,7 +14,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 golem_action_continuation_address;
-extern Callback D_80175F70[];
+extern Callback golem_behavior_handlers[];
 
    /* monster in update_shrinking_sprite_effect */
 
@@ -112,7 +112,7 @@ void update_shrinking_sprite_effect(void *entity, S_80170A84_2 *motion, SpriteFr
         callback(entity, motion, monster, actor);
     }
 
-    D_80175F70[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
+    golem_behavior_handlers[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
 
     if (old_direction != ((S_80170A84_1 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, monster, actor);

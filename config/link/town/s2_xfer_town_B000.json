@@ -52,6 +52,59 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8008F2C0",
+      "tu": "src/town/map/min_indexed_query.c",
+      "home": "town/func_8008F2C0",
+      "foff": "0xF2C0",
+      "vma": "0x8008ca20",
+      "size": 156
+    },
+    {
+      "row": "town/func_8008F35C",
+      "tu": "src/dungeon/system/get_maximum_sampled_offset_value.c",
+      "home": "dungeon/func_7FFEF494",
+      "foff": "0xF35C",
+      "vma": "0x8008cabc",
+      "size": 156,
+      "bindings": {
+        "0x8008C6B8": "0x8008C570"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8008F3F8",
+      "tu": "src/town/map/min_indexed_query.c",
+      "home": "town/func_8008F2C0",
+      "foff": "0xF3F8",
+      "vma": "0x8008cb58",
+      "size": 156,
+      "bindings": {
+        "0x8008C4C8": "0x8008C610"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8008F494",
+      "tu": "src/dungeon/system/get_maximum_sampled_offset_value.c",
+      "home": "dungeon/func_7FFEF494",
+      "foff": "0xF494",
+      "vma": "0x8008cbf4",
+      "size": 156,
+      "bindings": {
+        "0x8008C6B8": "0x8008C6B8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8008F530",
+      "tu": "src/dungeon/system/check_four_vector_half_turn_gaps.c",
+      "home": "dungeon/func_7FFEF530",
+      "foff": "0xF530",
+      "vma": "0x8008cc90",
+      "size": 376,
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80091B34",
       "tu": "src/town/func_80091B34.c",
       "home": "town/func_80091B34",
@@ -60,12 +113,371 @@
       "size": 64
     },
     {
+      "row": "town/func_80091C6C",
+      "tu": "src/town/scene/motion/handle_evaluate_position_after_subtracting_stored_offset_first_component.c",
+      "home": "town/func_80091C6C",
+      "foff": "0x11C6C",
+      "vma": "0x8008f3cc",
+      "size": 80
+    },
+    {
+      "row": "town/func_80091CBC",
+      "tu": "src/town/scene/motion/handle_evaluate_position_after_subtracting_stored_offset_first_component.c",
+      "home": "town/func_80091C6C",
+      "foff": "0x11CBC",
+      "vma": "0x8008f41c",
+      "size": 80,
+      "bindings": {
+        "0x800CFD58": "0x800CFD78",
+        "0x8008CA20": "0x8008CABC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80091D0C",
+      "tu": "src/town/scene/motion/check_the_position_second_coordinate_adjusted_stored_offset.c",
+      "home": "town/func_80091D0C",
+      "foff": "0x11D0C",
+      "vma": "0x8008f46c",
+      "size": 80
+    },
+    {
+      "row": "town/func_80091D5C",
+      "tu": "src/town/scene/motion/check_the_position_second_coordinate_adjusted_stored_offset.c",
+      "home": "town/func_80091D0C",
+      "foff": "0x11D5C",
+      "vma": "0x8008f4bc",
+      "size": 80,
+      "bindings": {
+        "0x800CFD98": "0x800CFDB8",
+        "0x8008CB58": "0x8008CBF4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80092860",
       "tu": "src/town/scene/hooks/noop_at_ffc.c",
       "home": "town/func_80092860",
       "foff": "0x12860",
       "vma": "0x8008ffc0",
       "size": 8
+    },
+    {
+      "row": "town/func_80093690",
+      "tu": "src/town/player/run_action_then_fallback_on_no_change.c",
+      "home": "town/func_80093690",
+      "foff": "0x13690",
+      "vma": "0x80090df0",
+      "size": 136
+    },
+    {
+      "row": "town/func_80093718",
+      "tu": "src/town/player/run_action_then_fallback_on_no_change.c",
+      "home": "town/func_80093690",
+      "foff": "0x13718",
+      "vma": "0x80090e78",
+      "size": 136,
+      "bindings": {
+        "0x80090A74": "0x80090A74",
+        "0x80093D48": "0x80093D48"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800942A8",
+      "tu": "src/town/player/update_threshold_countdown_action.c",
+      "home": "town/func_800942A8",
+      "foff": "0x142A8",
+      "vma": "0x80091a08",
+      "size": 232
+    },
+    {
+      "row": "town/func_80094390",
+      "tu": "src/town/player/update_threshold_countdown_action.c",
+      "home": "town/func_800942A8",
+      "foff": "0x14390",
+      "vma": "0x80091af0",
+      "size": 232,
+      "bindings": {
+        "0x80095C80": "0x80095C80",
+        "0x80095094": "0x80095094",
+        "0x800FE488": "0x800FE488",
+        "0x80095978": "0x80095978",
+        "0x800CFCEF": "0x800CFCEF",
+        "0x80094378": "0x80094378",
+        "0x80095A94": "0x80095A94",
+        "0x800940D0": "0x80093D48"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80094804",
+      "tu": "src/town/player/update_threshold_countdown_action.c",
+      "home": "town/func_800942A8",
+      "foff": "0x14804",
+      "vma": "0x80091f64",
+      "size": 232,
+      "bindings": {
+        "0x80095C80": "0x80095C80",
+        "0x80095094": "0x80095094",
+        "0x800FE488": "0x800FE488",
+        "0x80095978": "0x80095978",
+        "0x800CFCEF": "0x800CFCEF",
+        "0x80094378": "0x80094378",
+        "0x80095A94": "0x80095A94",
+        "0x800940D0": "0x800942B0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80095648",
+      "tu": "src/town/func_8009576C.c",
+      "home": "town/func_8009576C",
+      "foff": "0x15648",
+      "vma": "0x80092da8",
+      "size": 292,
+      "bindings": {
+        "0x80083160": "0x80083160",
+        "0x80095C80": "0x80095C80",
+        "0x80094C1C": "0x80094C1C",
+        "0x80094C74": "0x80094C74",
+        "0x80094714": "0x80094714",
+        "0x800FE488": "0x800FE488",
+        "0x80095978": "0x80095978",
+        "0x800CFCEF": "0x800CFCEF",
+        "0x80094910": "0x80094910",
+        "0x80095A94": "0x80095A94",
+        "0x800ABD74": "0x800ABD74",
+        "0x800954F4": "0x800954F4",
+        "0x8009451C": "0x8009451C",
+        "0x80095388": "0x80095388"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009576C",
+      "tu": "src/town/func_8009576C.c",
+      "home": "town/func_8009576C",
+      "foff": "0x1576C",
+      "vma": "0x80092ecc",
+      "size": 292
+    },
+    {
+      "row": "town/func_80095FA4",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x15FA4",
+      "vma": "0x80093704",
+      "size": 64
+    },
+    {
+      "row": "town/func_80096630",
+      "tu": "src/town/func_80096630.c",
+      "home": "town/func_80096630",
+      "foff": "0x16630",
+      "vma": "0x80093d90",
+      "size": 72
+    },
+    {
+      "row": "town/func_80096678",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x16678",
+      "vma": "0x80093dd8",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0080",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80090D44"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800966B8",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x166B8",
+      "vma": "0x80093e18",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0088",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80090DF0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800966F8",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x166F8",
+      "vma": "0x80093e58",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0088",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80091114"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096738",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x16738",
+      "vma": "0x80093e98",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0168",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x800911D4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800968E8",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x168E8",
+      "vma": "0x80094048",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0160",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80090F84"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096A78",
+      "tu": "src/town/func_80096630.c",
+      "home": "town/func_80096630",
+      "foff": "0x16A78",
+      "vma": "0x800941d8",
+      "size": 72,
+      "bindings": {
+        "0x800D0180": "0x800D00E0",
+        "0x80094984": "0x80094984",
+        "0x80090C68": "0x80091D6C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096BD0",
+      "tu": "src/town/func_80096BD0.c",
+      "home": "town/func_80096BD0",
+      "foff": "0x16BD0",
+      "vma": "0x80094330",
+      "size": 72
+    },
+    {
+      "row": "town/func_80096C18",
+      "tu": "src/town/func_80096C18.c",
+      "home": "town/func_80096C18",
+      "foff": "0x16C18",
+      "vma": "0x80094378",
+      "size": 64
+    },
+    {
+      "row": "town/func_80096C58",
+      "tu": "src/town/player/action.c",
+      "home": "town/func_80096C58",
+      "foff": "0x16C58",
+      "vma": "0x800943b8",
+      "size": 92
+    },
+    {
+      "row": "town/func_80096D14",
+      "tu": "src/town/func_80096BD0.c",
+      "home": "town/func_80096BD0",
+      "foff": "0x16D14",
+      "vma": "0x80094474",
+      "size": 72,
+      "bindings": {
+        "0x800D00C0": "0x800D0118",
+        "0x80094984": "0x80094984",
+        "0x80090F00": "0x80090E78"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096DBC",
+      "tu": "src/town/func_80096C18.c",
+      "home": "town/func_80096C18",
+      "foff": "0x16DBC",
+      "vma": "0x8009451c",
+      "size": 64,
+      "bindings": {
+        "0x800D00B8": "0x800D0128",
+        "0x80094984": "0x80094984",
+        "0x8009221C": "0x800927EC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096EC0",
+      "tu": "src/town/player/initialize_scene_record.c",
+      "home": "town/func_80095FA4",
+      "foff": "0x16EC0",
+      "vma": "0x80094620",
+      "size": 64,
+      "bindings": {
+        "0x800D0078": "0x800D0148",
+        "0x80094984": "0x80094984",
+        "0x80093638": "0x80092DA8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096F00",
+      "tu": "src/town/func_80096C18.c",
+      "home": "town/func_80096C18",
+      "foff": "0x16F00",
+      "vma": "0x80094660",
+      "size": 64,
+      "bindings": {
+        "0x800D00B8": "0x800D00B8",
+        "0x80094984": "0x80094984",
+        "0x8009221C": "0x80092ECC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80096F40",
+      "tu": "src/town/player/action.c",
+      "home": "town/func_80096C58",
+      "foff": "0x16F40",
+      "vma": "0x800946a0",
+      "size": 92,
+      "bindings": {
+        "0x80094C1C": "0x80094C1C",
+        "0x800D0108": "0x800D0138",
+        "0x80094984": "0x80094984",
+        "0x80092320": "0x80092FF0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80097014",
+      "tu": "src/town/func_80097014.c",
+      "home": "town/func_80097014",
+      "foff": "0x17014",
+      "vma": "0x80094774",
+      "size": 72
+    },
+    {
+      "row": "town/func_80097134",
+      "tu": "src/town/func_80097014.c",
+      "home": "town/func_80097014",
+      "foff": "0x17134",
+      "vma": "0x80094894",
+      "size": 72,
+      "bindings": {
+        "0x800D0120": "0x800D00A0",
+        "0x80094984": "0x80094984",
+        "0x80093328": "0x800935BC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80098460",
@@ -104,12 +516,464 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_800984F0",
+      "tu": "src/town/player/call_callee_c_c_global_parameter.c",
+      "home": "town/func_80098460",
+      "foff": "0x184F0",
+      "vma": "0x80095c50",
+      "size": 48,
+      "bindings": {
+        "0x800D0410": "0x800D041C",
+        "0x8008C4C8": "0x8008C6B8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80098A48",
       "home": "town/func_80098A48",
       "tu": "src/town/player/call_the_callee_callee_b.c",
       "foff": "0x00018A48",
       "vma": "0x800961A8",
       "size": 48
+    },
+    {
+      "row": "town/func_80098F68",
+      "tu": "src/town/player/set_global_cfceb_initialize_call_callee_c.c",
+      "home": "town/func_80098F68",
+      "foff": "0x18F68",
+      "vma": "0x800966c8",
+      "size": 48
+    },
+    {
+      "row": "town/func_80098F98",
+      "tu": "src/town/player/set_global_cfceb_initialize_call_callee_c.c",
+      "home": "town/func_80098F68",
+      "foff": "0x18F98",
+      "vma": "0x800966f8",
+      "size": 48,
+      "bindings": {
+        "0x800CFCEB": "0x800CFCEA",
+        "0x800954C4": "0x800954C4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_80098FC8",
+      "tu": "src/town/player/set_global_cfced_initialize_call_callee_dc.c",
+      "home": "town/func_80098FC8",
+      "foff": "0x18FC8",
+      "vma": "0x80096728",
+      "size": 48
+    },
+    {
+      "row": "town/func_80098FF8",
+      "tu": "src/town/player/set_global_cfced_initialize_call_callee_dc.c",
+      "home": "town/func_80098FC8",
+      "foff": "0x18FF8",
+      "vma": "0x80096758",
+      "size": 48,
+      "bindings": {
+        "0x800CFCED": "0x800CFCEC",
+        "0x800954DC": "0x800954DC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009A760",
+      "tu": "src/town/player/object/tick_countdown_and_initialize_object.c",
+      "home": "town/func_8009A760",
+      "foff": "0x1A760",
+      "vma": "0x80097ec0",
+      "size": 60
+    },
+    {
+      "row": "town/func_8009A79C",
+      "tu": "src/town/player/update_actor_and_select_ground_handler.c",
+      "home": "town/func_8009A79C",
+      "foff": "0x1A79C",
+      "vma": "0x80097efc",
+      "size": 160
+    },
+    {
+      "row": "town/func_8009A83C",
+      "tu": "src/town/player/update_actor_and_select_ground_handler.c",
+      "home": "town/func_8009A79C",
+      "foff": "0x1A83C",
+      "vma": "0x80097f9c",
+      "size": 160,
+      "bindings": {
+        "0x80095C80": "0x80095C80",
+        "0x800FE488": "0x800FE488",
+        "0x80095978": "0x80095978",
+        "0x80095A94": "0x80095A94",
+        "0x80098B30": "0x80098B70",
+        "0x80095388": "0x80095388"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009A8DC",
+      "tu": "src/town/player/object/tick_countdown_and_initialize_object.c",
+      "home": "town/func_8009A760",
+      "foff": "0x1A8DC",
+      "vma": "0x8009803c",
+      "size": 60,
+      "bindings": {
+        "0x80098ABC": "0x80098928"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009A9A4",
+      "tu": "src/town/player/object/tick_countdown_and_initialize_object.c",
+      "home": "town/func_8009A760",
+      "foff": "0x1A9A4",
+      "vma": "0x80098104",
+      "size": 60,
+      "bindings": {
+        "0x80098ABC": "0x80098C40"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009AD4C",
+      "tu": "src/town/player/update_falling_actor_and_handle_ground.c",
+      "home": "town/func_8009AD4C",
+      "foff": "0x1AD4C",
+      "vma": "0x800984ac",
+      "size": 152
+    },
+    {
+      "row": "town/func_8009B108",
+      "tu": "src/town/player/initialize_record_and_select_active_data.c",
+      "home": "town/func_8009B108",
+      "foff": "0x1B108",
+      "vma": "0x80098868",
+      "size": 96
+    },
+    {
+      "row": "town/func_8009B168",
+      "tu": "src/town/player/initialize_record_and_select_active_data.c",
+      "home": "town/func_8009B108",
+      "foff": "0x1B168",
+      "vma": "0x800988c8",
+      "size": 96,
+      "bindings": {
+        "0x80098834": "0x80098834",
+        "0x80098928": "0x80098988",
+        "0x800FE5D8": "0x800FE5D8",
+        "0x80093D48": "0x80093D48"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009B710",
+      "tu": "src/town/func_8009B710.c",
+      "home": "town/func_8009B710",
+      "foff": "0x1B710",
+      "vma": "0x80098e70",
+      "size": 80
+    },
+    {
+      "row": "town/func_8009B760",
+      "tu": "src/town/func_8009B710.c",
+      "home": "town/func_8009B710",
+      "foff": "0x1B760",
+      "vma": "0x80098ec0",
+      "size": 80,
+      "bindings": {
+        "0x800D0170": "0x800D0180",
+        "0x80094984": "0x80094984",
+        "0x80082668": "0x80082668",
+        "0x80098078": "0x8009803C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009B7E8",
+      "tu": "src/town/player/object/reset_indexed_object_and_set_handler.c",
+      "home": "town/func_8009B7E8",
+      "foff": "0x1B7E8",
+      "vma": "0x80098f48",
+      "size": 116
+    },
+    {
+      "row": "town/func_8009BB34",
+      "tu": "src/town/func_8009BB34.c",
+      "home": "town/func_8009BB34",
+      "foff": "0x1BB34",
+      "vma": "0x80099294",
+      "size": 100
+    },
+    {
+      "row": "town/func_8009BC30",
+      "tu": "src/town/func_8009BB34.c",
+      "home": "town/func_8009BB34",
+      "foff": "0x1BC30",
+      "vma": "0x80099390",
+      "size": 100,
+      "bindings": {
+        "0x800D0150": "0x800D0150",
+        "0x80094984": "0x80094984",
+        "0x80082668": "0x80082668",
+        "0x80098078": "0x8009803C",
+        "0x80099754": "0x80099754"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009BC94",
+      "tu": "src/town/player/object/reset_indexed_object_and_set_handler.c",
+      "home": "town/func_8009B7E8",
+      "foff": "0x1BC94",
+      "vma": "0x800993f4",
+      "size": 116,
+      "bindings": {
+        "0x800D00A8": "0x800D00A8",
+        "0x80094984": "0x80094984",
+        "0x80082660": "0x80082660",
+        "0x80099754": "0x80099754",
+        "0x8009AA2C": "0x80098608"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009BDDC",
+      "tu": "src/town/player/state/initialize_indexed_object_state.c",
+      "home": "town/func_8009BDDC",
+      "foff": "0x1BDDC",
+      "vma": "0x8009953c",
+      "size": 108
+    },
+    {
+      "row": "town/func_8009BE48",
+      "tu": "src/town/player/state/initialize_indexed_object_state.c",
+      "home": "town/func_8009BDDC",
+      "foff": "0x1BE48",
+      "vma": "0x800995a8",
+      "size": 108,
+      "bindings": {
+        "0x800D01C8": "0x800D01D0",
+        "0x80094984": "0x80094984",
+        "0x80082660": "0x80082660",
+        "0x80098078": "0x80098078",
+        "0x80099754": "0x80099754"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009CE2C",
+      "tu": "src/town/player/motion/clear_player_motion_entry.c",
+      "home": "town/func_8009CE2C",
+      "foff": "0x1CE2C",
+      "vma": "0x8009a58c",
+      "size": 52
+    },
+    {
+      "row": "town/func_8009CE60",
+      "tu": "src/town/player/motion/clear_player_motion_entry.c",
+      "home": "town/func_8009CE2C",
+      "foff": "0x1CE60",
+      "vma": "0x8009a5c0",
+      "size": 52,
+      "bindings": {
+        "0x80082660": "0x80082660",
+        "0x80098988": "0x80098988"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009D414",
+      "tu": "src/town/player/update_falling_actor_and_handle_ground.c",
+      "home": "town/func_8009AD4C",
+      "foff": "0x1D414",
+      "vma": "0x8009ab74",
+      "size": 152,
+      "bindings": {
+        "0x800FE488": "0x800FE488",
+        "0x80095978": "0x80095978",
+        "0x80095A94": "0x80095A94",
+        "0x80098928": "0x80098928",
+        "0x80095388": "0x80095388"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009E4E4",
+      "tu": "src/dungeon/actor/update_falling_motion.c",
+      "home": "dungeon/func_7FFFE4E4",
+      "foff": "0x1E4E4",
+      "vma": "0x8009bc44",
+      "size": 380,
+      "bindings": {
+        "0x80095388": "0x80095388",
+        "0x8009539C": "0x8009539C",
+        "0x800FE488": "0x800FE488",
+        "0x8008F170": "0x8008F170",
+        "0x8008F294": "0x8008F294",
+        "0x8008F664": "0x8008F664",
+        "0x8008F27C": "0x8008F27C",
+        "0x8009B454": "0x8009B454",
+        "0x8008C180": "0x8008C180",
+        "0x800C1D44": "0x800C1D44",
+        "0x800D45AA": "0x800D45AA",
+        "0x80053DA8": "0x80053DA8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009EE78",
+      "tu": "src/town/event/state/spawn_and_flag_object_parts_g01128.c",
+      "home": "town/func_8009EE78",
+      "foff": "0x1EE78",
+      "vma": "0x8009c5d8",
+      "size": 112
+    },
+    {
+      "row": "town/func_8009F0DC",
+      "tu": "src/town/event/initialize_object_resource_table.c",
+      "home": "town/func_8009F0DC",
+      "foff": "0x1F0DC",
+      "vma": "0x8009c83c",
+      "size": 72
+    },
+    {
+      "row": "town/func_8009F214",
+      "tu": "src/town/event/state/initialize_object_state_from_selector.c",
+      "home": "town/func_8009F214",
+      "foff": "0x1F214",
+      "vma": "0x8009c974",
+      "size": 104
+    },
+    {
+      "row": "town/func_8009F27C",
+      "tu": "src/town/event/initialize_object_resource_table.c",
+      "home": "town/func_8009F0DC",
+      "foff": "0x1F27C",
+      "vma": "0x8009c9dc",
+      "size": 72,
+      "bindings": {
+        "0x800D06F8": "0x800D071C",
+        "0x800F8BD8": "0x800F8D1C",
+        "0x800CFD00": "0x800CFD00",
+        "0x800F8BCC": "0x800F8D10",
+        "0x8009C7A8": "0x8009C7A8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F2C4",
+      "tu": "src/town/event/state/initialize_object_state_from_selector.c",
+      "home": "town/func_8009F214",
+      "foff": "0x1F2C4",
+      "vma": "0x8009ca24",
+      "size": 104,
+      "bindings": {
+        "0x800F8CEC": "0x800F8D64",
+        "0x800CFD00": "0x800D0648",
+        "0x8008F104": "0x8008F104",
+        "0x8009B218": "0x8009B218"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F334",
+      "tu": "src/town/event/state/initialize_object_state_from_selector.c",
+      "home": "town/func_8009F214",
+      "foff": "0x1F334",
+      "vma": "0x8009ca94",
+      "size": 104,
+      "bindings": {
+        "0x800F8CEC": "0x800F8D70",
+        "0x800CFD00": "0x800D0648",
+        "0x8008F104": "0x8008F104",
+        "0x8009B218": "0x8009B218"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F39C",
+      "tu": "src/town/event/state/initialize_object_state_from_selector.c",
+      "home": "town/func_8009F214",
+      "foff": "0x1F39C",
+      "vma": "0x8009cafc",
+      "size": 104,
+      "bindings": {
+        "0x800F8CEC": "0x800F8A40",
+        "0x800CFD00": "0x800D0660",
+        "0x8008F104": "0x8008F104",
+        "0x8009B218": "0x8009B218"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F478",
+      "tu": "src/town/event/object/initialize_timed_object_action.c",
+      "home": "town/func_8009F478",
+      "foff": "0x1F478",
+      "vma": "0x8009cbd8",
+      "size": 64
+    },
+    {
+      "row": "town/func_8009F4B8",
+      "tu": "src/town/event/object/initialize_timed_object_action.c",
+      "home": "town/func_8009F478",
+      "foff": "0x1F4B8",
+      "vma": "0x8009cc18",
+      "size": 64,
+      "bindings": {
+        "0x800F8B6C": "0x800F8FA8",
+        "0x8009CB64": "0x8009CB64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F4F8",
+      "tu": "src/town/event/object/initialize_timed_object_action.c",
+      "home": "town/func_8009F478",
+      "foff": "0x1F4F8",
+      "vma": "0x8009cc58",
+      "size": 64,
+      "bindings": {
+        "0x800F8B6C": "0x800F8FC0",
+        "0x8009CB64": "0x8009CB64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F538",
+      "tu": "src/town/event/object/initialize_timed_object_action.c",
+      "home": "town/func_8009F478",
+      "foff": "0x1F538",
+      "vma": "0x8009cc98",
+      "size": 64,
+      "bindings": {
+        "0x800F8B6C": "0x800F8FD8",
+        "0x8009CB64": "0x8009CB64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8009F578",
+      "tu": "src/town/event/object/initialize_timed_object_action.c",
+      "home": "town/func_8009F478",
+      "foff": "0x1F578",
+      "vma": "0x8009ccd8",
+      "size": 64,
+      "bindings": {
+        "0x800F8B6C": "0x800F8FF0",
+        "0x8009CB64": "0x8009CB64"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800A1480",
+      "tu": "src/town/func_800A20D0.c",
+      "home": "town/func_800A20D0",
+      "foff": "0x21480",
+      "vma": "0x8009ebe0",
+      "size": 92,
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_800A1F74",
@@ -124,12 +988,126 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_800A20D0",
+      "tu": "src/town/func_800A20D0.c",
+      "home": "town/func_800A20D0",
+      "foff": "0x220D0",
+      "vma": "0x8009f830",
+      "size": 92
+    },
+    {
+      "row": "town/func_800A6148",
+      "tu": "src/town/event/state/spawn_and_flag_object_parts_g01128.c",
+      "home": "town/func_8009EE78",
+      "foff": "0x26148",
+      "vma": "0x800a38a8",
+      "size": 112,
+      "bindings": {
+        "0x80033D08": "0x80033D08",
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_800A9E58",
       "tu": "src/town/menu/object/create_preset_sprite_object.c",
       "home": "town/func_800A9E58",
       "foff": "0x29E58",
       "vma": "0x800A75B8",
       "size": 44
+    },
+    {
+      "row": "town/func_800AA3B4",
+      "tu": "src/town/func_800AA698.c",
+      "home": "town/func_800AA698",
+      "foff": "0x2A3B4",
+      "vma": "0x800a7b14",
+      "size": 132,
+      "bindings": {
+        "0x8009CFE0": "0x8009CFE0",
+        "0x80033D08": "0x80033D08",
+        "0x800814A0": "0x800814A0",
+        "0x800478B8": "0x800478B8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800AA538",
+      "tu": "src/town/menu/resource/initialize_resource_object.c",
+      "home": "town/func_800AA538",
+      "foff": "0x2A538",
+      "vma": "0x800a7c98",
+      "size": 88
+    },
+    {
+      "row": "town/func_800AA590",
+      "tu": "src/town/menu/resource/initialize_resource_object.c",
+      "home": "town/func_800AA538",
+      "foff": "0x2A590",
+      "vma": "0x800a7cf0",
+      "size": 88,
+      "bindings": {
+        "0x800A7DF8": "0x800A7DF8",
+        "0x800F8F68": "0x800F8F78",
+        "0x800C2CB0": "0x800C2CB0",
+        "0x80045340": "0x80045340",
+        "0x80033CD8": "0x80033CD8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800AA5E8",
+      "tu": "src/town/menu/resource/initialize_resource_object.c",
+      "home": "town/func_800AA538",
+      "foff": "0x2A5E8",
+      "vma": "0x800a7d48",
+      "size": 88,
+      "bindings": {
+        "0x800A7DF8": "0x800A7DF8",
+        "0x800F8F68": "0x800F8F88",
+        "0x800C2CB0": "0x800C2CB0",
+        "0x80045340": "0x80045340",
+        "0x80033CD8": "0x80033CD8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800AA640",
+      "tu": "src/town/menu/resource/initialize_resource_object.c",
+      "home": "town/func_800AA538",
+      "foff": "0x2A640",
+      "vma": "0x800a7da0",
+      "size": 88,
+      "bindings": {
+        "0x800A7DF8": "0x800A7DF8",
+        "0x800F8F68": "0x800F8F98",
+        "0x800C2CB0": "0x800C2CB0",
+        "0x80045340": "0x80045340",
+        "0x80033CD8": "0x80033CD8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800AA698",
+      "tu": "src/town/func_800AA698.c",
+      "home": "town/func_800AA698",
+      "foff": "0x2A698",
+      "vma": "0x800a7df8",
+      "size": 132
+    },
+    {
+      "row": "town/func_800AD2F8",
+      "tu": "src/town/func_80096630.c",
+      "home": "town/func_80096630",
+      "foff": "0x2D2F8",
+      "vma": "0x800aaa58",
+      "size": 72,
+      "bindings": {
+        "0x800D0180": "0x800D0138",
+        "0x80094984": "0x80094984",
+        "0x80090C68": "0x800AA844"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_800B0DB0",
@@ -163,6 +1141,19 @@
       "vma": "0x800b14a8",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_800B41D8",
+      "tu": "src/frontend/libcard/link_save_heading_draw_nodes.c",
+      "home": "main/func_80014254",
+      "foff": "0x341D8",
+      "vma": "0x800b1938",
+      "size": 40,
+      "bindings": {
+        "0x80028094": "0x800D1624",
+        "0x800491F4": "0x800491F4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80015890",
@@ -285,6 +1276,40 @@
       "size": 52
     },
     {
+      "row": "town/func_800BBC24",
+      "tu": "src/town/map/object/allocate_first_object_variant.c",
+      "home": "town/func_800BBC24",
+      "foff": "0x3BC24",
+      "vma": "0x800b9384",
+      "size": 52
+    },
+    {
+      "row": "town/func_800BBC60",
+      "tu": "src/town/map/object/allocate_object_with_data_pointer.c",
+      "home": "town/func_800BB95C",
+      "foff": "0x3BC60",
+      "vma": "0x800b93c0",
+      "size": 52,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x800B90B4": "0x800B93B8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800BBC9C",
+      "tu": "src/town/map/object/allocate_first_object_variant.c",
+      "home": "town/func_800BBC24",
+      "foff": "0x3BC9C",
+      "vma": "0x800b93fc",
+      "size": 52,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x800B9260": "0x800B93F4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8001C550",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
@@ -304,11 +1329,16 @@
     },
     {
       "row": "town/func_800C19FC",
-      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
-      "home": "town/func_800C19FC",
+      "tu": "src/dungeon/monster/golem/find_first_entry_matching_keys.c",
+      "home": "dungeon/func_81087200",
       "foff": "0x419FC",
       "vma": "0x800bf15c",
-      "size": 108
+      "size": 108,
+      "bindings": {
+        "0x800478B8": "0x800478B8",
+        "0x800814A0": "0x800814A0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_800C3368",
@@ -397,6 +1427,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_800C349C",
+      "tu": "src/town/scene/scr_koya_tamago_pal_ld.c",
+      "home": "town/func_800C3368",
+      "foff": "0x4349C",
+      "vma": "0x800c0bfc",
+      "size": 44,
+      "bindings": {
+        "0x8009E218": "0x8009E3D4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_800C37E0",
       "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
       "home": "town/func_8008DB5C",
@@ -409,12 +1451,55 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_800C42E4",
+      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "home": "town/func_800C42E4",
+      "foff": "0x442E4",
+      "vma": "0x800c1a44",
+      "size": 44
+    },
+    {
+      "row": "town/func_800C4330",
+      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "home": "town/func_800C42E4",
+      "foff": "0x44330",
+      "vma": "0x800c1a90",
+      "size": 44,
+      "bindings": {
+        "0x800717D0": "0x800717D0",
+        "0x800D42CC": "0x800D42E4",
+        "0x8003AF58": "0x8003AF58"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800C438C",
+      "tu": "src/town/scene/mcard_set.c",
+      "home": "town/func_800C438C",
+      "foff": "0x4438C",
+      "vma": "0x800c1aec",
+      "size": 52
+    },
+    {
       "row": "town/func_800C43C0",
       "home": "town/func_800C43C0",
       "tu": "src/town/scene/mcard_end_check.c",
       "foff": "0x000443C0",
       "vma": "0x800C1B20",
       "size": 16
+    },
+    {
+      "row": "town/func_800C43D0",
+      "tu": "src/town/scene/mcard_set.c",
+      "home": "town/func_800C438C",
+      "foff": "0x443D0",
+      "vma": "0x800c1b30",
+      "size": 52,
+      "bindings": {
+        "0x80083498": "0x80083498",
+        "0x8004EE50": "0x800511B4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_800C4404",
@@ -434,6 +1519,20 @@
         "0x8008B2BC": "0x8008B2BC"
       },
       "evidence": "LL3a attestation sha256:d33abd337e0281ed6d43cd46e90cd6c50e3132a280dc56c0c3fd8b00e6801d4a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_800C4444",
+      "tu": "src/town/scene/effect/create_familiar_restoration_effect.c",
+      "home": "town/func_800C42E4",
+      "foff": "0x44444",
+      "vma": "0x800c1ba4",
+      "size": 44,
+      "bindings": {
+        "0x800717D0": "0x800717D0",
+        "0x800D42CC": "0x800D4398",
+        "0x8003AF58": "0x8003AF58"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80026414",
@@ -506,6 +1605,27 @@
       "vma": "0x800c58ec",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_800C8194",
+      "tu": "src/town/person/state/clear_record_indexed_flag.c",
+      "home": "town/func_800C8194",
+      "foff": "0x48194",
+      "vma": "0x800c58f4",
+      "size": 40
+    },
+    {
+      "row": "town/func_800C81BC",
+      "tu": "src/town/person/state/clear_record_indexed_flag.c",
+      "home": "town/func_800C8194",
+      "foff": "0x481BC",
+      "vma": "0x800c591c",
+      "size": 40,
+      "bindings": {
+        "0x80082660": "0x80082660",
+        "0x800C3BF4": "0x800C3C28"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80028974",
@@ -651,6 +1771,22 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
+      "row": "town/func_800C97C0",
+      "tu": "src/town/scene/initialize_scene_slot_x.c",
+      "home": "town/func_800D1ED8",
+      "foff": "0x497C0",
+      "vma": "0x800c6f20",
+      "size": 72,
+      "bindings": {
+        "0x800D7BF4": "0x800D5BD8",
+        "0x800D7BFC": "0x800D5BE0",
+        "0x800D7C24": "0x800D5C08",
+        "0x800D7C28": "0x800D5C0C",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8002A520",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
@@ -714,6 +1850,22 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
+      "row": "town/func_800CC04C",
+      "tu": "src/town/scene/initialize_scene_slot_context_j.c",
+      "home": "town/func_800D1D70",
+      "foff": "0x4C04C",
+      "vma": "0x800c97ac",
+      "size": 72,
+      "bindings": {
+        "0x800D79B0": "0x800D6568",
+        "0x800D79B8": "0x800D6570",
+        "0x800D79E0": "0x800D6598",
+        "0x800D79E4": "0x800D65A0",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_800CC3E4",
       "home": "town/func_800CC3E4",
       "tu": "src/town/person/motion/advance_reaction_motion_to_limit.c",
@@ -738,6 +1890,22 @@
       "vma": "0x800cab3c",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_800CD510",
+      "tu": "src/town/person/initialize_scene_slot.c",
+      "home": "town/func_800CD4C8",
+      "foff": "0x4D510",
+      "vma": "0x800cac70",
+      "size": 72,
+      "bindings": {
+        "0x800D6770": "0x800D67AC",
+        "0x800D6778": "0x800D67B4",
+        "0x800D67A0": "0x800D67DC",
+        "0x800D67A4": "0x800D67E0",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8002D988",
@@ -861,6 +2029,97 @@
       "vma": "0x800cc210",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_800CEE9C",
+      "tu": "src/town/scene/initialize_scene_slot_context_j.c",
+      "home": "town/func_800D1D70",
+      "foff": "0x4EE9C",
+      "vma": "0x800cc5fc",
+      "size": 72,
+      "bindings": {
+        "0x800D79B0": "0x800D6DF8",
+        "0x800D79B8": "0x800D6E00",
+        "0x800D79E0": "0x800D6E28",
+        "0x800D79E4": "0x800D6E2C",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800CF104",
+      "tu": "src/town/scene/initialize_scene_slot_context.c",
+      "home": "town/func_800C7C50",
+      "foff": "0x4F104",
+      "vma": "0x800cc864",
+      "size": 72,
+      "bindings": {
+        "0x800D51C8": "0x800D6E90",
+        "0x800D51D0": "0x800D6E98",
+        "0x800D51F8": "0x800D6EC0",
+        "0x800D51FC": "0x800D6EC4",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800CF304",
+      "tu": "src/town/scene/initialize_scene_slot_s.c",
+      "home": "town/func_800D1D28",
+      "foff": "0x4F304",
+      "vma": "0x800cca64",
+      "size": 72,
+      "bindings": {
+        "0x800D793C": "0x800D6F74",
+        "0x800D7944": "0x800D6F7C",
+        "0x800D796C": "0x800D6FA4",
+        "0x800D7970": "0x800D6FA8",
+        "0x800C3050": "0x800C3050"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800CF34C",
+      "tu": "src/town/scene/initialize_scene_entry_group_f.c",
+      "home": "town/func_800CF34C",
+      "foff": "0x4F34C",
+      "vma": "0x800ccaac",
+      "size": 96
+    },
+    {
+      "row": "town/func_800CF3AC",
+      "tu": "src/town/scene/initialize_scene_entry_group_f.c",
+      "home": "town/func_800CF34C",
+      "foff": "0x4F3AC",
+      "vma": "0x800ccb0c",
+      "size": 96,
+      "bindings": {
+        "0x800D6EFC": "0x800D6F10",
+        "0x800C2E84": "0x800C2E84",
+        "0x80082660": "0x80082660",
+        "0x800C3B7C": "0x800C3B7C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_800CF4D4",
+      "tu": "src/town/person/state/invoke_flag_state_callback.c",
+      "home": "town/func_800CF4D4",
+      "foff": "0x4F4D4",
+      "vma": "0x800ccc34",
+      "size": 60
+    },
+    {
+      "row": "town/func_800CF510",
+      "tu": "src/town/person/state/invoke_flag_state_callback.c",
+      "home": "town/func_800CF4D4",
+      "foff": "0x4F510",
+      "vma": "0x800ccc70",
+      "size": 60,
+      "bindings": {
+        "0x800D6FBC": "0x800D70A0"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8002F7B0",

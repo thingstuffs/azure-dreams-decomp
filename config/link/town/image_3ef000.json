@@ -372,6 +372,14 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_804737B0",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
+      "foff": "0x3F37B0",
+      "vma": "0x8001a7b0",
+      "size": 72
+    },
+    {
       "row": "town/func_804737F8",
       "tu": "src/town/player/get_linked_record_field.c",
       "home": "town/func_803308C8",

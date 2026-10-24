@@ -24,10 +24,10 @@ extern void transform_and_queue_mesh_quads();
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 
-extern IntVector3 D_80100D48, D_80100D68;
+extern IntVector3 town_motion_offset_position, D_80100D68;
 extern PositionRotationPair town_event_motion_pair;
 
-extern u16 D_80100D40, D_80100D42, town_motion_x_step, town_motion_y_step;
+extern u16 town_motion_x_phase, town_motion_y_phase, town_motion_x_step, town_motion_y_step;
 extern void draw_random_colored_line(s32, s32);
 
 /* Functions defined in this translation unit. */

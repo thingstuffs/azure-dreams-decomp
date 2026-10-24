@@ -40,7 +40,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern u8 hikewne_action_resume_address[];
-extern u8 D_801740F0[];
+extern u8 hikewne_frame_set[];
 extern u8 D_801740F8[];
 extern u8 hikewne_frame_set_1[];
 extern u8 hikewne_frame_set_2[];
@@ -254,7 +254,7 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
             return;
         }
 
-        local_table_5 = D_801740F0;
+        local_table_5 = hikewne_frame_set;
 
         entity->frameTable = local_table_5;
         effect_entry = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;

@@ -29,7 +29,7 @@ extern void update_view_gray_level(void);
 extern s16 map_scene_selector_alias;
 extern s8 map_wide_culling;
 extern s32 D_80100D90;
-extern s32 D_80100DB8[];
+extern s32 town_secondary_callback_state[];
 extern s32 town_camera_chase_state[];
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
@@ -40,7 +40,7 @@ void run_dual_context_callbacks(void)
     Callback callback;
 
     primary_context = (S_func_800A496C_0 *)town_camera_chase_state;
-    secondary_context = (S_func_800A496C_1 *)D_80100DB8;
+    secondary_context = (S_func_800A496C_1 *)town_secondary_callback_state;
 
     callback = primary_context->unk_24;
     if (callback != NULL) {

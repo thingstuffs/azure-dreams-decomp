@@ -168,7 +168,7 @@ s32 register_node(void *, s32);
 s32 func_8004491C(void *, s32);
 s32 rsin();
 s32 rcos();
-extern u8 D_80025238[];
+extern u8 coordinate_effect_sprite_data[];
 extern u8 ribbon_sprite_entries[];
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry fading_sprite_entries[];

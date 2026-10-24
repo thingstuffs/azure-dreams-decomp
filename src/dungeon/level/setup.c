@@ -365,9 +365,9 @@ retry_position:
     entity_mask = 0xFFEFFFFF;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 &= entity_mask;
     do {
-        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD078)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_frame_groups)[entry_index], 0, 0);
         equipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
-        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD0A8)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_frame_groups_alt)[entry_index], 0, 0);
         unequipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_followup_frames)[entry_index], 0, 0);
         D_800E3D48[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;

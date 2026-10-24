@@ -146,7 +146,7 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
                     if (left & 1) {
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80174EF0;
+                        part_b->unk_2C = noise_frame_set;
                     }
                 }
             }

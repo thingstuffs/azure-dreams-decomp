@@ -33,35 +33,55 @@
     },
     {
       "row": "dungeon/func_800ADA4C",
-      "tu": "src/dungeon/effect/advance_thrown_actor_travel_and_dispatch.c",
-      "home": "dungeon/func_800ADA4C",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xCDA4C",
-      "vma": "0x800B31AC",
-      "size": 56
+      "vma": "0x800b31ac",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC010",
+        "0x800B2A60": "0x800B2A60"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_800ADA84",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xCDA84",
-      "vma": "0x800B31E4",
-      "size": 56
+      "vma": "0x800b31e4",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x800B2A60"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_800ADABC",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xCDABC",
-      "vma": "0x800B321C",
-      "size": 56
+      "vma": "0x800b321c",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x800B2A60"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_800ADAF4",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xCDAF4",
-      "vma": "0x800B3254",
-      "size": 56
+      "vma": "0x800b3254",
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x800B2A60"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_800C138C",

@@ -84,7 +84,7 @@ void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
         *(s16 *)((u8 *)entity + 0x12) = direction;
     }
     {
-        s16 *flip_table = D_800D01F8;
+        s16 *flip_table = town_scene_effect_flips;
         u16 sprite_flags;
 
         if (flip_table[direction] != 0) {

@@ -49,7 +49,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
             right = ((S_8015E854_0 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             ((S_8015E854_0 *)work)->unk_14 = left;
             ((S_8015E854_0 *)work)->unk_1C = right;
-            part_b->frameTable = D_80162510;
+            part_b->frameTable = volcano_frame_set_4;
         } else {
             if (kind >= 2) {
                 ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
@@ -57,7 +57,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                 right = ((S_8015E854_0 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
                 ((S_8015E854_0 *)work)->unk_14 = left;
                 ((S_8015E854_0 *)work)->unk_1C = right;
-                part_b->frameTable = D_80162510;
+                part_b->frameTable = volcano_frame_set_4;
             } else {
                 if (((flags & ~3) << 16) == 0) {
                     if (!(((S_8015E854_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
@@ -68,10 +68,10 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                         }
                     }
                     ((S_8015E854_4 *)actor)->unk_8C = func_8015EE5C;
-                    part_b->frameTable = D_80162510;
+                    part_b->frameTable = volcano_frame_set_4;
                 } else {
                     ((S_8015E854_0 *)work)->unk_8C = func_8015EE5C;
-                    part_b->frameTable = D_80162510;
+                    part_b->frameTable = volcano_frame_set_4;
                 }
             }
         }

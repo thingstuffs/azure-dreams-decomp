@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EED4800: r101_rc3_D_8127B060, r101_rc3_D_8127B07C, r101_rc3_D_8127B080, r101_rc3_func_8127B000, r101_rc3_func_8127BD14, r101_rc3_func_8127CD6C (+4 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8127B000",
+      "tu": "src/dungeon/monster/beldo_old/copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading.c",
+      "home": "dungeon/func_8127B000",
+      "foff": "0x129B098",
+      "vma": "0x8016f898",
+      "size": 696
+    },
+    {
       "row": "dungeon/func_8127B350",
       "tu": "src/dungeon/monster/beldo/create_attached_sprite_with_offset.c",
       "home": "dungeon/func_81251350",
@@ -757,6 +765,14 @@
         "0x80173F90": "0x80172F90"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_8127E460",
+      "tu": "src/dungeon/func_8127E460.c",
+      "home": "dungeon/func_8127E460",
+      "foff": "0x129E460",
+      "vma": "0x80172c60",
+      "size": 268
     },
     {
       "row": "dungeon/func_8127E56C",

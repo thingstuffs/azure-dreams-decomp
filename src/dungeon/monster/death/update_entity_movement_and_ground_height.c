@@ -17,11 +17,11 @@ extern s16 sample_terrain_surface_height();
 
 extern s32 death_action_resume_address;
 extern u8 death_direction_frames[8];
-extern u8 D_80174644[8];
+extern u8 death_frame_set_7[8];
 extern u8 death_frame_set_4[8];
 extern u8 death_frame_set_5[8];
 extern u8 death_frame_set_6[8];
-extern u8 D_8017466C[8];
+extern u8 death_frame_set[8];
 extern Callback D_801746A0[];
 
 typedef struct S_801713A8_2 {
@@ -150,7 +150,7 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (frame_table == D_80174644 || frame_table == D_8017466C) {
+                } else if (frame_table == death_frame_set_7 || frame_table == death_frame_set) {
                     (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
@@ -235,7 +235,7 @@ void update_entity_movement_and_ground_height(void *entity, ObjectPosition *moti
                 if (frame_table == death_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-                } else if (frame_table == D_80174644 || frame_table == D_8017466C) {
+                } else if (frame_table == death_frame_set_7 || frame_table == death_frame_set) {
                     (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;

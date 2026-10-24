@@ -321,7 +321,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
 
     {
 
-        if (D_800D01F8[index] != 0) {
+        if (town_scene_effect_flips[index] != 0) {
             *(u16 *)((u8 *)record + 0x14) |= 1;
         } else {
             *(u16 *)((u8 *)record + 0x14) &= 0xFFFE;

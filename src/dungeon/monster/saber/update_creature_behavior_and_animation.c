@@ -34,9 +34,9 @@ extern void clear_actor_flag_and_apply_effect(void *, void *, void *, void *);
 
 #include "dungeon/monster/saber.h"
 
-extern u8 D_80174DFC[];
-extern u8 D_80174E2C[];
-extern u8 D_80174E44[];
+extern u8 saber_frame_set_10[];
+extern u8 saber_frame_set_2[];
+extern u8 saber_frame_set_11[];
 
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
@@ -59,9 +59,9 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         if (sprite->frameTable == saber_direction_frames_2) {
             return;
         }
-        (sprite->frameTable) = D_80174E44;
+        (sprite->frameTable) = saber_frame_set_11;
         select_sprite_entry(sprite,
-            D_80174E44[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+            saber_frame_set_11[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -74,7 +74,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             creature_in->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor_in, context_in, sprite, D_80174E44) != 0) {
+        if (reset_actor_action_state(actor_in, context_in, sprite, saber_frame_set_11) != 0) {
             return;
         }
     }
@@ -106,7 +106,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
 
         ((Rec_func_800A9E70_arg0 *)actor_in)->unk_98 &= 0xFFF3;
         if (creature_in->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_in, context_in, sprite, D_80174DFC) != 0) {
+            if (begin_ready_actor_directional_action(actor_in, context_in, sprite, saber_frame_set_10) != 0) {
                 return;
             }
         }
@@ -184,7 +184,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
                 player = primary_actor_record;
                 creature_in->facing = heading;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &saber_behavior_entry);
+                    begin_actor_spell_action(actor_in, context_in, sprite, saber_frame_set_2, &saber_behavior_entry);
                     return;
                 }
             }
@@ -196,7 +196,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &saber_behavior_entry);
+            begin_actor_spell_action(actor_in, context_in, sprite, saber_frame_set_2, &saber_behavior_entry);
             return;
 
         case 10:

@@ -40,7 +40,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
     random_value = rand();
     target->angle_z = (s16)(random_value % 0x1000);
     if (target->flags & 0x6000) {
-        select_record_entry_and_value(target, D_80025238, 0);
+        select_record_entry_and_value(target, coordinate_effect_sprite_data, 0);
     }
 }
 
@@ -58,7 +58,7 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        select_record_entry_and_value(render_data, D_80025238, 0);
+        select_record_entry_and_value(render_data, coordinate_effect_sprite_data, 0);
         render_data->scale_y = 0x800;
         render_data->scale_x = 0x800;
         render_data->clut = 0x7E07;

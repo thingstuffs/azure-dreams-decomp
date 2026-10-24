@@ -260,8 +260,8 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                 if (actor->target != 0) {
                     particle = allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
-                        register_node(particle, D_80024C7C);
-                        particle->header.update_callback = D_80024B60;
+                        register_node(particle, directional_particle_node_callback);
+                        particle->header.update_callback = directional_particle_callback;
                         {
                             s32 coordinate = actor->target_tile_x;
                             particle_data = &particle->work;

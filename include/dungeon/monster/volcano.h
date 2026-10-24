@@ -32,7 +32,7 @@ typedef struct { u8 pad00[0xA]; s16 height; } E_80170854_SpawnMotion;
 typedef struct { u8 pad00[0x24]; u8 tile_x,tile_y; u8 pad26[6]; u8 *frames; } E_80170854_SpawnSprite;
 typedef struct { u8 pad00[8]; E_80170854_SpawnMotion *motion; E_80170854_SpawnSprite *sprite; void (*update)(void *,void *,void *); } E_80170854_SpawnObject;
 
-extern u8 D_80174510[8],volcano_frame_set_2[8];
+extern u8 volcano_frame_set_6[8],volcano_frame_set_2[8];
 /* Allocate an actor, initialize its action and sprite views, then apply spawn flags. */
 
 typedef void (*E_80170A58_Callback)(void *, void *, void *, void *);
@@ -614,12 +614,12 @@ extern E_801742AC_M2C_UNK D_800DEEC0;
 extern u8 volcano_frame_set_3[];
 extern u8 volcano_frame_set_1[];
 extern u8 D_80174528[8];
-extern u8 D_80174530[];
+extern u8 volcano_frame_set_7[];
 extern u8 volcano_frame_set_2[];
-extern u8 D_80174540;
+extern u8 volcano_frame_set_10;
 extern u8 D_80174548[];
-extern s32 D_80174550;
-extern u8 D_80174558[];
+extern s32 volcano_frame_set_8;
+extern u8 volcano_frame_set_9[];
 extern u8 D_80174560[];
 extern E_80170A58_Callback volcano_callbacks[];
 extern u8 D_801745CC[];

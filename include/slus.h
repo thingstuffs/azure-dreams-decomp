@@ -95,8 +95,7 @@ void flag_optional_object_for_removal(void *object);
 void flag_optional_object_for_removal_b(void *object);
 void noop_display_setup_hook(void);
 void clear_vram_callback_state(void);
-void create_resource_transition_for_descriptor_check(void *object);
-void create_resource_transition_card(int object);
+
 #include "slus/resource_transition_task.h"
 void build_menu_backdrop_display_buffers(void *object);
 void link_menu_backdrop_display_nodes(void *entries);

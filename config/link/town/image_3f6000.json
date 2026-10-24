@@ -137,6 +137,18 @@
       "size": 108
     },
     {
+      "row": "town/func_80477674",
+      "tu": "src/town/scene/event/query_priority_event_state.c",
+      "home": "town/func_8046C414",
+      "foff": "0x3F7674",
+      "vma": "0x80018674",
+      "size": 60,
+      "bindings": {
+        "0x8001E7E4": "0x80019A44"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_803D76B0",
       "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",
@@ -246,17 +258,15 @@
     },
     {
       "row": "town/func_80478A44",
-      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte.c",
-      "home": "town/func_8046D7E4",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
       "foff": "0x3F8A44",
       "vma": "0x80019A44",
       "size": 72,
       "bindings": {
-        "0x80016000": "0x80016000",
-        "0x8001E7E4": "0x80019A44",
-        "0x8001D280": "0x800184E0"
+        "0x80016000": "0x80016000"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_8046D7E4 onto town/func_804737B0; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }
   ],
   "symbols": {

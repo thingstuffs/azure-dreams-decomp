@@ -66,7 +66,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8014CE54;
+        actor->unk_8C = &dragon_slot_a_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

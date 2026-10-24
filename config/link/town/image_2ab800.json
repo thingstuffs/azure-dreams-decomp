@@ -398,6 +398,28 @@
       "foff": "0x2B0374",
       "vma": "0x8001AB74",
       "size": 248
+    },
+    {
+      "row": "town/func_80333574",
+      "tu": "src/town/scene/blit_default_rectangle.c",
+      "home": "town/func_80333574",
+      "foff": "0x2B3574",
+      "vma": "0x8001dd74",
+      "size": 44
+    },
+    {
+      "row": "town/func_803335A0",
+      "tu": "src/town/scene/blit_default_rectangle.c",
+      "home": "town/func_80333574",
+      "foff": "0x2B35A0",
+      "vma": "0x8001dda0",
+      "size": 44,
+      "bindings": {
+        "0x8001F2DC": "0x8001F2FC",
+        "0x8001F2F4": "0x8001F360",
+        "0x8001A51C": "0x8001A51C"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "symbols": {

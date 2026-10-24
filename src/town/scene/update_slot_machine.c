@@ -25,10 +25,10 @@ extern u16 D_801328F8[];
 extern u8 D_80526704[];
 extern u8 D_80530154[];
 extern u8 falling_object_update_address[];
-extern u8 D_8053019C[][12];
+extern u8 slot_machine_symbol_strips[][12];
 extern s16 D_805301CC[];
 extern s16 D_80530590[];
-extern void *D_80530598[];
+extern void *slot_machine_bet_effect[];
 extern u8 D_8052DC78[];
 extern u8 D_8052D770[];
 
@@ -126,7 +126,7 @@ void update_slot_machine(void *machine, void *position)
         if (func_80252550(D_80530154, position_or_effect) == 0) {
             return;
         }
-        D_80530598[0] = func_80232868(0, -80, 64);
+        slot_machine_bet_effect[0] = func_80232868(0, -80, 64);
         D_801328F8[0] = 0;
         func_80244588();
         COUNT_STORE(COUNT_VALUE - 1000);
@@ -195,7 +195,7 @@ void update_slot_machine(void *machine, void *position)
             return;
         }
         COUNT_STORE(COUNT_VALUE + (s32)self->unk_64 * 1000);
-        func_80232A08(D_80530598[0]);
+        func_80232A08(slot_machine_bet_effect[0]);
         self->unk_5C = 0;
         return;
     }
@@ -273,7 +273,7 @@ void update_slot_machine(void *machine, void *position)
 
             scan_index = 2;
             reel_slot_base = (S_func_80811C54_1 *)((u8 *)self + 8);
-            strip_base = D_8053019C[2];
+            strip_base = slot_machine_symbol_strips[2];
             matrix_cursor = (u8 *)matrix_frame.pad + 24;
             row_or_digit_sum = 2;
 
@@ -493,7 +493,7 @@ matrix_outer:
             s32 hundreds_left = DIGIT2;
             if ((s32)payout_digits[0] + DIGIT1 + hundreds_left == 0) {
                 if (!(self->unk_62 & 2)) {
-                    void *bet_effect = D_80530598[0];
+                    void *bet_effect = slot_machine_bet_effect[0];
                     self->unk_64 = 0;
                     func_80232A08(bet_effect);
                     self->unk_5E.u = 10;

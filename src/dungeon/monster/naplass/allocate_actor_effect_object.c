@@ -56,7 +56,7 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
                 work->unk_1C |= ACTOR_ASLEEP;
                 set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
-                part_b->unk_2C = D_801741DC;
+                part_b->unk_2C = naplass_frame_set;
             }
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);

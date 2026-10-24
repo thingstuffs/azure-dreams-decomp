@@ -105,7 +105,7 @@ extern s32 return_magic_begin_address();
 extern s32 D_800C27F0();
 extern s32 linked_object_draw_address();
 extern M2C_UNK D_800DF45C;
-extern M2C_UNK D_800DF4A4;
+extern M2C_UNK return_magic_sprite_data;
 extern void *return_magic_effect_object;
 extern void *return_magic_fade_object;
 extern u8 D_800E1640[55];
@@ -191,7 +191,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
         register_node(effect - 0x20, &linked_object_draw_address);
         ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
-        ((S_800C2824_4 *)sprite)->unk_08 = &D_800DF4A4;
+        ((S_800C2824_4 *)sprite)->unk_08 = &return_magic_sprite_data;
         ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
         ((S_800C2824_4 *)sprite)->unk_1E = 0x1000;
         ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;

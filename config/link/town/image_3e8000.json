@@ -8,6 +8,19 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC31000: census2_3E8248_3E8248, r121nd_3ED7E4, w4t2_bank_3e8280; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "town/func_80468248",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x3E8248",
+      "vma": "0x80019248",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x800178A4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80468BB0",
       "tu": "src/town/scene/pass_callback_selected_entry.c",
       "home": "town/func_80468BB0",
@@ -213,11 +226,15 @@
     },
     {
       "row": "town/func_8046D7E4",
-      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte.c",
-      "home": "town/func_8046D7E4",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
       "foff": "0x3ED7E4",
-      "vma": "0x8001E7E4",
-      "size": 72
+      "vma": "0x8001e7e4",
+      "size": 72,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "symbols": {

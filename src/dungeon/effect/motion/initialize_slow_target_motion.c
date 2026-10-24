@@ -47,7 +47,7 @@ typedef struct {
     s32 value;
 } Global83460;
 
-extern u8 D_800B2A60[];
+extern u8 slow_target_action_callback[];
 
 extern void unlink_entity_node(Entity *);
 extern void set_record_integer_tile_center(Motion *, u8, u8);
@@ -164,7 +164,7 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7fffffff;
             }
-            motion_state->next = D_800B2A60;
+            motion_state->next = slow_target_action_callback;
         }
         return;
     default:

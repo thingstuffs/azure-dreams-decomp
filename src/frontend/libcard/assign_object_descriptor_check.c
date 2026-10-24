@@ -2,7 +2,7 @@
 #include "common.h"
 #include "frontend/libcard.h"
 
-s32 create_resource_transition_for_descriptor_check();                          /* extern */
+#include "slus/resource_transition_task.h"
 
 typedef struct S_7FDD19D0_0 {
     u8 pad_00[0x10];
@@ -10,7 +10,7 @@ typedef struct S_7FDD19D0_0 {
 } S_7FDD19D0_0;
 
 /* Assigns the object descriptor when the object check succeeds. */
-void assign_object_descriptor_on_check(s32 object_data_addr) {
+void assign_object_descriptor_on_check(void *object_data_addr) {
     S_7FDD19D0_0 *object;
 
     object = object_data_addr - 0x20;

@@ -31,7 +31,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;
-        object->update_callback = &D_8014CA58;
+        object->update_callback = &clown_object_callback;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config = object->position;

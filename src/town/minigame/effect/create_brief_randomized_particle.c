@@ -54,7 +54,7 @@ typedef struct S_80026978_4 {
 
 extern void register_node();
 extern u8 D_80026B00[];
-extern u8 D_800F7944[];
+extern u8 tako_particle_sprite_data[];
 
 /* Spawns a gray sprite effect at a randomized offset from the origin. */
 void create_brief_randomized_particle(S_80026978_1 *origin)
@@ -90,7 +90,7 @@ void create_brief_randomized_particle(S_80026978_1 *origin)
         effect_state->unk_0E = 3;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        sprite->unk_08 = D_800F7944;
+        sprite->unk_08 = tako_particle_sprite_data;
         sprite->unk_04 = 0;
         sprite->unk_05 = 0;
         sprite->unk_0C = color;

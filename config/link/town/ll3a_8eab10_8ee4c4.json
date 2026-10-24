@@ -87,6 +87,14 @@
       "evidence": "LL3a attestation sha256:c099c99eeb43a47e26e0b680aa69551542ce9643e79af6c6d7cac9139a723d82; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "town/func_8096DB00",
+      "tu": "src/town/scene/motion/refresh_catalog_scroll_indicators.c",
+      "home": "town/func_8096DB00",
+      "foff": "0x8EDB00",
+      "vma": "0x80125f98",
+      "size": 32
+    },
+    {
       "row": "town/func_8096DFC4",
       "home": "town/func_8008DB5C",
       "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",
@@ -97,6 +105,30 @@
         "0x8008B2BC": "0x8012645C"
       },
       "evidence": "LL3a attestation sha256:e6b84e83147c6587d4eb09b7ec7447cab2b0b861f31a96c05e3e3c6ba809b385; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_8096DFCC",
+      "tu": "src/town/scene/motion/refresh_catalog_scroll_indicators.c",
+      "home": "town/func_8096DB00",
+      "foff": "0x8EDFCC",
+      "vma": "0x80126464",
+      "size": 32,
+      "bindings": {
+        "0x80125730": "0x80125730"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8096DFEC",
+      "tu": "src/town/scene/motion/refresh_catalog_scroll_indicators.c",
+      "home": "town/func_8096DB00",
+      "foff": "0x8EDFEC",
+      "vma": "0x80126484",
+      "size": 32,
+      "bindings": {
+        "0x80125730": "0x80125730"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8096E00C",

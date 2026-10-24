@@ -37,7 +37,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_8015EA68[];
 extern M2C_UNK D_8015EE94;
 extern u8 D_80162A7C[];
-extern u8 D_80162AD4[];
+extern u8 viper_frame_set_8[];
 
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
 /* Creates Viper with default frames at D_80162A7C, applies spawn flags, and attempts valid tile placement. */
@@ -92,7 +92,7 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
                         ((S_80F45000_1 *)work)->unk_1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80162AD4;
+                        part_b->frameTable = viper_frame_set_8;
                     }
                 }
             }

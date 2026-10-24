@@ -25,7 +25,7 @@ extern s16 sample_terrain_surface_height();
 
 extern void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
 extern Callback beldo_callbacks[];
-extern M2C_UNK D_80173FC8[];
+extern M2C_UNK beldo_effect_pool_script[];
 
 typedef struct S_8017112C_0 {
     u8 pad_00[0x1C];
@@ -102,7 +102,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
 
     if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         ((S_8017112C_0 *)actor)->unk_BB = 1;
-        enqueue_runtime_pool_script(D_80173FC8);
+        enqueue_runtime_pool_script(beldo_effect_pool_script);
         ((S_8017112C_0 *)actor)->unk_6D.n = 0;
         ((S_8017112C_0 *)actor)->unk_9B = 0;
     }

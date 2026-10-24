@@ -47,7 +47,7 @@ typedef struct S_func_809A0B58_3 {
 
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 extern s16 get_offset_map_cell_value_and_flags();
-extern u8 D_80175EA8[9];
+extern u8 kewne_frame_set[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
 void update_kewne_charge_counter(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58_1 *sprite, S_func_809A0B58_2 *entity) {
@@ -67,7 +67,7 @@ void update_kewne_charge_counter(S_func_809A0B58_0 *actor_state, void *unused, S
             actor_state->unk_9A = 0x19;
             actor_state->unk_8C = 0;
             actor_state->unk_9B = 0;
-            direction_frames = D_80175EA8;
+            direction_frames = kewne_frame_set;
             sprite->unk_2C = direction_frames;
             select_sprite_entry(sprite,
                           direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],

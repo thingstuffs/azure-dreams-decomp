@@ -20,9 +20,9 @@ void card_boot_format_empty_slot_guidance(void *context)
     mode_one = selection == 1;
     state = card_boot_get_remaining_block_summary();
     if (mode_one != 0 && card_boot_count_cached_slots() == 0) {
-        decode_fullwidth_text(context + 0x84, D_800283EC[0], 1);
+        decode_fullwidth_text(context + 0x84, card_empty_slot_guidance_lines[0], 1);
         text_buffer = context + 0x204;
-        text = (s32)D_800283EC[1];
+        text = (s32)card_empty_slot_guidance_lines[1];
         decode_fullwidth_text(text_buffer, (void *)text, 1);
         node_count = 2;
     } else {
@@ -97,8 +97,8 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
     S_800249B4_2 *position;
     void *entry_cursor;
 
-    decode_fullwidth_text((u8 *)context + 0x84, D_800283EC[0], 1);
-    decode_fullwidth_text((u8 *)context + 0x204, D_800283EC[1], 1);
+    decode_fullwidth_text((u8 *)context + 0x84, card_empty_slot_guidance_lines[0], 1);
+    decode_fullwidth_text((u8 *)context + 0x204, card_empty_slot_guidance_lines[1], 1);
     entry_index = 0;
     x = 0xA9;
     y = 0x110;

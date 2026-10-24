@@ -4,7 +4,7 @@ extern void restore_player_control_callback(void *, void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
 extern void func_800BCFBC(s32);
-extern s32 *D_800DD6B8[];
+extern s32 *dungeon_category_action_handlers[];
 
 /* Runs a banked callback and advances the object state when it completes. */
 void advance_banked_category_action(void *object, void *unused_1, void *unused_2, void *context) {
@@ -23,7 +23,7 @@ void advance_banked_category_action(void *object, void *unused_1, void *unused_2
         callback_data = *(u8 **)((u8 *)object + 0x110);
         row_index = callback_data[1] - 1;
         entry_index = callback_data[0] - 1;
-        callback_table = D_800DD6B8;
+        callback_table = dungeon_category_action_handlers;
         callback_row = callback_table[row_index];
         callback_entry = (u32)callback_row[entry_index];
         bank = callback_entry >> 0x18;

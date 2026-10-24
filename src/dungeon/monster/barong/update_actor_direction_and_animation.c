@@ -36,9 +36,9 @@ extern void start_direction_based_action(void *, void *, void *, void *);
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 extern u8 barong_frame_set_1[];
-extern u8 D_80175564[];
-extern u8 D_80175594[];
-extern u8 D_8017559C[];
+extern u8 barong_frame_set_4[];
+extern u8 barong_frame_set[];
+extern u8 barong_frame_set_5[];
 extern u8 barong_frame_set_2[];
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
@@ -61,10 +61,10 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         void *current_anim = sprite->frameTable;
         sprite->frameTable = current_anim;
         if (current_anim != barong_frame_set_2) {
-            (sprite->frameTable) = D_8017559C;
+            (sprite->frameTable) = barong_frame_set_5;
             {
                 s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
-                select_sprite_entry(sprite, D_8017559C[direction_index], 0);
+                select_sprite_entry(sprite, barong_frame_set_5[direction_index], 0);
             }
         }
         }
@@ -79,7 +79,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             entity_arg->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite, D_8017559C)) {
+        if (reset_actor_action_state(actor_arg, context_arg, sprite, barong_frame_set_5)) {
             return;
         }
     }
@@ -107,7 +107,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
 
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_98 &= 0xFFF3;
         if (entity_arg->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, D_80175564)) {
+            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, barong_frame_set_4)) {
                 return;
             }
         }
@@ -194,7 +194,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
             player = primary_actor_record;
             entity_arg->facing = heading;
             if (player->action_id == 0x11) {
-                begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, barong_action_resume_address);
+                begin_actor_spell_action(actor_arg, context_arg, sprite, barong_frame_set, barong_action_resume_address);
                 return;
             }
         }
@@ -206,7 +206,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite, D_80175594, barong_action_resume_address);
+            begin_actor_spell_action(actor_arg, context_arg, sprite, barong_frame_set, barong_action_resume_address);
             return;
 
         default:

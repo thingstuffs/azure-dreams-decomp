@@ -18,7 +18,7 @@ typedef struct S_80026ED0_3 {
 extern void *allocate_list_node();
 extern s32 register_node();
 extern s32 D_80026E3C;
-extern s32 D_800DF358;
+extern s32 visual_object_sprite_data;
 
 /* Creates a visual object with the given position and size. */
 void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
@@ -39,7 +39,7 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
         position->y.w.i = y;
         position->z.w.i = z;
         render_data = object->sprite;
-        render_data->source = &D_800DF358;
+        render_data->source = &visual_object_sprite_data;
         render_data->color.word = 0x808080;
         render_data->scale_y = saved_size;
         render_data->scale_x = saved_size;

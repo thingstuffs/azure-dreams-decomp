@@ -8,6 +8,19 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_806148F8",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
+      "foff": "0x5948F8",
+      "vma": "0x800160f8",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019040": "0x800191FC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_80614930",
       "tu": "src/town/scene/motion/advance_player_position_b.c",
       "home": "town/func_80614930",
@@ -67,6 +80,20 @@
         "0x80614AC8": "0x80016328"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_80614BB0",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x594BB0",
+      "vma": "0x800163b0",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018E04",
+        "0x800190B4": "0x8001925C",
+        "0x800182E4": "0x800181C8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8061564C",

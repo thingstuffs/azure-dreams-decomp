@@ -39,7 +39,7 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80170A58[];
 #include "dungeon/monster/ifrit.h"
-extern u8 D_80174860[];
+extern u8 ifrit_frame_set[];
 extern M2C_UNK ifrit_action_resume_address;
 
 extern void *build_projected_tile_packets(s16, s16, s16, s16);
@@ -96,7 +96,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
                     work->unk_1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_80174860;
+                    part_b->frameTable = ifrit_frame_set;
                 }
             }
         }

@@ -63,7 +63,7 @@ extern void begin_actor_exclusive_action(void *, void *, void *, s32, s32);
 extern u8 uboat_default_frames[];
 extern u8 uboat_ready_frames[];
 extern u8 D_800E2418[];
-extern u8 D_800E2420[];
+extern u8 u_boat_frame_set[];
 extern u8 uboat_action_frames[];
 #include "dungeon/monster/u_boat.h"
 
@@ -88,7 +88,7 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
             if (sprite->frameTable == uboat_action_frames) {
                 return;
             }
-            anim_table = D_800E2420;
+            anim_table = u_boat_frame_set;
             (sprite->frameTable) = anim_table;
             select_sprite_entry(sprite,
                 ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -108,7 +108,7 @@ void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState 
             actor->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(entity, context, sprite, D_800E2420) != 0) {
+        if (reset_actor_action_state(entity, context, sprite, u_boat_frame_set) != 0) {
             return;
         }
     }

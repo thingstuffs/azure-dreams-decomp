@@ -70,7 +70,7 @@ extern s32 test_three_axis_box_overlap(void *, Motion *);
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];
 extern u8 minigame_sprite_entries[];
-extern u8 D_80026F38[];
+extern u8 minigame_actor_bounds[];
 extern u8 D_800200FC[];
 extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
@@ -211,7 +211,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->depth_bias = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
-            configure_the_set_mode_n_1(actor, motion, D_80026F38);
+            configure_the_set_mode_n_1(actor, motion, minigame_actor_bounds);
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
@@ -302,7 +302,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
 
     }
     advance_sprite_animation_and_textures(anim);
-    if ((actor->flagsA4 & 2) && test_three_axis_box_overlap(D_80026F38, motion)) {
+    if ((actor->flagsA4 & 2) && test_three_axis_box_overlap(minigame_actor_bounds, motion)) {
         motion->vz = 0;
         motion->vy = 0;
         motion->vx = 0;

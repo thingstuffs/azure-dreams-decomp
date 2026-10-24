@@ -377,7 +377,7 @@ extern u8 grineut_move_direction_frames[];
 extern u8 actor_turn_angle_offsets[];
 extern u8 grineut_frame_set_5[];
 extern u8 grineut_frame_set_6[];
-extern u8 D_80174168[];
+extern u8 grineut_frame_set[];
 extern u8 actor_update_node_cursor[];
 extern u8 D_80174170[];
 extern u8 D_80174180[];

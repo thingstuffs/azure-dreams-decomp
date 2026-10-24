@@ -76,7 +76,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
         initialize_actor_sprite_and_animation(init_obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015EE54;
+        actor->unk_8C = &dragon_slot_d_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

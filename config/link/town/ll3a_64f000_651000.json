@@ -287,6 +287,19 @@
       "evidence": "LL3a attestation sha256:cb361aada88fcea7caf2b4d156440d41caa98e9fca1956313a128035ca2b1a53; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "town/func_806CFA60",
+      "tu": "src/town/scene/flags/query_referenced_flag_table_entry.c",
+      "home": "town/func_80481B84",
+      "foff": "0x64FA60",
+      "vma": "0x80016a60",
+      "size": 92,
+      "bindings": {
+        "0x800172C8": "0x800161A4",
+        "0x80018668": "0x800173C4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_806CFABC",
       "home": "town/func_8032F5FC",
       "tu": "src/town/scene/motion/apply_entry_position.c",

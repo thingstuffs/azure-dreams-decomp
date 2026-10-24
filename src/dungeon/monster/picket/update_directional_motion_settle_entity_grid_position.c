@@ -14,7 +14,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 picket_action_resume_address[];
-extern u8 D_80174F10[];
+extern u8 picket_frame_set[];
 
 /* Update directional motion, then settle the entity at its grid position. */
 void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *grid_pos, EntityRec *entity)
@@ -56,7 +56,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, grid_pos, D_80174F10);
+            begin_actor_display_action(action, motion, grid_pos, picket_frame_set);
             return;
         }
         if (grid_pos->flags & 0x8000) {
@@ -96,7 +96,7 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, grid_pos, D_80174F10);
+            begin_actor_display_action(action, motion, grid_pos, picket_frame_set);
         } else {
             action->timer.u = 6;
             action->phase++;

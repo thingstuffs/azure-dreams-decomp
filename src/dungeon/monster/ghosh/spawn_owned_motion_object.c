@@ -47,7 +47,7 @@ typedef struct S_8016EB14_6 {
 
 extern void register_node(void *, void *);
 extern u8 D_800777B8;
-extern u8 D_8016E528;
+extern u8 ghosh_object_callback;
 extern void *ghosh_actor_node;
 extern s16 ghosh_effect_direction_offsets[16];
 
@@ -72,7 +72,7 @@ void spawn_owned_motion_object(void)
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
-        spawned_object->update_callback = &D_8016E528;
+        spawned_object->update_callback = &ghosh_object_callback;
         object_state = (u8 *)spawned_object + 0x20;
         register_node(spawned_object, project_sprite_chain);
         render_part = spawned_object->sprite;

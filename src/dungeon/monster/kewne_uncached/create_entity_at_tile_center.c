@@ -305,7 +305,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                 if (((event_x_5 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                     if (((event_5->tile_position.parts.tile_y << 6) + 0x20)
                                                         == view_reference_entity.y.w.i) {
-                                                        enqueue_runtime_pool_script(&D_8006F47A);
+                                                        enqueue_runtime_pool_script(&kewne_spawn_pool_script);
                                                         entity->pending_turn_updates = 0U;
                                                         actor_in->action_phase = 0;
                                                         actor_in->unk_B8 = 1U;
@@ -316,7 +316,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             }
                                             if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                  != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
-                                                enqueue_runtime_pool_script(&D_8006F47A);
+                                                enqueue_runtime_pool_script(&kewne_spawn_pool_script);
                                                 entity->pending_turn_updates = 0U;
                                                 actor_in->action_phase = 0;
                                                 actor_in->unk_B8 = 1U;

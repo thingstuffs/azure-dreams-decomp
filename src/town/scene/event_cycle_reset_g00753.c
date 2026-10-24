@@ -7,7 +7,7 @@
 /* Resets the town buffer and updates callback-dependent and default flags. */
 void reset_buffer_and_event_flags(void) {
     D_80019118 = D_80018AF8;
-    D_80019114 = 0;
+    town_event_cycle_index = 0;
 
     if (town_scene_root->services->callback_054(4) != 0) {
         func_800185C0(F_sbs35_pad01);
@@ -38,5 +38,5 @@ void reset_buffer_and_event_flags(void) {
 /* Increments D_80019114 and retains its low three bits, wrapping seven to zero. */
 void advance_counter_modulo_eight(void)
 {
-    D_80019114 = (D_80019114 + 1) & 7;
+    town_event_cycle_index = (town_event_cycle_index + 1) & 7;
 }

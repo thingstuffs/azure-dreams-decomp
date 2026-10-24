@@ -134,19 +134,29 @@
     },
     {
       "row": "town/func_805D3984",
-      "tu": "src/town/scene/money/has_money_at_least_cached_value.c",
-      "home": "town/func_805D3984",
+      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "home": "town/func_8032E22C",
       "foff": "0x553984",
       "vma": "0x80017984",
-      "size": 40
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x8001C368": "0x80019B00"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_805D39AC",
-      "tu": "src/town/scene/money/subtract_cached_value_from_money.c",
-      "home": "town/func_805D39AC",
+      "tu": "src/town/scene/tick_scene_state_counter.c",
+      "home": "town/func_804804BC",
       "foff": "0x5539AC",
-      "vma": "0x800179AC",
-      "size": 40
+      "vma": "0x800179ac",
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80019438": "0x80019B00"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_805D3A68",
@@ -240,6 +250,18 @@
         "0x80018AEC": "0x80017E1C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_805D3E58",
+      "tu": "src/town/scene/service/invoke_system_callback_11.c",
+      "home": "town/func_804717E8",
+      "foff": "0x553E58",
+      "vma": "0x80017e58",
+      "size": 60,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_805D3E94",

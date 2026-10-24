@@ -42,7 +42,7 @@ typedef struct S_80158854_4 {
 
 extern void func_80158A58();
 extern void func_80158E5C();
-extern u8 D_8015C510[];
+extern u8 volcano_slot_c_frame_set[];
 extern u8 D_8015C538[];
 
 extern void *allocate_list_node();

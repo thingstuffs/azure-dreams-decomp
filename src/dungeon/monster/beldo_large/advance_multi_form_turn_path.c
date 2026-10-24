@@ -28,9 +28,9 @@ extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 beldo_large_frame_set_10[8];
-extern u8 D_801739C8[8];
-extern u8 D_801739D0[8];
-extern u8 D_801739D8[8];
+extern u8 beldo_large_frame_set[8];
+extern u8 beldo_large_frame_set_15[8];
+extern u8 beldo_large_frame_set_16[8];
 
 /* Advance the actor along its path and update its animation, facing, and movement timing. */
 void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *sprite, EntityRec *movement)
@@ -64,26 +64,26 @@ void advance_multi_form_turn_path(void *actor, s32 unused, SpriteFrameState *spr
         }
         break;
     case 1:
-        if (*(u8 **)&sprite->frameTable != D_801739C8) {
-            (sprite->frameTable) = D_801739C8;
+        if (*(u8 **)&sprite->frameTable != beldo_large_frame_set) {
+            (sprite->frameTable) = beldo_large_frame_set;
             select_sprite_entry(sprite,
-                D_801739C8[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                beldo_large_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
     case 2:
-        if (*(u8 **)&sprite->frameTable != D_801739D0) {
-            (sprite->frameTable) = D_801739D0;
+        if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_15) {
+            (sprite->frameTable) = beldo_large_frame_set_15;
             select_sprite_entry(sprite,
-                D_801739D0[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                beldo_large_frame_set_15[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
     case 3:
-        if (*(u8 **)&sprite->frameTable != D_801739D8) {
-            (sprite->frameTable) = D_801739D8;
+        if (*(u8 **)&sprite->frameTable != beldo_large_frame_set_16) {
+            (sprite->frameTable) = beldo_large_frame_set_16;
             select_sprite_entry(sprite,
-                D_801739D8[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
+                beldo_large_frame_set_16[((g_game_work.view.camera_rotation.parts.viewAngle + movement->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;

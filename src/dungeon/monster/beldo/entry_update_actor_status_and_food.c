@@ -8,7 +8,7 @@ extern void func_80171BE0();
 
 extern u8 beldo_frame_set_2[];
 extern u8 *beldo_effect_stream;
-extern u16 D_80174718;
+extern u16 beldo_command_ticks;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
 s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameState *sprite) {
@@ -31,12 +31,12 @@ s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameSt
     } else {
         saved_actor = actor;
 
-        repeat_index = D_80174718 + 1;
+        repeat_index = beldo_command_ticks + 1;
         repeat_count = entry[0];
-        D_80174718 = repeat_index;
+        beldo_command_ticks = repeat_index;
         if (repeat_count < repeat_index) {
             beldo_effect_stream = entry + 2;
-            D_80174718 = 0;
+            beldo_command_ticks = 0;
             saved_actor[0x9B] = 0;
         }
 

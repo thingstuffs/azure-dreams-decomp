@@ -644,7 +644,7 @@ void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
 
 extern s32 register_node();
 extern void update_blinking_sprite_flash(void *state, s32 unused, void *primitive);
-extern M2C_UNK D_800DF358;
+extern M2C_UNK visual_object_sprite_data;
 
 typedef struct S_800B8D64_0 {
     u8 pad_00[0x8];
@@ -689,7 +689,7 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
         position->unk_06 = y;
         position->unk_0A = z;
         sprite = effect->unk_0C;
-        sprite->unk_08 = &D_800DF358;
+        sprite->unk_08 = &visual_object_sprite_data;
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
@@ -2376,7 +2376,7 @@ typedef struct S_800B50B0_Entity {
     u8 pad64[0x24];
     s16 height88;
 } S_800B50B0_Entity;
-extern S_800B50B0_Entity *D_800DF374;
+extern S_800B50B0_Entity *menu_effect_cached_actor;
 extern u16 D_800DF378;
 extern u16 D_800DF37A;
 extern u8 D_800DF380[];
@@ -2404,14 +2404,14 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
     S_800BA810_1 *position;
 
     if (entity == NULL) {
-        D_800DF374 = NULL;
+        menu_effect_cached_actor = NULL;
         mark_active_nodes_by_callback(update_pulsing_sprite_color);
         return;
     }
     tile_list = update_pulsing_sprite_color;
-    if (D_800DF374 != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
+    if (menu_effect_cached_actor != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
         angle = entity->angle2a;
-        D_800DF374 = entity;
+        menu_effect_cached_actor = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
         mark_active_nodes_by_callback(update_pulsing_sprite_color);
@@ -3253,7 +3253,7 @@ extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPos
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);
-extern M2C_UNK D_800DF3C0;
+extern M2C_UNK familiar_restore_sprite_data;
 
 typedef struct S_800BBA40_0 {
     u8 pad_00[0x8];
@@ -3322,7 +3322,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->unk_0A = held_pos_z;
         render_data = ((S_800BBA40_0 *)effect)->unk_0C;
-        render_data->unk_08 = &D_800DF3C0;
+        render_data->unk_08 = &familiar_restore_sprite_data;
         render_data->unk_1E = 0x1000;
         render_data->unk_1C = 0x1000;
         render_data->unk_0C = 0x808080;

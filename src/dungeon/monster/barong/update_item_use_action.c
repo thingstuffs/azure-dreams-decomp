@@ -35,7 +35,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern u8 D_80171030[];
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
-extern u8 D_80175594[];
+extern u8 barong_frame_set[];
 extern u8 barong_frame_set_3[];
 extern LocalPacket D_801755D4;
 
@@ -229,7 +229,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                 u8 *animations;
                 s32 direction;
 
-                animations = D_80175594;
+                animations = barong_frame_set;
                 sprite->frameTable = animations;
                 sprite->flags &= 0xF7FF;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;

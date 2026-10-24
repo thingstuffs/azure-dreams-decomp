@@ -37,8 +37,8 @@ extern u8 noise_ability_resume_address[];
 extern u8 noise_direction_frames[];
 extern u8 D_80174E98[];
 extern u8 noise_spell_frame_set[];
-extern u8 D_80174EE8[];
-extern u8 D_80174EF0[];
+extern u8 noise_frame_set_3[];
+extern u8 noise_frame_set[];
 
 /* Update the actor's dungeon behavior, facing, and directional animation. */
 void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor)
@@ -56,10 +56,10 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
 
     if (actor->mp == 0) {
         advance_actor_pending_action(motion, render_ctx, map_entity, actor);
-        if (map_entity->frameTable != D_80174EF0) {
-            (map_entity->frameTable) = D_80174EE8;
+        if (map_entity->frameTable != noise_frame_set) {
+            (map_entity->frameTable) = noise_frame_set_3;
             select_sprite_entry(map_entity,
-                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
+                *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)noise_frame_set_3),
                 0);
             return;
         }
@@ -67,14 +67,14 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
     }
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
-        if (map_entity->frameTable == D_80174EF0) {
+        if (map_entity->frameTable == noise_frame_set) {
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
             actor->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(motion, render_ctx, map_entity, D_80174EE8)) {
+        if (reset_actor_action_state(motion, render_ctx, map_entity, noise_frame_set_3)) {
             return;
         }
     }

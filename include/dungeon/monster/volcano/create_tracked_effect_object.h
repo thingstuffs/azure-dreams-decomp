@@ -35,7 +35,7 @@ typedef struct S_8015E854_4 {
 
 extern void func_8015EA58();
 extern void func_8015EE5C();
-extern u8 D_80162510[];
+extern u8 volcano_frame_set_4[];
 extern u8 D_80162538[];
 
 extern void *allocate_list_node();

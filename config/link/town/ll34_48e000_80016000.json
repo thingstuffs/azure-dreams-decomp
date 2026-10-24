@@ -20,6 +20,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8050E220",
+      "tu": "src/town/scene/initialize_context_entry_tables_variant_2.c",
+      "home": "town/func_80500178",
+      "foff": "0x48E220",
+      "vma": "0x80016220",
+      "size": 56,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8050E258",
       "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",

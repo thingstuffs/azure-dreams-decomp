@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r101rc4_res_CDDC68_CE1C80",
   "entries": [
     {
+      "row": "dungeon/func_80CBFF20",
+      "tu": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "home": "dungeon/func_80CBFF20",
+      "foff": "0xCDFF20",
+      "vma": "0x80173720",
+      "size": 272
+    },
+    {
       "row": "dungeon/func_80CC0030",
       "home": "dungeon/func_80CBED38",
       "tu": "src/dungeon/monster/pulunpa/select_object_data_by_flag.c",

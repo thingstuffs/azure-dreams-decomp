@@ -54,7 +54,7 @@ extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
 extern s32 actor_fade_draw_address;
 extern u8 manoeva_action_resume_address[];
-extern u8 D_80176640[];
+extern u8 manoeva_frame_set[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
 void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427C_1 *sprite, ActorRecord *actor_data) {
@@ -131,7 +131,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         if (actor_data->hp == 0) {
             g_dungeon_status.pending_display_owner = (u8 *)actor_data - 0x20;
-            begin_actor_display_action(actor_state, context, sprite, D_80176640);
+            begin_actor_display_action(actor_state, context, sprite, manoeva_frame_set);
             break;
         }
         if ((actor_data->flags14 & ACTOR_PARTY_MEMBER) &&

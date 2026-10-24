@@ -834,6 +834,23 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_8129C460",
+      "tu": "src/dungeon/func_8127E460.c",
+      "home": "dungeon/func_8127E460",
+      "foff": "0x12BC460",
+      "vma": "0x80154c60",
+      "size": 268,
+      "bindings": {
+        "0x80173710": "0x80155710",
+        "0x80173718": "0x80155718",
+        "0x80172F90": "0x80154F90",
+        "0x80172FBC": "0x80154FBC",
+        "0x80173714": "0x80155714",
+        "0x80098E28": "0x80098E28"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "dungeon/func_8129C56C",
       "tu": "src/dungeon/monster/beldo/entry_update_actor_status_and_food.c",
       "home": "dungeon/func_8125456C",

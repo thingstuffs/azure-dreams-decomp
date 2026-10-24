@@ -2283,6 +2283,35 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
     return count;
 }
 
+/* Expand each leg in place so its registers and return path stay local. */
+/* May return from the enclosing function and uses the caller locals. */
+#define WALK_CORRIDOR(end_x, end_y) \
+for (;;) { \
+    s32 iy; \
+    s32 ix; \
+    s32 tile; \
+    floor_generate_isolated_802895E4_DungeonCell *cell; \
+    s32 d; \
+ \
+    tile = walker->tile & 0xFFE0; \
+    iy = cy; \
+    cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)]; \
+    if (cell->value != 16384) { \
+        d = abs(cell->value - (s16)tile); \
+        if (d >= 33) { \
+            return -1; \
+        } \
+    } \
+    cell->value = tile; \
+    if (ix == (end_x) && iy == (end_y)) { \
+        break; \
+    } \
+    *(s32 *)walker += *cost; \
+    count++; \
+    cx += dir_step_x[dir]; \
+    cy += dir_step_y[dir]; \
+}
+
 /* Writes stepped corridor heights along the route, returning -1 for a height mismatch over 32. */
 s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   floor_generate_isolated_802895E4_Walker *walker, s32 *cost) {
@@ -2361,31 +2390,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
         wy = cy + *out_y * dir_step_y[dir] + dir_step_y[dir] * wy;
     }
 
-    for (;;) {
-        s32 iy;
-        s32 ix;
-        s32 tile;
-        floor_generate_isolated_802895E4_DungeonCell *cell;
-        s32 d;
-
-        tile = walker->tile & 0xFFE0;
-        iy = cy;
-        cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
-        if (cell->value != 16384) {
-            d = abs(cell->value - (s16)tile);
-            if (d >= 33) {
-                return -1;
-            }
-        }
-        cell->value = tile;
-        if (ix == wx && iy == wy) {
-            break;
-        }
-        *(s32 *)walker += *cost;
-        count++;
-        cx += dir_step_x[dir];
-        cy += dir_step_y[dir];
-    }
+    WALK_CORRIDOR(wx, wy);
 
     if (wx != dst_x || wy != dst_y) {
         if (dir_step_x[dir_slot] != 0) {
@@ -2395,64 +2400,18 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
         }
         r = calculate_planar_heading(cx, cy, wx, wy);
         dir = (r >> 9) & 6;
-        for (;;) {
-            s32 iy;
-            s32 ix;
-            s32 tile;
-            floor_generate_isolated_802895E4_DungeonCell *cell;
-            s32 d;
-
-            tile = walker->tile & 0xFFE0;
-            iy = cy;
-            cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
-            if (cell->value != 16384) {
-                d = abs(cell->value - (s16)tile);
-                if (d >= 33) {
-                    return -1;
-                }
-            }
-            cell->value = tile;
-            if (ix == wx && iy == wy) {
-                break;
-            }
-            *(s32 *)walker += *cost;
-            count++;
-            cx += dir_step_x[dir];
-            cy += dir_step_y[dir];
-        }
+        WALK_CORRIDOR(wx, wy);
     }
 
     if (wx != dst_x || wy != dst_y) {
         r = calculate_planar_heading(cx, cy, dst_x, dst_y);
         dir = (r >> 9) & 6;
-        for (;;) {
-            s32 iy;
-            s32 ix;
-            s32 tile;
-            floor_generate_isolated_802895E4_DungeonCell *cell;
-            s32 d;
-
-            tile = walker->tile & 0xFFE0;
-            iy = cy;
-            cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
-            if (cell->value != 16384) {
-                d = abs(cell->value - (s16)tile);
-                if (d >= 33) {
-                    return -1;
-                }
-            }
-            cell->value = tile;
-            if (ix == dst_x && iy == dst_y) {
-                break;
-            }
-            *(s32 *)walker += *cost;
-            count++;
-            cx += dir_step_x[dir];
-            cy += dir_step_y[dir];
-        }
+        WALK_CORRIDOR(dst_x, dst_y);
     }
     return count;
 }
+
+#undef WALK_CORRIDOR
 
 /* Tries perpendicular directions when the next cell is flagged; otherwise keeps the direction. */
 s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)

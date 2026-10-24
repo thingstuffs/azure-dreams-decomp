@@ -9,8 +9,8 @@ void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))update_movement_
 
 /* Adds a random actor value delta with an optional quarter bonus, clamps it, displays a popup, and
    applies it. */
-void follow_brighten(EntityRec *entity, s32 value_id) {
-    if (try_trigger_target_record_effect(entity, 4) == 0) {
+void follow_brighten(EntityRec *entity, s32 value_id, void *record) {
+    if (try_trigger_target_record_effect(entity, 4, record) == 0) {
         s32 base_gain;
         s16 bonus;
         s32 gain;
@@ -838,11 +838,10 @@ create_loop:
             effect_shrink--;
             index--;
         } while (index >= 0);
-        cleanup_base = entity;
         if (state_arg->timer2 < 32) {
             break;
         }
-        follow_brighten(((ovl_18d0850_818B1664_Entity *)cleanup_base)->child, state_arg->id);
+        follow_brighten(entity->child, state_arg->id, entity);
         index = 9;
         cleanup_base = (void *)0x80080000;
         next_state = (u16)state_arg->state;

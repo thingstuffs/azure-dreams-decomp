@@ -724,7 +724,7 @@ extern void texture_handle_installs_selected_animation_frame_secondary_pointer_u
 extern void step_actor_animation(void *, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
-extern u8 D_800DD008[];
+extern u8 player_camera_reset_frames[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 extern void drain_cd_command_queue(void);

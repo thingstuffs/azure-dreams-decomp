@@ -22,13 +22,13 @@ s32 play_sound_if_enabled();                     /* extern */
 void create_boss_linked_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
-extern InitBlock D_8016A894;
+extern InitBlock ghosh_effect_direction_vectors;
 extern u8 ghosh_frame_set_6[];
 extern u8 ghosh_frame_set_2[];
 extern u8 ghosh_frame_set_11[];
 extern u8 ghosh_frame_set_1[];
 extern u8 ghosh_frame_set_5[];
-extern u8 D_80174C94[];
+extern u8 ghosh_motion_path[];
 extern s32 ghosh_scripted_actor;
 
 typedef struct S_func_8132B8AC_0 {
@@ -129,7 +129,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     void *particle_a0;
     s32 particle_color;
 
-    direction_vectors = D_8016A894;
+    direction_vectors = ghosh_effect_direction_vectors;
     beldo = (S_func_8132B8AC_3 *)(ghosh_scripted_actor + 0x20);
     advance_sprite_animation_and_textures(sprite);
     state = actor->unk_9A;
@@ -215,7 +215,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         motion->unk_0C.unk_0C = 0xFFF80000;
         actor->unk_B4.s = 5;
         actor->unk_96 = 0x10U;
-        path_start = D_80174C94;
+        path_start = ghosh_motion_path;
         path_step = path_start + actor->unk_B4.s * 2;
         start_direction = path_step[1] & 7;
         start_vector = (InitPair *) &direction_vectors.pair[start_direction];
@@ -225,7 +225,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
         break;
     case 10:
         if ((s16) actor->unk_96 <= 0) {
-            path_table = D_80174C94;
+            path_table = ghosh_motion_path;
             actor->unk_96 = (u16) ((path_table[actor->unk_B4.s * 2] * 4) + 1);
             path_direction = path_table[actor->unk_B4.s * 2 + 1] & 7;
             path_vector = (InitPair *) &direction_vectors.pair[path_direction];

@@ -439,13 +439,13 @@ extern s32 rsin();
 u32 scale_random_to_unsigned_halfword_limit();
 
 extern u8 lit_mesh_renderer_address[];
-extern s32 *D_801007F4;
+extern s32 *town_script_slot_cursor;
 extern s32 town_script_state_slots[];
 extern s32 D_801006D0;
-extern s32 D_801007F8[];
+extern s32 town_overlap_slots[];
 extern u16 scaled_window_quad_points[];
 extern s16 map_scene_selector_alias;
-extern u32 D_800D3950[];
+extern u32 town_object_callbacks[];
 extern u16 town_facing_angles[];
 extern func_8009FE60_GlobalADBC map_runtime_state;
 extern void *optional_resource_descriptor[];

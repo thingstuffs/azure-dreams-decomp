@@ -31,7 +31,7 @@ extern void func_8003BC18(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
 extern u8 score_sprite_draw_callback_address[], D_8052643C[], score_bounce_update_address[];
 extern void animate_bouncing_score_object(State *, Motion *, Actor *);
-extern s32 D_80530130[3];
+extern s32 score_object_images[3];
 
 /* Create an object, copy its two records, and initialize rendering state. */
 void create_bouncing_score_sprite(void *source_data, void *initial_data)
@@ -54,7 +54,7 @@ void create_bouncing_score_sprite(void *source_data, void *initial_data)
         part = object->render;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
-        part->image = D_80530130[*(s16 *)((u8 *)source_data + 0x54)];
+        part->image = score_object_images[*(s16 *)((u8 *)source_data + 0x54)];
         part->x = 0;
         part->y = 0;
         part->color = 0x808080;

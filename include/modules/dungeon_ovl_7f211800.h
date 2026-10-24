@@ -38,7 +38,7 @@ extern void try_move_actor_to_valid_position();
 extern void func_8016AA68();
 extern void func_8016AE94();
 extern u8 D_8016EA7C[];
-extern u8 D_8016EAD4[];
+extern u8 viper_frame_set_9[];
 
 void * func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

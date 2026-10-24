@@ -814,8 +814,8 @@ void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 conte
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
-            animation->frameTable = ((u8 *)D_8017423C);
-            select_sprite_entry(animation, ((u8 *)D_8017423C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            animation->frameTable = ((u8 *)clown_frame_set);
+            select_sprite_entry(animation, ((u8 *)clown_frame_set)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);
             prepare_directional_attack(actor, animation, actor->facing, 1, 0);
@@ -919,8 +919,8 @@ void finish_actor_action_animation(void *action, void *motion, SpriteFrameState 
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_14 = 0;
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_10 = 0;
         ((R16_801723F0_S_801723F0_3 *)motion)->unk_0C = 0;
-        anim->frameTable = ((u8 *)D_8017423C);
-        select_sprite_entry(anim,(u8)(((u8 *)D_8017423C)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
+        anim->frameTable = ((u8 *)clown_frame_set);
+        select_sprite_entry(anim,(u8)(((u8 *)clown_frame_set)[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         ((R16_801723F0_S_801723F0_0 *)action)->unk_96 = 0;
         ((R16_801723F0_S_801723F0_0 *)action)->unk_9B++;
@@ -1787,7 +1787,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)D_801742E4), 0);
+        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)clown_image_load_done), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
         ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
@@ -1796,18 +1796,18 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if ((*(u8 *)((s32 *)D_801742E4)) == 0 || direction != 2) {
+        if ((*(u8 *)((s32 *)clown_image_load_done)) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)D_801742E4), 1);
+        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)clown_image_load_done), 1);
         sound_set_cd_cue_parameters(0, (*(s32 *)cd_cue_base), 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
-        (*(s8 *)((s32 *)D_801742E5)) = 0;
-        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((s32 *)D_801742E5));
+        (*(s8 *)((s32 *)clown_effect_load_done)) = 0;
+        Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((s32 *)clown_effect_load_done));
         select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -1816,7 +1816,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         fade_left = fade_timer - 1;
         state->unk_96 = fade_left;
         if ((fade_left << 0x10) <= 0) {
-            event_done = ((R16_80173CEC_S_80173CEC_2 *)(((s32 *)D_801742E5)))->unk_00;
+            event_done = ((R16_80173CEC_S_80173CEC_2 *)(((s32 *)clown_effect_load_done)))->unk_00;
             state->unk_96 = fade_timer;
             if (event_done == 0) {
                 return;

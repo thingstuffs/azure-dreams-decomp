@@ -18,7 +18,7 @@ extern void try_move_actor_to_valid_position(void *object, void *attr_a, void *a
 extern void project_sprite_chain(void);
 extern void func_80045340(void);
 extern void func_8014CE5C(void);
-extern u8 D_80150510[];
+extern u8 volcano_frame_set[];
 extern u8 D_80150538[];
 extern void func_8014CA58(void);
 

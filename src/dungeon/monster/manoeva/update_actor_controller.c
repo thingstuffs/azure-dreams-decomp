@@ -35,7 +35,7 @@ extern u8 manoeva_frame_set_1[];
 extern u8 D_801765E0[];
 extern u8 D_80176650[];
 extern u8 D_80176660[];
-extern u8 D_80176678[];
+extern u8 manoeva_frame_set_3[];
 
 typedef struct S_80170EE4_0 {
     u8 pad_00[0x8C];
@@ -86,10 +86,10 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             return;
         }
-        (map_object->frameTable) = D_80176678;
+        (map_object->frameTable) = manoeva_frame_set_3;
         select_sprite_entry(
             map_object,
-            D_80176678[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+            manoeva_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -102,7 +102,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, Spri
             ((S_80170EE4_1 *)actor_data)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_state_in, update_context_in, map_object, D_80176678) != 0) {
+        if (reset_actor_action_state(actor_state_in, update_context_in, map_object, manoeva_frame_set_3) != 0) {
             return;
         }
     }

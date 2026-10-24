@@ -25,11 +25,16 @@
     },
     {
       "row": "town/func_80480494",
-      "tu": "src/town/scene/check_record_value_meets_threshold.c",
-      "home": "town/func_80480494",
+      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "home": "town/func_8032E22C",
       "foff": "0x400494",
       "vma": "0x80016494",
-      "size": 40
+      "size": 40,
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x8001C368": "0x80019438"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_804804BC",
@@ -646,11 +651,15 @@
     },
     {
       "row": "town/func_804827DC",
-      "tu": "src/town/scene/hooks/record_value_table_contains_first_byte_c.c",
-      "home": "town/func_804827DC",
+      "tu": "src/town/func_804737B0.c",
+      "home": "town/func_804737B0",
       "foff": "0x4027DC",
-      "vma": "0x800187DC",
-      "size": 72
+      "vma": "0x800187dc",
+      "size": 72,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ],
   "load_evidence": {

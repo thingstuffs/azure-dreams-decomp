@@ -55,7 +55,7 @@ extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 extern u8 unicorn_action_continuation_address;
-extern u8 D_80174D4C[];
+extern u8 unicorn_frame_set[];
 extern u8 D_80174D94[];
 extern u8 unicorn_frame_set_1[];
 extern u8 D_80174DA4[];
@@ -256,11 +256,11 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        if (*(unsigned char **)&sprite->frameTable != D_80174D4C) {
-            (sprite->frameTable) = D_80174D4C;
+        if (*(unsigned char **)&sprite->frameTable != unicorn_frame_set) {
+            (sprite->frameTable) = unicorn_frame_set;
             select_sprite_entry(
                 sprite,
-                D_80174D4C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                unicorn_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         {

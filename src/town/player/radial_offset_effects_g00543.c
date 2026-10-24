@@ -19,7 +19,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
         motion = effect->position;
         appearance = effect->sprite;
-        effect->update_callback = (s32 *)&D_800ABB20;
+        effect->update_callback = (s32 *)&town_radial_offset_callback;
         register_node(effect, project_sprite_chain);
         motion->x.w.i = source->unk_02 - dir_step_x[direction] * 0x10;
         motion->y.w.i = source->unk_06 - dir_step_y[direction] * 0x10;

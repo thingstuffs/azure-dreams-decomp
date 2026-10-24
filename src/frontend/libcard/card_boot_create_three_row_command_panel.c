@@ -25,8 +25,8 @@ void *card_boot_create_three_row_command_panel(s32 init_value)
     ObjectNodeHeader *object;
     u8 *state;
 
-    object = D_800291D0;
-    state = D_800291D0 + 0x20;
+    object = card_command_panel_object;
+    state = card_command_panel_object + 0x20;
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x112);
         register_node(object, menu_backdrop_tag);

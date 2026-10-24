@@ -24,8 +24,8 @@ void *create_save_heading(s32 init_value)
     ObjectNodeHeader *object;
     u8 *work_state;
 
-    object = D_8002B968;
-    work_state = D_8002B968 + 0x20;
+    object = card_save_heading_object;
+    work_state = card_save_heading_object + 0x20;
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x68);
         register_node(object, menu_backdrop_tag);

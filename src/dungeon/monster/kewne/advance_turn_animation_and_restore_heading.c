@@ -7,8 +7,8 @@
 
 extern void select_sprite_entry();
 extern u8 kewne_action_resume_address[];
-extern u8 D_80175EB8[];
-extern u8 D_80175EC8[];
+extern u8 kewne_turn_frames[];
+extern u8 kewne_frame_set_4[];
 extern u8 D_80175ED0[];
 
 typedef struct S_80172480_0 {
@@ -57,7 +57,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
     case 1:
         if (actor->unk_92 == 0) {
             {
-                u8 *animation_table = D_80175EC8;
+                u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -74,7 +74,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
             return;
         }
         {
-            u8 *animation_table = D_80175EC8;
+            u8 *animation_table = kewne_frame_set_4;
             animation->frameTable = animation_table;
             {
                 unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -109,7 +109,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         u16 scene_status = ((u16)scene_state->buttons);
         if (scene_status != 0) {
             {
-                u8 *animation_table = D_80175EC8;
+                u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -124,7 +124,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         }
         if (((S_80172480_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_9A != 0x17) {
             {
-                u8 *animation_table = D_80175EC8;
+                u8 *animation_table = kewne_frame_set_4;
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -146,7 +146,7 @@ void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused,
         if (animation->flags & 0xE000) {
             transform->unk_1C = (s32) (transform->unk_1C | 0x40000);
             {
-                u8 *animation_table = D_80175EB8;
+                u8 *animation_table = kewne_turn_frames;
                 animation->frameTable = animation_table;
                 select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->unk_2A
                     + 0x100) >> 9) & 7], 0);

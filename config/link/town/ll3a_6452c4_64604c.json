@@ -56,6 +56,34 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "town/func_806C577C",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x64577C",
+      "vma": "0x8001677c",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018E14",
+        "0x800190B4": "0x800190B4",
+        "0x800182E4": "0x800182E4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_806C5820",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x645820",
+      "vma": "0x80016820",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018E24",
+        "0x800190B4": "0x800190B4",
+        "0x800182E4": "0x800182E4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_806C5940",
       "home": "town/func_806C5940",
       "tu": "src/town/scene/event/process_event_ids.c",
@@ -106,6 +134,32 @@
         "0x800161E8": "0x800161E8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_806C5A00",
+      "tu": "src/town/scene/event/process_event_ids.c",
+      "home": "town/func_806C5940",
+      "foff": "0x645A00",
+      "vma": "0x80016a00",
+      "size": 40,
+      "bindings": {
+        "0x80018CEC": "0x80018CEC"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_806C5A60",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x645A60",
+      "vma": "0x80016a60",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018E4C",
+        "0x800190B4": "0x800190B4",
+        "0x800182E4": "0x800182E4"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_806C5B24",

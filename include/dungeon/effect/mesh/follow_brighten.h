@@ -264,7 +264,7 @@ typedef struct ovl_18d0850_818B1664_LargeScalar {
     s32 value;
     s32 pad[2];
 } ovl_18d0850_818B1664_LargeScalar;
-extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
+#include "dungeon/effect/screen.h"
 extern s32 get_random_scaled_value(s16 input_value);
 extern void apply_clamped_actor_value_delta(void *entity);
 extern void cap_pending_actor_value_delta(void *entry);
@@ -291,7 +291,7 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
 extern s32 sample_terrain_surface_height(s32, s32, s32);
 extern void play_sound_if_enabled(s32);
-void follow_brighten(EntityRec *entity, s32 value_id);
+void follow_brighten(EntityRec *entity, s32 value_id, void *record);
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state);
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec);

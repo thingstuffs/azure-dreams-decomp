@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4t2_bank_3fe0d0",
   "entries": [
     {
+      "row": "town/func_8047E398",
+      "tu": "src/town/scene/object/configure_active_object_two.c",
+      "home": "town/func_8047E398",
+      "foff": "0x3FE398",
+      "vma": "0x80016398",
+      "size": 56
+    },
+    {
       "row": "town/func_8047E6C8",
       "home": "town/func_8032EF6C",
       "tu": "src/town/scene/populate_and_dispatch_entry_records.c",
@@ -33,6 +41,18 @@
         "0x8001ade0": "0x80017660"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047E7BC"
+    },
+    {
+      "row": "town/func_8047E8B4",
+      "tu": "src/town/scene/pass_indexed_entry.c",
+      "home": "town/func_8046C8C4",
+      "foff": "0x3FE8B4",
+      "vma": "0x800168b4",
+      "size": 48,
+      "bindings": {
+        "0x8001E578": "0x80017568"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8047E8E4",
@@ -187,17 +207,17 @@
     },
     {
       "row": "town/func_8047EEF0",
-      "home": "town/func_804D1484",
-      "tu": "src/town/scene/hooks/find_eligible_entry_b.c",
-      "foff": "0x3feef0",
-      "vma": "0x80016ef0",
+      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "home": "town/func_80481D78",
+      "foff": "0x3FEEF0",
+      "vma": "0x80016EF0",
       "size": 176,
       "bindings": {
-        "0x80017594": "0x80017954",
-        "0x80016b98": "0x80016e04",
-        "0x800173f4": "0x80017660"
+        "0x80017C8C": "0x80016E04",
+        "0x80019550": "0x80017954",
+        "0x80018668": "0x80017660"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047EEF0"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_8047EFA0",

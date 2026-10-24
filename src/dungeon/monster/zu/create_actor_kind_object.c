@@ -43,7 +43,7 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_8014CA70[];
 extern M2C_UNK D_8014D138;
-extern u8 D_80150AD4[];
+extern u8 zu_frame_set_3[];
 extern u8 D_80150AFC[];
 
 void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
@@ -81,7 +81,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
         part_b->tile_y = field25_value;
         actor = work;
         actor = work;
-        part_b->frameTable = D_80150AD4;
+        part_b->frameTable = zu_frame_set_3;
         part_b->tile_x = field24_value;
 
         if (kind == 1) {

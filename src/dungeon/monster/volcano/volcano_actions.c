@@ -42,21 +42,21 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
    actor->handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=(ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
    actor->flags1C|=(ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-   sprite->frameTable=D_80174510;
+   sprite->frameTable=volcano_frame_set_6;
   } else if(kind>=2) {
    actor->handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=ACTOR_CLASS_ENABLED;
    actor->flags1C|=ACTOR_PLAYER_SIDE;
-   sprite->frameTable=D_80174510;
+   sprite->frameTable=volcano_frame_set_6;
   } else if((s16)(flags&~3)==0) {
    if(!(actor->flags14&ACTOR_RESIST_SLEEP) && (generate_random_value()&1)) {
     set_or_clear_actor_status_slot(actor,STATUS_SLEEP,(generate_random_value()&0x3F)|0x20);
     sprite->frameTable=volcano_frame_set_2;
    }
    state->handler=update_actor_behavior_facing_and_animation_2;
-   sprite->frameTable=D_80174510;
+   sprite->frameTable=volcano_frame_set_6;
   } else { actor->handler=update_actor_behavior_facing_and_animation_2;
-   sprite->frameTable=D_80174510;
+   sprite->frameTable=volcano_frame_set_6;
   }
   object->update=update_entity_facing_and_ground;
   initialize_actor_sprite_and_animation(object,motion,sprite,saved_flags);
@@ -226,9 +226,9 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
         if (((E_80170E5C_S_80170E5C_2 *)sprite_in)->unk_2C == volcano_frame_set_2) {
             return;
         }
-        (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174530;
+        (*(void * *)((u8 *)sprite_in + 0x2C)) = volcano_frame_set_7;
         select_sprite_entry(sprite_in,
-            D_80174530[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
+            volcano_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -241,7 +241,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_in, context_in, sprite_in, D_80174530)) {
+        if (reset_actor_action_state(actor_in, context_in, sprite_in, volcano_frame_set_7)) {
             return;
         }
     }
@@ -786,7 +786,7 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
         ((E_80171E10_S_80171E00_3 *)action_state)->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        direction_table = &D_80174540;
+        direction_table = &volcano_frame_set_10;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
@@ -807,9 +807,9 @@ void begin_actor_attack_after_status_check(void *action_state, void *action_cont
             ((E_80171FD4_S_80171FC4_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((E_80171FD4_S_80171FC4_1 *)action_state)->unk_9B = 0;
-            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80174540;
+            (*(s32 **)((u8 *)sprite + 0x2C)) = &volcano_frame_set_10;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + &D_80174540), 0);
+                + &volcano_frame_set_10), 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
@@ -908,9 +908,9 @@ return_tail:
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_9B = 0;
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_8C = 0;
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_9A = 0x17;
-    (((SpriteFieldView_80DE48EC *)sprite)->field_2C) = D_80174558;
+    (((SpriteFieldView_80DE48EC *)sprite)->field_2C) = volcano_frame_set_9;
     select_sprite_entry(sprite,
-                  D_80174558[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                  volcano_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);
     /* Decision 46 (owner 2026-10-13): post-combine dead arm. result is never reassigned, so combine folds this test
@@ -940,10 +940,10 @@ void start_actor_directional_animation(void *actor_state, s32 action_param, void
             ((E_8017236C_S_8017236C_1 *)actor_state)->unk_9A = 0x18;
             ((E_8017236C_S_8017236C_1 *)actor_state)->unk_8C = 0;
             ((E_8017236C_S_8017236C_1 *)actor_state)->unk_9B = 0;
-            (*(s32 * *)((u8 *)sprite + 0x2C)) = &D_80174558;
+            (*(s32 * *)((u8 *)sprite + 0x2C)) = &volcano_frame_set_9;
             select_sprite_entry(sprite,
                           *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                            + (u8 *)&D_80174558),
+                            + (u8 *)&volcano_frame_set_9),
                           0);
             advance_status_timers(actor);
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
@@ -1280,7 +1280,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile_state, &D_80174550);
+            begin_actor_display_action(action, motion, tile_state, &volcano_frame_set_8);
             return;
         }
         if (tile_state->flags & 0x8000) {
@@ -1320,7 +1320,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        begin_actor_display_action(action, motion, tile_state, &D_80174550);
+        begin_actor_display_action(action, motion, tile_state, &volcano_frame_set_8);
         return;
 
     case 2:
@@ -1349,7 +1349,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile_state, &D_80174550);
+            begin_actor_display_action(action, motion, tile_state, &volcano_frame_set_8);
             return;
         } else {
             motion->velocity_z = 0;

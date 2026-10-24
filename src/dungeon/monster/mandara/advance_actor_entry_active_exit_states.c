@@ -62,7 +62,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
 extern u8 mandara_action_resume_address[];
-extern u8 D_80174424[];
+extern u8 mandara_object_callback[];
 extern u8 mandara_frame_set_1[];
 
 /* Advances the actor action through its entry, active, and exit animation states. */
@@ -118,7 +118,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
         effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
-            effect->update_callback = D_80174424;
+            effect->update_callback = mandara_object_callback;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -207,7 +207,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, SpriteF
             effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
             effect_state = (u8 *)effect + 0x20;
             if (effect != 0) {
-                effect->update_callback = D_80174424;
+                effect->update_callback = mandara_object_callback;
                 ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
                 facing = ((S_8017382C_0 *)action)->unk_AC.s;
                 ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -310,7 +310,7 @@ second_call:
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 facing;
-            effect->update_callback = D_80174424;
+            effect->update_callback = mandara_object_callback;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;

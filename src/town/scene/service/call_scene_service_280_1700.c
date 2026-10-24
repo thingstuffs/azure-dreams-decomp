@@ -1,5 +1,0 @@
-#include "modules/town_ovl_3fe0d0_p00.h"
-
-void call_scene_service_280_1700(void) {
-    town_scene_root->services->callback_280(0x1700);
-}

@@ -411,8 +411,8 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern u8 D_80174ADC[];
-extern u8 D_80174AEC[];
+extern u8 zu_frame_set[];
+extern u8 zu_frame_set_7[];
 extern u8 zu_action_direction_frames[];
 extern u8 zu_frame_set_1[];
 
@@ -483,7 +483,7 @@ void update_bank_actor_state(void *actor, void *context, SpriteFrameState *sprit
         ((S_80171138_0 *)actor)->unk_98 &= 0xFFF7;
 
         if (stats->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_80174ADC) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, zu_frame_set) != 0) {
                 return;
             }
         }
@@ -563,7 +563,7 @@ void update_bank_actor_state(void *actor, void *context, SpriteFrameState *sprit
                 case 1:
                 case 2:
                 case 3:
-                    begin_actor_spell_action(actor, context, sprite, D_80174AEC, update_bank_actor_state);
+                    begin_actor_spell_action(actor, context, sprite, zu_frame_set_7, update_bank_actor_state);
                     return;
 
                 case 4:
@@ -1685,7 +1685,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80174ADC[];
+extern u8 zu_frame_set[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
 void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite, EntityRec *entity)
@@ -1712,7 +1712,7 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFFD0000;
-            begin_actor_display_action(action, motion, sprite, D_80174ADC);
+            begin_actor_display_action(action, motion, sprite, zu_frame_set);
             return;
         }
 
@@ -1775,7 +1775,7 @@ void restore_bank_actor_tile(void *action, ObjectPosition *motion, void *sprite,
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFFD0000;
-            begin_actor_display_action(action, motion, sprite, D_80174ADC);
+            begin_actor_display_action(action, motion, sprite, zu_frame_set);
         } else {
             ((S_80172F00_0 *)action)->unk_96.s = 5;
             ((S_80172F00_0 *)action)->unk_9B = ((S_80172F00_0 *)action)->unk_9B + 1;
@@ -2640,7 +2640,7 @@ typedef struct {
 } __attribute__((aligned(4))) ParameterRecord5;
 const ParameterRecord5 D_80170868 = {{4096,3072,4096,6144,5120}};
 const ParameterRecord5 D_80170874 = {{4096,6144,4096,2048,3072}};
-extern u8 D_80174688[];
+extern u8 zu_object_callback[];
 extern u8 D_80174ACC[];
 extern u8 D_80174B14[];
 
@@ -2688,7 +2688,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
 
         effect_object = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
         if (effect_object != NULL) {
-            register_node(effect_object, D_80174688);
+            register_node(effect_object, zu_object_callback);
             PTR_AT(effect_object, 0x10) = create_cylindrical_effect;
             spawned_data = (u8 *)effect_object + 0x20;
             S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];

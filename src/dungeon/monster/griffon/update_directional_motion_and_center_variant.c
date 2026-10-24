@@ -22,7 +22,7 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern u8 D_8014CE7C;
+extern u8 griffon_slot_a_action_callback;
 extern u8 griffon_frame_set_7[];
 extern u8 D_80150C74[];
 
@@ -145,7 +145,7 @@ void update_directional_motion_and_center_variant(void *controller, ObjectPositi
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_8014F234_0 *)controller)->unk_8C = &D_8014CE7C;
+        ((S_8014F234_0 *)controller)->unk_8C = &griffon_slot_a_action_callback;
 
         return;
     default:

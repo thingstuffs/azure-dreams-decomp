@@ -9,7 +9,7 @@ typedef s32 (*Callback)(s32, void *);
 extern s32 count_enabled_town_entries(void);
 extern void *D_80018094[];
 extern void *D_800180B4[];
-extern s16 D_80018074[];
+extern s16 town_response_key_indices[];
 extern u8 D_8001914C[];
 extern u8 D_80020F85[];
 extern u8 D_80020FC7[];
@@ -45,8 +45,8 @@ void *resolve_event_response_key(s32 unused_a, void *unused_b, s32 key)
         return table[state1->selected_entry];
     }
 
-    for (index = 0; D_80018074[index] != 0; index += 2) {
-        entry = &D_80018074[index];
+    for (index = 0; town_response_key_indices[index] != 0; index += 2) {
+        entry = &town_response_key_indices[index];
         if (*entry == key)
             return table[entry[1]];
     }

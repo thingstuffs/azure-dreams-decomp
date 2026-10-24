@@ -34,7 +34,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_801537F4;
-extern u8 D_80157988[];
+extern u8 snowman_frame_set_5[];
 extern u8 D_801579A8[];
 extern u8 D_801579B8[];
 
@@ -122,11 +122,11 @@ void update_timed_movement_arc(void *action, void *motion, void *sprite, void *a
         }
         break;
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80157988) {
-            ((SpriteFrameState *)sprite)->frameTable = D_80157988;
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != snowman_frame_set_5) {
+            ((SpriteFrameState *)sprite)->frameTable = snowman_frame_set_5;
             select_sprite_entry(
                 sprite,
-                D_80157988[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                snowman_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;

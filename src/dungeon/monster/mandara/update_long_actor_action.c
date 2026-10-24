@@ -104,12 +104,12 @@ extern void func_80174250(void *, void *, void *, void *);
 
 extern void *primary_actor_record[3];
 extern u8 secondary_sprite[];
-extern u8 D_80175174[];
+extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 extern u8 D_80175260[];
 extern u8 D_80175290[];
 extern u8 mandara_frame_set_1[];
-extern u8 D_801752A0[];
+extern u8 mandara_frame_set[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */
@@ -188,7 +188,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
         if (((S_80170F6C_1 *)entity)->unk_14 & 0x20000) {
             switch (((S_80170F6C_0 *)self_object)->unk_A8.s) {
             case 0:
-                if (sprite->frameTable != D_801752A0) {
+                if (sprite->frameTable != mandara_frame_set) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
                     ((S_80170F6C_0 *)self_object)->unk_AA = ((S_80170F6C_1 *)entity)->unk_2A.u;
                     ((S_80170F6C_1 *)entity)->unk_2A.s =
@@ -217,9 +217,9 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                 }
                 if (((S_80170F6C_1 *)entity)->unk_14 & 0x1000000) {
                     ((S_80170F6C_0 *)self_object)->unk_A8.u++;
-                    sprite->frameTable = D_801752A0;
+                    sprite->frameTable = mandara_frame_set;
                     select_sprite_entry(sprite,
-                        D_801752A0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        mandara_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)self_object)->unk_A6 = 0;
                     return;
@@ -252,7 +252,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
                 if (object != 0) {
                     register_node(object, project_sprite_chain);
                     payload = object->unk_08;
-                    object->unk_10 = D_80175174;
+                    object->unk_10 = mandara_object_callback_2;
                     part = object->unk_0C;
                     payload->x.v = ((S_80170F6C_3 *)aux_entity)->unk_00.at00.v;
                     payload = object->unk_08;

@@ -76,6 +76,48 @@
       "evidence": "LL3a attestation sha256:fd9396f9e649f7dd7e1fbdd92ba77d517fddf042f77790b187b5879c706f3ebd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "town/func_806152B4",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x5952B4",
+      "vma": "0x80016ab4",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018F6C",
+        "0x800190B4": "0x8001925C",
+        "0x800182E4": "0x800181C8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_806153B0",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x5953B0",
+      "vma": "0x80016bb0",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018F84",
+        "0x800190B4": "0x8001925C",
+        "0x800182E4": "0x800181C8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "town/func_8061547C",
+      "tu": "src/town/scene/hooks/forward_request_with_tables_d.c",
+      "home": "town/func_806C5968",
+      "foff": "0x59547C",
+      "vma": "0x80016c7c",
+      "size": 56,
+      "bindings": {
+        "0x80018E34": "0x80018F9C",
+        "0x800190B4": "0x8001925C",
+        "0x800182E4": "0x800181C8"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_806154B4",
       "home": "town/func_80615130",
       "tu": "src/town/scene/flags/reset_two_flags_state_callback.c",

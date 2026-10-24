@@ -4,7 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-extern s32 D_8014CA58;
+extern s32 clown_object_callback;
 extern s32 D_8014D014;
 extern s32 D_8015020C;
 extern s32 D_8015025C;

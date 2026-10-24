@@ -43,7 +43,7 @@ extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];
-extern u8 D_801748C8;
+extern u8 garuda_frame_set;
 extern u8 D_801748D8[];
 extern u8 garuda_frame_set_2[];
 extern DungeonRecord dungeon_rooms[];
@@ -206,7 +206,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             player = primary_actor_record;
             *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
             if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
-                begin_actor_spell_action(actor, context, sprite, &D_801748C8, update_creature_animation_action);
+                begin_actor_spell_action(actor, context, sprite, &garuda_frame_set, update_creature_animation_action);
                 return;
             }
         }
@@ -216,7 +216,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(actor, context, sprite, &D_801748C8, update_creature_animation_action);
+            begin_actor_spell_action(actor, context, sprite, &garuda_frame_set, update_creature_animation_action);
             return;
         case 3:
         case 9:

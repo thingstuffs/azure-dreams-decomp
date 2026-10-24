@@ -18,9 +18,9 @@ s32 card_devkit_poll_stable_slot_state(void)
     slot_index = func_804019A4();
     if (state != 0) {
         if (D_80409258[slot_index] == state) {
-            D_80409250[slot_index]++;
+            card_slot_state_repeat_count[slot_index]++;
         } else {
-            D_80409250[slot_index] = 0;
+            card_slot_state_repeat_count[slot_index] = 0;
         }
         D_80409258[slot_index] = state;
         state_case = state - 1;
@@ -28,18 +28,18 @@ s32 card_devkit_poll_stable_slot_state(void)
         case 0:
         case 1:
             state_offset = slot_index << 2;
-            saved_state = (s32 *)((u8 *)D_804094F0 + state_offset);
+            saved_state = (s32 *)((u8 *)card_stable_slot_state + state_offset);
             *saved_state = state;
             break;
         case 2:
-            if (D_80409250[slot_index] >= 4) {
-                D_804094F0[slot_index] = state;
+            if (card_slot_state_repeat_count[slot_index] >= 4) {
+                card_stable_slot_state[slot_index] = state;
             }
             break;
         case 4:
         case 3:
-            if (D_80409250[slot_index] >= 11) {
-                D_804094F0[slot_index] = state;
+            if (card_slot_state_repeat_count[slot_index] >= 11) {
+                card_stable_slot_state[slot_index] = state;
             }
             break;
         default:

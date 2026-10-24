@@ -37,7 +37,7 @@ extern void clear_the_state_flag_allowed_resets_entity_selects_directional(void 
 
 extern u8 picket_frame_set_1[];
 extern u8 picket_frame_set_4[];
-extern u8 D_80174F38;
+extern u8 picket_frame_set_9;
 extern u8 picket_frame_set_3;
 extern u8 picket_frame_set_6;
 
@@ -185,7 +185,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
             player = primary_actor_record;
             entity->facing = facing_angle;
             if (player->action_id == 0x11) {
-                begin_actor_spell_action(actor, context, sprite, &D_80174F38, update_dungeon_actor_behavior_facing_animation_state);
+                begin_actor_spell_action(actor, context, sprite, &picket_frame_set_9, update_dungeon_actor_behavior_facing_animation_state);
                 return;
             }
         }
@@ -197,7 +197,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor, context, sprite, &D_80174F38, update_dungeon_actor_behavior_facing_animation_state);
+            begin_actor_spell_action(actor, context, sprite, &picket_frame_set_9, update_dungeon_actor_behavior_facing_animation_state);
             return;
 
         case 11:

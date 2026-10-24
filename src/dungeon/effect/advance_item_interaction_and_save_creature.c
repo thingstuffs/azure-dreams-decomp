@@ -201,7 +201,7 @@ extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
 extern u8 familiar_save_alt_frames[];
-extern u8 D_800DD130[];
+extern u8 familiar_summon_frames[];
 extern u8 familiar_save_restore_frames[];
 extern s32 D_800814A0;
 extern u8 familiar_save_frames[];
@@ -519,8 +519,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
                 }
             }
         }
-        sprite->unk_2C = D_800DD130;
-        direction_anim = D_800DD130 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        sprite->unk_2C = familiar_summon_frames;
+        direction_anim = familiar_summon_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;

@@ -44,7 +44,7 @@ extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
 extern u8 familiar_save_restore_frames[];
 extern u8 familiar_save_frames[];
-extern u8 D_800DD260;
+extern u8 familiar_removed_during_change;
 extern struct S_8009345C_4 familiar_deployment_slots;
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];
@@ -197,7 +197,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
         entity_flags = ((SpriteFrameState *)entity)->flags;
-        D_800DD260 = 0;
+        familiar_removed_during_change = 0;
         ((SpriteFrameState *)entity)->flags = (u16) (entity_flags | 0x200);
         ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
         selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
@@ -235,7 +235,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             expand_text_control_codes(remove_text, remove_message))));
         display_text_with_fullwidth_adjustment(message_or_list.value);
         old_object = ((S_8009345C_2 *)context)->unk_60;
-        D_800DD260 = 1;
+        familiar_removed_during_change = 1;
         mark_owned_linked_actor_actions(old_object);
         ((S_8009345C_16 *)(((familiar_deployment_slots.slot.s * 4) + actor)))->unk_AC = 0;
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
@@ -301,7 +301,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
                 message_or_list.value = get_unused_text_buffer(0x02000000);
                 create_message = message_or_list.value;
-                if (D_800DD260 == 0) {
+                if (familiar_removed_during_change == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
                 if (familiar_deployment_slots.slot.s != 0) {

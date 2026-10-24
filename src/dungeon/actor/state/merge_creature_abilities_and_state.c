@@ -28,7 +28,7 @@ typedef struct {
 } D_8006DE24_Record;
 extern u8 D_80010980[];
 extern u8 D_800287B4[];
-extern s32 D_8006D6D8[4];
+extern s32 monster_native_trait_masks[4];
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 extern u8 resident_globals_page[];
@@ -547,7 +547,7 @@ merge_donor_primary:
             s32 base_kind = ((S_800277F4_0 *)result)->unk_13;
             s32 *donor_mask_ptr, *result_mask_ptr;
             s32 result_mask, base_traits;
-            s32 *trait_table = D_8006D6D8;
+            s32 *trait_table = monster_native_trait_masks;
 
             donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
             /*

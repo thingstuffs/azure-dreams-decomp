@@ -88,7 +88,7 @@ typedef struct {
     u32 flags1c;
 } SecondaryBlock;
 
-extern u8 D_80174AA4[];
+extern u8 glacier_object_callback_2[];
 extern u8 glacier_direction_offsets[];
 extern u8 D_8017612C[];
 
@@ -117,7 +117,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         block->owner = owner;
         block->field30 = 0;
         block->field2c = 0;
-        allocated->update_callback = D_80174AA4;
+        allocated->update_callback = glacier_object_callback_2;
         register_node(allocated, project_sprite_chain);
         child = *(ChildObject * *)&allocated->sprite;
         child->field10 = 0x20;

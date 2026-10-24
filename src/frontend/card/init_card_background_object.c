@@ -31,14 +31,14 @@ typedef struct {
     Obj obj;
 } Root;
 
-extern Root D_8040B1D0;
+extern Root card_background_object;
 
 /* Create or reset the card background object and initialize its callback. */
 s32 init_card_background_object(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
 
-    base = &D_8040B1D0;
+    base = &card_background_object;
     obj = &base->obj;
 
     if (func_80047FD8(base) == 0) {
@@ -51,9 +51,9 @@ s32 init_card_background_object(s32 init_value, s32 config_value) {
     } else {
         func_80404DBC(base);
         {
-            u16 flags = D_8040B1D0.flags;
+            u16 flags = card_background_object.flags;
             flags &= 0x7FFF;
-            D_8040B1D0.flags = flags;
+            card_background_object.flags = flags;
         }
         func_8007BFE0(obj, 0x304);
     }

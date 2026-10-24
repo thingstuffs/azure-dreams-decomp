@@ -163,27 +163,42 @@
     },
     {
       "row": "dungeon/func_80A62560",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xA82560",
       "vma": "0x8015BD60",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x8015940C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80A62598",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xA82598",
       "vma": "0x8015BD98",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x8015940C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80A625D0",
-      "tu": "src/dungeon/effect/advance_actor_fade_in_and_dispatch.c",
-      "home": "dungeon/func_800ADAF4",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xA825D0",
       "vma": "0x8015BDD0",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800ACE34",
+        "0x800B2A60": "0x8015940C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80A62608",

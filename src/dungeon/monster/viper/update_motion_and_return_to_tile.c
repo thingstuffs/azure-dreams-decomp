@@ -20,7 +20,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 viper_action_continuation_address;
-extern u8 D_80174ABC[];
+extern u8 viper_frame_set[];
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
 void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *entity)
@@ -42,7 +42,7 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile, D_80174ABC);
+            begin_actor_display_action(action, motion, tile, viper_frame_set);
             return;
         }
         if (tile->flags & 0x8000) {
@@ -77,7 +77,7 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, tile, D_80174ABC);
+            begin_actor_display_action(action, motion, tile, viper_frame_set);
             return;
         }
         action->unk_96.s = 8;

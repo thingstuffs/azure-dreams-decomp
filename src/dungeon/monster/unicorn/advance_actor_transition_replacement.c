@@ -25,8 +25,8 @@ extern u8 D_801745D8[];
 extern u8 D_80174E24[];
 extern s32 D_80174E2C[];
 extern s16 D_80174E38[];
-extern s32 D_80174E3C[];
-extern u8 D_80174E3D[];
+extern s32 unicorn_image_load_done[];
+extern u8 unicorn_effect_load_done[];
 extern void *D_80174E40[];
 
 extern void select_record_entry_and_value();
@@ -151,7 +151,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
     }
 
     case 1:
-        run_cd_image_commands(D_80174E24, D_80174E3C, 0);
+        run_cd_image_commands(D_80174E24, unicorn_image_load_done, 0);
         ((S_80174704_0 *)action)->unk_B0.s = 0;
         ((S_80174704_0 *)action)->unk_9B++;
         ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
@@ -164,18 +164,18 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
-        if (((S_80174704_2 *)D_80174E3C)->unk_00 == 0 || direction != 2) {
+        if (((S_80174704_2 *)unicorn_image_load_done)->unk_00 == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((S_80174704_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        run_cd_image_commands(D_80174E24, D_80174E3C, 1);
+        run_cd_image_commands(D_80174E24, unicorn_image_load_done, 1);
         sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
-        D_80174E3D[0] = 0;
-        Control_CD(0xFF, set_byte_one, D_80174E3D);
+        unicorn_effect_load_done[0] = 0;
+        Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
         ((S_80174704_0 *)action)->unk_9B++;
@@ -189,7 +189,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
 
         ((S_80174704_0 *)action)->unk_96.u = timer;
         if ((s32)(timer << 16) <= 0) {
-            u8 cd_done = D_80174E3D[0];
+            u8 cd_done = unicorn_effect_load_done[0];
             ((S_80174704_0 *)action)->unk_96.u = old_timer;
             if (cd_done == 0) {
                 return;

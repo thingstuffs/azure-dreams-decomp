@@ -17,7 +17,7 @@ void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
 extern void update_attached_effect_position();
-extern s32 D_800DEFF8[];
+extern s32 dungeon_menu_text_entries[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
 void *create_panel_effect_object(void *owner)
@@ -98,14 +98,14 @@ void *create_panel_effect_object(void *owner)
             text_id = *((u16 *) (((s8 *) entity) + 0x46));
             color_ptr = (s32 *)((u8 *)panel + 0x64);
             if (text_id & 0x8000) {
-                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
-                text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
+                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, dungeon_menu_text_entries[text_id & 0x3FFF] + 1, 0);
+                text_addr = dungeon_menu_text_entries[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
                 prim_index = 4;
                 text_width = strlen(text_addr + 1);
     
             }
             else {
-                s32 *text_table = D_800DEFF8;
+                s32 *text_table = dungeon_menu_text_entries;
                 *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, text_table[4] + 1, 0);
                 text_addr_2 = text_table[4];
                 prim_index = 4;

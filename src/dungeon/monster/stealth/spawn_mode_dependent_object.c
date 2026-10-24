@@ -33,7 +33,7 @@ typedef struct S_80170854_4 {
 } S_80170854_4;   /* actor in spawn_mode_dependent_112_object */
 
 extern u8 D_80170A8C[];
-extern u8 D_80173D30[];
+extern u8 stealth_frame_set[];
 extern u8 D_80173D78[];
 #include "dungeon/monster/stealth.h"
 
@@ -78,7 +78,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         part1 = *(void ** *)&object->sprite;
         part1->tile_y = variant;
         actor = result;
-        part1->frameTable = D_80173D30;
+        part1->frameTable = stealth_frame_set;
         kind = flags & 3;
         part1->tile_x = kind_id;
         if (kind == 1) {

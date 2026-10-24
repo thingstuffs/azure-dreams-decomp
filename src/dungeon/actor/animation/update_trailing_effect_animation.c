@@ -9,7 +9,7 @@
 
 extern s32 rsin(s32);
 extern s32 rand(void);
-extern u8 D_80028868[];
+extern u8 trailing_effect_frame_limit[];
 
 /* Update a trailing effect's position, brightness, and animation frame. */
 void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *transform, SpriteFrameState *render_data)
@@ -127,8 +127,8 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
 
     next_frame = (u32)render_data->source + 0xC;
     render_data->source = (void *)next_frame;
-    if ((u32)D_80028868 < next_frame) {
-        render_data->source = D_80028868 - 0x48;
+    if ((u32)trailing_effect_frame_limit < next_frame) {
+        render_data->source = trailing_effect_frame_limit - 0x48;
     }
     effect->ticks++;
 }

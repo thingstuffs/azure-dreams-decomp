@@ -3,8 +3,8 @@
 #define D_80170868 D_8016A868
 #define D_80170874 D_8016A874
 #define D_80174688 D_8016E688
-#define D_80174ACC D_8016EACC
-#define D_80174B14 D_8016EB14
+#define D_80174ACC timed_visual_slot_f_return_frames
+#define D_80174B14 timed_visual_slot_f_wait_frames
 #define create_cylindrical_effect func_8016E5E0
 #include "modules/dungeon_ovl_fa7000.h"
 #include "dungeon/actor/timed_visual_slot_f.h"
@@ -35,8 +35,8 @@ typedef struct {
 extern const ParameterRecord5 D_8016A868;
 extern const ParameterRecord5 D_8016A874;
 extern u8 D_8016E688[];
-extern u8 D_8016EACC[];
-extern u8 D_8016EB14[];
+extern u8 timed_visual_slot_f_return_frames[];
+extern u8 timed_visual_slot_f_wait_frames[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
@@ -127,9 +127,9 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             return;
         }
 
-        animation_input->frameTable = D_8016EB14;
+        animation_input->frameTable = timed_visual_slot_f_wait_frames;
         func_80047784(animation_input,
-            D_8016EB14[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
+            timed_visual_slot_f_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
             0);
         next_state = state_input->action_phase;
         state_input->action_phase = next_state + 1;
@@ -140,9 +140,9 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             func_800AD594(actor_input, 0x800);
-            animation_input->frameTable = D_8016EACC;
+            animation_input->frameTable = timed_visual_slot_f_return_frames;
             func_80047784(animation_input,
-                D_8016EACC[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
+                timed_visual_slot_f_return_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             func_800A4ACC(actor_input);

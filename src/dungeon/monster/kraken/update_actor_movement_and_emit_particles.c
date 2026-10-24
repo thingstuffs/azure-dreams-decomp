@@ -56,7 +56,7 @@ extern void apply_clamped_actor_value_delta(void *);
 extern u8 kraken_action_resume_address[];
 extern u8 D_8017406C[];
 extern u8 kraken_frame_set_1[];
-extern u8 D_80174194[];
+extern u8 kraken_frame_set[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
 /* Applies Kraken's pending HP change, emits seven particles while recoiling, then returns it to its tile
@@ -131,7 +131,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(actor, motion, sprite, D_80174194);
+            begin_actor_display_action(actor, motion, sprite, kraken_frame_set);
             break;
         }
         if (sprite->flags & 0x8000) {
@@ -173,7 +173,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(actor, motion, sprite, D_80174194);
+            begin_actor_display_action(actor, motion, sprite, kraken_frame_set);
             break;
         }
         ((ActorActionTimerView *)actor)->timer.s = 8;

@@ -35,7 +35,7 @@ extern void spend_actor_mp(void *, s32);
 
 
 extern s32 D_80165728;
-extern u8 D_80168DEC[];
+extern u8 saber_frame_set_7[];
 extern u8 D_80168E0C[];
 extern u8 D_80168E14[];
 
@@ -126,11 +126,11 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
         break;
 
     case 3:
-        if (*(u8 * *)&map_entity->frameTable != D_80168DEC) {
-            map_entity->frameTable = D_80168DEC;
+        if (*(u8 * *)&map_entity->frameTable != saber_frame_set_7) {
+            map_entity->frameTable = saber_frame_set_7;
             select_sprite_entry(
                 map_entity,
-                D_80168DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                saber_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;

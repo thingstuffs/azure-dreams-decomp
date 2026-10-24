@@ -42,14 +42,14 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
-            ((SpriteFrameState *)part_b)->frameTable = D_80150510;
+            ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
         } else if ((spawn_flags & 3) >= 2) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
             *(u32 *)(work + 0x14) = flags0;
             *(u32 *)(work + 0x1C) = flags1;
-            ((SpriteFrameState *)part_b)->frameTable = D_80150510;
+            ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
         } else {
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
@@ -61,10 +61,10 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                     }
                 }
                 *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-                ((SpriteFrameState *)part_b)->frameTable = D_80150510;
+                ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
             } else {
                 *(Callback *)(work + 0x8C) = func_8014CE5C;
-                ((SpriteFrameState *)part_b)->frameTable = D_80150510;
+                ((SpriteFrameState *)part_b)->frameTable = volcano_frame_set;
             }
         }
 

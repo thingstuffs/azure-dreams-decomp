@@ -30,7 +30,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     if (object != 0) {
         state = 
         ((void *)object)+ 0x20;
-        object->update_callback = D_8016AA58;
+        object->update_callback = clown_object_callback_4;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         object_data = object->position;

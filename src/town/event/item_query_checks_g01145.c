@@ -7,8 +7,8 @@
 s32 find_sentinel_table_value_index(s32 target_value) {
     s32 i = 0;
 
-    while (D_800D1054[i] != -1) {
-        if (D_800D1054[i] == target_value) {
+    while (town_query_group_ids[i] != -1) {
+        if (town_query_group_ids[i] == target_value) {
             return i;
         }
         i++;
@@ -42,7 +42,7 @@ s32 check_slot_threshold_or_fallback(s32 slot) {
     u8 *data_page;
     s32 entry_index;
 
-    entry_indices = D_800D1054;
+    entry_indices = town_query_group_ids;
     entry_index = entry_indices[slot];
     data_page = (u8 *) 0x80010000;
     if (data_page[(entry_index * 4) + 0x35C4] >= 3U) {
@@ -76,21 +76,21 @@ s32 classify_listed_entry_type(u8 *entry) {
     s32 type_index;
     s32 entry_value;
 
-    if (D_800D1074[0] != -1) {
+    if (town_query_item_types[0] != -1) {
         type_index = 0;
         do {
-            if (D_800D1074[type_index] == entry[1]) {
+            if (town_query_item_types[type_index] == entry[1]) {
                 entry_value = get_item_sell_money(entry);
-                if (entry_value < D_800D1080[0]) {
+                if (entry_value < town_query_sell_price_limits[0]) {
                     return 0;
                 }
-                if (entry_value < D_800D1080[1]) {
+                if (entry_value < town_query_sell_price_limits[1]) {
                     return 1;
                 }
                 return 2;
             }
             type_index++;
-        } while (D_800D1074[type_index] != -1);
+        } while (town_query_item_types[type_index] != -1);
     }
 
     return 3;

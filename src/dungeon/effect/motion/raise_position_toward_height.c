@@ -20,7 +20,7 @@
 void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
 const u8 level_not_decreased_suffix[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
 const Rect D_80024038 = {832,256,96,88};
-const Rect D_80024040 = {832,256,2,2};
+const Rect rising_effect_texture_rect = {832,256,2,2};
 
 extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
 extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
@@ -353,7 +353,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
     u16 next_state;
 
     rect = D_80024038;
-    draw_rect = D_80024040;
+    draw_rect = rising_effect_texture_rect;
     state = ((S_8190AEB4_0 *)effect)->unk_00.s;
     D_80025630 = 1;
 
@@ -511,7 +511,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
     }
 }
 
-const CoordTable D_80024064 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+const CoordTable rising_effect_octant_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;
@@ -708,7 +708,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
 
     owner = effect->unk_0;
     capture_rect = D_80024038;
-    directions = D_80024064;
+    directions = rising_effect_octant_offsets;
     owner_base = (u32)((u8 *)owner - 32);
     source_pos = (u32)((S_func_8190B2D0_2 *)owner_base)->unk_8;
     state = effect->unk_A.s16;

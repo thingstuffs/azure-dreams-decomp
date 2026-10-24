@@ -165,7 +165,7 @@ void advance_item_menu_step(void *object) {
     ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_18 = nextStep;
     if (nextStep < 6) {
     } else {
-        ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AFD00;
+        ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_00 = &item_menu_record_callback;
     }
     update_item_menu_selection(object);
 }

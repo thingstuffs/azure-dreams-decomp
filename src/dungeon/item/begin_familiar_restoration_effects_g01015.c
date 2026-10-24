@@ -181,7 +181,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
         position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->z.w.i = z;
         render_state = object->sprite;
-        render_state->source = &D_800DF3C0[0];
+        render_state->source = &familiar_restore_sprite_data[0];
         render_state->color.word = 0x808080;
         render_state->depth_bias = 8;
         object_state = ((void *)object) + 0x20;

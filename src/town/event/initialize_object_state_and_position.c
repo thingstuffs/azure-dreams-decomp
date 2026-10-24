@@ -10,8 +10,8 @@ extern void *town_saved_motion_pointer;
 
 
 extern IntVector3 D_80100D28;
-extern s16 D_80100D40;
-extern s16 D_80100D42;
+extern s16 town_motion_x_phase;
+extern s16 town_motion_y_phase;
 extern s16 town_event_motion_pair[];
 extern u8 D_80100D68[];
 extern s16 town_motion_x_step;
@@ -26,8 +26,8 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
     town_orbit_radius = 0;
     town_motion_x_step = 8;
     town_motion_y_step = 8;
-    D_80100D40 = 0;
-    D_80100D42 = 0;
+    town_motion_x_phase = 0;
+    town_motion_y_phase = 0;
     town_mesh_scale = 0;
     town_event_motion_pair[1] = 0;
     town_event_motion_pair[0] = 0;

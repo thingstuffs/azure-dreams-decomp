@@ -745,7 +745,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         part->unk_0E.s16 = 0;
         part->unk_10 = 0;
         roll = rand();
-        model = &D_80025EE4;
+        model = &seven_color_sprite_data;
         part->unk_12 = (s16)(roll % 7);
         part->unk_14 = (u16) owner->unk_12;
         part->unk_18.at00.v = (s32) owner->unk_18;
@@ -828,7 +828,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
         render->color.c.r = 0x80;
         render->clut = 0x7E00;
         render->flags |= 0x100;
-        select_record_entry_and_value(render, D_80025EE4, 0);
+        select_record_entry_and_value(render, seven_color_sprite_data, 0);
         random = rand();
         adjusted = random;
         render->angle_z = (random % 4096);

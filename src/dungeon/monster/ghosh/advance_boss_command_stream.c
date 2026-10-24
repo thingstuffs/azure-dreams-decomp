@@ -31,10 +31,10 @@ extern void update_boss_timed_animation(void *, void *, SpriteFrameState *, void
 
 #include "dungeon/monster/ghosh.h"
 extern u8 D_80174A9C[];
-extern u8 D_80174AA4[];
-extern u8 D_80174AAC[];
+extern u8 ghosh_command_f8_frames[];
+extern u8 ghosh_command_f0_frames[];
 extern u8 *ghosh_command_stream;
-extern s16 D_80174AB8;
+extern s16 ghosh_command_ticks;
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
 s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entity_arg) {
@@ -79,11 +79,11 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     }
 
     duration = stream[0];
-    elapsed_ticks = *(u16 *)&D_80174AB8 + 1;
-    D_80174AB8 = elapsed_ticks;
+    elapsed_ticks = *(u16 *)&ghosh_command_ticks + 1;
+    ghosh_command_ticks = elapsed_ticks;
     if ((s32)duration < elapsed_ticks) {
         ghosh_command_stream = stream + 2;
-        D_80174AB8 = 0;
+        ghosh_command_ticks = 0;
         ((S_80174320_1 *)obj)->unk_9B = 0;
     }
 
@@ -119,7 +119,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         break;
     case 0xF8:
         old_anim = entity->frameTable;
-        anim = D_80174AA4;
+        anim = ghosh_command_f8_frames;
         if (old_anim != anim) {
             (entity->frameTable) = anim;
             select_sprite_entry(entity,
@@ -129,7 +129,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         break;
     case 0xF0:
         old_anim = entity->frameTable;
-        anim = D_80174AAC;
+        anim = ghosh_command_f0_frames;
         if (old_anim != anim) {
             (entity->frameTable) = anim;
             select_sprite_entry(entity,

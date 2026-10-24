@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_80175392[];
+extern u8 encounter_transition_pool_script[];
 
 extern void enqueue_runtime_pool_script(void *);
 extern void func_80164BA4(void *);
@@ -31,7 +31,7 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
         *(u32 *)&state->pending_display_owner &= 0x7FFFFFFF;
     }
 
-    enqueue_runtime_pool_script(D_80175392);
+    enqueue_runtime_pool_script(encounter_transition_pool_script);
     object_index = 0;
     active_object[0x6D] = 0;
     ((u8 *)controller)[0x9B] = 0;

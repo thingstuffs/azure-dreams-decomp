@@ -38,17 +38,16 @@
     },
     {
       "row": "town/func_8072A360",
-      "tu": "src/town/scene/initialize_context_entry_tables_variant_d.c",
-      "home": "town/func_806C5130",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "home": "town/func_806C50F8",
       "foff": "0x6AA360",
       "vma": "0x80016360",
       "size": 56,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019054": "0x80017AFC",
-        "0x80016130": "0x80016360"
+        "0x80019040": "0x80017AFC"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_806C5130 onto town/func_806C50F8; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_8072A44C",

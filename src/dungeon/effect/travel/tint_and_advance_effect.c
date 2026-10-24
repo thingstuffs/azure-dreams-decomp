@@ -648,7 +648,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             component->scale_x = 0x800;
             component->scale_y = 0x1CCC;
             component->color.word = 0;
-            select_record_entry_and_value(component, D_80025854, 0);
+            select_record_entry_and_value(component, tinted_travel_sprite_data, 0);
             value = counter_page[0x57CC / 2];
             source_pos = (u8 *)effect + 0x20;
             component->angle_x = 0x400;
@@ -759,7 +759,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
         render_state->scale_y = 0x1CCC;
-        select_record_entry_and_value(render_state, D_80025854, 0);
+        select_record_entry_and_value(render_state, tinted_travel_sprite_data, 0);
         signed_size = (s16)size;
         render_state->angle_y = (signed_size << 8) - 0x400;
         render_code = 0x60;

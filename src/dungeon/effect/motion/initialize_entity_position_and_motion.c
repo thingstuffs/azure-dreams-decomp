@@ -356,7 +356,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             size_texture.value = 0x400;
             sprite->scale_y = size_texture.value;
             sprite->scale_x = size_texture.value;
-            size_texture.pointer = &D_800269EC;
+            size_texture.pointer = &positioned_motion_sprite_data;
             sprite->color.word = effect_state.value;
             effect_state.value = sprite->flags;
             sprite->source = size_texture.pointer;
@@ -419,7 +419,7 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
             prim = actor->prim;
             prim->scale_y = 2048;
             prim->scale_x = 2048;
-            prim->source = D_800269EC;
+            prim->source = positioned_motion_sprite_data;
             prim->color.word = 0x808080;
             prim->tpage_abr = 96;
             prim->flags |= 0xC;

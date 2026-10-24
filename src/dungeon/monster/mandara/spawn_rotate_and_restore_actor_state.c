@@ -125,7 +125,7 @@ extern u8 D_80170874[];
 extern u8 mandara_action_resume_address[];
 extern u8 D_80174B20[];
 extern u8 D_80174B98[];
-extern u8 D_80175174[];
+extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
 
@@ -223,7 +223,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = ((u8 *)effect_alloc) + 0x20;
                 tile = *(u8 * *)&effect_alloc->sprite;
-                effect_alloc->update_callback = D_80175174;
+                effect_alloc->update_callback = mandara_object_callback_2;
 
                 random = rand();
                 {

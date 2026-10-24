@@ -3,7 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
 extern s16 view_facing_angle_alias;
-extern s32 sprite_chain_projector_address, scene_object_list_anchor, D_801714B0, D_80174C5C;
+extern s32 sprite_chain_projector_address, scene_object_list_anchor, D_801714B0, ghosh_frame_set;
 extern void * D_80174CDC[3];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern void register_node();
@@ -35,7 +35,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         position = F(object, void**, 8);
         ((ObjectPosition *)position)->z.w.i = z_offset;
         sprite = F(object, void**, 0xC);
-        ((SpriteFrameState *)sprite)->frameTable = &D_80174C5C;
+        ((SpriteFrameState *)sprite)->frameTable = &ghosh_frame_set;
         ((SpriteFrameState *)sprite)->tile_x = saved_x;
         ((SpriteFrameState *)sprite)->tile_y = saved_y;
         ((SpriteFrameState *)sprite)->depth_bias = -4;

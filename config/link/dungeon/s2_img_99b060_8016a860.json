@@ -8,6 +8,22 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_8097B0E8",
+      "tu": "src/dungeon/monster/hikewne/update_lifetime_output_components.c",
+      "home": "dungeon/func_8097B0E8",
+      "foff": "0x99B0E8",
+      "vma": "0x8016a8e8",
+      "size": 136
+    },
+    {
+      "row": "dungeon/func_8097B5A8",
+      "tu": "src/dungeon/monster/hikewne/update_entity_behavior_movement_and_height.c",
+      "home": "dungeon/func_8097B5A8",
+      "foff": "0x99B5A8",
+      "vma": "0x8016ada8",
+      "size": 1836
+    },
+    {
       "row": "dungeon/func_8097DD68",
       "tu": "src/dungeon/actor/forward_actor_defeat_removal.c",
       "home": "dungeon/func_8097DD68",

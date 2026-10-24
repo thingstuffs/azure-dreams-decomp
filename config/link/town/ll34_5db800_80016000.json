@@ -25,31 +25,29 @@
     },
     {
       "row": "town/func_8065C3FC",
-      "tu": "src/town/scene/money/has_money_at_least_cached_value.c",
-      "home": "town/func_805D3984",
+      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "home": "town/func_8032E22C",
       "foff": "0x5DC3FC",
       "vma": "0x80016BFC",
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019B00": "0x80018340",
-        "0x805D3984": "0x80016BFC"
+        "0x8001C368": "0x80018340"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_805D3984 onto town/func_8032E22C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_8065C424",
-      "tu": "src/town/scene/money/subtract_cached_value_from_money.c",
-      "home": "town/func_805D39AC",
+      "tu": "src/town/scene/tick_scene_state_counter.c",
+      "home": "town/func_804804BC",
       "foff": "0x5DC424",
       "vma": "0x80016C24",
       "size": 40,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x80019B00": "0x80018340",
-        "0x805D39AC": "0x80016C24"
+        "0x80019438": "0x80018340"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy town/func_805D39AC onto town/func_804804BC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "town/func_8065C44C",
@@ -91,6 +89,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8065C520",
+      "tu": "src/town/scene/select_next_eligible_wrapped_entry_second.c",
+      "home": "town/func_8051FED4",
+      "foff": "0x5DC520",
+      "vma": "0x80016d20",
+      "size": 60,
+      "bindings": {
+        "0x80016000": "0x80016000"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
       "row": "town/func_8065C7E4",
       "tu": "src/town/scene/populate_and_dispatch_entry_records.c",
       "home": "town/func_8032EF6C",
@@ -102,6 +112,18 @@
         "0x8001976C": "0x80016FE4"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8065C9D0",
+      "tu": "src/town/scene/pass_indexed_entry.c",
+      "home": "town/func_8046C8C4",
+      "foff": "0x5DC9D0",
+      "vma": "0x800171d0",
+      "size": 48,
+      "bindings": {
+        "0x8001E578": "0x80017E84"
+      },
+      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8065CA00",

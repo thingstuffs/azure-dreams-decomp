@@ -62,7 +62,7 @@ extern Packed8 D_80020144[];
 extern u8 D_800218E4[];
 extern u8 D_80022484[];
 extern u8 D_800225F0[];
-extern u8 D_80023158[];
+extern u8 keima_sprite_callback[];
 extern u8 D_80023260[];
 extern u8 D_80023A00[];
 extern u8 D_80023C80[];
@@ -179,7 +179,7 @@ s32 initialize_keima_interface(void) {
         s32 handler_page = (s32)0x80020000;
         u8 *sprite_handler;
         SpriteFrameState *grid_sprite;
-        sprite_handler = D_80023158;
+        sprite_handler = keima_sprite_callback;
         sprite = (u8 *)0x1000;
         do {
             obj = (u8 *)allocate_flagged_object_node(0x136);
@@ -207,7 +207,7 @@ s32 initialize_keima_interface(void) {
         if (obj != 0) {
             register_node(obj, project_sprite_chain);
             sprite = *(u8 * *)&obj->sprite;
-            obj->update_callback = D_80023158;
+            obj->update_callback = keima_sprite_callback;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;

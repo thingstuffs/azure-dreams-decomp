@@ -58,7 +58,7 @@ extern void func_80173AC0(void *, void *, void *, void *);
 extern u8 D_80173D14[];
 extern u8 D_80173D1C[];
 extern u8 D_80173D3C[];
-extern u8 D_80173D44[];
+extern u8 battnel_frame_set[];
 extern u8 D_80173D4C[];
 
 /* Update actor behavior, facing, and animation from dungeon state. */
@@ -83,9 +83,9 @@ void update_actor_behavior_facing_and_animation_2(void *actor, void *context, Sp
         if (sprite->frameTable == D_80173D4C) {
             return;
         }
-        (sprite->frameTable) = D_80173D44;
+        (sprite->frameTable) = battnel_frame_set;
         select_sprite_entry(sprite,
-            D_80173D44[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E5C_1 *)status)->unk_2A + 0x100) >> 9) & 7],
+            battnel_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E5C_1 *)status)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -98,7 +98,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, void *context, Sp
             ((S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor, context, sprite, D_80173D44)) {
+        if (reset_actor_action_state(actor, context, sprite, battnel_frame_set)) {
             return;
         }
     }

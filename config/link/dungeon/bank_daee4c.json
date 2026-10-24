@@ -159,19 +159,29 @@
     },
     {
       "row": "dungeon/func_80D91DA4",
-      "tu": "src/dungeon/effect/interpolate_actor_to_terrain_tile_and_dispatch.c",
-      "home": "dungeon/func_800ADA84",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xDB1DA4",
       "vma": "0x801735A4",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC480",
+        "0x800B2A60": "0x80170E68"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D91DDC",
-      "tu": "src/dungeon/effect/advance_spinning_actor_fall_and_dispatch.c",
-      "home": "dungeon/func_800ADABC",
+      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "home": "dungeon/func_800AD94C",
       "foff": "0xDB1DDC",
       "vma": "0x801735DC",
-      "size": 56
+      "size": 56,
+      "bindings": {
+        "0x800ABDBC": "0x800AC5C8",
+        "0x800B2A60": "0x80170E68"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D91E14",

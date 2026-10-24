@@ -35,8 +35,8 @@ extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
-extern u8 D_8016AA3C[];
-extern s32 D_8016AE68;
+extern u8 naplass_object_callback[];
+extern s32 naplass_slot_f_action_callback;
 extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 
@@ -64,7 +64,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->update_callback = D_8016AA3C;
+        obj->update_callback = naplass_object_callback;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
@@ -98,7 +98,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8016AE68;
+        actor->unk_8C = &naplass_slot_f_action_callback;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

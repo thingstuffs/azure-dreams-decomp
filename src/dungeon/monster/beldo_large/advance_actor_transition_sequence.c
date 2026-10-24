@@ -55,7 +55,7 @@ extern void func_80164BA4(void *);
 extern u8 beldo_large_action_resume_address[];
 extern u8 beldo_large_frame_set_3[];
 extern u8 beldo_large_frame_set_11[];
-extern u8 D_80175392[];
+extern u8 encounter_transition_pool_script[];
 extern u8 D_80175DC0;
 extern u8 encounter_recovery_flag;
 
@@ -160,7 +160,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         world = *(u8 **)((u8 *)(&dungeon_actor_ring_anchor));
         if (((S_8016BE20_4 *)world)->unk_28 < 2) {
             if (((S_8016BE20_2 *)ctx)->unk_60 == world) {
-                setup_data = D_80175392;
+                setup_data = encounter_transition_pool_script;
                 ((S_8016BE20_0 *)state)->unk_8C = beldo_large_action_resume_address;
                 control_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
                 g_dungeon_status.active_actor = 0;

@@ -46,7 +46,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_two_row_object_group(void *, s16);
 
 #include "dungeon/monster/stealth.h"
-extern u8 D_80173D30[];
+extern u8 stealth_frame_set[];
 
 /* Advances the actor's selected motion and handles completion and recovery. */
 void advance_selected_motion_and_recover(void *motion_state, void *transform, SpriteFrameState *sprite, ActorRecord *actor)
@@ -185,7 +185,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         {
-            u8 *direction_frames = D_80173D30;
+            u8 *direction_frames = stealth_frame_set;
 
             if (*(unsigned char **)&sprite->frameTable != direction_frames) {
                 (sprite->frameTable) = direction_frames;
