@@ -242,7 +242,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
 
             burst_obj = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (burst_obj != 0) {
-                register_node(burst_obj, (s32)project_sprite_chain);
+                register_node(burst_obj, project_sprite_chain);
                 prim = burst_obj->sprite;
                 position_or_z_offset = (s32)burst_obj->position;
                 burst_obj->update_callback = image_base;
@@ -299,7 +299,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             u16 effect_y;
             u16 effect_z;
             s32 duration;
-            register_node(impact_obj, (s32)func_80024714);
+            register_node(impact_obj, func_80024714);
             impact_obj->unk_10 = D_80024684;
             child_state = (S_func_818DA800_8 *)((u8 *)impact_obj + 0x20);
             child_state->unk_04 = motion->unk_00.half.unk_02.as_u16;

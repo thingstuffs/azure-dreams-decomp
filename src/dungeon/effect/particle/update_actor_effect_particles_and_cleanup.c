@@ -238,7 +238,7 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
         state->unk_50 = -(offset_z << 16) / step_count / 16;
         state->unk_14 = setting_14;
         state->unk_32 = duration;
-        register_node(effect, (s32)draw_actor_effect_points, signed_duration);
+        register_node(effect, draw_actor_effect_points, signed_duration);
         state->unk_08 = setting_08;
     }
 }
@@ -442,7 +442,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             void *callback_owner;
             callback_owner = (u8 *)actor - 0x20;
             if (!(actor->flags7A & 4)) {
-                register_node(callback_owner, (s32)project_sprite_chain);
+                register_node(callback_owner, project_sprite_chain);
                 render->field10 = 0x40;
                 render->color2 = 0x80;
                 render->color1 = 0x80;
@@ -510,7 +510,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                 Render33 *task_render;
                 task->field22 = 0x10;
                 task->header.update_callback = (void *)fade_and_rotate_timed_effect;
-                register_node(task, (s32)project_sprite_chain);
+                register_node(task, project_sprite_chain);
                 task_render = task->header.sprite;
                 task_render->field10 = 0x40;
                 task_render->flags |= 0xC;

@@ -198,7 +198,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
             (jitter & 0x1F) + (z_offset - 0x10);
         state->unk_14 = state_14_value;
         state->brightness = state_32_value;
-        register_node(spawned, (s32)draw_flagged_particle_points);
+        register_node(spawned, draw_flagged_particle_points);
         state->color = state_08_value;
     }
 }
@@ -395,7 +395,7 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
         state->size_x = size;
         state->size_y = size;
         effect->callback.handler = advance_colliding_particle_sprite;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         render = effect->visual.render;
         render->flags |= 0xC;
         render->tpage_abr = 0x60;
@@ -465,7 +465,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0xF;
         effect->update_callback = advance_terrain_colliding_sprite;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
@@ -551,7 +551,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0x4;
         effect->update_callback = advance_terrain_colliding_sprite;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
@@ -667,7 +667,7 @@ void create_timed_rectangle_effect(void *owner) {
             ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
             ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
             child->update_callback = apply_random_actor_value_adjustment;
-            register_node(child, (s32)project_sprite_chain);
+            register_node(child, project_sprite_chain);
 
             display = child->sprite;
             display->field6 = 4;
@@ -725,7 +725,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
         ((S_8196BD3C_0 *)object_state)->unk_7C = source;
         object->update_callback = create_timed_rectangle_effect;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
 
         display = object->sprite;
         display->field10 = 0x20;
@@ -1041,7 +1041,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
                         effect->callback.update = update_timed;
-                        register_node(effect, (s32)project_sprite_chain);
+                        register_node(effect, project_sprite_chain);
                         sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
@@ -1069,7 +1069,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 1;
                         effect->callback.update = draw_effect_and_restore_clip;
-                        register_node(effect, (s32)project_sprite_chain);
+                        register_node(effect, project_sprite_chain);
                         sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
                         sprite->flags |= 0xC;
@@ -1139,7 +1139,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             *(s16 *)&motion->pad0[0x2C] = 30;
                             *(s16 *)&motion->pad0[0x2E] = 30;
                             effect->callback.update = advance_particle_emitting_projectile;
-                            register_node(effect, (s32)project_sprite_chain);
+                            register_node(effect, project_sprite_chain);
                             sprite = effect->visual.sprite;
                             sprite->unk10 = 32;
                             sprite->flags |= 0xC;
@@ -1176,7 +1176,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 *(s16 *)&motion->pad0[0x2C] = 30;
                                 *(s16 *)&motion->pad0[0x2E] = 30;
                                 effect->callback.update = shrink_particle_emitting_projectile;
-                                register_node(effect, (s32)project_sprite_chain);
+                                register_node(effect, project_sprite_chain);
                                 sprite = effect->visual.sprite;
                                 sprite->unk10 = 32;
                                 sprite->flags |= 0xC;
@@ -1218,7 +1218,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     *(s16 *)&motion->pad0[0x2C] = 7;
                     *(s16 *)&motion->pad0[0x2E] = 7;
                     effect->callback.update = shrink_effect_and_step_texture;
-                    register_node(effect, (s32)project_sprite_chain);
+                    register_node(effect, project_sprite_chain);
                     sprite = effect->visual.sprite;
                     sprite->unk10 = 32;
                     sprite->flags |= 0xC;

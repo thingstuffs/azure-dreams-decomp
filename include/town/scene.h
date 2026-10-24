@@ -14,6 +14,9 @@ void process_town_records(s32 records_addr, s32 record_count);
 /* select_data_for_requested_kind.c */
 void *select_data_for_requested_kind(s32 lookup_id, s32 lookup_index, s32 data_kind);
 
+/* dispatch_first_rejected_entry_b.c */
+s32 dispatch_first_rejected_entry_b(void);
+
 /* is_next_entry_zero_after_skipping.c */
 s32 is_next_entry_zero_after_skipping(s32 list_index);
 
@@ -80,5 +83,8 @@ struct S_80019DE0_0;
 void apply_signed_stat_deltas(void *stat_deltas);
 void apply_half_step_position_deltas(struct S_80019DE0_0 *deltas);
 void apply_position_offset_pair(void *offsets);
+/* Index-returning flag-table dispatchers. */
+s32 call_indexed_callback_failed_test(void);
+s32 dispatch_first_failed_entry_b(void);
 
 #endif

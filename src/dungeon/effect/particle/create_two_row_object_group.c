@@ -227,8 +227,6 @@ typedef struct WorkBlock {
 
 extern s32 rsin();
 extern s32 GetTPage();
-struct Struct_800D6330;
-extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
 void update_rotating_effect_vertices(void *effect_data) {
@@ -849,8 +847,6 @@ extern s32 rsin(s32);
 extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void SetSemiTrans(Primitive *, s32);
 extern void SetPolyFT4(Primitive *);
-struct Struct_800D6330;
-extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 /* Draw linked items as fading textured quads along interpolated, oscillating paths. */
 s32 draw_fading_linked_quads(Item *item)
 {
@@ -1041,7 +1037,8 @@ typedef struct Struct_800D6330 {
 } Struct_800D6330;
 
 /* Transforms source_vertices using the selected rotation matrix and stores their coordinates. */
-void transform_rotated_vertices(Struct_800D6330 *transform) {
+void transform_rotated_vertices(void *transform_data) {
+    Struct_800D6330 *transform = transform_data;
     union {
         s16 rotation_matrix[9];
         struct {

@@ -143,7 +143,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                     offset[0] = 0;
                 }
                 object->update_callback = update_effect_and_spawn_fragments;
-                register_node(object, (s32)create_counted_sprite_effect);
+                register_node(object, create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
@@ -189,7 +189,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
             object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 object->update_callback = update_segment;
-                register_node(object, (s32)&D_80024D58);
+                register_node(object, &D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
                 offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
                 work = (u8 *)object + 0x20;
@@ -599,7 +599,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
         effect = (EffectObject *)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
-            register_node(effect, (s32)project_sprite_chain);
+            register_node(effect, project_sprite_chain);
             child = effect->child;
 
             effect->position->x = obj->x +

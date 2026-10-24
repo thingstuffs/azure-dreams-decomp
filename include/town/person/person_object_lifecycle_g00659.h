@@ -50,7 +50,7 @@ extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 extern s32 runtime_is_record_field_set(void *);
 #include "town/person/state_updates.h"
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 
 /* Functions defined in this translation unit. */

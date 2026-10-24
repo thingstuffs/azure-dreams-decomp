@@ -1,3 +1,4 @@
+#include "town/map/building_grid_g00638.h"
 #include "common.h"
 
 typedef struct {

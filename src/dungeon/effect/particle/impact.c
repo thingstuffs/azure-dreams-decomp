@@ -366,7 +366,7 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
         object->update_callback = (void *)scale_effect_by_phase;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         position = object->position;
         position->x.v = source_pos->unk_00;
         position->y.v = source_pos->unk_04;
@@ -583,7 +583,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             particle_state = object + 0x20;
             ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
             ((ObjectNodeHeader *)object)->update_callback = (void *)advance_effect_motion_and_animation;
-            register_node(object, (s32)project_sprite_chain);
+            register_node(object, project_sprite_chain);
             sprite = ((ObjectNodeHeader *)object)->sprite;
             sprite->tpage_abr = 0x20;
             sprite->flags |= 0xC;
@@ -675,7 +675,7 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
         effect_state->unk_2A = 0x1E;
         effect_state->unk_20 = effect_value;
         effect->update_callback = (void *)shrink_effect_and_spawn_particles;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         effect_position = effect->position;
         effect_position->x.v = (s32) position->unk_00;
         effect_position->y.v = (s32) position->unk_04;
@@ -1129,7 +1129,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
             ((S_800251F4_0 *)particle_work)->unk_2C = rand() & 1;
             particle->update_callback = (void *)advance_rotating_ballistic_particle_and_expire;
-            register_node(particle, (s32)draw_linked_meshes);
+            register_node(particle, draw_linked_meshes);
 
             transform = particle->sprite;
             transform->tpage_abr = 0x20;
@@ -1709,7 +1709,7 @@ u16 angle;
             render->color.word = color;
             render_flags |= 0xC;
             render->flags = render_flags;
-            register_node(*slot, (s32)draw_linked_model_chain);
+            register_node(*slot, draw_linked_model_chain);
 
             current_object = *slot;
             data_entry = (u8 *)current_object + 0x20;
@@ -1945,7 +1945,7 @@ void create_offset_colored_effect(
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_28 = 0x14;
         effect->update_callback = (void *)update_effect_motion_and_visual;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         sprite = effect->sprite;
         sprite->tpage_abr = 0x40;
         sprite->flags = (u16) (sprite->flags | 0xC);

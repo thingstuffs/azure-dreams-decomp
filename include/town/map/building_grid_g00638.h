@@ -14,4 +14,7 @@ void clear_halfword_grid_128(s16 *grid);
 void update_active_building_entries(void);
 void clear_and_initialize_building_grid(s32 grid);
 
+
+void initialize_building_scene_objects(s32 draw_param);
+
 #endif

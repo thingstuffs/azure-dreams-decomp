@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 extern s16 scale_random_to_unsigned_halfword_limit();
 struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
 extern M2C_UNK map_random_state_draw_address[3];

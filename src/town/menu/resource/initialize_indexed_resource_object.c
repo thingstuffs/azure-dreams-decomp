@@ -17,7 +17,7 @@ typedef struct S_800A7E7C_1 {
 
 
 
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 extern s32 item_effect_descriptor;
 extern void D_800A7EC0();
 

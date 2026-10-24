@@ -206,7 +206,7 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     void *data_base;
 
     slot_index = entity->unk_95;
-    register_node_if_unregistered(entity, (s32)(project_sprite_chain));
+    register_node_if_unregistered(entity, (project_sprite_chain));
     slot_state = (slot_index * 4) + 0x80010000;
     slot_state->unk_981 = 0x13;
     memset(&town_actor_scratch, 0, 0x54);

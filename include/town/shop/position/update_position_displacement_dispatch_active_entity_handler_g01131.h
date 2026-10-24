@@ -118,7 +118,7 @@ void check_adjusted_input_indices();
 extern void D_800935BC();
 void unlink_node_if_registered(void *block_data);
 extern void D_8009F2A8();
-void register_node_if_unregistered(void *, s32);
+void register_node_if_unregistered(void *, void *);
 /* extern */
 void *runtime_get_mode_indexed_value();
 /* extern */

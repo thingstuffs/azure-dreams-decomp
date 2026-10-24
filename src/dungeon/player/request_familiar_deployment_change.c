@@ -25,7 +25,7 @@ s32 expand_text_control_codes();                  /* extern */
 void * clear_byte_and_advance();                    /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 s32 append_entity_display_text();                        /* extern */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern u8 D_800E05E1[15];

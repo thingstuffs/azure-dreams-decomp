@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
-void register_node_if_unregistered(void *block_data, s32 registration_id);                   /* extern */
+void register_node_if_unregistered(void *block_data, void *registration_id);                   /* extern */
 extern M2C_UNK sprite_chain_projector_address[3];
 extern M2C_UNK D_800A7774[3];
 

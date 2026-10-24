@@ -3,11 +3,11 @@
 
 #include "common.h"
 #include "engine/script.h"
+#include "engine/object.h"
 
-void runtime_set_record_byte_three();              /* extern */
-extern u8 runtime_script_state[];
+extern Rec_D_80082A38 runtime_script_state[];
 
 /* Passes the value to runtime_set_record_byte_three with the shared state. */
 void set_script_record_byte(s32 value) {
-    runtime_set_record_byte_three(&runtime_script_state, value);
+    runtime_set_record_byte_three(runtime_script_state, value);
 }

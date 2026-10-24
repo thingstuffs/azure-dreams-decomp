@@ -415,7 +415,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     node = (SpawnNode *)allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
     node->header.callback = update_spiraling_effect_growth_and_fade;
-    register_node(node, (s32)linked_mesh_processor_address);
+    register_node(node, linked_mesh_processor_address);
     position = node->header.position;
     sprite = node->header.sprite;
     sprite->source = directional_effect_sprite_data;

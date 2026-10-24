@@ -59,6 +59,11 @@ static __inline__ s32 advance_phase(s32 phase, s32 layer)
  * Projects linked objects into four layers of wavy textured strips and queues them at their
  * average depth.
  */
+typedef union {
+    s32 word;
+    struct { u16 x; u16 y; } parts;
+} PackedScreenPoint;
+
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance)
 {
     s16 bounds[4];
@@ -77,8 +82,8 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
     u8 *vertex_bytes;
     u8 *poly;
     s32 index_or_row;
-    s32 min_xy;
-    s32 max_xy;
+    PackedScreenPoint min_xy;
+    PackedScreenPoint max_xy;
     s32 depth_out_or_phase;
     s32 last_y;
     register s32 row_span;
@@ -140,17 +145,13 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
         projection.count = 4;
         projection.pad1A = 0;
         transform_rotated_vertices(projection_ptr);
-        min_xy &= 0xFFFF;
-        max_xy &= 0xFFFF;
+        min_xy.parts.y = 0x7530;
+        min_xy.parts.x = 0x7530;
+        max_xy.parts.y = 0x8AD0;
+        max_xy.parts.x = 0x8AD0;
         index_or_row = 3;
         depth_out_or_phase = (s32) (&scratch.outer);
         vertex_bytes = ((u8 *) vertex_base) + 24;
-        min_xy |= 0x75300000;
-        min_xy &= 0xFFFF0000;
-        min_xy |= 0x7530;
-        max_xy |= 0x8AD00000;
-        max_xy &= 0xFFFF0000;
-        max_xy |= 0x8AD0;
         do {
             s32 vertex_depth;
             s32 screen_x;
@@ -162,38 +163,38 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
             depth += vertex_depth - 8;
             x_bits = (u16) scratch.screen[0];
             screen_x = scratch.screen[0];
-            if (((s16) max_xy) < screen_x) {
-                max_xy &= 0xFFFF0000;
-                max_xy = x_bits | max_xy;
+            if (((s16) max_xy.word) < screen_x) {
+                max_xy.word &= 0xFFFF0000;
+                max_xy.word = x_bits | max_xy.word;
             }
-            else if (screen_x < ((s16) min_xy)) {
-                min_xy &= 0xFFFF0000;
-                min_xy = x_bits | min_xy;
+            else if (screen_x < ((s16) min_xy.word)) {
+                min_xy.word &= 0xFFFF0000;
+                min_xy.word = x_bits | min_xy.word;
             }
             screen_y = scratch.screen[1];
             y_bits = (u16) scratch.screen[1];
-            if (((s16) (max_xy >> 16)) < screen_y) {
-                max_xy &= 0xFFFF;
-                max_xy |= y_bits << 16;
+            if (((s16) (max_xy.word >> 16)) < screen_y) {
+                max_xy.word &= 0xFFFF;
+                max_xy.word |= y_bits << 16;
             }
-            else if (screen_y < ((s16) (min_xy >> 16))) {
-                min_xy &= 0xFFFF;
-                min_xy |= y_bits << 16;
+            else if (screen_y < ((s16) (min_xy.word >> 16))) {
+                min_xy.word &= 0xFFFF;
+                min_xy.word |= y_bits << 16;
             }
             index_or_row--;
             vertex_bytes -= 8;
         }
         while (index_or_row >= 0);
-        left_bound = (s16) min_xy;
-        min_y = (s16) (min_xy >> 16);
+        left_bound = (s16) min_xy.word;
+        min_y = (s16) (min_xy.word >> 16);
         base_y = min_y;
-        bounds[2] = (s16) (max_xy - min_xy);
+        bounds[2] = (s16) (max_xy.word - min_xy.word);
         bounds[0] = left_bound;
         depth = depth >> 2;
         if ((*(u8 **)&render_state->draw_buffer) != upper_draw_context) {
             base_y += 0xE0;
         }
-        max_y = (s16) (max_xy >> 16);
+        max_y = (s16) (max_xy.word >> 16);
         height = max_y - min_y;
         bounds[1] = base_y;
         bounds[3] = height;

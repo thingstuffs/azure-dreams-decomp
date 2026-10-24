@@ -4,7 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 struct IntVector3; void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);       /* extern */
 extern void D_800A7C0C();
 

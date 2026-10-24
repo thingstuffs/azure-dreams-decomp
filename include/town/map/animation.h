@@ -49,6 +49,12 @@ typedef struct TownMapPhaseObject {
     s8 *activity;
 } TownMapPhaseObject;
 
+struct SignedPositionView;
+struct SpriteFrameState;
+
+/* Node update callback installed by spawn_burst_particles_around_origin. */
+void update_effect_motion_size_and_brightness(void *effect_fields, struct SignedPositionView *position, struct SpriteFrameState *sprite);
+
 void advance_object_animation_and_effect(TownMapFallingObject *object);
 void spawn_randomized_timed_objects(TownMapSpawnState *source);
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context);

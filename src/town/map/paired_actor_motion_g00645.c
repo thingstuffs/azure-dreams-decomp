@@ -345,7 +345,7 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
 
     *(void **)((u8 *)object - 0x10) = D_800BCE78;
     object->field50 = 0;
-    register_node((struct RegistrationNode *)((u8 *)object - 0x20), (s32)project_sprite_chain);
+    register_node((struct RegistrationNode *)((u8 *)object - 0x20), project_sprite_chain);
 
     object->fieldA0 = params[0];
     object->fieldA4 = params[1];
@@ -525,7 +525,7 @@ s32 event_tori_in(void *source) {
             s32 y_offset;
             s32 z_offset;
 
-            register_node((struct RegistrationNode *)object, (s32)project_sprite_chain);
+            register_node((struct RegistrationNode *)object, project_sprite_chain);
             motion_base = 0xFFF88000;
             color = 0x800000;
             transform = object->position;

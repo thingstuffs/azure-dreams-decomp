@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 typedef struct S_800C08A4_0 {
     void * unk_00;
@@ -48,7 +49,6 @@ s32 append_entity_display_text();
 s32 append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
 void place_actor_item(); /* extern */
-void display_actor_item_status_message(); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();

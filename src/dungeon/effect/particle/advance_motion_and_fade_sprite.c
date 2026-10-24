@@ -636,7 +636,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         timer = effect->timer - 1;
         effect->timer = timer;
         if ((s16)timer <= 0) {
-            register_node((ObjectNodeHeader *)effect - 1, (s32)project_sprite_chain);
+            register_node((ObjectNodeHeader *)effect - 1, project_sprite_chain);
             effect->state += 1;
         }
         break;
@@ -871,7 +871,7 @@ void animate_jittering_five_point_effect(Entity *entity)
         {
             void *entity_base;
             entity_base = (u8 *)entity - 0x20;
-            register_node(entity_base, (s32)project_linked_shape_quads);
+            register_node(entity_base, project_linked_shape_quads);
         }
         entity->value34 = 0x00C0C0C0;
         entity->field40 = GetTPage(0, 1, 0x2C0, 0x100);

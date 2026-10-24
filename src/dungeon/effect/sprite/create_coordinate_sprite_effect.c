@@ -63,7 +63,7 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
         render_data->scale_x = 0x800;
         render_data->clut = 0x7E07;
         render_data->flags |= 0x100;
-        register_node(obj, (s32) project_sprite_chain);
+        register_node(obj, project_sprite_chain);
         coords = obj->unk_08;
         coords->x.w.i = source_coords->unk_02;
         coords->y.w.i = source_coords->unk_06;
@@ -108,7 +108,7 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->flags |= 0xC;
-        register_node(object, (s32) project_sprite_chain);
+        register_node(object, project_sprite_chain);
         position = object->unk_08;
         position->x.w.i = initial_position->unk_02;
         position->y.w.i = initial_position->unk_06;

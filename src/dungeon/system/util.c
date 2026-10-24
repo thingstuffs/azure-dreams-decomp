@@ -734,7 +734,7 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 register_node(void *entry, s32 registration_id);           /* extern */
+s32 register_node(void *entry, void *registration_id);           /* extern */
 extern void D_800A6194();
 extern s32 D_800A624C();
 
@@ -778,12 +778,12 @@ extern u8 D_800E0A03[];
 extern u8 D_800E0A12[];
 
 /* Builds and displays an item message with the selected phrase and entity name. */
-void display_item_status_message(s32 entity, s32 item, s32 message_kind, s32 buffer_arg) {
-    s32 message;
+void display_item_status_message(void *entity, void *item, s32 message_kind) {
+    void *message;
 
     s32 text_end;
 
-    message = get_unused_text_buffer(entity, item, message_kind, buffer_arg);
+    message = get_unused_text_buffer(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
         text_end = expand_text_control_codes(D_800E0A03, append_typed_formatted_value(item, message));
     } else {
@@ -802,7 +802,7 @@ extern s32 write_status_prefix_bytes(s32 dst);
 extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
-void display_actor_item_status_message(s32 actor, void *item, s32 unused_2, s32 unused_3) {
+void display_actor_item_status_message(void *actor, void *item) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
@@ -819,7 +819,7 @@ void display_actor_item_status_message(s32 actor, void *item, s32 unused_2, s32 
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 extern u8 D_800E092B[];
 
 /* Passes D_800E092B to display_formatted_context_message by address. */
@@ -1294,7 +1294,7 @@ void advance_record_values_by_step(Record *record, s16 step)
 
 
 
-s32 register_node(void *entry, s32 registration_id);
+s32 register_node(void *entry, void *registration_id);
 s32 decode_fullwidth_text();
 void advance_record_values_by_step();
 extern u8 D_80089074[];

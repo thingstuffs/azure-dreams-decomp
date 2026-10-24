@@ -9,7 +9,7 @@ typedef void (*TownCallback)(s32, s32);
 
 
 extern s32 func_8001991C();
-extern s32 update_entry_flags();
+extern void update_entry_flags(void);
 extern s32 func_8001A5CC();
 extern s32 func_8001A64C();
 

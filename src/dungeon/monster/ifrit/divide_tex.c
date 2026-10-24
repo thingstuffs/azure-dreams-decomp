@@ -118,6 +118,11 @@ extern u8 D_8017087C[];
  * Draws each linked effect as 23 shaded texture strips with a mirrored height profile and center
  * displacement.
  */
+typedef union {
+    s32 word;
+    struct { u16 x; u16 y; } parts;
+} PackedScreenPoint;
+
 s32 render_linked_items_as_textured_strips(u8 *item_data)
 {
     u8 storage[0x80];
@@ -130,8 +135,8 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
     s32 right_bound;
     s32 ot_offset;
     u8 *setup_source;
-    s32 min_xy;
-    s32 max_xy;
+    PackedScreenPoint min_xy;
+    PackedScreenPoint max_xy;
     s32 i;
     s32 *scratch_ptr;
     s32 screen_width;
@@ -210,20 +215,17 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
         transform_rotated_vertices((S_func_80174228_0 *)render_arg, left_x, prev_depth, vertex_depth);
-        min_xy &= 0xFFFF;
-        max_xy &= 0xFFFF;
+
+
+
+        min_xy.parts.y = 0x7530;
+        min_xy.parts.x = 0x7530;
+        max_xy.parts.y = 0x8AD0;
+        max_xy.parts.x = 0x8AD0;
         i = 3;
 
         scratch_ptr = &TMP;
         vertex = setup_source + 0x18;
-
-
-        min_xy |= 0x75300000;
-        min_xy &= 0xFFFF0000;
-        min_xy |= 0x7530;
-        max_xy |= 0x8AD00000;
-        max_xy &= 0xFFFF0000;
-        max_xy |= 0x8AD0;
 
         do {
             vertex_depth = RotTransPers(vertex, &OUTX, scratch_ptr, scratch_ptr);
@@ -231,24 +233,24 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
             screen_x = OUTX;
             biased_depth = prev_depth - 8;
             next_depth = biased_depth + vertex_depth;
-            extends_right = (s16)max_xy < screen_x;
+            extends_right = (s16)max_xy.word < screen_x;
             depth = next_depth;
             bits_x = (u16)OUTX;
             if (extends_right) {
-                max_xy &= 0xFFFF0000;
-                max_xy = bits_x | max_xy;
-            } else if (screen_x < (s16)min_xy) {
-                min_xy &= 0xFFFF0000;
-                min_xy = bits_x | min_xy;
+                max_xy.word &= 0xFFFF0000;
+                max_xy.word = bits_x | max_xy.word;
+            } else if (screen_x < (s16)min_xy.word) {
+                min_xy.word &= 0xFFFF0000;
+                min_xy.word = bits_x | min_xy.word;
             }
             screen_y = OUTY;
             bits_y = (u16)OUTY;
-            if ((max_xy >> 16) < screen_y) {
-                max_xy &= 0xFFFF;
-                max_xy = max_xy | (bits_y << 16);
-            } else if (screen_y < (min_xy >> 16)) {
-                min_xy &= 0xFFFF;
-                min_xy = min_xy | (bits_y << 16);
+            if ((max_xy.word >> 16) < screen_y) {
+                max_xy.word &= 0xFFFF;
+                max_xy.word = max_xy.word | (bits_y << 16);
+            } else if (screen_y < (min_xy.word >> 16)) {
+                min_xy.word &= 0xFFFF;
+                min_xy.word = min_xy.word | (bits_y << 16);
             }
             i--;
             vertex -= 8;
@@ -315,8 +317,8 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 tex_height = ((S_func_80174228_0 *)storage)->unk_06;
                 prim->unk_25 = tex_height;
                 tex_coord = prim->unk_0D + (tex_height >= 2 ? prim->unk_25 : 2);
-                right_bound = (s16)max_xy;
-                screen_width = right_bound - (s16)min_xy;
+                right_bound = (s16)max_xy.word;
+                screen_width = right_bound - (s16)min_xy.word;
                 prim->unk_25 = tex_coord;
                 prim->unk_15 = tex_coord;
 
@@ -335,7 +337,7 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 }
 
                 render_arg = (u16)TMP;
-                render_arg += min_xy;
+                render_arg += min_xy.word;
                 prim->unk_10 = render_arg;
                 prim->unk_08 = render_arg;
                 render_arg += screen_width / 23;
@@ -343,10 +345,10 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 prim->unk_18 = render_arg;
 
                 render_arg = (s32)storage;
-                top_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (min_xy >> 16);
+                top_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (min_xy.word >> 16);
                 prim->unk_1A = top_y;
                 prim->unk_0A = top_y;
-                bottom_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (max_xy >> 16);
+                bottom_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (max_xy.word >> 16);
                 prim->unk_22 = bottom_y;
                 prim->unk_12 = bottom_y;
 

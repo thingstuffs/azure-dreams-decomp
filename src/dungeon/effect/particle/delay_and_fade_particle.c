@@ -182,7 +182,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
 void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsView *) = decrement_flagged_item_parameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-extern s32 register_node(ObjectNodeHeader *, s32);
+extern s32 register_node(ObjectNodeHeader *, void *);
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
@@ -552,7 +552,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
     switch (p->state) {
     case 0:
         if (--p->delay <= 0) {
-            register_node((ObjectNodeHeader *)p - 1, (s32)project_sprite_chain);
+            register_node((ObjectNodeHeader *)p - 1, project_sprite_chain);
             p->state++;
         }
         break;

@@ -95,7 +95,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
             break;
         }
         if ((self->flags & 4) == 0) {
-            register_node((u8 *)self - 0x20, (s32)project_sprite_chain);
+            register_node((u8 *)self - 0x20, project_sprite_chain);
             part->tpage_abr = 0x20;
             part->color.c.b = 0x80;
             part->color.c.g = 0x80;
@@ -510,7 +510,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     node = allocate_flagged_object_node(0x202);
     if (node != 0) {
         node->update_callback = advance_sprite_on_alternate_ticks_until_complete;
-        register_node(node, (s32)project_sprite_chain);
+        register_node(node, project_sprite_chain);
         coords = node->position;
         coords->x = source_coords->x;
         coords->y = source_coords->y;
@@ -635,7 +635,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
         effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
             effect->update_callback = callback;
-            register_node(effect, (s32)draw_linked_sprites_clipped);
+            register_node(effect, draw_linked_sprites_clipped);
             angle = effect_index << 8;
             position = effect->position;
             value = origin->x + (rcos(angle) >> 7);
@@ -750,7 +750,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->update_callback = move_and_fade_effect;
-        register_node(object, (s32)draw_linked_sprites_clipped);
+        register_node(object, draw_linked_sprites_clipped);
         position = object->position;
         position->x = source_pos->x;
         position->y = source_pos->y;
@@ -1042,7 +1042,7 @@ void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initia
         s32 mode_test;
 
         node->update_callback = update_spark_effect;
-        register_node(node, (s32)queue_projected_point_primitives);
+        register_node(node, queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
             MovingPosition *payload = node->position;
@@ -1139,7 +1139,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->update_callback = fade_effect_color_below_eight;
-        register_node(object, (s32)process_linked_mesh_states_mode_0);
+        register_node(object, process_linked_mesh_states_mode_0);
         transition = object->position;
         transition->x.w.i = (u16) endpoints->unk_02;
         transition->y.w.i = (u16) endpoints->unk_06;

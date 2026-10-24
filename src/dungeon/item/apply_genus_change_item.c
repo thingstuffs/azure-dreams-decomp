@@ -10,7 +10,7 @@
 #include "engine/entity.h"
 
 #include "dungeon/player/item.h"
-extern void display_item_status_message();
+#include "dungeon/system.h"
 extern s32 feed_actor_restore_mp();
 extern void place_actor_item();
 extern void create_colored_effect_with_sound();

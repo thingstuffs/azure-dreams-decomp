@@ -57,7 +57,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
     }
 
     if (target_addr <= 0x9FFFFFFF) {
-        display_actor_item_status_message(target_addr, item, effect_type);
+        display_actor_item_status_message(target_addr, item);
         if (feed_actor_restore_mp(target_addr, entity_action_selectors[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
             place_actor_item(target_addr, item);
             return 1;

@@ -740,7 +740,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)draw_brightness_scaled_linked_tiles);
+        register_node(spawned, draw_brightness_scaled_linked_tiles);
         fields->color = saved_field_28;
     }
 }

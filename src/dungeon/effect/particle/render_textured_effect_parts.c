@@ -54,7 +54,7 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
         header->f2 = 1;
         header->f4 = 1;
         object->update_callback = &render_textured_effect_parts;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
         asset = *(D8181A8C0Asset * *)&object->sprite;
@@ -306,7 +306,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)(s32)draw_shaded_point_chain);
+        register_node(spawned, draw_shaded_point_chain);
         fields->color = saved_field_28;
     }
 }
@@ -370,7 +370,7 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((ObjectNodeHeader *)effect)->update_callback = &cycle_moving_effect_phase;
-        register_node(effect, (s32)project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((ObjectNodeHeader *)effect)->position;
@@ -492,7 +492,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
             if (*((S_80024BE8_0 *)effect)->unk_04 & 0x80) {
                 if (!(((S_80024BE8_0 *)effect)->unk_7A & 4)) {
-                    register_node((u8 *)effect - 0x20, (s32)project_sprite_chain);
+                    register_node((u8 *)effect - 0x20, project_sprite_chain);
                     sprite->tpage_abr = 0x60;
                     sprite->flags |= 0xC;
                     ((S_80024BE8_0 *)effect)->unk_7A |= 4;
@@ -608,7 +608,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
                     impact->update_callback = grow_timed_sprite_effect;
-                    register_node(impact, (s32)draw_linked_sprites_clipped);
+                    register_node(impact, draw_linked_sprites_clipped);
                     impact_sprite = (s32)(impact->sprite);
                     ((SpriteFrameState *)impact_sprite)->tpage_abr = 0;
                     ((SpriteFrameState *)impact_sprite)->flags |= 0xC;
@@ -763,7 +763,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
             impact->update_callback = create_radial_height_offset_effect;
-            register_node(impact, (s32)project_sprite_chain);
+            register_node(impact, project_sprite_chain);
             particle_sprite = impact->sprite;
             particle_sprite->tpage_abr = 0;
             particle_sprite->flags |= 0xC;

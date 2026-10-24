@@ -12,4 +12,8 @@
 
 /* Retail allocator return and flag word; identical to the incoming shared declaration. */
 ObjectNodeHeader *allocate_flagged_object_node(int flags);
+
+/* Shared packed-vertex projection record. */
+void transform_rotated_vertices(void *transform_data);
+
 #endif

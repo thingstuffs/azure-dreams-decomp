@@ -31,13 +31,13 @@ void insert_active_node_after(struct S_80040060 *anchor, struct S_80040060 *node
 /* integrate_active_node_vectors.c */
 void integrate_active_node_vectors(void);
 
-/* register_node.c */
-s32 func_8004491C(struct RegistrationNode *entry, s32 registration_id);
-s32 register_node(struct RegistrationNode *entry, s32 registration_id);
+/* register_node.c: callback addresses are opaque keys until draw dispatch. */
+s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+s32 register_node(struct RegistrationNode *entry, void *registration_id);
 
 /* register_node_if_unregistered.c */
-void func_80033CD8(void *block_data, s32 registration_id);
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void func_80033CD8(void *block_data, void *registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 
 /* run_active_node_callbacks.c */
 void run_active_node_callbacks(void);

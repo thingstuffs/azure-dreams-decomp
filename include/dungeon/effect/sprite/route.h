@@ -325,8 +325,8 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
 ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);
-s32 register_node(void *, s32, ...);
-s32 func_8004491C(void *, s32, ...);
+s32 register_node(void *, void *, ...);
+s32 func_8004491C(void *, void *, ...);
 void advance_sprite_animation_and_textures(void *);
 s32 play_sound_if_enabled(s32);
 s16 sample_terrain_surface_height(s32, s32, s16);

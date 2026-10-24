@@ -159,7 +159,7 @@ void spawn_free_slot_display_effect(void *owner) {
             ((S_80024104_0 *)child_work)->unk_32 = slot;
             ((S_80024104_0 *)child_work)->unk_60 = owner;
             child->update_callback = (void *)fade_linked_display_sprite;
-            register_node(child, (s32)project_sprite_chain);
+            register_node(child, project_sprite_chain);
 
             display = child->sprite;
             display->field6 = 4;
@@ -248,7 +248,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
         state->unk_2A = 0x9;
         state->unk_60 = parent;
         (object->update_callback) = (s32 *)spawn_free_slot_display_effect;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         part = (*(Part * *)&object->sprite);
         part->field10 = 0x20;
         part->field6 = 0;
@@ -524,7 +524,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 if (particle != 0) {
                     particle_scratch->lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     render_part = (TransitionRenderPart *)particle->header.sprite;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -550,7 +550,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     if (particle != 0) {
                         particle->payload.lifetime = 1;
                         particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                        register_node(particle, (s32)project_sprite_chain);
+                        register_node(particle, project_sprite_chain);
                         render_part = (TransitionRenderPart *)particle->header.sprite;
                         render_part->mode = PARTICLE_MODE_ADDITIVE;
                         render_part->depth = -4;
@@ -577,7 +577,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     render_part = (TransitionRenderPart *)particle->header.sprite;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -602,7 +602,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     render_part = (TransitionRenderPart *)particle->header.sprite;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;
@@ -634,7 +634,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     render_part = (TransitionRenderPart *)particle->header.sprite;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -689,7 +689,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     particle_scratch->lifetime = 1;
                 }
                 particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                register_node(particle, (s32)project_sprite_chain);
+                register_node(particle, project_sprite_chain);
                 render_part = (TransitionRenderPart *)particle->header.sprite;
                 render_part->mode = PARTICLE_MODE_ADDITIVE;
                 render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
@@ -717,7 +717,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     render_part = (TransitionRenderPart *)particle->header.sprite;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
                     render_part->depth = -4;

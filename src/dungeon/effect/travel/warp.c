@@ -640,7 +640,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
         effect = allocate_list_node(0x212, &source->next);
         if (effect != 0) {
             effect->update_callback = advance_effect_motion_and_speed;
-            register_node(effect, (s32)project_sprite_chain);
+            register_node(effect, project_sprite_chain);
             record = (MotionRecord *)(effect + 1);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
@@ -662,7 +662,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
         effect = allocate_list_node(0x212, &source->next);
         if (effect != 0) {
             effect->update_callback = advance_effect_motion_and_speed;
-            register_node(effect, (s32)queue_linked_visible_rectangle_copies);
+            register_node(effect, queue_linked_visible_rectangle_copies);
             record = (MotionRecord *)(effect + 1);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
@@ -751,7 +751,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
     spawned = allocate_list_node(0x212, &owner->next);
     if (spawned != 0) {
         spawned->update_callback = (follower_position_update_fn)copy_follower_owner_position_and_color;
-        register_node(spawned, (s32)project_sprite_chain);
+        register_node(spawned, project_sprite_chain);
         spawned->position->x.w.i = (u16)owner->position->x.w.i;
         spawned->position->y.w.i = (u16)owner->position->y.w.i;
         spawned->position->z.w.i = (u16)owner->position->z.w.i;

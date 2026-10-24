@@ -13,7 +13,7 @@ s32 get_entity_effect_value();            /* extern */
 void begin_mode_selected_item_action(); /* extern */
 s32 process_record_and_update_linked_state();           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */

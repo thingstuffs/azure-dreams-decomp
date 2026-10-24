@@ -174,7 +174,7 @@ struct Dst;
 struct Elem;
 struct RegistrationNode;
 extern void select_record_entry_and_value(struct Dst *, struct Elem *, s16);
-extern s32 register_node(struct RegistrationNode *, s32);
+extern s32 register_node(struct RegistrationNode *, void *);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */

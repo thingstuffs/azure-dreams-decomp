@@ -38,13 +38,15 @@ extern u8 D_800D0420[];
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(void *object, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    TownRewardValues reward_values = D_80020278;
+    union { TownRewardValues values; s32 table[3]; } reward_values;
     s16 state;
     s32 sprite_data;
     s32 reward_amount;
     s32 reward_units;
-    s32 *reward_table = (s32 *)&reward_values;
+    s32 *reward_table = reward_values.table;
     u32 collision_addr;
+
+    reward_values.values = D_80020278;
 
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
@@ -116,9 +118,7 @@ void update_bouncing_pickup_after_hit(void *object, ObjectPosition *motion, Spri
         }
         SD_Call(0x516);
         {
-            u8 *stack_base;
-            stack_base = __builtin_alloca(0);
-            reward_units = *(s32 *)(((S_800236BC_1 *)object)->unk_54 * 4 + stack_base);
+            reward_units = reward_values.table[((S_800236BC_1 *)object)->unk_54];
 
             {
                 s32 reward_total, collected_total;

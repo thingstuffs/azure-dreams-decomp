@@ -18,6 +18,7 @@ void inventory_clear_object_field_and_entry(s32 object_addr);
 void inventory_process_resources_and_set_flags(void *object);
 void inventory_set_embedded_state_four(s32 object_addr);
 void set_monster_data_pointer(void);
+void tick_monster_spawn_timer(void);
 
 
 

@@ -103,7 +103,7 @@ s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
 s32 append_entity_display_text();                        /* extern */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */

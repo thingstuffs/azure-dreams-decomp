@@ -3,7 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_80082E80.h"
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 struct EntityRec; struct Rec_D_80082E80; struct Rec_func_80094268_arg0; void select_object_value_by_height_band(struct Rec_func_80094268_arg0 *, void *, struct EntityRec *, struct Rec_D_80082E80 *);
 void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data);
 void noop_hook(void);

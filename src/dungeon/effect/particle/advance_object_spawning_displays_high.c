@@ -115,7 +115,7 @@ void spawn_free_slot_display_effect(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
             effect->update_callback = fade_tinted_display_sprite;
-            register_node(effect, (s32)project_sprite_chain);
+            register_node(effect, project_sprite_chain);
 
             display = effect->sprite;
             display->field6 = 4;
@@ -165,7 +165,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         state->unk_2A = 0xB;
         state->unk_60 = source;
         (object->update_callback) = &spawn_free_slot_display_effect;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         part = (*(Part * *)&object->sprite);
         part->field10 = 0x20;
         part->field6 = 0;
@@ -313,7 +313,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
         *(s16 *)(state + 0x32) = state_32_value;
-        register_node(spawned, (s32)draw_brightness_scaled_point_chain);
+        register_node(spawned, draw_brightness_scaled_point_chain);
         *(s32 *)(state + 8) = state_08_value;
     }
 }
@@ -387,7 +387,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
         state = ((void *)object) + 0x20;
         state->unk_2A = 0x3C;
         (object->update_callback) = &decrement_object_counter;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         render_state = (object->sprite);
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
         render_param_copy = render_param;
@@ -552,7 +552,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
                         particle->update_callback = spawn_data;
-                        register_node(particle, (s32)project_sprite_chain);
+                        register_node(particle, project_sprite_chain);
                         sprite = particle->sprite;
                         sprite->flags = (u16)(sprite->flags | 0xC);
                         position = particle->position;
@@ -640,7 +640,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                         if (particle != 0) {
                             F(particle, s16, 0x4A) = 8;
                             particle->update_callback = spawn_data;
-                            register_node(particle, (s32)project_sprite_chain);
+                            register_node(particle, project_sprite_chain);
                             sprite = particle->sprite;
                             sprite->flags = (u16)(sprite->flags | 0xC);
                             position = particle->position;
@@ -726,7 +726,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
         animation_m = project_sprite_chain;
         F(particle, s16, 0x4A) = 6;
         particle->update_callback = (void *)((u32)&expand_rotating_countdown_sprite);
-        register_node(init_object, (s32)animation_m);
+        register_node(init_object, animation_m);
         bits = 0x20;
         sprite = particle->sprite;
         {
@@ -772,7 +772,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                     burst_tail = (u8 *)particle + 0x20;
                     F(burst_tail, s16, 0x2A) = 12;
                     particle->update_callback = particle_script;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     sprite = particle->sprite;
                     sprite->flags = (u16)(sprite->flags | 0xC);
                     sprite->tpage_abr = 0x60;

@@ -14,7 +14,7 @@ typedef struct Entry {
     u8 data[1];
 } Entry;
 
-extern Callback registered_draw_callbacks[0x20];
+extern void *registered_draw_callbacks[0x20];
 extern Entry *registered_draw_objects[0x20];
 
 /* Runs active draw callbacks, clearing orphaned slots and stopping when the frame packet arena overflows. */

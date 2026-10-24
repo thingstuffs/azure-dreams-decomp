@@ -6,7 +6,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/vector.h"
-void register_node_if_unregistered(void *block_data, s32 registration_id);           /* extern */
+void register_node_if_unregistered(void *block_data, void *registration_id);           /* extern */
 struct Dst;
 struct Elem;
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */

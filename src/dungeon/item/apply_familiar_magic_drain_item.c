@@ -12,7 +12,7 @@
 
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void place_actor_item();                 /* extern */

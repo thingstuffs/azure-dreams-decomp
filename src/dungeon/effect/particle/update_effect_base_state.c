@@ -205,7 +205,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
                 spawned->update_callback = update_effect_base_state;
-                register_node(spawned, (s32)draw_layered_vertical_sprite_chain);
+                register_node(spawned, draw_layered_vertical_sprite_chain);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
                 burst_data->unk_04 = ((S_81844800_3 *)motion)->unk_00.at02.v;
@@ -570,7 +570,7 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameStat
         timer = *(u16 *)((s8 *)effect + 0x48) - 1;
         *(u16 *)((s8 *)effect + 0x48) = timer;
         if ((s16)timer <= 0) {
-            register_node((s8 *)effect - 0x20, (s32)project_sprite_chain);
+            register_node((s8 *)effect - 0x20, project_sprite_chain);
             *(u16 *)((s8 *)effect + 0x4C) += 1;
         }
         break;

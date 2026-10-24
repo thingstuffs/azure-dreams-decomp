@@ -875,7 +875,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         object->update_callback = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
-        register_node(object, (s32)&linked_mesh_processor_address);
+        register_node(object, &linked_mesh_processor_address);
         transition = object->position;
         transition->start[0].value = endpoints->start[0].value;
         transition->start[1].value = endpoints->start[1].value;
@@ -1834,7 +1834,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
             fragment->update_callback = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;
-            register_node((void *)object_or_x, (s32)handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
+            register_node((void *)object_or_x, handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth);
 
             row_start = quad_index & ~0xF;
             column_or_coord = (quad_index + 1) & 0xF;

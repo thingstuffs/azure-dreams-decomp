@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/item.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -13,7 +13,7 @@ extern s16 dungeon_room_count;
 
 
 /* Counts down turns until a monster spawn, then resets the spawn timer. */
-void tick_monster_spawn_timer(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
+void tick_monster_spawn_timer(void) {
     s16 spawn_turns;
 
     if (dungeon_room_count != 0) {

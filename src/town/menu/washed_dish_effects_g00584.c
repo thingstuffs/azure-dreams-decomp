@@ -12,7 +12,7 @@ void initialize_timed_resource_object(void *object, s32 unused, void *context) {
     dish_counter = 0x14;
     resource_base = &D_800F8A70;
     *(void **) ((s8 *) context + 8) = (void *) ((s8 *) resource_base + 0xF0);
-    register_node_if_unregistered(object, (s32)(project_sprite_chain));
+    register_node_if_unregistered(object, (project_sprite_chain));
 }
 
 /* Clears and flags a handled object, or clamps the town index and selects a record. */

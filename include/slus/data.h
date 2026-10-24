@@ -157,7 +157,7 @@ extern u8 message_window_audio_sync_data[ ];
 extern u8 message_window_object_template[ ];
 extern s32 movie_frame_control;
 extern s32 movie_start_sector;
-extern s32 node_registration_ids[ ];
+extern void *node_registration_ids[ ];
 extern s32 noop_runtime_record_idle;
 extern s32 object_header_a_default_word_04[ 4 ];
 extern s32 object_header_a_default_word_08[ 4 ];

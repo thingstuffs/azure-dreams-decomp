@@ -611,7 +611,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 register_node(void *entry, s32 registration_id);
+extern s32 register_node(void *entry, void *registration_id);
 extern s32 D_800A7CC4();
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
@@ -914,7 +914,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params
 #endif
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void * allocate_list_node(s32 flags, void **list_head);
-extern s32 register_node(void *entry, s32 registration_id);
+extern s32 register_node(void *entry, void *registration_id);
 extern s32 get_item_category_value(u8 *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
@@ -1428,7 +1428,7 @@ typedef struct {
 extern u8 D_800A871C[];
 
 extern void * allocate_list_node(s32 flags, void **list_head);
-extern s32 register_node(void *entry, s32 registration_id);
+extern s32 register_node(void *entry, void *registration_id);
 extern s32 clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern s32 get_item_category_value(u8 *item);
 extern void create_tracked_effect(void *, s32, s32, s32);

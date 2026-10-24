@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "shared/object_node_flags.h"
 /* Projectile launch and impact sequencing, damped motion, and delayed sprite fading. */
 #include "shared/entity.h"

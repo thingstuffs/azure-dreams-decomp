@@ -253,7 +253,7 @@ void update_directional_actor_effect(void *input, void *output)
         }
         particle_data = (u8 *)particle + 0x20;
         particle->update_callback = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
-        register_node(particle, (s32)project_sprite_chain);
+        register_node(particle, project_sprite_chain);
         random_value = 0x00800000u;
         sprite = particle->sprite;
         offset_index = offsets[0];
@@ -320,7 +320,7 @@ void update_directional_actor_effect(void *input, void *output)
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 particle->update_callback = particle_script;
-                register_node(particle, (s32)project_sprite_chain);
+                register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = rand();
@@ -395,7 +395,7 @@ void update_directional_actor_effect(void *input, void *output)
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 particle->update_callback = particle_script_debris;
-                register_node(particle, (s32)project_sprite_chain);
+                register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = rand();
@@ -660,7 +660,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     u16 start_y_bits;
 
                     spawn->callback = particle_callback;
-                    register_node(spawn, (s32)project_sprite_chain);
+                    register_node(spawn, project_sprite_chain);
                     state = spawn->state;
                     coord_magnitude = abs((s16)target->x.half.coord - (s16)start_pos[0]);
                     child = &spawn->child;
@@ -882,7 +882,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
                     particle->update_callback = (void *)move_sprite_until_animation_ends;
-                    register_node(particle, (s32)project_sprite_chain);
+                    register_node(particle, project_sprite_chain);
                     particle_sprite = particle->sprite;
                     (particle->position)->x.v =
                         (s32) (motion->x.v + (((rand() & 0x3FF) - 0x1FF) << 0xA));

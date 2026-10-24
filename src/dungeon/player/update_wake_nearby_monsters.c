@@ -14,7 +14,7 @@ extern s32 initialize_timed_motion_step();
 extern s32 get_entity_effect_value();
 extern s32 clear_slots_of_type();
 extern s32 set_sprite_animation_frame();
-extern s32 display_formatted_context_message();
+extern void display_formatted_context_message(void *context);
 extern s32 set_record_integer_tile_center();
 
 extern Rec_D_80083460 D_80083460;

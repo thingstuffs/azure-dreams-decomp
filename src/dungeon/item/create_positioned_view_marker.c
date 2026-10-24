@@ -243,7 +243,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
         object->update_callback = (void *)advance_dungeon_tile_action_state;
-        register_node(object, (s32)draw_linked_lit_meshes);
+        register_node(object, draw_linked_lit_meshes);
         render_config = default_textured_quad_color;
         model = object->sprite;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;

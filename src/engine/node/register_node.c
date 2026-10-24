@@ -9,11 +9,11 @@ typedef struct RegistrationNode {
     u16 type;
 } RegistrationNode;
 
-extern s32 registered_draw_callbacks[0x20];
+extern void *registered_draw_callbacks[0x20];
 extern RegistrationNode *registered_draw_objects[0x20];
 
 /* Registers a node under an existing or newly allocated registration ID. */
-s32 register_node(RegistrationNode *entry, s32 registration_id)
+s32 register_node(RegistrationNode *entry, void *registration_id)
 {
     s32 slot;
     s32 first_free;

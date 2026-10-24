@@ -8,6 +8,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
 #include "engine/cd.h"
+#include "dungeon/system.h"
 extern int abs(int);
 
 typedef struct S_800C0E88_1 {
@@ -55,12 +56,11 @@ extern s32 expand_text_control_codes();
 extern void clear_byte_and_advance();
 extern s32 copy_selected_text_without_terminator();
 extern s32 append_entity_display_text();
-extern void display_formatted_context_message();
+extern void display_formatted_context_message(void *context);
 extern void *scan_actor_along_heading();
 extern void display_text_with_fullwidth_adjustment();
 extern s32 find_slot_by_item_group();
 extern void place_actor_item();
-extern void display_actor_item_status_message();
 extern s32 create_actor_spell_effect();
 extern s32 feed_actor_restore_mp();
 

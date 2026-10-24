@@ -5,7 +5,7 @@
 #include "shared/town_root.h"
 #include "town/scene/resource.h"
 extern s32 func_8001991C();
-extern s32 update_entry_flags();
+extern void update_entry_flags(void);
 void func_8001A554(s32);
 void func_8001A5CC(s32);
 extern s32 func_8001A64C();

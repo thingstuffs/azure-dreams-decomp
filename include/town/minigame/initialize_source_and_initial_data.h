@@ -36,8 +36,8 @@ typedef struct {
 
 struct RegistrationNode;
 struct S_80045340_Entry;
-extern s32 register_node(struct RegistrationNode *, s32 registration_id);
-extern s32 func_8004491C(struct RegistrationNode *, s32 registration_id);
+extern s32 register_node(struct RegistrationNode *, void *registration_id);
+extern s32 func_8004491C(struct RegistrationNode *, void *registration_id);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_80020014[], minigame_source_bounds[];
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);

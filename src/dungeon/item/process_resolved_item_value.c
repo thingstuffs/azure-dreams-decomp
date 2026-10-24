@@ -13,7 +13,7 @@
  * docs/evidence/r121_rem_opus.md. */
 extern void select_record_entry_and_value(void *, void *, short);
 extern void * allocate_list_node(s32, void *);
-extern s32 register_node(void *, s32);
+extern s32 register_node(void *, void *);
 extern void select_sprite_entry(void *, s16, s16);
 extern void * get_unused_text_buffer(void);
 extern void * expand_text_control_codes(void *, void *);

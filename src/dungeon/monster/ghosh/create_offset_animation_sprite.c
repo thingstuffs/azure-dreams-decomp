@@ -39,7 +39,7 @@ typedef struct {
 } Node;
 
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
-s32 register_node(RegistrationNode *entry, s32 registration_id);
+s32 register_node(RegistrationNode *entry, void *registration_id);
 void func_80170D60(void *destination, s32 unused, void *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */

@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "common.h"
 #include "shared/game_work.h"
 typedef struct S_80F90E88_0 {

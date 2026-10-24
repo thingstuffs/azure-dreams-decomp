@@ -4,7 +4,7 @@
 
 
 
-void register_node_if_unregistered(void *block_data, s32 registration_id);
+void register_node_if_unregistered(void *block_data, void *registration_id);
 #include "town/player/initialize_record_with_handler_table_api.h"
 extern u8 player_motion_draw_address[];
 

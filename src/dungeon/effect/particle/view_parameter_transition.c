@@ -261,7 +261,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)begin_view_parameter_transition);
+        register_node(spawned, begin_view_parameter_transition);
         fields->color = saved_field_28;
     }
 }
@@ -454,7 +454,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 u8 *task = (u8 *)effect_data - 0x20;
 
                 if (!(effect_data->flags & 4)) {
-                    register_node(task, (s32)project_sprite_chain);
+                    register_node(task, project_sprite_chain);
                     display->tpage_abr = 0x20;
                     display->color.c.b = 0x14;
                     display->color.c.g = 0x14;
@@ -469,7 +469,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 u8 *task = (u8 *)effect_data - 0x20;
 
                 if (!(effect_data->flags & 4)) {
-                    register_node(task, (s32)project_sprite_chain);
+                    register_node(task, project_sprite_chain);
                     display->tpage_abr = 0x20;
                     display->color.c.b = 0x14;
                     display->color.c.g = 0x14;

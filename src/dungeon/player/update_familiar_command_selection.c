@@ -19,7 +19,7 @@ extern u8 D_8004F5F4[];
 void submit_script_with_registered_context();                     /* extern */
 s32 resolve_player_input_facing();                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
-void display_formatted_context_message();                   /* extern */
+void display_formatted_context_message(void *context);                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void *create_panel_effect_object();                      /* extern */

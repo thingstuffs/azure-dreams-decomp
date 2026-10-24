@@ -465,7 +465,7 @@ void spawn_random_offset_effect_record(
         record->unk_14 = property_34;
         record->size = property_52;
         record->size_max = property_52;
-        register_node(effect, (s32)project_scaled_colored_point);
+        register_node(effect, project_scaled_colored_point);
         record->unk_48 = rand() + 0x10000;
         record->unk_08 = property_28;
     }
@@ -774,7 +774,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
         ((S_819715D4_0 *)object_data)->unk_3A = 0x14;
         object->update_callback = (u8 *)fade_effect_color_by_quarter;
-        register_node(object, (s32)project_sprite_chain);
+        register_node(object, project_sprite_chain);
         sprite = *(Bank1990800_19915d4_Sprite * *)&object->sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 0;
@@ -1190,7 +1190,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
                         ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
                         effect_obj->update_callback = (void *)advance_timed_visual;
-                        register_node(effect_obj, (s32)project_sprite_chain);
+                        register_node(effect_obj, project_sprite_chain);
                         sprite = *(u8 * *)&effect_obj->sprite;
                         world_pos = &view_reference_entity;
                         ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
@@ -1302,7 +1302,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
-                    register_node(effect_obj, (s32)init_data);
+                    register_node(effect_obj, init_data);
                     sprite = *(u8 * *)&effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -1354,7 +1354,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
-                    register_node(effect_obj, (s32)init_data);
+                    register_node(effect_obj, init_data);
                     sprite = *(u8 * *)&effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -1404,7 +1404,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data_m)->unk_14 = ((S_8197192C_7 *)effect_data_m)->unk_24;
                     ((S_8197192C_7 *)effect_data_m)->unk_18 = ((S_8197192C_7 *)effect_data_m)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
-                    register_node(effect_obj, (s32)init_data);
+                    register_node(effect_obj, init_data);
                     sprite = *(u8 * *)&effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;

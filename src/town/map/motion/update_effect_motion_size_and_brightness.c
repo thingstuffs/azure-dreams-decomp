@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/map/animation.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -29,7 +29,7 @@ typedef struct {
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
-s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {
+void update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {
     s16 state;
     s32 fade_end_state;
     s32 global_flags;
@@ -56,7 +56,7 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
         if (!((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0)) {
             ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
         }
-        return grow_end_state;
+        return;
 
     case 1:
     {
@@ -71,16 +71,17 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
         sprite->color.word = (s32) (sprite->color.word + 0xFFF7F7F8);
         fade_end_state = 0xFF;
         if ((u8) sprite->color.word == 0) {
-            return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
+            ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state;
+            return;
         }
-        return fade_end_state;
+        return;
 
     case 0xFF:
         ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields
             - 0x2))->unk_00 | 0x8000);
         global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         object_flag_block.flags = global_flags;
-        return global_flags;
+        return;
     default:
         return;
     }

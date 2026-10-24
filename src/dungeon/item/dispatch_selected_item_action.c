@@ -59,7 +59,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
     }
 
     if (target <= 0x9FFFFFFF) {
-        display_actor_item_status_message(target, action, action_kind);
+        display_actor_item_status_message(target, action);
         if (feed_actor_restore_mp(target, entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
             place_actor_item(target, action);
             return 1;

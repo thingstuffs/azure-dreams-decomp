@@ -26,7 +26,7 @@ s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
-void display_formatted_context_message(); /* extern */
+void display_formatted_context_message(void *context); /* extern */
 s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
 s32 find_or_retain_sprite_resource_slot();
 s32 raise_entity_level(); /* extern */

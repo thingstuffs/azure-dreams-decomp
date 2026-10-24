@@ -1044,7 +1044,7 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         object->update_callback = advance_ballistic_fading_effect;
-        register_node(object, (s32)draw_linked_object_chain);
+        register_node(object, draw_linked_object_chain);
         position = object->position;
         position->x.w.i = x;
         position->y.w.i = y;

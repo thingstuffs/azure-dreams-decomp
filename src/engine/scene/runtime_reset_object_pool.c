@@ -20,7 +20,7 @@ extern void * active_node_list_head;
 typedef struct S_80044AAC S_80044AAC;
 
 extern S_80044AAC *registered_draw_objects[0x20];
-extern S_80044AAC *registered_draw_callbacks[0x20];
+extern void *registered_draw_callbacks[0x20];
 
 /* Initialize the node pool free list and reset the pointer tables. */
 void runtime_reset_object_pool(void)
@@ -29,9 +29,9 @@ void runtime_reset_object_pool(void)
     S_801EAFE8 *free_node;
     S_801EAFE8 *clear_node;
     S_80044AAC **slots_a_base;
-    S_80044AAC **slots_b_base;
+    void **slots_b_base;
     S_80044AAC **slot_a;
-    S_80044AAC **slot_b;
+    void **slot_b;
 
     free_node = D_801EAFE8;
 

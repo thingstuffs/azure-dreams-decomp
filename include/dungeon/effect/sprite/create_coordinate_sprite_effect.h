@@ -164,8 +164,8 @@ void create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callb
 void select_record_entry_and_value(void *, void *, s32);
 void advance_sprite_animation_and_textures(void *);
 s32 rand(void);
-s32 register_node(void *, s32);
-s32 func_8004491C(void *, s32);
+s32 register_node(void *, void *);
+s32 func_8004491C(void *, void *);
 s32 rsin();
 s32 rcos();
 extern u8 coordinate_effect_sprite_data[];

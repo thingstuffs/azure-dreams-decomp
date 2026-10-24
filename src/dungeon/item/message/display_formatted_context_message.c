@@ -7,7 +7,7 @@ void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 
 /* Computes a value, applies its context-dependent result, and finalizes the value. */
-void display_formatted_context_message(s32 context, s32 first_input, s32 second_input, s32 third_input) {
+void display_formatted_context_message(void *context) {
     s32 computed_value;
 
     computed_value = get_unused_text_buffer();

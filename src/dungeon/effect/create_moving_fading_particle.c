@@ -64,7 +64,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
     object = allocate_list_node(0x202, allocation_head);
     if (object != 0) {
         object->update_callback = (void *)move_linked_effect_along_path;
-        register_node(object, (s32)func_80024ED0);
+        register_node(object, func_80024ED0);
         positions = object->position;
         positions->x.w.i = (s16) (*(u16 *)&origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
         positions->y.w.i = (s16) (*(u16 *)&origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));

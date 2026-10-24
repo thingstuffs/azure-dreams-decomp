@@ -259,7 +259,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)draw_dimmed_height_effect_points);
+        register_node(spawned, draw_dimmed_height_effect_points);
         fields->color = saved_field_28;
     }
 }
@@ -762,7 +762,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
 
         if (((u16 *)effect->unk_4)[0] & 0x80) {
             if (!(effect->unk_7A & 4)) {
-                register_node((u8 *)effect - 32, (s32)project_sprite_chain);
+                register_node((u8 *)effect - 32, project_sprite_chain);
                 sprite->color.c.b = 20;
                 sprite->color.c.g = 20;
                 sprite->color.c.r = 20;
@@ -937,7 +937,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
                 motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
-                register_node(child_object, (s32)project_sprite_chain);
+                register_node(child_object, project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->tpage_abr = 32;
                 sprite->depth_bias = 6;
