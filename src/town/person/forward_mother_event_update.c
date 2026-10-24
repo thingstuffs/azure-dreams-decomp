@@ -1,7 +1,7 @@
 #include "common.h"
-void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);                            /* extern */
+#include "town/person/object_setup.h"
 
 /* Forward the object and parameters to apply_object_setup_and_update. */
-void forward_mother_event_update(void *object, s32 param_1, s32 param_2) {
+void forward_mother_event_update(void *object, void *param_1, void *param_2) {
     apply_object_setup_and_update(object, param_1, param_2);
 }

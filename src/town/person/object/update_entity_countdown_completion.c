@@ -3,13 +3,13 @@
 
 typedef struct S_800CB708_0 S_800CB708_0;
 
-void apply_object_setup_and_update(void *, s32, s32);    /* extern */
+#include "town/person/object_setup.h"
 void assign_object_data_pointers(S_800CB708_0 *object);
 s32 create_and_invoke_render_object(s32, s32);                  /* extern */
 
 
 /* Decrement the entity countdown and run its completion handlers when it expires. */
-void update_entity_countdown_completion(Rec_func_80094268_arg0 *entity, s32 update_context, s32 setup_context) {
+void update_entity_countdown_completion(Rec_func_80094268_arg0 *entity, void *update_context, void *setup_context) {
     u16 countdown;
 
     countdown = entity->unk_6C.as_u16 - 1;

@@ -16,11 +16,11 @@ typedef struct {
 } Func800CEC24Arg2;
 
 s32 create_object_from_three_values(s32 *);
-extern void apply_object_setup_and_update(void *object, s32 update_context, void *setup_context);
+#include "town/person/object_setup.h"
 extern u8 D_800D6CA8[];
 
 /* Functions defined in this translation unit. */
-void prepare_and_forward_callback(s32 object, s32 context, s32 callback_arg);
-void reset_object_entry_and_brighten(void *object, s32 draw_arg, Func800CEC24Arg2 *packet);
+void prepare_and_forward_callback(void *object, void *context, Func800CEC24Arg2 *callback_arg);
+void reset_object_entry_and_brighten(void *object, void *draw_arg, Func800CEC24Arg2 *packet);
 
 #endif

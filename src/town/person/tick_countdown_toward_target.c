@@ -8,9 +8,9 @@
    /* arg1 in tick_countdown_toward_target */
 
 
-void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 /* Decrement the countdown and ease the current values toward their targets. */
-void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, s32 context) {
+void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context) {
     u16 ticks_left;
     u32 target_delta;
 

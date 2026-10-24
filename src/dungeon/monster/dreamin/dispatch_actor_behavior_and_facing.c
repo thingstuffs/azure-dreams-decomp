@@ -24,7 +24,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void func_80171388(void *);
+extern void func_80171388(void *, void *, void *, void *);
 extern void func_801715CC(void *, void *, void *, void *);
 
 extern void update_action_and_directional_frame(void *, void *, void *, void *);
@@ -59,7 +59,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
     dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
     if (dungeon_status[1] & 0x1000) {
         actor->unk_9A.as_u8 = 14;
-        func_80171388(actor);
+        func_80171388(actor, context, sprite, state);
         return;
     }
 

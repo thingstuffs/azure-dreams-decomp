@@ -144,7 +144,7 @@ void invoke_alternate_handler_with_code_7_a_1(void);
 #include "town/scene/record_services.h"
 void invoke_handler_with_code_47_d(void);
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector);
-s32 wait_for_dialogue_then_close(void);
+s32 wait_for_dialogue_then_close(void *object, s32 entry_index);
 s32 select_dialogue_with_799_override(s32 speaker, s32 interaction, s32 dialogue_id);
 s32 dispatch_by_state_code_0x798(s32 handler_arg_a, s32 handler_arg_b);
 s32 select_lookup_or_threshold_fallback(s32 value, s32 check_value, s32 lookup_value);

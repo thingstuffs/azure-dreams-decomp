@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 
 
-extern void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
-void ease_reaction_position_to_target(Rec_func_80094268_arg0 *state, EntityRec *position, s32 update_arg) {
+void ease_reaction_position_to_target(Rec_func_80094268_arg0 *state, EntityRec *position, void *update_arg) {
     s32 x_delta;
     s32 y_delta;
     s32 z_delta;

@@ -97,13 +97,13 @@ extern u8 D_800C52D0[];
 extern u8 D_800F148C[];
 
 /* Shared import declarations; data casts preserve each measured view. */
-void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 
 /* Functions defined in this translation unit. */
 void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state);
 void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s32 check_param);
-void clear_object_slot_table_run(void *obj, s32 param_a, s32 param_b);
-void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, s32 callback_arg);
+void clear_object_slot_table_run(void *obj, void *param_a, void *param_b);
+void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, void *callback_arg);
 void init_actor_handler_state(S_800C51DC_0 *actor, S_800C51DC_1 *state);
 void *create_user_data_object_b(s32 user_data);
 

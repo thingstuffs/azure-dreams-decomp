@@ -3,13 +3,13 @@
 #include "town/person/callback_object_reset_g00688.h"
 
 /* Prepare the context and forward the arguments to the next handler. */
-void prepare_and_forward_callback(s32 object, s32 context, s32 callback_arg) {
-    create_object_from_three_values((s32 *)(context));
-    reset_object_entry_and_brighten((void *)object, context, (Func800CEC24Arg2 *)callback_arg);
+void prepare_and_forward_callback(void *object, void *context, Func800CEC24Arg2 *callback_arg) {
+    create_object_from_three_values(context);
+    reset_object_entry_and_brighten(object, context, callback_arg);
 }
 
 /* Reset the object's table entry and brighten the packet to a clamped grayscale intensity. */
-void reset_object_entry_and_brighten(void *object, s32 draw_arg, Func800CEC24Arg2 *packet) {
+void reset_object_entry_and_brighten(void *object, void *draw_arg, Func800CEC24Arg2 *packet) {
     u32 intensity;
 
     initialize_object_entries((Struct800C5724 *)object, (s8 *)packet, (s32 *)D_800D6CA8);

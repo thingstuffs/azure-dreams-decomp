@@ -7,9 +7,9 @@ typedef struct ReactionState ReactionState;
 void func_800CDF00(Rec_func_80094268_arg0 *actor, ReactionState *state, s8 *output);
 
 
-s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+#include "town/person/object_setup.h"
 /* Decrement the counter when the check returns zero and enter state 3 when it expires. */
-void tick_counter_and_enter_state_three(Rec_func_80094268_arg0 *object, s32 context_a, s32 context_b, s32 check_arg) {
+void tick_counter_and_enter_state_three(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 check_arg) {
     u16 remaining_count;
 
     if (select_object_setup_path(object, context_a, context_b, check_arg) == 0) {

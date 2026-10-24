@@ -91,7 +91,7 @@ typedef struct S_800A6F48_11 {
     u8 unk_0E;
 } S_800A6F48_11;
 
-void *create_preset_sprite_object();
+#include "town/menu/object/create_positioned_sprite_object_g01142.h"
 /* extern */
 void spawn_person_radial_effects();
 /* extern */

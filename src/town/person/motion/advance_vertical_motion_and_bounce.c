@@ -5,12 +5,12 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 s16 query_lowered_transform_position();                          /* extern */
-void apply_object_setup_and_update(void *, s32, s32);     /* extern */
+#include "town/person/object_setup.h"
 extern M2C_UNK person_bounce_handler_address;
 
 
 /* Advance vertical motion, clamp at the landing height, and bounce or finish. */
-void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec *motion, s32 context) {
+void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec *motion, void *context) {
     u16 bounces_left;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);
@@ -20,7 +20,7 @@ void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec
         actor->unk_90.as_u16 = bounces_left;
         if ((bounces_left << 0x10) <= 0) {
             motion->flags14 = 0;
-            apply_object_setup_and_update(actor, (s32)(motion), context);
+            apply_object_setup_and_update(actor, motion, context);
             return;
         }
         motion->flags14 = 0xFFF60000;

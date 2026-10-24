@@ -10,7 +10,7 @@ s32 func_800CDF94();
 
 
 /* Advance motion, clamp at its limit, and handle the remaining steps. */
-void advance_motion_and_clamp_limit(Rec_func_80094268_arg0 *entity, EntityRec *motion, s32 context) {
+void advance_motion_and_clamp_limit(Rec_func_80094268_arg0 *entity, EntityRec *motion, void *context) {
     s16 steps_left;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);

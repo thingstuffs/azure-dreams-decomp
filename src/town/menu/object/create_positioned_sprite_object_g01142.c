@@ -6,7 +6,7 @@
 #include "shared/object_node.h"
 
 /* Creates a positioned object and initializes its state and sprite. */
-s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id) {
+ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 graphic_id) {
     ObjectNodeHeader *object;
     void *object_state;
     ObjectPosition *transform;
@@ -33,7 +33,7 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     sprite->color.word = 0x808080;
     select_record_entry_and_value(sprite, graphic_id, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
-    return (s32) object;
+    return object;
 }
 
 /* Copy the indexed table value to the output and advance the object state. */

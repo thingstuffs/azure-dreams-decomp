@@ -48,14 +48,14 @@ void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s3
  * Clears the object-index slot selected by the word at offset 0x60, then runs
  * apply_object_setup_and_update.
  */
-void clear_object_slot_table_run(void *obj, s32 param_a, s32 param_b)
+void clear_object_slot_table_run(void *obj, void *param_a, void *param_b)
 {
-    *(((u8 *) (object_index_slots)) + ((*((s32 *) (((s8 *) obj) + 0x60))) * 8)) = 0;
+    object_index_slots[*(s32 *)((u8 *)obj + 0x60)].unk_00 = 0;
     apply_object_setup_and_update(obj, param_a, param_b);
 }
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
-void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, s32 callback_arg) {
+void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, void *callback_arg) {
     if (record->z.v == -0x08000000) {
         apply_object_setup_and_update(context, record, callback_arg);
         return;

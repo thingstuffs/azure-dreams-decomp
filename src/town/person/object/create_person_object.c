@@ -11,7 +11,7 @@
 extern void *create_town_effect_object(s32 parent, s32 position, void *object_value, s32 state_value);
 extern s32 get_person_lookup_step(void *coordinates);
 extern void fill_person_records(void);
-extern void initialize_object_entries(void *state, s32 output, void *entries);
+#include "town/person/object/initialize_object_entries_api.h"
 extern void register_node_if_unregistered(void *state, void *callback);
 
 extern s32 loaded_town_resource_attributes[];

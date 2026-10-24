@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+#include "town/person/object_setup.h"
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
-extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
+extern void initialize_object_from_context(void *object, s32 unusedArg, void *initValue);
 
 extern u8 town_actor_control[];
 
@@ -13,13 +13,13 @@ extern u8 town_actor_control[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
-void update_turning_motion_and_timer(void *actor, void *position, s32 update_param, s32 check_param) {
+void update_turning_motion_and_timer(void *actor, void *position, void *update_param, s32 check_param) {
     s32 *adjustment;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (select_object_setup_path(actor, (s32)position, update_param, check_param) != 0) {
+    if (select_object_setup_path(actor, position, update_param, check_param) != 0) {
         return;
     }
 

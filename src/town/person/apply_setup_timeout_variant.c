@@ -5,9 +5,9 @@
 /* extern */
 
 
-void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
-void apply_setup_on_timeout_variant_1(Rec_func_80094268_arg0 *object, s32 callback_arg_1, s32 callback_arg_2) {
+void apply_setup_on_timeout_variant_1(Rec_func_80094268_arg0 *object, void *callback_arg_1, void *callback_arg_2) {
     u16 countdown;
 
     countdown = object->unk_6C.as_u16 - 1;

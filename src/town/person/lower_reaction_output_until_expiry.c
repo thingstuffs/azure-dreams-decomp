@@ -8,10 +8,10 @@ typedef struct {
     u16 output;
 } TownObject;
 
-extern void apply_object_setup_and_update(TownObject *obj, s32 update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 
 /* Decrement the timer and lower output until expiry restores the base value. */
-void lower_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, s32 update_input_2) {
+void lower_reaction_output_until_expiry(TownObject *obj, void *update_input_1, void *update_input_2) {
     u16 timer;
 
     timer = obj->timer - 1;

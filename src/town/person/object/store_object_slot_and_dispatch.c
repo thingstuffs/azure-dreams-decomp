@@ -7,10 +7,10 @@ typedef struct {
     void *object;
 } ObjectSlot;
 
-extern void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 
 /* Store the object in its slot, mark the slot inactive, and call the next handler. */
-void store_object_slot_and_dispatch(void *object, s32 update_context, s32 setup_context) {
+void store_object_slot_and_dispatch(void *object, void *update_context, void *setup_context) {
     s32 slot_index;
 
     slot_index = *(s32 *)((u8 *)object + 0x60);

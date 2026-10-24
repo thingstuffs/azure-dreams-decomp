@@ -33,7 +33,7 @@ extern s32 town_y_acceleration[4];
 extern s32 town_y_speed_limits[4];
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
-void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
+void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, void *context)
 {
     s32 quadrant;
     s32 angle;

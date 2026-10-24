@@ -25,7 +25,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void func_80171CA8(void *, void *, void *);
+extern void func_80171CA8(void *, void *, void *, void *);
 extern void func_80171EEC(void *, void *, void *, void *);
 extern s32 func_801726B0(void *, void *, void *, void *);
 extern void update_boss_effect_growth(void *, void *, void *, void *);
@@ -51,7 +51,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
-        func_80171CA8(actor_arg, context_arg, sprite);
+        func_80171CA8(actor_arg, context_arg, sprite, entity_arg);
         return;
     }
 

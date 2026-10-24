@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+#include "town/person/object_setup.h"
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
-extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
+extern void initialize_object_from_context(void *object, s32 unusedArg, void *initValue);
 
 extern u8 town_actor_control[];
 
@@ -13,13 +13,13 @@ extern u8 town_actor_control[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Update the object's orbit, apply a movement offset, and advance its timed state. */
-void update_object_orbit_and_timer(void *object, void *position, s32 update_arg, s32 check_param) {
+void update_object_orbit_and_timer(void *object, void *position, void *update_arg, s32 check_param) {
     s32 *motion_entry;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (select_object_setup_path(object, (s32)position, update_arg, check_param) != 0) {
+    if (select_object_setup_path(object, position, update_arg, check_param) != 0) {
         return;
     }
 

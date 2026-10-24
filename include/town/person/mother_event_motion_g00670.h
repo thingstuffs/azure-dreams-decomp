@@ -24,7 +24,7 @@ extern void install_stored_value_handler(void *object, void *position, s32 updat
 extern void func_800C7C3C(void *object, void *position, s32 update_arg);
 extern void clear_mother_event_record_field(void *object, void *position, s32 update_arg);
 extern u8 town_actor_control[];
-extern s32 select_object_setup_path(s32, s32, s32, s32);
+#include "town/person/object_setup.h"
 extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
@@ -36,9 +36,9 @@ extern Timer mother_event_ticks;
 
 /* Functions defined in this translation unit. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg);
-void reset_mother_event_callback_on_expiry(s32 object, s32 motion, s32 init_data, s32 check_arg);
-void initialize_mother_event_actor(void *actor, void *state, s32 init_param);
-void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg);
-void initialize_mother_event_with_timer_16(void *object, s32 unused, s32 init_data);
+void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg);
+void initialize_mother_event_actor(void *actor, void *state, void *init_param);
+void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, void *context_arg);
+void initialize_mother_event_with_timer_16(void *object, void *unused, void *init_data);
 
 #endif

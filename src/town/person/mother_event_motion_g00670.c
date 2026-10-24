@@ -40,27 +40,27 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
 }
 
 /* Reset the object callback when the shared countdown expires after a zero check result. */
-void reset_mother_event_callback_on_expiry(s32 object, s32 motion, s32 init_data, s32 check_arg) {
+void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg) {
     if (select_object_setup_path(object, motion, init_data, check_arg) == 0) {
         if (--mother_event_ticks.value <= 0) {
-            initialize_mother_event_with_timer_16((void *)object, motion, init_data);
+            initialize_mother_event_with_timer_16(object, motion, init_data);
         }
     }
 }
 
 /* Clear two state values, initialize the actor, and set its handler and randomized counter. */
-void initialize_mother_event_actor(void *actor, void *state, s32 init_param) {
+void initialize_mother_event_actor(void *actor, void *state, void *init_param) {
     *(s32 *)((u8 *)state + 0x10) = 0;
     *(s32 *)((u8 *)state + 0xC) = 0;
-    initialize_object_entries((Struct800C5724 *)actor, (s8 *)init_param, (s32 *)D_800D5FC4);
+    initialize_object_entries((Struct800C5724 *)actor, init_param, (s32 *)D_800D5FC4);
     *(void **)((u8 *)actor + 0x50) = D_800C7604;
     *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_to_unsigned_halfword_limit(0x3F) + 0x15);
 }
 
 /* Try random directions against the bounds, then initialize the entity state. */
-void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
+void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, void *context_arg)
 {
-    s32 context;
+    void *context;
     s32 attempts;
     s32 direction;
 
@@ -129,15 +129,15 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
         attempts++;
     } while (attempts < 0x10);
 
-    initialize_object_entries((Struct800C5724 *)entity, (s8 *)context, &mother_event_object_entries);
+    initialize_object_entries((Struct800C5724 *)entity, context, &mother_event_object_entries);
     entity->unk_50.as_pv = &D_800C7674;
 }
 
 /* Initialize the object callback and set the shared timer to 16. */
-void initialize_mother_event_with_timer_16(void *object, s32 unused, s32 init_data) {
+void initialize_mother_event_with_timer_16(void *object, void *unused, void *init_data) {
     Timer *timer;
 
-    initialize_object_entries(object, (s8 *)(init_data), &mother_event_object_entries);
+    initialize_object_entries(object, init_data, &mother_event_object_entries);
     *(s32 **)((u8 *)object + 0x50) = &D_800C78A8;
     timer = &mother_event_ticks;
     timer->value = 0x10;

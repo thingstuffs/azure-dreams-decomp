@@ -18,7 +18,7 @@ extern s32 D_800D6268[];
 void finish_countdown_and_set_flags(void *object, s32 *position);
 
 /* Functions defined in this translation unit. */
-void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 unused, s32 updateContext);
-void decrement_entity_timer_updating_motion(Rec_func_80094268_arg0 *entity, S_800C8FF0_1 *motion, s32 context);
+void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 unused, void *updateContext);
+void decrement_entity_timer_updating_motion(Rec_func_80094268_arg0 *entity, S_800C8FF0_1 *motion, void *context);
 
 #endif

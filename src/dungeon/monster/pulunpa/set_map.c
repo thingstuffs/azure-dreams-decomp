@@ -50,7 +50,7 @@ s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *directio
 extern s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record);
 extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
-void func_80174924(void);
+void func_80174924(void *, s32, void *, void *);
 extern s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override);
 extern s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor);
 
@@ -80,7 +80,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
 
     if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
-        func_80174924();
+        func_80174924(actor, context, sprite, creature);
         return;
     }
     if (creature->mp == 0) {

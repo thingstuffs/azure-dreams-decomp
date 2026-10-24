@@ -1,10 +1,10 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
-void func_800CDFF8(void *, s32, s32);    /* extern */
+void func_800CDFF8(void *, void *, void *);    /* extern */
 
-s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+#include "town/person/object_setup.h"
 /* Decrement the object's countdown when its update returns zero and handle expiration. */
-void tick_countdown_and_handle_expiration(Rec_func_80094268_arg0 *object, s32 context_a, s32 context_b, s32 update_arg) {
+void tick_countdown_and_handle_expiration(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 update_arg) {
     u16 countdown;
 
     if (select_object_setup_path(object, context_a, context_b, update_arg) == 0) {

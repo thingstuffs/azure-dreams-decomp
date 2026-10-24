@@ -9,8 +9,8 @@ extern s32 D_800D5388[];
 
 
 /* Initialize the actor and set its counter to 40 and its handler. */
-void initialize_two_value_adjustment_action(Rec_func_80094268_arg0 *actor, s32 unused, s32 init_param) {
-    initialize_object_entries((Struct800C5724 *)(actor), (s8 *)(init_param), &D_800D5388);
+void initialize_two_value_adjustment_action(Rec_func_80094268_arg0 *actor, s32 unused, void *init_param) {
+    initialize_object_entries((Struct800C5724 *)(actor), init_param, &D_800D5388);
     actor->unk_6C.as_s16 = 0x28;
     actor->unk_54 = &adjust_two_state_values;
 }

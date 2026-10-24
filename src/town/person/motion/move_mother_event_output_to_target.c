@@ -5,7 +5,7 @@
 
 extern void *D_800834A0;
 
-extern void apply_object_setup_and_update(void *, void *, s32);
+#include "town/person/object_setup.h"
 
 
 typedef struct S_800C7CF0_2 {
@@ -16,7 +16,7 @@ typedef struct S_800C7CF0_2 {
 } S_800C7CF0_2;   /* out in move_mother_event_output_to_target */
 
 /* Move the output toward the target position until the object countdown expires. */
-void move_mother_event_output_to_target(void *object, void *out, s32 setup_context) {
+void move_mother_event_output_to_target(void *object, void *out, void *setup_context) {
     s16 signed_frames;
     u16 target_x;
     u16 target_y;

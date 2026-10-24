@@ -1,7 +1,7 @@
 #include "common.h"
-void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);                            /* extern */
+#include "town/person/object_setup.h"
 
 /* Forward the object and update arguments to apply_object_setup_and_update. */
-void forward_flag_state_update(void *object, s32 context, s32 update_data) {
+void forward_flag_state_update(void *object, void *context, void *update_data) {
     apply_object_setup_and_update(object, context, update_data);
 }

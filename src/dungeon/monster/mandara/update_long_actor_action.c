@@ -95,7 +95,7 @@ extern s32 reset_actor_action_state(void *, void *, void *, void *);
 extern s32 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *, void *, void *, void *, void *);
 
-extern void func_80171910(void);
+extern void func_80171910(void *, void *, void *, void *);
 extern void advance_actor_path_step(void *, void *, void *, void *);
 extern s32 validate_transition_and_update_action(void *, void *, void *, void *);
 extern void reset_action_and_select_facing_animation(void *, void *, void *, void *);
@@ -123,7 +123,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameSt
 
     if (initial_flags & 0x1000) {
         ((S_80170F6C_0 *)self_object)->unk_9A = 0xE;
-        func_80171910();
+        func_80171910(self_object, aux_entity, sprite, entity);
         return;
     }
 

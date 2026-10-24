@@ -16,10 +16,10 @@ typedef struct {
 } Position;
 
 extern u16 get_clamped_transform_coordinate(void *object);
-extern void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
+#include "town/person/object_setup.h"
 
 /* Moves the position toward its target over the remaining steps and updates its angle. */
-void move_position_toward_target(void *work_data, void *position_data, s32 completion_arg) {
+void move_position_toward_target(void *work_data, void *position_data, void *completion_arg) {
     Position *pos;
     Work *work;
     u16 remaining_count;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+#include "town/person/object_setup.h"
 extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
 extern void initialize_object_assigns_state_data(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
@@ -51,7 +51,7 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion, void *context, s
     s32 max_speed;
     s32 *motion_words;
 
-    if (select_object_setup_path(entity, (s32)motion, (s32)context, check_param) != 0) {
+    if (select_object_setup_path(entity, motion, context, check_param) != 0) {
         return;
     }
 

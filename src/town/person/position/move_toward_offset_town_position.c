@@ -23,10 +23,10 @@ typedef struct {
 } TownActor;
 
 extern TownCoordOwner *person_offset_target_owner;
-extern s32 apply_object_setup_and_update(TownActor *, TownVec2 *, s32);
+#include "town/person/object_setup.h"
 
 /* Moves the position toward the town coordinates plus a vertical offset until the countdown expires. */
-void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, s32 completion_arg)
+void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void *completion_arg)
 {
     TownCoordPair *coords;
     s32 coord_x;
