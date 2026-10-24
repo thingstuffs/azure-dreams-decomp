@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-/* Handle an event-script table read by loading a little-endian word into the destination value slot. */
-void vm_op_71_load_value_indexed_word(ScriptReader *state) {
+/* Opcode 0x47: Load word: v[var] = LE32(addr32 + 4 * v[index]). */
+void script_load_table_word_by_variable(ScriptReader *state) {
     u8 *operands;
     u8 *address_bytes;
     u8 *entry;

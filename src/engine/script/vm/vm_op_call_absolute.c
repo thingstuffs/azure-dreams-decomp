@@ -9,18 +9,18 @@ typedef struct S_800395F0_0 {
     void * unk_1C;
     u8 pad_20[0x5C];
     s32 * unk_7C;
-} S_800395F0_0;   /* arg0 in vm_op_21_call_absolute */
+} S_800395F0_0;   /* arg0 in script_call */
 
 typedef struct S_800395F0_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800395F0_1;   /* temp_a2 in vm_op_21_call_absolute */
+} S_800395F0_1;   /* temp_a2 in script_call */
 
 
-/* Push the event-script return address and jump to the encoded destination. */
-void vm_op_21_call_absolute(S_800395F0_0 *script) {
+/* Opcode 0x15: Call the script subroutine at the 32-bit address, pushing the return address. */
+void script_call(S_800395F0_0 *script) {
     S_800395F0_1 *target_bytes;
 
     *script->unk_7C = script->unk_1C + 4;

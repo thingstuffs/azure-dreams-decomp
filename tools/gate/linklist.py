@@ -39,7 +39,7 @@ ADDR = re.compile(r"^(func|D)_([0-9A-F]{8})$")
 OBJCOPY = "mipsel-linux-gnu-objcopy"
 NM = "mipsel-linux-gnu-nm"
 ENTRY_KEYS = {"row", "tu", "home", "foff", "vma", "size"}
-ENTRY_OPTIONAL = {"bindings", "evidence"}
+ENTRY_OPTIONAL = {"bindings", "evidence", "body_offset"}
 IMAGE_KEYS = {"schema", "image", "container", "foff", "size", "vma", "entries"}
 IMAGE_OPTIONAL = {"layout", "evidence", "symbols", "load_evidence"}
 
@@ -167,6 +167,13 @@ def validate_image(doc, path="<image>"):
         last = e["foff"] + e["size"]
         if code:
             e["bindings"] = _addr_map(raw.get("bindings"), "entry bindings")
+            if "body_offset" in raw:
+                # A home whose registered extent begins with a data prefix it keeps owning (a module member
+                # with body_offset): its copies place only the function body that follows the prefix.
+                bo = raw["body_offset"]
+                if (type(bo) is not int or bo <= 0 or bo % 4 or bo >= e["size"]
+                        or raw["row"] != raw["home"]):
+                    raise ValueError("body_offset must be a positive word offset inside a home entry: " + str(name))
         entries.append(e)
     if whole:
         if last != img["foff"] + img["size"]:
@@ -278,7 +285,7 @@ def _load(stamp):
         h = by_row[e["home"]]
         if h["home"] != h["row"] or h["tu"] != e["tu"]:
             raise ValueError("home entry must be its own home and share the TU: " + e["row"])
-        if h["size"] != e["size"]:
+        if e is not h and (h["size"] - h.get("body_offset", 0)) != e["size"]:
             raise ValueError("placement size differs from its home: " + e["row"])
         if e is h and e["bindings"]:
             raise ValueError("a home entry takes no bindings: " + e["row"])
@@ -287,7 +294,7 @@ def _load(stamp):
     for e in by_row.values():
         h = by_row[e["home"]]
         if e is not h:
-            local.setdefault(e["image"], {}).setdefault(h["vma"], []).append((h["image"], e["vma"]))
+            local.setdefault(e["image"], {}).setdefault(h["vma"] + h.get("body_offset", 0), []).append((h["image"], e["vma"]))
     return images, by_place, by_row, local
 
 
@@ -379,7 +386,7 @@ def _binding(tables, entry, address, home_image=None):
     home = by_row[entry["home"]]
     if entry["row"] == home["row"]:
         return address
-    if address == home["vma"]:
+    if address == home["vma"] + home.get("body_offset", 0):
         return entry["vma"]
     if address in entry["bindings"]:
         return entry["bindings"][address]
@@ -557,10 +564,12 @@ def check(root, splits, registry, tu_of):
             if r.get("func_vram") and not r.get("rerun"):
                 index.setdefault(cont + "/" + r["func_vram"], []).append(r)
     module_rows = set()
+    module_body = {}
     mpath = Path(root) / "config/overlays/modules.json"
     if mpath.exists():
         for m in json.loads(mpath.read_text()).get("modules", []):
             module_rows.update(a["id"] for k in ("members", "data_members") for a in m.get(k, []))
+            module_body.update((a["id"], a.get("body_offset", 0)) for a in m.get("members", []))
     for rid, e in sorted(by_row.items()):
         where = "link list %s: %s" % (e["image"], rid)
         recs = index.get(rid, [])
@@ -577,6 +586,11 @@ def check(root, splits, registry, tu_of):
             # A home may be a module member: its member file is compiled standalone at the placement and the
             # window gate proves it (or fails closed). A placement row inside a module is a module placement.
             bad.append(where + " is both a home module member and a copy (duplicate physical ownership)")
+        if "body_offset" in e and (module_body.get(rid) != e["body_offset"]
+                                   or s.get("native_prefix_bytes") != e["body_offset"]):
+            # The prefix stays with its module owner: the module member, the split record and this entry
+            # must agree on it before any body-only copy is accepted.
+            bad.append(where + " body_offset disagrees with its module member or split prefix")
         reg = registry.get(rid)
         if reg is None:
             bad.append(where + " is not registered"); continue

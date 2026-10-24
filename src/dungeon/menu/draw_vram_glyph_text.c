@@ -1,3 +1,4 @@
+#include "engine/text.h"
 #include "common.h"
 #include "dungeon/menu.h"
 #include "engine/camera.h"

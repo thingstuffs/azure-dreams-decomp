@@ -11,8 +11,8 @@ typedef struct Func800395B0State {
     u16 half_30;
 } Func800395B0State;
 
-/* Reads a little-endian 16-bit script operand and selects the next state handler. */
-void handle_vm_opcode_19(Func800395B0State *state) {
+/* Opcode 0x13: Wait until the event flag given by the 16-bit operand is set. */
+void script_wait_flag_set(Func800395B0State *state) {
     u32 addr_or_high = (u32)state->read_ptr;
     u32 start_addr = addr_or_high;
     u32 low_byte = *(u8 *)addr_or_high;

@@ -1,3 +1,4 @@
+#include "town/player.h"
 #include "script_symbols.h"
 #include "common.h"
 

@@ -159,23 +159,23 @@ void update_keima_selection_menu(TownEntity *menu)
         entity->timer = 0;
         return;
     case 1:
-        if ((((s32)input->pressed_buttons) & 0x1000) &&
+        if (((input->pressed_buttons) & 0x1000) &&
             (entity->selection > 0)) {
             SD_Call(0x502);
             entity->selection = (u16)entity->selection - 1;
-        } else if ((((s32)input->pressed_buttons) & 0x4000) &&
+        } else if (((input->pressed_buttons) & 0x4000) &&
                    (entity->selection < 5)) {
             SD_Call(0x502);
             entity->selection = (u16)entity->selection + 1;
         }
-        if (((s32)input->pressed_buttons) & 0x20) {
+        if ((input->pressed_buttons) & 0x20) {
             SD_Call(0x515);
             set_resident_bit(0x592);
             set_resident_bit(0x593);
             entity->state = 0x100;
             return;
         }
-        if (((s32)input->pressed_buttons) & 0x40) {
+        if ((input->pressed_buttons) & 0x40) {
             s32 *money = &town_money;
 
             SD_Call(0x503);
@@ -236,7 +236,7 @@ void update_keima_selection_menu(TownEntity *menu)
             entity->state = (u16)entity->state - 1;
             return;
         }
-        if (((s32)input->pressed_buttons) & 0x40) {
+        if ((input->pressed_buttons) & 0x40) {
             Pair04 *selected_pair;
 
             do {
@@ -256,7 +256,7 @@ void update_keima_selection_menu(TownEntity *menu)
             set_object_data_pointer_2(keima_panel_object[0]);
             entity->state = 0x100;
         }
-        if (((s32)input->pressed_buttons) & 0x20) {
+        if ((input->pressed_buttons) & 0x20) {
             SD_Call(0x515);
             town_money += entity->quantity * 100;
             set_object_data_pointer_2(keima_panel_object[0]);

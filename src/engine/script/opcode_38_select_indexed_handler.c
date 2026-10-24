@@ -12,8 +12,8 @@ typedef struct {
     u8 command;
 } Func80039BE4State;
 
-/* Read a script command byte and select run_indexed_handler_and_set_next as the next callback. */
-void handle_vm_opcode_38(Func80039BE4State *state) {
+/* Opcode 0x26: Call handler u8 of the resident handler table, then resume the message window. */
+void script_call_indexed_handler(Func80039BE4State *state) {
     state->command = *state->cursor++;
     state->callback = run_indexed_handler_and_set_next;
 }

@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20718,
+  "logical_rows": 20728,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -29903,6 +29903,16 @@
         "row_asflags": ""
       },
       "rows": [
+        "dungeon/func_80A4D07C"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/flame/flame_actions.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
         "dungeon/func_80A4D3B8"
       ]
     },
@@ -30264,6 +30274,16 @@
       },
       "rows": [
         "dungeon/func_80A52034"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/flame/flame_actions.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A5307C"
       ]
     },
     {
@@ -30643,6 +30663,16 @@
         "row_asflags": ""
       },
       "rows": [
+        "dungeon/func_80A5907C"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/flame/flame_actions.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
         "dungeon/func_80A593B8"
       ]
     },
@@ -31004,6 +31034,16 @@
       },
       "rows": [
         "dungeon/func_80A5E034"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/flame/flame_actions.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A5F07C"
       ]
     },
     {
@@ -64377,6 +64417,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/troll/update_actor_behavior.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80D00CBC"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/troll/advance_actor_stored_path.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -82777,6 +82827,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E370B4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -83204,6 +83264,16 @@
       },
       "rows": [
         "dungeon/func_80E3CC80"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E3D0B4"
       ]
     },
     {
@@ -83637,6 +83707,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E430B4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -84067,6 +84147,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E490B4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -84494,6 +84584,16 @@
       },
       "rows": [
         "dungeon/func_80E4EC80"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E4F0B4"
       ]
     },
     {

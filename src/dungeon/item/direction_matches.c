@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 /* Room waypoint selection and terrain-checked actor movement directions. */
 #include "common.h"
 #include "dungeon/item/actor_target.h"

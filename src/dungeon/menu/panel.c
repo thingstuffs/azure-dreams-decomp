@@ -1,3 +1,5 @@
+#include "engine/menu.h"
+#include "engine/scene.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/menu/panel.h"
 #include "shared/sprite_frame_state.h"

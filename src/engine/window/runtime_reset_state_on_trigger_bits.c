@@ -16,7 +16,7 @@ typedef struct S_8003626C_0 {
 
 /* Resets state fields and selects the next handler when either trigger bit is set. */
 void runtime_reset_state_on_trigger_bits(S_8003626C_0 *state) {
-    if (((s32)g_game_work.pressed_buttons) & 0x60) {
+    if ((g_game_work.pressed_buttons) & 0x60) {
         state->unk_4C = 0xFF;
         state->unk_50 = 0;
         state->unk_68 = &runtime_mark_state_when_flag_50_set;

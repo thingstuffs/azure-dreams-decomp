@@ -4,14 +4,15 @@
 #include "engine/effect.h"
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
-s32 runtime_initialize_polygon_edges(s32 bottom_vertex, s32 *edges, u16 *edge_count) {
+s32 runtime_initialize_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count) {
+    long bottom_vertex = (long)vertex_data;
     s32 min_y;
     s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */
     s32 *edge_state;    /* t0 */
     s16 *vertex; /* t2 */
-    s32 top_vertex;
-    s16 *vertices = (s16 *)bottom_vertex;
+    long top_vertex;
+    s16 *vertices = vertex_data;
     s32 top_y;     /* a3 */
     s32 edge_value;
     s32 *edge_x;
@@ -43,7 +44,7 @@ loop_0:
             }
 
             top_vertex <<= 3;
-            top_vertex += (s32)vertices;
+            top_vertex += (long)vertices;
             *edge_x = ((s16 *)top_vertex)[0];
             top_y = (s16)(*(u16 *)(top_vertex + 2) & grid_mask);
             top_y = (top_y << 16) >> 16;
@@ -53,7 +54,7 @@ loop_0:
             }
 
             bottom_vertex <<= 3;
-            bottom_vertex += (s32)vertices;
+            bottom_vertex += (long)vertices;
             edge_scratch = ((s16 *)bottom_vertex)[1];
             edge_scratch -= top_y;
             edge_state[-4] = edge_scratch;

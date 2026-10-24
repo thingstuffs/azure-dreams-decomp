@@ -12,8 +12,8 @@ typedef struct Func80039D10State {
     u8 byte_27;
 } Func80039D10State;
 
-/* Read an event-script byte and select clear_two_state_fields_and_set_handler as the handler. */
-void handle_vm_opcode_44(Func80039D10State *state) {
+/* Opcode 0x2C: Wide choice menu with u8 options. */
+void script_wide_choice_menu(Func80039D10State *state) {
     u32 operand = (u32)state->read_ptr;
     u32 read_addr = operand;
 

@@ -20,7 +20,7 @@ void build_install(u8 *object)
     selection_step = 0;
     needs_refresh = selection_step;
     if (held_buttons != 0) {
-        pressed_buttons = ((s32)g_game_work.pressed_buttons);
+        pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             card_boot_destroy_slot_selection_menu(object - 0x20);
@@ -38,7 +38,7 @@ void build_install(u8 *object)
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((CardSlotMenuState *)object)->unk_30 = 0;
-                pressed_buttons = ((s32)g_game_work.pressed_buttons);
+                pressed_buttons = (g_game_work.pressed_buttons);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
                 } else if (pressed_buttons & 0x4000) {

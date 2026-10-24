@@ -135,7 +135,7 @@ typedef struct DrawSettings {
 } DrawSettings;
 
 s32 build_screen_outline();
-s32 runtime_initialize_polygon_edges();
+#include "engine/effect.h"
 s32 SetFogFar();
 s32 SetLightMatrix();
 s32 SetColorMatrix();

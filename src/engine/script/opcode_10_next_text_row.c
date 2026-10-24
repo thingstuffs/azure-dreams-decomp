@@ -6,8 +6,8 @@
 #include "engine/message.h"
 #include "engine/script.h"
 
-/* Clears the record's counter, advances its index if possible, and selects the next handler. */
-void handle_vm_opcode_10(Rec_func_800381D0_arg0 *record) {
+/* Opcode 0x0A: New line: move to the next text row, scrolling when the window is full. */
+void script_new_line(Rec_func_800381D0_arg0 *record) {
     record->unk_20 = 0;
     if (record->unk_22 < (record->unk_25 - 1)) {
         record->unk_22 = (s16) ((u16) record->unk_22 + 1);

@@ -31,7 +31,7 @@ void write_text_and_advance_selection(u8 *menu)
     held_buttons = g_game_work.buttons;
     status = 0;
     if (held_buttons != 0) {
-        pressed_buttons = ((s32)g_game_work.pressed_buttons);
+        pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             func_80026920(menu - 0x20);
@@ -45,7 +45,7 @@ void write_text_and_advance_selection(u8 *menu)
             if (held_buttons & 0x5000) {
                 if (pressed_buttons & 0x5000) {
                     ((S_800265B8_0 *)menu)->unk_30 = 0;
-                    pressed_buttons = ((s32)g_game_work.pressed_buttons);
+                    pressed_buttons = (g_game_work.pressed_buttons);
                     if (pressed_buttons & 0x1000) {
                         status = -1;
                     } else if (pressed_buttons & 0x4000) {

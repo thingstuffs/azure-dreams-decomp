@@ -1,3 +1,6 @@
+#include "dungeon/item.h"
+#include "dungeon/level/tile.h"
+#include "engine/graphics.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"

@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 #include "dungeon/effect/particle.h"
 #include "shared/object_flags.h"

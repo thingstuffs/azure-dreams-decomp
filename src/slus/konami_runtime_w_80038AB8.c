@@ -23,7 +23,22 @@ typedef struct RuntimeContext {
 
 struct S_func_80038CB8_0;
 extern s32 noop_script_terminator_action(void *);
-extern ActionFunc script_opcode_handlers[];
+/* Event-script byte format. The cursor at +0x1C walks a byte stream:
+ * - 0x01-0x58: opcode; script_opcode_handlers[op] (enum ScriptOpcode) reads its
+ *   operands inline. 16-bit and 32-bit operands are little-endian and unaligned;
+ *   addresses are absolute RAM addresses.
+ * - A byte that is not positive as s8 (0x00, 0x80-0xFF) stops dispatch and goes
+ *   to the message window: Shift-JIS lead bytes start two-byte glyphs;
+ *   0xFD n prints variable n as a number, 0xFE n inserts message string n and
+ *   0xFF + addr32 inserts the string that addr32 points to. Each insertion pushes
+ *   a return address that a 0x00 byte pops (the text return).
+ * - SCRIPT_OP_JUMP_BY_CHOICE is followed by an inline table of addr32 entries,
+ *   one per option of the preceding choice menu (0x19, 0x2A or 0x2C).
+ * - SCRIPT_OP_PAGE_BREAK waits for a button, then the byte after it is read as
+ *   the wait mode (0 silent, 1 sound 0xB4, otherwise sound 0x74 and wait idle).
+ * The table is resident data at 0x8006AA90. Slot 0x58 holds
+ * dispatch_town_transition, which is also called directly. */
+extern ActionFunc script_opcode_handlers[SCRIPT_OP_COUNT];
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */
 s32 interpret_script_opcodes_until_action_changes(RuntimeContext *context, u8 *owner)

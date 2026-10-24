@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "engine/text.h"
 

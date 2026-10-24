@@ -1,3 +1,4 @@
+#include "town/scene.h"
 /* Apply global delta record j.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01235 - PR:town/ll34_3e5000_80016000:80017B9C.
  */

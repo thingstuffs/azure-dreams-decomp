@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 /* Format compared object statistics and populate display rows.
  * Evidence: proven (string literals).
  * town/engine#g1058 J1[800892C0,800892C8,800892CC,800892F0,800892FC,80089304,80089324,8008933C,80089340]

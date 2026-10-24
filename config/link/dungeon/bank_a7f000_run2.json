@@ -8,6 +8,21 @@
   "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
   "entries": [
     {
+      "row": "dungeon/func_80A5F07C",
+      "home": "dungeon/func_80A4707C",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "foff": "0xA7F07C",
+      "vma": "0x8015887C",
+      "size": 828,
+      "evidence": "docs/evidence/r124_opus_carve2.md",
+      "bindings": {
+        "0x80170BB8": "0x80158BB8",
+        "0x8017586C": "0x8015D86C",
+        "0x80175894": "0x8015D894",
+        "0x8017140C": "0x8015940C"
+      }
+    },
+    {
       "row": "dungeon/func_80A5F3B8",
       "home": "dungeon/func_80A473B8",
       "tu": "src/dungeon/monster/flame/flame_actions.c",

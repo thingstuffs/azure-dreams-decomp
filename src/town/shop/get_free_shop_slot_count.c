@@ -1,3 +1,4 @@
+#include "town/shop.h"
 #include "common.h"
 
 /* Returns 20 minus the value from count_shop_entries. */

@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 #include "frontend/card/load.h"
 #include "main/data.h"

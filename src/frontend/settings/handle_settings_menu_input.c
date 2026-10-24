@@ -89,7 +89,7 @@ void handle_settings_menu_input(Menu *menu)
         return;
 
     case 2:
-        buttons = ((s32)pad->pressed_buttons);
+        buttons = (pad->pressed_buttons);
         if (buttons & 0x1000) {
             SD_Call(0x502);
             menu->row = (menu->row + 6) % 7;
@@ -185,12 +185,12 @@ void handle_settings_menu_input(Menu *menu)
         }
 
         if ((pad->buttons & 9) == 9) {
-            if (((s32)pad->pressed_buttons) & 2) {
+            if ((pad->pressed_buttons) & 2) {
                 menu->shade = (menu->shade + 1) & 3;
             }
         }
 
-        if (!(((s32)pad->pressed_buttons) & 0x840)) {
+        if (!((pad->pressed_buttons) & 0x840)) {
             return;
         }
         shade = (s16) menu->shade;

@@ -70,7 +70,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
                 if (mode == 1) {
                     target_kind = ((S_8008C5C4_3 *)target_result)->unk_13;
                     if ((target_kind == 0x39) || (target_kind == 2)) {
-                        if (((s32)g_game_work.pressed_buttons) & 0x40) {
+                        if ((g_game_work.pressed_buttons) & 0x40) {
                             play_sound_if_enabled(0x506);
                             adjust_source_value_and_finalize(action->unk_124, &D_800E0495);
                             tail_result = 0;

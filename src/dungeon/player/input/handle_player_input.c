@@ -288,18 +288,17 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         action_kind = 0x15;
 
                         if (dispatch_dungeon_category_action(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
-                            select_item_record_pointer(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
+                            select_item_record_pointer(target_cmd & 0x1F), action_kind, 0) >= 0) {
                             return;
                         }
                     }
                         read_monster_script_entry();
                         return;
                     case 0x58:
-                        begin_holding_item(actor, motion, sprite, select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
-                            old_angle));
+                        begin_holding_item(actor, motion, sprite, select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F));
                         return;
                     case 0x68:
-                        selected_target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        selected_target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F);
                         call_actor = actor;
                         call_motion = motion;
                         call_sprite = sprite;

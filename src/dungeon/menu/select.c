@@ -206,7 +206,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             S_8002520C_6 *cell;
             input_angle = resolve_player_input_facing(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&dungeon_actor_ring_anchor))))->x.v + 0xA2, 0) & 0xFFFF;
-            if ((input_angle != 0xFFF) && (((s32)state_base->pressed_buttons) & 0xF000)) {
+            if ((input_angle != 0xFFF) && ((state_base->pressed_buttons) & 0xF000)) {
                 s32 step_or_cell;
                 s32 side_index;
                 u16 *x_step_ptr;
@@ -293,7 +293,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     cell->unk_25 = (u8) target_y;
                 }
             }
-            if (((s32)state_base->pressed_buttons) & 0x40) {
+            if ((state_base->pressed_buttons) & 0x40) {
                 s16 direction;
 
                 play_sound_if_enabled(0x503);
@@ -362,10 +362,10 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                 ((S_8002520C_25 *)(((S_8002520C_24 *)(((((S_8002520C_0 *)menu)->unk_26 * 4)
                     + menu)))->unk_0C))->unk_B6 = 1;
             }
-            if (((s32)state_base->pressed_buttons) & 8) {
+            if ((state_base->pressed_buttons) & 8) {
                 ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 - 0x200);
             }
-            if (((s32)state_base->pressed_buttons) & 4) {
+            if ((state_base->pressed_buttons) & 4) {
                 ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 + 0x200);
             }
         }

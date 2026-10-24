@@ -49,7 +49,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
     } else if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&position_query_scratch));
     }
-    if (((s32)state->pressed_buttons) & 0x10) {
+    if ((state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(action, (struct ObjectPosition *)(actor), context);
         return;
     }
@@ -59,7 +59,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
         initialize_action_object_and_play_sound((s32 * *)(action), (s32)(actor), context);
         return;
     }
-    if (((s32)state->pressed_buttons) & 0x40) {
+    if ((state->pressed_buttons) & 0x40) {
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {

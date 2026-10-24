@@ -42,7 +42,7 @@ void card_boot_update_card_chooser_input(void *menu)
     buttons = g_game_work.buttons;
     selection_changed = 0;
     if (buttons != 0) {
-        button_flags = ((s32)g_game_work.pressed_buttons);
+        button_flags = (g_game_work.pressed_buttons);
         if (button_flags & 0x20) {
             s32 *object;
 

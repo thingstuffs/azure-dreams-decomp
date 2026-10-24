@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_node.h"

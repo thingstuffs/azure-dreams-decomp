@@ -1,0 +1,41 @@
+# Complete Manoeva factory placement, verified from the registered C home.
+# Section equality and bindings: docs/evidence/r124_opus_carve2.md.
+name: dungeon_oc2_e570b4
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_oc2_e570b4
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xE570B4
+    file_end: 0xE572D0
+    vram_start: 0x801708B4
+    base_confidence: proven
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0xE570B4
+    vram: 0x801708B4
+    subsegments:
+      - [0xE570B4, asm]
+  - [0xE572D0, bin]
+  - [0x1A86800]

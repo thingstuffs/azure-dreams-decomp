@@ -9,8 +9,8 @@ typedef struct {
     u8 field_88;
 } Func80039EF4State;
 
-/* Decrements the script loop counter and rewinds the script while it remains nonnegative. */
-void vm_op_85_repeat_while_counter_nonnegative(Func80039EF4State *vm) {
+/* Opcode 0x55: Repeat this opcode while the decremented loop counter is >= 0 (waits counter + 1 frames). */
+void script_wait_loop_counter(Func80039EF4State *vm) {
     u8 loop_count = vm->field_88;
 
     loop_count--;

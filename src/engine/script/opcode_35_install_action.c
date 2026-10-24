@@ -7,9 +7,9 @@
 typedef struct S_80039B84_0 {
     u8 pad_00[0x10];
     s32 * unk_10;
-} S_80039B84_0;   /* arg0 in vm_op_35_install_action */
+} S_80039B84_0;   /* arg0 in script_park */
 
-/* Installs noop_installed_script_action as the script callback. */
-void vm_op_35_install_action(S_80039B84_0 *script) {
+/* Opcode 0x23: Park the script (installs an idle action). */
+void script_park(S_80039B84_0 *script) {
     script->unk_10 = &noop_installed_script_action;
 }

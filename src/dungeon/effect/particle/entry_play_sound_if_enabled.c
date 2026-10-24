@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "shared/audio_commands.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"

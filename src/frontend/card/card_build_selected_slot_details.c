@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"

@@ -57,19 +57,19 @@ void update_item_menu_selection(ItemMenuObject *obj)
         return;
     }
     if (obj->menu->count == 0) {
-        if (((s32)g_game_work.pressed_buttons) & 0x20) {
+        if ((g_game_work.pressed_buttons) & 0x20) {
             SD_Call(0x515);
             set_item_menu_data_pointer(obj->owner);
         }
         return;
     }
 
-    if (((s32)g_game_work.pressed_buttons) & 0x20) {
+    if ((g_game_work.pressed_buttons) & 0x20) {
         SD_Call(0x515);
         set_item_menu_data_pointer(obj->owner);
         return;
     }
-    if (((s32)g_game_work.pressed_buttons) & 0x40) {
+    if ((g_game_work.pressed_buttons) & 0x40) {
         SD_Call(0x514);
         obj->menu->display_controller = place_selected_item_menu_entry(obj);
         if (obj->menu->display_controller != 0) {
@@ -78,7 +78,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
         obj->saved_update = ITEM_MENU_OBJECT_NODE(obj)->header.update_callback;
         ITEM_MENU_OBJECT_NODE(obj)->header.update_callback = D_800AF96C;
         return;
-    } else if (((s32)g_game_work.pressed_buttons) & 0x10) {
+    } else if ((g_game_work.pressed_buttons) & 0x10) {
         SD_Call(0x503);
         sort_entries_by_category((void *)0x8001029C);
         update_item_menu_record(obj);
@@ -90,15 +90,15 @@ void update_item_menu_selection(ItemMenuObject *obj)
     if (!(held_buttons & 0xF000)) {
         return;
     }
-    if (((s32)g_game_work.pressed_buttons) & 0xF000) {
+    if ((g_game_work.pressed_buttons) & 0xF000) {
         obj->repeat_delay = 0;
-        if (((s32)g_game_work.pressed_buttons) & 0x8000)
+        if ((g_game_work.pressed_buttons) & 0x8000)
             move_step = -5;
-        else if (((s32)g_game_work.pressed_buttons) & 0x2000)
+        else if ((g_game_work.pressed_buttons) & 0x2000)
             move_step = 5;
-        else if (((s32)g_game_work.pressed_buttons) & 0x1000)
+        else if ((g_game_work.pressed_buttons) & 0x1000)
             move_step = -1;
-        else if (((s32)g_game_work.pressed_buttons) & 0x4000)
+        else if ((g_game_work.pressed_buttons) & 0x4000)
             move_step = 1;
     } else {
         if (obj->repeat_delay >= 5) {

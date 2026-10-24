@@ -51,7 +51,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
 
     switch (obj->state) {
     case 0:
-        if (((s32)input->pressed_buttons) != 0) {
+        if ((input->pressed_buttons) != 0) {
             obj->state = 16;
             return;
         }
@@ -108,12 +108,12 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
         if (input->buttons != 0) {
             obj->counter = 1800;
         }
-        if (((s32)input->pressed_buttons) & 0x1000) {
+        if ((input->pressed_buttons) & 0x1000) {
             obj->f24 = (s16) ((obj->f24 + 2) % 3);
-        } else if (((s32)input->pressed_buttons) & 0x4000) {
+        } else if ((input->pressed_buttons) & 0x4000) {
             obj->f24 = (s16) ((obj->f24 + 1) % 3);
         }
-        if (((s32)input->pressed_buttons) & 0x840) {
+        if ((input->pressed_buttons) & 0x840) {
             func_80053da8(obj->f24 == 2 ? 1314 : 1306);
             obj->counter = 96;
             obj->state = 32;

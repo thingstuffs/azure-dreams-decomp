@@ -15,7 +15,7 @@ int update_shoulder_button_angle(void)
     if (runtime_dispatch_state.flags0F & 0x80) {
         return 0;
     }
-    trigger_flags = ((int)input_state->pressed_buttons);
+    trigger_flags = (input_state->pressed_buttons);
     if (trigger_flags & 0x100) {
         if (!(input_state->buttons & 0x800)) {
             camera_shoulder_repeat_latch = 1;

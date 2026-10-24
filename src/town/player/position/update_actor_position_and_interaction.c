@@ -71,7 +71,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(body), position, (struct TownVec * *)(position_data));
     }
 
-    input_flags = ((s32)input_state->pressed_buttons);
+    input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
         initialize_input_driven_scene_object((s32 * *)(actor), (struct ObjectPosition *)(body), context);
         return;

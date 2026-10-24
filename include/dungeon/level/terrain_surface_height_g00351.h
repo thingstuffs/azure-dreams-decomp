@@ -85,7 +85,8 @@ typedef struct S_800BCE7C_0 {
 s32 ratan2();
 
 /* Functions defined in this translation unit. */
-s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
+/* The result is the sign-extended terrain-height halfword. */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly);
 
 #endif

@@ -34,6 +34,6 @@ extern s16 *select_event_data_table(u8, u8);
 s32 start_dispatch_event(s32 init_arg);
 s32 dispatch_active_event_27(void);
 s32 is_dispatch_state_two(void);
-s32 select_next_event_state(void);
+void select_next_event_state(void);
 
 #endif

@@ -169,7 +169,8 @@ typedef struct MapGrid {
  * in 0x80083160..0x8008335F).  ONE object: rows reach offsets 0x000..0x1FC from one lui/addiu base of 0x80083160
  * (census/g83160w.jsonl, r78 phase 3).  Field widths/signs are the retail access widths (lh => signed; an lhu-only
  * slot is unsigned; store-only slots default to signed).  Fields stay unk_ until their meaning is proven.
- *   0x000/0x008/0x010: pointers (lw; 0x000 is the "current state" pointer slus/w_80045340 follows to +0x8D0).
+ *   0x000: draw-context pointer (slus/w_80045340 follows it to +0x8D0).
+ *   0x008/0x00C/0x010: held, previous and newly pressed controller words.
  *   0x018..0x1DB: `view` (GameView above; game.h's old struct S_80083178 described the same bytes).
  *   0x1DC..0x1FB: `map` (MapGrid above); 0x1FC: randSeed.
  *   Union sites (a wider or narrower access than the field; reached through a view at the use): 0x004 (2 lbu),
@@ -183,7 +184,7 @@ typedef struct GameWork {
     /* 0x006 */ unsigned char pad_006[0x2];
     /* 0x008 */ int buttons; /* currently held controller buttons, in the PS1 pad bit layout */
     /* 0x00C */ int previous_buttons; /* previous held-button sample saved before polling the controller */
-    /* 0x010 */ void * pressed_buttons; /* new button bits, (buttons ^ previous_buttons) & buttons; pointer-typed storage is used as a bit mask */
+    /* 0x010 */ int pressed_buttons; /* newly pressed controller bits, (buttons ^ previous_buttons) & buttons */
     /* 0x014 */ unsigned char pad_014[0x4];
     /* 0x018 */ GameView view; /* camera, lighting, clipping and view-transition state */
     /* 0x1DC */ MapGrid map; /* current map cell grid and geometry tables */

@@ -25,14 +25,14 @@ void handle_grid_menu_input(s32 *menu) {
     if (held_buttons == 0)
         return;
     if (menu[2] == 0) {
-        if (((s32)pad_state->pressed_buttons) & 0x20) {
+        if ((pad_state->pressed_buttons) & 0x20) {
             SD_Call(0x515);
             script_status = 0;
             close_twin_shop((u8 *)menu - 0x20);
         }
         return;
     }
-    pressed_buttons = ((s32)pad_state->pressed_buttons);
+    pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515);
         script_status = 0;
@@ -49,7 +49,7 @@ void handle_grid_menu_input(s32 *menu) {
     }
     if (!(held_buttons & 0xF000))
         return;
-    if (((s32)pad_state->pressed_buttons) & 0xF000) {
+    if ((pad_state->pressed_buttons) & 0xF000) {
         menu[5] = 0;
         pressed_buttons = pad_state->pressed_buttons;
         if (pressed_buttons & 0x8000)

@@ -1,3 +1,4 @@
+#include "slus.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -98,7 +99,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         }
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             selection_data = (*(void **)((u8 *)state + 0x104));
-            if (selection_data != NULL && (((s32)dungeon_state->pressed_buttons) & 0x80)) {
+            if (selection_data != NULL && ((dungeon_state->pressed_buttons) & 0x80)) {
                 if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
                     selected_item_record_alias[0] = 0;
@@ -120,7 +121,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                 }
             } else {
                 if (selection_data != NULL) {
-                    if (((s32)dungeon_state->pressed_buttons) & 0x10) {
+                    if ((dungeon_state->pressed_buttons) & 0x10) {
                         select_nearby_target_and_initialize_slot(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
                             *camera_depth_target);
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
@@ -133,7 +134,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         enqueue_script_message_command();
                         return;
                     }
-                    if (((s32)dungeon_state->pressed_buttons) & 0x20) {
+                    if ((dungeon_state->pressed_buttons) & 0x20) {
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
@@ -144,7 +145,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         enqueue_script_message_command();
                         return;
                     }
-                    if (((s32)dungeon_state->pressed_buttons) & 0x40) {
+                    if ((dungeon_state->pressed_buttons) & 0x40) {
                         select_nearby_target_and_initialize_slot(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
                             *camera_depth_target);
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
@@ -188,8 +189,8 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         } else {
             preview = (*(void **)((u8 *)state + 0x104));
             update_selection_tile_markers(preview, preview->action_flags);
-            if (((s32)dungeon_state->pressed_buttons) & 0x60) {
-                if (((s32)dungeon_state->pressed_buttons) & 0x20) {
+            if ((dungeon_state->pressed_buttons) & 0x60) {
+                if ((dungeon_state->pressed_buttons) & 0x20) {
                     play_sound_if_enabled(0x515);
                     selection = (*(void **)((u8 *)state + 0x104));
                     selection->action_flags &= 0x7FFF;

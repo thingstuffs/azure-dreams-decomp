@@ -45,7 +45,7 @@ void handle_object_input(void *object)
     s32 direction;
 
     if (g_game_work.buttons != 0) {
-        action_flags = ((s32)g_game_work.pressed_buttons);
+        action_flags = (g_game_work.pressed_buttons);
         if (action_flags & 0x20) {
             SD_Call(0x515);
             begin_selection_menu_teardown_and_fade((char *)obj - 0x20);

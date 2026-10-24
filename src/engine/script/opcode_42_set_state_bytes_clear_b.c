@@ -12,8 +12,8 @@ typedef struct Func80039C44State {
     u8 byte_27;
 } Func80039C44State;
 
-/* Read an event-script byte and select clear_two_state_fields_b as the handler. */
-void handle_vm_opcode_42(Func80039C44State *state) {
+/* Opcode 0x2A: Timed choice menu with u8 options. */
+void script_timed_choice_menu(Func80039C44State *state) {
     u32 operand = (u32)state->read_ptr;
     u32 read_addr = operand;
 

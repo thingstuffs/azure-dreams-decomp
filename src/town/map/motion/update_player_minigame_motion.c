@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 #include "town/map/course.h"
 #include "shared/sprite_frame_state.h"

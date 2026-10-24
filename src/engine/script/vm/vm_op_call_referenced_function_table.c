@@ -22,8 +22,8 @@ typedef struct Func80039E1CReader {
     Func80039E1CTable *table;
 } Func80039E1CReader;
 
-/* Call the event script's indexed handler through a table reference and store its result. */
-void vm_op_47_call_referenced_function_table(Func80039E1CReader *reader) {
+/* Opcode 0x2F: Call entry u8 of the handler table whose pointer is stored at the 32-bit address, with v0..v3; result to v15. */
+void script_call_service_from_table(Func80039E1CReader *reader) {
     u8 *read_ptr = reader->read_ptr;
     Func80039E1CTable *table = reader->table;
     u8 handler_index = *read_ptr++;

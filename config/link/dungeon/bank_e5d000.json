@@ -8,6 +8,22 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F30D800: img_e5d2d0_8016aad0, r121nd_E62C80; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E3D0B4",
+      "home": "dungeon/func_80E370B4",
+      "tu": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "foff": "0xE5D0B4",
+      "vma": "0x8016A8B4",
+      "size": 540,
+      "evidence": "docs/evidence/r124_opus_carve2.md",
+      "bindings": {
+        "0x80170AD0": "0x8016AAD0",
+        "0x801765D8": "0x801705D8",
+        "0x80176650": "0x80170650",
+        "0x80170EE4": "0x8016AEE4",
+        "0x80174B90": "0x8016EB90"
+      }
+    },
+    {
       "row": "dungeon/func_80E3D2D0",
       "tu": "src/dungeon/monster/manoeva/update_effect_visuals_and_lifetime.c",
       "home": "dungeon/func_80E372D0",

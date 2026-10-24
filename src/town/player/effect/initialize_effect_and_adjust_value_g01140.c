@@ -443,13 +443,13 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
         globals->view.camera_rotation.parts.viewAngle = turn_angle - speed;
     }
 
-    if ((((s32)globals->pressed_buttons) & 0x10) &&
+    if (((globals->pressed_buttons) & 0x10) &&
         (((u8 *)town_blocked_directions)[0] == 0)) {
         initialize_effect_and_adjust_value(state, table, (s32)(context));
         return;
     }
 
-    if (((s32)globals->pressed_buttons) & 0x100) {
+    if ((globals->pressed_buttons) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&map_view_transition_address;
         ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
     }

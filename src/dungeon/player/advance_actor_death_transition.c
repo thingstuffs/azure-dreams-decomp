@@ -1,3 +1,5 @@
+#include "engine/resource.h"
+#include "slus.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/runtime_dispatch.h"

@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 
 extern u8 D_80089260[];

@@ -9,15 +9,15 @@ typedef struct S_80039640_0 {
     s32 unk_1C;
     u8 pad_20[0x5C];
     void * unk_7C;
-} S_80039640_0;   /* arg0 in vm_op_22_return */
+} S_80039640_0;   /* arg0 in script_return */
 
 typedef struct S_80039640_1 {
     s32 unk_00;
-} S_80039640_1;   /* temp_v1 in vm_op_22_return; pointer addresses record offset 0x4 */
+} S_80039640_1;   /* temp_v1 in script_return; pointer addresses record offset 0x4 */
 
 
-/* Move the cursor back one word and load that word into the state. */
-void vm_op_22_return(S_80039640_0 *state) {
+/* Opcode 0x16: Return from a script subroutine (also pops inserted text strings at a 0x00 byte). */
+void script_return(S_80039640_0 *state) {
     void *cursor;
 
     cursor = state->unk_7C;

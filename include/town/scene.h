@@ -75,4 +75,10 @@ extern u8 *D_80017AA4;
 struct Rec_func_800165F4_arg0;
 void process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
 
+/* Signed scene-position deltas. */
+struct S_80019DE0_0;
+void apply_signed_stat_deltas(void *stat_deltas);
+void apply_half_step_position_deltas(struct S_80019DE0_0 *deltas);
+void apply_position_offset_pair(void *offsets);
+
 #endif

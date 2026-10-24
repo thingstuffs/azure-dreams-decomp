@@ -12,8 +12,8 @@ typedef struct {
 
 extern void run_message_table_handler(void);
 
-/* Read two script bytes into the state and select run_message_table_handler as the next handler. */
-void handle_vm_opcode_39(FuncState *state) {
+/* Opcode 0x27: Poll handler [group][entry] (two u8) until it returns nonzero. */
+void script_poll_group_handler(FuncState *state) {
     u8 *cursor = state->cursor;
     u8 value = *cursor++;
 

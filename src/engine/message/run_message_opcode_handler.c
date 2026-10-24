@@ -20,7 +20,7 @@ typedef struct {
     u8 pad_00[0x10];
     void (*callback)(void);
     u8 pad_14[0x1E];
-    s8 table_index;
+    s8 table_index; /* call number from opcode 0x25; signed, so 0x80-0xFF index before the table */
     u8 pad_33[1];
     s32 result;
     u8 pad_38[0x48];

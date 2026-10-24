@@ -1,3 +1,4 @@
+#include "dungeon/item.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"

@@ -13,8 +13,8 @@ typedef struct Func8003A9B8State {
     Func8003A9B8Table *table;
 } Func8003A9B8State;
 
-/* Redirects the event script stream to the table entry selected by the next byte. */
-void vm_op_72_jump_to_value(Func8003A9B8State *vm) {
+/* Opcode 0x48: Jump to the script address held in v[var]. */
+void script_jump_to_variable(Func8003A9B8State *vm) {
     u8 index = *vm->stream;
     vm->stream++;
     vm->stream = vm->table->values[index];

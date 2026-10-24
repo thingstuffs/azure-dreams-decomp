@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "common.h"
 #include "town/shop.h"
 

@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
-extern s32 sample_terrain_surface_height(u16, u16, s16, void *);
+#include "dungeon/level/terrain_surface_height_g00351.h"
 
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
@@ -25,8 +25,7 @@ s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y)
         ((grid_y << grid_info->shiftX) + grid_x) * 6 + 2);
     height = sample_terrain_surface_height(*(u16 *)(state + 0xA4),
                            *(u16 *)(state + 0xA6),
-                           (s16)(*(u16 *)(state + 0xA8) - 0x20),
-                           state);
+                           (s16)(*(u16 *)(state + 0xA8) - 0x20));
     if ((s16)height < 0x201) {
         biased_height = height + 0x3F;
     } else {

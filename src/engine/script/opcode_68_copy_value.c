@@ -10,8 +10,8 @@ typedef struct Func8003A7BCState {
     s32 *table;
 } Func8003A7BCState;
 
-/* Copies an event-script table value using destination and source indices read from the script. */
-void vm_op_68_copy_value(Func8003A7BCState *state)
+/* Opcode 0x44: Copy variable: v[dst] = v[src] (same as opcode 0x33). */
+void script_copy_variable_b(Func8003A7BCState *state)
 {
     u8 *script_ptr = state->input;
     u8 destination = *script_ptr;

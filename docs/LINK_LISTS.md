@@ -21,6 +21,13 @@ part of verification. [Complete module placements](LL5_MODULE_PLACEMENTS.md)
 extend this model to supported whole TUs; cross-container homes remain outside
 that backend's supported scope.
 
+A home entry may carry `body_offset` when its registered extent starts with a
+data prefix that its module keeps owning (a module member with `body_offset`;
+the split record's `native_prefix_bytes` and the module member must agree, and
+`tools/row_db.py check` enforces this). Its placements then copy only the
+function body: each placement's size must equal the home size minus the prefix,
+and rule 1 below maps the body entry, not the prefix start.
+
 Address binding uses this priority:
 
 1. The TU entry point maps to the placement VMA.

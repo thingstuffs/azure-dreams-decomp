@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"

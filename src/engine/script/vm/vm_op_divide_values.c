@@ -12,8 +12,8 @@ typedef struct {
     Table *table;
 } Reader;
 
-/* Divide the first event-script variable by the second, store the quotient, and return it. */
-s32 vm_op_74_divide_values(Reader *script) {
+/* Opcode 0x4A: v[dst] /= v[src]. */
+s32 script_divide(Reader *script) {
     u8 *read_ptr = script->read_ptr;
     u8 left_index;
     u8 right_index;

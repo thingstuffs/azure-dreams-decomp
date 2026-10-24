@@ -38,5 +38,5 @@ void func_80025DF4(void);
 void func_80025D90(void);
 extern u8 D_800E2096[38];
 extern u8 D_800E20BC[26];
-s32 apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record);
+void apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record);
 #endif

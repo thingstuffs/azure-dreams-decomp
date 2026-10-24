@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 

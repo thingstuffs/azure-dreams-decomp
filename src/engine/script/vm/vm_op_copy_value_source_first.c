@@ -9,8 +9,8 @@ typedef struct {
     u32 *slots;
 } RuntimeState;
 
-/* Copies an event-script slot value using source and destination indices read from the script. */
-void vm_op_55_copy_value_source_first(RuntimeState *state) {
+/* Opcode 0x37: Copy variable with operands swapped: v[dst] = v[src], src first. */
+void script_copy_variable_reversed(RuntimeState *state) {
     u32 source = *state->read_ptr++;
     u32 destination = *state->read_ptr++;
 

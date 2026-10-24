@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 /* Increment three dungeon state bytes by two, or set flags when the first reaches 0x80. */
-s32 brighten_encounter_view_color(u16 *dataCursor)
+void brighten_encounter_view_color(u16 *dataCursor)
 {
     u8 firstStateByte = g_game_work.view.tint.parts.tint_r;
 
@@ -16,5 +16,5 @@ s32 brighten_encounter_view_color(u16 *dataCursor)
     }
 
     dataCursor[-1] |= 0x8000;
-    return object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

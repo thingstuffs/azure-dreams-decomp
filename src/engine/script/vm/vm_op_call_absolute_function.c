@@ -22,8 +22,8 @@ typedef struct Func80039D48Reader {
     Func80039D48Table *table;
 } Func80039D48Reader;
 
-/* Call the event script's encoded handler with table arguments and store its result. */
-void vm_op_76_call_absolute_function(Func80039D48Reader *reader) {
+/* Opcode 0x4C: Call the native function at the 32-bit address with v0..v3; the result goes to v15. */
+void script_call_native(Func80039D48Reader *reader) {
     register u8 *read_ptr = reader->read_ptr;
     u32 addr_byte_0 = read_ptr[0];
     u32 addr_byte_1 = read_ptr[1];

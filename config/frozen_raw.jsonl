@@ -3366,6 +3366,7 @@
 {"path":"raw/dungeon/func_80E35764.c","sha256":"9553c2511585231a14ce5395aa48bd8425ddbf74e7710e916e2246ed9486ef1f","size":1121}
 {"path":"raw/dungeon/func_80E35860.c","sha256":"af6f70a90238809d9e5f0e388f51c185af345170eda466d352538695859489ed","size":2625}
 {"path":"raw/dungeon/func_80E36178.c","sha256":"b2bf8420a493b5ce65a2dd61167a5d21aa5dda8ef2002ae9e702e7ddb59ea402","size":2019}
+{"path":"raw/dungeon/func_80E370B4.c","sha256":"1be7586c0f7f0598fb7cf563675ab1ef45996f1763aecad0dc6d85a0538bd8bb","size":4003,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124_opus_carve2.md"}
 {"path":"raw/dungeon/func_80E372D0.c","sha256":"fc6bb65b7f2ec800e40f4596c6d3867ae97a987f304e0f01b7749aed73dea145","size":5405}
 {"noreturn":["func_80171278","func_80171408","func_8017143C"],"path":"raw/dungeon/func_80E376E4.c","sha256":"f506f2af1c4d50d9b7bfaaeabb5b559dd81f89982b920e56b97d2dda45820365","size":7887}
 {"path":"raw/dungeon/func_80E37EA4.c","sha256":"9e35cc226cf23174e11c5c70357599bff29f2058837df7d40fffb815a60bab61","size":9679}

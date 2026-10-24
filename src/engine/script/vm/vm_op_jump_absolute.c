@@ -7,18 +7,18 @@
 typedef struct S_8003965C_0 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_8003965C_0;   /* arg0 in vm_op_23_jump_absolute */
+} S_8003965C_0;   /* arg0 in script_jump */
 
 typedef struct S_8003965C_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_8003965C_1;   /* temp_a2 in vm_op_23_jump_absolute */
+} S_8003965C_1;   /* temp_a2 in script_jump */
 
 
-/* Sets the event-script instruction pointer to the little-endian address at its current position. */
-void vm_op_23_jump_absolute(S_8003965C_0 *vm) {
+/* Opcode 0x17: Jump to the 32-bit script address. */
+void script_jump(S_8003965C_0 *vm) {
     S_8003965C_1 *jump_address;
 
     jump_address = vm->unk_1C;

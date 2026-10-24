@@ -1,3 +1,4 @@
+#include "main.h"
 #include "common.h"
 #include "shared/widget_views.h"
 #include "m2c_compat.h"

@@ -2,7 +2,7 @@
 
 
 /* Tries to halve the actor's byte at 0x26, displaying a message and value popup for the result. */
-s32 apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record) {
+void apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record) {
     s32 random;
     s32 value;
     s32 aux;

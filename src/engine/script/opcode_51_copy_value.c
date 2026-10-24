@@ -12,8 +12,8 @@ typedef struct {
     Table *table;
 } Reader;
 
-/* Copies an event-script table value from the source slot to the destination slot. */
-void vm_op_51_copy_value(Reader *reader) {
+/* Opcode 0x33: Copy variable: v[dst] = v[src]. */
+void script_copy_variable_a(Reader *reader) {
     u8 *script_ptr = reader->read_ptr;
     u8 destination;
     u8 source;

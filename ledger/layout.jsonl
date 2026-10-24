@@ -7932,3 +7932,4 @@
 {"id":"town/func_800B3CD4","path":"src/town/menu/load_menu_display_resource.c"}
 {"id":"town/func_8032D3DC","path":"src/town/scene/flags/process_entry_with_exit_flag.c"}
 {"id":"dungeon/func_81814824","path":"src/dungeon/effect/motion/draw_ball_effect_points.c"}
+{"id":"dungeon/func_80E370B4","path":"src/dungeon/monster/manoeva/spawn_manoeva.c"}

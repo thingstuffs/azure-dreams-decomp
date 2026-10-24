@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 /* Spawn and flag object parts.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8.
  */

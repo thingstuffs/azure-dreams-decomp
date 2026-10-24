@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 /* Death effect projection, motion, fading, and object creation. */
 #include "shared/object_node.h"
 #include "dungeon/monster/death.h"

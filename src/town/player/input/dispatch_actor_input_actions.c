@@ -68,7 +68,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&position_query_scratch)));
     }
 
-    input_flags = ((s32)input_state->pressed_buttons);
+    input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
         initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(position), context);
         return;

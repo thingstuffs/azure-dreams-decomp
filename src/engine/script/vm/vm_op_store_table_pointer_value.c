@@ -14,8 +14,8 @@ typedef struct Func8003A29CState {
     Func8003A29CTable *table;
 } Func8003A29CState;
 
-/* Copies a script-selected table value to a script-selected target. */
-void vm_op_57_store_table_pointer_value(Func8003A29CState *state) {
+/* Opcode 0x39: Store system variable: *S_ARG[u8] = v[var]. */
+void script_store_system_variable(Func8003A29CState *state) {
     u8 *cursor = state->cursor;
     u8 value_index;
     u8 target_index;

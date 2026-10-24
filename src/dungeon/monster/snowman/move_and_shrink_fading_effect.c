@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"

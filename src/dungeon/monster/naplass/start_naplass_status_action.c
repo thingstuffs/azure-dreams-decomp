@@ -1,3 +1,4 @@
+#include "engine/graphics.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"

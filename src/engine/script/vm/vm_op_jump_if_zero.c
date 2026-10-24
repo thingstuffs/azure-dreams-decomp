@@ -13,8 +13,8 @@ typedef struct Func8003A54CState {
     struct Func8003A54CState *table;
 } Func8003A54CState;
 
-/* Jump to the encoded script address if the indexed table value is zero; otherwise skip it. */
-void vm_op_62_jump_if_zero(Func8003A54CState *state) {
+/* Opcode 0x3E: If v[var] == 0, jump to the 32-bit address. */
+void script_jump_if_zero(Func8003A54CState *state) {
     u8 *stream_cursor = state->read_ptr;
     u8 table_index = *stream_cursor;
 

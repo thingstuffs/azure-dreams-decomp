@@ -283,7 +283,7 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
             render->unk_22.s16 = (s16) reference_tile_object.tile_position.parts.tile_y;
         }
         if (input->buttons & 0x10) {
-            if (((s32)input->pressed_buttons) & 8) {
+            if ((input->pressed_buttons) & 8) {
                 current_scale = transition->unk_1E;
                 if (current_scale < 0x5000) {
                     next_scale = (u16) transition->unk_1E + 0x1000;

@@ -26,60 +26,60 @@ void noop_runtime_record_idle(void) {
 void noop_installed_script_action(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_02_noop(void) {
+/* Opcode 0x02: No-op. */
+void script_nop_02(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_03_noop(void) {
+/* Opcode 0x03: No-op. */
+void script_nop_03(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_04_noop(void) {
+/* Opcode 0x04: No-op. */
+void script_nop_04(void) {
 }
 
-/* Returns without performing any work. */
-void vm_shared_noop(void) {
+/* Opcodes 0x00, 0x07, 0x28, 0x29, 0x51, 0x52: No-op shared by the unused slots; byte 0x00 itself is the text return and never dispatched. */
+void script_nop(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_14_noop(void) {
+/* Opcode 0x0E: No-op. */
+void script_nop_0e(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_16_noop(void) {
+/* Opcode 0x10: No-op. */
+void script_nop_10(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_20_noop(void) {
+/* Opcode 0x14: No-op. */
+void script_nop_14(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_27_noop(void) {
+/* Opcode 0x1B: No-op. */
+void script_nop_1b(void) {
 }
 
 /* Returns without performing any work. */
 void noop_script_terminator_action(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_31_noop(void) {
+/* Opcode 0x1F: No-op. */
+void script_nop_1f(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_32_noop(void) {
+/* Opcode 0x20: No-op. */
+void script_nop_20(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_33_noop(void) {
+/* Opcode 0x21: No-op. */
+void script_nop_21(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_34_noop(void) {
+/* Opcode 0x22: No-op. */
+void script_nop_22(void) {
 }
 
-/* Returns without performing any work. */
-void vm_op_45_noop(void) {
+/* Opcode 0x2D: No-op. */
+void script_nop_2d(void) {
 }
 
 /* Returns without performing any work. */

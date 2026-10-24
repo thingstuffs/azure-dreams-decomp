@@ -4,8 +4,8 @@
 #include "common.h"
 #include "slus.h"
 
-/* Reads a little-endian 16-bit script operand and passes it to SD_Call. */
-void vm_op_30_call_sound_command(ScriptReader *state)
+/* Opcode 0x1E: Send the 16-bit operand to SD_Call. */
+void script_sound_command(ScriptReader *state)
 {
     u8 *cursor = state->cursor;
     u8 low = cursor[0];

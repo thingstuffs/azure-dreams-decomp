@@ -1030,7 +1030,7 @@ typedef struct S_800254C4_3 {
 } S_800254C4_3;   /* fields in allocate_jittered_effect_node */
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
-s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
+void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
     register MovingPosition *source = source_data;
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;

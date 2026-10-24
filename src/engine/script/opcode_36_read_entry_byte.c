@@ -13,8 +13,8 @@ typedef struct {
 
 extern void wait_message_entry_ready(void);
 
-/* Consumes one event-script byte into value_2F and resumes with wait_message_entry_ready. */
-void handle_vm_opcode_36(Func80039B94State *state) {
+/* Opcode 0x24: Wait until the u8 actor entry is ready. */
+void script_wait_actor_ready(Func80039B94State *state) {
     u8 *stream = state->stream;
     u8 value = *stream;
 

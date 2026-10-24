@@ -43,4 +43,7 @@ void update_actor_gravity(void *object, ObjectPosition *motion, void *entity);
 
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move);
 
+
+s32 roll_actor_stack_split(void *actor, s32 chance);
+
 #endif

@@ -70,11 +70,11 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), ground_height, (struct TownVec * *)(&position_query_scratch));
         }
     }
-    if (((s32)input->pressed_buttons) & 0x10) {
+    if ((input->pressed_buttons) & 0x10) {
         initialize_input_driven_scene_object(actor, (struct ObjectPosition *)(position), context);
         return;
     }
-    if (((s32)input->pressed_buttons) & 0x80) {
+    if ((input->pressed_buttons) & 0x80) {
         if ((town_target_record != NULL) && (((Rec_D_800CFCC4 *)town_target_record)->unk_14 == 4)) {
             run_the_three_update_routines_context((s32)(position));
             init_timed_dispatch_action(actor, position, context);
@@ -89,7 +89,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             return;
         }
     } else {
-        if (((s32)input->pressed_buttons) & 0x40) {
+        if ((input->pressed_buttons) & 0x40) {
             initialize_busy_checked_countdown_action(actor, position, context);
             return;
         }

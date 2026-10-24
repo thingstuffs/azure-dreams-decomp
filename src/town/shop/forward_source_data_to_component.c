@@ -1,3 +1,4 @@
+#include "town/shop.h"
 #include "common.h"
 #include "m2c_compat.h"
 

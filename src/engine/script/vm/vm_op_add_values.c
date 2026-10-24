@@ -13,8 +13,8 @@ typedef struct RuntimeState {
     ValueTable *table;
 } RuntimeState;
 
-/* Adds one event-script variable to another. */
-void vm_op_59_add_values(RuntimeState *state)
+/* Opcode 0x3B: v[dst] += v[src]. */
+void script_add(RuntimeState *state)
 {
     u32 script_cursor;
     u32 dest_index;

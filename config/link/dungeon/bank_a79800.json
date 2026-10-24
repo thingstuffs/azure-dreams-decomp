@@ -3,9 +3,9 @@
   "image": "dungeon/bank_a79800",
   "container": "dungeon",
   "foff": "0xA79800",
-  "size": "0x6000",
+  "size": "0x5800",
   "vma": "0x8015F000",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6E5800: img_a7a000_8015f800, r121nd_A79C0C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6E5800: img_a7a000_8015f800, r121nd_A79C0C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5); r124 opus_carve2: view ends at the next bank load (0xA7F000): the body there jumps internally with the next bank's delta (docs/evidence/r124_opus_carve2.md)",
   "entries": [
     {
       "row": "dungeon/func_80A59C0C",

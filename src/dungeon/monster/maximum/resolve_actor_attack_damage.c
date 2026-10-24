@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"

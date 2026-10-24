@@ -9,18 +9,18 @@ typedef struct S_80039760_0 {
     s32 unk_1C;
     u8 pad_20[0x7];
     u8 unk_27;
-} S_80039760_0;   /* arg0 in vm_op_26_jump_by_byte_index */
+} S_80039760_0;   /* arg0 in script_jump_by_choice */
 
 typedef struct S_80039760_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_80039760_1;   /* temp_v1 in vm_op_26_jump_by_byte_index */
+} S_80039760_1;   /* temp_v1 in script_jump_by_choice */
 
 
-/* Set the event-script VM pointer from the selected little-endian table entry. */
-void vm_op_26_jump_by_byte_index(S_80039760_0 *vm) {
+/* Opcode 0x1A: Jump through the inline table of 32-bit addresses indexed by the choice answer. */
+void script_jump_by_choice(S_80039760_0 *vm) {
     S_80039760_1 *jump_entry;
 
     jump_entry = (vm->unk_27 * 4) + vm->unk_1C;

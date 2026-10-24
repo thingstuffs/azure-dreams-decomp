@@ -18,7 +18,7 @@ void update_player_pickup_pause(void *object) {
         timer = *(u16 *)((u8 *)object + 0x96) - 1;
         *(u16 *)((u8 *)object + 0x96) = timer;
         if ((s16)timer >= 0) {
-            if (((s32)shared_data->pressed_buttons) == 0) {
+            if ((shared_data->pressed_buttons) == 0) {
                 return;
             }
             if (*(s32 *)0x80012090 == state) {

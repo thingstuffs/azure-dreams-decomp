@@ -8,8 +8,8 @@ typedef struct Func800391ECState {
     u8 value;
 } Func800391ECState;
 
-/* Read the next event-script byte into the state's value and advance the read pointer. */
-void vm_op_09_set_context_byte(Func800391ECState *state) {
+/* Opcode 0x09: Set the text speed (glyph delay, u8 at +0x28). */
+void script_set_text_speed(Func800391ECState *state) {
     u8 *script_ptr = state->read_ptr;
     u8 value = *script_ptr;
 

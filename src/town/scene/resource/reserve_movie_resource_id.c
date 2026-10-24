@@ -1,3 +1,4 @@
+#include "dungeon/level/townload.h"
 #include "common.h"
 
 /* Calls reserve_twch_load with argument 3. */

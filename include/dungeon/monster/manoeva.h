@@ -20,4 +20,6 @@ void update_effect_visuals_and_lifetime();
 
 void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+
 #endif

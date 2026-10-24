@@ -36,7 +36,7 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
         record_base = &view_reference_entity;
         choice_index = gym_lane;
         choice_id = gym_lane_positions[choice_index];
-        buttons = ((s32)button_base->pressed_buttons);
+        buttons = (button_base->pressed_buttons);
 
         record_base->velocity_x = 0;
         record_base->x.w.i = choice_id;
@@ -45,7 +45,7 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
             record_base->velocity_x = (s32)0xFFD00000;
             gym_lane_delay = 3;
             apply_global_scene_value(D_800D00C0);
-        } else if ((((s32)button_base->pressed_buttons) & 0x2000) && gym_lane < 2) {
+        } else if (((button_base->pressed_buttons) & 0x2000) && gym_lane < 2) {
             gym_lane++;
             view_reference_entity.velocity_x = 0x300000;
             gym_lane_delay = 3;

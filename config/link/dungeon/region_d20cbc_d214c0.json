@@ -1,0 +1,43 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/region_d20cbc_d214c0",
+  "container": "dungeon",
+  "foff": "0xd20cbc",
+  "size": "0x804",
+  "vma": "0x8015a4bc",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl r124_oc2_dungeon_d20cbc (bank [0xd1f000,0xd25000) delta 0x7f439800); docs/evidence/r124_opus_carve2.md",
+  "entries": [
+    {
+      "row": "dungeon/func_80D00CBC",
+      "home": "dungeon/func_80CE8CBC",
+      "tu": "src/dungeon/monster/troll/update_actor_behavior.c",
+      "foff": "0xD20CBC",
+      "vma": "0x8015A4BC",
+      "size": 2052,
+      "evidence": "docs/evidence/r124_opus_carve2.md",
+      "bindings": {
+        "0x80172CC0": "0x8015ACC0",
+        "0x80175E54": "0x8015DE54",
+        "0x80175E84": "0x8015DE84",
+        "0x80175E5C": "0x8015DE5C",
+        "0x80175E8C": "0x8015DE8C",
+        "0x80175E64": "0x8015DE64",
+        "0x80175E94": "0x8015DE94",
+        "0x80175E24": "0x8015DE24",
+        "0x80175E2C": "0x8015DE2C",
+        "0x80175E34": "0x8015DE34",
+        "0x80175E3C": "0x8015DE3C",
+        "0x80175E44": "0x8015DE44",
+        "0x80175E4C": "0x8015DE4C",
+        "0x801759A0": "0x8015D9A0",
+        "0x80173EAC": "0x8015BEAC",
+        "0x80173734": "0x8015B734",
+        "0x80173B48": "0x8015BB48",
+        "0x80175DF4": "0x8015DDF4",
+        "0x80175DFC": "0x8015DDFC",
+        "0x80175E04": "0x8015DE04",
+        "0x80172F58": "0x8015AF58"
+      }
+    }
+  ]
+}

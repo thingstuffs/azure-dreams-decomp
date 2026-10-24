@@ -1,3 +1,4 @@
+#include "engine/node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"

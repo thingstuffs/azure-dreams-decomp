@@ -7,5 +7,5 @@
 
 /* Returns the newly pressed pad button bits from g_game_work.pressed_buttons. */
 s32 runtime_get_state_value_83170(void) {
-    return ((s32)g_game_work.pressed_buttons);
+    return (g_game_work.pressed_buttons);
 }

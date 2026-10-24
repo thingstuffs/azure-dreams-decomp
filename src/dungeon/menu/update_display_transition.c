@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/menu.h"

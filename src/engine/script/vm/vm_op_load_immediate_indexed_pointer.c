@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-/* Load a 32-bit value through an indexed pointer table into the selected event-script slot. */
-void vm_op_77_load_immediate_indexed_pointer(ScriptReader *state) {
+/* Opcode 0x4D: Load through a pointer table: v[var] = *LE32(addr32 + 4 * u8). */
+void script_load_indirect(ScriptReader *state) {
     u8 *table_entry;
     u8 *address_bytes;
     u8 *cursor;

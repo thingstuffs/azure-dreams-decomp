@@ -44,7 +44,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
         compute_and_clamps_vector_based_adjustment_updates_town(object, angle, ((u8 *)&position_query_scratch));
     }
 
-    if ((((s32)buttons->pressed_buttons) & 0x40) && town_orbit_radius >= 0x800) {
+    if (((buttons->pressed_buttons) & 0x40) && town_orbit_radius >= 0x800) {
         initialize_record_with_pointer_and_code(controller, object, saved_arg);
         town_saved_motion_pointer = 0;
         return;

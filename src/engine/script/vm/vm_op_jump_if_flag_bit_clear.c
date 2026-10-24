@@ -5,8 +5,8 @@
 #include "engine/object.h"
 #include "engine/script/vm.h"
 
-/* Jump the event script to the encoded address if the signed operand check returns zero. */
-void vm_op_43_jump_if_flag_bit_clear(ScriptReader *state) {
+/* Opcode 0x2B: If the 16-bit event flag is clear, jump to the 32-bit address. */
+void script_jump_if_flag_clear(ScriptReader *state) {
     u8 *operand_ptr = state->cursor;
     s32 operand = operand_ptr[0] + (operand_ptr[1] << 8);
 

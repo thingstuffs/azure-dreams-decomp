@@ -8,8 +8,8 @@ typedef struct RuntimeState {
     u8 current;
 } RuntimeState;
 
-/* Consume one event-script byte and store it as the current value. */
-void vm_op_84_set_loop_counter(RuntimeState *state)
+/* Opcode 0x54: Set the loop counter (+0x88) to u8. */
+void script_set_loop_counter(RuntimeState *state)
 {
     u8 *input = state->input;
     u8 current = *input;

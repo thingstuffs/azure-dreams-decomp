@@ -13,4 +13,8 @@ void invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
 
 void initialize_item_menu_request_state(void *state, s32 base_value);
 
+
+s32 count_town_items(void);
+void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table);
+
 #endif

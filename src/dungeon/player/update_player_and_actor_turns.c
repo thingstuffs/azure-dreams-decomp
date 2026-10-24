@@ -1,3 +1,4 @@
+#include "dungeon/player/object/action_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -36,7 +37,7 @@ extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
 s32 read_sound_mode_blocking_status();                         /* extern */
 s32 rsin();                             /* extern */
-s32 update_sound_settings_from_pad(); /* extern */
+#include "dungeon/player/input.h"
 s32 check_entity_relation();                 /* extern */
 void *find_eligible_actor_at_tile_and_height();           /* extern */
 s32 set_monster_reachability_flag();                             /* extern */
@@ -246,7 +247,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
         record_or_page = (s32 *)0x80080000;
-        if ((dungeon_button_latch == 0) && (((s32)world_state->pressed_buttons) != 0)) {
+        if ((dungeon_button_latch == 0) && ((world_state->pressed_buttons) != 0)) {
             dungeon_button_latch = 1;
             request_scene_dispatch_state(3);
             return;

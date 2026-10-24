@@ -30,11 +30,11 @@ void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
     index_delta = 0;
     if ((input->buttons != 0) && (menu->unk_24 >= 2)) {
         if (input->buttons & 0xA000) {
-            if (((s32)input->pressed_buttons) & 0x2000) {
+            if ((input->pressed_buttons) & 0x2000) {
                 index_delta = 1;
                 menu->unk_38 = 0;
                 menu->unk_28 = 4;
-            } else if (((s32)input->pressed_buttons) & 0x8000) {
+            } else if ((input->pressed_buttons) & 0x8000) {
                 index_delta = -1;
                 menu->unk_38 = 0;
                 menu->unk_28 = 4;
@@ -56,13 +56,13 @@ void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
             }
         }
         if (index_delta == 0) {
-            if (((s32)input->pressed_buttons) & 1) {
+            if ((input->pressed_buttons) & 1) {
                 if (((s32)primary_actor_record->unk_B0) != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 1);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
-            } else if (((s32)input->pressed_buttons) & 2) {
+            } else if ((input->pressed_buttons) & 2) {
                 if (((s32)primary_actor_record->unk_AC) != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 0);
                     menu->unk_28 = 4;

@@ -9,8 +9,8 @@ typedef struct {
     u32 *values;
 } Func8003A858State;
 
-/* Loads an indexed little-endian word from the encoded address into a state value slot. */
-void vm_op_70_load_immediate_indexed_word(Func8003A858State *state) {
+/* Opcode 0x46: Load word: v[var] = LE32(addr32 + 4 * u8) (same as opcode 0x36). */
+void script_load_table_word_b(Func8003A858State *state) {
     u8 *cursor;
     u8 *address_bytes;
     u8 dst_index;

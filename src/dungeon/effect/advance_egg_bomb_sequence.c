@@ -198,7 +198,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
         ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
         if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000)
-            && (((s32)state_base->pressed_buttons) == 0)) {
+            && ((state_base->pressed_buttons) == 0)) {
             break;
         }
         ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);

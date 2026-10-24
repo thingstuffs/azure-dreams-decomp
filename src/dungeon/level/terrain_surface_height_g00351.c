@@ -3,7 +3,7 @@
 #include "dungeon/level/terrain_surface_height_g00351.h"
 
 /* Finds the lowest surface height at (x, y) that meets the minimum height. */
-s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     Work *work = (Work *)0x1F800000;
     MapGrid *tables;
     Cell *cells;

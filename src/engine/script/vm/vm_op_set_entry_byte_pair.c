@@ -2,8 +2,8 @@
 #include "engine/script.h"
 #include "engine/audio.h"
 
-/* Read a script entry key and value, copying the value to entry bytes 2 and 3 if found. */
-void vm_op_83_set_entry_byte_pair(ScriptReader *parser)
+/* Opcode 0x53: Set bytes 2 and 3 of the sound-table entry selected by the u8 key. */
+void script_set_sound_entry_bytes(ScriptReader *parser)
 {
     u8 entry_key;
     u8 entry_value;

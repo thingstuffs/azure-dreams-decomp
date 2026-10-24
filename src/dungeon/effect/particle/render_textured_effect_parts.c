@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Shaded particle rendering, scattered sprite motion, and projectile burst and impact effects. */

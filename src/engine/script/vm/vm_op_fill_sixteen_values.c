@@ -1,8 +1,8 @@
 #include "common.h"
 #include "engine/script/vm.h"
 
-/* Reads a script byte and fills sixteen words in the target state with its value. */
-void vm_op_50_fill_sixteen_values(void *vm) {
+/* Opcode 0x32: Fill v0..v15 with the u8 operand. */
+void script_fill_variables(void *vm) {
     u32 script_ptr = *(u32 *)((u8 *)vm + 0x1C);
     u32 entry_ptr = *(u32 *)((u8 *)vm + 0x80);
     u32 fill_value = *(u8 *)script_ptr;

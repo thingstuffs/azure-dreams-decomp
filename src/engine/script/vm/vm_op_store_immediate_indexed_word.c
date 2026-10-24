@@ -2,8 +2,8 @@
 #include "engine/script.h"
 #include "engine/script/vm.h"
 
-/* Store a VM table word as little-endian bytes at an encoded address plus a word offset. */
-void vm_op_58_store_immediate_indexed_word(ScriptReader *state) {
+/* Opcode 0x3A: Store word: LE32(addr32 + 4 * u8) = v[var]. */
+void script_store_table_word(ScriptReader *state) {
     u8 *dst;
     u8 *src;
     u8 *addr_bytes;

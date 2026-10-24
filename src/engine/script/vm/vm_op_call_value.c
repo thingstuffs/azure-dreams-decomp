@@ -9,8 +9,8 @@ typedef struct Func8003AA84State {
     u8 **table;
 } Func8003AA84State;
 
-/* Saves the script return address and jumps to the indexed script pointer. */
-u8 *vm_op_75_call_value(Func8003AA84State *state) {
+/* Opcode 0x4B: Call the script address held in v[var]. */
+u8 *script_call_variable(Func8003AA84State *state) {
     u8 *read_ptr = state->read_ptr;
     u8 **table = state->table;
     u8 **return_stack = state->write_ptr;

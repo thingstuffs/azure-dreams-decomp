@@ -64,7 +64,7 @@ void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 co
 }
 
 /* Initialize object state and placement with a direction-dependent offset. */
-s32 initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
+void initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;

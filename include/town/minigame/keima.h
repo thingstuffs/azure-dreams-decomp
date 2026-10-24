@@ -66,7 +66,7 @@ typedef struct KeimaPathActor {
 
 extern KeimaPath town_minigame_path_records[];
 s32 initialize_keima_interface(void);
-s32 update_keima_minigame(KeimaState *game);
+void update_keima_minigame(KeimaState *game);
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
 #endif

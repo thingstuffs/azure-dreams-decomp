@@ -53,7 +53,7 @@ extern void interpolate_view_parameters(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, ObjectPosition *motion, register SpriteFrameState *part) {
+void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, ObjectPosition *motion, register SpriteFrameState *part) {
     ActorRecord *owner;
     u8 *color_part;
     ObjectNodeHeader *owner_meta;

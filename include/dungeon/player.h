@@ -49,4 +49,7 @@ void update_active_nodes_and_render_frame(void);
 void queue_framebuffer_strip_quads(void);
 void dispatch_object_renderers(void);
 
+
+void begin_player_menu_action(void *actor, s32 unused_1, s32 unused_2, s32 action_value);
+
 #endif

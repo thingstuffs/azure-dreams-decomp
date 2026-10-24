@@ -205,6 +205,52 @@ class Check(Fixture):
         self.assertTrue(any("module member" in p for p in K.check(self.root, splits, reg, tu)))
 
 
+class BodyOffset(Fixture):
+    """A module-member home keeping a data prefix places only its body (exact body extent, prefix stays home)."""
+    PREFIXED = dict(HOME, foff="0xFAA628", vma="0x80173E28", size=116, body_offset=60)
+
+    def body_pair(self, copy=None, home=None):
+        self.write(image("bank_fa7000", "0xFA7000", "0x80170800", [dict(self.PREFIXED, **(home or {}))]),
+                   image("bank_fad000", "0xFAD000", "0x8016A800", [dict(COPY, **(copy or {}))]))
+        return K.load(self.root)
+
+    def test_body_only_copy_and_entry_rule(self):
+        _, _, by_row, _ = self.body_pair()
+        e = by_row[COPY["row"]]
+        self.assertEqual(K.binding(self.root, e, 0x80173E64), 0x8016DE64)   # 1 the body entry, not the prefix
+        self.assertEqual(K.binding(self.root, e, 0x80173E28), 0x8016DE28)   # the prefix only shifts by layout
+
+    def test_body_only_refusals(self):
+        for size in (116, 52, 60):
+            with self.subTest(size=size):
+                with self.assertRaisesRegex(ValueError, "size differs"):
+                    self.body_pair({"size": size})
+        with self.assertRaisesRegex(ValueError, "entry keys|body_offset"):
+            self.body_pair({"body_offset": 4})
+        for bo in (0, 2, 116, "60"):
+            with self.subTest(body_offset=bo):
+                with self.assertRaisesRegex(ValueError, "body_offset"):
+                    self.body_pair(home={"body_offset": bo})
+
+    def test_check_binds_prefix_to_module_and_split(self):
+        self.body_pair()
+        split = lambda name, foff, vma, size, **kw: dict({"func_vram": name, "foff": foff, "size": size,
+                                                           "result": "MATCH", "vram": 0, "true_vram": vma}, **kw)
+        splits = {"dungeon": [split("func_80F8A664", 0xFAA628, 0x80173E28, 116, native_prefix_bytes=60),
+                              split("func_80F90664", 0xFB0664, 0x8016DE64, 56)]}
+        reg = {HOME["row"]: {"c_path": "x"}, COPY["row"]: {"c_path": "x", "source_row": HOME["row"]}}
+        tu = lambda rid: "src/dungeon/func_80F8A664.c"
+        (self.root / "config/overlays").mkdir()
+        modules = self.root / "config/overlays/modules.json"
+        modules.write_text(json.dumps({"modules": [{"members": [{"id": HOME["row"], "body_offset": 60}]}]}))
+        self.assertEqual(K.check(self.root, splits, reg, tu), [])
+        modules.write_text(json.dumps({"modules": [{"members": [{"id": HOME["row"], "body_offset": 56}]}]}))
+        self.assertTrue(any("body_offset" in p for p in K.check(self.root, splits, reg, tu)))
+        modules.write_text(json.dumps({"modules": [{"members": [{"id": HOME["row"], "body_offset": 60}]}]}))
+        splits["dungeon"][0].pop("native_prefix_bytes")
+        self.assertTrue(any("body_offset" in p for p in K.check(self.root, splits, reg, tu)))
+
+
 @unittest.skipUnless(shutil.which("mipsel-linux-gnu-as") and shutil.which(K.OBJCOPY), "mipsel binutils")
 class Rebind(Fixture):
     def test_object_symbols_follow_the_address_rules(self):

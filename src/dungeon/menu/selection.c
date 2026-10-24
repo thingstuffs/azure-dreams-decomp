@@ -36,9 +36,9 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
     s32 selection;
 
     if (g_game_work.buttons != 0) {
-        if (((s32)g_game_work.pressed_buttons) & 0xC) {
+        if ((g_game_work.pressed_buttons) & 0xC) {
             menu->field4 = 0;
-            buttons = ((s32)g_game_work.pressed_buttons);
+            buttons = (g_game_work.pressed_buttons);
             if (buttons & 4) {
                 direction = -1;
             } else if (buttons & 8) {

@@ -54,7 +54,7 @@ void process_message_control_bytes(RuntimeContext *ctx) {
                        ((u32)operand_ptr[2] << 16) + ((u32)operand_ptr[3] << 24);
             ctx->read_ptr = *(u8 **)target_ptr_addr;
         } else {
-            vm_op_22_return(ctx);
+            script_return(ctx);
         }
         opcode = *ctx->read_ptr;
     }

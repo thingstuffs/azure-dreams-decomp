@@ -3,8 +3,10 @@
 
 #include "common.h"
 
-/* Store a VM table word at the address held in a byte selected by a table index value. */
-void handle_vm_opcode_80(ScriptReader *state) {
+/* Opcode 0x50: Store variable v[source] through entry [v[index]] of the pointer table at the inline address.
+ * Retail reads only the first byte of that entry as the store address (lbu), unlike the load
+ * opcode 0x4F which assembles all four; no shipped script uses this opcode. */
+void script_store_indirect_by_variable(ScriptReader *state) {
     u8 *read_ptr;
     u8 *addr_bytes;
     u8 *table;

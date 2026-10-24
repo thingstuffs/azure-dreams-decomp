@@ -78,7 +78,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
                         }
                     }
                 } else {
-                    handle_vm_opcode_10(text);
+                    script_new_line(text);
                     return;
                 }
                 break;
@@ -91,7 +91,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
             do {
                 if ((*batch_cursor != 0) &&
                     (text->unk_20.s >= (s32)text->unk_24)) {
-                    handle_vm_opcode_10(text);
+                    script_new_line(text);
                     return;
                 }
                 process_message_control_bytes(text);

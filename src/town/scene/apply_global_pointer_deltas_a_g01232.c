@@ -1,3 +1,4 @@
+#include "town/scene.h"
 /* Apply global pointer deltas a.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01232 - PR:town/ll34_3e5000_80016000:80017B90.
  */

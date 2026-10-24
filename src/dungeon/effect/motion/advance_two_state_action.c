@@ -1,3 +1,5 @@
+#include "engine/node.h"
+#include "slus.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"

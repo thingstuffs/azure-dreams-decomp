@@ -27,4 +27,7 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags);
 
 void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *position, SpriteFrameState *draw_state);
 
+
+void draw_padded_first_number(s32 first, s32 second, u16 width, s16 y, u16 x, s16 mode);
+
 #endif

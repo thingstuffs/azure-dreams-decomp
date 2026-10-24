@@ -1,3 +1,4 @@
+#include "sdk/libc.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Staged target effects, moving sprite fades, linked quad rendering, and five-point animation. */

@@ -29,7 +29,7 @@ void move_and_fade_effect(void *,void *,void *);
 void *create_effect_render_object(MovingPosition *,s16,s16);
 void update_spark_effect(void *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
-s32 allocate_jittered_effect_node(void *,s16,s16,s16);
+void allocate_jittered_effect_node(void *,s16,s16,s16);
 void fade_effect_color_below_eight(u16 *,s32,EffectColor *);
 void *create_effect_from_endpoints(struct S_80025654_2 *,struct S_80025654_4 *);
 void apply_indexed_effect_condition(void *,u8,void *);

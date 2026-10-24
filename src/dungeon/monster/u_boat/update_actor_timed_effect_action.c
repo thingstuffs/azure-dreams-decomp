@@ -1,3 +1,5 @@
+#include "engine/graphics.h"
+#include "engine/texture.h"
 #include "dungeon/level/floor_flags.h"
 #include "shared/object_node.h"
 #include "common.h"

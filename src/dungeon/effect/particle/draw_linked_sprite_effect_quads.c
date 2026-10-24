@@ -1,3 +1,4 @@
+#include "slus.h"
 #include "shared/object_node_flags.h"
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"

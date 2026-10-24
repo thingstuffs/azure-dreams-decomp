@@ -12,8 +12,8 @@ typedef struct Func80039578State {
 
 extern void wait_message_countdown(void *state);
 
-/* Reads a little-endian 16-bit script operand and selects the next callback. */
-void handle_vm_opcode_18(Func80039578State *state) {
+/* Opcode 0x12: Wait the number of frames given by the 16-bit operand. */
+void script_wait_frames(Func80039578State *state) {
     u32 addr_or_high = (u32)state->read_ptr;
     u32 read_addr = addr_or_high;
     u32 low_byte = *(u8 *)addr_or_high;

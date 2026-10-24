@@ -8,8 +8,8 @@ typedef struct Decoder {
     s32 *table;
 } Decoder;
 
-/* Multiply the first event-script variable by the second and store the result in the first. */
-void vm_op_73_multiply_values(Decoder *script) {
+/* Opcode 0x49: v[dst] *= v[src]. */
+void script_multiply(Decoder *script) {
     u8 *read_ptr = script->read_ptr;
     u8 left_index = *read_ptr;
     u8 right_index;

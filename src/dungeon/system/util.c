@@ -274,7 +274,7 @@ void update_effect_position_and_scale_transition(void *transition, S_800A5AF0_1 
             ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
         }
     } else if (state == 1) {
-        if (((s32)g_game_work.pressed_buttons) != 0) {
+        if ((g_game_work.pressed_buttons) != 0) {
             ((S_800A5AF0_0 *)transition)->unk_06 = 0;
         }
 

@@ -1,3 +1,4 @@
+#include "frontend/card/service.h"
 #include "common.h"
 #include "frontend/card.h"
 

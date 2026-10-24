@@ -15,8 +15,8 @@ struct Func8003A01CState {
     u32 values[256];
 };
 
-/* Handles event-script opcode 53 by copying an indirect table value into the selected VM value slot. */
-void vm_op_53_load_table_pointer_value(Func8003A01CContext *context) {
+/* Opcode 0x35: Load system variable: v[var] = *S_ARG[u8] (pointer table at VM block +0x44). */
+void script_load_system_variable(Func8003A01CContext *context) {
     u8 *cursor = context->cursor;
     Func8003A01CState *state = context->state;
     u8 value_index;

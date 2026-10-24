@@ -10,13 +10,13 @@ typedef struct S_80039A08_0 {
     s32 * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_80039A08_0;   /* arg0 in handle_vm_opcode_06 */
+} S_80039A08_0;   /* arg0 in script_wait_voice_then_advance */
 
 
 s32 check_state_or_global_flags();                          /* extern */
 
-/* Rewind a gated script or select its next handler according to runtime status. */
-void handle_vm_opcode_06(S_80039A08_0 *state) {
+/* Opcode 0x06: Voice wait: when gated, rewind while the sound status is nonzero; otherwise hand over to advance_message_when_voice_idle once the status is 0x100, else send SD_Call(0xB4). */
+void script_wait_voice_then_advance(S_80039A08_0 *state) {
     s32 status;
 
     status = read_sound_mode_blocking_status(4);

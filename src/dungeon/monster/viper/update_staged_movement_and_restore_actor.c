@@ -1,3 +1,5 @@
+#include "dungeon/actor.h"
+#include "engine/graphics.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"

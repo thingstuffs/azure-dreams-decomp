@@ -8,12 +8,12 @@ typedef struct S_800390D0_0 {
     s32 * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_800390D0_0;   /* arg0 in handle_vm_opcode_01 */
+} S_800390D0_0;   /* arg0 in script_end_message */
 
 extern u8 runtime_dispatch_mode_alias[];
 
-/* Selects the next callback or clears it and decrements the state counter. */
-void handle_vm_opcode_01(S_800390D0_0 *state) {
+/* Opcode 0x01: End of message: unless dispatch mode is 2, rewind while the sound status is 0x100, then send SD_Call(0xC4); park the window. */
+void script_end_message(S_800390D0_0 *state) {
     if (runtime_dispatch_mode_alias[0] != 2) {
         if (read_sound_mode_blocking_status(4) != 0x100) {
             SD_Call(0xC4);

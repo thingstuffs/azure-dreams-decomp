@@ -24,8 +24,8 @@ typedef struct Func80039DBCReader {
     Func80039DBCTable *table;
 } Func80039DBCReader;
 
-/* Calls the script-selected handler with four stored arguments and saves its result. */
-void vm_op_46_call_function_table(Func80039DBCReader *state) {
+/* Opcode 0x2E: Call function number u8 with v0..v3; the result goes to v15. */
+void script_call_service(Func80039DBCReader *state) {
     u8 *cursor = state->read_ptr;
     Func80039DBCTable *table = state->table;
     u8 index = *cursor;

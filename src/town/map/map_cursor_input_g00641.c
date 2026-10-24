@@ -16,7 +16,7 @@ void store_state_and_update_tile_center(s32 state)
 /* Updates two wrapping indices from input flags and calls store_state_and_update_tile_center on a button combination. */
 void update_wrapping_indices_and_input(void) {
     GameWork *input_state = &g_game_work;
-    s32 input_flags = ((s32)input_state->pressed_buttons);
+    s32 input_flags = (input_state->pressed_buttons);
     u32 buttons;
     s32 masked_buttons;
 

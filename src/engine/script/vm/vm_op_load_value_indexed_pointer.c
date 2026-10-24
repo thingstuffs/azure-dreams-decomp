@@ -2,8 +2,8 @@
 #include "engine/script.h"
 #include "engine/script/vm.h"
 
-/* Load a VM table word through a pointer selected by a table index value. */
-void vm_op_79_load_value_indexed_pointer(ScriptReader *state) {
+/* Opcode 0x4F: Load through a pointer table: v[var] = *LE32(addr32 + 4 * v[index]). */
+void script_load_indirect_by_variable(ScriptReader *state) {
     u8 *cursor;
     u8 *addr_bytes;
     u8 *table;

@@ -9,8 +9,8 @@ typedef struct {
     u32 *values;
 } Func8003A060State;
 
-/* Load an indexed little-endian 32-bit memory value into the selected event-script slot. */
-void vm_op_54_load_immediate_indexed_word(Func8003A060State *state) {
+/* Opcode 0x36: Load word: v[var] = LE32(addr32 + 4 * u8). */
+void script_load_table_word_a(Func8003A060State *state) {
     u8 *operand_ptr;
     u8 *address_bytes;
     u8 dst_index;

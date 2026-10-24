@@ -8,6 +8,16 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F709800: beldo_boss_cluster",
   "entries": [
     {
+      "row": "dungeon/func_80A4707C",
+      "home": "dungeon/func_80A4707C",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "foff": "0xA67000",
+      "vma": "0x80170800",
+      "size": 952,
+      "body_offset": 124,
+      "evidence": "docs/evidence/r124_opus_carve2.md: module member dungeon_resource06_slot0 keeps the 124-byte entry/switch-table prefix; copies place the 828-byte body only"
+    },
+    {
       "row": "dungeon/func_80A473B8",
       "home": "dungeon/func_80A473B8",
       "tu": "src/dungeon/monster/flame/flame_actions.c",

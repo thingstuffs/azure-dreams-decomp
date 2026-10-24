@@ -58,7 +58,7 @@ typedef struct DialogArgs {
 
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-s32 update_keima_minigame(KeimaState *game) {
+void update_keima_minigame(KeimaState *game) {
     DialogArgs dialog_args;
     s32 motion_mode;
     s32 init_flags;

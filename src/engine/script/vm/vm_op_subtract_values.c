@@ -13,8 +13,8 @@ typedef struct Func8003A4B4State {
     Func8003A4B4Entry *table;
 } Func8003A4B4State;
 
-/* Subtracts one event-script variable from another. */
-void vm_op_60_subtract_values(Func8003A4B4State *state) {
+/* Opcode 0x3C: v[dst] -= v[src]. */
+void script_subtract(Func8003A4B4State *state) {
     u8 *script_cursor;
     s32 dest_index;
     s32 source_index;

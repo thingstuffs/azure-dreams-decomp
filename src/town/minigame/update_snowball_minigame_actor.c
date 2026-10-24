@@ -207,7 +207,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         (*(s32 *)((u8 *)motion + 4)) = target->y.v;
         (*(s32 *)((u8 *)motion + 8)) =
             target->z.v + town_target_height_offset - 0x80000;
-        if (((s32)world->pressed_buttons) & 0x40) {
+        if ((world->pressed_buttons) & 0x40) {
             if (target->z.w.i == 0) {
                 if (object->state.s == 9) {
                     actor->speed = 0x100000;

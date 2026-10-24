@@ -63,11 +63,11 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
     } else if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), height, (struct TownVec * *)(height_data));
     }
-    if (((s32)input_state->pressed_buttons) & 0x10) {
+    if ((input_state->pressed_buttons) & 0x10) {
         initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(record), context);
         return;
     }
-    if (((s32)input_state->pressed_buttons) & 0x40) {
+    if ((input_state->pressed_buttons) & 0x40) {
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {

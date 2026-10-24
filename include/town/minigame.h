@@ -18,4 +18,7 @@ void update_minigame_approach_motion(void *motion_state, ObjectPosition *motion)
 
 void count_entries_matching_search_path(TownCollectionSequence *scene);
 
+
+void create_minigame_display_objects(void);
+
 #endif

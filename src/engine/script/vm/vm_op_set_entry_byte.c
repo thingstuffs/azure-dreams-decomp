@@ -2,8 +2,8 @@
 #include "engine/script.h"
 #include "engine/audio.h"
 
-/* Consumes a script entry key and value, storing the value in the entry's third byte if found. */
-void vm_op_28_set_entry_byte(ScriptReader *parser)
+/* Opcode 0x1C: Set byte 2 of the sound-table entry selected by the u8 key. */
+void script_set_sound_entry_byte(ScriptReader *parser)
 {
     u8 entry_key;
     u8 *entry;

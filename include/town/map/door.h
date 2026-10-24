@@ -158,7 +158,7 @@ typedef struct S_800A0F10_0 {
 s32 check_door_status_inverted(void *object);
 void initialize_door_variant(void *record_data, s32 initial_value);
 void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(void *object, s32 unused_value, s32 update_context, u8 unused_flags);
+void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
 void emit_door_position_effect(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position);
 void open_door_to_target(void *object, void *context);
 void door_no_op(void);
@@ -172,7 +172,7 @@ void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
 void trigger_door_interaction_effect(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
-void advance_door_step(void *entity);
+void advance_door_step(void *entity, void *unused_context, void *update_context, s32 unused_data);
 void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params);
 void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);

@@ -13,8 +13,8 @@ typedef struct Func8003A5B4State {
     struct Func8003A5B4State *table;
 } Func8003A5B4State;
 
-/* Jump to the encoded address if the selected table value is nonzero; otherwise skip it. */
-void vm_op_63_jump_if_nonzero(Func8003A5B4State *state) {
+/* Opcode 0x3F: If v[var] != 0, jump to the 32-bit address. */
+void script_jump_if_nonzero(Func8003A5B4State *state) {
     u8 *command_ptr = state->read_ptr;
     u8 table_index = *command_ptr;
 

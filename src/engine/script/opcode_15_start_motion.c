@@ -47,8 +47,8 @@ extern void wait_message_entry_ready(void);
 extern void wait_message_motion_accept(void);
 
 
-/* Initializes an event-script entry or defers the command while the entry is active or unavailable. */
-void handle_vm_opcode_15(State *state)
+/* Opcode 0x0F: Set actor motion/expression (u8 actor, u8 motion; no motion byte for actor 0); waits while the actor is busy. */
+void script_set_actor_motion(State *state)
 {
     u8 *cursor = state->read_ptr;
     u8 *value_ptr;

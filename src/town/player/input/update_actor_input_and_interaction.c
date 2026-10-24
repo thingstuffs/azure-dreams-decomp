@@ -66,7 +66,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
         *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
         spawn_directional_effects(actor, ((u16) scale_random_to_unsigned_halfword_limit(2)) + 2);
     }
-    buttons = *(s32 *)&input_state->pressed_buttons;
+    buttons = input_state->pressed_buttons;
     if (buttons & 0x10) {
         initialize_actor_action_state(action_state, actor, context);
         return;

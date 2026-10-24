@@ -6,17 +6,17 @@ typedef struct {
     u8 unk14[0x08];
     u8 *cursor;
     u8 unk20[0x12];
-    u8 value;
+    s8 call_number; /* read back with lb: numbers 0x80-0xFF index before the table */
 } FuncState;
 
 extern void run_message_opcode_handler(void);
 
-/* Read a script byte into the state value and select run_message_opcode_handler as the next handler. */
-void handle_vm_opcode_37(FuncState *state) {
+/* Opcode 0x25: Poll call number u8 with v0..v3 every frame until it returns nonzero (result to v15). */
+void script_poll_service(FuncState *state) {
     u8 *cursor = state->cursor;
     u8 value = *cursor;
 
     state->cursor = cursor + 1;
     state->handler = run_message_opcode_handler;
-    state->value = value;
+    state->call_number = value;
 }

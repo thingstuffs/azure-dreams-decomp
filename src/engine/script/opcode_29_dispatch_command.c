@@ -18,8 +18,8 @@ typedef struct Func800398BCOwner {
 
 extern s32 check_state_or_global_flags(Func800398BCOwner *state);
 
-/* Dispatch an eight-byte script command, or rewind the opcode when runtime state blocks it. */
-void handle_vm_opcode_29(Func800398BCOwner *owner)
+/* Opcode 0x1D: Play a voice / CD audio cue (two 32-bit words) and send SD_Call(0x300); waits while sound is busy. */
+void script_play_voice_cue(Func800398BCOwner *owner)
 {
     s32 runtime_state;
     s32 owner_gate;

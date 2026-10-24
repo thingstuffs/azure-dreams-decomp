@@ -5,8 +5,8 @@
 
 extern s32 set_resident_bitmap_bit(s32 value);
 
-/* Consumes a signed little-endian 16-bit script operand and passes it to set_resident_bitmap_bit. */
-s32 vm_op_12_set_flag_bit(ScriptReader *state) {
+/* Opcode 0x0C: Set the event flag given by the 16-bit operand. */
+s32 script_set_flag(ScriptReader *state) {
     u8 *data;
     s32 low;
     s32 high;

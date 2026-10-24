@@ -46,7 +46,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
         compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&position_query_scratch));
     }
 
-    state_flags = ((s32)state->pressed_buttons);
+    state_flags = (state->pressed_buttons);
     if (state_flags & 0x10) {
         initialize_actor_action_state(context, entity, update_arg);
         return;

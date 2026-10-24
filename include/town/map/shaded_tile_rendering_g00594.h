@@ -373,7 +373,7 @@ extern void AddPrim(void *, void *);
 extern void SetDrawMode(void *, s32, s32, s32, void *);
 
 extern s8 map_tile_uvs[12];
-extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);
+#include "engine/effect.h"
 /* Functions defined in this translation unit. */
 void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v);
 void render_shaded_map_tiles(void);
