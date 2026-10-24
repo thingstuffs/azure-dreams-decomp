@@ -73,13 +73,17 @@
       "size": 572
     },
     {
-      "row": "dungeon/func_80D67604",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0xD87604",
-      "vma": "0x80172e04",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "dungeon/func_80D66EEC",
+      "home": "dungeon/func_80CE9758",
+      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
+      "foff": "0xD86EEC",
+      "vma": "0x801726EC",
+      "size": 1824,
+      "bindings": {
+        "0x80173734": "0x80172E80",
+        "0x8009A66C": "0x8009A8C0"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
     },
     {
       "row": "dungeon/func_80D6760C",

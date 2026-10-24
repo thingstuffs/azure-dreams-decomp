@@ -49,4 +49,27 @@ void subtract_threshold_from_counter(void);
 void request_handler_state_9(void);
 void request_handler_command_17(void);
 
+s32 set_indexed_entry_flag_if_dac(void *object, s32 entry_index);
+
+struct Rec_func_800165F4_arg0;
+s32 process_entry_with_script_flag(struct Rec_func_800165F4_arg0 *object, s32 entry_index);
+
+/* Map-exit callback invoked by change_map. */
+struct RuntimeState;
+void reserve_town_monster_load_two(struct RuntimeState *unused_transition, void *unused_map_data);
+
+/* Complete TOWN callbacks at the validated phase load addresses. */
+s32 process_entry_linked_nonzero(void *object, s32 entry_index);
+s32 process_entry_linked_five(void *object, s32 entry_index);
+s32 set_entry_flag_if_5c7(void *object, s32 entry_index);
+void set_script_flag_94c(void);
+void start_keima_and_clear_flag(void);
+void set_active_entry_script_flag(void);
+void mark_active_entry_script_flag(void);
+s32 process_checked_scene_entry(void *object, s32 entry_index);
+s32 process_checked_entry_flags(void *object, s32 entry_index);
+void set_indexed_scene_entry_flag(void *object, s32 entry_index);
+extern u8 D_8001798C[];
+extern u8 *D_80017AA4;
+
 #endif

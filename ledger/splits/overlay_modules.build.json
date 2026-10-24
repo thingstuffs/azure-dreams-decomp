@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20618,
+  "logical_rows": 20627,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -69697,13 +69697,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/troll/advance_actor_stored_path.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_80D67604"
+        "dungeon/func_80D66EEC"
       ]
     },
     {
@@ -103437,6 +103437,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80FBD76C"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -129557,6 +129567,16 @@
       ]
     },
     {
+      "source": "src/dungeon/effect/motion/raise_position_toward_height.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81814DBC"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/particle/update_spark_emitter_effect.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147767,16 +147787,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028BF14"
-      ]
-    },
-    {
       "source": "src/town/scene/run_preliminary_callback_count_ten.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147923,16 +147933,6 @@
         "row_asflags": ""
       },
       "rows": [
-        "town/func_8028D6DC"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
         "town/func_8028D7F4"
       ]
     },
@@ -147974,16 +147974,6 @@
       },
       "rows": [
         "town/func_8028DF58"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8028E058"
       ]
     },
     {
@@ -148374,6 +148364,16 @@
       },
       "rows": [
         "town/func_8032BE9C"
+      ]
+    },
+    {
+      "source": "src/town/scene/flags/set_indexed_entry_flag_if_dac.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032BEC8"
       ]
     },
     {
@@ -148997,6 +148997,16 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/process_entry_with_script_flag.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032D68C"
+      ]
+    },
+    {
       "source": "src/town/scene/select_action_data_and_process.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -149274,6 +149284,16 @@
       },
       "rows": [
         "town/func_8032DFF0"
+      ]
+    },
+    {
+      "source": "src/town/scene/service/reserve_town_monster_load_two.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032E028"
       ]
     },
     {
@@ -159907,6 +159927,16 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/set_entry_flag_if_5c7.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051EBC4"
+      ]
+    },
+    {
       "source": "src/town/scene/event/run_event_5c7_get_buffer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -160944,6 +160974,16 @@
       },
       "rows": [
         "town/func_8054FA0C"
+      ]
+    },
+    {
+      "source": "src/town/scene/service/start_keima_and_clear_flag.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8054FA14"
       ]
     },
     {
@@ -171977,6 +172017,16 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/process_entry_linked_nonzero.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806CB0F8"
+      ]
+    },
+    {
       "source": "src/town/scene/dispatch_first.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -172494,6 +172544,16 @@
       },
       "rows": [
         "town/func_806CD0C0"
+      ]
+    },
+    {
+      "source": "src/town/scene/flags/process_entry_linked_nonzero.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806CD0F8"
       ]
     },
     {
@@ -174937,6 +174997,16 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/process_entry_linked_nonzero.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806D79D4"
+      ]
+    },
+    {
       "source": "src/town/scene/lookup_variant_special_overrides_b.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -176634,6 +176704,16 @@
       },
       "rows": [
         "town/func_806F319C"
+      ]
+    },
+    {
+      "source": "src/town/scene/flags/set_script_flag_94c.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8070DCC4"
       ]
     },
     {
@@ -178514,6 +178594,16 @@
       },
       "rows": [
         "town/func_8072B9B8"
+      ]
+    },
+    {
+      "source": "src/town/scene/flags/process_entry_linked_five.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8074C8F8"
       ]
     },
     {

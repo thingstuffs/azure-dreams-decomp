@@ -1,10 +1,10 @@
+#include "town/scene.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
 typedef void (*TownCallback)(s32, s32);
 
-extern void func_80016CC4(void);
 extern s32 func_8001A64C(s32);
 extern s8 D_8001C921[];
 
@@ -15,7 +15,7 @@ s32 set_town_pointer_town_callback(void) {
     void *callbackTable;
     TownCallback callback;
 
-    func_80016CC4();
+    set_script_flag_94c();
     if (func_8001A64C(F_sbs32_pad15) != 0) {
         return 1;
     }

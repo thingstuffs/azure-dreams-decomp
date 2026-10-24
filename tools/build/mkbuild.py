@@ -1357,9 +1357,10 @@ def _image_one(path):
             recipe = read(STATE/'recipes'/(unit['recipe']+'.json'))
             original = directory/(str(i)+'.original.o')
             shutil.copyfile(ROOT/recipe['output'], original)
+            rebound_names = {}
             if unit.get('rebind'):
                 entry = dict(unit['rebind'], bindings={number(k): number(v) for k,v in unit['rebind']['bindings'].items()})
-                linklist.rebind_object(gate.ROOT, entry, original)
+                rebound_names = linklist.rebind_object(gate.ROOT, entry, original)
             metadata = object_metadata(original)
             if metadata is None:
                 raise ValueError('unsupported object metadata')
@@ -1372,9 +1373,17 @@ def _image_one(path):
                 off, size, vma = unit['off'], unit['size'], unit['vma']
                 match_entry = gate.MatchEntry(off, size, unit['func'], '2.7.2', ROOT/recipe['source'], spec['image'], link_vram=unit.get('recipe_vma'), source_kind=unit['kind'])
                 segment = gate.Segment(0, unit['kind'], off, off+size, vma, '.text.*', name=unit['func'], match=match_entry)
-                place_func = unit['func']
+                # Local table discovery reads the rebound object's symbols.
+                place_func = rebound_names.get(unit['func'], unit['func'])
                 if place_func not in {s[0] for s in metadata['symbols']}:
-                    place_func = unit['source_stem']
+                    place_func = rebound_names.get(unit['source_stem'], unit['source_stem'])
+                if unit.get('rebind') and place_func not in {s[0] for s in metadata['symbols']}:
+                    # A placement unit can carry its synthetic inventory id;
+                    # the compiler object defines the actual rebound entry.
+                    entry_func = f'func_{vma:08X}'
+                    if entry_func in {name for name, section, _ in metadata['symbols']
+                                      if section and section.startswith('.text')}:
+                        place_func = entry_func
                 owner = gate.rodata_owner(spec['image'].split('/')[0], off)
                 mini = directory/(str(i)+'.ld')
                 if owner:

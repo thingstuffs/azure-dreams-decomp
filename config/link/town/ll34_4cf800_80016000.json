@@ -22,6 +22,15 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
+      "row": "town/func_8054FA14",
+      "home": "town/func_8054FA14",
+      "tu": "src/town/scene/service/start_keima_and_clear_flag.c",
+      "foff": "0x4CFA14",
+      "vma": "0x80016214",
+      "size": 80,
+      "evidence": "docs/evidence/r124w_carve1_town_phase_callbacks.md"
+    },
+    {
       "row": "town/func_8054FB58",
       "tu": "src/town/scene/service/run_scene_service_218_g.c",
       "home": "town/func_806C50F8",

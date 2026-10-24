@@ -1,15 +1,15 @@
+#include "town/scene.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern void func_80016CC4(void);
 extern s32 func_8001A554(s32 flag_id);
 extern s32 func_8001A64C(s32 flag_id);
 extern s32 town_table_contains_first_byte(s32 value);
 
 /* Update event flags when prerequisites are met, otherwise invoke the fallback callback. */
 s32 update_event_flags_prerequisites_are(void) {
-    func_80016CC4();
+    set_script_flag_94c();
     if (town_table_contains_first_byte(6) != 0) {
         func_8001A554(F_sbs32_pad16);
     }

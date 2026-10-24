@@ -37,6 +37,29 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
+      "row": "dungeon/func_80FBD76C",
+      "home": "dungeon/func_80FB176C",
+      "tu": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "foff": "0xFDD76C",
+      "vma": "0x80164F6C",
+      "size": 2468,
+      "bindings": {
+        "0x80171910": "0x80165910",
+        "0x80175298": "0x80169298",
+        "0x80175258": "0x80169258",
+        "0x801752A0": "0x801692A0",
+        "0x80175174": "0x80169174",
+        "0x80175260": "0x80169260",
+        "0x80174250": "0x80168250",
+        "0x80172658": "0x80166658",
+        "0x80172314": "0x80166314",
+        "0x80172514": "0x80166514",
+        "0x80175290": "0x80169290",
+        "0x80171B68": "0x80165B68"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80FBE110",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",

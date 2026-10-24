@@ -10601,3 +10601,21 @@
 0x80026C00	func_80026C00	init_card_choice_templates	MAIN 0x263C00: choice-panel template and node initialization; complete section equals retail.
 0x80026DF0	func_80026DF0	init_card_choice_nodes	MAIN 0x263DF0: choice-panel template and node initialization; complete section equals retail.
 0x80164854	func_80164854	spawn_grineut	r124w continuation: complete typed Grineut factory and three section-exact live placements
+0x800166C8	func_800166C8	set_indexed_entry_flag_if_dac	r124w common callback: complete section and direct callee contract; 0x2ABEC8
+0x80017E8C	func_80017E8C	process_entry_with_script_flag	r124w common callback: complete section and direct callee contract; 0x2AD68C
+0x80018828	func_80018828	reserve_town_monster_load_two	r124w: map-exit caller ABI recovered; fixed reservation value through the proven town monster-load service
+0x80017628	func_80017628	get_entry_linked_value	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80016A74	func_80016A74	set_active_entry_script_flag	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80016B1C	func_80016B1C	process_checked_scene_entry	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80017430	func_80017430	read_entry_linked_value	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x8001687C	func_8001687C	mark_active_entry_script_flag	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80016924	func_80016924	process_checked_entry_flags	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80018B5C	func_80018B5C	get_scene_script_flag_mask	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80017B84	func_80017B84	set_indexed_scene_entry_flag	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x8001A554	func_8001A554	set_scene_script_flag_bit	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x800177C4	func_800177C4	clear_scene_script_flag_bit	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x800160F8	func_800160F8	process_entry_linked_nonzero	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x800160F8	func_800160F8	process_entry_linked_five	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x800163C4	func_800163C4	set_entry_flag_if_5c7	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80016CC4	func_80016CC4	set_script_flag_94c	r124w: typed TOWN phase entry/helper; runtime identity from validated load view
+0x80016214	func_80016214	start_keima_and_clear_flag	r124w: typed TOWN phase entry/helper; runtime identity from validated load view

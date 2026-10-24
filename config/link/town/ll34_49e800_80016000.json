@@ -23,6 +23,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8051EBC4",
+      "home": "town/func_8051EBC4",
+      "tu": "src/town/scene/flags/set_entry_flag_if_5c7.c",
+      "foff": "0x49EBC4",
+      "vma": "0x800163C4",
+      "size": 84,
+      "evidence": "docs/evidence/r124w_carve1_town_phase_callbacks.md"
+    },
+    {
       "row": "town/func_8051ECA4",
       "tu": "src/town/scene/lookup_entry_value.c",
       "home": "town/func_8051ECA4",

@@ -7915,3 +7915,11 @@
 {"id":"main/func_80013C00","path":"src/frontend/libcard/message/init_card_choice_templates.c"}
 {"id":"main/func_80013DF0","path":"src/frontend/libcard/message/init_card_choice_nodes.c"}
 {"id":"dungeon/func_80A7D054","path":"src/dungeon/monster/grineut/spawn_grineut.c"}
+{"id":"town/func_8032BEC8","path":"src/town/scene/flags/set_indexed_entry_flag_if_dac.c"}
+{"id":"town/func_8032D68C","path":"src/town/scene/flags/process_entry_with_script_flag.c"}
+{"id":"town/func_8032E028","path":"src/town/scene/service/reserve_town_monster_load_two.c"}
+{"id":"town/func_806CB0F8","path":"src/town/scene/flags/process_entry_linked_nonzero.c"}
+{"id":"town/func_8074C8F8","path":"src/town/scene/flags/process_entry_linked_five.c"}
+{"id":"town/func_8051EBC4","path":"src/town/scene/flags/set_entry_flag_if_5c7.c"}
+{"id":"town/func_8070DCC4","path":"src/town/scene/flags/set_script_flag_94c.c"}
+{"id":"town/func_8054FA14","path":"src/town/scene/service/start_keima_and_clear_flag.c"}

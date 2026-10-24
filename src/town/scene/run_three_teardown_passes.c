@@ -1,10 +1,10 @@
+#include "town/scene.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
 
 
-extern void func_80016CC4(void);
 extern void update_entry_flags(void);
 extern s32 func_8001991C(s32, s32);
 extern void func_8001A554(s32);
@@ -26,7 +26,7 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
 {
     s32 result;
 
-    func_80016CC4();
+    set_script_flag_94c();
     initialize_resources_assigns_pointer_lookup();
     update_entry_flags();
     if (func_8001991C(kind, value) == 0) {

@@ -8,6 +8,20 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_806D79D4",
+      "home": "town/func_806CB0F8",
+      "tu": "src/town/scene/flags/process_entry_linked_nonzero.c",
+      "foff": "0x6579D4",
+      "vma": "0x800161D4",
+      "size": 80,
+      "evidence": "docs/evidence/r124w_carve1_town_phase_callbacks.md",
+      "bindings": {
+        "0x80017628": "0x800187FC",
+        "0x80016A74": "0x800178D0",
+        "0x80016B1C": "0x80017978"
+      }
+    },
+    {
       "row": "town/func_806D872C",
       "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C188",

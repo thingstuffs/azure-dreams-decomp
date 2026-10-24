@@ -1,0 +1,24 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_r124w_particle_1834dbc",
+  "container": "dungeon",
+  "foff": "0x1834dbc",
+  "size": 288,
+  "vma": "0x800245bc",
+  "evidence": "docs/evidence/r124w_carve1_particle.md",
+  "entries": [
+    {
+      "row": "dungeon/func_81814DBC",
+      "home": "dungeon/func_8190AC70",
+      "tu": "src/dungeon/effect/motion/raise_position_toward_height.c",
+      "foff": "0x1834DBC",
+      "vma": "0x800245BC",
+      "size": 288,
+      "bindings": {
+        "0x800243A4": "0x80024448",
+        "0x80024154": "0x80024024"
+      },
+      "evidence": "r124w_carve1 run 4: complete ordinary projected member and retail section equality"
+    }
+  ]
+}

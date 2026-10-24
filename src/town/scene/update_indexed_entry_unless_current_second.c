@@ -1,8 +1,8 @@
+#include "town/scene.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern void func_80016CC4(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern s32 town_table_contains_first_byte(s32);
@@ -14,7 +14,7 @@ s32 update_indexed_entry_unless_current(void) {
     s8 *callback_owner;
     s32 status;
 
-    func_80016CC4();
+    set_script_flag_94c();
     if (town_table_contains_first_byte(0xB) != 0) {
         func_8001A554(F_sbs32_pad17);
     }

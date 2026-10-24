@@ -8812,6 +8812,7 @@
 {"path":"raw/town/func_8032BDE4.c","sha256":"c61f8fc5a54c04aa699d8679c74a03cb2d7ef0d113377a0cdd93a3634fca76c8","size":1694}
 {"path":"raw/town/func_8032BDF4.c","sha256":"8d29079a99b34a023d0fc6e5f475b2e3d37f85f5cb170c062858efc91e0f1c37","size":281}
 {"path":"raw/town/func_8032BE9C.c","sha256":"4a9d5b7e6a5f2533b0093b68682946073cb31d474bdc59059e00e6522bf7c38b","size":1816}
+{"path":"raw/town/func_8032BEC8.c","sha256":"1f75cbdd5be2c3ffa609610add9c1b4c2ff642ed0b5575f1a820d5ccab0fb8f7","size":390,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_sweep3.md"}
 {"path":"raw/town/func_8032BF1C.c","sha256":"56d74b24287c8037131bb12fb51c568fef268e1dde5009fa2fd5c533ca3dca5d","size":1747}
 {"path":"raw/town/func_8032BF28.c","sha256":"76da212a0fc8be71654209b69cd621aab5cd0e2f9706f0e677d2e1ed2c51e844","size":1777}
 {"path":"raw/town/func_8032BF48.c","sha256":"c333f88c4277efa8a5e32f615895b9ef266e83bbccc8a674114a760c66612956","size":2195}
@@ -8870,6 +8871,7 @@
 {"path":"raw/town/func_8032D554.c","sha256":"f2631df0b8292f01553495686e3b452ebec7d5c3523b04f71f2d8398f8db3ba2","size":1711}
 {"path":"raw/town/func_8032D634.c","sha256":"bc1db08418d73a70a1b5e83c12e507572015e07ffeb31499ed38f2c30007178f","size":1711}
 {"path":"raw/town/func_8032D654.c","sha256":"6108939e5aca4f4fbba69a4c70c2400a4680963025c45e05a89a688d2a822ea1","size":236}
+{"path":"raw/town/func_8032D68C.c","sha256":"5ef0576e70277ccdc15db09c05741fef96a77fb21b0f11768ae604f3bbdde9f0","size":508,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_sweep3.md"}
 {"noreturn":["func_80017F2C"],"path":"raw/town/func_8032D6E4.c","sha256":"9a5fca06b289731d048093e741758fa2db6b46738fe43bbe635e105c66c80093","size":1308}
 {"noreturn":["func_80017F74"],"path":"raw/town/func_8032D73C.c","sha256":"b8b3132df64f8bff06278f40c53356520cc0e65d5635ce2562d3d68406490313","size":470}
 {"path":"raw/town/func_8032D78C.c","sha256":"fd7c428edd05fa665f12ec3020666e696489632c0395495a7d9832781b8d4bcf","size":1801}
@@ -8900,6 +8902,7 @@
 {"path":"raw/town/func_8032DF60.c","sha256":"22304caf31d46048fd20f11d13299bcae038642677aff8acfe8d3f74db95e120","size":846}
 {"path":"raw/town/func_8032DFD0.c","sha256":"b5710456248e44d784084df6185b6081691ca398a95c937499ff3929d44cc2f4","size":1716}
 {"path":"raw/town/func_8032DFF0.c","sha256":"22277ee142a5dd63e4e170d720165be2601d09dad3c222ca37f6be8feb11b851","size":1762}
+{"path":"raw/town/func_8032E028.c","sha256":"9172b26ff13651879113695e4c3375df26e269cb5df8804bc6b4f4447436b403","size":305,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_map_exit_callback.md"}
 {"path":"raw/town/func_8032E060.c","sha256":"6a752160cf8c55c27ea11790f5a0e9eee314886c5142ee28e8d63cc488809a0b","size":1902}
 {"path":"raw/town/func_8032E0B8.c","sha256":"da12c5fe588222189bdce9223188788676e20d11aed3d0785d2c59ec505f193b","size":1746}
 {"path":"raw/town/func_8032E0D4.c","sha256":"23cbe5a928b5c4fdd16a83ba12c8c5cf18112864bdd99498ed96241e3330f8f7","size":1746}
@@ -9568,6 +9571,7 @@
 {"path":"raw/town/func_8051EB8C.c","sha256":"8d6cb2050cb6d151034e9ac6fdb7d44e0bb8d2cb8e913835868b6811caf3e148","size":1746}
 {"path":"raw/town/func_8051EB98.c","sha256":"fbe95637e43cb7243088ffee5f1f46b11df97f2162969e91b08fadc31dd4397a","size":1736}
 {"path":"raw/town/func_8051EBA4.c","sha256":"58a4cb96f884d1368a93221a46df91e48a37c4ac9a26ec882052355559ff2761","size":1787}
+{"path":"raw/town/func_8051EBC4.c","sha256":"0fca854f38d27512485c3d3811f267b24b9833d2b129f8e712561fbe7e51f76a","size":332,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_town_phase_callbacks.md"}
 {"path":"raw/town/func_8051EC18.c","sha256":"37d9a30be2d3e473e4ecb5dfe5652a24443a69c177020eee9e9060937ecdd8be","size":1830}
 {"path":"raw/town/func_8051EC3C.c","sha256":"d069f8469a305f99be703cf56bf9b81e57d0bc6c809f1bface00bca5e9a93299","size":1786}
 {"path":"raw/town/func_8051EC5C.c","sha256":"679b21da8e8454178480bb890d6970789c543ff5e4b0f8bc51210803ead9dcc3","size":1786}
@@ -9618,6 +9622,7 @@
 {"path":"raw/town/func_8054F9CC.c","sha256":"b3f271c5402e13bca529ea20bc5a8b6c12d693160fa7118764050ede49648b28","size":1703}
 {"path":"raw/town/func_8054F9D4.c","sha256":"33b2130686f919044d0b9f679a35039c280306059cd7aa41ab1f6fdbfac1c892","size":236}
 {"path":"raw/town/func_8054FA0C.c","sha256":"080570c7956812a0be8439403f212c9416bdaf52966e13764e346f530abc9c27","size":1703}
+{"path":"raw/town/func_8054FA14.c","sha256":"32d427f3601b42641a6103f0b5ef5c33ae163b955addc4e274a9bb2f91c9abdb","size":348,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_town_phase_callbacks.md"}
 {"path":"raw/town/func_8054FA64.c","sha256":"6a0ca419471deb687c1c261a4d464dcd3d831d4bf8cc44edf6628144bafaa12d","size":1694}
 {"path":"raw/town/func_8054FA70.c","sha256":"f6f96efaf777aaae33bb63fa6e2b91b14dd9fda337b3ceb34cc2456708cfaab0","size":1723}
 {"path":"raw/town/func_8054FA88.c","sha256":"c00903ae3a46b7d2c6d44ca11d3c8dd91ff7ec154979c795d6217fbd0986d33f","size":97}
@@ -9944,6 +9949,7 @@
 {"path":"raw/town/func_806CA330.c","sha256":"b3972229887388b1d4892d331f329459d6131e16561582fa1c4aa39b8da9d9b0","size":122}
 {"path":"raw/town/func_806CA3C0.c","sha256":"a27d94303be184cd71cf4a49b438d92d0e125ea531f5fe7ed87cfba45d796452","size":118}
 {"path":"raw/town/func_806CB0C0.c","sha256":"48059f4c210e7afa23c30b4212574ae424e86448f294c81cd8a4939f1bdbb5fb","size":236}
+{"path":"raw/town/func_806CB0F8.c","sha256":"8e30900868f08d761124bc4a38f729a908948f08f5607b0bae5167d207fb7b8c","size":344,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_town_phase_callbacks.md"}
 {"path":"raw/town/func_806CB96C.c","sha256":"5e7b8c8e357beee8ffad0d10d8d2c3824d0c0c780e12a74bdc0d7ec77bfff3e0","size":141}
 {"path":"raw/town/func_806CBC54.c","sha256":"c52884c577f93bd16b3e5823a5f12fe0d1546527fce1036e60ff5de20ad595ac","size":371}
 {"path":"raw/town/func_806CBE38.c","sha256":"b036cbb05abd952c990efd4b5280d45f2d860477849ae8d7d5fe7eae2a641540","size":113}
@@ -10045,6 +10051,7 @@
 {"noreturn":["func_80016290"],"path":"raw/town/func_806F1A40.c","sha256":"a431bd35f321b3700bd792b77b63219c8ed4b6901117def6279677028599ef56","size":2534}
 {"path":"raw/town/func_806F1AA8.c","sha256":"8fdec9c36f16d711165c7c7b9c4b03c764313dd1ccedfcf68e8892aed21021ed","size":169}
 {"path":"raw/town/func_806F2690.c","sha256":"67646ecc01368408a8dad4e88a397362006494cb90dbb062428663890b328af4","size":113}
+{"path":"raw/town/func_8070DCC4.c","sha256":"cbb377d97e324f3f297e5306836b7258668ea20ae97def0b9bfade9532bab331","size":194,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_town_phase_callbacks.md"}
 {"path":"raw/town/func_8070DCE4.c","sha256":"a766da37019e6975adb45c66c5615bd8b3109985feab94eac4b8b42faa9711b9","size":297}
 {"path":"raw/town/func_8070DD18.c","sha256":"6ab5dce103b43f2666b06199202d686baefb921d668da934c168f6764f06d0a3","size":793}
 {"path":"raw/town/func_8070DDBC.c","sha256":"fa09444b66dc3be9adb201d2a1199c7ef334572b7a69b4d2406bb7f25fba35fc","size":2348}
@@ -10112,6 +10119,7 @@
 {"path":"raw/town/func_8072A308.c","sha256":"04e54fe8e9646329caf2287eab82cdc8c349c5eff6091561ebb856e7230c3fca","size":109}
 {"path":"raw/town/func_8072A398.c","sha256":"fceae2cc598a8ce17c6038a948d3be6e95f84ad7adfa2c688fc5b95faf29845b","size":2626}
 {"path":"raw/town/func_8072AFFC.c","sha256":"f7b5721cc1c198fe654bd539b4416bb76fc51e17808bc9d606d0d33045c4011d","size":113}
+{"path":"raw/town/func_8074C8F8.c","sha256":"55e53aee59f722574b0249706d486d7ccbdb7654e7274349f6a6d9a880bf5421","size":343,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_town_phase_callbacks.md"}
 {"path":"raw/town/func_8074D440.c","sha256":"e242c339429b09a07bcd533b8f7885fab37490f359745d20a8083d2bff50da0d","size":113}
 {"path":"raw/town/func_80761B70.c","sha256":"892996e50cde781757d88b0dddef07a0cdc60fc0c2b13865fb2c8bb9618eca56","size":557}
 {"path":"raw/town/func_80761C08.c","sha256":"72c1a8ff946d0ba1dc50342753d51595953db534308721d16961d69aa02f5de2","size":133}

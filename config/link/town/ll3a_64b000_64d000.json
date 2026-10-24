@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_scene_64b000",
   "entries": [
     {
+      "row": "town/func_806CB0F8",
+      "home": "town/func_806CB0F8",
+      "tu": "src/town/scene/flags/process_entry_linked_nonzero.c",
+      "foff": "0x64B0F8",
+      "vma": "0x800160F8",
+      "size": 80,
+      "evidence": "docs/evidence/r124w_carve1_town_phase_callbacks.md"
+    },
+    {
       "row": "town/func_806CB148",
       "home": "town/func_8032BFE8",
       "tu": "src/town/scene/dispatch_first.c",

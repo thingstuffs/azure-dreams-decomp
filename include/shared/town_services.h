@@ -34,9 +34,9 @@ typedef struct TownServiceTable {
     /* 0x190 */ int (*callback_190)();
     /* 0x194 */ unsigned char pad_194[0x54];
     /* 0x1E8 */ int (*callback_1E8)();
-    /* 0x1EC */ unsigned char pad_1EC[0x4];
+    /* 0x1EC */ void (*callback_1EC)(void); /* start_keima_func */
     /* 0x1F0 */ int (*callback_1F0)();
-    /* 0x1F4 */ int (*callback_1F4)();
+    /* 0x1F4 */ void (*callback_1F4)(int); /* reserve_tw_mon_load(s32) */
     /* 0x1F8 */ unsigned char pad_1F8[0x10];
     /* 0x208 */ int (*callback_208)();
     /* 0x20C */ unsigned char pad_20C[0xC];

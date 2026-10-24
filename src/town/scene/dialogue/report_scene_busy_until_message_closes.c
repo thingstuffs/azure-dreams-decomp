@@ -1,10 +1,10 @@
+#include "town/scene.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
 typedef s32 (*TownCallback)(s32, s32);
 
-extern void func_80016CC4(void);
 extern s32 func_8001A64C(s32);
 extern void func_8001A7AC(void);
 
@@ -12,7 +12,7 @@ extern void func_8001A7AC(void);
 s32 report_scene_busy_until_message_closes(void) {
     s32 result;
 
-    func_80016CC4();
+    set_script_flag_94c();
     if (func_8001A64C(F_sbs32_pad08) == 0) {
         func_8001A7AC();
         (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&town_scene_root)) + 0x20) + 0x2F8))(0xE, 0x200);

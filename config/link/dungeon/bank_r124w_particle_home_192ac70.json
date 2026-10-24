@@ -1,0 +1,19 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_r124w_particle_home_192ac70",
+  "container": "dungeon",
+  "foff": "0x192A800",
+  "size": 5656,
+  "vma": "0x80024000",
+  "evidence": "docs/evidence/r124w_carve1_particle.md",
+  "entries": [
+    {
+      "row": "dungeon/func_8190AC70",
+      "home": "dungeon/func_8190AC70",
+      "tu": "src/dungeon/effect/motion/raise_position_toward_height.c",
+      "foff": "0x192ac70",
+      "vma": "0x80024470",
+      "size": 288
+    }
+  ]
+}
