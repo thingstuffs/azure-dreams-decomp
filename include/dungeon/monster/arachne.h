@@ -943,4 +943,6 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor);
 void finish_actor_floor_trap_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor);
 void finish_actor_action_flag_propagation_then_select_target(Resource12CallbackState *state, void *motion, void *position, void *actor);
+void *spawn_arachne(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+
 #endif

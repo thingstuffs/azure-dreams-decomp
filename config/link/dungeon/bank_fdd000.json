@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F187800: img_fde000_80165800, r121nd_FDD340; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80FBD0A4",
+      "home": "dungeon/func_80FB1000",
+      "tu": "src/dungeon/monster/mandara/create_actor_grid_object.c",
+      "foff": "0xFDD0A4",
+      "vma": "0x801648A4",
+      "size": 668,
+      "bindings": {
+        "0x80170B40": "0x80164B40",
+        "0x80175258": "0x80169258",
+        "0x80175298": "0x80169298",
+        "0x80170F6C": "0x80164F6C"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80FBD340",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

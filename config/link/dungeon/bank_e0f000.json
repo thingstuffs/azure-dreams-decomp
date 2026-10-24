@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F355800: img_e0f054_80164854, r121_followup_E119BC; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80DEF054",
+      "home": "dungeon/func_80DE3054",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
+      "foff": "0xE0F054",
+      "vma": "0x80164854",
+      "size": 516,
+      "bindings": {
+        "0x80170E5C": "0x80164E5C",
+        "0x80174510": "0x80168510",
+        "0x80174538": "0x80168538",
+        "0x80170A58": "0x80164A58"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80DEF258",
       "tu": "src/dungeon/monster/nyuel/update_monster_facing_and_contact.c",
       "home": "dungeon/func_80B97298",

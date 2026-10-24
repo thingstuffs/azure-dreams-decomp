@@ -404,7 +404,6 @@ extern void *allocate_list_node(s32 size, void *template);
 extern void *func_8003FD64(s32 size, void *template);
 extern s16 query_lowered_transform_position(void *);
 extern void runtime_set_record_value_and_buffer(void *, void *);
-extern void func_8008AC84(s32);
 extern void ensure_packed_resource_list(u8 *entries_in);
 s32 select_record_entry_and_value();
 s32 select_sprite_entry();

@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F493800: r101_rc4_func_80CBD720, r101_rc4_func_80CC1C80, r101rc4_res_CDD000_CDD720, r101rc4_res_CDDC68_CE1C80, r101rc4_res_CE20F8_CE2AC0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80CBD000",
+      "home": "dungeon/func_80CBD000",
+      "tu": "src/dungeon/monster/pulunpa/spawn_pulunpa.c",
+      "foff": "0xCDD0A4",
+      "vma": "0x801708A4",
+      "size": 572
+    },
+    {
       "row": "dungeon/func_80CBD2E0",
       "tu": "src/dungeon/monster/pulunpa/update_monster_facing_and_ground.c",
       "home": "dungeon/func_80CBD2E0",

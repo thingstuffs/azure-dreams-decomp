@@ -7,4 +7,6 @@
 /* initialize_resources_assigns_pointer_lookup.c */
 void initialize_resources_assigns_pointer_lookup(void);
 
+void reset_resource_entry(s32 index);
+
 #endif

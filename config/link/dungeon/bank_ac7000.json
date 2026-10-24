@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F69D800: img_ac7250_80164a50, img_ac9a34_80167234, img_ac9e88_80167688; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80AA707C",
+      "home": "dungeon/func_80AA107C",
+      "tu": "src/dungeon/monster/griffon/spawn_griffon.c",
+      "foff": "0xAC707C",
+      "vma": "0x8016487C",
+      "size": 468,
+      "bindings": {
+        "0x8016AA50": "0x80164A50",
+        "0x8016EC3C": "0x80168C3C",
+        "0x8016EC8C": "0x80168C8C",
+        "0x8016AE7C": "0x80164E7C"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80AA7250",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

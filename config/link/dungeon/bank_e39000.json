@@ -9,6 +9,22 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F32B800: img_e392e8_80164ae8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E19090",
+      "home": "dungeon/func_80E0D090",
+      "tu": "src/dungeon/monster/cyclone/create_flagged_dungeon_actor_object.c",
+      "foff": "0xE39090",
+      "vma": "0x80164890",
+      "size": 600,
+      "bindings": {
+        "0x80170AE8": "0x80164AE8",
+        "0x80176460": "0x8016A460",
+        "0x80176470": "0x8016A470",
+        "0x80171094": "0x80165094",
+        "0x801764B8": "0x8016A4B8"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80E19894",
       "tu": "src/dungeon/monster/cyclone/update_actor_animation.c",
       "home": "dungeon/func_80E0D894",

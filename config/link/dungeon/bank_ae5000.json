@@ -92,6 +92,18 @@
       "size": 136
     },
     {
+      "row": "dungeon/func_80AC6F10",
+      "home": "dungeon/func_809CA5A0",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0xAE6F10",
+      "vma": "0x80172710",
+      "size": 452,
+      "bindings": {
+        "0x80173C7C": "0x80174DEC"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80AC70D4",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA764",

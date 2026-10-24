@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "town/menu/window.h"
+#include "town/scene/resource.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
@@ -385,7 +386,7 @@ void init_and_publish_script_state(void **entries) {
         init_object = window_node_list_storage;
         init_callback = *(func_8009FE60_InitCallback *)(init_object + 0x10);
         init_callback(init_object + 0x20, 0, 0);
-        func_8008AC84(0);
+        reset_resource_entry(0);
         ensure_packed_resource_list(state->field34);
     }
     while ((entry = *entry_cursor) != 0) {

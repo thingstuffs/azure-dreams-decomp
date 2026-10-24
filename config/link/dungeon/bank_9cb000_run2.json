@@ -1,0 +1,26 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_9cb000_run2",
+  "container": "dungeon",
+  "foff": "0x9CB000",
+  "size": "0x6000",
+  "vma": "0x80164800",
+  "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
+  "entries": [
+    {
+      "row": "dungeon/func_809AB0B4",
+      "home": "dungeon/func_8099F0B4",
+      "tu": "src/dungeon/monster/kewne/create_grid_position_entity.c",
+      "foff": "0x9CB0B4",
+      "vma": "0x801648B4",
+      "size": 480,
+      "bindings": {
+        "0x80170A94": "0x80164A94",
+        "0x80175E40": "0x80169E40",
+        "0x80175EA0": "0x80169EA0",
+        "0x801710EC": "0x801650EC"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    }
+  ]
+}

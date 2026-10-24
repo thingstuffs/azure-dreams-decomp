@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008D588, CL:town/func_8008D5BC, CL:town/func_8008D630, CL:town/func_8008D6EC, CL:town/func_8008D7CC, CL:town/func_8008D850, CL:town/func_8008D988, PD:town/engine:800CF720. */
 
 #include "common.h"
+#include "town/scene/resource.h"
 
 typedef struct TownAllocEntry {
     s8 kind;
@@ -42,10 +43,9 @@ typedef struct S_8008B23C_0 {
 } S_8008B23C_0;
 
 extern u32 *D_801131EC[3];
-extern s32 resource_cache_records[];
+extern TownAllocEntry resource_cache_records[];
 extern s32 town_resource_buffer;
 extern void start_cd_read(u32 *, s32);
-extern void func_8008AC84(s32);
 extern s32 sum_resource_bytes(s32);
 extern void shift_resource_entries_and_data(s32, s32);
 s32 find_resource_index_by_key(s32 targetField0, s32 targetField1, s32 targetField2);

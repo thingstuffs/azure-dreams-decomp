@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F4F9800: img_c6b250_80164a50; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80C4B07C",
+      "home": "dungeon/func_80C3F07C",
+      "tu": "src/dungeon/monster/unicorn/spawn_unicorn.c",
+      "foff": "0xC6B07C",
+      "vma": "0x8016487C",
+      "size": 468,
+      "bindings": {
+        "0x80170A50": "0x80164A50",
+        "0x80174D4C": "0x80168D4C",
+        "0x80174DB4": "0x80168DB4",
+        "0x80170E7C": "0x80164E7C"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80C4B250",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

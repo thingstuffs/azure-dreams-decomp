@@ -67,4 +67,9 @@ void update_settings_menu_animation(struct Obj *obj, s32 *position);
 /* update_settings_phase_motion.c */
 void update_settings_phase_motion(struct State *state, struct Motion *motion, void *update_data);
 
+
+/* Remove a callback object when its linked owner is marked. */
+void remove_record_with_marked_owner(void *body);
+void remove_effect_with_marked_owner(void *body);
+
 #endif

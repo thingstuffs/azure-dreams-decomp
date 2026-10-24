@@ -8,6 +8,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F709800: beldo_boss_cluster",
   "entries": [
     {
+      "row": "dungeon/func_80A473B8",
+      "home": "dungeon/func_80A473B8",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "foff": "0xA673B8",
+      "vma": "0x80170BB8",
+      "size": 2132
+    },
+    {
       "row": "dungeon/func_80A47C0C",
       "tu": "src/dungeon/monster/flame/flame_actions.c",
       "home": "dungeon/func_80A47C0C",

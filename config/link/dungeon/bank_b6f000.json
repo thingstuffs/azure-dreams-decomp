@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F5F5800: img_b6f244_80164a44; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80B4F07C",
+      "home": "dungeon/func_80B4F07C",
+      "tu": "src/dungeon/monster/arachne/spawn_arachne.c",
+      "foff": "0xB6F07C",
+      "vma": "0x8016487C",
+      "size": 456
+    },
+    {
       "row": "dungeon/func_80B4F244",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

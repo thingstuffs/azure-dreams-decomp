@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F75D800: native_resource_04_slot_0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_809F30DC",
+      "home": "dungeon/func_809F30DC",
+      "tu": "src/dungeon/monster/kid/create_kid_actor_with_animation.c",
+      "foff": "0xA130DC",
+      "vma": "0x801708DC",
+      "size": 796
+    },
+    {
       "row": "dungeon/func_809F33F8",
       "home": "dungeon/func_809F33F8",
       "tu": "src/dungeon/monster/kid/update_actor_callbacks_and_terrain.c",

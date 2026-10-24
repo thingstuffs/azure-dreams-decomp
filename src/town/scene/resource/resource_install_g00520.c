@@ -54,24 +54,24 @@ s32 install_resource_descriptor_at_front(s32 kind, s32 state, s32 value, s32 sta
     available = 0x8000 - sum_resource_bytes(index);
     if (alloc_size > 0x7FFF) {
         index = 0;
-        func_8008AC84(index);
+        reset_resource_entry(index);
     } else if (available < alloc_size) {
-        entry_base = (TownAllocEntry *)resource_cache_records;
+        entry_base = resource_cache_records;
         entry_offset = index * sizeof(TownAllocEntry);
         entry = (TownAllocEntry *)(entry_offset + (s32)entry_base);
         available += entry->size;
-        func_8008AC84(index);
+        reset_resource_entry(index);
         while (available < alloc_size) {
             entry--;
             index--;
             available += entry->size;
-            func_8008AC84(index);
+            reset_resource_entry(index);
         }
     }
 
     shift_resource_entries_and_data(index, alloc_size);
-    func_8008AC84(index + 1);
-    table = (TownAllocEntry *)resource_cache_records;
+    reset_resource_entry(index + 1);
+    table = resource_cache_records;
     table[0].kind = kind;
     table[0].state = state;
     table[0].value = value;

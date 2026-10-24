@@ -1432,10 +1432,12 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
-      "foff": "0x263c00",
-      "size": 148,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "row": "main/func_80013C00",
+      "home": "main/func_80013C00",
+      "tu": "src/frontend/libcard/message/init_card_choice_templates.c",
+      "foff": "0x263C00",
+      "vma": "0x80026C00",
+      "size": 148
     },
     {
       "kind": "code_region",
@@ -1466,10 +1468,12 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
-      "foff": "0x263df0",
-      "size": 160,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "row": "main/func_80013DF0",
+      "home": "main/func_80013DF0",
+      "tu": "src/frontend/libcard/message/init_card_choice_nodes.c",
+      "foff": "0x263DF0",
+      "vma": "0x80026DF0",
+      "size": 160
     },
     {
       "kind": "code_region",
@@ -1812,17 +1816,17 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 27872,
+    "proven_code": 28180,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 6795
+    "unknown": 6487
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",
     "coverage_sha256": "d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c",
-    "source": "coverage-prototype-v1: staged MATCH code/data rows + zero-run padding; residual unknown; NOT census2"
+    "source": "coverage-prototype-v1: staged MATCH code/data rows + zero-run padding; residual unknown; NOT census2 Reviewed choice constructor source gaps: docs/evidence/r124w_carve1_run2.md; baseline export hashes retained as provenance, current totals conserve the new source intervals."
   }
 }

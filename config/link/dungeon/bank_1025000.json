@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F14B800: sweep_1025000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8100508C",
+      "home": "dungeon/func_8100508C",
+      "tu": "src/dungeon/monster/garuda/create_configured_actor_effect.c",
+      "foff": "0x102508C",
+      "vma": "0x8017088C",
+      "size": 492
+    },
+    {
       "row": "dungeon/func_81005278",
       "home": "dungeon/func_81005278",
       "tu": "src/dungeon/monster/garuda/update_object_movement_facing_terrain.c",

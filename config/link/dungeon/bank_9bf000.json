@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B1800: bank_9bf000_assets, dungeon_func_809A2FB8_true_0x801747B8, engine_alias_copy7_9BF000, engine_alias_copy7_9C2650, img_9c079c_80171f9c, img_9c1000_80172800 (+6 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8099F0B4",
+      "home": "dungeon/func_8099F0B4",
+      "tu": "src/dungeon/monster/kewne/create_grid_position_entity.c",
+      "foff": "0x9BF0B4",
+      "vma": "0x801708B4",
+      "size": 480
+    },
+    {
       "row": "dungeon/func_8099F294",
       "tu": "src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c",
       "home": "dungeon/func_8099F294",
@@ -55,6 +63,14 @@
       "foff": "0x9C0C80",
       "vma": "0x80172480",
       "size": 492
+    },
+    {
+      "row": "dungeon/func_809A0E6C",
+      "home": "dungeon/func_809A0E6C",
+      "tu": "src/dungeon/actor/resolve_monster_move_choice.c",
+      "foff": "0x9C0E6C",
+      "vma": "0x8017266C",
+      "size": 324
     },
     {
       "row": "dungeon/func_809A1044",

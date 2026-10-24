@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F50B800: native_resource_17_slot_4; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80C2D3B8",
+      "home": "dungeon/func_80C153B8",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "foff": "0xC4D3B8",
+      "vma": "0x80158BB8",
+      "size": 2032,
+      "bindings": {
+        "0x801713A8": "0x801593A8",
+        "0x80174504": "0x8015C504",
+        "0x8017449C": "0x8015C49C",
+        "0x80174494": "0x8015C494"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80C4DBA8",
       "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "home": "dungeon/func_80C15BA8",

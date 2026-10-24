@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F0CD800: row_10a86d4_80175ed4, sweep_10A3000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_810830BC",
+      "home": "dungeon/func_810830BC",
+      "tu": "src/dungeon/monster/golem/spawn_golem.c",
+      "foff": "0x10A30BC",
+      "vma": "0x801708BC",
+      "size": 456
+    },
+    {
       "row": "dungeon/func_81083284",
       "tu": "src/dungeon/monster/golem/update_shrinking_sprite_effect.c",
       "home": "dungeon/func_81083284",
@@ -23,6 +31,19 @@
       "foff": "0x10A3694",
       "vma": "0x80170E94",
       "size": 2080
+    },
+    {
+      "row": "dungeon/func_81083EB4",
+      "home": "dungeon/func_80A71D70",
+      "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
+      "foff": "0x10A3EB4",
+      "vma": "0x801716B4",
+      "size": 580,
+      "bindings": {
+        "0x80174138": "0x80175F18",
+        "0x80171EFC": "0x80172040"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
     },
     {
       "row": "dungeon/func_810840F8",
@@ -84,13 +105,15 @@
       "size": 724
     },
     {
-      "row": "dungeon/func_81085114",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x10A5114",
-      "vma": "0x80172914",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "dungeon/func_81084FD8",
+      "home": "dungeon/func_809A0E6C",
+      "tu": "src/dungeon/actor/resolve_monster_move_choice.c",
+      "foff": "0x10A4FD8",
+      "vma": "0x801727D8",
+      "size": 324,
+      "bindings": {
+        "0x80171854": "0x801718F8"
+      }
     },
     {
       "row": "dungeon/func_8108511C",

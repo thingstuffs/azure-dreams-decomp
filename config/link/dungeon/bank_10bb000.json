@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F09D800: r121_followup_10BE878, r121_rest_10BE898_10C0710, r121c2_10BDDB4, r121c2_rest_10BB284_10BDDB4, r121c2_rest_10BDDBC_10BE878; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8109B0BC",
+      "home": "dungeon/func_810830BC",
+      "tu": "src/dungeon/monster/golem/spawn_golem.c",
+      "foff": "0x10BB0BC",
+      "vma": "0x801588BC",
+      "size": 456,
+      "bindings": {
+        "0x80170A84": "0x80158A84",
+        "0x80175F10": "0x8015DF10",
+        "0x80175F28": "0x8015DF28",
+        "0x80170E94": "0x80158E94"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
       "row": "dungeon/func_8109B284",
       "tu": "src/dungeon/monster/golem/update_shrinking_sprite_effect.c",
       "home": "dungeon/func_81083284",

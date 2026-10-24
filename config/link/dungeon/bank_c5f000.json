@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F511800: native_slot_c5f000_80170800; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80C3F07C",
+      "home": "dungeon/func_80C3F07C",
+      "tu": "src/dungeon/monster/unicorn/spawn_unicorn.c",
+      "foff": "0xC5F07C",
+      "vma": "0x8017087C",
+      "size": 468
+    },
+    {
       "row": "dungeon/func_80C3F250",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

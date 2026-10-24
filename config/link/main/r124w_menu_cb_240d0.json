@@ -1,0 +1,28 @@
+{
+  "schema": "azure-clean.linklist.v1",
+  "image": "main/r124w_menu_cb_240d0",
+  "container": "main",
+  "foff": "0x240D0",
+  "size": 68,
+  "vma": "0x8008B030",
+  "evidence": "Observed menu load address and complete C equality; docs/evidence/r124w_carve1.md",
+  "entries": [
+    {
+      "row": "main/func_7FDD40D0",
+      "home": "main/func_7FDD40D0",
+      "tu": "src/frontend/settings/remove_effect_with_marked_owner.c",
+      "foff": "0x240D0",
+      "vma": "0x8008B030",
+      "size": 68
+    }
+  ],
+  "census": {
+    "proven_code": 68,
+    "library_code": 0,
+    "strongly_code": 0,
+    "proven_data": 0,
+    "noncode_typing_pending": 0,
+    "padding_leftover": 0,
+    "unknown": 0
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_a79000_run2",
+  "container": "dungeon",
+  "foff": "0xA79000",
+  "size": "0x6000",
+  "vma": "0x8015E800",
+  "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
+  "entries": [
+    {
+      "row": "dungeon/func_80A593B8",
+      "home": "dungeon/func_80A473B8",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "foff": "0xA793B8",
+      "vma": "0x8015EBB8",
+      "size": 2132,
+      "bindings": {
+        "0x8017140C": "0x8015F40C",
+        "0x8017589C": "0x8016389C",
+        "0x8017586C": "0x8016386C"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    }
+  ]
+}

@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F36D800: w4d1_e03000_bank",
   "entries": [
     {
+      "row": "dungeon/func_80DE3054",
+      "home": "dungeon/func_80DE3054",
+      "tu": "src/dungeon/monster/volcano/volcano_actions.c",
+      "foff": "0xE03054",
+      "vma": "0x80170854",
+      "size": 516
+    },
+    {
       "row": "dungeon/func_80DE365C",
       "tu": "src/dungeon/monster/volcano/volcano_actions.c",
       "home": "dungeon/func_80DE365C",

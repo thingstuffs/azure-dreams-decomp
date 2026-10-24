@@ -10574,3 +10574,30 @@
 0x80170884	D_80170884	saber_direction_tile_offsets	Eight signed X/Y pairs indexed by actor facing and added to the target tile in both Saber effect readers. Evidence: src/dungeon/monster/saber/advance_directional_effect_action.c: OffsetTable offsets = D_80170884;
 0x80176498	D_80176498	cyclone_view_direction_entries	Eight camera-relative direction entries select both the sprite entry and the corresponding model-table element. Evidence: src/dungeon/monster/cyclone/create_directional_render_object.c: D_80176498[
 0x8001F15A	D_8001F15A	town_entry_check_zero	Boolean result flag set to one exactly when process_checked_entry returns zero, and cleared otherwise. Evidence: src/town/scene/record_check_returned.c: D_8001F15A[0] = 0;
+0x8008AC84	func_8008AC84	reset_resource_entry	TOWN +0xD524: clears the kind, value and size of an eight-byte resource cache entry and sets state to -1.
+0x800C4260	func_800C4260	reset_person_descriptor_entries	TOWN 0x46B00: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C814C	func_800C814C	init_person_slot_four	TOWN 0x4A9EC: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C4804	func_800C4804	apply_person_descriptor_tail	TOWN 0x470A4: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C43EC	func_800C43EC	reset_person_heading_c00	TOWN 0x46C8C: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C3C7C	func_800C3C7C	step_person_y_down	TOWN 0x4651C: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C3D08	func_800C3D08	step_person_y_up	TOWN 0x465A8: recovered callback; operation and field offsets checked against the complete retail body.
+0x800CEA80	func_800CEA80	init_person_timer_sixteen	TOWN 0x51320: recovered callback; operation and field offsets checked against the complete retail body.
+0x800CEB94	func_800CEB94	init_person_heading_quarter_turn	TOWN 0x51434: recovered callback; operation and field offsets checked against the complete retail body.
+0x800CAAE8	func_800CAAE8	init_person_slot_sixty_one	TOWN 0x4D388: recovered callback; operation and field offsets checked against the complete retail body.
+0x800C46A8	func_800C46A8	start_person_target_move	TOWN +0x46F48: clears the slot, installs the movement handler, derives a timer from distance and signed slot speed, and handles the immediate-placement sentinel.
+0x8017266C	func_8017266C	resolve_monster_move_choice	Dungeon actor action selection; Kewne home, Golem shared placement.
+0x8008AC70	func_8008AC70	remove_record_with_marked_owner	MAIN menu callback 0x23D10: mark object when linked owner is removed.
+0x8008B030	func_8008B030	remove_effect_with_marked_owner	MAIN menu callback 0x240D0: mark object when linked owner is removed.
+0x8017087C	func_8017087C	spawn_unicorn	src/dungeon/monster/unicorn/spawn_unicorn.c; complete live factory reconstruction, including species, flags, frame tables and callback state.
+0x8016487C	func_8016487C	spawn_arachne	src/dungeon/monster/arachne/spawn_arachne.c; complete live factory reconstruction, including species, flags, frame tables and callback state.
+0x80170854	func_80170854	spawn_maximum	src/dungeon/monster/maximum/spawn_maximum.c; complete live factory reconstruction, including species, flags, frame tables and callback state.
+0x80170854	func_80170854	spawn_ashra	src/dungeon/monster/ashra/spawn_ashra.c; complete live factory reconstruction, including species, flags, frame tables and callback state.
+0x800C6344	func_800C6344	init_person_slot_thirty_five	TOWN 0x48BE4: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x800C58AC	func_800C58AC	init_person_slot_nineteen	TOWN 0x4814C: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x800CC1D0	func_800CC1D0	init_person_slot_thirty_three	TOWN 0x4EA70: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x800C5500	func_800C5500	init_person_slot_fifty_one	TOWN 0x47DA0: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x800CD2D8	func_800CD2D8	init_person_slot_fifty	TOWN 0x4FB78: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x800CB074	func_800CB074	init_person_slot_eight	TOWN 0x4D914: fixed descriptor registration for the observed slot; complete source section equals retail.
+0x80026C00	func_80026C00	init_card_choice_templates	MAIN 0x263C00: choice-panel template and node initialization; complete section equals retail.
+0x80026DF0	func_80026DF0	init_card_choice_nodes	MAIN 0x263DF0: choice-panel template and node initialization; complete section equals retail.
+0x80164854	func_80164854	spawn_grineut	r124w continuation: complete typed Grineut factory and three section-exact live placements

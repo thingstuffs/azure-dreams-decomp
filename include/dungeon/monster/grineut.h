@@ -426,4 +426,6 @@ void settle_directional_actor_motion(void *motion_state, ObjectPosition *motion,
 void settle_entity_after_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *motion, SpriteFrameState *actor, void *entity);
 
+void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+
 #endif

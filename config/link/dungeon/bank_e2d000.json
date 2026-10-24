@@ -9,6 +9,14 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F343800: row_e322f4_80175af4, row_e32a58_80176258, row_e32aa4_801762a4, row_e32b30_80176330, sweep_0E2D000, sweep_0E32504_tail; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E0D090",
+      "home": "dungeon/func_80E0D090",
+      "tu": "src/dungeon/monster/cyclone/create_flagged_dungeon_actor_object.c",
+      "foff": "0xE2D090",
+      "vma": "0x80170890",
+      "size": 600
+    },
+    {
       "row": "dungeon/func_80E0D894",
       "tu": "src/dungeon/monster/cyclone/update_actor_animation.c",
       "home": "dungeon/func_80E0D894",

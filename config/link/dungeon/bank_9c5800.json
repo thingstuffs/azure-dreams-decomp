@@ -3,9 +3,9 @@
   "image": "dungeon/bank_9c5800",
   "container": "dungeon",
   "foff": "0x9C5800",
-  "size": "0x6000",
+  "size": "0x5800",
   "vma": "0x8016B000",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7A5800: engine_alias_copy6_9C58EC, img_9c6054_8016b854, r121nd_9CA57C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7A5800: engine_alias_copy6_9C58EC, img_9c6054_8016b854, r121nd_9CA57C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5) r124w: validation stops at the next proven load phase, file 9CB000; the former 0x800-byte imported tail is still fully proved by bank_9cb000_run2. See docs/evidence/r124w_phase_boundary.md.",
   "entries": [
     {
       "row": "dungeon/func_809A58EC",

@@ -8,6 +8,20 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F3C1800: img_db1fbc_801737bc, sweep_0DAEE4C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80D8F074",
+      "home": "dungeon/func_80D95000",
+      "tu": "src/dungeon/monster/dreamin/spawn_dreamin_slot_f.c",
+      "foff": "0xDAF074",
+      "vma": "0x80170874",
+      "size": 456,
+      "bindings": {
+        "0x8016AA3C": "0x80170A3C",
+        "0x8016D86C": "0x8017386C",
+        "0x8016AE68": "0x80170E68"
+      },
+      "evidence": "r124w_carve1: complete rebound registered-home section equality"
+    },
+    {
       "row": "dungeon/func_80D8F23C",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

@@ -2,6 +2,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/actor.h"
 #include "dungeon/monster/kewne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -48,7 +49,6 @@ extern void func_80171854(void *, void *, void *, void *);
 extern s32 select_and_start_target_action(void *, void *, void *, void *);
 extern void clear_actor_flag_and_update_action(void *, void *, void *, void *);
 extern void advance_counter_unblocked_and_reset_action(void *, void *, void *, void *);
-extern s32 func_8017266C(void *, void *, void *, s32);
 extern void update_actor_state_after_map_check(void *, void *, void *, void *);
 
 extern u8 kewne_direction_frames[];
@@ -188,7 +188,7 @@ void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrame
                     return;
                 }
             }
-            if ((func_8017266C(actor, context, sprite, 0) << 16) == 0) {
+            if ((resolve_monster_move_choice(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_flags = entity->action_flags | 0x4000;

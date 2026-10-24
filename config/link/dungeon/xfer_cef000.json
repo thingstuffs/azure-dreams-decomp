@@ -9,6 +9,23 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F46F800: xfer_dungeon_CEF2E0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80CCF0A4",
+      "home": "dungeon/func_80CBD000",
+      "tu": "src/dungeon/monster/pulunpa/spawn_pulunpa.c",
+      "foff": "0xCEF0A4",
+      "vma": "0x8015E8A4",
+      "size": 572,
+      "bindings": {
+        "0x80170F20": "0x8015EF20",
+        "0x801762C0": "0x801642C0",
+        "0x80176300": "0x80164300",
+        "0x80173B98": "0x80161B98",
+        "0x80176320": "0x80164320",
+        "0x80170AE0": "0x8015EAE0"
+      },
+      "evidence": "r124w_carve1: complete captured CEF000 bank and full rebound home .text equality"
+    },
+    {
       "row": "dungeon/func_80CCF2E0",
       "tu": "src/dungeon/monster/pulunpa/update_monster_facing_and_ground.c",
       "home": "dungeon/func_80CBD2E0",

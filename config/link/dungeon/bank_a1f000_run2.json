@@ -1,0 +1,43 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_a1f000_run2",
+  "container": "dungeon",
+  "foff": "0xA1F000",
+  "size": "0x6000",
+  "vma": "0x80164800",
+  "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
+  "entries": [
+    {
+      "row": "dungeon/func_809FF0DC",
+      "home": "dungeon/func_809F30DC",
+      "tu": "src/dungeon/monster/kid/create_kid_actor_with_animation.c",
+      "foff": "0xA1F0DC",
+      "vma": "0x801648DC",
+      "size": 796,
+      "bindings": {
+        "0x80170BF8": "0x80164BF8",
+        "0x80175140": "0x80169140",
+        "0x80175188": "0x80169188",
+        "0x80171400": "0x80165400"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
+      "row": "dungeon/func_809FF3F8",
+      "home": "dungeon/func_809F33F8",
+      "tu": "src/dungeon/monster/kid/update_actor_callbacks_and_terrain.c",
+      "foff": "0xA1F3F8",
+      "vma": "0x80164BF8",
+      "size": 2056,
+      "bindings": {
+        "0x80171400": "0x80165400",
+        "0x80175198": "0x80169198",
+        "0x80175148": "0x80169148",
+        "0x80175140": "0x80169140",
+        "0x80175170": "0x80169170",
+        "0x80175178": "0x80169178"
+      },
+      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    }
+  ]
+}

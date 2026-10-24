@@ -66,4 +66,8 @@ void release_three_row_panel_text(struct S_8002742C_0 *object);
 /* write_text_and_advance_selection.c */
 void write_text_and_advance_selection(u8 *menu);
 
+struct CardChoiceOwner;
+void init_card_choice_templates(void *entry_data, void *block_data, void *vector_data);
+void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
+
 #endif
