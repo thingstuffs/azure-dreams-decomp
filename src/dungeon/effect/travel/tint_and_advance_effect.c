@@ -504,7 +504,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     s16 angle;
     s32 effect_index;
     SpriteFrameState *part;
-    MovingPosition *coords;
+    ObjectPosition *coords;
     ObjectNodeHeader *node;
 
     node = allocate_flagged_object_node(0x202);
@@ -512,9 +512,9 @@ void *create_radial_effect_node(MovingPosition *source_coords)
         node->update_callback = advance_sprite_on_alternate_ticks_until_complete;
         register_node(node, project_sprite_chain);
         coords = node->position;
-        coords->x = source_coords->x;
-        coords->y = source_coords->y;
-        coords->z = source_coords->z;
+        coords->x.w.i = source_coords->x;
+        coords->y.w.i = source_coords->y;
+        coords->z.w.i = source_coords->z;
         part = node->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
@@ -744,7 +744,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     u16 object_count;
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;
-    MovingPosition *position;
+    ObjectPosition *position;
     S_80024FD8_4 *effect_state;
 
     object = allocate_flagged_object_node(0x202);
@@ -752,9 +752,9 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         object->update_callback = move_and_fade_effect;
         register_node(object, draw_linked_sprites_clipped);
         position = object->position;
-        position->x = source_pos->x;
-        position->y = source_pos->y;
-        position->z = source_pos->z;
+        position->x.w.i = source_pos->x;
+        position->y.w.i = source_pos->y;
+        position->z.w.i = source_pos->z;
         render_state = object->sprite;
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
@@ -1045,22 +1045,22 @@ void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initia
         register_node(node, queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
-            MovingPosition *payload = node->position;
+            ObjectPosition *payload = node->position;
 
             s32 value_0a;
 
             if (mode_test == 0) {
-                payload->x =
+                payload->x.w.i =
                     (u16)((source->x + (rand() & 0x1F)) - 0x10);
-                payload->y =
+                payload->y.w.i =
                     (u16)((source->y + (rand() & 0x1F)) - 0x10);
                 value_0a = source->z - 0x50;
             } else {
-                payload->x = source->x;
-                payload->y = source->y;
+                payload->x.w.i = source->x;
+                payload->y.w.i = source->y;
                 value_0a = source->z;
             }
-            payload->z = value_0a;
+            payload->z.w.i = value_0a;
         }
         node->sprite->color.c.r = 0xF0;
         {

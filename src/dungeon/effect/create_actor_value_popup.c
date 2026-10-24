@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -74,8 +76,8 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     u16 anchor_x;
     u16 anchor_y;
     u16 anchor_z;
-    MovingPosition *position;
-    S_800B4C7C_5 *text_link;
+    ObjectPosition *position;
+    SpriteFrameState *text_link;
     S_800B4C7C_6 *text_metrics;
     void *text_position;
     void *text;
@@ -90,29 +92,29 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     object = new_object;
     saved_value = value;
     if (object != NULL) {
-        position = (object->position);
-        text_link = (object->sprite);
+        position = object->position;
+        text_link = object->sprite;
         source_object = source_data - 0x20;
         (*(void **)((u8 *)object + 0x20)) = source_object;
         source_position = source_object->unk_08;
         state = ((void *)object) + 0x20;
         ((S_800B4C7C_1 *)state)->unk_14 = source_position;
         anchor_x = source_position->unk_02;
-        position->x = anchor_x;
+        position->x.w.i = anchor_x;
         anchor = ((S_800B4C7C_1 *)state)->unk_14;
         ((S_800B4C7C_1 *)state)->unk_18 = anchor_x;
         anchor_y = ((S_800B4C7C_4 *)anchor)->unk_06;
         space = 0x20;
-        position->y = anchor_y;
+        position->y.w.i = anchor_y;
         text_style = flags & 0xF;
         ((S_800B4C7C_1 *)state)->unk_1A = anchor_y;
         anchor_z = ((S_800B4C7C_4 *)((S_800B4C7C_1 *)state)->unk_14)->unk_0A;
         number_style = text_style;
-        position->z = anchor_z;
+        position->z.w.i = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
-        text_link->unk_08 = ((void *)object) + 0x40;
-        text = text_link->unk_08;
-        text_link->unk_06 = space;
+        text_link->source = ((void *)object) + 0x40;
+        text = text_link->source;
+        text_link->depth_bias = space;
         if (flags & 0x8000) {
             ((S_800B4C7C_1 *)state)->unk_0E = 1;
         }

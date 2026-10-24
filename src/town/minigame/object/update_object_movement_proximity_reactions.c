@@ -146,8 +146,8 @@ loop_0:
                 effect_state = ((u8 *)effect) + 0x20;
                 effect->update_callback = D_80026748;
                 register_node(effect, project_sprite_chain);
-                effect_position = *(u8 * *)&effect->position;
-                effect_sprite = *(u8 * *)&effect->sprite;
+                effect_position = effect->position;
+                effect_sprite = effect->sprite;
                 effect_position->x.v = position[0];
                 effect_position->y.v = position[1];
                 effect_position->z.v = position[2];

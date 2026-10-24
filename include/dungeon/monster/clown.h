@@ -418,7 +418,7 @@ typedef struct R16_80173CEC_S_80173CEC_9 {
 extern s32 abs(s32);
 extern s32 rand(void);
 s32 Control_CD();
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 register_node();
 s32 func_8004491C();

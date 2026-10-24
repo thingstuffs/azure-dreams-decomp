@@ -224,8 +224,8 @@ typedef struct S_8009A180_2 {
 
 /* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
 s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
-    u32 link_bits;
-    u32 link_bits_2;
+    u8 * link_bits;
+    u8 * link_bits_2;
     s32 state_flags;
     s32 anchor_flags;
     s32 prev_link;
@@ -245,15 +245,15 @@ s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     prev_link = 0x80000000;
     state_flags |= prev_link;
     entry->flags1C = state_flags;
-    link_bits_2 = (u32)entry;
+    link_bits_2 = (u8 *)entry;
     unlink_entity_node((void *)link_bits_2);
 
     prev_link = anchor->next_actor_header;
     entry->next_actor_header = prev_link;
     prev_node = (void *)(prev_link + 0x20);
-    link_bits = (u32)prev_node->unk_58;
+    link_bits = (u8 *)prev_node->unk_58;
     entry->previous_actor_header = (void *)link_bits;
-    link_bits = (u32)((u8 *)entry - 0x20);
+    link_bits = ((u8 *)entry - 0x20);
     prev_node->unk_58 = (void *)link_bits;
     anchor->next_actor_header = (void *)link_bits;
     return 1;
@@ -599,7 +599,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
     s16 direction_or_x;
     s32 tile_coord;
     s32 y_or_direction;
-    u32 collision_out;
+    u8 * collision_out;
     u16 tile_x8;
     u16 tile_y8;
 
@@ -641,7 +641,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                                            coord_or_height) << 0x10;
                     if (result != 0) {
                         y_or_direction = direction;
-                        collision_out = (u32)&collision.value;
+                        collision_out = (u8 *)(&collision.value);
                         {
                             u16 *pa = (u16 *)((u8 *)direction_x_offsets + step_offset);
                             u16 *pb = (u16 *)((u8 *)direction_y_offsets + step_offset);

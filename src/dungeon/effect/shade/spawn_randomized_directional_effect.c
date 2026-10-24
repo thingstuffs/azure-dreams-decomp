@@ -67,8 +67,8 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
 {
     S_800D5DCC_2 *pos_x;
     S_800D5DCC_4 *pos_y;
-    S_800D5DCC_5 *velocity_x;
-    S_800D5DCC_6 *velocity_y;
+    ObjectPosition *velocity_x;
+    ObjectPosition *velocity_y;
     S_800D5DCC_3 *direction;
     S_800D5DCC_7 *effect_state;
     ObjectNodeHeader *effect;
@@ -95,10 +95,10 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
         (effect->position)->velocity_z =
             ((rand() & 0x7FFF) - 0x4000) << 5;
         velocity_x = effect->position;
-        velocity_x->unk_0C += direction->unk_00 * 0x160000;
+        velocity_x->velocity_x += direction->unk_00 * 0x160000;
         effect_state = (u8 *)effect + 0x20;
         velocity_y = effect->position;
-        velocity_y->unk_10 += direction->unk_02 * 0x160000;
+        velocity_y->velocity_y += direction->unk_02 * 0x160000;
         effect_state->unk_14 = angle;
         effect_state->unk_32 = 7;
         effect_state->unk_34 = 7;

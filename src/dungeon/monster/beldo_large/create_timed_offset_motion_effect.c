@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -52,7 +53,7 @@ void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s
     ObjectNodeHeader *obj;
     u8 *work;
     ObjectPosition *prim;
-    u8 *packet;
+    SpriteFrameState *packet;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
@@ -60,11 +61,11 @@ void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s
         ((S_80170D2C_0 *)work)->unk_18 = duration;
         obj->update_callback = D_80170BB0;
         register_node(obj, project_sprite_chain);
-        packet = *(u8 * *)&obj->sprite;
+        packet = obj->sprite;
         ((S_80170D2C_2 *)packet)->unk_10 = 0x20;
         ((S_80170D2C_2 *)packet)->unk_06 = 0;
         ((S_80170D2C_2 *)packet)->unk_14 |= 0xC;
-        prim = *(u8 * *)&obj->position;
+        prim = obj->position;
         prim->x.v = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_00.at00.v;
         prim->y.v = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_04.at00.v;
         prim->z.v = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_08.at00.v;
@@ -81,7 +82,7 @@ void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s
         ((S_80170D2C_0 *)work)->unk_68 = (-(offset_x << 16) / (duration / 8)) / 4;
         ((S_80170D2C_0 *)work)->unk_6C = (-(offset_y << 16) / (duration / 8)) / 4;
         ((S_80170D2C_0 *)work)->unk_70 = (-(offset_z << 16) / (duration / 8)) / 4;
-        packet = *(u8 * *)&obj->sprite;
+        packet = obj->sprite;
         ((S_80170D2C_2 *)packet)->unk_1E = 0x1000;
         ((S_80170D2C_2 *)packet)->unk_1C = 0x1000;
         ((S_80170D2C_2 *)packet)->unk_0E = 0;

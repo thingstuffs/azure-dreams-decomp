@@ -48,7 +48,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
     s32 target_result;
     s32 direction_offset;
     s32 result;
-    u32 tail_page;
+    u8 * tail_page;
     s32 tail_result;
     s32 mode;
     register s32 target_kind;
@@ -77,7 +77,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
                         } else {
                             tail_result = 0;
                         }
-                        tail_page = (u32)resident_globals_page;
+                        tail_page = resident_globals_page;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         action->unk_124 = 0;
                         action->unk_8C.p = (void *)((u32)handle_player_input);

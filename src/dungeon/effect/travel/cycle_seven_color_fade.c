@@ -580,7 +580,7 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
     B28_818B77D4_Inner818B77D4 *state;
     u16 source_value;
 
-    obj = (B28_818B77D4_Obj818B77D4 *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->unk10 = cycle_seven_color_fade;
         state = &obj->unk20;

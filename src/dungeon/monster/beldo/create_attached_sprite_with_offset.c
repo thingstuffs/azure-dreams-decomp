@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -53,7 +54,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     u16 sprite_height;
     s16 saved_offset_id;
     S_80170B50_6 *owner_model;
-    MovingPosition *position;
+    ObjectPosition *position;
     SpriteFrameState *sprite;
     void *object_data;
     ObjectNodeHeader *object;
@@ -86,14 +87,14 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0x80;
         position = object->position;
-        position->x = (u16) base_position->x;
-        position->y = (u16) base_position->y;
-        position->z = (u16) base_position->z;
+        position->x.w.i = (u16) base_position->x;
+        position->y.w.i = (u16) base_position->y;
+        position->z.w.i = (u16) base_position->z;
         owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
         if (resolve_record_orientation_or_fallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
-            position->x = (u16) (position->x + ((S_80170B50_1 *)object_data)->unk_B0);
-            position->y = (u16) (position->y + ((S_80170B50_1 *)object_data)->unk_B2);
-            position->z = (u16) (position->z + ((S_80170B50_1 *)object_data)->unk_B4);
+            position->x.w.i = (u16) ((u16)position->x.w.i + ((S_80170B50_1 *)object_data)->unk_B0);
+            position->y.w.i = (u16) ((u16)position->y.w.i + ((S_80170B50_1 *)object_data)->unk_B2);
+            position->z.w.i = (u16) ((u16)position->z.w.i + ((S_80170B50_1 *)object_data)->unk_B4);
         }
         sprite->scale_x = (u16) sprite_template->scale_x;
         sprite_height = (u16) sprite_template->scale_y;

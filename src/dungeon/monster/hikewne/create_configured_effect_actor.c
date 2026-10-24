@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -53,7 +54,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     s32 flags14;
     s32 flags1c;
     ObjectNodeHeader *object;
-    S_80170BB0_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *handler;
     S_80170BB0_1 *actor;
@@ -70,7 +71,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
 
         part_a = object->position;
         handler = hikewne_direction_frames;
-        part_a->unk_0A = value_at_0A;
+        part_a->z.w.i = value_at_0A;
         part_b = object->sprite;
         kind = mask & 3;
         part_b->tile_y = value_at_25;

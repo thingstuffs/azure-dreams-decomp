@@ -252,7 +252,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
     s32 remaining = count;
 
     while (remaining > 0) {
-        particle = (ovl_19a332c_81982F0C_Object *)allocate_flagged_object_node(0x202);
+        particle = allocate_flagged_object_node(0x202);
         if (particle != 0) {
             s32 angle_offset;
             s32 move_angle;
@@ -477,7 +477,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     s32 boost_speed_x;
     s32 alternate_value;
     s32 height_value;
-    s32 hit_origin;
+    u8 * hit_origin;
     s32 cos_x;
     s32 cos_y;
     s32 owner_ref;
@@ -521,7 +521,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     u8 fade_blue;
     ovl_19a332c_819835AC_S_819835AC_9 *owner_state;
     ovl_19a332c_819835AC_S_819835AC_7 *actor_data;
-    ovl_19a332c_819835AC_S_819835AC_2 *related_motion;
+    ObjectPosition *related_motion;
     ovl_19a332c_819835AC_S_819835AC_6 *new_target;
     ovl_19a332c_819835AC_S_819835AC_6 *target;
     ovl_19a332c_819835AC_S_819835AC_4 *history;
@@ -860,7 +860,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 }
             }
             hit_actor = ((ovl_19a332c_819835AC_S_819835AC_11 *) &primary_actor_record)->unk_00;
-            hit_origin = (s32)(hit_actor);
+            hit_origin = (u8 *)(hit_actor);
             coord_delta = hit_actor->unk_5C;
             hit_actor = coord_delta + 0x20;
             if (hit_actor != (void *)hit_origin) {
@@ -879,8 +879,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                             apply_attack_power_and_element_effects(hit_actor, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->attack_direction << 9),
                                 tint_transition_source, 2);
                             related_motion = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->position;
-                            spawn_thirty_two_angled_particles(related_motion->x.half.unk_02.s16,
-                                related_motion->y.half.unk_06.s16, related_motion->z.half.unk_0A.s16,
+                            spawn_thirty_two_angled_particles(related_motion->x.w.i,
+                                related_motion->y.w.i, related_motion->z.w.i,
                                 (s16) effect->heading, (rand() & 3) | 4);
                             actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
                         }
@@ -908,7 +908,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if (target != 0) {
                 related_motion = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
                 aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
-                    related_motion->x.half.unk_02.s16, related_motion->y.half.unk_06.s16);
+                    related_motion->x.w.i, related_motion->y.w.i);
                 homing_heading = effect->heading;
                 if (homing_heading & 0x800) {
                     homing_signed_angle = homing_heading | 0xF800;
@@ -958,7 +958,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     state6_next = state6_timer - 1;
                     effect->timer.u16 = state6_next;
                     if ((state6_next << 0x10) == 0) {
-                        state6_height = related_motion->z.half.unk_0A.u16;
+                        state6_height = (u16)related_motion->z.w.i;
                         motion->velocity_z.word = 0;
                         state6_height -= 0x40;
                         motion->z.half.unk_0A.u16 = state6_height;
@@ -973,14 +973,14 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     motion->velocity_z.half.unk_16 = (s16) (rsin(state6_spin_arg) >> 9);
                 }
                 target_gap_x = motion->x.half.unk_02.s16;
-                target_coord = related_motion->x.half.unk_02.s16;
+                target_coord = related_motion->x.w.i;
                 target_gap_x -= target_coord;
                 if (target_gap_x < 0) {
                     target_gap_x = 0 - target_gap_x;
                 }
                 if (target_gap_x < 0x20) {
                     target_gap_y = motion->y.half.unk_06.s16;
-                    target_coord = related_motion->y.half.unk_06.s16;
+                    target_coord = related_motion->y.w.i;
                     target_gap_y -= target_coord;
                     if (target_gap_y < 0) {
                         target_gap_y = 0 - target_gap_y;
@@ -990,8 +990,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         apply_attack_power_and_element_effects(effect->target, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->attack_direction << 9),
                             tint_transition_source, 2);
                         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                        spawn_thirty_two_angled_particles(related_motion->x.half.unk_02.s16, related_motion->y.half.unk_06.s16,
-                            (s16) related_motion->z.half.unk_0A.u16, (s16) effect->heading,
+                        spawn_thirty_two_angled_particles(related_motion->x.w.i, related_motion->y.w.i,
+                            (s16) (u16)related_motion->z.w.i, (s16) effect->heading,
                             (rand() & 3) | 4);
                         actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
                         effect->target = 0;
@@ -1019,7 +1019,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         related_motion = ((ObjectNodeHeader *)((u8 *)new_target - 0x20))->position;
                         effect->timer.u16 = 0x10U;
                         state6_target_base = motion->z.half.unk_0A.s16;
-                        height_value = related_motion->z.half.unk_0A.s16;
+                        height_value = related_motion->z.w.i;
                         state6_target_base += 0x40;
                         height_numerator = (height_value - state6_target_base) << 0x10;
                         height_frames = 16;
@@ -1119,9 +1119,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
         visual->angle_z = (u16) ((s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16,
-            (s16) motion->y.half.unk_06.u16, related_motion->x.half.unk_02.s16,
-            related_motion->y.half.unk_06.s16) - 0x400);
-        alternate_delta = related_motion->z.half.unk_0A.s16;
+            (s16) motion->y.half.unk_06.u16, related_motion->x.w.i,
+            related_motion->y.w.i) - 0x400);
+        alternate_delta = related_motion->z.w.i;
         alternate_value = motion->z.half.unk_0A.s16;
         alternate_delta -= alternate_value;
         alternate_scale = alternate_delta << 2;
@@ -1134,9 +1134,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         motion->y.half.unk_06.u16 = (u16) owner_state->unk_52;
         motion->z.half.unk_0A.u16 = (u16) owner_state->unk_54;
     } else {
-        motion->x.half.unk_02.u16 = (u16) related_motion->x.half.unk_02.s16;
-        motion->y.half.unk_06.u16 = (u16) related_motion->y.half.unk_06.s16;
-        motion->z.half.unk_0A.u16 = (u16) related_motion->z.half.unk_0A.s16;
+        motion->x.half.unk_02.u16 = (u16) related_motion->x.w.i;
+        motion->y.half.unk_06.u16 = (u16) related_motion->y.w.i;
+        motion->z.half.unk_0A.u16 = (u16) related_motion->z.w.i;
         visual->angle_x = (u16) actor_data->unk_16;
         visual->angle_y = (u16) actor_data->unk_18;
         visual->angle_z = (u16) actor_data->unk_1A;
@@ -1399,7 +1399,7 @@ void *find_eligible_nearby_entity(void *source_entity)
     s32 initial_limit;
     void *next_link;
     s8 entity_floor;
-    ovl_19a332c_81984C44_S_81984C44_4 *owner;
+    SpriteFrameState *owner;
 
     node = primary_actor_record;
     initial_limit = 0x100;
@@ -1417,7 +1417,7 @@ void *find_eligible_nearby_entity(void *source_entity)
                 entity_floor = ((ovl_19a332c_81984C44_S_81984C44_1 *)source_entity)->unk_26;
                 owner = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
                 if (entity_floor >= 0) {
-                    if (entity_floor == owner->unk_26) {
+                    if (entity_floor == (s8)owner->room_index) {
                         return node;
                     }
                 } else {

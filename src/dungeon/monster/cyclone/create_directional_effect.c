@@ -68,7 +68,7 @@ s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, Sprite
     s16 angle;
     s32 biased_angle;
 
-    effect = (FuncTemp *)allocate_flagged_object_node(0x312);
+    effect = allocate_flagged_object_node(0x312);
     if (effect != NULL) {
         effect->field10 = &D_801751C4;
         register_node(effect, project_sprite_chain);

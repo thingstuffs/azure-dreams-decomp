@@ -64,7 +64,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
     s32 global_flags;
     SpriteFrameState *map_data;
     void *object_state;
-    MovingPosition *position;
+    ObjectPosition *position;
     ObjectNodeHeader *object;
     MovingTile *owner_map;
     u16 object_count;
@@ -74,14 +74,14 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         object->update_callback = &D_800CB600;
         register_node(object, project_sprite_chain);
         position = object->position;
-        position->x = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
-        position->y = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
-        position->z = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
+        position->x.w.i = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
+        position->y.w.i = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
+        position->z.w.i = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
         map_data = object->sprite;
         map_data->source = &D_800E03BC;
         map_data->flags = (u16) (map_data->flags | 0xC);
-        map_data->tile_x = (s8) ((u16) position->x >> 6);
-        map_data->tile_y = (s8) ((u16) position->y >> 6);
+        map_data->tile_x = (s8) ((u16) position->x.w.i >> 6);
+        map_data->tile_y = (s8) ((u16) position->y.w.i >> 6);
         object_state = ((void *)object) + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
         ((S_800CB82C_4 *)object_state)->unk_08 = (u8) active_spell_parameters;

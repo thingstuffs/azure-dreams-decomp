@@ -50,5 +50,5 @@ typedef struct SpritePartQuad {
 
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);
 
-ObjectNodeHeader *allocate_flagged_object_node(int flags);
+void *allocate_flagged_object_node(int flags);
 #endif

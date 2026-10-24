@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -149,7 +150,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     ObjectNodeHeader *object_base;
     void *source_object;
 
-    MovingPosition *object_vertices;
+    ObjectPosition *object_vertices;
     void *finished_object;
     void *release_object;
     u32 release_coord;
@@ -180,13 +181,13 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         unlink_node(object_base);
         retire_tracked_effect_by_id(object_base);
         object_vertices = object_base->position;
-        vertex_x = object_vertices->x;
+        vertex_x = (u16)object_vertices->x.w.i;
         ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
         ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
-        vertex_y = object_vertices->y;
+        vertex_y = (u16)object_vertices->y.w.i;
         ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
         ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
-        vertex_z = object_vertices->z;
+        vertex_z = (u16)object_vertices->z.w.i;
         ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
         register_node(effect - 0x20, &linked_object_draw_address);

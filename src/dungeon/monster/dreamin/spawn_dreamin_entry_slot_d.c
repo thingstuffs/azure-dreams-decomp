@@ -3,6 +3,6 @@
 extern void move_and_fade_effect_sprite(void);
 
 /* entry; owner: dungeon/func_80DA1000. */
-const u32 dreamin_slot_d_spawn_entry[1] __attribute__((aligned(4))) = {
-    (u32)move_and_fade_effect_sprite
+const void *const dreamin_slot_d_spawn_entry[1] __attribute__((aligned(4))) = {
+    move_and_fade_effect_sprite
 };

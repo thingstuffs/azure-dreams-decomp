@@ -74,9 +74,9 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
-        position = (*(u8 * *)&created ->position);
+        position = created ->position;
         position->z.w.i = saved_height;
-        monster = (*(u8 * *)&created ->sprite);
+        monster = created ->sprite;
         monster->tile_y = saved_tile_y;
         actor = work;
         monster->frameTable = D_80163258;

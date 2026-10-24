@@ -497,7 +497,7 @@ s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *pa
         return 0;
     }
     object->update_callback = D_800A77AC;
-    position = *(u8 * *)&object->position;
+    position = object->position;
     position->x.w.i = (s16)((tile_x << 6) + 0x20);
     position->y.w.i = (s16)((tile_y << 6) + 0x20);
     position->z.w.i = height;

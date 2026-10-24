@@ -50,7 +50,7 @@ typedef struct Object {
     void *update;
 } Object;
 
-extern Object *allocate_list_node();
+extern void *allocate_list_node();
 extern void register_node();
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(Core *, IntVector3 *, void *);
@@ -110,7 +110,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             child_core->angle = 0;
             child_core->index = child_index;
             child_core->value = parent_value;
-            particle_prim = *(Primitive * *)&child_obj->sprite;
+            particle_prim = child_obj->sprite;
             particle_prim->scale_x = 0x1000;
             particle_prim->scale_y = 0x1000;
             particle_prim->offset_x = 0xAAA;
@@ -140,7 +140,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             child_core->parent = parent_core;
             child_core->index = child_index;
             child_core->value = parent_value;
-            texture_prim = *(Primitive * *)&child_obj->sprite;
+            texture_prim = child_obj->sprite;
             texture_prim->source = map_particle_first_sprite_entries;
             texture_prim->color.c.b = 0x80;
             texture_prim->color.c.g = 0x80;
@@ -169,7 +169,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = parent_core;
         child_core->value = parent_value;
-        texture_prim = *(Primitive * *)&child_obj->sprite;
+        texture_prim = child_obj->sprite;
         texture_prim->source = map_particle_second_sprite_entries;
         texture_prim->color.c.b = 0x80;
         texture_prim->color.c.g = 0x80;
@@ -195,7 +195,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = parent_core;
         child_core->value = parent_value;
-        particle_prim = *(Primitive * *)&child_obj->sprite;
+        particle_prim = child_obj->sprite;
         particle_prim->scale_x = 0x1000;
         particle_prim->scale_y = 0x1000;
         particle_prim->offset_x = 0x1000;

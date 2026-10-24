@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -38,7 +39,7 @@ extern u8 D_800241CC[];
 s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
 {
     s32 offset_numerator;
-    S_818BCFB0_3 *object_data;
+    ObjectPosition *object_data;
     ObjectNodeHeader *obj;
     SpriteFrameState *scale_state;
 
@@ -79,10 +80,10 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
             s32 component_offset;
 
             object_addr = (s32)obj;
-            component = object_data->unk_0A;
+            component = (u16)object_data->z.w.i;
             component_offset = offset_numerator >> 2;
             component += component_offset;
-            object_data->unk_0A = component;
+            object_data->z.w.i = component;
             return object_addr;
         }
     }

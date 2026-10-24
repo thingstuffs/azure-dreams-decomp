@@ -255,7 +255,7 @@ loop_0:
 
                     obj->update_callback = gym_score_update_address;
                     register_node(obj, project_sprite_chain);
-                    image = *(u8 * *)&obj->sprite;
+                    image = obj->sprite;
                     image->scale_y = 0x1000;
                     image->scale_x = 0x1000;
                     image->source = &gym_sprite_source;
@@ -322,7 +322,7 @@ loop_0:
                 sprite = (u8 *)obj + 0x20;
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
-                image = *(u8 * *)&obj->sprite;
+                image = obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
                 image->source = &gym_sprite_source;
@@ -374,7 +374,7 @@ loop_0:
                 sprite = (u8 *)obj + 0x20;
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
-                image = *(u8 * *)&obj->sprite;
+                image = obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
                 image->source = &gym_sprite_source;

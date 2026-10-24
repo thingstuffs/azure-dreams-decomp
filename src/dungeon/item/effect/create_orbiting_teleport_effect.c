@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -47,7 +48,7 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     ObjectNodeHeader *object;
     SpriteFrameState *display;
     MovingPosition *source;
-    MovingPosition *target;
+    ObjectPosition *target;
     S_800C542C_5 *record;
     void *callback;
     s16 saved_mode;
@@ -69,10 +70,10 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
 
         source = ((S_800C542C_2_pre *)owner)[-1].unk_00;
         target = object->position;
-        target->x = source->x;
-        target->y = source->y;
+        target->x.w.i = source->x;
+        target->y.w.i = source->y;
         record = (u8 *)object + 0x20;
-        target->z = source->z;
+        target->z.w.i = source->z;
 
         record->unk_30 = effect_value;
         direction_fixed = direction << 0x10;

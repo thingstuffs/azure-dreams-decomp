@@ -29,7 +29,7 @@ void initialize_enabled_scene_object(void) {
         }
         object = create_town_effect_object(((s8 *)(&scene_object_list_anchor)), 0, D_800A6684, 0);
         if (object != NULL) {
-            position = *(s8 * *)&object->position;
+            position = object->position;
             object_resource = *(s32 *)&object->sprite;
             saved_position = bike_saved_position;
             position->x.v = bike_saved_position[0];

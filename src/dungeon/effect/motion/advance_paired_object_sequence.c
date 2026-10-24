@@ -183,7 +183,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
     switch (state) {
         s32 coord_delta;
         s32 slot_value;
-        s32 page_cursor;
+        u8 * page_cursor;
         void *object_m;
         void *child;
         s32 message_text;
@@ -405,7 +405,7 @@ case 4:
             return;
         }
         object_index_m = 0;
-        page_cursor = (s32)sequence;
+        page_cursor = (u8 *)sequence;
         do {
             void *call_position = position;
             void *call_actor = actor;
@@ -688,13 +688,13 @@ loop_7:
         register u32 clear_flags;
 
         step = (128 - scene->view.tint.parts.tint_r) / ((S_800253C0_0 *)sequence)->unk_96.n;
-        page_cursor = (s32)((u8 *)scene + 0xA8);
+        page_cursor = ((u8 *)scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
         brightness = scene->view.tint.parts.tint_r + step;
         scene->view.tint.parts.tint_r = brightness;
-        ((u8 *)page_cursor)[2] = brightness;
-        ((u8 *)page_cursor)[1] = brightness;
+        (page_cursor)[2] = brightness;
+        (page_cursor)[1] = brightness;
         do {
             object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
             if (object_m != 0) {
@@ -744,7 +744,7 @@ loop_7:
         if (timer > 0) {
             return;
         }
-        ((S_800253C0_11 *)(u8 *)page_cursor)->unk_00 = 0x2C808080;
+        ((S_800253C0_11 *)page_cursor)->unk_00 = 0x2C808080;
         object_index_m = 0;
         clear_flags = 0xFFEFFFFF;
         final_slot = sequence;

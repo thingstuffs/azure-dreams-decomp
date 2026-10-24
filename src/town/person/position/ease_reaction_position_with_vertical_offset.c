@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/object_node.h"
@@ -40,13 +41,13 @@ void ease_reaction_position_with_vertical_offset(void *state, void *position) {
         - ((S_800CA134_1 *)position)->unk_06;
     (*(s16 *)((u8 *)position + (6))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_06 + (y_delta / 4));
     {
-        SignedHeightView *target;
+        ObjectPosition *target;
         s32 z_step;
         s32 target_z;
 
         target = target_table->position;
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
-        target_z = target->z;
+        target_z = target->z.w.i;
         z_step += 0xD0;
         z_step = target_z - z_step;
         ((S_800CA134_1 *)position)->unk_0A.n += z_step / 4;

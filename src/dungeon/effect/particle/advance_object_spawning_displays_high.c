@@ -70,8 +70,8 @@ void spawn_free_slot_display_effect(void *owner) {
     Rect16 *rect;
     ObjectNodeHeader *effect;
     u8 *effect_work;
-    Display *display;
-    void *vector_src;
+    SpriteFrameState *display;
+    ObjectPosition *vector_src;
     ObjectPosition *vector_dst;
     u16 timer;
 
@@ -118,7 +118,7 @@ void spawn_free_slot_display_effect(void *owner) {
             register_node(effect, project_sprite_chain);
 
             display = effect->sprite;
-            display->field6 = 4;
+            display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
             vector_src = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
@@ -128,14 +128,14 @@ void spawn_free_slot_display_effect(void *owner) {
             vector_dst->z.v = ((s32 *)vector_src)[2];
 
             display = effect->sprite;
-            display->scaleX = 0x1000;
-            display->scaleY = 0x1000;
-            display->blue = 0x80;
-            display->green = 0x80;
-            display->red = 0x80;
+            display->scale_y = 0x1000;
+            display->scale_x = 0x1000;
+            display->color.c.b = 0x80;
+            display->color.c.g = 0x80;
+            display->color.c.r = 0x80;
 
             *(PackedVec3 *)((u8 *)effect + 0x92) = tint_particle_sprite_data;
-            display->vector = (u8 *)effect + 0x92;
+            display->source = (u8 *)effect + 0x92;
             ((S_80024104_0 *)effect_work)->unk_7A = (u8)rect->x - 0x40;
             ((S_80024104_0 *)effect_work)->unk_7B = (u8)rect->y;
         }
@@ -154,7 +154,7 @@ void spawn_free_slot_display_effect(void *owner) {
 /* Creates an object linked to the source with its position and default part data. */
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite) {
     ObjectPosition *position;
-    Part *part;
+    SpriteFrameState *part;
     ObjectNodeHeader *object;
     S_800243D8_0 *state;
     S_800243D8_3 *source_position;
@@ -166,23 +166,23 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         state->unk_60 = source;
         (object->update_callback) = &spawn_free_slot_display_effect;
         register_node(object, project_sprite_chain);
-        part = (*(Part * *)&object->sprite);
-        part->field10 = 0x20;
-        part->field6 = 0;
-        part->flags14 = (u16) (part->flags14 | 0xC);
+        part = object->sprite;
+        part->tpage_abr = 0x20;
+        part->depth_bias = 0;
+        part->flags = (u16) (part->flags | 0xC);
         source_position = ((S_800243D8_1_pre *)source)[-1].unk_00;
-        position = (object->position);
+        position = object->position;
         position->x.v = (s32) source_position->unk_00;
         position->y.v = (s32) source_position->unk_04;
         position->z.v = (s32) source_position->unk_08;
-        part = (*(Part * *)&object->sprite);
-        part->field1E = 0;
-        part->field1C = 0;
-        part->byteE = 0;
-        part->byteD = 0;
-        part->byteC = 0;
+        part = object->sprite;
+        part->scale_y = 0;
+        part->scale_x = 0;
+        part->color.c.b = 0;
+        part->color.c.g = 0;
+        part->color.c.r = 0;
         (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&tint_particle_sprite_data;
-        part->ptr8 = (void *) (((void *)object) + 0x92);
+        part->source = (void *) (((void *)object) + 0x92);
     }
 }
 
@@ -294,7 +294,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
     u8 *state;
     s32 jitter;
 
-    spawned = (Object *)allocate_list_node(0x211, (ObjectNodeHeader **)parent);
+    spawned = allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
         spawned->update_callback = lower_timed_effect_position;
         jitter = rand();
@@ -377,7 +377,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
     s32 render_y, s32 render_mode) {
     s16 render_param_copy;
     ObjectPosition *position;
-    void *render_state;
+    SpriteFrameState *render_state;
     S_800249F0_0 *state;
     ObjectNodeHeader *object;
     S_800249F0_4 *source_position;
@@ -388,17 +388,17 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
         state->unk_2A = 0x3C;
         (object->update_callback) = &decrement_object_counter;
         register_node(object, project_sprite_chain);
-        render_state = (object->sprite);
+        render_state = object->sprite;
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
         render_param_copy = render_param;
         ((S_800249F0_1 *)render_state)->unk_10 = (s16) (render_param_copy << 5);
         ((S_800249F0_1 *)render_state)->unk_14 |= 0x80;
         source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
-        position = (object->position);
+        position = object->position;
         position->x.v = (s32) source_position->unk_00;
         position->y.v = (s32) source_position->unk_04;
         position->z.v = (s32) source_position->unk_08;
-        render_state = (object->sprite);
+        render_state = object->sprite;
         ((S_800249F0_5 *)render_state)->unk_1C = (s16) render_x;
         ((S_800249F0_5 *)render_state)->unk_1E = (s16) render_y;
         ((S_800249F0_5 *)render_state)->unk_0E = 0x80;

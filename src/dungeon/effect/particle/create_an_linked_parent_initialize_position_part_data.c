@@ -113,8 +113,8 @@ void spawn_free_slot_display_effect(void *owner) {
     Rect16 *rect;
     ObjectNodeHeader *child;
     u8 *child_work;
-    Display *display;
-    void *source_words;
+    SpriteFrameState *display;
+    ObjectPosition *source_words;
     ObjectPosition *child_words;
     u16 timer;
 
@@ -162,7 +162,7 @@ void spawn_free_slot_display_effect(void *owner) {
             register_node(child, project_sprite_chain);
 
             display = child->sprite;
-            display->field6 = 4;
+            display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
             source_words = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
@@ -172,14 +172,14 @@ void spawn_free_slot_display_effect(void *owner) {
             child_words->z.v = ((s32 *)source_words)[2];
 
             display = child->sprite;
-            display->scaleX = 0x1000;
-            display->scaleY = 0x1000;
-            display->blue = 0x80;
-            display->green = 0x80;
-            display->red = 0x80;
+            display->scale_y = 0x1000;
+            display->scale_x = 0x1000;
+            display->color.c.b = 0x80;
+            display->color.c.g = 0x80;
+            display->color.c.r = 0x80;
 
             *(PackedVec3 *)((u8 *)child + 0x92) = D_8002533C;
-            display->vector = (u8 *)child + 0x92;
+            display->source = (u8 *)child + 0x92;
             ((S_80024104_0 *)child_work)->unk_7A = (u8)rect->x - 0x40;
             ((S_80024104_0 *)child_work)->unk_7B = (u8)rect->y;
         }
@@ -237,7 +237,7 @@ typedef struct S_800243E4_3 {
 /* Create an object linked to its parent and initialize its position and part data. */
 void create_an_linked_parent_initialize_position_part_data(void *parent, void *unused_context, void *unused_parameters) {
     ObjectPosition *position;
-    Part *part;
+    SpriteFrameState *part;
     ObjectNodeHeader *object;
     S_800243E4_0 *state;
     S_800243E4_3 *parent_position;
@@ -249,23 +249,23 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
         state->unk_60 = parent;
         (object->update_callback) = (s32 *)spawn_free_slot_display_effect;
         register_node(object, project_sprite_chain);
-        part = (*(Part * *)&object->sprite);
-        part->field10 = 0x20;
-        part->field6 = 0;
-        part->flags14 = (u16) (part->flags14 | 0xC);
+        part = object->sprite;
+        part->tpage_abr = 0x20;
+        part->depth_bias = 0;
+        part->flags = (u16) (part->flags | 0xC);
         parent_position = ((S_800243E4_1_pre *)parent)[-1].unk_00;
-        position = (object->position);
+        position = object->position;
         position->x.v = (s32) parent_position->unk_00;
         position->y.v = (s32) parent_position->unk_04;
         position->z.v = (s32) parent_position->unk_08;
-        part = (*(Part * *)&object->sprite);
-        part->field1E = 0;
-        part->field1C = 0;
-        part->byteE = 0;
-        part->byteD = 0;
-        part->byteC = 0;
+        part = object->sprite;
+        part->scale_y = 0;
+        part->scale_x = 0;
+        part->color.c.b = 0;
+        part->color.c.g = 0;
+        part->color.c.r = 0;
         (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&D_8002533C;
-        part->ptr8 = (void *) (((void *)object) + 0x92);
+        part->source = (void *) (((void *)object) + 0x92);
     }
 }
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -429,12 +429,12 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     u32 upload_value;
     ObjectPosition *position;
     ActorRecord *target;
-    TransitionRenderPart *render_part;
+    SpriteFrameState *render_part;
     TransitionParticlePayload * particle_scratch;
     TransitionParticle *particle;
     ActorRecord *actor;
     ActorRecord *player;
-    TransitionRenderPart *tint_part;
+    SpriteFrameState *tint_part;
 
     state->ticks++;
     switch (state->phase) {
@@ -490,17 +490,17 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 player = primary_actor_record;
                 entry_tint = TINT_FLASH_BRIGHT;
                 player->action_state_flags = player->action_state_flags; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].sprite;
+                tint_part = ((ObjectNodeHeader *)player)[-1].sprite;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
                     entry_tint = TINT_FLASH_DIM;
                 }
-                tint_part->color.rgb = entry_tint;
+                tint_part->color.word = entry_tint;
             } else {
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+                tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
                 entry_tint = TINT_FLASH_BRIGHT;
                 primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part->color.rgb = entry_tint;
+                tint_part->color.word = entry_tint;
             }
         }
         count_after_tick = state->countdown - 1;
@@ -519,16 +519,16 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         }
         if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
             if (state->countdown >= 7) {
-                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     register_node(particle, project_sprite_chain);
-                    render_part = (TransitionRenderPart *)particle->header.sprite;
-                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part = particle->header.sprite;
+                    render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                    position = (TransitionPosition *)particle->header.position;
+                    position = particle->header.position;
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
@@ -537,25 +537,25 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
-                    render_part->color.channel.blue = 0xFF;
-                    render_part->color.channel.green = 0xFF;
-                    render_part->color.channel.red = 0xFF;
+                    render_part->color.c.b = 0xFF;
+                    render_part->color.c.g = 0xFF;
+                    render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->resource = (void *)&particle->payload.resource;
+                    render_part->source = (void *)&particle->payload.resource;
                     particle_scratch->resource.extent.width = 0x40;
                     particle_scratch->resource.extent.height = 0x40;
                 }
                 if (!(state->countdown & 1)) {
-                    particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                    particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                     if (particle != 0) {
                         particle->payload.lifetime = 1;
                         particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                         register_node(particle, project_sprite_chain);
-                        render_part = (TransitionRenderPart *)particle->header.sprite;
-                        render_part->mode = PARTICLE_MODE_ADDITIVE;
-                        render_part->depth = -4;
+                        render_part = particle->header.sprite;
+                        render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
+                        render_part->depth_bias = -4;
                         render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                        position = (TransitionPosition *)particle->header.position;
+                        position = particle->header.position;
                         position->x.w.i = state->current_x;
                         position->y.w.i = state->current_y;
                         position->z.w.i = state->current_z;
@@ -564,24 +564,24 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                         position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                         render_part->scale_y = PARTICLE_SCALE_BASE;
                         render_part->scale_x = PARTICLE_SCALE_BASE;
-                        render_part->color.channel.blue = 0x80;
-                        render_part->color.channel.green = 0x80;
-                        render_part->color.channel.red = 0x80;
+                        render_part->color.c.b = 0x80;
+                        render_part->color.c.g = 0x80;
+                        render_part->color.c.r = 0x80;
                         particle->payload.resource.packed = linked_particle_alt_resource_template;
-                        render_part->resource = (void *)&particle->payload.resource;
+                        render_part->source = (void *)&particle->payload.resource;
                     }
                 }
             } else {
-                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     register_node(particle, project_sprite_chain);
-                    render_part = (TransitionRenderPart *)particle->header.sprite;
-                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part = particle->header.sprite;
+                    render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                    position = (TransitionPosition *)particle->header.position;
+                    position = particle->header.position;
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
@@ -590,24 +590,24 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
-                    render_part->color.channel.blue = 0xFF;
-                    render_part->color.channel.green = 0xFF;
-                    render_part->color.channel.red = 0xFF;
+                    render_part->color.c.b = 0xFF;
+                    render_part->color.c.g = 0xFF;
+                    render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->resource = (void *)&particle->payload.resource;
+                    render_part->source = (void *)&particle->payload.resource;
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
-                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     register_node(particle, project_sprite_chain);
-                    render_part = (TransitionRenderPart *)particle->header.sprite;
-                    render_part->mode = PARTICLE_MODE_ADDITIVE;
-                    render_part->depth = -4;
+                    render_part = particle->header.sprite;
+                    render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
+                    render_part->depth_bias = -4;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                    position = (TransitionPosition *)particle->header.position;
+                    position = particle->header.position;
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
@@ -616,11 +616,11 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
-                    render_part->color.channel.blue = 0x80;
-                    render_part->color.channel.green = 0x80;
-                    render_part->color.channel.red = 0x80;
+                    render_part->color.c.b = 0x80;
+                    render_part->color.c.g = 0x80;
+                    render_part->color.c.r = 0x80;
                     particle->payload.resource.packed = linked_particle_alt_resource_template;
-                    render_part->resource = (void *)&particle->payload.resource;
+                    render_part->source = (void *)&particle->payload.resource;
                 }
             }
             if (state->countdown < 4) {
@@ -629,16 +629,16 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 midpoint_sum_y = state->current_y + state->previous_y;
                 state->midpoint_y = (s32)(midpoint_sum_y + (midpoint_sum_y >> 31)) >> 1;
                 state->midpoint_z = (state->current_z + state->previous_z) / 2;
-                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     register_node(particle, project_sprite_chain);
-                    render_part = (TransitionRenderPart *)particle->header.sprite;
-                    render_part->mode = PARTICLE_MODE_ADDITIVE;
+                    render_part = particle->header.sprite;
+                    render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                    position = (TransitionPosition *)particle->header.position;
+                    position = particle->header.position;
                     position->x.w.i = state->midpoint_x;
                     position->y.w.i = state->midpoint_y;
                     position->z.w.i = state->midpoint_z;
@@ -647,11 +647,11 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
-                    render_part->color.channel.blue = 0xFF;
-                    render_part->color.channel.green = 0xFF;
-                    render_part->color.channel.red = 0xFF;
+                    render_part->color.c.b = 0xFF;
+                    render_part->color.c.g = 0xFF;
+                    render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->resource = (void *)&particle->payload.resource;
+                    render_part->source = (void *)&particle->payload.resource;
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
@@ -667,21 +667,21 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 player = primary_actor_record;
                 exit_tint = TINT_FLASH_BRIGHT;
                 player->action_state_flags = player->action_state_flags; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].sprite;
+                tint_part = ((ObjectNodeHeader *)player)[-1].sprite;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
                     exit_tint = TINT_FLASH_DIM;
                 }
-                tint_part->color.rgb = exit_tint;
+                tint_part->color.word = exit_tint;
             } else {
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+                tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
                 exit_tint = TINT_FLASH_BRIGHT;
                 primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part->color.rgb = exit_tint;
+                tint_part->color.word = exit_tint;
             }
         }
         if ((state->countdown >= 0xD) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
-            particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+            particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
             particle_scratch = &particle->payload;
             if (particle != 0) {
                 particle_scratch->lifetime = 0xC;
@@ -690,10 +690,10 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 }
                 particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                 register_node(particle, project_sprite_chain);
-                render_part = (TransitionRenderPart *)particle->header.sprite;
-                render_part->mode = PARTICLE_MODE_ADDITIVE;
+                render_part = particle->header.sprite;
+                render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
                 render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                position = (TransitionPosition *)particle->header.position;
+                position = particle->header.position;
                 position->x.w.i = state->current_x;
                 position->y.w.i = state->current_y;
                 position->z.w.i = state->current_z;
@@ -701,28 +701,28 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
                 position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                 scale_countdown = state->countdown;
-                render_part->color.channel.blue = 0xFF;
-                render_part->color.channel.green = 0xFF;
-                render_part->color.channel.red = 0xFF;
+                render_part->color.c.b = 0xFF;
+                render_part->color.c.g = 0xFF;
+                render_part->color.c.r = 0xFF;
                 particle_scale = ((0x10 - scale_countdown) * 0x300) + PARTICLE_SCALE_BASE;
                 render_part->scale_y = particle_scale;
                 render_part->scale_x = particle_scale;
                 particle->payload.resource.packed = linked_particle_resource_template;
-                render_part->resource = (void *)&particle->payload.resource;
+                render_part->source = (void *)&particle->payload.resource;
                 particle_scratch->resource.extent.width = 0x40;
                 particle_scratch->resource.extent.height = 0x40;
             }
             if (!(state->countdown & 1)) {
-                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
+                particle = allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.update_callback = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     register_node(particle, project_sprite_chain);
-                    render_part = (TransitionRenderPart *)particle->header.sprite;
-                    render_part->mode = PARTICLE_MODE_ADDITIVE;
-                    render_part->depth = -4;
+                    render_part = particle->header.sprite;
+                    render_part->tpage_abr = PARTICLE_MODE_ADDITIVE;
+                    render_part->depth_bias = -4;
                     render_part->flags = (u16) (render_part->flags | PARTICLE_FLAGS_VISIBLE);
-                    position = (TransitionPosition *)particle->header.position;
+                    position = particle->header.position;
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
@@ -731,23 +731,23 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
-                    render_part->color.channel.blue = 0x80;
-                    render_part->color.channel.green = 0x80;
-                    render_part->color.channel.red = 0x80;
+                    render_part->color.c.b = 0x80;
+                    render_part->color.c.g = 0x80;
+                    render_part->color.c.r = 0x80;
                     particle->payload.resource.packed = linked_particle_alt_resource_template;
-                    render_part->resource = (void *)&particle->payload.resource;
+                    render_part->source = (void *)&particle->payload.resource;
                 }
             }
         }
         target = primary_actor_record->target;
         if (target != 0) {
             target->flags1C = (s32) (target->flags1C | 0x10000000);
-            tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].sprite;
+            tint_part = ((ObjectNodeHeader *)target)[-1].sprite;
             target_tint = 0;
             if (transition_flags->unk_004 & 1) {
                 target_tint = TINT_TARGET_HIGHLIGHT;
             }
-            tint_part->color.rgb = target_tint;
+            tint_part->color.word = target_tint;
         }
         if ((D_80082E94 & 0x8000) || (remaining = state->countdown - 1, state->countdown = remaining, (remaining < 0))) {
             state->phase = PHASE_FINISH;
@@ -758,15 +758,15 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             target = primary_actor_record->target;
             if (target != 0) {
                 target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].sprite;
-                tint_part->color.rgb = TINT_NEUTRAL;
+                tint_part = ((ObjectNodeHeader *)target)[-1].sprite;
+                tint_part->color.word = TINT_NEUTRAL;
             }
             g_dungeon_status.active_actor = 0;
             reference_tile_object.phase = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
-            tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+            tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
             primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
-            tint_part->color.rgb = TINT_NEUTRAL;
+            tint_part->color.word = TINT_NEUTRAL;
             ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {

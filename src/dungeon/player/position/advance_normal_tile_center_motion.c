@@ -19,7 +19,7 @@ extern u8 player_tile_motion_frames[];
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *facing) {
     DungeonGlobalStatus *late_status;
-    u32 status_page;
+    u8 * status_page;
     s32 frames_left;
     s32 x_velocity;
     s32 y_position;
@@ -69,7 +69,7 @@ continue_update:
         }
     }
 
-    status_page = (u32)&g_dungeon_status.turn_scale;
+    status_page = (u8 *)(&g_dungeon_status.turn_scale);
     late_status = (void *)status_page;
     timer = late_status->movement_frames_left - 1;
     late_status->movement_frames_left = timer;

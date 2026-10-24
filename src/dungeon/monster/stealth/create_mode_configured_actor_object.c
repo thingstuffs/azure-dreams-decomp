@@ -31,7 +31,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         register_node(object, project_sprite_chain);
         part_a = *(void ** *)&object->position;
         part_a->unk_0A = attr_c;
-        part_b = *(void ** *)&object->sprite;
+        part_b = object->sprite;
         part_b->tile_y = attr_b;
         work_copy = work;
         part_b->frameTable = D_8016DD30;

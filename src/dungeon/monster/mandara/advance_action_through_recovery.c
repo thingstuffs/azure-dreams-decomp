@@ -50,7 +50,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
     s32 target_x;
     s32 abs_x;
     s32 abs_y;
-    s32 target_y;
+    SpriteFrameState *target_y;
     s32 ticks_left;
 
     use_global_target = 0;

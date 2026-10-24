@@ -31,7 +31,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     s32 product_x;
     s32 product_y;
     s16 *amplitude;
-    s32 amplitude_addr;
+    u8 * amplitude_addr;
     u8 *record;
     u8 *prim;
     s32 scale;
@@ -109,7 +109,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
                 if (copy_index != 0) {
                     (((SpS32 *) (scratch + 0xC4))->v) = 10;
                     sin_x = rsin(ratan2((s16) base_x, 0x200));
-                    amplitude_addr = (s32) sprite_depth_amplitude_table;
+                    amplitude_addr = (u8 *)sprite_depth_amplitude_table;
                     amplitude = (s16 *) (amplitude_addr + (copy_index << 1));
                     product_x = (*amplitude) * sin_x;
                     (((SpU16 *) (scratch + 0xBC))->v) = base_x - (product_x / 4096);

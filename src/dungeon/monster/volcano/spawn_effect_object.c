@@ -31,7 +31,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         *(u8 *)(work + 0x13) = 0x1C;
         register_node(object, project_sprite_chain);
 
-        part_a = *(u8 * *)&object->position;
+        part_a = object->position;
         part_a->z.w.i = attr_c;
         part_b = (long)*(u8 * *)&object->sprite;
         ((SpriteFrameState *)part_b)->tile_x = attr_a;

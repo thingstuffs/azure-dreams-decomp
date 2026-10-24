@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Jittered shaded particle creation and countdown-based removal. */
 #include "shared/object_node.h"
 #include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
@@ -43,9 +44,9 @@ void create_random_offset_effect_object(
         s32 x_pos;
         s32 y_pos;
         s32 z_pos;
-        Row_818F33BC_S_80024BBC_2 *x_dest;
-        Row_818F33BC_S_80024BBC_3 *y_dest;
-        Row_818F33BC_S_80024BBC_4 *z_dest;
+        ObjectPosition *x_dest;
+        ObjectPosition *y_dest;
+        ObjectPosition *z_dest;
 
         object->update_callback = decrement_effect_counter_by_twelve;
 
@@ -53,19 +54,19 @@ void create_random_offset_effect_object(
         x_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;
         x_dest = object->position;
         x_pos += x_jitter;
-        x_dest->unk_02 = (s16)x_pos + (s16)(held_x_offset - 0x10);
+        x_dest->x.w.i = (s16)x_pos + (s16)(held_x_offset - 0x10);
         y_jitter = rand() & 0x1F;
         y_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_06;
         y_dest = object->position;
         y_pos += y_jitter;
-        y_dest->unk_06 = (s16)y_pos + (s16)(held_y_offset - 0x10);
+        y_dest->y.w.i = (s16)y_pos + (s16)(held_y_offset - 0x10);
 
         state = (u8 *)object + 0x20;
         z_jitter = rand() & 0x1F;
         z_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_0A;
         z_dest = object->position;
         z_pos += z_jitter;
-        z_dest->unk_0A = (s16)z_pos + (s16)(held_z_offset - 0x10);
+        z_dest->z.w.i = (s16)z_pos + (s16)(held_z_offset - 0x10);
         state->unk_14 = field_14_value;
         state->unk_32 = field_32_value;
         register_node(object, draw_linked_shaded_tiles);

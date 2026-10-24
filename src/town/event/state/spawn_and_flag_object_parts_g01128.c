@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "sdk/libc.h"
 /* Spawn and flag object parts.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8.
@@ -32,12 +33,12 @@ void unlink_and_remove_scene_object(void *object) {
 /* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
 void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value) {
     S_8009C390_1 *state;
-    IntVector3 *object_position;
+    ObjectPosition *object_position;
     SpriteFrameState *render;
     ObjectNodeHeader *object;
 
     if (parent != 0) {
-        object = (void *)allocate_list_node(0x116, parent);
+        object = allocate_list_node(0x116, parent);
         state = ((void *)object) + 0x20;
     } else {
         object = allocate_flagged_object_node(0x116);
@@ -54,9 +55,9 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
         state->unk_9C = (s32)(parent + 0x20);
     }
     if (position != NULL) {
-        object_position->x = position->x;
-        object_position->y = position->y;
-        object_position->z = position->z;
+        object_position->x.v = position->x;
+        object_position->y.v = position->y;
+        object_position->z.v = position->z;
     }
     render->scale_y = 0x1000;
     render->scale_x = 0x1000;

@@ -86,7 +86,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     s32 action_value;
     u8 has_item;
     s16 sound_id;
-    s32 item_addr;
+    u8 * item_addr;
     s32 item_or_audio_base;
     s32 item_id;
     s32 audio_base;
@@ -110,19 +110,19 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         item_or_audio_base = 1;
         /* fallthrough */
     case 3:
-        item_addr = (s32)((u8 *)actor + 0xE);
+        item_addr = ((u8 *)actor + 0xE);
         break;
     case 6:
         item_or_audio_base = 1;
         /* fallthrough */
     case 2:
-        item_addr = (s32)((u8 *)actor + 0xB);
+        item_addr = ((u8 *)actor + 0xB);
         break;
     case 5:
         item_or_audio_base = 1;
         /* fallthrough */
     case 1:
-        item_addr = (s32)((u8 *)actor + 8);
+        item_addr = ((u8 *)actor + 8);
         break;
     default:
         item_addr = 0;
@@ -131,7 +131,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     action_value = ((S_80173560_0 *)action)->unk_98;
     has_item = item_or_audio_base;
     ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
-    state = *(u8 *)item_addr;
+    state = *item_addr;
     if (has_item != 0) {
         state |= 0x80;
     }
@@ -142,7 +142,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         state = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
         ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
         ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
-    } else if (item_action_definitions[*(u8 *)item_addr].kind == 2) {
+    } else if (item_action_definitions[*item_addr].kind == 2) {
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {
             state = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
@@ -161,7 +161,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         return;
     }
     if (item_or_audio_base != 0) {
-        D_800DCF50 = *(u8 *)item_addr;
+        D_800DCF50 = *item_addr;
         ((S_80173560_1 *)actor)->unk_13 |= 0x80;
     }
     direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
@@ -178,7 +178,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         ((S_80173560_0 *)action)->unk_9B.n++;
     }
     case 1:
-    item_addr = (s32)&D_80175F6E;
+    item_addr = (u8 *)(&D_80175F6E);
     if (*(u16 *)item_addr & 0x80) {
         if (get_cd_command_queue_depth() != 0) {
             return;

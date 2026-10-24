@@ -88,7 +88,7 @@ s32 init_panel_display_nodes(void) {
     s16 *offset_entry;
     s32 remaining;
     s32 initial_offset;
-    s32 offset_addr;
+    u8 * offset_addr;
     s32 clear_addr;
     s32 state_page;
     s32 initial_state;
@@ -127,7 +127,7 @@ s32 init_panel_display_nodes(void) {
 
     remaining = 7;
     initial_offset = 0x30;
-    offset_addr = (s32)D_805306D6;
+    offset_addr = (u8 *)D_805306D6;
     offset_entry = (s16 *)offset_addr;
     clear_addr = (s32)&D_80530666;
     clear_entry = (s16 *)clear_addr;

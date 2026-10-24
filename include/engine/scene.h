@@ -187,7 +187,7 @@ void *func_80047AB0(void *object, u16 texture_page, s32 clut_id, s32 alternate_p
 void *upload_image_tiles(void *object, u16 texture_page, s32 clut_id, s32 alternate_page, s32 image_addr);
 
 /* zero_words.c */
-ObjectNodeHeader *allocate_flagged_object_node(s32 flags);
+void *allocate_flagged_object_node(s32 flags);
 
 /* Data declarations. */
 extern u16 scene_sprite_cached_mode;

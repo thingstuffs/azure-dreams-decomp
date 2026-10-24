@@ -24,7 +24,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     s32 initial_state;
     s32 dispatch_state;
     s32 ground_z;
-    s32 found_target;
+    u8 * found_target;
     s32 hit_effect;
 
     actor = ((void *)effect_arg->x.v);
@@ -93,7 +93,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (s32)scan_actor_along_heading(
+        found_target = (u8 *)scan_actor_along_heading(
             actor, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
             (s16)get_definition_entry_byte_13(0x23));

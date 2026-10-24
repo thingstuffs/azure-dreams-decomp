@@ -12,7 +12,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
     ObjectNodeHeader *effect;
     IntVector3 *source_pos = position;
     GameWork *world_state = &g_game_work;
-    IntVector3 *data_ptr;
+    ObjectPosition *data_ptr;
     s16 saved_angle;
 
     effect = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
@@ -22,16 +22,16 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;
         data_ptr = effect->position;
-        data_ptr->x = (s32) source_pos->x;
+        data_ptr->x.v = (s32) source_pos->x;
         data_ptr = effect->position;
-        data_ptr->y = (s32) source_pos->y;
+        data_ptr->y.v = (s32) source_pos->y;
         data_ptr = effect->position;
         position_z = source_pos->z;
         {
             s16 angle_short;
 
             angle_short = (s16) saved_angle;
-            data_ptr->z = position_z;
+            data_ptr->z.v = position_z;
             ((S_800BC574_7 *)(effect->position))->unk_0C =
                 (s32) (rcos(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
             ((S_800BC574_7 *)(effect->position))->unk_10 =

@@ -3,10 +3,10 @@
 extern void advance_actor_action_sequence(void);
 
 /* jump_table; owner: dungeon/func_80ADF7D8. */
-const u32 saber_slot_c_action_targets[5] __attribute__((aligned(4))) = {
-    (u32)((u8 *)advance_actor_action_sequence + 0x48),
-    (u32)((u8 *)advance_actor_action_sequence + 0x98),
-    (u32)((u8 *)advance_actor_action_sequence + 0x10C),
-    (u32)((u8 *)advance_actor_action_sequence + 0x180),
-    (u32)((u8 *)advance_actor_action_sequence + 0x1F8)
+const void *const saber_slot_c_action_targets[5] __attribute__((aligned(4))) = {
+    ((u8 *)advance_actor_action_sequence + 0x48),
+    ((u8 *)advance_actor_action_sequence + 0x98),
+    ((u8 *)advance_actor_action_sequence + 0x10C),
+    ((u8 *)advance_actor_action_sequence + 0x180),
+    ((u8 *)advance_actor_action_sequence + 0x1F8)
 };

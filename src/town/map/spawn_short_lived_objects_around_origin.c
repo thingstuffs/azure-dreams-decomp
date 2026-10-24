@@ -52,7 +52,7 @@ typedef struct {
     s16 count;
 } Self;
 
-extern Object *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 extern void register_node(Object *, void *);
 extern s32 rand(void);
 
@@ -75,7 +75,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
 
                 object->update_callback = callback;
                 register_node(object, project_sprite_chain);
-                primitive = *(Primitive * *)&object->sprite;
+                primitive = object->sprite;
                 **(Copy24 * *)&object->position = *origin;
 
                 (*(Copy24 * *)&object->position)->word[0] +=

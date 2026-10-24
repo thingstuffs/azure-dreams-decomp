@@ -116,7 +116,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
     S_80172840_10 *effect_base;
     s32 abs_x;
     s32 abs_y;
-    S_80172840_3 *record;
+    SpriteFrameState *record;
     s32 counter;
     ObjectNodeHeader *particle;
     u16 source_x;
@@ -190,14 +190,14 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                 move_object = ((u8 *)primary_actor_record);
                 ((S_80172840_0 *)actor)->unk_60 = move_object;
                 record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
-                ((S_80172840_0 *)actor)->unk_72.s = record->unk_24;
-                ((S_80172840_0 *)actor)->unk_73.s = record->unk_25;
+                ((S_80172840_0 *)actor)->unk_72.s = record->tile_x;
+                ((S_80172840_0 *)actor)->unk_73.s = record->tile_y;
             } else if (item_action_definitions[*move_slot].kind == 2) {
                 move_object = ((S_80172840_0 *)actor)->unk_60;
                 if (move_object != 0) {
                     record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
-                    ((S_80172840_0 *)actor)->unk_72.s = record->unk_24;
-                    ((S_80172840_0 *)actor)->unk_73.s = record->unk_25;
+                    ((S_80172840_0 *)actor)->unk_72.s = record->tile_x;
+                    ((S_80172840_0 *)actor)->unk_73.s = record->tile_y;
                 }
             } else {
                 ((S_80172840_0 *)actor)->unk_60 = scan_actor_along_heading(

@@ -21,7 +21,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
         ((S_80D3B0B8_0 *)object_data)->unk_AC = owner_data - 0x20;
         ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
         ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
-        sprite = *(u8 * *)&object->sprite;
+        sprite = object->sprite;
 
         *(Copy48 *)sprite = *(Copy48 *)source_sprite;
 
@@ -32,7 +32,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
-        position = *(u8 * *)&object->position;
+        position = object->position;
         position->x.w.i = ((S_80D3B0B8_6 *)source_position)->unk_02;
         position->y.w.i = ((S_80D3B0B8_6 *)source_position)->unk_06;
         position->z.w.i = ((S_80D3B0B8_6 *)source_position)->unk_0A;

@@ -281,7 +281,7 @@ void delay_and_fade_particle(s32 value, void *source_data) {
     u16 *dst;
     u16 *src;
 
-    obj = (ovl_188898c_81868FDC_Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = (void *)shrink_and_brighten_effect;
         sprite = obj->sprite;

@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -54,8 +56,8 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
 {
     void *objects[18];
     s32 i;
-    S_8195AB84_2 *position;
-    S_8195AB84_3 *node;
+    ObjectPosition *position;
+    SpriteFrameState *node;
     S_8195AB84_4 *object_state;
     ObjectNodeHeader *obj;
 
@@ -67,18 +69,18 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
         if (objects[i] != NULL) {
             ((ObjectNodeHeader *)objects[i])->update_callback = &D_80025C80;
             position = ((ObjectNodeHeader *)objects[i])->position;
-            position->unk_02 = x;
-            position->unk_06 = y;
-            position->unk_0A = z;
+            position->x.w.i = x;
+            position->y.w.i = y;
+            position->z.w.i = z;
             node = ((ObjectNodeHeader *)objects[i])->sprite;
-            node->unk_16 = 0x400;
-            node->unk_1A = angle + 0x400;
-            node->unk_20 = 0x1000;
-            node->unk_1E = 0x1000;
-            node->unk_1C = 0x1000;
-            node->unk_08 = &D_80028268[i * 16];
-            node->unk_10 = 0x20;
-            node->unk_14 |= 0xC;
+            node->angle_x = 0x400;
+            node->angle_z = angle + 0x400;
+            node->offset_x = 0x1000;
+            node->scale_y = 0x1000;
+            node->scale_x = 0x1000;
+            node->source = &D_80028268[i * 16];
+            node->tpage_abr = 0x20;
+            node->flags |= 0xC;
             object_state = (S_8195AB84_4 *)((u8 *)objects[i] + 0x20);
             if (i != 0) {
                 object_state->unk_20 = objects[0];

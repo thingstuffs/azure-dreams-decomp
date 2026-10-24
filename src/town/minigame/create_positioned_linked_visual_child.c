@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -34,7 +35,7 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
     ObjectNodeHeader *child;
     S_800BF9E4_5 *child_data;
     SpriteFrameState *child_visual;
-    IntVector3 *child_position;
+    ObjectPosition *child_position;
 
     ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
     ((Rec_func_8008F074_arg0 *)object)->unk_50 = 0;
@@ -58,9 +59,9 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
         child_visual->color.word = 0x808080;
         child_visual->source = 0x75;
         child_position = child->position;
-        child_position->x = 0x0FA00000;
-        child_position->y = 0x02300000;
-        child_position->z = 0;
+        child_position->x.v = 0x0FA00000;
+        child_position->y.v = 0x02300000;
+        child_position->z.v = 0;
         child_data->unk_A0 = object;
     }
 }

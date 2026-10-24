@@ -57,18 +57,18 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
         register_node(object, project_sprite_chain);
         asset_param = 0x60;
         setup_mode = 2;
-        asset = *(D8181A8C0Asset * *)&object->sprite;
+        asset = object->sprite;
         asset->tpage_abr = asset_param;
         asset->depth_bias = 0;
         asset->flags = (s16) (asset->flags | 0xC);
-        position = *(D8181A8C0Vector * *)&object->position;
+        position = object->position;
         position->x.w.i = offset_x;
         position->y.w.i = (s16) offset_y;
         position->z.w.i = (s16) offset_z;
         position->x.w.i += *(u16 *)((u8 *)origin + 2);
         position->y.w.i += *(u16 *)((u8 *)origin + 6);
         position->z.w.i += *(u16 *)((u8 *)origin + 0xA);
-        asset = *(D8181A8C0Asset * *)&object->sprite;
+        asset = object->sprite;
         asset->scale_y = 0x400;
         asset->scale_x = 0x400;
         asset->color.c.b = 0x80;
@@ -359,7 +359,7 @@ extern s32 D_80025908[];
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
 void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
-    S_8181B1A0_2 *render;
+    SpriteFrameState *render;
     S_8181B1A0_0 *state;
     void *effect;
     ObjectPosition *position;
@@ -372,19 +372,19 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
         ((ObjectNodeHeader *)effect)->update_callback = &cycle_moving_effect_phase;
         register_node(effect, project_sprite_chain);
         render = ((ObjectNodeHeader *)effect)->sprite;
-        render->unk_14 = (u16) (render->unk_14 | 0xC);
+        render->flags = (u16) (render->flags | 0xC);
         position = ((ObjectNodeHeader *)effect)->position;
         position->x.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->x + offset_x);
         position->y.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->y + offset_y);
         position->z.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->z + offset_z);
         render = ((ObjectNodeHeader *)effect)->sprite;
-        render->unk_1E = 0x1000;
-        render->unk_1C = 0x1000;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
         memcpy((u8 *) effect + 0x40, &D_80025908, 12);
-        render->unk_08 = (void *) (effect + 0x40);
+        render->source = (void *) (effect + 0x40);
     }
 }
 

@@ -658,7 +658,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             effect_data->sprite_data.fields.unk_9C -= 0x18;
         }
 
-        source = (u8 *)allocate_flagged_object_node(0x212);
+        source = allocate_flagged_object_node(0x212);
         if (source != 0) {
             s32 trig;
 

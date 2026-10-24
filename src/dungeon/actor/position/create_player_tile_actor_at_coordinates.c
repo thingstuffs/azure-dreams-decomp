@@ -46,7 +46,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     void *state_tail;
     s32 direction_entry;
     D80089430_t *result_base;
-    s32 result_word4;
+    u8 * result_word4;
     s32 tint;
     register s32 tint_arg;
 
@@ -87,7 +87,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
             }
         }
         tint = 0x404040;
-        result_word4 = (s32)(entity);
+        result_word4 = (u8 *)(entity);
         tint_arg = 0;
         FLD(state_tail, u8, 0x9A) = 0xFF;
         FLD(state_tail, s8, 0x9C) = -1;

@@ -75,7 +75,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_value;
-        part1 = *(void ** *)&object->sprite;
+        part1 = object->sprite;
         part1->tile_y = variant;
         actor = result;
         part1->frameTable = stealth_frame_set;

@@ -30,7 +30,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         register_node(objectBase, project_sprite_chain);
         data08 = *(void ** *)&objectBase->position;
         data08->unk_0A = value0A;
-        data0C = *(void ** *)&objectBase->sprite;
+        data0C = objectBase->sprite;
         data0C->tile_y = value25;
         objectState = result;
         data0C->frameTable = D_80161D30;

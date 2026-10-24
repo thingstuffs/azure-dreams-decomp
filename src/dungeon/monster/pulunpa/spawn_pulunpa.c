@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -63,7 +64,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     ObjectNodeHeader *alloc_base;
     ObjectNodeHeader *part;
     void *work;
-    S_80CBD000_2 *coord;
+    ObjectPosition *coord;
     SpriteFrameState *state;
     void *actor;
 
@@ -80,7 +81,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         register_node(part, project_sprite_chain);
         coord = part->position;
         kind = flags & 3;
-        coord->unk_0A = spawn_value;
+        coord->z.w.i = spawn_value;
         state = part->sprite;
         state->tile_y = variant;
         actor = work;

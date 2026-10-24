@@ -46,7 +46,7 @@ void update_monster_facing_and_ground(void *entity, S_80170AE0_2 *motion, Sprite
     s32 direction;
     s16 direction_copy;
     s16 old_direction;
-    u32 old_direction_raw;
+    u8 * direction_flag;
     s32 facing_angle;
     Callback callback;
     u16 monster_flags;
@@ -87,8 +87,8 @@ void update_monster_facing_and_ground(void *entity, S_80170AE0_2 *motion, Sprite
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
-        old_direction_raw = (s32)dir_sprite_flag + direction_copy;
-        if (*(u8 *)old_direction_raw != 0) {
+        direction_flag = dir_sprite_flag + direction_copy;
+        if (*direction_flag != 0) {
             monster->flags |= 1;
         } else {
             monster->flags &= 0xFFFE;

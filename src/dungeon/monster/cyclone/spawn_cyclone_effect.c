@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
@@ -68,7 +69,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
     S_80E122F4_5 *reference;
     ObjectNodeHeader * obj;
     S_80E122F4_2 *source_obj;
-    MovingPosition *coords;
+    ObjectPosition *coords;
     SpriteFrameState *child;
     S_80E122F4_3 *part;
     s32 delta;
@@ -80,7 +81,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         (obj->update_callback) = &cyclone_spawn_update_address;
         register_node(obj, project_sprite_chain);
 
-        child = (obj->sprite);
+        child = obj->sprite;
         child->animation_resource = source_obj->unk_28;
         child->scale_y = 0x800;
         child->scale_x = 0x800;
@@ -89,7 +90,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         child->tpage_abr |= 0x20;
         select_sprite_entry(child, 0x47, 0);
 
-        coords = (obj->position);
+        coords = obj->position;
         (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)transform;
 
         offset.z = 0;
@@ -98,11 +99,11 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         part = (u8 *)obj + 0x20;
         if (resolve_record_orientation_or_fallback(source_obj->unk_08, source_obj, &offset, 1) != 0) {
             part->unk_04.at02.v += offset.x;
-            coords->x = part->unk_04.at02.v;
+            coords->x.w.i = part->unk_04.at02.v;
             part->unk_08.at02.v += offset.y;
-            coords->y = part->unk_08.at02.v;
+            coords->y.w.i = part->unk_08.at02.v;
             part->unk_0C.at02.v += offset.z;
-            coords->z = part->unk_0C.at02.v;
+            coords->z.w.i = part->unk_0C.at02.v;
         }
 
         delta = reference->unk_00 - part->unk_04.at00.v;

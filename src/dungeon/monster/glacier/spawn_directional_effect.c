@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -38,7 +39,7 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
     ObjectNodeHeader *effect;
     S_801746EC_0 *motion;
     SpriteFrameState *sprite;
-    MovingPosition *position;
+    ObjectPosition *position;
     s32 velocity_bias;
 
     effect = allocate_flagged_object_node(0x212);
@@ -55,12 +56,12 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
         sprite->depth_bias = 0;
 
         position = effect->position;
-        position->x = origin->unk_02;
-        position->y = origin->unk_06;
-        position->z = origin->unk_0A;
-        position->x = ({ position->x - 0x20; }) + (rand() & 0x3F);
-        position->y = ({ position->y - 0x20; }) + (rand() & 0x3F);
-        position->z = ({ position->z - 0x40; }) + (rand() & 0x3F);
+        position->x.w.i = origin->unk_02;
+        position->y.w.i = origin->unk_06;
+        position->z.w.i = origin->unk_0A;
+        position->x.w.i = ({ (u16)position->x.w.i - 0x20; }) + (rand() & 0x3F);
+        position->y.w.i = ({ (u16)position->y.w.i - 0x20; }) + (rand() & 0x3F);
+        position->z.w.i = ({ (u16)position->z.w.i - 0x40; }) + (rand() & 0x3F);
 
         motion->unk_58 = 0xFFFA0000;
         motion->unk_64 = 0x20000;

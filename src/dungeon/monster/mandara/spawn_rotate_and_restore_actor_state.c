@@ -143,7 +143,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     ObjectNodeHeader *effect_alloc;
     u8 *direction_table;
     u8 *effect_data;
-    u8 *tile;
+    SpriteFrameState *tile;
     s32 context;
     s32 previous_context;
     s32 random;
@@ -183,7 +183,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         display_text_with_fullwidth_adjustment(previous_context);
         play_sound_if_enabled(0x60A);
 
-        tile = *(u8 * *)&((ObjectNodeHeader *)((u8 *)((S_80174668_2 *)actor)->unk_60.u - 0x20))->sprite;
+        tile = ((ObjectNodeHeader *)((u8 *)((S_80174668_2 *)actor)->unk_60.u - 0x20))->sprite;
         ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
         ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
         center.x = spawn.x + (spawn.dx >> 1);
@@ -222,7 +222,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = ((u8 *)effect_alloc) + 0x20;
-                tile = *(u8 * *)&effect_alloc->sprite;
+                tile = effect_alloc->sprite;
                 effect_alloc->update_callback = mandara_object_callback_2;
 
                 random = rand();
@@ -237,7 +237,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
                     ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_06 =
                         (tile_y << 6) + (random % 64);
                 }
-                particle_pos = *(u8 * *)&effect_alloc->position;
+                particle_pos = effect_alloc->position;
                 height = sample_terrain_surface_height(*(u16 *)&particle_pos->x.w.i,
                     *(u16 *)&particle_pos->y.w.i, -0x400);
                 {

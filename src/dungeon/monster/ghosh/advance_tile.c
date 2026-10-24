@@ -78,7 +78,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
     s16 target_heading;
     s16 step_coord;
     s32 tile_y;
-    s32 heading_state;
+    void * heading_state;
     s32 move_result;
     s32 move_flags;
     s32 heading;

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_particle_template.h"
@@ -68,7 +69,7 @@ typedef struct S_8016583C_3 {
 /* Spawn an effect at an offset from the source with randomized horizontal velocity. */
 void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
-    S_8016583C_2 *sprite;
+    SpriteFrameState *sprite;
     S_8016583C_1 *effect_state;
     ObjectNodeHeader *effect;
     s32 held_scale ;
@@ -94,17 +95,17 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
         register_node(effect, project_sprite_chain);
-        sprite = (effect->sprite);
-        sprite->unk_1E = 0x200;
-        sprite->unk_1C = 0x200;
-        sprite->unk_0C = held_scale;
-        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+        sprite = effect->sprite;
+        sprite->scale_y = 0x200;
+        sprite->scale_x = 0x200;
+        sprite->color.word = held_scale;
+        sprite->flags = (u16) (sprite->flags & 0xFFF3);
         (((EffectFieldView_8132E83C *)effect)->field_20) = held_scale;
         effect_state->unk_04 = held_scale;
         effect_state->unk_08 = held_scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *) (((void *)effect) + 0x56);
+        sprite->source = (void *) (((void *)effect) + 0x56);
     }
 }
 

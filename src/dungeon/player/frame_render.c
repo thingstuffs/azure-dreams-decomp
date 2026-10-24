@@ -109,7 +109,7 @@ void queue_framebuffer_strip_quads(void) {
     u16 strip_y;
     u16 other_strip_y;
     void *packet;
-    u32 context_slot;
+    u8 * context_slot;
 
     alternate_buffer = (s32) g_game_work.draw_buffer != (s32) upper_draw_context;
     packet = ((Rec_D_80083160 *)g_game_work.draw_buffer)->unk_8D0;
@@ -133,7 +133,7 @@ void queue_framebuffer_strip_quads(void) {
         (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
-    context_slot = (u32) &g_game_work.draw_buffer;
+    context_slot = (u8 *)(&g_game_work.draw_buffer);
     saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;

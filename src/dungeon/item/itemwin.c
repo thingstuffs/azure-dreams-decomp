@@ -350,7 +350,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     ovl_1830850_81811168_DungeonObj81811168 *obj;
     ovl_1830850_81811168_DungeonSub81811168 *state;
 
-    obj = (ovl_1830850_81811168_DungeonObj81811168 *)allocate_flagged_object_node(0);
+    obj = allocate_flagged_object_node(0);
     state = &obj->sub20;
     if (obj != 0) {
         if (inventory_copy_state_vector_after_buffers(state, 13) != 0) {

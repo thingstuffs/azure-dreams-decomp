@@ -6,7 +6,7 @@
 typedef void (*Callback)(void);
 
 
-extern u8 *allocate_list_node(s32 kind, void *data);
+extern void *allocate_list_node(s32 kind, void *data);
 extern u8 *func_8003FD64(s32 kind, void *data);
 extern void register_node(void *object, Callback callback);
 extern void func_8004491C(void *object, Callback callback);

@@ -111,7 +111,7 @@ void create_minigame_display_objects(void)
         neutral_color = 0x00808080;
         ((ObjectNodeHeader *)obj)->update_callback = D_80023DE0;
         prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
-        draw_state = *(u8 * *)&((ObjectNodeHeader *)obj)->sprite;
+        draw_state = ((ObjectNodeHeader *)obj)->sprite;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
         draw_state->scale_x = 0x1000;
         draw_state->scale_y = 0x1000;

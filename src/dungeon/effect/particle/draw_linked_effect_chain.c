@@ -524,7 +524,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                     particle_callback = choose_random_sign;
                     origin_loop = view_reference_entity;
                     do {
-                        task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                        task = allocate_flagged_object_node(0x212);
                         effect = &task->effect;
                         if (task != 0) {
                             effect->timer3A = 20;
@@ -560,7 +560,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
             if (entity->timer == 24) {
                 if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
-                    task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                    task = allocate_flagged_object_node(0x212);
                     effect = &task->effect;
                     if (task != 0) {
                         s32 burst_size;
@@ -625,7 +625,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             next_entity->path[2] = entity->z / 4 + (origin_path->z.w.i - entity->base[2]) / 2;
 
                             if (entity->timer == first_path_timer) {
-                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                                task = allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     effect->timer3A = 20;
@@ -663,7 +663,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             }
 
                             if (entity->timer == 2) {
-                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                                task = allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -713,7 +713,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                             saved_timer = entity->timer;
                             if (saved_timer == 1) {
-                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                                task = allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -762,7 +762,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                                 rechecked_timer = entity->timer;
                                 if (rechecked_timer == saved_timer) {
-                                    task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                                    task = allocate_flagged_object_node(0x212);
                                     effect = &task->effect;
                                     if (task != 0) {
                                         effect->timer3A = 20;
@@ -815,7 +815,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                                     saved_timer = entity->timer;
                                     if (saved_timer == rechecked_timer) {
-                                        task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                                        task = allocate_flagged_object_node(0x212);
                                         effect = &task->effect;
                                         if (task != 0) {
                                             effect->timer3A = 20;
@@ -923,7 +923,7 @@ loop_1:
             world = primary_actor_record;
             focus = world->target;
             if (focus != 0 && entity->timer == 1) {
-                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
+                task = allocate_flagged_object_node(0x212);
                 effect = &task->effect;
                 if (task != 0) {
                     effect->timer3A = 13;

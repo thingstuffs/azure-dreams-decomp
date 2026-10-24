@@ -106,7 +106,7 @@ typedef struct S_8009C648_5 {
 
 extern void SD_Call(s32 flags);
 extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value);
-extern s32 allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
 extern s32 add_hex_20000_s_signed_offset_hex_14();

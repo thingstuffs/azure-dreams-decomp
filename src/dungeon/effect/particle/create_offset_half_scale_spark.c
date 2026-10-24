@@ -40,11 +40,11 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
     u16 x;
     u16 y;
 
-    obj = (Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = &D_80165580;
         register_node(obj, project_sprite_chain);
-        sprite = *(Sprite * *)&obj->sprite;
+        sprite = obj->sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 6;
         sprite->flags |= 0xC;
@@ -63,7 +63,7 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
             position->y.w.i = (u16)(y + y_offset);
             position->z.w.i = (u16)z_fixed;
         }
-        sprite = *(Sprite * *)&obj->sprite;
+        sprite = obj->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->color.c.b = 0x80;

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_particle_template.h"
@@ -74,7 +75,7 @@ typedef struct S_80165D0C_3 {
 void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     s32 sprite_scale;
-    S_80165D0C_2 *sprite;
+    SpriteFrameState *sprite;
     S_80165D0C_1 *effect_state;
     ObjectNodeHeader *effect;
 
@@ -99,19 +100,19 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
         effect_state->unk_32 = 0;
         effect_state->unk_34 = 0;
         register_node(effect, project_sprite_chain);
-        sprite = (effect->sprite);
-        sprite->unk_06 = -4;
-        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+        sprite = effect->sprite;
+        sprite->depth_bias = -4;
+        sprite->flags = (u16) (sprite->flags & 0xFFF3);
         sprite_scale = 0x1000 / (s32) (func_80167088(5) + 8);
-        sprite->unk_0C = scale;
-        sprite->unk_1E = (s16) sprite_scale;
-        sprite->unk_1C = (s16) sprite_scale;
+        sprite->color.word = scale;
+        sprite->scale_y = (s16) sprite_scale;
+        sprite->scale_x = (s16) sprite_scale;
         (((EffectFieldView_8132ED0C *)effect)->field_20) = scale;
         effect_state->unk_04 = scale;
         effect_state->unk_08 = scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *) (((void *)effect) + 0x56);
+        sprite->source = (void *) (((void *)effect) + 0x56);
     }
 }
 

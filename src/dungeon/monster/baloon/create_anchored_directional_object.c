@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -69,7 +70,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
 {
     ObjectNodeHeader *object;
     SpriteFrameState *object_data;
-    MovingPosition *position;
+    ObjectPosition *position;
     S_80D653B8_0 *object_work;
 
     (void)unused;
@@ -104,9 +105,9 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         }
 
         position = object->position;
-        position->x = anchor->unk_02;
-        position->y = anchor->unk_06;
-        position->z =
+        position->x.w.i = anchor->unk_02;
+        position->y.w.i = anchor->unk_06;
+        position->z.w.i =
             anchor->unk_0A + anchor->unk_16;
     }
 }

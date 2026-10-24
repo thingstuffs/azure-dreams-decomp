@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -17,7 +18,7 @@ extern s32 D_80024374;
 void *create_type_212_effect_object(MovingPosition *source) {
     SpriteFrameState *appearance;
     ObjectNodeHeader *object;
-    MovingPosition *components;
+    ObjectPosition *components;
     void *result; /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
     object = allocate_flagged_object_node(0x212);
@@ -32,9 +33,9 @@ void *create_type_212_effect_object(MovingPosition *source) {
         appearance->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
         components = object->position;
-        components->x = source->x;
-        components->y = source->y;
-        components->z = source->z;
+        components->x.w.i = source->x;
+        components->y.w.i = source->y;
+        components->z.w.i = source->z;
         result = object;
         return result;
     } else {

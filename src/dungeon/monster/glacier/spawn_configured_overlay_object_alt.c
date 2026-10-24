@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -50,7 +51,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
     s32 flags1;
     S_80170E74_1 *result;
     ObjectNodeHeader *object;
-    S_80170E74_2 *part0;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     S_80170E74_4 *result_copy;
 
@@ -68,7 +69,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
 
             part0 = object->position;
             handler = glacier_direction_frames;
-            part0->unk_0A = spawn_value;
+            part0->z.w.i = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
             part1->tile_y = variant;

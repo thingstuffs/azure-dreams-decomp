@@ -7,7 +7,7 @@
  * Retail 800478B8: updates the supplied render entry in place; callers discard no value.
  * The registration key may carry a callback's address (func_80045340).
  */
-ObjectNodeHeader *allocate_list_node(s32 flags, ObjectNodeHeader **head);
+void *allocate_list_node(s32 flags, ObjectNodeHeader **head);
 ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
 /* Retail TUs declared 800BCB04 differently: the native banks below used s32,
  * while FA7000 declared s16. Preserve both declarations in their separate TUs;

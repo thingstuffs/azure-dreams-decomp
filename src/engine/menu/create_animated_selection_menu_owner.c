@@ -21,7 +21,7 @@ typedef struct S_8004F5F4_node {
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
 void *create_animated_selection_menu_owner(void *unused, void *source)
 {
-    S_8004F5F4_node *node = (S_8004F5F4_node *)allocate_flagged_object_node(0);
+    S_8004F5F4_node *node = allocate_flagged_object_node(0);
     void *result;
     S_8004F5F4_sub *sub;
     s32 global_flags;

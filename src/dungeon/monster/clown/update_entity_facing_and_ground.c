@@ -1013,7 +1013,7 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
             if (x) {
                 spawn = primary_actor_record;
                 ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
-                record = *(u8 * *)&((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
+                record = ((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
                 x = record->tile_x;
                 ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = x;
                 x = record->tile_y;
@@ -1025,7 +1025,7 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
                 if (action_entry[0x12] == 2) {
                     spawn = ((R16_801725A4_S_801725A4_1 *)object)->unk_60;
                     if (spawn != 0) {
-                        record = *(u8 * *)&((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
+                        record = ((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
                         x = record->tile_x;
                         ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = x;
                         x = record->tile_y;
@@ -1775,7 +1775,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
     u8 phase;
     void *effect_model;
     R16_80173CEC_S_80173CEC_4 *target_color;
-    R16_80173CEC_S_80173CEC_8 *effect_position;
+    ObjectPosition *effect_position;
     R16_80173CEC_S_80173CEC_9 *effect_sprite;
     GameWork *scene_color;
     ObjectNodeHeader *effect;
@@ -1848,7 +1848,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         effect_position = effect->position;
         effect_value_2 = position->z.v;
         (*(s16 *)clown_fade_count) = -8;
-        effect_position->unk_08 = effect_value_2;
+        effect_position->z.v = effect_value_2;
         effect_sprite = effect->sprite;
         effect_sprite->unk_1E = 0x1000;
         effect_sprite->unk_1C = 0x1000;

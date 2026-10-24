@@ -4,7 +4,7 @@
 #include "shared/object_node.h"
 
 
-extern u8 *allocate_list_node();
+extern void *allocate_list_node();
 extern u8 *func_8003FD64();
 extern void register_node();
 extern void func_8004491C();

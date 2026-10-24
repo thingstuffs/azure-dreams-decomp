@@ -283,7 +283,7 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
 /* Creates an initially zero-scale gray effect at the supplied position with copied sprite data and a
    60-step counter. */
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
-    Row_819232EC_S_80024AEC_3 *render_state;
+    SpriteFrameState *render_state;
     ObjectNodeHeader *effect;
     Row_819232EC_S_80024AEC_0 *effect_state;
     ObjectPosition *effect_position;
@@ -297,21 +297,21 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
         effect->update_callback = &D_800249FC;
         register_node(effect, project_sprite_chain);
         render_state = effect->sprite;
-        render_state->unk_10 = 0x40;
-        render_state->unk_06 = 0xA;
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
+        render_state->tpage_abr = 0x40;
+        render_state->depth_bias = 0xA;
+        render_state->flags = (u16) (render_state->flags | 0xC);
         effect_position = effect->position;
         effect_position->x.w.i = (u16) position->unk_02;
         effect_position->y.w.i = (u16) position->unk_06;
         effect_position->z.w.i = (u16) position->unk_0A;
         render_state = effect->sprite;
-        render_state->unk_0E = 0x50;
-        render_state->unk_0D = 0x50;
-        render_state->unk_0C = 0x50;
-        render_state->unk_1E = 0;
-        render_state->unk_1C = 0;
+        render_state->color.c.b = 0x50;
+        render_state->color.c.g = 0x50;
+        render_state->color.c.r = 0x50;
+        render_state->scale_y = 0;
+        render_state->scale_x = 0;
         *(Row_819232EC_U12 *)((u8 *)effect + 0x96) = *(Row_819232EC_U12 *)&D_80025B48;
-        render_state->unk_08 = (void *) (((void *)effect) + 0x96);
+        render_state->source = (void *) (((void *)effect) + 0x96);
     }
 }
 

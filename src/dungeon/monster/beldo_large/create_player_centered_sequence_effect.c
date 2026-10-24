@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -71,7 +72,7 @@ typedef struct S_80169C1C_0 {
 void create_player_centered_sequence_effect(void)
 {
     ObjectNodeHeader * object;
-    S_80169C1C_0 *sub_object;
+    SpriteFrameState *sub_object;
     ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x12);
@@ -80,25 +81,25 @@ void create_player_centered_sequence_effect(void)
         (object->update_callback) = D_80169754;
         register_node(object, project_sprite_chain);
 
-        sub_object = (object-> sprite );
-        sub_object->unk_10 = 0x20;
-        sub_object->unk_06 = 0;
-        sub_object->unk_14 |= 0xC;
+        sub_object = object-> sprite;
+        sub_object->tpage_abr = 0x20;
+        sub_object->depth_bias = 0;
+        sub_object->flags |= 0xC;
 
-        position = (*(Vec3i * *)&object->position);
+        position = object->position;
         position->x.v = view_reference_entity.x.v;
         position->y.v = view_reference_entity.y.v;
         position->z.v = view_reference_entity.z.v;
 
-        sub_object = (object-> sprite );
-        sub_object->unk_1E = 0x1000;
-        sub_object->unk_1C = 0x1000;
-        sub_object->unk_0E = 0x80;
-        sub_object->unk_0D = 0x80;
-        sub_object->unk_0C = 0x80;
-        sub_object->unk_14 |= 0x80;
+        sub_object = object-> sprite;
+        sub_object->scale_y = 0x1000;
+        sub_object->scale_x = 0x1000;
+        sub_object->color.c.b = 0x80;
+        sub_object->color.c.g = 0x80;
+        sub_object->color.c.r = 0x80;
+        sub_object->flags |= 0x80;
 
         (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)encounter_object_position_template;
-        sub_object->unk_08 = (u8 *)object + 0x48;
+        sub_object->source = (u8 *)object + 0x48;
     }
 }

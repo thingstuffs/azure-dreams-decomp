@@ -103,9 +103,9 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
-        position = (*(u8 * *)&created ->position);
+        position = created ->position;
         position->z.w.i = value3_saved;
-        monster = (*(u8 * *)&created ->sprite);
+        monster = created ->sprite;
         monster->tile_y = value2_byte;
         actor = work;
         monster->frameTable = func_80175258;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -51,7 +52,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
     u16 ticks_left;
     SpriteFrameState *effect_render;
     void *owner;
-    MovingPosition *effect_pos;
+    ObjectPosition *effect_pos;
     ObjectNodeHeader *effect;
 
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
@@ -73,9 +74,9 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
             effect_render->tpage_abr = 0x20;
             effect_render->flags = (u16) (effect_render->flags | 0xC);
             effect_pos = effect->position;
-            effect_pos->x = (u16) position->x;
-            effect_pos->y = (u16) position->y;
-            effect_pos->z = (u16) position->z;
+            effect_pos->x.w.i = (u16) position->x;
+            effect_pos->y.w.i = (u16) position->y;
+            effect_pos->z.w.i = (u16) position->z;
             effect_render = effect->sprite;
             effect_render->scale_y = 0x1800;
             effect_render->scale_x = 0x1800;
@@ -86,9 +87,9 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
             effect->update_callback = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
-                effect_pos->x = (u16) (effect_pos->x + delta.x);
-                effect_pos->y = (u16) (effect_pos->y + delta.y);
-                effect_pos->z = (u16) (effect_pos->z + delta.z);
+                effect_pos->x.w.i = (u16) ((u16)effect_pos->x.w.i + delta.x);
+                effect_pos->y.w.i = (u16) ((u16)effect_pos->y.w.i + delta.y);
+                effect_pos->z.w.i = (u16) ((u16)effect_pos->z.w.i + delta.z);
             }
             select_record_entry_and_value(effect->sprite, effect_sprite_sources, 0);
         }

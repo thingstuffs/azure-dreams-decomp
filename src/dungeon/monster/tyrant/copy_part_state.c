@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -41,7 +42,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
     register void *result;
     ObjectNodeHeader *object;
-    S_8016A898_1 *motion;
+    ObjectPosition *motion;
     s8 held_a;
     s16 held_b;
     s32 held_c;
@@ -63,9 +64,9 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         ((S_8016A898_0 *)result)->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
 
-        motion = (object->position);
-        motion->unk_0A = held_c;
-        part_data = (object->sprite);
+        motion = object->position;
+        motion->z.w.i = held_c;
+        part_data = object->sprite;
         part_data->tile_y = held_b;
         part_data->frameTable = D_8016DFB8;
         part_data->tile_x = held_a;

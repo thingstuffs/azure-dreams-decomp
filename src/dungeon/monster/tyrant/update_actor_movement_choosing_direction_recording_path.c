@@ -222,10 +222,10 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
 
             {
                 s32 move_offset = ((u16)actor->facing >> 8) & 0xE;
-                s32 step = (s32)dir_step_x;
+                u8 * step = (u8 *)dir_step_x;
 
                 step += move_offset;
-                position->tile_x += *(u8 *)step;
+                position->tile_x += *step;
                 position->tile_y += U8_AT(((s8 *)dir_step_y), move_offset);
             }
             cycle_map_cell_flags(

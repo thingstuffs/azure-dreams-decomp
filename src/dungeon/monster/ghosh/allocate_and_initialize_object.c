@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
@@ -36,28 +38,28 @@ typedef struct S_8016AC30_1 {
 /* Allocate and initialize a dungeon object, then increment the object count. */
 void allocate_and_initialize_object(void) {
     ObjectNodeHeader * object;
-    S_8016AC30_0 *position;
-    S_8016AC30_1 *primitive;
+    ObjectPosition *position;
+    SpriteFrameState *primitive;
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (object->update_callback) = D_8016A9FC;
         register_node(object, linked_sprite_renderer_address);
 
-        position = (object->position);
-        position->unk_0A = 0;
-        position->unk_06 = 0;
-        position->unk_02 = 0;
+        position = object->position;
+        position->z.w.i = 0;
+        position->y.w.i = 0;
+        position->x.w.i = 0;
 
-        primitive = (object->sprite);
-        primitive->unk_1E = 0;
-        primitive->unk_1C = 0;
-        primitive->unk_0E = 0;
-        primitive->unk_0D = 0;
-        primitive->unk_0C = 0;
+        primitive = object->sprite;
+        primitive->scale_y = 0;
+        primitive->scale_x = 0;
+        primitive->color.c.b = 0;
+        primitive->color.c.g = 0;
+        primitive->color.c.r = 0;
 
         (*(Packed12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
-        primitive->unk_08 = (u8 *)object + 0x4C;
+        primitive->source = (u8 *)object + 0x4C;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }

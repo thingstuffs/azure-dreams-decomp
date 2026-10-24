@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -40,7 +41,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     S_80170E18_0 *effect_state;
-    MovingPosition *transform;
+    ObjectPosition *transform;
     void *sprite_data;
     Block16 *src;
     Block16 *dst;
@@ -77,8 +78,8 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + beldo_frame_set_3), 0);
         transform = effect->position;
-        transform->x = (u16) source_transform->x;
-        transform->y = (u16) source_transform->y;
-        transform->z = (u16) source_transform->z;
+        transform->x.w.i = (u16) source_transform->x;
+        transform->y.w.i = (u16) source_transform->y;
+        transform->z.w.i = (u16) source_transform->z;
     }
 }

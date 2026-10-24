@@ -137,7 +137,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         effect->unk_50 = 0xAU;
         actor->unk_A6 = (u16) (actor->unk_A6 - 1);
         actor->unk_A8 = (u8) effect->unk_08;
-        object_data = (S_func_819B2800_2 *) allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+        object_data = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
         if (object_data != 0) {
             model = location->unk_0C;
             if (resolve_record_orientation_or_fallback(model->unk_08, model, offset, 0) == 0) {
@@ -186,7 +186,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         if ((s16) effect->unk_50 > 0) {
             return;
         }
-        object_data = (S_func_819B2800_2 *) allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+        object_data = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
         data_bytes = (u8 *) object_data;
         if (object_data != 0) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);

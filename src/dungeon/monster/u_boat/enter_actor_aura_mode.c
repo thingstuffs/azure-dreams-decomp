@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -71,7 +72,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
     SpriteFrameState *effect_sprite;
     ObjectNodeHeader *effect;
     void *effect_state;
-    MovingPosition *effect_position;
+    ObjectPosition *effect_position;
 
     phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
     switch (phase) {
@@ -111,9 +112,9 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;
                 effect_position = effect->position;
-                effect_position->x = ((u16) position->x.w.i);
-                effect_position->y = ((u16) position->y.w.i);
-                effect_position->z = ((S_80175BA8_2 *)actor_info)->unk_88;
+                effect_position->x.w.i = ((u16) position->x.w.i);
+                effect_position->y.w.i = ((u16) position->y.w.i);
+                effect_position->z.w.i = ((S_80175BA8_2 *)actor_info)->unk_88;
                 effect_sprite = effect->sprite;
                 effect_sprite->scale_y = 0xA00;
                 effect_sprite->scale_x = 0xA00;

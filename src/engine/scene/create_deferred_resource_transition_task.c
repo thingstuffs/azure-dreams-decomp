@@ -29,7 +29,7 @@ Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*
     TaskPayload *payload;
     Task *task;
 
-    task = (Task *)allocate_flagged_object_node(0);
+    task = allocate_flagged_object_node(0);
     if (task != 0) {
         task->callback = update_deferred_resource_transition_task;
         payload = &task->payload;

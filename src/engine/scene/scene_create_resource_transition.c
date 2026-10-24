@@ -27,7 +27,7 @@ void *scene_create_resource_transition(void *owner_arg, void *context_arg)
     u8 *node_fields;
 
     owner->flags = owner->flags & 0xDFFF;
-    node = (S_8004EDA8_node *)allocate_flagged_object_node(0);
+    node = allocate_flagged_object_node(0);
     if (node != 0) {
         node_fields = (u8 *)&node->owner_0x20;
         *(void **)(node_fields + 4) = context;

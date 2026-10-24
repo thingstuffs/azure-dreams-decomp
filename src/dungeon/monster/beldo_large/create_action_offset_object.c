@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -38,9 +39,9 @@ void create_action_offset_object(void) {
     s32 owner_y;
     s32 tile_x;
     s32 tile_y;
-    MovingPosition *object_pos;
+    ObjectPosition *object_pos;
     S_801715D0_6 *owner_state;
-    MovingPosition *owner_pos;
+    ObjectPosition *owner_pos;
     u8 *direction;
     u8 *direction_table;
     S_801715D0_3 *object_state;
@@ -59,18 +60,18 @@ void create_action_offset_object(void) {
         render_flags->flags = (u16) ((render_flags->flags & 0xFFF3) | 0x80);
         object_state->unk_24 = owner_state;
         object_pos = object->position;
-        object_pos->x = (u16) owner_pos->x;
-        object_pos->y = (u16) owner_pos->y;
-        object_pos->z = (u16) owner_pos->z;
+        object_pos->x.w.i = (u16) owner_pos->x.w.i;
+        object_pos->y.w.i = (u16) owner_pos->y.w.i;
+        object_pos->z.w.i = (u16) owner_pos->z.w.i;
         direction_table = (u8 *)&beldo_large_direction_offsets;
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->x = (u16) (object_pos->x + (((S_801715D0_7 *)direction)->unk_00 * 6));
+        object_pos->x.w.i = (u16) ((u16)object_pos->x.w.i + (((S_801715D0_7 *)direction)->unk_00 * 6));
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
-        object_pos->y = (u16) (object_pos->y + (((S_801715D0_7 *)direction)->unk_02 * 6));
+        object_pos->y.w.i = (u16) ((u16)object_pos->y.w.i + (((S_801715D0_7 *)direction)->unk_02 * 6));
         sprite = object->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        owner_x = (s16) owner_pos->x;
+        owner_x = (s16) (u16)owner_pos->x.w.i;
         tile_x = owner_x - 0x20;
         if (tile_x < 0) {
             tile_x = (s32) (owner_x + 0x1F) >> 6;
@@ -78,7 +79,7 @@ void create_action_offset_object(void) {
             tile_x >>= 6;
         }
         object_state->unk_58 = (s8) tile_x;
-        owner_y = (s16) owner_pos->y;
+        owner_y = (s16) (u16)owner_pos->y.w.i;
         tile_y = owner_y - 0x20;
         if (tile_y < 0) {
             tile_y = (s32) (owner_y + 0x1F) >> 6;

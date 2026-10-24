@@ -27,7 +27,7 @@ u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 
         result[0x13] = 14;
         register_node(allocation, project_sprite_chain);
 
-        part_a = *(u8 * *)&allocation->position;
+        part_a = allocation->position;
         part_a->z.w.i = saved_height;
         part_b = *(u8 * *)&allocation->sprite;
         part_b[36] = saved_tile_x;

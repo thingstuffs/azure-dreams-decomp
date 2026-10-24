@@ -660,7 +660,7 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
         ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
         register_node(effect, project_sprite_chain);
-        transform = *(Row_81917A70_Copy24 * *)&effect->position;
+        transform = effect->position;
         *(Row_81917A70_Copy24 *)transform = *src_transform;
         first_word = transform->x.v;
         second_word = transform->y.v;

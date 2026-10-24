@@ -1384,8 +1384,8 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
     MovingPosition *source_position;
     ObjectNodeHeader *node;
     u8 *edge_data;
-    u8 *sprite;
-    MovingPosition *dest_position;
+    SpriteFrameState *sprite;
+    ObjectPosition *dest_position;
     u8 *globals_page = (u8 *)0x80020000;
     s32 vertex_index;
     s32 angle_offset;
@@ -1419,7 +1419,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
     case 1:
         if (((S_8187BFE0_0 *)state_data)->unk_02.s == 0) {
             ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-            node = (u8 *)allocate_flagged_object_node(0x212);
+            node = allocate_flagged_object_node(0x212);
             if (node == 0) {
                 break;
             }
@@ -1429,13 +1429,13 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
-            sprite = *(u8 * *)&node->sprite;
+            sprite = node->sprite;
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
 
-            dest_position = *(u8 * *)&node->position;
-            dest_position->x = source_position->x;
-            dest_position->y = source_position->y;
-            dest_position->z = source_position->z;
+            dest_position = node->position;
+            dest_position->x.w.i = source_position->x;
+            dest_position->y.w.i = source_position->y;
+            dest_position->z.w.i = source_position->z;
 
             switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
             case 0:
@@ -1535,7 +1535,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 =
                 ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
 
-            sprite = *(u8 * *)&node->sprite;
+            sprite = node->sprite;
             ((S_8187BFE0_3 *)sprite)->unk_0C = ((S_8187BFE0_3 *)sprite)->unk_0D = 0xE0;
             ((S_8187BFE0_3 *)sprite)->unk_0E = 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;

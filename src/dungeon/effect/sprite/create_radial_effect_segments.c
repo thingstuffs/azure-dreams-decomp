@@ -64,7 +64,7 @@ typedef struct S_800D6DC0_4 {
 void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, S_800D6DC0_4 *orientation) {
     s32 end_y_scaled;
     s32 start_angle;
-    s32 copy_end;
+    u8 * copy_end;
     s32 start_x;
     s32 end_x;
     s32 start_y;
@@ -94,7 +94,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             effect_state->unk_10 = segment;
             render_data = effect->sprite;
             effect->update_callback = &update_expiring_sprite_effect;
-            copy_end = (s32)((u8 *)copy_src + 0x30);
+            copy_end = ((u8 *)copy_src + 0x30);
             copy_dst = render_data;
             do {
                 *(CopyQuad *)copy_dst = *(CopyQuad *)copy_src;

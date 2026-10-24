@@ -49,7 +49,7 @@ void create_cd_cue_effect(void)
     void *slot3;
     void *slot4;
 
-    node = (S_800525D4_obj *)allocate_flagged_object_node(0);
+    node = allocate_flagged_object_node(0);
     if (node != 0) {
         slots = &node->sub;
         node->vtable = update_scene_effect_controller;

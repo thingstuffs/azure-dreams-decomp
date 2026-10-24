@@ -504,15 +504,15 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             if ((u16)(angle + 0x300) >= 0x1001) {
                 render->angle = angle - 0xD00;
             }
-            task = (Task *)allocate_flagged_object_node(0x212);
+            task = allocate_flagged_object_node(0x212);
             if (task != 0) {
                 ObjectPosition *task_motion;
-                Render33 *task_render;
+                SpriteFrameState *task_render;
                 task->field22 = 0x10;
                 task->header.update_callback = (void *)fade_and_rotate_timed_effect;
                 register_node(task, project_sprite_chain);
                 task_render = task->header.sprite;
-                task_render->field10 = 0x40;
+                task_render->tpage_abr = 0x40;
                 task_render->flags |= 0xC;
                 task_motion = task->header.position;
                 task_motion->x.w.i = motion->x.half.hi;
@@ -521,11 +521,11 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                 task_render = task->header.sprite;
                 task_render->scale_y = 0x800;
                 task_render->scale_x = 0x800;
-                task_render->color2 = 0x78;
-                task_render->color1 = 0x78;
-                task_render->color0 = 0x78;
+                task_render->color.c.b = 0x78;
+                task_render->color.c.g = 0x78;
+                task_render->color.c.r = 0x78;
                 task->image_data = actor_particle_images;
-                task_render->image = &task->image_data;
+                task_render->source = &task->image_data;
             }
             actor->countdown--;
             if (actor->countdown <= 0) {

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 
 struct ObjectNodeHeader;
 #include "shared/object_node.h"
@@ -51,7 +52,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     u16 age;
     u16 life_left;
     S_800D4DE8_2 *parent;
-    S_800D4DE8_5 *particle_motion;
+    ObjectPosition *particle_motion;
     ObjectNodeHeader *particle;
     S_800D4DE8_3 *particle_state;
 
@@ -78,14 +79,14 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
                 particle_state->unk_20 = 0xA;
                 particle->update_callback = D_800D4CB0;
                 particle_motion = particle->position;
-                particle_motion->unk_0C =
+                particle_motion->velocity_x =
                     ((rand() & 0x7FFF) - 0x4000) << 7;
-                particle_motion->unk_10 =
+                particle_motion->velocity_y =
                     ((rand() & 0x7FFF) - 0x4000) << 7;
-                particle_motion->unk_14 =
+                particle_motion->velocity_z =
                     ((rand() & 0x7FFF) - 0x4000) << 7;
-                particle_motion->unk_0A =
-                    particle_motion->unk_0A -
+                particle_motion->z.w.i =
+                    (u16)particle_motion->z.w.i -
                     (entity_height_offsets[((S_800D4DE8_8 *)(((Rec_func_800D4BD4_arg1 *)emitter)->unk_00))->unk_13] >> 1);
             }
             particle_index += 1;

@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_particle_template.h"
@@ -58,10 +60,10 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
     s32 jitter_or_scale;
     s32 grid_y;
     s32 grid_x;
-    S_8016604C_2 *sprite;
+    SpriteFrameState *sprite;
     LandingParticleCallback effect_data;
     ObjectNodeHeader *particle;
-    S_8016604C_1 *motion;
+    ObjectPosition *motion;
 
     grid_x = -2;
     effect_data = &D_80165AB8;
@@ -81,21 +83,21 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                     y_base -= 0x20;
                     ((S_8016604C_4 *)((particle->position)))->unk_06 = (s16) (y_base + (y_random & 0x3F));
                     ((S_8016604C_4 *)((particle->position)))->unk_0A = (s16) (((MovingPosition *)(source->unk_08))->z - 0x100);
-                    motion = (particle->position);
-                    motion->unk_10 = 0;
-                    motion->unk_0C = 0;
+                    motion = particle->position;
+                    motion->velocity_y = 0;
+                    motion->velocity_x = 0;
                     ((S_8016604C_4 *)((particle->position)))->unk_14 = 0x200000;
                     register_node(particle, &clipped_sprite_renderer_address);
-                    sprite = (particle->sprite);
-                    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+                    sprite = particle->sprite;
+                    sprite->flags = (u16) (sprite->flags & 0xFFF3);
                     jitter_or_scale = 0x1000 / (s32) (func_80167088(5) + 6);
-                    sprite->unk_0C = 0xFF;
-                    sprite->unk_0E = 0x20;
-                    sprite->unk_0D = 0x20;
-                    sprite->unk_1E = (s16) jitter_or_scale;
-                    sprite->unk_1C = (s16) jitter_or_scale;
+                    sprite->color.c.r = 0xFF;
+                    sprite->color.c.b = 0x20;
+                    sprite->color.c.g = 0x20;
+                    sprite->scale_y = (s16) jitter_or_scale;
+                    sprite->scale_x = (s16) jitter_or_scale;
                     (*(Packed12 *)((u8 *)particle + 0x56)) = particle_sprite_template;
-                    sprite->unk_08 = (void *) (((void *)particle) + 0x56);
+                    sprite->source = (void *) (((void *)particle) + 0x56);
                 }
             }
             grid_y += 1;

@@ -8,7 +8,7 @@
 
 /* Runs cleanup, allocates an entity slot, and starts loading it if available. */
 void load_and_upload_three_slot_sprite_resource(s16 entity_id) {
-    s32 entity_slot;
+    void * entity_slot;
 
     mark_sprite_resources_for_purge();
     clear_marked_slot_entries();

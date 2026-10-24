@@ -67,10 +67,10 @@ typedef struct S_80D659DC_5 {
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param) {
-    S_80D659DC_1 *position_x;
-    S_80D659DC_3 *position_y;
-    S_80D659DC_4 *velocity_x;
-    S_80D659DC_5 *velocity_y;
+    ObjectPosition *position_x;
+    ObjectPosition *position_y;
+    ObjectPosition *velocity_x;
+    ObjectPosition *velocity_y;
     S_80D659DC_2 *direction;
     EffectBase *base;
     Effect *effect;
@@ -87,12 +87,12 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
         (((MovingPosition *)((*(void * *)&source->z)))->z - 0x58);
         direction = (void *)actor_direction_step_pairs + ((angle >> 7) & 0x1C);
         position_x = ((ObjectNodeHeader *)effect)->position;
-        position_x->unk_02 = (u16)
-        (position_x->unk_02 +
+        position_x->x.w.i = (u16)
+        ((u16)position_x->x.w.i +
             (direction->unk_00 * 0x12));
         position_y = ((ObjectNodeHeader *)effect)->position;
-        position_y->unk_06 = (u16)
-        (position_y->unk_06 +
+        position_y->y.w.i = (u16)
+        ((u16)position_y->y.w.i +
             (direction->unk_02 * 0x12));
         ((ObjectNodeHeader *)effect)->position->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
@@ -101,15 +101,15 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
         ((ObjectNodeHeader *)effect)->position->velocity_z = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
         velocity_x = ((ObjectNodeHeader *)effect)->position;
-        velocity_x->unk_0C = (s32)
-        (velocity_x->unk_0C +
+        velocity_x->velocity_x = (s32)
+        (velocity_x->velocity_x +
             (direction->unk_00 * 0x1C0000));
         {
             s32 direction_y = direction->unk_02;
 
             velocity_y = ((ObjectNodeHeader *)effect)->position;
-            velocity_y->unk_10 = (s32)
-            (velocity_y->unk_10 +
+            velocity_y->velocity_y = (s32)
+            (velocity_y->velocity_y +
                 (direction_y * 0x1C0000));
             base->field14 = angle;
             base->field32 = 0xC;

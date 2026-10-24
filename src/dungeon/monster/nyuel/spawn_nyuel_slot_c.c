@@ -15,8 +15,8 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
     void *result;
     ObjectNodeHeader *created;
     ObjectPosition *position;
-    s32 part_ptr;
-    s32 actor_ptr;
+    SpriteFrameState *part_ptr;
+    u8 * actor_ptr;
     s16 saved_flags;
     s32 saved_height;
     s32 saved_tile_y;
@@ -36,32 +36,32 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
         position = created->position;
         variant = saved_flags & 3;
         position->z.w.i = saved_height;
-        part_ptr = (s32)created->sprite;
-        ((SpriteFrameState *)part_ptr)->tile_x = tile_x;
-        ((SpriteFrameState *)part_ptr)->tile_y = saved_tile_y;
-        actor_ptr = (s32)result;
+        part_ptr = created->sprite;
+        (part_ptr)->tile_x = tile_x;
+        (part_ptr)->tile_y = saved_tile_y;
+        actor_ptr = (u8 *)result;
 
         if (variant == 1) {
             ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             ((S_80158894_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
+            (part_ptr)->frameTable = nyuel_frame_set_6;
         } else if (variant >= 2) {
             ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
             ((S_80158894_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
-            ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
+            (part_ptr)->frameTable = nyuel_frame_set_6;
         } else {
             if (((saved_flags & ~3) << 16) == 0) {
                 if (!(((S_80158894_0 *)result)->unk_14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    ((SpriteFrameState *)part_ptr)->frameTable = D_8015CF00;
+                    (part_ptr)->frameTable = D_8015CF00;
                 }
                 ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = nyuel_slot_c_action_callback;
-            ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
+            (part_ptr)->frameTable = nyuel_frame_set_6;
             } else {
                 ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
-            ((SpriteFrameState *)part_ptr)->frameTable = nyuel_frame_set_6;
+            (part_ptr)->frameTable = nyuel_frame_set_6;
             }
         }
         created->update_callback = func_80158A98;

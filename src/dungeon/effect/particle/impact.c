@@ -1604,7 +1604,7 @@ typedef struct {
     void *part10;
 } Object;
 
-extern Object *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 
 extern u8 D_80028664[];
 s32 draw_linked_model_chain(void *, s32, void *);

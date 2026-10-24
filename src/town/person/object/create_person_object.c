@@ -29,8 +29,8 @@ void create_person_object(void) {
     object = (s8 *) create_town_effect_object(0, 0, person_object_update_address, 0);
     state = ((s8 *)object) + 0x20;
     if (object != NULL) {
-        position = *(s8 * *)&object->position;
-        render_data = *(s8 * *)&object->sprite;
+        position = object->position;
+        render_data = object->sprite;
         *(s8 *)(state + 0x93) = 1;
         render_data->animation_resource = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);

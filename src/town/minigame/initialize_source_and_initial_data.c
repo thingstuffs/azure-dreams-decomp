@@ -13,7 +13,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
     u8 *table;
 
     table = D_80020014;
-    allocated = (Object *)allocate_flagged_object_node(0x136);
+    allocated = allocate_flagged_object_node(0x136);
     object = allocated;
     if (object != 0) {
         payload = (Payload88 *)((u8 *)object + 0x20);
@@ -21,7 +21,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
         object->update_callback = update_bouncing_pickup;
         **(Initial24 * *)&object->position = *(Initial24 *)initial_data;
         register_node((struct RegistrationNode *)object, project_sprite_chain);
-        part = *(RenderPart * *)&object->sprite;
+        part = object->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         part->source = minigame_pickup_sprite_sources[source_data->x];

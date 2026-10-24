@@ -67,7 +67,7 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
 
 /* Creates a gray sprite at the supplied coordinates and links its update counter to the owner. */
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
-    ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)allocate_flagged_object_node(530);
+    ovl_18d0850_818B09F8_MainObj *obj = allocate_flagged_object_node(530);
     SpriteFrameState *sub;
     ObjectPosition *vec;
     ovl_18d0850_818B09F8_MainObj *result;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -49,7 +50,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     s32 flags1;
     S_80171158_1 *result;
     ObjectNodeHeader *object;
-    S_80171158_2 *part0;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     S_80171158_4 *result_copy;
 
@@ -67,7 +68,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 
             part0 = object->position;
             handler = saber_direction_frames;
-            part0->unk_0A = attr_c;
+            part0->z.w.i = attr_c;
             part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->tile_y = attr_b;

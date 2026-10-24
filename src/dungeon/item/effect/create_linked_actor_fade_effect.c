@@ -50,7 +50,7 @@ typedef struct EntityFields {
 extern u8 D_800C0404[];
 extern u8 return_magic_sprite_data[];
 
-extern EntityFields *allocate_list_node(s32, EntityFields *);
+extern void *allocate_list_node(s32, EntityFields *);
 extern void unlink_node(EntityFields *);
 extern void retire_tracked_effect_by_id(EntityFields *);
 extern void register_node(EntityFields *, void *);

@@ -115,7 +115,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     s32 *results;
     s32 entry_index;
 
-    entity = (Entity *)allocate_flagged_object_node(0x12);
+    entity = allocate_flagged_object_node(0x12);
     if (entity == 0) {
         return;
     }

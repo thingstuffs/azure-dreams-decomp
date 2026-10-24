@@ -97,7 +97,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     s16 fade_left;
     s32 stage;
     void *model;
-    S_8195281C_6 *model_colors;
+    SpriteFrameState *model_colors;
     S_8195281C_3 *actor_state;
     u16 ready_stage;
     u16 actor_param;
@@ -157,17 +157,17 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         if (model != 0) {
             model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
             ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
-            model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
-            model_colors->unk_0C.at01.v = (u8) (model_colors->unk_0C.at01.v - 4);
-            model_colors->unk_0C.at02.v = (u8) (model_colors->unk_0C.at02.v - 4);
-            if ((u8) model_colors->unk_0C.at00.v < 0x20U) {
-                model_colors->unk_0C.at00.v = 0x20U;
+            model_colors->color.c.r = (u8) (model_colors->color.c.r - 4);
+            model_colors->color.c.g = (u8) (model_colors->color.c.g - 4);
+            model_colors->color.c.b = (u8) (model_colors->color.c.b - 4);
+            if ((u8) model_colors->color.c.r < 0x20U) {
+                model_colors->color.c.r = 0x20U;
             }
-            if ((u8) model_colors->unk_0C.at01.v < 0x20U) {
-                model_colors->unk_0C.at01.v = 0x20U;
+            if ((u8) model_colors->color.c.g < 0x20U) {
+                model_colors->color.c.g = 0x20U;
             }
-            if ((u8) model_colors->unk_0C.at02.v < 0x20U) {
-                model_colors->unk_0C.at02.v = 0x20U;
+            if ((u8) model_colors->color.c.b < 0x20U) {
+                model_colors->color.c.b = 0x20U;
             }
         }
         if (!(reference_tile_object.sprite_flags & 0x8000)) {
@@ -180,7 +180,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         model = ((S_8195281C_7 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_60;
         if (model != 0) {
             model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
-            model_colors->unk_0C.at00u.v = 0x808080;
+            model_colors->color.word = 0x808080;
         }
         fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
         D_800249A4 = 1;
@@ -412,7 +412,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     s32 offset;
 
     if (D_800249A4 != 0) return;
-    node = (SpawnNode *)allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
+    node = allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
     node->header.callback = update_spiraling_effect_growth_and_fade;
     register_node(node, linked_mesh_processor_address);
@@ -452,10 +452,10 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
 void process_effect_modes_and_completion(void *state)
 {
-    s32 object_addr;
+    u8 * object_addr;
     u16 countdown;
     u16 *counter_base = D_800249A6;
-    object_addr = ((s32) state) - 0x20;
+    object_addr = (u8 *)state - 0x20;
     spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),
         primary_actor_record->target, (counter_base[0]++, 0));
     spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),

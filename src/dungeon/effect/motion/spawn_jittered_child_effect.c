@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "dungeon/effect/motion/spawn_jittered_child_effect.h"
 #include "dungeon/effect/motion.h"
 #include "shared/object_node.h"
@@ -28,9 +29,9 @@ void spawn_jittered_child_effect(
     s16 position_y;
     s16 position_z;
     void *init_data;
-    Row_818FECCC_S_818FECCC_2 *dest_x;
-    Row_818FECCC_S_818FECCC_3 *dest_y;
-    Row_818FECCC_S_818FECCC_5 *dest_z;
+    ObjectPosition *dest_x;
+    ObjectPosition *dest_y;
+    ObjectPosition *dest_z;
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
@@ -41,7 +42,7 @@ void spawn_jittered_child_effect(
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
-        dest_x->unk_02 = (s16)position_x;
+        dest_x->x.w.i = (s16)position_x;
 
         jitter_y = rand() & 0x1F;
         position_y = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
@@ -49,7 +50,7 @@ void spawn_jittered_child_effect(
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
-        dest_y->unk_06 = (s16)position_y;
+        dest_y->y.w.i = (s16)position_y;
 
         jitter_z = rand();
         init_data = &D_800241B0;
@@ -60,7 +61,7 @@ void spawn_jittered_child_effect(
         position_z += jitter_z;
         bias_z = offset_z + 0x10;
         position_z += bias_z;
-        dest_z->unk_0A = (s16)position_z;
+        dest_z->z.w.i = (s16)position_z;
         fields->unk_14 = field_34;
         fields->unk_32 = saved_field_52;
         register_node(object_cursor, init_data);

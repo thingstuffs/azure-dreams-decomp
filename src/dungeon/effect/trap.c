@@ -739,7 +739,7 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
     CoordBlock *coords;
     DescBlock *desc;
 
-    obj = (ObjectBlock *)allocate_flagged_object_node(2);
+    obj = allocate_flagged_object_node(2);
     if (obj != 0) {
         obj->resource = D_800CC744;
         register_node(obj, draw_linked_sprites_clipped);
@@ -2748,7 +2748,7 @@ void advance_monster_den_sequence(void *den_event) {
                     monster_level = monster_entry[1];
                     spawn_availability = find_or_retain_sprite_resource_slot(monster_type, 1);
                     if (spawn_availability != 0) {
-                        s32 area_calc;
+                        u8 * area_calc;
                         retries_left = 0xF;
                         areas = (AreaRecord *)dungeon_rooms;
                         area = (u8 *)&areas[area_index];
@@ -2786,9 +2786,9 @@ void advance_monster_den_sequence(void *den_event) {
 
                                 {
 
-                                    area_calc = (s32)(level_experience_table);
+                                    area_calc = (u8 *)(level_experience_table);
                                     entry_y = ((u32 *)area_calc)[monster_level];
-                                    area_calc = (s32)(((u32 *)area_calc) + 1);
+                                    area_calc = (u8 *)((((u32 *)area_calc) + 1));
                                     *(u32 *)((u8 *)monster + 0x18) = entry_y;
                                     entry_y = (u32)entry_y <
                                         ((u32 *)area_calc)[((u8 *)monster)[0x11]];

@@ -82,7 +82,7 @@ extern u8 secondary_sprite[];
 extern u8 D_800D7D30[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
-extern DungeonObject *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 extern void register_node(DungeonObject *, void *);
 extern void play_sound_if_enabled(s32);
 
@@ -119,7 +119,7 @@ void update_radial_effect(DungeonState *effect) {
                 object_counter->activity_counts.parts.pending_action_count += 1;
                 register_node(object, project_sprite_chain);
                 {
-                    SpriteFrameState *object_inner = *(DungeonInner * *)&object->sprite;
+                    SpriteFrameState *object_inner = object->sprite;
                     DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
                     u16 saved_flags;
 

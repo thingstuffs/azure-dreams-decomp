@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -25,7 +26,7 @@ extern u8 D_8028E170[];
 /* Creates an object and initializes its position and sprite data. */
 void create_sprite_object(FiveWords *init_data, s32 y_position)
 {
-    IntVector3 *position;
+    ObjectPosition *position;
     ObjectNodeHeader *object;
     SpriteFrameState *sprite;
 
@@ -36,9 +37,9 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
         func_8003BC18(object, score_sprite_draw_callback_address);
         position = object->position;
         sprite = object->sprite;
-        position->x = 0x05380000;
-        position->y = y_position;
-        position->z = 0xFFE00000;
+        position->x.v = 0x05380000;
+        position->y.v = y_position;
+        position->z.v = 0xFFE00000;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->source = (s32)D_8028E170;

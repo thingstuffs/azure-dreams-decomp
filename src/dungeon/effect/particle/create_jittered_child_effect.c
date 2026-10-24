@@ -42,7 +42,7 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
     ObjectNodeHeader *effect;
     SpriteFrameState *state;
     S_80165018_4 *effect_data;
-    S_80165018_3 *transform;
+    ObjectPosition *transform;
     s16 jitter;
     s16 coordinate;
 
@@ -70,9 +70,9 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
         state->flags = state->flags | 0xC;
         effect->sprite->tpage_abr = 0x20;
         transform = effect->position;
-        transform->unk_14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         effect_data->unk_32 = effect_size;
         effect_data->unk_34 = effect_size;
         register_node(effect, child_particle_draw_address);

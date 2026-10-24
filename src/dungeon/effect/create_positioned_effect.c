@@ -12,7 +12,7 @@ typedef struct {
     u8 work[0x3E];
 } Effect;
 typedef struct { u8 pad[2]; u16 x; u8 pad2[2]; u16 y; u8 pad3[2]; u16 z; } Position;
-extern Effect *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 extern void register_node(Effect *, void *);
 extern u8 linked_mesh_processor_address[], D_80024784[];
 

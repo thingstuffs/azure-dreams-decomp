@@ -86,7 +86,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
     s32 next_phase;
     ObjectNodeHeader *effect;
     S_8017558C_5 *effect_state;
-    MovingPosition *effect_position;
+    ObjectPosition *effect_position;
 
     s32 global_flags;
 
@@ -146,14 +146,14 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         effect_state->unk_38 = 5;
         effect_state->unk_40 = action;
         effect_state->unk_44 = position;
-        effect_sprite = *(s32 * *)&effect->sprite;
+        effect_sprite = effect->sprite;
         effect_sprite->tpage_abr = 0x40;
         effect_sprite->flags = (u16) (effect_sprite->flags | 0xC);
         effect_position = effect->position;
-        effect_position->x = (u16) ((u16)position->x.w.i);
-        effect_position->y = (u16) ((u16)position->y.w.i);
-        effect_position->z = (u16) ((u16)actor->ground_height);
-        effect_sprite = *(s32 * *)&effect->sprite;
+        effect_position->x.w.i = (u16) ((u16)position->x.w.i);
+        effect_position->y.w.i = (u16) ((u16)position->y.w.i);
+        effect_position->z.w.i = (u16) ((u16)actor->ground_height);
+        effect_sprite = effect->sprite;
         effect_sprite->scale_y = 0xA00;
         effect_sprite->scale_x = 0xA00;
         effect_sprite->color.c.b = 0;

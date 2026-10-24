@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 /* Five-point effect geometry, orbiting animation, and movement toward an attack target. */
 #include "shared/game_work.h"
@@ -64,7 +65,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     SpriteFrameState *sprite;
     ovl_1930844_81910970_S_80024170_1 *effect_state;
     ObjectNodeHeader *effect;
-    ovl_1930844_81910970_S_80024170_4 *position;
+    ObjectPosition *position;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
@@ -91,7 +92,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
         register_node(effect, project_sprite_chain);
         position = effect->position;
         *(ovl_1930844_81910970_Copy6 *)position = *(ovl_1930844_81910970_Copy6 *)source_position;
-        initial_z = position->unk_08;
+        initial_z = position->z.v;
         effect_state->unk_0C = initial_z;
         return (s32)effect;
     }
@@ -800,7 +801,7 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
 void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
     ObjectNodeHeader *obj;
     ovl_1930844_81912074_S_80025874_1 *fields;
-    void *object_data;
+    ObjectPosition *object_data;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {

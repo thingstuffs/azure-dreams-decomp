@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 /* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */
 #include "shared/object_node.h"
@@ -199,14 +200,14 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
         render->scale_x = size_fixed;
         register_node(object, &clipped_sprite_renderer_address);
         {
-            Row_8191CBCC_S_8191CBCC_4 *transform;
+            ObjectPosition *transform;
 
             transform = object->position;
             *(Blk24 *) transform = *(Blk24 *) source_transform;
             depth_scale = state->unk_14.u;
-            adjusted_depth = ((transform->unk_14 * depth_scale) -
+            adjusted_depth = ((transform->velocity_z * depth_scale) -
                               (params->unk_10.u << 0x13)) / depth_scale;
-            transform->unk_14 = adjusted_depth;
+            transform->velocity_z = adjusted_depth;
             return (s32)object;
         }
     }

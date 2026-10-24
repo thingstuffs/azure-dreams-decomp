@@ -42,7 +42,7 @@ typedef struct Pair {
     s32 second;
 } Pair;
 
-Object *allocate_list_node();
+void *allocate_list_node();
 void register_node();
 void draw_textured_ellipse();
 extern u8 D_80025AC4[12];
@@ -64,7 +64,7 @@ void create_owner_positioned_sprite(Object *owner, s16 angle) {
         (*(Sprite * *)&spawned->position)->x = owner->sprite->x;
         (*(Sprite * *)&spawned->position)->y = owner->sprite->y;
         (*(Sprite * *)&spawned->position)->z = owner->sprite->z;
-        node = *(Node * *)&spawned->sprite;
+        node = spawned->sprite;
         node->source = screen_effect_sprite_entries;
         node->scale_y = 0x2800;
         node->scale_x = 0x2800;

@@ -462,7 +462,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
 
             {
                 void *payout_obj;
-                u8 *primitive;
+                ObjectPosition *primitive;
                 SpriteFrameState *sprite;
                 u8 *payout_state;
                 coin = allocate_flagged_object_node(0x136);
@@ -477,13 +477,13 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     ((IntVector3 *)position)->y + (s32)0xFFC00000;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_08 =
                     ((IntVector3 *)position)->z + (s32)0xFFC00000;
-                primitive = *(u8 * *)&coin->position;
-                ((ObjectPosition *)primitive)->velocity_y = 0;
-                ((ObjectPosition *)primitive)->velocity_x = 0;
+                primitive = coin->position;
+                (primitive)->velocity_y = 0;
+                (primitive)->velocity_x = 0;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_14 = 0x40000;
                 payout_state = (u8 *)coin + 0x20;
                 register_node(payout_obj, project_sprite_chain);
-                sprite = *(u8 * *)&coin->sprite;
+                sprite = coin->sprite;
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
                 if (digits[2] != 0) {

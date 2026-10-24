@@ -712,7 +712,7 @@ void advance_sprite_animation_and_textures();
 s32 register_node();
 s32 func_8004491C();
 void select_record_entry_and_value();
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 generate_random_value();
 s32 set_or_clear_actor_status_slot();

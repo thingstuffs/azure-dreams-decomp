@@ -176,16 +176,16 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
     u16 height_raw2;
     s32 height_offset;
     s32 ground_offset;
-    u32 loaded_height;
-    s32 direction;
+    u8 * model_state;
+    u8 * sprite_data;
     s32 view_dir;
     u32 new_height;
 
     part_base = (*(u8 **)((u8 *)actor + 0xA4));
     global_flags = global_flags_ptr[0x1A31];
-    loaded_height = (u32)(part_base + 0x20);
+    model_state = (part_base + 0x20);
 
-    direction = (s32)(part_base + 0x28);
+    sprite_data = (part_base + 0x28);
     if (global_flags & 0x2000) {
         callback = (*(R06_80170BB8_Callback *)((u8 *)actor + 0x8C));
         if (callback == (R06_80170BB8_Callback)((u8 *)initialize_destination_state)) {
@@ -227,21 +227,21 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 
             if (((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.u & 0x200) {
                 if ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000) {
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C = 0x00808080;
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = 0x00808080;
-                } else if (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 >= 8) {
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C += 0xFFF7F7F8;
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C = 0x00808080;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = 0x00808080;
+                } else if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 >= 8) {
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C += 0xFFF7F7F8;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C;
                 }
 
-                if (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000) {
-                    if (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 < 8 ||
+                if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000) {
+                    if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 < 8 ||
                         ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000)) {
                         u16 actor_flags = (*(u16 *)((u8 *)actor + 0x98));
 
                         if (!(actor_flags & 0x8000)) {
                             (*(u16 *)((u8 *)actor + 0x98)) = actor_flags | 0xC000;
-                            ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 |= 0x8000;
+                            ((R06_80170BB8_S_80170BB8_3 *)(model_state))->unk_04 |= 0x8000;
                             (*(u16 *)((u8 *)actor + 0xA0)) =
                                 (rand() & 7) + 0x10;
                         }
@@ -251,48 +251,48 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 sprite_index = 0;
                 if (--(*(s16 *)((u8 *)actor + 0xA0)) == 0) {
                     (*(u16 *)((u8 *)actor + 0x98)) &= 0x7FFF;
-                    ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
-                    if (((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_02 > 0) {
+                    ((R06_80170BB8_S_80170BB8_3 *)(model_state))->unk_04 &= 0x7FFF;
+                    if (((R06_80170BB8_S_80170BB8_3 *)(model_state))->unk_02 > 0) {
                         do {
-                            select_sprite_entry((u8 *)direction + sprite_index * 0x30, 0x1C, 0);
+                            select_sprite_entry(sprite_data + sprite_index * 0x30, 0x1C, 0);
                             sprite_index++;
-                        } while (sprite_index < ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
+                        } while (sprite_index < ((R06_80170BB8_S_80170BB8_3 *)(model_state))->unk_02);
                     }
                 }
             } else {
-                if (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 >= 0x80) {
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C = 0x00808080;
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = 0x00808080;
+                if (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u8 >= 0x80) {
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C = 0x00808080;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = 0x00808080;
                 } else {
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C += 0x00080808;
-                    ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_3C;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C += 0x00080808;
+                    ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_0C.u32 = ((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_3C;
                 }
 
                 if ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000) {
                     (*(u16 *)((u8 *)actor + 0x98)) &= 0x3FFF;
-                    ((R06_80170BB8_S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
+                    ((R06_80170BB8_S_80170BB8_3 *)(model_state))->unk_04 &= 0x7FFF;
                 }
 
                 if ((*(u16 *)((u8 *)actor + 0x98)) & 0x1000) {
-                    select_sprite_entry((u8 *)direction, 0x1D, 0);
-                    select_sprite_entry((u8 *)direction + 0x30, 0x1D, 0);
+                    select_sprite_entry(sprite_data, 0x1D, 0);
+                    select_sprite_entry(sprite_data + 0x30, 0x1D, 0);
                     (*(u16 *)((u8 *)actor + 0x98)) &= 0xEFFF;
                 } else if (((*(u16 *)((u8 *)actor + 0x98)) & 0x2000) &&
-                           (((R06_80170BB8_S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000)) {
+                           (((R06_80170BB8_S_80170BB8_2 *)sprite_data)->unk_14 & 0x6000)) {
 
                     if ((*(u8 *)((u8 *)actor + 0x9A)) == 7) {
-                        select_sprite_entry((u8 *)direction, 0x19, 0);
-                        select_sprite_entry((u8 *)direction + 0x30, 0x24, 0);
+                        select_sprite_entry(sprite_data, 0x19, 0);
+                        select_sprite_entry(sprite_data + 0x30, 0x24, 0);
                     } else {
                         s32 random_value;
 
-                        select_sprite_entry((u8 *)direction, 0x19, 0);
+                        select_sprite_entry(sprite_data, 0x19, 0);
                         random_value = rand();
                         ground_offset = 0x24;
                         if (random_value & 3) {
                             ground_offset = 0x19;
                         }
-                        select_sprite_entry((u8 *)direction + 0x30, ground_offset, 0);
+                        select_sprite_entry(sprite_data + 0x30, ground_offset, 0);
                     }
                 }
             }
@@ -2120,9 +2120,9 @@ void advance_actor_action_and_update_status(
     s16 y_pos;
     s16 z_pos;
     void *init_data;
-    R06_80174214_S_80174214_2 *x_dest;
-    R06_80174214_S_80174214_3 *y_dest;
-    R06_80174214_S_80174214_5 *z_dest;
+    ObjectPosition *x_dest;
+    ObjectPosition *y_dest;
+    ObjectPosition *z_dest;
 
     object_fields = allocate_list_node(0x211, source_obj);
     if (object_fields != NULL) {
@@ -2133,7 +2133,7 @@ void advance_actor_action_and_update_status(
         x_pos += x_jitter;
         x_bias = x_offset - 0x10;
         x_pos += x_bias;
-        x_dest->unk_02 = (s16)x_pos;
+        x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
         y_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_06;
@@ -2141,7 +2141,7 @@ void advance_actor_action_and_update_status(
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
         y_pos += y_bias;
-        y_dest->unk_06 = (s16)y_pos;
+        y_dest->y.w.i = (s16)y_pos;
 
         z_jitter = rand();
         init_data = ((void *)append_linked_shaded_point_packets);
@@ -2152,7 +2152,7 @@ void advance_actor_action_and_update_status(
         z_pos += z_jitter;
         z_bias = z_offset - 0x10;
         z_pos += z_bias;
-        z_dest->unk_0A = (s16)z_pos;
+        z_dest->z.w.i = (s16)z_pos;
         fields->unk_14 = saved_value_34;
         fields->unk_32 = saved_value_52;
         register_node(object_fields, init_data);
@@ -2441,7 +2441,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_10 = 0x20;
             ((R06_80174934_S_80174934_3 *)render_ctl)->unk_14 |= 0xC;
 
-            position = *(u8 * *)&strip_obj->position;
+            position = strip_obj->position;
             position->x.v = origin->x;
             position->y.v = origin->y;
             position->z.v = origin->z;
@@ -2537,7 +2537,7 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
         s32 trig_angle;
         s32 trig_value;
 
-        entity = (R06_80174E78_Entity *)allocate_flagged_object_node(18);
+        entity = allocate_flagged_object_node(18);
         if (entity == 0) {
             continue;
         }

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -66,7 +67,7 @@ void spawn_randomized_quad_effects(void) {
     Cell *below;
     Cell *right;
     ObjectNodeHeader *effect;
-    S_func_80025BA0_1 *motion;
+    ObjectPosition *motion;
     SpriteFrameState *angles;
     S_func_80025BA0_3 *quad_data;
     s32 quad_index;
@@ -102,13 +103,13 @@ void spawn_randomized_quad_effects(void) {
             effect_or_x = (vertices[quad_index].x + right->x + below->x + (diagonal = &vertices[row_start + 0x10 + index_or_coord])->x) >> 2;
             right_y = (vertices[quad_index].y + right->y + below->y + diagonal->y) >> 2;
             below_y = (vertices[quad_index].z + right->z + below->z + diagonal->z) >> 2;
-            motion->unk_02 = effect_or_x;
-            motion->unk_06 = right_y;
-            motion->unk_0A = below_y;
+            motion->x.w.i = effect_or_x;
+            motion->y.w.i = right_y;
+            motion->z.w.i = below_y;
 
-            motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
-            motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
-            motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_x = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_y = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_z = ((rand() & 0xF) - 8) << 0x10;
 
             angles = effect->sprite;
             angles->angle_x = (rand() & 0x1FF) - 0x100;

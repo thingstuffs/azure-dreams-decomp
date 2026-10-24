@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
@@ -67,7 +68,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
     s16 phase_half_s16;
     SpriteFrameState *part;
     S_818BD52C_2 *base;
-    S_818BD52C_4 *coords;
+    ObjectPosition *coords;
     ObjectNodeHeader *node;
     s32 end_z;
 
@@ -111,11 +112,11 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
 
         coords = node->position;
         *(Copy24 *)coords = *(Copy24 *)source_coords;
-        coords->unk_0C = coords->unk_00;
-        coords->unk_10 = coords->unk_04;
-        coords->unk_14 = coords->unk_08;
-        end_z = coords->unk_14 + ((u32)base->unk_0A << 16);
-        coords->unk_14 = end_z;
+        coords->velocity_x = coords->x.v;
+        coords->velocity_y = coords->y.v;
+        coords->velocity_z = coords->z.v;
+        end_z = coords->velocity_z + ((u32)base->unk_0A << 16);
+        coords->velocity_z = end_z;
         return node;
     }
     return node;

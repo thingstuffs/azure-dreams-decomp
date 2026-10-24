@@ -1244,7 +1244,7 @@ void update_bank_staged_movement(void *action, void *motion, SpriteFrameState *m
     s32 random_value;
     s32 texture_word;
     s32 direction_index_2;
-    s32 actor_base;
+    u8 * actor_base;
     s32 velocity_x;
     s32 velocity_z;
     s32 operand;
@@ -1431,7 +1431,7 @@ void update_bank_staged_movement(void *action, void *motion, SpriteFrameState *m
             return;
         }
         operand = (s32)((u8 *)&actor_update_node_cursor - 0x3DE8);
-        actor_base = (s32)((u8 *)actor_arg - 0x20);
+        actor_base = ((u8 *)actor_arg - 0x20);
         ((S_80172494_8 *)((void *)operand))->unk_3DE8 = (void *)actor_base;
         return;
 

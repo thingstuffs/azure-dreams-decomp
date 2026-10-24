@@ -78,11 +78,11 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         SD_Call(0x519, gravity);
         index = 15;
         do {
-            particle = (Object *)allocate_flagged_object_node(0x136);
+            particle = allocate_flagged_object_node(0x136);
             if (particle != 0) {
                 particle->update_callback = set_linked_object_and_global_flags;
                 register_node(particle, project_sprite_chain);
-                sprite = *(Sprite * *)&particle->sprite;
+                sprite = particle->sprite;
                 (*(IntVector3 * *)&particle->position)->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
                 (*(IntVector3 * *)&particle->position)->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
                 (*(IntVector3 * *)&particle->position)->z = motion->z;

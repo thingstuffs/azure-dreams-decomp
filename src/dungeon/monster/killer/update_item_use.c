@@ -180,11 +180,11 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                     target = primary_actor_record;
                     actor_data->unk_60 = target;
                     {
-                        S_func_80FDD1A0_2 *item_id;
+                        SpriteFrameState *item_id;
 
                         item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor_data->unk_72.u = item_id->unk_24;
-                        actor_data->unk_73.u = item_id->unk_25;
+                        actor_data->unk_72.u = item_id->tile_x;
+                        actor_data->unk_73.u = item_id->tile_y;
                     }
                 } else {
                     S_func_80FDD1A0_2 *item_id;

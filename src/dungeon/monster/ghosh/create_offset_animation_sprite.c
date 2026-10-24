@@ -49,19 +49,19 @@ void create_offset_animation_sprite(void *unused, ObjectPosition *origin) {
     ObjectPosition *position;
     SpriteFrameState *display_sub;
 
-    node = (Node *)allocate_flagged_object_node(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         node->update_callback = &func_80170D60;
         register_node(node, project_sprite_chain);
-        node_sub = *(Sub * *)&node->sprite;
+        node_sub = node->sprite;
         node_sub->tpage_abr = 0x20;
         node_sub->depth_bias = 6;
         node_sub->flags |= 0xC;
-        position = *(Vec3 * *)&node->position;
+        position = node->position;
         position->x.v = origin->x.v + 0x180000;
         position->y.v = origin->y.v;
         position->z.v = origin->z.v + 0xFFF00000;
-        display_sub = *(Sub * *)&node->sprite;
+        display_sub = node->sprite;
         display_sub->scale_y = 0x1400;
         display_sub->scale_x = 0x1400;
         display_sub->color.c.b = 0x80;

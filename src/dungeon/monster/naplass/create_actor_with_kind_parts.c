@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -15,7 +16,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     s32 kind;
     S_8014C870_1 *work;
     ObjectNodeHeader *obj;
-    S_8014C870_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8014C870_4 *actor;
     void *init_obj;
@@ -37,7 +38,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_value;
+        part_a->z.w.i = saved_value;
         part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->tile_y = saved_y;

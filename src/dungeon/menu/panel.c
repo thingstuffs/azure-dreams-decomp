@@ -161,7 +161,7 @@ void *create_panel_effect_object(void *owner)
 }
 #include "common.h"
 
-extern ObjectNodeHeader * allocate_flagged_object_node();
+extern void *allocate_flagged_object_node();
 
 /*
  * Allocates an unflagged object node and returns its data address at offset 0x20, or zero if
@@ -588,7 +588,7 @@ extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 D_800DF03C[];
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 extern s32 build_positioned_text_glyphs(void *, s32, s32);
 extern s32 strlen(s32);
@@ -839,7 +839,7 @@ typedef struct S_800B1B10_7 {
     s32 unk_50;
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 s32 decode_fullwidth_text();
 s32 strlen();
@@ -1254,7 +1254,7 @@ void create_rendered_panel_object(CopyBlock *source)
     Object *object;
     SpriteFrameState *part;
 
-    object = (Object *)allocate_flagged_object_node(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->callback = advance_panel_accumulator;
         register_node(object, project_sprite_chain);

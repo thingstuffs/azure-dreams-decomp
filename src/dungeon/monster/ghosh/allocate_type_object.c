@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -41,27 +43,27 @@ typedef struct S_8016AD00_1 {
 void allocate_type_12_object(void)
 {
     ObjectNodeHeader * object;
-    S_8016AD00_0 *primary_state;
-    S_8016AD00_1 *secondary_state;
+    ObjectPosition *primary_state;
+    SpriteFrameState *secondary_state;
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (object->update_callback) = D_8016ABC8;
         register_node(object, linked_sprite_renderer_address);
 
-        primary_state = (object->position);
-        primary_state->unk_0A = 0;
-        primary_state->unk_06 = 0;
-        primary_state->unk_02 = 0;
+        primary_state = object->position;
+        primary_state->z.w.i = 0;
+        primary_state->y.w.i = 0;
+        primary_state->x.w.i = 0;
 
-        secondary_state = (object->sprite);
-        secondary_state->unk_1E = 0;
-        secondary_state->unk_1C = 0;
-        secondary_state->unk_0E = 0;
-        secondary_state->unk_0D = 0;
-        secondary_state->unk_0C = 0;
+        secondary_state = object->sprite;
+        secondary_state->scale_y = 0;
+        secondary_state->scale_x = 0;
+        secondary_state->color.c.b = 0;
+        secondary_state->color.c.g = 0;
+        secondary_state->color.c.r = 0;
 
         (*(Copy12 *)((u8 *)object + 0x4C)) = ghosh_sprite_payload_template;
-        secondary_state->unk_08 = (u8 *)object + 0x4C;
+        secondary_state->source = (u8 *)object + 0x4C;
     }
 }

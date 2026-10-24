@@ -32,6 +32,7 @@ typedef struct ObjectNodeHeader {
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader scene_object_list_anchor;
-ObjectNodeHeader *allocate_flagged_object_node(int flags);
+/* Returns pool storage containing this header and a flag-selected body. */
+void *allocate_flagged_object_node(int flags);
 
 #endif

@@ -766,7 +766,7 @@ typedef struct R12_80175470_S_80175470_5 {
 } R12_80175470_S_80175470_5;
 extern int abs(int);
 s32 Control_CD();
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 register_node();
 s32 func_8004491C();

@@ -3,17 +3,17 @@
 extern void update_overlay_actor_action(void);
 
 /* jump_table; owner: dungeon/func_81263D14. */
-const u32 beldo_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {
-    (u32)((u8 *)update_overlay_actor_action + 0x3AC),
-    (u32)((u8 *)update_overlay_actor_action + 0x3AC),
-    (u32)((u8 *)update_overlay_actor_action + 0x3AC),
-    (u32)((u8 *)update_overlay_actor_action + 0x3D4),
-    (u32)((u8 *)update_overlay_actor_action + 0x380),
-    (u32)((u8 *)update_overlay_actor_action + 0x380),
-    (u32)((u8 *)update_overlay_actor_action + 0x380),
-    (u32)((u8 *)update_overlay_actor_action + 0x380),
-    (u32)((u8 *)update_overlay_actor_action + 0x380),
-    (u32)((u8 *)update_overlay_actor_action + 0x3D4),
-    (u32)((u8 *)update_overlay_actor_action + 0x3D4),
-    (u32)((u8 *)update_overlay_actor_action + 0x370)
+const void *const beldo_slot_d_behavior_targets[12] __attribute__((aligned(4))) = {
+    ((u8 *)update_overlay_actor_action + 0x3AC),
+    ((u8 *)update_overlay_actor_action + 0x3AC),
+    ((u8 *)update_overlay_actor_action + 0x3AC),
+    ((u8 *)update_overlay_actor_action + 0x3D4),
+    ((u8 *)update_overlay_actor_action + 0x380),
+    ((u8 *)update_overlay_actor_action + 0x380),
+    ((u8 *)update_overlay_actor_action + 0x380),
+    ((u8 *)update_overlay_actor_action + 0x380),
+    ((u8 *)update_overlay_actor_action + 0x380),
+    ((u8 *)update_overlay_actor_action + 0x3D4),
+    ((u8 *)update_overlay_actor_action + 0x3D4),
+    ((u8 *)update_overlay_actor_action + 0x370)
 };

@@ -44,7 +44,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;
 
-    obj = (ovl_18b8824_818988CC_Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
@@ -52,7 +52,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
         fields->unk_10 = 0;
         fields->unk_12 = initial_value;
 
-        sprite = *(ovl_18b8824_818988CC_Sprite * *)&obj->sprite;
+        sprite = obj->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -215,7 +215,7 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
     u8 *sprite;
     s32 *data;
 
-    obj = (ovl_18b8824_81898DCC_Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = (void *)mark_owner_on_target_completion;
         sprite = obj->sprite;

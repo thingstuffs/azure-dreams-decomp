@@ -155,8 +155,8 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     void *image_base;
     void *resource_base;
     s32 actor_or_corner;
-    S_func_818DA800_7 *prim;
-    s32 actor_header;
+    SpriteFrameState *prim;
+    u8 * actor_header;
     S_func_818DA800_8 *child_state;
     s16 timer;
     s32 phase;
@@ -169,7 +169,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     actor_data = ((S_func_818DA800_5 *)((u8 *)actor - 0x20))->unk_0C;
     effect_state->unk_50.as_u16 = timer;
 
-    actor_header = (s32)((u8 *)actor - 0x20);
+    actor_header = ((u8 *)actor - 0x20);
     switch (phase) {
     case 0:
     if ((((u16 *)effect_state->unk_04)[0] & 0x80) == 0) {
@@ -266,24 +266,24 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                 position_or_z_offset = -0x100000;
                 ((S_func_818DA800_2 *)burst_obj->position)->unk_08.as_s32 =
                     motion->unk_08.as_s32 + position_or_z_offset;
-                prim->unk_1E = 0xC00;
-                prim->unk_10 = 0x60;
+                prim->scale_y = 0xC00;
+                prim->tpage_abr = 0x60;
                 {
                     u16 prim_flags;
 
-                    prim_flags = prim->unk_14;
+                    prim_flags = prim->flags;
                     prim_color |= 0xC000;
                     prim_color |= 0xC0;
                     position_or_z_offset = resource_base;
                     prim->unk_00 = position_or_z_offset;
-                    prim->unk_1C = 0;
-                    prim->unk_0C = prim_color;
+                    prim->scale_x = 0;
+                    prim->color.word = prim_color;
                     prim_flags |= 0xC;
-                    prim->unk_14 = prim_flags;
+                    prim->flags = prim_flags;
                 }
-                prim->unk_08 = ((S_func_818DA800_9 *)prim->unk_00)->unk_04;
+                prim->source = ((S_func_818DA800_9 *)prim->unk_00)->unk_04;
                 prim->unk_04 = 0;
-                prim->unk_05 = 0;
+                prim->frame_ticks = 0;
                 child_state->unk_00 = effect_state;
                 child_state->unk_48 =
                     actor->unk_60 ? 0x20 : 0xA;

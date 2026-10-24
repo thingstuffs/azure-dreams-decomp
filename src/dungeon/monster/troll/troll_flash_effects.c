@@ -578,7 +578,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
 {
     T_80171BEC_Offset3 offset;
     ObjectNodeHeader *object;
-    T_80171BEC_S_80171BEC_1 *render;
+    SpriteFrameState *render;
     void *owner;
     ObjectPosition *position;
 
@@ -589,9 +589,9 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
         register_node(object, project_sprite_chain);
 
         render = object->sprite;
-        render->unk_10 = 0x20;
-        render->unk_06 = 8;
-        render->unk_14 |= 0xC;
+        render->tpage_abr = 0x20;
+        render->depth_bias = 8;
+        render->flags |= 0xC;
 
         position = object->position;
         position->x.v = base_position->unk_00;
@@ -606,13 +606,13 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
         }
 
         render = object->sprite;
-        render->unk_1E = 0x800;
-        render->unk_1C = 0x800;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
+        render->scale_y = 0x800;
+        render->scale_x = 0x800;
+        render->color.c.b = 0x80;
+        render->color.c.g = 0x80;
+        render->color.c.r = 0x80;
         *(T_80171BEC_Packed3 *)((u8 *)object + 0x44) = D_80175EE8;
-        render->unk_08 = (u8 *)object + 0x44;
+        render->source = (u8 *)object + 0x44;
     }
 }
 
@@ -620,7 +620,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
 /* Creates Troll, selecting item values and directional sprite tables from the global spawn variant. */
 void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
-    s32 record_addr;
+    u8 * record_addr;
     ActorRecord *result;
     s16 saved_y;
     s16 saved_x;
@@ -639,7 +639,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     u32 branch_flags;
     void *current_frames;
     u8 *frame_table;
-    s32 default_frames;
+    u8 * default_frames;
     s32 direction_index;
     s32 record_kind;
 
@@ -656,7 +656,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         *(s8 *)((u8 *)result + 0x13) = 0x16;
         register_node(object, project_sprite_chain);
 
-        default_frames = (s32)troll_frame_set_1;
+        default_frames = troll_frame_set_1;
         call_position = 0xE;
         position = object->position;
         alternate_kind = 0xF;
@@ -667,7 +667,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         sprite->frameTable = (void *)default_frames;
         record_kind = 0x20;
         sprite->tile_y = saved_y;
-        record_addr = (s32)result;
+        record_addr = (u8 *)result;
         result->unk_4B = record_kind;
         result->unk_48 = call_position;
         result->unk_49 = alternate_kind;

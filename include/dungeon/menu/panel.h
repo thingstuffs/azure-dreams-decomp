@@ -12,5 +12,5 @@
 #include "shared/slus_callbacks.h"
 
 /* Retail allocator return and flag word; identical to the incoming shared declaration. */
-ObjectNodeHeader *allocate_flagged_object_node(int flags);
+void *allocate_flagged_object_node(int flags);
 #endif

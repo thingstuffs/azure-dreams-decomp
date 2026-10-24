@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -29,7 +30,7 @@ extern u8 D_800DF334[9];
 void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base) {
     s32 init_data[2];
     ObjectNodeHeader *object;
-    MovingPosition *part;
+    ObjectPosition *part;
     SpriteFrameState *effect;
     void *result;
 
@@ -41,9 +42,9 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
 
         part = object->position;
         object->update_callback = D_800243C4;
-        part->x = source_part->x;
-        part->y = source_part->y;
-        part->z = source_part->z;
+        part->x.w.i = source_part->x;
+        part->y.w.i = source_part->y;
+        part->z.w.i = source_part->z;
 
         effect = object->sprite;
         effect->source = D_80028208;

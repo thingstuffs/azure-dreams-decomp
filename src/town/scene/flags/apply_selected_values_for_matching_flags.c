@@ -14,7 +14,7 @@ void apply_selected_values_for_matching_flags(void) {
     s8 *selected_values;
     s8 *entry;
     s16 *value_id;
-    s32 first_index;
+    void * first_index;
     s32 entry_index;
     s8 **table;
     s32 entry_offset;

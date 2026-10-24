@@ -47,7 +47,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 particle_data = (DelayParticle *)((u8 *)particle + 32);
-                child_data = *(u8 * *)&particle->sprite;
+                child_data = particle->sprite;
                 particle->update_callback = advance_delayed_fading_sprite;
 
                 F(F(particle, u8 *, 8), u32, 0) = (u32)motion->x.v +
@@ -160,7 +160,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
             if (particle != 0) {
                 particle->update_callback = brighten_accelerate_and_fade_effect;
                 register_node(particle, project_sprite_chain);
-                child_data = *(u8 * *)&particle->sprite;
+                child_data = particle->sprite;
 
                 spawn_coord = rand();
                 random_sample = rand();

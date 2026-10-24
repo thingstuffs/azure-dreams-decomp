@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -60,7 +61,7 @@ extern void advance_sprite_animation_and_textures(Sub *);
 /* Delays an effect, then moves and fades its sprite before finishing. */
 void update_encounter_retreat_fade(void) {
     Extra *effect;
-    Vec3 *position;
+    ObjectPosition *position;
     SpriteFrameState *sprite;
     Extra *direction_data;
     ObjectNodeHeader *node;
@@ -71,9 +72,9 @@ void update_encounter_retreat_fade(void) {
 
     node = D_80174CDC;
     effect = (Extra *)((u8 *)node + 0x20);
-    position = *(Vec3 * *)&node->position;
+    position = node->position;
     state = effect->field_9A;
-    sprite = *(Sub * *)&node->sprite;
+    sprite = node->sprite;
     direction_data = effect;
 
     switch (state) {
@@ -90,7 +91,7 @@ void update_encounter_retreat_fade(void) {
             initialize_timed_motion_step(6, 12);
             create_offset_animation_sprite(effect, position, sprite);
             play_sound_if_enabled(0x601);
-            position->field_0C = -0x200000;
+            position->velocity_x = -0x200000;
             sprite->tpage_abr = 0x20;
             sprite->frameTable = D_80174B30;
             sprite->flags |= 0xC;
@@ -100,8 +101,8 @@ void update_encounter_retreat_fade(void) {
         break;
 
     case 2:
-        position->field_00 += position->field_0C;
-        position->field_0C /= 2;
+        position->x.v += position->velocity_x;
+        position->velocity_x /= 2;
         duration = effect->field_9E;
         intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
         effect->field_96--;

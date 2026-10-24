@@ -49,7 +49,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
     void *linked_body;
     void *owner;
     s16 count;
-    s32 object_or_height;
+    u8 * object_or_height;
     s32 anchor_height;
     s32 first_height;
     u16 timer;
@@ -83,7 +83,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         }
         count = 0;
         do {
-            object_or_height = (s32)allocate_list_node(0x112, &scene_object_list_anchor);
+            object_or_height = allocate_list_node(0x112, &scene_object_list_anchor);
             effect_body = (u8 *)((void *)object_or_height);
             effect_body += 0x20;
             if (((void *)object_or_height) == 0) {
@@ -119,7 +119,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
             call_value = noise_frame_set_2[0];
             effect_mesh->frameTable = noise_frame_set_2;
             select_sprite_entry(effect_mesh, call_value, 0);
-            object_or_height = (s32)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
+            object_or_height = (u8 *)((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = *(u16 *)&anchor_pos->x.w.i;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 = *(u16 *)&anchor_pos->y.w.i;
             anchor_z = *(u16 *)&anchor_pos->z.w.i;

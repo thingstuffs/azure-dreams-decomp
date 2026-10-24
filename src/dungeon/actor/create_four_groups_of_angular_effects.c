@@ -50,7 +50,7 @@ spawn:
         effect->update_callback = callback;
         data = linked_mesh_processor_address;
         register_node(effect, data);
-        positions = *(u8 * *)&effect->position;
+        positions = effect->position;
         positions->x.w.i = pos_x;
         *(s16 *)(((u8 *)positions) + 0xE) = pos_x;
         positions->y.w.i = pos_y;
@@ -62,7 +62,7 @@ spawn:
         *(s32 *)(effect_state + 0xC) = (rcos(motion_angle) * rcos(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x10) = (rsin(motion_angle) * rcos(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x14) = rsin(sample_angle) << ((group_index >> 1) + 7);
-        sprite = *(u8 * *)&effect->sprite;
+        sprite = effect->sprite;
         data = (void *)0x808080;
         sprite->scale_y = 0x400;
         sprite->scale_x = 0x400;

@@ -2381,7 +2381,7 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
     ObjectNodeHeader *object;
     R10_80174F24_S_func_80AF3724_4 *state;
     ObjectPosition *transform;
-    R10_80174F24_S_func_80AF3724_6 *display;
+    SpriteFrameState *display;
 
     directions = (*(R10_80174F24_LocalTable *)&D_80170874);
     object = allocate_flagged_object_node(0x212);
@@ -2400,8 +2400,8 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
         register_node(object, project_sprite_chain);
 
         display = object->sprite;
-        display->unk_10 = 0x20;
-        display->unk_14 |= 0xC;
+        display->tpage_abr = 0x20;
+        display->flags |= 0xC;
 
         transform = object->position;
         jitter = rand() & 0x1F;
@@ -2430,15 +2430,15 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
         transform->y.v += transform->velocity_y;
 
         display = object->sprite;
-        display->unk_1E = 0x200;
-        display->unk_1C = 0x200;
-        display->unk_0E = 0x20;
-        display->unk_0D = 0x20;
-        display->unk_0C = 0x20;
-        display->unk_12 = 0x7DCF;
-        display->unk_14 |= 0x100;
+        display->scale_y = 0x200;
+        display->scale_x = 0x200;
+        display->color.c.b = 0x20;
+        display->color.c.g = 0x20;
+        display->color.c.r = 0x20;
+        display->clut = 0x7DCF;
+        display->flags |= 0x100;
         state->unk_28 = (*(R10_80174F24_LocalPacket *)D_80175A0C);
-        display->unk_08 = &state->unk_28;
+        display->source = &state->unk_28;
     }
 }
 

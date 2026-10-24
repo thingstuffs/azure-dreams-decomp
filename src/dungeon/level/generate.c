@@ -1708,7 +1708,7 @@ s16 filter_arg;
     s32 facing_high;
     s32 facing_offset;
     u16 tile_index_u16;
-    s32 initial_x_steps;
+    u8 * initial_x_steps;
     s32 x;
     s32 y;
     s32 failures;
@@ -1731,7 +1731,7 @@ s16 filter_arg;
     s8 *side_marks;
 
     facing_high = (s32)*facing << 16;
-    initial_x_steps = (s32)((u8 *)dir_step_x);
+    initial_x_steps = ((u8 *)dir_step_x);
     facing_offset = facing_high >> 15;
     start_x = origin_x;
     start_y = origin_y;

@@ -111,7 +111,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 u8 *object_tail = ((u8 *)object) + 0x20;
                 object->update_callback = D_80024B48;
                 register_node(object, project_sprite_chain);
-                inner_data = *(u8 * *)&object->sprite;
+                inner_data = object->sprite;
                 ((IntVector3 *)(*(u8 * *)&object->position))->x = 0x03200000;
                 ((IntVector3 *)(*(u8 * *)&object->position))->y = 0x02E00000;
                 ((IntVector3 *)(*(u8 * *)&object->position))->z = 0xFFFC0000;

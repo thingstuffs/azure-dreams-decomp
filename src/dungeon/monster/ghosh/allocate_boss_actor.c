@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
@@ -49,7 +50,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;
     ObjectNodeHeader *obj;
-    S_8016F160_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *work;
     s16 saved_mode;
@@ -73,7 +74,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_config_0a;
+        part_a->z.w.i = saved_config_0a;
         part_b = obj->sprite;
         mode_kind = mode & 3;
         part_b->frameTable = ghosh_direction_frames;

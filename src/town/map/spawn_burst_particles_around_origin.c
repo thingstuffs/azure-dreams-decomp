@@ -68,7 +68,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
             if (object != 0) {
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
-                sprite = *(u8 * *)&object->sprite;
+                sprite = object->sprite;
                 motion = ((u8 *)object) + 0x20;
 
                 rand_value = rand();
@@ -118,7 +118,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
             if (object != 0) {
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
-                sprite = *(u8 * *)&object->sprite;
+                sprite = object->sprite;
 
                 rand_value = rand();
                 position = *(s32 * *)&object->position;

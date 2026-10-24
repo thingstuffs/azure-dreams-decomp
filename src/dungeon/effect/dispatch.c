@@ -1518,7 +1518,7 @@ typedef struct {
 } DungeonObject;
 
 extern void copy_words_forward(void *, void *, s32);
-extern DungeonObject *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 extern s32 register_node();
 extern s32 rsin(s32);
 extern s32 rcos(s32);

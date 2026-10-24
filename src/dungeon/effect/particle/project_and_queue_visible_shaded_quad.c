@@ -775,7 +775,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
         ((S_819715D4_0 *)object_data)->unk_3A = 0x14;
         object->update_callback = (u8 *)fade_effect_color_by_quarter;
         register_node(object, project_sprite_chain);
-        sprite = *(Bank1990800_19915d4_Sprite * *)&object->sprite;
+        sprite = object->sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 0;
         sprite->flags |= 0xC;
@@ -808,7 +808,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
             z += random_value & 0xF;
             position[5] = (u16)z;
         }
-        render_sprite = *(Bank1990800_19915d4_Sprite * *)&object->sprite;
+        render_sprite = object->sprite;
         render_sprite->scale_y = 0x1000;
         render_sprite->scale_x = 0x1000;
         render_sprite->color.c.b = 0x80;
@@ -866,7 +866,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
     void *effect_arg;
     u16 coord;
     s32 random_value;
-    S_81971760_2 *render_data;
+    SpriteFrameState *render_data;
     S_81971760_0 *effect_state;
     ObjectNodeHeader *effect;
     MovingPosition *origin = origin_data;
@@ -885,9 +885,9 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
         effect->update_callback = follow_origin_and_fade_sprite;
         register_node(effect_arg, project_sprite_chain);
         render_data = effect->sprite;
-        render_data->unk_10 = 0x20;
-        render_data->unk_06 = 6;
-        render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
+        render_data->tpage_abr = 0x20;
+        render_data->depth_bias = 6;
+        render_data->flags = (u16) (render_data->flags | 0xC);
         offset_x = (s32)effect->position;
         random_value = rand();
         coord = effect_state->unk_44;
@@ -909,13 +909,13 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
         ((MovingPosition *)offset_x)->y = (u16) (((MovingPosition *)offset_x)->y + origin->y);
         ((MovingPosition *)offset_x)->z = (u16) (((MovingPosition *)offset_x)->z + origin->z);
         render_data = effect->sprite;
-        render_data->unk_1E = 0x800;
-        render_data->unk_1C = 0x800;
-        render_data->unk_0E = 0x80;
-        render_data->unk_0D = 0x80;
-        render_data->unk_0C = 0x80;
+        render_data->scale_y = 0x800;
+        render_data->scale_x = 0x800;
+        render_data->color.c.b = 0x80;
+        render_data->color.c.g = 0x80;
+        render_data->color.c.r = 0x80;
         memcpy((u8 *) effect + 0xA2, (u8 *) &D_80025FE8, 12);
-        render_data->unk_08 = (void *) (((void *)effect) + 0xA2);
+        render_data->source = (void *) (((void *)effect) + 0xA2);
     }
 }
 
@@ -1099,7 +1099,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     u8 *effect_data_m;
     ObjectNodeHeader *effect_obj;
     u32 state;
-    u32 state_2;
+    u8 * state_2;
     void *context;
     u32 light_color;
     u32 light_color_2;
@@ -1118,7 +1118,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         ((PlayerRecord *)player)->unk_F4 = 0;
         player->action_timer = 20;
         reference_tile_object.depth_bias = 6;
-        state_2 = ((u8 *)(&view_reference_entity));
+        state_2 = (u8 *)(&view_reference_entity);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
         ((S_8197192C_0 *)effect)->unk_7C.s = ((MovingPosition *)state_2)->x;
         ((S_8197192C_0 *)effect)->unk_7E.s = ((MovingPosition *)state_2)->y;
@@ -1181,7 +1181,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 TileObject *map_base = &reference_tile_object;
                 if (get_sprite_attachment_vector(*(void **)&map_base->sprite_source, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
-                    u8 *sprite;
+                    SpriteFrameState *sprite;
                     ObjectPosition *world_pos;
 
                     effect_obj = allocate_flagged_object_node(0x212);
@@ -1191,18 +1191,18 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
                         effect_obj->update_callback = (void *)advance_timed_visual;
                         register_node(effect_obj, project_sprite_chain);
-                        sprite = *(u8 * *)&effect_obj->sprite;
+                        sprite = effect_obj->sprite;
                         world_pos = &view_reference_entity;
                         ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
                         ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
-                        position = *(u8 * *)&effect_obj->position;
+                        position = effect_obj->position;
                         position->x.w.i = ((S_8197192C_0 *)effect)->unk_2E.u +
                                               ((u16)world_pos->x.w.i);
                         position->y.w.i = ((S_8197192C_0 *)effect)->unk_30.u +
                                               ((u16)world_pos->y.w.i);
                         position->z.w.i = ((S_8197192C_0 *)effect)->unk_32.u +
                                                ((u16)world_pos->z.w.i);
-                        sprite = *(u8 * *)&effect_obj->sprite;
+                        sprite = effect_obj->sprite;
                         ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
                         ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
                         ((S_8197192C_8 *)sprite)->unk_0E = 0x20;
@@ -1286,7 +1286,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 effect_data = (u8 *)effect_obj + 0x20;
                 if (effect_obj != 0) {
 
-                    u8 *sprite;
+                    SpriteFrameState *sprite;
                     void *init_data;
                     light_color_2 = 0x00E0E0E0;
                     dark_color = 0x00804020;
@@ -1303,7 +1303,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                     ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_58.s;
@@ -1318,11 +1318,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_52;
                     ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_54;
                     ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_56;
-                    position = *(u8 * *)&effect_obj->position;
+                    position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
@@ -1338,7 +1338,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 effect_data = (u8 *)effect_obj + 0x20;
                 if (effect_obj != 0) {
 
-                    u8 *sprite;
+                    SpriteFrameState *sprite;
                     void *init_data;
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
@@ -1355,7 +1355,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                     ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
@@ -1370,11 +1370,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
                     ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
                     ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
-                    position = *(u8 * *)&effect_obj->position;
+                    position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
@@ -1387,7 +1387,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
                 effect_obj = allocate_flagged_object_node(0x212);
                 if (effect_obj != 0) {
-                    u8 *sprite;
+                    SpriteFrameState *sprite;
                     void *init_data;
                     effect_data_m = (u8 *)effect_obj + 0x20;
                     light_color = 0x00E0E0E0;
@@ -1405,7 +1405,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data_m)->unk_18 = ((S_8197192C_7 *)effect_data_m)->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
                     ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                     ((S_8197192C_7 *)effect_data_m)->unk_4C = ((S_8197192C_0 *)effect)->unk_70.s;
@@ -1420,11 +1420,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     ((S_8197192C_7 *)effect_data_m)->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
                     ((S_8197192C_7 *)effect_data_m)->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
                     ((S_8197192C_7 *)effect_data_m)->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
-                    position = *(u8 * *)&effect_obj->position;
+                    position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
                     position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
-                    sprite = *(u8 * *)&effect_obj->sprite;
+                    sprite = effect_obj->sprite;
                     ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
                     ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
@@ -1501,7 +1501,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     {
         s32 angle;
         void *source_obj;
-        void *source_owner;
+        ObjectPosition *source_owner;
         u8 *angle_base;
         u8 *angle_table;
         u8 angle_count;

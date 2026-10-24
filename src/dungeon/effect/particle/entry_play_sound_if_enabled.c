@@ -211,7 +211,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
         ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
         if (spawn_tick & 1) {
 
-            node = (u8 *)allocate_flagged_object_node(0x12);
+            node = allocate_flagged_object_node(0x12);
             if (node != NULL) {
                 u8 *work;
                 MovingTile *map;

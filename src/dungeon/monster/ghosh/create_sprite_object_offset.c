@@ -33,7 +33,7 @@ void create_sprite_object_offset(void) {
     u8 *sprite;
 
     source_pos = (s32 *)ghosh_actor_node[0][2];
-    obj = (Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = D_8016E300;
         register_node(obj, project_sprite_chain);

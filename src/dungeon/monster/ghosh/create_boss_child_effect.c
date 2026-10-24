@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -54,7 +55,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
     SpriteFrameState *sprite;
     void *effect_data;
     ObjectNodeHeader *effect_object;
-    MovingPosition *effect_pos;
+    ObjectPosition *effect_pos;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
     u16 template_1c;
@@ -80,9 +81,9 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         select_sprite_entry(sprite, ghosh_frame_set_10[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = effect_object->position;
-        effect_pos->x = (u16) source_pos->x;
-        effect_pos->y = (u16) source_pos->y;
-        effect_pos->z = (u16) source_pos->z;
+        effect_pos->x.w.i = (u16) source_pos->x;
+        effect_pos->y.w.i = (u16) source_pos->y;
+        effect_pos->z.w.i = (u16) source_pos->z;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
         sprite->scale_x = template_1c;
         sprite->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;

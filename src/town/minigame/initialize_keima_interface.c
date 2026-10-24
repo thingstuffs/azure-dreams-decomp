@@ -75,7 +75,7 @@ extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
 extern void select_record_entry_and_value();
-extern u8 *allocate_list_node();
+extern void *allocate_list_node();
 extern void register_node();
 extern s16 query_lowered_transform_position();
 
@@ -182,10 +182,10 @@ s32 initialize_keima_interface(void) {
         sprite_handler = keima_sprite_callback;
         sprite = (u8 *)0x1000;
         do {
-            obj = (u8 *)allocate_flagged_object_node(0x136);
+            obj = allocate_flagged_object_node(0x136);
             if (obj != 0) {
                 register_node(obj, lit_mesh_renderer_address);
-                grid_sprite = *(u8 * *)&obj->sprite;
+                grid_sprite = obj->sprite;
                 obj->update_callback = sprite_handler;
                 grid_sprite->color.word = 0x808080;
                 grid_sprite->scale_x = (s16)sprite;
@@ -203,10 +203,10 @@ s32 initialize_keima_interface(void) {
 
     index = 3;
     do {
-        obj = (u8 *)allocate_flagged_object_node(0x136);
+        obj = allocate_flagged_object_node(0x136);
         if (obj != 0) {
             register_node(obj, project_sprite_chain);
-            sprite = *(u8 * *)&obj->sprite;
+            sprite = obj->sprite;
             obj->update_callback = keima_sprite_callback;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
@@ -232,7 +232,7 @@ s32 initialize_keima_interface(void) {
             if (obj != 0) {
                 obj->update_callback = D_80023260;
                 register_node(obj, project_sprite_chain);
-                sprite = *(u8 * *)&obj->sprite;
+                sprite = obj->sprite;
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
                 child_data = ((u8 *)obj) + 0x20;
@@ -256,7 +256,7 @@ s32 initialize_keima_interface(void) {
     if (obj != 0) {
         obj->update_callback = D_80023A00;
         register_node(obj, project_sprite_chain);
-        sprite = *(u8 * *)&obj->sprite;
+        sprite = obj->sprite;
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;
         child_data = ((u8 *)obj) + 0x20;

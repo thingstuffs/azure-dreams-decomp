@@ -86,7 +86,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
-    s32 actor_handle;
+    u8 * actor_handle;
     s32 facing;
     s32 has_offset;
     s32 direction_index;
@@ -278,7 +278,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         } else {
             *actor_update_node_cursor = (u8 *)actor - 0x20;
         }
-        actor_handle = ((s32)actor->target);
+        actor_handle = (u8 *)actor->target;
         if (actor_handle == 0) {
             return;
         }

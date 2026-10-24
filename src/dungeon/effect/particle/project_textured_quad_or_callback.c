@@ -1374,7 +1374,7 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     void *base;
     void *entry;
     void *node;
-    S_800259D8_8 *work;
+    SpriteFrameState *work;
     ObjectPosition *dst;
     u32 state;
     u16 old_count;
@@ -1532,14 +1532,14 @@ L0_adjust_z:
                     register_node(spawn_copy, tbl);
                 }
                 work = spawn->sprite;
-                work->unk_14 |= 0xC;
-                work->unk_10 = 0x20;
+                work->flags |= 0xC;
+                work->tpage_abr = 0x20;
                 dst = spawn->position;
                 ((S_800259D8_5 *)entry)->unk_08.at02u.v = (rand() & 7) + 12;
                 ((S_800259D8_5 *)entry)->unk_0C = rand() & 0xFFF;
-                work->unk_16 = (rand() & 0xFF) << 4;
-                work->unk_18 = (rand() & 0xFF) << 4;
-                work->unk_1A = (rand() & 0xFF) << 4;
+                work->angle_x = (rand() & 0xFF) << 4;
+                work->angle_y = (rand() & 0xFF) << 4;
+                work->angle_z = (rand() & 0xFF) << 4;
                 value = rcos(((S_800259D8_5 *)entry)->unk_0C);
                 dst->x.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
                 value = rsin(((S_800259D8_5 *)entry)->unk_0C);
@@ -1549,18 +1549,18 @@ L0_adjust_z:
                 {
                     s32 scale1;
                     scale1 = 0x1000;
-                    work->unk_1E = scale1;
-                    work->unk_1C = scale1;
+                    work->scale_y = scale1;
+                    work->scale_x = scale1;
                 }
                 {
                     s32 alpha;
                     alpha = 0x80;
-                    work->unk_0E = alpha;
-                    work->unk_0D = alpha;
-                    work->unk_0C = alpha;
+                    work->color.c.b = alpha;
+                    work->color.c.g = alpha;
+                    work->color.c.r = alpha;
                 }
                 *(Copy12 *)((u8 *)spawn + 0x4C) = D_80026640;
-                work->unk_08 = (u8 *)spawn + 0x4C;
+                work->source = (u8 *)spawn + 0x4C;
             }
             i++;
             if (i < 8) {
@@ -1654,8 +1654,8 @@ L1_calc:
                 spawn->update_callback = spawn_randomized_spark_burst;
                 register_node(spawn, draw_chained_object_records);
                 work = spawn->sprite;
-                work->unk_10 = 0x20;
-                work->unk_14 |= 0x000C;
+                work->tpage_abr = 0x20;
+                work->flags |= 0x000C;
                 dst = spawn->position;
                 dst->x.v = ((S_800259D8_5 *)entry)->unk_00.at00.v;
                 dst->y.v = ((S_800259D8_5 *)entry)->unk_04.at00.v;
@@ -1666,14 +1666,14 @@ L1_calc:
                 work = spawn->sprite;
                 {
                     s16 scale2 = 0x1000;
-                    work->unk_1E = scale2;
-                    work->unk_1C = scale2;
+                    work->scale_y = scale2;
+                    work->scale_x = scale2;
                 }
-                work->unk_0E = 0x80;
-                work->unk_0D = 0x80;
-                work->unk_0C = 0x80;
+                work->color.c.b = 0x80;
+                work->color.c.g = 0x80;
+                work->color.c.r = 0x80;
                 *(Copy12 *)((u8 *)spawn + 0x4C) = D_8002664C;
-                work->unk_08 = (u8 *)spawn + 0x4C;
+                work->source = (u8 *)spawn + 0x4C;
             }
         }
         ((S_800259D8_0 *)effect)->unk_0A.u = 4;

@@ -1810,7 +1810,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
     Cell *lower_left;
     Cell *upper_right;
     ObjectNodeHeader *fragment;
-    S_func_81888810_1 *motion;
+    ObjectPosition *motion;
     SpriteFrameState *angles;
     S_func_81888810_3 *quad;
     s32 quad_index;
@@ -1846,13 +1846,13 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + (lower_right = &vertices[row_start + 0x10 + column_or_coord])->x) >> 2;
             upper_right_y = (vertices[quad_index].y + upper_right->y + lower_left->y + lower_right->y) >> 2;
             lower_left_y = (vertices[quad_index].z + upper_right->z + lower_left->z + lower_right->z) >> 2;
-            motion->unk_02 = object_or_x;
-            motion->unk_06 = upper_right_y;
-            motion->unk_0A = lower_left_y;
+            motion->x.w.i = object_or_x;
+            motion->y.w.i = upper_right_y;
+            motion->z.w.i = lower_left_y;
 
-            motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
-            motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
-            motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_x = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_y = ((rand() & 0xF) - 8) << 0x10;
+            motion->velocity_z = ((rand() & 0xF) - 8) << 0x10;
 
             angles = fragment->sprite;
             angles->angle_x = (rand() & 0x1FF) - 0x100;

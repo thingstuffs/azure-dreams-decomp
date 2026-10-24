@@ -798,7 +798,7 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
     s8 *row;
     void *init_object;
     void *callback;
-    S_8195FB34_2 *render_state;
+    SpriteFrameState *render_state;
     ObjectNodeHeader *object;
     ObjectPosition *position;
     S_8195FB34_3 *object_data;
@@ -830,14 +830,14 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
         position->y.w.i = y;
         position->z.w.i = z;
         render_state = object->sprite;
-        render_state->unk_1E = 0x2000;
-        render_state->unk_1C = 0x2000;
-        render_state->unk_0C = 0x808080;
+        render_state->scale_y = 0x2000;
+        render_state->scale_x = 0x2000;
+        render_state->color.word = 0x808080;
         object_data = ((void *)object) + 0x20;
-        render_state->unk_10 = 0x20;
+        render_state->tpage_abr = 0x20;
         ((S_8195FB34_0 *)object)->unk_20 = 0xF8F82CC0;
         object_data->unk_04 = 0x13D;
-        render_state->unk_08 = object_data;
+        render_state->source = object_data;
         object_data->unk_4C = 0x10;
     }
 }
@@ -1037,7 +1037,7 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     s16 tile_row_copy;
     ObjectPosition *position;
     S_8196012C_3 *primitive;
-    S_8196012C_2 *render;
+    SpriteFrameState *render;
     ObjectNodeHeader *object;
 
     tile_row_copy = tile_row;
@@ -1053,15 +1053,15 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
         *((s16 *)&position->velocity_y + 1) = (rand() & 0xF) - 8;
         *((s16 *)&position->velocity_z + 1) = -0x10 - (rand() & 0xF);
         render = object->sprite;
-        render->unk_1E = 0x400;
-        render->unk_1C = 0x400;
+        render->scale_y = 0x400;
+        render->scale_x = 0x400;
         random_angle = rand();
-        render->unk_20 = rcos(random_angle);
-        render->unk_22 = rsin(random_angle);
-        render->unk_10 = 0x20;
+        render->offset_x = rcos(random_angle);
+        render->offset_y = rsin(random_angle);
+        render->tpage_abr = 0x20;
         primitive = (s8 *)object + 0x20;
-        render->unk_14 = 0xC;
-        render->unk_0C = 0x808080;
+        render->flags = 0xC;
+        render->color.word = 0x808080;
         primitive_word = 0xF8F82CC0;
         ((S_8196012C_0 *)object)->unk_20 = primitive_word;
         primitive->unk_04 = 0x13D;
@@ -1070,7 +1070,7 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
         primitive->unk_0A = tile_col == 7 ? 0xF : 0x10;
         primitive->unk_0B = tile_row_copy == 7 ? 0xF : 0x10;
         primitive->unk_4C = (rand(primitive_word) & 0x1F) + 0x20;
-        render->unk_08 = primitive;
+        render->source = primitive;
     }
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -1727,10 +1727,10 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     void *quad;
     s16 *top_heights;
     s16 *top_row;
-    s32 height_or_child;
+    u8 * height_or_child;
     TempObj *object;
 
-    object = (TempObj *)allocate_flagged_object_node(0x202);
+    object = allocate_flagged_object_node(0x202);
     saved_row = tile_y;
     if (object != NULL) {
         s32 local_x_or_height;
@@ -1785,7 +1785,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         output->x.w.i = local_x_or_height;
         output = (s16 *)output + 3;
         output->x.w.frac = local_y;
-        height_or_child = (s32)object->fieldC;
+        height_or_child = (u8 *)object->fieldC;
         quad = (void *)&object->field20;
         ((TempChild *)height_or_child)->field1E = 0x800;
         ((TempChild *)height_or_child)->field1C = 0x800;

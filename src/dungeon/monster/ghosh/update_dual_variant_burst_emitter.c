@@ -23,7 +23,7 @@ struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s
 
 /* Advance record values, perform six updates, and flag an expired counter. */
 void update_dual_variant_burst_emitter(void *record_data, S_801723D0_0 *offset_record, S_801723D0_1 *value_record) {
-    s32 base_addr;
+    void * base_addr;
     u16 remaining;
 
     base_addr = record_data - 0x20;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Spell resource ids g01008.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7.
  */
@@ -80,7 +81,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
     s32 global_flags;
     u8 variant;
     s16 effect_id;
-    MovingPosition *effect_position;
+    ObjectPosition *effect_position;
     S_800A94A0_7 *actor_state;
     ObjectNodeHeader *effect;
     S_800A94A0_3 *effect_state;
@@ -119,9 +120,9 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         if (mode == 0) {
             actor_position = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_00;
             effect_position = effect->position;
-            effect_position->x = (u16) actor_position->x;
-            effect_position->y = (u16) actor_position->y;
-            effect_position->z = (u16) actor_position->z;
+            effect_position->x.w.i = (u16) actor_position->x;
+            effect_position->y.w.i = (u16) actor_position->y;
+            effect_position->z.w.i = (u16) actor_position->z;
             text_context = rand();
             if (!((u16) *((s16 *)&system_update_flags) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;

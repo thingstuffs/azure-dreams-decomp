@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -35,7 +36,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
     ObjectNodeHeader *object;
     S_800CB4C0_5 *state;
     SpriteFrameState *source_display;
-    MovingPosition *position;
+    ObjectPosition *position;
 
     object = allocate_list_node(0x100, source);
     if (object != NULL) {
@@ -51,9 +52,9 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
             object->position = source->position;
         } else {
             position = object->position;
-            position->x = (u16) ((MovingPosition *)(source->position))->x;
-            position->y = (u16) ((MovingPosition *)(source->position))->y;
-            position->z = (u16) ((MovingPosition *)(source->position))->z;
+            position->x.w.i = (u16) ((MovingPosition *)(source->position))->x;
+            position->y.w.i = (u16) ((MovingPosition *)(source->position))->y;
+            position->z.w.i = (u16) ((MovingPosition *)(source->position))->z;
             source_display = source->sprite;
             display_value = source_display->color.word;
             display->tpage_abr = 0x60;

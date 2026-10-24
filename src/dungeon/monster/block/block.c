@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "sdk/libgpu.h"
 #include "dungeon/level/room_flags.h"
 #include "shared/audio_commands.h"
@@ -543,10 +544,10 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
-                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_owner = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                    blocker_owner->tileX, blocker_owner->tileY,
+                    blocker_owner->tile_x, blocker_owner->tile_y,
                     &move_data->unk_98);
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
@@ -1704,8 +1705,8 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
 {
     ObjectNodeHeader * effect;
     CB_80173CFC_S_80173CFC_0 *effect_part;
-    CB_80173CFC_S_80173CFC_1 *effect_data;
-    CB_80173CFC_S_80173CFC_2 *effect_pos;
+    SpriteFrameState *effect_data;
+    ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
@@ -1713,26 +1714,26 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_part->unk_24 = 5;
         (effect->update_callback) = fade_timed_primitive_effect;
         register_node(effect, project_sprite_chain);
-        effect_data = (effect->sprite);
-        effect_data->unk_10 = 0x60;
-        effect_data->unk_14 |= 0xC;
-        effect_pos = (effect->position);
-        effect_pos->unk_02 = source_pos->unk_00.at02_u16.v;
-        effect_pos->unk_06 = source_pos->unk_04.at02_u16.v;
-        effect_pos->unk_0A = source_pos->unk_0A - 0x28;
-        effect_data = (effect->sprite);
-        effect_data->unk_06 = 6;
-        effect_data->unk_1E = scale;
-        effect_data->unk_1C = scale;
+        effect_data = effect->sprite;
+        effect_data->tpage_abr = 0x60;
+        effect_data->flags |= 0xC;
+        effect_pos = effect->position;
+        effect_pos->x.w.i = source_pos->unk_00.at02_u16.v;
+        effect_pos->y.w.i = source_pos->unk_04.at02_u16.v;
+        effect_pos->z.w.i = source_pos->unk_0A - 0x28;
+        effect_data = effect->sprite;
+        effect_data->depth_bias = 6;
+        effect_data->scale_y = scale;
+        effect_data->scale_x = scale;
         effect_part->unk_01 = 0x30;
         effect_part->unk_02 = 0x30;
         (*(s8 *)((u8 *)effect + 0x20)) = 0x30;
-        effect_data->unk_0E = 0x30;
-        effect_data->unk_0D = 0x30;
-        effect_data->unk_0C = 0x30;
-        effect_data->unk_1A = rand() & 0xFFF;
+        effect_data->color.c.b = 0x30;
+        effect_data->color.c.g = 0x30;
+        effect_data->color.c.r = 0x30;
+        effect_data->angle_z = rand() & 0xFFF;
         (*(CB_80173CFC_Copy12 *)((u8 *)effect + 0x9A)) = (*(CB_80173CFC_Copy12 *)((u8 *)D_80175324 + 0));
-        effect_data->unk_08 = (u8 *)effect + 0x9A;
+        effect_data->source = (u8 *)effect + 0x9A;
     }
 }
 

@@ -45,7 +45,7 @@ extern u8 nyuel_frame_set_7[9];
 extern u8 D_80162F00[9];
 extern u8 D_8015EA98[9];
 
-extern Object *allocate_list_node(s32, void *);
+extern void *allocate_list_node(s32, void *);
 extern Object *func_8003FD64(s32, void *);
 extern void register_node(Object *, void *);
 extern void func_8004491C(Object *, void *);

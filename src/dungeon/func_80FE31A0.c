@@ -203,11 +203,11 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     target = primary_actor_record;
                     actor_data->target = target;
                     {
-                        ActorSprite *target_sprite;
+                        SpriteFrameState *target_sprite;
 
                         target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor_data->targetX.u = target_sprite->tileX;
-                        actor_data->targetY.u = target_sprite->tileY;
+                        actor_data->targetX.u = target_sprite->tile_x;
+                        actor_data->targetY.u = target_sprite->tile_y;
                     }
                 } else {
                     u32 selected_item_or_sprite;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Hikewne effect intensity, transformed effect animation, and directional effect creation. */
 #include "shared/object_node.h"
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
@@ -60,7 +61,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     S_80975244_0 *effect_state;
-    MovingPosition *effect_pos;
+    ObjectPosition *effect_pos;
     void *template_data;
     Block16 *src;
     Block16 *dst;
@@ -97,8 +98,8 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = effect->position;
-        effect_pos->x = (u16) source_pos->x;
-        effect_pos->y = (u16) source_pos->y;
-        effect_pos->z = (u16) source_pos->z;
+        effect_pos->x.w.i = (u16) source_pos->x;
+        effect_pos->y.w.i = (u16) source_pos->y;
+        effect_pos->z.w.i = (u16) source_pos->z;
     }
 }

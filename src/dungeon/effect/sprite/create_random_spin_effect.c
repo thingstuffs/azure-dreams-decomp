@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -99,7 +100,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         }
 
         {
-            S_818BDB44_5 *object_data;
+            ObjectPosition *object_data;
             {
                 object_data = object->position;
                 *(Copy24 *)object_data = *(Copy24 *)init_data;

@@ -621,8 +621,8 @@ void create_timed_rectangle_effect(void *owner) {
     Rect16 *rect;
     ObjectNodeHeader *child;
     u8 *child_work;
-    Display *display;
-    void *source_vector;
+    SpriteFrameState *display;
+    ObjectPosition *source_vector;
     ObjectPosition *child_vector;
     u16 ticks_left;
 
@@ -670,7 +670,7 @@ void create_timed_rectangle_effect(void *owner) {
             register_node(child, project_sprite_chain);
 
             display = child->sprite;
-            display->field6 = 4;
+            display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
             source_vector = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
@@ -680,14 +680,14 @@ void create_timed_rectangle_effect(void *owner) {
             child_vector->z.v = ((s32 *)source_vector)[2];
 
             display = child->sprite;
-            display->scaleX = 0x1000;
-            display->scaleY = 0x1000;
-            display->blue = 0x80;
-            display->green = 0x80;
-            display->red = 0x80;
+            display->scale_y = 0x1000;
+            display->scale_x = 0x1000;
+            display->color.c.b = 0x80;
+            display->color.c.g = 0x80;
+            display->color.c.r = 0x80;
 
             *(PackedVec3 *)((u8 *)child + 0x58) = staged_particle_sprite_data;
-            display->vector = (u8 *)child + 0x58;
+            display->source = (u8 *)child + 0x58;
             ((S_8196BA5C_0 *)child_work)->unk_40 = (u8)rect->x - 0x40;
             ((S_8196BA5C_0 *)child_work)->unk_41 = (u8)rect->y;
         }
@@ -715,7 +715,7 @@ void create_timed_rectangle_effect(void *owner) {
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render) {
     ObjectNodeHeader *object;
     u8 *object_state;
-    Display *display;
+    SpriteFrameState *display;
     void *source_pos;
     ObjectPosition *object_pos;
 
@@ -728,8 +728,8 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
         register_node(object, project_sprite_chain);
 
         display = object->sprite;
-        display->field10 = 0x20;
-        display->field6 = 0;
+        display->tpage_abr = 0x20;
+        display->depth_bias = 0;
         display->flags |= 0xC;
 
         source_pos = ((S_8196BD3C_2_pre *)source)[-1].unk_00;
@@ -739,14 +739,14 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
         object_pos->z.v = ((s32 *)source_pos)[2];
 
         display = object->sprite;
-        display->scaleX = 0;
-        display->scaleY = 0;
-        display->blue = 0;
-        display->green = 0;
-        display->red = 0;
+        display->scale_y = 0;
+        display->scale_x = 0;
+        display->color.c.b = 0;
+        display->color.c.g = 0;
+        display->color.c.r = 0;
 
         *(PackedVec3 *)((u8 *)object + 0x58) = staged_particle_sprite_data;
-        display->vector = (u8 *)object + 0x58;
+        display->source = (u8 *)object + 0x58;
     }
 }
 

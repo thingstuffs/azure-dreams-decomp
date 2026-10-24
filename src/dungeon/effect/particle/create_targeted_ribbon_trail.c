@@ -91,7 +91,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
     color_mode = (u16)input_color_mode;
     held_source = source;
     positions = D_8016484C;
-    object = (EffectObject *)allocate_flagged_object_node(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         payload = &object->payload;
         payload->size_x = 0x50;
@@ -121,7 +121,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
         payload->vertices[2][2] = -0x14;
         payload->vertices[3][2] = -0x14;
 
-        render = (RenderState *)((ObjectNodeHeader *)object)->sprite;
+        render = ((ObjectNodeHeader *)object)->sprite;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
         render->color.c.b = intensity;

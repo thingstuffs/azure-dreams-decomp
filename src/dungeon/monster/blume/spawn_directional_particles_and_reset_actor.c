@@ -145,7 +145,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         s32 velocity_x;
                         s32 offset_z;
                         s32 position_y;
-                        u8 *position;
+                        ObjectPosition *position;
                         SpriteFrameState *render;
                         u8 *motion;
                         u8 *copy_src;
@@ -158,7 +158,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         motion = (u8 *)particle + 0x20;
                         ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
                         ((S_80174BEC_3 *)motion)->unk_9B = 0;
-                        render = *(u8 * *)&particle->sprite;
+                        render = particle->sprite;
                         particle->update_callback = D_80171040;
 
                         copy_src = source_render;
@@ -176,7 +176,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         render->frameTable = D_8017541C;
                         select_sprite_entry(render, animation, 0);
 
-                        position = *(u8 * *)&particle->position;
+                        position = particle->position;
                         ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
                         ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
                         ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);
@@ -241,7 +241,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         s32 offset_z;
                         s32 position_z;
                         s32 position_y;
-                        u8 *position;
+                        ObjectPosition *position;
                         u8 *motion;
                         SpriteFrameState *render;
                         void *map;
@@ -253,12 +253,12 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         particle->update_callback = D_8017142C;
                         register_node(particle, project_sprite_chain);
 
-                        render = *(u8 * *)&particle->sprite;
+                        render = particle->sprite;
                         render->flags |= 0x0C;
                         render->tpage_abr = 0x60;
                         render->flags |= 2;
 
-                        position = *(u8 * *)&particle->position;
+                        position = particle->position;
                         ((MovingPosition *)position)->x = ((u16)source_pos->x.w.i);
                         ((MovingPosition *)position)->y = ((u16)source_pos->y.w.i);
                         ((MovingPosition *)position)->z = ((u16)source_pos->z.w.i);

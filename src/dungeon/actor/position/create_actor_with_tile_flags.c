@@ -66,9 +66,9 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
             ((S_800D3F74_0 *)entity)->unk_1C |= ACTOR_PLAYER_SIDE;
         }
         register_node(object, project_sprite_chain);
-        position = *(s8 * *)&object->position;
+        position = object->position;
         position->z.w.i = spawn_height;
-        sprite = *(s8 * *)&object->sprite;
+        sprite = object->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

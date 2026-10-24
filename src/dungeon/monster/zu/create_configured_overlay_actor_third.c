@@ -71,9 +71,9 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
         ((S_80F93000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = *(void ** *)&obj->position;
+        part_a = obj->position;
         part_a->z.w.i = saved_spawn;
-        part_b = *(void ** *)&obj->sprite;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = saved_variant;
         actor = work;

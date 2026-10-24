@@ -71,9 +71,9 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         ((S_80F8D000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = *(void ** *)&obj->position;
+        part_a = obj->position;
         part_a->z.w.i = held_c;
-        part_b = *(void ** *)&obj->sprite;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;

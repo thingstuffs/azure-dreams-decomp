@@ -100,7 +100,7 @@ void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
     s32 flags1;
     void *result;
     ObjectNodeHeader *object;
-    CL_CD7000_80170A5C_S_80170A5C_2 *part0;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     CL_CD7000_80170A5C_S_80170A5C_4 *result_copy;
 
@@ -118,7 +118,7 @@ void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
 
             part0 = object->position;
             handler = block_slot_a_direction_frames;
-            part0->unk_0A = spawn_height;
+            part0->z.w.i = spawn_height;
             part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->tile_y = tile_y;
@@ -541,10 +541,10 @@ void choose_block_move_slot_a(Rec_func_800A9E70_arg0 *move_data, void *context, 
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
-                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_owner = ((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                    blocker_owner->tileX, blocker_owner->tileY,
+                    blocker_owner->tile_x, blocker_owner->tile_y,
                     &move_data->unk_98);
                 actor_data->facing = target_angle;
                 actor_data->movement_queue_state &= 0x7F;
@@ -1145,19 +1145,19 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
 
         if (part->unk_00 != 0) {
             void *target_actor;
-            CL_CD7000_80172BCC_S_func_80C953CC_3 *target_entity;
+            SpriteFrameState *target_entity;
 
             (work->unk_98) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
-                target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)&((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
-                actor->unk_72.u8 = target_entity->unk_24;
-                actor->unk_73.u8 = target_entity->unk_25;
+                target_entity = ((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
+                actor->unk_72.u8 = target_entity->tile_x;
+                actor->unk_73.u8 = target_entity->tile_y;
             } else if (item_action_definitions[part->unk_00].kind == 2) {
                 if ((target_actor = actor->unk_60) != 0) {
-                    target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)&((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
-                    actor->unk_72.u8 = target_entity->unk_24;
-                    actor->unk_73.u8 = target_entity->unk_25;
+                    target_entity = ((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
+                    actor->unk_72.u8 = target_entity->tile_x;
+                    actor->unk_73.u8 = target_entity->tile_y;
                 }
             } else {
                 s32 target_x;
@@ -1701,7 +1701,7 @@ void create_gray_fading_sprite_slot_a(void *unused_context, Rec_func_80173CFC_ar
 {
     ObjectNodeHeader *effect;
     CL_CD7000_80173CFC_S_80173CFC_0 *effect_part;
-    CL_CD7000_80173CFC_S_80173CFC_1 *effect_data;
+    SpriteFrameState *effect_data;
     ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
@@ -1710,26 +1710,26 @@ void create_gray_fading_sprite_slot_a(void *unused_context, Rec_func_80173CFC_ar
         effect_part->unk_24 = 5;
         (effect->update_callback) = spin_and_fade_gray_sprite_slot_a;
         func_8004491C(effect, func_80045340);
-        effect_data = (effect->sprite);
-        effect_data->unk_10 = 0x60;
-        effect_data->unk_14 |= 0xC;
-        effect_pos = (effect->position);
+        effect_data = effect->sprite;
+        effect_data->tpage_abr = 0x60;
+        effect_data->flags |= 0xC;
+        effect_pos = effect->position;
         effect_pos->x.w.i = source_pos->unk_00.at02_u16.v;
         effect_pos->y.w.i = source_pos->unk_04.at02_u16.v;
         effect_pos->z.w.i = source_pos->unk_0A - 0x28;
-        effect_data = (effect->sprite);
-        effect_data->unk_06 = 6;
-        effect_data->unk_1E = scale;
-        effect_data->unk_1C = scale;
+        effect_data = effect->sprite;
+        effect_data->depth_bias = 6;
+        effect_data->scale_y = scale;
+        effect_data->scale_x = scale;
         effect_part->unk_01 = 0x30;
         effect_part->unk_02 = 0x30;
         (*(s8 *)((u8 *)effect + 0x20)) = 0x30;
-        effect_data->unk_0E = 0x30;
-        effect_data->unk_0D = 0x30;
-        effect_data->unk_0C = 0x30;
-        effect_data->unk_1A = rand() & 0xFFF;
+        effect_data->color.c.b = 0x30;
+        effect_data->color.c.g = 0x30;
+        effect_data->color.c.r = 0x30;
+        effect_data->angle_z = rand() & 0xFFF;
         (*(CL_CD7000_80173CFC_Copy12 *)((u8 *)effect + 0x9A)) = (*(CL_CD7000_80173CFC_Copy12 *)((u8 *)D_80151324 + 0));
-        effect_data->unk_08 = (u8 *)effect + 0x9A;
+        effect_data->source = (u8 *)effect + 0x9A;
     }
 }
 
@@ -2034,7 +2034,7 @@ void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner
 
             effect = allocate_flagged_object_node(0x12);
             if (effect != 0) {
-                void *render_state;
+                SpriteFrameState *render_state;
                 void *effect_data;
                 ObjectPosition *position;
                 s16 init_value;
@@ -2054,13 +2054,13 @@ void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner
                 effect->update_callback = update_flashing_effect_segment_slot_a;
                 func_8004491C(effect, draw_linked_effect_quads_slot_a);
 
-                render_state = *(u8 * *)&effect->sprite;
+                render_state = effect->sprite;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_10 = 0x20;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_14 |= 0x0C;
 
                 {
 
-                    position = *(u8 * *)&effect->position;
+                    position = effect->position;
                     position->x.v =
                         ((CL_CD7000_80174724_S_80C96F24_6 *)origin)->unk_00;
                     position->y.v =
@@ -2069,7 +2069,7 @@ void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner
                         ((CL_CD7000_80174724_S_80C96F24_6 *)origin)->unk_08 + 0x200000;
                 }
 
-                render_state = *(u8 * *)&effect->sprite;
+                render_state = effect->sprite;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_1E = 0x1000;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_1C = 0x1000;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_0E = 0x80;

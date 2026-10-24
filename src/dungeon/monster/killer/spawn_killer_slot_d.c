@@ -90,7 +90,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
         flags = (s32) &D_80162038;
         node_data = node->position;
         node_data->z.w.i = saved_placement;
-        placement = *(DungeonSub2 * *)&node->sprite;
+        placement = node->sprite;
         mode = setup_bits & 3;
         placement->tile_y = saved_grid_y;
         init_state = state;

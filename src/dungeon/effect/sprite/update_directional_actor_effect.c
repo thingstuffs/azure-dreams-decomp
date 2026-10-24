@@ -596,7 +596,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     callback = mark_referenced_object_and_update_flags;
     resource = (Resource *)directional_sprite_entries;
     do {
-        effect = (EffectObject *)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
             register_node(effect, project_sprite_chain);

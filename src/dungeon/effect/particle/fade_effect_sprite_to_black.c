@@ -103,12 +103,12 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     s32 probe_y;
     s32 probe_x;
     u16 sprite_flags;
-    S_8182C800_18 *burst_motion_x;
-    S_8182C800_19 *burst_motion_y;
-    S_8182C800_12 *trail_pos_z;
+    ObjectPosition *burst_motion_x;
+    ObjectPosition *burst_motion_y;
+    ObjectPosition *trail_pos_z;
     SpriteFrameState *target_x;
-    S_8182C800_10 *trail_pos_x;
-    S_8182C800_11 *trail_pos_y;
+    ObjectPosition *trail_pos_x;
+    ObjectPosition *trail_pos_y;
     SpriteFrameState *owner_sprite;
     s32 sprite_work;
     SpriteFrameState *burst_sprite;
@@ -319,11 +319,11 @@ spawn_trail:
             (object->position)->z.v =
                 (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             trail_pos_x = object->position;
-            trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
+            trail_pos_x->x.v = (s32) (trail_pos_x->x.v + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
             trail_pos_y = object->position;
-            trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.vel_y << 0xC) + (direction_y << 0x15)));
+            trail_pos_y->y.v = (s32) (trail_pos_y->y.v + ((frame.vel_y << 0xC) + (direction_y << 0x15)));
             trail_pos_z = object->position;
-            trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.vel_z << 0xC));
+            trail_pos_z->z.v = (s32) (trail_pos_z->z.v + (frame.vel_z << 0xC));
             (object->position)->velocity_x =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
             (object->position)->velocity_y =
@@ -426,11 +426,11 @@ spawn_trail:
                         (object->position)->z.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xC));
                         burst_motion_x = object->position;
-                        burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-                            - burst_motion_x->unk_00) >> 3);
+                        burst_motion_x->velocity_x = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                            - burst_motion_x->x.v) >> 3);
                         burst_motion_y = object->position;
-                        burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-                            - burst_motion_y->unk_04) >> 3);
+                        burst_motion_y->velocity_y = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                            - burst_motion_y->y.v) >> 3);
                         (object->position)->velocity_z =
                             (s32) (0 - (((sprite_work = rand()) & 0x3FF) << 9));
                         burst_sprite->scale_y = 0x800;

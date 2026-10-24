@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 
 struct ObjectPosition;
@@ -103,7 +104,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
     ObjectNodeHeader *allocated;
     BlockObject *block;
     ObjectPosition *payload;
-    ChildObject *child;
+    SpriteFrameState *child;
     s32 mode;
     u8 secondary_x;
     u8 secondary_y;
@@ -111,7 +112,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
     SecondaryBlock *secondary_block;
     void *secondary;
 
-    allocated = (AllocationObject *)allocate_flagged_object_node(0x212);
+    allocated = allocate_flagged_object_node(0x212);
     if (allocated != 0) {
         block = (BlockObject *)((u8 *)allocated + 0x20);
         block->owner = owner;
@@ -119,9 +120,9 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         block->field2c = 0;
         allocated->update_callback = glacier_object_callback_2;
         register_node(allocated, project_sprite_chain);
-        child = *(ChildObject * *)&allocated->sprite;
-        child->field10 = 0x20;
-        child->flags14 |= 0xc;
+        child = allocated->sprite;
+        child->tpage_abr = 0x20;
+        child->flags |= 0xc;
         block->field4c = (s8)(origin->x24 + glacier_direction_offsets[(owner->angle >> 7) & 0x1c]);
         {
             u8 origin_y = origin->y25;
@@ -129,22 +130,22 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
             u8 *direction_offset = glacier_direction_offsets + ((angle >> 7) & 0x1c);
             block->field4d = (s8)(origin_y + direction_offset[2]);
         }
-        child->field6 = 6;
-        payload = *(PayloadObject * *)&allocated->position;
+        child->depth_bias = 6;
+        payload = allocated->position;
         payload->x.v = (((block->field4c << 6) + 0x20) << 0x10);
         payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
         payload->z.v = sample_terrain_surface_height(*(u16 *)((u8 *)payload + 2), *(u16 *)&payload->y.w.i,
             (s16)(height_source->height - 0x20)) << 0x10;
         block->angle_copy = owner->angle;
         block->angle_index = (owner->angle >> 9) & 7;
-        child = *(ChildObject * *)&allocated->sprite;
-        child->field1c = 0x2400;
-        child->field1e = 0x1c00;
-        child->fielde = 0;
-        child->fieldd = 0;
-        child->fieldc = 0;
+        child = allocated->sprite;
+        child->scale_x = 0x2400;
+        child->scale_y = 0x1c00;
+        child->color.c.b = 0;
+        child->color.c.g = 0;
+        child->color.c.r = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
-        child->ptr8 = (u8 *)allocated + 0x54;
+        child->source = (u8 *)allocated + 0x54;
         secondary = find_nearby_eligible_entry(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, payload->z.w.i);
         block->field30 = secondary;
         if (secondary != 0) {

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
@@ -36,7 +37,7 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
     s32 effect_init[2];
     ObjectNodeHeader *object;
     s32 init_value;
-    MovingPosition *components;
+    ObjectPosition *components;
     DungeonGlobalStatus *status;
     u8 *state;
     u8 *effect;
@@ -62,13 +63,13 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
     object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;
     component_x = source->x;
-    components->x = component_x;
+    components->x.w.i = component_x;
     ((S_800C4AFC_0 *)state)->unk_20 = component_x;
     component_y = source->y;
-    components->y = component_y;
+    components->y.w.i = component_y;
     ((S_800C4AFC_0 *)state)->unk_22 = component_y;
     component_z = source->z;
-    components->z = component_z;
+    components->z.w.i = component_z;
     ((S_800C4AFC_0 *)state)->unk_24 = component_z;
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;

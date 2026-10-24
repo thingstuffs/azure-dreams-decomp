@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/position_views.h"
 #include "shared/sprite_frame_state.h"
@@ -37,7 +38,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     u32 tint_color;
     s32 palette_value;
     ObjectNodeHeader *object;
-    SignedPositionView *position;
+    ObjectPosition *position;
     u32 aux_value;
     SpriteFrameState *primitive;
 
@@ -54,9 +55,9 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
         position = object->position;
         if (negative) {
             value = -value;
-            position->x = value;
+            position->x.w.i = value;
         } else {
-            position->x = value;
+            position->x.w.i = value;
         }
         value = 0x80;
         aux_value = (u32)object->position;

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -31,7 +32,7 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     SpriteFrameState *render_flags;
     ObjectNodeHeader *effect;
     S_80172A14_2 *effect_state;
-    MovingPosition *effect_pos;
+    ObjectPosition *effect_pos;
 
     effect = allocate_list_node(0x12, (u8 *)owner - 0x20);
     if (effect != 0) {
@@ -46,9 +47,9 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
         render_flags->tpage_abr = 0x40;
         render_flags->flags |= 0xC;
         effect_pos = effect->position;
-        effect_pos->x = source_pos->x;
-        effect_pos->y = source_pos->y;
-        effect_pos->z = source_pos->z;
+        effect_pos->x.w.i = source_pos->x;
+        effect_pos->y.w.i = source_pos->y;
+        effect_pos->z.w.i = source_pos->z;
         render_flags = effect->sprite;
         render_flags->scale_y = 0xA00;
         render_flags->scale_x = 0xA00;

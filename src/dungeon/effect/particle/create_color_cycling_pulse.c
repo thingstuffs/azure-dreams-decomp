@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -49,7 +50,7 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
 {
     ObjectNodeHeader *object;
     ObjectPosition *position;
-    S_8016738C_1 *control;
+    SpriteFrameState *control;
     S_8016738C_0 *node;
 
     object = allocate_flagged_object_node(0x212);
@@ -60,31 +61,31 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         (object->update_callback) = &D_801671AC;
         register_node(object, project_sprite_chain);
 
-        control = (object->sprite);
+        control = object->sprite;
 
-        control->unk_10 = 0x20;
-        control->unk_14 = control->unk_14 | 0xC;
+        control->tpage_abr = 0x20;
+        control->flags = control->flags | 0xC;
 
-        position = (object->position);
+        position = object->position;
         position->x.v = origin->unk_00;
         position->y.v = origin->unk_04;
         position->z.v = origin->unk_08 + 0x180000;
 
-        control = (object->sprite);
+        control = object->sprite;
 
-        control->unk_1C = 0x1400;
-        control->unk_1E = 0x1400;
-        control->unk_0E = 0;
-        control->unk_0D = 0;
-        control->unk_0C = 0;
-        control->unk_06 = 0;
-        control->unk_14 = control->unk_14 | 0x80;
+        control->scale_x = 0x1400;
+        control->scale_y = 0x1400;
+        control->color.c.b = 0;
+        control->color.c.g = 0;
+        control->color.c.r = 0;
+        control->depth_bias = 0;
+        control->flags = control->flags | 0x80;
 
         (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0));
         (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0xC));
         (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x18));
         (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x24));
-        control->unk_08 = (u8 *)object + 0x48;
+        control->source = (u8 *)object + 0x48;
     }
 }
 

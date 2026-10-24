@@ -45,7 +45,7 @@ ItemMenuObjectNode *create_item_menu_child_object(ItemMenuStateNode *owner)
     ItemMenuObjectNode *object;
     ItemMenuObject *menu;
 
-    object = (ItemMenuObjectNode *)allocate_flagged_object_node(0);
+    object = allocate_flagged_object_node(0);
     menu = &object->menu;
     if (object != 0) {
         if (func_800B0198(menu, 0x28) != 0) {

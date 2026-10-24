@@ -58,7 +58,7 @@ void create_encounter_overlay(s32 variant)
         sprite = obj->sprite;
         sprite->flags &= 0xFFF3;
 
-        coords = (*(u8 * *)&obj->position);
+        coords = obj->position;
         coords->x.w.i = 0xA0;
         coords->y.w.i = 0xA;
         coords->z.w.i = 2;

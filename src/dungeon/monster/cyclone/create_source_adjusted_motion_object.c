@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -64,7 +65,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     s16 axis_step;
     Copy24 *motion;
     ObjectNodeHeader * object;
-    MovingPosition *child_pos;
+    ObjectPosition *child_pos;
     SpriteFrameState *render;
 
     direction_bits = actor->unk_2A;
@@ -86,7 +87,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         (object->update_callback) = &cyclone_spawn_update_address;
         register_node(object, project_sprite_chain);
 
-        render = (object->sprite);
+        render = object->sprite;
         render->animation_resource = source->unk_28;
         render->scale_y = 0x800;
         render->scale_x = 0x800;
@@ -95,7 +96,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         render->tpage_abr |= 0x20;
         select_sprite_entry(render, 0x47, 0);
 
-        child_pos = (object->position);
+        child_pos = object->position;
         (*(Copy24 *)((u8 *)object + 0x24)) = *start_pos;
         motion = (Copy24 *)((u8 *)object + 0x20);
 
@@ -104,11 +105,11 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         source_offset.x = 0;
         if (resolve_record_orientation_or_fallback(source->unk_08, source, &source_offset, 1) != 0) {
             ((S_80175D04_4 *)motion)->unk_04.at02.v += source_offset.x;
-            child_pos->x = ((S_80175D04_4 *)motion)->unk_04.at02.v;
+            child_pos->x.w.i = ((S_80175D04_4 *)motion)->unk_04.at02.v;
             ((S_80175D04_4 *)motion)->unk_08.at02.v += source_offset.y;
-            child_pos->y = ((S_80175D04_4 *)motion)->unk_08.at02.v;
+            child_pos->y.w.i = ((S_80175D04_4 *)motion)->unk_08.at02.v;
             ((S_80175D04_4 *)motion)->unk_0E += source_offset.z;
-            child_pos->z = ((S_80175D04_4 *)motion)->unk_0E;
+            child_pos->z.w.i = ((S_80175D04_4 *)motion)->unk_0E;
         }
 
         ((S_80175D04_4 *)motion)->unk_10 =

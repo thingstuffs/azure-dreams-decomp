@@ -55,7 +55,7 @@ void create_positioned_callback_object(Input *position, s32 object_value, s32 da
         register_node(object, (void *)draw_linked_sprites);
         neutral_color = 0x808080;
         *(s16 *)(sub + 2) = 0x1E;
-        field_base = (u8 *)*(Data * *)&object->sprite;
+        field_base = object->sprite;
         field_base->scale_y = 0x1000;
         field_base->scale_x = 0x1000;
         field_base->source = data_value;

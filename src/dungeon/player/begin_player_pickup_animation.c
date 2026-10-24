@@ -40,7 +40,7 @@ void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *so
     *(void **)(actor + 0x124) = effect;
     if (effect != NULL) {
         effect->update_callback = &player_item_render_update_address;
-        transform = *(u8 * *)&effect->position;
+        transform = effect->position;
         transform->x.w.i = (s16)((target[0x24] << 6) + 0x20);
         transform->y.w.i = (s16)((target[0x25] << 6) + 0x20);
         effect_state = ((u8 *)effect) + 0x20;

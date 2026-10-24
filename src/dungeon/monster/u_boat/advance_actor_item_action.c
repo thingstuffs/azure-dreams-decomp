@@ -205,7 +205,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
             if (effect != 0) {
                 u8 *effect_state;
                 SpriteFrameState *effect_sprite;
-                MovingPosition *effect_pos;
+                ObjectPosition *effect_pos;
                 u8 *anim_table;
                 u8 *anim_entry;
                 s8 *height_offsets;
@@ -216,7 +216,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
                 effect->update_callback = D_800D58D8;
                 ((S_80173A60_4 *)effect_state)->unk_AC = motion;
                 ((S_80173A60_4 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
-                effect_sprite = *(u8 * *)&effect->sprite;
+                effect_sprite = effect->sprite;
                 *(Copy48 *)effect_sprite = *(Copy48 *)sprite;
                 effect_sprite->scale_y = 0x1000;
                 effect_sprite->scale_x = 0x1000;
@@ -240,10 +240,10 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, Sprite
                     (((S_80173A60_0 *)actor_state)->unk_2A.u >> 9) & 7;
                 ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
 
-                effect_pos = *(u8 * *)&effect->position;
-                effect_pos->x = ((u16)motion->x.w.i);
-                effect_pos->y = ((u16)motion->y.w.i);
-                effect_pos->z = ((u16)motion->z.w.i);
+                effect_pos = effect->position;
+                effect_pos->x.w.i = ((u16)motion->x.w.i);
+                effect_pos->y.w.i = ((u16)motion->y.w.i);
+                effect_pos->z.w.i = ((u16)motion->z.w.i);
             }
         }
 

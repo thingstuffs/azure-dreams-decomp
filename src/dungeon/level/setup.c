@@ -476,7 +476,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
 {
     s32 tile_y;
     s32 tile_x;
-    s32 tiles_base;
+    u8 * tiles_base;
     s16 row_width;
     s32 col;
     s32 row;
@@ -496,7 +496,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     flag_table = map->unk_10;
     if (flag_table != 0) {
         row = 0;
-        tiles_base = ((s32)state->map.cells);
+        tiles_base = (u8 *)state->map.cells;
         tile_flags = flag_table;
         if ((height << 0x10) > 0) {
             do {

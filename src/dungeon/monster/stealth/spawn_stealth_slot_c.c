@@ -31,7 +31,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_height;
-        part1 = *(void ** *)&object->sprite;
+        part1 = object->sprite;
         part1->tile_y = tile_y;
         actor = result;
         part1->frameTable = D_8015BD30;

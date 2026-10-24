@@ -921,7 +921,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     u16 saved_y;
     void *node;
     ObjectNodeHeader *attached;
-    void *info;
+    SpriteFrameState *info;
     void *head;
     void *link;
 
@@ -1509,7 +1509,7 @@ typedef struct Block32 {
 void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, S_80025B78_4 *source_state)
 {
     ObjectNodeHeader *object;
-    MovingPosition *triplet;
+    ObjectPosition *triplet;
     SpriteFrameState *state;
 
     object = allocate_flagged_object_node(0x202);
@@ -1517,9 +1517,9 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
         object->update_callback = fade_color_to_black;
         register_node(object, process_effect_buffer_chain);
         triplet = object->position;
-        triplet->x = source_triplet->x;
-        triplet->y = source_triplet->y;
-        triplet->z = source_triplet->z;
+        triplet->x.w.i = source_triplet->x;
+        triplet->y.w.i = source_triplet->y;
+        triplet->z.w.i = source_triplet->z;
         state = object->sprite;
         state->scale_x = source_state->unk_1C;
         state->scale_y = source_state->unk_1E;

@@ -115,11 +115,11 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
 
                 target_player = use_player;
                 if (target_player != 0) {
-                    u32 item_data;
+                    SpriteFrameState *item_data;
 
                     target = primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
-                    item_data = (u32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    item_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
                     (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                 } else {

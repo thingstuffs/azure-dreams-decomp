@@ -295,7 +295,7 @@ typedef struct {
 } R03_80173A30_MapObject;
 extern s32 rand(void);
 extern int abs(int);
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 register_node();
 s32 func_8004491C();

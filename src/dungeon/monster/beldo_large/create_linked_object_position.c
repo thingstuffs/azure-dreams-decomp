@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -39,7 +40,7 @@ void create_linked_object_position(void)
     s32 object_z;
     u16 source_z;
     u16 object_y;
-    S_func_81339A5C_1 *source_pos;
+    ObjectPosition *source_pos;
     S_func_81339A5C_2 *object_data;
     void *source_data;
     ObjectNodeHeader *object;
@@ -59,8 +60,8 @@ void create_linked_object_position(void)
             (u16)(render_flags->flags & 0xFFF3);
         object_data->unk_24 = source_data;
         object_pos = object->position;
-        object_pos->unk_02.u = source_pos->unk_02.u;
-        object_pos->unk_06.u = source_pos->unk_06.u;
+        object_pos->unk_02.u = (u16)source_pos->x.w.i;
+        object_pos->unk_06.u = (u16)source_pos->y.w.i;
         object_pos->unk_0A =
             ((S_func_81339A5C_1 *)source_pos)->unk_0A;
         source_z = ((S_func_81339A5C_1 *)source_pos)->unk_0A;
@@ -74,9 +75,9 @@ void create_linked_object_position(void)
         render_state->scale_x = 0x1000;
         render_state->depth_bias = 6;
         object_data->unk_58 =
-            (source_pos->unk_02.s - 0x20) / 0x40;
+            (source_pos->x.w.i - 0x20) / 0x40;
         object_data->unk_59 =
-            (source_pos->unk_06.s - 0x20) / 0x40;
+            (source_pos->y.w.i - 0x20) / 0x40;
         render_state->color.c.b = 0x80;
         render_state->color.c.g = 0x80;
         render_state->color.c.r = 0x80;

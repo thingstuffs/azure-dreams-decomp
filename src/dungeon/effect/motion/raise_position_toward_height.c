@@ -699,7 +699,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     Point capture_point;
     CoordTable directions;
     S_func_8190B2D0_1 *owner;
-    u32 owner_base;
+    u8 * owner_base;
     register u32 source_pos;
     s32 state;
     S_func_8190B2D0_3 *target_pos;
@@ -709,7 +709,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     owner = effect->unk_0;
     capture_rect = D_80024038;
     directions = rising_effect_octant_offsets;
-    owner_base = (u32)((u8 *)owner - 32);
+    owner_base = ((u8 *)owner - 32);
     source_pos = (u32)((S_func_8190B2D0_2 *)owner_base)->unk_8;
     state = effect->unk_A.s16;
 
@@ -902,7 +902,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     case 3:
     {
         ObjectPosition *child_pos;
-        u32 child_data;
+        u8 * child_data;
         s32 frame;
         void *child_object;
         S_func_8190B2D0_6 *target;
@@ -932,7 +932,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             motion_or_child = allocate_flagged_object_node(0x212);
             if (motion_or_child != 0) {
                 child_object = motion_or_child;
-                child_data = (u32)((u8 *)motion_or_child + 32);
+                child_data = ((u8 *)motion_or_child + 32);
                 ((S_func_8190B2D0_7 *)child_data)->unk_2C = owner;
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;

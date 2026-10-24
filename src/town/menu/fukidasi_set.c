@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -48,7 +49,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     ObjectPayloadView *entry;
     ObjectNodeHeader *object;
     u8 *body;
-    TrailHeightView *part;
+    ObjectPosition *part;
     s32 *value_slot;
     SpriteFrameState *part_data;
 
@@ -70,7 +71,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         part_data = object->sprite;
         part_data->source = D_800D0E24[part_index];
         register_node_if_unregistered(body, project_sprite_chain);
-        part->unk_0A = part->unk_0A - 0x62;
+        part->z.w.i = (u16)part->z.w.i - 0x62;
         ((S_800A75E4_4 *)body)->unk_90 = 0xA;
         ((S_800A75E4_4 *)body)->unk_6C = body_value;
         ((S_800A75E4_4 *)body)->unk_95 = part_index;

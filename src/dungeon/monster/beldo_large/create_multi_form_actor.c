@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/sprite_frame_state.h"
@@ -7,7 +8,7 @@
 
 extern u8 *beldo_actor_nodes[3];
 extern u8 beldo_large_action_resume_address[];
-extern u8 *allocate_list_node(s32, u8 *);
+extern void *allocate_list_node(s32, u8 *);
 extern void register_node(u8 *, u8 *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(u8 *, void *, void *, u8 *);
@@ -45,7 +46,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
     s32 mode;
     ObjectNodeHeader *obj;
     u8 *child;
-    u8 *first;
+    ObjectPosition *first;
     SpriteFrameState *second;
     s16 saved_init_flags;
     s16 saved_value24;

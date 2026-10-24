@@ -118,7 +118,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     s16 threshold;
     s32 pitch_step;
     s16 yaw;
-    s32 object_ref;
+    u8 * object_ref;
     s32 target_yaw;
     s32 yaw_delta;
     s32 pitch;
@@ -127,7 +127,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     ObjectPosition *coords;
 
          /* MATCH: Order the s2 parameter copy before the s0 copy. */
-    object_ref = (s32) object;
+    object_ref = (u8 *)object;
     town = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &position_query_scratch);

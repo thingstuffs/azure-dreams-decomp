@@ -112,7 +112,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
     s16 direction;
     s32 effect_choice;
     s32 movement_done;
-    s32 model_addr;
+    void * model_addr;
     s16 effect_index;
     u16 turn_angle;
     u16 fade_ticks;

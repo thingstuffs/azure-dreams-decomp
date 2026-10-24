@@ -834,7 +834,7 @@ s32 rand();
 extern s32 rand(void);
 extern void *memcpy(void *, const void *, u32);
 extern s32 Control_CD();
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 register_node();
 s32 func_8004491C();

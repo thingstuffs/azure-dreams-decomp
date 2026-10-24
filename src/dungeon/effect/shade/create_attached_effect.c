@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -47,7 +48,7 @@ typedef struct S_800D4AB0_5_pre {
 /* Creates an effect linked to the owner with an offset position and initialized render data. */
 void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
     ObjectPosition *position;
-    S_800D4AB0_2 *render_data;
+    SpriteFrameState *render_data;
     ObjectNodeHeader *effect;
     S_800D4AB0_0 *effect_state;
     MovingPosition *source_position;
@@ -61,21 +62,21 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
         effect->update_callback = &D_800D4954;
         register_node(effect, project_sprite_chain);
         render_data = effect->sprite;
-        render_data->unk_10 = 0x60;
-        render_data->unk_06 = 0;
-        render_data->unk_14 = render_data->unk_14 | 0xC;
+        render_data->tpage_abr = 0x60;
+        render_data->depth_bias = 0;
+        render_data->flags = render_data->flags | 0xC;
         source_position = ((S_800D4AB0_5_pre *)(owner->unk_88))[-1].unk_00;
         position = effect->position;
         position->x.w.i = source_position->x;
         position->y.w.i = source_position->y;
         position->z.w.i = source_position->z - 0x32;
         render_data = effect->sprite;
-        render_data->unk_0E = 0x80;
-        render_data->unk_0D = 0x80;
-        render_data->unk_0C = 0x80;
-        render_data->unk_1E = 0;
-        render_data->unk_1C = 0;
+        render_data->color.c.b = 0x80;
+        render_data->color.c.g = 0x80;
+        render_data->color.c.r = 0x80;
+        render_data->scale_y = 0;
+        render_data->scale_x = 0;
         (*(Block12 *)((u8 *)effect + 0x96)) = D_800E233C;
-        render_data->unk_08 = ((void *)effect) + 0x96;
+        render_data->source = ((void *)effect) + 0x96;
     }
 }

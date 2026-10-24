@@ -54,8 +54,8 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     s16 y_offset, s16 z_offset) {
     register s16 saved_effect_id = effect_id;
     register s32 saved_effect_param = effect_param;
-    T_80171020_S_80171020_2 *position_x;
-    T_80171020_S_80171020_3 *position_y;
+    ObjectPosition *position_x;
+    ObjectPosition *position_y;
     T_80171020_S_80171020_1 *effect_state;
     ObjectNodeHeader *effect;
 
@@ -75,9 +75,9 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_48 = (s32) (((rand() & 0x3FFF) - 0x6000) * 0x10);
     position_x = effect->position;
-    position_x->unk_00 = (s32) (position_x->unk_00 + (effect_state->unk_40 * 2));
+    position_x->x.v = (s32) (position_x->x.v + (effect_state->unk_40 * 2));
     position_y = effect->position;
-    position_y->unk_04 = (s32) (position_y->unk_04 + (effect_state->unk_44 * 2));
+    position_y->y.v = (s32) (position_y->y.v + (effect_state->unk_44 * 2));
     effect_state->unk_54 = 0x8000;
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Textured strip rendering, shaded particles, timed fades, and a traveling effect sequence. */
@@ -1276,7 +1277,7 @@ update_coords:
             ObjectNodeHeader *ring_effect;
             ObjectNodeHeader *control_effect;
             S_func_81905FD0_7 *child_data;
-            S_func_81905FD0_3 *child_render;
+            SpriteFrameState *child_render;
             ObjectPosition *child_motion;
 
             upper_effect = allocate_flagged_object_node(0x212);
@@ -1290,7 +1291,7 @@ update_coords:
                     u16 flags;
 
                     child_render->flags |= 0xC;
-                    child_render->tpage_abr.u16 = 64;
+                    child_render->tpage_abr = 64;
                     child_render->depth_bias = 0;
                     flags = child_render->flags;
                     child_render->flags = flags | 0x80;
@@ -1306,14 +1307,14 @@ update_coords:
                     child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = upper_effect->sprite;
-                child_render->scale_x.s16 = 4100;
-                child_render->scale_y.s16 = 4100;
+                child_render->scale_x = 4100;
+                child_render->scale_y = 4100;
                 {
                     u8 target_height = entity_height_offsets[((S_func_81905FD0_6 *)owner->target)->species];
 
-                    child_render->color.u8_0E.unk_0E = 128;
-                    child_render->color.u8_0D.unk_0D = 128;
-                    child_render->color.u8 = 128;
+                    child_render->color.c.b = 128;
+                    child_render->color.c.g = 128;
+                    child_render->color.c.r = 128;
                     child_render->offset_y = (-target_height) / 2;
                 }
                 *(Copy12 *)((u8 *)upper_effect + 0x40) = *(Copy12 *)D_8002676C;
@@ -1329,7 +1330,7 @@ update_coords:
                 register_node(lower_effect, project_sprite_chain);
                 child_render = lower_effect->sprite;
                 child_render->flags &= 0xFFF3;
-                child_render->tpage_abr.s16 = 32;
+                child_render->tpage_abr = 32;
                 child_render->flags |= 0x80;
                 child_data->unk_38 = owner;
                 child_data->unk_3C = owner->target;
@@ -1346,11 +1347,11 @@ update_coords:
                     child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = lower_effect->sprite;
-                child_render->scale_y.s16 = 4096;
-                child_render->scale_x.s16 = 4096;
-                child_render->color.u8_0E.unk_0E = 128;
-                child_render->color.u8_0D.unk_0D = 128;
-                child_render->color.u8 = 128;
+                child_render->scale_y = 4096;
+                child_render->scale_x = 4096;
+                child_render->color.c.b = 128;
+                child_render->color.c.g = 128;
+                child_render->color.c.r = 128;
                 *(Copy12 *)((u8 *)lower_effect + 0x40) = *(Copy12 *)D_80026778;
                 child_render->source = (u8 *)lower_effect + 0x40;
                 ((S_func_81905FD0_13 *)child_render->source)->tpage =
@@ -1367,7 +1368,7 @@ update_coords:
                     u16 flags;
 
                     child_render->flags &= 0xFFF3;
-                    child_render->tpage_abr.s16 = 32;
+                    child_render->tpage_abr = 32;
                     child_render->depth_bias = 0;
                     flags = child_render->flags;
                     child_render->flags = flags | 0x80;
@@ -1384,11 +1385,11 @@ update_coords:
                     child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = ring_effect->sprite;
-                child_render->scale_x.s16 = 4096;
-                child_render->scale_y.s16 = 4096;
-                child_render->color.u8_0E.unk_0E = 128;
-                child_render->color.u8_0D.unk_0D = 128;
-                child_render->color.u8 = 128;
+                child_render->scale_x = 4096;
+                child_render->scale_y = 4096;
+                child_render->color.c.b = 128;
+                child_render->color.c.g = 128;
+                child_render->color.c.r = 128;
                 {
                     u8 *descriptor_src = D_80026784;
                     u8 *descriptor_dest = (u8 *)child_data;
@@ -1437,7 +1438,7 @@ update_coords:
                     u16 flags;
 
                     child_render->flags |= 0xC;
-                    child_render->tpage_abr.s16 = 32;
+                    child_render->tpage_abr = 32;
                     child_render->depth_bias = 0;
                     flags = child_render->flags;
                     child_render->flags = flags | 0x80;
@@ -1453,11 +1454,11 @@ update_coords:
                     child_motion->z.v = target_motion_m->z.u32;
                 }
                 child_render = control_effect->sprite;
-                child_render->scale_y.s16 = 4096;
-                child_render->scale_x.s16 = 4096;
-                child_render->color.u8_0E.unk_0E = 128;
-                child_render->color.u8_0D.unk_0D = 128;
-                child_render->color.u8 = 128;
+                child_render->scale_y = 4096;
+                child_render->scale_x = 4096;
+                child_render->color.c.b = 128;
+                child_render->color.c.g = 128;
+                child_render->color.c.r = 128;
                 *(Copy12 *)((u8 *)control_effect + 0x40) = *(Copy12 *)D_80026760;
                 child_render->source = (u8 *)control_effect + 0x40;
             }

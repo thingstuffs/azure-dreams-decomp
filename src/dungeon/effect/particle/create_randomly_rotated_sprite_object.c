@@ -48,7 +48,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
     s32 random_rotation;
     B22_818928F8_Object *sprite_obj;
 
-    obj = (B22_818928F8_Object *)allocate_flagged_object_node(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = advance_accelerating_spin_effect;
         state = (u8 *)obj + 0x20;
@@ -56,7 +56,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
         state->unk_10 = 0;
         state->unk_12 = state_value;
 
-        sprite = *(B22_818928F8_Sprite * *)&obj->sprite;
+        sprite = obj->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -408,7 +408,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
     B22_81893244_Func81893244Status *status;
     s32 brightness;
     s32 particle_index;
-    effect = (B22_81893244_Func81893244Object *)allocate_flagged_object_node(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         status = &effect->status;
         effect->field10 = emit_animated_transform_copies;
@@ -429,7 +429,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
     }
     particle_index = 0;
     do {
-        effect = (B22_81893244_Func81893244Object *)allocate_flagged_object_node(0x212);
+        effect = allocate_flagged_object_node(0x212);
         status = &effect->status;
         if (effect != NULL) {
             effect->field10 = step_sprite_height_and_animation;

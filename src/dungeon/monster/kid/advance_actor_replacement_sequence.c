@@ -142,7 +142,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
     u16 previous_ticks;
     u8 phase;
     S_80174B20_4 *target_color;
-    S_80174B20_8 *effect_position;
+    ObjectPosition *effect_position;
     GameWork *scene_color;
     S_80174B20_9 *sprite;
     ObjectNodeHeader *effect;
@@ -215,7 +215,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Sprite
         effect_position = effect->position;
         position_z = position->z.v;
         D_80175218 = -4;
-        effect_position->unk_08 = position_z;
+        effect_position->z.v = position_z;
         sprite = effect->sprite;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

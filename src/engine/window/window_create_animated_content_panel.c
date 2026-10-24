@@ -41,7 +41,7 @@ S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 sta
     s32 global_flags;
     s32 *global_page;
 
-    entity = (S_8004A330_Entity *)allocate_flagged_object_node(0);
+    entity = allocate_flagged_object_node(0);
     if (entity != 0) {
         state = &entity->sub20;
         buffer_addr = create_callback_pair_default(0);

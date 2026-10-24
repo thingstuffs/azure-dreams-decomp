@@ -547,7 +547,7 @@ extern void update_arcing_effect(void *motion, S_800B8830_3 *coords, struct S_80
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 
 /* Create an object with default child and tail data when none are supplied. */
 void create_timed_model_effect(void *owner, s32 value, void *child_data, void *tail_data)
@@ -786,7 +786,7 @@ extern s32 process_linked_mesh_states_mode_0();
 struct Object_800B36B8;
 struct Effect;
 extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
@@ -1425,7 +1425,7 @@ typedef struct EntityHdr {
 extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 extern s32 draw_linked_sprites_clipped();
 extern void select_record_entry_and_value();
@@ -1882,7 +1882,7 @@ void *create_item_target_selector(u8 *selection_data) {
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
     do {
-        *object_slot = (Obj_800B4914 *)allocate_flagged_object_node(0x12);
+        *object_slot = allocate_flagged_object_node(0x12);
         if (*object_slot != 0) {
             SubA_800B4914 *transform;
             SubB_800B4914 *sprite;
@@ -2758,7 +2758,7 @@ typedef struct S_800BB044_1 {
 } S_800BB044_1;   /* arg0 in create_actor_linked_effect; pointer addresses record offset 0x18 */
 
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 play_sound_if_enabled();
 extern void advance_particle_effect_state(void *object);
 
@@ -3246,7 +3246,7 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "m2c_compat.h"
 
 extern void select_record_entry_and_value();
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
@@ -3612,7 +3612,7 @@ s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data) {
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 struct State;
 struct Output;
@@ -3771,7 +3771,7 @@ typedef struct S_800BC26C_1 {
 } S_800BC26C_1;   /* fields in create_tracked_effect */
 
 
-extern void * allocate_list_node();
+extern void *allocate_list_node();
 extern s32 register_node();
 extern void retire_effect_when_owner_or_value_ends(void *context);
 

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -57,8 +58,8 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
 {
     ObjectNodeHeader * node;
     S_80174800_0 *part;
-    S_80174800_1 *data;
-    S_80174800_2 *pos;
+    SpriteFrameState *data;
+    ObjectPosition *pos;
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
@@ -66,25 +67,25 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
         part->unk_1A = 65;
         (node->update_callback) = &D_80174600;
         register_node(node, project_sprite_chain);
-        data = (node->sprite);
-        data->unk_10 = 0x60;
-        data->unk_14 |= 0xC;
-        pos = (node->position);
-        pos->unk_02 = ((u16)source_pos->x.w.i);
-        pos->unk_06 = ((u16)source_pos->y.w.i);
-        pos->unk_0A = ((u16)source_pos->z.w.i) - 0x28;
-        data = (node->sprite);
-        data->unk_06 = 6;
-        data->unk_1E = scale;
-        data->unk_1C = scale;
+        data = node->sprite;
+        data->tpage_abr = 0x60;
+        data->flags |= 0xC;
+        pos = node->position;
+        pos->x.w.i = ((u16)source_pos->x.w.i);
+        pos->y.w.i = ((u16)source_pos->y.w.i);
+        pos->z.w.i = ((u16)source_pos->z.w.i) - 0x28;
+        data = node->sprite;
+        data->depth_bias = 6;
+        data->scale_y = scale;
+        data->scale_x = scale;
         (*(s8 *)((u8 *)node + 0x20)) = 0x70;
         part->unk_01 = 0x10;
         part->unk_02 = 0x10;
-        data->unk_0E = 0;
-        data->unk_0D = 0;
-        data->unk_0C = 0;
-        data->unk_1A = rand() & 0xFFF;
+        data->color.c.b = 0;
+        data->color.c.g = 0;
+        data->color.c.r = 0;
+        data->angle_z = rand() & 0xFFF;
         (*(Copy12 *)((u8 *)node + 0x48)) = (*(Copy12 *)((u8 *)D_8017520C + 0));
-        data->unk_08 = (u8 *)node + 0x48;
+        data->source = (u8 *)node + 0x48;
     }
 }

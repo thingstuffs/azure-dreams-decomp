@@ -102,7 +102,7 @@ typedef struct S_80173230_9 {
 void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, SpriteFrameState *sprite, void *actor)
 {
     u8 *effect_state;
-    s32 effect_handle;
+    u8 * effect_handle;
     s16 special_or_effect;
     u16 effect_offset[4];
     u8 *item_slot;
@@ -231,12 +231,12 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
             timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
             ((S_80173230_0 *)action_in)->unk_96.u = timer;
             if (timer == 0xB || (sprite->flags & 0xE000)) {
-                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
+                effect_handle = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                 if (effect_handle != 0) {
                     void *actor_model;
                     u8 animation_id;
 
-                    effect_state = (u8 *)effect_handle + 0x20;
+                    effect_state = effect_handle + 0x20;
                     ((S_80173230_5 *)effect_state)->unk_96 = 9;
                     ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
                     ((S_80173230_5 *)effect_state)->unk_A8 = motion_in;

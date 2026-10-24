@@ -3,10 +3,10 @@
 extern void advance_actor_ability_and_completion(void);
 
 /* jump_table; owner: dungeon/func_80ADFA30. */
-const u32 D_80158850[5] __attribute__((aligned(4))) = {
-    (u32)((u8 *)advance_actor_ability_and_completion + 0x6C),
-    (u32)((u8 *)advance_actor_ability_and_completion + 0x29C),
-    (u32)((u8 *)advance_actor_ability_and_completion + 0x2E4),
-    (u32)((u8 *)advance_actor_ability_and_completion + 0x514),
-    (u32)((u8 *)advance_actor_ability_and_completion + 0x59C)
+const void *const D_80158850[5] __attribute__((aligned(4))) = {
+    ((u8 *)advance_actor_ability_and_completion + 0x6C),
+    ((u8 *)advance_actor_ability_and_completion + 0x29C),
+    ((u8 *)advance_actor_ability_and_completion + 0x2E4),
+    ((u8 *)advance_actor_ability_and_completion + 0x514),
+    ((u8 *)advance_actor_ability_and_completion + 0x59C)
 };

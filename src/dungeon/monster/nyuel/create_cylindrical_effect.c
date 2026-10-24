@@ -91,7 +91,7 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         s32 trig_angle;
         s32 trig_value;
 
-        entity = (Entity *)allocate_flagged_object_node(18);
+        entity = allocate_flagged_object_node(18);
         if (entity == 0) {
             continue;
         }

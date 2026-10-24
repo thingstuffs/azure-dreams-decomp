@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -22,7 +23,7 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
 {
     SpriteFrameState *render_config;
     SpriteFrameState *render_data;
-    MovingPosition *object_position;
+    ObjectPosition *object_position;
     S_800D4BD4_0 *state;
     s32 source_value;
     u16 flags;
@@ -34,9 +35,9 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     render_config->tpage_abr = 0x20;
     render_config->flags = render_config->flags | 0xC;
     object_position = object->position;
-    object_position->x = position->unk_02.as_u16;
-    object_position->y = position->unk_06.as_u16;
-    object_position->z = position->unk_0A.as_u16;
+    object_position->x.w.i = position->unk_02.as_u16;
+    object_position->y.w.i = position->unk_06.as_u16;
+    object_position->z.w.i = position->unk_0A.as_u16;
     render_data = object->sprite;
     render_data->scale_y = 0x800;
     render_data->scale_x = 0x800;

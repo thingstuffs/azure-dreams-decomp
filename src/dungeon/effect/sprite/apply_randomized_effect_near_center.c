@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -23,7 +24,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
     s32 distance_x;
     s32 distance_y;
     u8 *target;
-    MovingTile *position;
+    SpriteFrameState *position;
 
     target = ((u8 *)dungeon_actor_ring_anchor);
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);

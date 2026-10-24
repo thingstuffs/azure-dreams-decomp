@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_particle_template.h"
@@ -72,9 +74,9 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
     s32 x_jitter;
     s32 scale;
     S_80165F00_1 *source_pos;
-    S_80165F00_3 *sprite;
+    SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    S_80165F00_2 *effect_transform;
+    ObjectPosition *effect_transform;
 
     effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
@@ -92,23 +94,23 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         ((S_80165F00_5 *)((effect->position)))->unk_0A =
             (s16)(((S_80165F00_4 *)(source->unk_08))->unk_0A -
                   0x100);
-        effect_transform = (effect->position);
-        effect_transform->unk_10 = 0;
-        effect_transform->unk_0C = 0;
+        effect_transform = effect->position;
+        effect_transform->velocity_y = 0;
+        effect_transform->velocity_x = 0;
         ((S_80165F00_5 *)((effect->position)))->unk_14 = 0x200000;
         register_node(effect, (void *)((s32)&draw_linked_sprites_clipped));
-        sprite = (effect->sprite);
-        sprite->unk_14 =
-            (u16)(sprite->unk_14 & 0xFFF3);
+        sprite = effect->sprite;
+        sprite->flags =
+            (u16)(sprite->flags & 0xFFF3);
         scale = 0x1000 / (s32)(func_80167088(5) + 6);
-        sprite->unk_0C = 0xFF;
-        sprite->unk_0E = 0x20;
-        sprite->unk_0D = 0x20;
-        sprite->unk_1E = (s16)scale;
-        sprite->unk_1C = (s16)scale;
+        sprite->color.c.r = 0xFF;
+        sprite->color.c.b = 0x20;
+        sprite->color.c.g = 0x20;
+        sprite->scale_y = (s16)scale;
+        sprite->scale_x = (s16)scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *)(((void *)effect) + 0x56);
+        sprite->source = (void *)(((void *)effect) + 0x56);
     }
 }
 

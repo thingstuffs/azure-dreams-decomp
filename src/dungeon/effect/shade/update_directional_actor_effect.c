@@ -279,7 +279,7 @@ void create_textured_offset_object(void *source_object)
         data->unk_30 = 1;
         data->unk_2E.u = offset_angle;
 
-        primitive = (object->sprite);
+        primitive = object->sprite;
         primitive->color.c.b = 0x40;
         primitive->color.c.g = 0x40;
         primitive->color.c.r = 0x40;
@@ -298,7 +298,7 @@ void create_textured_offset_object(void *source_object)
         primitive->angle_z = angle_or_zero;
         register_node(object, project_sprite_chain);
 
-        primitive_2 = (object->position);
+        primitive_2 = object->position;
         word_x = (*(s32 *)((u8 *)source + 0x34));
         primitive_2->velocity_x = word_x;
         primitive_2->x.v = word_x;

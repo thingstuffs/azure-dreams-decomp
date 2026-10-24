@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 /* G00534: selection object action. */
 /* Original-file evidence (G00534): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
 #include "town/player/selection_object_action_g00534.h"
@@ -38,8 +40,8 @@ void handle_selection_and_create_object(void) {
     ObjectNodeHeader *data;
     u8 *context;
     u8 *object;
-    IntVector3 *position;
-    void *callback_data;
+    ObjectPosition *position;
+    SpriteFrameState *callback_data;
     void *created_entry;
     u32 state_code;
     s32 state_index;
@@ -104,9 +106,9 @@ void handle_selection_and_create_object(void) {
         }
         }
 
-        work.pos.x = position->x;
-        work.pos.y = position->y;
-        work.pos.z = position->z + town_target_height_offset;
+        work.pos.x = position->x.v;
+        work.pos.y = position->y.v;
+        work.pos.z = position->z.v + town_target_height_offset;
         mode = 0;
         if (state_is_12_or_13) {
             mode = is_available != 0;

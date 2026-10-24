@@ -1456,7 +1456,7 @@ s32 update_special_actor_transition(void) {
     s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
     s32 state = ((S_807B040C_1 *)entity)->unk_9B;
-    SpriteFrameState *target = *(u8 * *)&root->sprite;
+    SpriteFrameState *target = root->sprite;
     u8 *entity_aux = entity;
     s32 direction;
     s32 dx;

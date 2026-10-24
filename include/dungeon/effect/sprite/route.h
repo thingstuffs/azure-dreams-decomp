@@ -323,7 +323,7 @@ void update_actor_effect_sequence(void *record);
 void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
-ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader **);
+void *allocate_list_node(s32, ObjectNodeHeader **);
 ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);
 s32 register_node(void *, void *, ...);
 s32 func_8004491C(void *, void *, ...);

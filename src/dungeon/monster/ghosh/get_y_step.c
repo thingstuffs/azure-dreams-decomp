@@ -132,7 +132,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
     s32 state_flags;
     MovingTile *target_position;
     void *x_offset;
-    s32 active_actor;
+    u8 * active_actor;
     s32 path_status;
     s32 tile_y;
     s32 first_tile_y;
@@ -159,7 +159,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
             update_actor_status_and_mp(actor);
             return;
         }
-        active_actor = ((s32)g_dungeon_status.active_actor);
+        active_actor = (u8 *)g_dungeon_status.active_actor;
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;

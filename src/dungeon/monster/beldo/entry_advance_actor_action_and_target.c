@@ -3,14 +3,14 @@
 extern void advance_actor_action_and_target(void);
 
 /* jump_table; owner: dungeon/func_81252D6C. */
-const u32 beldo_slot_g_action_cases[9] __attribute__((aligned(4))) = {
-    (u32)((u8 *)advance_actor_action_and_target + 0x64),
-    (u32)((u8 *)advance_actor_action_and_target + 0x2A8),
-    (u32)((u8 *)advance_actor_action_and_target + 0x2F0),
-    (u32)((u8 *)advance_actor_action_and_target + 0x330),
-    (u32)((u8 *)advance_actor_action_and_target + 0x3D0),
-    (u32)((u8 *)advance_actor_action_and_target + 0x43C),
-    (u32)((u8 *)advance_actor_action_and_target + 0x4A4),
-    (u32)((u8 *)advance_actor_action_and_target + 0x4C4),
-    (u32)((u8 *)advance_actor_action_and_target + 0x558)
+const void *const beldo_slot_g_action_cases[9] __attribute__((aligned(4))) = {
+    ((u8 *)advance_actor_action_and_target + 0x64),
+    ((u8 *)advance_actor_action_and_target + 0x2A8),
+    ((u8 *)advance_actor_action_and_target + 0x2F0),
+    ((u8 *)advance_actor_action_and_target + 0x330),
+    ((u8 *)advance_actor_action_and_target + 0x3D0),
+    ((u8 *)advance_actor_action_and_target + 0x43C),
+    ((u8 *)advance_actor_action_and_target + 0x4A4),
+    ((u8 *)advance_actor_action_and_target + 0x4C4),
+    ((u8 *)advance_actor_action_and_target + 0x558)
 };

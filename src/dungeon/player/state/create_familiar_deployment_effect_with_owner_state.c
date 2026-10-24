@@ -33,7 +33,7 @@ extern void dungeon_familiar_deploy_update_address();
 void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    MovingPosition *position;
+    ObjectPosition *position;
     S_80093C70_5 *effect_state;
     u16 flags;
 
@@ -41,9 +41,9 @@ void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec 
     if (effect != NULL) {
         position = effect->position;
         effect->update_callback = &dungeon_familiar_deploy_update_address;
-        position->x = (u16) ((u16)source_pos->x.w.i);
-        position->y = (u16) ((u16)source_pos->y.w.i);
-        position->z = (u16) ((u16)source_pos->z.w.i);
+        position->x.w.i = (u16) ((u16)source_pos->x.w.i);
+        position->y.w.i = (u16) ((u16)source_pos->y.w.i);
+        position->z.w.i = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->sprite;
         sprite->animation_resource = (s32) owner->unk_28.at00_s32.v;
         sprite->scale_y = 0x1000;

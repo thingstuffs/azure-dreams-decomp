@@ -57,11 +57,11 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
     u16 y;
     u16 z;
 
-    node = (Node *)allocate_flagged_object_node(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         node->update_callback = D_80170D60;
         register_node(node, project_sprite_chain);
-        setup_sub = *(Sub * *)&node->sprite;
+        setup_sub = node->sprite;
         setup_sub->tpage_abr = 0x20;
         setup_sub->depth_bias = 6;
         setup_sub->flags |= 0xC;
@@ -76,7 +76,7 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
         z = *(u16 *)&position->z.w.i;
         position->y.w.i = (u16)(y + y_offset);
         position->z.w.i = (u16)(z + z_offset);
-        display_sub = *(Sub * *)&node->sprite;
+        display_sub = node->sprite;
         display_sub->scale_y = 0x1400;
         display_sub->scale_x = 0x1400;
         display_sub->color.c.b = 0x80;

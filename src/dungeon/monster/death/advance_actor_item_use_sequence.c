@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
@@ -271,8 +272,8 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         {
             ObjectNodeHeader * object;
             u8 *object_base;
-            MovingPosition *transform;
-            void *display;
+            ObjectPosition *transform;
+            SpriteFrameState *display;
             u16 timer;
             u16 flags;
 
@@ -289,11 +290,11 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
             (object->update_callback) = D_80171080;
             register_node(object, project_sprite_chain);
-            transform = (object->position);
-            transform->x = ((u16)motion->x.w.i);
-            transform->y = ((u16)motion->y.w.i);
-            transform->z = ((u16)motion->z.w.i) - 0x60;
-            display = (object->sprite);
+            transform = object->position;
+            transform->x.w.i = ((u16)motion->x.w.i);
+            transform->y.w.i = ((u16)motion->y.w.i);
+            transform->z.w.i = ((u16)motion->z.w.i) - 0x60;
+            display = object->sprite;
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
             ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;
             ((S_801732C4_7 *)display)->unk_10 = 0x40;

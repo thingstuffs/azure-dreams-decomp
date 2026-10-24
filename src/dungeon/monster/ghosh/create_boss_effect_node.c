@@ -25,7 +25,7 @@ void create_boss_effect_node(void)
     s16 *effect;
     u32 *part_words;
 
-    node = (Node *)allocate_flagged_object_node(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;

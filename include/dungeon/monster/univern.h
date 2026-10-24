@@ -386,7 +386,7 @@ typedef struct {
     u8 pad_20[0xA];
     s16 unk_2A;
 } R17_80174250_MapObject;
-s32 allocate_list_node();
+void *allocate_list_node();
 s32 func_8003FD64();
 s32 register_node();
 s32 func_8004491C();
