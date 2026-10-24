@@ -20,9 +20,9 @@ typedef struct {
 } TownControl;
 
 typedef struct {
-    void (*func0)(void);
+    void (*func0)(void *, void *, void *, void *);
     void *pad_04[5];
-    void (*func18)(void);
+    void (*func18)(void *, void *, void *, void *);
 } TownVtable;
 
 typedef struct {

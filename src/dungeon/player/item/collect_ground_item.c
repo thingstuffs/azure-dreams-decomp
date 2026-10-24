@@ -60,8 +60,8 @@ void display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_last_zero_entry_run_start(void);
 s32 find_and_clear_empty_item_slot(void);
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-u8 *advance_monster_timed_sequence(void);
-void read_monster_script_entry(void);
+#include "dungeon/item.h"
+
 s32 get_scaled_byte_value(DungeonItemEntry *);
 void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);

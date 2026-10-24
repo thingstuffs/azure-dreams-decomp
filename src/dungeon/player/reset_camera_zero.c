@@ -7,7 +7,7 @@ typedef void (*StateFunc)(void *, void *, void *, void *);
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern void handle_player_input(void *, void *, void *, void *);
-extern s32 has_action_input_without_modifier(void);
+#include "dungeon/player/input.h"
 
 extern u8 player_camera_reset_frames[8];
 extern u8 D_800DD010[8];

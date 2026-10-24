@@ -182,8 +182,8 @@ void process_unflagged_linked_entries_alt();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void append_packed_action_record();
-void *advance_monster_timed_sequence();
-s32 read_monster_script_entry();
+#include "dungeon/item.h"
+
 void *(*load_monster_resource_data())(s32, u8, u8, s16);
 s32 find_or_retain_sprite_resource_slot();
 s32 raise_entity_level();

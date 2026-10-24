@@ -720,7 +720,7 @@ void append_packed_action_record();      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 extern u8 last_frame_ticks[16];
-extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
+#include "engine/texture.h"
 extern void step_actor_animation(void *, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;

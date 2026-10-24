@@ -6,7 +6,7 @@ extern u8 upper_draw_context[16];
 
 extern void AddPrim(void *, void *);
 extern void SetDrawArea(void *, void *);
-extern void draw_nearby_map_markers(void *, s32);
+
 
 /* Queues drawing commands and a black 64-by-64 rectangle in the active draw buffer. */
 void queue_black_draw_buffer_rectangle(s32 draw_param) {

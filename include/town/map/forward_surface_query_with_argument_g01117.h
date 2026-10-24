@@ -446,7 +446,7 @@ extern u8 town_map_row_extent[];
 s32 check_scratch_quad_half_turn_gaps(void *scratch);
 
 /* Functions defined in this translation unit. */
-s16 forward_surface_query_with_argument(SignedPositionView *record, s32 query_arg);
+s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out);
 s16 forward_highest_surface_query(SignedPositionView *record);
 s16 forward_smallest_surface_x_query(SignedPositionView *record);
 s16 evaluate_surface_components_a(SignedPositionView *components);

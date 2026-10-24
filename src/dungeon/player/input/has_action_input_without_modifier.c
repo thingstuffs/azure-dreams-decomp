@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/input.h"
 #include "shared/game_work.h"
 
 

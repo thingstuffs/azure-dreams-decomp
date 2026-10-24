@@ -25,9 +25,9 @@ s16 resolve_player_input_facing();             /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
 s16 dispatch_selected_item_use();                /* extern */
 void resolve_familiar_deployment_request(); /* extern */
-void *advance_monster_timed_sequence();                        /* extern */
-s32 read_monster_script_entry();                    /* extern */
-void *select_item_record_pointer();                      /* extern */
+
+
+#include "dungeon/item/actor_target.h"
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
 #include "dungeon/player/object/action_state.h"
@@ -223,7 +223,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                             }
                             ((S_8008EAC8_1 *)entity)->unk_2A.u = step;
                         }
-                        read_monster_script_entry(target_facing);
+                        read_monster_script_entry();
                         call_arg = sprite;
                         call_arg->frameTable = player_carry_frames;
                         set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -247,7 +247,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                     case 0x50:
                         data_50 = ((S_8008EAC8_6 *)record)->unk_00;
                         record = (void *) ((u32) (data_50 & 0x60) >> 5);
-                        looked_up = select_item_record_pointer(data_50 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(data_50 & 0x1F);
                         if (dispatch_dungeon_category_action(((S_8008EAC8_7 *)(((((u32) record) * 4) + object)))->unk_AC, looked_up, 0x15,
                             0) < 0) {
                             read_monster_script_entry();
@@ -255,7 +255,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         }
                         return;
                     case 0x68:
-                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F);
                         slot = ((S_8008EAC8_6 *)record)->unk_00;
                         slot &= 0x60;
                         slot >>= 5;
@@ -288,7 +288,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         set_familiar_formation_offset((u32) (data_90 & 0x60) >> 5, data_90 & 7);
                         return;
                     case 0x98:
-                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F);
                         if (((S_8008EAC8_9 *)looked_up)->unk_03 & 0x20) {
                             resolve_familiar_deployment_request(object, aux_entity, sprite, looked_up);
                             return;

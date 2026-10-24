@@ -35,7 +35,7 @@ void fill_eligible_negative_slots();     /* extern */
 void set_resident_bit(s16 value);              /* extern */
 typedef struct InputRecord InputRecord;
 void change_map(InputRecord *input);                       /* extern */
-void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
+#include "engine/texture.h"
 typedef struct {
     u8 pad[0x14];
     u16 unk14;

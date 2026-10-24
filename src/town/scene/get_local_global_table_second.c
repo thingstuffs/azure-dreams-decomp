@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
@@ -12,7 +13,7 @@ extern s32 D_8002116C;
 
 
 /* Processes event conditions and returns the corresponding data pointer, or null. */
-s32 *get_local_global_table(void) {
+void *get_local_global_table(void) {
     if (func_800197FC(0xD, 6) != 0) {
         town_scene_root->services->callback_078(0);
         func_8001A554(F_sbs32_pad02);

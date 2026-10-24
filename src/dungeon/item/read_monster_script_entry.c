@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item.h"
 
 typedef struct {
     u8 pad0[8];
@@ -8,7 +9,7 @@ typedef struct {
 } ScriptState;
 
 /* Return the script entry while updating its index and repeat count. */
-s32 read_monster_script_entry(void) {
+s16 *read_monster_script_entry(void) {
     ScriptState *script;
     u16 entry_index;
     s16 *script_entry;
@@ -32,7 +33,7 @@ s32 read_monster_script_entry(void) {
     } else {
         script->count = script->count - 1;
     }
-    return (s32)script_entry;
+    return script_entry;
 }
 
 /* MECHANISM: Frameless leaf under the true-space read_monster_script_entry name, with both

@@ -58,11 +58,11 @@ void begin_player_menu_action(); /* extern */
 void begin_parameterized_actor_action(); /* extern */
 s16 resolve_player_input_facing();             /* extern */
 s32 request_familiar_deployment_change(); /* extern */
-s32 has_action_input_without_modifier();                             /* extern */
+#include "dungeon/player/input.h"
 s32 dispatch_selected_item_use();                /* extern */
 void resolve_familiar_deployment_request(); /* extern */
-void *advance_monster_timed_sequence();                           /* extern */
-s32 read_monster_script_entry();                    /* extern */
+
+
 void *select_item_record_pointer();                      /* extern */
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
@@ -186,14 +186,14 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (action_flags & 0xFFFE);
                 if (action_flags & 0x200) {
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (action_flags & 0xFDFE);
-                    command = advance_monster_timed_sequence(input_flags);
+                    command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
                     }
                     normalized = ((S_8008ACDC_6 *)command)->unk_01 & 7;
                     old_angle = ((S_8008ACDC_4 *)stats)->unk_2A.s;
                 } else {
-                    command = advance_monster_timed_sequence(input_flags);
+                    command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
                     }
@@ -240,7 +240,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         next_angle = angle_raw - 0x200;
                     }
                     ((S_8008ACDC_4 *)stats)->unk_2A.s = next_angle;
-                    read_monster_script_entry(target_angle, signed_target);
+                    read_monster_script_entry();
                 } else {
                     active_actor_command_code = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
                     switch (active_actor_command_code) {
@@ -368,7 +368,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     }
                     return;
                 } else {
-                    if ((has_action_input_without_modifier(input_flags) << 0x10) != 0) {
+                    if ((has_action_input_without_modifier() << 0x10) != 0) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                     }
                     if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((has_pending_actor_or_turn_action(stats) << 0x10) == 0)

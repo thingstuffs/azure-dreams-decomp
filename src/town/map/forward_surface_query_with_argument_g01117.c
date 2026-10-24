@@ -3,9 +3,9 @@
  */
 #include "town/map/forward_surface_query_with_argument_g01117.h"
 
-/* Pass three signed record components and a query argument to find_min_qualifying_plane_height. */
-s16 forward_surface_query_with_argument(SignedPositionView *record, s32 query_arg) {
-    return find_min_qualifying_plane_height(record->x, record->y, record->z, query_arg);
+/* Pass the signed position components and plane output to the height query. */
+s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out) {
+    return find_min_qualifying_plane_height(record->x, record->y, record->z, plane_out);
 }
 
 /* Pass three signed record components to find_highest_surface_within_range. */

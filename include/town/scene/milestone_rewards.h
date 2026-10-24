@@ -7,6 +7,8 @@ extern s16 milestone_flag_ids[];
 extern void *milestone_response_table[][5];
 
 void *award_next_unearned_milestone(s32 counter_id);
+void *get_local_global_table(void);
+extern void *scene_event_results[];
 char *select_response_selector_status_flags(long long unused, s32 selection);
 
 #endif

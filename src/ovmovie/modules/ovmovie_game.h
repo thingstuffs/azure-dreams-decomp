@@ -58,7 +58,7 @@ extern u8 upper_draw_context[];
 
 extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
-extern s32 func_8003E240(s32);
+#include "engine/scene.h"
 extern void SD_Call(s32);
 extern void drain_audio_commands_and_service_channels(void);
 extern void func_8005A4E8(s32, s32, s32);

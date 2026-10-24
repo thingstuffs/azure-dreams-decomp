@@ -25,7 +25,7 @@ extern S_8003E240_0 controller_port_one_reply;
 extern S_8003E240_1 controller_port_two_reply;
 
 /* Returns inverted input bits packed from the two valid input records. */
-s32 read_combined_controller_buttons(void) {
+s32 read_combined_controller_buttons(s32 unused_mode) {
     s32 input_bits;
 
     input_bits = -1;

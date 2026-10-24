@@ -12,6 +12,8 @@ void *find_linked_entity_of_type_21(void *entity);
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y);
 s32 get_direction_toward_target_position(s16 *target_pos);
 void initialize_monster_script_counter(void);
+void *advance_monster_timed_sequence(void);
+s16 *read_monster_script_entry(void);
 void inventory_clear_object_field_and_entry(s32 object_addr);
 void inventory_process_resources_and_set_flags(void *object);
 void inventory_set_embedded_state_four(s32 object_addr);

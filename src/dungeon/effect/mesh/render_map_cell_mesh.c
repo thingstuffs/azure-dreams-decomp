@@ -412,7 +412,7 @@ void render_map_cell_mesh(void) {
             scratch->last_normal = 0xFFFF;
             scratch->packet_end = (s32)render_buffer;
             scratch->active_edges = 4U;
-            scratch->cur_y = (s16)runtime_initialize_polygon_edges(render_input, coord_offset, edge_count, render_buffer);
+            scratch->cur_y = (s16)runtime_initialize_polygon_edges(render_input, coord_offset, edge_count);
         }
         if (scratch->active_edges != 0) {
             s32 tag_mask;

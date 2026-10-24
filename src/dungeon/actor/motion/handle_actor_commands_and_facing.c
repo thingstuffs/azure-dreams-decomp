@@ -21,8 +21,8 @@ extern s32 has_action_input_without_modifier(void);
 extern void reset_record_to_state_34();
 extern s32 begin_actor_attack();
 extern void finish_paralyzed_actor_action();
-extern void *advance_monster_timed_sequence();
-extern void read_monster_script_entry();
+#include "dungeon/item.h"
+
 #include "dungeon/player/object/action_state.h"
 
 extern s32 lookup_definition_pair_value();
@@ -126,7 +126,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFDFE;
             }
 
-            command = advance_monster_timed_sequence(command_flags);
+            command = advance_monster_timed_sequence();
             if (command != 0) {
                 struct { signed int value : 24; } target_angle = {0};
                 direction = command->unk_01 & 7;
@@ -177,7 +177,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                         next_angle = angle_2 - 0x200;
                     }
                     actor_data->facing = next_angle;
-                    read_monster_script_entry(turn_angle, signed_target);
+                    read_monster_script_entry();
                 } else {
                     active_actor_command_code[0] = command->unk_01 & 0xF8;
                     command_state = active_actor_command_code[0];

@@ -48,7 +48,7 @@ void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_
     u16 frame_value;
     u8 divisor;
 
-    texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((S_800489F4_Obj *)obj, frame_group, frame_index);
+    texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((S_800489F4_Obj *)obj, frame_group, frame_index, slot_index);
     register_sprite_slot((S_80083110 *)obj, slot_index);
 
     frame_value = obj->unk0->value;

@@ -29,7 +29,7 @@ extern void select_record_entry_and_value(struct Dst *state, struct Elem *entrie
 extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
 s16 get_entity_effect_value();                 /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
+#include "engine/texture.h"
 extern void step_actor_animation(SpriteFrameState *entity, void *slot_index);             /* extern */
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
@@ -299,7 +299,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         if (!(input_flags & 8) && (input_status->activity_counts.parts.pending_movement_count == 0)
             && (input_status->trap_counts.parts.pending_trap_count == 0) && !(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x100000)
             && (input_status->activity_counts.parts.pending_action_count == 0) && !(input_flags & 0x2E01)) {
-            if ((set_monster_reachability_flag(input_flags) << 0x10) != 0) {
+            if ((set_monster_reachability_flag() << 0x10) != 0) {
                 create_record_with_effect_callback();
             }
             turn_flags = input_status->flags;
@@ -695,7 +695,7 @@ apply_pending_points:
             (*(u8 *)((u8 *)actor + 0x42)) = 0U;
             (*(u8 *)((u8 *)actor + 0x41)) = 0U;
             (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
-            if ((can_entity_gain_level(actor, pending_low) << 0x10) != 0) {
+            if ((can_entity_gain_level(actor) << 0x10) != 0) {
                 goto store_pending_actor;
             }
             next_link = (*(void **)((u8 *)actor + 0x5C));

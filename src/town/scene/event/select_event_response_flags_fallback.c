@@ -2,7 +2,7 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 
-extern void *scene_event_results[];
+
 extern char scene_string_fallback[];
 extern char D_8001B8CC[];
 extern char D_8001B9E0[];
@@ -10,7 +10,7 @@ extern char D_800206CC[];
 extern char event_string_fallback[];
 
 extern void *select_address_based_input(s32, s32);
-extern void *get_local_global_table(void);
+
 
 extern s32 func_8001A64C(s32);
 extern void func_8001A554(s32);

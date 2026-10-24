@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 #include "shared/game_work.h"
 
 typedef struct Inner {
@@ -15,11 +16,12 @@ typedef struct State {
 } State;
 
 extern u8 upper_draw_context[16];
-extern s32 AddPrim(s32 submission_target, void *entry);
+extern void AddPrim(void *submission_target, void *entry);
 
 // Appends a type-2 entry with adjusted coordinates and submits it for processing.
-void append_adjusted_type_two_entry(s32 x, s32 y, s32 *entryValue, s32 submissionTarget)
+void append_adjusted_type_two_entry(s32 x, s32 y, void *color_data, void *submissionTarget)
 {
+    s32 *entryValue = color_data;
     s32 maskedY = y & 0xFFFF;
     s32 adjustedY = maskedY + 0xC0;
     State *state = g_game_work.draw_buffer;

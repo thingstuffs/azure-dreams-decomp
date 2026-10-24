@@ -103,7 +103,7 @@ void queue_entity_resource_descriptor_pair(s32 first_value, s32 second_value, s1
 void queue_mode_selected_resource_table(void);
 
 /* read_combined_controller_buttons.c */
-s32 read_combined_controller_buttons(void);
+s32 read_combined_controller_buttons(s32 unused_mode);
 
 /* remove_marked_active_nodes.c */
 void remove_marked_active_nodes(void);

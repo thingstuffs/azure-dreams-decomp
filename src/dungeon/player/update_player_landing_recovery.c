@@ -24,7 +24,7 @@ extern u8 player_landing_frame_set[];
 
 extern void initialize_timed_motion_step(s32, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern s32 has_action_input_without_modifier(void);
+#include "dungeon/player/input.h"
 
 /* Advances an actor's timed animation state and selects its next behavior. */
 void update_player_landing_recovery(S_8008E504_0 *actor, ObjectPosition *action, SpriteAnimationTableView *sprite, ActorRecord *entity) {

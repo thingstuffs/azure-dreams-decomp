@@ -4,6 +4,7 @@
 /* Function contracts owned by src/dungeon/actor/state/ (decision 74; maintained by tools/headers). */
 #include "common.h"
 void create_default_state_object(s16 new_state);
+void set_actor_action_state_eight(void *record_data, void *unused_position, void *unused_context);
 
 s32 resolve_actor_floor_trap_once(void *action, s32 unused, void *source, void *target);
 struct S_800D491C_0;

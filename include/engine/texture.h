@@ -75,7 +75,7 @@ void *texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(
 void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output);
 
 /* texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags.c */
-void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(struct S_800489F4_Obj *object, s16 animation_index, s16 frame_index);
+void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(struct S_800489F4_Obj *object, s16 animation_index, s16 frame_index, s32 unused_context);
 
 /* texture_mark_unprocessed_type_node_sequences_set_low_six_bits.c */
 void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(struct S_80048B8C *entries);

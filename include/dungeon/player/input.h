@@ -7,6 +7,8 @@
 
 
 
+s32 has_action_input_without_modifier(void);
+
 void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameState *sprite, void *entity);
 
 #endif

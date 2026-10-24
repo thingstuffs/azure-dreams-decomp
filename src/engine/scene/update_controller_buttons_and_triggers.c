@@ -8,7 +8,7 @@
  * previous reading (old, +4) and the trg mask (+8). */
 
 
-extern s32 read_combined_controller_buttons(s32 a0);
+#include "engine/scene.h"
 
 /* Updates controller state, clears invalid readings, and records newly pressed buttons. */
 void update_controller_buttons_and_triggers(void)

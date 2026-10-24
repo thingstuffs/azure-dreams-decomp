@@ -42,7 +42,7 @@ typedef struct S_800CABA8_2 {
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
-extern void set_actor_action_state_eight(void *, s32, void *);
+#include "dungeon/actor/state.h"
 void *create_source_linked_fading_effect();
 extern u8 actor_motion_resume_address;
 

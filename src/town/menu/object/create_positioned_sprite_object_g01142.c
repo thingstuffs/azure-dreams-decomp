@@ -75,7 +75,7 @@ void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 
     *(s32 *)((u8 *)motion + 0x0) = x;
     *(s32 *)((u8 *)motion + 0x4) += velocity_y;
     *(s32 *)((u8 *)motion + 0x8) += velocity_z;
-    if (query_lowered_transform_position(motion, velocity_y, velocity_z) < *(s16 *)((u8 *)motion + 0xA)) {
+    if (query_lowered_transform_position(motion) < *(s16 *)((u8 *)motion + 0xA)) {
         *(s16 *)((u8 *)motion + 0xA) = query_lowered_transform_position(motion);
         counter = *(u16 *)((u8 *)entity + 0x90) - 1;
         *(u16 *)((u8 *)entity + 0x90) = counter;

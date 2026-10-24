@@ -23,7 +23,7 @@ typedef struct S_800489F4_Obj {
  * Selects the indexed animation frame and its data, saves the frame index as a byte, and clears
  * flag 0x40 while setting flag 0x20.
  */
-void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *object, s16 animation_index, s16 frame_index) {
+void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *object, s16 animation_index, s16 frame_index, s32 unused_context) {
     S_800489F4_Frame ***frame_table_ref = *object->unk28;
     S_800489F4_Frame **frame_table = *frame_table_ref;
     S_800489F4_Frame *frame_base = frame_table[animation_index];

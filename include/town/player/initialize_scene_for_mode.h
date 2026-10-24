@@ -161,7 +161,7 @@ extern void update_object_and_clear_status_fields(void *owner);
 extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode);
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
-extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
+#include "engine/texture.h"
 extern void step_actor_animation(void *, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 step_angle_12_toward(s16, s16, s32);

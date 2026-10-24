@@ -7,7 +7,7 @@ extern s32 gpu_scratch_buffer_base;
 extern s32 gpu_scratch_write_pointer;
 
 extern void queue_mode_selected_resource_table(void);
-extern s32 read_combined_controller_buttons(s32);
+#include "engine/scene.h"
 extern void load_scene_resource_group(s16);
 
 /* Selects the next mode, clears transient state, and dispatches mode setup. */

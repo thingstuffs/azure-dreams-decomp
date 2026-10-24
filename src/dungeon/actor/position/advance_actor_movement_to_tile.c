@@ -6,7 +6,7 @@
 
 
 extern void advance_status_timers(void *);
-extern void set_actor_action_state_eight(void *, s32, s32);
+#include "dungeon/actor/state.h"
 
 extern u8 actor_motion_resume_address;
 

@@ -11,7 +11,7 @@ extern s32 check_entity_relation();
 extern s8 find_active_rect_containing_point();
 extern s32 can_entity_gain_level();
 static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
-extern void set_actor_action_state_eight();
+#include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
     u8 unk_24;

@@ -19,7 +19,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
             entry = (u8 *)(index + (s32)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (scene_object_payload_alias == (s32)&D_800924EC) {
-                    object->vtable->func0();
+                    object->vtable->func0(object, owner, context, extra_ptr);
                     return 1;
                 }
             }
@@ -46,7 +46,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
         if ((active_script == (s32)&D_80091F64) ||
             (active_script == (s32)&D_800920F4) ||
             (active_script == (s32)&D_8009204C)) {
-            object->vtable->func18();
+            object->vtable->func18(object, owner, context, extra_ptr);
         }
     }
     return 0;

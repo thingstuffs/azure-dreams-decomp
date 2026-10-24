@@ -21,7 +21,7 @@ typedef struct S_80170A54_2 {
 
 
 
-void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(); /* extern */
+#include "engine/texture.h"
 extern void *primary_actor_record[3];
 extern u8 resident_globals_page[];
 

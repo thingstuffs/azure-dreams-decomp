@@ -290,7 +290,7 @@ extern void get_offset_map_cell_value_and_flags(u8, u8, s16, u16 *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void restore_inventory_and_familiars(void *, void *, u8, u8);
-extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s32, s32);
+#include "engine/texture.h"
 extern s32 get_entity_effect_value(void *, s32);
 extern s32 func_80042900(void *, s32);
 extern void select_record_entry_and_value(void *, void *, s32);

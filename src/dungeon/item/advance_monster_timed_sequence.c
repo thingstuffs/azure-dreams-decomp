@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item.h"
 #include "shared/sys_flags.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"

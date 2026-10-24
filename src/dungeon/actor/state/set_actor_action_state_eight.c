@@ -1,10 +1,12 @@
 #include "common.h"
+#include "dungeon/actor/state.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 
 
 /* Initialize the record state fields and update its flags. */
-void set_actor_action_state_eight(Rec_func_800C9F34_arg0 *record) {
+void set_actor_action_state_eight(void *record_data, void *unused_position, void *unused_context) {
+    Rec_func_800C9F34_arg0 *record = record_data;
     record->unk_9A.as_s8 = 8;
     record->unk_96 = 0x40;
     record->unk_9B = 0;
