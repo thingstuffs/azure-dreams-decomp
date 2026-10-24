@@ -24,14 +24,6 @@ typedef struct Row_818EC800_QuadTail {
     u8 flag;
 } Row_818EC800_QuadTail;
 
-#ifdef __mips__
-
-
-
-
-
-
-#endif
 
 /* Draws a transformed sprite as horizontally displaced scanline quads. */
 typedef struct Row_818ED25C_S_80024A5C_0 {

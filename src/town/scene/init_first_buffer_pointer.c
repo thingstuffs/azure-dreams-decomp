@@ -7,6 +7,7 @@ extern u8 D_80016A90[];
 extern u8 D_80016AF0[];
 extern u8 *D_80016D08[3];
 
+/* The PS1 link places this initialized block before the leaf in its retail text slot. */
 #ifdef __mips__
 typedef struct OverlayInitData {
     u32 field_000;
@@ -65,8 +66,7 @@ void init_first_buffer_pointer(void) {
     D_80016D08[0] = D_80016034;
 }
 
+/* The PS1 link needs the retail extent of the initialized block and following leaf. */
 #ifdef __mips__
-/* GCC 2.x does not emit ELF size metadata for C objects.  The retail symbol
- * spans this initialized block and the immediately following leaf. */
 __asm__(".size func_8094ECC4, 880");
 #endif

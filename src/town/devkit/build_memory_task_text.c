@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/devkit/memory_task.h"
 
 typedef struct S_802EE3A0_2 {
     u8 pad_00[0x4];
@@ -31,12 +31,12 @@ typedef struct S_802EE3A0_0 {
 } S_802EE3A0_0;
 
 typedef struct S_802EE3A0_1 {
-    s32 unk_00;
+    void *unk_00;
 } S_802EE3A0_1;
 
 /* Builds count-dependent text and sets its display position. */
-void build_memory_task_text(s32 panel_addr) {
-    s32 panel_base;
+void build_memory_task_text(void *panel) {
+    u8 *panel_base;
     s32 count;
     Local64 count_text;
     Local16 number_text;
@@ -46,10 +46,10 @@ void build_memory_task_text(s32 panel_addr) {
     s32 line_offset;
     s32 text_offset;
     S_802EE3A0_1 *text_entry;
-    s32 join_dst;
+    void *join_dst;
     void *join_src;
 
-    panel_base = panel_addr;
+    panel_base = panel;
     count = get_table_entry_by_flag();
     if (count < 3) {
         func_80051B50(panel_base + 0x80, D_804006C4, 1);
@@ -71,7 +71,7 @@ void build_memory_task_text(s32 panel_addr) {
         line_offset = line_index * 4;
         text_entry = ((S_802EE3A0_0 *)((panel_base + line_offset)))->unk_B18;
         text_offset = (line_index * 0x108) + 0x80;
-        text_entry->unk_00 = (s32) (panel_base + text_offset);
+        text_entry->unk_00 = panel_base + text_offset;
         ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)text_entry)->unk_04))->unk_08 = 0xA9;
         ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)text_entry)->unk_04))->unk_0A = (s16) ((line_index * 0x10) + 0x110);
         line_index += 1;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/history.h"
 
 typedef struct GroupLimit_8001D048 {
     s16 limit;
@@ -8,7 +9,6 @@ typedef struct GroupLimit_8001D048 {
 } GroupLimit_8001D048;
 
 
-extern s32 get_indexed_vertex_and_trace(s32, s32, s32);
 extern s32 record_value_table_contains_first_byte(s32);
 extern GroupLimit_8001D048 D_8001902C[][3];
 

@@ -3,6 +3,5 @@ src/dungeon/effect/sprite/create_radial_effect_from_source.c	define
 src/dungeon/func_80F908F4.c	define,relink
 src/dungeon/func_80F90A60.c	define,relink
 src/dungeon/func_8127E460.c	relink
-src/dungeon/func_8184A800.c	define
 src/dungeon/func_8184AB74.c	relink
 src/town/func_800156DC.c	relink

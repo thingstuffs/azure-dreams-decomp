@@ -83,14 +83,8 @@ s32 clear_actor_action_markers(void *origin, void *actor)
                 return 0;
             }
             {
-#ifdef __mips__
                 s16 occupied_count;
                 register s32 slot_index;
-#else
-                s32 slot_index;
-                s16 occupied_count;
-                s32 *slot_scan;
-#endif
                 slot_index = 0;
                 occupied_count = slot_index;
                 item_slot = (u8 *)0x80010000;

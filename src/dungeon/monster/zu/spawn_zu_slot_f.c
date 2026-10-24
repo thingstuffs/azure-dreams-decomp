@@ -43,10 +43,7 @@ extern u8 zu_frame_set_6[];
 extern u8 D_8016EAFC[];
 extern u8 D_8016B138[];
 
-void *spawn_zu_slot_f(s16, s16, s16, s16)
-#ifdef __mips__
-#endif
-;
+void *spawn_zu_slot_f(s16, s16, s16, s16);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Zu with default frames at D_8016EAD4, applies spawn flags, and attempts valid tile placement. */

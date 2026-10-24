@@ -155,11 +155,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     void *image_base;
     void *resource_base;
     s32 actor_or_corner;
-#ifdef __mips__
     S_func_818DA800_7 *prim;
-#else
-    S_func_818DA800_7 *prim;
-#endif
     s32 actor_header;
     S_func_818DA800_8 *child_state;
     s16 timer;

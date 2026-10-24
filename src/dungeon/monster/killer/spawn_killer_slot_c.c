@@ -48,10 +48,7 @@ void func_80158EA8(ActionState *actor, void *context, ActorSprite *sprite, Entit
 extern M2C_UNK D_8015C038;
 extern M2C_UNK D_8015C088;
 
-void *spawn_killer_slot_c(s16, s32, s32, s16)
-#ifdef __mips__
-#endif
-;
+void *spawn_killer_slot_c(s16, s32, s32, s16);
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
 /* Creates Killer with default frames at D_8015C038, applies spawn flags, and attempts valid tile

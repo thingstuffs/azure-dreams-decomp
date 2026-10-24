@@ -81,14 +81,6 @@ typedef struct {
     u8 *direction_frames;
 } CallbackActorSprite;
 
-#ifndef __mips__
-static const u32 D_80F0928C[]
-__attribute__((section(".text.update_entity_callbacks_and_floor"))) = {
-    0x3C028008,
-    0x94423462,
-};
-#endif
-
 /* Update entity callbacks, appearance, movement, and floor contact. */
 void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, SpriteFrameState *entity_part)
 {

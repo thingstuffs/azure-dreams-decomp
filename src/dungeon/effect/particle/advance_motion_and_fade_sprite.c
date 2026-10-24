@@ -160,15 +160,19 @@ typedef struct S_func_81856800_11 {
     u16 unk_08;
 } S_func_81856800_11;
 
-#ifdef __mips__
-typedef union {
+typedef union SignedProduct {
     long long value;
     struct {
+/* GCC 2.7.2 orders 64-bit words high first; the native i686 port orders them low first. */
+#ifdef __mips__
         s32 hi;
         u32 lo;
-    } words;
-} MipsProduct;
+#else
+        u32 lo;
+        s32 hi;
 #endif
+    } words;
+} SignedProduct;
 
 extern s32 rand(void);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -194,19 +198,13 @@ void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = 
 /* Updates a staged movement effect, spawning particles and applying its final action. */
 void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 {
-#ifdef __mips__
     S_func_81856800_2 *motion;
-#else
-    S_func_81856800_2 *motion;
-#endif
     S_func_81856800_3 *object;
     MovingTile *owner;
     S_func_81856800_4 *object_base;
     S_func_81856800_4 *effect;
     S_func_81856800_6 *part;
-#ifdef __mips__
     S_func_81856800_7 *particle_data;
-#endif
     EffectObjectPayloadView *model;
     S_func_81856800_11 *src_point;
     s16 coord_offset[3];
@@ -234,9 +232,6 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
 
     if (state != 0 && state != 5) {
         {
-#ifndef __mips__
-            S_func_81856800_7 *particle_data;
-#endif
             s32 frame_index;
             u16 flags;
 
@@ -451,11 +446,7 @@ case2_spawn_loop:
     case 3:
     {
         s32 point_offset;
-#ifdef __mips__
         S_func_81856800_11 *dst_point;
-#else
-        S_func_81856800_11 *dst_point;
-#endif
 
         if (action->unk_50.s16_50 < 6) {
             effect = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
@@ -482,16 +473,13 @@ case2_spawn_loop:
                 part->unk_42 = GetClut(0xA0, 0x1F7);
                 part->unk_46 = 6;
                 index = 1;
-#ifdef __mips__
                 page_or_magic = 0x19C2D14F;
-#endif
                 point_offset = 0;
                 do {
                     dst_point = (S_func_81856800_11 *)((u8 *)part + index * 8);
                     src_point = (S_func_81856800_11 *)((u8 *)part + (index - 1) * 8);
-#ifdef __mips__
                     {
-                        MipsProduct product;
+                        SignedProduct product;
                         s32 mod_value;
                         s32 mod_sign;
                         s32 mod_quotient;
@@ -508,7 +496,7 @@ case2_spawn_loop:
                         dst_point->unk_04 = mod_quotient;
                     }
                     {
-                        MipsProduct product;
+                        SignedProduct product;
                         s32 mod_value;
                         s32 mod_sign;
                         s32 mod_quotient;
@@ -525,13 +513,6 @@ case2_spawn_loop:
                         mod_quotient -= 80;
                         dst_point->unk_06 = mod_quotient;
                     }
-#else
-                    dst_point->unk_04 =
-                        src_point->unk_04 + (rand() % 159) - 80;
-                    dst_point->unk_06 =
-                        src_point->unk_06 + (rand() % 159) - 80;
-
-#endif
                     dst_point->unk_08 =
                         src_point->unk_08 - ((rand() & 0x1F) + 20);
                     index++;
@@ -560,10 +541,6 @@ case2_spawn_loop:
 
     case 4:
     {
-#ifndef __mips__
-        S_func_81856800_7 *particle_data;
-#endif
-
         effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
             particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
@@ -722,16 +699,6 @@ typedef struct DungeonTag {
 #define PRIM_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define PRIM_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
-#ifdef __mips__
-typedef union DungeonSignedProduct {
-    signed long long value;
-    struct {
-        s32 hi;
-        u32 lo;
-    } word;
-} DungeonSignedProduct;
-#endif
-
 /* Project linked shapes and queue four textured quads for each visible shape. */
 s32 project_linked_shape_quads(void *shape_data)
 {
@@ -744,10 +711,8 @@ s32 project_linked_shape_quads(void *shape_data)
     s32 width_divisor;
     s32 point_index;
     s32 scaled_depth;
-#ifdef __mips__
-    DungeonSignedProduct depth_product;
+    SignedProduct depth_product;
     s32 depth_sign;
-#endif
 
     do {
         shape = (DungeonShape *)shape_data;
@@ -768,14 +733,10 @@ s32 project_linked_shape_quads(void *shape_data)
         width_divisor = shape->unk46;
         y_span = abs(y_span);
         y_span = y_span / (width_divisor + 2);
-#ifdef __mips__
         depth_product.value = (signed long long)depth_or_tag_mask * 0x66666667;
         depth_sign = depth_or_tag_mask >> 31;
-        scaled_depth = depth_product.word.hi >> 1;
+        scaled_depth = depth_product.words.hi >> 1;
         depth_or_tag_mask = scaled_depth - depth_sign;
-#else
-        depth_or_tag_mask = depth_or_tag_mask / 5;
-#endif
         half_width = y_span;
 
         if ((u32)depth_or_tag_mask < 0x1E0) {

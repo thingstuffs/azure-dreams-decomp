@@ -8,6 +8,7 @@
 /* inferred-strong G00588: item_query_checks_g00588; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, PD:town/engine:800D1054. */
 #include "common.h"
+#include "town/player/carry_item.h"
 #include "m2c_compat.h"
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "script_symbols.h"
@@ -64,8 +65,6 @@ extern struct {
     int pad[2];
 } active_node_list_head;
 /* ((S_800A9D00_1 *)base)->unk_2C in retry_sound_for_linked_item_and_remove_carry_item */
-extern s32 get_linked_carry_item_data();
-extern s32 plt_carry_item_del_ext();
 extern s32 retry_sound_sequence_when_ready();
 extern s8 scene_object_payload_alias[0x30];
 extern u8 D_8006C894[];

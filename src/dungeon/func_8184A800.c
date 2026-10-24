@@ -21,6 +21,7 @@ extern void func_800258B0(void);
 
 typedef void (*Callback)(void);
 
+/* The PS1 image stores this callback table in the function's text slot. */
 #ifdef __mips__
 static Callback const func_8184A800_table[]
 __attribute__((section(".text.func_8184A800"))) = {
@@ -44,13 +45,10 @@ __attribute__((section(".text.func_8184A800"))) = {
     func_800258B0,
 };
 
-#define FUNC_8184A800_BODY func_8184A800
-#else
-#define FUNC_8184A800_BODY func_8184A800
 #endif
 
 /* Apply a random number of updates to the target and propagate its status flags. */
-void FUNC_8184A800_BODY(void *owner, void *unused, SpriteFrameState *target)
+void func_8184A800(void *owner, void *unused, SpriteFrameState *target)
 {
     s32 random_value;
     s16 update_count;

@@ -11,14 +11,6 @@ typedef struct Row_818FE800_Target {
     u8 field26;
 } Row_818FE800_Target;
 
-#ifdef __mips__
-
-
-
-
-
-
-#endif
 
 /* Roll the target's 0x3 resistance against the attack level: on a hit, halve its 0x26 counter and run effect 0x53 with that amount, otherwise apply the miss record and run 0x53 with -1. */
 s32 get_unused_text_buffer(void);

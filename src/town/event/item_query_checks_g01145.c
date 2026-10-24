@@ -18,7 +18,7 @@ s32 find_sentinel_table_value_index(s32 target_value) {
 
 /* Passes the selected table entry to test_resident_bitmap_bit. */
 s32 test_selected_resident_flag(s32 table_index) {
-    test_resident_bitmap_bit(D_800D1064[table_index]);
+    return test_resident_bitmap_bit(D_800D1064[table_index]);
 }
 
 /* Returns the selected query result, testing for zero for check type 3. */

@@ -1,7 +1,6 @@
-#include "common.h"
+#include "town/player/carry_item.h"
 #include "shared/object_node.h"
 
-extern u32 get_linked_carry_item_data(void *record, s32 first_value, s32 second_value);
 extern void initialize_record_and_select_active_data(void *record, s32 setup_value, s32 init_value);
 
 extern s32 scene_object_payload_alias;

@@ -379,12 +379,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 effect->unk_20.parts.unk_21 = tile_coord;
             }
             {
-#ifdef __mips__
                 s32 owner_tile;
-#else
-                s32 owner_tile;
-                s32 state;
-#endif
                 s32 tile_distance;
                 owner_tile = owner->unk_70.parts.unk_72.s8;
                 state = target_data->unk_24;

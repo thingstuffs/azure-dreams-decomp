@@ -60,6 +60,7 @@ const struct CallbackBlock queue_projected_translucent_pixel __attribute__((sect
     }
 };
 
+/* The PS1 link needs the retail extent of the callback block and following code. */
 #ifdef __mips__
 __asm__(".size queue_projected_translucent_pixel, 644");
 #endif

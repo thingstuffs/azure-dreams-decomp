@@ -712,9 +712,6 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         position = ((u8 *)(((S_8187B1F4_6 *)tail_2)->unk_08));
         orientation = point_packet;
     } while (1);
-#ifndef __mips__
-    hard_zero = 0;
-#endif
     return hard_zero;
 }
 #include "modules/dungeon_native_abi.h"
