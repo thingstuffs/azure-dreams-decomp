@@ -8,7 +8,7 @@
 
 extern u8 D_800E2082[];
 
-extern s32 begin_deferred_item_action(void *, u8 *, u8 *, void *);
+#include "dungeon/player/item.h"
 extern void display_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void place_actor_item(void *, s32);

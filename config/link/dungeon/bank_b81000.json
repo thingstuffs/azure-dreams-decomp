@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F5D1800: img_b81244_80152a44; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80B6107C",
+      "home": "dungeon/func_80B4F07C",
+      "tu": "src/dungeon/monster/arachne/spawn_arachne.c",
+      "foff": "0xB8107C",
+      "vma": "0x8015287C",
+      "size": 456,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80164A44": "0x80152A44",
+        "0x80169A54": "0x80157A54",
+        "0x80169A9C": "0x80157A9C",
+        "0x80164E70": "0x80152E70"
+      }
+    },
+    {
       "row": "dungeon/func_80B61244",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

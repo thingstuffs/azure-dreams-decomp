@@ -16,7 +16,7 @@ typedef struct S_801720D8_1 {
 } S_801720D8_1;   /* work in start_actor_hit_reaction */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 has_pending_dungeon_activity(void *);
+#include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern u8 viper_frame_set_1[];
 

@@ -934,10 +934,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
-      "foff": "0x261bb4",
+      "row": "main/func_80011BB4",
+      "home": "main/func_80013C00",
+      "tu": "src/frontend/libcard/message/init_card_choice_templates.c",
+      "foff": "0x261BB4",
+      "vma": "0x80024BB4",
       "size": 148,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
     },
     {
       "kind": "code_region",
@@ -1537,10 +1540,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
-      "foff": "0x2641c0",
+      "row": "main/func_800141C0",
+      "home": "main/func_80010730",
+      "tu": "src/frontend/libcard/message/init_card_continue_templates.c",
+      "foff": "0x2641C0",
+      "vma": "0x800271C0",
       "size": 148,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
     },
     {
       "kind": "code_region",
@@ -1813,13 +1819,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 28864,
+    "proven_code": 29160,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5803
+    "unknown": 5507
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

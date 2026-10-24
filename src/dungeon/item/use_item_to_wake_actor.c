@@ -11,7 +11,7 @@
 
 
 extern void clear_slots_of_type(void *entity, s32 value);
-extern void begin_deferred_item_action(void *entity_ptr, void *ptr0, void *ptr1, void *entity);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32 event);
 extern void display_formatted_context_message(void *ptr);
 extern void place_actor_item(void *entity, s32 event);

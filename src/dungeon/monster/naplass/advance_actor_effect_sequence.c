@@ -45,7 +45,7 @@ s32 register_node();
 void select_sprite_entry();
 s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
-s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 s32 play_sound_if_enabled();
 s32 generate_random_value();
 extern void on_actor_status_updated(void *actor);

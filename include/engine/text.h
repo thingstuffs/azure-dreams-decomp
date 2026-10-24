@@ -32,8 +32,8 @@ char *pad_double_byte_field_and_append_marker(u8 *dst, s32 field_width);
 void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 
 /* format_int_zero_padded.c */
-char *format_int_zero_padded(int value, unsigned short width, char *buf, int unused);
-char *func_8004E5E8(int value, unsigned short width, char *buf, int unused);
+char *format_int_zero_padded(int value, unsigned short width, char *buf);
+char *func_8004E5E8(int value, unsigned short width, char *buf);
 
 /* format_reversed_unsigned_decimal.c */
 char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad);

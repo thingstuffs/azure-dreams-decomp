@@ -18,7 +18,7 @@ typedef struct DungeonObject {
 extern u8 D_800E15BB[];
 extern u8 D_800E15E5[];
 
-extern void begin_deferred_item_action(void *, void *, void *, void *);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);

@@ -44,7 +44,7 @@ s32 find_active_rect_containing_point();                           /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 void tick_monster_spawn_timer();                            /* extern */
 s32 can_entity_gain_level();                      /* extern */
-s16 has_pending_actor_or_turn_action();                         /* extern */
+#include "dungeon/player/object/action_state.h"
 s32 lookup_definition_pair_value();                          /* extern */
 s32 advance_status_timers();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */

@@ -35,7 +35,7 @@ void *(*load_monster_resource_data())(M2C_UNK, s8, s8, s16); /* extern */
 s32 retain_spawn_resource();                 /* extern */
 s32 find_or_retain_sprite_resource_slot();                     /* extern */
 void decrement_monster_entry_count();                 /* extern */
-s32 has_pending_dungeon_activity();                         /* extern */
+#include "dungeon/player/object/action_state.h"
 void mark_owned_linked_actor_actions();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */

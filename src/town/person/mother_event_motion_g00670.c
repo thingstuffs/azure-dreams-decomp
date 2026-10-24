@@ -41,7 +41,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
 
 /* Reset the object callback when the shared countdown expires after a zero check result. */
 void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg) {
-    if (select_object_setup_path(object, motion, init_data, check_arg) == 0) {
+    if (select_object_setup_path(object, motion, init_data) == 0) {
         if (--mother_event_ticks.value <= 0) {
             initialize_mother_event_with_timer_16(object, motion, init_data);
         }

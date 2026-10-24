@@ -29,6 +29,15 @@
   },
   "entries": [
     {
+      "row": "dungeon/func_80D1D074",
+      "home": "dungeon/func_80D17000",
+      "tu": "src/dungeon/monster/noise/damp_and_fade_effect_sprite.c",
+      "foff": "0xD3D074",
+      "vma": "0x80164874",
+      "size": 604,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "dungeon/func_80D1D2D0",
       "home": "dungeon/func_80D112D0",
       "tu": "src/dungeon/monster/noise/update_effect_visuals_and_lifetime.c",

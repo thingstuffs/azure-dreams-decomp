@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F10F800: img_1043278_80152a78; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8102308C",
+      "home": "dungeon/func_8100508C",
+      "tu": "src/dungeon/monster/garuda/create_configured_actor_effect.c",
+      "foff": "0x104308C",
+      "vma": "0x8015288C",
+      "size": 492,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80170A78": "0x80152A78",
+        "0x80174880": "0x80156880",
+        "0x801748E0": "0x801568E0",
+        "0x80171058": "0x80153058"
+      }
+    },
+    {
       "row": "dungeon/func_81023278",
       "home": "dungeon/func_81005278",
       "tu": "src/dungeon/monster/garuda/update_object_movement_facing_terrain.c",

@@ -11,6 +11,8 @@ s32 CdControlF(u8, u8 *);
 s32 CdInit(void);
 void * CdIntToPos(s32, void *);
 s32 CdPosToInt(void *);
+/* Resident address alias used by the movie overlay. */
+s32 func_80061350(void *location);
 s32 CdRead(s32, u32 *, s32);
 s32 CdRead2(s32);
 s32 CdReadSync(s32, u8 *);

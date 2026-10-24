@@ -1133,8 +1133,8 @@ extern void update_actor_proximity_flag(void *source, void *state, s32 lower_lim
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s32 try_claim_dungeon_action_slot(void *);
-extern s32 has_pending_dungeon_activity(void *);
-extern s32 has_pending_actor_or_turn_action(void *);
+#include "dungeon/player/object/action_state.h"
+
 extern s32 check_entity_interaction_compatibility();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 advance_status_timers(void *);

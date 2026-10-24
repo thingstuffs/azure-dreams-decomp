@@ -3,6 +3,7 @@
 
 /* Function contracts owned by src/dungeon/player/item/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+void begin_deferred_item_action(void *record_data, void *unused_position, void *unused_sprite, void *unused_actor);
 void *begin_holding_item(void *actor, s32 action, void *target, void *item);
 void copy_item_category_damage(u8 *entry, u8 *item);
 void snapshot_inventory_familiar_records(void);

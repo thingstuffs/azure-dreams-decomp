@@ -17,6 +17,21 @@
       "size": 796
     },
     {
+      "row": "dungeon/func_80C1B3B8",
+      "home": "dungeon/func_80C153B8",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "foff": "0xC3B3B8",
+      "vma": "0x8016ABB8",
+      "size": 2032,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x801713A8": "0x8016B3A8",
+        "0x80174504": "0x8016E504",
+        "0x8017449C": "0x8016E49C",
+        "0x80174494": "0x8016E494"
+      }
+    },
+    {
       "row": "dungeon/func_80C3BBA8",
       "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "home": "dungeon/func_80C15BA8",

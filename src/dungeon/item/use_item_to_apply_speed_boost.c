@@ -9,7 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-void begin_deferred_item_action(); /* extern */
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 s16 set_or_clear_actor_status_slot();    /* extern */

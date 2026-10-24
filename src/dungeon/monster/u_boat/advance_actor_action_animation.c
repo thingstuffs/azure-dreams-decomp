@@ -22,7 +22,7 @@ typedef struct S_80174788_0 {
 
 extern void select_sprite_entry();
 extern s32 check_entity_relation();
-extern s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 extern void on_actor_status_updated();
 extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move();

@@ -305,6 +305,15 @@
       "size": 8
     },
     {
+      "row": "dungeon/func_812543C0",
+      "home": "dungeon/func_809217A4",
+      "tu": "src/dungeon/effect/sprite/play_transition_sound_and_reset_status.c",
+      "foff": "0x12743C0",
+      "vma": "0x80173BC0",
+      "size": 40,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "dungeon/func_8125456C",
       "tu": "src/dungeon/monster/beldo/entry_update_actor_status_and_food.c",
       "home": "dungeon/func_8125456C",

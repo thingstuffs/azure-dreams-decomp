@@ -59,7 +59,7 @@ void *clear_byte_and_advance();                         /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 u8 *append_typed_formatted_value();                 /* extern */
 s32 append_entity_display_text();                     /* extern */
-s32 has_pending_dungeon_activity();                          /* extern */
+#include "dungeon/player/object/action_state.h"
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 generate_random_value();                                /* extern */
 void *func_80170908();                /* extern */

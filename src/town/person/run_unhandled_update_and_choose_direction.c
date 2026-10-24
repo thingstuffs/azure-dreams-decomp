@@ -10,7 +10,7 @@ void choose_random_movement_direction();    /* extern */
 void run_unhandled_update_and_choose_direction(Rec_func_80094268_arg0 *entity, void *motion, void *context, s32 update_arg) {
     u16 ticks_left;
 
-    if (select_object_setup_path(entity, motion, context, update_arg) == 0) {
+    if (select_object_setup_path(entity, motion, context) == 0) {
         ticks_left = entity->unk_6C.as_u16 - 1;
         entity->unk_6C.as_u16 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {

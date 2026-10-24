@@ -30,7 +30,7 @@ s32 read_monster_script_entry();                    /* extern */
 void *select_item_record_pointer();                      /* extern */
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
-s32 has_pending_actor_or_turn_action();                          /* extern */
+#include "dungeon/player/object/action_state.h"
               /* extern */
 s32 lookup_definition_pair_value();                          /* extern */
 s32 generate_random_value(void);                          /* extern */

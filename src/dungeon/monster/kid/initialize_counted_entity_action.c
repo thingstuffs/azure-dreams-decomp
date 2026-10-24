@@ -8,7 +8,7 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern s32 has_pending_dungeon_activity(void *other);
+#include "dungeon/player/object/action_state.h"
 extern s16 actor_action_reset_value;
 extern u8 D_80174948[12];
 

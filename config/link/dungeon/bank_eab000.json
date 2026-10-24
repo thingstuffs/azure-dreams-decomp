@@ -9,6 +9,18 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F2C5800: img_eaf314_80174b14, sweep_0EAB2F4; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E8B108",
+      "home": "dungeon/func_80E91000",
+      "tu": "src/dungeon/monster/picket/clear_actor_action_markers.c",
+      "foff": "0xEAB108",
+      "vma": "0x80170908",
+      "size": 492,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x8016EFE4": "0x80174FE4"
+      }
+    },
+    {
       "row": "dungeon/func_80E8B2F4",
       "tu": "src/dungeon/monster/picket/spawn_picket.c",
       "home": "dungeon/func_80E8B2F4",

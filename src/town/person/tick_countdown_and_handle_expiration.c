@@ -7,7 +7,7 @@ void func_800CDFF8(void *, void *, void *);    /* extern */
 void tick_countdown_and_handle_expiration(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 update_arg) {
     u16 countdown;
 
-    if (select_object_setup_path(object, context_a, context_b, update_arg) == 0) {
+    if (select_object_setup_path(object, context_a, context_b) == 0) {
         countdown = object->unk_6C.as_u16 - 1;
         object->unk_6C.as_u16 = countdown;
         if ((countdown << 0x10) <= 0) {

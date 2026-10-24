@@ -14,7 +14,7 @@ extern u8 D_800E0F65[];
 extern u8 D_800E0F85[];
 
 extern void apply_entity_effects(void *);
-extern void begin_deferred_item_action(void *, void *, void *, void *);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);

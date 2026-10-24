@@ -60,6 +60,20 @@
       "evidence": "LL3a attestation sha256:cbb8e523b0279fe7cbd6d420edc0672064e475b47f65df018097336b16289dd3; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "town/func_806CB1D8",
+      "home": "town/func_8074C8F8",
+      "tu": "src/town/scene/flags/process_entry_linked_five.c",
+      "foff": "0x64B1D8",
+      "vma": "0x800161D8",
+      "size": 84,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80017430": "0x80017628",
+        "0x8001687C": "0x80016A74",
+        "0x80016924": "0x80016B1C"
+      }
+    },
+    {
       "row": "town/func_806CB22C",
       "home": "town/func_8032BFE8",
       "tu": "src/town/scene/dispatch_first.c",

@@ -209,6 +209,27 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_80951AF0",
+      "home": "town/func_806D3434",
+      "tu": "src/town/scene/object/init_object_set_runtime_pointers_rev_b.c",
+      "foff": "0x8D1AF0",
+      "vma": "0x80016AF0",
+      "size": 128,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x800160B0": "0x80016ED4",
+        "0x800160B2": "0x80016ED6",
+        "0x80016510": "0x80016460",
+        "0x80016098": "0x8001601C",
+        "0x80016E48": "0x80016D10",
+        "0x80016E40": "0x80016D08",
+        "0x80016F88": "0x80016E50",
+        "0x800168B4": "0x80016770",
+        "0x80016FC8": "0x80016E90",
+        "0x8001700C": "0x80016ED4"
+      }
+    },
+    {
       "row": "town/func_80951B70",
       "tu": "src/town/scene/hooks/get_shared_entry_buffer_ab.c",
       "home": "town/func_8094EB74",

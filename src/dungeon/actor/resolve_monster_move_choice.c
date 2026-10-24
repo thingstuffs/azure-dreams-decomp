@@ -3,7 +3,7 @@
 
 extern s16 relink_entity_and_clear_high_flag(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16, s16, void *);
 extern void update_actor_status_and_mp(ActorRecord *);
-extern s32 has_pending_dungeon_activity(ActorRecord *);
+#include "dungeon/player/object/action_state.h"
 extern void func_80171854(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move) {

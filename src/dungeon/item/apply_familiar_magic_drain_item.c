@@ -10,7 +10,7 @@
 #include "m2c_compat.h"
 #include "dungeon/player.h"
 
-void begin_deferred_item_action(); /* extern */
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message();                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */

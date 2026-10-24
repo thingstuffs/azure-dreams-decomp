@@ -284,7 +284,7 @@ void wait_for_movie_strip_completion(MovieEntity *entity, s32 unused) {
 
 /* Start operation 0x15 and wait for the 0x1C0 completion check. */
 void start_movie_cd_stream_and_wait_ready(void *playback_state) {
-    Control_CD(0x15, func_80061350(), 0);
+    Control_CD(0x15, func_80061350(playback_state), 0);
     drain_cd_command_queue();
     do {
 

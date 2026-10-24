@@ -8,6 +8,24 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F74D000: r121c3_8D6FA8, r121nd_8D6E64, sweep_8D33D8",
   "entries": [
     {
+      "row": "town/func_809531C8",
+      "home": "town/func_808166F4",
+      "tu": "src/town/minigame/object/create_scene_object_with_byte_payload.c",
+      "foff": "0x8D31C8",
+      "vma": "0x800201C8",
+      "size": 148,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
+      "row": "town/func_8095325C",
+      "home": "town/func_80816788",
+      "tu": "src/town/minigame/object/create_scene_object_with_record_payload.c",
+      "foff": "0x8D325C",
+      "vma": "0x8002025C",
+      "size": 164,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "town/func_808B408C",
       "tu": "src/town/minigame/object/create_scene_object_with_byte_payload.c",
       "home": "town/func_808166F4",

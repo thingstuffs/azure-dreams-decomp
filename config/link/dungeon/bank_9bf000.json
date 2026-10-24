@@ -33,6 +33,18 @@
       "size": 440
     },
     {
+      "row": "dungeon/func_809A0054",
+      "home": "dungeon/func_80976434",
+      "tu": "src/dungeon/monster/hikewne/select_movement_direction_and_advance.c",
+      "foff": "0x9C0054",
+      "vma": "0x80171854",
+      "size": 1864,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x8017237C": "0x80171F9C"
+      }
+    },
+    {
       "row": "dungeon/func_809A079C",
       "tu": "src/dungeon/monster/kewne/select_and_start_target_action.c",
       "home": "dungeon/func_809A079C",

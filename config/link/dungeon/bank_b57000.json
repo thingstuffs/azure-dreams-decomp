@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F5FB800: img_b57054_80152854, r121_followup_B59804; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80B37054",
+      "home": "dungeon/func_80B19054",
+      "tu": "src/dungeon/monster/ashra/spawn_ashra.c",
+      "foff": "0xB57054",
+      "vma": "0x80152854",
+      "size": 468,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80170A28": "0x80152A28",
+        "0x801739C0": "0x801559C0",
+        "0x80173A08": "0x80155A08",
+        "0x80170E54": "0x80152E54"
+      }
+    },
+    {
       "row": "dungeon/func_80B37228",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

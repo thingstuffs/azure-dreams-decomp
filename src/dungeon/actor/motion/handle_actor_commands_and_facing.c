@@ -23,7 +23,7 @@ extern s32 begin_actor_attack();
 extern void finish_paralyzed_actor_action();
 extern void *advance_monster_timed_sequence();
 extern void read_monster_script_entry();
-extern s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 
 extern s32 lookup_definition_pair_value();
 extern void play_sound_if_enabled();

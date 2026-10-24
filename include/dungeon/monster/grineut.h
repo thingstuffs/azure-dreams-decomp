@@ -329,7 +329,7 @@ s32 prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 u32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target();
-s32 has_pending_dungeon_activity();
+#include "dungeon/player/object/action_state.h"
 s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
@@ -357,7 +357,7 @@ s32 func_80042900();
 void clear_slots_of_type();
 void func_80042B68();
 s32 get_tile_chebyshev_distance();
-s32 has_pending_actor_or_turn_action();
+
 s32 update_actor_transform_from_parent();
 s32 update_thrown_actor_travel();
 s32 interpolate_actor_to_terrain_tile();

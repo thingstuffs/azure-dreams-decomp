@@ -13,7 +13,7 @@ s32 test_resident_bit();
 s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
-s32 has_pending_dungeon_activity();
+#include "dungeon/player/object/action_state.h"
 extern u16 camera_depth_index[5];
 extern s16 camera_depth_presets[];
 s32 queue_view_slot(s32 enable);

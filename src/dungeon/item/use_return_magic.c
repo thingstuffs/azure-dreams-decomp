@@ -19,7 +19,7 @@ extern u8 D_800E15FE[];
 extern u8 D_800E1677[];
 
 s32 test_resident_bit(s32);
-void begin_deferred_item_action(Entity *, void *, void *, Entity *);
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state(s32);
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);

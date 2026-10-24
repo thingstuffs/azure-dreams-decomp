@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
-s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 
 typedef struct S_func_8009E038_0 {
     u8 pad_00[4];

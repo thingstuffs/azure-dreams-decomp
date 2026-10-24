@@ -17,7 +17,7 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void begin_deferred_item_action(void *entity, void *first_ptr, void *second_ptr, void *entity_again);          /* extern */
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */

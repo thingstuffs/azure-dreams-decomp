@@ -27,7 +27,7 @@ extern u8 D_800E0E50[];
 
 extern s32 format_unsigned_double_byte_decimal(s16, s32);
 extern void apply_entity_effects(DungeonObject *);
-extern void begin_deferred_item_action(DungeonObject *, u8 *, u8 *, DungeonObject *);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(u8 *);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);

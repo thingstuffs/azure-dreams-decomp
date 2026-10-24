@@ -19,7 +19,7 @@ void update_turning_motion_and_timer(void *actor, void *position, void *update_p
     u16 angle;
     u16 timer;
 
-    if (select_object_setup_path(actor, position, update_param, check_param) != 0) {
+    if (select_object_setup_path(actor, position, update_param) != 0) {
         return;
     }
 

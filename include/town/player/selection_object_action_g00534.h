@@ -55,7 +55,7 @@ typedef struct S_80093894_4 {
 extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);
 extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
-extern void set_item_selection_data_pointer(void *object, void *position, void *callback_data);
+#include "town/player/action_initializers.h"
 extern void *create_configured_object(void *context, IntVector3 *position, s32 mode);
 extern s32 get_first_free_four_byte_entry_index_n_1_none_available(void *ptr, s32 value);
 extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(s32 state_index);

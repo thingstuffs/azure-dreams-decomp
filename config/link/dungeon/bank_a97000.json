@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6D3800: img_a97054_8016a854, img_a99a38_8016d238, r121_followup_A99E5C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80A77054",
+      "home": "dungeon/func_80A7D054",
+      "tu": "src/dungeon/monster/grineut/spawn_grineut.c",
+      "foff": "0xA97054",
+      "vma": "0x8016A854",
+      "size": 468,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80164A28": "0x8016AA28",
+        "0x80168148": "0x8016E148",
+        "0x80168190": "0x8016E190",
+        "0x80164E54": "0x8016AE54"
+      }
+    },
+    {
       "row": "dungeon/func_80A77228",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

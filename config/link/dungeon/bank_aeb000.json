@@ -21,6 +21,15 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
+      "row": "dungeon/func_80ACB284",
+      "home": "dungeon/func_80AC5284",
+      "tu": "src/dungeon/monster/saber/update_shrinking_sprite_effect.c",
+      "foff": "0xAEB284",
+      "vma": "0x8016AA84",
+      "size": 492,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "dungeon/func_80ACB470",
       "home": "dungeon/func_80AC5470",
       "tu": "src/dungeon/monster/saber/update_fading_sprite_effect.c",

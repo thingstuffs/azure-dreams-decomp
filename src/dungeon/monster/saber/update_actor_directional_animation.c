@@ -8,7 +8,7 @@
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
-extern s32 has_pending_actor_or_turn_action(void *);
+#include "dungeon/player/object/action_state.h"
 extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, s32, void *, void *);

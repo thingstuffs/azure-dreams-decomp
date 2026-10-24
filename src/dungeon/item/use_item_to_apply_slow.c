@@ -7,7 +7,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void begin_deferred_item_action(void *, void *, void *, void *);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);

@@ -12,7 +12,7 @@ void func_800CDF00(Rec_func_80094268_arg0 *actor, ReactionState *state, s8 *outp
 void tick_counter_and_enter_state_three(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 check_arg) {
     u16 remaining_count;
 
-    if (select_object_setup_path(object, context_a, context_b, check_arg) == 0) {
+    if (select_object_setup_path(object, context_a, context_b) == 0) {
         remaining_count = object->unk_6C.as_u16 - 1;
         object->unk_6C.as_u16 = remaining_count;
         if ((remaining_count << 0x10) <= 0) {

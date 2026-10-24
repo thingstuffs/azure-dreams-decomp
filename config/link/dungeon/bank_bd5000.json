@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F57D800: img_bd5298_80152a98; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80BB5094",
+      "home": "dungeon/func_80B9D094",
+      "tu": "src/dungeon/monster/nyuel/spawn_nyuel_slot_f.c",
+      "foff": "0xBD5094",
+      "vma": "0x80152894",
+      "size": 516,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x8016AE9C": "0x80152E9C",
+        "0x8016EED8": "0x80156ED8",
+        "0x8016EF00": "0x80156F00",
+        "0x8016AA98": "0x80152A98"
+      }
+    },
+    {
       "row": "dungeon/func_80BB5298",
       "tu": "src/dungeon/monster/nyuel/update_monster_facing_and_contact.c",
       "home": "dungeon/func_80B97298",

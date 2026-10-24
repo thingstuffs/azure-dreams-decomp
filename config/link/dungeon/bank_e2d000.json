@@ -374,6 +374,19 @@
       "foff": "0xE32B30",
       "vma": "0x80176330",
       "size": 156
+    },
+    {
+      "row": "dungeon/func_80E12BCC",
+      "home": "dungeon/func_80E12AA4",
+      "tu": "src/dungeon/monster/cyclone/show_entity_message.c",
+      "foff": "0xE32BCC",
+      "vma": "0x801763CC",
+      "size": 140,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x800E1FB9": "0x800E1FD2",
+        "0x800E1F65": "0x800E1FEA"
+      }
     }
   ],
   "symbols": {

@@ -823,7 +823,7 @@ s16 try_claim_dungeon_action_slot(s32 requested_value) {
 #include "shared/dungeon_status.h"
 
 /* Return whether any checked global state value or flag is set. */
-s32 has_pending_dungeon_activity(void) {
+s32 has_pending_dungeon_activity(void *unused_actor) {
     if (g_dungeon_status.active_actor != 0 ||
         g_dungeon_status.pending_display_owner != 0 ||
         *(s32 *)&g_dungeon_status.activity_counts.word != 0 ||
@@ -836,9 +836,9 @@ s32 has_pending_dungeon_activity(void) {
 #include "shared/dungeon_status.h"
 
 /* Returns whether any of the state fields at offsets 0x0A, 0x0C, and 0x10 is nonzero. */
-s32 has_pending_actor_or_turn_action(void) {
+s32 has_pending_actor_or_turn_action(void *unused_actor) {
 
-    if (((u32)g_dungeon_status.active_actor) != 0 || ((u32)g_dungeon_status.pending_display_owner) != 0 || g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
+    if (g_dungeon_status.active_actor != 0 || g_dungeon_status.pending_display_owner != 0 || g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
         return 1;
     }
     return 0;
@@ -847,11 +847,11 @@ s32 has_pending_actor_or_turn_action(void) {
 #include "shared/dungeon_status.h"
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
-s32 has_actor_or_actions(void) {
+s32 has_actor_or_actions(void *unused_actor) {
     s32 has_value;
 
     has_value = 0;
-    if ((((s32)g_dungeon_status.active_actor) != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 0)) {
+    if ((g_dungeon_status.active_actor != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 0)) {
         has_value = 1;
     }
     return has_value;

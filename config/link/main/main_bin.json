@@ -7114,10 +7114,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26c868",
    "size": 96,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001C868 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7200,10 +7201,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26cf1c",
    "size": 96,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001CF1C complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7267,10 +7269,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26d570",
    "size": 88,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001D570 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7293,10 +7296,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26d688",
    "size": 64,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001D688 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7463,8 +7467,15 @@
   {
    "kind": "unresolved",
    "foff": "0x26e900",
-   "size": 256,
+   "size": 168,
    "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26e9a8",
+   "size": 88,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001E9A8 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7481,10 +7492,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26ea64",
    "size": 80,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001EA64 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7557,10 +7569,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26eed4",
    "size": 80,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001EED4 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7674,10 +7687,18 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26f9fc",
-   "size": 120,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "size": 40,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001F9FC complete shared C; docs/evidence/r124w_carve1_run6.md"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26fa24",
+   "size": 80,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FA24 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7701,10 +7722,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26fb9c",
    "size": 80,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FB9C complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7714,10 +7736,25 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26fc2c",
-   "size": 208,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "size": 72,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FC2C complete shared C; docs/evidence/r124w_carve1_run6.md"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26fc74",
+   "size": 68,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FC74 complete shared C; docs/evidence/r124w_carve1_run6.md"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26fcb8",
+   "size": 68,
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FCB8 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7831,8 +7868,15 @@
   {
    "kind": "unresolved",
    "foff": "0x2705d0",
-   "size": 248,
+   "size": 184,
    "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x270688",
+   "size": 64,
+   "census_label": "proven_code",
+   "evidence": "main/func_80020688 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7877,9 +7921,23 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x270904",
-   "size": 488,
+   "size": 96,
+   "census_label": "proven_code",
+   "evidence": "main/func_80020904 complete shared C; docs/evidence/r124w_carve1_run6.md"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x270964",
+   "size": 224,
+   "census_label": "proven_code",
+   "evidence": "main/func_80020964 complete shared C; docs/evidence/r124w_carve1_run6.md"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x270a44",
+   "size": 168,
    "evidence": "coverage-prototype: census2 span export absent; classification held"
   },
   {
@@ -7923,10 +7981,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x270d38",
    "size": 88,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_80020D38 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -7936,10 +7995,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x270db8",
    "size": 80,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_80020DB8 complete shared C; docs/evidence/r124w_carve1_run6.md"
   },
   {
    "kind": "code_region",
@@ -8242,13 +8302,13 @@
   }
  ],
  "census": {
-  "proven_code": 66096,
+  "proven_code": 67944,
   "library_code": 72,
   "strongly_code": 0,
   "proven_data": 0,
   "noncode_typing_pending": 0,
   "padding_leftover": 102523,
-  "unknown": 2409741
+  "unknown": 2407893
  },
  "provenance": {
   "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

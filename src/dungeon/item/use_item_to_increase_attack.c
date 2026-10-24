@@ -9,7 +9,7 @@
 
 
 extern void apply_entity_effects(void *);
-extern void begin_deferred_item_action(void *, void *, void *, void *);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern void place_actor_item(void *, s32);

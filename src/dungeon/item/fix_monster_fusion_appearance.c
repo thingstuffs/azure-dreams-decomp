@@ -9,7 +9,7 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_status.h"
 
 
-void begin_deferred_item_action();
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes();

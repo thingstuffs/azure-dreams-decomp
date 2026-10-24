@@ -35,7 +35,7 @@ void clear_slots_of_type(void *, s32);
 void select_sprite_entry(void *, s32, s32);
 s32 check_entity_relation(void *, void *);
 s16 get_tile_chebyshev_distance(void *, void *);
-s32 has_pending_actor_or_turn_action(void *);
+#include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
 void update_actor_status_and_mp(void *);

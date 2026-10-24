@@ -51,7 +51,7 @@ extern void * clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
-extern s32 has_pending_dungeon_activity();
+#include "dungeon/player/object/action_state.h"
 extern s32 display_text_with_fullwidth_adjustment();
 extern u8 D_80170854[];
 extern u8 tyrant_frame_set_1[];

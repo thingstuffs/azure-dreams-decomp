@@ -9,7 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/entity.h"
 
-extern void begin_deferred_item_action();
+#include "dungeon/player/item.h"
 extern void display_item_status_message();
 extern s32 feed_actor_restore_mp();
 extern void place_actor_item();

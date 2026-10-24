@@ -12,7 +12,7 @@ typedef struct S_8016C98C_0 {
 } S_8016C98C_0;   /* base in dispatch_actor_action_phase */
 
 
-extern s32 has_pending_dungeon_activity(void *);
+#include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(void *);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void advance_actor_path(void *, s32, s32, void *);

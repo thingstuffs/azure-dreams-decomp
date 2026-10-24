@@ -9,7 +9,7 @@
 #include "shared/dungeon_status.h"
 
 extern void clear_slots_of_type();
-extern void begin_deferred_item_action();
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();

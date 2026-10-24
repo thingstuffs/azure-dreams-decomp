@@ -69,7 +69,7 @@ extern void func_80060D90(s32, u8 *);
 extern void func_80060DE8(s32);
 extern void func_80061208(s32);
 extern void func_8006124C(s32, void *);
-extern s32 func_80061350(void);
+#include "sdk/libcd.h"
 extern s32 func_80063424(s32);
 extern void func_80063538(void);
 extern void func_800636AC(s32, s32, s32, s32, s32);

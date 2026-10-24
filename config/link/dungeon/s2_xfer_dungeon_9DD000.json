@@ -8,6 +8,21 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_809BD0B4",
+      "home": "dungeon/func_8099F0B4",
+      "tu": "src/dungeon/monster/kewne/create_grid_position_entity.c",
+      "foff": "0x9DD0B4",
+      "vma": "0x801528B4",
+      "size": 480,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80170A94": "0x80152A94",
+        "0x80175E40": "0x80157E40",
+        "0x80175EA0": "0x80157EA0",
+        "0x801710EC": "0x801530EC"
+      }
+    },
+    {
       "row": "dungeon/func_809BD294",
       "tu": "src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c",
       "home": "dungeon/func_8099F294",

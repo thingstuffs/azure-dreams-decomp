@@ -14,7 +14,7 @@ void count_down_and_select_next_setup(Rec_func_80094268_arg0 *object, void *requ
     s32 *state;
     u16 ticks_left;
 
-    if ((select_object_setup_path(object, request_data, request_param, check_param) == 0) &&
+    if ((select_object_setup_path(object, request_data, request_param) == 0) &&
         ((state = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control), (state == 0)) || (*state == 2)) &&
         (ticks_left = object->unk_6C.as_u16 - 1,
          object->unk_6C.as_u16 = ticks_left, ((ticks_left << 0x10) <= 0))) {

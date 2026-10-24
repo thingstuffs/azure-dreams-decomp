@@ -10,7 +10,7 @@
 #include "records/Rec_D_80082E80.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 has_pending_dungeon_activity();                          /* extern */
+#include "dungeon/player/object/action_state.h"
 s16 set_or_clear_actor_status_slot();    /* extern */
 s32 advance_status_timers();                      /* extern */
 extern u8 naplass_frame_set_4[8];

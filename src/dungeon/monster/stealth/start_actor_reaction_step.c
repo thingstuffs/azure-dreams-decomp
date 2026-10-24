@@ -18,7 +18,7 @@ typedef struct S_801721A4_1 {
 } S_801721A4_1;   /* owner in start_actor_reaction_step */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 has_pending_dungeon_activity(void *);
+#include "dungeon/player/object/action_state.h"
 extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value(void);
 

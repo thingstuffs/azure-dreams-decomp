@@ -18,7 +18,7 @@
 
 #include "dungeon/actor/callback.h"
 
-extern s32 has_pending_dungeon_activity(void *entity);
+#include "dungeon/player/object/action_state.h"
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, s32 properties, void *status);
 extern s16 pending_marked_actor_count;

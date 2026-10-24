@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F0FD800: img_1061674_8015ee74, r121_followup_10641F8, r121nd_1061348, r121nd_10615D0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_810410D4",
+      "home": "dungeon/func_80AC5820",
+      "tu": "src/dungeon/monster/saber/spawn_random_velocity_offset_effect.c",
+      "foff": "0x10610D4",
+      "vma": "0x8015E8D4",
+      "size": 312,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "dungeon/func_81041348",
       "home": "dungeon/func_8102F348",
       "tu": "src/dungeon/monster/glacier/glacier.c",

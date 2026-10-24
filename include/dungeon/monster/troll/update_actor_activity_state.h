@@ -133,7 +133,7 @@ extern void select_sprite_entry();
 extern void func_80047784();
 extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();
-extern s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value();
 extern s32 on_actor_status_updated();
 extern s32 func_800A9A04();

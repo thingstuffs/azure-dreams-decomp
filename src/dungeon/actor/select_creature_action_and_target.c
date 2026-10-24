@@ -34,7 +34,7 @@ extern u8 *scan_actor_along_heading();
 extern s32 get_rounded_facing_and_rounding_flag();
 extern s32 select_actor_route_target();
 extern s32 update_actor_proximity_flag();
-extern s32 has_pending_actor_or_turn_action();
+#include "dungeon/player/object/action_state.h"
 extern s32 has_low_actor_mp();
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_scaled_value_threshold();

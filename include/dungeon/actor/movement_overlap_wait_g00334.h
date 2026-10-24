@@ -9,7 +9,7 @@ struct SpriteFrameState;
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u32 has_pending_dungeon_activity(void *entity);
+#include "dungeon/player/object/action_state.h"
 extern s32 update_object_coordinates_if_valid(struct SpriteFrameState *object, void *context);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, s32 flag_mask);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);

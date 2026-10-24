@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "dungeon/monster/hikewne.h"
 
-s32 has_pending_dungeon_activity();                          /* extern */
+#include "dungeon/player/object/action_state.h"
 void update_actor_status_and_mp();                      /* extern */
 s32 relink_entity_and_clear_high_flag(); /* extern */
 

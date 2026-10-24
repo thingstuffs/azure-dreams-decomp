@@ -9,7 +9,7 @@
 #include "m2c_compat.h"
 
 void apply_entity_effects();                      /* extern */
-void begin_deferred_item_action(); /* extern */
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 void place_actor_item();                 /* extern */

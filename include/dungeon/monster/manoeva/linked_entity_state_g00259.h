@@ -46,7 +46,7 @@ extern s32 find_entity_slot_by_field_ac(void *);
 extern void set_record_integer_tile_center(s32, s32, s32);
 
 extern void select_sprite_entry();
-extern s32 has_pending_dungeon_activity();
+#include "dungeon/player/object/action_state.h"
 extern u8 D_80176670[16];
 
 /* Functions defined in this translation unit. */

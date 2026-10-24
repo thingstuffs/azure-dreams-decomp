@@ -95,7 +95,7 @@ void select_indirect_table_entry();              /* extern */
 void advance_sprite_animation_and_textures();                      /* extern */
 s32 rsin();                             /* extern */
 void apply_monster_koyaw_data();                 /* extern */
-s32 has_pending_actor_or_turn_action();                          /* extern */
+#include "dungeon/player/object/action_state.h"
 s16 set_or_clear_actor_status_slot();       /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */

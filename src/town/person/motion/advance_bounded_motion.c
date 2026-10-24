@@ -51,7 +51,7 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion, void *context, s
     s32 max_speed;
     s32 *motion_words;
 
-    if (select_object_setup_path(entity, motion, context, check_param) != 0) {
+    if (select_object_setup_path(entity, motion, context) != 0) {
         return;
     }
 

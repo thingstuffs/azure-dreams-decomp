@@ -25,7 +25,7 @@ typedef struct {
     u8 unk71;
 } State;
 
-extern s32 has_pending_dungeon_activity(State *state);
+#include "dungeon/player/object/action_state.h"
 extern void select_sprite_entry(Object *object, u8 value, s32 entry_index);
 extern u8 picket_frame_set_4[];
 

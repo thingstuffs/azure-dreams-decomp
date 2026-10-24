@@ -9,7 +9,7 @@
 #include "m2c_compat.h"
 
 s32 lookup_level_experience_threshold();                 /* extern */
-void begin_deferred_item_action(void *, void *, void *, void *); /* extern */
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */

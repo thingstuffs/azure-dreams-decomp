@@ -23,7 +23,7 @@ typedef struct Motion {
 } Motion;
 
 extern s16 query_lowered_transform_position();
-extern s32 select_object_setup_path();
+#include "town/person/object_setup.h"
 extern void initialize_mother_event_actor();
 extern int abs(int);
 

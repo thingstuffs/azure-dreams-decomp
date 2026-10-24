@@ -89,6 +89,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8072A520",
+      "home": "town/func_804717E8",
+      "tu": "src/town/scene/service/invoke_system_callback_11.c",
+      "foff": "0x6AA520",
+      "vma": "0x80016520",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run6.md"
+    },
+    {
       "row": "town/func_8072A55C",
       "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",

@@ -15,7 +15,7 @@ typedef struct {
 } D_80083460_Type;
 
 
-void begin_deferred_item_action();
+#include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();
 void adjust_source_value_and_finalize();
 void place_actor_item();

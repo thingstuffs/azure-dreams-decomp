@@ -130,7 +130,7 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void decrement_monster_entry_count();
 s16 find_entity_slot_by_field_ac();
-s32 has_actor_or_actions();
+#include "dungeon/player/object/action_state.h"
 void mark_owned_linked_actor_actions();
 s32 display_text_with_fullwidth_adjustment();
 

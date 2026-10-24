@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1E1800: img_f71268_80152a68; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80F51094",
+      "home": "dungeon/func_80F33094",
+      "tu": "src/dungeon/monster/viper/spawn_viper.c",
+      "foff": "0xF71094",
+      "vma": "0x80152894",
+      "size": 468,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x80170A68": "0x80152A68",
+        "0x80174A7C": "0x80156A7C",
+        "0x80174AD4": "0x80156AD4",
+        "0x80170E94": "0x80152E94"
+      }
+    },
+    {
       "row": "dungeon/func_80F51268",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9228",

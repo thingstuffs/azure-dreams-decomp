@@ -91,7 +91,7 @@ void select_record_entry_and_value();        /* extern */
 s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
 void read_vram_blocks_to_buffer();                            /* extern */
-void begin_deferred_item_action(); /* extern */
+#include "dungeon/player/item.h"
 void initialize_action_state_29(); /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 void resolve_familiar_deployment_request(); /* extern */

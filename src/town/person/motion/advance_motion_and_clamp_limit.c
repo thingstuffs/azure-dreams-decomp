@@ -4,7 +4,7 @@
 
 extern void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 extern s16 query_lowered_transform_position(void *position);
-s32 select_object_setup_path();         /* extern */
+#include "town/person/object_setup.h"
 s32 func_800CDF00();     /* extern */
 s32 func_800CDF94();
 

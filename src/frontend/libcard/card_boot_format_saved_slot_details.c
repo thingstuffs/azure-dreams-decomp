@@ -64,7 +64,7 @@ typedef struct S_80024390_4 {
 } S_80024390_4;   /* recordCursor in card_boot_format_saved_slot_details */
 
 void * build_positioned_text_glyphs(u8 *, u8 *, s32); /* extern */
-char *func_8004E5E8(); /* extern */
+#include "engine/text.h"
 u8 * remap_flagged_string_bytes(u8 *); /* extern */
 extern u8 D_800200A4[0x100];
 extern s32 D_80027FD4[0x40];
@@ -155,10 +155,10 @@ void card_boot_format_saved_slot_details(void *record) {
     func_8004E5A0(value, 3, (char *)(&textBuffer));
     strcat(&textBuffer, D_800200A4);
     totalMinutes = elapsedSeconds / 60;
-    func_8004E5E8(totalMinutes - (hours * 0x3C), 2, &numberBuffer);
+    func_8004E5E8(totalMinutes - (hours * 0x3C), 2, (char *)numberBuffer);
     strcat(&textBuffer, &numberBuffer);
     strcat(&textBuffer, D_800200A4);
-    func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, &numberBuffer);
+    func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, (char *)numberBuffer);
     strcat(&textBuffer, &numberBuffer);
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset4 = record + 0x684;

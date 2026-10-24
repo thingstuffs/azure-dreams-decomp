@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F0BB800: img_10972a4_80152aa4; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_81077098",
+      "home": "dungeon/func_8105F098",
+      "tu": "src/dungeon/monster/tyrant/copy_part_state.c",
+      "foff": "0x1097098",
+      "vma": "0x80152898",
+      "size": 524,
+      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "bindings": {
+        "0x8016AAA4": "0x80152AA4",
+        "0x8016DFB8": "0x80155FB8",
+        "0x8016E000": "0x80156000",
+        "0x8016AF68": "0x80152F68"
+      }
+    },
+    {
       "row": "dungeon/func_810772A4",
       "tu": "src/dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.c",
       "home": "dungeon/func_810592A4",

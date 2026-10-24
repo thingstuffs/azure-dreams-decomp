@@ -21,7 +21,7 @@ extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern void * clear_byte_and_advance();
 extern s32 append_entity_display_text();
-extern s32 has_pending_dungeon_activity();
+#include "dungeon/player/object/action_state.h"
 extern s32 display_text_with_fullwidth_adjustment();
 
 extern u8 D_80170838[16];

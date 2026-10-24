@@ -19,7 +19,7 @@ void update_object_orbit_and_timer(void *object, void *position, void *update_ar
     u16 angle;
     u16 timer;
 
-    if (select_object_setup_path(object, position, update_arg, check_param) != 0) {
+    if (select_object_setup_path(object, position, update_arg) != 0) {
         return;
     }
 
