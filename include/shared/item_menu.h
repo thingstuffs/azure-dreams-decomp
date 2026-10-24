@@ -25,14 +25,9 @@ typedef struct ItemMenuSceneState {
     int unk8; /* menu scene phase; the request wrappers set 3, 5 or 7 */
 } ItemMenuSceneState;
 
-/* Item-menu selection delay status, limit and counter words. */
-/* Caller-owned item-menu selection-delay work, updated by tick_item_menu_selection_delay.
- * The cursor transition runs before the counter advances and the delay status is cleared. */
-typedef struct ItemMenuDelayState {
-    int unk0; /* the display payload's per-update callback slot: change_item_menu_selection installs tick_item_menu_selection_delay here and tick clears it when the prior counter reaches the limit */
-    int unk4; /* selection-delay duration and interpolation denominator, in update ticks */
-    int unk8; /* elapsed selection-delay updates; incremented once per tick */
-} ItemMenuDelayState;
+/* The delay callback and the cursor transition use the same display payload.
+ * Its complete access view and callback declarations live in the shop header. */
+typedef struct ItemMenuTransition ItemMenuDelayState;
 
 /* Signed flag word at +0x1C of the shop record. */
 typedef struct ItemMenuFlagsView {

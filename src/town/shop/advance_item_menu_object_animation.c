@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "m2c_compat.h"
 
 typedef struct S_800AE630_2 {
@@ -41,9 +42,9 @@ typedef struct S_800AE630_1 {
 extern void D_800AE600();
 
 /* Advance the object position and transition step, then invoke its callback. */
-void advance_item_menu_object_animation(void *object) {
+void advance_item_menu_object_animation(ItemMenuTransition *object) {
     s32 next_step;
-    void (*callback)(void *);
+    void (*callback)(ItemMenuTransition *);
     s32 scaled_x;
     s32 scaled_y;
     s32 scaled_z;
@@ -65,7 +66,7 @@ void advance_item_menu_object_animation(void *object) {
     if (next_step >= 5) {
         ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AE600;
     }
-    callback = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
+    callback = object->callback;
     if (callback != 0) {
         /* The only callback ever installed here is tick_item_menu_selection_delay (by
          * change_item_menu_selection), which takes the display payload; tick clears the slot. */

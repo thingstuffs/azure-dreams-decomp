@@ -13,7 +13,7 @@ typedef struct S_80024274_0 {
 } S_80024274_0;
 
 /* Initialize the object's embedded state and clear its referenced word. */
-void card_boot_clear_slot_selection_marker(s32 object_addr) {
+void card_boot_clear_slot_selection_marker(void *object_addr) {
     S_80024274_0 *state;
 
     if (object_addr != 0) {
@@ -24,8 +24,8 @@ void card_boot_clear_slot_selection_marker(s32 object_addr) {
 }
 
 /* Runs three update routines on the data of a non-null object. */
-void card_boot_refresh_slot_window(s32 object_addr) {
-    s32 object_data;
+void card_boot_refresh_slot_window(void *object_addr) {
+    void *object_data;
 
     if (object_addr != 0) {
         object_data = object_addr + 0x20;

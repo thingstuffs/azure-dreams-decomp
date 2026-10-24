@@ -1,37 +1,21 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/object_node.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 
-int advance_index_with_single_wrap(int, int, int);                        /* extern */
-extern void D_800AE5B8();
+int advance_index_with_single_wrap(int, int, int);
 
-typedef struct S_800AF1B4_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x10];
-    s32 unk_1C;
-    s32 unk_20;
-    u8 pad_24[0x4];
-    s32 unk_28;
-} S_800AF1B4_0;
-
-typedef struct S_800AF1B4_1 {
-    u8 pad_00[0x20];
-    s32 * unk_20;
-} S_800AF1B4_1;   /* arg0 in change_item_menu_selection */
-
-/* Updates the object value and resets associated state when it changes. */
-void change_item_menu_selection(void *object, s32 value_arg, s32 reset_value) {
+/* Update the selection and install its delay callback when the row changes. */
+void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 reset_value) {
     s32 new_value;
-    S_800AF1B4_0 *state;
+    ItemMenuTransition *state;
 
-    state = object + 0x20;
-    new_value = advance_index_with_single_wrap(state->unk_1C, value_arg, state->unk_28);
-    if (new_value != state->unk_1C) {
-        state->unk_1C = new_value;
-        state->unk_04 = reset_value;
-        state->unk_08 = 0;
-        ((S_800AF1B4_1 *)object)->unk_20 = &D_800AE5B8;
-        state->unk_20 = (s32) state->unk_1C;
+    state = (ItemMenuTransition *)(object + 1);
+    new_value = advance_index_with_single_wrap(state->end_row, value_arg, state->entry_count);
+    if (new_value != state->end_row) {
+        state->end_row = new_value;
+        state->duration = reset_value;
+        state->progress = 0;
+        state->callback = D_800AE5B8;
+        state->start_row = state->end_row;
     }
 }

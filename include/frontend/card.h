@@ -413,8 +413,8 @@ void inventory_copy_and_sign_extend_record_fields(s32 object_data);
 void card_boot_refresh_five_slot_objects(void *object_list);
 
 /* card_slot_refresh.c */
-void card_boot_clear_slot_selection_marker(s32 object_addr);
-void card_boot_refresh_slot_window(s32 object_addr);
+void card_boot_clear_slot_selection_marker(void *object_addr);
+void card_boot_refresh_slot_window(void *object_addr);
 
 /* card_sme_commit_pending_value.c */
 void card_sme_commit_pending_value(void *record_data);

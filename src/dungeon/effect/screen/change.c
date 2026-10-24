@@ -1045,10 +1045,6 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 s32 get_entity_effect_value();                 /* extern */
 s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
 
-typedef struct S_8009D218_1_pre {
-    s32 unk_00;
-    u8 pad_04[0x14];
-} S_8009D218_1_pre;   /* the 0x18 bytes before entity in try_trigger_target_record_effect, addressed as entity[-1] */
 
 /*
  * Tests actor effects and a linked item chance, creating a pulsing effect and returning 1 when an
@@ -1062,18 +1058,18 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
     if (!(flags & 8) && (record != NULL)) {
         if (flags & 1) {
             if (((get_entity_effect_value(entity, 0x16) << 0x10) != 0) && (record->unk_13 >= 0)) {
-                create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
                 return 1;
             }
         } else if (flags & 2) {
             if ((((get_entity_effect_value(entity, 0x16) << 0x10) != 0) || ((get_entity_effect_value(entity, 0x17) << 0x10) != 0))
                 && (record->unk_13 >= 0)) {
-                create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
                 return 1;
             }
         } else if ((flags & 4) && (((get_entity_effect_value(entity, 0x16) << 0x10) != 0) || ((get_entity_effect_value(entity, 0x15) << 0x10)
             != 0)) && (record->unk_13 >= 0)) {
-            create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+            create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
             return 1;
         }
         {
@@ -1082,7 +1078,7 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
                 if (value_ptr != NULL) {
                     if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */
-                        create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                        create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
                         return 1;
                     }
                                         /* Duplicate return node #25. Try simplifying control flow for better match */

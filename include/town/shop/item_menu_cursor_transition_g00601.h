@@ -29,7 +29,7 @@ typedef struct ItemMenuRows {
 } ItemMenuRows;
 
 typedef struct ItemMenuTransition {
-    u8 pad_00[4];
+    void (*callback)(struct ItemMenuTransition *state);
     s32 duration;
     s32 progress;
     u8 pad_0C[0x10];
@@ -43,5 +43,12 @@ typedef struct ItemMenuTransition {
 
 void style_item_menu_entry_records(ItemMenuTransition *collection);
 void animate_item_menu_cursor_transition(ItemMenuTransition *state);
+void tick_item_menu_selection_delay(ItemMenuTransition *state);
+/* Selection-delay entry address used by the display callback installer. */
+void D_800AE5B8(ItemMenuTransition *state);
+void invoke_item_menu_node_callback(ItemMenuTransition *state);
+void advance_item_menu_object_animation(ItemMenuTransition *object);
+struct ObjectNodeHeader;
+void change_item_menu_selection(struct ObjectNodeHeader *object, s32 value_arg, s32 reset_value);
 
 #endif

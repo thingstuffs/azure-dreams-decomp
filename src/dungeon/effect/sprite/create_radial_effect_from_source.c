@@ -555,10 +555,6 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
 
     case 16:
     {
-#ifdef __mips__
-#else
-        S_func_81886800_11 *motion;
-#endif
         motion->unk_00.s32 += motion->unk_0C.s32;
         motion->unk_04.s32 += motion->unk_10.s32;
         {

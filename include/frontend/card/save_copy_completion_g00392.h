@@ -26,7 +26,7 @@ extern void initialize_text_editor_context(void *, s32);
 extern s32 card_boot_write_save_via_temporary_path(s32, s32);
 extern s32 card_boot_load_save_and_clear_marker(s32, s32, s32);
 extern void card_boot_show_copy_failure_notice(void *);
-extern void card_boot_refresh_slot_window(s32);
+extern void card_boot_refresh_slot_window(void *);
 extern void no_op_card_hook(s32);
 extern u8 D_80024F7C[];
 
