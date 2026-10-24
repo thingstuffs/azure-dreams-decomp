@@ -391,6 +391,7 @@ void update_spark_effect(void *menu);
 /* write_fixed_palette_pixels.c */
 void write_fixed_palette_pixels(void *owner);
 
-void init_card_file_list_panel(void *record, s32 selection);
+struct CardFileListPanel;
+void init_card_file_list_panel(struct CardFileListPanel *panel, s32 selection);
 
 #endif

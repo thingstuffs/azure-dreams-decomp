@@ -59,6 +59,6 @@ s32 dispatch_first(struct SceneActionEntry *entry, s32 value);
 s32 update_scene_and_select_action(struct SceneActionEntry *object, s32 value);
 s32 initialize_scene_action_state(struct SceneActionEntry *object, s32 value);
 
-void *lookup_keima_entry(s32 key, s32 unused, s32 code);
+void *lookup_keima_entry(void *context, s32 unused, s32 code);
 
 #endif

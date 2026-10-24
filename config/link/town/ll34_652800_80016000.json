@@ -20,6 +20,20 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_806D29EC",
+      "home": "town/func_8095013C",
+      "tu": "src/town/scene/find_entry_index_or_assert_rev_b.c",
+      "foff": "0x6529EC",
+      "vma": "0x800161EC",
+      "size": 196,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000",
+        "0x80016080": "0x80016148",
+        "0x800160A8": "0x80016170"
+      }
+    },
+    {
       "row": "town/func_806D2AB0",
       "tu": "src/town/scene/find_entry_28_index_or_assert_rev_b.c",
       "home": "town/func_806D2AB0",

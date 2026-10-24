@@ -194,17 +194,17 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
 }
 
-/* Calls object - > unk_68 with (struct Struct_7FFEE2A0 *)object. */
-void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object) {
-    object->unk_68((struct Struct_7FFEE2A0 *)object);
+/* Calls object->unk_68 with the object and the node's position and sprite records. */
+void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object, void *position, void *sprite) {
+    object->unk_68((struct Struct_7FFEE2A0 *)object, position, sprite);
 }
 
-void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state) {
+void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state, void *position, void *sprite) {
     state->unk64--;
     if (state->unk64 < 0) {
-        void (*next_callback)(void *) = state->unk6C;
+        void (*next_callback)(void *, void *, void *) = state->unk6C;
         state->unk68 = next_callback;
-        next_callback(state);
+        next_callback(state, position, sprite);
     }
 }
 

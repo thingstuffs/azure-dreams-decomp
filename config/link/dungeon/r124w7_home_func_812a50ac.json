@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/r124w7_home_func_812a50ac",
+  "container": "dungeon",
+  "foff": "0x12c50ac",
+  "size": 416,
+  "vma": "0x801708ac",
+  "entries": [
+    {
+      "row": "dungeon/func_812A50AC",
+      "home": "dungeon/func_812A50AC",
+      "tu": "src/dungeon/monster/kewne_uncached/create_entity_at_tile_center.c",
+      "foff": "0x12c50ac",
+      "vma": "0x801708ac",
+      "size": 416,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run7.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+}

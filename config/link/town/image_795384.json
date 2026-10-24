@@ -33,6 +33,30 @@
       "size": 164
     },
     {
+      "row": "town/func_80818C2C",
+      "home": "town/func_8080E534",
+      "tu": "src/town/scene/fall_to_ground_height.c",
+      "foff": "0x798C2C",
+      "vma": "0x80022C2C",
+      "size": 96,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8025E01C": "0x800C2AE8"
+      }
+    },
+    {
+      "row": "town/func_80819934",
+      "home": "town/func_8080E534",
+      "tu": "src/town/scene/fall_to_ground_height.c",
+      "foff": "0x799934",
+      "vma": "0x80023934",
+      "size": 96,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8025E01C": "0x800C2AE8"
+      }
+    },
+    {
       "row": "town/func_8081AAC0",
       "tu": "src/town/scene/flags/decrement_timer_set_completion_flag.c",
       "home": "town/func_8081AAC0",

@@ -1,33 +1,28 @@
-#include "common.h"
-#include "shared/entity.h"
-#include "shared/sprite_frame_state.h"
+#include "dungeon/monster/grineut.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status_ids.h"
+#include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "shared/monster_ids.h"
 
-/* The factory also writes the species byte and callback fields for which
- * ActorRecord retains an opaque aggregate. Both views describe the same body. */
+/* ActorRecord keeps +0x10..+0x13 as one packed template word that other code
+ * reads whole; the factory stores the species id in its top byte. */
 typedef union SpawnState {
     ActorRecord actor;
     struct {
         u8 pad_00[0x13];
         u8 species;
-        u8 pad_14[0x78];
-        void *action;
-        u8 pad_90[0xA];
-        u8 action_index;
-        u8 pad_9B;
-        s8 unk_9C;
-    } fields;
+    } packed;
 } SpawnState;
 
-extern ObjectNodeHeader *allocate_list_node(s32, ObjectNodeHeader *);
-extern void register_node(ObjectNodeHeader *, void *);
-extern s32 generate_random_value(void);
-extern void set_or_clear_actor_status_slot(ActorRecord *, s32, s32);
-extern void initialize_actor_sprite_and_animation(ObjectNodeHeader *, ObjectPosition *, SpriteFrameState *, s16);
-extern void try_move_actor_to_valid_position(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-extern u8 D_80164A28[], D_80168148[], D_80168190[], D_80164E54[];
+/* Update callback, action continuation and frame tables (default, then the
+ * sleeping set).  They are the shared dragon/grineut code and data at this bank's
+ * own addresses; the canonical names sit at 0x80170800-based addresses and the
+ * home bank does not rebind them, so the address names stay. */
+extern u8 D_80164A28[];
+extern u8 D_80164E54[];
+extern u8 D_80168148[];
+extern u8 D_80168190[];
 
 /* Allocate Grineut, set its spawn state and frames, and try a valid tile. */
 void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
@@ -54,7 +49,7 @@ void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         body = obj + 1;
         work = body;
         obj->update_callback = D_80164A28;
-        work->fields.species = MONSTER_GRINEUT;
+        work->packed.species = MONSTER_GRINEUT;
         register_node(obj, project_sprite_chain);
         position = obj->position;
         position->z.w.i = saved_height;
@@ -65,29 +60,29 @@ void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         sprite->frameTable = D_80168148;
         sprite->tile_x = saved_tile_x;
         if (kind == 1) {
-            left = work->actor.flags14 | 0x6000;
-            right = work->actor.flags1C | 0x6000;
+            left = work->actor.flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = work->actor.flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             work->actor.flags14 = left;
             work->actor.flags1C = right;
         } else if (kind >= 2) {
-            left = work->actor.flags14 | 0x2000;
-            right = work->actor.flags1C | 0x2000;
+            left = work->actor.flags14 | ACTOR_CLASS_ENABLED;
+            right = work->actor.flags1C | ACTOR_PLAYER_SIDE;
             work->actor.flags14 = left;
             work->actor.flags1C = right;
         } else {
-            if (((spawn_flags & ~3) << 16) == 0 && !(work->actor.flags14 & 0x200)) {
+            if (((spawn_flags & ~3) << 16) == 0 && !(work->actor.flags14 & ACTOR_RESIST_SLEEP)) {
                 left = generate_random_value();
                 if (left & 1) {
-                    work->actor.flags1C |= 0x200;
-                    set_or_clear_actor_status_slot(&work->actor, 1, (generate_random_value() & 0x3F) | 0x20);
+                    work->actor.flags1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(&work->actor, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     sprite->frameTable = D_80168190;
                 }
             }
         }
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
-        actor->fields.action_index = 0xFF;
-        actor->fields.unk_9C = -1;
-        actor->fields.action = D_80164E54;
+        actor->actor.action_id = 0xFF;
+        actor->actor.unk_9C = -1;
+        actor->actor.unk_8C.address = D_80164E54;
         try_move_actor_to_valid_position(&actor->actor, position, sprite, &work->actor);
     }
     return work;

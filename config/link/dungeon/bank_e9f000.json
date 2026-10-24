@@ -26,6 +26,22 @@
   },
   "entries": [
     {
+      "row": "dungeon/func_80E7F0A0",
+      "home": "dungeon/func_80D17000",
+      "tu": "src/dungeon/monster/noise/damp_and_fade_effect_sprite.c",
+      "foff": "0xE9F0A0",
+      "vma": "0x801528A0",
+      "size": 604,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80065420": "0x80065420",
+        "0x80083160": "0x80083160",
+        "0x800DCECC": "0x800DCECC",
+        "0x800478B8": "0x800478B8",
+        "0x800814A0": "0x800814A0"
+      }
+    },
+    {
       "row": "dungeon/func_80E7F2FC",
       "home": "dungeon/func_80D112D0",
       "tu": "src/dungeon/monster/noise/update_effect_visuals_and_lifetime.c",

@@ -22,6 +22,23 @@
       }
     },
     {
+      "row": "town/func_806D8030",
+      "home": "town/func_806D8140",
+      "tu": "src/town/scene/lookup_entry_with_kind_overrides.c",
+      "foff": "0x658030",
+      "vma": "0x80016830",
+      "size": 188,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80018A58": "0x80018A38",
+        "0x80019104": "0x80019104",
+        "0x80017B0C": "0x80017B0C",
+        "0x80017A54": "0x80017A54",
+        "0x800197D0": "0x8001A212",
+        "0x8001AE04": "0x8001AE04"
+      }
+    },
+    {
       "row": "town/func_806D872C",
       "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C188",

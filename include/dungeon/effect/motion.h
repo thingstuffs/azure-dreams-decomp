@@ -30,4 +30,9 @@ typedef struct CylindricalEffectWork {
     s32 shade;
 } CylindricalEffectWork;
 
+/* Set to 1 by running particle/point effects every frame; the effect
+ * controller in entry_play_sound_if_enabled clears it and finishes the effect
+ * once a whole period passes with it still clear. */
+extern s16 particle_effect_active;
+
 #endif

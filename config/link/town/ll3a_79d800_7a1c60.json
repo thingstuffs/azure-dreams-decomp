@@ -8,6 +8,18 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_79DED0",
   "entries": [
     {
+      "row": "town/func_8081FA2C",
+      "home": "town/func_808105EC",
+      "tu": "src/town/scene/fall_to_height_capped_at_zero.c",
+      "foff": "0x79FA2C",
+      "vma": "0x8002222C",
+      "size": 100,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8025E01C": "0x800C2AE8"
+      }
+    },
+    {
       "row": "town/func_8081FBD8",
       "home": "town/func_8008DB5C",
       "tu": "src/town/scene/resource/jyotyu_set_reserve_all.c",

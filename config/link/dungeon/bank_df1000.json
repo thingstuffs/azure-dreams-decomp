@@ -9,6 +9,28 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F367800: img_df17d8_80158fd8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80DD1074",
+      "home": "dungeon/func_80DB9000",
+      "tu": "src/dungeon/monster/blume/project_sprite_entries_to_quads.c",
+      "foff": "0xDF1074",
+      "vma": "0x80158874",
+      "size": 1892,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80083160": "0x80083160",
+        "0x80065420": "0x80065420",
+        "0x8006CD30": "0x8006CD30",
+        "0x800649A0": "0x800649A0",
+        "0x80065820": "0x80065820",
+        "0x80064BC0": "0x80064BC0",
+        "0x80064840": "0x80064840",
+        "0x80064D80": "0x80064D80",
+        "0x80064CF0": "0x80064CF0",
+        "0x800654B0": "0x800654B0",
+        "0x80064A40": "0x80064A40"
+      }
+    },
+    {
       "row": "dungeon/func_80DD1840",
       "tu": "src/dungeon/monster/blume/update_damped_height_effect.c",
       "home": "dungeon/func_80DB9840",

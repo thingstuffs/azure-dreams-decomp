@@ -1,32 +1,18 @@
 #include "frontend/libcard/message.h"
 
-typedef struct CardChoiceBlock {
-    s32 words[4];
-} CardChoiceBlock;
-
-typedef struct CardChoiceVector {
-    s32 words[3];
-} CardChoiceVector;
-
-typedef struct CardChoiceNode {
-    s32 unk_00;
-    CardChoiceBlock *block;
-    CardChoiceVector *vector;
-    s32 unk_0C;
-} CardChoiceNode;
-
 /* The Continue owner supplies 18 linked display slots at these offsets. */
 typedef struct CardContinueNodes {
-    u8 pad_00[0x184];
-    CardChoiceVector vector;
-    u8 pad_vector[0x10];
-    CardChoiceNode *pointers[18];
-    CardChoiceNode nodes[18];
-    CardChoiceBlock blocks[18];
+    /* 0x000 */ u8 pad_000[0x184];
+    /* 0x184 */ DisplayPositionWords vector;
+    /* 0x190 */ u8 pad_190[0x10];
+    /* 0x1A0 */ CardDisplayNode *pointers[18];
+    /* 0x1E8 */ CardDisplayNode nodes[18];
+    /* 0x308 */ CardDisplayBlock blocks[18];
 } CardContinueNodes;
 
-extern CardChoiceBlock display_block_defaults;
-extern CardChoiceVector display_vector_defaults;
+/* Sibling message files declare these templates through their own local views. */
+extern CardDisplayBlock display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Build the requested node links and copy their common display defaults. */
 void init_card_continue_nodes(CardContinueNodes *owner, s32 count)
@@ -50,7 +36,7 @@ void init_card_continue_nodes(CardContinueNodes *owner, s32 count)
         owner->nodes[i].vector = &owner->vector;
         owner->blocks[i].words[3] = word3;
     }
-    owner->vector.words[0] = display_vector_defaults.words[0];
-    owner->vector.words[1] = display_vector_defaults.words[1];
-    owner->vector.words[2] = display_vector_defaults.words[2];
+    owner->vector.unk0 = display_vector_defaults.unk0;
+    owner->vector.unk4 = display_vector_defaults.unk4;
+    owner->vector.unk8 = display_vector_defaults.unk8;
 }

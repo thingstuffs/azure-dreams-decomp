@@ -10855,3 +10855,5 @@
 {"path":"raw/town/m2c_first_pass/func_8096DB00.c","sha256":"f62b5966cfb6d3add340055ff23bbf0fa43b16acffe6d162569b06f836b17ca9","size":107}
 {"path":"raw/town/m2c_first_pass/func_8096DFCC.c","sha256":"6eae95b7639dac04f6eecabacee25bf4f00241abcd3691530422cfbdccc711b6","size":107}
 {"path":"raw/town/m2c_first_pass/func_8096DFEC.c","sha256":"b638dbb233480a8da2c12f676eedfc343ecba51ab91d8cc2d71c1e01f52a358e","size":107}
+{"path":"raw/dungeon/func_8189ECF0.c","sha256":"711623bfca9c3b1aa119bd041e901a0ab4a48cd4bde4fe6234c676cdc9e1432f","size":9633,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run7.md"}
+{"path":"raw/town/func_800C44BC.c","sha256":"29425e659fedd86209efd2dbb68e5f6cb88c0aa90c96b8a793e4489484b3256c","size":384,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run7.md"}

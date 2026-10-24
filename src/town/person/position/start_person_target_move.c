@@ -1,12 +1,12 @@
 #include "town/person.h"
+#include "engine/resource.h"
+#include "sdk/libc.h"
 #include "shared/object_index_slots.h"
+#include "town/person/object_setup.h"
 
-
-extern s32 abs(s32);
-extern u8 D_800C3FFC[];
-extern s32 runtime_estimate_vector_length(s32, s32);
+/* advance_reaction_motion_to_limit declares this with an s16 result; the two
+ * callers disagree, so the declaration stays with each caller. */
 extern s32 query_lowered_transform_position(ObjectPosition *);
-extern void apply_object_setup_and_update(PersonObject *, ObjectPosition *, s8 *);
 
 /* Start movement toward the object's target, or place it immediately for speed -128. */
 void start_person_target_move(PersonObject *object, ObjectPosition *position, s8 *output) {
@@ -18,7 +18,7 @@ void start_person_target_move(PersonObject *object, ObjectPosition *position, s8
 
     slots = object_index_slots;
     slots[object->slot].unk_00 = 0;
-    object->handler = D_800C3FFC;
+    object->handler = move_position_toward_target;
     distance = runtime_estimate_vector_length((object->target_x << 16) - position->x.v,
                            (object->target_y << 16) - position->y.v);
     timer = distance / 0x20000;

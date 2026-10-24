@@ -3,7 +3,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -24,10 +24,9 @@ typedef struct Row_8189E934_Tail {
     s16 pad0;
     s16 tag;
     s32 copy;
-    s32 value;
+    void *value;
 } Row_8189E934_Tail;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct Row_8189E934_S_80024134_0 {
     u8 pad_00[0x8];
@@ -53,8 +52,6 @@ typedef struct Row_8189EA64_S_80024264_1 {
 } Row_8189EA64_S_80024264_1;   /* owner in func_80024264 */
 
 /* Advances the timed state sequence and updates the record channels and packed values. */
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct Row_8189EBBC_S_800243BC_0 {
     u8 pad_00[0x8];
@@ -66,11 +63,11 @@ typedef struct Row_8189EBBC_S_800243BC_0 {
 } Row_8189EBBC_S_800243BC_0;   /* temp_v0 in func_800243BC */
 
 typedef struct Row_8189EBBC_S_800243BC_1 {
-    u8 pad_00[0x2];
+    s16 phase;
     s16 unk_02;
     s16 unk_04;
     u8 pad_06[0x2];
-    s32 unk_08;
+    void *unk_08;
 } Row_8189EBBC_S_800243BC_1;   /* temp_v1 in func_800243BC */
 
 typedef struct Row_8189EBBC_S_800243BC_3 {
@@ -102,7 +99,34 @@ extern u8 D_80024C78[];
 extern s32 D_80024264;
 extern s32 transform_effect_tag;
 extern s32 D_800DEF08;
-s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag);
+ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, ObjectPosition *input, s16 stored_tag);
 void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused,struct SpriteFrameState *record);
-s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform);
+ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosition *transform);
+/* The callback body installed by create_actor_spell_effect for resource 24.
+ * ObjectNodeHeader precedes it; position and sprite remain separate records. */
+typedef union TransformHalf {
+    s16 s;
+    u16 u;
+} TransformHalf;
+
+typedef struct TransformSpellState {
+    ActorRecord *source;
+    u16 *request_flags;
+    u8 spell_id;
+    u8 power;
+    s16 phase;
+    u16 pad_0c;
+    TransformHalf direction;
+    TransformHalf ticks;
+    TransformHalf duration;
+    s16 active;
+    s16 tile_x;
+    s16 tile_y;
+    s16 height;
+    u8 kind;
+    u8 pad_1d[3];
+    ObjectNodeHeader *visual;
+} TransformSpellState;
+
+void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, struct SpriteFrameState *sprite);
 #endif

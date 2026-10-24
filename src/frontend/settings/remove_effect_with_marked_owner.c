@@ -11,6 +11,7 @@ typedef struct MenuEffect {
     MenuOwner *owner;
 } MenuEffect;
 
+/* Remove this effect node once its owner is marked for removal. */
 void remove_effect_with_marked_owner(void *body) {
     MenuEffect *effect = body;
     /* The object-node flag halfword precedes its callback body. */

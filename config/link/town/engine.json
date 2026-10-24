@@ -256,6 +256,15 @@
       "size": 24
     },
     {
+      "row": "town/func_800C44BC",
+      "home": "town/func_800C44BC",
+      "tu": "src/town/scene/store_scene_image_pair.c",
+      "foff": "0x444BC",
+      "vma": "0x800C1C1C",
+      "size": 76,
+      "evidence": "docs/evidence/r124w_carve1_run7.md"
+    },
+    {
       "row": "town/func_800C4F04",
       "tu": "src/town/person/object/initialize_transform_object_values.c",
       "home": "town/func_800C4F04",

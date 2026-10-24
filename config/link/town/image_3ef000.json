@@ -277,6 +277,18 @@
       "size": 248
     },
     {
+      "row": "town/func_804733D0",
+      "home": "town/func_803304A0",
+      "tu": "src/town/player/copy_current_record_components.c",
+      "foff": "0x3F33D0",
+      "vma": "0x8001A3D0",
+      "size": 72,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
       "row": "town/func_80473418",
       "tu": "src/town/player/state/set_script_flag_bit.c",
       "home": "town/func_803304E8",
@@ -319,12 +331,36 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_80473580",
+      "home": "town/func_80330650",
+      "tu": "src/town/player/invoke_callback_c.c",
+      "foff": "0x3F3580",
+      "vma": "0x8001A580",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
       "row": "town/func_804735BC",
       "home": "town/func_804735BC",
       "tu": "src/town/scene/service/call_scene_service_280_d1.c",
       "foff": "0x003F35BC",
       "vma": "0x8001A5BC",
       "size": 60
+    },
+    {
+      "row": "town/func_804735F8",
+      "home": "town/func_803306C8",
+      "tu": "src/town/player/invoke_callback_c_b.c",
+      "foff": "0x3F35F8",
+      "vma": "0x8001A5F8",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     },
     {
       "row": "town/func_80473634",

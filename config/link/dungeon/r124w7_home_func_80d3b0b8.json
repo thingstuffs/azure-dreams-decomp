@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/r124w7_home_func_80d3b0b8",
+  "container": "dungeon",
+  "foff": "0xd5b0b8",
+  "size": 460,
+  "vma": "0x801708b8",
+  "entries": [
+    {
+      "row": "dungeon/func_80D3B0B8",
+      "home": "dungeon/func_80D3B0B8",
+      "tu": "src/dungeon/monster/u_boat/create_owner_linked_directional_object.c",
+      "foff": "0xd5b0b8",
+      "vma": "0x801708b8",
+      "size": 460,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run7.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+}

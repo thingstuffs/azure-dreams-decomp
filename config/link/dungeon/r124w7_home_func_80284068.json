@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/r124w7_home_func_80284068",
+  "container": "dungeon",
+  "foff": "0x2a4068",
+  "size": 556,
+  "vma": "0x80017068",
+  "entries": [
+    {
+      "row": "dungeon/func_80284068",
+      "home": "dungeon/func_80284068",
+      "tu": "src/dungeon/level/setup.c",
+      "foff": "0x2a4068",
+      "vma": "0x80017068",
+      "size": 556,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run7.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+}

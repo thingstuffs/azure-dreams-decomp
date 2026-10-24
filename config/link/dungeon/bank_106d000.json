@@ -18,6 +18,22 @@
       "evidence": "docs/evidence/r124w_carve1_run6.md"
     },
     {
+      "row": "dungeon/func_8104D20C",
+      "home": "dungeon/func_8102F20C",
+      "tu": "src/dungeon/monster/glacier/apply_relative_projected_depth.c",
+      "foff": "0x106D20C",
+      "vma": "0x80152A0C",
+      "size": 316,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80065420": "0x80065420",
+        "0x80083160": "0x80083160",
+        "0x800DCECC": "0x800DCECC",
+        "0x800478B8": "0x800478B8",
+        "0x800814A0": "0x800814A0"
+      }
+    },
+    {
       "row": "dungeon/func_8104D348",
       "home": "dungeon/func_8102F348",
       "tu": "src/dungeon/monster/glacier/glacier.c",

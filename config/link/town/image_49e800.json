@@ -39,6 +39,30 @@
       "foff": "0x49F598",
       "vma": "0x80016D98",
       "size": 72
+    },
+    {
+      "row": "town/func_805213CC",
+      "home": "town/func_80330650",
+      "tu": "src/town/player/invoke_callback_c.c",
+      "foff": "0x4A13CC",
+      "vma": "0x80018BCC",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
+      "row": "town/func_80521444",
+      "home": "town/func_803306C8",
+      "tu": "src/town/player/invoke_callback_c_b.c",
+      "foff": "0x4A1444",
+      "vma": "0x80018C44",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     }
   ]
 }

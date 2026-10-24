@@ -1,8 +1,11 @@
 #include "dungeon/effect.h"
+#include "dungeon/effect/motion.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/game_work.h"
 #include "shared/gpu_packets.h"
 #include "shared/object_node.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct BallPointPacket {
     GpuLinkTag tag;
@@ -10,7 +13,7 @@ typedef struct BallPointPacket {
         u32 color;
         struct { u8 r, g, b, code; } channels;
     } rgb;
-    u32 data;
+    s32 xy;
 } BallPointPacket;
 
 typedef struct BallPointScratch {
@@ -20,21 +23,16 @@ typedef struct BallPointScratch {
     u8 pad_1C[4];
     GpuLinkTag *ot;
     u8 pad_24[0x6C];
-    u32 xy;
-    u32 depth;
+    s32 xy;
+    s32 depth;
     u8 pad_98[0x28];
     u32 index;
 } BallPointScratch;
 
-extern s16 D_80025338;
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, void *);
-
 /* Mark the ball effect active and queue its brightness-scaled point tiles. */
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position)
 {
-    D_80025338 = 1;
+    particle_effect_active = 1;
     {
         PointRecord *point = first_point;
         ObjectPosition *position = first_position;
@@ -63,7 +61,7 @@ s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_posi
             scratch->y = position->y.w.i;
             scratch->z = position->z.w.i;
             scratch->cursor = tile + 1;
-            scratch->index = RotTransPers(scratch, &tile->data, &scratch->xy, &scratch->depth);
+            scratch->index = RotTransPers(scratch, &tile->xy, &scratch->xy, &scratch->depth);
             if (scratch->index < 480U) {
                 tile->rgb.color = point->color;
                 color_value = tile->rgb.channels.r * point->brightness;
@@ -81,7 +79,7 @@ s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_posi
                 scratch->ot[scratch->index].addr = (u32)tile;
                 draw_mode = scratch->cursor;
                 scratch->cursor = draw_mode + 1;
-                draw_page = func_80066460(0, 1, 0, 0);
+                draw_page = GetTPage(0, 1, 0, 0);
                 SetDrawMode(draw_mode, 0, 0, draw_page, 0);
                 draw_mode->tag.addr = scratch->ot[scratch->index].addr;
                 scratch->ot[scratch->index].addr = (u32)draw_mode;

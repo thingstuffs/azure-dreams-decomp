@@ -8,6 +8,23 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase xfer_dungeon_51E800",
   "entries": [
     {
+      "row": "dungeon/func_804FE9D8",
+      "home": "dungeon/func_802831D8",
+      "tu": "src/dungeon/level/setup.c",
+      "foff": "0x51E9D8",
+      "vma": "0x800161D8",
+      "size": 132,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80083160": "0x80083160",
+        "0x800EA000": "0x800EA000",
+        "0x80018A70": "0x80018A70",
+        "0x80080AA0": "0x80080AA0",
+        "0x80099188": "0x80099188",
+        "0x800E3D20": "0x800E3D20"
+      }
+    },
+    {
       "row": "dungeon/func_804FEA5C",
       "home": "dungeon/func_8028325C",
       "tu": "src/dungeon/level/setup.c",
@@ -54,6 +71,21 @@
       "size": 452,
       "bindings": {},
       "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_804FEBF4"
+    },
+    {
+      "row": "dungeon/func_804FF868",
+      "home": "dungeon/func_80284068",
+      "tu": "src/dungeon/level/setup.c",
+      "foff": "0x51F868",
+      "vma": "0x80017068",
+      "size": 556,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x800E3DF0": "0x800E3DF0",
+        "0x800E3E48": "0x800E3E48",
+        "0x80041E28": "0x80041E28",
+        "0x800422A8": "0x800422A8"
+      }
     },
     {
       "row": "dungeon/func_804FFAA0",
@@ -117,6 +149,30 @@
         "0x8001ABC8": "0x8001ABC8"
       },
       "evidence": "LL3a attestation sha256:17220188c1f1a33fd29beb43b42cba43592ddcada4d79fadc3c2222f23216524; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_8050344C",
+      "home": "dungeon/func_80287C4C",
+      "tu": "src/dungeon/level/generate.c",
+      "foff": "0x52344C",
+      "vma": "0x8001AC4C",
+      "size": 5152,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x800E2970": "0x800E2970",
+        "0x8001CCEC": "0x8001CCEC",
+        "0x800177D8": "0x800177D8",
+        "0x800A6D60": "0x800A6D60",
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8001F660": "0x8001F660",
+        "0x8001C06C": "0x8001C06C",
+        "0x800A07D0": "0x800A07D0",
+        "0x800EA000": "0x800EA000",
+        "0x80083160": "0x80083160",
+        "0x8001CE14": "0x8001CE14",
+        "0x8001C5E4": "0x8001C5E4"
+      }
     },
     {
       "row": "dungeon/func_8050486C",

@@ -1,32 +1,18 @@
 #include "frontend/libcard/message.h"
 
-typedef struct CardChoiceBlock {
-    s32 words[4];
-} CardChoiceBlock;
-
-typedef struct CardChoiceVector {
-    s32 words[3];
-} CardChoiceVector;
-
-typedef struct CardChoiceNode {
-    s32 unk_00;
-    CardChoiceBlock *block;
-    CardChoiceVector *vector;
-    s32 unk_0C;
-} CardChoiceNode;
-
 /* create_visual_object clears a 0xF0-byte body and requests four nodes. */
 typedef struct CardChoiceOwner {
-    u8 pad_00[0x44];
-    CardChoiceVector vector;
-    u8 pad_50[0x10];
-    CardChoiceNode *pointers[4];
-    CardChoiceNode nodes[4];
-    CardChoiceBlock blocks[4];
+    /* 0x00 */ u8 pad_00[0x44];
+    /* 0x44 */ DisplayPositionWords vector;
+    /* 0x50 */ u8 pad_50[0x10];
+    /* 0x60 */ CardDisplayNode *pointers[4];
+    /* 0x70 */ CardDisplayNode nodes[4];
+    /* 0xB0 */ CardDisplayBlock blocks[4];
 } CardChoiceOwner;
 
-extern CardChoiceBlock display_block_defaults;
-extern CardChoiceVector display_vector_defaults;
+/* Sibling message files declare these templates through their own local views. */
+extern CardDisplayBlock display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Build the requested node links and copy their common display defaults. */
 void init_card_choice_nodes(CardChoiceOwner *owner, s32 count)
@@ -50,7 +36,7 @@ void init_card_choice_nodes(CardChoiceOwner *owner, s32 count)
         owner->nodes[i].vector = &owner->vector;
         owner->blocks[i].words[3] = word3;
     }
-    owner->vector.words[0] = display_vector_defaults.words[0];
-    owner->vector.words[1] = display_vector_defaults.words[1];
-    owner->vector.words[2] = display_vector_defaults.words[2];
+    owner->vector.unk0 = display_vector_defaults.unk0;
+    owner->vector.unk4 = display_vector_defaults.unk4;
+    owner->vector.unk8 = display_vector_defaults.unk8;
 }

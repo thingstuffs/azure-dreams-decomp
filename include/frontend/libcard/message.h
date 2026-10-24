@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/frontend/libcard/message/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/gpu_packets.h"
 
 struct Entity;
 struct S_800226A8_0;
@@ -66,19 +67,52 @@ void release_three_row_panel_text(struct S_8002742C_0 *object);
 /* write_text_and_advance_selection.c */
 void write_text_and_advance_selection(u8 *menu);
 
-struct CardChoiceOwner;
-void init_card_choice_templates(void *entry_data, void *block_data, void *vector_data);
-void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
+/* Panel display records.  A panel copies the resident templates
+ * display_block_defaults (one CardDisplayBlock, copied as four words) and
+ * display_vector_defaults (one DisplayPositionWords) into its own storage,
+ * links them from a node, and then places the block on screen. */
+typedef union CardDisplayBlock {
+    s32 words[4];
+    struct {
+        s32 unk_00;
+        s32 unk_04;
+        s16 x;
+        s16 y;
+        s16 depth;
+        u8 unk_0E;
+        u8 mode;
+    } fields;
+} CardDisplayBlock;
 
+typedef struct CardDisplayNode {
+    s32 unk_00;
+    CardDisplayBlock *block;
+    DisplayPositionWords *vector;
+    s32 unk_0C;
+} CardDisplayNode;
+
+/* File-list panel: a heading node with its own block and vector, then 21 list
+ * nodes that share one vector (init_card_file_list_panel, init_card_file_list_nodes). */
+typedef struct CardFileListPanel {
+    /* 0x000 */ s32 selection;
+    /* 0x004 */ u8 pad_004[0xB00];
+    /* 0xB04 */ CardDisplayBlock heading_block;
+    /* 0xB14 */ DisplayPositionWords heading_vector;
+    /* 0xB20 */ DisplayPositionWords vector;
+    /* 0xB2C */ CardDisplayNode heading;
+    /* 0xB3C */ CardDisplayNode *pointers[21];
+    /* 0xB90 */ CardDisplayNode nodes[21];
+    /* 0xCE0 */ CardDisplayBlock blocks[21];
+} CardFileListPanel;
+
+struct CardChoiceOwner;
 struct CardContinueNodes;
 struct CardSlotListNodes;
-struct CardFileListNodes;
-union CardContinueBlock;
-struct CardContinueVector;
-struct CardContinueEntry;
-void init_card_continue_nodes(struct CardContinueNodes *, s32);
-void init_card_slot_list_nodes(struct CardSlotListNodes *, s32);
-void init_card_file_list_nodes(struct CardFileListNodes *, s32);
-void init_card_continue_templates(struct CardContinueEntry *, union CardContinueBlock *, struct CardContinueVector *);
+void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
+void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
+void init_card_continue_nodes(struct CardContinueNodes *owner, s32 count);
+void init_card_slot_list_nodes(struct CardSlotListNodes *owner, s32 count);
+void init_card_file_list_nodes(CardFileListPanel *owner, s32 count);
+void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 
 #endif

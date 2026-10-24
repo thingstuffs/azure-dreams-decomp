@@ -105,6 +105,30 @@
         "0x80016444": "0x80016444"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "town/func_804BA1BC",
+      "home": "town/func_80330650",
+      "tu": "src/town/player/invoke_callback_c.c",
+      "foff": "0x43A1BC",
+      "vma": "0x800189BC",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
+      "row": "town/func_804BA234",
+      "home": "town/func_803306C8",
+      "tu": "src/town/player/invoke_callback_c_b.c",
+      "foff": "0x43A234",
+      "vma": "0x80018A34",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     }
   ]
 }

@@ -10,6 +10,7 @@ typedef struct MenuLinkedRecord {
     MenuOwner *owner;
 } MenuLinkedRecord;
 
+/* Remove this record node once its owner is marked for removal. */
 void remove_record_with_marked_owner(void *body) {
     MenuLinkedRecord *record = body;
     /* The object-node flag halfword precedes its callback body. */

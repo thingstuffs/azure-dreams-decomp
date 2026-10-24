@@ -8,6 +8,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EE17000: xfer_dungeon_134D800; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_8132DBA4",
+      "home": "dungeon/func_81323108",
+      "tu": "src/dungeon/monster/ghosh/clear_actor_action_markers.c",
+      "foff": "0x134DBA4",
+      "vma": "0x80164BA4",
+      "size": 32,
+      "evidence": "docs/evidence/r124w_carve1_run7.md"
+    },
+    {
       "row": "dungeon/func_8132DBC4",
       "tu": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
       "home": "dungeon/func_800D1194",

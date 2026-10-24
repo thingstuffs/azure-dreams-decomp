@@ -9,6 +9,21 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F625800: img_b2d73c_80152f3c, img_b2f454_80154c54, img_b2f81c_8015501c, r121_followup_B30324, r121nd_B2D4F8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80B0D12C",
+      "home": "dungeon/func_800D1194",
+      "tu": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
+      "foff": "0xB2D12C",
+      "vma": "0x8015292C",
+      "size": 480,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80083160": "0x80083160",
+        "0x80065420": "0x80065420",
+        "0x80066460": "0x80066460",
+        "0x80067F20": "0x80067F20"
+      }
+    },
+    {
       "row": "dungeon/func_80B0D30C",
       "home": "dungeon/func_80AC5284",
       "tu": "src/dungeon/monster/saber/update_shrinking_sprite_effect.c",

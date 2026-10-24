@@ -8,6 +8,19 @@
   "evidence": "ledger/instance_load_regions.jsonl; internal link-evidence; documented devkit-linked image",
   "entries": [
     {
+      "row": "main/func_8001A53C",
+      "home": "main/func_8000E4FC",
+      "tu": "src/main/func_8000E4FC.c",
+      "foff": "0x26A53C",
+      "vma": "0x8040153C",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x800287E4": "0x80409504",
+        "0x80021538": "0x80401578"
+      }
+    },
+    {
       "row": "main/func_8001C868",
       "home": "main/func_800105A0",
       "tu": "src/frontend/libcard/card_boot_set_centered_rectangle.c",
@@ -79,6 +92,86 @@
         "0x80024298": "0x80404688"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_8001D708",
+      "home": "town/func_802EE624",
+      "tu": "src/town/menu/initialize_menu_primitive_settings.c",
+      "foff": "0x26D708",
+      "vma": "0x80404708",
+      "size": 168,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8002D690": "0x8002D690",
+        "0x8002D694": "0x8002D694",
+        "0x8002D6A0": "0x8002D6A0",
+        "0x8002D698": "0x8002D698",
+        "0x8002D69C": "0x8002D69C",
+        "0x8002D6A4": "0x8002D6A4",
+        "0x8002D6A8": "0x8002D6A8"
+      }
+    },
+    {
+      "row": "main/func_8001E53C",
+      "home": "town/func_802EE53C",
+      "tu": "src/town/menu/initialize_menu_item_positions.c",
+      "foff": "0x26E53C",
+      "vma": "0x8040553C",
+      "size": 232,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80404DEC": "0x80404DEC",
+        "0x800841DC": "0x800841DC",
+        "0x8008423C": "0x8008423C",
+        "0x8008429C": "0x8008429C"
+      }
+    },
+    {
+      "row": "main/func_8001E624",
+      "home": "town/func_802EE624",
+      "tu": "src/town/menu/initialize_menu_primitive_settings.c",
+      "foff": "0x26E624",
+      "vma": "0x80405624",
+      "size": 168,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8002D690": "0x8002D690",
+        "0x8002D694": "0x8002D694",
+        "0x8002D6A0": "0x8002D6A0",
+        "0x8002D698": "0x8002D698",
+        "0x8002D69C": "0x8002D69C",
+        "0x8002D6A4": "0x8002D6A4",
+        "0x8002D6A8": "0x8002D6A8"
+      }
+    },
+    {
+      "row": "main/func_8001E6F4",
+      "home": "town/func_802EE6F4",
+      "tu": "src/town/menu/initialize_menu_primitive_entries.c",
+      "foff": "0x26E6F4",
+      "vma": "0x804056F4",
+      "size": 180,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8002D690": "0x8002D690",
+        "0x8002D6A0": "0x8002D6A0",
+        "0x8002D6A4": "0x8002D6A4",
+        "0x8002D6A8": "0x8002D6A8"
+      }
+    },
+    {
+      "row": "main/func_8001E7B0",
+      "home": "town/func_802EE7B0",
+      "tu": "src/town/menu/initialize_menu_overlay_objects.c",
+      "foff": "0x26E7B0",
+      "vma": "0x804057B0",
+      "size": 64,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x804057A8": "0x804057A8",
+        "0x80405624": "0x80405624",
+        "0x8040553C": "0x8040553C"
+      }
     },
     {
       "row": "main/func_8001E9A8",
@@ -250,6 +343,24 @@
         "0x80026494": "0x80406CB8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_800203B0",
+      "home": "town/func_802EE624",
+      "tu": "src/town/menu/initialize_menu_primitive_settings.c",
+      "foff": "0x2703B0",
+      "vma": "0x804073B0",
+      "size": 168,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x8002D690": "0x8002D690",
+        "0x8002D694": "0x8002D694",
+        "0x8002D6A0": "0x8002D6A0",
+        "0x8002D698": "0x8002D698",
+        "0x8002D69C": "0x8002D69C",
+        "0x8002D6A4": "0x8002D6A4",
+        "0x8002D6A8": "0x8002D6A8"
+      }
     },
     {
       "row": "main/func_800205A8",

@@ -125,6 +125,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_805D3604",
+      "home": "town/func_803E8320",
+      "tu": "src/town/scene/service/invoke_scene_service.c",
+      "foff": "0x553604",
+      "vma": "0x80017604",
+      "size": 56,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
       "row": "town/func_805D37B4",
       "tu": "src/town/scene/get_selected_row_field_4.c",
       "home": "town/func_805D37B4",
@@ -916,6 +928,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_805D5548",
+      "home": "town/func_80330650",
+      "tu": "src/town/player/invoke_callback_c.c",
+      "foff": "0x555548",
+      "vma": "0x80019548",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
       "row": "town/func_805D5584",
       "tu": "src/town/scene/service/call_scene_service_280_d1.c",
       "home": "town/func_804735BC",
@@ -927,6 +951,18 @@
         "0x8001A5BC": "0x80019584"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_805D55C0",
+      "home": "town/func_803306C8",
+      "tu": "src/town/player/invoke_callback_c_b.c",
+      "foff": "0x5555C0",
+      "vma": "0x800195C0",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     },
     {
       "row": "town/func_805D55FC",

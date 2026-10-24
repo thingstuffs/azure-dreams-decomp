@@ -1,55 +1,29 @@
 #include "frontend/libcard/message.h"
 
-/* The defaults are copied as words, then individual display fields change. */
-typedef union CardChoiceBlock {
-    s32 words[4];
-    struct {
-        s32 unk_00;
-        s32 unk_04;
-        s16 unk_08;
-        s16 unk_0A;
-        s16 unk_0C;
-        u8 unk_0E;
-        u8 unk_0F;
-    } display;
-} CardChoiceBlock;
+/* Sibling message files declare these templates through their own local views. */
+extern CardDisplayBlock display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
-typedef struct CardChoiceVector {
-    s32 words[3];
-} CardChoiceVector;
-
-typedef struct CardChoiceEntry {
-    s32 unk_00;
-    CardChoiceBlock *block;
-    CardChoiceVector *vector;
-} CardChoiceEntry;
-
-extern CardChoiceBlock display_block_defaults;
-extern CardChoiceVector display_vector_defaults;
-
-/* Copy the two default templates, link them, and set the choice-panel display fields. */
-void init_card_choice_templates(void *entry_data, void *block_data, void *vector_data)
+/* Copy the two default templates, link them, and place the choice panel at (-160, -120). */
+void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector)
 {
-    CardChoiceEntry *entry = entry_data;
-    CardChoiceBlock *block = block_data;
-    CardChoiceVector *vector = vector_data;
-    CardChoiceBlock *block_template = &display_block_defaults;
-    CardChoiceVector *vector_template = &display_vector_defaults;
+    CardDisplayBlock *block_template = &display_block_defaults;
+    DisplayPositionWords *vector_template = &display_vector_defaults;
     s32 *vector_head;
 
     block->words[0] = block_template->words[0];
-    vector_head = &vector_template->words[0];
+    vector_head = &vector_template->unk0;
     block->words[1] = block_template->words[1];
     block->words[2] = block_template->words[2];
     block->words[3] = block_template->words[3];
-    vector->words[0] = *vector_head;
-    vector->words[1] = vector_template->words[1];
-    vector->words[2] = vector_template->words[2];
+    vector->unk0 = *vector_head;
+    vector->unk4 = vector_template->unk4;
+    vector->unk8 = vector_template->unk8;
     entry->block = block;
     entry->vector = vector;
     entry->unk_00 = 0;
-    entry->block->display.unk_08 = -160;
-    entry->block->display.unk_0A = -120;
-    entry->block->display.unk_0C = 512;
-    entry->block->display.unk_0F = 4;
+    entry->block->fields.x = -160;
+    entry->block->fields.y = -120;
+    entry->block->fields.depth = 512;
+    entry->block->fields.mode = 4;
 }

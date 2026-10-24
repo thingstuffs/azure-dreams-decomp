@@ -9,6 +9,31 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F2FB800: img_e512e8_8014cae8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E31090",
+      "home": "dungeon/func_80E0D090",
+      "tu": "src/dungeon/monster/cyclone/create_flagged_dungeon_actor_object.c",
+      "foff": "0xE51090",
+      "vma": "0x8014C890",
+      "size": 600,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80083498": "0x80083498",
+        "0x8003FD64": "0x8003FD64",
+        "0x80045340": "0x80045340",
+        "0x80170AE8": "0x8014CAE8",
+        "0x8004491C": "0x8004491C",
+        "0x80176460": "0x80152460",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A48F0": "0x800A48F0",
+        "0x80176470": "0x80152470",
+        "0x800A9C18": "0x800A9C18",
+        "0x80171094": "0x8014D094",
+        "0x801764B8": "0x801524B8",
+        "0x800672D8": "0x800672D8",
+        "0x800AA36C": "0x800AA36C"
+      }
+    },
+    {
       "row": "dungeon/func_80E31894",
       "tu": "src/dungeon/monster/cyclone/update_actor_animation.c",
       "home": "dungeon/func_80E0D894",

@@ -54,8 +54,6 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
-extern u8 unicorn_action_continuation_address;
-extern u8 unicorn_frame_set[];
 extern u8 D_80174D94[];
 extern u8 unicorn_frame_set_1[];
 extern u8 D_80174DA4[];

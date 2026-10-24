@@ -6,20 +6,20 @@
 
 /* Creates a gray, randomly rotated sprite with copied motion, a saved starting height, and the
    supplied tag. */
-s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag) {
+ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, ObjectPosition *input, s16 stored_tag) {
     s32 random_or_w2;
     s32 rounded_random;
     ObjectNodeHeader *object;
     Row_8189E934_Tail *state;
     SpriteFrameState *display;
-    void *input_copy;
+    ObjectPosition *input_copy;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = (Row_8189E934_Tail *)((s8 *)object + 0x20);
+        state = (void *)object + 0x20;
         object->update_callback = D_80024020;
         state->value = stored_value;
-        ((Row_8189E934_S_80024134_0 *)object)->unk_20 = 0;
+        state->pad0 = 0;
         state->tag = stored_tag;
         display = object->sprite;
         display->color.c.b = 0x80;
@@ -27,18 +27,18 @@ s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 st
         display->color.c.r = 0x80;
         display->source = D_80024C78;
         display->clut = 0x7E02;
-        display->flags = (u16) (display->flags | 0x100);
+        display->flags |= 0x100;
         rounded_random = rand();
         random_or_w2 = rounded_random;
-        display->angle_z = (s16) (random_or_w2 % 4096);
+        display->angle_z = random_or_w2 % 4096;
         display->scale_y = 0x800;
         display->scale_x = 0x800;
         register_node(object, project_sprite_chain);
         input_copy = object->position;
-        *(Row_8189E934_Input6 *)input_copy = *(Row_8189E934_Input6 *)input;
-        random_or_w2 = *(s32 *)((s8 *)input_copy + 8);
+        *input_copy = *input;
+        random_or_w2 = input_copy->z.v;
         state->copy = random_or_w2;
-        return (s32)object;
+        return object;
     }
     return 0;
 }
@@ -132,22 +132,22 @@ void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32
 }
 
 /* Creates an initially black, zero-scale sprite with copied motion and a random starting animation frame. */
-s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform)
+ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosition *transform)
 {
     s32 random_value;
     s32 rounded_random;
-    s32 return_value;
+    ObjectNodeHeader *return_value;
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
     Row_8189EBBC_S_800243BC_1 *state;
-    Row_8189EBBC_S_800243BC_4 *object_transform;
+    ObjectPosition *object_transform;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = ((void *)object) + 0x20;
         object->update_callback = &D_80024264;
         state->unk_08 = owner_id;
-        ((Row_8189EBBC_S_800243BC_0 *)object)->unk_20 = 0;
+        state->phase = 0;
         state->unk_02 = 0;
         state->unk_04 = 0x10;
         sprite = object->sprite;
@@ -157,9 +157,9 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
         sprite->color.c.r = 0;
         sprite->scale_y = 0;
         sprite->scale_x = 0;
-        sprite->flags = (s16)(sprite->flags | 0xC);
-        sprite->tpage_abr = (u16)(sprite->tpage_abr | 0x20);
-        sprite->flags = (u16)(sprite->flags | 0x100);
+        sprite->flags |= 0xC;
+        sprite->tpage_abr |= 0x20;
+        sprite->flags |= 0x100;
         random_value = rand();
         rounded_random = random_value;
         if (random_value < 0) {
@@ -169,8 +169,8 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
                       (s16)(random_value - ((rounded_random >> 4) * 0x10)));
         register_node(object, &transform_effect_tag);
         object_transform = object->position;
-        return_value = (s32)object;
-        *object_transform = *(Row_8189EBBC_S_800243BC_4 *)transform;
+        return_value = object;
+        *object_transform = *transform;
         return return_value;
     }
     return 0;

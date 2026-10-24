@@ -1,11 +1,14 @@
 #include "dungeon/actor.h"
+#include "dungeon/player/object/action_state.h"
 #include "shared/dungeon_status.h"
 
 extern s16 relink_entity_and_clear_high_flag(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16, s16, void *);
 extern void update_actor_status_and_mp(ActorRecord *);
-#include "dungeon/player/object/action_state.h"
+/* func_80171854 keeps its address: bank_9bf000 places the Hikewne direction
+ * selector there, but bank_10a3000 rebinds this address into a Grineut helper. */
 extern void func_80171854(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
+/* Ask the move selector for an action; force or retry a stored move, rest, or finish the turn. */
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move) {
     ActorRecord *actor;
     s16 action;

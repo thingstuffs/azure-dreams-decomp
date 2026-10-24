@@ -692,6 +692,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_806F30AC",
+      "home": "town/func_80330650",
+      "tu": "src/town/player/invoke_callback_c.c",
+      "foff": "0x6730AC",
+      "vma": "0x800178AC",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
+    },
+    {
       "row": "town/func_806F30E8",
       "tu": "src/town/scene/service/call_scene_service_280_d1.c",
       "home": "town/func_804735BC",
@@ -703,6 +715,18 @@
         "0x8001A5BC": "0x800178E8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_806F3124",
+      "home": "town/func_803306C8",
+      "tu": "src/town/player/invoke_callback_c_b.c",
+      "foff": "0x673124",
+      "vma": "0x80017924",
+      "size": 60,
+      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     },
     {
       "row": "town/func_806F3160",

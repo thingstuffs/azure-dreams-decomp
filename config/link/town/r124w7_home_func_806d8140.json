@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/r124w7_home_func_806d8140",
+  "container": "town",
+  "foff": "0x658140",
+  "size": 188,
+  "vma": "0x80016940",
+  "entries": [
+    {
+      "row": "town/func_806D8140",
+      "home": "town/func_806D8140",
+      "tu": "src/town/scene/lookup_entry_with_kind_overrides.c",
+      "foff": "0x658140",
+      "vma": "0x80016940",
+      "size": 188,
+      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run7.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+}

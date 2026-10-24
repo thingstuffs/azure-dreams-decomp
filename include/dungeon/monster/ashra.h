@@ -9,4 +9,9 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
 void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, void *actor);
 void advance_actor_attack_and_resolve_damage(void *action, s32 actor_id, void *sprite, ActorRecord *actor);
 
+/* Frame tables the spawn factory installs: the default set, and the set used
+ * when it starts the monster asleep. */
+extern u8 ashra_direction_frames[];
+extern u8 ashra_sleep_direction_frames[];
+
 #endif

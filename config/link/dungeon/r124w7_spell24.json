@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/r124w7_spell24",
+  "container": "dungeon",
+  "foff": "0x18BECF0",
+  "size": 1928,
+  "vma": "0x800244F0",
+  "entries": [
+    {
+      "row": "dungeon/func_8189ECF0",
+      "home": "dungeon/func_8189ECF0",
+      "tu": "src/dungeon/effect/update_transform_spell.c",
+      "foff": "0x18BECF0",
+      "vma": "0x800244F0",
+      "size": 1928,
+      "evidence": "docs/evidence/r124w_carve1_run7.md"
+    }
+  ],
+  "evidence": "docs/evidence/r124w_carve1_run7.md; complete callback body from resource 24; compiler-local table at resource +8 is independently checked, not counted as C coverage"
+}
