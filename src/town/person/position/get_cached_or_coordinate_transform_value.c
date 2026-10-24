@@ -17,10 +17,10 @@ typedef struct {
 extern TownState town_actor_control;
 extern s16 D_800D5078[];
 
-extern s16 clamp_transform_coordinate_deltas(s16 x, s16 z, s32 origin);
+#include "town/person/object_setup.h"
 
 /* Return the current object's cached value or look it up at the town coordinates. */
-s16 get_cached_or_coordinate_transform_value(void *object, s32 lookup_mode)
+s16 get_cached_or_coordinate_transform_value(void *object, void *lookup_mode)
 {
     TownState *state = &town_actor_control;
 

@@ -1,26 +1,25 @@
-#include "common.h"
+#include "town/person/state_updates.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef void (*Callback)(void *, s32, void *);
+typedef void (*Callback)(void *, void *, void *);
 
-extern void unlink_node_if_registered(void *, s32);
+extern void unlink_node_if_registered(void *, void *);
 /* garbage-passthru: a2/a3 survive load_record_halfwords_3; explicit arguments add saves/reloads absent from retail. */
 extern s32 service_script_controller(void);
 extern void shift_history_and_store_current_values(void);
 extern void load_record_halfwords_3(void *, s32);
-extern void dispatch_object_when_idle(void *, void *, s32, s32);
-extern void clear_object_status_and_dispatch_target(void *, void *, void *, s8);
+#include "town/system/person_idle_dispatch.h"
 extern s32 quantize_heading_to_sector(s16, s16);
 extern s32 check_heading_past_half_sector(s16, s16);
 
 extern s32 D_800834A8;
 
 /* Tracks idle time, runs the person's callback, and updates the sprite for its heading and mirror flag. */
-void update_person_view_and_record(void *ptr, s32 value, SpriteFrameState *record) {
+void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *record) {
     GameWork *work = &g_game_work;
     s16 buf[12];
     s32 index;

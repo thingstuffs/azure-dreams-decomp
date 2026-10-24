@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-24T09:30:25Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-24T10:21:21Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -70,7 +70,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 4055 rows, 2,425,644 bytes (30.0%); records used: 95.
+On shared record headers (T7, `include/records/`): 4057 rows, 2,425,784 bytes (30.0%); records used: 95.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,981 rows (7,004,792 B).
 

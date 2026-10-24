@@ -20,7 +20,7 @@ void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fall
 extern M2C_UNK D_800F8F68;
 
 /* Clear the object state field and initialize its resource data and callback. */
-void initialize_resource_object(void *object, s32 unused, s32 context) {
+void initialize_resource_object(void *object, s32 unused, void *context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &handle_object_bounds_and_cleanup;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F68), 0);

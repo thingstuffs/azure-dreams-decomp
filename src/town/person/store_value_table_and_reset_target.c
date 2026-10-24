@@ -5,7 +5,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
-void clear_object_status_and_dispatch_target();
+#include "town/system/person_idle_dispatch.h"
 s32 get_facing_sector();
 
 /* Store the value table, apply the selected value to the target, and clear its status byte. */

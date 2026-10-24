@@ -47,7 +47,7 @@ void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *mo
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
         table_index = quantize_heading_to_sector(obj->field72, obj->field64);
         if (obj->field74 != table_index) {
-            clear_object_status_and_dispatch_target(obj, (int)(motion), (int)(obj->table78[table_index]), *(s8 *)((u8 *)motion + 4));
+            clear_object_status_and_dispatch_target(obj, motion, (int)(obj->table78[table_index]), *(s8 *)((u8 *)motion + 4));
             obj->field74 = table_index;
         }
         if (!(obj->flags71 & 1)) {
@@ -90,11 +90,11 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */
-void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, s32 animation) {
+void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, void *animation) {
     register_node_if_unregistered(object, project_sprite_chain);
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;
     clear_object_status_and_dispatch_target(object, animation, **object->unk_7C.as_pps32, 0);
     configure_the_set_mode_n_1((struct Rec_func_8008F074_arg0 *)(object), context, (s32)(&D_800D5028));
-    dispatch_object_state(object, (void *)(context), (void *)(animation));
+    dispatch_object_state(object, (void *)(context), animation);
 }

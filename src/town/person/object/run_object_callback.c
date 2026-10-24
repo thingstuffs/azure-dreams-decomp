@@ -3,10 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef void (*Callback)(void *, s32, void *);
+typedef void (*Callback)(void *, void *, void *);
 
-void dispatch_object_when_idle();
-void clear_object_status_and_dispatch_target();
+#include "town/system/person_idle_dispatch.h"
 s32 quantize_heading_to_sector();
 s32 check_heading_past_half_sector();
 

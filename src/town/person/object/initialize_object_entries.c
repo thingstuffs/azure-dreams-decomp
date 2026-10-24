@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void clear_object_status_and_dispatch_target(void *object, int target, int value, s16 flags);
+#include "town/system/person_idle_dispatch.h"
 extern s32 quantize_heading_to_sector(s16 referenceAngle, s16 sectorCount);
 
 #include "town/person/object/initialize_object_entries_api.h"

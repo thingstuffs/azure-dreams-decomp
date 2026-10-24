@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/person/object_setup.h"
 
 extern s16 ratan2(s32, s32);
 

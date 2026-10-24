@@ -41,16 +41,15 @@ void unlink_node_if_registered(void *block_data);
 s32 classify_object_against_bounds(Rec_func_80094268_arg0 *, void *);
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
-void call_object_callback(S_800C3960_0 *object, s32 context, void *motion);
-void dispatch_object_when_idle(TargetObj *, void *, s32, s32);
+void call_object_callback(S_800C3960_0 *object, void *context, void *motion);
+
 s32 quantize_heading_to_sector(s32, s16);
 s32 check_heading_past_half_sector(s32, s16);
 extern M2C_UNK D_800D5028;
 extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 extern s32 runtime_is_record_field_set(void *);
-extern void install_stored_value_handler(void *object, void *unused, void *update_arg);
-extern void initialize_object_assigns_state_data(void *object, void *unusedArg, void *initializationArg);
+#include "town/person/state_updates.h"
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 
@@ -58,6 +57,6 @@ void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion);
 void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data);
 void dispatch_object_state(void *object, void *context, void *dispatch_data);
-void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, s32 animation);
+void initialize_person_object(Rec_func_80094268_arg0 *object, s32 context, void *animation);
 
 #endif

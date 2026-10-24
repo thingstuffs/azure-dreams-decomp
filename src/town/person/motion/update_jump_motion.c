@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/person/jump_motion.h"
 
 typedef struct S_800CC070_0 {
     u8 pad_00[0x68];
@@ -16,12 +16,12 @@ typedef struct S_800CC070_1 {
 
 extern void add_hex_20000_s_signed_offset_hex_14(void *);
 extern s16 query_lowered_transform_position(void *);
-extern void initialize_object_entries(void *, s32, void *);
+#include "town/person/object/initialize_object_entries_api.h"
 extern s32 D_800D6ABC;
 extern s32 D_800D6AD0;
 
 /* Advances a jump through ascent and descent, clamping the landing height. */
-void update_jump_motion(S_800CC070_0 *actor, S_800CC070_1 *motion, s32 animation_id, s16 jump_velocity)
+void update_jump_motion(S_800CC070_0 *actor, S_800CC070_1 *motion, void *animation_id, s16 jump_velocity)
 {
     s16 state;
 

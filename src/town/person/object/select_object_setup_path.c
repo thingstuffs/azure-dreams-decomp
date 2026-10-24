@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 service_script_controller(void *, s32, s32, s32);
+extern s32 service_script_controller(void *, void *, void *, s32);
 extern s32 check_active_transform_object(void *other);
-extern void initialize_object_and_update(void *object, s32 setupParam1, s32 setupParam2);
-extern void initialize_object_handlers(void *object, s32 setupParam1, s32 setupParam2);
+#include "town/person/object_setup.h"
+extern void initialize_object_handlers(void *object, void *setupParam1, void *setupParam2);
 extern u8 D_80082A39[16];
 
 /* Select the object setup path after a successful request. */
-s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param) {
+s32 select_object_setup_path(void *object, void *request_data, void *request_param, s32 check_param) {
     if (service_script_controller(object, request_data, request_param, check_param) == 0) {
         return 0;
     }
