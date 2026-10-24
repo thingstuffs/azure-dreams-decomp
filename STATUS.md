@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-24T12:32:45Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-24T14:48:31Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -86,7 +86,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,595 | 2,647,460 | 32.8% |
 | do{}while(0) scheduling barrier | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,460 | 3,854,068 | 47.7% |
+| local address-named struct | 2,461 | 3,854,100 | 47.7% |
 | clean shape | 7,921 | 7,712,400 | 95.5% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -107,7 +107,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2460 | 3,854,068 | 47.7% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2461 | 3,854,100 | 47.7% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7921 | 7,712,400 | 95.5% |
 
 </details>

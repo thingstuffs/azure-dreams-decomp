@@ -5,7 +5,7 @@
  * When F_sbs22_pad29 is set, clears D_8001B208 and returns func_80019928; otherwise applies the
  * signed indexed value and returns one.
  */
-s32 dispatch_entry_by_799_flag(s32 context, s32 entryIndex) {
+s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex) {
     s32 result;
 
     if (func_8001A510(F_sbs22_pad29) != 0) {

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "town/menu/motion.h"
 #include "shared/object_flags.h"
 
 typedef struct Obj800A5BC0 {

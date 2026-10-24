@@ -11,6 +11,6 @@ void apply_object_setup_update(void *object, void *callback_arg_1, void *callbac
 struct EntityRec;
 void advance_object_position(void *context, struct EntityRec *object, void *finish_arg);
 void move_position_toward_target(void *work_data, void *position_data, void *completion_arg);
-s32 select_object_setup_path(void *object, void *request_data, void *request_param, s32 check_param);
+s32 select_object_setup_path(void *object, void *request_data, void *request_param, s32 unused);
 
 #endif

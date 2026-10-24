@@ -1,12 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern u32 process_checked_entry(s32 object, s32 entryIndex);
+#include "town/scene/entry_requests.h"
 extern void clear_script_flag_bit(s32 bit_index);
 extern u8 town_entry_check_zero[];
 
 /* Record whether the check returned zero and invoke the handler when it did. */
-s32 record_check_returned(s32 check_input_1, s32 check_input_2) {
+s32 record_check_returned(void *check_input_1, s32 check_input_2) {
     s32 result;
 
     result = process_checked_entry(check_input_1, check_input_2);

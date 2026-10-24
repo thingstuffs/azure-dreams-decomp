@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
 
 typedef struct TownRecord {
@@ -10,17 +11,17 @@ typedef struct TownRecord {
 } TownRecord;
 
 extern void func_80017E1C(void);
-extern s32 func_80018618(void);
+extern s32 func_80018618(void *object, s32 entry_index);
 extern s32 func_800194D8(s32);
 extern s32 scene_cell_dispatch_code;
 
 /* Loads the current entry's value, conditionally clears it, and handles the follow-up check. */
-s32 load_entry_value_and_handle_followup(void) {
+s32 load_entry_value_and_handle_followup(void *object, s32 entry_index) {
     TownRecord *record;
 
     record = *(TownRecord **)((s8 *)(&town_scene_root));
     scene_cell_dispatch_code = record->entries[(record->index * 8) + 4];
-    if (func_80018618() != 0) {
+    if (func_80018618(object, entry_index) != 0) {
         TownRecord *clear_record;
 
         clear_record = *(TownRecord **)((s8 *)(&town_scene_root));

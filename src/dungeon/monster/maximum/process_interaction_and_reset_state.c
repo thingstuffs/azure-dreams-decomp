@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
@@ -11,13 +12,12 @@ typedef struct S_801722DC_0 {
 
 
 s32 advance_status_timers();                     /* extern */
-s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void dispatch_monster_move_attack_spell(void *controller, void *context, void *entity, ActorRecord *actor_state);
 
 /* Process an interaction and reset the object's state when the checks allow it. */
-void process_interaction_and_reset_state(S_801722DC_0 *state, s32 context, s32 source, s32 target) {
+void process_interaction_and_reset_state(S_801722DC_0 *state, void *context, void *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 5);
         advance_status_timers(target);

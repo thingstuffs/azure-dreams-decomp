@@ -1,6 +1,5 @@
 #include "common.h"
-typedef struct Obj800A5BC0 Obj800A5BC0;
-void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx);
+#include "town/menu/motion.h"
 
 typedef struct S_800A32F0_0 {
     s32 * unk_00;

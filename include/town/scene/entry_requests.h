@@ -3,6 +3,37 @@
 
 #include "common.h"
 
+s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
+void apply_entry_keyed_values(s16 *entry_table, void *resource, s32 entry_key);
+s32 resolve_entry_flag(u8 *entry_table, void *context, s32 entry_key);
+s32 process_current_cell_and_clear(void *object, s32 entry_index);
+s32 update_entry_state_and_clear(void *object, s32 entry_index);
+s32 load_entry_value_and_handle_followup(void *object, s32 entry_index);
+void select_based_parameters(void *context, s32 entry_index);
+s32 dispatch_by_state_code_0x798(void *handler_arg_a, s32 handler_arg_b);
+s32 dispatch_entry_by_798_state(void *handler_arg_a, s32 handler_arg_b);
+s32 dispatch_by_state_code_0x799(void *slot_index, s32 slot_value);
+s32 dispatch_menu_pair_by_798_state(void *slot_index, s32 slot_value);
+s32 dispatch_entry_and_set_11_fb_when_flagged(void *context, s32 entry_index);
+void call_clear_script_flag_bit(void *context, s32 entry_index);
+s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex);
+s32 dispatch_entry_by_798_and_799_flags(void *context, s32 entry_index);
+s32 select_handler_by_state_code_0x798(void *primaryInput, s32 secondaryInput);
+void forward_context_value_to_handler_d(void *first_arg, s32 second_arg);
+void forward_context_value_to_handler_a(void *input_a, s32 input_b);
+void forward_context_value_to_handler_b(void *first_value, s32 second_value);
+void forward_context_value_to_handler_c(void *context, s32 value);
+void forward_context_value_to_handler_e(void *first_input, s32 second_input);
+void apply_signed_value_to_indexed_entry(void *object, s32 index);
+s32 record_check_returned(void *check_input_1, s32 check_input_2);
+struct S_8046C8C4_0;
+void pass_indexed_entry(struct S_8046C8C4_0 *table, s32 entry_index);
+
+s32 process_checked_entry(void *object, s32 entry_index);
+s32 func_80019928(void *object, s32 entry_index);
+s32 wait_for_dialogue_then_close(void *object, s32 entry_index);
+s32 dispatch_code_7_a_0_by_status(void *object, s32 entry_index);
+
 s32 *run_scene_helper_and_get_result(void);
 s32 dispatch_scene_entry_value(s32 entry_id, s32 unused, s32 value);
 s32 dispatch_scene_alt_tables(s32 request, s32 unused, s32 mode);

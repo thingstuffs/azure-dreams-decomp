@@ -1,5 +1,6 @@
 #include "shared/town_root.h"
 #include "common.h"
+#include "town/scene/grid_entry_query.h"
 #include "shared/record_ptrs.h"
 
 
@@ -25,7 +26,7 @@ s32 find_entry_index_by_grid_bytes(s32 match_byte_1, s32 match_byte_0) {
                 result = entry_index;
                 break;
             }
-            entry_slot = (void **)((s8 *)entry_slot + 4);
+            entry_slot += 1;
             entry_index += 1;
             if (*entry_slot == 0) {
                 return result;

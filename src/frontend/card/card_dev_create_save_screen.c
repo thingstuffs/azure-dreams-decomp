@@ -32,7 +32,7 @@ StructA_8001F678 *card_dev_create_save_screen(s32 init_value) {
     StructA_8001F678 *state;
 
     state = func_8003C714(0, D_8040C628, 0x1C);
-    func_80406570((void *) ((s32) state + 0x20), init_value);
+    func_80406570((u8 *)state + 0x20, init_value);
     run_slot_operation_code_five();
     func_80402214();
     state->unk68 = 1;

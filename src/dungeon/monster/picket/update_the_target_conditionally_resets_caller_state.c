@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
@@ -11,7 +12,6 @@ typedef struct S_801724A8_0 {
 
 
 s32 advance_status_timers();                     /* extern */
-s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
 void spend_actor_mp();            /* extern */
                 /* extern */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
@@ -21,7 +21,7 @@ void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *con
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void update_the_target_conditionally_resets_caller_state(S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void update_the_target_conditionally_resets_caller_state(S_801724A8_0 *state, void *context, void *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 3);
         advance_status_timers(target);
