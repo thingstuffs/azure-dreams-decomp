@@ -14,7 +14,7 @@ typedef struct S_80056558_85458 {
 } S_80056558_85458;
 
 extern s32 audio_voice_count[4];
-extern S_80056558_85458 audio_voice_records[64];
+extern S_80056558_85458 audio_voice_records[24];
 
 extern s32 sound_set_indexed_voice_volumes();
 

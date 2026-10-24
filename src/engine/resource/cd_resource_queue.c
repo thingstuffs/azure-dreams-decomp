@@ -3,14 +3,15 @@
 #include "engine/resource.h"
 #include "engine/texture.h"
 
-extern void *create_callback_pair_payload(int a0, int a1, int a2, int a3);
+/* The owning scene header has a different legacy queue descriptor contract. */
+extern void *create_callback_pair_payload(void *second_value, void *first_value, unsigned long unused_value);
 
 /* Forward the values with two leading zeros and return the allocated node. */
-void *create_callback_pair_default(int value, int unused_1, int unused_2, int extra_value)
+void *create_callback_pair_default(int value)
 {
     int saved_value = value;
-    value = 0;
-    return create_callback_pair_payload(value, value, saved_value, extra_value);
+    void *empty = 0;
+    return create_callback_pair_payload(empty, empty, saved_value);
 }
 
 

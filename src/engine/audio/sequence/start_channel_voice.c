@@ -89,8 +89,8 @@ typedef struct
 }
 S_8005BBFC_req;
 extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[64];
-extern S_80085458 audio_voice_records[64];
+extern s32 audio_voice_masks[24];
+extern S_80085458 audio_voice_records[24];
 extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */

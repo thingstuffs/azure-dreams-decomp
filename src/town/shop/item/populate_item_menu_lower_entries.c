@@ -1,81 +1,58 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
-
-typedef struct S_800AF520_3 {
-    void * unk_00;
-} S_800AF520_3;   /* ctx in populate_item_menu_lower_entries */
-
-typedef struct S_800AF520_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in populate_item_menu_lower_entries */
+#include "shared/item_menu.h"
 
 s32 lookup_item_category_mapped_value(s32, s32);
 
-typedef struct S_800AF520_0 {
-    void * unk_00;
-    u8 pad_04[0xA4];
-    s32 unk_A8;
-} S_800AF520_0;   /* ctx in populate_item_menu_lower_entries */
-
-typedef struct S_800AF520_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    s32 unk_20;
-} S_800AF520_1;
-
+/* Leading id and kind bytes of a listed item record. */
 typedef struct S_800AF520_2 {
     u8 unk_00;
     u8 unk_01;
 } S_800AF520_2;
 
 /* Fill slots 6 through 15 from the current page of entries, then clear unused slots. */
-void populate_item_menu_lower_entries(void *context) {
-    s32 *empty_slot;
-    void *slots;
+void populate_item_menu_lower_entries(ItemMenuObject *context) {
+    ItemMenuPart *empty_slot;
+    ItemMenuPart **slots;
     register s32 entry_index;
     s32 page_index;
     s32 index_offset;
     s32 value;
     register s32 has_entry;
     s32 slot_index;
-    s32 slot_offset;
     s32 has_slot;
     S_800AF520_2 *entry;
-    s32 *slot;
-    void *slot_addr;
-    S_800AF520_1 *entries;
-    S_800AF520_0 *ctx = context;
+    ItemMenuPart *slot;
+    ItemMenuState *entries;
+    ItemMenuObject *ctx = context;
 
-    page_index = ((S_800AF520_4 *)(((S_800AF520_3 *)ctx)->unk_00))->unk_10;
+    page_index = ctx->menu->page;
     slot_index = 6;
     index_offset = page_index << 2;
     index_offset += page_index;
     entry_index = index_offset << 1;
     while (1) {
-        entries = ctx->unk_00;
-        has_entry = entry_index < entries->unk_1C;
+        entries = ctx->menu;
+        has_entry = entry_index < entries->count;
         if (has_entry == 0) {
             break;
         }
-        slot_addr = (void *)((entry_index << 2) + entries->unk_20);
-        entry = *(void **)slot_addr;
+        entry = entries->entries[entry_index];
         value = lookup_item_category_mapped_value(entry->unk_01, entry->unk_00);
         entry_index += 1;
-        slots = (void *)ctx->unk_A8;
-        slot = *((s32 **)((slot_index * 4) + (u8 *)slots));
+        slots = ctx->parts;
+        slot = slots[slot_index];
         slot_index += 1;
-        *slot = value;
+        slot->handler = (void *)value;
         has_slot = slot_index < 0x10;
         if (has_slot == 0) {
             break;
         }
     }
     while (slot_index < 0x10) {
-        slot_offset = slot_index << 2;
-        empty_slot = *(s32 **)(slot_offset + ctx->unk_A8);
+        empty_slot = ctx->parts[slot_index];
         slot_index += 1;
-        *empty_slot = 0;
+        empty_slot->handler = 0;
     }
 }

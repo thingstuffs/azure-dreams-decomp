@@ -5,15 +5,15 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_80025B38_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *request;
 } S_80025B38_0;
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-static void card_boot_set_slot_menu_request(S_80025B38_0 *object, s32 value) {
-    object->unk_20 = value;
+static void card_boot_set_slot_menu_request(S_80025B38_0 *object, void *value) {
+    object->request = value;
 }
 
 /* Calls card_boot_set_slot_menu_request with object, value. */
-void card_boot_initialize_slot_menu_request(void *object, s32 value) {
+void card_boot_initialize_slot_menu_request(void *object, void *value) {
     card_boot_set_slot_menu_request(object, value);
 }

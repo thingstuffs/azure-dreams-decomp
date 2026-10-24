@@ -1106,12 +1106,12 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_movement_to_tile();
+extern s32 update_actor_movement_to_tile(void *, void *, void *, ActorRecord *);
 
 
 /* Select the bank actor callback when the resident checks succeed. */
-void select_bank_resident_callback(BankActorState *state, s32 unused, SpriteFrameState *source, EntityRec *target) {
-    if (update_actor_movement_to_tile() != 0) {
+void select_bank_resident_callback(BankActorState *state, void *motion, SpriteFrameState *source, EntityRec *target) {
+    if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {

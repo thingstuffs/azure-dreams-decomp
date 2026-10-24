@@ -1,19 +1,20 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 
 extern void update_actor_status_and_mp(void *);
-extern void begin_pushed_actor_move(void);
-extern void begin_ready_actor_directional_action(s32, s32, s32, s32);
+
+
 extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
-void dispatch_actor_action_2(s32 actor, s32 action_arg, s32 action_data, u8 *state) {
+void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state) {
     s16 old_count;
 
     if (!(g_dungeon_status.flags & 0x2000)) {
         if (*(s32 *)(state + 0x1C) & 0x100) {
-            begin_pushed_actor_move();
+            begin_pushed_actor_move(actor, action_arg, action_data, state);
             return;
         }
         if (*(u8 *)(actor + 0x9A) != 0xE) {

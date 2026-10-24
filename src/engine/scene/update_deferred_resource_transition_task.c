@@ -19,7 +19,7 @@ typedef struct S_80043FD0_Node
 S_80043FD0_Node;
 typedef struct S_80043FD0
 {
-    S_80043FD0_Node *(*field_0)(void *);
+    void *(*field_0)(void *);
     void *field_4;
     s16 field_8;
     s16 field_A;
@@ -27,8 +27,9 @@ typedef struct S_80043FD0
 }
 S_80043FD0;
 /* Advances the controller state and updates node and global status flags. */
-void update_deferred_resource_transition_task(S_80043FD0 *controller)
+void update_deferred_resource_transition_task(void *data)
 {
+    S_80043FD0 *controller = data;
     s16 state = controller->field_A;
     S_80043FD0_Node *node;
     s32 global_flags;

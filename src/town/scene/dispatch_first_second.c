@@ -1,22 +1,23 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/entry_requests.h"
 
-typedef struct {
+typedef struct SceneActionEntry {
     u8 pad_00[0x18];
     s16 unk_18;
 } UnkStruct;
 
-extern void process_value_with_fixed_tables(UnkStruct *);
+extern void process_value_with_fixed_tables(UnkStruct *, s32);
 extern void func_80018A64(u32);
 extern void func_80018ADC(s32);
 extern s32 func_80018B5C(s32);
 extern s16 D_80018CFA[5];
 
 /* Processes an entry and applies updates based on its status and the global status. */
-s32 dispatch_first(UnkStruct *entry) {
+s32 dispatch_first(UnkStruct *entry, s32 value) {
     s32 status;
 
-    process_value_with_fixed_tables(entry);
+    process_value_with_fixed_tables(entry, value);
     if (func_80018B5C(entry->unk_18) != 0) {
         status = func_80018B5C(D_80018CFA[0]);
     } else {

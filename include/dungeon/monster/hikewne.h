@@ -13,6 +13,9 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
 
 void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor);
 
+struct S_80173588_0;
+void reset_state_field_a_2(struct S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
+
 
 
 void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion, SpriteFrameState *sprite);
@@ -22,5 +25,7 @@ void update_entity_behavior_movement_and_grounding(void *entity, ObjectPosition 
 void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_ground_animation(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+
+void select_state_table_with_flagged_offset(void *state, void *motion, void *source, void *target);
 
 #endif

@@ -11,9 +11,9 @@ typedef struct {
 } S_8005B070_req;
 
 extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[64];
+extern s32 audio_voice_masks[24];
 extern s32 audio_sequence_active[4];
-extern u8 audio_voice_records[0x78 * 64];
+extern u8 audio_voice_records[0x78 * 24];
 extern s32 audio_update_guard[4];
 extern SoundSequenceSlot audio_sequence_slots[8];
 

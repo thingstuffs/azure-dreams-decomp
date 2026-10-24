@@ -16,8 +16,8 @@ void activate_scene_resource_and_clear_view_callbacks(void);
 void *alloc_gpu_scratch_ring(s32 size);
 
 /* cd_resource_queue.c */
-void *create_callback_pair_default(int value, int unused_1, int unused_2, int extra_value);
-void *func_8004B404(int value, int unused_1, int unused_2, int extra_value);
+void *create_callback_pair_default(int value);
+void *func_8004B404(int value);
 void *queue_cd_resource(s32 id);
 
 /* clear_flags_on_resource_list.c */

@@ -37,4 +37,6 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, SpriteFram
 void update_actor_tile_movement(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_tile_movement_and_action_completion(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
+
 #endif

@@ -19,7 +19,7 @@ typedef struct S_8005ACDC_85458 {
     /* 0x1C */ u8 pad1c[0x78 - 0x1C];
 } S_8005ACDC_85458;
 
-extern S_8005ACDC_85458 audio_voice_records[64];
+extern S_8005ACDC_85458 audio_voice_records[24];
 
 /* Advance active entry counters, drain ready flags, and apply the combined flags unless suppressed. */
 void drain_ready_sound_voice_flags(void)

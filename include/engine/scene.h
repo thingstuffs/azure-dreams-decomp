@@ -35,10 +35,11 @@ void change_map_by_home_rank_tertiary(void);
 void chg_map_second_house_sel(void);
 
 /* create_callback_pair_payload.c */
-void *create_callback_pair_payload(void *second_value, void *first_value);
+/* Allocation wrappers forward a third value which this routine ignores. */
+void *create_callback_pair_payload(void *second_value, void *first_value, unsigned long unused_value);
 
 /* create_deferred_resource_transition_task.c */
-struct Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, s32 payload_word_0, s32 payload_word_4);
+struct Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*handler)(void *), void *context);
 
 /* entry_create_animated_selection_menu.c */
 void *create_gauge_with_selection_menu(s32 context);
@@ -81,7 +82,7 @@ int load_indexed_resource_package(short table_index);
 s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index);
 
 /* load_scene_record.c */
-void *load_scene_record(struct S_800510A0 *record);
+void *load_scene_record(void *data);
 
 /* load_scene_resource_group.c */
 void load_scene_resource_group(s16 entry_index);
@@ -176,7 +177,7 @@ void start_scene_load_task(struct S_80051164 *owner);
 void update_controller_buttons_and_triggers(void);
 
 /* update_deferred_resource_transition_task.c */
-void update_deferred_resource_transition_task(struct S_80043FD0 *controller);
+void update_deferred_resource_transition_task(void *data);
 
 /* upload_dispatch_entry_images.c */
 void upload_dispatch_entry_images(u16 index);

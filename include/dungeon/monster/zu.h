@@ -37,7 +37,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
 s32 begin_bank_directional_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void initialize_bank_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, struct SpriteFrameState *sprite, EntityRec *entity);
 s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context, void *secondary_context, s32 force_move);
-void select_bank_resident_callback(BankActorState *state, s32 unused, struct SpriteFrameState *source, EntityRec *target);
+void select_bank_resident_callback(BankActorState *state, void *motion, SpriteFrameState *source, EntityRec *target);
 void select_bank_actor_callback(BankActorState *state, s32 action, struct SpriteFrameState *source, EntityRec *target);
 void update_bank_staged_movement(void *action, void *motion,struct SpriteFrameState *map_actor, void *actor_arg);
 void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion_input, struct SpriteFrameState *actor_input, ActorRecord *object);

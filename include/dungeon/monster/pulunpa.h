@@ -21,4 +21,7 @@ void advance_directional_action_and_reset(void *action, ObjectPosition *motion, 
 
 void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void select_variant_object_data(void *object, void *motion, void *params, void *extra);
+void select_variant_object_data_when_positive(void *object, s32 unused, void *source, void *target);
+
 #endif

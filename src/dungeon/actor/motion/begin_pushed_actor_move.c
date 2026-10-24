@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -22,7 +23,10 @@ extern struct {
 } g_dungeon_status;
 
 /* Move the position one step in the actor's direction and update movement state. */
-void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, ActorRecord *actor) {
+void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in) {
+    Rec_func_800A9E70_arg0 *state = state_in;
+    S_800AA258_2 *position = position_in;
+    ActorRecord *actor = actor_in;
     s32 next_x;
     s32 direction_index;
     s32 tile_mask;

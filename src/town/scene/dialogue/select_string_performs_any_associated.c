@@ -1,12 +1,13 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern char scene_string_fallback[];
 extern char D_8001BA48[];
 extern char event_string_fallback[];
 extern char D_800213D4[];
 
-extern char *award_next_unearned_milestone(s32);
+
 extern void func_8001A554(s32);
 
 /*

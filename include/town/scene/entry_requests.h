@@ -23,4 +23,9 @@ void run_value_handler_after_flag_check(s32 target, s32 value);
 void store_scene_value_pair(s32 first_value, s32 second_value);
 void store_scene_values_after_flag_check(s32 value, s32 data);
 
+struct SceneActionEntry;
+s32 dispatch_first(struct SceneActionEntry *entry, s32 value);
+s32 update_scene_and_select_action(struct SceneActionEntry *object, s32 value);
+s32 initialize_scene_action_state(struct SceneActionEntry *object, s32 value);
+
 #endif

@@ -12,8 +12,9 @@ typedef struct S_800510A0 {
 } S_800510A0;
 
 /* Load the scene data, store the allocated node, and return it to the task dispatcher. */
-void *load_scene_record(S_800510A0 *record)
+void *load_scene_record(void *data)
 {
+    S_800510A0 *record = data;
     void *node;
 
     scene_load_texture_and_data_pair(&record->unkC);

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -853,8 +854,8 @@ s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, void *primary_
  * after a positive signed floor-trap result. Clears both action halfwords under flag 0x80 during
  * movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *unused, void *check_data, void *target) {
-    if (update_actor_movement_to_tile() != 0) {
+void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *motion, void *check_data, void *target) {
+    if (update_actor_movement_to_tile(object, motion, check_data, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(check_data, target) << 0x10) > 0) {

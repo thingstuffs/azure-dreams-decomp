@@ -402,11 +402,11 @@ void card_info_set_value_and_refresh(void *object, s32 value);
 void card_info_set_word(s32 *dest, s32 value);
 
 /* card_save_request.c */
-void card_boot_set_save_menu_request(struct S_80026720_0 *object, s32 value);
-void card_boot_initialize_save_menu_request(void *object, s32 value);
+void card_boot_set_save_menu_request(struct S_80026720_0 *object, void *value);
+void card_boot_initialize_save_menu_request(void *object, void *value);
 
 /* card_slot_menu_request.c */
-void card_boot_initialize_slot_menu_request(void *object, s32 value);
+void card_boot_initialize_slot_menu_request(void *object, void *value);
 
 /* card_slot_records.c */
 void inventory_copy_and_sign_extend_record_fields(s32 object_data);

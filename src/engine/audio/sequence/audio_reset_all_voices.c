@@ -48,8 +48,10 @@ typedef struct {
 } S_80056C30_85014;
 
 extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[64];
-extern S_80056C30_85458 audio_voice_records[64];
+/* 24 voices, one per SPU voice: the .bss records fill 0x80085458..0x80085F97 (24 * 0x78) up to
+ * audio_update_guard, the masks are 1 << 0 .. 1 << 23, and set_audio_entry_count rejects counts above 24. */
+extern s32 audio_voice_masks[24];
+extern S_80056C30_85458 audio_voice_records[24];
 extern S_80056C30_85014 audio_reset_channel_control_alias;
 
 /* Resets global state, re-registers active slots, and initializes the shared request with their combined flags. */

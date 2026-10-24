@@ -979,7 +979,7 @@ void choose_flame_move(void *move_data, void *context, struct SpriteFrameState *
 s32 try_flame_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(void *action_state, void *context, struct SpriteFrameState *sprite, EntityRec *actor);
 s32 relink_flame_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused, s32 source, s32 target);
+void finish_actor_tile_move_then_initialize_destination(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *entity, void *position, void *graphic);
 void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, void *actor);
 void start_selected_move_and_reset_action(void *action, struct ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *actor);

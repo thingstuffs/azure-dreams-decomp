@@ -1,47 +1,31 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
-#include "records/Rec_func_800AF254_arg1.h"
-
-
-typedef struct S_800AF674_2 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    s32 * unk_20;
-} S_800AF674_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in populate_current_item_menu_page */
-
-
-typedef struct S_800AF674_0 {
-    u8 pad_00[0xA8];
-    union { s32 s; s32 * u; } unk_A8;   /* accessed as both */
-} S_800AF674_0;   /* arg0 in populate_current_item_menu_page */
-
+#include "shared/item_menu.h"
 
 s32 select_item_data();
-s32 func_8004DC14();
-void clear_item_menu_entry_groups(s32);
+void *func_8004DC14();
+void clear_item_menu_entry_groups(ItemMenuPart **parts);
 
-/* Initialize the output and fill up to ten slots with converted entries from the current page. */
-void populate_current_item_menu_page(S_800AF674_0 *state) {
+/* Clear both item-row groups, then give up to ten rows (parts 16-25) the labels of the current page's entries. */
+void populate_current_item_menu_page(ItemMenuObject *state) {
     s32 conversion_aux;
-    s32 *output_slot;
-    s32 entry_value;
-    s32 converted_value;
+    ItemMenuPart *output_slot;
+    void *entry_value;
+    s32 item_data;
+    void *label;
     s32 entry_index;
     s32 slot_index;
 
     slot_index = 0x10;
-    clear_item_menu_entry_groups(state->unk_A8.s);
-    entry_index = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_10 * 0xA;
-    while (slot_index < 0x1A && entry_index < ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_1C) {
-        entry_value = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_20[entry_index];
-        converted_value = select_item_data(entry_value, &conversion_aux);
+    clear_item_menu_entry_groups(state->parts);
+    entry_index = state->menu->page * 0xA;
+    while (slot_index < 0x1A && entry_index < state->menu->count) {
+        entry_value = state->menu->entries[entry_index];
+        item_data = select_item_data(entry_value, &conversion_aux);
         entry_index += 1;
-        converted_value = func_8004DC14(converted_value, conversion_aux);
-        output_slot = state->unk_A8.u[slot_index];
+        label = func_8004DC14(item_data, conversion_aux);
+        output_slot = state->parts[slot_index];
         slot_index += 1;
-        *output_slot = converted_value;
+        output_slot->handler = label;
     }
 }

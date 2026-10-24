@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/item.h"
 
 typedef struct S_func_80091934_0 {
     u8 pad_00[0x8C];
@@ -9,7 +10,8 @@ typedef struct S_func_80091934_0 {
 } S_func_80091934_0;
 
 /* Sets object state bytes from the mode and clears its state word. */
-void begin_deferred_player_item_effect(S_func_80091934_0 *object, s32 unused_1, s32 unused_2, s32 mode) {
+void begin_deferred_player_item_effect(void *object_in, unsigned long unused_1, void *unused_2, void *mode) {
+    S_func_80091934_0 *object = object_in;
     object->unk_9A = 0x2B;
     if (mode == 0) {
         object->unk_9B = 0x10;

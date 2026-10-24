@@ -33,8 +33,8 @@ typedef struct {
 } S_8005BAB0_85458;
 
 extern s32 audio_voice_count[4];
-extern s32 audio_voice_masks[64];
-extern S_8005BAB0_85458 audio_voice_records[64];
+extern s32 audio_voice_masks[24];
+extern S_8005BAB0_85458 audio_voice_records[24];
 extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 extern s32 sound_apply_indexed_voice_envelope(s32 a0, S_8005BAB0_85458 *a1);

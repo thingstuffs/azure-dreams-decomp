@@ -5,8 +5,8 @@
 #include "engine/resource.h"
 
 typedef struct TaskPayload {
-    s32 field_0;
-    s32 field_4;
+    void *(*field_0)(void *);
+    void *field_4;
     s16 field_8;
     s16 field_A;
     s16 field_C;
@@ -14,17 +14,17 @@ typedef struct TaskPayload {
 
 typedef struct Task {
     u8 pad_00[0x10];
-    void (*callback)(void);
+    void (*callback)(void *);
     u8 pad_14[0x0C];
     TaskPayload payload;
 } Task;
 
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
-extern void update_deferred_resource_transition_task(void);
+extern void update_deferred_resource_transition_task(void *);
 extern u8 animation_tick_scale[3];
 
 /* Creates a task with a mode-dependent lookup result and the supplied payload values. */
-Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, s32 payload_word_0, s32 payload_word_4)
+Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*handler)(void *), void *context)
 {
     TaskPayload *payload;
     Task *task;
@@ -40,10 +40,10 @@ Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, s32 payl
             clear_flags_on_resource_list();
             animation_tick_scale[2] = 0;
         }
-        payload->field_4 = payload_word_4;
+        payload->field_4 = context;
         payload->field_A = mode;
         payload->field_C = lookup_id;
-        payload->field_0 = payload_word_0;
+        payload->field_0 = handler;
     }
     return task;
 }

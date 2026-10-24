@@ -545,7 +545,7 @@ void choose_clown_move(void *move_data, void *context, void *position_data, void
 s32 initialize_transition_action(void *action_state, s32 action_id, void *source_obj, ActorRecord *actor);
 void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, struct SpriteFrameState *animation, ActorRecord *actor);
 s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_dispatch_transition(void *state, s32 unused, s32 source, s32 target);
+void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource16CallbackState *state, void *entity, void *position, void *graphic);
 
 void update_overlay_object_action(void *owner, void *motion, struct SpriteFrameState *actor, void *object_in);

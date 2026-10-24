@@ -15,10 +15,11 @@ typedef struct S_8006CE80 {
     s32 unk08;
 } S_8006CE80;
 
-/* [100] is an addressing aid, not an allocation bound. Only a 35-record
- * structural prefix is established before nested callback-argument data;
- * callers supply entry_index. Do not enumerate this declaration with sizeof. */
-extern S_8006CE80 dispatch_resource_records[100];
+/* 35 records (0x8006CE80..0x8006D023): record 0's handler list starts at 0x8006D024 = base + 35 * 12,
+ * and the bytes after it are handler sub-records and argument lists, not records (a 36th "record"
+ * would have mode 0x12C0; real modes are 0-4). Constant ids passed by callers stay below 35; ids read
+ * from data are not range-checked. */
+extern S_8006CE80 dispatch_resource_records[35];
 
 /* Calls file_load_com for each value in the indexed entry's zero-terminated list. */
 void load_dispatch_entry_files(u16 entry_index) {

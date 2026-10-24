@@ -4,6 +4,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/player/item.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -11,7 +12,7 @@
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void set_sprite_animation_frame();
-extern void begin_deferred_player_item_effect();
+
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 clear_byte_and_advance();

@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 #include "shared/record_ptrs.h"
 
 typedef void (*TownCallback)(s32, s32, s32, s32);
@@ -12,7 +13,7 @@ extern char event_string_fallback[];
 
 extern char *select_address_based_input(long long);
 extern char *get_local_global_table(void);
-extern char *award_next_unearned_milestone(s32);
+
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern s32 func_80019880(s32, s32);

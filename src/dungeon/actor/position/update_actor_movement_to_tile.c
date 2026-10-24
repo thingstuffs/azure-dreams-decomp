@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -35,7 +36,7 @@ void set_record_integer_tile_center(Motion *, s32, s32);
 u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
-s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ActorRecord *actor) {
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor) {
     s16 frames_left;
     s16 next_frames;
     u16 new_height;

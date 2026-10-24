@@ -6,7 +6,7 @@
 extern s32 audio_voice_count[4];
 
 /* D_80073740: s32 flag-value array, one entry per D_80085458 slot. */
-extern s32 audio_voice_masks[64];
+extern s32 audio_voice_masks[24];
 
 /* S_80085458: D_80085458 element, stride 0x78 (120) bytes; only field f1a
  * (u16, offset 0x1A) is touched by this function. */
@@ -16,7 +16,7 @@ typedef struct S_80085458 {
     /* 0x1C */ u8 pad1c[0x78 - 0x1C];
 } S_80085458;
 
-extern S_80085458 audio_voice_records[64];
+extern S_80085458 audio_voice_records[24];
 
 /* D_80085F98: mode/busy flag, set while this function runs. */
 extern s32 audio_update_guard[4];

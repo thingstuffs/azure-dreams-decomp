@@ -16,7 +16,7 @@ typedef struct S_8006CE80 {
     s32 unk8;
 } S_8006CE80;
 
-extern S_8006CE80 dispatch_resource_records[64];
+extern S_8006CE80 dispatch_resource_records[35];
 extern void decode_and_upload_image_array(void *arg);
 
 /* Passes the indexed entry's nested pointer to decode_and_upload_image_array if both pointers exist. */

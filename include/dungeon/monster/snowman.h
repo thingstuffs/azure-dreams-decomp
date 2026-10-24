@@ -847,7 +847,7 @@ void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteF
 s32 try_snowman_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_snowman_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void move_snowman_to_tile(void *entity_arg, s32 unused, s32 check_arg, s32 actor_arg);
+void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
 void hop_snowman_to_tile(void *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_snowman_linked_motion(Resource10CallbackState *state, void *entity, void *position, void *graphic);
 void advance_timed_attack_animation_and_damage(void *action, void *motion, struct SpriteFrameState *sprite, ActorRecord *actor);

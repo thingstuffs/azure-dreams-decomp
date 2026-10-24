@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 
 #include "shared/entity.h"
@@ -12,11 +13,11 @@ typedef struct S_800D9884_0 {
 
 
 s32 advance_status_timers();                     /* extern */
-s32 update_actor_movement_to_tile();                                /* extern */
+
 void spend_actor_mp();            /* extern */
                 /* Updates the target and resets state after a successful check or a reset flag. */
-void update_actor_target_after_check(S_800D9884_0 *state, void *unused, void *source, void *target) {
-    if (update_actor_movement_to_tile() != 0) {
+void update_actor_target_after_check(S_800D9884_0 *state, void *motion, void *source, void *target) {
+    if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {

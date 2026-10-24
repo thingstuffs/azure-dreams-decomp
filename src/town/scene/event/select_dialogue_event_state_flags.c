@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 #include "shared/record_ptrs.h"
 
 extern char scene_string_fallback[];
@@ -14,7 +15,7 @@ extern char D_800225DB[];
 extern char D_800225F5[];
 extern char D_8002264A[];
 
-extern char *award_next_unearned_milestone(s32);
+
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern void func_8001A5CC(s32);

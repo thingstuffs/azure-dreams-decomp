@@ -1,39 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/item_menu.h"
 
-typedef struct S_800AF734_0 {
-    u8 pad_00[0x98];
-    void * unk_98;
-    void * unk_9C;
-} S_800AF734_0;   /* arg0 in position_item_menu_side_indicators */
-
-typedef struct S_800AF734_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF734_1;   /* ((S_800AF734_0 *)arg0)->unk_98 in position_item_menu_side_indicators */
-
-typedef struct S_800AF734_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF734_2;   /* ((S_800AF734_0 *)arg0)->unk_9C in position_item_menu_side_indicators */
-
-typedef struct S_800AF734_3 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800AF734_3;   /* ((S_800AF734_1 *)(((S_800AF734_0 *)arg0)->unk_98))->unk_04 in position_item_menu_side_indicators */
-
-typedef struct S_800AF734_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_800AF734_4;   /* ((S_800AF734_2 *)(((S_800AF734_0 *)arg0)->unk_9C))->unk_04 in position_item_menu_side_indicators */
-
-
-/* Set the positions of the two linked elements. */
-void position_item_menu_side_indicators(S_800AF734_0 *record) {
-    ((S_800AF734_3 *)(((S_800AF734_1 *)(record->unk_98))->unk_04))->unk_08 = -0x40;
-    ((S_800AF734_3 *)(((S_800AF734_1 *)(record->unk_98))->unk_04))->unk_0A = 0x30;
-    ((S_800AF734_4 *)(((S_800AF734_2 *)(record->unk_9C))->unk_04))->unk_08 = 0xC4;
-    ((S_800AF734_4 *)(((S_800AF734_2 *)(record->unk_9C))->unk_04))->unk_0A = 0x30;
+/* Set the positions of the two side indicators (parts 38 and 39). */
+void position_item_menu_side_indicators(ItemMenuPart **parts) {
+    parts[38]->position->x = -0x40;
+    parts[38]->position->y = 0x30;
+    parts[39]->position->x = 0xC4;
+    parts[39]->position->y = 0x30;
 }

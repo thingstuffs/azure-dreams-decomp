@@ -48,7 +48,6 @@ typedef struct {
     u8 unk11;
 } Struct1;
 
-extern s32 entity_level_thresholds[];
 
 /* Look up a signed table value using the entry byte field plus an index offset. */
 s32 lookup_level_experience_threshold(Struct1 *entry, s16 index_offset) {

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *select_first_or_later_use_value(s32, s32, s32);
+#include "town/scene.h"
 extern u8 D_800170C8[];
 extern u8 D_8001BA8C[];
 extern u8 D_8001BA91[];

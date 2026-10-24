@@ -1,16 +1,16 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern s32 func_8001A934(void);
 extern s32 func_8001A64C(s32);
 extern void func_8001A554(s32);
 
-extern s16 milestone_flag_ids[];
-extern s32 milestone_response_table[][5];
+
 extern s32 D_8001B160[];
 
 /* Award the first unearned 5/10/20 milestone for one of the three counters and return its reward. */
-s32 award_next_unearned_milestone(s32 counter_id)
+void *award_next_unearned_milestone(s32 counter_id)
 {
     s32 index;
     s32 count;
@@ -18,11 +18,11 @@ s32 award_next_unearned_milestone(s32 counter_id)
     s16 result;
     s32 *base;
     s16 *award_base;
-    s32 *reward_base;
+    void **reward_base;
     s32 *slot;
     s16 *event_base;
     s16 *events;
-    s32 *result_base;
+    void **result_base;
 
     index = counter_id;
     if (index == 0x34) {
@@ -79,11 +79,11 @@ s32 award_next_unearned_milestone(s32 counter_id)
 
         reward_base = &milestone_response_table[0][0];
         scaled = index * 4;
-        row_offset = (scaled + index) * 4;
+        row_offset = (scaled + index) * sizeof(*reward_base);
         fresh_base = (s32 *)((u8 *)milestone_flag_ids + 0x708);
-        reward_addr = (s32 *)(u32)(scaled + (u32)fresh_base);
+        reward_addr = (s32 *)((u8 *)fresh_base + scaled);
         reward = *reward_addr;
-        result_base = (s32 *)(u32)(row_offset + (u32)reward_base);
+        result_base = (void **)((u8 *)reward_base + row_offset);
         return result_base[reward - 1];
     }
 }

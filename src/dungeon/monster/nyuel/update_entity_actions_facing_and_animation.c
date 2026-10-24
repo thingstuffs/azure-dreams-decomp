@@ -62,7 +62,6 @@ void begin_actor_move_to_target_facing();
 s32 reset_actor_action_state();
 s32 process_selected_actor_record();
 void begin_actor_spell_action();
-extern void func_80171B58(void *);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 complete_timed_tile_movement();
 extern void func_801747D0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
@@ -90,7 +89,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, Sprit
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_80170E9C_0 *)entity)->unk_9A = 0xEU;
-        func_80171B58(entity);
+        func_80171B58(entity, context, sprite, state);
         return;
     }
     if (((S_80170E9C_1 *)state)->unk_25 == 0) {

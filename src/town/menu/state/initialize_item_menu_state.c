@@ -1,14 +1,16 @@
 #include "common.h"
+#include "shared/item_menu.h"
 
-extern void initialize_item_menu_request_state();
-extern void initialize_item_menu_linked_blocks();
-extern void initialize_item_menu_object_slots();
+extern void initialize_item_menu_request_state(ItemMenuObject *object, ItemMenuStateNode *owner);
+extern void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *links, ItemMenuDisplayBlock *display,
+                                               DisplayPositionWords *position);
+extern void initialize_item_menu_object_slots(ItemMenuObject *object);
 /*
- * Initializes the menu request, binds three embedded blocks at offsets 0x98/0x70/0x80, and
- * initializes its object slots.
+ * Initializes the menu request for the owning menu node, binds the display link block to the display
+ * block and display position, and initializes the object's part slots.
  */
-void initialize_item_menu_state(u8 *owner) {
-    initialize_item_menu_request_state(owner);
-    initialize_item_menu_linked_blocks(owner + 0x98, owner + 0x70, owner + 0x80);
-    initialize_item_menu_object_slots(owner);
+void initialize_item_menu_state(ItemMenuObject *object, ItemMenuStateNode *owner) {
+    initialize_item_menu_request_state(object, owner);
+    initialize_item_menu_linked_blocks(&object->links, &object->display, &object->display_position);
+    initialize_item_menu_object_slots(object);
 }

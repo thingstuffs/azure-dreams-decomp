@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/motion.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
@@ -1106,12 +1107,12 @@ s32 relink_snowman_path(void *entity_arg, void *primary_context_arg, void *secon
  * On completed movement, spends MP and advances status timers, then resumes Snowman behavior and
  * clears its timer only after a positive signed floor-trap check. /
  */
-void move_snowman_to_tile(void *entity_arg, s32 unused, s32 check_arg, s32 actor_arg) {
+void move_snowman_to_tile(void *entity_arg, void *motion, void *check_arg, void *actor_arg) {
     void *entity = entity_arg;
-    s32 check_value = check_arg;
-    s32 actor = actor_arg;
+    void *check_value = check_arg;
+    void *actor = actor_arg;
 
-    if (update_actor_movement_to_tile() != 0) {
+    if (update_actor_movement_to_tile(entity, motion, check_value, actor) != 0) {
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {

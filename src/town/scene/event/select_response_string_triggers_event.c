@@ -1,12 +1,13 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern char scene_string_fallback[];
 extern char D_8001BCB4[];
 extern char event_string_fallback[];
 extern char D_80021484[];
 
-extern char *award_next_unearned_milestone(s32, s32, s32, s32);
+
 extern void func_8001A554(s32);
 
 /* Selects a response string and triggers the event for selector 18. */
@@ -26,7 +27,7 @@ char *select_response_string_triggers_event(s32 unused, s32 passthru_1, s32 sele
     case 40:
     case 41:
     case 42:
-        return award_next_unearned_milestone(selector_id, passthru_1, saved_selector, passthru_3);
+        return award_next_unearned_milestone(selector_id);
     case 0:
         return event_string_fallback;
     default:

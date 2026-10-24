@@ -9,6 +9,12 @@
 typedef MonsterInitialStats EntityInitialStats;
 extern EntityInitialStats initialStatsTable[58];
 
+/* Cumulative experience needed for each level, 100 words filling 0x800835E8..0x80083777 up to
+ * entity_cubic_table_constant. BSS: build_cubic_cumulative_table builds it once at start-up
+ * (initialize_hardware_and_game_state); the EXE bytes at this address lie past the loaded image
+ * and never reach RAM, so values read from the file there are not the table. */
+extern s32 entity_level_thresholds[100];
+
 struct CallbackObject;
 struct S_800423C0_Obj;
 struct S_800423C0_Src;

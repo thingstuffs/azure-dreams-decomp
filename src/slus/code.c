@@ -590,11 +590,11 @@ void forward_selection_sort_request(u8 *base, s32 count, s32 size, s32 (*compar)
     selection_sort_elements(base, count, size, compar);
 }
 
-extern void create_callback_pair_payload(int a0, int a1, void *a2);
+extern void *create_callback_pair_payload(void *second_value, void *first_value, unsigned long unused_value);
 
 /* Forward an object with fixed leading arguments zero and one. */
 void create_single_callback_payload(void *object) {
-    create_callback_pair_payload(0, 1, object);
+    create_callback_pair_payload(0, (void *)1, (unsigned long)object);
 }
 
 /* Find the target node in the global linked list. */

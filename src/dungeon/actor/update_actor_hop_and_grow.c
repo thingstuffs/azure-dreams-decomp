@@ -1,7 +1,8 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 
-typedef struct {
+typedef struct ActorHopState {
     u8 pad0[0x92];
     s16 field92;
     u8 pad94[2];
@@ -10,7 +11,7 @@ typedef struct {
     u8 field9B;
 } State;
 
-typedef struct {
+typedef struct ActorHopMotion {
     u8 pad0[2];
     s16 field2;
     u8 pad4[2];
@@ -21,7 +22,7 @@ typedef struct {
     s32 field14;
 } Motion;
 
-typedef struct {
+typedef struct ActorHopParams {
     u8 pad0[0x1C];
     u16 field1C;
     u16 field1E;
@@ -30,7 +31,7 @@ typedef struct {
     u8 field25;
 } Params;
 
-typedef struct {
+typedef struct ActorHopExtra {
     u8 pad0[0x1C];
     s32 field1C;
     u8 pad20[0x6A];

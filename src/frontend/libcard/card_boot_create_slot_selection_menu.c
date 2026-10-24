@@ -13,7 +13,7 @@ typedef struct S_80025C7C_0 {
     u8 pad_00[0x18];
     s32 unk_18;
     s32 unk_1C;
-    u8 pad_20[0x4];
+    void *request;
     s32 unk_24;
     s32 unk_28;
     u8 pad_2C[0x1C];
@@ -28,7 +28,7 @@ typedef struct S_80025C7C_1 {
 } S_80025C7C_1;
 
 /* Creates an object and initializes its state. */
-void *card_boot_create_slot_selection_menu(s32 init_value) {
+void *card_boot_create_slot_selection_menu(void *init_value, s32 unused) {
     S_80025C7C_0 *state;
     ObjectNodeHeader *object;
 

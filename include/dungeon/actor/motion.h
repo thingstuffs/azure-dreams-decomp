@@ -9,7 +9,17 @@
 
 
 
+void begin_pushed_actor_move(void *state, void *unused, void *position, void *actor);
+s32 begin_ready_actor_directional_action(void *entity, void *context, void *sprite, u8 *direction_frames);
+void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state);
+
 void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
+
+struct ActorHopState;
+struct ActorHopMotion;
+struct ActorHopParams;
+struct ActorHopExtra;
+s32 update_actor_hop_and_grow(struct ActorHopState *state, struct ActorHopMotion *motion, struct ActorHopParams *params, struct ActorHopExtra *extra);
 
 
 
@@ -31,6 +41,11 @@ s32 update_thrown_actor_travel(void *state, ObjectPosition *position, SpriteFram
 void install_actor_action_handler_after_thrown_travel(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
 
 s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
+
+s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+struct S_800D9884_0;
+void update_actor_target_after_check(struct S_800D9884_0 *state, void *motion, void *source, void *target);
+void advance_actor_movement_to_tile(void *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
 
 
 /* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion

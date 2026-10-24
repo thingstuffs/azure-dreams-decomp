@@ -41,10 +41,12 @@ void request_handler_state_9(void) {
 
 /* Submit the global value and command 0x17, and save the callback result. */
 void request_handler_command_17(void) {
-    extern u8 D_800183D0;
+    extern s32 D_800183D0;
     s8 command_args[2];
+    void *state_word = &D_800183D0;
+    u8 *state_byte = state_word;
 
     command_args[1] = 0x17;
-    command_args[0] = D_800183D0;
+    command_args[0] = *state_byte;
     scene_command_result = town_scene_root->services->callback_050(command_args);
 }

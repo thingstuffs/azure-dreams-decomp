@@ -1,18 +1,19 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/item_menu.h"
 #ifndef NULL
 #define NULL 0
 #endif
-extern void *create_item_menu_child_object(s32);
+extern ItemMenuObjectNode *create_item_menu_child_object(ItemMenuStateNode *owner);
 extern s32 item_menu_record_callback[4];
 
-/* Create an object and initialize its handler table and state value. */
-void *create_item_menu_handler_object(s32 object_id) {
-    ObjectNodeHeader *object = create_item_menu_child_object(object_id);
+/* Create an item-menu object, install its update handler and start its display ramp fully open. */
+ItemMenuObjectNode *create_item_menu_handler_object(ItemMenuStateNode *owner) {
+    ItemMenuObjectNode *object = create_item_menu_child_object(owner);
     if (object != NULL) {
-        void *state = *(void **)((u8 *)object + 0xBC);
-        object->update_callback = item_menu_record_callback;
-        *(s16 *)((u8 *)state + 6) = 0x1000;
+        ItemMenuDisplayBlock *display = object->menu.links.display;
+        object->header.update_callback = item_menu_record_callback;
+        display->ramp = 0x1000;
     }
     return object;
 }

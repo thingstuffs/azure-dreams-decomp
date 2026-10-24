@@ -3,7 +3,7 @@
 
 typedef struct S_800265B8_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *request;
     s32 unk_24;
     u8 pad_28[0x4];
     s32 unk_2C;
@@ -35,7 +35,7 @@ void write_text_and_advance_selection(u8 *menu)
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             func_80026920(menu - 0x20);
-            init_card_boot_request_object(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
+            init_card_boot_request_object(((S_800265B8_0 *)menu)->request, ((S_800265B8_0 *)menu)->unk_24);
             return;
         }
         if (pressed_buttons & 0x40) {
@@ -85,5 +85,5 @@ void write_text_and_advance_selection(u8 *menu)
     }
 
     func_80026920(menu - 0x20);
-    init_card_boot_request_object(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
+    init_card_boot_request_object(((S_800265B8_0 *)menu)->request, ((S_800265B8_0 *)menu)->unk_24);
 }

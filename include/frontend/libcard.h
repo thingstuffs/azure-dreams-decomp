@@ -6,7 +6,19 @@ struct ObjectNodeHeader;
 
 #include "common.h"
 #include "records/Rec_func_8002290C_arg0.h"
-#include "records/Rec_func_80025030_arg0.h"
+/* Slot-menu payload: the request returns to its owning card chooser. */
+typedef struct CardSlotMenuState {
+    u8 pad_00[0x20];
+    void *request;
+    u8 pad_24[0x4];
+    s32 unk_28;
+    u8 pad_2C[0x4];
+    s32 unk_30;
+    u8 pad_34[0x10];
+    s32 unk_44;
+    s32 unk_48;
+    s32 unk_4C;
+} CardSlotMenuState;
 
 struct Node8002BB08;
 struct Object13B18;
@@ -72,10 +84,10 @@ void card_boot_confirm_selected_slot_deletion(void *state);
 void card_boot_create_menu_child_panels(void *record);
 
 /* card_boot_create_save_slot_menu.c */
-void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value);
+void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
 
 /* card_boot_create_slot_selection_menu.c */
-void *card_boot_create_slot_selection_menu(s32 init_value);
+void *card_boot_create_slot_selection_menu(void *init_value, s32 unused);
 
 /* card_boot_create_three_row_command_panel.c */
 void *card_boot_create_three_row_command_panel(s32 init_value);
@@ -147,7 +159,7 @@ void card_boot_link_three_row_panel_entries(struct S_800491F4 **input);
 void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
 
 /* card_boot_open_save_slot_selection.c */
-void card_boot_open_save_slot_selection(s32 request);
+void *card_boot_open_save_slot_selection(void *request);
 
 /* card_boot_open_selected_request_menu.c */
 void card_boot_open_selected_request_menu(void *record);
@@ -300,19 +312,19 @@ void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 m
 void card_boot_update_message_choice_highlight(void *object);
 
 /* dispatch_menu_update_callback.c */
-void dispatch_menu_update_callback(s32 request);
+void *dispatch_menu_update_callback(void *request);
 
 /* dispatch_request_mode_two.c */
-void dispatch_request_mode_two(s32 request);
+void *dispatch_request_mode_two(void *request);
 
 /* draw_cylindrical.c */
 void draw_cylindrical(void *object);
 
 /* entry_card_boot_has_selected_channel.c */
-void card_boot_init_channel_record(struct S_80027A68_0 *record, s32 value_14, s32 value_00);
+void card_boot_init_channel_record(struct S_80027A68_0 *record, void *request, s32 value_00);
 
 /* init_card_boot_request_object.c */
-struct Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode);
+struct Node8002BB08 *init_card_boot_request_object(void *request, s32 mode);
 
 /* libcard_init.c */
 void libcard_init(s32 slot);
@@ -357,7 +369,7 @@ void route_save_slot_validation(void *context);
 void set_entry_destination_and_value(void *state);
 
 /* set_record_pair_to_one.c */
-void set_record_pair_to_one(Rec_func_80025030_arg0 *record);
+void set_record_pair_to_one(CardSlotMenuState *record);
 
 /* slot_detail_refresh_g00388.c */
 void card_boot_format_empty_slot_guidance(void *context);

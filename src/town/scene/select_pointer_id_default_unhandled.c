@@ -1,10 +1,11 @@
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern u8 scene_string_fallback[];
 extern u8 scene_choice_text[];
 extern u8 event_string_fallback[];
 extern u8 D_800227FB[];
-extern void *award_next_unearned_milestone(s32);
+
 
 /* Selects a data pointer by ID, using default data for unhandled IDs. */
 void *select_pointer_id_default_unhandled(s32 unused_0, s32 unused_1, s32 data_id)

@@ -19,5 +19,6 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
 
 
 void advance_action_phases_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void func_80171B58(void *action, s32 context, SpriteFrameState *sprite, void *state);
 
 #endif

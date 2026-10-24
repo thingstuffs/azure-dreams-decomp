@@ -171,7 +171,7 @@ typedef struct Req {
 } Req;
 
 extern Chan audio_channel_controls[16];
-extern Voice audio_voice_records[64];
+extern Voice audio_voice_records[24];
 extern Slot audio_bank_slots[16];
 extern s32 audio_voice_masks[];
 extern s32 audio_voice_count[4];

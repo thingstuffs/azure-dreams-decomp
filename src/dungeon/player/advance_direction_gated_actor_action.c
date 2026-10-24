@@ -1,6 +1,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/player/item.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -37,7 +38,7 @@ extern u8 D_800DD150[];
 extern s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
 extern void set_sprite_animation_frame(void *, u8, s16, s32);
 extern void begin_parameterized_actor_action(void *, void *, void *, u8 *, s32);
-extern void begin_deferred_player_item_effect(void *, void *, void *);
+
 extern void create_radial_effect_controller(s32);
 
 /* Advance the actor's directional animation state and delayed transition. */
@@ -49,7 +50,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
     state = controller->state;
     switch (state) {
     case 0:
-        if ((s32)((((s32)g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7) == 2) {
+        if (((((s32)g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7) == 2) {
             u8 *animation_table;
 
             animation_table = controller->table;
@@ -78,7 +79,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
     case 2:
         if ((actor->flags & 0x8000) || (g_dungeon_status.activity_counts.parts.pending_action_count < 2)) {
             if (controller->field110 != 0) {
-                begin_deferred_player_item_effect(controller, context, actor);
+                begin_deferred_player_item_effect(controller, (unsigned long)context, actor, facing);
                 return;
             }
             actor->field2c = D_800DD150;

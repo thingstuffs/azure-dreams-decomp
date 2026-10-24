@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/player/item.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -10,7 +11,7 @@
 
 void set_sprite_animation_frame(void *, u8, s32, s32);
 s32 find_flagged_record_by_id(s32, s32);
-void begin_deferred_player_item_effect(void *, s32, void *, void *);
+
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);

@@ -15,7 +15,7 @@ typedef struct S_800AE630_3 {
 typedef struct S_800AE630_0 {
     s32 * unk_00;
     u8 pad_04[0xC];
-    s32 (*unk_10)(void);
+    void (*unk_10)(void *);
     u8 pad_14[0x8];
     u16 unk_1C;
     u16 unk_1E;
@@ -66,7 +66,9 @@ void advance_item_menu_object_animation(void *object) {
     }
     next_step = (s32)((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
     if (next_step != 0) {
-        ((s32 (*)(void))next_step)();
+        /* The only callback ever installed here is tick_item_menu_selection_delay (by
+         * change_item_menu_selection), which takes the display payload; tick clears the slot. */
+        ((void (*)(void *))next_step)(object);
     }
 }
 

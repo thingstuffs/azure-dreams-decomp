@@ -1,19 +1,9 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "shared/timed_stream.h"
 
 extern u8 animation_tick_scale;
 
-typedef struct FrameNode {
-    u16 duration;
-    s16 tag;
-    s32 value;
-} FrameNode;
-
-typedef struct FrameState {
-    s32 countdown;
-    s32 *output;
-    FrameNode *node;
-} FrameState;
 
 /* Advances the frame sequence and updates its output when the countdown expires. */
 s32 advance_timed_tagged_stream(FrameState *state)

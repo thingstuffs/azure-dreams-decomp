@@ -496,7 +496,7 @@ s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, v
 void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, struct SpriteFrameState *animation,
     ActorRecord *entity);
 s32 relink_univern_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target);
+void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic);
 void update_staged_movement_and_direction(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);

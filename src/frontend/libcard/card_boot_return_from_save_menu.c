@@ -5,12 +5,12 @@ void func_80026920(void *);                         /* extern */
 
 typedef struct S_80026784_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *request;
     s32 unk_24;
 } S_80026784_0;   /* arg0 in card_boot_return_from_save_menu */
 
 /* Update the base record and pass its paired fields to the next helper. */
 void card_boot_return_from_save_menu(void *record_part) {
     func_80026920(record_part - 0x20);
-    init_card_boot_request_object(((S_80026784_0 *)record_part)->unk_20, ((S_80026784_0 *)record_part)->unk_24);
+    init_card_boot_request_object(((S_80026784_0 *)record_part)->request, ((S_80026784_0 *)record_part)->unk_24);
 }

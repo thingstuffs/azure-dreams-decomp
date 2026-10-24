@@ -22,6 +22,8 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
 void update_actor_visual_motion(void *object_arg, ObjectPosition *motion_arg, SpriteFrameState *part_arg);
 void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual);
 
+void update_actor_movement_state(void *state, void *motion, void *action_arg, void *actor_arg);
+
 void choose_and_execute_actor_step(void *work_data, void *action_context, SpriteFrameState *position, ActorRecord *actor);
 
 #endif

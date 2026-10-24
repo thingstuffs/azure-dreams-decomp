@@ -28,7 +28,7 @@ typedef struct S_80085458 {
     s32 f70, f74;
 } S_80085458;
 
-extern S_80085458 audio_voice_records[64];
+extern S_80085458 audio_voice_records[24];
 extern s32 audio_voice_masks[];
 extern s32 audio_update_guard[3];
 

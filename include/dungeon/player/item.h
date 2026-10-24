@@ -6,6 +6,7 @@
 void *begin_holding_item(void *actor, s32 action, void *target, void *item);
 void copy_item_category_damage(u8 *entry, u8 *item);
 void snapshot_inventory_familiar_records(void);
+void begin_deferred_player_item_effect(void *object, unsigned long unused_1, void *unused_2, void *mode);
 
 
 #endif

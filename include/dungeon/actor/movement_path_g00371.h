@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -171,13 +172,12 @@ extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
-extern void begin_pushed_actor_move(void *, void *, void *, void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern void process_selected_actor_record(void *, void *, void *, void *);
-extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
+
 extern void *actor_action_frames[];
 /* Load-bearing second view of D_80082E80: the asm label gives cc1 a distinct SYMBOL_REF ("*D_80082E80") so cse
  * does not share the base register with the plain D_80082E80 uses (retail rebuilds the address after the calls). */

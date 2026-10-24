@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern char scene_string_fallback[];
 extern s32 scene_event_results[];
@@ -8,7 +9,7 @@ extern char D_80020E44[];
 
 extern s32 select_address_based_input(long long);
 extern s32 get_local_global_table(void);
-extern char *award_next_unearned_milestone(s32);
+
 
 /* Select event data, using fallback data when an event handler returns null. */
 char *select_event_fallback_event_handler(long long forwarded_arg, s32 event_id)

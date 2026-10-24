@@ -54,7 +54,7 @@ typedef struct {
 
 extern s32 audio_voice_count[4];
 extern S_80084960 audio_channel_controls[16];
-extern S_80085458 audio_voice_records[64];
+extern S_80085458 audio_voice_records[24];
 
 extern void audio_update_voice_vibrato(S_80085458 *envelope);
 

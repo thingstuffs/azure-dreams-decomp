@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern char scene_string_fallback[];
 extern char scene_choice_text[];
@@ -11,10 +12,10 @@ extern char D_80022694[];
 extern s32 town_table_contains_first_byte(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
-extern char *award_next_unearned_milestone(s32, s32, s32, s32);
+
 
 /* Selects a response from the selector and status flags, updating flags for special cases. */
-char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection, s32 extra)
+char *select_response_selector_status_flags(long long unused, s32 selection)
 {
     s32 selector = selection;
     s32 saved_selector;
@@ -76,7 +77,7 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
     case 40:
     case 41:
     case 42:
-        return award_next_unearned_milestone(selector, value, saved_selector, extra);
+        return award_next_unearned_milestone(selector);
     default:
         return scene_string_fallback;
     }

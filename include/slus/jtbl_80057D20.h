@@ -90,9 +90,9 @@ typedef struct S_80073738
 S_80073738;
 extern s32 audio_voice_count[4];
 extern S_80073738 audio_master_level;
-extern s32 audio_voice_masks[64];
+extern s32 audio_voice_masks[24];
 extern S_80084960 audio_channel_controls[16];
-extern S_80085458 audio_voice_records[64];
+extern S_80085458 audio_voice_records[24];
 extern void noop_channel_control_notification();
 extern void audio_refresh_sequence_voice_volumes();
 extern void audio_update_voice_pitch(S_80085458 *e, s32 value);

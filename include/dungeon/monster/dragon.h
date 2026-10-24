@@ -399,7 +399,7 @@ void copy_display_orientation_state(void *object, void *unused, void *display, v
 s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 void start_directional_actor_effect(void *action_state, void *action_context, void *sprite, ActorRecord *actor);
 s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *unused, void *check_data, void *target);
+void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, void *motion, void *check_data, void *target);
 void complete_actor_jump_to_destination(void *jump, void *motion, void *map_entity, void *actor);
 void update_dragon_linked_motion(Resource03CallbackState *state, void *entity, void *position, void *graphic);
 void advance_actor_attack_and_resolve_damage(void *action, void *transform, void *sprite, ActorRecord *actor);

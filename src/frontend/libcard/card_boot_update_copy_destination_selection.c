@@ -8,7 +8,7 @@ typedef struct S_80025584_0_pre {
 
 typedef struct S_80025584_0 {
     u8 pad_00[0x20];
-    s32 unk_20;
+    void *request;
     u8 pad_24[0x4];
     s32 unk_28;
     u8 pad_2C[0x4];
@@ -83,5 +83,5 @@ void card_boot_update_copy_destination_selection(u8 *menu)
         return;
     }
     card_boot_destroy_slot_selection_menu(menu - 0x20);
-    init_card_boot_request_object(((S_80025584_0 *)menu)->unk_20, 0);
+    init_card_boot_request_object(((S_80025584_0 *)menu)->request, 0);
 }

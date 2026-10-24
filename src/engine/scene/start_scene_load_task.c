@@ -20,7 +20,7 @@ extern void propagate_scene_flag(void);
 /* Creates a task and, on success, updates the owner's existing task callback. */
 void start_scene_load_task(S_80051164 *owner)
 {
-    void *new_task = create_deferred_resource_transition_task(1, 0x1E, (void *)load_scene_record, owner);
+    void *new_task = create_deferred_resource_transition_task(1, 0x1E, load_scene_record, owner);
 
     if (new_task != 0) {
         owner->unk4->unk10 = propagate_scene_flag;

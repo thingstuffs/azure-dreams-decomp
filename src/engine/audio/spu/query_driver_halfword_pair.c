@@ -1,7 +1,7 @@
 #include "common.h"
 #include "engine/audio/spu.h"
 
-extern s32 audio_voice_masks[64];
+extern s32 audio_voice_masks[24];
 
 /* Local request record built on the stack and handed to func_8005FA34.
  * Same overall layout/size (0x40 bytes) as the D_80084918 request struct

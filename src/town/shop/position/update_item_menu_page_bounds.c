@@ -1,53 +1,34 @@
 #include "common.h"
-
-typedef struct {
-    u8 pad00[0x10];
-    s32 current;
-    s32 limit;
-} State;
-
-typedef struct {
-    u8 pad00[0x98];
-    void **primary;
-    void **secondary;
-} Outputs;
-
-typedef struct {
-    State * state;
-    u8 pad04[0x10];
-    u32 flags;
-    u8 pad18[0x90];
-    Outputs *outputs;
-} Object;
+#include "shared/item_menu.h"
 
 extern u8 item_menu_primary_page_data[];
 extern u8 card_selection_display_data[];
 
-/* Updates both outputs and their flags from the current state and limit. */
-void update_item_menu_page_bounds(Object *obj)
+/* Shows or hides the previous/next page indicators (parts 38 and 39) and updates the page flags. */
+void update_item_menu_page_bounds(ItemMenuObject *obj)
 {
-    register State *state;
+    register ItemMenuState *state;
     s32 clear_mask;
 
-    if (obj->state->current > 0) {
+    if (obj->menu->page > 0) {
         u32 flags;
 
-        *obj->outputs->primary = item_menu_primary_page_data;
-        flags = obj->flags;
+        obj->parts[38]->handler = item_menu_primary_page_data;
+        flags = obj->page_flags;
         flags &= ~2;
-        obj->flags = flags;
+        obj->page_flags = flags;
     } else {
-        *obj->outputs->primary = 0;
-        obj->flags |= 2;
+        obj->parts[38]->handler = 0;
+        obj->page_flags |= 2;
     }
-    state = obj->state;
-    if (state->current < state->limit) {
+    state = obj->menu;
+    if (state->page < state->last_page) {
         clear_mask = -2;
-        obj->flags &= clear_mask;
-        *obj->outputs->secondary = card_selection_display_data;
+        obj->page_flags &= clear_mask;
+        obj->parts[39]->handler = card_selection_display_data;
         return;
     }
 
-    *obj->outputs->secondary = 0;
-    obj->flags |= 1;
+    obj->parts[39]->handler = 0;
+    obj->page_flags |= 1;
 }

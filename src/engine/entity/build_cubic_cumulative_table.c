@@ -2,8 +2,6 @@
 #include "engine/entity.h"
 #include "slus/data.h"
 
-extern s32 entity_level_thresholds[100];
-
 /* Build a cumulative cubic table with a quadratic correction after index 20, then store a fixed constant. */
 void build_cubic_cumulative_table(void)
 {

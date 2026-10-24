@@ -1,17 +1,18 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
 extern s32 advance_status_timers();
-extern s32 update_actor_movement_to_tile();
+
 extern s32 spend_actor_mp();
 
 
 extern s32 hikewne_action_resume_address[];
 
 /* Selects the state table after a successful target check and applies the flagged offset. */
-void select_state_table_with_flagged_offset(void *state, s32 unused, s32 source, s32 target) {
-    if (update_actor_movement_to_tile() != 0) {
+void select_state_table_with_flagged_offset(void *state, void *motion, void *source, void *target) {
+    if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {

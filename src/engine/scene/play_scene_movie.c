@@ -13,7 +13,7 @@ typedef struct S_8006CE80 {
     void *unk8;
 } S_8006CE80;
 
-extern S_8006CE80 dispatch_resource_records[100];
+extern S_8006CE80 dispatch_resource_records[35];
 
 extern void play_selected_movie_and_restore_display(void);
 

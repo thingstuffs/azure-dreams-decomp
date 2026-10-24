@@ -40,7 +40,7 @@ typedef struct S_80084960 {
 } S_80084960;
 
 extern s32 audio_voice_count[4];
-extern S_800564A8_85458 audio_voice_records[64];
+extern S_800564A8_85458 audio_voice_records[24];
 extern S_80084960 audio_channel_controls[16];
 
 extern void audio_compute_voice_stereo_volumes(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);

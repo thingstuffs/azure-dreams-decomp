@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern void *scene_event_results[];
 extern u8 scene_string_fallback[];
@@ -9,7 +10,7 @@ extern u8 D_80020934[];
 
 extern void *select_address_based_input(s32, s32);
 extern void *get_local_global_table(void);
-extern void *award_next_unearned_milestone(s32);
+
 extern void func_8001A554(s32);
 
 /* Select event response data, using a fallback when an event handler returns null. */

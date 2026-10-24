@@ -1,29 +1,13 @@
-typedef signed int s32;
-typedef signed short s16;
-
-typedef struct {
-    char pad0[8];
-    s16 x;
-    s16 y;
-} ObjectData;
-
-typedef struct {
-    char pad0[4];
-    ObjectData *data;
-} Object;
-
-typedef struct {
-    char pad0[0x18];
-    Object *objects[10];
-} Context;
+#include "common.h"
+#include "shared/item_menu.h"
 
 // Arrange ten objects in two columns of five rows.
-void layout_item_menu_upper_pair_columns(Context *context)
+void layout_item_menu_upper_pair_columns(ItemMenuPart **parts)
 {
     s32 layoutIndex;
 
     for (layoutIndex = 6; layoutIndex < 16; layoutIndex++) {
-        context->objects[layoutIndex - 6]->data->x = ((layoutIndex - 6) / 5) * 128 + -48;
-        context->objects[layoutIndex - 6]->data->y = ((layoutIndex - 6) % 5) * 16 + 22;
+        parts[layoutIndex]->position->x = ((layoutIndex - 6) / 5) * 128 + -48;
+        parts[layoutIndex]->position->y = ((layoutIndex - 6) % 5) * 16 + 22;
     }
 }

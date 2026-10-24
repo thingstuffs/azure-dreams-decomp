@@ -77,7 +77,7 @@ void init_fade_in_out_effect(struct S_80051E94 *object, s32 sub_value);
 void link_typed_list_node(struct S_80044AAC *anchor, struct S_80044AAC *node);
 
 /* pad_both_key_states_clear.c */
-s32 dispatch_after_controller_release(struct S_8004EC20 *dispatch);
+void *dispatch_after_controller_release(void *data);
 
 /* play_timed_animation_sequence.c */
 void play_timed_animation_sequence(struct S_8005313C *sequence);

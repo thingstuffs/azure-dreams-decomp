@@ -1,27 +1,28 @@
 #include "common.h"
 void flag_optional_object_for_removal(void *object);                         /* extern */
+#include "shared/item_menu.h"
 
-/* Processes and clears the values referenced by two consecutive groups of ten slots. */
-void clear_item_menu_entry_groups(s32 slot_table) {
-    s32 **first_slot;
-    s32 **second_slot;
+/* Releases and clears the label objects of the two item-row groups (parts 16-25 and 26-35). */
+void clear_item_menu_entry_groups(ItemMenuPart **parts) {
+    ItemMenuPart **first_slot;
+    ItemMenuPart **second_slot;
     s32 first_index;
     s32 second_index;
 
     first_index = 0x10;
-    first_slot = slot_table + 0x40;
+    first_slot = &parts[16];
     do {
         first_index += 1;
-        flag_optional_object_for_removal(**first_slot);
-        **first_slot = 0;
+        flag_optional_object_for_removal((*first_slot)->handler);
+        (*first_slot)->handler = 0;
         first_slot += 1;
     } while (first_index < 0x1A);
     second_index = 0x1A;
-    second_slot = slot_table + 0x68;
+    second_slot = &parts[26];
     do {
         second_index += 1;
-        flag_optional_object_for_removal(**second_slot);
-        **second_slot = 0;
+        flag_optional_object_for_removal((*second_slot)->handler);
+        (*second_slot)->handler = 0;
         second_slot += 1;
     } while (second_index < 0x24);
 }

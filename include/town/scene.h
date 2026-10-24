@@ -28,6 +28,11 @@ s32 get_record_value_tier(void);
 void *resolve_event_response_key(s32 unused_a, void *unused_b, s32 key);
 void *dispatch_event_request(s32 request, void *data, s32 mode);
 
+void *select_first_or_later_use_value(s32 unused_0, s32 unused_1, s32 selector);
+void *return_zero_event_value(s32 unused);
+extern void *D_800166F8[];
+extern void *D_80016718[];
+
 s32 forward_request_if_ready(void *request_value);
 s32 pass_and_clear_selected_entry_byte(void *context, s32 entry_index);
 

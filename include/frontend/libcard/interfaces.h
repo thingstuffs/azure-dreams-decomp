@@ -9,7 +9,7 @@ void card_boot_bind_command_panel_resources(void *object);
 void card_boot_bind_save_heading_display_data(void *record);
 s32 card_boot_build_eight_entry_presence_mask(void);
 void card_boot_close_events_and_resume_timer(void);
-void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value);
+void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
 void card_boot_handle_overwrite_answer(void *object_data);
 void card_boot_initialize_paired_choice_layout(s32 record_addr);
 void card_boot_layout_five_entry_list(void *context);

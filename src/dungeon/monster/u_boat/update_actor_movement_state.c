@@ -1,8 +1,9 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 
-extern u32 update_actor_movement_to_tile(void);
+
 extern void spend_actor_mp(void *, s32);
 extern void advance_status_timers(void *);
 
@@ -10,12 +11,12 @@ extern void advance_status_timers(void *);
 #include "dungeon/monster/u_boat.h"
 
 /* Updates actor behavior and state fields according to mode and input. */
-void update_actor_movement_state(void *state, s32 unused, void *action_arg, void *actor_arg)
+void update_actor_movement_state(void *state, void *motion, void *action_arg, void *actor_arg)
 {
     void *action_data = action_arg;
     void *actor = actor_arg;
 
-    if (update_actor_movement_to_tile() != 0) {
+    if (update_actor_movement_to_tile(state, motion, action_data, actor) != 0) {
         if (*(u8 *)((u8 *)state + 0xB5) == 0) {
             spend_actor_mp(actor, 4);
             advance_status_timers(actor);

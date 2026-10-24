@@ -1,7 +1,9 @@
 #include "common.h"
 
+/* Display payload whose leading word is the selection-delay callback. The only callback ever installed
+ * is tick_item_menu_selection_delay (change_item_menu_selection); it reads only this payload. */
 typedef struct CallbackNode {
-    void (*callback)();
+    void (*callback)(struct CallbackNode *node);
 } CallbackNode;
 
 #ifndef NULL

@@ -1,6 +1,6 @@
-#include "common.h"
+#include "town/scene.h"
 
 /* Returns zero without reading or changing state. */
-s32 return_zero_event_value(void) {
+void *return_zero_event_value(s32 unused) {
     return 0;
 }

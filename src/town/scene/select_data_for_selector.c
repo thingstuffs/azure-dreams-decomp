@@ -1,10 +1,11 @@
 #include "common.h"
+#include "town/scene/milestone_rewards.h"
 
 extern u8 scene_string_fallback[];
 extern u8 event_string_fallback[];
 extern u8 D_800227FB[];
 extern u8 scene_choice_text[];
-extern void *award_next_unearned_milestone(s32);
+
 
 /* Returns the data pointer selected by the given selector. */
 void *select_data_for_selector(s32 unused_0, s32 unused_1, s32 selector)

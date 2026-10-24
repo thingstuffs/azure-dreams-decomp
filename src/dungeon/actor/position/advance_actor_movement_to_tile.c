@@ -1,9 +1,10 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
 
-extern s32 update_actor_movement_to_tile(void);
+
 extern void advance_status_timers(void *);
 extern void set_actor_action_state_eight(void *, s32, s32);
 
@@ -27,14 +28,14 @@ typedef struct S_800CAAC8_1 {
 } S_800CAAC8_1;   /* actor in advance_actor_movement_to_tile */
 
 /* Updates the actor and entity counter, then advances the entity or sets its callback. */
-void advance_actor_movement_to_tile(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *actor_ptr)
+void advance_actor_movement_to_tile(void *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr)
 {
-    s32 update_arg_1 = input_arg_1;
-    s32 update_arg_2 = input_arg_2;
+    void *update_arg_1 = input_arg_1;
+    void *update_arg_2 = input_arg_2;
     void *actor = actor_ptr;
     u16 remaining_count;
 
-    if (update_actor_movement_to_tile() != 0) {
+    if (update_actor_movement_to_tile(entity_ptr, update_arg_1, update_arg_2, actor) != 0) {
         advance_status_timers(actor);
         remaining_count = ((S_800CAAC8_0 *)entity_ptr)->unk_B6 - 1;
         ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
