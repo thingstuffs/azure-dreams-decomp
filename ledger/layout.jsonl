@@ -7937,3 +7937,4 @@
 {"id":"town/func_800C44BC","path":"src/town/scene/store_scene_image_pair.c"}
 {"id":"town/func_80469150","path":"src/town/scene/call_scene_service_one.c"}
 {"id":"town/func_804F0198","path":"src/town/scene/resolve_scene_entry_text.c"}
+{"id":"main/func_8001427C","path":"src/frontend/libcard/initialize_save_heading_draw_state.c"}

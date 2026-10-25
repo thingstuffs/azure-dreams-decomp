@@ -342,7 +342,7 @@ void libcard_start(void);
 void libcard_stop(void);
 
 /* link_save_heading_draw_nodes.c */
-void link_save_heading_draw_nodes(void * input);
+struct S_800491F4 *link_save_heading_draw_nodes(void *input);
 
 /* message_dialog_lifecycle_g00381.c */
 void card_boot_measure_five_line_message(u8 *text_block);
@@ -357,7 +357,7 @@ void card_boot_layout_alternate_slot_window(void *context);
 void card_boot_populate_slot_window_display(s32 *state);
 
 /* process_nonzero.c */
-void process_nonzero(s32 record);
+void process_nonzero(void *record);
 
 /* render_rotated_grid_surface.c */
 void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode);
@@ -393,5 +393,35 @@ void write_fixed_palette_pixels(void *owner);
 
 struct CardFileListPanel;
 void init_card_file_list_panel(struct CardFileListPanel *panel, s32 selection);
+
+typedef struct CardHeadingTemplate {
+    s32 word0, word1, word2, word3;
+} CardHeadingTemplate;
+
+typedef struct CardHeadingCommon {
+    s32 word0, word1, word2;
+} CardHeadingCommon;
+
+typedef struct CardHeadingDrawNode {
+    s32 unused;
+    CardHeadingTemplate *command;
+    CardHeadingCommon *common;
+    s32 reserved;
+} CardHeadingDrawNode;
+
+typedef struct CardHeadingDrawState {
+    u8 pad_00[0xD4];
+    CardHeadingCommon common;
+    u8 pad_E0[0x0C];
+    struct S_800491F4 *chain;
+    CardHeadingDrawNode *links[4];
+    CardHeadingDrawNode nodes[4];
+    CardHeadingTemplate commands[4];
+} CardHeadingDrawState;
+
+extern CardHeadingTemplate D_8002E5D8;
+extern CardHeadingCommon D_8002E5E8;
+
+void initialize_save_heading_draw_state(CardHeadingDrawState *work, s32 count);
 
 #endif

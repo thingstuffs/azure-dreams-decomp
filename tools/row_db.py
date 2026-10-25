@@ -121,6 +121,12 @@ def cmd_export(a):
 def cmd_check(a):
     bad = 0
     try:
+        from decoded_images import rows as decoded_rows
+        decoded = decoded_rows(ROOT)
+        print(f"decoded registry OK: {len(decoded)} functions (separate decoded coordinates)")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        print("decoded registry: " + str(exc)); bad += 1
+    try:
         from slus_module_context import modules, input_paths
         all_modules = modules(ROOT)
         expected = slus_edges((SPLITS / "slus.build.ninja").read_text(), ROOT)

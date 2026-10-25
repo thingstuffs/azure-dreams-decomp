@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20822,
+  "logical_rows": 20823,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -133874,6 +133874,16 @@
       },
       "rows": [
         "main/func_80014254"
+      ]
+    },
+    {
+      "source": "src/frontend/libcard/initialize_save_heading_draw_state.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001427C"
       ]
     },
     {

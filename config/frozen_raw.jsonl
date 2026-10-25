@@ -10859,3 +10859,4 @@
 {"path":"raw/town/func_800C44BC.c","sha256":"29425e659fedd86209efd2dbb68e5f6cb88c0aa90c96b8a793e4489484b3256c","size":384,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run7.md"}
 {"path":"raw/town/func_80469150.c","sha256":"6b5867824ebb689add676524eaf838d95ca46b6ebffca3867a41945c72336b54","size":260,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run8.md"}
 {"path":"raw/town/func_804F0198.c","sha256":"70282f98e5224f361a9acc8f22611f0bae68f5cea23b6277a6adacd6243252b5","size":1033,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run8.md"}
+{"path":"raw/main/func_8001427C.c","sha256":"ac643a954ab60543b02c54586d384e0ac33060dcc9fc01c1dbe46246185d4704","size":811,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run9_card.md"}

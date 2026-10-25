@@ -50,6 +50,9 @@ def main():
     wm = window_map()
     regs = rows()
     out_dir = ROOT / "work/disc/rebuilt_containers"
+    from decoded_images import build_all, container_overlays
+    decoded_proofs = build_all(ROOT)
+    compressed = container_overlays(ROOT, decoded_proofs)
     all_ok = True
     for cont, flat in CONT.items():
         retail = (ROOT / "work/disc/containers" / flat).read_bytes()
@@ -72,12 +75,17 @@ def main():
             image[fs:fe] = got; covered[fs:fe] = b"\x01" * (fe - fs); wins_ok += 1
         window_bytes = sum(covered)
         matched = sum(r["size"] for r in regs if r["container"] == cont and covered[r["foff"]] and r["stock"])
+        compressed_spans = compressed.get('work/disc/containers/' + flat, [])
+        for offset, packed in compressed_spans:
+            image[offset:offset+len(packed)] = packed
         got_sha = sha1(bytes(image)); want = lock["containers"][flat]
         ok = got_sha == want and not wins_bad and not wins_missing
         all_ok &= ok
         rec = {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "container": cont, "file": flat, "bytes": len(retail),
                "sha1": got_sha, "retail_sha1": want, "identical": got_sha == want, "windows_ok": wins_ok, "windows_bad": wins_bad,
-               "windows_missing": wins_missing, "window_bytes": window_bytes, "matched_bytes": matched, "fill_bytes": len(retail) - window_bytes}
+               "windows_missing": wins_missing, "window_bytes": window_bytes, "matched_bytes": matched, "fill_bytes": len(retail) - window_bytes,
+               "compressed_producer_bytes": sum(len(packed) for _, packed in compressed_spans),
+               "decoded_c_text_bytes": sum(p['decoded_c_text_bytes'] for p in decoded_proofs if p['image'].split('/')[0] == cont)}
         append_jsonl(LEDGER / "containers.jsonl", rec)
         print(f"{cont:8} {len(retail):>9} B  windows {wins_ok} ok / {wins_bad} bad / {wins_missing} missing  "
               f"window bytes {window_bytes} ({100*window_bytes/len(retail):.1f} %)  matched C {matched} ({100*matched/len(retail):.1f} %)  "

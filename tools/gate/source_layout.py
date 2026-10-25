@@ -220,6 +220,14 @@ def validate(root=ROOT, *, require_files=True):
             raise ValueError('source symlink escapes src: ' + rel)
         if require_files and not p.is_file():
             raise ValueError('missing source for ' + ','.join(sorted(owned[rel])) + ': ' + rel)
+    # Decoded-image sources have explicit identities in a separate coordinate
+    # space; never synthesize physical container rows for their byte extents.
+    if (root / 'config/decoded').is_dir():
+        try:
+            from tools.decoded_images import rows as decoded_rows
+        except ModuleNotFoundError:
+            from decoded_images import rows as decoded_rows
+        decoded_rows(root)
     return len(reg)
 
 

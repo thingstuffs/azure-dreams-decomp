@@ -1556,10 +1556,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
-      "foff": "0x26427c",
+      "row": "main/func_8001427C",
+      "home": "main/func_8001427C",
+      "tu": "src/frontend/libcard/initialize_save_heading_draw_state.c",
+      "foff": "0x26427C",
+      "vma": "0x8002727C",
       "size": 160,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "evidence": "docs/evidence/r124w_carve1_run9_card.md"
     },
     {
       "kind": "code_region",
@@ -1819,13 +1822,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29160,
+    "proven_code": 29320,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5507
+    "unknown": 5347
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

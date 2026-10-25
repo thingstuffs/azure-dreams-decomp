@@ -1,0 +1,164 @@
+{
+  "schema": "azure.decoded-image.v1",
+  "image": "dungeon/menu_cache",
+  "proof_mode": "recompress",
+  "address": "0x80016000",
+  "size": 60192,
+  "sha256": "a56cb45b12a65de6e49fac498757180a0e8759b992ced9cb170463ec8b5eb156",
+  "streams": [
+    {
+      "container": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "offset": "0x4a3014",
+      "input_limit": 16364,
+      "used": 14324,
+      "size": 30096,
+      "source_sha256": "92b77a5ed9d5cbe1fa7920d3c7e1a13c3a34e889d43b1621608d8b05902fc3cd",
+      "decoded_sha256": "c6bee3b8a7a784a94075df5ff787e7ac86542c081f94d6dfb72d5f705ba82aa7",
+      "command": [
+        5,
+        16,
+        20,
+        320,
+        256,
+        64,
+        128,
+        0
+      ]
+    },
+    {
+      "container": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "offset": "0x4a7014",
+      "input_limit": 16364,
+      "used": 14338,
+      "size": 30096,
+      "source_sha256": "b4bd42291362c1bd643d02e057a09f9740153927bc9995af58622b50ec22b712",
+      "decoded_sha256": "6fd2ef21e660163fd6a9ef98de030e826265dca315c19e29b2ad4fb59b4c08e0",
+      "command": [
+        5,
+        16,
+        20,
+        320,
+        384,
+        64,
+        128,
+        0
+      ]
+    }
+  ],
+  "units": [
+    {
+      "source": "src/dungeon/menu/cache_entry_object.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache.h",
+      "functions": [
+        {
+          "name": "allocate_menu_entry_object",
+          "address": "0x80018174",
+          "size": 260
+        },
+        {
+          "name": "release_menu_entry_object",
+          "address": "0x8001832c",
+          "size": 108
+        },
+        {
+          "name": "allocate_menu_pair_default",
+          "address": "0x80018ab0",
+          "size": 32
+        },
+        {
+          "name": "update_menu_panel_colors",
+          "address": "0x8001ab88",
+          "size": 92
+        },
+        {
+          "name": "advance_menu_panel_scale",
+          "address": "0x8001abe4",
+          "size": 116
+        },
+        {
+          "name": "invoke_cached_menu_callback",
+          "address": "0x80017ebc",
+          "size": 40
+        },
+        {
+          "name": "link_cached_menu_entries",
+          "address": "0x80017ee4",
+          "size": 40
+        },
+        {
+          "name": "initialize_cached_menu_entry",
+          "address": "0x80018084",
+          "size": 116
+        },
+        {
+          "name": "prepare_cached_menu_entries",
+          "address": "0x800180f8",
+          "size": 124
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_actor_records.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache.h",
+      "functions": [
+        {
+          "name": "get_menu_actor_index",
+          "address": "0x80021300",
+          "size": 124
+        },
+        {
+          "name": "get_menu_actor",
+          "address": "0x8002137c",
+          "size": 48
+        },
+        {
+          "name": "get_menu_actor_mask",
+          "address": "0x800213ac",
+          "size": 44
+        },
+        {
+          "name": "list_menu_actor_records",
+          "address": "0x800213d8",
+          "size": 112
+        },
+        {
+          "name": "list_menu_actor_records_with_primary",
+          "address": "0x80021448",
+          "size": 32
+        },
+        {
+          "name": "list_menu_linked_actor_records",
+          "address": "0x80021468",
+          "size": 32
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "primary_actor_record": "0x800814a8",
+    "allocate_flagged_object_node": "0x8003fc64",
+    "register_node": "0x8004491c",
+    "release_null_terminated_entries": "0x8004b248",
+    "draw_tinted_node_sprites_scratch": "0x8004caa0",
+    "object_flag_block": "0x800814a0",
+    "clear_menu_entries": "0x80018278",
+    "release_menu_entry_state": "0x800186bc",
+    "allocate_menu_pair": "0x800189ec",
+    "advance_timed_tagged_stream": "0x8004cb2c",
+    "fade_color_to_gray": "0x800497f4",
+    "handle_menu_panel_input": "0x8001a7f0",
+    "menu_entry_common_template": "0x8002e5e8",
+    "menu_entry_link_table": "0x800247ac",
+    "realloc_field_0_buffer": "0x80049004",
+    "set_entry_common_pointers": "0x800491cc",
+    "build_reverse_indexed_chain": "0x800491f4",
+    "initialize_menu_display_templates": "0x80017f0c",
+    "clear_cached_menu_entry": "0x80017fa4",
+    "set_cached_menu_entry_resource": "0x80018030"
+  },
+  "evidence": "docs/DECODED_IMAGES.md"
+}

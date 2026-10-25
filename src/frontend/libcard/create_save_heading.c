@@ -1,4 +1,4 @@
-#include "common.h"
+#include "frontend/libcard.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
 #include "engine/scene.h"
@@ -6,14 +6,6 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-typedef struct S_80027364_1 {
-    u8 pad_00[0xEC];
-    s32 unk_EC;
-} S_80027364_1;   /* work in create_save_heading */
-
-extern void process_nonzero(void *record);
-extern void func_8002727C(void *work_state, s32 value);
-extern s32 link_save_heading_draw_nodes(void *input);
 extern void func_80027324(void *work_state, s32 init_value);
 
 extern u8 menu_backdrop_tag[];
@@ -22,7 +14,7 @@ extern u8 menu_backdrop_tag[];
 void *create_save_heading(s32 init_value)
 {
     ObjectNodeHeader *object;
-    u8 *work_state;
+    CardHeadingDrawState *work_state;
 
     object = card_save_heading_object;
     work_state = card_save_heading_object + 0x20;
@@ -35,9 +27,9 @@ void *create_save_heading(s32 init_value)
         bzero(work_state, 0x180);
     }
 
-    func_8002727C(work_state, 4);
-    object->sprite = work_state + 0xE0;
-    ((S_80027364_1 *)work_state)->unk_EC = link_save_heading_draw_nodes(work_state + 0xF0);
+    initialize_save_heading_draw_state(work_state, 4);
+    object->sprite = work_state->pad_E0;
+    work_state->chain = link_save_heading_draw_nodes(work_state->links);
     func_80027324(work_state, init_value);
     return object;
 }

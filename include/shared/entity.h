@@ -239,7 +239,9 @@ typedef struct PlayerRecord {
     /* 0x0D2 */ unsigned char unk_D2;
     /* 0x0D3 */ unsigned char pad_D3[5];
     /* 0x0D8 */ int unk_D8;
-    /* 0x0DC */ unsigned char pad_DC[20];
+    /* 0x0DC */ unsigned char pad_DC[8];
+    /* 0x0E4 */ void *menu_alternate[2]; /* menu cache alternate familiar slots */
+    /* 0x0EC */ unsigned char pad_EC[4];
     /* 0x0F0 */ void *selected_floor_entry; /* selected four-byte floor/map item entry, or null */
     /* 0x0F4 */ int unk_F4;                       /* player transition data */
     /* 0x0F8 */ unsigned char pad_F8[10];
