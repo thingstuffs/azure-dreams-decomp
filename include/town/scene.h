@@ -39,6 +39,7 @@ extern void *D_80016718[];
 s32 forward_request_if_ready(void *request_value);
 s32 pass_and_clear_selected_entry_byte(void *context, s32 entry_index);
 
+s32 apply_scene_override_flag(s32 unused_first, s32 unused_second);
 s32 check_any_entry_matches_predicate(void);
 s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag);
 s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context);

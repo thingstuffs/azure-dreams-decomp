@@ -7951,3 +7951,15 @@
 {"id":"town/func_800CA4DC","path":"src/town/person/begin_mother_event_pause.c"}
 {"id":"town/func_800CC534","path":"src/town/person/initialize_reaction_object_four.c"}
 {"id":"main/func_80013920","path":"src/frontend/libcard/release_card_record_handles.c"}
+{"id":"town/func_800C8934","path":"src/town/scene/initialize_scene_slot_thirteen.c"}
+{"id":"town/func_800CE520","path":"src/town/scene/initialize_scene_slot_forty_sprite.c"}
+{"id":"town/func_800CB180","path":"src/town/scene/initialize_scene_slot_ten.c"}
+{"id":"town/func_800CB5D4","path":"src/town/scene/initialize_falling_object_sprite.c"}
+{"id":"town/func_800BC490","path":"src/town/scene/initialize_sprite_six.c"}
+{"id":"town/func_800BCD08","path":"src/town/scene/initialize_effect_with_sprite_set_nine.c"}
+{"id":"town/func_80955484","path":"src/town/minigame/fade_completed_keima_color.c"}
+{"id":"town/func_809555F0","path":"src/town/minigame/remove_completed_keima_object.c"}
+{"id":"town/func_8046F164","path":"src/town/scene/apply_scene_override_flag.c"}
+{"id":"dungeon/func_81810040","path":"src/dungeon/menu/copy_indexed_menu_string.c"}
+{"id":"dungeon/func_8132A590","path":"src/dungeon/monster/ghosh/advance_ghosh_trail_fade.c"}
+{"id":"town/D_800D61F0","path":"src/town/menu/window.c"}

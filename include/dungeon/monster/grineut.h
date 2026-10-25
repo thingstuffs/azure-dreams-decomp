@@ -140,64 +140,6 @@ typedef struct R07_80171570_S_80171570_3 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } R07_80171570_S_80171570_3;
-typedef struct R07_801717B4_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R07_801717B4_S_80171C34_1;
-typedef struct R07_801717B4_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R07_801717B4_S_80171C34_2;
-typedef struct R07_801717B4_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R07_801717B4_S_80171C34_3_pre;
-typedef struct R07_801717B4_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R07_801717B4_S_80171C34_3;
-typedef struct R07_801717B4_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R07_801717B4_S_80171C34_5;
-typedef struct R07_801717B4_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R07_801717B4_S_80171C34_7;
-typedef struct R07_801717B4_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R07_801717B4_S_80171C34_8;
-typedef struct R07_801717B4_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R07_801717B4_DungeonRecord;
 typedef struct R07_80172184_Ent R07_80172184_Ent;
 typedef struct R07_8017229C_S_80172628_0 {
     u8 pad_00[0x46];
@@ -388,7 +330,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part);
 void dispatch_monster_move_attack_spell(void *record, EntityRec *entity, void *object, ActorRecord *other_entity);
 void advance_stored_path_motion(void *action, s32 action_id, SpriteFrameState *entity, void *move_state);
-void choose_grineut_move(void *move_data, void *context, void *position_data, void *actor_data);
+void choose_grineut_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void initialize_opposite_facing_effect(void *effect, s32 *position, SpriteFrameState *sprite, void *source);
 s32 try_grineut_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_grineut_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);

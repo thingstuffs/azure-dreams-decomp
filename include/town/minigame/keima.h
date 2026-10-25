@@ -69,4 +69,21 @@ s32 initialize_keima_interface(void);
 void update_keima_minigame(KeimaState *game);
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
+/* Fade records watch their owning minigame controller's completion bit. */
+typedef struct KeimaFadeState {
+    KeimaHalf phase;
+    u16 pad_02;
+    KeimaState *owner;
+    s32 color;
+} KeimaFadeState;
+
+typedef struct KeimaExitState {
+    s16 phase;
+    u8 pad_02[10];
+    KeimaState *owner;
+} KeimaExitState;
+
+void fade_completed_keima_color(KeimaFadeState *effect);
+void remove_completed_keima_object(KeimaExitState *effect);
+
 #endif

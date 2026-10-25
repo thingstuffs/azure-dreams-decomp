@@ -2,6 +2,8 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "town/menu/window.h"
+#include "town/scene/object.h"
+#include "town/scene/effect.h"
 #include "town/scene/resource.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -222,6 +224,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 /* Create an object, initialize its position and render state, and invoke its callback. */
 s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
 {
+    TownObjectCallbackEntry initializer;
     s32 saved_angle_index;
     ObjectNodeHeader *object;
     ObjectPosition *position;
@@ -242,7 +245,8 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
         return 0;
     }
     if ((callback_id & 0xC0000000) == 0xC0000000) {
-        object->update_callback = town_object_callbacks[(u16)callback_id];
+        initializer.callback = town_object_callbacks[(u16)callback_id];
+        object->update_callback = initializer.address;
     }
     if ((callback_id & 0xC0000000) != 0xC0000000) {
         object->update_callback = callback_id;
@@ -1002,3 +1006,344 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
     D_800D09C8[0] = 0;
     callback(callback_entity, callback_placement, callback_state);
 }
+
+/* Initializers selected by the low callback id in scene object records. */
+extern void set_motion_handler_and_copy_signed_byte(void *, void *, SpriteFrameState *);
+extern void initialize_object_resource_table(void *, void *, SpriteFrameState *);
+extern void initialize_object_resource_tables(void *, void *, SpriteFrameState *);
+extern void initialize_object_resources_and_state(void *, void *, SpriteFrameState *);
+extern void initialize_object_state_from_selector(void *, void *, SpriteFrameState *);
+extern void select_object_state_by_mode_2(void *, void *, SpriteFrameState *);
+extern void initialize_optional_scene_state_a(void *, void *, SpriteFrameState *);
+extern void no_op_action_callback(void *, void *, SpriteFrameState *);
+extern void initialize_optional_scene_state_b(void *, void *, SpriteFrameState *);
+extern void initialize_optional_scene_state_c(void *, void *, SpriteFrameState *);
+extern void initialize_object_action_with_default_data(void *, void *, SpriteFrameState *);
+extern void initialize_actor_action_with_default_data(void *, void *, SpriteFrameState *);
+extern void initialize_timed_object_action(void *, void *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_a(void *, void *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_b(void *, void *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_c(void *, void *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_d(void *, void *, SpriteFrameState *);
+extern void initialize_door_variant(void *, void *, SpriteFrameState *);
+extern void initialize_scaled_effect_object(void *, void *, SpriteFrameState *);
+extern void initialize_unit_scale_object(void *, void *, SpriteFrameState *);
+extern void initialize_emote_animation(void *, void *, SpriteFrameState *);
+extern void initialize_timed_scale_object(void *, void *, SpriteFrameState *);
+extern void initialize_effect_object(void *, void *, SpriteFrameState *);
+extern void initialize_resource_object(void *, void *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
+extern void initialize_indexed_resource_object(void *, void *, SpriteFrameState *);
+extern void initialize_timed_resource_object(void *, void *, SpriteFrameState *);
+extern void set_record_pointer_and_byte(void *, void *, SpriteFrameState *);
+extern void initialize_randomized_object_state(void *, void *, SpriteFrameState *);
+extern void initialize_record_with_defaults(void *, void *, SpriteFrameState *);
+extern void initialize_record_pointers_and_clear_state(void *, void *, SpriteFrameState *);
+extern void initialize_variant_record_pointers_and_clear_state(void *, void *, SpriteFrameState *);
+extern void initialize_person_resources(void *, void *, SpriteFrameState *);
+extern void initialize_object_data_transform_color(void *, void *, SpriteFrameState *);
+extern void initialize_effect_with_child_sprites(void *, void *, SpriteFrameState *);
+extern void initialize_effect_with_random_angle(void *, void *, SpriteFrameState *);
+extern void initialize_random_particle_effect(void *, void *, SpriteFrameState *);
+extern void initialize_object_header_and_state(void *, void *, SpriteFrameState *);
+extern void initialize_object_appearance_with_delay(void *, void *, SpriteFrameState *);
+extern void init_object_with_countdown(void *, void *, SpriteFrameState *);
+extern void initialize_record_resources(void *, void *, SpriteFrameState *);
+extern void initialize_object_with_default_data(void *, void *, SpriteFrameState *);
+extern void initialize_object_motion_and_animation(void *, void *, SpriteFrameState *);
+extern void initialize_object_and_dispatch_by_state(void *, void *, SpriteFrameState *);
+extern void no_op_secondary_effect_callback(void *, void *, SpriteFrameState *);
+extern void spawn_fixed_effect_object(void *, void *, SpriteFrameState *);
+extern void spawn_effect_object_with_packet(void *, void *, SpriteFrameState *);
+extern void create_positioned_linked_visual_child(void *, void *, SpriteFrameState *);
+extern void replace_active_table_callbacks(void *, void *, SpriteFrameState *);
+extern void initialize_transform_object(void *, void *, SpriteFrameState *);
+extern void initialize_object_resources_2(void *, void *, SpriteFrameState *);
+extern void init_actor_slot_30(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_1_context(void *, void *, SpriteFrameState *);
+extern void init_person_slot_fifty_one(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_16(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_22(void *, void *, SpriteFrameState *);
+extern void init_person_slot_nineteen(void *, void *, SpriteFrameState *);
+extern void func_800C60DC(void *, void *, SpriteFrameState *);
+extern void configure_actor_mode_13(void *, void *, SpriteFrameState *);
+extern void func_800C620C(void *, void *, SpriteFrameState *);
+extern void func_800C629C(void *, void *, SpriteFrameState *);
+extern void init_person_slot_thirty_five(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_63(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_32(void *, void *, SpriteFrameState *);
+extern void initialize_object_slot_9_data(void *, void *, SpriteFrameState *);
+extern void initialize_object_slot_9_and_display(void *, void *, SpriteFrameState *);
+extern void func_800C65C8(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_15(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_47_context(void *, void *, SpriteFrameState *);
+extern void initialize_object_slot_0x17(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_6_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_3(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_53(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_55(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_49(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_28_and_render_state(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_52_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_54(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_56(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_60_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_41_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_42_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_27(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_4(void *, void *, SpriteFrameState *);
+extern void init_person_slot_four(void *, void *, SpriteFrameState *);
+extern void set_actor_flag_copy_global(void *, void *, SpriteFrameState *);
+extern void initialize_object_configuration_x(void *, void *, SpriteFrameState *);
+extern void func_800C83F0(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_59_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_31(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_36(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_26_and_render_state(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_68(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_11(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_75_and_copy_global(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_76_and_copy_global(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_77_and_copy_global(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_78_and_copy_global(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_45_context(void *, void *, SpriteFrameState *);
+extern void initialize_reaction_object_type_4_a(void *, void *, SpriteFrameState *);
+extern void init_person_slot_sixty_one(void *, void *, SpriteFrameState *);
+extern void initialize_reaction_object_type_4_f(void *, void *, SpriteFrameState *);
+extern void initialize_reaction_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_18(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_18_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_46(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_38(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_30(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_57_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_62_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_24(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_25_and_render_state(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_69(void *, void *, SpriteFrameState *);
+extern void init_person_slot_eight(void *, void *, SpriteFrameState *);
+extern void initialize_variant_object(void *, void *, SpriteFrameState *);
+extern void initialize_record_from_table_index(void *, void *, SpriteFrameState *);
+extern void reset_object_substate_and_flag(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_70_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_71_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_72_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_73_and_render_state(void *, void *, SpriteFrameState *);
+extern void init_person_slot_thirty_three(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_21_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_44_and_render_state(void *, void *, SpriteFrameState *);
+extern void func_800CC2E8(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_11_context_variant(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_1(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_12_context(void *, void *, SpriteFrameState *);
+extern void init_person_slot_fifty(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_64_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_65_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_66_and_render_state(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_34(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_14(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_20(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_58(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_43(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_80(void *, void *, SpriteFrameState *);
+extern void configure_actor_slot_5(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_60(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_59(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_83(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_84(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_58(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_45(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_62(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_57(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_48(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_47(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_52(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_16(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_41(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_42(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_10(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_12(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_11_context(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_8(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_9(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_13(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_7(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_6(void *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_37(void *, void *, SpriteFrameState *);
+
+TownObjectCallback town_object_callbacks[172] = {
+    set_actor_flag_copy_global, /* 0 */
+    initialize_scene_slot_4, /* 1 */
+    configure_actor_slot_5, /* 2 */
+    initialize_scene_slot_6_context, /* 3 */
+    func_800CC2E8, /* 4 */
+    init_person_slot_eight, /* 5 */
+    initialize_object_slot_9_data, /* 6 */
+    initialize_object_configuration_x, /* 7 */
+    initialize_scene_slot_11, /* 8 */
+    initialize_scene_slot_12_context, /* 9 */
+    initialize_scene_slot_thirteen, /* 10 */
+    func_800C629C, /* 11 */
+    configure_actor_slot_14, /* 12 */
+    initialize_scene_slot_15, /* 13 */
+    configure_actor_slot_16, /* 14 */
+    initialize_scene_slot_18, /* 15 */
+    init_person_slot_nineteen, /* 16 */
+    configure_actor_slot_20, /* 17 */
+    configure_actor_slot_21_and_render_state, /* 18 */
+    configure_actor_slot_22, /* 19 */
+    initialize_object_slot_0x17, /* 20 */
+    initialize_scene_slot_24, /* 21 */
+    configure_actor_slot_25_and_render_state, /* 22 */
+    configure_actor_slot_26_and_render_state, /* 23 */
+    initialize_scene_slot_27, /* 24 */
+    configure_actor_slot_28_and_render_state, /* 25 */
+    initialize_scene_slot_30, /* 26 */
+    initialize_scene_slot_31, /* 27 */
+    configure_actor_slot_32, /* 28 */
+    init_person_slot_thirty_three, /* 29 */
+    configure_actor_slot_34, /* 30 */
+    init_person_slot_thirty_five, /* 31 */
+    initialize_scene_slot_36, /* 32 */
+    initialize_scene_slot_37, /* 33 */
+    initialize_scene_slot_38, /* 34 */
+    reset_object_substate_and_flag, /* 35 */
+    initialize_scene_slot_forty_sprite, /* 36 */
+    initialize_scene_slot_41_context, /* 37 */
+    initialize_scene_slot_42_context, /* 38 */
+    configure_actor_slot_43, /* 39 */
+    configure_actor_slot_44_and_render_state, /* 40 */
+    initialize_scene_slot_45_context, /* 41 */
+    initialize_scene_slot_46, /* 42 */
+    initialize_scene_slot_47_context, /* 43 */
+    init_actor_slot_30, /* 44 */
+    initialize_scene_slot_49, /* 45 */
+    init_person_slot_fifty, /* 46 */
+    init_person_slot_fifty_one, /* 47 */
+    initialize_scene_slot_52_context, /* 48 */
+    initialize_scene_slot_53, /* 49 */
+    initialize_scene_slot_54, /* 50 */
+    initialize_scene_slot_55, /* 51 */
+    initialize_scene_slot_56, /* 52 */
+    initialize_scene_slot_57_context, /* 53 */
+    configure_actor_slot_58, /* 54 */
+    initialize_scene_slot_59_context, /* 55 */
+    initialize_scene_slot_60_context, /* 56 */
+    init_person_slot_sixty_one, /* 57 */
+    initialize_scene_slot_62_context, /* 58 */
+    configure_actor_slot_63, /* 59 */
+    configure_actor_slot_64_and_render_state, /* 60 */
+    configure_actor_slot_65_and_render_state, /* 61 */
+    configure_actor_slot_66_and_render_state, /* 62 */
+    initialize_object_resources_2, /* 63 */
+    initialize_scene_slot_3, /* 64 */
+    initialize_scene_slot_1, /* 65 */
+    initialize_scene_slot_11_context_variant, /* 66 */
+    init_person_slot_four, /* 67 */
+    initialize_scene_slot_1_context, /* 68 */
+    initialize_scene_slot_68, /* 69 */
+    initialize_scene_slot_69, /* 70 */
+    configure_actor_slot_70_and_render_state, /* 71 */
+    configure_actor_slot_71_and_render_state, /* 72 */
+    configure_actor_slot_72_and_render_state, /* 73 */
+    configure_actor_slot_73_and_render_state, /* 74 */
+    initialize_reaction_object_type_4_a, /* 75 */
+    configure_actor_slot_75_and_copy_global, /* 76 */
+    configure_actor_slot_76_and_copy_global, /* 77 */
+    configure_actor_slot_77_and_copy_global, /* 78 */
+    configure_actor_slot_78_and_copy_global, /* 79 */
+    initialize_door_variant, /* 80 */
+    initialize_person_resources, /* 81 */
+    set_object_types_and_resource, /* 82 */
+    initialize_object_resource_table, /* 83 */
+    initialize_object_resource_tables, /* 84 */
+    initialize_object_resources_and_state, /* 85 */
+    initialize_object_state_from_selector, /* 86 */
+    select_object_state_by_mode_2, /* 87 */
+    initialize_optional_scene_state_a, /* 88 */
+    no_op_action_callback, /* 89 */
+    initialize_optional_scene_state_b, /* 90 */
+    initialize_optional_scene_state_c, /* 91 */
+    initialize_object_action_with_default_data, /* 92 */
+    initialize_transform_object, /* 93 */
+    initialize_object_header_and_state, /* 94 */
+    initialize_object_appearance_with_delay, /* 95 */
+    initialize_object_data_transform_color, /* 96 */
+    initialize_effect_with_child_sprites, /* 97 */
+    initialize_effect_with_random_angle, /* 98 */
+    initialize_object_slot_9_and_display, /* 99 */
+    func_800C65C8, /* 100 */
+    func_800C83F0, /* 101 */
+    initialize_scene_slot_ten, /* 102 */
+    initialize_falling_object_sprite, /* 103 */
+    initialize_variant_object, /* 104 */
+    initialize_record_from_table_index, /* 105 */
+    initialize_reaction_object_type_4_f, /* 106 */
+    initialize_reaction_context, /* 107 */
+    configure_actor_slot_80, /* 108 */
+    initialize_scaled_effect_object, /* 109 */
+    initialize_scene_slot_48, /* 110 */
+    initialize_scene_slot_16, /* 111 */
+    initialize_scene_slot_59, /* 112 */
+    initialize_scene_slot_13, /* 113 */
+    initialize_scene_slot_9, /* 114 */
+    initialize_scene_slot_60, /* 115 */
+    initialize_scene_slot_52, /* 116 */
+    initialize_scene_slot_41, /* 117 */
+    initialize_scene_slot_42, /* 118 */
+    initialize_scene_slot_10, /* 119 */
+    initialize_scene_slot_11_context, /* 120 */
+    initialize_scene_slot_45, /* 121 */
+    initialize_scene_slot_62, /* 122 */
+    initialize_scene_slot_57, /* 123 */
+    initialize_scene_slot_8, /* 124 */
+    initialize_scene_slot_6, /* 125 */
+    initialize_scene_slot_7, /* 126 */
+    initialize_scene_slot_12, /* 127 */
+    initialize_scene_slot_83, /* 128 */
+    initialize_scene_slot_84, /* 129 */
+    initialize_scene_slot_58, /* 130 */
+    initialize_scene_slot_47, /* 131 */
+    func_800C60DC, /* 132 */
+    configure_actor_mode_13, /* 133 */
+    func_800C620C, /* 134 */
+    initialize_record_resources, /* 135 */
+    initialize_object_and_dispatch_by_state, /* 136 */
+    initialize_scene_slot_18_context, /* 137 */
+    no_op_secondary_effect_callback, /* 138 */
+    initialize_timed_scale_object, /* 139 */
+    initialize_effect_object, /* 140 */
+    initialize_unit_scale_object, /* 141 */
+    initialize_emote_animation, /* 142 */
+    initialize_entity_from_table_and_callback, /* 143 */
+    set_motion_handler_and_copy_signed_byte, /* 144 */
+    set_record_pointer_and_byte, /* 145 */
+    initialize_timed_resource_object, /* 146 */
+    initialize_randomized_object_state, /* 147 */
+    initialize_indexed_resource_object, /* 148 */
+    initialize_resource_object, /* 149 */
+    replace_active_table_callbacks, /* 150 */
+    initialize_object_motion_and_animation, /* 151 */
+    spawn_fixed_effect_object, /* 152 */
+    spawn_effect_object_with_packet, /* 153 */
+    create_positioned_linked_visual_child, /* 154 */
+    initialize_timed_object_action, /* 155 */
+    initialize_projected_sprite_chain_a, /* 156 */
+    initialize_projected_sprite_chain_b, /* 157 */
+    initialize_projected_sprite_chain_c, /* 158 */
+    initialize_flagged_actor_action_a, /* 159 */
+    initialize_flagged_actor_action_b, /* 160 */
+    initialize_flagged_actor_action_c, /* 161 */
+    initialize_flagged_actor_action_d, /* 162 */
+    initialize_object_with_default_data, /* 163 */
+    initialize_actor_action_with_default_data, /* 164 */
+    initialize_record_with_defaults, /* 165 */
+    init_object_with_countdown, /* 166 */
+    initialize_sprite_six, /* 167 */
+    initialize_effect_with_sprite_set_nine, /* 168 */
+    initialize_random_particle_effect, /* 169 */
+    initialize_record_pointers_and_clear_state, /* 170 */
+    initialize_variant_record_pointers_and_clear_state, /* 171 */
+};

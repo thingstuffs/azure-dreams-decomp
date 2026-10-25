@@ -97,64 +97,6 @@ typedef struct R03_8017139C_S_8017139C_2 {
     u8 unk_9A;
 } R03_8017139C_S_8017139C_2;
 
-typedef struct R03_801715F4_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R03_801715F4_S_80171C34_1;
-typedef struct R03_801715F4_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R03_801715F4_S_80171C34_2;
-typedef struct R03_801715F4_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R03_801715F4_S_80171C34_3_pre;
-typedef struct R03_801715F4_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R03_801715F4_S_80171C34_3;
-typedef struct R03_801715F4_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R03_801715F4_S_80171C34_5;
-typedef struct R03_801715F4_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R03_801715F4_S_80171C34_7;
-typedef struct R03_801715F4_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R03_801715F4_S_80171C34_8;
-typedef struct R03_801715F4_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R03_801715F4_DungeonRecord;
 typedef struct R03_80171DA0_S_80171DA0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -396,7 +338,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void dispatch_monster_move_attack_spell(void *controller, void *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void advance_stored_entity_path(void *controller, void *context, void *entity, void *path_state);
-void advance_actor_path_with_item_search(void *move_data, void *context, void *position_data, void *actor_data);
+void advance_actor_path_with_item_search(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void copy_display_orientation_state(void *object, void *unused, void *display, void *orientation);
 s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 void start_directional_actor_effect(void *action_state, void *action_context, void *sprite, ActorRecord *actor);

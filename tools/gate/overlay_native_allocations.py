@@ -7,9 +7,11 @@ import ast,hashlib,json,re,struct,sys,shutil,tempfile,os,dataclasses
 from pathlib import Path
 from functools import lru_cache
 import overlay_switch_allocations as X
+import overlay_symbolic_allocations as P
 MODEL='separated-literal-allocations-v1'
 def switches(m):return X.enabled(m)
-def enabled(m):return m.get('allocation_model')==MODEL or switches(m)
+def symbolic(m):return P.enabled(m)
+def enabled(m):return m.get('allocation_model')==MODEL or switches(m) or symbolic(m)
 def spans(m):return [(a['foff'],a['foff']+a['size']) for a in m['allocations']]
 def offset(m,foff,size):
  total=0
@@ -52,6 +54,8 @@ def slot_literal(slot,root):
   if len(found)!=1:raise ValueError('string ownership declaration differs')
   data=ast.literal_eval(found[0]).encode('latin1')+b'\0'
   if b'\0' in data[:-1]:raise ValueError('embedded NUL in typed string')
+ elif kind=='function_pointers':
+  data=P.source_words(slot,root)
  elif kind=='u32_words':
   found=re.findall(r'\bstatic\s+u32\s+'+name+r'\s*\[\s*([0-9]+)\s*\]\s*=\s*\{([^{}]*)\}\s*;',text)
   if len(found)!=1:raise ValueError('word-array ownership declaration differs')
@@ -75,7 +79,7 @@ def slot_literal(slot,root):
  return data
 def validate(m,root=None,region=None):
  if switches(m):return X.validate(m,root,region)
- if not enabled(m) or m.get('owned_data') or m.get('data_members') or any(a.get('body_offset') for a in m['members']):raise ValueError('mixed/unsupported separated allocation model')
+ if not enabled(m) or m.get('owned_data') or (m.get('data_members') and not symbolic(m)) or any(a.get('body_offset') for a in m['members']):raise ValueError('mixed/unsupported separated allocation model')
  allocations=m['allocations']
  if not allocations or len({a['section'] for a in allocations})!=len(allocations):raise ValueError('duplicate or absent allocation')
  for i,(lo,hi) in enumerate(sorted(spans(m))):
@@ -94,11 +98,12 @@ def validate(m,root=None,region=None):
   for slot in a['slots']:
    if slot['symbol'] in names or slot['offset']!=(cursor+3)&~3:raise ValueError('slot order/alignment differs')
    names.add(slot['symbol'])
-   if slot['kind']=='typed_string' and a['section']!='.rodata' or slot['kind']!='typed_string' and a['section']!='.data':raise ValueError('slot section/type differs')
+   if slot['kind']!='function_pointers' and (slot['kind']=='typed_string' and a['section']!='.rodata' or slot['kind']!='typed_string' and a['section']!='.data'):raise ValueError('slot section/type differs')
    if slot['source'] not in m['review_inputs']:raise ValueError('storage source is not fingerprinted')
    if root:slot_literal(slot,root)
    cursor=slot['offset']+slot['size']
   if cursor!=a['size']:raise ValueError('unaccounted semantic storage bytes')
+ if symbolic(m):P.validate(m,root)
  if sorted(m['section_order'])!=sorted([a['section'] for a in allocations if a['section']!='.text.*']+['.text.'+a['function'] for a in members]):raise ValueError('incomplete section-order inventory')
 def elf_headers(blob):
  offset=struct.unpack_from('<I',blob,32)[0];stride,count,strings=struct.unpack_from('<HHH',blob,46)
@@ -113,6 +118,7 @@ def prepare(m,blob,root):
   if not align or align&(align-1) or len(body)!=(semantic+align-1)&~(align-1) or any(body[semantic:]):raise ValueError('noncanonical GNU end padding')
   expected=bytearray(semantic)
   for slot in a['slots']:expected[slot['offset']:slot['offset']+slot['size']]=slot_literal(slot,root)
+  if symbolic(m):P.check_relocations(m,a,blob,root)
   if body[:semantic]!=expected:raise ValueError('compiled literal storage differs from declarations')
   struct.pack_into('<I',out,table+index*stride+20,semantic)
   proof.append(dict(section=a['section'],semantic_bytes=semantic,padding_bytes=len(body)-semantic,padding_hex=body[semantic:].hex(),elf_alignment=align))
@@ -143,8 +149,9 @@ def check_views(m,ma,ge,addresses):
  for a in m['allocations']:
   if a['section']=='.text.*':continue
   gn=a['section'];sn='.rdata' if gn=='.rodata' else gn
-  if ma.obj.sections.get(gn)!=ge.obj.sections.get(sn) or len(ma.obj.sections.get(gn,b''))!=a['size']:raise ValueError('genuine storage extent/content differs')
-  if any(r[0]==gn for r in ma.obj.relocs) or any(r[0]==sn for r in ge.obj.relocs):raise ValueError('literal allocation has a relocation')
+  if (not symbolic(m) and ma.obj.sections.get(gn)!=ge.obj.sections.get(sn)) or len(ma.obj.sections.get(gn,b''))!=a['size']:raise ValueError('genuine storage extent/content differs')
+  if symbolic(m):P.check_views(m,a,ma,ge)
+  elif any(r[0]==gn for r in ma.obj.relocs) or any(r[0]==sn for r in ge.obj.relocs):raise ValueError('literal allocation has a relocation')
   expected_symbols={slot['symbol'] for slot in a['slots']}
   actual_symbols={name for name,symbol in ma.obj.symbols.items() if symbol[0]==gn}
   if actual_symbols!=expected_symbols:raise ValueError('unaccounted GNU storage symbol')
@@ -221,7 +228,7 @@ def build(m,out,root,G,substitutions=None,*,artifact_only=False):
  ma=A.View(A.read_elf(cooked));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma);check_views(m,ma,ge,addresses)
  genuine=bytearray()
  for allocation in sorted(m['allocations'],key=lambda a:a['foff']):
-  if allocation['section']!='.text.*':genuine.extend(X.resolve_storage(m,ge,allocation,addresses,A) if switches(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
+  if allocation['section']!='.text.*':genuine.extend(resolve_storage(m,ge,allocation,addresses,A) if switches(m) or symbolic(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
   for member in m['members']:
    words,masked=A.resolve_tokens(ge,member['function'],member['vma'],addresses.get,0x80080994,section_anchors=anchors)
    if masked:raise ValueError('unresolved genuine code relocation')
@@ -251,7 +258,7 @@ def project_storage(m,segments,blob,out,root=None):
   if len(overlaps)!=1 or not overlaps[0][1].start<=lo<hi<=overlaps[0][1].end:raise ValueError('owned storage is not one complete raw projection source')
   index,original=overlaps[0];chunks=[]
   if original.kind!='raw':
-   row=m['data_members'][0] if switches(m) else None
+   row=next((r for r in m.get('data_members',[]) if r['foff']==lo and r['size']==hi-lo),None) if switches(m) or symbolic(m) else None
    if not row or root is None or original.kind!='c' or (original.start,original.end)!=(row['foff'],row['foff']+row['size']) or (lo,hi)!=(original.start,original.end) or not original.match or original.match.config not in [m['recipe']['cfg'],m['recipe']['cfg'].replace('-G0',' -G0')] or Path(original.match.source).resolve()!=(Path(root)/row['source']).resolve():raise ValueError('owned storage is not the complete canonical switch-data context row')
   if original.start<lo:chunks.append(dataclasses.replace(original,end=lo))
   allocation=next(a for a in m['allocations'] if a['section']==piece['section'])
@@ -284,7 +291,7 @@ def receipt_reason(m,r,root,out,G):
   if json.loads((out/'rodata_proof.json').read_text())!=proof_record(m,padding,(out/'module.untrimmed.o').read_bytes(),cooked,ma,ge,(out/'IN.S').read_text(),root,out):raise ValueError('storage proof replay differs')
   anchors={a['section']:a['vma'] for a in m['allocations'] if a['section']!='.text.*'};rebuilt=bytearray()
   for allocation in sorted(m['allocations'],key=lambda a:a['foff']):
-   if allocation['section']!='.text.*':rebuilt.extend(X.resolve_storage(m,ge,allocation,addresses,A) if switches(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
+   if allocation['section']!='.text.*':rebuilt.extend(resolve_storage(m,ge,allocation,addresses,A) if switches(m) or symbolic(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
    for member in m['members']:
     words,masked=A.resolve_tokens(ge,member['function'],member['vma'],addresses.get,0x80080994,section_anchors=anchors)
     if masked:raise ValueError('masked code relocation')
@@ -296,9 +303,13 @@ def receipt_reason(m,r,root,out,G):
  except (OSError,ValueError,KeyError,TypeError,IndexError) as e:return 'invalid separated-allocation proof: '+str(e)
  return None
 
+def resolve_storage(m,view,allocation,addresses,A):
+ if switches(m):return X.resolve_storage(m,view,allocation,addresses,A)
+ return P.resolve_storage(m,view,allocation,addresses,A)
 
 def proof_record(m,padding,original,cooked,ma,ge,assembly,root,out):
  record=dict(model=m['allocation_model'],padding=padding,allocations=m['allocations'])
+ if symbolic(m):record['symbolic']=P.proof(m,ma,ge)
  if switches(m):
   artifacts={name:(out/name).read_bytes() for name in ['module.s','sectioned.s','module.untrimmed.o','module.o','IN.S','OUT.OBJ']}
   record['native']=X.proof(m,original,cooked,ma,ge,assembly,root,artifacts)

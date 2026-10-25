@@ -103,7 +103,6 @@ s32 town_table_contains_first_byte_b(u8);
 s32 func_8001A510(s32 code);
 void func_8001A418(s32 code);
 void func_8001A490(s32 code);
-s32 func_80016164(s32 first_value, s32 second_value);
 s32 func_8001A7F8(void);
 s32 func_80019A04(void *table, s32 key, s32 context);
 s32 *func_80019ABC(void *table, void *state, s32 key, s32 context);

@@ -461,8 +461,11 @@ def eligibility(level, data):
 def screening(m, levels, baseline, G):
     out = {}
     for a in G.all_members(m):
-        level = levels[a['id']]
         data = a in m.get('data_members', [])
+        if data and G.Z.symbolic(m):
+            out[a['id']] = {'ownership': 'registered_symbolic_table', 'owner': next(s['owner'] for _,s in G.Z.P.slots(m) if s['symbol']==a['symbol'])}
+            continue
+        level = levels[a['id']]
         out[a['id']] = eligibility(level, data)
         if data: out[a['id']]['baseline_exact'] = baseline[a['id']].get('exact') is True
     return out

@@ -66,7 +66,8 @@ def module_cflags(m):
  return list(module_recipe(m)[1])
 
 def all_members(m):
- return m.get('data_members',[])+m['members']
+ members=m.get('data_members',[])+m['members']
+ return sorted(members,key=lambda a:a['foff']) if Z.symbolic(m) else members
 
 def module_first(m):
  return all_members(m)[0]
@@ -101,8 +102,9 @@ def _load_modules(root=ROOT):
   if m.get('allocations') and not Z.enabled(m):raise ValueError('unknown allocation model')
   if Z.enabled(m):Z.validate(m,root)
   if Z.switches(m):Z.X.validate_ownership(m,reg)
+  if Z.symbolic(m):Z.P.validate_ownership(m,reg)
   if m['owned_data']:validate_owned_layout(m)
-  if m.get('data_members') and not Z.switches(m):
+  if m.get('data_members') and not (Z.switches(m) or Z.symbolic(m)):
    if len(m['data_members'])!=len(m['owned_data']):raise ValueError('separate prefix row count differs')
    for a,d in zip(m['data_members'],m['owned_data']):
     if tuple(a[k] for k in ('foff','vma','size'))!=tuple(d[k] for k in ('foff','vma','size')):raise ValueError('separate prefix row ownership extent differs')
@@ -124,7 +126,7 @@ def _load_modules(root=ROOT):
     if r.get('row_kind')!='data':raise ValueError('prefix row is not data')
    elif r.get('row_kind')=='data':raise ValueError('function member is data')
    if 'body_offset' in a:expected['body_offset']=a['body_offset']
-   if a!=expected or (a['foff']!=cursor and not (Z.switches(m) and a is m['members'][0])) or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
+   if a!=expected or (a['foff']!=cursor and not (Z.symbolic(m) or Z.switches(m) and a is m['members'][0])) or r['container']!=m['container'] or r['cfg']!=m['recipe']['cfg'] or (r.get('row_asflags') or '')!=m['recipe']['row_asflags']:raise ValueError('member identity, contiguity or recipe differs: '+a['id'])
    cursor=a['foff']+a['size']
   if not int(region['foff_start'],0)<=module_first(m)['foff']<cursor<=int(region['foff_end'],0):raise ValueError('module outside proven load map')
   if Z.enabled(m):Z.validate(m,root,region)
@@ -143,16 +145,16 @@ def _load_modules(root=ROOT):
     cohort_ids=cohort_index.get(tuple(group[k] for k in cohort_keys),[])
    else:cohort_ids=[x['id'] for x in assignments if all(x[k]==v for k,v in group.items())]
    cohort=sorted(cohort_ids,key=lambda rid:reg[rid]['foff'])
-   if cohort!=[a['id'] for a in all_members(m)]:raise ValueError('complete ledger cohort differs')
+   if cohort!=[a['id'] for a in (m['members'] if Z.symbolic(m) else all_members(m))]:raise ValueError('complete ledger cohort differs')
    if levels is None:levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
    for a in m['members']:
     level=levels[a['id']]
     if level['level']<3 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'}:raise ValueError('L3/placement screen failed')
    baseline={x['id']:x for x in read_jsonl(root/'ledger/baseline.jsonl')} if m.get('data_members') else {}
-   for a in m.get('data_members',[]):
+   for a in ([] if Z.symbolic(m) else m.get('data_members',[])):
     level=levels[a['id']]
     if level['level']<2 or level['pins_left'] or level['tail_jumps'] or set(level['l4_residue'])-{'not_in_module'} or not baseline[a['id']].get('exact'):raise ValueError('data prefix eligibility failed')
-   if ev['members']!=[a['id'] for a in all_members(m)] or ev['confidence']!='strong' or not ev['basis'] or not ev['coverage_complete']:raise ValueError('strong membership screen failed')
+   if ev['members']!=[a['id'] for a in (m['members'] if Z.symbolic(m) else all_members(m))] or ev['confidence']!='strong' or not ev['basis'] or not ev['coverage_complete']:raise ValueError('strong membership screen failed')
   im=m['imports']
   if any(d.get('evidence') and d['evidence'] not in m['review_inputs'] for d in im):raise ValueError('import evidence not fingerprinted')
   if len({x['symbol'] for x in im})!=len(im):raise ValueError('duplicate import')
@@ -425,7 +427,7 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
    if (root/p).exists():names.add(p)
  # Resolve the combined include closure once; shared headers are read once.
  names.update(closure(root,source_starts))
- gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py','overlay_switch_allocations.py','linklist.py','linklist_data.py','overlay_module_placements.py']
+ gate_names=['overlay_scoped_fingerprint.py','gate_read_cache.py','overlay_native_rodata.py','cc.sh','ccproc.py','overlay_local_gate.py','overlay_module_gate.py','overlay_evidence.py','overlay_as_flags.py','gen_noreturn_syms.py','rowbase_naming_debt.py','match.py','rowbase_identity.py','configure.py','live_truth.py','rowbase.py','az_target.py','residue_class.py','overlay_func_compare.py','oracle_scoring.py','overlay_native_allocations.py','overlay_switch_allocations.py','overlay_symbolic_allocations.py','linklist.py','linklist_data.py','overlay_module_placements.py']
  tools=[gate_tool(root,n) for n in gate_names]
  tools += [root/'tools/fidelity'/n for n in ['aspsx_diff.py','objread.py','certify_overlay_module.py']]
  tools += [root/'tools/overlay_module_evidence.py',root/'tools/build/slus_rodata_trim.py']

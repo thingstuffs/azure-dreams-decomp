@@ -8,6 +8,15 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_81810040",
+      "home": "dungeon/func_81810040",
+      "tu": "src/dungeon/menu/copy_indexed_menu_string.c",
+      "foff": "0x1830040",
+      "vma": "0x80025040",
+      "size": 64,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
       "row": "dungeon/func_818107C0",
       "tu": "src/dungeon/system/process_record_resolved_value.c",
       "home": "dungeon/func_818107C0",

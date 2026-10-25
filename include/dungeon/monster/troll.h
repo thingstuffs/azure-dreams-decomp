@@ -5,9 +5,10 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 s32 check_and_prepare_actor_move(void *action_state, s32 facing, void *origin, void *actor);
 void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *position_input, void *actor_input);
-void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *position, u8 *actor);
+void select_and_advance_actor_move(Rec_func_800A9E70_arg0 *move_input, void *action_context, SpriteFrameState *position, ActorRecord *actor);
 
 
 

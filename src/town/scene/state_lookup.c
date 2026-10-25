@@ -46,7 +46,7 @@ s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value
     s32 *result;
     s32 value;
 
-    if (func_80016164(first_value, second_value) != 0) {
+    if (apply_scene_override_flag(first_value, second_value) != 0) {
         result = &D_8001EC04;
     } else {
         value = func_8001A7F8();

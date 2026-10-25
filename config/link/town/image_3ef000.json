@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC27000: r121nd_3F37B0, town_func_804735BC_true_0x8001A5BC, town_func_80473634_true_0x8001A634, town_func_80473670_true_0x8001A670, w4t2_bank_3ef1c8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "town/func_8046F164",
+      "home": "town/func_8046F164",
+      "tu": "src/town/scene/apply_scene_override_flag.c",
+      "foff": "0x3EF164",
+      "vma": "0x80016164",
+      "size": 100,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
       "row": "town/func_8047144C",
       "home": "town/func_8046C188",
       "tu": "src/town/scene/history/group_history.c",

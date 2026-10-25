@@ -40,6 +40,24 @@
       "foff": "0x8D4120",
       "vma": "0x80021120",
       "size": 164
+    },
+    {
+      "row": "town/func_80955484",
+      "home": "town/func_80955484",
+      "tu": "src/town/minigame/fade_completed_keima_color.c",
+      "foff": "0x8D5484",
+      "vma": "0x80022484",
+      "size": 144,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
+      "row": "town/func_809555F0",
+      "home": "town/func_809555F0",
+      "tu": "src/town/minigame/remove_completed_keima_object.c",
+      "foff": "0x8D55F0",
+      "vma": "0x800225F0",
+      "size": 76,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     }
   ]
 }

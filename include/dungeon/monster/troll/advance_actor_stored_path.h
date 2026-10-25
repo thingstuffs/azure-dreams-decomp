@@ -45,80 +45,17 @@ typedef struct T_80172CC0_S_80172CC0_4 {
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/level/room_flags.h"
+#include "shared/actor_action_flags.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_status.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct T_80172F58_S_80172F58_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-} T_80172F58_S_80172F58_1;   /* arg3 in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    union { s8 s; u8 u; } unk_26;   /* accessed as both */
-} T_80172F58_S_80172F58_2;   /* arg2 in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_3_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} T_80172F58_S_80172F58_3_pre;   /* the 0x14 bytes before found in func_80172F58, addressed as found[-1] */
-
-typedef struct T_80172F58_S_80172F58_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-} T_80172F58_S_80172F58_3;   /* found in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} T_80172F58_S_80172F58_4;   /* object in func_80172F58 */
-
-
-typedef struct T_80172F58_S_80172F58_9 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-} T_80172F58_S_80172F58_9;   /* kind_table + kind * 0x14 in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_10 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   /* accessed as both */
-} T_80172F58_S_80172F58_10;   /* arg0 in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_11 {
-    u16 unk_00;
-} T_80172F58_S_80172F58_11;   /* &D_80082EA4 in func_80172F58 */
-
-typedef struct T_80172F58_S_80172F58_13 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} T_80172F58_S_80172F58_13;   /* arg3 + (((T_80172F58_S_80172F58_1 *)arg3)->unk_71.u & 0x7F) in func_80172F58 */
 
 
 

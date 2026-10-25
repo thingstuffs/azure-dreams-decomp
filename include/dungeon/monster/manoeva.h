@@ -7,7 +7,8 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
-void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, void *actor_in);
+#include "records/Rec_func_800A9E70_arg0.h"
+void advance_actor_turn_path(Rec_func_800A9E70_arg0 *move_data_in, void *context, SpriteFrameState *tile_in, ActorRecord *actor_in);
 void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index);
 void update_effect_visuals_and_lifetime();
 

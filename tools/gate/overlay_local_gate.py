@@ -361,9 +361,13 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
                 if not source.exists():
                     raise SystemExit(f"matched source missing for {func}: {rel(source)}")
             if row.get("row_kind") == "data":
-                owner = rodata_owner(family, int(row["foff"])) if family else None
-                if owner is None or int(owner["rodata_size"]) != int(row["size"]):
-                    raise SystemExit(f"data row {func}: missing exact rodata ownership span")
+                if row.get("data_kind") == "function_table":
+                    import overlay_symbolic_allocations
+                    overlay_symbolic_allocations.data_member(ROOT, family, row)
+                else:
+                    owner = rodata_owner(family, int(row["foff"])) if family else None
+                    if owner is None or int(owner["rodata_size"]) != int(row["size"]):
+                        raise SystemExit(f"data row {func}: missing exact rodata ownership span")
             # Rowbase (docs/rowbase_lane_phase2.md): a landed in-region source
             # defines its TRUE-space name and is pre-linked at the true base.
             section_func, link_vram = func, None
@@ -375,7 +379,7 @@ def load_matches(sb: dict[str, Any], window_start: int, window_end: int,
                     ROOT, family, int(row["foff"]), int(row["size"]),
                     family + "/" + func, proven_delta=delta, allow_legacy=True)
                 if placed_vma is not None:
-                    expected = f"func_{placed_vma:08X}"
+                    expected = f"{'D' if row.get('row_kind') == 'data' else 'func'}_{placed_vma:08X}"
                     if true_name != expected:
                         raise SystemExit(f"placement {func}: split true_name disagrees with image vma {expected}")
                     section_func, link_vram = expected, placed_vma

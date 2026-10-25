@@ -49,12 +49,12 @@ void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 
  * Creates callback resource 0x91 and, on success, configures it with the supplied data and size
  * 0x48; returns zero on creation failure.
  */
-s32 configure_menu_resource(s32 setup_value, s32 setup_data) {
-    s32 resource;
+char *configure_menu_resource(s32 setup_value, s32 setup_data) {
+    char *resource;
 
     resource = create_callback_pair_default(0x91);
     if (resource != 0) {
-        resource = func_80025040(resource, setup_value, setup_data, 0x48);
+        resource = copy_indexed_menu_string(resource, setup_value, setup_data, 0x48);
     }
     return resource;
 }

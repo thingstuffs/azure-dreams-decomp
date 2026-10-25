@@ -7,68 +7,26 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/actor_status.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
+#include "shared/actor_status_flags.h"
+#include "shared/actor_action_flags.h"
+#include "dungeon/level/room_flags.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_8016B230_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-} S_8016B230_1;   /* arg3 in advance_actor_movement_step */
-
-typedef struct S_8016B230_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    union { s8 s; u8 u; } unk_26;   /* accessed as both */
-} S_8016B230_2;   /* arg2 in advance_actor_movement_step */
-
-typedef struct S_8016B230_3_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_8016B230_3_pre;   /* the 0x14 bytes before found in advance_actor_movement_step, addressed as found[-1] */
-
-typedef struct S_8016B230_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-} S_8016B230_3;   /* found in advance_actor_movement_step */
-
-   /* object in advance_actor_movement_step */
-
-typedef struct S_8016B230_5 {
+/* Movement-state fields this handler reads from its first argument.  The +0xAF selector byte has no field in
+ * Rec_func_800A9E70_arg0 (which covers +0x98/+0x9C), so this one handler keeps a minimal local view. */
+typedef struct BeldoMoveState {
     u8 pad_00[0x98];
     u16 unk_98;
     u8 pad_9A[0x2];
     union { s8 s; u8 u; } unk_9C;   /* accessed as both */
     u8 pad_9D[0x12];
     u8 unk_AF;
-} S_8016B230_5;   /* arg0 in advance_actor_movement_step */
-
-typedef struct S_8016B230_10 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-} S_8016B230_10;   /* kind_table + kind * 0x14 in advance_actor_movement_step */
-
-   /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in advance_actor_movement_step */
+} BeldoMoveState;
 
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
 void cycle_map_cell_flags(s16, s16, u16);
@@ -92,7 +50,7 @@ extern s16 actor_turn_angle_offsets[];
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 /* Chooses Beldo's next clear step from actor or player-relative targets, records the path, and updates
  * tile occupancy and height. */
-void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
+void advance_actor_movement_step(BeldoMoveState *movement_in, void *action_ctx, SpriteFrameState *position, ActorRecord *actor) {
     u16 near_target;
     u8 target_nearby = 0;
     s32 height_result;
@@ -111,65 +69,65 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     s16 move_angle;
     u8 next_x;
     s32 next_y;
-    void *found;
-    u8 *object;
+    ActorRecord *found;
+    SpriteFrameState *object;
 
     dungeon_state = &g_dungeon_status;
     dungeon_flags = dungeon_state->flags;
     near_target = 0;
 
-    if ((dungeon_flags & 0x4000) || (((S_8016B230_1 *)actor)->unk_71.s >= 0)) {
-        if ((((S_8016B230_1 *)actor)->unk_12 >= 2) ||
-            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)(movement_in), (s32)(action_ctx), (struct Rec_D_80082E80 *)(position), (struct ActorRecord *)(actor)) << 16) == 0)) {
-            update_actor_status_and_mp((struct ActorRecord *)(actor));
+    if ((dungeon_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
+        if ((actor->unk_12 >= 2) ||
+            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)movement_in, (s32)action_ctx, (struct Rec_D_80082E80 *)position, actor) << 16) == 0)) {
+            update_actor_status_and_mp(actor);
             return;
         }
         if (dungeon_state->active_actor != actor) {
             return;
         }
-        ((S_8016B230_1 *)actor)->unk_46 = 0xC008;
+        actor->action_flags = 0xC008;
         return;
     }
     if (!(dungeon_flags & 0x2000)) {
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, movement_in + 0x9C);
-    actor_flags = ((S_8016B230_1 *)actor)->unk_1C;
+    update_actor_proximity_flag(position, actor, 3, 6, &movement_in->unk_9C.s);
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found = find_adjacent_actor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
-                ((S_8016B230_2 *)position)->unk_24.at01.v);
+            found = find_adjacent_actor(actor, position->tile_x,
+                position->tile_y);
             if (found != NULL) {
-                object = ((S_8016B230_3_pre *)found)[-1].unk_00;
-                ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
-                    ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    ((MovingTile *)object)->tile_x, ((MovingTile *)object)->tile_y, movement_in + 0x98);
-                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                object = ((ObjectNodeHeader *)found - 1)->sprite;
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
+                    object->tile_x, object->tile_y, &movement_in->unk_98);
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
             {
                 s32 object_status;
 
-                object_status = ((S_8016B230_1 *)actor)->unk_14;
+                object_status = actor->flags14;
                 if (!(object_status & 0x80000000)) {
                     object_status |= 0x80000000;
-                    ((S_8016B230_1 *)actor)->unk_14 = object_status;
+                    actor->flags14 = object_status;
                     random_bits = generate_random_value();
-                    ((S_8016B230_1 *)actor)->unk_2A.u += (random_bits & 7) << 9;
+                    actor->facing += (random_bits & 7) << 9;
                 }
             }
         } else {
-            found = probe_directional_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
-                ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                  ((S_8016B230_1 *)actor)->unk_2A.s);
+            found = probe_directional_neighbor(actor, position->tile_x,
+                position->tile_y,
+                                  actor->facing);
             if (found != NULL) {
-                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
         }
-    } else if (((S_8016B230_5 *)movement_in)->unk_AF) {
-        if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
+    } else if (movement_in->unk_AF) {
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (actor_flags & 0x20000) {
                 s32 direction;
                 s16 target_x;
@@ -178,81 +136,81 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 TileObject *target;
 
                 target = &reference_tile_object;
-                direction = (((S_8016B230_1 *)actor)->unk_45 +
+                direction = (((u8 *)&actor->unk_44)[1] +
                              ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            ((u16 *)((s8 *)dir_step_x))[direction];
                 target_y = target->tile_position.parts.tile_y +
                            ((u16 *)((s8 *)dir_step_y))[direction];
-                if ((((S_8016B230_2 *)position)->unk_24.at00.v == (u16)target_x) &&
-                    (((S_8016B230_2 *)position)->unk_24.at01.v == (u16)target_y)) {
-                    ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                if ((position->tile_x == (u16)target_x) &&
+                    (position->tile_y == (u16)target_y)) {
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 }
-                new_angle = get_rounded_facing_and_rounding_flag(((S_8016B230_2 *)position)->unk_24.at00.v,
-                    ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                          target_x, (s16)target_y, movement_in + 0x98);
-                ((S_8016B230_1 *)actor)->unk_2A.u = new_angle;
+                new_angle = get_rounded_facing_and_rounding_flag(position->tile_x,
+                    position->tile_y,
+                                          target_x, (s16)target_y, &movement_in->unk_98);
+                actor->facing = new_angle;
                 if ((check_movement_clearance_and_height(new_angle, position, actor, 0x20) << 16) <= 0) {
                     TileObject *retry_target = &reference_tile_object;
 
-                    ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
-                        ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                    actor->facing = get_rounded_facing_and_rounding_flag(
+                        position->tile_x, position->tile_y,
                         retry_target->tile_position.parts.tile_x, retry_target->tile_position.parts.tile_y,
-                        movement_in + 0x98);
+                        &movement_in->unk_98);
                 }
                 {
                     TileObject *check_target = &reference_tile_object;
 
-                    if ((test_neighbor_position_relation(((S_8016B230_2 *)position)->unk_24.at00.v,
-                        ((S_8016B230_2 *)position)->unk_24.at01.v,
+                    if ((test_neighbor_position_relation(position->tile_x,
+                        position->tile_y,
                                        check_target->tile_position.parts.tile_x,
                                        check_target->tile_position.parts.tile_y) << 16) != 0) {
                         near_target = 1;
                     }
                 }
             } else {
-                select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
+                select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
             }
         }
     } else {
         s32 kind;
 
-        kind = ((S_8016B230_2 *)position)->unk_26.s;
-        if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)dungeon_rooms + kind * 0x14))->unk_0C & 2)) {
-            select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
-        } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
-            found = probe_directional_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
-                ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                  ((S_8016B230_1 *)actor)->unk_2A.s);
-            if ((found != NULL) && (((S_8016B230_3 *)found)->unk_1C & 0x2000) &&
-                (get_actor_height_difference(found, (struct ActorRecord *)(actor)) < 0x81) &&
-                ((check_diagonal_side_height(((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
-                                ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
-                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+        kind = (s8)position->room_index;
+        if ((kind >= 0) && (dungeon_rooms[kind].flags & ROOM_HOLY_BEAM)) {
+            select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
+        } else if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
+            found = probe_directional_neighbor(actor, position->tile_x,
+                position->tile_y,
+                                  actor->facing);
+            if ((found != NULL) && (found->flags1C & ACTOR_PLAYER_SIDE) &&
+                (get_actor_height_difference(found, actor) < 0x81) &&
+                ((check_diagonal_side_height((actor->facing >> 9) & 0xFFFF,
+                                position->tile_x, position->tile_y,
+                                (s16)(actor->ground_height - 0x20)) << 16) != 0)) {
+                actor->movement_queue_state &= 0x7F;
                 return;
             }
-            if (((S_8016B230_1 *)actor)->unk_1C & 0x20000) {
+            if (actor->flags1C & ACTOR_PLAYER_AWARE) {
                 TileObject *target = &reference_tile_object;
-                ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
-                    ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, movement_in + 0x98);
-                if ((test_neighbor_position_relation(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    position->tile_x, position->tile_y,
+                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, &movement_in->unk_98);
+                if ((test_neighbor_position_relation(position->tile_x, position->tile_y,
                                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y) << 16) != 0) {
-                    if (get_actor_height_difference(primary_actor_record, (struct ActorRecord *)(actor)) < 0x81) {
+                    if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                         path_result = check_diagonal_side_height(
-                            ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
-                            ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                            (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));
+                            (actor->facing >> 9) & 0xFFFF,
+                            position->tile_x, position->tile_y,
+                            (s16)(actor->ground_height - 0x20));
                         if ((path_result << 16) != 0) {
-                            ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                            actor->movement_queue_state &= 0x7F;
                             return;
                         }
                     }
                 }
             } else {
-                select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
+                select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
             }
         }
     }
@@ -260,8 +218,8 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     x_offsets = (u8 *)((s8 *)dir_step_x);
 
     do {
-        base_angle = (s32)((S_8016B230_1 *)actor)->unk_2A.s;
-        if (((S_8016B230_5 *)movement_in)->unk_98 & 2) {
+        base_angle = actor->facing;
+        if (movement_in->unk_98 & 2) {
             {
                 s32 angle_delta = (s32)actor_turn_angle_offsets[attempt];
 
@@ -279,35 +237,35 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 target_nearby = near_target;
 
                 if (target_nearby) {
-                    ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                    actor->movement_queue_state &= 0x7F;
                     return;
                 }
             }
-            ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
-            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->path_x =
-                ((S_8016B230_2 *)position)->unk_24.at00.v;
-            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->path_y =
-                ((S_8016B230_2 *)position)->unk_24.at01.v;
-            ((S_8016B230_1 *)actor)->unk_71.u++;
-            update_map_cell_flags_with_item_limit(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                          (((S_8016B230_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            direction_offset = (((S_8016B230_1 *)actor)->unk_2A.u >> 8) & 0xE;
-            ((S_8016B230_2 *)position)->unk_24.at00.v +=
+            actor->facing = move_angle;
+            ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_x =
+                position->tile_x;
+            ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_y =
+                position->tile_y;
+            actor->movement_queue_state++;
+            update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y,
+                          (actor->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            direction_offset = ((u16)actor->facing >> 8) & 0xE;
+            position->tile_x +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
-            ((S_8016B230_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dir_step_y) + direction_offset);
-            next_x = ((S_8016B230_2 *)position)->unk_24.at00.v;
-            next_y = ((S_8016B230_2 *)position)->unk_24.at01.v;
+            position->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);
+            next_x = position->tile_x;
+            next_y = position->tile_y;
             tile_mask = 0x3000;
-            if (((S_8016B230_1 *)actor)->unk_1C & 0x2000) {
+            if (actor->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_mask = 0x300;
             }
             cycle_map_cell_flags(next_x, next_y, tile_mask);
             break;
         }
         if (attempt == 0) {
-            if ((reference_tile_object.tile_position.word != ((S_8016B230_2 *)position)->unk_24.at00u.v)
+            if ((reference_tile_object.tile_position.word != *(u16 *)&position->tile_x)
                 &&
-                ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) != 0)) {
+                ((s16)check_entity_relation(actor, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) != 0)) {
                 return;
             }
         }
@@ -315,27 +273,27 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     } while (attempt < 8);
     moved = attempt < 8;
     if (!moved) {
-        ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
-        ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
-        update_actor_status_and_mp((struct ActorRecord *)(actor));
+        actor->movement_queue_state &= 0x7F;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+        update_actor_status_and_mp(actor);
         return;
     }
     turn_state = &g_dungeon_status;
-    ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
-    ((S_8016B230_5 *)movement_in)->unk_9C.u = ((S_8016B230_2 *)position)->unk_26.u;
-    ((S_8016B230_1 *)actor)->unk_6D.u--;
+    actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+    movement_in->unk_9C.u = position->room_index;
+    actor->pending_turn_updates--;
     turn_state->activity_counts.parts.pending_movement_count++;
-    if (((S_8016B230_1 *)actor)->unk_6D.s == 0) {
-        ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+    if (actor->pending_turn_updates == 0) {
+        actor->movement_queue_state &= 0x7F;
         return;
     }
 
-    height_result = sample_terrain_surface_height((((S_8016B230_2 *)position)->unk_24.at00.v << 6) | 0x20,
-                      (((S_8016B230_2 *)position)->unk_24.at01.v << 6) | 0x20,
-                      (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));
+    height_result = sample_terrain_surface_height((position->tile_x << 6) | 0x20,
+                      (position->tile_y << 6) | 0x20,
+                      (s16)(actor->ground_height - 0x20));
     attempt = height_result;
     if (attempt < 0x200) {
-        ((S_8016B230_1 *)actor)->unk_88 = attempt;
+        actor->ground_height = attempt;
     }
     return;
 

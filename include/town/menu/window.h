@@ -444,7 +444,12 @@ extern s32 D_801006D0;
 extern s32 town_overlap_slots[];
 extern u16 scaled_window_quad_points[];
 extern s16 map_scene_selector_alias;
-extern u32 town_object_callbacks[];
+typedef void (*TownObjectCallback)(void *state, void *position, SpriteFrameState *sprite);
+typedef union TownObjectCallbackEntry {
+    TownObjectCallback callback;
+    u32 address;
+} TownObjectCallbackEntry;
+extern TownObjectCallback town_object_callbacks[172];
 extern u16 town_facing_angles[];
 extern func_8009FE60_GlobalADBC map_runtime_state;
 extern void *optional_resource_descriptor[];

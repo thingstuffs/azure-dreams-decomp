@@ -10654,3 +10654,14 @@
 0x800c7c3c	func_800C7C3C	begin_mother_event_pause	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
 0x800c9c94	func_800C9C94	initialize_reaction_object_four	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
 0x80026920	func_80026920	release_card_record_handles	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800c6094	func_800C6094	initialize_scene_slot_thirteen	Run 11: complete callback reconstructed and proved.
+0x800cbc80	func_800CBC80	initialize_scene_slot_forty_sprite	Run 11: complete callback reconstructed and proved.
+0x800c88e0	func_800C88E0	initialize_scene_slot_ten	Run 11: complete callback reconstructed and proved.
+0x800c8d34	func_800C8D34	initialize_falling_object_sprite	Run 11: complete callback reconstructed and proved.
+0x800b9bf0	func_800B9BF0	initialize_sprite_six	Run 11: complete callback reconstructed and proved.
+0x800ba468	func_800BA468	initialize_effect_with_sprite_set_nine	Run 11: complete callback reconstructed and proved.
+0x80022484	func_80022484	fade_completed_keima_color	Run 11: complete callback reconstructed and proved.
+0x800225f0	func_800225F0	remove_completed_keima_object	Run 11: complete callback reconstructed and proved.
+0x80016164	func_80016164	apply_scene_override_flag	Run 11: complete callback reconstructed and proved.
+0x80025040	func_80025040	copy_indexed_menu_string	Run 11: complete callback reconstructed and proved.
+0x80171d90	func_80171D90	advance_ghosh_trail_fade	Run 11: complete callback reconstructed and proved.

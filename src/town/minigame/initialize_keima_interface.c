@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame/keima.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -60,8 +61,6 @@ extern Word8 D_80020114[];
 extern Word4 D_80020134[];
 extern Packed8 D_80020144[];
 extern u8 D_800218E4[];
-extern u8 D_80022484[];
-extern u8 D_800225F0[];
 extern u8 keima_sprite_callback[];
 extern u8 D_80023260[];
 extern u8 D_80023A00[];
@@ -116,7 +115,7 @@ s32 initialize_keima_interface(void) {
     panel_init.w8 = 0x404040;
     panel_init.h0 = 0;
     panel_init.p4 = owner;
-    func_80021120(D_80022484, &panel_init);
+    func_80021120(fade_completed_keima_color, &panel_init);
 
     {
         index = 3;
@@ -145,9 +144,9 @@ s32 initialize_keima_interface(void) {
         widget_index = 4;
         widget_params = &widget_init;
         do {
-            u8 *widget_handler;
+            void (*widget_handler)(KeimaExitState *);
             Init10 *widget_args;
-            widget_handler = D_800225F0;
+            widget_handler = remove_completed_keima_object;
             widget_args = widget_params;
             widget_init.h16 = widget_index * 0xC + 0x14;
             widget_init.p4 = (void *)((s32 *)&widget_init)[0x16 + widget_index];

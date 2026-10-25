@@ -200,64 +200,6 @@ typedef struct R06_80171964_S_8017169C_3 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } R06_80171964_S_8017169C_3;
-typedef struct R06_80171B1C_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R06_80171B1C_S_80171C34_1;
-typedef struct R06_80171B1C_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R06_80171B1C_S_80171C34_2;
-typedef struct R06_80171B1C_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R06_80171B1C_S_80171C34_3_pre;
-typedef struct R06_80171B1C_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R06_80171B1C_S_80171C34_3;
-typedef struct R06_80171B1C_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R06_80171B1C_S_80171C34_5;
-typedef struct R06_80171B1C_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R06_80171B1C_S_80171C34_7;
-typedef struct R06_80171B1C_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R06_80171B1C_S_80171C34_8;
-typedef struct R06_80171B1C_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R06_80171B1C_DungeonRecord;
 typedef struct R06_80172428_S_80172428_1 {
     u8 pad_00[0x98];
     u16 unk_98;
@@ -978,7 +920,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity);
 void initialize_destination_state(void *actor, void *actor_context, struct SpriteFrameState *sprite, void *creature);
 void update_actor_object_motion(void *motion, void *unused, struct SpriteFrameState *actor, void *path_state);
-void choose_flame_move(void *move_data, void *context, struct SpriteFrameState *position_data, void *actor_data);
+void choose_flame_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(void *action_state, void *context, struct SpriteFrameState *sprite, EntityRec *actor);
 s32 relink_flame_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);

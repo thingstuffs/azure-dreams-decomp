@@ -22,4 +22,20 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
 void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, void *sprite);
 void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
+typedef union GhoshFadeColor {
+    s32 word;
+    struct { s8 r, g, b, pad; } rgb;
+} GhoshFadeColor;
+
+typedef struct GhoshTrailFade {
+    u8 r, g, b, pad03;
+    GhoshFadeColor scaled;
+    s32 color;
+    u8 pad0C[0x26];
+    union { s16 s; u16 u; } steps;
+    s16 divisor;
+} GhoshTrailFade;
+
+void advance_ghosh_trail_fade(GhoshTrailFade *fade, ObjectPosition *position);
+
 #endif

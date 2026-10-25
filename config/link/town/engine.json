@@ -331,6 +331,15 @@
       "size": 68
     },
     {
+      "row": "town/func_800BC490",
+      "home": "town/func_800BC490",
+      "tu": "src/town/scene/initialize_sprite_six.c",
+      "foff": "0x3C490",
+      "vma": "0x800B9BF0",
+      "size": 200,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
       "row": "town/func_800BC77C",
       "tu": "src/town/map/state/update_inactive_object_state.c",
       "home": "town/func_800BC77C",
@@ -345,6 +354,15 @@
       "foff": "0x3C814",
       "vma": "0x800B9F74",
       "size": 152
+    },
+    {
+      "row": "town/func_800BCD08",
+      "home": "town/func_800BCD08",
+      "tu": "src/town/scene/initialize_effect_with_sprite_set_nine.c",
+      "foff": "0x3CD08",
+      "vma": "0x800BA468",
+      "size": 1116,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
       "row": "town/func_800240A4",
@@ -594,6 +612,15 @@
         "0x800D5540": "0x800D557C"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800C8934",
+      "home": "town/func_800C8934",
+      "tu": "src/town/scene/initialize_scene_slot_thirteen.c",
+      "foff": "0x48934",
+      "vma": "0x800C6094",
+      "size": 72,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
       "row": "town/func_80028AAC",
@@ -919,6 +946,15 @@
       "size": 84
     },
     {
+      "row": "town/func_800CB180",
+      "home": "town/func_800CB180",
+      "tu": "src/town/scene/initialize_scene_slot_ten.c",
+      "foff": "0x4B180",
+      "vma": "0x800C88E0",
+      "size": 72,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
       "row": "town/func_800CB1C8",
       "tu": "src/town/person/object/assign_four_object_data_pointers.c",
       "home": "town/func_800CB1C8",
@@ -938,6 +974,15 @@
         "0x800C4174": "0x800C4174"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+    },
+    {
+      "row": "town/func_800CB5D4",
+      "home": "town/func_800CB5D4",
+      "tu": "src/town/scene/initialize_falling_object_sprite.c",
+      "foff": "0x4B5D4",
+      "vma": "0x800C8D34",
+      "size": 140,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
       "row": "town/func_8002BB44",
@@ -1238,6 +1283,15 @@
         "0x800D6364": "0x800D69BC"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CE520",
+      "home": "town/func_800CE520",
+      "tu": "src/town/scene/initialize_scene_slot_forty_sprite.c",
+      "foff": "0x4E520",
+      "vma": "0x800CBC80",
+      "size": 104,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
       "row": "town/func_800CE7E8",
@@ -1583,6 +1637,15 @@
         "0x800D54BC": "0x800D7C68"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/D_800D61F0",
+      "home": "town/D_800D61F0",
+      "tu": "src/town/menu/window.c",
+      "foff": "0x561f0",
+      "vma": "0x800d3950",
+      "size": 688,
+      "evidence": "docs/evidence/r124w_carve1_run11.md"
     }
   ],
   "symbols": {

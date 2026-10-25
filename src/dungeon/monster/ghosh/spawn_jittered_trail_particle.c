@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -33,7 +34,6 @@ typedef struct S_80171F30_4 {
 
 extern u8 ghosh_object_callback_2[];
 extern u8 D_80171CC0[];
-extern u8 D_80171D90[];
 extern u8 D_80171E60[];
 
 extern void *allocate_list_node(s32, void *);
@@ -76,7 +76,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     } else {
         resource_addr = 1;
         if (mode_index == resource_addr) {
-            resource_addr = (s32)D_80171D90;
+            resource_addr = (s32)advance_ghosh_trail_fade;
         } else {
             resource_addr = (s32)D_80171E60;
         }

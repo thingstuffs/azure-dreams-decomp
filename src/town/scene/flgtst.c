@@ -1,9 +1,9 @@
 #include "common.h"
+#include "town/menu/window.h"
 
 extern s32 runtime_script_state[];
 extern u8 town_map_variant[];
 extern u8 D_800D3C00[];
-extern u8 town_object_callbacks[];
 
 
 typedef struct Packet {

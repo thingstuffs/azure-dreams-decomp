@@ -25056,7 +25056,9 @@
       "region": "xfer_town_B000",
       "source": "src/town/menu/window.c",
       "headers": [
-        "include/town/menu/window.h"
+        "include/town/menu/window.h",
+        "include/town/scene/object.h",
+        "include/town/scene/effect.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -25571,15 +25573,6 @@
           "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
         },
         {
-          "symbol": "D_800D3950",
-          "kind": "data",
-          "vma": 2148350288,
-          "foff": 352752,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000",
-          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-        },
-        {
           "symbol": "D_800D3CC8",
           "kind": "data",
           "vma": 2148351176,
@@ -25904,6 +25897,856 @@
           "symbol": "strcpy",
           "kind": "function",
           "vma": 2147917432
+        },
+        {
+          "symbol": "func_80097D08",
+          "kind": "function",
+          "vma": 2148105480
+        },
+        {
+          "symbol": "func_8009C83C",
+          "kind": "function",
+          "vma": 2148124732
+        },
+        {
+          "symbol": "func_8009C884",
+          "kind": "function",
+          "vma": 2148124804
+        },
+        {
+          "symbol": "func_8009C8FC",
+          "kind": "function",
+          "vma": 2148124924
+        },
+        {
+          "symbol": "func_8009C974",
+          "kind": "function",
+          "vma": 2148125044
+        },
+        {
+          "symbol": "func_8009C9DC",
+          "kind": "function",
+          "vma": 2148125148
+        },
+        {
+          "symbol": "func_8009CA24",
+          "kind": "function",
+          "vma": 2148125220
+        },
+        {
+          "symbol": "func_8009CA8C",
+          "kind": "function",
+          "vma": 2148125324
+        },
+        {
+          "symbol": "func_8009CA94",
+          "kind": "function",
+          "vma": 2148125332
+        },
+        {
+          "symbol": "func_8009CAFC",
+          "kind": "function",
+          "vma": 2148125436
+        },
+        {
+          "symbol": "func_8009CB90",
+          "kind": "function",
+          "vma": 2148125584
+        },
+        {
+          "symbol": "func_8009CBB4",
+          "kind": "function",
+          "vma": 2148125620
+        },
+        {
+          "symbol": "func_8009CBD8",
+          "kind": "function",
+          "vma": 2148125656
+        },
+        {
+          "symbol": "func_8009CC18",
+          "kind": "function",
+          "vma": 2148125720
+        },
+        {
+          "symbol": "func_8009CC58",
+          "kind": "function",
+          "vma": 2148125784
+        },
+        {
+          "symbol": "func_8009CC98",
+          "kind": "function",
+          "vma": 2148125848
+        },
+        {
+          "symbol": "func_8009CCD8",
+          "kind": "function",
+          "vma": 2148125912
+        },
+        {
+          "symbol": "func_800A06A4",
+          "kind": "function",
+          "vma": 2148140708
+        },
+        {
+          "symbol": "func_800A6DA0",
+          "kind": "function",
+          "vma": 2148167072
+        },
+        {
+          "symbol": "func_800A6E1C",
+          "kind": "function",
+          "vma": 2148167196
+        },
+        {
+          "symbol": "func_800A7554",
+          "kind": "function",
+          "vma": 2148169044
+        },
+        {
+          "symbol": "func_800A782C",
+          "kind": "function",
+          "vma": 2148169772
+        },
+        {
+          "symbol": "func_800A7AC0",
+          "kind": "function",
+          "vma": 2148170432
+        },
+        {
+          "symbol": "func_800A7C98",
+          "kind": "function",
+          "vma": 2148170904
+        },
+        {
+          "symbol": "func_800A7CF0",
+          "kind": "function",
+          "vma": 2148170992
+        },
+        {
+          "symbol": "func_800A7D48",
+          "kind": "function",
+          "vma": 2148171080
+        },
+        {
+          "symbol": "func_800A7DA0",
+          "kind": "function",
+          "vma": 2148171168
+        },
+        {
+          "symbol": "func_800A7E7C",
+          "kind": "function",
+          "vma": 2148171388
+        },
+        {
+          "symbol": "func_800A82F0",
+          "kind": "function",
+          "vma": 2148172528
+        },
+        {
+          "symbol": "func_800A8B98",
+          "kind": "function",
+          "vma": 2148174744
+        },
+        {
+          "symbol": "func_800A957C",
+          "kind": "function",
+          "vma": 2148177276
+        },
+        {
+          "symbol": "func_800A9734",
+          "kind": "function",
+          "vma": 2148177716
+        },
+        {
+          "symbol": "func_800A97D8",
+          "kind": "function",
+          "vma": 2148177880
+        },
+        {
+          "symbol": "func_800A9858",
+          "kind": "function",
+          "vma": 2148178008
+        },
+        {
+          "symbol": "func_800AAAA0",
+          "kind": "function",
+          "vma": 2148182688
+        },
+        {
+          "symbol": "func_800B9B28",
+          "kind": "function",
+          "vma": 2148244264
+        },
+        {
+          "symbol": "func_800B9BF0",
+          "kind": "function",
+          "vma": 2148244464
+        },
+        {
+          "symbol": "func_800BA00C",
+          "kind": "function",
+          "vma": 2148245516
+        },
+        {
+          "symbol": "func_800BA468",
+          "kind": "function",
+          "vma": 2148246632
+        },
+        {
+          "symbol": "func_800BA930",
+          "kind": "function",
+          "vma": 2148247856
+        },
+        {
+          "symbol": "func_800BACB0",
+          "kind": "function",
+          "vma": 2148248752
+        },
+        {
+          "symbol": "func_800BB4A0",
+          "kind": "function",
+          "vma": 2148250784
+        },
+        {
+          "symbol": "func_800BB688",
+          "kind": "function",
+          "vma": 2148251272
+        },
+        {
+          "symbol": "func_800BB720",
+          "kind": "function",
+          "vma": 2148251424
+        },
+        {
+          "symbol": "func_800BC840",
+          "kind": "function",
+          "vma": 2148255808
+        },
+        {
+          "symbol": "func_800BC8D0",
+          "kind": "function",
+          "vma": 2148255952
+        },
+        {
+          "symbol": "func_800BCDCC",
+          "kind": "function",
+          "vma": 2148257228
+        },
+        {
+          "symbol": "func_800BD5B0",
+          "kind": "function",
+          "vma": 2148259248
+        },
+        {
+          "symbol": "func_800BEA80",
+          "kind": "function",
+          "vma": 2148264576
+        },
+        {
+          "symbol": "func_800BF3F0",
+          "kind": "function",
+          "vma": 2148266992
+        },
+        {
+          "symbol": "func_800BF654",
+          "kind": "function",
+          "vma": 2148267604
+        },
+        {
+          "symbol": "func_800BF9E4",
+          "kind": "function",
+          "vma": 2148268516
+        },
+        {
+          "symbol": "func_800C202C",
+          "kind": "function",
+          "vma": 2148278316
+        },
+        {
+          "symbol": "func_800C258C",
+          "kind": "function",
+          "vma": 2148279692
+        },
+        {
+          "symbol": "func_800C4F6C",
+          "kind": "function",
+          "vma": 2148290412
+        },
+        {
+          "symbol": "func_800C5368",
+          "kind": "function",
+          "vma": 2148291432
+        },
+        {
+          "symbol": "func_800C53B0",
+          "kind": "function",
+          "vma": 2148291504
+        },
+        {
+          "symbol": "func_800C5500",
+          "kind": "function",
+          "vma": 2148291840
+        },
+        {
+          "symbol": "func_800C5590",
+          "kind": "function",
+          "vma": 2148291984
+        },
+        {
+          "symbol": "func_800C55D8",
+          "kind": "function",
+          "vma": 2148292056
+        },
+        {
+          "symbol": "func_800C58AC",
+          "kind": "function",
+          "vma": 2148292780
+        },
+        {
+          "symbol": "func_800C6094",
+          "kind": "function",
+          "vma": 2148294804
+        },
+        {
+          "symbol": "func_800C60DC",
+          "kind": "function",
+          "vma": 2148294876
+        },
+        {
+          "symbol": "func_800C6124",
+          "kind": "function",
+          "vma": 2148294948
+        },
+        {
+          "symbol": "func_800C620C",
+          "kind": "function",
+          "vma": 2148295180
+        },
+        {
+          "symbol": "func_800C629C",
+          "kind": "function",
+          "vma": 2148295324
+        },
+        {
+          "symbol": "func_800C6344",
+          "kind": "function",
+          "vma": 2148295492
+        },
+        {
+          "symbol": "func_800C638C",
+          "kind": "function",
+          "vma": 2148295564
+        },
+        {
+          "symbol": "func_800C63D4",
+          "kind": "function",
+          "vma": 2148295636
+        },
+        {
+          "symbol": "func_800C64C8",
+          "kind": "function",
+          "vma": 2148295880
+        },
+        {
+          "symbol": "func_800C6544",
+          "kind": "function",
+          "vma": 2148296004
+        },
+        {
+          "symbol": "func_800C65C8",
+          "kind": "function",
+          "vma": 2148296136
+        },
+        {
+          "symbol": "func_800C6DC8",
+          "kind": "function",
+          "vma": 2148298184
+        },
+        {
+          "symbol": "func_800C6E70",
+          "kind": "function",
+          "vma": 2148298352
+        },
+        {
+          "symbol": "func_800C6EB8",
+          "kind": "function",
+          "vma": 2148298424
+        },
+        {
+          "symbol": "func_800C6F20",
+          "kind": "function",
+          "vma": 2148298528
+        },
+        {
+          "symbol": "func_800C7070",
+          "kind": "function",
+          "vma": 2148298864
+        },
+        {
+          "symbol": "func_800C7284",
+          "kind": "function",
+          "vma": 2148299396
+        },
+        {
+          "symbol": "func_800C72CC",
+          "kind": "function",
+          "vma": 2148299468
+        },
+        {
+          "symbol": "func_800C7314",
+          "kind": "function",
+          "vma": 2148299540
+        },
+        {
+          "symbol": "func_800C735C",
+          "kind": "function",
+          "vma": 2148299612
+        },
+        {
+          "symbol": "func_800C73C4",
+          "kind": "function",
+          "vma": 2148299716
+        },
+        {
+          "symbol": "func_800C740C",
+          "kind": "function",
+          "vma": 2148299788
+        },
+        {
+          "symbol": "func_800C7454",
+          "kind": "function",
+          "vma": 2148299860
+        },
+        {
+          "symbol": "func_800C749C",
+          "kind": "function",
+          "vma": 2148299932
+        },
+        {
+          "symbol": "func_800C74E4",
+          "kind": "function",
+          "vma": 2148300004
+        },
+        {
+          "symbol": "func_800C752C",
+          "kind": "function",
+          "vma": 2148300076
+        },
+        {
+          "symbol": "func_800C7574",
+          "kind": "function",
+          "vma": 2148300148
+        },
+        {
+          "symbol": "func_800C75BC",
+          "kind": "function",
+          "vma": 2148300220
+        },
+        {
+          "symbol": "func_800C814C",
+          "kind": "function",
+          "vma": 2148303180
+        },
+        {
+          "symbol": "func_800C8330",
+          "kind": "function",
+          "vma": 2148303664
+        },
+        {
+          "symbol": "func_800C838C",
+          "kind": "function",
+          "vma": 2148303756
+        },
+        {
+          "symbol": "func_800C83F0",
+          "kind": "function",
+          "vma": 2148303856
+        },
+        {
+          "symbol": "func_800C88E0",
+          "kind": "function",
+          "vma": 2148305120
+        },
+        {
+          "symbol": "func_800C8D34",
+          "kind": "function",
+          "vma": 2148306228
+        },
+        {
+          "symbol": "func_800C90D4",
+          "kind": "function",
+          "vma": 2148307156
+        },
+        {
+          "symbol": "func_800C911C",
+          "kind": "function",
+          "vma": 2148307228
+        },
+        {
+          "symbol": "func_800C91AC",
+          "kind": "function",
+          "vma": 2148307372
+        },
+        {
+          "symbol": "func_800C91F4",
+          "kind": "function",
+          "vma": 2148307444
+        },
+        {
+          "symbol": "func_800C925C",
+          "kind": "function",
+          "vma": 2148307548
+        },
+        {
+          "symbol": "func_800C97AC",
+          "kind": "function",
+          "vma": 2148308908
+        },
+        {
+          "symbol": "func_800CA8D4",
+          "kind": "function",
+          "vma": 2148313300
+        },
+        {
+          "symbol": "func_800CA930",
+          "kind": "function",
+          "vma": 2148313392
+        },
+        {
+          "symbol": "func_800CA98C",
+          "kind": "function",
+          "vma": 2148313484
+        },
+        {
+          "symbol": "func_800CA9E8",
+          "kind": "function",
+          "vma": 2148313576
+        },
+        {
+          "symbol": "func_800CAA44",
+          "kind": "function",
+          "vma": 2148313668
+        },
+        {
+          "symbol": "func_800CAA8C",
+          "kind": "function",
+          "vma": 2148313740
+        },
+        {
+          "symbol": "func_800CAAE8",
+          "kind": "function",
+          "vma": 2148313832
+        },
+        {
+          "symbol": "func_800CAB44",
+          "kind": "function",
+          "vma": 2148313924
+        },
+        {
+          "symbol": "func_800CABB4",
+          "kind": "function",
+          "vma": 2148314036
+        },
+        {
+          "symbol": "func_800CAC28",
+          "kind": "function",
+          "vma": 2148314152
+        },
+        {
+          "symbol": "func_800CAC70",
+          "kind": "function",
+          "vma": 2148314224
+        },
+        {
+          "symbol": "func_800CADC8",
+          "kind": "function",
+          "vma": 2148314568
+        },
+        {
+          "symbol": "func_800CAE10",
+          "kind": "function",
+          "vma": 2148314640
+        },
+        {
+          "symbol": "func_800CAE58",
+          "kind": "function",
+          "vma": 2148314712
+        },
+        {
+          "symbol": "func_800CAEA0",
+          "kind": "function",
+          "vma": 2148314784
+        },
+        {
+          "symbol": "func_800CAEE8",
+          "kind": "function",
+          "vma": 2148314856
+        },
+        {
+          "symbol": "func_800CAF30",
+          "kind": "function",
+          "vma": 2148314928
+        },
+        {
+          "symbol": "func_800CAF78",
+          "kind": "function",
+          "vma": 2148315000
+        },
+        {
+          "symbol": "func_800CAFE0",
+          "kind": "function",
+          "vma": 2148315104
+        },
+        {
+          "symbol": "func_800CB074",
+          "kind": "function",
+          "vma": 2148315252
+        },
+        {
+          "symbol": "func_800CB770",
+          "kind": "function",
+          "vma": 2148317040
+        },
+        {
+          "symbol": "func_800CBAE0",
+          "kind": "function",
+          "vma": 2148317920
+        },
+        {
+          "symbol": "func_800CBC1C",
+          "kind": "function",
+          "vma": 2148318236
+        },
+        {
+          "symbol": "func_800CBC80",
+          "kind": "function",
+          "vma": 2148318336
+        },
+        {
+          "symbol": "func_800CBCE8",
+          "kind": "function",
+          "vma": 2148318440
+        },
+        {
+          "symbol": "func_800CBD50",
+          "kind": "function",
+          "vma": 2148318544
+        },
+        {
+          "symbol": "func_800CBDB8",
+          "kind": "function",
+          "vma": 2148318648
+        },
+        {
+          "symbol": "func_800CBE20",
+          "kind": "function",
+          "vma": 2148318752
+        },
+        {
+          "symbol": "func_800CC1D0",
+          "kind": "function",
+          "vma": 2148319696
+        },
+        {
+          "symbol": "func_800CC218",
+          "kind": "function",
+          "vma": 2148319768
+        },
+        {
+          "symbol": "func_800CC280",
+          "kind": "function",
+          "vma": 2148319872
+        },
+        {
+          "symbol": "func_800CC2E8",
+          "kind": "function",
+          "vma": 2148319976
+        },
+        {
+          "symbol": "func_800CC5FC",
+          "kind": "function",
+          "vma": 2148320764
+        },
+        {
+          "symbol": "func_800CC864",
+          "kind": "function",
+          "vma": 2148321380
+        },
+        {
+          "symbol": "func_800CCA64",
+          "kind": "function",
+          "vma": 2148321892
+        },
+        {
+          "symbol": "func_800CD2D8",
+          "kind": "function",
+          "vma": 2148324056
+        },
+        {
+          "symbol": "func_800CD320",
+          "kind": "function",
+          "vma": 2148324128
+        },
+        {
+          "symbol": "func_800CD388",
+          "kind": "function",
+          "vma": 2148324232
+        },
+        {
+          "symbol": "func_800CD3F0",
+          "kind": "function",
+          "vma": 2148324336
+        },
+        {
+          "symbol": "func_800CD458",
+          "kind": "function",
+          "vma": 2148324440
+        },
+        {
+          "symbol": "func_800CD4A0",
+          "kind": "function",
+          "vma": 2148324512
+        },
+        {
+          "symbol": "func_800CD4E8",
+          "kind": "function",
+          "vma": 2148324584
+        },
+        {
+          "symbol": "func_800CD530",
+          "kind": "function",
+          "vma": 2148324656
+        },
+        {
+          "symbol": "func_800CD578",
+          "kind": "function",
+          "vma": 2148324728
+        },
+        {
+          "symbol": "func_800CD5C0",
+          "kind": "function",
+          "vma": 2148324800
+        },
+        {
+          "symbol": "func_800CD608",
+          "kind": "function",
+          "vma": 2148324872
+        },
+        {
+          "symbol": "func_800CEDB8",
+          "kind": "function",
+          "vma": 2148330936
+        },
+        {
+          "symbol": "func_800CEE14",
+          "kind": "function",
+          "vma": 2148331028
+        },
+        {
+          "symbol": "func_800CEE70",
+          "kind": "function",
+          "vma": 2148331120
+        },
+        {
+          "symbol": "func_800CEECC",
+          "kind": "function",
+          "vma": 2148331212
+        },
+        {
+          "symbol": "func_800CEF28",
+          "kind": "function",
+          "vma": 2148331304
+        },
+        {
+          "symbol": "func_800CEF84",
+          "kind": "function",
+          "vma": 2148331396
+        },
+        {
+          "symbol": "func_800CEFE0",
+          "kind": "function",
+          "vma": 2148331488
+        },
+        {
+          "symbol": "func_800CF03C",
+          "kind": "function",
+          "vma": 2148331580
+        },
+        {
+          "symbol": "func_800CF098",
+          "kind": "function",
+          "vma": 2148331672
+        },
+        {
+          "symbol": "func_800CF0F4",
+          "kind": "function",
+          "vma": 2148331764
+        },
+        {
+          "symbol": "func_800CF150",
+          "kind": "function",
+          "vma": 2148331856
+        },
+        {
+          "symbol": "func_800CF26C",
+          "kind": "function",
+          "vma": 2148332140
+        },
+        {
+          "symbol": "func_800CF388",
+          "kind": "function",
+          "vma": 2148332424
+        },
+        {
+          "symbol": "func_800CF3E4",
+          "kind": "function",
+          "vma": 2148332516
+        },
+        {
+          "symbol": "func_800CF440",
+          "kind": "function",
+          "vma": 2148332608
+        },
+        {
+          "symbol": "func_800CF488",
+          "kind": "function",
+          "vma": 2148332680
+        },
+        {
+          "symbol": "func_800CF4D0",
+          "kind": "function",
+          "vma": 2148332752
+        },
+        {
+          "symbol": "func_800CF518",
+          "kind": "function",
+          "vma": 2148332824
+        },
+        {
+          "symbol": "func_800CF560",
+          "kind": "function",
+          "vma": 2148332896
+        },
+        {
+          "symbol": "func_800CF5A8",
+          "kind": "function",
+          "vma": 2148332968
+        },
+        {
+          "symbol": "func_800CF5F0",
+          "kind": "function",
+          "vma": 2148333040
+        },
+        {
+          "symbol": "func_800CF638",
+          "kind": "function",
+          "vma": 2148333112
+        },
+        {
+          "symbol": "func_800CF6D8",
+          "kind": "function",
+          "vma": 2148333272
         }
       ],
       "review": {
@@ -25915,9 +26758,263 @@
       "review_inputs": [
         "docs/evidence/town_town_windows_1f5b8.md",
         "docs/evidence/town_town_windows_1f5b8.membership.json",
-        "docs/evidence/town_town_windows_1f5b8.imports.json"
+        "docs/evidence/town_town_windows_1f5b8.imports.json",
+        "src/town/menu/window.c",
+        "docs/evidence/r124w_carve1_run11.md"
       ],
-      "membership_evidence": "docs/evidence/town_town_windows_1f5b8.membership.json"
+      "membership_evidence": "docs/evidence/town_town_windows_1f5b8.membership.json",
+      "allocation_model": "separated-symbolic-allocations-v1",
+      "data_members": [
+        {
+          "id": "town/D_800D61F0",
+          "source": "src/town/menu/window.c",
+          "symbol": "D_800D3950",
+          "foff": 352752,
+          "vma": 2148350288,
+          "size": 688
+        }
+      ],
+      "allocations": [
+        {
+          "section": ".text.*",
+          "foff": 128440,
+          "vma": 2148125976,
+          "size": 7292,
+          "link_alignment": 4
+        },
+        {
+          "section": ".data",
+          "foff": 352752,
+          "vma": 2148350288,
+          "size": 688,
+          "link_alignment": 4,
+          "slots": [
+            {
+              "kind": "function_pointers",
+              "symbol": "D_800D3950",
+              "offset": 0,
+              "size": 688,
+              "source": "src/town/menu/window.c",
+              "type": "TownObjectCallback",
+              "declaration": "include/town/menu/window.h",
+              "targets": [
+                "func_800C8330",
+                "func_800C75BC",
+                "func_800CD608",
+                "func_800C6F20",
+                "func_800CC2E8",
+                "func_800CB074",
+                "func_800C64C8",
+                "func_800C838C",
+                "func_800C97AC",
+                "func_800CCA64",
+                "func_800C6094",
+                "func_800C629C",
+                "func_800CD4A0",
+                "func_800C6DC8",
+                "func_800C5590",
+                "func_800CAC28",
+                "func_800C58AC",
+                "func_800CD4E8",
+                "func_800CC218",
+                "func_800C55D8",
+                "func_800C6EB8",
+                "func_800CAF30",
+                "func_800CAF78",
+                "func_800C91F4",
+                "func_800C7574",
+                "func_800C735C",
+                "func_800CAE58",
+                "func_800C911C",
+                "func_800C63D4",
+                "func_800CC1D0",
+                "func_800CD458",
+                "func_800C6344",
+                "func_800C91AC",
+                "func_800CF6D8",
+                "func_800CAE10",
+                "func_800CBC1C",
+                "func_800CBC80",
+                "func_800C74E4",
+                "func_800C752C",
+                "func_800CD578",
+                "func_800CC280",
+                "func_800CAA44",
+                "func_800CADC8",
+                "func_800C6E70",
+                "func_800C5368",
+                "func_800C7314",
+                "func_800CD2D8",
+                "func_800C5500",
+                "func_800C73C4",
+                "func_800C7284",
+                "func_800C740C",
+                "func_800C72CC",
+                "func_800C7454",
+                "func_800CAEA0",
+                "func_800CD530",
+                "func_800C90D4",
+                "func_800C749C",
+                "func_800CAAE8",
+                "func_800CAEE8",
+                "func_800C638C",
+                "func_800CD320",
+                "func_800CD388",
+                "func_800CD3F0",
+                "func_800C4F6C",
+                "func_800C7070",
+                "func_800CC864",
+                "func_800CC5FC",
+                "func_800C814C",
+                "func_800C53B0",
+                "func_800C925C",
+                "func_800CAFE0",
+                "func_800CBCE8",
+                "func_800CBD50",
+                "func_800CBDB8",
+                "func_800CBE20",
+                "func_800CAA8C",
+                "func_800CA8D4",
+                "func_800CA930",
+                "func_800CA98C",
+                "func_800CA9E8",
+                "func_800A06A4",
+                "func_800AAAA0",
+                "func_8009E504",
+                "func_8009C83C",
+                "func_8009C884",
+                "func_8009C8FC",
+                "func_8009C974",
+                "func_8009C9DC",
+                "func_8009CA24",
+                "func_8009CA8C",
+                "func_8009CA94",
+                "func_8009CAFC",
+                "func_8009CB90",
+                "func_800C258C",
+                "func_800BB4A0",
+                "func_800BB688",
+                "func_800B9B28",
+                "func_800BA00C",
+                "func_800BA930",
+                "func_800C6544",
+                "func_800C65C8",
+                "func_800C83F0",
+                "func_800C88E0",
+                "func_800C8D34",
+                "func_800CB770",
+                "func_800CBAE0",
+                "func_800CAB44",
+                "func_800CABB4",
+                "func_800CD5C0",
+                "func_800A6DA0",
+                "func_800CF098",
+                "func_800CF26C",
+                "func_800CEE14",
+                "func_800CF5A8",
+                "func_800CF560",
+                "func_800CEDB8",
+                "func_800CF150",
+                "func_800CF388",
+                "func_800CF3E4",
+                "func_800CF440",
+                "func_800CF4D0",
+                "func_800CEF84",
+                "func_800CEFE0",
+                "func_800CF03C",
+                "func_800CF518",
+                "func_800CF638",
+                "func_800CF5F0",
+                "func_800CF488",
+                "func_800CEE70",
+                "func_800CEECC",
+                "func_800CEF28",
+                "func_800CF0F4",
+                "func_800C60DC",
+                "func_800C6124",
+                "func_800C620C",
+                "func_800BC840",
+                "func_800BD5B0",
+                "func_800CAC70",
+                "func_800BEA80",
+                "func_800A782C",
+                "func_800A7AC0",
+                "func_800A6E1C",
+                "func_800A7554",
+                "func_8009E85C",
+                "func_80097D08",
+                "func_800A8B98",
+                "func_800A82F0",
+                "func_800A957C",
+                "func_800A7E7C",
+                "func_800A7C98",
+                "func_800C202C",
+                "func_800BCDCC",
+                "func_800BF3F0",
+                "func_800BF654",
+                "func_800BF9E4",
+                "func_8009CBD8",
+                "func_800A7CF0",
+                "func_800A7D48",
+                "func_800A7DA0",
+                "func_8009CC18",
+                "func_8009CC58",
+                "func_8009CC98",
+                "func_8009CCD8",
+                "func_800BC8D0",
+                "func_8009CBB4",
+                "func_800A9734",
+                "func_800BB720",
+                "func_800B9BF0",
+                "func_800BA468",
+                "func_800BACB0",
+                "func_800A97D8",
+                "func_800A9858"
+              ],
+              "owner": "town/func_8009FCC4"
+            }
+          ]
+        }
+      ],
+      "section_order": [
+        ".data",
+        ".text.func_8009CD18",
+        ".text.func_8009CDB4",
+        ".text.func_8009CDCC",
+        ".text.func_8009CE34",
+        ".text.func_8009CE80",
+        ".text.func_8009CEA8",
+        ".text.func_8009CEE8",
+        ".text.func_8009CFE0",
+        ".text.func_8009D20C",
+        ".text.func_8009D424",
+        ".text.func_8009D5C0",
+        ".text.func_8009D73C",
+        ".text.func_8009D7D0",
+        ".text.func_8009D808",
+        ".text.func_8009D940",
+        ".text.func_8009D9E4",
+        ".text.func_8009DA50",
+        ".text.func_8009DC8C",
+        ".text.func_8009DD40",
+        ".text.func_8009DE28",
+        ".text.func_8009DEBC",
+        ".text.func_8009DF84",
+        ".text.func_8009DFD8",
+        ".text.func_8009E218",
+        ".text.func_8009E258",
+        ".text.func_8009E2C0",
+        ".text.func_8009E348",
+        ".text.func_8009E370",
+        ".text.func_8009E3D4",
+        ".text.func_8009E3EC",
+        ".text.func_8009E424",
+        ".text.func_8009E4BC",
+        ".text.func_8009E4EC",
+        ".text.func_8009E504",
+        ".text.func_8009E714",
+        ".text.func_8009E85C"
+      ]
     },
     {
       "key": "dungeon_town_load",

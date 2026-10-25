@@ -4,11 +4,12 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 hikewne_alt_direction_frames[];
 
-void select_movement_direction_and_advance(void *move_data, void *context, void *position_data, void *actor_data);
+void select_movement_direction_and_advance(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 
 
 void advance_actor_state_sequence(void *action, void *context, SpriteFrameState *entity, ActorRecord *actor);

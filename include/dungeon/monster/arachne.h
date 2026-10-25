@@ -137,64 +137,6 @@ typedef struct R12_801713D4_S_8017139C_3 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } R12_801713D4_S_8017139C_3;
-typedef struct R12_8017162C_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R12_8017162C_S_80171C34_1;
-typedef struct R12_8017162C_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R12_8017162C_S_80171C34_2;
-typedef struct R12_8017162C_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R12_8017162C_S_80171C34_3_pre;
-typedef struct R12_8017162C_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R12_8017162C_S_80171C34_3;
-typedef struct R12_8017162C_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R12_8017162C_S_80171C34_5;
-typedef struct R12_8017162C_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R12_8017162C_S_80171C34_7;
-typedef struct R12_8017162C_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R12_8017162C_S_80171C34_8;
-typedef struct R12_8017162C_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R12_8017162C_DungeonRecord;
 typedef struct R12_80171F9C_Ent R12_80171F9C_Ent;
 typedef struct R12_801720B4_S_80172628_0 {
     u8 pad_00[0x46];
@@ -911,7 +853,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c
 void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part);
 void update_actor_state_and_select_target(void *entity, void *context, void *sprite, void *actor);
 void advance_actor_path_script_step(void *controller, void *context, void *entity, void *path_state);
-void choose_arachne_move(void *move_data, void *context, void *position_data, void *actor_data);
+void choose_arachne_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void advance_linked_actor_motion_script(void *object, void *unused, void *display, void *orientation);
 s32 try_arachne_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void select_and_start_target_action(void *action_state, void *action_context, void *sprite, ActorRecord *actor);

@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20829,
+  "logical_rows": 20834,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -1287,7 +1287,8 @@
         "town/func_800A0D8C",
         "town/func_800A0DA4",
         "town/func_800A0FB4",
-        "town/func_800A10FC"
+        "town/func_800A10FC",
+        "town/D_800D61F0"
       ]
     },
     {
@@ -128777,13 +128778,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/ghosh/advance_ghosh_trail_fade.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_8132A658"
+        "dungeon/func_8132A590"
       ]
     },
     {
@@ -130624,6 +130625,16 @@
       },
       "rows": [
         "dungeon/func_8180F208"
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/copy_indexed_menu_string.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81810040"
       ]
     },
     {
@@ -136767,16 +136778,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8001C550"
-      ]
-    },
-    {
       "source": "src/town/map/state/update_inactive_object_state.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136784,16 +136785,6 @@
       },
       "rows": [
         "town/func_8001C814"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8001D15C"
       ]
     },
     {
@@ -136944,16 +136935,6 @@
       },
       "rows": [
         "town/func_800287B4"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80028974"
       ]
     },
     {
@@ -137237,16 +137218,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002B1C0"
-      ]
-    },
-    {
       "source": "src/dungeon/actor/object/advance_object_countdown.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -137254,16 +137225,6 @@
       },
       "rows": [
         "town/func_8002B23C"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002B658"
       ]
     },
     {
@@ -137614,16 +137575,6 @@
       },
       "rows": [
         "town/func_8002E10C"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002E580"
       ]
     },
     {
@@ -145457,6 +145408,16 @@
       ]
     },
     {
+      "source": "src/town/scene/initialize_sprite_six.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800BC490"
+      ]
+    },
+    {
       "source": "src/town/map/state/update_object_link_or_angle_state.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -145494,6 +145455,16 @@
       },
       "rows": [
         "town/func_800BC8AC"
+      ]
+    },
+    {
+      "source": "src/town/scene/initialize_effect_with_sprite_set_nine.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800BCD08"
       ]
     },
     {
@@ -147397,6 +147368,16 @@
       ]
     },
     {
+      "source": "src/town/scene/initialize_scene_slot_thirteen.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800C8934"
+      ]
+    },
+    {
       "source": "src/town/person/configure_actor_mode.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147927,6 +147908,16 @@
       ]
     },
     {
+      "source": "src/town/scene/initialize_scene_slot_ten.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CB180"
+      ]
+    },
+    {
       "source": "src/town/person/object/assign_four_object_data_pointers.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -148004,6 +147995,16 @@
       },
       "rows": [
         "town/func_800CB4DC"
+      ]
+    },
+    {
+      "source": "src/town/scene/initialize_falling_object_sprite.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CB5D4"
       ]
     },
     {
@@ -148514,6 +148515,16 @@
       },
       "rows": [
         "town/func_800CE4BC"
+      ]
+    },
+    {
+      "source": "src/town/scene/initialize_scene_slot_forty_sprite.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CE520"
       ]
     },
     {
@@ -154044,6 +154055,16 @@
       },
       "rows": [
         "town/func_8046D8CC"
+      ]
+    },
+    {
+      "source": "src/town/scene/apply_scene_override_flag.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046F164"
       ]
     },
     {
@@ -188737,6 +188758,16 @@
       ]
     },
     {
+      "source": "src/town/minigame/fade_completed_keima_color.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80955484"
+      ]
+    },
+    {
       "source": "src/town/minigame/advance_timed_color_fade.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -188744,6 +188775,16 @@
       },
       "rows": [
         "town/func_80955514"
+      ]
+    },
+    {
+      "source": "src/town/minigame/remove_completed_keima_object.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_809555F0"
       ]
     },
     {

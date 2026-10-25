@@ -127,64 +127,6 @@ typedef struct R16_80171574_S_80171FC8_4 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } R16_80171574_S_80171FC8_4;
-typedef struct R16_80171784_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R16_80171784_S_80171C34_1;
-typedef struct R16_80171784_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R16_80171784_S_80171C34_2;
-typedef struct R16_80171784_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R16_80171784_S_80171C34_3_pre;
-typedef struct R16_80171784_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R16_80171784_S_80171C34_3;
-typedef struct R16_80171784_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R16_80171784_S_80171C34_5;
-typedef struct R16_80171784_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R16_80171784_S_80171C34_7;
-typedef struct R16_80171784_S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} R16_80171784_S_80171C34_8;
-typedef struct R16_80171784_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R16_80171784_DungeonRecord;
 typedef struct R16_80171ECC_S_80171ECC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -544,7 +486,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
 void update_entity_facing_and_ground(void *entity, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
 void update_actor_state_and_dispatch_transition(void *actor, void *actor_context, struct SpriteFrameState *map_object, ActorRecord *creature);
 void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused, struct SpriteFrameState *entity, void *path_state);
-void choose_clown_move(void *move_data, void *context, void *position_data, void *actor_data);
+void choose_clown_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 initialize_transition_action(void *action_state, s32 action_id, void *source_obj, ActorRecord *actor);
 void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, struct SpriteFrameState *animation, ActorRecord *actor);
 s32 relink_clown_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);

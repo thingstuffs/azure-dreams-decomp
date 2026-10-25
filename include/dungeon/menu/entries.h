@@ -374,7 +374,8 @@ typedef struct {
     ovl_1831cd8_81813774_UnalignedBlock12 chunks[2];
 } ovl_1831cd8_81813774_UnalignedBlock24;
 extern M2C_UNK D_800789B8;
-M2C_UNK func_80025040();
+extern char *D_8002946C[];
+char *copy_indexed_menu_string(char *resource, s32 index, s32 unused_data, s32 unused_size);
 s32 create_callback_pair_default();
 void * func_8004B404(int value);
 extern void strncpy();
@@ -425,7 +426,7 @@ extern ovl_1831cd8_81813774_UnalignedBlock24 menu_record_template;
 void clear_menu_state_values(ovl_1831cd8_81811CD8_S_80026CD8_0 *state);
 void set_entry_destination_and_value(Rec_func_80026CF0_arg0 *record, s32 value);
 void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index);
-s32 configure_menu_resource(s32 setup_value, s32 setup_data);
+char *configure_menu_resource(s32 setup_value, s32 setup_data);
 s32 count_menu_entry_matches(s32 target_value);
 s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value);
 s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence);

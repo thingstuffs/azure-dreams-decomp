@@ -81,10 +81,9 @@ def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
     if inline_stamp is not None:
         for record in map(json.loads, filter(str.strip, Path(inline_path).read_text().splitlines())):
             inlined[record['member_id']] = record['tu_new']
-    for line in Path(path).read_text().splitlines():
-        if not line.strip():
-            continue
-        record = json.loads(line)
+    records = [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+    declared = {record.get("id"):record.get("path") for record in records}
+    for record in records:
         if set(record) != {"id", "path"}:
             raise ValueError("layout record requires exactly id and path")
         rid = record["id"]
@@ -94,12 +93,16 @@ def _load(path, stamp, rows_path, rows_stamp, inline_path, inline_stamp):
         if row.get("source_row"):
             raise ValueError("a link-list placement has no source path of its own: " + rid)
         value = _safe_path(record["path"], row["container"])
-        if value in paths and not (inlined.get(rid) == value and inlined.get(paths[value]) == value):
+        data_owner = row.get("owner") if row.get("row_kind") == "data" and row.get("data_kind") == "function_table" and row.get("ownership_status") == "evidenced" else None
+        coowned = data_owner in reg and data_owner != rid and reg[data_owner].get("row_kind") != "data" and reg[data_owner]["container"] == row["container"] and declared.get(data_owner, inlined.get(data_owner)) == value
+        if value in paths and not (coowned or inlined.get(rid) == value and inlined.get(paths[value]) == value):
             raise ValueError("two rows share a source path: " + value)
         mapping[rid] = value
-        paths[value] = rid
+        if not coowned:
+            paths[value] = rid
     # A sparse map must not collide with any row left at its default location.
-    effective = [mapping.get(rid, flat_relative(r)) for rid, r in reg.items() if rid not in inlined]
+    coowned = {rid for rid,r in reg.items() if r.get("row_kind") == "data" and r.get("data_kind") == "function_table" and r.get("ownership_status") == "evidenced" and r.get("owner") in reg and r["owner"] != rid and mapping.get(rid) is not None and mapping.get(rid) == mapping.get(r["owner"], inlined.get(r["owner"]))}
+    effective = [mapping.get(rid, flat_relative(r)) for rid, r in reg.items() if rid not in inlined and rid not in coowned]
     if len(effective) != len(set(effective)):
         raise ValueError("layout collides with a default row path")
     return mapping
@@ -204,6 +207,13 @@ def validate(root=ROOT, *, require_files=True):
     inline_owners = {}
     for record in inlined:
         inline_owners.setdefault(record['tu_new'], set()).add(record['member_id'])
+    for rid,row in reg.items():
+        if row.get('row_kind') == 'data' and row.get('data_kind') == 'function_table' and row.get('ownership_status') == 'evidenced' and row.get('owner') in reg:
+            rel = relative[rid]
+            if rel != relative.get(row['owner']):
+                raise ValueError('symbolic table source differs from code owner')
+            if row['owner'] in inline_owners.get(rel,set()):
+                inline_owners[rel].add(rid)
     source_root = (root / 'src').resolve()
     aliases = {flat_relative(row) for row in reg.values() if not row.get('source_row')}
     for old, new in wrappers.items():

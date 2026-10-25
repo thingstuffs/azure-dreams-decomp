@@ -144,59 +144,7 @@ typedef struct R17_801718D0_S_801718D0_0 {
     union { s16 s; u16 u; } unk_8A;   
 } R17_801718D0_S_801718D0_0;
 
-typedef struct R17_80171A98_S_80171C34_1 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-    u8 pad_13[0x1];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   
-    u8 pad_2C[0x19];
-    u8 unk_45;
-    u16 unk_46;
-    u8 pad_48[0x25];
-    union { u8 u; s8 s; } unk_6D;   
-    u8 pad_6E[0x3];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   
-} R17_80171A98_S_80171C34_1;
-typedef struct R17_80171A98_S_80171C34_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   
-    union { s8 s; u8 u; } unk_26;   
-} R17_80171A98_S_80171C34_2;
-typedef struct R17_80171A98_S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} R17_80171A98_S_80171C34_3_pre;
-typedef struct R17_80171A98_S_80171C34_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} R17_80171A98_S_80171C34_3;
-typedef struct R17_80171A98_S_80171C34_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   
-} R17_80171A98_S_80171C34_5;
-typedef struct R17_80171A98_S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} R17_80171A98_S_80171C34_7;
 
-typedef struct R17_80171A98_DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} R17_80171A98_DungeonRecord;
 
 typedef struct R17_801723A4_Ent R17_801723A4_Ent;
 typedef struct R17_801724C4_S_80172628_0 {
@@ -492,7 +440,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value);
 void create_anchored_directional_object(void *actor, void *motion, struct SpriteFrameState *object);
 void update_entity_movement_and_ground_height(void *actor, void *context, struct SpriteFrameState *sprite, ActorRecord *status);
 void advance_entity_along_path_2(void *motion, s32 unused, struct SpriteFrameState *entity, void *path_state);
-void choose_univern_move(void *move_data, void *context, void *position_data, void *actor_data);
+void choose_univern_move(Rec_func_800A9E70_arg0 *move_data, void *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, struct SpriteFrameState *animation,
     ActorRecord *entity);
