@@ -76,16 +76,16 @@ void snapshot_inventory_and_familiars(void *input_state) {
     }
 
     {
-        u8 *src_cursor;
+        u8 *saved_source;
         u8 *index_cursor;
 
         slot_index = 1;
         index_cursor = (u8 *)0x80010000;
-        src_cursor = (u8 *)state;
-        src_cursor += 4;
+        saved_source = (u8 *)state;
+        saved_source += 4;
         do {
-            index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(src_cursor + 0xD0), (void *)0x80010248, 4, 0x14);
-            src_cursor -= 4;
+            index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(saved_source + 0xD0), (void *)0x80010248, 4, 0x14);
+            saved_source -= 4;
             slot_index -= 1;
         } while (slot_index >= 0);
     }

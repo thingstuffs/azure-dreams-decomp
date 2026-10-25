@@ -12,7 +12,7 @@ typedef struct S_800C2988_1 {
     u8 pad_00[0x16];
     s16 unk_16;
     u8 pad_18[0x38];
-    s32 * unk_50;
+    void (*unk_50)();
     u8 pad_54[0x1E];
     u16 unk_72;
 } S_800C2988_1;

@@ -499,13 +499,13 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     sprite->clut = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
                 }
                 {
-                    u8 *primitive = sprite;
+                    u8 *glyph = sprite;
                     u8 *sprite_data = D_8007947C;
-                    ((SpriteFrameState *)primitive)->unk_00 = sprite_data;
-                    ((SpriteFrameState *)primitive)->source = ((SlotSpriteData *)sprite_data)->unk_04;
-                    ((SpriteFrameState *)primitive)->unk_04 = 0;
-                    ((SpriteFrameState *)primitive)->frame_ticks = 0;
-                    ((SpriteFrameState *)primitive)->color.word = 0x00808080;
+                    ((SpriteFrameState *)glyph)->unk_00 = sprite_data;
+                    ((SpriteFrameState *)glyph)->source = ((SlotSpriteData *)sprite_data)->unk_04;
+                    ((SpriteFrameState *)glyph)->unk_04 = 0;
+                    ((SpriteFrameState *)glyph)->frame_ticks = 0;
+                    ((SpriteFrameState *)glyph)->color.word = 0x00808080;
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;

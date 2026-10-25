@@ -271,14 +271,14 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
         ctrl->timer = 0;
         ctrl->state++;
         {
-            Child **child_slot;
+            Child **next_child_slot;
 
             index = 7;
-            child_slot = &ctrl->children[1];
+            next_child_slot = &ctrl->children[1];
             do {
-                child_slot[6] = create_effect_indexed(ctrl, motion, (s16)index);
+                next_child_slot[6] = create_effect_indexed(ctrl, motion, (s16)index);
                 index--;
-                child_slot--;
+                next_child_slot--;
             } while (index >= 0);
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -293,15 +293,15 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
         ctrl->timer = 0;
         ctrl->state++;
         {
-            Child **child_slot;
+            Child **next_child_slot;
 
-            child_slot = &ctrl->children[1];
+            next_child_slot = &ctrl->children[1];
             do {
-                if (child_slot[6] != 0) {
-                    child_slot[6]->update = child_update;
+                if (next_child_slot[6] != 0) {
+                    next_child_slot[6]->update = child_update;
                 }
                 index--;
-                child_slot--;
+                next_child_slot--;
             } while (index >= 0);
         }
         break;
@@ -314,15 +314,15 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
         ctrl->timer = 0;
         ctrl->state++;
         {
-            Child **child_slot;
+            Child **next_child_slot;
             u8 *global_page;
 
             index = 7;
             global_page = (u8 *)0x80080000;
-            child_slot = &ctrl->children[1];
+            next_child_slot = &ctrl->children[1];
 loop_3:
             {
-                child = child_slot[6];
+                child = next_child_slot[6];
                 if (child != 0) {
                     s32 child_flags;
                     s32 global_flags;
@@ -333,10 +333,10 @@ loop_3:
                     global_flags |= 0x8000;
                     child->flags = child_flags;
                     *(u32 *)(global_page + 0x14A0) = global_flags;
-                    child_slot[6] = 0;
+                    next_child_slot[6] = 0;
                 }
                 index--;
-                child_slot--;
+                next_child_slot--;
             }
             if (index >= 0)
                 goto loop_3;

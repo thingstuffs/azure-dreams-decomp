@@ -15,14 +15,14 @@ typedef struct S_800C4030_1 {
 
 
 extern s32 lookup_item_category_mapped_value(s32, s32);
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(s32, s32);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 write_status_prefix_bytes(s32);
 extern void create_type_212_object(s32 flag, s8 value);
 extern void play_sound_if_enabled(s32);
@@ -46,9 +46,9 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
     u8 *table_base_2;
     s32 first_arg;
     s32 second_arg;
-    s32 second_arg_2;
+    void *second_arg_2;
     s32 scratch_value;
-    s32 saved_context;
+    void *saved_context;
 
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action, action_param);

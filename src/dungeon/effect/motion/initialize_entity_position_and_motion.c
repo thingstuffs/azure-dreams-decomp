@@ -1410,7 +1410,7 @@ void *find_eligible_nearby_entity(void *source_entity)
     node = (u8 *)next_link + 0x20;
     if (node != primary_actor_record) {
         do {
-            void *next_link;
+            void *entry_link;
             if (((check_entity_interaction_compatibility(primary_actor_record, node) << 16) != 0) &&
                 ((check_entity_eligibility(node) << 16) != 0) &&
                 !(((ObjectNodeHeader *)((u8 *)node - 0x20))->flags & 0x2000)) {
@@ -1427,8 +1427,8 @@ void *find_eligible_nearby_entity(void *source_entity)
                     }
                 }
             }
-            next_link = ((ovl_19a332c_81984C44_S_81984C44_2 *)node)->unk_5C;
-            node = (u8 *)next_link + 0x20;
+            entry_link = ((ovl_19a332c_81984C44_S_81984C44_2 *)node)->unk_5C;
+            node = (u8 *)entry_link + 0x20;
         } while (node != primary_actor_record);
     }
     return 0;

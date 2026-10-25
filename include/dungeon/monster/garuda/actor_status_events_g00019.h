@@ -97,7 +97,8 @@ extern u8 garuda_frame_set_2[];
 extern u8 garuda_frame_set_1[];
 
 typedef struct S_80047784 S_80047784;
-extern void select_sprite_entry(S_80047784 *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern u8 garuda_action_resume_address[];
 
 /* Functions defined in this translation unit. */

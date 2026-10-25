@@ -21,11 +21,11 @@ extern u8 D_800E1677[];
 s32 test_resident_bit(s32);
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state(s32);
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes(u8 *src, u8 *dst);
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
 s32 append_typed_formatted_value(s32, s32);
-s32 append_entity_display_text(void *record, u8 *out);
+u8 *append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);
 void place_actor_item(Entity *, s32);
@@ -59,9 +59,9 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
             return 0;
         }
         {
-            s32 original_value;
-            s32 current_value;
-            s32 adjusted_value;
+            void *original_value;
+            void *current_value;
+            void *adjusted_value;
 
             adjusted_value = append_entity_display_text(entity, current_value = get_unused_text_buffer());
             original_value = current_value;

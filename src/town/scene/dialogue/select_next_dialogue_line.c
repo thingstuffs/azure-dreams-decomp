@@ -109,10 +109,10 @@ s8 *select_next_dialogue_line(void) {
                             }
                             if (count_listed_enabled_records() == state_one) {
                                 {
-                                    TownEventState *state;
+                                    TownEventState *phase;
 
-                                    state = town_event_state;
-                                    value = state->selected_entry;
+                                    phase = town_event_state;
+                                    value = phase->selected_entry;
                                 }
                                 if (value == state_one) {
                                     return D_80016BCF;
@@ -129,10 +129,10 @@ s8 *select_next_dialogue_line(void) {
                             }
                         } else {
                             {
-                                TownEventState *state;
+                                TownEventState *phase;
 
-                                state = town_event_state;
-                                value = state->selected_entry;
+                                phase = town_event_state;
+                                value = phase->selected_entry;
                             }
                             if (value == state_one) {
                                 return D_80016BCF;

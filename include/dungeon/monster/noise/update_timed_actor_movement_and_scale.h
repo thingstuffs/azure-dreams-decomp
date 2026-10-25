@@ -9,7 +9,7 @@
 
 typedef struct {
     u8 pad_00[0x8c];
-    u8 *ptr_8c;
+    void (*ptr_8c)();
     s32 value_90;
     u8 pad_94[2];
     u16 value_96;
@@ -59,7 +59,8 @@ typedef struct {
 
 
 extern s32 rsin(s32 value);
-extern void select_sprite_entry(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void func_80047784(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
 extern void set_record_integer_tile_center(T_80172B6C_Motion *motion, u8 x, u8 y);
 extern void spend_actor_mp(T_80172B6C_Actor *actor, s32 value);

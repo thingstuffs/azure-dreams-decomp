@@ -400,17 +400,17 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     flags = ((SpriteAnimationTableView *)object)->flags;
     if (!(flags & 0x8000)) {
         s16 view_index;
-        s32 old_direction;
+        s32 saved_direction;
 
-        old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
-        view_index = old_direction;
-        view_index_copy = old_direction;
+        saved_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
+        view_index = saved_direction;
+        view_index_copy = saved_direction;
         if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
             animation = ((SpriteAnimationTableView *)object)->frame_table;
             if (animation != 0) {
                 select_indirect_table_entry(object, animation[view_index], ((SpriteAnimationTableView *)object)->frame_index);
             }
-            (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
+            (*(s16 *)((u8 *)actor + 0x94)) = saved_direction;
         }
 
         if (dir_sprite_flag[view_index_copy] != 0) {

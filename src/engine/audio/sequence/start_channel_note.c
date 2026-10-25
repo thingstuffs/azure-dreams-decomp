@@ -318,16 +318,16 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 }
             } else {
                 if (channel->f50 != 0) {
-                    u32 prev_note;
+                    u32 previous_note;
                     glide_note = channel->f5C & 0x7F;
                     start_note = (u8) glide_note;
-                    prev_note = channel->f5C;
+                    previous_note = channel->f5C;
                     channel->f52 = 0;
-                    if (prev_note < note_key) {
+                    if (previous_note < note_key) {
                         channel->f56 = ((note & 0xFF) - channel->f5C) << 7;
                         channel->f58 = 1;
                         channel->f54 = (channel->f56 * 4) / channel->f50;
-                    } else if (prev_note == note_key) {
+                    } else if (previous_note == note_key) {
                         channel->f54 = 0;
                         start_note = (u8) note;
                     } else {

@@ -28,7 +28,7 @@ static s32 state;
 
 /* Updates the object state, position, and timed target adjustments. */
 void update_object_state_position(S0 *self, s32 *position, S1 *target) {
-    register s32 state;
+    register s32 phase;
     S0 *object = self;
     s32 y_limit;
     s32 next_value;
@@ -40,13 +40,13 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
 
         countdown = (u16)object->f6C;
         base_y = position[1];
-        state = object->f68;
+        phase = object->f68;
         countdown--;
         object->f6C = countdown;
     }
     next_value_2 = 0x800000;
     y_limit = base_y + next_value_2;
-    switch (state) {
+    switch (phase) {
     case 0:
     case 3:
     {

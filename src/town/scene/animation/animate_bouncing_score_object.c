@@ -80,7 +80,7 @@ void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
     case 0:
     {
         s32 call_a0;
-        u32 result_v0;
+        u32 step_result;
         s32 threshold;
 
         switch (st->kind) {
@@ -99,9 +99,9 @@ void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
         {
             s32 quotient;
             quotient = call_a0 / 10;
-            result_v0 = quotient * 10;
+            step_result = quotient * 10;
             threshold = st->threshold;
-            quotient = call_a0 - result_v0;
+            quotient = call_a0 - step_result;
             {
                 u16 flags;
 
@@ -211,13 +211,13 @@ case 2:
 
     case 5:
     {
-        u32 result_v0;
+        u32 step_result;
         if ((st->timer >> 2) & 1) {
-            result_v0 = act->flags | 0x80;
+            step_result = act->flags | 0x80;
         } else {
-            result_v0 = act->flags & 0xff7f;
+            step_result = act->flags & 0xff7f;
         }
-        act->flags = result_v0;
+        act->flags = step_result;
         if (func_80240810(score_bounce_update_address, mot, score_bounce_motion_data, town_motion_state)) {
             s32 product;
             s32 choice;

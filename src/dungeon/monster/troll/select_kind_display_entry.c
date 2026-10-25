@@ -36,7 +36,8 @@ extern u8 D_8015DE54[];
 extern u8 D_8015DE5C[];
 extern u8 D_8015DE64[];
 
-extern void select_sprite_entry(Obj2 *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
 
 

@@ -140,7 +140,7 @@ typedef struct {
 } B22_81893024_M2C_BLOCK;
 typedef struct {
     s8 unk0[8];
-    B22_81893024_M2C_BLOCK *data;
+    ObjectPosition *data;
     s8 unkC[4];
     void *callback;
     s8 unk14[12];

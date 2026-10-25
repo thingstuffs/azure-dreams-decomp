@@ -9,7 +9,7 @@
 
 typedef struct S_8009A724_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)();
     u8 pad_08[0x2];
     u16 unk_0A;
     u8 pad_0C[0x4];
@@ -29,7 +29,7 @@ typedef struct S_8009A724_1 {
 
 typedef struct S_8009A81C_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)(void);
     u8 pad_08[0x2];
     u16 unk_0A;
     u8 pad_0C[0x2A];

@@ -345,13 +345,13 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
             object->timer.s = timer;
             if (timer == 0) {
-                s32 x;
+                s32 actor_x;
 
                 sprite->flags &= 0xF7FF;
-                x = motion->x.v;
-                if (x > 0x03A80000) {
+                actor_x = motion->x.v;
+                if (actor_x > 0x03A80000) {
                     motion->velocity_x = -0x80000;
-                } else if (x <= 0x0397FFFF) {
+                } else if (actor_x <= 0x0397FFFF) {
                     motion->velocity_x = 0x80000;
                 } else {
                     effect = D_800F2E50;

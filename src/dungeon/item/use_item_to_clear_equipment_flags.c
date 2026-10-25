@@ -8,11 +8,11 @@
 #include "dungeon/item.h"
 
 extern void clear_slots_of_type(void *, s32);
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(void *, s32);
 extern void play_sound_if_enabled(s32);
@@ -29,7 +29,7 @@ extern u8 D_800E1788[];
 s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 use_context)
 {
     u8 *equipment;
-    s32 message_buf;
+    void *message_buf;
     s32 uncursed;
 
     if (use_mode == 13) {

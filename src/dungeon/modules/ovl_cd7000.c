@@ -2346,7 +2346,7 @@ void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFra
         if ((effect_type << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        effect_data = (void *)(*((s32 *)&D_80151318 + (s16) effect_index) + (s32)&dungeon_resource_buffer);
+        effect_data = (void *)(*((s32 *)&D_80151318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
         select_record_entry_and_value(render_obj, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->timer = 0U;

@@ -60,8 +60,8 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     case 8:
     {
         Record *records = town_building_records;
-        s32 record_id = key & 0xFF;
-        pair_id = records[record_id].byte6;
+        s32 entry_id = key & 0xFF;
+        pair_id = records[entry_id].byte6;
         if (pair_id == 0)
             return 0;
         slot = 0;
@@ -69,7 +69,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         do {
             pair = (u8 *)((u8)slot * 2 + (u32)pairs_page);
             if (((S_800B83DC_0 *)pair)->unk_33A4 == pair_id &&
-                ((S_800B83DC_0 *)pair)->unk_33A5 != record_id) return 1;
+                ((S_800B83DC_0 *)pair)->unk_33A5 != entry_id) return 1;
             slot++;
         } while ((u8)slot < 0x21);
         return 0;
@@ -79,14 +79,14 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         u8 *pair_page;
         u8 *owner_page;
         Record *records = town_building_records;
-        s32 record_id = key & 0xFF;
-        single_id = records[record_id].byte6;
+        s32 entry_id = key & 0xFF;
+        single_id = records[entry_id].byte6;
         if (single_id == 0)
             return 0;
         pair_page = (u8 *)0x80010000;
         if (pair_page[0x33E6] == single_id) {
             owner_page = pair_page;
-            if (owner_page[0x33E7] != record_id)
+            if (owner_page[0x33E7] != entry_id)
                 return 1;
         }
         return 0;

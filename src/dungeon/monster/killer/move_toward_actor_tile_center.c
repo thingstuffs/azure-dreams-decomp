@@ -54,7 +54,8 @@ extern u8 killer_action_resume_address[];
 extern u8 D_80174050[];
 extern u8 D_80174058[];
 
-extern void select_sprite_entry(Actor *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern s32 rsin(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void set_record_integer_tile_center(Motion *, u8, u8);

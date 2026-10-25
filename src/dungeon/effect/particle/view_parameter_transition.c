@@ -23,10 +23,10 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 
 
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
@@ -68,8 +68,8 @@ extern u8 ribbon_sprite_entries[];
    flag is set. */
 void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_param, void *context)
 {
-    s32 message_end;
-    s32 message_start;
+    void *message_end;
+    void *message_start;
 
     if (try_trigger_target_record_effect(entity, 1, context) == 0) {
         /*

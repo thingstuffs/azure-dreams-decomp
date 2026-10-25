@@ -17,7 +17,7 @@ void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave)
     u8 ch;
 
     if (cursor == 0) {
-        return (void *)length;
+        return 0;
     }
 
     ch = *cursor;

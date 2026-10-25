@@ -3,9 +3,11 @@
 #include "common.h"
 #include "engine/message.h"
 
+struct S_80038708_0;
+
 typedef struct Func80039BE4State {
     u8 pad_00[0x10];
-    void (*callback)(void *);
+    void (*callback)(struct S_80038708_0 *);
     u8 pad_14[0x8];
     u8 *cursor;
     u8 pad_20[0x12];

@@ -56,7 +56,8 @@ extern u8 golem_frame_set;
 
 typedef struct S_80047784 S_80047784;
 typedef struct { u8 pad0[0x24]; u8 unk24; u8 unk25; } Pos;
-extern void select_sprite_entry(S_80047784 *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern Ent *prepare_directional_attack(Ent *, Pos *, u32, s32, Ent *);
 extern s16 try_claim_dungeon_action_slot(s32);
 extern s32 apply_camera_offset_and_select_target(s32, void *, s32, s32);

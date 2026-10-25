@@ -277,15 +277,15 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                         {
                             s32 random_x;
                             s32 origin_x;
-                            s32 offset_x;
+                            s32 particle_x;
 
                             random_x = generate_random_value() & 0x3F;
                             origin_x = ((u16) position->x.w.i);
-                            offset_x = coords[4];
+                            particle_x = coords[4];
 
-                            origin_x += offset_x;
-                            offset_x = direction_x << 6;
-                            origin_x += offset_x;
+                            origin_x += particle_x;
+                            particle_x = direction_x << 6;
+                            origin_x += particle_x;
                             origin_x += random_x;
                             ((S_80172840_12 *)(particle->position))->unk_02 =
                                 origin_x - 0x1F;

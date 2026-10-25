@@ -16,10 +16,10 @@ extern u8 D_800E0F85[];
 extern void apply_entity_effects(void *);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern void *clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_formatted_context_message(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -31,7 +31,7 @@ extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s3
 /* Applies an entity action, updates its state, and displays the result. */
 s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 action_arg) {
     s16 match_state;
-    s32 message_id;
+    void *message_id;
     u16 type_flags;
     u8 update_count;
 

@@ -3,6 +3,8 @@
 #include "engine/node.h"
 #include "engine/scene.h"
 
+struct S_80051164;
+
 typedef struct S_800511B4_sub {
     void *unk0;                /* 0x00 (== entity offset 0x20): related entity */
     struct S_800511B4_entity *self; /* 0x04 (== entity offset 0x24) */
@@ -12,7 +14,7 @@ typedef struct S_800511B4_sub {
 
 typedef struct S_800511B4_entity {
     u8 pad0[0x10];                      /* 0x00 */
-    void (*field_0x10)(void *self);     /* 0x10 - callback */
+    void (*field_0x10)(struct S_80051164 *);     /* 0x10 - callback */
     u8 pad14[0x1E - 0x14];              /* 0x14 */
     u16 flags;                          /* 0x1E */
     S_800511B4_sub sub;                 /* 0x20 */

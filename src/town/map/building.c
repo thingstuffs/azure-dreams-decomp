@@ -79,14 +79,14 @@ s8 *slots_out;
         u8 *pair_page;
         u8 *owner_page;
         Record *records = town_building_records;
-        s32 record_id = record_key & 0xFF;
-        single_id = records[record_id].byte6;
+        s32 entry_id = record_key & 0xFF;
+        single_id = records[entry_id].byte6;
         if (single_id == 0)
             break;
         pair_page = (u8 *)0x80010000;
         if (pair_page[0x33E6] == single_id) {
             owner_page = pair_page;
-            if (owner_page[0x33E7] != record_id) {
+            if (owner_page[0x33E7] != entry_id) {
                 *slots_out++ = 0xB;
                 slot_count++;
             }

@@ -407,10 +407,10 @@ void update_betting_effect(TownEffect *input)
             {
                 s32 y_speed = 0x18000;
                 u8 *animation = town_scene_record_handlers;
-                ObjectPosition *motion;
-                motion = &view_reference_entity;
-                motion->velocity_z = (s32)0xFFF40000;
-                motion->velocity_y = y_speed;
+                ObjectPosition *child_motion;
+                child_motion = &view_reference_entity;
+                child_motion->velocity_z = (s32)0xFFF40000;
+                child_motion->velocity_y = y_speed;
                 apply_global_scene_value(animation);
             }
             break;
@@ -429,10 +429,10 @@ void update_betting_effect(TownEffect *input)
             SD_Call(0x508);
             {
                 u8 *animation = town_scene_record_handlers;
-                ObjectPosition *motion;
-                motion = &view_reference_entity;
-                motion->velocity_z = (s32)0xFFF80000;
-                motion->velocity_y = 0x20000;
+                ObjectPosition *child_motion;
+                child_motion = &view_reference_entity;
+                child_motion->velocity_z = (s32)0xFFF80000;
+                child_motion->velocity_y = 0x20000;
                 apply_global_scene_value(animation);
             }
             break;
@@ -453,11 +453,11 @@ void update_betting_effect(TownEffect *input)
         }
         {
             u8 *animation = town_scene_record_handlers;
-            ObjectPosition *motion;
-            motion = &view_reference_entity;
-            motion->velocity_z = (s32)0xFFFB0000;
-            motion->velocity_y = 0;
-            motion->z.v = (s32)0xFFC00000;
+            ObjectPosition *child_motion;
+            child_motion = &view_reference_entity;
+            child_motion->velocity_z = (s32)0xFFFB0000;
+            child_motion->velocity_y = 0;
+            child_motion->z.v = (s32)0xFFC00000;
             apply_global_scene_value(animation);
         }
         effect->count = 0;
@@ -514,11 +514,11 @@ void update_betting_effect(TownEffect *input)
         }
         {
             u8 *animation = town_scene_record_handlers;
-            ObjectPosition *motion;
+            ObjectPosition *child_motion;
             ((S_800211A4_6 *)child)->unk_70 = 4;
-            motion = &view_reference_entity;
-            motion->velocity_z = 0;
-            motion->z.v = (s32)0xFFC00000;
+            child_motion = &view_reference_entity;
+            child_motion->velocity_z = 0;
+            child_motion->z.v = (s32)0xFFC00000;
             apply_global_scene_value(animation);
         }
         effect->count = 3;

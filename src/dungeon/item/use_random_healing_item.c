@@ -29,10 +29,10 @@ extern s32 format_unsigned_double_byte_decimal(s16, s32);
 extern void apply_entity_effects(DungeonObject *);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(u8 *);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(DungeonObject *, u8 *);
 extern void display_item_status_message(DungeonObject *, u8 *, s16);
@@ -48,7 +48,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     s32 amount;
     s16 remaining;
     u8 counter;
-    s32 message_handle;
+    void *message_handle;
     s32 message_arg;
     const void *message;
     u16 *kind_flags;

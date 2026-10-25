@@ -147,11 +147,11 @@ extern void *create_six_offset_effects(void *, void *, void *, void *);
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
 extern s32 has_enough_available_runtime_nodes(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_entity_display_text(void *record, u8 *out);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 clear_byte_and_advance(s8 *byte_ptr);
+extern void *get_unused_text_buffer(void);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *append_entity_display_text(void *record, u8 *out);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern void *clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_status_prefix_bytes(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *select_object_by_flags_and_keys(void *, void *, void *);
@@ -166,7 +166,7 @@ extern void set_sprite_animation_frame(void *, s32, s32, s32);
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
 void advance_paired_object_sequence(void *sequence, void *position, void *actor, void *owner)
 {
-    s32 message_id;
+    void *message_id;
     GameWork *scene = &g_game_work;
     u8 *anim_entry;
     u8 state;
@@ -258,14 +258,14 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         {
 
             u32 mask;
-            void *object_slot;
+            void *child_slot;
             object_index_m = 0;
             mask = 0x100000;
-            object_slot = sequence;
+            child_slot = sequence;
             do {
                 u16 angle;
-                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
-                object_slot = (u8 *)object_slot + 4;
+                object_m = ((S_800253C0_4 *)child_slot)->unk_AC;
+                child_slot = (u8 *)child_slot + 4;
                 object_index_m++;
                 ((S_800253C0_5 *)object_m)->unk_14 |= mask;
                 angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
@@ -290,11 +290,11 @@ case 4:
         ((u8 *)message_text)[1] = brightness;
         ((u8 *)message_text)[2] = brightness;
         do {
-            s32 delta;
+            s32 step_delta;
             s32 frames_left;
             s32 coord;
             s32 coord_y;
-            s32 old_x;
+            s32 previous_x;
             s32 old_y;
 
             table_index_m = (object_index_m << 11) - move_scene->view.camera_rotation.parts.viewAngle;
@@ -306,8 +306,8 @@ case 4:
             frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
             coord = coord << 6;
             prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-            old_x = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
-            coord = coord - old_x;
+            previous_x = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+            coord = coord - previous_x;
             ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u + coord / frames_left;
             coord_y = (s32)((S_800253C0_8 *)actor)->unk_25;
             {
@@ -380,9 +380,9 @@ case 4:
 
     case 5:
     {
-        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-        if (timer > 0) {
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        if (ticks > 0) {
             return;
         }
         create_and_link_six_offset_objects(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
@@ -398,10 +398,10 @@ case 4:
 
     case 6:
     {
-        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
 
-        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-        if (timer > 0) {
+        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        if (ticks > 0) {
             return;
         }
         object_index_m = 0;
@@ -430,9 +430,9 @@ case 4:
     case 7:
         process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
+            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+            ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+            if (ticks > 0) {
                 return;
             }
             {
@@ -447,9 +447,9 @@ case 4:
     case 8:
         process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
+            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+            ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+            if (ticks > 0) {
                 return;
             }
         }
@@ -474,15 +474,15 @@ case 4:
                 ((S_800253C0_1 *)owner)->unk_60 = object_m;
                 if (object_m != 0) {
                     void *other;
-                    void *object_slot;
+                    void *child_slot;
                     object_index_m = 0;
                     do {
-                        object_slot = (u8 *)sequence + object_index_m * sizeof(void *);
+                        child_slot = (u8 *)sequence + object_index_m * sizeof(void *);
                         slot_value = (s16)object_index_m;
-                        other = ((S_800253C0_4 *)object_slot)->unk_AC;
+                        other = ((S_800253C0_4 *)child_slot)->unk_AC;
                         create_linked_objects(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_value, object_m == other);
-                        if (object_m == ((S_800253C0_4 *)object_slot)->unk_AC) {
+                        if (object_m == ((S_800253C0_4 *)child_slot)->unk_AC) {
                             s32 angle;
                             s32 index;
                             s32 x;
@@ -537,14 +537,14 @@ case 4:
     case 9:
         process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            void *object_slot = sequence;
+            void *child_slot = sequence;
             object_index_m = 0;
             do {
 
                 u32 red;
                 u32 green;
                 u32 blue;
-                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+                object_m = ((S_800253C0_4 *)child_slot)->unk_AC;
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                 red = ((S_800253C0_17 *)child)->unk_0C.at00.v;
                 green = ((S_800253C0_17 *)child)->unk_0C.at01.v;
@@ -558,12 +558,12 @@ case 4:
                     ((S_800253C0_17 *)child)->unk_0C.at00.v = 0;
                 }
                 object_index_m++;
-                object_slot = (u8 *)object_slot + 4;
+                child_slot = (u8 *)child_slot + 4;
             } while (object_index_m < 2);
             {
-                s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-                ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-                if (timer > 0) {
+                s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+                ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+                if (ticks > 0) {
                     return;
                 }
             }
@@ -609,10 +609,10 @@ case 4:
         }
         {
             GameWork *restore_scene;
-            s16 *table_x;
+            s16 *row_x;
             object_index_m = 0;
             restore_scene = &g_game_work;
-            table_x = (s16 *)((s8 *)dir_step_x);
+            row_x = (s16 *)((s8 *)dir_step_x);
 loop_7:
             {
                 object_m =
@@ -631,7 +631,7 @@ loop_7:
                     ((S_800253C0_17 *)child)->unk_12.u &= 0x3F;
                     ((S_800253C0_17 *)child)->unk_14.u &= 0xFFF3;
                     index = (((-restore_scene->view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE);
-                    x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
+                    x = ((S_800253C0_8 *)actor)->unk_24 + row_x[index >> 1];
                     ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
                     y_table = (u8 *)((s8 *)dir_step_y);
@@ -657,9 +657,9 @@ loop_7:
 
     case 10:
     {
-        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-        if (timer > 0) {
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        if (ticks > 0) {
             return;
         }
         {
@@ -673,14 +673,14 @@ loop_7:
 
     case 11:
     {
-        void *object_slot;
+        void *child_slot;
         s32 target_level;
         register void *final_slot;
-        s16 timer;
+        s16 ticks;
         s32 step;
-        s32 brightness;
+        s32 shade;
         s32 old_coord;
-        s32 delta;
+        s32 step_delta;
         s32 x;
         s32 current_angle;
         u16 old_angle;
@@ -690,13 +690,13 @@ loop_7:
         step = (128 - scene->view.tint.parts.tint_r) / ((S_800253C0_0 *)sequence)->unk_96.n;
         page_cursor = ((u8 *)scene + 0xA8);
         object_index_m = 0;
-        object_slot = sequence;
-        brightness = scene->view.tint.parts.tint_r + step;
-        scene->view.tint.parts.tint_r = brightness;
-        (page_cursor)[2] = brightness;
-        (page_cursor)[1] = brightness;
+        child_slot = sequence;
+        shade = scene->view.tint.parts.tint_r + step;
+        scene->view.tint.parts.tint_r = shade;
+        (page_cursor)[2] = shade;
+        (page_cursor)[1] = shade;
         do {
-            object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+            object_m = ((S_800253C0_4 *)child_slot)->unk_AC;
             if (object_m != 0) {
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
@@ -737,11 +737,11 @@ loop_7:
                 }
             }
             object_index_m++;
-            object_slot = (u8 *)object_slot + 4;
+            child_slot = (u8 *)child_slot + 4;
         } while (object_index_m < 2);
-        timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-        if (timer > 0) {
+        ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        if (ticks > 0) {
             return;
         }
         ((S_800253C0_11 *)page_cursor)->unk_00 = 0x2C808080;

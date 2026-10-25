@@ -11,7 +11,7 @@
 
 extern u8 D_800E1224[];
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *, s32, s16);

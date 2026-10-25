@@ -50,7 +50,8 @@ extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
 extern void enqueue_runtime_pool_script(void *);
-extern void select_sprite_entry(Arg2 *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(Arg3 *);
 extern void play_sound_if_enabled(s32);

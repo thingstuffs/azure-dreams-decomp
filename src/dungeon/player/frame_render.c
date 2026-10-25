@@ -292,7 +292,7 @@ first_scan:
 
         register Entry **entry_slot;
         s32 slot_index;
-        u8 *D_800E0000;
+        u8 *render_page;
         s32 stop_dispatch;
 
         slot_index = 0;

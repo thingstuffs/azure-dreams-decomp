@@ -67,10 +67,10 @@ void render_cd_wait_animation_on_new_field(void)
             trig_value = rsin(scene_sprite_wave_tick * 80);
             {
                 s16 *y_head = scene_sprite_y_history;
-                s32 center_offset;
+                s32 trail_center;
                 wave_offset = trig_value >> 7;
-                center_offset = shift10(trig_value) + 0xB0;
-                *y_head = (s16)(wave_offset + center_offset);
+                trail_center = shift10(trig_value) + 0xB0;
+                *y_head = (s16)(wave_offset + trail_center);
             }
 
             draw_sprite_list();

@@ -247,15 +247,15 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         }
         {
             u16 next_state = 0x18;
-            void *spawned_object;
+            void *child_object;
 
             self->timer = next_state;
             next_state = self->state;
-            spawned_object = self->object;
+            child_object = self->object;
             next_state++;
             self->state = next_state;
-            if (spawned_object != 0) {
-                func_80025508(self, *(void **)((u8 *)spawned_object - 0x18));
+            if (child_object != 0) {
+                func_80025508(self, *(void **)((u8 *)child_object - 0x18));
             }
         }
         break;

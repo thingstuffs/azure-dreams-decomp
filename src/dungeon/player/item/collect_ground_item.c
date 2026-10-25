@@ -51,7 +51,7 @@ extern char D_800E0B07[];
 
 s32 find_floor_item_at_world_position(s32, s32, s32);
 void begin_player_trap_trigger(Ctx *, char *, Item *, Unit *);
-s32 get_unused_text_buffer(void);
+void *get_unused_text_buffer(void);
 char *write_text_byte_and_advance(s8 value, s8 *dest);
 char *expand_text_control_codes(char *, char *);
 char *append_typed_formatted_value(DungeonItemEntry *, char *);
@@ -72,7 +72,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     s32 item_lookup;
     s16 item_id;
     char *message;
-    s32 message_handle;
+    void *message_handle;
     s32 free_entry;
     s32 free_slot;
     s16 slot_index;

@@ -234,11 +234,11 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         {
-            void *active;
+            void *inner_active_actor;
 
-            active = primary_actor_record;
+            inner_active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
-            (((ActiveFieldView_810318E4 *)active)->field_A6)--;
+            (((ActiveFieldView_810318E4 *)inner_active_actor)->field_A6)--;
         }
         advance_status_timers(actor);
         (((ActorFieldView_810318E4 *)actor)->field_6D)--;

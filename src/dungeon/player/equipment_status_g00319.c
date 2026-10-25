@@ -6,7 +6,7 @@
 /* Changes equipped items unless blocked, displays the result, and updates actor sprites and palettes. */
 void equip_item_and_update_status(Arg0 *context, Item *item) {
     s32 value;
-    register s32 result_value;
+    register void *result_value;
     s32 item_index;
     s16 tail_index;
     s16 state;
@@ -121,7 +121,7 @@ void change_equipped_item_and_notify(S_80098614_0 *actor, u8 *requested_item)
     s32 item_id;
     s32 had_equipped;
     s32 text_end;
-    s32 state;
+    void *state;
     s16 equipped;
 
     item = requested_item;

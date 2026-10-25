@@ -24,4 +24,6 @@ void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *spr
 void select_variant_object_data(void *object, void *motion, void *params, void *extra);
 void select_variant_object_data_when_positive(void *object, s32 unused, void *source, void *target);
 
+void display_record_name_message(void *record);
+
 #endif

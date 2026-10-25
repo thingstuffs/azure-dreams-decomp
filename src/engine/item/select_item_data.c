@@ -77,12 +77,12 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
             data_addr = 0x80010324 + ((item->unk3 & 0x1F) * 0x54);
         }
     else {
-        ItemCategory *categories;
+        ItemCategory *category_table;
         if (item->unk1 == 0x16) {
             *out_mode = 7;
         }
-        categories = itemCategoryTable;
-        category = categories + item->unk1;
+        category_table = itemCategoryTable;
+        category = category_table + item->unk1;
         data_addr = (category->record_format == 0)
             ? (((S_8004AC3C_Rec20 *) category->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) category->records)[item->unk0].f4);
     }

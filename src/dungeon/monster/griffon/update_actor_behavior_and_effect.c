@@ -2231,7 +2231,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
         {
             s32 child_or_angle;
             R08_80174648_S_80174648_7 *child_sprite;
-            s32 direction;
+            s32 heading;
 
             if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
@@ -2242,9 +2242,9 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-            direction = (g_game_work.view.camera_rotation.parts.viewAngle + child_or_angle + 0x100) >> 9;
-            direction &= 7;
-            select_indirect_table_entry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
+            heading = (g_game_work.view.camera_rotation.parts.viewAngle + child_or_angle + 0x100) >> 9;
+            heading &= 7;
+            select_indirect_table_entry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + heading))->unk_00,
                 child_sprite->unk_04);
             child_sprite->unk_14 &= 0xFFFE;
         }

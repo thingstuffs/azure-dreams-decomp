@@ -44,10 +44,10 @@ void update_four_phase_animation(TownMapPhaseObject *entity, void *context) {
         break;
     case 1:
     {
-        s32 quarter_ticks;
+        s32 inner_phase_ticks;
 
-        quarter_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = 0x30 - quarter_ticks * 3;
+        inner_phase_ticks = (s16)phase_ticks / 4;
+        entity->unk_66 = 0x30 - inner_phase_ticks * 3;
         entity->radius_bias = 0x20;
         if (entity->ticks.s >= 0x40) {
             entity->ticks.u = 0;
@@ -73,10 +73,10 @@ void update_four_phase_animation(TownMapPhaseObject *entity, void *context) {
     }
     case 3:
     {
-        s32 quarter_ticks;
+        s32 inner_phase_ticks;
 
-        quarter_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = 0x30 - quarter_ticks * 3;
+        inner_phase_ticks = (s16)phase_ticks / 4;
+        entity->unk_66 = 0x30 - inner_phase_ticks * 3;
         entity->radius_bias = 0;
         if (entity->ticks.s < 0x40) {
             break;

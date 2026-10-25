@@ -22,7 +22,8 @@ typedef struct {
 
 extern s32 update_actor_transform_from_parent(Actor *, s32, Entity *, MapObject *);
 
-extern void select_sprite_entry(Entity *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
 extern u8 kewne_action_resume_address[9];
 extern u8 kewne_direction_frames[9];

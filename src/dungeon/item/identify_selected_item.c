@@ -21,11 +21,11 @@ typedef struct S_800BF074_2 {
 extern u8 D_80089374[];
 extern u8 D_800E11F5[];
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(void *, s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -41,8 +41,8 @@ extern s32 feed_actor_restore_mp(void *, s32, s32);
  */
 s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, s32 action_arg) {
     s32 *entity_state;
-    s32 message_pos;
-    s32 saved_message_pos;
+    void *message_pos;
+    void *saved_message_pos;
 
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action_id, action_arg);

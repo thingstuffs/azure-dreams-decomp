@@ -5,7 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(void *request, s32 record_data);
 extern s32 clear_slot_and_update_linked_state(void *slot);
 extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);

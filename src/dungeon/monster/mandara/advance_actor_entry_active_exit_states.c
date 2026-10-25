@@ -309,14 +309,14 @@ second_call:
         effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
-            u16 facing;
+            u16 angle;
             effect->update_callback = mandara_object_callback;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            angle = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
             ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
             ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)angle >> 6;
             ((S_8017382C_0 *)action)->unk_96 = 8;
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 1;

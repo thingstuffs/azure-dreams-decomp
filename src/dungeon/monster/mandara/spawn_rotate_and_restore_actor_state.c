@@ -105,10 +105,10 @@ extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -144,10 +144,10 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     u8 *direction_table;
     u8 *effect_data;
     SpriteFrameState *tile;
-    s32 context;
-    s32 previous_context;
+    void *context;
+    void *previous_context;
     s32 random;
-    s32 result;
+    void *result;
     s32 height;
     s32 ticks_left;
 

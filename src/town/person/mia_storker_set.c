@@ -8,7 +8,7 @@
 #include "shared/position_views.h"
 
 typedef struct Work { u8 pad_00[0x6C]; s16 field_6C; u8 pad_6E[0x28]; s8 field_96; } Work;
-typedef struct Node { u8 pad_00[8]; SignedPositionView *header; s32 aux; u8 pad_10[0x10]; Work work; } Node;
+typedef struct Node { u8 pad_00[8]; ObjectPosition *header; s32 aux; u8 pad_10[0x10]; Work work; } Node;
 extern s32 test_resident_bitmap_bit(s32);
 extern void register_node_if_unregistered(Work * , void *);
 extern Node * create_town_effect_object(void * , s32, void * , void *);

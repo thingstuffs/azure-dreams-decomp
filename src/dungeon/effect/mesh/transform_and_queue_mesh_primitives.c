@@ -12,10 +12,10 @@ typedef struct S_func_8187A800_0 {
     s32 unk_14;
 } S_func_8187A800_0;
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
@@ -32,8 +32,8 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
 void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *unused)
 {
-    s32 message;
-    s32 message_start;
+    void *message;
+    void *message_start;
 
     if (try_trigger_target_record_effect(target, 4, unused) == 0) {
         /*

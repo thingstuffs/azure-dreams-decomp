@@ -1750,7 +1750,7 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
     tick_count = emitter->unk_08 + 1;
     emitter->unk_08 = tick_count;
     if (tick_count & 1) {
-        particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
+        particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (particle != NULL) {
             particle->update_callback = (void *)move_sprite_until_animation_finishes;
             register_node(particle, project_sprite_chain);

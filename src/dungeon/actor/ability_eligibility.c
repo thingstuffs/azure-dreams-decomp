@@ -349,7 +349,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
     if (candidate != base) {
         global_page = (u8 *)0x800e0000;
         while (candidate != base) {
-            void *next_link;
+            void *entry_link;
             if ((s16)check_entity_interaction_compatibility(base, candidate) != 0 && (s16)check_entity_eligibility(candidate) != 0) {
                 candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
                 if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
@@ -379,8 +379,8 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
                     break;
                 }
             }
-            next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
-            candidate = (u8 *)next_link + 0x20;
+            entry_link = ((S_800A3D18_1 *)candidate)->unk_5C;
+            candidate = (u8 *)entry_link + 0x20;
         }
     }
 

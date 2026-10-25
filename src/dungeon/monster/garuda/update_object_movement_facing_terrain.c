@@ -239,10 +239,10 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
         } else {
             if (!(input_part->flags & 0x40) &&
                 input_part->frameTable == garuda_walk_direction_frames) {
-                u16 bob_phase;
-                bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
-                (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)bob_phase * 0xAA) << 5;
+                u16 wave_phase;
+                wave_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
+                (((ObjFieldView_81005278 *)obj)->field_B2) = wave_phase + 1;
+                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)wave_phase * 0xAA) << 5;
             }
             if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
                 floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,

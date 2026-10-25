@@ -2377,14 +2377,14 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
     }
 
     if (rnd != 0) {
-        s16 r;
+        s16 random_offset;
 
-        r = (u16)generate_random_value() % range_x;
-        *out_x = r;
-        wx = cx + r * dir_step_x[dir] + dir_step_x[dir] * wx;
-        r = (u16)generate_random_value() % range_y;
-        *out_y = r;
-        wy = cy + r * dir_step_y[dir] + dir_step_y[dir] * wy;
+        random_offset = (u16)generate_random_value() % range_x;
+        *out_x = random_offset;
+        wx = cx + random_offset * dir_step_x[dir] + dir_step_x[dir] * wx;
+        random_offset = (u16)generate_random_value() % range_y;
+        *out_y = random_offset;
+        wy = cy + random_offset * dir_step_y[dir] + dir_step_y[dir] * wy;
     } else {
         wx = cx + *out_x * dir_step_x[dir] + dir_step_x[dir] * wx;
         wy = cy + *out_y * dir_step_y[dir] + dir_step_y[dir] * wy;

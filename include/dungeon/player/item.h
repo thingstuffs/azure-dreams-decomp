@@ -10,4 +10,7 @@ void snapshot_inventory_familiar_records(void);
 void begin_deferred_player_item_effect(void *object, unsigned long unused_1, void *unused_2, void *mode);
 
 
+/* The final context is null for state 0x2D; a non-null context selects 0x2C. */
+void begin_mode_selected_item_action(void *object_data, void *unused_1, void *unused_2, void *mode);
+
 #endif

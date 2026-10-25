@@ -535,10 +535,10 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     tile_distance -= 1;
                     ((S_80024BE8_0 *)effect)->unk_7B = tile_distance;
                 } else {
-                    u16 target_height;
-                    target_height = ((S_80024BE8_3 *)source)->unk_88;
+                    u16 target_z;
+                    target_z = ((S_80024BE8_3 *)source)->unk_88;
                     ((S_80024BE8_0 *)effect)->unk_7B = default_steps;
-                    ((S_80024BE8_0 *)effect)->unk_78.u = target_height - 0x50;
+                    ((S_80024BE8_0 *)effect)->unk_78.u = target_z - 0x50;
                 }
 
                 motion->velocity_x = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].x
@@ -573,14 +573,14 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
         particle_count_m = 0;
         do {
-            s32 direction;
+            s32 heading;
             s32 particle_color;
             s32 intensity;
             random_intensity = rand();
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
-            direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-            spawn_scattered_point_particle((u8 *)effect - 0x20, direction, particle_color, intensity, 0, 0, 0);
+            heading = ((S_80024BE8_0 *)effect)->unk_7E.s;
+            spawn_scattered_point_particle((u8 *)effect - 0x20, heading, particle_color, intensity, 0, 0, 0);
             particle_count_m++;
         } while (particle_count_m < 4);
 
@@ -711,7 +711,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
     case 3:
     {
         s32 color_step;
-        u16 prev_state;
+        u16 previous_phase;
 
         color_step = ((S_80024BE8_0 *)effect)->unk_86.u;
         color_step += 2;
@@ -721,10 +721,10 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         ((S_80024BE8_14 *)target_graphics)->unk_0D = 0x70 - ((S_80024BE8_0 *)effect)->unk_86.s * 3;
         ((S_80024BE8_14 *)target_graphics)->unk_0C = 0x70 - ((S_80024BE8_0 *)effect)->unk_86.s * 3;
         if (((S_80024BE8_0 *)effect)->unk_86.s >= 0x24) {
-            prev_state = ((S_80024BE8_0 *)effect)->unk_0A.u;
+            previous_phase = ((S_80024BE8_0 *)effect)->unk_0A.u;
             ((S_80024BE8_0 *)effect)->unk_86.u = 0;
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
-            ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
+            ((S_80024BE8_0 *)effect)->unk_0A.u = previous_phase + 1;
             break;
         }
         break;
@@ -738,7 +738,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         s32 particle_kind;
         u16 direction_preload;
         s32 animation_mode;
-        u16 prev_state;
+        u16 previous_phase;
         s32 side;
         s32 jitter;
         s32 coord;
@@ -826,9 +826,9 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
         ((S_80024BE8_0 *)effect)->unk_86.u = scale_step;
         if ((s16)scale_step >= 0x3D) {
             scale_step = 0x28;
-            prev_state = ((S_80024BE8_0 *)effect)->unk_0A.u;
+            previous_phase = ((S_80024BE8_0 *)effect)->unk_0A.u;
             ((S_80024BE8_0 *)effect)->unk_86.u = scale_step;
-            ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
+            ((S_80024BE8_0 *)effect)->unk_0A.u = previous_phase + 1;
             break;
         }
         break;
@@ -836,7 +836,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
     case 5:
     {
-        void *target;
+        void *target_actor;
         void *current_target;
         s32 target_flag;
         u16 scale_step;
@@ -863,8 +863,8 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             ((S_80024BE8_0 *)effect)->unk_86.u = 0;
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
             ((S_80024BE8_0 *)effect)->unk_0A.s++;
-            target = ((S_80024BE8_3 *)source)->unk_60;
-            ((S_80024BE8_19 *)target)->unk_1C ^= target_flag;
+            target_actor = ((S_80024BE8_3 *)source)->unk_60;
+            ((S_80024BE8_19 *)target_actor)->unk_1C ^= target_flag;
             current_target = ((S_80024BE8_3 *)source)->unk_60;
             target_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
             ((S_80024BE8_21 *)target_graphics)->unk_0C = 0x80;

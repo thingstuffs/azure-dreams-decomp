@@ -57,7 +57,8 @@ typedef struct {
 
 extern u32 D_801751C4;
 extern void register_node(FuncTemp *, u8 *);
-extern void select_sprite_entry(FuncInner *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
 /* Creates a directional effect and initializes its sprite and offset position. */
 s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, SpriteFrameState *render_source) {

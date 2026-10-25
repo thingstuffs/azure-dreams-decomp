@@ -36,7 +36,7 @@ typedef struct S_800BA00C_1 {
     s32 unk_00;
     s32 unk_04;
     union { u8 * p; s32 i; } unk_08;   /* accessed as both */
-    u8 * unk_0C;
+    SpriteFrameState *unk_0C;
     void * unk_10;
 } S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
 

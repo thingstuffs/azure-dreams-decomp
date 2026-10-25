@@ -21,7 +21,8 @@ typedef struct {
 } IndexSource;
 
 extern u8 D_801765E8[9];
-extern void select_sprite_entry(Context *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
 // Initializes state and applies a table value selected by the combined indices.
 void initialize_directional_state_sprite(State *state, s32 unused, SpriteFrameState *context, IndexSource *indexSource)

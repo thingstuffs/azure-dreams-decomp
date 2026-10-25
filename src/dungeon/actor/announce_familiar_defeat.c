@@ -12,12 +12,12 @@ extern u8 dungeon_event_pending_flag[];
 extern u8 familiar_defeat_text[];
 extern u8 D_800E0C78[];
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 copy_four_text_bytes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern void *copy_four_text_bytes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
@@ -25,8 +25,8 @@ void announce_familiar_defeat(void *input_data) {
     void *context;
     u16 *flag_page;
     void *saved_input;
-    s32 initial_result;
-    s32 result;
+    void *initial_result;
+    void *result;
     u16 counter;
 
     flag_page = (u16 *)0x80010000;

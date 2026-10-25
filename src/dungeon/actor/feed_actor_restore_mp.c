@@ -12,10 +12,10 @@ typedef struct {
     u8 unk66;
 } DungeonState;
 
-extern s32 get_unused_text_buffer(void);
+extern void *get_unused_text_buffer(void);
 extern s32 get_entity_effect_value(DungeonState *entry, s32 effect_id);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -29,9 +29,9 @@ extern u8 D_800E0D36[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
 s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
-    s32 message;
+    void *message;
     s32 meter;
-    s32 base_message;
+    void *base_message;
     s32 old_meter;
 
     base_message = get_unused_text_buffer();

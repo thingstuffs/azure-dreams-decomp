@@ -45,28 +45,28 @@
     "-fmax-errors=0"
   ],
   "by_class": {
-    "-Wint-conversion": 940,
-    "-Wpointer-to-int-cast": 1020,
-    "-Wint-to-pointer-cast": 907,
+    "-Wint-conversion": 915,
+    "-Wpointer-to-int-cast": 1012,
+    "-Wint-to-pointer-cast": 901,
     "-Wreturn-type": 5,
-    "-Wshadow": 59,
+    "-Wshadow": 9,
     "-Wuninitialized": 2,
     "-Wmaybe-uninitialized": 3,
-    "-Wincompatible-pointer-types": 1264,
+    "-Wincompatible-pointer-types": 1218,
     "-Wimplicit-function-declaration": 28,
     "-Warray-bounds": 0,
     "-Wsizeof-pointer-memaccess": 0
   },
   "by_subsystem": {
     "dungeon": {
-      "-Wint-conversion": 608,
-      "-Wpointer-to-int-cast": 629,
-      "-Wint-to-pointer-cast": 481,
+      "-Wint-conversion": 583,
+      "-Wpointer-to-int-cast": 621,
+      "-Wint-to-pointer-cast": 476,
       "-Wreturn-type": 4,
-      "-Wshadow": 38,
+      "-Wshadow": 8,
       "-Wuninitialized": 1,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 883,
+      "-Wincompatible-pointer-types": 851,
       "-Wimplicit-function-declaration": 15,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
@@ -74,12 +74,12 @@
     "engine": {
       "-Wint-conversion": 54,
       "-Wpointer-to-int-cast": 77,
-      "-Wint-to-pointer-cast": 93,
+      "-Wint-to-pointer-cast": 92,
       "-Wreturn-type": 1,
-      "-Wshadow": 3,
+      "-Wshadow": 0,
       "-Wuninitialized": 0,
       "-Wmaybe-uninitialized": 0,
-      "-Wincompatible-pointer-types": 140,
+      "-Wincompatible-pointer-types": 132,
       "-Wimplicit-function-declaration": 1,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
@@ -89,7 +89,7 @@
       "-Wpointer-to-int-cast": 26,
       "-Wint-to-pointer-cast": 39,
       "-Wreturn-type": 0,
-      "-Wshadow": 1,
+      "-Wshadow": 0,
       "-Wuninitialized": 0,
       "-Wmaybe-uninitialized": 0,
       "-Wincompatible-pointer-types": 29,
@@ -167,10 +167,10 @@
       "-Wpointer-to-int-cast": 272,
       "-Wint-to-pointer-cast": 288,
       "-Wreturn-type": 0,
-      "-Wshadow": 17,
+      "-Wshadow": 1,
       "-Wuninitialized": 1,
       "-Wmaybe-uninitialized": 0,
-      "-Wincompatible-pointer-types": 208,
+      "-Wincompatible-pointer-types": 202,
       "-Wimplicit-function-declaration": 8,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
@@ -178,31 +178,31 @@
   },
   "by_mode": {
     "m32": {
-      "-Wint-conversion": 940,
+      "-Wint-conversion": 915,
       "-Wpointer-to-int-cast": 16,
       "-Wint-to-pointer-cast": 30,
       "-Wreturn-type": 5,
-      "-Wshadow": 59,
+      "-Wshadow": 9,
       "-Wuninitialized": 2,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 1264,
+      "-Wincompatible-pointer-types": 1218,
       "-Wimplicit-function-declaration": 28,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     },
     "m64": {
-      "-Wint-conversion": 940,
-      "-Wpointer-to-int-cast": 1020,
-      "-Wint-to-pointer-cast": 907,
+      "-Wint-conversion": 915,
+      "-Wpointer-to-int-cast": 1012,
+      "-Wint-to-pointer-cast": 901,
       "-Wreturn-type": 5,
-      "-Wshadow": 59,
+      "-Wshadow": 9,
       "-Wuninitialized": 2,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 1264,
+      "-Wincompatible-pointer-types": 1218,
       "-Wimplicit-function-declaration": 28,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     }
   },
-  "normalized_findings": 4228
+  "normalized_findings": 4093
 }

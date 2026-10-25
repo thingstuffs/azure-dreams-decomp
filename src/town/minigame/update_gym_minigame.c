@@ -317,9 +317,9 @@ loop_0:
 
             if (obj != NULL) {
                 s32 random;
-                u8 *sprite;
+                u8 *child_sprite;
 
-                sprite = (u8 *)obj + 0x20;
+                child_sprite = (u8 *)obj + 0x20;
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = obj->sprite;
@@ -330,18 +330,18 @@ loop_0:
                 image->frame_ticks = 0;
                 image->color.word = 0x808080;
                 random = rand();
-                ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
-                ((S_80022F60_5 *)sprite)->unk_52 = (rand() & 0x1F) + 0x20;
+                ((S_80022F60_5 *)child_sprite)->unk_54 = random % 3;
+                ((S_80022F60_5 *)child_sprite)->unk_52 = (rand() & 0x1F) + 0x20;
                 position = *(s32 * *)&obj->position;
                 position[0] = 0x02A00000;
                 position[1] = 0x03800000;
                 position[2] = 0xFFC00000;
                 position[3] =
-                    (((gym_lane_positions[((S_80022F60_5 *)sprite)->unk_54] +
-                       ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
-                    ((S_80022F60_5 *)sprite)->unk_52;
+                    (((gym_lane_positions[((S_80022F60_5 *)child_sprite)->unk_54] +
+                       ((S_80022F60_5 *)child_sprite)->unk_54 * 8) << 16) - position[0]) /
+                    ((S_80022F60_5 *)child_sprite)->unk_52;
                 position[5] = 0xFFF40000;
-                position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
+                position[4] = 0x180000 / ((S_80022F60_5 *)child_sprite)->unk_52;
                 ((S_80022F60_3 *)obj)->unk_20 = state_obj;
             }
         }
@@ -369,7 +369,7 @@ loop_0:
             obj = allocate_flagged_object_node(0x136);
 
             if (obj != NULL) {
-                s32 *position;
+                s32 *child_position;
 
                 sprite = (u8 *)obj + 0x20;
                 obj->update_callback = gym_score_update_address;
@@ -383,16 +383,16 @@ loop_0:
                 image->color.word = 0x808080;
                 ((S_80022F60_5 *)sprite)->unk_54 = 1;
                 ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
-                position = *(s32 * *)&obj->position;
-                position[0] = 0x02A00000;
-                position[1] = two;
-                position[2] = 0xFFC00000;
-                position[3] =
+                child_position = *(s32 * *)&obj->position;
+                child_position[0] = 0x02A00000;
+                child_position[1] = two;
+                child_position[2] = 0xFFC00000;
+                child_position[3] =
                     (((gym_lane_positions[((S_80022F60_5 *)sprite)->unk_54] +
-                       ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
+                       ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - child_position[0]) /
                     ((S_80022F60_5 *)sprite)->unk_52;
-                position[5] = 0xFFF40000;
-                position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
+                child_position[5] = 0xFFF40000;
+                child_position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
                 ((S_80022F60_3 *)obj)->unk_20 = state_obj;
                 ((S_80022F60_5 *)sprite)->unk_50 = 0x40;
             }

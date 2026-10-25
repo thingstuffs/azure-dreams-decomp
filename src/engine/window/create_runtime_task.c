@@ -7,6 +7,8 @@
 #include "engine/window.h"
 #include "sdk/libc.h"
 
+struct Func80037F70Outer;
+
 typedef struct RuntimeTail {
     u8 pad00[0x85];
     u8 field85;
@@ -37,7 +39,7 @@ typedef struct RuntimeLinks {
 
 typedef struct RuntimeTask {
     u8 pad00[0x10];
-    void (*field10)(RuntimeLinks *);
+    void (*field10)(struct Func80037F70Outer *);
     u8 pad14[0x0C];
     RuntimeLinks field20;
 } RuntimeTask;

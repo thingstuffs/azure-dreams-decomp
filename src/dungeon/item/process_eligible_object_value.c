@@ -17,8 +17,8 @@ extern u8 D_800E18C0[];
 extern u8 D_80088CA8[];
 
 extern s32 get_item_category_flags(Object *item);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_typed_formatted_value(void *data, s32 buffer);
 extern void clear_selected_item_flag_400(void *selection);
 

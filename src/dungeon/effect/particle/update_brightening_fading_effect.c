@@ -291,11 +291,11 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
     if (phase_or_height == 0) {
         ticks_left = state->unk_4C;
         if (ticks_left > 0) {
-            s32 phase_or_height;
-            phase_or_height = state->unk_3C;
+            s32 fragment_height;
+            fragment_height = state->unk_3C;
             state->unk_3C =
                 (u16)state->unk_3C +
-                ((state->unk_62 + state->unk_60 - phase_or_height) / ticks_left);
+                ((state->unk_62 + state->unk_60 - fragment_height) / ticks_left);
             motion->unk_08.at02.v =
                 ((u16)state->unk_3C + (rand() & 3)) - 2;
         }

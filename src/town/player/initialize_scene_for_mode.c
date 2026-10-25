@@ -123,10 +123,10 @@ void synchronize_mode_and_pending_callback(void) {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
             enabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (enabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
-                s32 mode_result;
-                mode_result = load_alternate_town_sprite_bundle();
-                loaded_sprite_bundle_attributes = mode_result;
-                update_state->render_attributes = mode_result;
+                s32 selected_mode;
+                selected_mode = load_alternate_town_sprite_bundle();
+                loaded_sprite_bundle_attributes = selected_mode;
+                update_state->render_attributes = selected_mode;
             }
         }
         if (test_resident_bitmap_bit(F_player_mizugi) != 0) {

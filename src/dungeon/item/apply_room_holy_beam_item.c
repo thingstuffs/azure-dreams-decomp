@@ -19,11 +19,11 @@ typedef struct {
 extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_formatted_context_message(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -51,8 +51,8 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
 {
     DungeonRecord *record;
     u8 *record_obj;
-    s32 random_value;
-    s32 event_value;
+    void *random_value;
+    void *event_value;
     s8 record_index;
 
     if (action == 13) {

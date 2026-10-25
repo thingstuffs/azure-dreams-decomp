@@ -448,12 +448,12 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     do {
                         object_or_flags = (s32) ((S_8002520C_17 *)side_ptr)->unk_0C;
                         if (object_or_flags != 0) {
-                            s32 flags_or_page;
-                            flags_or_page = ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E;
+                            s32 saved_flags;
+                            saved_flags = ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E;
                             object_or_state = ((S_8002520C_19 *)side_data)->unk_14A0;
-                            flags_or_page |= 0x8000;
+                            saved_flags |= 0x8000;
                             object_or_state |= 0x8000;
-                            ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E = (u16) flags_or_page;
+                            ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E = (u16) saved_flags;
                             ((S_8002520C_19 *)side_data)->unk_14A0 = object_or_state;
                         }
                         side_count += 1;

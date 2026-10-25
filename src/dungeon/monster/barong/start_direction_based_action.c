@@ -27,10 +27,10 @@ void start_direction_based_action(void *action_state, void *unused, SpriteFrameS
     apply_scaled_entity_velocity(state_data);
 
     if (*(s8 *)(state_data + 0x6D) != 0) {
-        u8 *state_data;
+        u8 *action_data;
         *(u8 *)((u8 *)object + 0x71) &= 0x7F;
-        state_data = ((u8 *)(&g_dungeon_status));
-        if (!(*(u16 *)(state_data + 2) & 0x2000)) {
+        action_data = ((u8 *)(&g_dungeon_status));
+        if (!(*(u16 *)(action_data + 2) & 0x2000)) {
             direction_table = D_801755B4;
             *(s8 *)((u8 *)action_state + 0x9A) = 0x17;
             *(s32 *)((u8 *)action_state + 0x8C) = 0;
@@ -42,7 +42,7 @@ void start_direction_based_action(void *action_state, void *unused, SpriteFrameS
             select_sprite_entry(animation, direction_table[data_page & 7], 0);
             advance_status_timers(object);
             *(u8 *)((u8 *)object + 0x6D) -= 1;
-            *(u16 *)(state_data + 0xA) += 1;
+            *(u16 *)(action_data + 0xA) += 1;
         }
     }
 }

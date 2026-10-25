@@ -53,13 +53,13 @@ s16 *build_four_value_entry_result(s32 unused, s32 index) {
                 break;
             default:
             {
-                TownEntry *entry;
+                TownEntry *found_entry;
 
                 copy_dest = (u16 *)&D_80110004[0x31FC];
                 copy_entries = (TownEntry *)&D_800D0004[0x4090];
-                entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
-                copy_dest[2] = entry->unk6;
-                copy_dest[3] = entry->unk8;
+                found_entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
+                copy_dest[2] = found_entry->unk6;
+                copy_dest[3] = found_entry->unk8;
             }
                 break;
             }

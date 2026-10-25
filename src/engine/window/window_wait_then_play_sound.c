@@ -6,11 +6,14 @@
 #include "engine/window.h"
 #include "engine/window/message.h"
 
+struct Rec_func_80036210_arg0;
+struct S_80035C44_0;
+
 typedef struct Func80035BE0State {
     u8 pad00[0x64];
     u16 counter;
     u8 pad66[2];
-    void (*callback)(void *, void *);
+    void (*callback)(struct Rec_func_80036210_arg0 *, struct S_80035C44_0 *);
     u8 pad6c[0x0c];
     u8 resource_group;
     s8 resource_index;

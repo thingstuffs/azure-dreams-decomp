@@ -210,15 +210,15 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, SpriteFra
         u32 entity_flags;
 
         if (entity->mp != 0) {
-            s32 *dungeon_state;
+            s32 *status_page;
 
             (animation->frameTable) = death_frame_set_3;
             select_sprite_entry(animation,
                 death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
-            dungeon_state = &g_dungeon_status.turn_scale;
-            ((S_8017409C_2 *)dungeon_state)->unk_0A++;
+            status_page = &g_dungeon_status.turn_scale;
+            ((S_8017409C_2 *)status_page)->unk_0A++;
             ((S_8017409C_0 *)actor)->unk_9B++;
             return;
         }

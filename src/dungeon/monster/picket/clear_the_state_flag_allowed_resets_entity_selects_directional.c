@@ -26,7 +26,8 @@ typedef struct {
 } State;
 
 #include "dungeon/player/object/action_state.h"
-extern void select_sprite_entry(Object *object, u8 value, s32 entry_index);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern u8 picket_frame_set_4[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */

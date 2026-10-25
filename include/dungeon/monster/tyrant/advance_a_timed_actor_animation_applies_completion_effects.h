@@ -8,7 +8,7 @@
 
 typedef struct {
     u8 pad0[0x8C];
-    s32 *field8C;
+    void (*field8C)();
     u8 pad90[6];
     u16 field96;
     u16 field98;
@@ -36,7 +36,8 @@ typedef struct {
 } T_801727CC_Obj3;
 
 
-extern void select_sprite_entry(T_801727CC_Obj2 *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void func_80047784(T_801727CC_Obj2 *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);

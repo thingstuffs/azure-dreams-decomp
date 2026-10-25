@@ -1417,7 +1417,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         s32 packed_pos;
         s32 packed_size;
         ColorsView *colors;
-        s32 state;
+        s32 phase;
         render_data->unk_0C.at00.v = 0x00808080;
         packed_pos = 0x1400340;
         self->copy12 = D_80026698;
@@ -1434,9 +1434,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         out_pair.pair.a = packed_pos;
         out_pair.pair.b = packed_size;
         draw_textured_ellipse(colors, &out_pair.pair, 1, 0);
-        state = self->state.u;
+        phase = self->state.u;
         wave_effect_update_flag = 1;
-        self->state.u = state + 1;
+        self->state.u = phase + 1;
     }
 
     case 1:

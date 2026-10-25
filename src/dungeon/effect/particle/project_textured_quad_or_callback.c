@@ -23,10 +23,10 @@ extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern u8 D_800E1C8A[38];
 
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
@@ -36,8 +36,8 @@ extern s32 get_random_scaled_value(s16 input_value);
 /* Applies a directional effect and reports the result for flagged entities. */
 void apply_random_duration_actor_status(void *entity, s32 direction, void *unused)
 {
-    s32 message_start;
-    s32 message_end;
+    void *message_start;
+    void *message_end;
 
     if (try_trigger_target_record_effect(entity, 2, unused) == 0) {
         /*

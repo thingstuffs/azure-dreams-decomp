@@ -11,14 +11,14 @@
 
 extern s32 get_entity_effect_value(void *actor, s32 value);
 extern void clear_slots_of_type(void *actor, s32 value);
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(void *object_data);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_typed_formatted_value(void *object_data, s32 value);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 write_status_prefix_bytes(s32 value);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
@@ -69,7 +69,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     s32 object_fields;
     u8 *entries;
     s32 object;
-    s32 handle;
+    void *handle;
     s16 entry_index;
 
     if (actor == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {

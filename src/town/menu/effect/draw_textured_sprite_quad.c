@@ -158,11 +158,11 @@ void draw_textured_sprite_quad(void *sprite, s32 position) {
         ((S_800A17CC_1 *)textured_quad)->unk_14 = right_u;
     }
     {
-        s32 texture_y;
+        s32 source_y;
         s32 top_v;
 
-        texture_y = ((S_800A17CC_2 *)sprite)->unk_6E;
-        top_v = texture_y % 0x100;
+        source_y = ((S_800A17CC_2 *)sprite)->unk_6E;
+        top_v = source_y % 0x100;
         ((S_800A17CC_1 *)textured_quad)->unk_15 = top_v;
         ((S_800A17CC_1 *)textured_quad)->unk_0D = top_v;
     }

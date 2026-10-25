@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_BC9094_H
 #define DUNGEON_OVL_BC9094_H
+
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -34,7 +36,7 @@ typedef struct Body {
 typedef struct Object {
     u8 pad_00[8];
     ChildA *child_a_08;
-    ChildB *child_b_0C;
+    SpriteFrameState *child_b_0C;
     void *field_10;
     u8 pad_14[12];
     Body body_20;

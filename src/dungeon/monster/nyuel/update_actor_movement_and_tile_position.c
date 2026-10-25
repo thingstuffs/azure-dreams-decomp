@@ -96,11 +96,11 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
             else {
                 {
                     s32 direction = *(u8 *)(actor + 0x45);
-                    s32 base_angle = *((s16 *) (((u8 *) primary_actor_record) + 0x2A));
+                    s32 player_angle = *((s16 *) (((u8 *) primary_actor_record) + 0x2A));
                     s32 direction_offset;
                     s32 target_x;
                     s32 target_y;
-                    direction += base_angle >> 9;
+                    direction += player_angle >> 9;
                     direction_offset = (direction & 7) * 2;
                     target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
                     target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));

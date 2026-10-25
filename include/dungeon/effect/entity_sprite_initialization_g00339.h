@@ -30,7 +30,7 @@ typedef struct S_800B23F8_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)();
 } S_800B23F8_0;
 
 /* obj in create_mode_configured_object */

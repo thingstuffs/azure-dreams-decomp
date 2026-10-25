@@ -1780,15 +1780,15 @@ void wait_for_flame_mp(void *entity, void *context, SpriteFrameState *anim, void
         u32 actor_flags;
 
         if (((R06_801738E0_S_801738E0_3 *)actor)->unk_25 != 0) {
-            s32 *scene_state;
+            s32 *status_page;
 
             (anim->frameTable) = ((u8 *)flame_frame_set_1);
             select_sprite_entry(anim,
                 ((u8 *)flame_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R06_801738E0_S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C |= 0x40000;
-            scene_state = &g_dungeon_status.turn_scale;
-            ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A++;
+            status_page = &g_dungeon_status.turn_scale;
+            ((R06_801738E0_S_801738E0_2 *)status_page)->unk_0A++;
             ((R06_801738E0_S_801738E0_0 *)entity)->unk_9B++;
             return;
         }
@@ -2820,7 +2820,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
         {
             void *child;
             SpriteFrameState *child_obj;
-            s16 direction;
+            s16 heading;
 
             if ((((R06_80175270_S_80175270_1 *)actor)->unk_60 = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
@@ -2830,9 +2830,9 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_2A.u;
             child = ((R06_80175270_S_80175270_1 *)actor)->unk_60;
             child_obj = ((R06_80175270_S_80175270_6_pre *)child)[-1].unk_00;
-            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
-            direction &= 7;
-            select_indirect_table_entry(child_obj, ((R06_80175270_S_80175270_10 *)(*(u8 **)&child_obj->frameTable + direction))->unk_00, child_obj->unk_04);
+            heading = (g_game_work.view.camera_rotation.parts.viewAngle + ((R06_80175270_S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
+            heading &= 7;
+            select_indirect_table_entry(child_obj, ((R06_80175270_S_80175270_10 *)(*(u8 **)&child_obj->frameTable + heading))->unk_00, child_obj->unk_04);
             child_obj->flags &= 0xFFFE;
         }
 

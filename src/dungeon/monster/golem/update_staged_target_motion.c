@@ -190,7 +190,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
         {
             S_81087818_3 *node;
             s32 axis = 1;
-            s32 distance_x;
+            s32 x_distance;
             s32 distance_y;
             s32 distance_z;
             u8 *delta_scan;
@@ -201,19 +201,19 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
             s32 position_z;
 
             node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
-            distance_x = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
-            motion->unk_28.word = ((s32 *)distance_x)[0];
-            motion->unk_2C.word = ((s32 *)distance_x)[1];
+            x_distance = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
+            motion->unk_28.word = ((s32 *)x_distance)[0];
+            motion->unk_2C.word = ((s32 *)x_distance)[1];
             height = entity_height_offsets[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
-            position_z = ((s32 *)distance_x)[2];
-            distance_x = motion->unk_28.half.unk_2A;
+            position_z = ((s32 *)x_distance)[2];
+            x_distance = motion->unk_28.half.unk_2A;
             motion->unk_30.word = position_z - (height << 15);
 
             origin_x = ((S_81087818_4 *)&base)->unk_02.s;
             origin_y = ((S_81087818_4 *)&base)->unk_06.s;
-            distance_x -= origin_x;
-            distance_x = abs(distance_x);
-            delta[0] = distance_x;
+            x_distance -= origin_x;
+            x_distance = abs(x_distance);
+            delta[0] = x_distance;
             distance_y = motion->unk_2C.half.unk_2E - origin_y;
             distance_y = abs(distance_y);
             delta[1] = distance_y;

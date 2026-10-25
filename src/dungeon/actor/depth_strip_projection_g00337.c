@@ -118,7 +118,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
         coord = rsin(angle) * 6 - offset_y;
 
         for (;;) {
-            s32 end_y;
+            s32 segment_end_y;
             next_angle = start_angle;
             next_angle -= 0x80;
             angle = next_angle;
@@ -133,13 +133,13 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             call_scratch = scratch;
             call_previous = last_result;
             scaled_coord = raw_y * 6;
-            end_y = scaled_coord - offset_y;
+            segment_end_y = scaled_coord - offset_y;
             call_value = (s32)shape;
             call_segment = segment;
             scratch[0x80 / 2] = coord;
             scratch[0x70 / 2] = coord;
-            scratch[0x82 / 2] = end_y;
-            scratch[0x72 / 2] = end_y;
+            scratch[0x82 / 2] = segment_end_y;
+            scratch[0x72 / 2] = segment_end_y;
             result = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, call_previous, 1);
             next_angle -= 0x80;
             if (result == 0)
@@ -148,8 +148,8 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *s
             start_angle = next_angle;
             scratch[0x88 / 2] = coord;
             scratch[0x78 / 2] = coord;
-            scratch[0x8a / 2] = end_y;
-            scratch[0x7a / 2] = end_y;
+            scratch[0x8a / 2] = segment_end_y;
+            scratch[0x7a / 2] = segment_end_y;
             end_x = rcos(next_angle) * 6 - offset_x;
             start_x = end_x;
             scaled_coord = rsin(next_angle) * 6 - offset_y;

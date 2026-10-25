@@ -34,10 +34,10 @@ typedef struct S_80173C20_1 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -56,7 +56,7 @@ extern u8 D_801740A0[];
 void advance_directional_lift_effect(void *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data)
 {
     s32 state;
-    s32 saved;
+    void *saved;
     s32 value;
     s32 index;
     u16 timer;

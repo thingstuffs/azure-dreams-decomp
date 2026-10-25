@@ -9,7 +9,7 @@
 
 typedef struct S_800C0C48_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)();
 } S_800C0C48_0;
 
 /* extern */

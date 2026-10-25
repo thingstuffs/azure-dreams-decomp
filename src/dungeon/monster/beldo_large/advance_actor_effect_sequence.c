@@ -39,7 +39,8 @@ struct Aux {
     u8 *sequence;
 };
 
-extern s32 select_sprite_entry(Aux *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void play_sound_if_enabled(s32);
 extern void update_actor_status_and_mp(Entity *);

@@ -125,7 +125,7 @@ s32 draw_projected_linked_records(void *first_record) {
         }
         {
             u32 tag_word;
-            ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
+            ot_entry = (void *)&((u8 *)(*render_root))[ot_slot];
             tag_word = ot_entry->unk_B0;
             setaddr((u8 *)ot_entry + 0xB0, primitive);
         }

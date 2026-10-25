@@ -21,7 +21,7 @@ typedef struct S_800A3508_1 {
 } S_800A3508_1;
 
 typedef struct S_800A378C_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x1E];
     s16 unk_22;
     s32 unk_24;

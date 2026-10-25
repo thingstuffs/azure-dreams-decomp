@@ -21,7 +21,8 @@ typedef struct {
 } IndexSource;
 
 extern u8 D_8017387C[9];
-extern void select_sprite_entry(Context *, s16, s16);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
 void initialize_eight_way_action_state(State *state, s32 unused, SpriteFrameState *context, IndexSource *directionSource)

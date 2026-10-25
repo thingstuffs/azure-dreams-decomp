@@ -4,8 +4,10 @@
 #include "engine/menu.h"
 #include "slus.h"
 
+struct S_8004F95C;
+
 typedef struct S_8004FA2C {
-    void (*f0)(void *self);   /* 0x00 - callback, compared to animate_selection_menu_entry_spacing */
+    void (*f0)(struct S_8004F95C *);   /* 0x00 - callback, compared to animate_selection_menu_entry_spacing */
     u8 pad04[0x20 - 0x4];
     s32 f20;                  /* 0x20 */
     s32 f24;                  /* 0x24 */

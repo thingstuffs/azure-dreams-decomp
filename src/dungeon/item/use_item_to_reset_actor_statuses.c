@@ -9,10 +9,10 @@ extern void apply_entity_effects(void *);
 extern void clear_slots_of_type(void *, s8);
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
@@ -23,10 +23,10 @@ extern u8 D_800E0EC9[24];
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
 s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
 {
-    s32 handle;
-    s32 msg_value;
+    void *handle;
+    void *msg_value;
     register s32 *msg;
-    register s32 msg_arg;
+    register void *msg_arg;
     DungeonGlobalStatus *counters;
     s32 slot;
     if (actor == (((u8 *)dungeon_actor_ring_anchor))) {

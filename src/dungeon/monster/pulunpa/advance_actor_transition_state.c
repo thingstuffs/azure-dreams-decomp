@@ -17,7 +17,7 @@ extern u8 find_entity_slot_by_field_ac(void *);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern void display_record_name_message(void *);
+#include "dungeon/monster/pulunpa.h"
 
 extern u8 pulunpa_variant_action_address;
 

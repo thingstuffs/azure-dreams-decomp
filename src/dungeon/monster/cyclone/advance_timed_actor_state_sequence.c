@@ -47,7 +47,8 @@ extern u8 cyclone_move_direction_frames[8];
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(D3 *, s32);
-extern void select_sprite_entry(D2 *, u8, s32);
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void create_directional_target_object(D0 *, void *, D2 *);
 extern void format_entity_message(s32, D3 *);
 

@@ -11,7 +11,8 @@ typedef struct S_80172688_1 {
     s16 unk_2A;
 } S_80172688_1;   /* arg3 in initialize_actor_facing_sprite */
 
-extern void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
+struct SpriteFrameState;
+extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);         /* extern */
 extern u8 D_80174E04;
 
 /* Initialize actor state and select the sprite frame for its facing angle. */

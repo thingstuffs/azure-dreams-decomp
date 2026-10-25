@@ -4,9 +4,11 @@
 #include "common.h"
 #include "engine/message.h"
 
+struct Func80038A10State;
+
 typedef struct {
     u8 pad0[0x10];
-    void (*func10)(void *);
+    void (*func10)(struct Func80038A10State *);
     u8 pad14[4];
     u16 half18;
     u8 pad1A[0x14];

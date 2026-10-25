@@ -24,7 +24,8 @@ typedef struct S_80174A9C_1 {
     s8 unk_9B;
 } S_80174A9C_1;   /* arg0 in begin_actor_directional_target_action */
 
-void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
+struct SpriteFrameState;
+void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 s32 find_eligible_actor_at_tile_and_height();
 s32 try_claim_dungeon_action_slot();
 s32 advance_status_timers();

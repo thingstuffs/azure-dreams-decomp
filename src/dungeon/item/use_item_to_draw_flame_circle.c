@@ -25,7 +25,7 @@ typedef struct S_800C13C8_1 {
 
 
 
-void begin_mode_selected_item_action(); /* extern */
+#include "dungeon/player/item.h" /* extern */
 s32 process_record_and_update_linked_state(s32, s32);           /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message(void *context);                   /* extern */

@@ -489,11 +489,11 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
             else {
                 {
                     s32 direction = *(u8 *)(actor + 0x45);
-                    s32 base_angle = primary_actor_record->facing;
+                    s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
                     s32 target_y;
-                    direction += base_angle >> 9;
+                    direction += player_angle >> 9;
                     direction_offset = (direction & 7) * 2;
                     target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
                     target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
@@ -1903,7 +1903,7 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
     owner = owner_arg;
     resolve_record_orientation_or_fallback(origin->unk_08, origin, (s16 *)offsets, 0);
     effect_index = 0;
-    effect_data = (s32 *)((u32)dampen_actor_motion);
+    effect_data = (s32 *)(dampen_actor_motion);
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {

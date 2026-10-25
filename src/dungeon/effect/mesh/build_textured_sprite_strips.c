@@ -15,7 +15,7 @@ const s16 strip_direction_steps[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},
 /* Apply a chance-based effect that halves the entity counter and reports the result. */
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
     s32 roll;
-    s32 effect_result;
+    void *effect_result;
     s32 chance_value;
     s32 removed_count;
     s32 roll_remainder;
@@ -47,9 +47,9 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
         removed_count = (entity[0x27] + 1) >> 1;
         entity[0x27] -= removed_count;
         {
-            s32 message_arg;
+            void *message_arg;
             s32 format_code;
-            s32 result_arg;
+            void *result_arg;
 
             message_arg = get_unused_text_buffer((s32)effect_input, chance_value);
             format_code = 8;

@@ -66,9 +66,9 @@ u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type) {
         slot_index = 4;
     } else {
         if ((s16)slot_type == 2) {
-            u8 *result;
-            result = monster_fixed_resource_slot;
-            return result;
+            u8 *slot_result;
+            slot_result = monster_fixed_resource_slot;
+            return slot_result;
         }
         entry = monster_resource_cache_slots;
         if (entry[0x11] == 0x38) {
@@ -87,10 +87,10 @@ u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type) {
     goto scan;
 return_type_two:
     {
-        u8 *result;
+        u8 *slot_result;
         monster_resource_cache_ids[6] = 0;
-        result = entry;
-        return result;
+        slot_result = entry;
+        return slot_result;
     }
 scan:
     if (slot_index < 6) {

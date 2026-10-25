@@ -133,7 +133,7 @@ typedef struct B28_818B7E14_DungeonRenderData {
 typedef struct B28_818B7E14_DungeonObject {
     u8 pad00[8];
     s32 *data;
-    B28_818B7E14_DungeonRenderData *render;
+    SpriteFrameState *render;
     void *update;
     u8 pad14[0xC];
     void *owner;

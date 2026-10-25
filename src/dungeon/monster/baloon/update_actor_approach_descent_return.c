@@ -79,11 +79,11 @@ extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void snapshot_inventory_and_familiars(void *);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 append_entity_display_text(void *record, u8 *out);
+extern void *write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void check_action_boundary_and_set_flag(void);
@@ -98,7 +98,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
     s32 slot;
     s32 companion_type;
     s32 facing;
-    s32 text_end;
+    void *text_end;
     s32 ticks_left;
     s32 target_x;
     s32 target_y;
@@ -106,7 +106,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
     s32 approach_ticks;
     s32 return_ticks;
     s32 direction;
-    s32 text_start;
+    void *text_start;
     u8 *companion;
 
     {

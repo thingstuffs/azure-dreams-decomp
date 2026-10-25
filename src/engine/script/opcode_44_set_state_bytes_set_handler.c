@@ -2,9 +2,11 @@
 #include "engine/message/state.h"
 #include "engine/script.h"
 
+struct S_80038630_0;
+
 typedef struct Func80039D10State {
     u8 pad_00[0x10];
-    void (*func_10)(void *);
+    void (*func_10)(struct S_80038630_0 *);
     u8 pad_14[0x08];
     u8 *read_ptr;
     u8 pad_20[0x06];

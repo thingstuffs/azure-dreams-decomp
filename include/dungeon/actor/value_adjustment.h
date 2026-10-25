@@ -13,11 +13,11 @@ typedef struct Row_818FE800_Target {
 
 
 /* Roll the target's 0x3 resistance against the attack level: on a hit, halve its 0x26 counter and run effect 0x53 with that amount, otherwise apply the miss record and run 0x53 with -1. */
-s32 get_unused_text_buffer(void);
-s32 expand_text_control_codes(void *src, void *dst);
-s32 clear_byte_and_advance(void *byte_ptr);
-s32 write_text_byte_and_advance(s8 value, void *dest);
-s32 append_entity_display_text(void *record, void *out);
+void *get_unused_text_buffer(void);
+u8 *expand_text_control_codes(void *src, void *dst);
+void *clear_byte_and_advance(void *byte_ptr);
+void *write_text_byte_and_advance(s8 value, void *dest);
+u8 *append_entity_display_text(void *record, void *out);
 s32 adjust_source_value_and_finalize(void *, void *);
 #include "dungeon/effect/screen.h"
 s32 display_text_with_fullwidth_adjustment(void *text);

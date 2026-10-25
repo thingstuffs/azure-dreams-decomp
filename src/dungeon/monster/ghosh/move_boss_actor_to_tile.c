@@ -24,7 +24,8 @@ typedef struct S_801704A0_0 {
     s32 unk_A4;
 } S_801704A0_0;   /* arg0 in move_boss_actor_to_tile */
 
-void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
+struct SpriteFrameState;
+void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 s32 rsin();
 s16 get_rounded_facing_and_rounding_flag();
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"

@@ -12,11 +12,11 @@ extern u8 D_800E14D8[];
 extern u8 D_800E14EB[];
 extern u8 D_800E1514[];
 
-extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+#include "dungeon/player/item.h"
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 copy_selected_text_without_terminator(void *, s32);
 extern void play_sound_if_enabled(s32);
@@ -41,8 +41,8 @@ typedef struct S_800C1B1C_2 {
 s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_type, s32 action_arg)
 {
     s32 *item_state;
-    s32 message;
-    s32 message_end;
+    void *message;
+    void *message_end;
 
     if (action_type == 13) {
         return process_record_and_update_linked_state(action, action_arg);

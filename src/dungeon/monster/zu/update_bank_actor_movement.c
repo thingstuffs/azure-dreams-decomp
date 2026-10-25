@@ -17,6 +17,8 @@ void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_mo
 #include "shared/slus_callbacks.h"
 #include "shared/position_views.h"
 
+struct SpriteFrameState;
+
 typedef struct S_80F87000_0 {
     u8 pad_00[0x8];
     void ** unk_08;
@@ -1673,7 +1675,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
 
 typedef struct S_80172F00_0 {
     u8 pad_00[0x8C];
-    u8 * unk_8C;
+    void (*unk_8C)(void *, void *, struct SpriteFrameState *, void *);
     u8 pad_90[0x6];
     union { s16 s; u16 p; } unk_96;   /* accessed as both */
     u16 unk_98;

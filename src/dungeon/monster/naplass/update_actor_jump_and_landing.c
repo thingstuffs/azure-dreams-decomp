@@ -24,7 +24,8 @@ typedef struct S_80172288_0 {
     s32 unk_A4;
 } S_80172288_0;   /* arg0 in update_actor_jump_and_landing */
 
-void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
+struct SpriteFrameState;
+void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();

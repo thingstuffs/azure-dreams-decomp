@@ -73,9 +73,9 @@ void animate_catalog_final_category_cursor(TownObject *obj)
 
     case CATALOG_CURSOR_HIDE:
     {
-        HalfFields *primary = ((TownObject *)(obj))->pool->pair->first;
-        primary->field6 = 0;
-        primary->field4 = 0;
+        HalfFields *first_pair = ((TownObject *)(obj))->pool->pair->first;
+        first_pair->field6 = 0;
+        first_pair->field4 = 0;
         return;
     }
 

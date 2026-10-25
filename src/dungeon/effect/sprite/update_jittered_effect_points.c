@@ -235,9 +235,9 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
         }
         {
             u16 next_state = SELF->unk_0A.u;
-            u16 timer;
-            timer = 10;
-            SELF->unk_50.u = timer;
+            u16 ticks;
+            ticks = 10;
+            SELF->unk_50.u = ticks;
             SELF->unk_0A.u = next_state + 1;
         }
         return;
@@ -249,19 +249,19 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
                 if (record != 0) {
-                    S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
+                    S_func_819A6800_7 *child_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
                     record->unk_10 = update_jittered_effect_points;
                     register_node(record, update_segment);
                     target_object = owner->unk_60.u;
-                    effect_data->unk_3C = 0;
-                    effect_data->unk_3E = 0;
-                    effect_data->unk_32 = 0x1F;
-                    effect_data->unk_30 = 0x1F;
-                    effect_data->unk_34 = target_object;
-                    effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
-                    effect_data->unk_42 = GetClut(0x60, 0x1F8);
-                    effect_data->unk_38 = 0x00404040;
+                    child_data->unk_3C = 0;
+                    child_data->unk_3E = 0;
+                    child_data->unk_32 = 0x1F;
+                    child_data->unk_30 = 0x1F;
+                    child_data->unk_34 = target_object;
+                    child_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
+                    child_data->unk_42 = GetClut(0x60, 0x1F8);
+                    child_data->unk_38 = 0x00404040;
                     record->unk_20 = SELF;
                 }
             }

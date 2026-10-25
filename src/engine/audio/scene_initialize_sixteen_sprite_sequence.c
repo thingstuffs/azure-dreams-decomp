@@ -10,6 +10,8 @@
 /* Sub-object embedded at offset 0x20 of the entity (same family as
  * init_color_fade_effect / init_fade_in_out_effect): owner backpointer, four zeroed shorts,
  * a table pointer, then a walked slot array of s32 (16 entries, +4/step). */
+struct S_8005313C;
+
 typedef struct S_80053374_Sub {
     /* 0x00 */ void *owner;
     /* 0x04 */ s16 f04;
@@ -22,7 +24,7 @@ typedef struct S_80053374_Sub {
 
 typedef struct S_80053374_obj {
     /* 0x00 */ u8 pad00[0x10];
-    /* 0x10 */ void (*unk10)(void *);
+    /* 0x10 */ void (*unk10)(struct S_8005313C *);
     /* 0x14 */ u8 pad14[0x20 - 0x14];
     /* 0x20 */ S_80053374_Sub sub;
 } S_80053374_obj;

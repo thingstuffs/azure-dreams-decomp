@@ -30,24 +30,24 @@ void card_boot_format_empty_slot_guidance(void *context)
         first_buffer = context + 0x84;
         if (below_three != 0) {
             void **table;
-            void *text_buffer;
-            s32 selection;
+            void *message_buffer;
+            s32 selected_entry;
 
             decode_fullwidth_text(first_buffer, D_800283C4, 1);
-            text_buffer = context + 0x204;
+            message_buffer = context + 0x204;
             table = D_800283B8;
-            selection = mode_one << 2;
-            decode_fullwidth_text(text_buffer, *(void **)((u8 *)table + selection), 1);
+            selected_entry = mode_one << 2;
+            decode_fullwidth_text(message_buffer, *(void **)((u8 *)table + selected_entry), 1);
             decode_fullwidth_text(context + 0x384, table[2], 1);
             node_count = 3;
         } else {
             {
                 void **table;
-                s32 selection;
+                s32 selected_entry;
 
                 table = D_800283F4;
-                selection = mode_one << 2;
-                decode_fullwidth_text(first_buffer, *(void **)((u8 *)table + selection), 1);
+                selected_entry = mode_one << 2;
+                decode_fullwidth_text(first_buffer, *(void **)((u8 *)table + selected_entry), 1);
             }
             format_unsigned_double_byte_decimal(state / 3, number_buf);
             strcpy(text_buf, number_buf);

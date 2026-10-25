@@ -542,7 +542,7 @@ typedef struct {
 typedef struct {
     u8 pad0[8];
     Vec3 *position;
-    SpawnState *state;
+    SpriteFrameState *state;
     void *callback;
     u8 pad14[0xC];
     SpawnChild child;

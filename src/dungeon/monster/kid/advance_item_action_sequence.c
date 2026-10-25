@@ -175,10 +175,10 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
-            void *entity = primary_actor_record;
+            void *player = primary_actor_record;
 
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)entity + 0xA6))--;
+            (*(u16 *)((u8 *)player + 0xA6))--;
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
