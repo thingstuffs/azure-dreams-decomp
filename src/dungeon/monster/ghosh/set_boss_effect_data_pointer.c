@@ -7,7 +7,7 @@
 
 typedef struct S_801707D4_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, SpriteFrameState *, ActorRecord *);
 } S_801707D4_0;   /* arg0 in set_boss_effect_data_pointer */
 
 typedef struct S_801707D4_1 {

@@ -51,7 +51,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, Spri
     s32 next_tick;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *global_state;
 
     switch (((S_8016CBAC_0 *)action)->unk_9B) {

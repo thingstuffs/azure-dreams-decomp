@@ -61,7 +61,7 @@ s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_v
 s32 play_message_confirmation_sound(s32 mode);
 
 /* finish_message_when_idle.c */
-void finish_message_when_idle(s32 handler_arg);
+void finish_message_when_idle(struct S_8003832C_0 *handler_arg);
 
 /* init_message_countdown.c */
 void consume_message_byte_and_start_countdown(struct S_8003832C_0 *context);
@@ -115,7 +115,7 @@ void wait_message_resident_bit(struct S_80038394_0 *object);
 void wait_message_voice_busy(Rec_func_800384A8_arg0 *state);
 
 /* wait_message_voice_idle.c */
-void wait_message_voice_idle(s32 object);
+void wait_message_voice_idle(Rec_func_800384A8_arg0 *object);
 
 /* Data declarations. */
 extern struct Func80038A10State *current_message_window_state;

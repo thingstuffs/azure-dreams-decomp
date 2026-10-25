@@ -23,7 +23,7 @@ typedef struct S_80036D4C_5 {
 typedef struct S_80036D4C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    s32 * unk_10;
+    void (*unk_10)();
     u8 pad_14[0xC];
     void * unk_20;
 } S_80036D4C_0;   /* temp_v0 in create_blinking_cursor_object */
@@ -47,7 +47,7 @@ typedef struct S_80036D4C_3 {
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
-    s32 * unk_08;
+    u8 *unk_08;
     s32 unk_0C;
     u8 pad_10[0x4];
     u16 unk_14;
@@ -91,7 +91,7 @@ void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *c
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_0, &blinking_cursor_texture_descriptor_0);
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1);
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_2, &blinking_cursor_texture_descriptor_2);
-    display->unk_08 = &blinking_cursor_texture_descriptor_1;
+    display->unk_08 = blinking_cursor_texture_descriptor_1;
     display->unk_00 = 0;
     display->unk_04 = 0;
     display->unk_05 = 0;

@@ -43,7 +43,7 @@ extern u8 saber_frame_set_11[];
 void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, SpriteFrameState *sprite, ActorRecord *creature_in)
 {
     u8 *anim_table;
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_flags;
     u32 initial_flags = g_dungeon_status.flags;

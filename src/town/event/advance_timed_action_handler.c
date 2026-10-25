@@ -9,7 +9,7 @@ void advance_player_state_table(Struct8009D814 *state, s32 update_arg, s32 share
 
 typedef struct S_8009B0EC_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)(Struct8009D814 *, s32,  s32);
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_8009B0EC_0;   /* arg0 in advance_timed_action_handler */

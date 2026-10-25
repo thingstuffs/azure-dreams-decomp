@@ -6,7 +6,7 @@ extern void D_800A77D0();
 
 typedef struct S_800A7774_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)();
     u8 pad_54[0x3C];
     u16 unk_90;
 } S_800A7774_0;   /* arg0 in decrement_effect_timer_and_switch */

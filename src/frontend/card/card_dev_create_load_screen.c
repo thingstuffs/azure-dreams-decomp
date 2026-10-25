@@ -41,7 +41,7 @@ StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) 
     object = func_8003C480(0);
     if (object != NULL) {
         object->unk44 = config_value;
-        func_80406F14((void *) ((s32) object + 0x20), init_value);
+        func_80406F14((void *) ((u8 *) object + 0x20), init_value);
         run_slot_operation_code_five();
         func_80402214();
         object->unk20 = init_card_background_object(object, 0);

@@ -47,7 +47,7 @@ extern u8 D_8016EED8[];
 /* Updates an actor's hop to its tile and finishes the timed action. */
 void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, void *actor)
 {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 state;
     s32 move_ticks;
     s32 actor_flags;

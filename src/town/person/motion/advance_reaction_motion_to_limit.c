@@ -5,7 +5,7 @@
 
 void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 s16 query_lowered_transform_position(void *position);                          /* extern */
-s32 func_800C9C94(s32, s32, s32);
+void initialize_reaction_object_four(PersonSetupState *, void *, void *);
 
 
 /* Advance motion and handle reaching the position limit. */
@@ -22,7 +22,7 @@ void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *
             choose_reaction_action_and_heading(state, motion, context);
             return;
         }
-        func_800C9C94(state, motion, context);
+        initialize_reaction_object_four(state, motion, context);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

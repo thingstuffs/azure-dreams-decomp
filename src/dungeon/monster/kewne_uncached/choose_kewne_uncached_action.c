@@ -58,7 +58,7 @@ extern u8 D_8016FCA8[];
 /* Updates actor animation, facing, and action handling from dungeon state. */
 void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 direction_flags;
+    u16 direction_flags;
     s8 area_id;
     u16 action;
 

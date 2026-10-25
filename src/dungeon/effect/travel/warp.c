@@ -1022,7 +1022,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                             }
                         }
                         node = ((S_819AD81C_3 *)node)->unk_5C.i + 0x20;
-                    } while (node != (void *) ((int)primary_actor_record));
+                    } while (node != (void *) (primary_actor_record));
                 }
                 saved_x = ((S_819AD81C_0 *)entity)->unk_3C.at00p.v;
                 hits_left = ((S_819AD81C_0 *)entity)->unk_46.u;

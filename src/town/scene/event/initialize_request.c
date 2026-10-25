@@ -4,7 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_8001E869;
 
-/* Returns the address of D_8001E869 as an integer. */
-s32 initialize_request(void) {
-    return (s32) &D_8001E869;
+/* Returns the default request data. */
+void *initialize_request(void) {
+    return &D_8001E869;
 }

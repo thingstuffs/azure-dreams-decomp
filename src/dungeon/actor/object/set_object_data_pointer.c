@@ -14,7 +14,7 @@ void process_mode_gated_entity(Entity *entity);
 
 typedef struct S_80025514_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(Entity *);
 } S_80025514_0;   /* arg0 in set_object_data_pointer */
 
 /* Set the object's data pointer to process_mode_gated_entity. */

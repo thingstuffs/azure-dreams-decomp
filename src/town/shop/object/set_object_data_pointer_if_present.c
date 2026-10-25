@@ -6,7 +6,7 @@ extern void D_800B2C6C();
 
 typedef struct S_800B2CE8_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)();
 } S_800B2CE8_0;   /* arg0 in set_object_data_pointer_if_present */
 
 /* Set the object's data pointer when the object is present. */

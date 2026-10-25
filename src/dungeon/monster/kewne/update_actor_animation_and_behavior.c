@@ -63,7 +63,7 @@ extern u8 kewne_turn_frames[];
  * vertical offsets. */
 void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_flags;
 

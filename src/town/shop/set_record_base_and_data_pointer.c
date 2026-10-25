@@ -1,7 +1,7 @@
 #include "common.h"
 
 typedef struct S_800B384C_0 {
-    s32 * unk_00;
+    void (*unk_00)(void *);
     u8 pad_04[0xC];
     s32 unk_10;
     u8 pad_14[0x14];

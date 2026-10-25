@@ -6,7 +6,7 @@ void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *a
 
 typedef struct S_800A6EA4_0 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(void *, s32,  s32,  void *);
     u8 pad_54[0x3C];
     s16 unk_90;
 } S_800A6EA4_0;   /* arg0 in reset_counter_after_check_99 */

@@ -103,7 +103,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
             break;
         }
         if (scan_result == 0 && map_state->tile_position.word != tile->unk_24.at00u.v) {
-            if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
+            if ((check_entity_relation(actor, ((S_800CA444_4 *)((primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
         }

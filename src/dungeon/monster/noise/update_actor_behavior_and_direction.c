@@ -45,7 +45,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteF
 {
     u8 *anim_table;
     s32 room_id;
-    s32 direction_flags;
+    u16 direction_flags;
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {

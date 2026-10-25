@@ -46,7 +46,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     shifted_id = entry_id << 16;
     table_base = (u8 *)resource_type_list_layouts;
     table_offset = shifted_id >> 14;
-    entry_slot = (Info80046E38 **)(table_offset + (u32)table_base);
+    entry_slot = (Info80046E38 **)(table_offset + (u8 *)table_base);
     entry_data = (*entry_slot)->data;
     pair = *(Pair80046E38 *)entry_data;
     entry = *entry_slot;

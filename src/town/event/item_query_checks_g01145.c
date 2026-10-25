@@ -143,7 +143,7 @@ s32 get_group_record_table_entry(s32 group_id, void *record) {
         }
         row_index = classify_item_check_result(table_index);
         tables = D_800D1038;
-        table_slot = (s32 **)((table_index * 4) + (s32)tables);
+        table_slot = (s32 **)((table_index * 4) + (u8 *)tables);
         result = (table_slot[0] + (row_index * 4))[column];
         return result;
     }

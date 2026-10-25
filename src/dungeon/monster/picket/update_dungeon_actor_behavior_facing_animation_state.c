@@ -47,7 +47,7 @@ extern u8 picket_frame_set_6;
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     u8 *anim_table;
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_state;
     u16 initial_flags = g_dungeon_status.flags;

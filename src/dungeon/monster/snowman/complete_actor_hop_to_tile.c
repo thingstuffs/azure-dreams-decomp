@@ -51,7 +51,7 @@ void finish_snowman_tile_hop(void *action, ObjectPosition *motion, void *sprite,
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *global_state;
 
     state = ((S_80B09454_0 *)action)->unk_9B;

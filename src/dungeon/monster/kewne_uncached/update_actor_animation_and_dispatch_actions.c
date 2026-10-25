@@ -58,7 +58,7 @@ extern u8 D_80151CA8[];
 /* Update actor animation and dispatch dungeon actions based on status and position. */
 void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s8 room_id;
     u16 action;
 

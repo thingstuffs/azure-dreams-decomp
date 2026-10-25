@@ -7,7 +7,7 @@ extern u8 *beldo_actor_nodes;
 
 /* Returns the signed coordinate calculation result scaled down by nine bits. */
 s32 get_script_actor_heading_to_player(void) {
-    s32 value;
+    u16 value;
     u8 *state;
 
     state = *(u8 * *)&((ObjectNodeHeader *)beldo_actor_nodes)->sprite;

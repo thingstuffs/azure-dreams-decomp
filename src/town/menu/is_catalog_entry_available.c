@@ -8,5 +8,5 @@ s32 is_catalog_entry_available(s32 index) {
 
     index &= 0xFF;
     flag_index = D_80127A40[index];
-    return (*(u8 *)(0x80013614 + (flag_index >> 2)) >> ((flag_index & 3) * 2)) & 1;
+    return (((u8 *)0x80013614)[flag_index >> 2] >> ((flag_index & 3) * 2)) & 1;
 }

@@ -5,7 +5,7 @@
 
 typedef struct S_800390D0_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(void);
     u8 pad_14[0x8];
     s32 unk_1C;
 } S_800390D0_0;   /* arg0 in script_end_message */

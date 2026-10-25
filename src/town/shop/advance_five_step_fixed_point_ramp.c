@@ -13,7 +13,7 @@ typedef struct S_800B34FC_2 {
 
 
 typedef struct S_800B34FC_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x14];
     s32 unk_18;
 } S_800B34FC_0;   /* arg0 in advance_five_step_fixed_point_ramp; pointer addresses record offset 0x10 */

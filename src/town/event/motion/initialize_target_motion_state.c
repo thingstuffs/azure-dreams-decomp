@@ -13,7 +13,7 @@ typedef struct S_8009C120_0 {
 
 typedef struct S_8009C120_2 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(Rec_func_8009B828_arg0 *, s32,  ObjectPosition *, s32);
     u8 pad_54[0x18];
     s16 unk_6C;
 } S_8009C120_2;   /* arg0 in initialize_target_motion_state */

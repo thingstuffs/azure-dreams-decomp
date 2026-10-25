@@ -52,7 +52,7 @@ void update_actor_movement_animation_states_completes_timed_action(void *action,
     s32 move_count;
     s32 action_timer;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *dungeon_state;
     u8 *idle_anims;
 

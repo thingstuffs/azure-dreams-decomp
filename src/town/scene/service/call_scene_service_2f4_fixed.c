@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-/* Call the scene object's 0x2F4 method with (-1, -5). */
-void call_scene_service_2f4_fixed(void)
-{
-    (*((s32 (**)(s32, s32)) (((s8 *) (*((void **) (((s8 *) (((int)town_scene_root))) + 0x20)))) + 0x2F4)))(-1,
-        -5);
+#include "shared/town_root.h"
+
+void call_scene_service_2f4_fixed(void) {
+    town_scene_root->services->callback_2F4(-1, -5);
 }

@@ -58,7 +58,7 @@ typedef struct S_80171FA4_0 {
 /* Update dungeon actor animation, behavior, and facing. */
 void update_actor_animation_behavior_and_facing(void *actor, void *actor_aux, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_state;
 

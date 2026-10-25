@@ -110,13 +110,13 @@ s32 open_twin_souko(s32 option) {
         (initialize_record_table_and_group(state),
          acquire_resource_and_initialize_state(state) != 0 &&
          (store_table_index_and_entry_bytes(state, 0),
-          resource_08 = func_800B4588(task),
+          resource_08 = create_storage_item_menu(task),
           ((S_800B2BA0_0 *)state)->unk_08 = resource_08,
           resource_08 != 0) &&
          (resource_00 = func_800B3924(task),
           ((S_800B2BA0_1 *)task)->unk_20 = resource_00,
           resource_00 != 0) &&
-         (resource_04 = func_800B4F60(task),
+         (resource_04 = create_storage_owner_menu(task),
           ((S_800B2BA0_0 *)state)->unk_04 = resource_04,
           resource_04 != 0))) {
         if (task != 0) {

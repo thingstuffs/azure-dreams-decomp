@@ -58,7 +58,7 @@ extern u8 D_80163CA8[];
 /* Updates actor animation, dispatches its action state, and adjusts facing toward the player. */
 void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player(void *actor, void *actor_aux, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s8 room_id;
     u16 action_state;
 

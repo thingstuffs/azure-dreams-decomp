@@ -9,7 +9,7 @@ extern void actor_moving_target_address();
 
 typedef struct S_8009C0D8_1 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)();
 } S_8009C0D8_1;   /* arg0 in initialize_moving_object */
 
 /* Set the object flag, assign the context handler, and run object setup. */

@@ -52,7 +52,7 @@ void hop_actor_and_restore_scale(void *action, void *motion, SpriteFrameState *s
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *global_state;
     u8 *idle_anims;
 

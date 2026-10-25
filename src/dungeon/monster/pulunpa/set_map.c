@@ -73,7 +73,7 @@ static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *dir
 /* Dispatches alternate Pulunpa's movement and target actions, handles turn processing, and restores its
  * idle frames. */
 void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, ActorRecord *creature) {
-    s32 direction_aux;
+    u16 direction_aux;
     s32 status_flags;
     s8 tile_index;
     u16 action_flags;

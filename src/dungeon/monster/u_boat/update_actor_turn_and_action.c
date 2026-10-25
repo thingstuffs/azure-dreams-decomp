@@ -70,7 +70,7 @@ extern u8 uboat_action_frames[];
 /* Updates dungeon actor animation, status, and action dispatch. */
 void update_actor_turn_and_action(void *entity, void *context, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_state;
 

@@ -6,7 +6,7 @@ extern void D_80098140();
 
 typedef struct S_80098CC0_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)();
     u8 pad_08[0x8];
     s16 unk_10;
 } S_80098CC0_0;   /* arg0 in set_handler_and_countdown_800 */

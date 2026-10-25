@@ -65,7 +65,7 @@ void *reset_actor_animation_state(void *entity)
 
     entity_arg = entity;
     parent = entity - 0x20;
-    if ((u8 *)((s32)g_dungeon_status.pending_display_owner) == parent) {
+    if ((u8 *)(g_dungeon_status.pending_display_owner) == parent) {
         g_dungeon_status.pending_display_owner = (s32)parent & 0x7FFFFFFF;
     }
 

@@ -16,7 +16,7 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     s32 next_arc_ticks;
     s32 ticks_left;
     s32 actor_flags;
-    s32 coord_result;
+    u16 coord_result;
     DungeonGlobalStatus *global_base;
 
     state = animation->unk_9B;

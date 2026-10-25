@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_800A7AC0_0 {
-    s32 * unk_00;
+    void (*unk_00)(void *, void *, void *);
 } S_800A7AC0_0;   /* arg0 in initialize_effect_object; pointer addresses record offset 0x10 */
 void register_node_if_unregistered(void *block_data, void *registration_id);           /* extern */
 #include "town/system/clear_object_status_and_dispatch_target_api.h" /* extern */

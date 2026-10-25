@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard.h"
 typedef struct Node8002BB08 Node8002BB08;
-void func_80026920(void *);                         /* extern */
+void release_card_record_handles(CardHandleOwner *);                         /* extern */
 
 typedef struct S_80026784_0 {
     u8 pad_00[0x20];
@@ -11,6 +11,6 @@ typedef struct S_80026784_0 {
 
 /* Update the base record and pass its paired fields to the next helper. */
 void card_boot_return_from_save_menu(void *record_part) {
-    func_80026920(record_part - 0x20);
+    release_card_record_handles(record_part - 0x20);
     init_card_boot_request_object(((S_80026784_0 *)record_part)->request, ((S_80026784_0 *)record_part)->unk_24);
 }

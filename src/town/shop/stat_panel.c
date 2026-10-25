@@ -130,14 +130,14 @@ void draw_entity_stats_panel(void *entity, void *panel) {
     func_8004E5A0(*((u8 *)entity + 0x66), 3, &number_text);
     strcat(&text, &number_text);
 
-    func_800B53BC(*(s32 *)((u8 *)panel + 0x14), &text, 0, 0x6C, 0x98);
+    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x14), &text, 0, 0x6C, 0x98);
     display_value = monster_get_species_name_text(normalize_monster_status_species_code(*((u8 *)entity + 0x13)));
     text_style = 0;
     if (*((u8 *)entity + 0x43) >= 0x41) {
         text_style = 3;
     }
     set_display_entry_text_and_position(*(s32 *)((u8 *)panel + 0x18), display_value, text_style, 0x68, 0x98);
-    func_800B53BC(*(s32 *)((u8 *)panel + 0x4C), D_80089324, 0, 0x48, 0xB8);
-    func_800B53BC(*(s32 *)((u8 *)panel + 0x1C), format_object_value_marker(&text, entity), 0, 0x48, 0xC8);
-    func_800B53BC(*(s32 *)((u8 *)panel + 0x48), format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
+    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x4C), D_80089324, 0, 0x48, 0xB8);
+    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x1C), format_object_value_marker(&text, entity), 0, 0x48, 0xC8);
+    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x48), format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
 }

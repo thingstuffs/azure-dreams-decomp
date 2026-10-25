@@ -40,7 +40,7 @@ typedef struct S_func_819B2800_1 {
 
 typedef struct S_func_819B2800_2 {
     u8 pad_00[0x10];
-    s32 *unk_10;
+    void (*unk_10)(void *);
     u8 pad_14[0xC];
     void *unk_20;
     u8 pad_24[6];

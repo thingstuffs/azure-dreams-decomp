@@ -51,7 +51,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, SpriteFram
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *globals;
 
     state = ((S_80172BAC_0 *)action)->unk_9B;

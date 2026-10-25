@@ -49,7 +49,7 @@ extern u8 D_80176340[];
 /* Updates the actor's movement animation and finishes the timed action. */
 void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteFrameState *unit, void *actor)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     u8 move_state;
 
     move_state = ((S_80174F24_0 *)action)->unk_9B;

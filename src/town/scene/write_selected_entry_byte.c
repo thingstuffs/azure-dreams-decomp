@@ -11,5 +11,5 @@ typedef int s32;
 /* Writes 0x61 through the pointer at offset 0x1C of D_80016000's first entry. */
 void write_selected_entry_word(void)
 {
-    **(s32 **)((s8 *)((unsigned int)town_scene_root) + 0x1C) = 0x61;
+    **(s32 **)((s8 *)(town_scene_root) + 0x1C) = 0x61;
 }

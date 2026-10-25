@@ -424,4 +424,13 @@ extern CardHeadingCommon D_8002E5E8;
 
 void initialize_save_heading_draw_state(CardHeadingDrawState *work, s32 count);
 
+typedef struct CardHandleOwner {
+    u8 pad_00[0x1E];
+    u16 flags;
+    void *handles[8];
+} CardHandleOwner;
+
+void prepare_save_heading_layout(CardHeadingDrawState *work, s32 value);
+void release_card_record_handles(CardHandleOwner *object);
+
 #endif

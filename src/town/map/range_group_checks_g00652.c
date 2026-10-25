@@ -20,9 +20,9 @@ s32 find_containing_range_group(s32 value, s16 **range_groups)
     return 0;
 }
 
-/* Passes the value and shared data address to find_containing_range_group. */
-void pass_value_and_range_groups(s32 value) {
-    find_containing_range_group(value, (s16 **)&D_800D456C);
+/* Return the group containing value in the shared range table. */
+s32 pass_value_and_range_groups(s32 value) {
+    return find_containing_range_group(value, (s16 **)&D_800D456C);
 }
 
 /* Checks a masked value against the table selected by the current state. */

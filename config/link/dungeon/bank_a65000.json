@@ -2,10 +2,10 @@
   "schema": "azure-clean.linklist.v0",
   "image": "dungeon/bank_a65000",
   "container": "dungeon",
-  "foff": "0xA65000",
-  "size": "0x8000",
-  "vma": "0x8016E800",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F709800: beldo_boss_cluster",
+  "foff": "0xa67000",
+  "size": "0x6000",
+  "vma": "0x80170800",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F709800: beldo_boss_cluster; docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
   "entries": [
     {
       "row": "dungeon/func_80A4707C",

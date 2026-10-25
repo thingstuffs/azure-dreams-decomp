@@ -43,7 +43,7 @@ void sort_entries_by_key(void)
                 sort_entry = entry;
                 for (; entry_index < compare_index; compare_index--) {
                     compare_offset = compare_index * 8;
-                    compare_entry = (void *)(compare_offset + (s32)entries);
+                    compare_entry = (void *)(compare_offset + (u8 *)entries);
                     compare_offset = *(s32 *)sort_entry > *(s32 *)compare_entry;
                     if (compare_offset != 0) {
                         saved_entry[1] = *(s32 *)((s8 *)sort_entry + 4);

@@ -7,7 +7,7 @@
 
 typedef struct S_80039A08_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(struct S_800389B4_0 *);
     u8 pad_14[0x8];
     s32 unk_1C;
 } S_80039A08_0;   /* arg0 in script_wait_voice_then_advance */

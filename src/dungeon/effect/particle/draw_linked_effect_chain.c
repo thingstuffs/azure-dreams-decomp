@@ -890,7 +890,7 @@ loop_1:
                                                 out_x += interp_work;
                                                 interp_x = interp_base * 2;
                                                 if ((s32)next_entity < 0) {
-                                                    next_entity = (Row_819A1654_Entity *)((s32)next_entity + 15);
+                                                    next_entity = (Row_819A1654_Entity *)((u8 *)next_entity + 15);
                                                 }
                                                 interp_base = entity->path[20];
                                                 interp_work = entity->path[8] - interp_base;

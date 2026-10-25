@@ -1408,7 +1408,7 @@ use_kind:
 
             kind = *kind_data;
             kind_table = (u8 *)item_action_definitions;
-            kind_entry = (u8 *)((u32)(kind * 20) + (u32)kind_table);
+            kind_entry = (u8 *)((u32)(kind * 20) + (u8 *)kind_table);
 
             if (kind_entry[0x12] == 2) {
                 target_obj = action->target;

@@ -20,7 +20,7 @@ extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *ptr);
 extern void position_decimal_digit_parts(void *ptr);
 extern void func_800B2F88(void *ptr);
-extern void func_800B3108(void *ptr);
+extern void arrange_storage_item_columns(void *ptr);
 extern void func_800B331C(void *ptr);
 extern void arrange_ten_objects_in_columns(void *objects);
 extern void apply_linked_record_defaults(void *record);
@@ -45,7 +45,7 @@ void initialize_four_slot_object_variant(Obj *object) {
 
     position_decimal_digit_parts(obj);
     func_800B2F88((u8 *)obj->unk0xA8 + 0x18);
-    func_800B3108((u8 *)obj->unk0xA8 + 0x40);
+    arrange_storage_item_columns((u8 *)obj->unk0xA8 + 0x40);
     func_800B331C(obj->unk0xA8);
     arrange_ten_objects_in_columns((u8 *)obj->unk0xA8 + 0x68);
     apply_linked_record_defaults(obj);

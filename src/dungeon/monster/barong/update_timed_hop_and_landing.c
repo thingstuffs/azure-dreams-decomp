@@ -52,7 +52,7 @@ void update_timed_hop_and_landing(void *action, void *motion, SpriteFrameState *
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *global_base;
     u8 *idle_anims;
 

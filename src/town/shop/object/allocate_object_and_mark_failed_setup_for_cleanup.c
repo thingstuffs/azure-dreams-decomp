@@ -6,7 +6,7 @@
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void release_null_terminated_entries(u16 **entries);                      /* extern */
 s32 link_monster_status_display_entries();                             /* extern */
-s32 func_800B6990();                 /* extern */
+s32 load_storage_display_resource();                 /* extern */
 int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 void invoke_object_first_callback(void *obj);
 
@@ -24,7 +24,7 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
     object = allocate_flagged_object_node(0);
     state = ((void *)object) + 0x20;
     if (object != 0) {
-        if (func_800B6990(state, 0x18) != 0) {
+        if (load_storage_display_resource(state, 0x18) != 0) {
             object->sprite = (void *) (((void *)object) + 0xA8);
             state->unk_94 = link_monster_status_display_entries(state->unk_98);
             initialize_entry_object(state, resource_id, slot_index, x, y, z);

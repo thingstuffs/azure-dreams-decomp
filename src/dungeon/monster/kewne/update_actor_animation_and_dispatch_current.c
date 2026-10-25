@@ -60,7 +60,7 @@ extern u8 D_80163EB8[];
 /* Update a dungeon actor's animation and dispatch its current behavior. */
 void update_actor_animation_and_dispatch_current(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_flags;
 

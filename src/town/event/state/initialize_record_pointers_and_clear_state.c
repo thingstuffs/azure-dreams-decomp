@@ -3,9 +3,9 @@
 #include "shared/dungeon_effect_views.h"
 
 typedef struct S_800A97D8_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x5C];
-    s32 * unk_60;
+    void (*unk_60)();
 } S_800A97D8_0;   /* arg0 in initialize_record_pointers_and_clear_state; pointer addresses record offset 0x10 */
 
    /* arg1 in initialize_record_pointers_and_clear_state */

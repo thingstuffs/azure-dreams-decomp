@@ -10641,3 +10641,16 @@
 0x8001A150	func_8001A150	call_scene_service_one	Complete run-8 reconstruction; BRIEF8 live entry; preceding complete C ends at this entry; complete typed indirect-call wrapper includes the misclassified terminal return
 0x80016198	func_80016198	resolve_scene_entry_text	Complete run-8 reconstruction; BRIEF8 entry address; complete C starts immediately after the independently referenced final header literal and ends at a registered successor; all 216 compiler-local switch table bytes separately match
 0x8002727C	func_8002727C	initialize_save_heading_draw_state	Complete run-9 reconstruction; MAIN +0x26427C, four draw nodes and scalar template copies, independent complete caller and adjacent registered boundaries.
+0x800b3108	func_800B3108	arrange_storage_item_columns	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b53bc	func_800B53BC	set_storage_entry_text	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b48b8	func_800B48B8	initialize_storage_cursor	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b4a18	func_800B4A18	refresh_storage_page	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b4b7c	func_800B4B7C	update_storage_display	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b4cbc	func_800B4CBC	initialize_storage_display_links	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b4588	func_800B4588	create_storage_item_menu	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b4f60	func_800B4F60	create_storage_owner_menu	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800b6990	func_800B6990	load_storage_display_resource	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x80027324	func_80027324	prepare_save_heading_layout	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800c7c3c	func_800C7C3C	begin_mother_event_pause	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x800c9c94	func_800C9C94	initialize_reaction_object_four	Run 10: complete caller-reachable section; original terminal return reclaimed where present.
+0x80026920	func_80026920	release_card_record_handles	Run 10: complete caller-reachable section; original terminal return reclaimed where present.

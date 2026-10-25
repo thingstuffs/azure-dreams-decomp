@@ -59,7 +59,7 @@ typedef struct S_80171F1C_0 {
 void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteFrameState *actor_arg, void *move_data_arg)
 {
     EntityRec *move_data;
-    s32 direction_flags;
+    u16 direction_flags;
     s8 room_id;
     u16 action_state;
     u32 initial_flags = g_dungeon_status.flags;

@@ -7,7 +7,7 @@
 typedef struct S_80036110_0 {
     void * unk_00;
     u8 pad_04[0x64];
-    s32 * unk_68;
+    void (*unk_68)(void *);
 } S_80036110_0;   /* arg0 in scroll_window_y */
 
    /* Decreases the state field at offset 0x0A by 0x140, clamping below zero and advancing the handler. */

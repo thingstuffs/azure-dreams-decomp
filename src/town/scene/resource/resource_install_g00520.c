@@ -58,7 +58,7 @@ s32 install_resource_descriptor_at_front(s32 kind, s32 state, s32 value, s32 sta
     } else if (available < alloc_size) {
         entry_base = resource_cache_records;
         entry_offset = index * sizeof(TownAllocEntry);
-        entry = (TownAllocEntry *)(entry_offset + (s32)entry_base);
+        entry = (TownAllocEntry *)(entry_offset + (u8 *)entry_base);
         available += entry->size;
         reset_resource_entry(index);
         while (available < alloc_size) {

@@ -6,7 +6,7 @@
 typedef struct S_8003571C_0 {
     void * unk_00;
     u8 pad_04[0x64];
-    s32 * unk_68;
+    void (*unk_68)(struct S_80035760_0 *);
 } S_8003571C_0;   /* arg0 in runtime_decrease_state_by_a_0 */
 
 typedef struct S_8003571C_1 {

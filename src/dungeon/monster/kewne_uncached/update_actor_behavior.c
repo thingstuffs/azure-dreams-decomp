@@ -79,10 +79,10 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         action->action_timer = next_tick;
         direction_off = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
-        direction_base = (u8 *)(direction_off + (s32)direction_base);
+        direction_base = (u8 *)(direction_off + (u8 *)direction_base);
         delta_x = *(s16 *)direction_base;
         direction_base_2 = (u8 *)&dir_step_y;
-        signed_value = *(s16 *)((s32)(direction_off + (s32)direction_base_2));
+        signed_value = *(s16 *)((s32)(direction_off + (u8 *)direction_base_2));
         delta_x = -delta_x;
         delta_x <<= 16;
         signed_value = -signed_value;

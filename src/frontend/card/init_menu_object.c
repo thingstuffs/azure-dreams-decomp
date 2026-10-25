@@ -19,7 +19,7 @@ void init_menu_object(Struct8001BF04 *object) {
     s32 callback;
     s32 table_offset;
 
-    card_boot_build_four_layout_command_groups((void *)((s32) object + 0x24), object);
+    card_boot_build_four_layout_command_groups((void *)((u8 *) object + 0x24), object);
     card_boot_position_four_display_items(object);
     table_offset = object->unk08 * 4;
     object->unk00 = D_80408ADF[table_offset];

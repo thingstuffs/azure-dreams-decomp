@@ -57,7 +57,7 @@ extern u8 kid_frame_set_4[];
 /* Updates a dungeon actor's state, animation, and facing direction. */
 void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sprite_in, void *entity)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s8 room_id;
     u16 action_state;
     u32 dungeon_flags = g_dungeon_status.flags;

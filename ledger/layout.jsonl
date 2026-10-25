@@ -7938,3 +7938,16 @@
 {"id":"town/func_80469150","path":"src/town/scene/call_scene_service_one.c"}
 {"id":"town/func_804F0198","path":"src/town/scene/resolve_scene_entry_text.c"}
 {"id":"main/func_8001427C","path":"src/frontend/libcard/initialize_save_heading_draw_state.c"}
+{"id":"town/func_800B59A8","path":"src/town/shop/arrange_storage_item_columns.c"}
+{"id":"town/func_800B7C5C","path":"src/town/shop/set_storage_entry_text.c"}
+{"id":"town/func_800B7158","path":"src/town/shop/initialize_storage_cursor.c"}
+{"id":"town/func_800B72B8","path":"src/town/shop/refresh_storage_page.c"}
+{"id":"town/func_800B741C","path":"src/town/shop/update_storage_display.c"}
+{"id":"town/func_800B755C","path":"src/town/shop/initialize_storage_display_links.c"}
+{"id":"town/func_800B6E28","path":"src/town/shop/create_storage_item_menu.c"}
+{"id":"town/func_800B7800","path":"src/town/shop/create_storage_owner_menu.c"}
+{"id":"town/func_800B9230","path":"src/town/shop/load_storage_display_resource.c"}
+{"id":"main/func_80014324","path":"src/frontend/libcard/prepare_save_heading_layout.c"}
+{"id":"town/func_800CA4DC","path":"src/town/person/begin_mother_event_pause.c"}
+{"id":"town/func_800CC534","path":"src/town/person/initialize_reaction_object_four.c"}
+{"id":"main/func_80013920","path":"src/frontend/libcard/release_card_record_handles.c"}

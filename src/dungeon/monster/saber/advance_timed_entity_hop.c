@@ -52,7 +52,7 @@ void advance_timed_entity_hop(void *action, ObjectPosition *motion, SpriteFrameS
     s32 hop_timer;
     s32 action_timer;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *action_counts;
 
     state = ((S_80166BAC_0 *)action)->unk_9B;

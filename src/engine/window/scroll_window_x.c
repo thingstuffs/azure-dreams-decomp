@@ -18,7 +18,7 @@ typedef struct S_8003566C_0 {
     u8 pad_04[0x49];
     s8 unk_4D;
     u8 pad_4E[0x1A];
-    s32 * unk_68;
+    void (*unk_68)(struct S_8003571C_0 *);
     u8 pad_6C[0x8];
     s32 unk_74;
 } S_8003566C_0;   /* arg0 in scroll_window_x */

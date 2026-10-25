@@ -80,10 +80,10 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
         action->action_timer = next_frame;
         direction_offset = ((u16)actor->facing >> 8) & 0xE;
         anim_table = (u32)anim_table < 8U;
-        direction_base = (u8 *)(direction_offset + (s32)direction_base);
+        direction_base = (u8 *)(direction_offset + (u8 *)direction_base);
         delta_x = *(s16 *)direction_base;
         direction_base_2 = (u8 *)&dir_step_y;
-        signed_value = *(s16 *)((s32)(direction_offset + (s32)direction_base_2));
+        signed_value = *(s16 *)((s32)(direction_offset + (u8 *)direction_base_2));
         delta_x = -delta_x;
         delta_x <<= 16;
         signed_value = -signed_value;

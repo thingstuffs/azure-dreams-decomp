@@ -44,7 +44,7 @@ extern s16 ghosh_script_repeat_count;
 
 /* Reset map state, update coordinate lookup values, and process both active entries. */
 void reset_map_state_and_process_entries(void) {
-    s32 coord_aux;
+    u16 coord_aux;
     s16 entry_slot;
     u16 coord_result;
     u16 lookup_key;

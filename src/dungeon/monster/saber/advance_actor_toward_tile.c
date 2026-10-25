@@ -51,7 +51,7 @@ void finish_saber_tile_hop(void *action, ObjectPosition *motion, SpriteFrameStat
     s32 next_frame;
     s32 action_timer;
     s32 entity_flags;
-    s32 target_distance;
+    u16 target_distance;
     DungeonGlobalStatus *shared_state;
     phase = ((S_80ADF3AC_0 *)action)->unk_9B;
     switch (phase) {

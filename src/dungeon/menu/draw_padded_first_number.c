@@ -31,7 +31,7 @@ void draw_padded_first_number(s32 first_number, s32 second_number, u16 width, s1
 
             if (padding_mode != 0) {
                 char_code = *cursor;
-                if ((*((u8 *)((u32)char_code + (u32)numeric_character_flags)) & 4) == 0) {
+                if ((*((u8 *)((u32)char_code + (u8 *)numeric_character_flags)) & 4) == 0) {
                     glyph_u = 0x1C0;
                     record.first = glyph_u;
                 } else {
@@ -39,7 +39,7 @@ void draw_padded_first_number(s32 first_number, s32 second_number, u16 width, s1
                 }
             } else {
                 char_code = *cursor;
-                if ((*((u8 *)((u32)char_code + (u32)numeric_character_flags)) & 4) != 0) {
+                if ((*((u8 *)((u32)char_code + (u8 *)numeric_character_flags)) & 4) != 0) {
 plus:
                     glyph_u = (char_code << 2) + 0x100;
                     record.first = glyph_u;

@@ -3,7 +3,7 @@
 #include "shared/dungeon_delay_views.h"
 
 typedef struct S_80097D08_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x78];
     s16 unk_7C;
     u8 pad_7E[0x28];

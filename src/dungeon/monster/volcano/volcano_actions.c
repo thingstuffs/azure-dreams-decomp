@@ -209,7 +209,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
     void *status;
     u8 *anim_table;
     s32 tile_record;
-    s32 direction_aux;
+    u16 direction_aux;
     u32 initial_flags = g_dungeon_status.flags;
 
     status = status_in;
@@ -972,7 +972,7 @@ void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motio
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state)
 {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 hop_frames;
     s16 next_hop_frames;
     u16 move_frames;

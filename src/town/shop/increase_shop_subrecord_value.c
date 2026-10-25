@@ -1,7 +1,7 @@
 #include "common.h"
 
 typedef struct S_800B0824_0 {
-    s32 * unk_00;
+    void (*unk_00)(void *);
     u8 pad_04[0xCC];
     void * unk_D0;
 } S_800B0824_0;   /* arg0 in increase_shop_subrecord_value; pointer addresses record offset 0x10 */

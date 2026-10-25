@@ -8,7 +8,7 @@
 
 typedef struct S_8003C128_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(void *, void *, void *);
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8003C128_0;   /* temp_v0 in func_8003C128 */

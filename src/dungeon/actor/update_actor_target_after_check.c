@@ -7,7 +7,7 @@
 
 typedef struct S_800D9884_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, EntityRec *, void *, ActorRecord *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
 } S_800D9884_0;   /* arg0 in update_actor_target_after_check */
 

@@ -3,7 +3,7 @@ void run_object_handlers_supplied_state(s32 object, s32 state, s32 context);
 
 typedef struct S_800C88AC_0 {
     u8 pad_00[0x54];
-    s32 * unk_54;
+    void (*unk_54)(s32,  s32,  s32);
 } S_800C88AC_0;   /* arg0 in func_800C88AC */
 void func_800C4804(S_800C88AC_0 *, s32, s32);
 /* Call func_800C4804 and set the object pointer to run_object_handlers_supplied_state. */

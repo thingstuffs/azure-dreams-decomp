@@ -17,7 +17,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
             } else if (state == 1) {
                 ((s32 *)position)[1] -= motion_entry[1];
             }
-            func_800C7C3C(object, position, update_arg);
+            begin_mother_event_pause(object, position, update_arg);
             return;
         }
     }

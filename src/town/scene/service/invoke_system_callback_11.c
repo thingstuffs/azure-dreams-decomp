@@ -1,8 +1,7 @@
 #include "common.h"
-extern long long town_scene_root[0x10];
-/* Call the scene object's 0x238 method with (0x11, 0x200). */
-void invoke_system_callback_11(void)
-{
-    (*((s32 (**)(s32, s32)) (((s8 *) (*((void **) (((s8 *) (*town_scene_root)) + 0x20)))) + 0x238)))(0x11,
-        0x200);
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+
+void invoke_system_callback_11(void) {
+    town_scene_root->services->callback_238(0x11, 0x200);
 }

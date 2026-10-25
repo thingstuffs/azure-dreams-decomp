@@ -52,7 +52,7 @@ void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *spr
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 

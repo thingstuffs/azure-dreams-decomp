@@ -487,7 +487,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void initialize_destination_state(void *actor, void *actor_context, SpriteFrameState *sprite, void *creature)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 behavior_flags;
 

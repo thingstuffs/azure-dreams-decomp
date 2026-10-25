@@ -104,7 +104,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x140);
             call_actor = actor;
-            action->unk_8C = (u8 *)((u32)glacier_action_resume_address);
+            action->unk_8C = (u8 *)(glacier_action_resume_address);
             ((S_80172F04_4 *)resident_globals_page)->unk_346C = 0;
             advance_status_timers(call_actor);
             ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;

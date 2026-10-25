@@ -39,7 +39,7 @@ extern u8 nyuel_frame_set_2[];
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
 void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 move_ticks;
     s32 x_delta;
     s32 axis_pos;

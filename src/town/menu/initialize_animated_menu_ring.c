@@ -2,7 +2,7 @@
 #include "town/menu/motion.h"
 
 typedef struct S_800A32F0_0 {
-    s32 * unk_00;
+    void (*unk_00)(struct Obj800A5BC0 *, void *);
     u8 pad_04[0x4];
     s16 unk_08;
     u8 pad_0A[0x6];

@@ -8,7 +8,7 @@ extern void ghosh_action_resume_address();
 
 typedef struct S_8016CED4_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)();
 } S_8016CED4_0;   /* arg0 in finish_linked_actor_motion */
 
 

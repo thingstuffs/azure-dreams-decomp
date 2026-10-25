@@ -16,7 +16,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *co
     if (control->field_10 == owner) {
         s32 index = control->index;
         if (((S_8009B2C4_0 *)((u8 *)owner + D_800CFDD8[index]))->unk_3A != 0) {
-            entry = (u8 *)(index + (s32)control);
+            entry = (u8 *)(index + (u8 *)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (scene_object_payload_alias == (s32)&D_800924EC) {
                     object->vtable->func0(object, owner, context, extra_ptr);

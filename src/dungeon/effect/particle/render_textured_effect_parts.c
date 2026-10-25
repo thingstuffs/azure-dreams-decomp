@@ -511,7 +511,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                     direction = *(u8 *)direction;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_24;
-                    direction_table = (u8 *)((s32)direction_table + direction);
+                    direction_table = (u8 *)((u8 *)direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
                     direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
                     direction_table = D_8006CCE8;
@@ -519,7 +519,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     direction += (s32)direction_table;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_25;
                     direction = *(u8 *)direction;
-                    direction_table = (u8 *)((s32)direction_table + direction);
+                    direction_table = (u8 *)((u8 *)direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
                     tile_distance = ((S_80024BE8_3 *)source)->unk_72;
                     source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;

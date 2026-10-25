@@ -13,5 +13,5 @@ void set_selected_entry_state_3(void) {
     Rec_D_80016000 *context;
 
     context = town_scene_root;
-    ((TownEntryStatus *)((context->entry_index * 8) + (s32)context->event_data))->state = 3;
+    ((TownEntryStatus *)((context->entry_index * 8) + (u8 *)context->event_data))->state = 3;
 }

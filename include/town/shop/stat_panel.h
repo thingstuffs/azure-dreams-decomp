@@ -58,7 +58,7 @@ extern u8 D_8008933C[];
 extern char *func_8004E5A0(s32 value, u16 width, char *dst);
 extern u8 *remap_flagged_string_bytes(u8 *string);
 extern s32 monster_get_species_name_text(s32);
-extern void func_800B53BC(s32, const void *, s32, s32, s32);
+extern void set_storage_entry_text(s32, const void *, s32, s32, s32);
 extern void *format_object_value_marker(void *, void *);
 extern void *format_compared_stat_pairs(void *, void *);
 extern s32 D_80089308[2];

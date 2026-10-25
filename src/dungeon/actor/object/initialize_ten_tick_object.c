@@ -10,7 +10,7 @@ extern s32 D_800D694C[];
 
 typedef struct S_800CB5DC_0 {
     u8 pad_00[0x54];
-    s32 * unk_54;
+    void (*unk_54)(Rec_func_80094268_arg0 *, s32,  s32);
     u8 pad_58[0x8];
     s32 unk_60;
     u8 pad_64[0x8];

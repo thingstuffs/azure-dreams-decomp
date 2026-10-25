@@ -10,7 +10,7 @@
 
 typedef struct S_80172998_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)();
     s32 unk_90;
     u8 pad_94[0x2];
     s16 unk_96;
@@ -35,7 +35,7 @@ extern void golem_action_continuation_address();
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
 void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, SpriteFrameState *tile, ActorRecord *actor)
 {
-    s32 coord_result;
+    u16 coord_result;
     s32 phase;
     u32 actor_flags;
 

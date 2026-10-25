@@ -93,7 +93,7 @@ void card_build_selected_slot_details(void *panel) {
     widget = ((S_80404EA0_0 *)panel)->slot_widget;
     func_8003830C(((S_80404EA0_0 *)panel)->slot_index + 1, text_buf);
     func_8007BF50(text_buf, D_80400660);
-    func_8007BF50(text_buf, (s16 *)((((S_80404EA0_0 *)panel)->slot_index << 7) + (s32)&card_slot_detail_records));
+    func_8007BF50(text_buf, (s16 *)((((S_80404EA0_0 *)panel)->slot_index << 7) + (u8 *)&card_slot_detail_records));
     slot_text = panel + 0x80;
     func_80051B50(slot_text, text_buf, 1);
     widget->unk_00.s = slot_text;

@@ -22,7 +22,7 @@ s32 lookup_patterned_display_icon(s32 index);
 s32 lookup_unpatterned_display_icon(s32);
 int get_low_flag_priority(int);
 struct S_800B5264_0; void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
-s32 func_800B53BC(s32, const void *, s32, s32, s32);
+s32 set_storage_entry_text(s32, const void *, s32, s32, s32);
 s32 build_encoded_display_sequence();
 
 typedef struct S_800B6094_0 {
@@ -70,7 +70,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
     entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)item_action_definitions));
     set_display_entry_text_and_position((struct S_800B5264_0 *)(row_data->unk_20), entry_info->unk_00, 0, 0x58, text_y);
-    func_800B53BC(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    set_storage_entry_text(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = get_low_flag_priority(entry_info->unk_10);
     icon_slot = row_data->unk_38;
     if (runtime_test_table_byte_pattern(entry->unk_00) != 0) {

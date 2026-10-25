@@ -113,10 +113,10 @@ void format_and_display_entity_stats(void *stats, void *panels) {
     func_8004E5A0(((u8 *)stats)[0x29], 3, digits);
     strcat(text, digits);
 
-    func_800B53BC(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);
-    func_800B53BC(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
+    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);
+    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
                   0xB8);
-    func_800B53BC(*(s32 *)((u8 *)panels + 0x14),
+    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x14),
                   format_object_value_marker(text, stats), 0, 0x48, 0xC0);
 }
 
@@ -188,7 +188,7 @@ void populate_display_rows(s32 source_id, void *display) {
         }
         set_display_entry_text_and_position((struct S_800B5264_0 *)(((S_800B59A4_0 *)row_display)->unk_18), select_item_data(entry, &scratch[8]), scratch[8], 0x58,
             text_y);
-        func_800B53BC(((S_800B59A4_0 *)row_display)->unk_24, format_optional_signed_value(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
+        set_storage_entry_text(((S_800B59A4_0 *)row_display)->unk_24, format_optional_signed_value(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
         entry_info = *entry_slot;
         ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_00 =
             lookup_item_category_mapped_value(entry_info->unk_01, entry_info->unk_00);

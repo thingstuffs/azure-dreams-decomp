@@ -45,7 +45,7 @@ extern u8 D_8017388C[];
 /* Updates airborne movement, landing animation, and actor recovery when the timer expires. */
 void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, void *actor)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s32 move_ticks;
     s32 origin_x;
     s32 origin_y;

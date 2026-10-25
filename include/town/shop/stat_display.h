@@ -78,7 +78,7 @@ void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s
 extern char *strcat(char *dst, const char *src);
 extern char *func_8004E5A0(s32 value, u16 width, char *dst);
 extern char *func_8004E634(u32 value, char *dst);
-extern void func_800B53BC(s32 entry, const void *text, s32 style, s32 x, s32 y);
+extern void set_storage_entry_text(s32 entry, const void *text, s32 style, s32 x, s32 y);
 extern u8 D_80089304[];
 
 /* Functions defined in this translation unit. */

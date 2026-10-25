@@ -1397,18 +1397,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_80013920",
+      "home": "main/func_80013920",
+      "tu": "src/frontend/libcard/release_card_record_handles.c",
       "foff": "0x263920",
-      "size": 140,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
-    },
-    {
-      "row": "main/func_802439AC",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x2639AC",
-      "vma": "0x800269AC",
-      "size": 8
+      "vma": "0x80026920",
+      "size": 148,
+      "evidence": "docs/evidence/r124w_carve1_run10.md"
     },
     {
       "kind": "code_region",
@@ -1572,18 +1567,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_80014324",
+      "home": "main/func_80014324",
+      "tu": "src/frontend/libcard/prepare_save_heading_layout.c",
       "foff": "0x264324",
-      "size": 56,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
-    },
-    {
-      "row": "main/func_8024435C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x26435C",
-      "vma": "0x8002735C",
-      "size": 8
+      "vma": "0x80027324",
+      "size": 64,
+      "evidence": "docs/evidence/r124w_carve1_run10.md"
     },
     {
       "kind": "code_region",
@@ -1822,13 +1812,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29320,
+    "proven_code": 29516,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5347
+    "unknown": 5151
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20823,
+  "logical_rows": 20829,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -23917,13 +23917,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_809D0534"
+        "dungeon/func_809CFDF4"
       ]
     },
     {
@@ -24477,13 +24477,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_809DC534"
+        "dungeon/func_809DBDF4"
       ]
     },
     {
@@ -24757,13 +24757,13 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
+      "source": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
       },
       "rows": [
-        "dungeon/func_809E2534"
+        "dungeon/func_809E1DF4"
       ]
     },
     {
@@ -93757,6 +93757,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/weadog/update_weadog_flight.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EEB0BC"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -94764,6 +94774,16 @@
       },
       "rows": [
         "dungeon/func_80EFB678"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/weadog/update_weadog_flight.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EFD0BC"
       ]
     },
     {
@@ -133707,6 +133727,16 @@
       ]
     },
     {
+      "source": "src/frontend/libcard/release_card_record_handles.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80013920"
+      ]
+    },
+    {
       "source": "src/frontend/libcard/card_boot_refresh_paired_choice_labels.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -133894,6 +133924,16 @@
       },
       "rows": [
         "main/func_8001431C"
+      ]
+    },
+    {
+      "source": "src/frontend/libcard/prepare_save_heading_layout.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80014324"
       ]
     },
     {
@@ -136407,16 +136447,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_802439AC"
-      ]
-    },
-    {
       "source": "src/frontend/libcard/card_boot_set_centered_rectangle.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136424,16 +136454,6 @@
       },
       "rows": [
         "main/func_80244080"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_8024435C"
       ]
     },
     {
@@ -136627,26 +136647,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80015890"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80015A10"
-      ]
-    },
-    {
       "source": "src/town/shop/position/position_item_menu_side_indicators.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136707,16 +136707,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80016EE0"
-      ]
-    },
-    {
       "source": "src/town/shop/arrange_ten_objects_in_columns.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136727,16 +136717,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800171A0"
-      ]
-    },
-    {
       "source": "src/town/shop/position/position_item_menu_side_indicators.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136744,16 +136724,6 @@
       },
       "rows": [
         "town/func_80017300"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8001745C"
       ]
     },
     {
@@ -136777,16 +136747,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80017CE4"
-      ]
-    },
-    {
       "source": "src/town/shop/initialize_display_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136794,16 +136754,6 @@
       },
       "rows": [
         "town/func_80018CAC"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800192A4"
       ]
     },
     {
@@ -137187,16 +137137,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002A520"
-      ]
-    },
-    {
       "source": "src/town/person/decrement_mother_event_timer_and_restore.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -137414,16 +137354,6 @@
       },
       "rows": [
         "town/func_8002C374"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002C574"
       ]
     },
     {
@@ -144487,6 +144417,16 @@
       ]
     },
     {
+      "source": "src/town/menu/arrange_ten_objects_in_menu_columns.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B5828"
+      ]
+    },
+    {
       "source": "src/town/shop/fill_ten_paged_output_slots.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144504,6 +144444,16 @@
       },
       "rows": [
         "town/func_800B5978"
+      ]
+    },
+    {
+      "source": "src/town/shop/arrange_storage_item_columns.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B59A8"
       ]
     },
     {
@@ -144687,6 +144637,16 @@
       ]
     },
     {
+      "source": "src/town/shop/create_storage_item_menu.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B6E28"
+      ]
+    },
+    {
       "source": "src/town/shop/forward_record_fields_to_page_loader.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144707,6 +144667,16 @@
       ]
     },
     {
+      "source": "src/town/shop/initialize_storage_cursor.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B7158"
+      ]
+    },
+    {
       "source": "src/town/shop/forward_source_data_to_component.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144717,6 +144687,26 @@
       ]
     },
     {
+      "source": "src/town/shop/arrange_storage_item_columns.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B7248"
+      ]
+    },
+    {
+      "source": "src/town/shop/refresh_storage_page.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B72B8"
+      ]
+    },
+    {
       "source": "src/town/shop/update_control_indicators_and_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144724,6 +144714,16 @@
       },
       "rows": [
         "town/func_800B7350"
+      ]
+    },
+    {
+      "source": "src/town/shop/update_storage_display.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B741C"
       ]
     },
     {
@@ -144747,6 +144747,16 @@
       ]
     },
     {
+      "source": "src/town/shop/initialize_storage_display_links.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B755C"
+      ]
+    },
+    {
       "source": "src/town/shop/object/initialize_object_resources.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144754,6 +144764,16 @@
       },
       "rows": [
         "town/func_800B7778"
+      ]
+    },
+    {
+      "source": "src/town/shop/create_storage_owner_menu.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B7800"
       ]
     },
     {
@@ -144784,6 +144804,16 @@
       },
       "rows": [
         "town/func_800B7B94"
+      ]
+    },
+    {
+      "source": "src/town/shop/set_storage_entry_text.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B7C5C"
       ]
     },
     {
@@ -144904,6 +144934,16 @@
       },
       "rows": [
         "town/func_800B90DC"
+      ]
+    },
+    {
+      "source": "src/town/shop/load_storage_display_resource.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800B9230"
       ]
     },
     {
@@ -147627,6 +147667,16 @@
       ]
     },
     {
+      "source": "src/town/person/begin_mother_event_pause.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CA4DC"
+      ]
+    },
+    {
       "source": "src/town/person/initialize_mother_event_defaults.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -148064,6 +148114,16 @@
       },
       "rows": [
         "town/func_800CC4F4"
+      ]
+    },
+    {
+      "source": "src/town/person/initialize_reaction_object_four.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CC534"
       ]
     },
     {

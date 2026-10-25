@@ -167,7 +167,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
+                if ((check_entity_relation(entity, ((S_8016B778_3 *)((primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                     return;
                 }
             }

@@ -48,7 +48,7 @@ extern u8 D_80168ED8[];
 /* Updates a timed hop toward the target tile and handles actor recovery when the timer expires. */
 void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrameState *sprite, void *actor)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s32 state;
     s32 hop_ticks;
     s32 actor_flags;

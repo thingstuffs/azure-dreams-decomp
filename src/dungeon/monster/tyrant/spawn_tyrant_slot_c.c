@@ -29,7 +29,7 @@ typedef struct S_func_80158898_2 {
 
 typedef struct S_func_80158898_4 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(Rec_func_800A9E70_arg0 *, void *, ActorSpriteView *, EntityRec *);
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];

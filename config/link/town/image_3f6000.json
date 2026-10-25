@@ -2,11 +2,10 @@
   "schema": "azure-clean.linklist.v0",
   "image": "town/image_3f6000",
   "container": "town",
-  "foff": "0x3F6000",
+  "foff": "0x3f5000",
   "size": "0x4800",
-  "vma": "0x80017000",
-  "layout": "image_3f6000_family",
-  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "vma": "0x80016000",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5); docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
   "entries": [
     {
       "row": "town/func_804762B8",

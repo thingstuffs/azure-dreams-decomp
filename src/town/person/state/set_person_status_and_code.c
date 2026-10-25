@@ -10,7 +10,7 @@ typedef struct S_800AAE00_0 {
 
 typedef struct S_800AAE00_1 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)();
     u8 pad_54[0x18];
     s16 unk_6C;
 } S_800AAE00_1;   /* arg0 in set_person_status_and_code */

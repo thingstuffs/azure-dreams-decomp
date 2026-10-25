@@ -16,7 +16,7 @@ typedef struct S_80036434_0 {
     u8 pad_4E[0x16];
     s16 unk_64;
     u8 pad_66[0x2];
-    s32 * unk_68;
+    void (*unk_68)(struct S_80036484_0 *);
 } S_80036434_0;   /* arg0 in confirm_menu_choice */
 
 /* Saves the object's flags and enters state 0x11 with a new handler and flag 0x80 set. */

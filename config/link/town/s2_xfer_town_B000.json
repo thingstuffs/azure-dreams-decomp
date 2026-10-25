@@ -1164,24 +1164,6 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
-      "row": "town/func_80015890",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x35890",
-      "vma": "0x800b2ff0",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
-      "row": "town/func_80015A10",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x35A10",
-      "vma": "0x800b3170",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
       "row": "town/func_800B6108",
       "tu": "src/town/menu/state/initialize_item_menu_state.c",
       "home": "town/func_800B29F8",
@@ -1222,56 +1204,11 @@
       "evidence": "LL3a attestation sha256:cbfd3f74a0107597f0dff27d522382d916c239b52d2726d430a9e10a8629c619; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
-      "row": "town/func_80016EE0",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x36EE0",
-      "vma": "0x800b4640",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
-      "row": "town/func_800171A0",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x371A0",
-      "vma": "0x800b4900",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
-      "row": "town/func_8001745C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x3745C",
-      "vma": "0x800b4bbc",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
       "row": "town/func_800174D0",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
       "foff": "0x374D0",
       "vma": "0x800b4c30",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
-      "row": "town/func_80017CE4",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x37CE4",
-      "vma": "0x800b5444",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
-      "row": "town/func_800192A4",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x392A4",
-      "vma": "0x800b6a04",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
@@ -1820,15 +1757,6 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
-      "row": "town/func_8002A520",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x4A520",
-      "vma": "0x800c7c80",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
       "row": "town/func_8002A948",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
@@ -1904,15 +1832,6 @@
       "foff": "0x0004C3E4",
       "vma": "0x800C9B44",
       "size": 200
-    },
-    {
-      "row": "town/func_8002C574",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x4C574",
-      "vma": "0x800c9cd4",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "town/func_800CD388",

@@ -3,7 +3,7 @@
 #include "records/Rec_func_8009CD18_arg1.h"
 
 typedef struct S_800A6DA0_0 {
-    s32 * unk_00;
+    void (*unk_00)(void *, void *, void *);
     u8 pad_04[0x5C];
     s32 unk_60;
 } S_800A6DA0_0;   /* arg0 in initialize_scaled_effect_object; pointer addresses record offset 0x10 */

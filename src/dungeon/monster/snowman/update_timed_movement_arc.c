@@ -51,7 +51,7 @@ void update_timed_movement_arc(void *action, void *motion, void *sprite, void *a
     s32 next_frames;
     s32 action_timer;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *global_state;
 
     state = ((S_80154C54_0 *)action)->unk_9B;

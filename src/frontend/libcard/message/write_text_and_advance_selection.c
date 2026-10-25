@@ -17,7 +17,7 @@ typedef struct S_800265B8_0 {
 #include "frontend/libcard/message.h"
 #include "frontend/libcard/resource.h"
 #include "slus.h"
-extern void func_80026920(void *object);
+extern void release_card_record_handles(CardHandleOwner *object);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
 void write_text_and_advance_selection(u8 *menu)
@@ -34,7 +34,7 @@ void write_text_and_advance_selection(u8 *menu)
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
-            func_80026920(menu - 0x20);
+            release_card_record_handles(menu - 0x20);
             init_card_boot_request_object(((S_800265B8_0 *)menu)->request, ((S_800265B8_0 *)menu)->unk_24);
             return;
         }
@@ -84,6 +84,6 @@ void write_text_and_advance_selection(u8 *menu)
         return;
     }
 
-    func_80026920(menu - 0x20);
+    release_card_record_handles(menu - 0x20);
     init_card_boot_request_object(((S_800265B8_0 *)menu)->request, ((S_800265B8_0 *)menu)->unk_24);
 }

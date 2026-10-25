@@ -39,7 +39,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
     void *motion = motion_arg;
     SpriteFrameState *actor= actor_arg;
     void *entity = entity_arg;
-    s32 direction_info;
+    u16 direction_info;
     s32 move_ticks;
     s32 next_move_ticks;
     s32 tile_x;

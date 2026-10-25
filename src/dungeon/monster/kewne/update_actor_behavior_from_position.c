@@ -60,7 +60,7 @@ extern u8 D_8015DEB8[];
 /* Update actor animation, behavior, and facing from its status and player position. */
 void update_actor_behavior_from_position(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
-    s32 facing_aux;
+    u16 facing_aux;
     s8 room_id;
     u16 behavior_flags;
 

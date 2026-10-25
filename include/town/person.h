@@ -105,4 +105,18 @@ void initialize_variant_object(PersonObject *object);
 
 void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
 
+/* Access view of event initialization callbacks at +0x4C/+0x50/+0x6C. */
+typedef struct PersonSetupState {
+    u8 pad_00[0x4C];
+    s8 mode;
+    s8 phase;
+    u8 pad_4E[2];
+    void *callback;
+    u8 pad_54[0x18];
+    s16 timer;
+} PersonSetupState;
+
+void begin_mother_event_pause(PersonSetupState *object, void *unused, void *context);
+void initialize_reaction_object_four(PersonSetupState *object, void *unused, void *context);
+
 #endif

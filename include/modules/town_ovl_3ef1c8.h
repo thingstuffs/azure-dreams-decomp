@@ -162,7 +162,7 @@ s32 lookup_entry_with_fallback_d(s32 context, s32 check_value, s32 selector);
 s32 func_80017A70(s32 context, s32 check_value, s32 selector);
 s32 lookup_entry_with_fallback_e(s32 context, s32 check_value, s32 selector);
 s32 func_80017B40(s32 context, s32 check_value, s32 selector);
-void clear_progress_and_dispatch_code_12_cb(s32 handler_id, s32 handler_arg);
+void clear_progress_and_dispatch_code_12_cb(void *handler_id, s32 handler_arg);
 void invoke_handler_with_code_780(void);
 void invoke_alternate_handler_with_code_780(void);
 void invoke_status_handler_with_code_780(void);

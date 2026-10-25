@@ -11,7 +11,7 @@ typedef struct S_8003626C_0 {
     u8 pad_4D[0x3];
     s8 unk_50;
     u8 pad_51[0x17];
-    s32 * unk_68;
+    void (*unk_68)(struct S_800362A0_0 *);
 } S_8003626C_0;   /* arg0 in runtime_reset_state_on_trigger_bits */
 
 /* Resets state fields and selects the next handler when either trigger bit is set. */

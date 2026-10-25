@@ -13,7 +13,7 @@ typedef struct S_800362A0_0 {
     u8 pad_00[0x50];
     u8 unk_50;
     u8 pad_51[0x17];
-    s32 * unk_68;
+    void (*unk_68)(void *);
 } S_800362A0_0;   /* arg0 in runtime_mark_state_when_flag_50_set */
 
 /* If the flag at offset 0x50 is set, marks the linked state and selects func_80036154. */

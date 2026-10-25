@@ -32,8 +32,8 @@ s32 relocate_sprite_metadata_pointers(void *object_addr)
     if (object_addr != obj->anchor) {
         delta = (s32)object_addr - (s32)obj->anchor;
         obj->anchor = object_addr;
-        obj->arr = (s32 *)((s32)obj->arr + delta);
-        obj->end = (s32 *)((s32)obj->end + delta);
+        obj->arr = (s32 *)((u8 *)obj->arr + delta);
+        obj->end = (s32 *)((u8 *)obj->end + delta);
         obj->val0C += delta;
         obj->val14 += delta;
         obj->val1C += delta;

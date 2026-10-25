@@ -52,7 +52,7 @@ void fade_tinted_display_sprite(void *effect, void *unused, void *primitive) {
         ((S_81940800_1 *)primitive)->unk_06 = (s16)((u16)((S_81940800_1 *)primitive)->unk_06 - 2);
     }
     if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
-        ((S_81940800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((s32)((EntityRec *)effect)->target))))->unk_46 = 0;
+        ((S_81940800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((u8 *)((EntityRec *)effect)->target))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

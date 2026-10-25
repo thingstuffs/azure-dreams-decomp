@@ -34,7 +34,7 @@ extern s16 beldo_script_timer;
 /* Set up the active object's handler and direction, then update its two linked entries. */
 void begin_multi_form_directional_script(void)
 {
-    s32 unused_result;
+    u16 unused_result;
     s32 slot;
     u16 direction;
     u8 *work_page;

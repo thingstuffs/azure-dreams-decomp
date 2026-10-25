@@ -2,10 +2,10 @@
   "schema": "azure-clean.linklist.v0",
   "image": "town/image_49e800",
   "container": "town",
-  "foff": "0x49E800",
-  "size": "0x6000",
+  "foff": "0x49e800",
+  "size": "0x4000",
   "vma": "0x80016000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more)",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more); docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
   "entries": [
     {
       "row": "town/func_8051EEC8",

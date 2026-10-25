@@ -4,7 +4,7 @@
 extern void town_interaction_action_address();
 
 typedef struct S_800946FC_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0x6];
     s16 unk_0A;
 } S_800946FC_0;   /* arg0 in initialize_actor_interaction_state_19 */

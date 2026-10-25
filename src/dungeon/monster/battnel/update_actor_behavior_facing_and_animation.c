@@ -68,7 +68,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, void *context, Sp
 {
     u8 *anim_table;
     s32 room_id;
-    s32 direction_aux;
+    u16 direction_aux;
     s16 anim_ticks;
     u32 initial_flags = g_dungeon_status.flags;
 

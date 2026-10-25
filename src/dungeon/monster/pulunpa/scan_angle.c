@@ -44,7 +44,7 @@ static __inline__ s16 scan_angle(s32 direction)
 
 /* Selects a neighboring target and starts an action when the reference entity is nearby. */
 s32 select_nearby_target_and_start_action(void *action_state, void *unused, SpriteFrameState *actor_pos_arg, void *actor) {
-    s32 distance;
+    u16 distance;
     s32 neighbor_flags;
     s32 direction;
     u16 reference_found;

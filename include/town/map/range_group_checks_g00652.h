@@ -15,7 +15,7 @@ extern s16 *D_800D4660[];
 
 /* Functions defined in this translation unit. */
 s32 find_containing_range_group(s32 value, s16 **range_groups);
-void pass_value_and_range_groups(s32 value);
+s32 pass_value_and_range_groups(s32 value);
 s32 check_masked_value_in_current_range(s32 value);
 
 #endif

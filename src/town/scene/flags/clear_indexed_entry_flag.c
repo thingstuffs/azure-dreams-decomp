@@ -11,5 +11,5 @@ typedef struct S_805D21B4_1 {
 
 /* Clears the byte at offset 4 in the selected eight-byte entry. */
 void clear_indexed_entry_flag(void) {
-    ((S_805D21B4_1 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04 = 0;
+    ((S_805D21B4_1 *)(((town_scene_root->entry_index * 8) + ((u8 *)town_scene_root->event_data))))->unk_04 = 0;
 }

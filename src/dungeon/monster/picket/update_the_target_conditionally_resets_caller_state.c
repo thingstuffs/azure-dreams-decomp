@@ -6,7 +6,7 @@
 
 typedef struct S_801724A8_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, void *, ActorRecord *);
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
 } S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
 

@@ -257,7 +257,7 @@ void card_dev_refresh_options_object(void *object);
 void release_card_screen_parts(void *object);
 
 /* card_dev_refresh_slot_outputs.c */
-void card_dev_refresh_slot_outputs(s32 value, s32 *enabled, s32 *selected);
+void card_dev_refresh_slot_outputs(u8 *value, s32 *enabled, s32 *selected);
 
 /* card_dev_reset_object_tint.c */
 void card_dev_reset_object_tint(struct S_8001D668_0 *object);

@@ -50,7 +50,7 @@ extern u8 uboat_timed_motion_frames_alt[];
 /* Updates timed actor movement, landing animations, and the next action. */
 void update_actor_timed_tile_motion(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
-    s32 target_distance;
+    u16 target_distance;
     s32 phase;
 
     phase = ((S_801730C4_0 *)action)->unk_9B;

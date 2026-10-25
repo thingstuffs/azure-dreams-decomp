@@ -9,6 +9,23 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F235800: img_f1d6d8_80152ed8, img_f1f8e0_801550e0, img_f1fcb0_801554b0, r121_followup_F2071C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80EFD0BC",
+      "home": "dungeon/func_80EDF000",
+      "tu": "src/dungeon/monster/weadog/update_weadog_flight.c",
+      "foff": "0xF1D0BC",
+      "vma": "0x801528BC",
+      "size": 1564,
+      "evidence": "docs/evidence/r124w_carve1_run10.md",
+      "bindings": {
+        "0x80170808": "0x80152808",
+        "0x800A7A7C": "0x800A7A7C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800814A0": "0x800814A0",
+        "0x800A45D8": "0x800A45D8",
+        "0x800A7234": "0x800A7234"
+      }
+    },
+    {
       "row": "dungeon/func_80EFD8B8",
       "tu": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "home": "dungeon/func_80EDF8B8",

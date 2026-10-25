@@ -56,7 +56,7 @@ void card_boot_release_three_row_panel_text(void *record);
 void card_boot_stop_slot_window_updates(void *record_data);
 
 /* format_save_heading_text.c */
-void format_save_heading_text(s32 base_addr);
+void format_save_heading_text(u8 *base_addr);
 
 /* initialize_text_editor_context.c */
 void initialize_text_editor_context(void *dest, s32 record_index);

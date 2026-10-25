@@ -23,7 +23,7 @@ void reset_multi_form_actor_state(s32 reset_arg_a, s32 reset_arg_b, s32 reset_ar
     set_monster_data_pointer();
     state[0xAF] = 0;
     do {
-        object = *(s32 *)((object_index * 4) + ((s32)dungeon_actor_ring_anchor) + 0xAC);
+        object = *(s32 *)((object_index * 4) + ((u8 *)dungeon_actor_ring_anchor) + 0xAC);
         if (object != 0) {
             clear_entry_flag_and_link_owner(object - 0x20);
         }

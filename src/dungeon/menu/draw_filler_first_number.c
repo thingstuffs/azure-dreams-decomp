@@ -33,7 +33,7 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
             if (fill_mode != 0) {
 
                 character = *char_ptr;
-                if ((*((u8 *)((u32)character + (u32)numeric_character_flags)) & 4) == 0) {
+                if ((*((u8 *)((u32)character + (u8 *)numeric_character_flags)) & 4) == 0) {
                     glyph_coord = 0x1C0;
                     record.first = glyph_coord;
                 } else {
@@ -42,7 +42,7 @@ void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s1
             } else {
 
                 character = *char_ptr;
-                if ((*((u8 *)((u32)character + (u32)numeric_character_flags)) & 4) != 0) {
+                if ((*((u8 *)((u32)character + (u8 *)numeric_character_flags)) & 4) != 0) {
 plus:
                     glyph_coord = (character << 2) + 0x100;
                     record.first = glyph_coord;

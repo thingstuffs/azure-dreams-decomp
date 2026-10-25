@@ -23,7 +23,7 @@ typedef struct S_80170F84_1 {
     u8 pad_14[0x8];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    s32 * unk_8C;
+    void (*unk_8C)(void *, void *, SpriteFrameState *, void *);
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];

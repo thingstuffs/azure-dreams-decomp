@@ -52,7 +52,7 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, Sprite
     s32 next_hop_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 facing_aux;
+    u16 facing_aux;
     DungeonGlobalStatus *global_base;
 
     state = ((S_8014EBAC_0 *)action)->unk_9B;

@@ -3,7 +3,7 @@ void forward_state_value_to_handler_b(void *state, s32 value);
 
 typedef struct S_80098CD8_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)(void *, s32);
     u8 pad_08[0x8];
     s16 unk_10;
 } S_80098CD8_0;   /* arg0 in set_handler_and_countdown_400 */

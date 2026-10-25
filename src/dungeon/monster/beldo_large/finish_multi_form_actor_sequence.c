@@ -42,7 +42,7 @@ void finish_multi_form_actor_sequence(void)
     func_8016ECFC();
     i = 0;
     do {
-        value = ((S_8016ED98_2 *)(((s32)dungeon_actor_ring_anchor) + i * 4))->unk_AC;
+        value = ((S_8016ED98_2 *)(((u8 *)dungeon_actor_ring_anchor) + i * 4))->unk_AC;
         if (value != 0) {
             clear_entry_flag_and_link_owner((void *)(value - 0x20));
         }

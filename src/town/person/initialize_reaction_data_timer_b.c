@@ -15,7 +15,7 @@ void move_reaction_toward_target(Object *object, Position *position, void *conte
 
 typedef struct S_800CA75C_0 {
     u8 pad_00[0x54];
-    s32 * unk_54;
+    void (*unk_54)(Object *, Position *, void *);
     u8 pad_58[0x14];
     s16 unk_6C;
 } S_800CA75C_0;   /* arg0 in initialize_reaction_data_and_timer_13 */

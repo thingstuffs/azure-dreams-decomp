@@ -51,7 +51,7 @@ void update_hop_movement_and_animation(void *action, void *motion, void *sprite,
     s32 next_hop_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    s32 direction_aux;
+    u16 direction_aux;
     DungeonGlobalStatus *global_base;
 
     state = ((S_8016CC54_0 *)action)->unk_9B;

@@ -76,9 +76,9 @@ void store_table_index_and_entry_bytes(void *object, s32 index);
 /* extern */
 s32 func_800B3924();
 /* extern */
-s32 func_800B4588();
+s32 create_storage_item_menu();
 /* extern */
-s32 func_800B4F60();
+s32 create_storage_owner_menu();
 /* extern */
 void handle_item_menu_input_2(u8 *menu);
 extern void func_800B3A80(s32);

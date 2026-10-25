@@ -609,7 +609,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
     direction = (s16)direction_bits;
     x_steps = (u8 *)dir_step_x;
     step_offset = direction * 2;
-    x_step = (u16 *)((s32)step_offset + (s32)x_steps);
+    x_step = (u16 *)((s32)step_offset + (u8 *)x_steps);
     coord_or_height = actor_or_height->x;
     offset_work = *x_step;
     direction_or_x = direction_arg;

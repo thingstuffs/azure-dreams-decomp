@@ -8,7 +8,7 @@ typedef struct S_80035614_0 {
     u8 pad_00[0x4C];
     s8 unk_4C;
     u8 pad_4D[0x1B];
-    s32 * unk_68;
+    void (*unk_68)(struct S_8003566C_0 *);
     u8 pad_6C[0x8];
     s32 unk_74;
 } S_80035614_0;   /* arg0 in init_window_object */

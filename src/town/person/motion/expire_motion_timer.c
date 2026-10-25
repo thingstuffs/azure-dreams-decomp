@@ -5,7 +5,7 @@ void advance_motion_and_switch_handler(Rec_func_80094268_arg0 *object, EntityRec
 
 typedef struct S_800C3FC8_0 {
     u8 pad_00[0x54];
-    s32 * unk_54;
+    void (*unk_54)(Rec_func_80094268_arg0 *, EntityRec *, void *);
     u8 pad_58[0x14];
     u16 unk_6C;
 } S_800C3FC8_0;   /* arg0 in expire_motion_timer */

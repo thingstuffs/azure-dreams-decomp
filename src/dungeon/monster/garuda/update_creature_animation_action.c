@@ -51,7 +51,7 @@ void update_creature_animation_action(void *, void *, void *, void *);
 /* Update creature animation and dispatch its dungeon action. */
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s8 room_id;
     u16 action;
     SpriteFrameState *sprite;

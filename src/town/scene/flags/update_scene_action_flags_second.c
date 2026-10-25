@@ -25,7 +25,7 @@ s32 update_scene_action_flags(s32 object, s32 context) {
         call_helper_with_fixed_id_0x118a(F_sbs07_pad26);
         if (((S_func_804B80D0_1 *)
              ((town_scene_root->entry_index * 8) +
-              ((s32)town_scene_root->event_data)))->unk_02 == 0) {
+              ((u8 *)town_scene_root->event_data)))->unk_02 == 0) {
             func_800188CC(F_sbs07_pad29);
         }
     }

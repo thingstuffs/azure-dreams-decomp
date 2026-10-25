@@ -2,10 +2,10 @@
   "schema": "azure-clean.linklist.v0",
   "image": "dungeon/bank_a7f800",
   "container": "dungeon",
-  "foff": "0xA7F800",
+  "foff": "0xa7f000",
   "size": "0x6000",
-  "vma": "0x80159000",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6D9800: img_a80000_80159800, r121nd_A7FC0C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "vma": "0x80158800",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6D9800: img_a80000_80159800, r121nd_A7FC0C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5); docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
   "entries": [
     {
       "row": "dungeon/func_80A5FC0C",

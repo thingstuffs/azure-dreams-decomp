@@ -16,7 +16,7 @@ typedef struct S_8003661C_0 {
     u8 pad_4E[0x16];
     s16 unk_64;
     u8 pad_66[0x2];
-    s32 * unk_68;
+    void (*unk_68)(struct S_80036484_0 *);
 } S_8003661C_0;   /* arg0 in confirm_timed_menu_choice */
 
 /* Save the object's flags in its linked data and initialize state 0x11. */

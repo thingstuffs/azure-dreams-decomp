@@ -8,7 +8,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1) {
     s32 dx;
     s32 dy;
-    s32 query_aux;
+    u16 query_aux;
 
     dx = __builtin_abs(x1 - x0);
     if (dx >= 2)

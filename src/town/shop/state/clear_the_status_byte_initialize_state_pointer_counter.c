@@ -10,7 +10,7 @@ typedef struct S_8009EB20_0 {
 
 typedef struct S_8009EB20_1 {
     u8 pad_00[0x50];
-    s32 * unk_50;
+    void (*unk_50)(TownActor *, s32,  MotionVector *, s32);
     u8 pad_54[0x18];
     s16 unk_6C;
 } S_8009EB20_1;   /* arg0 in clear_the_status_byte_initialize_state_pointer_counter */

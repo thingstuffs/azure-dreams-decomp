@@ -22,7 +22,7 @@ typedef struct S_80FD5000_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x6C];
-    s32 * unk_8C;
+    void (*unk_8C)(ActionState *, ActorMotion *, ActorSprite *, CreatureState *);
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];

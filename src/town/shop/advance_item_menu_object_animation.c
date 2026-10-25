@@ -14,7 +14,7 @@ typedef struct S_800AE630_3 {
 
 
 typedef struct S_800AE630_0 {
-    s32 * unk_00;
+    void (*unk_00)();
     u8 pad_04[0xC];
     void (*unk_10)(void *);
     u8 pad_14[0x8];

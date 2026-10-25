@@ -15,7 +15,7 @@ void card_boot_cache_save_header(s32 entry_index, void *source) {
 
     base = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
     initial_offset = entry_index << 7;
-    entry = (s32 *)(initial_offset + (s32)base);
+    entry = (s32 *)(initial_offset + (u8 *)base);
     memcpy(entry, (u8 *)source + 0x200, 0x80);
     final_offset = entry_index << 7;
     final_base = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));

@@ -41,7 +41,7 @@ extern u8 D_801760C4;
 /* Updates the actor's hop animation and finishes the timed movement at its destination tile. */
 void update_item_hop_animation(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s32 state;
     s32 move_frames;
     s32 target_x;

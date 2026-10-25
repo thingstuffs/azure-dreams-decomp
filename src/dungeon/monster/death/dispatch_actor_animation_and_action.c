@@ -77,7 +77,7 @@ typedef struct S_801719DC_1 {
  * offsets on return to idle. */
 void dispatch_actor_animation_and_action(void *motion_in, void *context_in, SpriteFrameState *entity_in, void *actor_in)
 {
-    s32 direction_aux;
+    u16 direction_aux;
     s8 room_id;
     u16 action_state;
 

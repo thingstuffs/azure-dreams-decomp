@@ -4,6 +4,7 @@
 /* Original-file evidence (G00670): inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@4A4DC, CL:town/func_800CA30C, CL:town/func_800CA364, CL:town/func_800CA490, PD:town/engine:80113220. */
 
 #include "common.h"
+#include "town/person.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "m2c_compat.h"
 #include "town/person/object/initialize_object_entries_api.h"

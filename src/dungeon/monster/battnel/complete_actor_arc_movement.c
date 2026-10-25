@@ -32,7 +32,7 @@ extern s32 battnel_action_resume_address;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
 void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
-    s32 query_output;
+    u16 query_output;
     s32 frames_left;
     s32 entity_flags;
     s32 phase;

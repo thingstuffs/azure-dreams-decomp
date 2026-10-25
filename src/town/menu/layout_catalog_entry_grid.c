@@ -121,7 +121,7 @@ initial_loop:
         void **object_base;
         object_base = catalog_display_node_slots;
         object_offset = object_index << 2;
-        group_slot = (void **)(object_offset + (u32)object_base);
+        group_slot = (void **)(object_offset + (u8 *)object_base);
     }
     do {
         object = *group_slot;
@@ -151,7 +151,7 @@ initial_loop:
     {
         void **object_base;
         object_base = catalog_display_node_slots;
-        entry_slot = (void **)((object_index << 2) + (u32)object_base);
+        entry_slot = (void **)((object_index << 2) + (u8 *)object_base);
     }
     entry_data = catalog_grid_packets;
     do {

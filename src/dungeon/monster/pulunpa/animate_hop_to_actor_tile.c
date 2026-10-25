@@ -41,7 +41,7 @@ extern u8 D_801762E0[];
 /* Animate a hop to the actor's tile and finish the action when its timer expires. */
 void animate_hop_to_actor_tile(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    s32 target_distance;
+    u16 target_distance;
     s32 tile_origin_y;
     s32 hop_frames;
     s32 next_hop_frame;

@@ -6,7 +6,7 @@ void adjust_object_motion_at_threshold(s32 context, EntityRec *record, s32 actio
 
 typedef struct S_80098B30_0 {
     u8 pad_00[0x4];
-    s32 * unk_04;
+    void (*unk_04)(s32,  EntityRec *, s32);
 } S_80098B30_0;   /* arg0 in bind_handler_and_initialize_entity */
 
 

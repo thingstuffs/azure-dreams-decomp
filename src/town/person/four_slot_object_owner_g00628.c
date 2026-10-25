@@ -23,8 +23,8 @@ void initialize_four_slot_object(Obj *obj) {
     func_800B49A8((u8 *)obj->unk5c + 0x40);
     func_800B4A60(obj->unk5c);
     func_800B474C((u8 *)obj->unk5c + 0x68);
-    func_800B48B8(obj);
-    func_800B4B7C(obj);
+    initialize_storage_cursor(obj);
+    update_storage_display(obj);
 }
 
 /* Set the record's data pointer, base value, and value offset by 0x20. */
@@ -40,6 +40,6 @@ void set_record_value_and_data_pointer(void *field_ptr, s32 base_value) {
  */
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value) {
     set_record_value_and_data_pointer(owner, base_value);
-    func_800B4CBC(owner + 0x4C, owner + 0x24, owner + 0x34);
+    initialize_storage_display_links(owner + 0x4C, owner + 0x24, owner + 0x34);
     initialize_four_slot_object((struct Obj *)(owner));
 }

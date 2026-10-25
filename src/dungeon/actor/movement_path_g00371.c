@@ -171,7 +171,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
 {
     void **anim_table;
     s32 cell_record;
-    s32 direction_aux;
+    u16 direction_aux;
 
     if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;

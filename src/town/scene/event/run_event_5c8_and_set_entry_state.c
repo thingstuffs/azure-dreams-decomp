@@ -17,6 +17,6 @@ extern void *D_800190E0;
 void run_event_5c8_and_set_entry_state(void) {
     func_80018A64(F_sbs11_pad37);
     ((S_8051FC84_1 *)(((town_scene_root->entry_index * 8)
-        + ((s32)town_scene_root->event_data))))->unk_01 = 2;
+        + ((u8 *)town_scene_root->event_data))))->unk_01 = 2;
     ((s32 (*)(s32 *))town_scene_root->services->callback_218)(&D_800190E0);
 }

@@ -21,7 +21,7 @@ void set_script_flag_bit(s32 bit_index)
         table = *(s32 *)(value + 0x18);
         dst_word = (s32 *)(word_index * 4 + table);
 
-        src_word = (s32 *)(*(s32 *)((s32)town_scene_root + 0x18) + word_index * 4);
+        src_word = (s32 *)(*(s32 *)((u8 *)town_scene_root + 0x18) + word_index * 4);
 
         value = bit_index;
         bit_mask = 1 << (bit_index % 32);

@@ -7,12 +7,12 @@
 #include "frontend/libcard.h"
 
 
-s32 func_80026920(void *);
+void release_card_record_handles(CardHandleOwner *);
 
 /* Processes the object header and invokes two follow-up routines. */
 
 void inventory_copy_and_sign_extend_record_fields(s32 object_data) {
-    func_80026920(object_data - 0x20);
+    release_card_record_handles(object_data - 0x20);
     card_boot_close_events_and_resume_timer();
     request_scene_dispatch_state(3);
 }

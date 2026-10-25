@@ -235,7 +235,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     facing_shift = magnitude >> 8;
     caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
     base_y = facing_shift & 0xE;
-    step_x_table = (u8 *)(base_y + (s32)step_x_table);
+    step_x_table = (u8 *)(base_y + (u8 *)step_x_table);
     step_x = *(s16 *)step_x_table;
     step_y_table = (u8 *)((s8 *)dir_step_y);
     base_y = (s32)step_y_table + base_y;

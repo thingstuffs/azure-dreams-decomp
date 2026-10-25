@@ -6,7 +6,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-extern void func_80027324(void *work_state, s32 init_value);
+extern void prepare_save_heading_layout(CardHeadingDrawState *work_state, s32 init_value);
 
 extern u8 menu_backdrop_tag[];
 
@@ -30,6 +30,6 @@ void *create_save_heading(s32 init_value)
     initialize_save_heading_draw_state(work_state, 4);
     object->sprite = work_state->pad_E0;
     work_state->chain = link_save_heading_draw_nodes(work_state->links);
-    func_80027324(work_state, init_value);
+    prepare_save_heading_layout(work_state, init_value);
     return object;
 }

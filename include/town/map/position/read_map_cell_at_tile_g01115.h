@@ -7,6 +7,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "town/map/range_group_checks_g00652.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
@@ -25,7 +26,6 @@ typedef struct S_8008EC14_node {
     s32 field_0x20;
 } S_8008EC14_node;
 
-extern s32 pass_value_and_range_groups(s32 value);
 /* extern */
 extern u8 D_800FC428;
 void upload_pixel_rectangle(s16, s16, s16, s16, const void *);

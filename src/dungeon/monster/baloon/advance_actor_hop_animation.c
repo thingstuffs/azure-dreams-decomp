@@ -51,7 +51,7 @@ extern s32 baloon_action_resume_address;
 /* Advances the actor's hop animation and finishes the action when its timer expires. */
 void advance_actor_hop_animation(void *motion, void *position, SpriteFrameState *sprite, void *actor)
 {
-    s32 facing_aux;
+    u16 facing_aux;
     s32 y_offset;
     u16 timer_value;
     s32 phase;

@@ -17,7 +17,7 @@ typedef struct S_800D1C70_0 {
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0x2];
-    s32 * unk_8C;
+    void (*unk_8C)(s32,  s32,  s32,  u8 *);
     u8 pad_90[0xA];
     s8 unk_9A;
     u8 pad_9B[0x1];

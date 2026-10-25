@@ -13,7 +13,7 @@ typedef struct S_800364BC_0 {
     u8 pad_00[0x51];
     u8 unk_51;
     u8 pad_52[0x16];
-    s32 * unk_68;
+    void (*unk_68)(void *);
 } S_800364BC_0;   /* arg0 in runtime_mark_state_when_flag_51_set */
 
 /* If the flag at offset 0x51 is set, marks the linked state and selects func_80036154. */

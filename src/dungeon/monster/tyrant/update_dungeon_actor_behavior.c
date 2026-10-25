@@ -59,7 +59,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFra
 {
     u8 *anim_table;
     s32 tile_id;
-    s32 distance;
+    u16 distance;
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {

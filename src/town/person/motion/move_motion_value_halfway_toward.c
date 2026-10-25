@@ -10,7 +10,7 @@ extern s32 town_target_height_offset;
 
 typedef struct S_800C5B48_1 {
     u8 pad_00[0x54];
-    s32 * unk_54;
+    void (*unk_54)();
     u8 pad_58[0x14];
     u16 unk_6C;
 } S_800C5B48_1;   /* arg0 in move_motion_value_halfway_toward */

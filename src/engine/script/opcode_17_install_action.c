@@ -7,7 +7,7 @@
 
 typedef struct S_80039568_0 {
     u8 pad_00[0x10];
-    s32 * unk_10;
+    void (*unk_10)(struct S_80038464_0 *);
 } S_80039568_0;   /* arg0 in script_wait_button */
 
 /* Opcode 0x11: Wait for a button press. */

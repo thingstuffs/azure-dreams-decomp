@@ -60,7 +60,7 @@ extern u8 D_8016FEB8[];
 /* Updates creature behavior, animation, and facing according to its current state. */
 void update_creature_behavior_animation_and_facing(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *creature)
 {
-    s32 distance;
+    u16 distance;
     s8 room_id;
     u16 action_flags;
 

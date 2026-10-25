@@ -4,7 +4,7 @@
 
 typedef struct S_800B2C68_0 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    void (*unk_8C)(u8 *, s32,  u8 *, u8 *);
 } S_800B2C68_0;   /* arg0 in set_effect_state_pointer_on_success */
 
 

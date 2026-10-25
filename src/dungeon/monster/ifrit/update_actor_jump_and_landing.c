@@ -47,7 +47,7 @@ extern s32 ifrit_action_resume_address;
 void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *sprite, ActorRecord *actor)
 {
     PathTable frame_path;
-    s32 facing_result;
+    u16 facing_result;
     s32 frames_left;
     s32 current_y;
     s16 timer;

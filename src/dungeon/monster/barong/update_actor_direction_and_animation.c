@@ -46,7 +46,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, Sp
 {
     u8 *anim_table;
     s32 room_id;
-    s32 distance;
+    u16 distance;
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {

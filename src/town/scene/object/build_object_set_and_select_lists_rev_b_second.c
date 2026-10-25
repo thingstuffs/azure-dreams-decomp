@@ -64,7 +64,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
             bucket_bits = flags >> 19;
             bank_bits = (flags >> 23) & 1;
             if ((((TownResourceGroupView *)((bucket_bits & 0x7E0) +
-                          *((s32 *)((u8 *)((s32)town_scene_root->unk_30) +
+                          *((s32 *)((u8 *)(town_scene_root->unk_30) +
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {

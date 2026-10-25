@@ -141,7 +141,7 @@ void advance_wrapped_cycle_index(void) {
     s32 incrementedIndex;
     S_800DC888_0 *cycleState;
 
-    cycleState = (S_800DC888_0 *)((s32)dungeon_menu_object + 0x20);
+    cycleState = (S_800DC888_0 *)((u8 *)dungeon_menu_object + 0x20);
     cycleIndexToIncrement = cycleState->unk_38;
     *cycleIndexToIncrement += 1;
     cycleIndexToWrap = cycleState->unk_38;

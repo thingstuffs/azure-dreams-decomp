@@ -39,7 +39,7 @@ extern u8 D_801765F8[];
 /* Advance movement toward the target tile and finish the action when its timer expires. */
 void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
-    s32 target_distance;
+    u16 target_distance;
     s16 move_ticks;
     u16 timer_next;
     u8 phase;

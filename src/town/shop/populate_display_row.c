@@ -29,7 +29,7 @@ typedef struct S_800B61C0_3 {
 s32 lookup_item_category_mapped_value(s32, s32);
 extern s32 select_item_data();
 extern s32 set_display_entry_text_and_position();
-extern s32 func_800B53BC();
+extern s32 set_storage_entry_text();
 extern s32 format_optional_signed_value();
 
 
@@ -50,7 +50,7 @@ void populate_display_row(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
     text_y = row_offset + 0xD8;
     widgets = (void *)(row * 4 + widgets_base);
     set_display_entry_text_and_position(widgets->unk_20, entry_value, entry_info[0], 0x58, text_y);
-    func_800B53BC(widgets->unk_2C,
+    set_storage_entry_text(widgets->unk_2C,
                   format_optional_signed_value(entry, detail_info), 0, 0xA0, text_y);
     ((S_800B61C0_2 *)(widgets->unk_38))->unk_00 = lookup_item_category_mapped_value(
         entry->unk_01, entry->unk_00);

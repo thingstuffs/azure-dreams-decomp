@@ -6,7 +6,7 @@ typedef struct S_800C2864_0 {
     u8 pad_00[0x14];
     s8 unk_14;
     u8 pad_15[0x3B];
-    s32 * unk_50;
+    void (*unk_50)(s32);
 } S_800C2864_0;   /* arg0 in set_transform_object_data */
 
 /* Set the object's flag and data pointer unless it is the excluded object. */
