@@ -30,7 +30,6 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
 
-extern s32 cyclone_action_resume_address;
 #include "dungeon/monster/cyclone.h"
 extern u8 cyclone_frame_set_1[];
 
@@ -140,7 +139,7 @@ void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameSta
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            ((S_801741CC_0 *)actor)->unk_8C = &cyclone_action_resume_address;
+            ((S_801741CC_0 *)actor)->unk_8C = update_actor_animation;
         }
 
         return;

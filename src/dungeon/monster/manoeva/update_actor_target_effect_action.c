@@ -1,11 +1,10 @@
 #include "common.h"
+#include "dungeon/effect.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 #include "dungeon/monster/manoeva.h"
-
-
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
@@ -57,8 +56,6 @@ typedef struct S_80173D78_5 {
     u32 unk_10;
 } S_80173D78_5;   /* base in update_actor_target_effect_action */
 
-
-extern s32 actor_fade_draw_address;
 extern u8 D_8017086C[];
 extern u8 D_80170898[];
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data);
@@ -203,7 +200,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         if (effect != 0) {
             object = (s8 *)action - 0x20;
             unlink_node(object);
-            register_node(object, &actor_fade_draw_address);
+            register_node(object, process_linked_states_mode_zero);
             sprite->unk_0C.at03.v = 0;
             sprite->unk_12 = sprite->unk_12 - 0x80;
             sprite->unk_14 |= 0xC;

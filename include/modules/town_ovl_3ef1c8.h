@@ -1,6 +1,7 @@
 #ifndef MODULES_TOWN_OVL_3EF1C8_H
 #define MODULES_TOWN_OVL_3EF1C8_H
 #include "common.h"
+#include "town/scene/grid_entry_query.h"
 #include "shared/game_work.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_event_state.h"
@@ -109,7 +110,6 @@ s32 *func_80019ABC(void *table, void *state, s32 key, s32 context);
 #include "town/scene/entry_requests.h"
 s32 func_80019880(void);
 s32 func_800196F4();
-s32 is_four_arg_result_valid();
 s32 func_80019778();
 void apply_four_values_and_refresh();
 void func_80018F74();

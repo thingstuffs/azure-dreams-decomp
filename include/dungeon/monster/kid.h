@@ -17,4 +17,8 @@ void update_actor_action_and_animation(void *controller_in, EntityRec *motion, S
 void advance_fading_directional_entity(void *anim_state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
 void update_staged_actor_movement(void *action, ObjectPosition *motion, SpriteFrameState *tile, void *actor);
 
+/* Callback entry points. */
+void animate_effect_colors(void *effect_state, s32 unused, void *primitive);
+void initialize_counted_entity_action(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+
 #endif

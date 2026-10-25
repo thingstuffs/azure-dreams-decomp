@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/beldo_large.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -30,7 +31,7 @@ typedef struct S_func_81339A5C_2 {
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 item_effect_descriptor;
-extern s32 D_8017085C;
+
 extern void *beldo_actor_nodes;
 extern void *D_80175D68;
 
@@ -52,7 +53,7 @@ void create_linked_object_position(void)
     source_data = beldo_actor_nodes + 0x20;
     object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
-        object->update_callback = &D_8017085C;
+        object->update_callback = update_vertical_motion_and_effect;
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;

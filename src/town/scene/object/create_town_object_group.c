@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/animation.h"
 #include "shared/entity.h"
 
 typedef struct S_8080E59C_0 {
@@ -38,12 +39,10 @@ typedef struct S_8080E59C_1 {
     s16 unk_20;
 } S_8080E59C_1;   /* part in create_town_object_group */
 
-
 typedef struct S_8080E59C_3 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_8080E59C_3;   /* slot in create_town_object_group */
-
 
 typedef struct {
     u8 bytes[8];
@@ -67,7 +66,7 @@ extern void func_8023FA58();
 extern u8 town_hud_object_template[];
 extern u8 D_8052643C[];
 extern Copy8 D_80526440[];
-extern u8 D_80529AC4[];
+
 extern u8 D_8052A0A4[];
 extern u8 D_8052AE20[];
 extern u8 D_805300C4[];
@@ -113,7 +112,7 @@ void create_town_object_group(void)
         setup_table = D_805300DC;
         object_state = ((S_8080E59C_0 *)object)->unk_08;
         render_part = ((S_8080E59C_0 *)object)->unk_0C;
-        ((S_8080E59C_0 *)object)->unk_10 = D_80529AC4;
+        ((S_8080E59C_0 *)object)->unk_10 = animate_collection_center_sprite;
         ((S_8080E59C_0 *)object)->unk_20 = child_slots;
         render_part->unk_1C = 0x1000;
         render_part->unk_1E = 0x1000;

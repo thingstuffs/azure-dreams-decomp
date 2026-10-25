@@ -28,7 +28,7 @@ extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
 
 extern u8 D_80170B48[];
-extern u8 glacier_action_resume_address;
+
 #include "dungeon/monster/glacier.h"
 extern u8 glacier_frame_set_1[];
 extern Pair16 glacier_direction_offsets[];
@@ -49,7 +49,6 @@ typedef struct S_801757E0_0 {
     union { u8 u; s8 s; } unk_AC;   /* accessed as both */
     union { u8 u; s8 s; } unk_AD;   /* accessed as both */
 } S_801757E0_0;   /* arg0 in update_action_and_check_forward_tile */
-
 
 typedef struct S_801757E0_3 {
     u8 pad_00[0x1E];
@@ -345,7 +344,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
 
     case 9:
         spend_actor_mp(entity, 0x800);
-        ((S_801757E0_0 *)actor)->unk_8C = &glacier_action_resume_address;
+        ((S_801757E0_0 *)actor)->unk_8C = update_actor_timed_effects;
         g_dungeon_status.active_actor = 0;
         (entity->action_flags) &= 0x7FFF;
 

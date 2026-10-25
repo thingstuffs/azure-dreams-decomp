@@ -16,4 +16,7 @@ void initialize_item_menu_state(u8 *owner, s32 base_value);
 struct MenuResourceOwner;
 s32 load_menu_display_resource(struct MenuResourceOwner *, s32);
 
+/* Callback entry points. */
+void decrement_target_halfword_by_four(void *unused_0, void *unused_1, void *target);
+
 #endif

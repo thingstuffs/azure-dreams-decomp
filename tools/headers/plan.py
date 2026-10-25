@@ -301,7 +301,7 @@ def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
     for n, fr in extra_functions.items():
         defs[n].append(fr.definition)
         extra_rows[(fr.definition.kind, n, fr.definition.container)] = fr
-    data_entities, data_census = extra.augment_data(corpus, tindex, data, include_data)
+    data_entities, data_census = extra.augment_data(corpus, tindex, data, include_data, defs)
     for (n, cont), fr in data_entities.items():
         from dataclasses import replace
         fr.definition = replace(fr.definition, container=cont)
@@ -326,8 +326,9 @@ def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
     # These rows never enter data_entities or the C site table below.
     preserved_data_headers = set()
     if not include_data:
+        function_data = {r[0] for r in data_census if r[2] == 'data_is_function_address'}
         for x in data:
-            if x.path not in gen or x.is_def or x.storage != 'extern':
+            if x.path not in gen or x.is_def or x.storage != 'extern' or x.name in function_data:
                 continue
             text = corpus.text(x.path)
             th = tuple(h for h in corpus.includes(x.path)

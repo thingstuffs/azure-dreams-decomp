@@ -47,4 +47,7 @@ typedef union SpriteSixRender {
 
 void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, SpriteSixRender *render);
 
+/* Callback entry points. */
+void update_panel_aggregate_value(void *entry);
+
 #endif

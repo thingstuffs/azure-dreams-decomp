@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "town/map/animation.h"
 #include "common.h"
 
 typedef struct Obj {
@@ -12,8 +13,6 @@ typedef struct Obj {
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
 extern s32 building_resource_update_address;
-extern s32 D_800B7E78;
-extern s32 D_800B7F8C;
 
 /* Initialize the object's selection and assign a handler based on the selected entry's kind. */
 void initialize_building_selection_handler(void) {
@@ -43,9 +42,9 @@ void initialize_building_selection_handler(void) {
                 }
             }
         } else {
-            obj->handler = &D_800B7F8C;
+            obj->handler = advance_building_texture_frame;
             return;
         }
-        obj->handler = &D_800B7E78;
+        obj->handler = advance_building_animation_frame;
     }
 }

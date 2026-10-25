@@ -21,4 +21,7 @@ struct StructArg2;
 s32 update_actor_fade_in(struct StructArg0 *object, s32 unused, struct StructArg2 *effect);
 void run_actor_fade_in(void *owner, s32 context, void *effect);
 
+/* Callback entry points. */
+void advance_effect_positions_and_fade(void *effect, void *positions, void *color);
+
 #endif

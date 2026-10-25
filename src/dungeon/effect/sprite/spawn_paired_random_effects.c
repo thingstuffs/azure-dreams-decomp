@@ -1,20 +1,15 @@
 #include "shared/game_work.h"
+#include "dungeon/effect/screen.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 extern void *allocate_list_node();
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand(void);
 extern u8 paired_random_effect_callback[12];
 extern u8 D_8002822C[12];
-extern u8 ring_spark_draw_address[12];
+
 /* Spawn two pairs of effects at random offsets around the source. */
 void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_param)
 {
@@ -52,7 +47,7 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
         effect = allocate_list_node(0x212, source);
         if (effect != 0) {
             effect->update_callback = paired_random_effect_callback;
-            register_node(effect, ring_spark_draw_address);
+            register_node(effect, queue_linked_visible_rectangle_copies);
             effect_data = ((u8 *) effect) + 0x20;
             *((s16 *) (((u8 *) (effect->position)) + 2)) =
                 ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;

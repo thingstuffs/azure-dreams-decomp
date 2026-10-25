@@ -42,4 +42,7 @@ typedef union EffectPointer {
 
 void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite);
 
+/* Callback entry points. */
+void reset_effect_callback_state(void *ptr);
+
 #endif

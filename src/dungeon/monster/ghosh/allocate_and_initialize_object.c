@@ -1,19 +1,18 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/ghosh.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-
 
 typedef struct {
     u8 bytes[12];
 } Packed12;
 
 extern void register_node(void *, void *);
-extern u8 linked_sprite_renderer_address[];
-extern Packed12 ghosh_sprite_payload_template;
-extern u8 D_8016A9FC[];
 
+extern Packed12 ghosh_sprite_payload_template;
 
 typedef struct S_8016AC30_0 {
     u8 pad_00[0x2];
@@ -43,8 +42,8 @@ void allocate_and_initialize_object(void) {
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->update_callback) = D_8016A9FC;
-        register_node(object, linked_sprite_renderer_address);
+        (object->update_callback) = animate_timed_fade_effect;
+        register_node(object, draw_linked_sprites);
 
         position = object->position;
         position->z.w.i = 0;

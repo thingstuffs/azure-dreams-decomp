@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -7,8 +8,6 @@
 #include "frontend/settings.h"
 
 typedef struct RegistrationNode RegistrationNode;
-
-extern s32 linked_sprite_renderer_address[3];
 
 typedef struct S_7FDD3A2C_0 {
     u8 pad_00[0xC];
@@ -33,7 +32,7 @@ void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s3
         object->unk_10 = object_value;
         ((ObjectNodeHeader *)object)->position->x.v = (s32) position->unk_00;
         ((ObjectNodeHeader *)object)->position->y.v = (s32) position->unk_04;
-        register_node(object, &linked_sprite_renderer_address);
+        register_node(object, draw_linked_sprites);
         render_state = object->unk_0C;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;

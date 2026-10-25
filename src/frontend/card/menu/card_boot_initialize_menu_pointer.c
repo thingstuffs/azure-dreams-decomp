@@ -10,7 +10,6 @@ typedef struct S_80020F68_0 {
     s32 unk_50;
 } S_80020F68_0;   /* ptr in card_boot_initialize_menu_pointer; pointer addresses record offset 0x10 */
 
-
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
 
 extern void forward_target_value_initcardmessageobject_parameters(void *first_ptr, void *second_ptr);
@@ -20,12 +19,11 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
  * EXE-side code addresses that are not yet named func_ symbols in this repo.
  * Bind them locally as opaque objects at their real linked addresses so the
  * store compiles to the same %hi/%lo(addiu) address computation. */
-extern void *frontend_action_resume_address;
 
 /* Chooses the next menu callback and, when needed, initializes its message and active-state flags. */
 void card_boot_initialize_menu_pointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
-        ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &frontend_action_resume_address;
+        ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = card_boot_handle_menu_selection_input;
         return;
     }
     ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_50 = 1;

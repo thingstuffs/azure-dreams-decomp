@@ -25,4 +25,8 @@ struct PointRecord;
 struct ObjectPosition;
 s32 draw_ball_effect_points(struct PointRecord *, struct ObjectPosition *);
 
+/* Callback entry points. */
+s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data);
+void jitter_effect_position_and_fade(void *effect, void *position, void *sprite);
+
 #endif

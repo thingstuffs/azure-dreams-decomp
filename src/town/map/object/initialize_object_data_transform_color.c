@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -23,7 +24,7 @@ typedef struct {
 } FuncData;
 
 extern void register_node(void *, void *);
-extern u8 lit_mesh_renderer_address[];
+
 extern u8 D_800B9998[];
 
 /* Initializes object data, transform, color, and rendering defaults. */
@@ -31,7 +32,7 @@ void initialize_object_data_transform_color(u8 *object, u8 *render_data, FuncDat
     u8 blue;
 
     *(void **)(object - 0x10) = D_800B9998;
-    register_node(object - 0x20, lit_mesh_renderer_address);
+    register_node(object - 0x20, draw_linked_lit_meshes);
 
     *(s16 *)(object + 0x66) = 0;
     state->unk1C = 0x1000;

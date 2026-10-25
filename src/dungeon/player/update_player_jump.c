@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/input.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -15,7 +16,7 @@ extern void append_packed_action_record(void *a0, s32 a1, s16 a2, s32 a3);
 extern void play_sound_if_enabled(s32 a0);
 
 extern s32 held_item_record;
-extern u8 player_action_tag[];
+
 extern u8 player_jump_frame_set[8];
 extern u8 D_800DD048[8];
 extern u8 player_throw_followup_frames[8];
@@ -58,7 +59,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
 
             *(s32 *)(motion + 0x14) = 0;
             if (*(s32 *)(entity + 0x1C) & 0x100000) {
-                *(u8 **)(action + 0x8C) = player_action_tag;
+                *(u8 **)(action + 0x8C) = handle_carrying_player_input;
             } else {
                 anim_sprite = sprite;
                 animations = player_throw_followup_frames;

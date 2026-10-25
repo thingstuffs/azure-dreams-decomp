@@ -46,4 +46,8 @@ s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, 
 
 s32 roll_actor_stack_split(void *actor, s32 chance);
 
+/* Callback entry points. */
+void apply_pending_actor_updates(void *controller, s32 move_state, void *entity, void *actor);
+void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color);
+
 #endif

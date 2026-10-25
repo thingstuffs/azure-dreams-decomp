@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -41,8 +42,6 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_80170DA8[16];
-extern u8 hikewne_action_resume_address[16];
 extern u8 hikewne_direction_frames[16];
 extern u8 hikewne_frame_set_2[16];
 
@@ -65,7 +64,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     if (object != 0) {
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
-        object->update_callback = D_80170DA8;
+        object->update_callback = update_entity_movement_and_ground;
         actor->unk_13 = MONSTER_HIKEWNE;
         register_node(object, project_sprite_chain);
 
@@ -98,7 +97,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
-        actor2->unk_8C = hikewne_action_resume_address;
+        actor2->unk_8C = update_actor_behavior_animation_and_facing;
         actor->unk_1C |= 0x40000;
         actor2->unk_92 = -0x20;
         part_b->tpage_abr = 0x20;

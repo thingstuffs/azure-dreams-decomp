@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/message.h"
 #include "m2c_compat.h"
 
 typedef struct S_80026494_0 {
@@ -7,15 +8,13 @@ typedef struct S_80026494_0 {
     s32 * unk_44;
 } S_80026494_0;   /* arg0 in card_boot_enter_insufficient_space_advice; pointer addresses record offset 0x10 */
 
-
 #include "frontend/libcard/interfaces.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
-extern M2C_UNK D_800265B8;
 
 /* Set record pointers around an update of its base record. */
 void card_boot_enter_insufficient_space_advice(void *record_part) {
-    ((S_80026494_0 *)((u8 *)record_part - 0x10))->unk_44 = &D_800265B8;
+    ((S_80026494_0 *)((u8 *)record_part - 0x10))->unk_44 = write_text_and_advance_selection;
     card_boot_show_insufficient_space_overwrite_advice(record_part - 0x20);
     ((S_80026494_0 *)((u8 *)record_part - 0x10))->unk_00 = &D_800261F0;
 }

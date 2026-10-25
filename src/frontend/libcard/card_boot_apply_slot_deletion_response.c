@@ -20,12 +20,9 @@ typedef struct S_80025788_1 {
     s32 unk_04;
 } S_80025788_1;   /* cursor in card_boot_apply_slot_deletion_response */
 
-
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/card.h"
 #include "frontend/libcard.h"
-extern u8 D_80024F7C[];
-extern u8 D_8002593C[];
 
 /* Updates object pointers and processes five entries when its status check succeeds. */
 void card_boot_apply_slot_deletion_response(void *object) {
@@ -33,12 +30,12 @@ void card_boot_apply_slot_deletion_response(void *object) {
     s32 entry_index;
 
     if (((S_80025788_0 *)object)->unk_38 != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = D_8002593C;
+        ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
         return;
     }
 
     if (card_boot_erase_slot_file(((S_80025788_0 *)object)->unk_28) != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = D_8002593C;
+        ((S_80025788_0_pre *)object)[-1].unk_00 = build_install;
         entry_index = 0;
         entry_cursor = object;
         do {
@@ -47,9 +44,9 @@ void card_boot_apply_slot_deletion_response(void *object) {
             entry_index++;
         } while (entry_index < 5);
     } else {
-        ((S_80025788_0 *)object)->unk_34 = D_8002593C;
+        ((S_80025788_0 *)object)->unk_34 = build_install;
         card_boot_show_delete_failure_notice((u8 *)object - 0x20);
-        ((S_80025788_0_pre *)object)[-1].unk_00 = D_80024F7C;
+        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_restore_saved_selection_callback;
     }
 
     card_boot_recheck_selected_channel();

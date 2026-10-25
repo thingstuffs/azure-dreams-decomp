@@ -32,7 +32,6 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
 
-extern u8 actor_action_resume_address[];
 extern u8 actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
@@ -159,5 +158,5 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
     }
 
     actor->flags1C &= ~ACTOR_ASLEEP;
-    ((S_800DA014_0 *)controller)->unk_8C = actor_action_resume_address;
+    ((S_800DA014_0 *)controller)->unk_8C = update_actor_facing_animation;
 }

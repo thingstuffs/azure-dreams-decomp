@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -7,7 +8,7 @@
 
 void *allocate_list_node();            /* extern */
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern M2C_UNK D_80026FB0;
+
 extern u8 linked_graphic_sprite_entries;
 
 typedef struct S_80027070_3 {
@@ -26,7 +27,7 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object->update_callback = &D_80026FB0;
+        object->update_callback = fade_color_toward_half_and_complete;
         register_node(object, project_sprite_chain);
         position = object->position;
         position->x.w.i = x;

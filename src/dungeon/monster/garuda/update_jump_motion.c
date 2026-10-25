@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/monster/garuda.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -36,7 +37,6 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(u16 *, s32);
 
-extern u8 garuda_action_resume_address[];
 extern u8 garuda_frame_set_3[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
@@ -145,7 +145,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((S_80172834_0 *)action_state)->unk_8C = garuda_action_resume_address;
+        ((S_80172834_0 *)action_state)->unk_8C = update_creature_animation_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -188,7 +188,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172834_0 *)action_state)->unk_8C = garuda_action_resume_address;
+        ((S_80172834_0 *)action_state)->unk_8C = update_creature_animation_action;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;

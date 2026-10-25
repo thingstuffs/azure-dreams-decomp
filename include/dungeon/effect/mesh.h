@@ -67,4 +67,8 @@ void process_current_facing_directions(void);
 /* Base address view used by clear_listed_tile_flags; cells start at +0x4000. */
 extern u8 D_800E6000[16400];
 
+/* Callback entry points. */
+s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
+void build_visible_tile_quads(u8 *tiles);
+
 #endif

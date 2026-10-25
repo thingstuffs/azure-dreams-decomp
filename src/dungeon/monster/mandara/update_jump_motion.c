@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -32,8 +33,6 @@ s32 advance_status_timers();
 extern void on_actor_status_updated(void *actor);
 void spend_actor_mp();
 
-
-extern u8 mandara_action_resume_address;
 extern u8 D_80175278[];
 extern u8 D_80175280[];
 
@@ -139,7 +138,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            ((S_80172834_0 *)action)->unk_8C = &mandara_action_resume_address;
+            ((S_80172834_0 *)action)->unk_8C = update_long_actor_action;
             on_actor_status_updated(actor);
         }
     }

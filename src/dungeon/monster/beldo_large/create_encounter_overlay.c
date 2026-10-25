@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -15,7 +16,6 @@ typedef struct PackedVec3 {
 
 extern void register_node(void *, void *);
 
-extern u8 linked_sprite_renderer_address[];
 extern u8 D_8016F99C[];
 extern u8 D_80173B1C[];
 extern u8 D_80173B28[];
@@ -27,7 +27,6 @@ typedef struct S_8016FAFC_0 {
     u8 pad_1A[0x2];
     s16 unk_1C;
 } S_8016FAFC_0;   /* part in create_encounter_overlay */
-
 
 typedef struct S_8016FAFC_3 {
     u8 pad_00[0x5D58];
@@ -53,7 +52,7 @@ void create_encounter_overlay(s32 variant)
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = variant;
         (obj->update_callback) = D_8016F99C;
-        register_node(call_obj, linked_sprite_renderer_address);
+        register_node(call_obj, draw_linked_sprites);
 
         sprite = obj->sprite;
         sprite->flags &= 0xFFF3;

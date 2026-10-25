@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/input.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -13,8 +14,6 @@ typedef struct S_80091958_0 {
     u8 pad_9C[0x2C];
     void * unk_C8;
 } S_80091958_0;   /* arg0 in update_item_target_selection */
-
-extern u8 player_action_tag[];
 
 void *create_item_target_selector(u8 *selection_data);
 
@@ -46,7 +45,7 @@ void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_
     case ITEM_TARGET_RESTORE_INPUT:
         reference_tile_object.unk_038 = 0;
         if (context->flags1C & 0x100000) {
-            state->unk_8C = player_action_tag;
+            state->unk_8C = handle_carrying_player_input;
         } else {
             state->unk_8C = handle_player_input;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/effect.h"
 
 typedef struct S_80813AB0_0 {
     u8 pad_00[0x8];
@@ -42,7 +43,6 @@ typedef struct S_80813AB0_2 {
     void * unk_0C;
 } S_80813AB0_2;   /* (u8 *)y in func_80813AB0 */
 
-
 typedef struct RootPair {
     void *first;
     void *second;
@@ -70,7 +70,7 @@ extern u8 D_8052EA14[];
 extern u8 D_8052EDB8[];
 extern u8 D_8052FD0C[];
 extern u8 D_8052FD60[];
-extern u8 D_8052FDF8[];
+
 extern u8 D_805301F0[];
 
 /* Build the shop display: the root object plus three item panels and their sprites. */
@@ -204,7 +204,7 @@ s32 create_linked_value_display(void)
         s32 final_dim;
         u32 final_color;
 
-        ((S_80813AB0_0 *)obj)->unk_10 = D_8052FDF8;
+        ((S_80813AB0_0 *)obj)->unk_10 = reset_effect_callback_state;
         func_8003BC18(obj, menu_cursor_object_template);
         final_color = 0x00404040;
         final_dim = 0x1C;

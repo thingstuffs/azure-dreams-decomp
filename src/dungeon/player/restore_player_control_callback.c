@@ -1,10 +1,10 @@
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/player/input.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
-extern u8 player_action_tag[];
-extern u8 destination_motion_resume_address[];
 
 /* Selects the target dispatch pointer from the source type and flags. */
 void restore_player_control_callback(void *target, void *source) {
@@ -13,7 +13,7 @@ void restore_player_control_callback(void *target, void *source) {
         s32 type_match;
         type_match = get_entity_effect_value(source, STATUS_FROG) << 16;
         if (type_match != 0) {
-            *(void **)((u8 *)target + 0x8C) = destination_motion_resume_address;
+            *(void **)((u8 *)target + 0x8C) = handle_actor_commands_and_facing;
         } else {
 
             {
@@ -21,7 +21,7 @@ void restore_player_control_callback(void *target, void *source) {
                 source_flags = *(s32 *)((u8 *)source + 0x1C);
                 source_flags &= 0x100000;
                 if (source_flags != 0) {
-                    *(void **)((u8 *)target + 0x8C) = player_action_tag;
+                    *(void **)((u8 *)target + 0x8C) = handle_carrying_player_input;
                 } else {
 
                     {

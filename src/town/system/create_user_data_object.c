@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -7,7 +8,7 @@
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern M2C_UNK D_80023E64;
-extern s32 linked_sprite_renderer_address[3];
+
 extern M2C_UNK D_80079438;
 
 typedef struct S_80956DA0_1 {
@@ -27,7 +28,7 @@ void create_user_data_object(s32 user_data) {
         object->update_callback = &D_80023E64;
         color = 0x800000;
         instance_data = (u8 *)object + 0x20;
-        register_node(object, &linked_sprite_renderer_address);
+        register_node(object, draw_linked_sprites);
         render_state = object->sprite;
         instance_data->unk_04 = user_data;
         ((SignedPositionView *)(object->position))->x = 0xF0;

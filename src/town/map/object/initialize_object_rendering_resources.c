@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 #include "town/map/course.h"
 #include "m2c_compat.h"
 #include "shared/town_handler.h"
@@ -12,13 +13,10 @@ typedef struct S_800C02C4_0 {
     s16 unk_28;
 } S_800C02C4_0;   /* arg0 in initialize_object_rendering_resources; pointer addresses record offset 0x10 */
 
-
-
 void unlink_node_if_registered(void *);                      /* extern */
 void apply_pending_indexed_value();          /* extern */
 void apply_pending_table_entry();          /* extern */
-extern char D_800A62E8[];
-extern char D_800A630C[];
+
 extern void D_800C035C();
 extern M2C_UNK D_800D0C58;
 
@@ -34,6 +32,6 @@ void initialize_object_rendering_resources(TownCourseActor *object_data, void *u
     render_data->frameTable = &D_800D0C58;
     store_the_in_forwards_field_10_callee_800949_c_4((s32) &D_800D0C58, object_data, render_data);
     unlink_node_if_registered(object_data);
-    apply_pending_table_entry(0x24, &D_800A62E8);
-    apply_pending_indexed_value(0xE4, &D_800A630C);
+    apply_pending_table_entry(0x24, store_value_and_get_masked_offset);
+    apply_pending_indexed_value(0xE4, read_and_clear_stored_value);
 }

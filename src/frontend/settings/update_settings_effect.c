@@ -1,4 +1,5 @@
 #include "modules/main_title_callbacks.h"
+#include "engine/graphics.h"
 #include "shared/object_links.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -50,8 +51,6 @@ typedef struct S_80089608_7 {
     u8 pad_04[0x2];
     s16 unk_06;
 } S_80089608_7;
-
-extern s32 linked_sprite_renderer_address[3];
 
 typedef struct {
     s32 w0;
@@ -161,7 +160,7 @@ void update_settings_effect(void *effect) {
         if (element != NULL) {
             sprite = element->sprite;
             element->update_callback = callback;
-            register_node(element, &linked_sprite_renderer_address);
+            register_node(element, draw_linked_sprites);
             x_product = rcos(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_02 =

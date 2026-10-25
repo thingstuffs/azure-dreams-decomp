@@ -25,4 +25,9 @@ void fade_reshape_and_remove_entity(void *fade_state, ObjectPosition *position, 
 void advance_target_interaction(void *action, void *scene, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_flags(void *actor, void *action_ctx, SpriteFrameState *anim, ActorRecord *entity);
 
+void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite_arg, void *stats_arg);
+
+/* Callback entry points. */
+void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite);
+
 #endif

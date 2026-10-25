@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -78,7 +79,7 @@ extern u8 D_80026BC4[];
 extern u8 D_80026C54[];
 extern u8 D_80026F50[];
 extern s32 text_sprite_builder_address[4];
-extern s32 display_registration_tag;
+
 extern u8 tako_minigame_sprites[];
 
 extern void create_timed_sound(s16 value);
@@ -240,7 +241,7 @@ next_right_row:
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         object->update_callback = D_80026C54;
-        register_node(object, &display_registration_tag);
+        register_node(object, build_menu_line_tile_packets);
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;
         final_extent = 0x1C;

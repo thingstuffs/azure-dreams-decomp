@@ -88,7 +88,6 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_two_row_object_group(void *payload, s16 value_scale);
-extern void tick_object_motion_and_expire(void);
 
 /* Updates actor action states, movement, and impact effects. */
 /* Starts a targeted spell with two rows of effects, emits impact particles at the sprite attachment, then

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/glacier.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
@@ -41,7 +42,6 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 glacier_action_resume_address[];
 extern u8 D_801760CC[];
 
 /* Advances a timed actor animation sequence and resets its action on completion. */
@@ -104,7 +104,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
         if (animation->flags & 0xE000) {
             spend_actor_mp(actor, 0x140);
             call_actor = actor;
-            action->unk_8C = (u8 *)(glacier_action_resume_address);
+            action->unk_8C = (u8 *)(update_actor_timed_effects);
             ((S_80172F04_4 *)resident_globals_page)->unk_346C = 0;
             advance_status_timers(call_actor);
             ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;

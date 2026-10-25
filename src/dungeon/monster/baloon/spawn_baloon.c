@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/baloon.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -43,7 +44,6 @@ extern void try_move_actor_to_valid_position();
 extern u8 baloon_default_frames[];
 extern u8 baloon_frame_set_1[];
 extern u8 D_80171964[];
-extern s32 baloon_action_resume_address;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Baloon with default frames at baloon_default_frames, applies spawn flags, and attempts valid
@@ -109,7 +109,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &baloon_action_resume_address;
+        actor->unk_8C = update_actor_turn_behavior;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

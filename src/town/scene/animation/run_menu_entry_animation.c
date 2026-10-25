@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/animation.h"
 #include "shared/vector.h"
 
 typedef struct TownState {
@@ -10,8 +11,6 @@ typedef struct TownState {
     s16 count;
     u16 flags;
 } TownState;
-
-
 
 typedef struct Part {
     u8 pad0[6];
@@ -64,7 +63,6 @@ extern u8 D_80526694[16];
 extern u8 D_805266A0[16];
 extern u8 D_8052BC34[16];
 extern u8 D_8052BC80[16];
-extern u8 D_8052BCCC[16];
 
 extern Object *func_800374FC(s32, void *);
 extern void func_8003BC18(Object *, void *);
@@ -109,7 +107,7 @@ void run_menu_entry_animation(TownState *self) {
                 }
                 obj = func_800374FC(0x136, scene_object_factory_data);
                 if (obj != 0) {
-                    obj->callback = D_8052BCCC;
+                    obj->callback = animate_falling_timed_object;
                     func_8003BC18(obj, score_sprite_draw_callback_address);
                     part = obj->part;
                     obj->transform->x = 0x03200000;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/barong.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -99,7 +100,7 @@ extern s32 select_random_replacement_item(DungeonArg *selection, u8 *context);
 
 extern DungeonGroup item_category_groups[];
 extern s32 item_display_icon_words[256];
-extern s32 D_801747F0;
+
 extern DirectionVector barong_direction_vectors[];
 
 /* Creates a dungeon entity with the supplied position, direction, and object data. */
@@ -120,7 +121,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
         return;
     }
 
-    entity->callback = &D_801747F0;
+    entity->callback = update_motion_and_terrain_collision;
     register_node(entity, project_sprite_chain);
 
     render = entity->render;

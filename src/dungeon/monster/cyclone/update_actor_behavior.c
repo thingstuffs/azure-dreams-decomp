@@ -30,7 +30,6 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
 extern void create_randomized_motion_object(void *, void *);
 
-extern u8 cyclone_action_resume_address[];
 #include "dungeon/monster/cyclone.h"
 extern u8 cyclone_frame_set_1[];
 
@@ -73,7 +72,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
             break;
         }
         {
@@ -152,7 +151,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
         if (((SpriteFrameState *)object)->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
             break;
         }
         {
@@ -168,7 +167,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
 
             counter_base = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = cyclone_action_resume_address;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
         } else {
             create_randomized_motion_object(controller, context_in);
             create_randomized_motion_object(controller, context_in);

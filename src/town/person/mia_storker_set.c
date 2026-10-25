@@ -1,4 +1,5 @@
 #include "script_symbols.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #define ARG0_TYPE s16
 #define ARG1_TYPE s16
@@ -14,7 +15,7 @@ extern void register_node_if_unregistered(Work * , void *);
 extern Node * create_town_effect_object(void * , s32, void * , void *);
 extern s16 query_lowered_transform_position(SignedPositionView *);
 extern void initialize_object_entries(Work * , s32, void *);
-extern s32 sprite_chain_projector_address;
+
 extern u8 scene_object_list_anchor[];
 extern u8 D_800C8E9C[];
 extern u8 D_800C8F80[];
@@ -40,5 +41,5 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     header->y.w.i = header_value_06;
     header->z.w.i = query_lowered_transform_position(header);
     initialize_object_entries(work, node_aux, D_800D620C);
-    register_node_if_unregistered(work, &sprite_chain_projector_address);
+    register_node_if_unregistered(work, project_sprite_chain);
 }

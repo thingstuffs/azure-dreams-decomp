@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
 #include "shared/monster_ids.h"
@@ -75,7 +76,6 @@ void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 void * allocate_boss_actor(s16, s16, s16, s16);
 
-extern u8 D_8016B0E8[];
 extern s32 ghosh_action_resume_address;
 extern u8 ghosh_frame_set_3[];
 extern u8 *ghosh_actor_node;
@@ -107,7 +107,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     if (object != 0) {
         work = object + 0x20;
         ghosh_actor_node = object;
-        ((S_8016AEDC_0 *)object)->unk_10 = D_8016B0E8;
+        ((S_8016AEDC_0 *)object)->unk_10 = update_actor_animation_movement_and_terrain;
         ((S_8016AEDC_1 *)work)->unk_13 = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 

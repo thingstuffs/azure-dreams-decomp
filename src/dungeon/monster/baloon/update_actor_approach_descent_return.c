@@ -34,7 +34,6 @@ typedef struct S_80175CD8_0 {
     union { s16 s; u16 u; } unk_B4;   /* accessed as both */
 } S_80175CD8_0;   /* arg0 in update_actor_approach_descent_return */
 
-
 typedef struct S_80175CD8_4 {
     u8 pad_00[0x14];
     u32 unk_14;
@@ -73,7 +72,6 @@ extern u8 D_80170950[];
 extern u8 D_80170988[];
 extern u8 D_80170994[];
 extern u8 D_801709B8[];
-extern s32 baloon_action_resume_address;
 
 extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
@@ -403,7 +401,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_80175CD8_0 *)action)->unk_8C = &baloon_action_resume_address;
+            ((S_80175CD8_0 *)action)->unk_8C = update_actor_turn_behavior;
             ((S_80175CD8_0 *)action)->unk_9A = 0xE;
             g_dungeon_status.active_actor = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;

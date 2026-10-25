@@ -10,7 +10,6 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 glacier_action_resume_address;
 extern u8 D_801760D4;
 
 typedef struct S_80173730_0 {
@@ -128,7 +127,7 @@ void update_staged_item_movement(void *action, ObjectPosition *motion, SpriteFra
         if (entity_addr == (s32)((u8 *)actor - 0x20)) {
             g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;
         }
-        ((S_80173730_0 *)action)->unk_8C = &glacier_action_resume_address;
+        ((S_80173730_0 *)action)->unk_8C = update_actor_timed_effects;
     }
         return;
     }

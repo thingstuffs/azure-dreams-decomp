@@ -19,7 +19,7 @@ typedef struct S_8008E504_0 {
 
 extern s32 held_item_record;
 extern s32 saved_held_item_word;
-extern u8 player_action_tag[];
+
 extern u8 player_landing_frame_set[];
 
 extern void initialize_timed_motion_step(s32, s32);
@@ -64,7 +64,7 @@ void update_player_landing_recovery(S_8008E504_0 *actor, ObjectPosition *action,
                 /* fall through */
     case 1:
         if (entity->flags1C & 0x100000) {
-            actor->unk_8C = player_action_tag;
+            actor->unk_8C = handle_carrying_player_input;
             return;
         }
         sprite->frame_table = player_landing_frame_set;

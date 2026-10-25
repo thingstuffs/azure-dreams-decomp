@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
@@ -23,7 +24,7 @@ extern u8 minigame_display_callback_a[];
 extern u8 minigame_display_callback_b[];
 extern u8 D_80024B48[];
 extern s32 text_sprite_builder_address[4];
-extern s32 display_registration_tag;
+
 extern u8 D_800F7DFC[];
 
 extern void clear_resident_bit(s32);
@@ -35,7 +36,6 @@ extern void register_node(void *, void *);
 extern void clear_alternate_texture_regions(s32);
 extern s32 SD_Call(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
-
 
 typedef struct S_800243D8_1 {
     u8 pad_00[0xA0];
@@ -158,7 +158,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_b;
-            register_node(object, &display_registration_tag);
+            register_node(object, build_menu_line_tile_packets);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x58;
@@ -189,7 +189,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         if (object != 0) {
             object_data = ((u8 *)object) + 0x20;
             object->update_callback = minigame_display_callback_b;
-            register_node(object, &display_registration_tag);
+            register_node(object, build_menu_line_tile_packets);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x78;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x50;

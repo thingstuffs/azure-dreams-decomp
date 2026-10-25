@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -11,7 +12,7 @@ extern void func_8023FA58();
 
 extern u8 town_hud_object_template[];
 extern u8 D_80526704[];
-extern u8 D_8052C854[];
+
 extern u8 D_8052D4B8[];
 extern u8 D_8052DE94[];
 extern u8 D_8052DF68[];
@@ -39,7 +40,7 @@ void create_town_hud(void) {
     if (object != NULL) {
         parent = (s8 *)object + 0x20;
         primitive = *(s8 **)((s8 *)object + 8);
-        *(u8 **)((s8 *)object + 0x10) = D_8052C854;
+        *(u8 **)((s8 *)object + 0x10) = update_slot_machine;
         *(s32 *)(primitive + 0) = 0x04600000;
         *(s32 *)(primitive + 4) = 0x03600000;
         *(u8 **)((s8 *)object + 0x68) = common_value;

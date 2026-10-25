@@ -24,7 +24,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern void *actor_update_node_cursor;
-extern s32 mandara_action_resume_address;
+
 extern u8 D_80175288[];
 
 /* Advances the actor action animation and handles completion. */
@@ -62,7 +62,7 @@ void advance_actor_action_animation_to_completion(void *action, s32 actor_id, Sp
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((S_80172BFC_0 *)action)->unk_8C = &mandara_action_resume_address;
+            ((S_80172BFC_0 *)action)->unk_8C = update_long_actor_action;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

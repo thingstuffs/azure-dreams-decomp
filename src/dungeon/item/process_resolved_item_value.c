@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "engine/graphics.h"
 /* Directional item effects, moving sprite copies, and target completion messages. */
 #include "common.h"
 #include "shared/entity.h"
@@ -14,7 +15,6 @@
 extern void select_record_entry_and_value(void *, void *, short);
 extern void * allocate_list_node(s32, void *);
 extern s32 register_node(void *, void *);
-extern void select_sprite_entry(void *, s16, s16);
 extern void * get_unused_text_buffer(void);
 extern void * expand_text_control_codes(void *, void *);
 extern void * clear_byte_and_advance(void *);
@@ -30,7 +30,7 @@ extern u8 D_80024024[];
 extern u8 D_80024E5C[];
 extern u8 D_80025B40[];
 extern s16 shaded_effect_update_flag;
-extern u8 sprite_chain_projector_address[];
+
 extern u8 dir_step_x[];
 extern u8 dir_step_y[];
 #include "shared/object_flags.h"
@@ -216,7 +216,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
             spawn_sprite->tpage_abr = 0x20;
             spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
             (spawned->update_callback) = ((u32)D_80024E5C);
-            register_node(spawned, ((u32)sprite_chain_projector_address));
+            register_node(spawned, ((u32)project_sprite_chain));
             spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (spawned->position);

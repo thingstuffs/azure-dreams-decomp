@@ -10,8 +10,6 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
 
-
-extern u8 hikewne_action_resume_address;
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
 extern u8 hikewne_frame_set_2[];
@@ -47,7 +45,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
 
     if (update_actor_transform_from_parent(controller, update_arg, sprite, actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = &hikewne_action_resume_address;
+            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = update_actor_behavior_animation_and_facing;
         }
     } else if ((*(u8 **)&sprite->frameTable == hikewne_frame_set_2) &&
                !(actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP))) {

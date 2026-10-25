@@ -34,4 +34,8 @@ s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s1
 
 void adjust_source_value_and_finalize(void *context, const void *source);
 
+/* Callback entry points. */
+s32 begin_return_magic_for_player_and_familiars(void);
+void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite);
+
 #endif

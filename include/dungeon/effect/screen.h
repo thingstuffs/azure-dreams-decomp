@@ -12,5 +12,7 @@ void pack_and_submit_cell_height_levels(void);
 void update_packed_map_levels(void);
 s32 try_trigger_target_record_effect(void *entity, s32 flags, void *record);
 
+/* Callback entry points. */
+s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta);
 
 #endif

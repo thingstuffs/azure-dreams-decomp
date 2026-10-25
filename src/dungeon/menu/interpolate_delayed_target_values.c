@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 
@@ -31,7 +32,6 @@ typedef struct {
     s32 last;
 } E296C;
 
-extern u8 linked_sprite_renderer_address[];
 extern void register_node(void *, u8 *);
 extern void play_sound_if_enabled(s32);
 
@@ -50,7 +50,7 @@ void interpolate_delayed_target_values(InterpState *state, void *unused, InterpT
         ticks_left = state->counter - 1;
         state->counter = ticks_left;
         if ((s16)ticks_left <= 0) {
-            register_node((u8 *)state - 0x20, linked_sprite_renderer_address);
+            register_node((u8 *)state - 0x20, draw_linked_sprites);
             state->counter = 8;
             state->state++;
             play_sound_if_enabled(0x80F);

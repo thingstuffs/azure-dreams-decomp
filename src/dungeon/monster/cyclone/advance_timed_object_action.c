@@ -1,10 +1,11 @@
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 cyclone_action_resume_address[];
+
 extern u8 cyclone_move_direction_frames[8];
 typedef struct Obj0 {
     u8 pad04[4];
@@ -113,7 +114,7 @@ void advance_timed_object_action(Obj0 *controller, void *context, SpriteFrameSta
         }
         spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(context, object->tile_x, object->tile_y);
-        controller->field8c = cyclone_action_resume_address;
+        controller->field8c = update_actor_animation;
         g_dungeon_status.active_actor = 0;
         actor->field46 &= 0x7FFF;
     }

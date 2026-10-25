@@ -16,4 +16,6 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
 void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
 void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFrameState *monster, void *actor_ptr);
 
+void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteFrameState *actor_arg, void *move_data_arg);
+
 #endif

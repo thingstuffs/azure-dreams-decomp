@@ -1,16 +1,14 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "dungeon/item/message.h"
 
-s32 get_unused_text_buffer(void);                                /* extern */
-s32 expand_text_control_codes();                        /* extern */
-void *clear_byte_and_advance();                         /* extern */
-s32 display_text_with_fullwidth_adjustment();                         /* extern */
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
-/* Computes a value, applies its context-dependent result, and finalizes the value. */
+/* Expand the supplied text into a free buffer and display the result. */
 void display_formatted_context_message(void *context) {
-    s32 computed_value;
+    void *computed_value;
+    void *cursor;
 
     computed_value = get_unused_text_buffer();
-    clear_byte_and_advance(expand_text_control_codes(context, computed_value));
+    cursor = expand_text_control_codes(context, computed_value);
+    clear_byte_and_advance(cursor);
     display_text_with_fullwidth_adjustment(computed_value);
 }

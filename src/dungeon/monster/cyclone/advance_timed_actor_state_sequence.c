@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -41,7 +42,6 @@ typedef struct {
     u32 flags;
 } D3Nested;
 
-extern u8 cyclone_action_resume_address[];
 extern u8 cyclone_move_direction_frames[8];
 
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -101,7 +101,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameSt
         }
         spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(context, sprite->tile_x, sprite->tile_y);
-        action->field_8C = cyclone_action_resume_address;
+        action->field_8C = update_actor_animation;
         g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;
         break;

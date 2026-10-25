@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "engine/cd.h"
@@ -21,7 +22,6 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void create_directional_template_effect(void *, void *, void *, void *);
 
-extern s32 hikewne_action_resume_address[];
 extern u8 hikewne_direction_frames[];
 extern u8 D_80174110[];
 extern u8 hikewne_frame_set_17[];
@@ -173,7 +173,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
-        ((S_80172A48_0 *)action)->unk_8C = hikewne_action_resume_address;
+        ((S_80172A48_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
@@ -298,7 +298,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_80172A48_0 *)action)->unk_8C = hikewne_action_resume_address;
+        ((S_80172A48_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;

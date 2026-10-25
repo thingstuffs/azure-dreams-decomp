@@ -1,5 +1,6 @@
 /* Targeted ribbon motion, interpolated trail particles, and fading trail segments. */
 #include "shared/object_node.h"
+#include "dungeon/effect/particle.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -113,7 +114,7 @@ struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16
 void create_ribbon_head_sprite();
 extern u8 ribbon_sprite_entries[];
 extern void D_80166D14();
-extern u8 ribbon_particle_update_address[];
+
 extern PositionTableEntry ribbon_vertices[];
 
 /* Narrows the input to a signed 16-bit result. */
@@ -400,7 +401,7 @@ copy_pairs:
                 object_data = ((void *)object) + 0x20;
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
                 ((S_80167C74_13 *)object_data)->unk_1A = 1;
-                object->update_callback = ribbon_particle_update_address;
+                object->update_callback = expire_ribbon_segment;
                 register_node(object, &D_80166D14);
                 object_flags = object->sprite;
                 object_flags->tpage_abr = 0x20;

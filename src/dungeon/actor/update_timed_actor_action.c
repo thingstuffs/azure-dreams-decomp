@@ -1,4 +1,6 @@
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -22,8 +24,6 @@ typedef struct {
     u16 flags;
 } Object;
 
-extern u8 destination_motion_resume_address[];
-extern u8 D_80097C78;
 extern s32 get_entity_effect_value(void *, s32);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
@@ -44,7 +44,7 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
     work = &g_game_work;
     switch (state) {
     case 0:
-        object->callback = &D_80097C78;
+        object->callback = apply_pending_actor_updates;
         object->state += 1;
         break;
     case 1:
@@ -76,7 +76,7 @@ void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resourc
         process_unflagged_linked_entries_alt(resource->value);
         process_unflagged_linked_entries(resource->value);
         g_dungeon_status.flags |= 0x812;
-        object->callback = destination_motion_resume_address;
+        object->callback = handle_actor_commands_and_facing;
         g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         break;
     }

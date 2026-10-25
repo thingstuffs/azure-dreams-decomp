@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,6 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(void *, void *, void *);
 
-extern void golem_action_continuation_address;
 extern u8 golem_direction_frames[8];
 extern u8 golem_frame_set_4[8];
 extern u8 golem_frame_set_1[8];
@@ -133,7 +133,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &golem_action_continuation_address;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = update_dungeon_actor_actions;
         g_dungeon_status.active_actor = 0;
         break;
 
@@ -153,7 +153,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &golem_action_continuation_address;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = update_dungeon_actor_actions;
         g_dungeon_status.active_actor = 0;
         break;
     default:

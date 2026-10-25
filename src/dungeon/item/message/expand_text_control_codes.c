@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/item/message.h"
 
 
 /* Copies encoded text, expanding table indices into two-byte characters. */

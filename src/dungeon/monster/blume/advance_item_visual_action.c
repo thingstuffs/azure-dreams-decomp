@@ -29,7 +29,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 
 extern u8 D_80170FD8[];
-extern u8 D_80171284[];
+
 extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 extern u8 D_80175424[12];
@@ -49,7 +49,6 @@ typedef struct S_801737C8_2 {
     u8 unk_24;
     u8 unk_25;
 } S_801737C8_2;   /* linked in advance_item_visual_action */
-
 
    /* coords in advance_item_visual_action */
 
@@ -203,7 +202,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                     effect_data = (u8 *)object + 0x20;
                     (*(u16 *)((u8 *)effect_data + 0x24)) = 0x13;
                     (*(u16 *)((u8 *)object + 0x20)) = 0;
-                    (*(void * *)((u8 *)object + 0x10)) = D_80171284;
+                    (*(void * *)((u8 *)object + 0x10)) = update_fading_motion_effect;
                     register_node(object, D_80170FD8);
 
                     sprite = (*(void * *)((u8 *)object + 0x0C));

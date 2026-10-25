@@ -1,8 +1,7 @@
 #include "shared/object_node.h"
+#include "town/minigame.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-extern M2C_UNK D_80026D28;
 
 typedef struct S_80026CE4_0 {
     u8 pad_00[0x10];
@@ -17,7 +16,7 @@ void create_timed_sound(s16 value) {
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        object->unk_10 = &D_80026D28;
+        object->unk_10 = tick_timed_sound;
         object->unk_72 = value;
     }
 }

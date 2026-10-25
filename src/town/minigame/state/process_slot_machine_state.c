@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -30,8 +31,7 @@ extern s16 D_800244E8[16];
 extern u8 slot_machine_column_tiles[0x30];
 extern u8 minigame_pickup_bounds[0x10];
 extern u8 D_80024470[];
-extern u8 D_800236BC[];
-extern u8 D_80023BCC[];
+
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
@@ -385,7 +385,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             if ((state->flags & 1) != 0) {
                 coin = allocate_flagged_object_node(0x100);
                 if (coin != NULL) {
-                    coin->update_callback = D_80023BCC;
+                    coin->update_callback = update_minigame_image_animation;
                 }
             }
 
@@ -470,7 +470,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     return;
                 }
                 payout_obj = coin;
-                coin->update_callback = D_800236BC;
+                coin->update_callback = update_bouncing_pickup_after_hit;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_00 =
                     ((IntVector3 *)position)->x + (s32)0xFEC00000;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_04 =

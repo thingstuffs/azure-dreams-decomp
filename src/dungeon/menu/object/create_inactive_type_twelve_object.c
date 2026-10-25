@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/menu.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -61,7 +62,7 @@ typedef struct Obj12State {
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 struct ConfigWord { s32 value; };
 extern u8 D_8009E038[];
-extern u8 D_8009E798[];
+
 extern u8 D_800DD7E0[];
 
 /* Create and initialize the type 0x12 object if it is not already active. */
@@ -72,7 +73,7 @@ void create_inactive_type_twelve_object(void) {
         object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
             object->update_callback = D_8009E038;
-            register_node(object, D_8009E798);
+            register_node(object, build_transformed_sprite_quads);
             {
                 u16 field_value;
                 u16 field_value_2;

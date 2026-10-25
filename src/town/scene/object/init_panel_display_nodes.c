@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/scene/object.h"
+#include "town/scene/flags.h"
 #include "shared/vector.h"
 
 typedef struct S_8080C324_0 {
@@ -24,7 +26,6 @@ typedef struct S_8080C324_2 {
 } S_8080C324_2;   /* inner in init_panel_display_nodes */
 
    /* ((S_8080C324_0 *)node)->unk_08 in init_panel_display_nodes */
-
 
 typedef struct {
     s16 f0;
@@ -67,10 +68,10 @@ extern void create_object_payload_registers_callback(void *, void *);
 extern u8 score_sprite_draw_callback_address[];
 extern u8 scene_object_factory_data[];
 extern u8 D_80289454[];
-extern u8 D_805267E0[];
+
 extern u8 D_805268D4[];
 extern u8 D_80526970[];
-extern u8 D_80526A0C[];
+
 extern u8 D_80527250[];
 extern u8 D_80527D5C[];
 extern u8 D_8052FF84[];
@@ -78,7 +79,6 @@ extern s32 D_805300BC[];
 extern s16 D_80530666[];
 extern s16 D_805306D6[];
 extern s32 D_805306D8[];
-
 
 /* Initializes the town display nodes, panel lines, and content entries. */
 s32 init_panel_display_nodes(void) {
@@ -158,7 +158,7 @@ s32 init_panel_display_nodes(void) {
     rect_record.f4 = root;
     color_or_flags |= 3;
     rect_record.f16 = color_or_flags;
-    create_object_payload_registers_callback(D_805267E0, &rect_record);
+    create_object_payload_registers_callback(fade_panel_after_linked_flag, &rect_record);
 
     rect_record.fE = 0xA2;
     rect_record.f10 = 1;
@@ -227,7 +227,7 @@ s32 init_panel_display_nodes(void) {
         content_record.f14 = 0xF4;
         content_record.f16 = 0xB6;
         content_record.f4 = (s32)D_805306D8;
-        allocate_record_and_store_three_blocks(D_80526A0C, &content_record);
+        allocate_record_and_store_three_blocks(update_panel_aggregate_value, &content_record);
     }
     return 0;
 }

@@ -30,4 +30,7 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 
 void draw_padded_first_number(s32 first, s32 second, u16 width, s16 y, u16 x, s16 mode);
 
+/* Callback entry points. */
+s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite);
+
 #endif

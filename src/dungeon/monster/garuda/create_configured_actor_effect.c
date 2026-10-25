@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/garuda.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -38,7 +39,7 @@ extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
-extern u8 D_80170A78[];
+
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature);
 extern u8 garuda_walk_direction_frames[];
 extern u8 garuda_frame_set_2[];
@@ -67,7 +68,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        obj->update_callback = D_80170A78;
+        obj->update_callback = update_object_movement_facing_terrain;
         work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
 

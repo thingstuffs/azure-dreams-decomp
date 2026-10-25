@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/picket.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AD058_arg2.h"
@@ -19,16 +20,11 @@ typedef struct {
 #define NULL 0
 #endif
 
-
 extern void register_node(void *entry, void *registration_id);
 extern s32 lookup_item_category_mapped_value(s32, s32);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 item_effect_descriptor[9];
-extern u8 D_80174978[9];
-
-
-
 
 typedef struct S_80174D48_1 {
     s32 unk_00;
@@ -56,7 +52,6 @@ typedef struct S_80174D48_3 {
     s16 unk_1C;
     s16 unk_1E;
 } S_80174D48_3;
-
 
 /* Creates and initializes a display object from the source position and appearance. */
 /* Creates a moving display for the held item, selecting its texture by item category and preserving its
@@ -116,6 +111,6 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
         create_tracked_effect(active_object, zero, zero, zero);
-        ((ProjectileObject *)object)->update_callback = D_80174978;
+        ((ProjectileObject *)object)->update_callback = update_a_timed_movement_animation_marks_completion;
     }
 }

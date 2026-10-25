@@ -1,8 +1,8 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/input.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern void *player_action_tag[];
 extern s32 can_entity_gain_level(void *entity);
 
 /* Selects the target's table from flags and clears global state when the update returns zero. */
@@ -15,7 +15,7 @@ void finish_player_action_animation(void *target, void *unused, void *flag_data,
             return;
         }
     } else {
-        table = player_action_tag;
+        table = handle_carrying_player_input;
     }
 
     *(void **)((u8 *)target + 0x8C) = table;

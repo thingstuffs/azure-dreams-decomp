@@ -21,4 +21,10 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
 
 void update_item_hop_animation(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg);
+
+/* Callback entry points. */
+void advance_item_motion_collision(void *motion, void *position, s32 update_arg);
+void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *monster_arg);
+
 #endif

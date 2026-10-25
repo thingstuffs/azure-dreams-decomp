@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/monster/cyclone.h"
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -68,7 +69,7 @@ extern void create_actor_linked_effect(void *);
 extern void *create_directional_render_object(void *, void *, void *);
 
 extern s32 D_800814A0;
-extern u8 cyclone_action_resume_address[];
+
 extern u8 cyclone_move_direction_frames[];
 extern u8 cyclone_fade_direction_frames[];
 extern u8 cyclone_view_direction_entries[];
@@ -185,7 +186,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_80172FC0_0 *)anim)->unk_8C = cyclone_action_resume_address;
+        ((S_80172FC0_0 *)anim)->unk_8C = update_actor_animation;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -395,7 +396,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, SpriteFrame
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_80172FC0_0 *)anim)->unk_8C = cyclone_action_resume_address;
+        ((S_80172FC0_0 *)anim)->unk_8C = update_actor_animation;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         advance_status_timers(actor);

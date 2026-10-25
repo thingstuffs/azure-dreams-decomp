@@ -1,11 +1,10 @@
 #include "dungeon/monster/golem/spawn_api.h"
+#include "dungeon/monster/golem.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
-
 
 typedef struct S_801708BC_1 {
     u8 pad_00[0x13];
@@ -32,7 +31,7 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 golem_particle_update_address[];
-extern s32 golem_action_continuation_address;
+
 extern u8 golem_direction_frames[];
 extern u8 golem_alt_direction_frames[];
 
@@ -88,7 +87,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
         initialize_actor_sprite_and_animation(object, part0, part1, (s16)flags_copy);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &golem_action_continuation_address;
+        result_copy->unk_8C = update_dungeon_actor_actions;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

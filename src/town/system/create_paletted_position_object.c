@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "engine/graphics.h"
 #include "shared/object_node.h"
 #include "shared/position_views.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,6 @@ typedef struct S_80956E6C_0 {
     void * unk_0C;
     void * unk_10;
 } S_80956E6C_0;   /* object in create_paletted_position_object */
-
 
 typedef struct S_80956E6C_4 {
     u8 pad_00[0x48];
@@ -26,7 +26,6 @@ extern void register_node(void *, void *);
 
 extern Palette D_800201B4;
 extern u8 D_80023FA8[];
-extern u8 linked_sprite_renderer_address[];
 
 /* Create an object with a signed position, selected palette, and supplied settings. */
 void create_paletted_position_object(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
@@ -47,7 +46,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     if (object != 0) {
         palette_entries = palette.value;
         object->update_callback = D_80023FA8;
-        register_node(object, linked_sprite_renderer_address);
+        register_node(object, draw_linked_sprites);
 
         primitive = object->sprite;
         negative = signed_position < 0;

@@ -1,11 +1,11 @@
 #include "sdk/libc.h"
+#include "engine/graphics.h"
 #include "slus.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
-extern u8 sprite_chain_projector_address[];
 extern u8 shared_sprite_entries[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_800F6000[];
@@ -48,7 +48,7 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         u8 *directions = direction_table;
 
         effect->update_callback = &advance_gravity_damped_effect_motion;
-        register_node(effect, sprite_chain_projector_address);
+        register_node(effect, project_sprite_chain);
         {
             SpriteFrameState *render_state;
 

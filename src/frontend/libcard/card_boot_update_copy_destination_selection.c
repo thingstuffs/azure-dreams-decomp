@@ -15,9 +15,6 @@ typedef struct S_80025584_0 {
     s32 unk_30;
 } S_80025584_0;   /* menu in card_boot_update_copy_destination_selection */
 
-
-extern s32 D_80024FFC;
-
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
@@ -35,7 +32,7 @@ void card_boot_update_copy_destination_selection(u8 *menu)
     if (g_game_work.buttons != 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
             SD_Call(0x515);
-            ((S_80025584_0_pre *)menu)[-1].unk_00 = &D_80024FFC;
+            ((S_80025584_0_pre *)menu)[-1].unk_00 = card_boot_resume_menu_after_slot_refresh;
         }
         buttons = (g_game_work.pressed_buttons);
         if (buttons & 0x40) {

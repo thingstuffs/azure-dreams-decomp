@@ -122,9 +122,7 @@ extern u8 rotating_particle_sprite_entries[];
 extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
-extern u8 mandara_action_resume_address[];
-extern u8 D_80174B20[];
-extern u8 D_80174B98[];
+
 extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
@@ -194,8 +192,8 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         if (effect_alloc == 0) {
             return;
         }
-        register_node(effect_alloc, D_80174B98);
-        effect_alloc->update_callback = D_80174B20;
+        register_node(effect_alloc, draw_layered_wavy_object_strips);
+        effect_alloc->update_callback = advance_actor_replacement_sequence;
         effect_data = ((u8 *)effect_alloc) + 0x20;
         ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->tile_x << 6) + 0x20;
         ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->tile_y << 6) + 0x20;
@@ -280,7 +278,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         {
             void *actor_to_reset;
             actor_to_reset = actor;
-            effect->unk_8C = mandara_action_resume_address;
+            effect->unk_8C = update_long_actor_action;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor_to_reset);
         }

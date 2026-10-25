@@ -1,9 +1,9 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/kid.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
-
 
 typedef struct {
     u32 word[3];
@@ -12,9 +12,7 @@ typedef struct {
 extern void register_node(void *, void *);
 extern s32 rand(void);
 
-extern u8 D_80174600;
 extern u8 D_8017520C[12];
-
 
 typedef struct S_80174800_0 {
     u8 pad_00[0x1];
@@ -50,7 +48,6 @@ typedef struct S_80174800_2 {
     s16 unk_0A;
 } S_80174800_2;   /* pos in create_randomly_rotated_offset_effect */
 
-
 /* Creates an effect at an offset from the source position with a random rotation. */
 /* Creates a randomly rotated Kid sprite 40 units above the source, with the supplied scale and a copied
  * texture entry. */
@@ -65,7 +62,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
     if (node != 0) {
         part = (u8 *)node + 0x20;
         part->unk_1A = 65;
-        (node->update_callback) = &D_80174600;
+        (node->update_callback) = animate_effect_colors;
         register_node(node, project_sprite_chain);
         data = node->sprite;
         data->tpage_abr = 0x60;

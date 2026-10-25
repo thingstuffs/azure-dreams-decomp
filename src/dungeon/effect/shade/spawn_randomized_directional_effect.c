@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/shade.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -59,7 +60,7 @@ extern void register_node(); /* Unprototyped: two, three or four arguments; reta
 extern s32 rand();
 
 extern u8 D_800D5AC0[];
-extern u8 D_800D5CA0[];
+
 extern s16 actor_direction_step_pairs[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
@@ -75,7 +76,7 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        effect->update_callback = D_800D5CA0;
+        effect->update_callback = advance_damped_effect_and_expire;
         (effect->position)->x.w.i =
             ((MovingPosition *)((*(void * *)&source->z)))->x;
         (effect->position)->y.w.i =

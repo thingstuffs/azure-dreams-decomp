@@ -1,16 +1,11 @@
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "town/menu.h"
+#include "engine/object.h"
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin();
 extern s32 rcos();
-extern u8 D_800345B8[];
-extern u8 D_800A1FEC[];
+
 extern s16 D_800D0A10[];
 extern s32 D_800D0A1C[];
 extern u16 D_800D0A34[];
@@ -32,7 +27,7 @@ void initialize_indexed_render_state(void *object, s32 unused, void *render_stat
     *((s8 *) (((s8 *) render_state) + 4)) = 0;
     *((s8 *) (((s8 *) render_state) + 5)) = 0;
     *((u8 **) (((s8 *) render_state) + 8)) = D_800F148C;
-    register_node(object - 0x20, D_800345B8);
+    register_node(object - 0x20, runtime_render_linked_textured_sprites);
     angle_table = (u8 *) D_800D0A10;
     *((s16 *) (((s8 *) render_state) + 0x10)) = 0x20;
     *((u16 *) (((s8 *) render_state) + 0x14)) |= 0x1C;
@@ -48,6 +43,6 @@ void initialize_indexed_render_state(void *object, s32 unused, void *render_stat
     state_table = D_800D0A34;
     state_entry = (u16 *) (((u8 *) state_table) + halfword_offset);
     initial_state = *state_entry;
-    *((u8 **) (((s8 *) object) + 0)) = D_800A1FEC;
+    *((u8 **) (((s8 *) object) + 0)) = decrement_target_halfword_by_four;
     *((u16 *) (((s8 *) object) + 0x22)) = initial_state;
 }

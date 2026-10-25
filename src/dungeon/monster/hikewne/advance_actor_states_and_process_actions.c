@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/hikewne.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -18,7 +19,6 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
-extern s32 hikewne_action_resume_address;
 extern u8 hikewne_frame_set_2[];
 extern u8 hikewne_frame_set_3[];
 
@@ -126,7 +126,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, Sprite
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &hikewne_action_resume_address;
+            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = update_actor_behavior_animation_and_facing;
         }
 
         return;

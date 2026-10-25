@@ -91,8 +91,7 @@ extern void spend_actor_mp(void *, s32);
 extern void toggle_attacker_target_status_pair(void *, void *);
 
 extern u8 blume_slot_g_direction_steps[];
-extern u8 D_80171040[];
-extern u8 D_8017142C[];
+
 extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 extern u8 D_8017541C[];
@@ -159,7 +158,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
                         ((S_80174BEC_3 *)motion)->unk_9B = 0;
                         render = particle->sprite;
-                        particle->update_callback = D_80171040;
+                        particle->update_callback = update_damped_height_effect;
 
                         copy_src = source_render;
                         copy_dst = render;
@@ -250,7 +249,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         motion = (u8 *)particle + 0x20;
                         ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
                         ((S_80174BEC_4 *)particle)->unk_20 = 0;
-                        particle->update_callback = D_8017142C;
+                        particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
 
                         render = particle->sprite;

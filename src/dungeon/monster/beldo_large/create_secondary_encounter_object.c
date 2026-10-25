@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/beldo_large.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -24,7 +25,7 @@ extern s32 select_sprite_entry();
 typedef struct {
     s32 w[12];
 } Copy48;
-extern s32 D_80170534;
+
 extern u8 encounter_overlay_work[0x3A81];
 extern void *beldo_actor_nodes;
 extern void *D_80175D64;
@@ -42,7 +43,7 @@ void create_secondary_encounter_object(void) {
     if (object != NULL) {
         render_data = object->unk_0C;
         object->unk_38 = 0;
-        object->unk_10 = &D_80170534;
+        object->unk_10 = advance_timed_blink_effect;
         *(Copy48 *)render_data = *(Copy48 *)source_data;
         render_data->flags =
             (render_data->flags & 0xFF7F) | 0x400;

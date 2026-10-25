@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "dungeon/actor/animation.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -20,7 +21,6 @@ extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
-extern s32 D_80026680[3];
 extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];
 
@@ -34,7 +34,6 @@ typedef struct S_80026A84_1 {
 } S_80026A84_1;
 
    /* arg0 in create_six_offset_effects */
-
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
@@ -66,7 +65,7 @@ typedef struct S_80026A84_7 {
 void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
 {
     u16 offset[3];
-    s32 *callback;
+    void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
     TableEntry *effect_entry;
     s32 effect_index;
     s32 point_index;
@@ -84,7 +83,7 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
         offset[2] = (0 - entity_height_offsets[0]) + 0x10;
     }
     effect_index = 0;
-    callback = D_80026680;
+    callback = update_trailing_effect_animation;
     effect_entry = linked_effect_direction_entries;
     do {
         effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));

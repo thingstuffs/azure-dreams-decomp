@@ -17,12 +17,10 @@ typedef struct S_80407E64_0 {
     s32 unk_38;
 } S_80407E64_0;   /* arg0 in card_boot_poll_status_and_select_context */
 
-
 extern void func_80400908(void);
 extern void func_804030F4(void *context);
 extern void func_80403284(void *context);
 extern void initialize_card_message_object_with_code_0xd(void *context);
-extern u8 frontend_action_resume_address[];
 
 /* Polls the status and selects the corresponding context update and data. */
 void card_boot_poll_status_and_select_context(void *state) {
@@ -44,17 +42,17 @@ void card_boot_poll_status_and_select_context(void *state) {
     func_80400908();
     if (status == 1) {
         context = (u8 *)state - 0x20;
-        ((S_80407E64_0 *)state)->unk_2C = frontend_action_resume_address;
+        ((S_80407E64_0 *)state)->unk_2C = card_boot_handle_menu_selection_input;
         initialize_card_message_object_with_code_0xd(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
     } else if (status == 4) {
         context = (u8 *)state - 0x20;
-        ((S_80407E64_0 *)state)->unk_2C = frontend_action_resume_address;
+        ((S_80407E64_0 *)state)->unk_2C = card_boot_handle_menu_selection_input;
         func_804030F4(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407D90;
     } else {
         context = (u8 *)state - 0x20;
-        ((S_80407E64_0 *)state)->unk_2C = frontend_action_resume_address;
+        ((S_80407E64_0 *)state)->unk_2C = card_boot_handle_menu_selection_input;
         func_80403284(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
     }

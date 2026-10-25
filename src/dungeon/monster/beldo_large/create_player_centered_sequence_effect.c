@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -49,7 +50,7 @@ typedef struct {
 } Object;
 
 extern void register_node(void *, void *);
-extern u8 D_80169754[9];
+
 extern u8 encounter_object_position_template[12];
 
 typedef struct S_80169C1C_0 {
@@ -78,7 +79,7 @@ void create_player_centered_sequence_effect(void)
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
-        (object->update_callback) = D_80169754;
+        (object->update_callback) = update_staged_particle_emitter;
         register_node(object, project_sprite_chain);
 
         sub_object = object-> sprite;

@@ -9,7 +9,6 @@
 #include "shared/object_payload.h"
 #include "shared/town_pointees.h"
 
-
    /* root in count_entries_matching_search_path */
 
 typedef struct S_8002191C_2 {
@@ -44,7 +43,6 @@ typedef struct S_8002191C_6 {
 
    /* node in count_entries_matching_search_path */
 
-
 typedef struct TownDraw32 {
     s16 h00;
     s16 h02;
@@ -73,7 +71,7 @@ typedef struct TownPos {
 } TownPos;
 
 extern u8 D_8002003C[];
-extern u8 D_80020618[];
+
 extern u8 D_8002241C[];
 extern u8 D_80022454[];
 extern u8 D_80022C2C[];
@@ -347,7 +345,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
-        create_scene_object_with_48_byte_payload(D_80020618, &draw);
+        create_scene_object_with_48_byte_payload(tick_scene_value_text, &draw);
         scene->state.s = 8;
         break;
     }

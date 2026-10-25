@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/manoeva.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -18,14 +19,11 @@ typedef struct S_80E3CC80_0 {
     s16 unk_40;
 } S_80E3CC80_0;   /* object in spawn_manoeva_particle_burst */
 
-
-
    /* arg0 in spawn_manoeva_particle_burst */
 
 extern void register_node(void *object, void *data);
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 extern s32 rand(void);
-extern u8 D_801763D0[];
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
 void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite) {
@@ -41,7 +39,7 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *sour
     do {
         particle = allocate_flagged_object_node(0x300);
         if (particle != NULL) {
-            particle->unk_10 = D_801763D0;
+            particle->unk_10 = update_an_effect_s_lifetime_fades_color_advances_motion;
             register_node(particle, project_sprite_chain);
             sprite = particle->unk_0C;
             sprite->scale_y = 0x800;

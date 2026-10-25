@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/monster/baloon.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -24,7 +25,6 @@ extern void spawn_directional_random_velocity_effect(void *, s32);
 extern u8 baloon_default_frames[];
 extern u8 baloon_fall_frames[8];
 extern u8 D_800E2398[8];
-extern s32 baloon_action_resume_address;
 
 typedef struct S_80173B08_0 {
     u8 pad_00[0x8C];
@@ -166,7 +166,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameStat
             (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
-            ((S_80173B08_0 *)action)->unk_8C = &baloon_action_resume_address;
+            ((S_80173B08_0 *)action)->unk_8C = update_actor_turn_behavior;
             (*(u8 *)((u8 *)actor + 0x73)) = 0;
             (*(u8 *)((u8 *)actor + 0x72)) = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -319,7 +319,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameStat
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_80173B08_0 *)action)->unk_8C = &baloon_action_resume_address;
+            ((S_80173B08_0 *)action)->unk_8C = update_actor_turn_behavior;
             advance_status_timers(actor);
         }
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

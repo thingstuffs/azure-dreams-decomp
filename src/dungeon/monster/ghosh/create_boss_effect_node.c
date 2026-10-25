@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -15,8 +16,6 @@ typedef struct Node {
 extern void register_node(Node *, void *);
 extern void select_record_entry_and_value(void *, void *, s32);
 
-extern u8 D_80170A54[9];
-
 /* Allocate and initialize an effect node with default parameters and data. */
 void create_boss_effect_node(void)
 {
@@ -30,7 +29,7 @@ void create_boss_effect_node(void)
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;
         node_params[12] = 0x1E;
-        node->update_callback = D_80170A54;
+        node->update_callback = apply_boss_direction_table_state;
         register_node(node, project_sprite_chain);
 
         effect = node->sprite;

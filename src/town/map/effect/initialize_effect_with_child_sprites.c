@@ -1,4 +1,6 @@
 #include "common.h"
+#include "slus.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -9,8 +11,6 @@ extern s32 rsin(s32);
 extern s32 rand(void);
 extern void configure_the_set_mode_n_3(void *, void *, void *);
 
-extern u8 clipped_sprite_renderer_address[];
-extern u8 lit_mesh_renderer_address[];
 extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];
 extern u8 town_child_sprite_callback_address[];
@@ -39,7 +39,6 @@ typedef struct S_800BA00C_1 {
     SpriteFrameState *unk_0C;
     void * unk_10;
 } S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
-
 
 typedef struct S_800BA00C_5 {
     u8 pad_00[0x66];
@@ -102,7 +101,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         obj = allocate_list_node(0x136, (u8 *)parent - 0x20);
         if (obj != 0) {
             ((S_800BA00C_1 *)obj)->unk_10 = part_callback;
-            register_node(obj, lit_mesh_renderer_address);
+            register_node(obj, draw_linked_lit_meshes);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -143,7 +142,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         obj = allocate_list_node(0x36, (u8 *)parent - 0x20);
         if (obj != 0) {
             ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
-            register_node(obj, clipped_sprite_renderer_address);
+            register_node(obj, draw_linked_sprites_clipped);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -180,7 +179,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
     obj = allocate_list_node(0x36, parent_obj);
     if (obj != 0) {
         ((S_800BA00C_1 *)obj)->unk_10 = town_child_sprite_callback_address;
-        register_node(obj, clipped_sprite_renderer_address);
+        register_node(obj, draw_linked_sprites_clipped);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
@@ -211,7 +210,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
     obj = allocate_list_node(0x136, parent_obj);
     if (obj != 0) {
         ((S_800BA00C_1 *)obj)->unk_10 = map_particle_child_update_address;
-        register_node(obj, lit_mesh_renderer_address);
+        register_node(obj, draw_linked_lit_meshes);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;

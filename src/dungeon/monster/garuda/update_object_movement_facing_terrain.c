@@ -39,7 +39,6 @@ typedef struct {
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 garuda_action_resume_address[];
 extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];
 
@@ -90,7 +89,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)obj + 0x8C));
-        if (callback == (Callback)garuda_action_resume_address) {
+        if (callback == update_creature_animation_action) {
             void *entry_obj = obj;
             callback(entry_obj, input_motion, input_part, entry_obj);
             return;

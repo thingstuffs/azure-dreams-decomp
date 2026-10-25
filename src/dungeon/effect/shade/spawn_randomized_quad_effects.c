@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/effect/shade.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -50,7 +51,7 @@ extern void register_node(void *, void *);
 extern s32 rand(void);
 
 extern u8 D_800255E8[];
-extern u8 D_800259DC[];
+
 extern s16 D_80026476;
 extern s32 row_quad_top_color;
 extern s32 row_quad_bottom_color;
@@ -91,7 +92,7 @@ void spawn_randomized_quad_effects(void) {
         if (effect != NULL) {
             effect_or_x = (s32)effect;
             effect->update_callback = D_800255E8;
-            register_node((void *)effect_or_x, D_800259DC);
+            register_node((void *)effect_or_x, build_sorted_effect_quads);
 
             row_start = quad_index & ~0xF;
             index_or_coord = (quad_index + 1) & 0xF;

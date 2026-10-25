@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/state.h"
 
 typedef struct S_80027584_0_pre {
     void * unk_00;
@@ -14,11 +15,9 @@ typedef struct S_80027584_0 {
     s32 unk_38;
 } S_80027584_0;   /* arg0 in card_boot_format_card_with_retry */
 
-
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
-extern u8 D_800274A8[];
 
 /* Polls status with bounded retries and dispatches the corresponding context update. */
 void card_boot_format_card_with_retry(void *state) {
@@ -47,7 +46,7 @@ void card_boot_format_card_with_retry(void *state) {
         context = (u8 *)state - 0x20;
         ((S_80027584_0 *)state)->unk_2C = D_8002789C;
         card_boot_show_no_memory_card_notice(context);
-        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274A8;
+        ((S_80027584_0_pre *)state)[-1].unk_00 = reset_menu_object_state_2;
     } else {
         context = (u8 *)state - 0x20;
         ((S_80027584_0 *)state)->unk_2C = D_8002789C;

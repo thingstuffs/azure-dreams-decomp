@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -10,7 +11,6 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 hikewne_action_resume_address[];
 extern u8 hikewne_frame_set_16[];
 
 typedef struct S_80172864_0 {
@@ -97,7 +97,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFra
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_80172864_0 *)action)->unk_8C = hikewne_action_resume_address;
+        ((S_80172864_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;

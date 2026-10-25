@@ -60,4 +60,8 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source);
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
 void initialize_object_header_and_state(TownMapPhaseObject *objectState, DelayMotionZ *associatedState);
 
+/* Callback entry points. */
+void advance_building_animation_frame(u16 *frame_tick);
+void advance_building_texture_frame(u16 *anim_tick);
+
 #endif

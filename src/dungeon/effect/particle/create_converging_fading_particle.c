@@ -12,6 +12,7 @@
  *   - the two overlay data symbols are this image's
  */
 #include "common.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -63,7 +64,6 @@ typedef struct S_801652FC_3 {
 extern void *allocate_list_node(s32, void *);
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 child_particle_draw_address[];
-extern u8 D_80165164[];
 
 /* Creates an offset object and initializes its source position and motion parameters. */
 void create_converging_fading_particle(
@@ -85,7 +85,7 @@ void create_converging_fading_particle(
 
     object = allocate_list_node(0x211, source_obj);
     if (object != 0) {
-        object->update_callback = D_80165164;
+        object->update_callback = update_converging_fading_particle;
 
         ((S_801652FC_3 *)(object->position))->unk_02 =
             ((MovingPosition *)(source_obj->unk_08))->x + saved_offset_x;

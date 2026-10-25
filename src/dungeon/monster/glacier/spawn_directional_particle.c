@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/glacier.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -30,7 +31,7 @@ extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 rand(void);
 
 extern u8 shared_sprite_entries[];
-extern s32 glacier_object_callback;
+
 extern Pair16 glacier_direction_offsets[];
 
 /* Spawn a particle with randomized position, rotation, and direction-based velocity. */
@@ -46,7 +47,7 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_1E = 0xF;
-        effect->update_callback = &glacier_object_callback;
+        effect->update_callback = advance_item_motion_collision;
         register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;

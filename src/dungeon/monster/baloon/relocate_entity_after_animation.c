@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/baloon.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -51,7 +52,6 @@ typedef struct S_80175594_3 {
 extern u8 baloon_default_frames[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
-extern s32 baloon_action_resume_address;
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 rand(void);
@@ -250,7 +250,7 @@ void relocate_entity_after_animation(void *motion, void *position, SpriteFrameSt
             (((S_80175594_3 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
         spend_actor_mp(object, 0x1000);
-        ((S_80175594_0 *)motion)->unk_8C = &baloon_action_resume_address;
+        ((S_80175594_0 *)motion)->unk_8C = update_actor_turn_behavior;
         g_dungeon_status.active_actor = 0;
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_1 *)position)->unk_10 = 0;

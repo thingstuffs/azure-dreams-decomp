@@ -16,4 +16,9 @@ void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, v
 void *prepare_encounter_resource_descriptor(s32 input_value);
 void register_encounter_cd_callbacks(s32 input_value);
 
+/* Callback entry points. */
+void advance_timed_blink_effect(void *state_data, void *unused, void *color_data);
+void darken_encounter_view_color(u16 *entry);
+void update_dungeon_actor_behavior(void *effect);
+
 #endif

@@ -43,7 +43,6 @@ extern s16 func_80172270(void *, void *, void *, void *);
 extern void initialize_status_gated_action(void *, void *, void *, void *);
 extern s16 func_80172554(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
-extern void initialize_counted_entity_action(void *, void *, void *, void *);
 
 extern u8 kid_direction_frames[];
 extern u8 kid_alt_direction_frames[];

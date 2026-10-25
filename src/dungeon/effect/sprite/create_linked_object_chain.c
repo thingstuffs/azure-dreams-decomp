@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/sprite.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -42,12 +43,10 @@ typedef struct S_8195AB84_4 {
     s16 unk_36;
 } S_8195AB84_4;   /* tail in create_linked_object_chain */
 
-
 extern void func_80025B5C();
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void *allocate_list_node(s32, void *);
 
-extern s32 D_80025C80;
 extern u8 D_80028268[];
 extern int D_800814A0;
 
@@ -67,7 +66,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
     for (i = 0; i < 18; i++) {
         objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
-            ((ObjectNodeHeader *)objects[i])->update_callback = &D_80025C80;
+            ((ObjectNodeHeader *)objects[i])->update_callback = update_linked_monster_effect;
             position = ((ObjectNodeHeader *)objects[i])->position;
             position->x.w.i = x;
             position->y.w.i = y;

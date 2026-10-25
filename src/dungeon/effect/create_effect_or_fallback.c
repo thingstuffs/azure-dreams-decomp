@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/motion.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -7,7 +8,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct S_800B8228_3 {
     u8 pad_00[0xB0];
@@ -26,7 +26,6 @@ extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 item_effect_descriptor[9];
-extern u8 D_800B80D8[];
 
 /* Creates and initializes an effect, or invokes its fallback if allocation fails. */
 void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
@@ -38,7 +37,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         register_node(effect, project_sprite_chain);
-        effect->update_callback = D_800B80D8;
+        effect->update_callback = animate_object_motion_and_scale;
         position = effect->position;
         position->x.w.i = x;
         position->y.w.i = y;

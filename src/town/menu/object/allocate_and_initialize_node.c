@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -18,7 +19,6 @@ extern void initialize_catalog_glyph_cache(void);
 extern s32 initialize_catalog_display_nodes(void *);
 extern void initialize_catalog_state(void *);
 
-extern s32 dungeon_menu_tag;
 extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
@@ -36,7 +36,7 @@ static void *allocate_and_initialize_node_2(void *data) {
             initialize_catalog_glyph_cache();
             node->sprite = (u8 *)node + 0x68;
             initialize_catalog_state(payload);
-            register_node(node, &dungeon_menu_tag);
+            register_node(node, draw_tinted_node_sprites_scratch);
             node->update_callback = &D_80126704;
             SD_Call(0x701);
         } else {

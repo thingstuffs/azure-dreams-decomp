@@ -38,7 +38,6 @@ extern void format_entity_message(s32, void *);
 extern void func_80176330(s32, void *);
 extern void func_801763CC(s32, void *);
 
-extern u8 cyclone_action_resume_address;
 extern u8 cyclone_move_direction_frames[8];
 
 /* Advances the timed target interaction and updates the directional animation. */
@@ -132,7 +131,7 @@ void advance_target_interaction(void *action, void *scene, SpriteFrameState *spr
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, sprite->tile_x, sprite->tile_y);
-            ((S_80174764_0 *)action)->unk_8C = &cyclone_action_resume_address;
+            ((S_80174764_0 *)action)->unk_8C = update_actor_animation;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
         }

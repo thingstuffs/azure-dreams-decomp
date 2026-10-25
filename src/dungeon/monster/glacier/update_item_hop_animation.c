@@ -33,8 +33,6 @@ extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
-
-extern u8 glacier_action_resume_address;
 extern u8 D_801760BC;
 extern u8 D_801760C4;
 
@@ -163,7 +161,7 @@ void update_item_hop_animation(void *action, void *motion, SpriteFrameState *spr
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_80172AD8_0 *)action)->unk_8C = &glacier_action_resume_address;
+        ((S_80172AD8_0 *)action)->unk_8C = update_actor_timed_effects;
         on_actor_status_updated(actor);
     }
 }

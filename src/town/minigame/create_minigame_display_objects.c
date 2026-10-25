@@ -43,14 +43,13 @@ extern u8 D_80022768[];
 extern u8 D_80023404[];
 extern u8 D_80023DE0[];
 extern u8 D_80023EB0[];
-extern u8 D_8002415C[];
+
 extern u8 D_80024470[];
 extern u8 D_800244A0[];
 extern s32 pickup_reward_total[];
 extern u8 minigame_palette_backup[];
 extern u8 minigame_image_backup[];
 extern u8 D_800246E0[];
-extern u8 lit_mesh_renderer_address[];
 
 extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void StoreImage();
@@ -108,7 +107,7 @@ void create_minigame_display_objects(void)
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         render_state = obj + 0x28;
-        register_node(obj, lit_mesh_renderer_address);
+        register_node(obj, draw_linked_lit_meshes);
         neutral_color = 0x00808080;
         ((ObjectNodeHeader *)obj)->update_callback = D_80023DE0;
         prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
@@ -141,7 +140,7 @@ void create_minigame_display_objects(void)
     do {
         obj = allocate_flagged_object_node(0x100);
         if (obj != NULL) {
-            register_node(obj, D_8002415C);
+            register_node(obj, draw_depth_sorted_line_nodes);
             ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
             ((ObjectNodeHeader *)obj)->update_callback = D_80023EB0;
             obj += 0x20;

@@ -1,8 +1,9 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/ghosh.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
-
 
 typedef struct {
     u32 word0;
@@ -12,10 +13,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 
-extern u8 linked_sprite_renderer_address[];
 extern Copy12 ghosh_sprite_payload_template;
-extern u8 D_8016ABC8[];
-
 
 typedef struct S_8016AD00_0 {
     u8 pad_00[0x2];
@@ -48,8 +46,8 @@ void allocate_type_12_object(void)
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->update_callback) = D_8016ABC8;
-        register_node(object, linked_sprite_renderer_address);
+        (object->update_callback) = advance_three_state_bytes;
+        register_node(object, draw_linked_sprites);
 
         primary_state = object->position;
         primary_state->z.w.i = 0;

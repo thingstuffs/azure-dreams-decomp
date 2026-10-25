@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/item/message.h"
 
 extern s32 runtime_script_state[];
 extern s32 D_800DD718[];

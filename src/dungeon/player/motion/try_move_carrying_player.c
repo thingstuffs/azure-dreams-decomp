@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/player/input.h"
 
 struct SpriteFrameState;
 #include "common.h"
@@ -21,7 +22,6 @@ typedef struct S_8008C13C_2 {
     s8 unk_9B;
 } S_8008C13C_2;   /* arg0 in try_move_carrying_player */
 
-extern u8 player_action_tag[];
 extern u8 player_carry_move_frames[8];
 extern u8 player_carry_frames[8];
 
@@ -99,7 +99,7 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
         actor->frameTable = player_carry_frames;
         direction_index = ((dungeon_state->view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
         set_sprite_animation_frame(actor, player_carry_frames[direction_index], 0, 1);
-        ((S_8008C13C_2 *)controller)->unk_8C.u = player_action_tag;
+        ((S_8008C13C_2 *)controller)->unk_8C.u = handle_carrying_player_input;
         return;
     }
 

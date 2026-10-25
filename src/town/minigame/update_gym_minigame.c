@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/minigame.h"
+#include "engine/menu.h"
 #include "town/minigame/gym.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/town_handler_entries.h"
@@ -8,11 +10,9 @@
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 
-
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct S_80022F60_1 {
     u8 pad_00[0x4];
@@ -73,16 +73,15 @@ extern u8 gym_object_state_address[];
 extern u8 D_80023994[];
 extern u8 gym_score_update_address[];
 extern u8 gym_object_callback[];
-extern u8 D_80023FF8[];
+
 extern u8 D_80024070[];
 
 extern s16 D_80026F26;
 extern s32 D_80026F2C[];
 extern s32 D_80026F34;
 
-
 extern s32 text_sprite_builder_address[4];
-extern s32 display_registration_tag;
+
 extern u8 scene_object_payload_alias[];
 typedef struct {
     u8 raw[0x18];
@@ -204,7 +203,7 @@ void update_gym_minigame(GymState *state_obj) {
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {
                     obj->update_callback = gym_object_callback;
-                    register_node(obj, &display_registration_tag);
+                    register_node(obj, build_menu_line_tile_packets);
                     secondary = (u8 *)obj + 0x20;
                     ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
                     ((S_80022F60_4 *)secondary)->unk_0E.s = 0xA0;
@@ -217,7 +216,7 @@ void update_gym_minigame(GymState *state_obj) {
                 }
 
                 secondary = (u8 *)1;
-                loop_asset = D_80023FF8;
+                loop_asset = update_linked_four_column_number;
                 table_base = D_80026F2C;
                 table_cursor = table_base + 1;
                 main_state = (u8 *)0xB0;
@@ -400,7 +399,7 @@ loop_0:
             obj = allocate_list_node(1, main_state - 0x20);
             if (obj != NULL) {
                 obj->update_callback = gym_object_callback;
-                register_node(obj, &display_registration_tag);
+                register_node(obj, build_menu_line_tile_packets);
                 secondary = (u8 *)obj + 0x20;
                 ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
                 ((S_80022F60_4 *)secondary)->unk_0E.s = 0x72;

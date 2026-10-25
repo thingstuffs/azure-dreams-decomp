@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/player/input.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
@@ -19,7 +20,7 @@ extern void set_sprite_animation_frame(void *, u8, s16, s32);
 extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
 
 extern s32 held_item_record[3];
-extern u8 player_action_tag[];
+
 extern u8 player_wait_frames[8];
 extern u8 player_jump_frame_set[8];
 extern u8 player_throw_followup_frames[8];
@@ -204,7 +205,7 @@ void update_throw_carried_object(u8 *actor, ObjectPosition *motion, u8 *animatio
         process_unflagged_linked_entries_alt(((S_8008FA7C_2 *)entity)->unk_5C);
         process_unflagged_linked_entries(((S_8008FA7C_2 *)entity)->unk_5C);
         if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p = player_action_tag;
+            ((S_8008FA7C_3 *)actor)->unk_8C.p = handle_carrying_player_input;
             (*(u8 * *)((u8 *)animation + (0x2C))) = player_carry_frames;
         } else {
             ((S_8008FA7C_3 *)actor)->unk_8C.p2 = handle_player_input;

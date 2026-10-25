@@ -38,4 +38,10 @@ typedef struct GhoshTrailFade {
 
 void advance_ghosh_trail_fade(GhoshTrailFade *fade, ObjectPosition *position);
 
+/* Callback entry points. */
+void advance_three_state_bytes(u16 *words);
+void animate_timed_fade_effect(void *effect);
+void apply_boss_direction_table_state(void *record_data);
+void update_object_motion_and_landing(void *motion, void *position, void *object);
+
 #endif

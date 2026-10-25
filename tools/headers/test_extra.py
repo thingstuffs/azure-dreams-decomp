@@ -88,6 +88,41 @@ class ExtraTests(unittest.TestCase):
             'src/town/b.c':'#include "common.h"\n#include "shared/callback.h"\nextern WordFn imported;\n'})
         self.assertEqual(pl.data_census[0][2],'data_views_differ')
 
+    def test_function_address_is_never_published_as_imported_data(self):
+        _, pl = self.run_plan({
+            'config/names.tsv': '0x80041000\tfunc_80041000\tupdate_object\tevidence\n'
+                                '0x80041000\tD_80041000\tupdate_address\tevidence\n',
+            'src/engine/a.c': '#include "common.h"\nvoid update_object(void *a) {}\n',
+            'src/town/b.c': '#include "common.h"\nextern u8 update_address[];\n'
+                            'void *b(void) { return update_address; }\n'})
+        row = next(r for r in pl.data_census if r[0] == 'update_address')
+        self.assertEqual(row[1:3], ('hold', 'data_is_function_address'))
+        self.assertNotIn('include/town/data.h', pl.headers)
+        self.assertIn('extern u8 update_address[];',
+                      R.edit_tu(pl.corpus.text('src/town/b.c'),
+                                R.tu_edit(pl.tus['src/town/b.c'], lambda r: pl.fn_for_def(r.definition).header)))
+
+    def test_functions_only_does_not_republish_legacy_function_data(self):
+        root, _ = self.run_plan({
+            'config/names.tsv': '0x80041000\tfunc_80041000\tupdate_object\tevidence\n',
+            'include/town/data.h': '/* maintained by tools/headers */\n'
+                                   '#include "common.h"\nextern u8 D_80041000[];\n',
+            'src/engine/a.c': '#include "common.h"\nvoid update_object(void *a) {}\n',
+            'src/town/b.c': '#include "common.h"\n#include "town/data.h"\n'
+                            'void *b(void) { return D_80041000; }\n'})
+        again = P.build(root, scope=['src'], include_data=False)
+        self.assertNotIn('include/town/data.h', again.headers)
+        self.assertEqual(next(r for r in again.data_census if r[0] == 'D_80041000')[2],
+                         'data_is_function_address')
+
+    def test_coincident_other_overlay_entry_is_not_a_function_address(self):
+        _, pl = self.run_plan({
+            'src/dungeon/a.c': '#include "common.h"\nvoid func_80024000(void *a) {}\n',
+            'src/town/b.c': '#include "common.h"\nextern u8 D_80024000[];\n'
+                            'void *b(void) { return D_80024000; }\n'})
+        row = next(r for r in pl.data_census if r[0] == 'D_80024000')
+        self.assertEqual(row[1:3], ('candidate', ''))
+
     def test_data_rerun_retains_import_owner(self):
         root,pl=self.run_plan({'src/engine/a.c':'#include "common.h"\nextern u8 imported[4];\ns32 a(void) { return imported[0]; }\n'})
         self.edit_all(root,pl)

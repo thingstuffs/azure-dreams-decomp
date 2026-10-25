@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -11,9 +12,8 @@ typedef void (*LandingParticleCallback)(u8 *, u8 *, u8 *);
 void register_node(void *, void *);
 s32 rand(void);
 s32 func_80167088(s32);
-extern u8 clipped_sprite_renderer_address[];
-extern void D_80165AB8(u8 *, u8 *, u8 *);
 
+extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 typedef struct S_8016604C_0 {
     u8 pad_00[0x8];
@@ -87,7 +87,7 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                     motion->velocity_y = 0;
                     motion->velocity_x = 0;
                     ((S_8016604C_4 *)((particle->position)))->unk_14 = 0x200000;
-                    register_node(particle, &clipped_sprite_renderer_address);
+                    register_node(particle, draw_linked_sprites_clipped);
                     sprite = particle->sprite;
                     sprite->flags = (u16) (sprite->flags & 0xFFF3);
                     jitter_or_scale = 0x1000 / (s32) (func_80167088(5) + 6);

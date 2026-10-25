@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/kraken.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -78,7 +79,7 @@ extern void try_move_actor_to_valid_position();
 
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
-extern u8 D_80170B64[];
+
 extern u8 kraken_action_resume_address[];
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set_2[];
@@ -115,7 +116,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     obj = allocate_list_node(0x112, (saved_value_24 = value_24, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((ProjectileObject *)obj)->update_callback = D_80170B64;
+        ((ProjectileObject *)obj)->update_callback = update_actor_callbacks_movement_and_terrain;
         ((S_8017086C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;

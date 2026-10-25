@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/garuda.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -38,7 +39,7 @@ typedef struct S_func_81006E50_3 {
 } S_func_81006E50_3;
 
 extern void *actor_update_node_cursor;
-extern u8 garuda_action_resume_address[];
+
 extern u8 D_801748B8[];
 
 void select_sprite_entry(void *, u8, s32);
@@ -89,7 +90,7 @@ void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50
         }
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         spend_actor_mp(actor, 0x100);
-        action->unk_8C = garuda_action_resume_address;
+        action->unk_8C = update_creature_animation_action;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {

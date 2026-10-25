@@ -334,8 +334,10 @@ def _typedef_callback(spec, vis, seen=()):
     return None
 
 
-def augment_data(corpus, ti, data, enabled):
+def augment_data(corpus, ti, data, enabled, definitions=None):
     import plan as P
+    from handler_addresses import AddressIndex
+    function_addresses = AddressIndex(corpus, definitions or {})
     grouped = defaultdict(list)
     for x in data:
         grouped[x.name].append(x)
@@ -346,12 +348,13 @@ def augment_data(corpus, ti, data, enabled):
             continue
         ds = [x for x in xs if x.is_def and x.storage != 'static' and x.path.endswith('.c')]
         keys = {data_key(x, ti) for x in ext}
-        reason = ''
+        targets = [d for x in ext for d, evidence in function_addresses.targets(x.path, name)]
+        reason = 'data_is_function_address' if targets else ''
         views = Counter(' '.join(x.spec) + ' ' + '*' * x.ptr + x.suffix for x in ext)
         if len(keys) != 1:
-            reason = 'data_views_differ'
+            reason = reason or 'data_views_differ'
         if len(ds) > 1:
-            reason = 'data_multiple_definitions'
+            reason = reason or 'data_multiple_definitions'
         if len(ds) == 1 and any(data_key(x, ti) != data_key(ds[0], ti) for x in ext):
             reason = reason or 'data_definition_view_differs'
         source = ds[0] if ds else sorted(ext, key=lambda x: (x.path, x.line))[0]

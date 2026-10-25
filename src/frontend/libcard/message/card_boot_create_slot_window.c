@@ -1,12 +1,11 @@
 #include "common.h"
+#include "frontend/libcard.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
-
-extern u8 menu_backdrop_tag[];
 
 extern void func_80024184(void *object);
 extern void func_80023EF4(void *runtime, s32 value);
@@ -23,7 +22,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
     runtime = ((u8 *)object) + 0x20;
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0xF9);
-        register_node(object, menu_backdrop_tag);
+        register_node(object, card_boot_render_panel_hierarchy);
     } else {
         func_80024184(object);
         object->flags &= 0x7FFF;

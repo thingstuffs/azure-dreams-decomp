@@ -38,7 +38,7 @@ extern void func_801756E0(void *, void *, void *, void *);
 extern u8 secondary_sprite[];
 extern void *D_80170808[];
 extern u8 D_80170A0C[];
-extern u8 glacier_action_resume_address;
+
 #include "dungeon/monster/glacier.h"
 extern u8 glacier_frame_set_1[];
 extern u8 D_801760AC[];
@@ -232,7 +232,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
                 player = primary_actor_record;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_801760DC, &glacier_action_resume_address);
+                    begin_actor_spell_action(actor, context, sprite, D_801760DC, update_actor_timed_effects);
                     return;
                 }
                 break;
@@ -252,7 +252,7 @@ special_cleanup:
         return;
 
 aaf_cleanup:
-        begin_actor_spell_action(actor, context, sprite, D_801760DC, &glacier_action_resume_address);
+        begin_actor_spell_action(actor, context, sprite, D_801760DC, update_actor_timed_effects);
         return;
 
 ordinary_cleanup:

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/ghosh.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -56,7 +57,7 @@ typedef struct {
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 extern M2C_UNK D_800777F4;
-extern u8 ghosh_object_callback;
+
 extern void *ghosh_actor_node[];
 extern TableEntry ghosh_effect_direction_offsets[];
 
@@ -89,7 +90,7 @@ void spawn_conditional_source_effect(void) {
         if (effect != NULL) {
             effect_state = ((void *)effect) + 0x20;
             effect_state->unk_12 = 3;
-            effect->update_callback = &ghosh_object_callback;
+            effect->update_callback = update_object_motion_and_landing;
             register_node(effect, project_sprite_chain);
             sprite = effect->sprite;
             sprite->flags = (u16) (sprite->flags & 0xFFF3);

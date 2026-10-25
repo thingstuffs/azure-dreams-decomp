@@ -1,8 +1,9 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/beldo_large.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "common.h"
-
 
 typedef struct {
     u32 word0;
@@ -12,10 +13,7 @@ typedef struct {
 
 extern void register_node(void *, void *);
 
-extern u8 linked_sprite_renderer_address[];
 extern Copy12 D_80173B1C;
-extern u8 D_801701CC[];
-
 
 typedef struct S_80170298_0 {
     u8 pad_00[0x2];
@@ -46,8 +44,8 @@ void create_encounter_view_darkener(void)
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (object->update_callback) = D_801701CC;
-        register_node(object, linked_sprite_renderer_address);
+        (object->update_callback) = darken_encounter_view_color;
+        register_node(object, draw_linked_sprites);
 
         axis_state = object->position;
         axis_state->z.w.i = 0;

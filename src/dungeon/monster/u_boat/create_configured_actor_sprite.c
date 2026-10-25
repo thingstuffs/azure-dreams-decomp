@@ -44,7 +44,7 @@ extern void create_owner_linked_directional_object();
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];
-extern u8 D_801711B0[];
+
 #include "dungeon/monster/u_boat.h"
 
 /* Creates a U-Boat actor, initializes its status and tile placement, and creates a linked directional
@@ -69,7 +69,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        object->update_callback = D_801711B0;
+        object->update_callback = update_actor_visual_motion;
         work->unk_13 = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);
 

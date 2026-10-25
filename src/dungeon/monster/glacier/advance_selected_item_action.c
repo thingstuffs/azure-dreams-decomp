@@ -57,7 +57,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 
 extern u8 D_801708D4;
-extern u8 glacier_action_resume_address;
+
 #include "dungeon/monster/glacier.h"
 extern u8 D_801760FC[];
 
@@ -242,7 +242,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         }
         advance_status_timers(actor);
         (((ActorFieldView_810318E4 *)actor)->field_6D)--;
-        ((S_801730E4_0 *)action)->unk_8C = &glacier_action_resume_address;
+        ((S_801730E4_0 *)action)->unk_8C = update_actor_timed_effects;
         (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
         (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;
         (((ActorFieldView_810318E4 *)actor)->field_46) &= 0x7FFF;
@@ -353,7 +353,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_801730E4_0 *)action)->unk_8C = &glacier_action_resume_address;
+        ((S_801730E4_0 *)action)->unk_8C = update_actor_timed_effects;
         advance_status_timers(actor);
         (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
         (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;

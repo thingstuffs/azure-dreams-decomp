@@ -33,8 +33,6 @@ extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
-extern u8 D_80174D24[9];
-
 /* Create a render object, copy its source state, and apply queried position offsets. */
 s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
@@ -45,7 +43,7 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
 
     object = allocate_list_node(0x312, priority - 0x20);
     if (object != 0) {
-        object->update_callback = D_80174D24;
+        object->update_callback = advance_timed_target_flags;
         register_node(object, project_sprite_chain);
 
         context = (u8 *)object + 0x20;

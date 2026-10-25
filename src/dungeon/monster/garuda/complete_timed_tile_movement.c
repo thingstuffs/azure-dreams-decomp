@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/garuda.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -31,7 +32,6 @@ extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 garuda_action_resume_address[];
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
 extern u8 garuda_frame_set_4[];
@@ -173,6 +173,6 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFr
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }
-    ((S_80173A08_0 *)action)->unk_8C = garuda_action_resume_address;
+    ((S_80173A08_0 *)action)->unk_8C = update_creature_animation_action;
     on_actor_status_updated(entity);
 }

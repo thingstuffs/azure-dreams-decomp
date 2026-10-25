@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80097AF8_0 {
@@ -35,9 +36,6 @@ typedef struct S_80097AF8_4 {
     u8 pad_20[0x3C];
     void * unk_5C;
 } S_80097AF8_4;   /* arg3 in advance_timed_motion_continuation */
-
-
-extern u8 destination_motion_resume_address[];
 
 extern void process_unflagged_linked_entries(void *);
 extern void process_unflagged_linked_entries_alt(void *);
@@ -92,7 +90,7 @@ void advance_timed_motion_continuation(S_80097AF8_0 *actor, S_80097AF8_1 *motion
             process_unflagged_linked_entries_alt(owner->unk_5C);
             process_unflagged_linked_entries(owner->unk_5C);
         }
-        actor->unk_8C = destination_motion_resume_address;
+        actor->unk_8C = handle_actor_commands_and_facing;
         return;
     }
 }

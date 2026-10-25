@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "dungeon/actor/motion.h"
 #include "shared/actor_status_flags.h"
 
 struct ObjectNodeHeader;
@@ -12,7 +13,7 @@ struct ObjectNodeHeader;
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 extern s32 D_800E0334[];
-extern u8 D_800C9AAC;
+
 extern u8 actor_motion_resume_address;
 
 typedef struct {
@@ -54,7 +55,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != 0) {
         state = (u8 *)entity + 0x20;
-        entity->update_callback = &D_800C9AAC;
+        entity->update_callback = update_actor_facing_and_lifecycle;
         FLD(state, s8, 0x13) = 0x2f;
         state_tail = entity->position;
         FLD(state_tail, u16, 0xA) = height;

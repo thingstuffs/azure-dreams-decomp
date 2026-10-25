@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
-extern u8 D_80123124[];
 extern void remove_runtime_callback(void *);
-/* Calls remove_runtime_callback with D_80123124. */
-void remove_scene_runtime_callback(void) { remove_runtime_callback(D_80123124); }
+/* Calls remove_runtime_callback with clear_global_entry_flag. */
+void remove_scene_runtime_callback(void) { remove_runtime_callback(clear_global_entry_flag); }

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/item/message.h"
 
 /* Clears one byte and returns a pointer to the next byte. */
 void *clear_byte_and_advance(s8 *byte_ptr) {

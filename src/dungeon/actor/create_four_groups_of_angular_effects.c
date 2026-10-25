@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/actor/effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -7,7 +8,7 @@ void register_node(void *, void *);
 s32 rsin(s32);
 s32 rcos(s32);
 void draw_textured_ellipse(void *, void *, s32, s32);
-extern u8 angular_group_update_address[9];
+
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
 extern s16 view_facing_angle_alias;
@@ -29,7 +30,7 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
     u8 *effect_state;
     SpriteFrameState *sprite;
     void *data;
-    void *callback = angular_group_update_address;
+    void *callback = advance_effect_positions_and_fade;
 
     rect[0] = 0x01800380;
     rect[1] = 0x400040;

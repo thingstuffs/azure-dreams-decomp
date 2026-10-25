@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "town/scene/animation.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -20,7 +21,7 @@ typedef struct ObjectWithInitialWords {
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
 extern u8 score_sprite_draw_callback_address[12];
-extern u8 D_8052F2C8[];
+
 extern u8 D_8028E170[];
 
 /* Creates an object and initializes its position and sprite data. */
@@ -33,7 +34,7 @@ void create_sprite_object(FiveWords *init_data, s32 y_position)
     object = func_800373DC(0x136);
     if (object != NULL) {
         ((ObjectWithInitialWords *)object)->initial_words = *init_data;
-        object->update_callback = D_8052F2C8;
+        object->update_callback = animate_rising_effect_object;
         func_8003BC18(object, score_sprite_draw_callback_address);
         position = object->position;
         sprite = object->sprite;

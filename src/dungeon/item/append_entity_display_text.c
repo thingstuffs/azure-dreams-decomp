@@ -1,7 +1,7 @@
 #include "shared/monster_ids.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
-#include "common.h"
+#include "dungeon/item/message.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 

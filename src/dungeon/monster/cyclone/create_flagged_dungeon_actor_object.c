@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "engine/graphics.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -6,8 +7,6 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
-
-
 
 typedef struct S_80170890_1 {
     u8 pad_00[0x13];
@@ -42,11 +41,10 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void LoadImage(void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern s32 sprite_chain_projector_address;
 extern u8 D_80170AE8[];
 extern u8 cyclone_move_direction_frames[];
 #include "dungeon/monster/cyclone.h"
-extern u8 cyclone_action_resume_address[];
+
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -71,7 +69,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         work = (u8 *)obj + 0x20;
         obj->update_callback = D_80170AE8;
         ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
-        register_node(obj, &sprite_chain_projector_address);
+        register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
         part_a->z.w.i = saved_spawn;
@@ -107,7 +105,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = cyclone_action_resume_address;
+        actor->unk_8C = update_actor_animation;
         ((S_80170890_1 *)work)->unk_1C |= 0x00040000;
         actor->unk_92 = -32;
 

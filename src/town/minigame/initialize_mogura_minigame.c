@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 #include "shared/object_node.h"
 #include "shared/town_state.h"
 
@@ -41,7 +42,6 @@ extern s32 D_80024954;
 extern s32 D_800249A0;
 extern s32 D_80024A30;
 extern s32 text_sprite_builder_address[4];
-extern s32 display_registration_tag;
 
 extern void set_resident_bit(s32);
 extern void func_8003E188(s32, void *);
@@ -150,7 +150,7 @@ s32 initialize_mogura_minigame(void)
         object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         if (object != NULL) {
             S_80024100_2 *third_element;
-            render_data = &display_registration_tag;
+            render_data = build_menu_line_tile_packets;
             third_element = (u8 *)object + 0x20;
             object->update_callback = update_callback;
             register_node(object, render_data);

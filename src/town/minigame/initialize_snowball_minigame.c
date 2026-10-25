@@ -70,7 +70,7 @@ extern u8 D_80020260[];
 extern u8 D_80020360[];
 extern u8 D_800203F4[];
 extern u8 D_80020488[];
-extern u8 D_80020510[];
+
 extern u8 D_80026DC8[];
 extern void *D_80026EE0[];
 extern void *D_80026F04[];
@@ -226,7 +226,7 @@ s32 initialize_snowball_minigame(void)
     tile.unk14 = 0xF4;
     tile.unk16 = 0xB6;
     tile.unk04 = D_800272C0;
-    create_scene_object_with_48_byte_payload(D_80020510, &tile);
+    create_scene_object_with_48_byte_payload(tick_summed_scene_value_text, &tile);
 
     tile.unk14 = 0x7E;
     tile.unk16 = 0x44;

@@ -66,7 +66,6 @@ extern void clear_actor_action_flag_and_animate(void *, void *, void *, void *);
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 
-extern u8 cyclone_action_resume_address[];
 extern u8 cyclone_move_direction_frames[];
 extern u8 D_80176468[];
 #include "dungeon/monster/cyclone.h"
@@ -244,7 +243,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
                 ActorRecord *player = primary_actor_record;
                 ((S_80171094_1 *)stats)->unk_2A.s = heading;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, cyclone_action_resume_address);
+                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, update_actor_animation);
                     return;
                 }
             }
@@ -255,7 +254,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, cyclone_action_resume_address);
+            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, update_actor_animation);
             return;
         default:
             func_801718B4(actor_arg, context_arg, sprite_arg, stats);

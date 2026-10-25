@@ -23,4 +23,8 @@ void advance_actor_sprite_action(void *action, ObjectPosition *motion, SpriteFra
 
 void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 
+/* Callback entry points. */
+void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state);
+void update_an_effect_s_lifetime_fades_color_advances_motion(void *effect, s32 *motion, u8 *color_data);
+
 #endif

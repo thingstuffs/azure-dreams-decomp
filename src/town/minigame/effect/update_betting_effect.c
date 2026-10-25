@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -7,7 +8,6 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "shared/dungeon_projectile_views.h"
-
 
 typedef struct {
     u8 *child;
@@ -34,8 +34,6 @@ typedef struct {
     s16 digits[3];
 } EffectFrame;
 
-
-extern u8 D_800220A8[];
 extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 town_money[3];
@@ -59,7 +57,6 @@ extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *, ...);
 extern s32 create_dual_buffer_object(s32, s32, s32);
 extern void set_object_data_pointer_2(s32);
-
 
    /* object in update_betting_effect */
 
@@ -103,7 +100,6 @@ typedef struct S_800211A4_6 {
     s16 unk_72;
     s16 unk_74;
 } S_800211A4_6;   /* child in update_betting_effect */
-
 
 typedef struct S_800211A4_10 {
     u8 pad_00[0x14];
@@ -197,7 +193,7 @@ void update_betting_effect(TownEffect *input)
             object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 object_child = ((ProjectileObject *)object)->sprite;
-                ((ProjectileObject *)object)->update_callback = D_800220A8;
+                ((ProjectileObject *)object)->update_callback = update_minigame_approach_motion;
                 object_link = (u8 *)object + 0x20;
                 register_node(object, project_sprite_chain);
                 ((S_800211A4_13 *)(((ProjectileObject *)object)->position))->unk_00 =

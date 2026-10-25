@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
@@ -46,7 +47,6 @@ extern s32 select_record_entry_and_value();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024A08[9];
 extern u8 shaded_quad_frame_set[9];
-extern u8 clipped_sprite_renderer_address[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
@@ -78,7 +78,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         visual->flags = visual->flags | 0xC;
         visual->tpage_abr = visual->tpage_abr | 0x60;
         select_record_entry_and_value(visual, shaded_quad_frame_set, 0);
-        init_data = clipped_sprite_renderer_address;
+        init_data = draw_linked_sprites_clipped;
         angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
         visual->scale_y = 0x1400;
         visual->scale_x = 0x1400;

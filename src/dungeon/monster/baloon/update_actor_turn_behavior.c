@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/baloon.h"
 #include "common.h"
 #include "dungeon/level/scripted_boundary.h"
 #include "shared/dungeon_floor.h"
@@ -32,13 +33,11 @@ extern void func_8017531C(void *, void *, void *, void *);
 extern void clear_high_flag_and_update_counter(void *, void *, void *, void *);
 extern void update_actor_counter_and_status(void *, void *, void *, void *);
 
-
 extern u8 baloon_default_frames[];
 extern u8 D_800E2358[];
 extern u8 baloon_attack_frames;
 extern u8 D_800E23A0[];
 extern u8 baloon_frame_set_1[];
-extern s32 baloon_action_resume_address;
 
 typedef struct S_80171F1C_0 {
     u8 pad_00[0x8C];
@@ -220,7 +219,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
                 player = primary_actor_record;
                 move_data->facing = heading;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &baloon_action_resume_address);
+                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, update_actor_turn_behavior);
                     return;
                 }
             }
@@ -232,7 +231,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, SpriteF
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &baloon_action_resume_address);
+                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, update_actor_turn_behavior);
                 return;
 
             case 4:

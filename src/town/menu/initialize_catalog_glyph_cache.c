@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/flags.h"
 
 typedef struct Entry Entry;
 
@@ -8,7 +9,6 @@ struct Entry {
     s16 state;
 };
 
-extern u8 D_80123124[];
 extern Entry catalog_cache_nodes[32];
 extern Entry *catalog_cache_head;
 extern s16 catalog_lookup_count;
@@ -30,5 +30,5 @@ void initialize_catalog_glyph_cache(void) {
         catalog_cache_nodes[entry_index].value = entry_index * 48;
         catalog_cache_nodes[entry_index].state = 0;
     }
-    append_terminated_runtime_word(D_80123124);
+    append_terminated_runtime_word(clear_global_entry_flag);
 }

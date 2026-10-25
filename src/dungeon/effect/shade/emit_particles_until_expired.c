@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/effect/shade.h"
 
 struct ObjectNodeHeader;
 #include "shared/object_node.h"
@@ -44,7 +45,6 @@ typedef struct S_800D4DE8_8 {
 
 extern s32 rand(void);
 extern void initialize_effect_object_state(struct ObjectNodeHeader *, void *, void *, s32);
-extern u8 D_800D4CB0[];
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
 void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {
@@ -77,7 +77,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
                 particle_state = (u8 *)particle + 0x20;
                 particle_state->unk_1E = 0xA;
                 particle_state->unk_20 = 0xA;
-                particle->update_callback = D_800D4CB0;
+                particle->update_callback = advance_damped_effect_motion;
                 particle_motion = particle->position;
                 particle_motion->velocity_x =
                     ((rand() & 0x7FFF) - 0x4000) << 7;

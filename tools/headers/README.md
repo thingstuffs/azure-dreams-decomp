@@ -56,3 +56,23 @@ justify an explicit return only when the callee, every caller and complete-TU
 bytes agree.
 
 Tests: `python3 -m unittest discover -s tools/headers -p 'test*.py' -v`.
+
+Function addresses are excluded from the data import plan (`data_is_function_address`).
+`handler_addresses.py` resolves exact C entries using the defining row's address
+space, resident/engine ownership, and image-scoped link placements. Coincident
+numbers in another overlay do not establish ownership. Retype these imports to
+the definition's folder header and prove every affected consumer before applying.
+Export the live address-declaration census with:
+`python3 tools/headers/handler_addresses.py --root . --out <output>`.
+
+Before changing a resolved address alias to a readable function identifier, check
+its canonical spelling through every linked placement:
+
+```sh
+python3 tools/headers/check_handler_bindings.py --root . --map retypes.tsv --out binding_checks.tsv
+```
+
+This uses ccproc's last-row name mapping and the object rebinder's address rules.
+A copied callback can have a different address from its canonical home function.
+Keep such imports held until the producer can represent the typed placement alias.
+A known C entry and a compatible prototype alone do not prove this substitution.

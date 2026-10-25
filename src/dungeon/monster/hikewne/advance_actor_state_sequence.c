@@ -39,7 +39,6 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
-extern u8 hikewne_action_resume_address[];
 extern u8 hikewne_frame_set[];
 extern u8 D_801740F8[];
 extern u8 hikewne_frame_set_1[];
@@ -272,6 +271,6 @@ void advance_actor_state_sequence(void *action, void *context, SpriteFrameState 
         return;
     }
 
-    ((S_8017360C_0 *)action)->unk_8C = hikewne_action_resume_address;
+    ((S_8017360C_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;
     return;
 }

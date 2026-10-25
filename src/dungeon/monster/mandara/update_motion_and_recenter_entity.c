@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "dungeon/monster/mandara.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern s32 mandara_action_resume_address;
 extern s32 D_80175268;
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
@@ -118,7 +118,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, ObjectPosition *mot
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = &mandara_action_resume_address;
+        action->unk_8C = update_long_actor_action;
         return;
 
     default:

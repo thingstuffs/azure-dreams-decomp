@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -19,7 +20,7 @@ typedef struct S_80022C8C_0 {
 
 extern s32 D_80020054;
 extern s32 D_80022F60;
-extern s32 D_8002390C;
+
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
 extern s32 gym_sprite_source;
@@ -57,7 +58,7 @@ s32 initialize_gym_minigame(void)
     position[0] = 0x03800000;
     position[1] = 0x02600000;
     position[2] = (s32)0xFFA00000;
-    create_gym_mesh_object(position, 0x34, &D_8002390C, parent_link);
+    create_gym_mesh_object(position, 0x34, rotate_gym_mesh_y, parent_link);
 
     position[2] = (s32)0xFFE00000;
     for (object_or_slot = 3; object_or_slot >= 0; object_or_slot--) {
@@ -71,7 +72,7 @@ s32 initialize_gym_minigame(void)
         } else {
             position[1] = 0x03E00000;
         }
-        create_gym_mesh_object(position, 0x35, (u8 *)&D_8002390C + 0x14, parent_link);
+        create_gym_mesh_object(position, 0x35, (u8 *)rotate_gym_mesh_y + 0x14, parent_link);
     }
 
     object_or_slot = (s32)allocate_flagged_object_node(0x136);

@@ -41,7 +41,7 @@ typedef struct {
     u8 pad[8];
     s16 count;
 } Global83460;
-extern u8 ghosh_motion_resume_address[];
+
 #include "dungeon/monster/ghosh.h"
 
 /* Updates movement toward a tile and completes the timed action. */
@@ -137,7 +137,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Sprit
             }
         }
         if ((check_actor_floor_trap(tile, entity) << 0x10) > 0) {
-            action->unk_8C = ghosh_motion_resume_address;
+            action->unk_8C = update_boss_actor_action;
             on_actor_status_updated(entity);
         }
     }

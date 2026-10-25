@@ -36,8 +36,6 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_8017103C[];
-extern s32 glacier_action_resume_address;
 #include "dungeon/monster/glacier.h"
 extern u8 glacier_frame_set_2[];
 
@@ -60,7 +58,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
     if (object != 0) {
         result = object;
         result = (S_80170E74_1 *)((u8 *)result + 0x20);
-        object->update_callback = D_8017103C;
+        object->update_callback = update_monster_appearance_motion;
         result->unk_13 = MONSTER_GLACIER;
         register_node(object, project_sprite_chain);
 
@@ -104,7 +102,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &glacier_action_resume_address;
+        result_copy->unk_8C = update_actor_timed_effects;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

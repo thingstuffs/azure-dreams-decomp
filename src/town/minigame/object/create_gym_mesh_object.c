@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
@@ -16,7 +17,6 @@ typedef struct S_80022E64_0 {
 } S_80022E64_0;   /* obj in create_gym_mesh_object */
 
 extern void register_node(void *, void *);
-extern u8 lit_mesh_renderer_address[];
 
 typedef struct Copy24 {
     s32 word[6];
@@ -30,7 +30,7 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
 
     object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
-        register_node(object, lit_mesh_renderer_address);
+        register_node(object, draw_linked_lit_meshes);
         copy_dst = object->unk_08;
         *(Copy24 *)copy_dst = *(Copy24 *)source_words;
         object_data = object->unk_0C;

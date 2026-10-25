@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "slus.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_projectile_views.h"
@@ -8,8 +9,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_800BF3F0_1 {
     u8 pad_00[0x8];
@@ -22,8 +21,6 @@ typedef struct S_800BF3F0_1 {
     s16 unk_20;
 } S_800BF3F0_1;
 
-
-
 typedef struct S_800BF3F0_3 {
     u8 pad_00[0x48];
     s32 unk_48;
@@ -31,11 +28,9 @@ typedef struct S_800BF3F0_3 {
 
    /* the 0x2 bytes before arg0 in spawn_fixed_effect_object, addressed as arg0[-1] */
 
-
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_1(void *, void *, void *);
 
-extern u8 lit_mesh_renderer_address[];
 extern u8 D_800BF1C8[];
 extern u8 D_800D232C[];
 extern s32 D_800D2344[3];
@@ -52,7 +47,7 @@ void spawn_fixed_effect_object(void *caller_data)
 
     object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
-        register_node(object, lit_mesh_renderer_address);
+        register_node(object, draw_linked_lit_meshes);
         color = 0x00808080U;
 
         ((ProjectileObject *)object)->update_callback = D_800BF1C8;

@@ -29,4 +29,6 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
 
 void select_state_table_with_flagged_offset(void *state, void *motion, void *source, void *target);
 
+void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg);
+
 #endif

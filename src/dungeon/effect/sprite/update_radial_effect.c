@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -79,7 +80,6 @@ typedef struct {
 } DungeonCounter;
 
 extern u8 secondary_sprite[];
-extern u8 D_800D7D30[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void *allocate_list_node(s32, void *);
@@ -108,7 +108,7 @@ void update_radial_effect(DungeonState *effect) {
     case 1:
     {
         s32 spawn_index = 7;
-        u8 *object_data = D_800D7D30;
+        u8 *object_data = update_spiral_effect;
         DungeonGlobalStatus *object_counter = &g_dungeon_status;
         DungeonTemplate *object_template = (DungeonTemplate *)secondary_sprite;
 

@@ -1,4 +1,5 @@
 #include "slus.h"
+#include "engine/graphics.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -16,7 +17,6 @@ typedef struct {
 
 #define MULT_HI(a, b) (0)
 
-extern s32 clipped_sprite_renderer_address[3];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
@@ -81,7 +81,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         scale = 0x1400 / (s16)state->unk_14;
         render_data->scale_y = scale;
         render_data->scale_x = scale;
-        register_node(object, clipped_sprite_renderer_address);
+        register_node(object, draw_linked_sprites_clipped);
         object_data = object->position;
         *(Copy24 *)object_data = *(Copy24 *)source_data;
         return (s32)object;

@@ -15,4 +15,6 @@ void update_staged_movement_and_idle(void *action, ObjectPosition *movement, Spr
 
 void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void update_actor_animation_and_behavior(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity);
+
 #endif

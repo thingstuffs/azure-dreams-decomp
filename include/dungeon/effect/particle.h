@@ -20,4 +20,11 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
 struct DirectionalEffectWork;
 void update_directional_actor_effect(struct DirectionalEffectWork *effect, ObjectPosition *motion, void *context);
 
+/* Callback entry points. */
+void expire_ribbon_segment(void *record_data);
+void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state);
+void update_color_cycling_pulse(void *state_data, void *unused, void *color);
+void update_reverse_rotating_clipped_sprite(void *effect, s32 unused, void *rotation);
+void update_staged_particle_emitter(void *effect_data);
+
 #endif

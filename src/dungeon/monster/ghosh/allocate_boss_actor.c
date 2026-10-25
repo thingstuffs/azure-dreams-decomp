@@ -14,7 +14,6 @@ extern void register_node(void *, void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_8016F2E0[];
 extern void ghosh_motion_resume_address();
 #include "dungeon/monster/ghosh.h"
 extern void *ghosh_boss_node;
@@ -69,7 +68,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ghosh_boss_node = obj;
-        obj->update_callback = D_8016F2E0;
+        obj->update_callback = update_boss_actor_movement;
         ((S_8016F160_1 *)work)->unk_13 = MONSTER_SELFI;
         register_node(obj, project_sprite_chain);
 

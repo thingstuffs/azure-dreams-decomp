@@ -20,4 +20,7 @@ void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(EntityRec
 void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteFrameState *object);
 void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
+/* Callback entry points. */
+void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in);
+
 #endif

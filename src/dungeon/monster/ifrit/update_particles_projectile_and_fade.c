@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ifrit.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -76,9 +77,8 @@ typedef struct {
 } Point;
 
 extern Rect D_80170874;
-extern u8 D_801740FC[];
+
 extern u8 D_801741A4[];
-extern u8 D_80174228[];
 
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -116,7 +116,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
     if (!(((S_801733BC_0 *)render_part)->unk_14 & 0x8000) &&
         ((S_801733BC_1 *)effect_state)->unk_9B == 1) {
         particles_left = 3;
-        particle_callback = D_801740FC;
+        particle_callback = tick_object_motion_and_expire;
         ((S_801733BC_1 *)effect_state)->unk_A8.u += 0x12;
         do {
             spawned_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
@@ -217,7 +217,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         if (spawned_object == 0) {
             break;
         }
-        register_node(spawned_object, D_80174228);
+        register_node(spawned_object, render_linked_items_as_textured_strips);
         frames_left = (u32)D_801741A4;
         spawned_object->update_callback = (void *)frames_left;
         ((S_801733BC_2 *)spawned_object)->unk_20 = position->x;

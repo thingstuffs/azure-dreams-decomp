@@ -11,7 +11,6 @@
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -19,7 +18,6 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern u8 kewne_action_resume_address[];
 extern u8 D_80175E88[];
 extern u8 resident_globals_page[];
 
@@ -143,7 +141,7 @@ advance_state:
             return;
         }
         spend_actor_mp(actor, 0x100);
-        PTR(action, 0x8C) = kewne_action_resume_address;
+        PTR(action, 0x8C) = update_actor_animation_and_behavior;
         S32(resident_globals_page, 0x346C) = 0;
         U16(actor, 0x46) &= 0x7FFF;
         advance_status_timers(actor);

@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "dungeon/monster/manoeva.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -73,13 +74,10 @@ typedef struct S_8017474C_8 {
     u16 unk_12;
 } S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in update_terrain_scaled_actor_effect */
 
-
 extern s32 get_entity_effect_value(void *, s32);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 sample_terrain_surface_height(u16, u16, s16);
-
-extern u8 D_8017398C[];
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
 void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, void *out_render)
@@ -106,7 +104,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         owner = (u8 *)owner_base + 0x20;
         if ((((S_8017474C_1 *)owner)->unk_1C & 0x00800000) ||
             (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) ||
-            (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) ||
+            (((S_8017474C_1 *)owner)->unk_8C == (void *)transfer_linked_object_state) ||
             ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

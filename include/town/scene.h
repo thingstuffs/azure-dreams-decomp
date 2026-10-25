@@ -103,4 +103,8 @@ char *resolve_scene_entry_text(void *context, s32 unused, s32 selection);
 /* Return the stored state byte as the word consumed by scene tests. */
 s32 get_state_record_byte(void);
 
+/* Callback entry points. */
+s32 *get_data_pointer_1691_c(void);
+void update_slot_machine(void *machine, void *position);
+
 #endif

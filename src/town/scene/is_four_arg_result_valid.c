@@ -1,9 +1,9 @@
-#include "common.h"
+#include "town/scene/grid_entry_query.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8001979C(s32, s32, s32, s32);                                /* extern */
+s32 func_8001979C(s32, s32);                                /* extern */
 
 /* Return whether func_8001979C produces a value other than -1. */
-s32 is_four_arg_result_valid(s32 first_input, s32 second_input, s32 third_input, s32 fourth_input) {
-    return ~func_8001979C(first_input, second_input, third_input, fourth_input) != 0;
+s32 is_four_arg_result_valid(s32 first_input, s32 second_input) {
+    return ~func_8001979C(first_input, second_input) != 0;
 }

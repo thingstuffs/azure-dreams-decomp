@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect/particle.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -56,7 +57,7 @@ extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 ribbon_sprite_entries[];
 extern u8 D_80166914[];
-extern u8 ribbon_particle_update_address[];
+
 extern s16 ribbon_vertices[][8][2][3];
 
 /* Spawn seven colored segments from interpolated vertices and advance the effect lifetime. */
@@ -103,7 +104,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             payload = (ObjectPayload *)((u8 *)object + 0x20);
             payload->unk_18 = 1;
             payload->unk_1A = 1;
-            object->update_callback = ribbon_particle_update_address;
+            object->update_callback = expire_ribbon_segment;
             register_node(object, D_80166914);
 
             sprite = object->sprite;

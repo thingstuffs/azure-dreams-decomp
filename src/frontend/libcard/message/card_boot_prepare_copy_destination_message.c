@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/state.h"
 
 typedef struct S_800254E4_0_pre {
     u8 * unk_00;
@@ -12,7 +13,6 @@ typedef struct S_800254E4_0 {
     u8 * unk_34;
 } S_800254E4_0;   /* base in card_boot_prepare_copy_destination_message */
 
-
 typedef struct TableEntry {
     s32 value;
     u8 pad[0x7C];
@@ -22,8 +22,6 @@ typedef struct TableEntry {
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
 
-extern u8 D_80024FAC[];
-extern u8 D_80024FFC[];
 extern TableEntry card_save_slot_metadata[];
 
 /* Selects a record update based on its table entry and status and assigns data pointers. */
@@ -42,16 +40,16 @@ void card_boot_prepare_copy_destination_message(void *context)
         context = 0;
         context = record - 0x20;
         if (status < 3) {
-            ((S_800254E4_0 *)record)->unk_34 = D_80024FFC;
+            ((S_800254E4_0 *)record)->unk_34 = card_boot_resume_menu_after_slot_refresh;
             card_boot_show_insufficient_space_card_advice(context);
         } else {
             card_boot_enter_copying_progress(record);
             return;
         }
     } else {
-        ((S_800254E4_0 *)record)->unk_34 = D_80024FFC;
+        ((S_800254E4_0 *)record)->unk_34 = card_boot_resume_menu_after_slot_refresh;
         card_boot_show_overwrite_protected_notice(context);
     }
 
-    ((S_800254E4_0_pre *)record)[-1].unk_00 = D_80024FAC;
+    ((S_800254E4_0_pre *)record)[-1].unk_00 = card_boot_poll_status_and_dismiss_dialog;
 }

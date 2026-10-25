@@ -16,7 +16,6 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_800E2380[8];
 extern u8 baloon_fall_frames[8];
-extern s32 baloon_action_resume_address;
 
 typedef struct S_801737F8_0 {
     u8 pad_00[0x8C];
@@ -29,7 +28,6 @@ typedef struct S_801737F8_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801737F8_0;   /* arg0 in advance_actor_animation_and_fall */
-
 
 /* Advance the actor animation state, timers, and downward movement. */
 void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -118,7 +116,7 @@ void advance_actor_animation_and_fall(void *action, ObjectPosition *motion, Spri
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((S_801737F8_0 *)action)->unk_8C = &baloon_action_resume_address;
+        ((S_801737F8_0 *)action)->unk_8C = update_actor_turn_behavior;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

@@ -1,17 +1,12 @@
 #include "shared/object_node.h"
+#include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern u8 D_8002609C[];
+
 extern u8 map_animation_sprite_entries[];
 /* Creates a sprite at the given position and applies color-specific settings. */
 void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
@@ -22,7 +17,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
     ObjectNodeHeader *object;
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
-        object->update_callback = &D_8002609C;
+        object->update_callback = advance_fading_particle_until_animation_boundary;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         *((s32 *) (((s8 *) (object->position)) + 0)) = x;

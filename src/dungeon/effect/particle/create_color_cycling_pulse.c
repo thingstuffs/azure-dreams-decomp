@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -14,7 +15,6 @@ typedef struct {
 
 extern void register_node(void *, void *);
 
-extern u8 D_801671AC;
 extern u8 D_80173B58[48];
 
 typedef struct S_8016738C_0 {
@@ -58,7 +58,7 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         node = (u8 *)object + 0x20;
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
-        (object->update_callback) = &D_801671AC;
+        (object->update_callback) = update_color_cycling_pulse;
         register_node(object, project_sprite_chain);
 
         control = object->sprite;
