@@ -328,7 +328,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;

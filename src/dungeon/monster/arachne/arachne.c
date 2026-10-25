@@ -1489,7 +1489,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
             select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
         }
         if ((u8)entity->value < 0x11) {
-            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)object - 0x20)) {
+            if ((g_dungeon_status.pending_display_owner) == (u8 *)object - 0x20) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
             distribute_experience_and_report_gains(object);
@@ -1703,7 +1703,7 @@ void resume_actor_target_selection_after_status_animation(void *controller, void
             select_sprite_entry(sprite,
                 ((u8 *)arachne_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            (((u32)entity->flags1C)) |= 0x40000;
+            entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;

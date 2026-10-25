@@ -57,7 +57,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
     S_80FF3000_1 *object_state;
     ObjectNodeHeader *object;
     u16 saved_value;
-    S_80FF3000_2 *base_data;
+    ObjectPosition *base_data;
     s8 saved_y;
     s8 saved_x;
     s32 mode_or_flags;
@@ -79,7 +79,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
         register_node(object, project_sprite_chain);
         config_value = (s32) &D_8015C038;
         base_data = object->position;
-        base_data->unk_0A = saved_value;
+        base_data->z.w.i = saved_value;
         placement = object->sprite;
         mode_or_flags = init_flags & 3;
         placement->tile_y = saved_y;

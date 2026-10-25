@@ -38,7 +38,7 @@ void advance_action_phase_and_process_actor(u8 *action, s32 unused, u8 *tile, u8
         /* fall through */
     case 1:
         if (*(u16 *)(tile + 0x14) & 0xE000) {
-            if (((s32)g_dungeon_status.pending_display_owner) == (s32)(actor - 0x20)) {
+            if ((g_dungeon_status.pending_display_owner) == actor - 0x20) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
 

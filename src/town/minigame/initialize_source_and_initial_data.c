@@ -30,6 +30,6 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
         part->color.word = 0x808080;
         part->flags |= 0x80;
         *(void **)((u8 *)payload + 0x50) = table;
-        configure_the_set_mode_n_1((u8 *)payload + 8, *(Initial24 * *)&object->position, minigame_source_bounds);
+        configure_the_set_mode_n_1((u8 *)payload + 8, object->position, minigame_source_bounds);
     }
 }

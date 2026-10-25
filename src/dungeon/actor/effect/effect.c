@@ -451,7 +451,7 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value4 = height;
             entry->value8 = target->z;
             cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, TILE_HAS_ITEM);
-            select_position_data_and_update_owner(&reference_tile_object.frame_entry, ((s32)dungeon_actor_ring_anchor));
+            select_position_data_and_update_owner(&reference_tile_object.frame_entry, (dungeon_actor_ring_anchor));
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing

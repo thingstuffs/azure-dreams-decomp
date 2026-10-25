@@ -349,7 +349,7 @@ void advance_move_action_particles(void *action, ObjectPosition *position, Sprit
                 naplass_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                 0);
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;

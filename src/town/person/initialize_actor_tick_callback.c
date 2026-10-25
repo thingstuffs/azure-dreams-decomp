@@ -3,7 +3,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 extern s32 D_800C5B48[];
-extern u8 D_800D54CC[];
+extern s32 D_800D54CC[];
 
 /* Initialize the actor state, clear its entry flag, and start a 16-tick callback countdown. */
 void initialize_actor_with_16_tick_callback(void *actor, s32 unused, void *state_context) {

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -16,7 +17,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
     s32 mode;
     void *object_base;
     SpriteFrameState *part1;
-    S_80158854_2 *part0;
+    ObjectPosition *part0;
     void *actor;
     ObjectNodeHeader *object;
     S_80158854_1 *result;
@@ -30,7 +31,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
-        part0->unk_0A = spawn_height;
+        part0->z.w.i = spawn_height;
         part1 = object->sprite;
         part1->tile_y = tile_y;
         actor = result;

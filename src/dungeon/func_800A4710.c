@@ -35,7 +35,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     u16 action_flags;
 
     if (entity->flags14 & 0x100000) {
-        direction = ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
             if (uses_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
@@ -70,7 +70,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
 
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
-            direction = ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             if (uses_direct_actor_sprite_frames(entity) != 0) {
                 select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
@@ -93,13 +93,13 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
                         return 0;
                     }
                 } else {
-                    active_entity = g_dungeon_status.unk_0C;
+                    active_entity = g_dungeon_status.active_actor;
                     if (active_entity != entity) {
-                        if ((((s32)g_dungeon_status.unk_10) == 0) && (active_entity == 0) &&
-                            (g_dungeon_status.unk_08 == 0) &&
+                        if ((g_dungeon_status.pending_display_owner == 0) && (active_entity == 0) &&
+                            (g_dungeon_status.activity_counts.parts.pending_movement_count == 0) &&
                             !(g_dungeon_status.flags & 0x2008) &&
                             (entity->unk_43 == 0xFD)) {
-                            g_dungeon_status.unk_0C = entity;
+                            g_dungeon_status.active_actor = entity;
                         } else {
                             return 0;
                         }

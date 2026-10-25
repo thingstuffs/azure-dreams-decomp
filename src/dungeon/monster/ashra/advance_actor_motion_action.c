@@ -198,7 +198,7 @@ void advance_actor_motion_action(void *action_state, void *position, SpriteFrame
             }
         }
         action_globals = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&action_globals->sprite != 0) {
+        if (action_globals->sprite != 0) {
             return;
         }
         ((S_80172810_7 *)action_globals)->unk_0A = ((S_80172810_7 *)action_globals)->unk_0A - 1;

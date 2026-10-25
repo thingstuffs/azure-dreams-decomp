@@ -250,7 +250,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         select_sprite_entry(sprite, kewne_direction_frames[direction], 0);
     }
     {
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;

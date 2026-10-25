@@ -1296,7 +1296,6 @@ void advance_record_values_by_step(Record *record, s16 step)
 
 s32 register_node(void *entry, void *registration_id);
 s32 decode_fullwidth_text();
-void advance_record_values_by_step();
 extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
 extern s32 D_800B06F0();

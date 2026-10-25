@@ -36,7 +36,7 @@ S_80050BA4_sub;
 extern void *link_seventeen_indexed_entries(void *a0);
 extern void init_gauge_object(void *a0, void *a1);
 extern void enqueue_script_message_command(void);
-extern void invoke_leading_object_callback(void *a0);
+extern void invoke_leading_object_callback(void *object, void *position, void *sprite);
 
 /*
  * Creates an owner and its companion object, flagging failed setup for cleanup.

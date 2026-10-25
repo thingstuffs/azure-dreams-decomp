@@ -13,6 +13,7 @@ snapshot `f4f4ed991`; each feature example links to its implementation.
 | [Town](town.md) | Buildings, dialogue, people, shops and minigames |
 | [Dungeon](dungeon.md) | Floor generation, actor turns, player actions and monster callbacks |
 | [Movie / OVMOVIE](movie.md) | Scene movie requests, display lifecycle and MDEC services |
+| [Event scripts](script.md) | Dialogue, choices, flags and story logic: the script byte format, every opcode and the numbered calls into game code |
 
 ## Game mechanics
 

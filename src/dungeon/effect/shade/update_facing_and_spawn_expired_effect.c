@@ -57,7 +57,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
 
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
-        direction_frames = *(s32 *)&sprite->frameTable;
+        direction_frames = sprite->frameTable;
         if (direction_frames != 0) {
             select_indirect_table_entry(sprite, *((u8 *)direction_frames + facing), sprite->unk_04);
         }

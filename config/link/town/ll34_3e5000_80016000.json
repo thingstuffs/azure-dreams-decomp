@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_80469150",
+      "home": "town/func_80469150",
+      "tu": "src/town/scene/call_scene_service_one.c",
+      "foff": "0x3E9150",
+      "vma": "0x8001A150",
+      "size": 56,
+      "evidence": "docs/evidence/r124w_carve1_run8.md"
+    },
+    {
       "row": "town/func_8046A39C",
       "home": "town/func_8046A308",
       "tu": "src/town/scene/event/event_state_store_b.c",

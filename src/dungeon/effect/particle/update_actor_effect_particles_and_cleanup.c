@@ -67,7 +67,7 @@ s32 draw_actor_effect_points(void *object_data, void *position_data)
     u8 *position = position_data;
     GameWork *state_slot = &g_game_work;
     DungeonState818D4800 *state =
-        *(DungeonState818D4800 **)&g_game_work.draw_buffer;
+        g_game_work.draw_buffer;
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
     u8 *tile_prim;

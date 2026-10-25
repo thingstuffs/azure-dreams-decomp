@@ -14,7 +14,7 @@ void switch_actor_state(Rec_func_80094268_arg0 *actor, s32 unused, void *state_c
     ticks_left = actor->unk_6C.as_u16 - 1;
     actor->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        initialize_object_entries((Struct800C5724 *)(actor), state_context, &D_800D5944);
+        initialize_object_entries((Struct800C5724 *)(actor), state_context, D_800D5944);
         actor->unk_54 = &D_800C6644;
         actor->unk_6C.as_u16 = 5U;
     }

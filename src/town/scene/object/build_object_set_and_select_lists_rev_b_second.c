@@ -115,7 +115,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
 
                     pp++;
                     bucket_id = bucket_bits;
-                    bucket_banks = (s32 **)((s32)town_scene_root->unk_30);
+                    bucket_banks = town_scene_root->unk_30;
                     bucket_base = bucket_banks[(bank_bits & 4) >> 2];
                     ((TownBucket *)bucket_base)[bucket_id].out = pp;
                     *pp = 0;

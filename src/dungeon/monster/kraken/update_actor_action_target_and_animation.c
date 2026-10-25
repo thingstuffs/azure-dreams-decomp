@@ -244,7 +244,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                     + &kraken_frame_set_1), 0);
             }
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

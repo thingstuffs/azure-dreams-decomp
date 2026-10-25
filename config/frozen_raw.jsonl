@@ -6346,7 +6346,7 @@
 {"defs":["func_800387D0","func_80038A10","func_8003AE28","func_8003AE60"],"path":"raw/slus/konami_runtime_w_800387D0.c","sha256":"bea6d66dd54c98d992236c30c56fc375917e409ea6576862ecaf177620c1f498","size":1870}
 {"defs":["func_800389B4","func_80053DA8","func_80053EF0"],"path":"raw/slus/konami_runtime_w_800389B4.c","sha256":"fc200eb8d35ed6250cc0942b78328adc014db3a07d8af9c4b9323cd2786ebcf0","size":1956}
 {"canonical":["func_80038A10"],"defs":["func_80038A10","func_80038AB8"],"path":"raw/slus/konami_runtime_w_80038A10.c","sha256":"e99b1cbe4b09b39df6358099bc6b018c81c02d92ce1c7d418b6b1248ffa611bf","size":1104}
-{"defs":["func_80034EF8","func_80034F58","func_80034FD0","func_800381D0","func_80038A10","func_80038AB8","func_80038C40","func_80038CB8","func_80039AE8","func_8003ADB4"],"path":"raw/slus/konami_runtime_w_80038AB8.c","sha256":"efe7f9e9b59b66ec91fbabc892d7578097d40925734cce69c6a6a1429fae5a7a","size":1985}
+{"canonical":["func_80038AB8"],"defs":["func_80034EF8","func_80034F58","func_80034FD0","func_800381D0","func_80038A10","func_80038AB8","func_80038C40","func_80038CB8","func_80039AE8","func_8003ADB4"],"path":"raw/slus/konami_runtime_w_80038AB8.c","sha256":"efe7f9e9b59b66ec91fbabc892d7578097d40925734cce69c6a6a1429fae5a7a","size":1985}
 {"defs":["func_80038C40"],"path":"raw/slus/konami_runtime_w_80038C40.c","sha256":"1740b59fcfd68c4ef68661f921331b7028a9248aeb90859021eabc9416487a50","size":402}
 {"defs":["func_80038128","func_80038CB8","func_80038F48","func_80039148","func_8003AB44"],"path":"raw/slus/konami_runtime_w_80038CB8.c","sha256":"427c0813f3afe5be63f53a1147cc7f0f001fe24e09e56057c7167af2f2125a82","size":3929}
 {"defs":["func_80038F48","func_80039640","func_8003AD08"],"path":"raw/slus/konami_runtime_w_80038F48.c","sha256":"515004e4140fd5b65e78185fae21c4bddb7ca382256a823cc0e7a5c2ab21dfcf","size":1748}
@@ -10857,3 +10857,5 @@
 {"path":"raw/town/m2c_first_pass/func_8096DFEC.c","sha256":"b638dbb233480a8da2c12f676eedfc343ecba51ab91d8cc2d71c1e01f52a358e","size":107}
 {"path":"raw/dungeon/func_8189ECF0.c","sha256":"711623bfca9c3b1aa119bd041e901a0ab4a48cd4bde4fe6234c676cdc9e1432f","size":9633,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run7.md"}
 {"path":"raw/town/func_800C44BC.c","sha256":"29425e659fedd86209efd2dbb68e5f6cb88c0aa90c96b8a793e4489484b3256c","size":384,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run7.md"}
+{"path":"raw/town/func_80469150.c","sha256":"6b5867824ebb689add676524eaf838d95ca46b6ebffca3867a41945c72336b54","size":260,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run8.md"}
+{"path":"raw/town/func_804F0198.c","sha256":"70282f98e5224f361a9acc8f22611f0bae68f5cea23b6277a6adacd6243252b5","size":1033,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r124w_carve1_run8.md"}

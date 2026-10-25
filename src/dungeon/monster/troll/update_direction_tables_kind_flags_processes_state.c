@@ -7,8 +7,8 @@ void update_direction_tables_kind_flags_processes_state(Obj0 *owner, void *conte
 {
     SpriteFrameState *display= display_arg;
     Obj3 *state = state_arg;
-    u32 selected_table;
-    u32 current_table;
+    u8 *selected_table;
+    u8 *current_table;
     u8 kind;
     s32 direction_index;
 
@@ -16,44 +16,44 @@ void update_direction_tables_kind_flags_processes_state(Obj0 *owner, void *conte
     switch (kind) {
     case 13:
         if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE54;
+            current_table = display->frameTable;
+            selected_table = D_8016FE54;
         } else {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE24;
+            current_table = display->frameTable;
+            selected_table = D_8016FE24;
         }
         if (current_table != selected_table) {
             display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-            select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
+            select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)selected_table), 0);
         }
         break;
     case 14:
         if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE5C;
+            current_table = display->frameTable;
+            selected_table = D_8016FE5C;
         } else {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE2C;
+            current_table = display->frameTable;
+            selected_table = D_8016FE2C;
         }
         if (current_table != selected_table) {
             display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-            select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
+            select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)selected_table), 0);
         }
         break;
     case 15:
         if ((state->flags1c & ACTOR_ASLEEP) != 0 || state->flag25 == 0) {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE64;
+            current_table = display->frameTable;
+            selected_table = D_8016FE64;
         } else {
-            current_table = (u32)*(u8 **)&display->frameTable;
-            selected_table = (u32)D_8016FE34;
+            current_table = display->frameTable;
+            selected_table = D_8016FE34;
         }
         if (current_table != selected_table) {
             display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-            select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
+            select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)selected_table), 0);
         }
         break;
     default:
@@ -69,31 +69,31 @@ void update_direction_tables_kind_flags_processes_state(Obj0 *owner, void *conte
 
     switch (state->kind48) {
     case 13:
-        if (*(u8 **)&display->frameTable != D_8016FE54 ||
+        if (display->frameTable != D_8016FE54 ||
             (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = (u32)&D_8016FDC4;
+        display->frameTable = &D_8016FDC4;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8016FDC4), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&D_8016FDC4), 0);
         return;
     case 14:
-        if (*(u8 **)&display->frameTable != D_8016FE5C ||
+        if (display->frameTable != D_8016FE5C ||
             (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = (u32)&D_8016FDCC;
+        display->frameTable = &D_8016FDCC;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8016FDCC), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&D_8016FDCC), 0);
         return;
     case 15:
-        if (*(u8 **)&display->frameTable != D_8016FE64 ||
+        if (display->frameTable != D_8016FE64 ||
             (state->flags1c & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = (u32)&D_8016FDD4;
+        display->frameTable = &D_8016FDD4;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_8016FDD4), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&D_8016FDD4), 0);
         return;
     default:
         return;

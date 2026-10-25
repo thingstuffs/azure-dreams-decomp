@@ -872,7 +872,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     SetTransMatrix(scratch + 0x54);
     SetRotMatrix(scratch + 0x54);
 
-    texture = *(u8 * *)&render_state->source;
+    texture = render_state->source;
     ((S_80024BF4_0 *)scratch)->unk_28 = render_state->flags;
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;

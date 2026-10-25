@@ -16,7 +16,7 @@ void advance_object_after_timeout_variant_1(Rec_func_80094268_arg0 *object, void
     object->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         create_offset_effect_object((struct IntVector3 *)(update_context));
-        initialize_object_entries((Struct800C5724 *)(object), state_context, &D_800D62AC);
+        initialize_object_entries((Struct800C5724 *)(object), state_context, D_800D62AC);
         object->unk_54 = &D_800C84B8;
         object->unk_6C.as_u16 = 0x15U;
     }

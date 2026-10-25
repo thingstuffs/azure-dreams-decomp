@@ -1213,7 +1213,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     void *part;
 
     render_globals = &g_game_work;
-    state = *(u8 **)&g_game_work.draw_buffer;
+    state = g_game_work.draw_buffer;
     *(u32 *)(scratch + 0x0EC) = NULL;
     *(u16 *)(scratch + 0x08C) = 0;
     *(u16 *)(scratch + 0x084) = 0;

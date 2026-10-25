@@ -69,7 +69,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, void *spr
     perspective = scratch_base;
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
-    root = *(u8 **)&g_game_work.draw_buffer;
+    root = g_game_work.draw_buffer;
     packet = ((GpuContext *)root)->packetCursor;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;

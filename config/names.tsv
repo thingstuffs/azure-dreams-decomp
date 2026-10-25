@@ -10638,3 +10638,5 @@
 0x80017A94	D_80017A94	keima_flag_conditions	Condition list of the keima scene overlay: apply_entry_position runs all_entries_pass_check on it before setting the context script flag. Scope is limited to that overlay. Evidence: src/town/scene/lookup_keima_entry.c; src/town/scene/motion/apply_entry_position.c
 0x800C1C1C	func_800C1C1C	store_scene_image_pair	Run-7 complete scene VRAM readback wrapper; two StoreImage calls and DrawSync after each.
 0x800244F0	func_800244F0	update_transform_spell	Resource 24 first-word callback; moves to a target, creates a replacement actor and retires its visual.
+0x8001A150	func_8001A150	call_scene_service_one	Complete run-8 reconstruction; BRIEF8 live entry; preceding complete C ends at this entry; complete typed indirect-call wrapper includes the misclassified terminal return
+0x80016198	func_80016198	resolve_scene_entry_text	Complete run-8 reconstruction; BRIEF8 entry address; complete C starts immediately after the independently referenced final header literal and ends at a registered successor; all 216 compiler-local switch table bytes separately match

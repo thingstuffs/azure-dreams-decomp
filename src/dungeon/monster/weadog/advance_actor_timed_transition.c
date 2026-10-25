@@ -82,7 +82,7 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosi
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
 
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity_data - 0x20)) {
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)entity_data - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         controller->next_action = &weadog_action_resume_address;

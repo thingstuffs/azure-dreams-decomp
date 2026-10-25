@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -15,7 +16,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     s32 state_flags;
     s32 update_flags;
     SpriteFrameState *placement;
-    S_8014C878_2 *config;
+    ObjectPosition *config;
     ObjectNodeHeader *object;
     S_8014C878_4 *extended_state;
     S_8014C878_1 *state;
@@ -35,7 +36,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config = object->position;
-        config->unk_0A = saved_type;
+        config->z.w.i = saved_type;
         placement = object->sprite;
         mode = init_flags & 3;
         placement->tile_y = saved_y;

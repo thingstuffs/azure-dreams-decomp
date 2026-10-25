@@ -424,7 +424,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
     void *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = *(u8 **)&g_game_work.draw_buffer;
+    u8 *render_ctx = g_game_work.draw_buffer;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Row_818F30EC_Scratch800248EC *scratch =

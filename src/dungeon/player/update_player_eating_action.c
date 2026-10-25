@@ -87,7 +87,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
         spawned = create_item_render_object(
             controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
-            spawned->update_callback = (s32)&player_item_render_update_address;
+            spawned->update_callback = &player_item_render_update_address;
             position = spawned->position;
             position->x.w.i =
                 (actor->unk_24 << 6) + 0x20;

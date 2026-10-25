@@ -3,6 +3,6 @@
 extern void update_directional_actor_effect(u8 *, u8 *, void *);
 
 /* Exact physical entry_pointer span; owner unresolved. */
-const u32 D_80024000[1] __attribute__((aligned(4))) = {
-    (u32)update_directional_actor_effect
+const void *const D_80024000[1] __attribute__((aligned(4))) = {
+    update_directional_actor_effect
 };

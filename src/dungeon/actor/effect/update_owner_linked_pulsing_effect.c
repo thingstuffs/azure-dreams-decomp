@@ -124,7 +124,7 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
     }
 
     if (phase == 1) {
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
 

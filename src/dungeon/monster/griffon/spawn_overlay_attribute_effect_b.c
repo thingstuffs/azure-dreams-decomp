@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -47,7 +48,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_8015887C_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8015887C_1 *work;
     S_8015887C_4 *actor;
@@ -70,7 +71,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = held_c;
+        part_a->z.w.i = held_c;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;

@@ -13,7 +13,7 @@ void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *dis
     *((u8 *) actor + 0x9A) = 8;
     *((u8 *) actor + 0x9B) = 0;
     *(s32 *) ((u8 *) actor + 0x8C) = 0;
-    display->frameTable = (s32) facing_variants;
+    display->frameTable = facing_variants;
     if (facing_variants != 0) {
         select_sprite_entry(display, facing_variants[(s32) (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *) ((u8 *) actor + 0x2A) + 0x100)
             >> 9 & 7], 0);

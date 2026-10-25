@@ -93,4 +93,10 @@ typedef struct { s16 x, y, w, h; } SceneImageRect;
 #define SCENE_IMAGE_BUFFER_1 ((u32 *)0x80024000)
 void store_scene_image_pair(void);
 
+/* Calls the scene service at +0x258 with value one. */
+void call_scene_service_one(void);
+
+/* Return the selected scene text, including flag-selected alternatives. */
+char *resolve_scene_entry_text(void *context, s32 unused, s32 selection);
+
 #endif

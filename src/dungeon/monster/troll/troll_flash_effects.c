@@ -175,7 +175,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     ObjectNodeHeader *effect;
     void *init_effect;
     void *init_data;
-    T_8017121C_S_8017121C_3 *coords;
+    ObjectPosition *coords;
     u8 *effect_state;
     T_8017121C_S_8017121C_6 *source;
     SpriteFrameState *part;
@@ -221,20 +221,20 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     part->flags &= 0xFFF3;
 
     coords = effect->position;
-    coords->unk_02.s = origin->unk_02;
-    coords->unk_06.s = origin->unk_06;
-    coords->unk_0A.s = origin->unk_0A;
+    coords->x.w.i = origin->unk_02;
+    coords->y.w.i = origin->unk_06;
+    coords->z.w.i = origin->unk_0A;
 
     source = ((T_8017121C_S_8017121C_5_pre *)source_handle)[-1].unk_00;
     if (resolve_record_orientation_or_fallback(source->unk_08, source, &offset, 0) != 0) {
-        coords->unk_02.s += offset.raw_y;
-        coords->unk_06.s += offset.y;
-        coords->unk_0A.s += offset.z;
+        coords->x.w.i = (u16)coords->x.w.i + (offset.raw_y);
+        coords->y.w.i = (u16)coords->y.w.i + (offset.y);
+        coords->z.w.i = (u16)coords->z.w.i + (offset.z);
         part = effect->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
     } else {
-        coords->unk_0A.s -= 0x14;
+        coords->z.w.i = (u16)coords->z.w.i - (0x14);
         part = effect->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
@@ -263,7 +263,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
 
             grid_axis = ((u16)target->facing);
             tracked_target = target->target;
-            effect_x = coords->unk_02.u;
+            effect_x = coords->x.w.i;
             grid_axis = (u32)grid_axis >> 7;
             grid_axis &= 0x1C;
             grid_axis += (u32)direction_table;
@@ -278,7 +278,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
 
             y_table_addr = ((u16)target->facing);
             centered_coord = target_coords->unk_06;
-            effect_z = coords->unk_06.u;
+            effect_z = coords->y.w.i;
             y_table_addr = (y_table_addr >> 7) & 0x1C;
             y_table_addr += (u32)direction_table;
             y_entry = (s16 *)y_table_addr;
@@ -290,7 +290,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
             centered_coord >>= 1;
             ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = centered_coord;
 
-            effect_z = coords->unk_0A.u;
+            effect_z = coords->z.w.i;
             z_delta = target_coords->unk_0A - effect_z;
             delta_z = z_delta;
             delta_z -= entity_height_offsets[((T_8017121C_S_8017121C_10 *)(target->target))->unk_13] >> 1;
@@ -317,13 +317,13 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
         grid_y = -grid_y;
     }
     scaled_x = grid_axis << 16;
-    centered_coord = coords->unk_02.u;
+    centered_coord = coords->x.w.i;
     scaled_x >>= 10;
     centered_coord -= 0x20;
 
     fallback_x = scaled_x - centered_coord;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5A = fallback_x / 2;
-    centered_coord = coords->unk_06.u;
+    centered_coord = coords->y.w.i;
     scaled_y = (grid_y << 16) >> 10;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = 0;
     centered_coord -= 0x20;
@@ -346,7 +346,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     void *linked_pos;
     u16 pos_offset[4];
 
-    if (((s32)actor->target) == 0 &&actor->unk_72 >= 0) {
+    if ((actor->target) == 0 &&actor->unk_72 >= 0) {
         return;
     }
     effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
@@ -382,7 +382,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
         ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
     effect_data = effect->position;
-    if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
+    if ((actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
         u8 *direction_offsets = (u8 *)((u8 *)D_80175EBC);
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_02

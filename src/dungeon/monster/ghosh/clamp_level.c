@@ -220,7 +220,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
-        if ((((s32)g_dungeon_status.active_actor) != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 1)) {
+        if (((g_dungeon_status.active_actor) != 0) || (g_dungeon_status.activity_counts.parts.pending_action_count != 1)) {
             return;
         }
         if (((S_8016B0E8_0 *)entity)->unk_B4 == g_dungeon_status.activity_counts.parts.pending_action_count) {

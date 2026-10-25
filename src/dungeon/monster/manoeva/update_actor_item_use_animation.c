@@ -221,7 +221,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
         ((EntityRec *)item)->unk_0C = 0;
         set_record_integer_tile_center(item, sprite->tile_x, sprite->tile_y);
         source_sprite = ((u8 *)(&g_dungeon_status));
-        if (*(s32 *)&source_sprite->sprite != 0) {
+        if (source_sprite->sprite != 0) {
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;

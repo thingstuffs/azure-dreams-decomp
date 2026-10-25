@@ -17,7 +17,7 @@ extern void register_node_if_unregistered(void *state, void *callback);
 extern s32 loaded_town_resource_attributes[];
 extern u8 person_object_update_address[];
 extern u8 person_approach_state_address[];
-extern u8 D_800D1200[];
+extern s32 D_800D1200[];
 
 /* Creates an object and initializes its state, rendering data, and position. */
 void create_person_object(void) {

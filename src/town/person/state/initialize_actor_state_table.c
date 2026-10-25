@@ -7,6 +7,6 @@ extern s32 D_800D5540[];
 
 /* Initialize the actor with the state table and run its follow-up handler. */
 void initialize_actor_state_table(void *actor, s32 context, void *state_context) {
-    initialize_object_entries(actor, state_context, &D_800D5540);
+    initialize_object_entries(actor, state_context, D_800D5540);
     clear_record_indexed_flag(actor, context, state_context);
 }

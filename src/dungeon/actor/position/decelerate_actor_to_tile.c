@@ -125,7 +125,7 @@ void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info,
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, info->x, info->y);
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)anim - 0x20)) {
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)anim - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         state->next = D_800D20D8;

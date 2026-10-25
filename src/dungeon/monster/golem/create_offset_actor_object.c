@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -22,7 +23,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
 {
     u16 offsets[3];
     ObjectNodeHeader *object;
-    MovingPosition *object_data;
+    ObjectPosition *object_data;
     SpriteFrameState *primitive;
 
     object = allocate_flagged_object_node(0x312);
@@ -49,9 +50,9 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
         offsets[1] = 0;
         offsets[0] = 0;
         if (resolve_record_orientation_or_fallback(source_state->unk_08, source_state, offsets, 0) != 0) {
-            object_data->x += offsets[0];
-            object_data->y += offsets[1];
-            object_data->z += offsets[2];
+            object_data->x.w.i = (u16)object_data->x.w.i + (offsets[0]);
+            object_data->y.w.i = (u16)object_data->y.w.i + (offsets[1]);
+            object_data->z.w.i = (u16)object_data->z.w.i + (offsets[2]);
         }
         return (s32)object;
     }

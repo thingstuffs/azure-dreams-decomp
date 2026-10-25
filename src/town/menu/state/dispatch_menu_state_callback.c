@@ -1,11 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
-/* Call the object's first virtual method. */
-void dispatch_menu_state_callback(void *obj)
+/* Node update callback: hands the body, position and sprite the active-node pass supplies to the
+ * handler in the body's first word (initialize_randomized_motion_vector, which then installs
+ * advance_motion_and_reset_appearance; both take all three). */
+void dispatch_menu_state_callback(void *obj, void *position, void *sprite)
 {
-    s32 (**vtable)(void *);
-    s32 (*handler)(void *);
-    vtable = (s32 (**)(void *)) obj;
+    void (**vtable)(void *, void *, void *);
+    void (*handler)(void *, void *, void *);
+    vtable = (void (**)(void *, void *, void *)) obj;
     handler = *vtable;
-    handler(obj);
+    handler(obj, position, sprite);
 }

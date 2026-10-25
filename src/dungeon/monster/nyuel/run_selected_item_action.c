@@ -217,7 +217,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameS
         }
         {
             scratch_pointer = (u8 *)&g_dungeon_status.turn_scale;
-            if (*(s32 *)&scratch_pointer->sprite != 0) {
+            if (scratch_pointer->sprite != 0) {
                 return;
             }
             ((S_8017293C_5 *)scratch_pointer)->unk_0A--;

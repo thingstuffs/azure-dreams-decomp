@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -14,7 +15,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     s32 state_flags;
     s32 update_flags;
     SpriteFrameState *placement_data;
-    SignedHeightView *config_data;
+    ObjectPosition *config_data;
     ObjectNodeHeader *object;
     S_80158878_4 *extended_state;
     S_80158878_1 *state;
@@ -34,7 +35,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config_data = object->position;
-        config_data->z = saved_value;
+        config_data->z.w.i = saved_value;
         placement_data = object->sprite;
         init_mode = init_flags & 3;
         placement_data->tile_y = saved_y;

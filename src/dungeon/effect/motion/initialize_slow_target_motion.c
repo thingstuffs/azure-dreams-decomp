@@ -79,7 +79,7 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
-            if (((s32)shared_state->pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+            if ((shared_state->pending_display_owner) == (u8 *)entity - 0x20) {
                 *(s32 *)&shared_state->pending_display_owner &= 0x7fffffff;
             }
             shared_state->activity_counts.parts.pending_action_count++;
@@ -120,7 +120,7 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
-            if (((s32)shared_state->pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+            if ((shared_state->pending_display_owner) == (u8 *)entity - 0x20) {
                 *(s32 *)&shared_state->pending_display_owner &= 0x7fffffff;
             }
             shared_state->activity_counts.parts.pending_action_count++;
@@ -161,7 +161,7 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
         motion->dx = 0;
         set_record_integer_tile_center(motion, params->x, params->y);
         {
-            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+            if ((g_dungeon_status.pending_display_owner) == (u8 *)entity - 0x20) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7fffffff;
             }
             motion_state->next = slow_target_action_callback;

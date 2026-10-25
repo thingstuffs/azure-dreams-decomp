@@ -27,7 +27,7 @@ void handle_item_menu_input_2(u8 *menu) {
     s32 held_directions;
 
     if (held_buttons != 0) {
-        pressed_buttons = ((s32)pad_state->unk_010);
+        pressed_buttons = pad_state->pressed_buttons;
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             set_object_data_pointer_if_present(menu - 0x20);
@@ -52,7 +52,7 @@ void handle_item_menu_input_2(u8 *menu) {
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
                 ((S_800B260C_1 *)menu)->unk_10.s = 0;
-                pressed_buttons = ((s32)pad_state->unk_010);
+                pressed_buttons = pad_state->pressed_buttons;
                 if (pressed_buttons & 0x8000) {
                     cursor_step = -5;
                 } else if (pressed_buttons & 0x2000) {

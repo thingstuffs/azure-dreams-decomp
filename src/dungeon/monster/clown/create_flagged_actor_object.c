@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -14,7 +15,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     s32 flags_14;
     s32 flags_1c;
     SpriteFrameState *placement;
-    SignedHeightView *object_data;
+    ObjectPosition *object_data;
     ObjectNodeHeader *object;
     S_8016A878_4 *runtime;
     S_8016A878_1 *state;
@@ -34,7 +35,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         object_data = object->position;
-        object_data->z = saved_id;
+        object_data->z.w.i = saved_id;
         placement = object->sprite;
         mode = init_flags & 3;
         placement->tile_y = saved_y;

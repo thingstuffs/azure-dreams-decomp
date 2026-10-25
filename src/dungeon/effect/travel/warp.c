@@ -994,7 +994,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                     ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
                     return;
                 }
-                node = (void *) ((int)primary_actor_record);
+                node = primary_actor_record;
                 head = node;
                 link = ((S_819AD81C_3 *)node)->unk_5C.p;
                 node = link + 0x20;

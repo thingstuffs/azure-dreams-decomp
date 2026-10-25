@@ -128,7 +128,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     render_data->tpage_abr = 32;
                     flags = render_data->flags;
                     render_data->color.word = 0x101010;
-                    render_data->unk_00 = (s32)template_data;
+                    render_data->unk_00 = template_data;
                     render_data->flags = flags | 0xc;
                     tpl = render_data->unk_00;
                     render_data->source = tpl->source;

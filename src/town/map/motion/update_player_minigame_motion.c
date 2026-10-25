@@ -298,7 +298,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     }
     actor->facing.u = (u16) ((actor->facing.u + 0x2000) & 0xFFF);
     if (actor->sprite_direction != angle_delta) {
-        if (*(s32 *)&sprite->frameTable != 0) {
+        if (sprite->frameTable != 0) {
             texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite, actor->direction_frames[angle_delta], sprite->unk_04, 0);
         }
         actor->sprite_direction = (s16) angle_delta;

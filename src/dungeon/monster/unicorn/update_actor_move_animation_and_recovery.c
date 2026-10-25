@@ -263,7 +263,7 @@ void update_actor_move_animation_and_recovery(void *action, ObjectPosition *moti
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

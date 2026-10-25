@@ -302,15 +302,15 @@ void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, A
     rest_mode = state->unk_48;
     switch (rest_mode) {
     case 0xD:
-        current_row = *(s32 **)&sprite->frameTable;
+        current_row = sprite->frameTable;
         next_row = (u8 *)&troll_frame_set_1;
         break;
     case 0xE:
-        current_row = *(s32 **)&sprite->frameTable;
+        current_row = sprite->frameTable;
         next_row = (u8 *)&troll_frame_set_2;
         break;
     case 0xF:
-        current_row = *(s32 **)&sprite->frameTable;
+        current_row = sprite->frameTable;
         next_row = (u8 *)&troll_frame_set_3;
         break;
     default:

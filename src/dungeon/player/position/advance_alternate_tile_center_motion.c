@@ -34,7 +34,7 @@ void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, S
         return;
     }
     if (!(((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x10)) {
-        u8 *old_anim_table = *(u8 * *)&sprite->frameTable;
+        u8 *old_anim_table = sprite->frameTable;
         u8 *anim_table = player_alternate_motion_frames;
         if (old_anim_table != anim_table) {
             sprite->frameTable = anim_table;

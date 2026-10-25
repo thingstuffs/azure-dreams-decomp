@@ -904,14 +904,16 @@ void forward_object_input_handler(void *object)
     handle_object_input(object);
 }
 
+/* Leading handler of a node body; it takes the node update callback's (body, position, sprite):
+ * advance_gauge_color_then_decay passes position and sprite on to the next stage. */
 struct VtableObj {
-    void (*func)();
+    void (*func)(struct VtableObj *object, void *position, void *sprite);
 };
 
-/* Invoke the object's leading function pointer with the object itself. */
-void invoke_leading_object_callback(struct VtableObj *object)
+/* Node update callback: invoke the body's leading function pointer with the body, position and sprite. */
+void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite)
 {
-    object->func(object);
+    object->func(object, position, sprite);
 }
 
 extern unsigned char selection_menu_link_indices[16];

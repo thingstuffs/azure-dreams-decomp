@@ -103,8 +103,8 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
                 }
             } else if (entity->hp_delta != 0) {
                 reference_base = &g_dungeon_status;
-                if (((s32)reference_base->pending_display_owner) ==
-                    (u32)((u8 *)entity - 0x20)) {
+                if ((reference_base->pending_display_owner) ==
+                    (u8 *)entity - 0x20) {
                     (*(s32 *)&reference_base->pending_display_owner) &= 0x7FFFFFFF;
                 }
             }

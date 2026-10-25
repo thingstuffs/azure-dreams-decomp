@@ -87,7 +87,7 @@ def _data_record(datum, where):
     if not isinstance(raw, str) or not re.fullmatch(r"[0-9A-Fa-f]+", raw) or len(raw) != 2 * size:
         raise ModuleError(f"{where}: bytes must encode exactly size bytes")
     section = datum["section"]
-    if not isinstance(section, str) or not re.fullmatch(r"\.(?:sdata|sbss)(?:\.[A-Za-z_][A-Za-z0-9_]*)?|\.rodata", section):
+    if not isinstance(section, str) or not re.fullmatch(r"\.(?:sdata|sbss)(?:\.[A-Za-z_][A-Za-z0-9_]*)?|\.rodata|\.data", section):
         raise ModuleError(f"{where}: unsupported data section {section!r}")
     if section.startswith(".sbss") and any(bytes.fromhex(raw)):
         raise ModuleError(f"{where}: .sbss storage must be zero")
@@ -144,7 +144,7 @@ def data_piece_plan(module) -> list[dict]:
             raise ModuleError(f"{where}: {symbol} VMA is not aligned to {alignment}")
         plan.append({"symbol": symbol, "size": datum["size"], "section": section,
                      "alignment": alignment, "source_section": source_section})
-    missing = {s for s in set(by_symbol) - seen if by_symbol[s]["section"] != ".rodata"}
+    missing = {s for s in set(by_symbol) - seen if by_symbol[s]["section"] not in (".rodata", ".data")}
     if missing:
         raise ModuleError(f"{name}: missing data piece(s) for {sorted(missing)}")
     return plan
@@ -322,7 +322,7 @@ def data_sections(module) -> dict[str, list[dict]]:
             raise ModuleError(f"{module['name']}: duplicate data symbol {datum['symbol']}")
         seen_symbols.add(datum["symbol"])
         section = datum["section"]
-        if section not in ((".sdata", ".sbss", ".rodata") if not pieces else named | {".rodata"}):
+        if section not in ((".sdata", ".sbss", ".rodata", ".data") if not pieces else named | {".rodata", ".data"}):
             raise ModuleError(f"{module['name']}: unsupported data section {section!r}")
         sections.setdefault(section, []).append(raw)
     for section, records in sections.items():

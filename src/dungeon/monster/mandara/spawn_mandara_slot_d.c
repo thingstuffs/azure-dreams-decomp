@@ -115,7 +115,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         (*(Callback *)((u8 *)actor + 0x8C)) = D_8015EF6C;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
-        entry = *(u8 * *)&monster->source;
+        entry = monster->source;
         while (1) {
             scale = i << 1;
             if (!(entry[0] & 0x20)) {

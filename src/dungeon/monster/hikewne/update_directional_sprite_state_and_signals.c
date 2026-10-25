@@ -24,7 +24,7 @@ void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg,
 {
     u8 *direction_table;
 
-    direction_table = *(u8 **)&sprite->frameTable;
+    direction_table = sprite->frameTable;
     if (direction_table == hikewne_direction_frames) {
         if (*(u16 *)&sprite->unk_04 == 0x103) {
             (sprite->frameTable) = hikewne_alt_direction_frames;

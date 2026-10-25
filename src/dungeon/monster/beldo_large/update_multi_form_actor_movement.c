@@ -42,19 +42,19 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, S
     mode = object->mode;
     switch (mode) {
     case 0:
-        current_table = *(u8 **)&state->frameTable;
+        current_table = state->frameTable;
         mode_table = beldo_large_frame_set_2;
         break;
     case 1:
-        current_table = *(u8 **)&state->frameTable;
+        current_table = state->frameTable;
         mode_table = beldo_large_frame_set_5;
         break;
     case 2:
-        current_table = *(u8 **)&state->frameTable;
+        current_table = state->frameTable;
         mode_table = beldo_large_frame_set_1;
         break;
     case 3:
-        current_table = *(u8 **)&state->frameTable;
+        current_table = state->frameTable;
         mode_table = beldo_large_frame_set_3;
         break;
     default:

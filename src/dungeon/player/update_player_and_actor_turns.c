@@ -286,7 +286,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         && (*(s32 *)&status_base->pending_display_owner == ((S_80089AA0_4 *)previous_input)->unk_08)
         && (status_base->trap_counts.parts.pending_trap_count == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(system_update_flags & 8)
         && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
-        && (dungeon_event_pending_flag == 0) && ((*(s32 *)&status_base->active_actor != 0) || (*(s32 *)&status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
+        && (dungeon_event_pending_flag == 0) && ((status_base->active_actor != 0) || (status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
         || (*(s32 *)&status_base->activity_counts.word != 0))) {
         player_idle_turn_count += 1;
     } else {
@@ -295,7 +295,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     input_snapshot = ((u8 *)(&g_dungeon_status.activity_counts.parts.pending_movement_count));
     copy_words_forward(&D_800E4948, input_snapshot, 4);
     input_status = (u8 *)input_snapshot - 8;
-    if ((*(s32 *)&input_status->active_actor == 0) && (*(s32 *)&input_status->pending_display_owner == 0)) {
+    if ((input_status->active_actor == 0) && (input_status->pending_display_owner == 0)) {
         input_flags = input_status->flags;
         if (!(input_flags & 8) && (input_status->activity_counts.parts.pending_movement_count == 0)
             && (input_status->trap_counts.parts.pending_trap_count == 0) && !(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x100000)
@@ -803,7 +803,7 @@ check_pass_completion:
         }
         final_flags = loop_status->flags;
         if (!(final_flags & 0x80) || (loop_status->active_actor != 0)
-            || (*(s32 *)&loop_status->pending_display_owner != 0) || (loop_status->activity_counts.parts.pending_action_count != 0)
+            || (loop_status->pending_display_owner != 0) || (loop_status->activity_counts.parts.pending_action_count != 0)
             || (loop_status->activity_counts.parts.pending_movement_count == 0)) {
             return;
         }

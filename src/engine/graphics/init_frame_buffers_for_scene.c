@@ -37,11 +37,11 @@ void init_frame_buffers_for_scene(void)
     gpu_scratch_write_pointer = state_value;
     runtime_reset_object_pool(state_value);
     reset_scene_frame_callback_list();
-    g_game_work.draw_buffer = (s32)&upper_draw_context;
+    g_game_work.draw_buffer = &upper_draw_context;
     ClearOTagR((OT_TYPE *)(upper_draw_context.raw + 0x70), 0x218);
     ClearOTagR(alternate_frame_ordering_table.ot, 0x218);
     {
-        u8 *frame_data = (u8 *)((s32)g_game_work.draw_buffer);
+        u8 *frame_data = g_game_work.draw_buffer;
         *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
     }
     SetDispMask(1);

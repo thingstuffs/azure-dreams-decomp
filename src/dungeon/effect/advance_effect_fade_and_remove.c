@@ -31,7 +31,7 @@ void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, Sprite
     u16 life_left;
     u8 brightness;
 
-    if (*(s32 *)&primitive->unk_00 != 0) {
+    if (primitive->unk_00 != 0) {
         advance_sprite_animation_and_textures(primitive);
         if (primitive->flags & 0x4000) {
             select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);

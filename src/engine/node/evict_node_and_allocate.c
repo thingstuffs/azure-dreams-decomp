@@ -26,7 +26,7 @@ void *evict_node_and_allocate(void *flags, void *excluded_node)
                 }
                 return node;
             }
-            node = *(struct ObjectNodeHeader * *)&node->next;
+            node = node->next;
         } while (node != 0);
     }
     return 0;

@@ -338,7 +338,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
         {
             s16 timer;
 
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 ((S_801731C8_0 *)action)->unk_96.u = 0;
             }
             timer = ((S_801731C8_0 *)action)->unk_96.u - 1;
@@ -364,7 +364,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameSta
                 select_sprite_entry(sprite, animations[direction], 0);
                 sprite->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

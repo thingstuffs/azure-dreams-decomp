@@ -434,7 +434,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         scratch_or_height = (Coord *)(screen_coords[0].y - screen_coords[1].y);
 
         if ((u32)depth_bucket < 0x1E0) {
-            alloc_ctx = *(u8 **)&render_state->draw_buffer;
+            alloc_ctx = render_state->draw_buffer;
             prim = LOAD_PTR(alloc_ctx + 0x8D0);
             LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
             STORE_U32(prim + 4, 0x00808080);
@@ -486,7 +486,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
             }
         }
 
-        alloc_ctx_2 = *(u8 **)&render_state->draw_buffer;
+        alloc_ctx_2 = render_state->draw_buffer;
         prim = LOAD_PTR(alloc_ctx_2 + 0x8D0);
         LOAD_PTR(alloc_ctx_2 + 0x8D0) = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);

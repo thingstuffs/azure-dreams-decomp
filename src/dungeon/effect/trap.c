@@ -820,8 +820,6 @@ void *initialize_scene_object_in_buffer();      /* extern */
 s32 find_object_near_tile_height();                   /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
-struct ObjectBlock;
-struct ObjectBlock *create_grid_effect_object();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 trap_resource_slot;
@@ -1869,7 +1867,7 @@ s32 trigger_step_trap_effect(void *object) {
                     *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
                 play_sound_if_enabled(0x613);
                 {
-                    (((u16)g_dungeon_status.activity_counts.parts.pending_action_count))++;
+                    g_dungeon_status.activity_counts.parts.pending_action_count++;
                 }
                 return -1;
             }

@@ -103,7 +103,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                     actor->target = target;
                     {
                         target_sprite =
-                            *(u8 * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                         actor->target_tile_x = target_sprite->tile_x;
                         actor->target_tile_y = target_sprite->tile_y;
                     }
@@ -121,7 +121,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                         if (target != NULL) {
                             {
                                 target_sprite =
-                                    *(u8 * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                                    ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                                 actor->target_tile_x = target_sprite->tile_x;
                                 actor->target_tile_y = target_sprite->tile_y;
                             }
@@ -199,7 +199,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         } while (next_effect < 0xA);
         return;
     case 3:
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             ((S_8017364C_0 *)action)->unk_96 = 0U;
         }
         finish_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
@@ -222,7 +222,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             sprite->flags =
                 (u16) (sprite->flags & 0xF7FF);
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

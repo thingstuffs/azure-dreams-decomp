@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -13,7 +14,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_8015E854_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8015E854_1 *work;
     S_8015E854_4 *actor;
@@ -37,7 +38,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_part_id;
+        part_a->z.w.i = saved_part_id;
         part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = saved_y;

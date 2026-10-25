@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -60,7 +61,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     s32 mode;
     void *object_base;
     SpriteFrameState *part1;
-    S_80170854_2 *part0;
+    ObjectPosition *part0;
     void *actor;
     ObjectNodeHeader *object;
     S_80170854_1 *result;
@@ -74,7 +75,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = *(void ** *)&object->position;
-        part0->unk_0A = spawn_value;
+        part0->z.w.i = spawn_value;
         part1 = object->sprite;
         part1->tile_y = variant;
         actor = result;

@@ -86,7 +86,7 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
     ObjectNodeHeader *particle;
     void *particle_work;
     SpriteFrameState *sprite;
-    MovingPosition *particle_transform;
+    ObjectPosition *particle_transform;
     void *owner;
     Pair16 *directions;
     s32 spin_angle;
@@ -129,18 +129,18 @@ void update_action_and_check_forward_tile(void *actor, ObjectPosition *motion, S
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = particle->position;
                 if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
-                    particle_transform->x = ((u16) motion->x.w.i);
-                    particle_transform->y = ((u16) motion->y.w.i);
-                    particle_transform->z = ((u16) motion->z.w.i);
-                    particle_transform->x += offsets[0];
-                    particle_transform->y += offsets[1];
-                    particle_transform->z += offsets[2];
+                    particle_transform->x.w.i = ((u16) motion->x.w.i);
+                    particle_transform->y.w.i = ((u16) motion->y.w.i);
+                    particle_transform->z.w.i = ((u16) motion->z.w.i);
+                    particle_transform->x.w.i = (u16)particle_transform->x.w.i + (offsets[0]);
+                    particle_transform->y.w.i = (u16)particle_transform->y.w.i + (offsets[1]);
+                    particle_transform->z.w.i = (u16)particle_transform->z.w.i + (offsets[2]);
                 }
 
                 x = (rand() & 0x1F) - 0x10;
                 y = (rand() & 0x1F) - 0x10;
-                particle_transform->x += x;
-                particle_transform->y += y;
+                particle_transform->x.w.i = (u16)particle_transform->x.w.i + (x);
+                particle_transform->y.w.i = (u16)particle_transform->y.w.i + (y);
                 ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
                 ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
                 ((S_801757E0_3 *)particle_work)->unk_50.n += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].x << 16;

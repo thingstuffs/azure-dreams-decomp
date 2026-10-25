@@ -64,7 +64,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
 {
     s32 kind;
     ObjectNodeHeader *object;
-    S_FUNC_80A23000_BODY_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_FUNC_80A23000_BODY_1 *work;
     S_FUNC_80A23000_BODY_4 *actor;
@@ -82,7 +82,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
-        part_a->unk_0A = value_0A;
+        part_a->z.w.i = value_0A;
         part_b = object->sprite;
         kind = mask & 3;
         part_b->tile_y = value_25_input;

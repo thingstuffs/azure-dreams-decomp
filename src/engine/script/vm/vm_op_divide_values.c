@@ -5,15 +5,15 @@ typedef struct {
     s32 values[256];
 } Table;
 
-typedef struct {
+typedef struct Func8003A904State {
     u8 pad_00[0x1C];
     u8 *read_ptr;
     u8 pad_20[0x60];
     Table *table;
-} Reader;
+} Func8003A904State;
 
 /* Opcode 0x4A: v[dst] /= v[src]. */
-s32 script_divide(Reader *script) {
+s32 script_divide(Func8003A904State *script) {
     u8 *read_ptr = script->read_ptr;
     u8 left_index;
     u8 right_index;

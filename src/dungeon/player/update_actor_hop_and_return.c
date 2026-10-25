@@ -83,7 +83,7 @@ void update_actor_hop_and_return(void *motion, EntityRec *position, SpriteFrameS
         ((S_80091C64_0 *)motion)->unk_9B++;
         return;
     case 2:
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         entity->frameTable = player_hop_frames;

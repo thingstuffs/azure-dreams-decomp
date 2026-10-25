@@ -725,7 +725,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
         init_object = particle;
         animation_m = project_sprite_chain;
         F(particle, s16, 0x4A) = 6;
-        particle->update_callback = (void *)((u32)&expand_rotating_countdown_sprite);
+        particle->update_callback = &expand_rotating_countdown_sprite;
         register_node(init_object, animation_m);
         bits = 0x20;
         sprite = particle->sprite;

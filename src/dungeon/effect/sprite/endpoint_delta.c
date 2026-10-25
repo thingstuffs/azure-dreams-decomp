@@ -79,7 +79,7 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 s32 draw_animated_shaded_lines(void *effect_data)
 {
     u8 *effect = effect_data;
-    u8 *initial_render_ctx = *(u8 **)&g_game_work.draw_buffer;
+    u8 *initial_render_ctx = g_game_work.draw_buffer;
     u8 *render_ctx;
     u8 **ctx_ref = (u8 **)((u8 *)(&g_game_work));
     s32 red_scale = 15;

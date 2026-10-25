@@ -1637,7 +1637,7 @@ void wait_for_dragon_mp(void *controller, void *context, void *sprite, ActorReco
             select_sprite_entry(sprite,
                 ((u8 *)dragon_reset_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            (((u32)entity->flags1C)) |= 0x40000;
+            entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;

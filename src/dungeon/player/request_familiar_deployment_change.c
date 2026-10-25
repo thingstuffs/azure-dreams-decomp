@@ -88,7 +88,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
             }
         } else {
             kind = check_familiar_deployment_placement(actor, param_a, param_b, &out_a, &out_b, item);
-            hdr3 = (void *)((s32) actor);
+            hdr3 = actor;
             if (kind != 0) {
                 msg = get_unused_text_buffer();
                 if (kind == 1) {

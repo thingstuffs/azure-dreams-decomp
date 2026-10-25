@@ -31,7 +31,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     move_kind = ((T_80172CC0_S_80172CC0_0 *)state)->unk_48;
     switch (move_kind) {
     case 0xD:
-        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
+        current_table = ((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&troll_stored_path_frames;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -42,7 +42,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
         break;
     case 0xE:
-        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
+        current_table = ((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&troll_frame_set;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -53,7 +53,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
         break;
     case 0xF:
-        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
+        current_table = ((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&troll_frame_set_4;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -381,7 +381,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
     switch (kind) {
     case 0xD:
         direction_table = D_80175E9C;
-        previous_table = *(u8 **)&display->frameTable;
+        previous_table = display->frameTable;
         if (previous_table == direction_table) {
             return;
         }
@@ -392,7 +392,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         return;
     case 0xE:
         direction_table = D_80175EA4;
-        previous_table = *(u8 **)&display->frameTable;
+        previous_table = display->frameTable;
         if (previous_table == direction_table) {
             return;
         }
@@ -403,7 +403,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         return;
     case 0xF:
         direction_table = D_80175EAC;
-        previous_table = *(u8 **)&display->frameTable;
+        previous_table = display->frameTable;
         if (previous_table == direction_table) {
             return;
         }

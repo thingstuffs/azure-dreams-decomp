@@ -335,7 +335,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
             ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;

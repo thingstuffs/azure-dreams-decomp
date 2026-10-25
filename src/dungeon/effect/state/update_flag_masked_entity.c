@@ -26,7 +26,7 @@ void update_flag_masked_entity(void *unused_0, void *unused_1, MovingTile *sourc
     u8 source_24;
     u8 source_25;
 
-    if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+    if ((g_dungeon_status.pending_display_owner) == (u8 *)entity - 0x20) {
         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(entity);

@@ -30,7 +30,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
 
     eligible = 0;
     if (dungeon_floor_flags & 0x100000) {
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             if (((s32)g_dungeon_status.active_actor) == record) {
                 if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
                     if (!(g_dungeon_status.flags & 8)) {

@@ -131,7 +131,7 @@ void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, v
             {
                 u8 *next_animations;
 
-                if (((s32)actor->unk_4C) != 0) {
+                if ((actor->unk_4C) != 0) {
                     next_animations = player_attack_frame_groups;
                 } else {
                     next_animations = player_attack_frame_groups_alt;
@@ -152,7 +152,7 @@ void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, v
             {
                 u8 *next_v1;
 
-                if (((s32)actor->unk_4C) != 0) {
+                if ((actor->unk_4C) != 0) {
                     next_v1 = D_800DD080;
                 } else {
                     next_v1 = D_800DD0B0;
@@ -180,7 +180,7 @@ void advance_actor_attack_sequence(void *action_state, ObjectPosition *motion, v
         ((S_800B348C_0 *)action_state)->unk_96.u = attack_delay;
         if (((attack_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
             sound_id = 0x606;
-            if (((s32)actor->unk_4C) != 0) {
+            if ((actor->unk_4C) != 0) {
                 sound_id = 0x605;
             }
             play_sound_if_enabled(sound_id);
@@ -329,7 +329,7 @@ bump_state_9b:
                     >> 9) & 7], 0, 1);
             }
             process_unflagged_linked_entries(actor->next_actor_header);
-            end_base = (s32 *)((u32)&g_dungeon_status.turn_scale);
+            end_base = (s32 *)(&g_dungeon_status.turn_scale);
             end_mask = ~ACTOR_ELEMENT_MASK;
             end_base->flags = (u16) (end_base->flags | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = handle_player_input;

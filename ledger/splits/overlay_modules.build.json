@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20819,
+  "logical_rows": 20822,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -137007,16 +137007,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80028B7C"
-      ]
-    },
-    {
       "source": "src/town/person/object/initialize_object_slot_data.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147387,6 +147377,16 @@
       ]
     },
     {
+      "source": "src/town/scene/initialize_scene_slot_v.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800C8B3C"
+      ]
+    },
+    {
       "source": "src/town/person/try_apply_threshold_effect_variant_b.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -151617,16 +151617,6 @@
       ]
     },
     {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_803C9180"
-      ]
-    },
-    {
       "source": "src/town/scene/prepare_selected_entry_buffer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -152744,6 +152734,16 @@
       },
       "rows": [
         "town/func_80468E7C"
+      ]
+    },
+    {
+      "source": "src/town/scene/call_scene_service_one.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80469150"
       ]
     },
     {
@@ -160097,6 +160097,16 @@
       ]
     },
     {
+      "source": "src/town/scene/resolve_scene_entry_text.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804F0198"
+      ]
+    },
+    {
       "source": "src/town/shop/item/item_menu_return_zero.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -163094,6 +163104,16 @@
       },
       "rows": [
         "town/func_80551044"
+      ]
+    },
+    {
+      "source": "src/town/scene/dispatch_first.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_805590C0"
       ]
     },
     {
@@ -177834,6 +177854,16 @@
       },
       "rows": [
         "town/func_806DC4EC"
+      ]
+    },
+    {
+      "source": "src/town/scene/service/run_scene_service_218_g.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806F18C0"
       ]
     },
     {

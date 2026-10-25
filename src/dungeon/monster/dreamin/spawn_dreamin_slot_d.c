@@ -57,7 +57,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     s32 flags_14;
     s32 flags_1c;
     SpriteFrameState *placement;
-    S_80DA1000_2 *type_data;
+    ObjectPosition *type_data;
     ObjectNodeHeader *object;
     S_80DA1000_4 *entity_data;
     S_80DA1000_1 *entity = NULL;
@@ -78,7 +78,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
         entity->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         type_data = object->position;
-        type_data->unk_0A = saved_type;
+        type_data->z.w.i = saved_type;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->tile_y = saved_y;

@@ -323,7 +323,7 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
     u8 blue;
     u32 depth_index;
 
-    render_state = *(GpuContext **)&g_game_work.draw_buffer;
+    render_state = g_game_work.draw_buffer;
     state_ptr = (GpuContext **)&g_game_work;
     scratch = (Bank1990800_1990d98_Scratch80024598 *)0x1F800000;
     scratch->cursor = render_state->packetCursor;

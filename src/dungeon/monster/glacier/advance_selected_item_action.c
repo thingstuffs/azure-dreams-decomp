@@ -323,7 +323,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
         {
             u16 timer;
 
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 ((S_801730E4_0 *)action)->unk_96 = 0;
             }
             timer = ((S_801730E4_0 *)action)->unk_96 - 1;
@@ -348,7 +348,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, Spri
                 select_sprite_entry(sprite, glacier_direction_frames[direction_index], 0);
                 sprite->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

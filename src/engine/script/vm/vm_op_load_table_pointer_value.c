@@ -2,7 +2,7 @@
 
 typedef struct Func8003A01CState Func8003A01CState;
 
-typedef struct {
+typedef struct Func8003A01CContext {
     u8 pad00[0x1c];
     u8 *cursor;
     u8 pad20[0x60];

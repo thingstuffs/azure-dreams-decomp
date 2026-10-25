@@ -222,7 +222,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
     GameWork *gfx_slot= ovl_1930844_81910EC0_GFX_ROOT_SLOT;
-    u8 *gfx = *(u8 **)&gfx_slot->draw_buffer;
+    u8 *gfx = gfx_slot->draw_buffer;
     s32 edge = 0;
     s32 scale = scale_num;
     s32 divisor = scale_den;
@@ -411,7 +411,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
     u8 *depth;
     u8 *flag;
     ovl_1930844_819112CC_EmptyArg empty_arg;
-    u8 *render_context = *(u8 **)&g_game_work.draw_buffer;
+    u8 *render_context = g_game_work.draw_buffer;
 
     context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
@@ -508,7 +508,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
             link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                GpuContext *ctx = *(GpuContext **)&context_slot->draw_buffer;
+                GpuContext *ctx = context_slot->draw_buffer;
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }
@@ -591,7 +591,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
             link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                GpuContext *ctx = *(GpuContext **)&context_slot->draw_buffer;
+                GpuContext *ctx = context_slot->draw_buffer;
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }

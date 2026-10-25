@@ -18,9 +18,9 @@ import slus_rodata_trim as trim  # noqa: E402
 AS = shutil.which("mipsel-linux-gnu-as")
 
 
-def assemble(td, words, tail_words=()):
-    """A .rodata of `words` label-address words (R_MIPS_32) then `tail_words` literal words."""
-    src = ["\t.text", "f:", "\tnop"] + ["\t.rdata", "\t.align 3"]
+def assemble(td, words, tail_words=(), section=".rdata", align=3):
+    """A .rodata (or .data) of `words` label-address words (R_MIPS_32) then `tail_words` literal words."""
+    src = ["\t.text", "f:", "\tnop"] + [f"\t{section}", f"\t.align {align}"]
     src += ["\t.word f"] * words + [f"\t.word {w}" for w in tail_words]
     s = Path(td) / "t.s"
     s.write_text("\n".join(src) + "\n")
@@ -29,11 +29,11 @@ def assemble(td, words, tail_words=()):
     return o
 
 
-def rodata_size(o):
+def rodata_size(o, section=".rodata"):
     out = subprocess.run(["mipsel-linux-gnu-objdump", "-h", str(o)], capture_output=True, text=True, check=True).stdout
     for line in out.splitlines():
         parts = line.split()
-        if len(parts) > 2 and parts[1] == ".rodata":
+        if len(parts) > 2 and parts[1] == section:
             return int(parts[2], 16)
     return None
 
@@ -73,6 +73,20 @@ class RodataTrimTest(unittest.TestCase):
             data = bytearray(assemble(td, 5, tail_words=(0,) * 5).read_bytes())   # 40 B -> 48, last 28 zero
             with self.assertRaisesRegex(ValueError, "alignment padding"):
                 trim.trim(data, 20)
+
+    def test_trims_data_table_padding(self):
+        with tempfile.TemporaryDirectory() as td:
+            o = assemble(td, 89, section=".data", align=2)   # 356 B handler table, as pads to 368
+            self.assertEqual(rodata_size(o, ".data"), 368)
+            data = bytearray(o.read_bytes())
+            res = trim.trim(data, 356, ".data")
+            self.assertEqual((res["data_size"], res["trimmed"]), (368, 12))
+            o.write_bytes(data)
+            self.assertEqual(rodata_size(o, ".data"), 356)
+            with self.assertRaisesRegex(ValueError, "expected one .rodata"):
+                trim.trim(bytearray(o.read_bytes()), 356)
+            with self.assertRaisesRegex(ValueError, "unsupported section"):
+                trim.trim(bytearray(o.read_bytes()), 356, ".sdata")
 
     def test_refuses_growth(self):
         with tempfile.TemporaryDirectory() as td:
@@ -120,8 +134,21 @@ class RodataManifestTest(unittest.TestCase):
         with self.assertRaisesRegex(sm.ModuleError, "initializer bytes differ"):
             sm.plan_asset_carves(sm.load_manifest(self.manifest), self.root)
 
+    def test_data_record_carves_the_blob(self):
+        module = json.loads(json.dumps(self.module))
+        module["data"][0]["section"] = ".data"
+        self.save(module)
+        plan = sm.plan_asset_carves(sm.load_manifest(self.manifest), self.root)
+        slots = [(s["kind"], s["start"], s["end"], s["section"]) for s in plan[0]["slots"]]
+        self.assertEqual(slots, [("chunk", 0, 16, ".data"), ("module_data", 16, 28, ".data"),
+                                 ("chunk", 28, 64, ".data")])
+        text = sm.rewrite_ordered_linker_script("    build/assets/800.o(.data);\n", plan)
+        self.assertIn("build/src/w_row_jtbl_owned.o(.data);", text)
+        sizes = trim.owned_sizes(self.manifest, "jtbl_row")
+        self.assertEqual(sizes, {".data": 12})
+
     def test_named_rodata_and_other_sections_still_rejected(self):
-        for section in (".rodata.jtbl", ".rdata", ".data"):
+        for section in (".rodata.jtbl", ".rdata", ".data.table", ".bss"):
             bad = json.loads(json.dumps(self.module))
             bad["data"][0]["section"] = section
             self.save(bad)

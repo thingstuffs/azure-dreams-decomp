@@ -244,7 +244,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, SpriteFram
             sprite->frameTable = &maximum_frame_set_4;
             select_sprite_entry(sprite, maximum_frame_set_4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + action->facing + 0x100) >> 9) & 7], 0);
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

@@ -195,7 +195,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, Sp
             }
         }
         action_state = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&action_state->sprite != 0) {
+        if (action_state->sprite != 0) {
             return;
         }
         ((S_80172AA8_7 *)action_state)->unk_0A = ((S_80172AA8_7 *)action_state)->unk_0A - 1;

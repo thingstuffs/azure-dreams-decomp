@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -52,7 +53,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     S_80BFD000_1 *actor_state = NULL;
     ObjectNodeHeader *object;
     SpriteFrameState *placement;
-    S_80BFD000_2 *attributes;
+    ObjectPosition *attributes;
     S_80BFD000_4 *actor;
     s8 saved_x;
     s16 saved_value;
@@ -75,7 +76,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         actor_state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         attributes = object->position;
-        attributes->unk_0A = saved_value;
+        attributes->z.w.i = saved_value;
         placement = object->sprite;
         kind_or_bits = spawn_flags & 3;
         placement->tile_y = saved_y;

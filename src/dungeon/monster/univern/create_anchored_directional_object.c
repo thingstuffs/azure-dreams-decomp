@@ -271,7 +271,7 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
                 status_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (status_flags & 0x8000) {
                     (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
-                    animation_table = *(u8 **)&object->frameTable;
+                    animation_table = object->frameTable;
                     if (animation_table == ((u8 *)univern_alt_direction_frames)) {
                         (object->frameTable) = ((u8 *)univern_direction_frames);
                         select_sprite_entry(object,
@@ -356,7 +356,7 @@ void create_anchored_directional_object(void *actor, void *motion, SpriteFrameSt
                 status_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (status_flags & 0x8000) {
                     (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
-                    animation_table = *(u8 **)&object->frameTable;
+                    animation_table = object->frameTable;
                     if (animation_table == ((u8 *)univern_alt_direction_frames)) {
                         (object->frameTable) = ((u8 *)univern_direction_frames);
                         select_sprite_entry(object,
@@ -620,7 +620,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *ent
         return;
     }
 
-    direction_table = *(unsigned char **)&entity->frameTable;
+    direction_table = entity->frameTable;
     if (direction_table != ((u8 *)univern_direction_frames) && direction_table != ((u8 *)univern_alt_direction_frames)) {
         (entity->frameTable) = ((u8 *)univern_alt_direction_frames);
         select_sprite_entry(
@@ -1388,7 +1388,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         }
         {
 
-            if (((u32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             if (!(state->flags98 & 0x4000)) {
@@ -1633,7 +1633,7 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
             return;
         }
 
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)entity - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);

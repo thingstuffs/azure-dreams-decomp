@@ -249,7 +249,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         {
             s16 timer;
 
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 ((S_80173078_0 *)action)->unk_96.u = 0;
             }
             timer = ((S_80173078_0 *)action)->unk_96.u - 1;
@@ -274,7 +274,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animation_table[direction], 0);
             }
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

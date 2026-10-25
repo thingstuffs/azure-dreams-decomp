@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_scene_470000",
   "entries": [
     {
+      "row": "town/func_804F0198",
+      "home": "town/func_804F0198",
+      "tu": "src/town/scene/resolve_scene_entry_text.c",
+      "foff": "0x470198",
+      "vma": "0x80016198",
+      "size": 220,
+      "evidence": "docs/evidence/r124w_carve1_run8.md"
+    },
+    {
       "row": "town/func_804F0274",
       "home": "town/func_800B0DB0",
       "tu": "src/town/shop/item/item_menu_return_zero.c",

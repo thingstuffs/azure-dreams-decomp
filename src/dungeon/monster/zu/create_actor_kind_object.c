@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -53,7 +54,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_80FAB000_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80FAB000_1 *work;
     S_80FAB000_4 *actor;
@@ -75,7 +76,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = field0A_value;
+        part_a->z.w.i = field0A_value;
         part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = field25_value;

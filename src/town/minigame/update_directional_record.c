@@ -39,7 +39,7 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Sprit
     if (state->unk_20 == direction) {
         flags_page = (u8 *)0x80070000;
     } else {
-        direction_data = (u8 *)*(s32 *)&record->frameTable;
+        direction_data = record->frameTable;
         if (direction_data != 0) {
             select_indirect_table_entry(record, direction_data[direction], record->unk_04);
         }

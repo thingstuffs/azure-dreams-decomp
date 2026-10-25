@@ -37,8 +37,10 @@ if os.path.exists(MODULE_MANIFEST):
 DATA_PIECE_MODULES = {m["source"]: m for m in MODULES if module_support.data_piece_plan(m)} if MODULES else {}
 # Rodata owners (docs: work/native_lane/r80_opus_slusrodata/REPORT.md): a module whose data records carry
 # section .rodata owns compiler-emitted jump tables carved out of assets/800.bin; its object's GNU-as
-# section-end padding is trimmed back to the owned span (tools/slus_rodata_trim.py).
-RODATA_MODULES = {m["source"]: m for m in MODULES if any(d["section"] == ".rodata" for d in m["data"])} if MODULES else {}
+# section-end padding is trimmed back to the owned span (tools/slus_rodata_trim.py).  An owner of an
+# initialized .data table (script_opcode_handlers, carved out of assets/3E018.bin) is trimmed the same way.
+RODATA_MODULES = {m["source"]: m for m in MODULES
+                  if any(d["section"] in (".rodata", ".data") for d in m["data"])} if MODULES else {}
 if MODULES:
     if NM:
         raise RuntimeError("SLUS modules are not supported in --non-matching builds")

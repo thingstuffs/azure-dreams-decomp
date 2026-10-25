@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -69,7 +70,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     s32 flags_14;
     s32 flags_1c;
     SpriteFrameState *part_b;
-    S_80FF9000_2 *part_a;
+    ObjectPosition *part_a;
     ObjectNodeHeader *obj;
     S_80FF9000_4 *actor;
 
@@ -87,7 +88,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
         work->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
         part_a = obj->position;
-        part_a->unk_0A = part_value;
+        part_a->z.w.i = part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;

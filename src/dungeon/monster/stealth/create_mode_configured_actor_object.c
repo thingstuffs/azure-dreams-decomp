@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -16,7 +17,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     s32 variant;
     void *obj_alt;
     SpriteFrameState *part_b;
-    S_8016A854_2 *part_a;
+    ObjectPosition *part_a;
     void *work_copy;
     ObjectNodeHeader *object;
     S_8016A854_1 *work;
@@ -30,7 +31,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = *(void ** *)&object->position;
-        part_a->unk_0A = attr_c;
+        part_a->z.w.i = attr_c;
         part_b = object->sprite;
         part_b->tile_y = attr_b;
         work_copy = work;

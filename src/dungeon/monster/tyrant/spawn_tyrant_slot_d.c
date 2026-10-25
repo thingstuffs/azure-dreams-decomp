@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -53,7 +54,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     s32 value;
     u16 flags98;
     SpriteFrameState *child_0C;
-    S_8106B000_2 *child_08;
+    ObjectPosition *child_08;
     S_8106B000_4 *record_alias;
     ObjectNodeHeader *allocation;
     s8 saved_input1;
@@ -73,7 +74,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
         record->unk_13 = MONSTER_TYRANT;
         register_node(allocation, project_sprite_chain);
         child_08 = allocation->position;
-        child_08->unk_0A = saved_input3;
+        child_08->z.w.i = saved_input3;
         child_0C = allocation->sprite;
         value = input0 & 3;
         child_0C->tile_y = saved_input2;

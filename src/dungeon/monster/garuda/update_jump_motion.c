@@ -182,7 +182,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

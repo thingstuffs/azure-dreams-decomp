@@ -3,7 +3,7 @@
 #include "common.h"
 #include "engine/message.h"
 
-typedef struct {
+typedef struct Func80039BE4State {
     u8 pad_00[0x10];
     void (*callback)(void *);
     u8 pad_14[0x8];

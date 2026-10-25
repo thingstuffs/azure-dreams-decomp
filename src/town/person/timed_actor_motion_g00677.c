@@ -9,7 +9,7 @@ void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 
     remainingTicks = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
-        initialize_object_entries((Struct800C5724 *)(object), updateContext, &D_800D6268);
+        initialize_object_entries((Struct800C5724 *)(object), updateContext, D_800D6268);
         object->unk_50.as_pm = &D_800C8FF0;
         object->unk_72.as_s16 = 0xC00;
         object->unk_6C.as_u16 = (u16) (object->unk_96.as_u8 * 3);
@@ -25,7 +25,7 @@ void decrement_entity_timer_updating_motion(Rec_func_80094268_arg0 *entity, S_80
     entity->unk_6C.as_u16 = ticks_left;
     transition_context = context;
     if ((s16) ticks_left < 0) {
-        initialize_object_entries((Struct800C5724 *)(entity), transition_context, &D_800D6268);
+        initialize_object_entries((Struct800C5724 *)(entity), transition_context, D_800D6268);
         entity->unk_6C.as_u16 = 3U;
         entity->unk_50.as_pm = &finish_countdown_and_set_flags;
         entity->unk_72.as_s16 = 0xC00;

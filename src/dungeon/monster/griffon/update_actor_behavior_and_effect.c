@@ -1268,8 +1268,8 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
                     (object->target) = node;
                     {
                         item_def = (u32)((R08_80172CE8_S_80172CE8_1_pre *)node)[-1].unk_00;
-                        (((u8)object->target_tile_x)) = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_24;
-                        (((u8)object->target_tile_y)) = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_25;
+                        object->target_tile_x = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_24;
+                        object->target_tile_y = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_25;
                     }
                 } else {
                     u8 *item_defs = item_action_definitions;
@@ -1280,8 +1280,8 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
                         if (node != 0) {
                             {
                                 item_def = (u32)((R08_80172CE8_S_80172CE8_1_pre *)node)[-1].unk_00;
-                                (((u8)object->target_tile_x)) = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_24;
-                                (((u8)object->target_tile_y)) = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_25;
+                                object->target_tile_x = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_24;
+                                object->target_tile_y = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_25;
                             }
 
                         }
@@ -1325,10 +1325,10 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
             (*(u16 *)((u8 *)active_object + 0xA6))--;
         }
         advance_status_timers(object);
-        (((u8)object->pending_turn_updates))--;
+        object->pending_turn_updates--;
         ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
-        (((u8)object->target_tile_y)) = 0;
-        (((u8)object->target_tile_x)) = 0;
+        object->target_tile_y = 0;
+        object->target_tile_x = 0;
         (object->action_flags) &= 0x7FFF;
         return;
 
@@ -1389,7 +1389,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
         }
 
         {
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -1398,10 +1398,10 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
         ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
         advance_status_timers(object);
         if ((object->pending_turn_updates) > 0) {
-            (((u8)object->pending_turn_updates))--;
+            object->pending_turn_updates--;
         }
-        (((u8)object->target_tile_y)) = 0;
-        (((u8)object->target_tile_x)) = 0;
+        object->target_tile_y = 0;
+        object->target_tile_x = 0;
         (object->action_flags) &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
@@ -1767,7 +1767,7 @@ void resume_actor_effect_behavior_after_status_animation(void *controller, void 
             select_sprite_entry(sprite,
                 ((u8 *)griffon_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            (((u32)entity->flags1C)) |= 0x40000;
+            entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;

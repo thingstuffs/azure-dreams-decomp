@@ -53,7 +53,7 @@ void create_boss_directional_animation(void) {
     s32 unused;
     SpriteFrameState *sprite;
     S_80173F6C_0 *object_state;
-    S_80173F6C_2 *model;
+    ObjectPosition *model;
     ObjectNodeHeader *object;
     u16 sprite_flags;
 
@@ -66,7 +66,7 @@ void create_boss_directional_animation(void) {
         object->update_callback = &func_801730AC;
         register_node(object, project_sprite_chain);
         model = object->position;
-        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
+        model->z.w.i = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
         sprite = object->sprite;
         sprite->tile_x = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
         sprite->tile_y = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);

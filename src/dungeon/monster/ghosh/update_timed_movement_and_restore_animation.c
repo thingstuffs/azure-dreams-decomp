@@ -195,12 +195,12 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
                 anim_table = ghosh_frame_set_4;
             }
             if (anim_addr != (s32)anim_table) {
-                entity->frameTable = (s32)anim_table;
+                entity->frameTable = anim_table;
                 facing = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A;
                 select_sprite_entry(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
         }
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         action->unk_8C = ghosh_action_resume_address;

@@ -114,8 +114,8 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
                     active = primary_actor_record;
                     (actor->target) = active;
                     scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                    (((u8)actor->target_tile_x)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                    (((u8)actor->target_tile_y)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                    actor->target_tile_x = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                    actor->target_tile_y = ((S_80172798_2 *)scratch_pointer)->unk_25;
                 } else {
                     u8 item_id;
 
@@ -124,8 +124,8 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
                         active = (actor->target);
                         if (active != 0) {
                             scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                            (((u8)actor->target_tile_x)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                            (((u8)actor->target_tile_y)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                            actor->target_tile_x = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                            actor->target_tile_y = ((S_80172798_2 *)scratch_pointer)->unk_25;
                         }
                     } else {
 
@@ -155,10 +155,10 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
             advance_status_timers(actor);
-            (((u8)actor->pending_turn_updates))--;
+            actor->pending_turn_updates--;
             ((S_80172798_0 *)action)->unk_8C = pulunpa_action_resume_address;
-            (((u8)actor->target_tile_y)) = 0;
-            (((u8)actor->target_tile_x)) = 0;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
             (actor->action_flags) &= 0x7FFF;
             return;
 
@@ -212,9 +212,9 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
             ((S_80172798_5 *)scratch_pointer)->unk_0A--;
             ((S_80172798_0 *)action)->unk_8C = pulunpa_action_resume_address;
             advance_status_timers(actor);
-            (((u8)actor->target_tile_y)) = 0;
-            (((u8)actor->target_tile_x)) = 0;
-            (((u8)actor->pending_turn_updates))--;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->pending_turn_updates--;
             (actor->action_flags) &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

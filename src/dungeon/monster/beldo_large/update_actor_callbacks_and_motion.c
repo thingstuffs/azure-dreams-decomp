@@ -143,7 +143,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, ObjectPosition *motion, 
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
-            u8 *facing_steps = *(unsigned char **)&data->frameTable;
+            u8 *facing_steps = data->frameTable;
             if (facing_steps != NULL) {
                 select_indirect_table_entry(data, facing_steps[direction], data->unk_04);
             }

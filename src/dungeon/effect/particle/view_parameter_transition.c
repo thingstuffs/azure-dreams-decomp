@@ -57,8 +57,6 @@ extern s32 get_sprite_attachment_vector();
 extern void project_sprite_chain(void);
 extern s32 rand(void);
 extern s32 check_adjacent_tile_height_clearance();
-extern s32 rsin();
-extern s32 rcos();
 extern void select_record_entry_and_value();
 extern const s16 D_80024038[8][2];
 extern void *textured_quad_octant_offsets[9];

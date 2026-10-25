@@ -41,7 +41,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
 
         if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
             world_page = 0x80080000;
-            world_state = (u8 *)((u32)&g_dungeon_status.turn_scale);
+            world_state = (u8 *)(&g_dungeon_status.turn_scale);
             if (world_state->flags & 0x1000) {
                 return;
             }

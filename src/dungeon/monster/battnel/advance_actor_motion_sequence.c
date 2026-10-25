@@ -194,7 +194,7 @@ void advance_actor_motion_sequence(void *state, void *position, SpriteFrameState
             }
         }
         action_state = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&action_state->sprite != 0) {
+        if (action_state->sprite != 0) {
             return;
         }
         ((S_80172A04_7 *)action_state)->unk_0A = ((S_80172A04_7 *)action_state)->unk_0A - 1;

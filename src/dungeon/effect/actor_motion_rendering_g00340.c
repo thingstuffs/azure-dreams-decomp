@@ -20,7 +20,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1
                 } else {
                     active_entity = g_dungeon_status.active_actor;
                     if (active_entity != entity) {
-                        if (!((((s32)g_dungeon_status.pending_display_owner) == 0) && (active_entity == 0) &&
+                        if (!(((g_dungeon_status.pending_display_owner) == 0) && (active_entity == 0) &&
                               (g_dungeon_status.activity_counts.parts.pending_movement_count == 0) &&
                               !(g_dungeon_status.flags & 0x2008) &&
                               (entity->unk_43 == 0xFD))) {

@@ -272,6 +272,55 @@
       "evidence": "docs/evidence/slus_r118_owned_80038A10.md"
     },
     {
+      "name": "script_opcode_handlers",
+      "source": "src/konami_runtime_w_80038AB8_owned.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_80038AB8",
+          "source": "src/konami_runtime_w_80038AB8.c",
+          "functions": [
+            "func_80038AB8"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/engine/audio.h",
+        "include/engine/graphics.h",
+        "include/engine/message.h",
+        "include/engine/object.h",
+        "include/engine/script.h",
+        "include/engine/script/vm.h",
+        "include/engine/window.h",
+        "include/slus.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_8006AA90",
+          "asset": "assets/3E018.bin",
+          "offset": 632,
+          "size": 356,
+          "vram": 2147920528,
+          "bytes": {
+            "$retail": {
+              "file": "SLUS_006.14",
+              "offset": 254608,
+              "length": 356,
+              "sha256": "962492b4afdabbcc082fa8be2e8277dec2340fad6c497924fe9cfa997841d77a"
+            },
+            "format": "hex"
+          },
+          "section": ".data"
+        }
+      ],
+      "evidence": "docs/evidence/slus_script_opcode_handlers.md"
+    },
+    {
       "name": "owned_80044698",
       "source": "src/w_80044698_owned.c",
       "members": [

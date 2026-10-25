@@ -211,7 +211,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
     s32 flags1;
     void *result;
     ObjectNodeHeader *object;
-    R10_80170F3C_S_80170F3C_2 *part0;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     R10_80170F3C_S_80170F3C_4 *result_copy;
 
@@ -229,7 +229,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
 
             part0 = object->position;
             handler = ((u8 *)snowman_direction_frames);
-            part0->unk_0A = spawn_value;
+            part0->z.w.i = spawn_value;
             part1 = object->sprite;
             kind = flags & 3;
             part1->tile_y = variant;

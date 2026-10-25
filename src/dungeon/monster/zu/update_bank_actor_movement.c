@@ -1644,7 +1644,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
                           ((S_80172A40_0 *)owner_input)->unk_A0);
         }
 
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -1681,7 +1681,6 @@ typedef struct S_80172F00_0 {
     u8 unk_9B;
 } S_80172F00_0;   /* arg0 in restore_bank_actor_tile */
 
-extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 

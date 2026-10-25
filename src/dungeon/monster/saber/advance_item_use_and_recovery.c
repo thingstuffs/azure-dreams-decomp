@@ -303,7 +303,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
         {
             s16 timer;
 
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 ((S_80173230_0 *)action_in)->unk_96.u = 0;
             }
             timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
@@ -337,7 +337,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, S
                 select_sprite_entry(sprite, animations[direction], 0);
                 sprite->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

@@ -56,7 +56,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     s32 unused_slot;
     s32 spawn_mode;
     SpriteFrameState *placement;
-    S_80DAD000_2 *base_data;
+    ObjectPosition *base_data;
     ObjectNodeHeader *object;
     S_80DAD000_4 *extended_state;
     S_80DAD000_1 *state = NULL;
@@ -79,7 +79,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         base_data = object->position;
-        base_data->unk_0A = saved_value;
+        base_data->z.w.i = saved_value;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->tile_y = saved_y;

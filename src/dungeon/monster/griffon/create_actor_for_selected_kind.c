@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -48,7 +49,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_80ABF07C_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80ABF07C_1 *work;
     S_80ABF07C_4 *actor;
@@ -71,7 +72,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_value;
+        part_a->z.w.i = saved_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;

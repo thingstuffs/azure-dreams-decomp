@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -76,7 +77,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     s32 kind;
     S_80FD5000_1 *actor_state;
     ObjectNodeHeader *created;
-    S_80FD5000_2 *position;
+    ObjectPosition *position;
     SpriteFrameState *monster;
     S_80FD5000_1 *actor;
     Rect palette_strip;
@@ -99,7 +100,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         register_node(created, project_sprite_chain);
 
         position = created->position;
-        position->unk_0A = heading;
+        position->z.w.i = heading;
         monster = created->sprite;
         kind = spawn_flags & 3;
         monster->tile_y = tile_y;
@@ -132,7 +133,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         actor->unk_8C = &update_creature_action_and_animation;
         actor->unk_AE = appearance_id;
 
-        entry = (S_80FD5000_4 *)*(u8 * *)&monster->source;
+        entry = monster->source;
         while (1) {
             twice_index = entry_index << 1;
             if (!(entry->unk_00 & 0x20)) {

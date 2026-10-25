@@ -218,7 +218,7 @@ void update_actor_movement_and_emit_particles(void *actor, ObjectPosition *motio
             select_sprite_entry(sprite,
                           kraken_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);
-            if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity - 0x20)) {
+            if ((g_dungeon_status.pending_display_owner) == (u8 *)entity - 0x20) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
             }
             ((ActorActionTimerView *)actor)->next_action = kraken_action_resume_address;

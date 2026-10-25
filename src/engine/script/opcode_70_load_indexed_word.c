@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct Func8003A858State {
     u8 pad_00[0x1C];
     u8 *read_ptr;
     u8 pad_20[0x60];

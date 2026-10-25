@@ -188,7 +188,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         return;
 
     case 3:
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             ((S_8016C190_0 *)action)->unk_96.s = 0;
         }
         if (!(sprite->flags & 0xE000)) {
@@ -238,7 +238,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, Spri
         }
 
         action_control = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&((ObjectNodeHeader *)action_control)->sprite != 0) {
+        if (((ObjectNodeHeader *)action_control)->sprite != 0) {
             return;
         }
         ((S_8016C190_5 *)action_control)->unk_0A--;

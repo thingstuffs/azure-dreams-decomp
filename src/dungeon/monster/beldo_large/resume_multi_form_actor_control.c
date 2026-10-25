@@ -27,7 +27,7 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
     update_count = ((u16)state->activity_counts.parts.pending_action_count);
     *(u16 *)(flags_page + 0x3714) = state_flags | 8;
     state->activity_counts.parts.pending_action_count = update_count + 1;
-    if (((u32)state->pending_display_owner) == (u32)(active_object - 0x20)) {
+    if ((state->pending_display_owner) == active_object - 0x20) {
         *(u32 *)&state->pending_display_owner &= 0x7FFFFFFF;
     }
 

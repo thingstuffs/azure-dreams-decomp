@@ -1390,7 +1390,7 @@ copy_existing:
         }
 
         {
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -1766,7 +1766,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
             select_sprite_entry(sprite,
                 ((u8 *)grineut_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            (((u32)entity->flags1C)) |= 0x40000;
+            entity->flags1C |= 0x40000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;

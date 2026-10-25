@@ -241,7 +241,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameStat
         return;
 
     case 5:
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             ((S_80173B08_0 *)action)->unk_96.u = 0;
         }
         if (((S_80173B08_0 *)action)->unk_96.s >= 10) {
@@ -315,7 +315,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameStat
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

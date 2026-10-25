@@ -56,7 +56,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         lookup_direction = state_direction;
         compare_direction = state_direction;
         if (entity->unk_94 != compare_direction) {
-            void *direction_table = *(u8 **)&monster->frameTable;
+            void *direction_table = monster->frameTable;
             if (direction_table != 0) {
                 s32 direction_offset = (s16)compare_direction * 4;
                 select_record_entry_and_value(monster,

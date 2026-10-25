@@ -15,13 +15,13 @@ void reset_audio_command_state(void) {
     submit_tagged_driver_byte(0, 0, 0);
     initialize_audio_ramp_defaults(&sound_stream_task);
 
-    ((s32)sound_playback_state.unk_08) = 0;
-    ((s32)sound_playback_state.unk_0C) = 0;
+    sound_playback_state.unk_08 = 0;
+    sound_playback_state.unk_0C = 0;
     sound_playback_state.unk_30 = 0;
     sound_playback_state.unk_32 = 0;
-    ((s32)sound_playback_state.unk_10) = 0;
-    ((s32)sound_playback_state.unk_14) = 0;
+    sound_playback_state.unk_10 = 0;
+    sound_playback_state.unk_14 = 0;
     sound_playback_state.unk_31 = 0;
     sound_playback_state.unk_33 = 0;
-    ((s32)sound_playback_state.unk_18) = 0;
+    sound_playback_state.unk_18 = 0;
 }

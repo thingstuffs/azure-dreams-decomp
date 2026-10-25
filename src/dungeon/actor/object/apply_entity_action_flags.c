@@ -127,7 +127,7 @@ void apply_entity_action_flags(void *object, s32 action) {
         }
         restore_player_control_callback(object, object);
         update_state = &reference_tile_object;
-        (((s32 *)update_state->frame_table)) = actor_default_frames;
+        update_state->frame_table = actor_default_frames;
         select_record_entry_and_value(update_state, *(s32 *)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = sprite_resource_pointer_slots;

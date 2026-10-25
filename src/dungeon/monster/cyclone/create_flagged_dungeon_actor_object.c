@@ -112,7 +112,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
         actor->unk_92 = -32;
 
         {
-            u8 *cursor = (*(u8 ** *)&part_b->source);
+            u8 *cursor = (part_b->source);
             s32 count = 0;
             s32 index;
             u16 packet[4];
@@ -127,7 +127,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
                 cursor += 12;
                 count += 1;
             }
-            table = (*(u8 ** *)&part_b->source);
+            table = (part_b->source);
             value = (((S_80170890_5 *)((u8 *)(((index + count) << 2) + (u32)table) + 6))->unk_00 >> 6) - 1;
             packet[1] = value;
             actor->unk_B0 = value << 6;

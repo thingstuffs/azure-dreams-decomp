@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -50,7 +51,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     s32 kind;
     void *work;
     ObjectNodeHeader *obj;
-    S_80B7F054_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80B7F054_4 *actor;
     s32 flags_or_roll;
@@ -73,7 +74,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_rotation;
+        part_a->z.w.i = saved_rotation;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;

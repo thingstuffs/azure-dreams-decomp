@@ -17,15 +17,6 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
-      "row": "town/func_803C9180",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x3E9180",
-      "vma": "0x8001a180",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
       "row": "town/func_804692F0",
       "home": "town/func_804692F0",
       "tu": "src/town/scene/count_enabled_town_entries.c",

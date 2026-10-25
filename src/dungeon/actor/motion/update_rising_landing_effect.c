@@ -687,7 +687,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->scale_y = 0x1800;
                     state->scale_x = 0x1800;
                     state->tpage_abr = 0x60;
-                    state->unk_00 = (s32)particle_data;
+                    state->unk_00 = particle_data;
                     state->flags = state->flags | 0xC;
                     data_word = particle_data[1];
                     state->unk_04 = 0;

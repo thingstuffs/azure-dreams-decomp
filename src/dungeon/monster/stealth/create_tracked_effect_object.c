@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -15,7 +16,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     s32 optionValue;
     void *objectBaseForCallbacks;
     SpriteFrameState *data0C;
-    S_8015E854_2 *data08;
+    ObjectPosition *data08;
     void *objectState;
     ObjectNodeHeader *objectBase;
     S_8015E854_1 *result;
@@ -29,7 +30,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
         result->unk_13 = MONSTER_STEALTH;
         register_node(objectBase, project_sprite_chain);
         data08 = *(void ** *)&objectBase->position;
-        data08->unk_0A = value0A;
+        data08->z.w.i = value0A;
         data0C = objectBase->sprite;
         data0C->tile_y = value25;
         objectState = result;

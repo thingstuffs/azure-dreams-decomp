@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -52,7 +53,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     s32 kind;
     S_80B85054_1 *work = 0;
     ObjectNodeHeader *obj;
-    S_80B85054_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80B85054_4 *actor;
     s32 flags_or_roll;
@@ -73,7 +74,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_part_value;
+        part_a->z.w.i = saved_part_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->tile_y = saved_byte_25;

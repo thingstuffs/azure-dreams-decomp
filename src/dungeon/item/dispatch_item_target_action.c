@@ -40,7 +40,7 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(item, action_value);
     }
-    if ((s32) target == ((s32)dungeon_actor_ring_anchor)) {
+    if (target == (dungeon_actor_ring_anchor)) {
         *(void **)((u8 *)target + 0x110) = item;
         begin_mode_selected_item_action(target, ((s32 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;

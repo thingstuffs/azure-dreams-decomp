@@ -3,7 +3,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/object_setup.h"
-extern u8 person_menu_object_entries[];
+extern s32 person_menu_object_entries[];
 extern u8 D_800D55A0[];
 extern u8 D_800D55A8[];
 extern u8 D_800D55D0[];

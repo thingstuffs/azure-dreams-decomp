@@ -49,7 +49,7 @@ void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_80170AF4_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80170AF4_1 *work;
     S_80170AF4_4 *actor;
@@ -72,7 +72,7 @@ void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_spawn;
+        part_a->z.w.i = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = saved_variant;

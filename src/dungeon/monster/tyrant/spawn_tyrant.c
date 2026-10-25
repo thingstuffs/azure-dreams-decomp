@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_property_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/monster/tyrant/spawn_api_slot_a.h"
@@ -51,7 +52,7 @@ void *spawn_tyrant_in_slot_a(s16 input0, s16 input1, s16 input2, s16 input3) {
     s32 value;
     u16 flags98;
     SpriteFrameState *child_0C;
-    S_8107D000_2 *child_08;
+    ObjectPosition *child_08;
     S_8107D000_4 *record_alias;
     ObjectNodeHeader *allocation;
     s8 saved_input1;
@@ -71,7 +72,7 @@ void *spawn_tyrant_in_slot_a(s16 input0, s16 input1, s16 input2, s16 input3) {
         record->unk_13 = MONSTER_TYRANT;
         register_node(allocation, project_sprite_chain);
         child_08 = allocation->position;
-        child_08->unk_0A = saved_input3;
+        child_08->z.w.i = saved_input3;
         child_0C = allocation->sprite;
         value = input0 & 3;
         child_0C->tile_y = saved_input2;

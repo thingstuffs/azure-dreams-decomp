@@ -104,7 +104,7 @@ scan_loop:
                     (s32)((((generate_random_value() & 0xFFFF) % occupied_count) << 16) >> 14);
                 inventory_base = (u8 *)(item_offset + 0x80010000);
                 item_slot = (u8 *)(u32)((InventoryBaseFieldView_80E91000 *)inventory_base)->field_249;
-                if ((u32)item_slot == 0 || (u32)item_slot == 0x13) {
+                if (item_slot == 0 || (u32)item_slot == 0x13) {
                     return 0;
                 }
                 if (((InventoryBaseFieldView_80E91000 *)inventory_base)->field_24B & 0x20) {

@@ -63,7 +63,7 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, SpriteFrameState *v
         return;
     }
 
-    if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
+    if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(actor);

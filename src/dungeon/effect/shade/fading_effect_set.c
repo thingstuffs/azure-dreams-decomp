@@ -330,7 +330,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
     s32 depth_sum;
     s32 result;
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)&g_game_work.draw_buffer;
+    u8 *render_ctx = g_game_work.draw_buffer;
 
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;

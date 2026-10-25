@@ -269,7 +269,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
         {
             s16 timer;
 
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 ((S_801737C8_0 *)controller)->unk_96 = 0;
             }
             timer = ((S_801737C8_0 *)controller)->unk_96 - 1;
@@ -295,7 +295,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, Sprite
                 select_sprite_entry(actor, facing_frames[facing_index], 0);
                 actor->flags &= 0xF7FF;
             }
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

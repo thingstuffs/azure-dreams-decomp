@@ -11,6 +11,9 @@ struct ScriptReader;
 struct Func80039D48Reader;
 struct Func80039DBCReader;
 struct Func80039E1CReader;
+struct Func80039EF4State;
+struct Func8003A01CContext;
+struct Func8003A248State;
 struct Func8003A29CState;
 struct Func8003A4B4State;
 struct Func8003A500State;
@@ -20,6 +23,7 @@ struct Func8003A61CState;
 struct Func8003A684State;
 struct Func8003A6ECState;
 struct Func8003A754State;
+struct Func8003A904State;
 struct Func8003A9B8State;
 struct Func8003AA84State;
 struct RuntimeState;
@@ -59,17 +63,29 @@ void script_call_service(struct Func80039DBCReader *state);
 /* vm_op_call_referenced_function_table.c */
 void script_call_service_from_table(struct Func80039E1CReader *reader);
 
+/* vm_op_call_sound_command.c */
+void script_sound_command(struct ScriptReader *state);
+
 /* vm_op_call_value.c */
 u8 *script_call_variable(struct Func8003AA84State *state);
 
 /* vm_op_clear_action.c */
 void script_yield(struct S_80039ED0_0 *script);
 
+/* vm_op_clear_flag_bit.c */
+void script_clear_flag(struct ScriptReader *state);
+
 /* vm_op_clear_image.c */
 void script_clear_text_window(void *vm_state);
 
 /* vm_op_clear_value.c */
 void script_clear_variable(struct S_80039F28_0 *vm);
+
+/* vm_op_copy_value_source_first.c */
+void script_copy_variable_reversed(struct Func8003A248State *state);
+
+/* vm_op_divide_values.c */
+s32 script_divide(struct Func8003A904State *script);
 
 /* vm_op_fill_sixteen_values.c */
 void script_fill_variables(void *vm);
@@ -110,8 +126,17 @@ void script_jump_if_zero(struct Func8003A54CState *state);
 /* vm_op_jump_to_value.c */
 void script_jump_to_variable(struct Func8003A9B8State *vm);
 
+/* vm_op_load_immediate_indexed_pointer.c */
+void script_load_indirect(struct ScriptReader *state);
+
+/* vm_op_load_table_pointer_value.c */
+void script_load_system_variable(struct Func8003A01CContext *context);
+
 /* vm_op_load_value_indexed_pointer.c */
 void script_load_indirect_by_variable(struct ScriptReader *state);
+
+/* vm_op_load_value_indexed_word.c */
+void script_load_table_word_by_variable(struct ScriptReader *state);
 
 /* vm_op_multiply_values.c */
 void script_multiply(struct Decoder *script);
@@ -144,6 +169,9 @@ void noop_scene_resource_setup(void);
 void func_8003C064(void);
 void noop_after_fade_ramp_completion(void);
 
+/* vm_op_repeat_while_counter_nonnegative.c */
+void script_wait_loop_counter(struct Func80039EF4State *vm);
+
 /* vm_op_retry_while_status_nonzero.c */
 void script_wait_sound_idle(struct S_80039A88_0 *state);
 
@@ -155,6 +183,15 @@ void script_set_text_speed(struct Func800391ECState *state);
 
 /* vm_op_set_difference_result.c */
 void script_compare(struct Func8003A500State *state);
+
+/* vm_op_set_entry_byte.c */
+void script_set_sound_entry_byte(struct ScriptReader *parser);
+
+/* vm_op_set_entry_byte_pair.c */
+void script_set_sound_entry_bytes(struct ScriptReader *parser);
+
+/* vm_op_set_flag_bit.c */
+s32 script_set_flag(struct ScriptReader *state);
 
 /* vm_op_set_loop_counter.c */
 void script_set_loop_counter(struct RuntimeState *state);

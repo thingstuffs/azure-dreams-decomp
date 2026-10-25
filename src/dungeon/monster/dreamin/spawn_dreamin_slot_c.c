@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -50,7 +51,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     s32 unused_stack;
     s32 init_mode;
     SpriteFrameState *data_0c;
-    S_80DA7000_2 *data_08;
+    ObjectPosition *data_08;
     ObjectNodeHeader *object;
     S_80DA7000_4 *extended_state;
     S_80DA7000_1 *state = NULL;
@@ -71,7 +72,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         data_08 = object->position;
-        data_08->unk_0A = saved_value_0a;
+        data_08->z.w.i = saved_value_0a;
         data_0c = object->sprite;
         init_mode = init_flags & 3;
         data_0c->tile_y = saved_value_25;

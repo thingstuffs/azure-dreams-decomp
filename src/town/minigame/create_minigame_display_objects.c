@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -64,7 +65,7 @@ void create_minigame_display_objects(void)
     u8 *parent_state;
     u8 *child_slot;
     u8 *callback;
-    IntVector3 *prim;
+    ObjectPosition *prim;
     SpriteFrameState *draw_state;
     u8 *object_state;
     u8 *child_script;
@@ -83,8 +84,8 @@ void create_minigame_display_objects(void)
         parent_state = obj + 0x20;
         prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
         ((ObjectNodeHeader *)obj)->update_callback = D_80022768;
-        prim->x = 0x04600000;
-        prim->y = 0x03600000;
+        prim->x.v = 0x04600000;
+        prim->y.v = 0x03600000;
         ((S_800224E0_2 *)parent_state)->unk_48 = callback;
         configure_the_set_mode_n_3(parent_state, prim, D_80024470);
     }
@@ -128,10 +129,10 @@ void create_minigame_display_objects(void)
         draw_state->frame_ticks = 0;
         draw_state = (u8 *)&draw_state->color.word;
         draw_state->unk_00 = neutral_color;
-        prim->x = 0x04400000;
-        prim->y = 0x02C00000;
+        prim->x.v = 0x04400000;
+        prim->y.v = 0x02C00000;
         object_state = obj + 0x20;
-        prim->z = 0;
+        prim->z.v = 0;
         (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
         configure_the_set_mode_n_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
     }

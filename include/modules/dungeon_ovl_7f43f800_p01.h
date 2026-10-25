@@ -4,7 +4,6 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-typedef long long long long;
 
 typedef struct T_80170AD0_S_80170AD0_0 {
     u8 pad_00[0x94];

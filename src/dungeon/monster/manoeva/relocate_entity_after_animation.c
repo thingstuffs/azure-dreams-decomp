@@ -179,7 +179,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
         return;
     }
 
-    state = *(u8 **)&render_globals->draw_buffer;
+    state = render_globals->draw_buffer;
     ((S_80175594_1 *)scratch)->unk_EC = 0;
     ((S_80175594_1 *)scratch)->unk_8C = 0;
     ((S_80175594_1 *)scratch)->unk_84 = 0;

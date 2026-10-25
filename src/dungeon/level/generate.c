@@ -653,7 +653,7 @@ void load_dungeon_layout(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = *(u8 **)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
+    data_2 = ((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
     (*(u8 **)gpu_scratch_write_pointer) = data_2;
     layout_id = floor_layout_resource_descriptors[layout_index];
     cfg = &g_game_work.map;

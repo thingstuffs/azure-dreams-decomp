@@ -3,7 +3,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 extern u8 D_800CB0F0[];
-extern u8 D_800D68D4[];
+extern s32 D_800D68D4[];
 
 /* Initializes an entity, sets its state to 6, and copies its table entry's byte. */
 void initialize_entity_action_state(void *entity, s32 unused, void *init_value) {

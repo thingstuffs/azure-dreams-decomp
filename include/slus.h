@@ -104,7 +104,7 @@ void noop_selection_menu_animation_idle(void);
 int read_selected_menu_entry_word(char *object);
 void resolve_selected_menu_entry(char *object);
 void forward_object_input_handler(void *object);
-void invoke_leading_object_callback(struct VtableObj *object);
+void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
 void link_seventeen_indexed_entries(void *entries);
 void submit_enabled_saved_display_value(void);
 void run_town_movie_callbacks(void);

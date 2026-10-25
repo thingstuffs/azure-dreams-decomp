@@ -5,7 +5,7 @@
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */
 void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
-    extern s8 D_8001902C[];
+    extern Lookup D_8001902C[][3];
     s32 group_id;
     s32 state_base;
     s32 variant;
@@ -15,7 +15,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     s32 old_entry;
     s32 entry_id;
     TownStateRecord *group_state;
-    s8 *limits;
+    Lookup *limits;
     u8 *page;
     S_8001D188_1 *cursor;
     s16 *entries;
@@ -41,8 +41,8 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
         group_state->headIndices[0] = next_count;
         count = group_state->headIndices[0];
     } while (0);
-    limits = D_8001902C;
-    if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
+    limits = D_8001902C[0];
+    if (count >= limits[group_id * 3 + variant].flag) {
         group_state->headIndices[0] = 0U;
     }
     slot_index = 0;

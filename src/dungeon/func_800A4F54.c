@@ -16,14 +16,14 @@ s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800
         apply_actor_delta_and_cap_value(entity, context, sprite, entity);
         return 0;
     }
-    g_dungeon_status.unk_10 = (void *) ((s8 *) entity - 0x20);
+    g_dungeon_status.pending_display_owner = (void *) ((s8 *) entity - 0x20);
     ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_s8 = 7;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_9B.as_s8 = 0;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
     if (direction_frames != 0) {
         if (!(((Rec_func_800A9E70_arg0 *)entity)->unk_1C & 0x20)) {
             sprite->unk_2C.as_s32 = direction_frames;
-            select_sprite_entry(sprite, *((u8 *) direction_frames + (((s32) (g_game_work.view.viewAngle
+            select_sprite_entry(sprite, *((u8 *) direction_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + ((Rec_func_800A9E70_arg0 *)entity)->unk_2A + 0x100) >> 9) & 7)), 0);
         }
     }

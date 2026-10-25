@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -58,7 +59,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     u16 saved_x;
     u16 saved_y;
     ObjectNodeHeader *object;
-    S_80170F9C_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80170F9C_1 *work;
     S_80170F9C_4 *work_copy;
@@ -74,7 +75,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
 
         part_a = object->position;
         kind = mode & 3;
-        part_a->unk_0A = held_value_0A;
+        part_a->z.w.i = held_value_0A;
         part_b = object->sprite;
         work_copy = work;
         part_b->frameTable = uboat_default_frames;

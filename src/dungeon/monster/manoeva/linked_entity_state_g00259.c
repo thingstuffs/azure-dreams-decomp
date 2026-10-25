@@ -55,7 +55,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
          * (adrando.com/guide/bugs.html).
          */
         if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
-            (((u16)g_dungeon_status.activity_counts.parts.pending_action_count))++;
+            g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
 
         *(s32 *)(dest_state + 0x14) = 0;

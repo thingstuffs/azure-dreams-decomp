@@ -293,7 +293,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
     case 8:
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

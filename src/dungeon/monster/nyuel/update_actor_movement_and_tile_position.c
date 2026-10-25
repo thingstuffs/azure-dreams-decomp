@@ -234,7 +234,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
     (*(u8 *)(actor + 0x6D))--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
-        (((u16)move_state->activity_counts.parts.pending_movement_count))++;
+        move_state->activity_counts.parts.pending_movement_count++;
     }
     if ((*(s8 *)(actor + 0x6D)) == 0) {
         *(u8 *)(actor + 0x71) &= 0x7F;

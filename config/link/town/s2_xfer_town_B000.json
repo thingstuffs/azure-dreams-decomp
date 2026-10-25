@@ -1679,13 +1679,20 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
-      "row": "town/func_80028B7C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x48B7C",
-      "vma": "0x800c62dc",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "town/func_800C8B3C",
+      "home": "town/func_800D1E48",
+      "tu": "src/town/scene/initialize_scene_slot_v.c",
+      "foff": "0x48B3C",
+      "vma": "0x800C629C",
+      "size": 72,
+      "evidence": "docs/evidence/r124w_carve1_run8.md",
+      "bindings": {
+        "0x800D7B0C": "0x800D56FC",
+        "0x800D7B14": "0x800D5704",
+        "0x800D7B3C": "0x800D572C",
+        "0x800D7B40": "0x800D5730",
+        "0x800C3050": "0x800C3050"
+      }
     },
     {
       "row": "town/func_800C8BE4",

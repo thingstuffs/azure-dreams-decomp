@@ -2,7 +2,7 @@
 
 typedef void (*Callback)(void);
 
-typedef struct {
+typedef struct Func80039B94State {
     u8 pad_00[0x10];
     Callback callback;
     u8 pad_14[0x8];

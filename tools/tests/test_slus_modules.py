@@ -210,7 +210,7 @@ class SlusModulesTest(unittest.TestCase):
         with self.assertRaisesRegex(sm.ModuleError, "invalid identifier"):
             sm.load_manifest(self.manifest)
         bad = copy.deepcopy(self.module)
-        bad["data"][0]["section"] = ".data"
+        bad["data"][0]["section"] = ".bss"
         self.save([bad])
         with self.assertRaisesRegex(sm.ModuleError, "unsupported data section"):
             sm.load_manifest(self.manifest)

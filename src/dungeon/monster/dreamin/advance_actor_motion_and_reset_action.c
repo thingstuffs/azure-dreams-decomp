@@ -189,7 +189,7 @@ void advance_actor_motion_and_reset_action(void *action_state, void *position, S
             }
         }
         action_counters = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&action_counters->sprite != 0) {
+        if (action_counters->sprite != 0) {
             return;
         }
         ((S_80172870_7 *)action_counters)->unk_0A = ((S_80172870_7 *)action_counters)->unk_0A - 1;

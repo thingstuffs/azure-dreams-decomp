@@ -65,8 +65,8 @@ extern s16 actor_direction_step_pairs[];
 /* Spawn an effect offset from the source with randomized directional velocity. */
 void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effect_value)
 {
-    S_800D5DCC_2 *pos_x;
-    S_800D5DCC_4 *pos_y;
+    ObjectPosition *pos_x;
+    ObjectPosition *pos_y;
     ObjectPosition *velocity_x;
     ObjectPosition *velocity_y;
     S_800D5DCC_3 *direction;
@@ -84,9 +84,9 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
             ((MovingPosition *)((*(void * *)&source->z)))->z - 0x14;
         direction = ((angle >> 7) & 0x1C) + (u8 *)actor_direction_step_pairs;
         pos_x = effect->position;
-        pos_x->unk_02 += direction->unk_00 * 0x10;
+        pos_x->x.w.i = (u16)pos_x->x.w.i + (direction->unk_00 * 0x10);
         pos_y = effect->position;
-        pos_y->unk_06 += direction->unk_02 * 0x10;
+        pos_y->y.w.i = (u16)pos_y->y.w.i + (direction->unk_02 * 0x10);
         effect->sprite->depth_bias = 6;
         (effect->position)->velocity_x =
             ((rand() & 0x7FFF) - 0x4000) << 6;

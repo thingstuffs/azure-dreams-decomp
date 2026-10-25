@@ -26,7 +26,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    R06_8017087C_S_8017087C_2 *part_a;
+    ObjectPosition *part_a;
     R06_8017087C_S_8017087C_5 *slot_base;
     R06_8017087C_S_8017087C_8 *child_slot;
     s32 entry_id_fixed;
@@ -57,7 +57,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_part_id;
+        part_a->z.w.i = saved_part_id;
         part_b = obj->sprite;
         slot_base = work;
         kind = kind_flags & 3;
@@ -688,7 +688,7 @@ void update_actor_object_motion(void *motion, void *unused, SpriteFrameState *ac
         return;
     }
 
-    direction_table = *(u8 **)&actor->frameTable;
+    direction_table = actor->frameTable;
     if (direction_table != ((u8 *)flame_direction_frames)) {
         (actor->frameTable) = ((u8 *)flame_direction_frames);
         select_sprite_entry(
@@ -1310,7 +1310,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -1552,7 +1552,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, SpriteFrameState *s
             break;
         }
         dungeon_state = &g_dungeon_status;
-        if (*(u32 *)&dungeon_state->pending_display_owner == (u32)((u8 *)entity - 0x20)) {
+        if (dungeon_state->pending_display_owner == (u8 *)entity - 0x20) {
             *(u32 *)&dungeon_state->pending_display_owner &= 0x7FFFFFFF;
         }
         distribute_experience_and_report_gains(entity);
@@ -1974,7 +1974,7 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 
     vertex = vertex_arg;
     state_ptr = (u8 **)((u8 *)(&g_game_work));
-    state = *(u8 **)&g_game_work.draw_buffer;
+    state = g_game_work.draw_buffer;
     scratch = (u8 *)0x1F800000;
 
     *(u8 **)(scratch + 0x18) = ((GpuContext *)state)->packetCursor;
@@ -2126,7 +2126,7 @@ void advance_actor_action_and_update_status(
 
     object_fields = allocate_list_node(0x211, source_obj);
     if (object_fields != NULL) {
-        object_fields->update_callback = (s32)((u8 *)advance_randomized_motion_and_complete);
+        object_fields->update_callback = (u8 *)advance_randomized_motion_and_complete;
         x_jitter = rand() & 0x1F;
         x_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_02;
         x_dest = object_fields->position;

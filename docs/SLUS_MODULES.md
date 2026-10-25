@@ -25,8 +25,9 @@ cover every function exactly once. See [SLUS_PARTITIONS.md](SLUS_PARTITIONS.md).
 
 ## Data ownership
 
-Initialized small data and zero-initialized storage require evidence of the
-symbol, allocated section, extent, offset, address and asset carve. COMMON or
+Initialized small data, zero-initialized storage, `.rodata` jump tables and
+initialized `.data` tables require evidence of the symbol, allocated section,
+extent, offset, address and asset carve. COMMON or
 absolute symbols cannot stand in for real allocated ownership. The full linked
 image must preserve the surrounding bytes and section order.
 
@@ -40,6 +41,11 @@ allocations. The transformation preserves instruction bytes and relocation
 identity, checks selected symbol extents and zero-only gaps, and requires fresh
 independently checked sidecars. It does not establish the historical C type or
 module membership. See [data-piece evidence](evidence/gp_data_pieces.md).
+
+A `.rodata` or `.data` owner's object is cut back to its manifest span after
+assembly (`tools/build/slus_rodata_trim.py`), because GNU as pads each section
+to its alignment and the original linker did not. See the
+[script opcode table owner](evidence/slus_script_opcode_handlers.md).
 
 ## Build and proof
 

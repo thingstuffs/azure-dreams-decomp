@@ -13,6 +13,6 @@ extern s32 D_800AAB20[];
 void initialize_person_resources(void *object, s32 transform, void *anim_state) {
     configure_the_set_mode_n_2(object, transform, &town_object_resource_table);
     initialize_optional_object_state(object, transform, anim_state, &D_800D11D0);
-    initialize_object_entries(object, anim_state, &D_800D11EC);
+    initialize_object_entries(object, anim_state, D_800D11EC);
     *(void **)((s8 *)object - 0x10) = &D_800AAB20;
 }

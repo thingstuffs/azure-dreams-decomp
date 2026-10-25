@@ -204,7 +204,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
         }
 
         action_status = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&((ObjectNodeHeader *)action_status)->sprite != 0) {
+        if (((ObjectNodeHeader *)action_status)->sprite != 0) {
             break;
         }
         ((S_801738B4_4 *)action_status)->unk_0A--;

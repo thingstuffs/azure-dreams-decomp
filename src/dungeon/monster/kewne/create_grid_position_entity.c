@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -48,7 +49,7 @@ typedef struct S_801708B4_4 {
 void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
     ObjectNodeHeader *entity;
-    S_801708B4_2 *position;
+    ObjectPosition *position;
     SpriteFrameState *placement;
     S_801708B4_4 *actor;
     s32 spawn_mode;
@@ -71,7 +72,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         register_node(entity, project_sprite_chain);
 
         position = entity->position;
-        position->unk_0A = saved_height;
+        position->z.w.i = saved_height;
         placement = entity->sprite;
         spawn_mode = spawn_flags & 3;
         placement->tile_y = saved_y;

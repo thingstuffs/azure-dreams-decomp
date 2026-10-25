@@ -163,8 +163,8 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                         u8 *item_id;
 
                         item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                        (((u8)actor->target_tile_x)) = ((S_801732C4_2 *)item_id)->unk_24;
-                        (((u8)actor->target_tile_y)) = ((S_801732C4_2 *)item_id)->unk_25;
+                        actor->target_tile_x = ((S_801732C4_2 *)item_id)->unk_24;
+                        actor->target_tile_y = ((S_801732C4_2 *)item_id)->unk_25;
                     }
                 } else {
                     u8 *item_id;
@@ -176,8 +176,8 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                         target = (actor->target);
                         if (target != 0) {
                             item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                            (((u8)actor->target_tile_x)) = ((S_801732C4_2 *)item_id)->unk_24;
-                            (((u8)actor->target_tile_y)) = ((S_801732C4_2 *)item_id)->unk_25;
+                            actor->target_tile_x = ((S_801732C4_2 *)item_id)->unk_24;
+                            actor->target_tile_y = ((S_801732C4_2 *)item_id)->unk_25;
                         }
                     } else {
 
@@ -207,10 +207,10 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
-        (((u8)actor->pending_turn_updates))--;
+        actor->pending_turn_updates--;
         ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
-        (((u8)actor->target_tile_y)) = 0;
-        (((u8)actor->target_tile_x)) = 0;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
         (actor->action_flags) &= 0x7FFF;
         return;
 
@@ -339,7 +339,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
     {
         s16 timer;
 
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             ((S_801732C4_0 *)action)->unk_96.u = 0;
         }
         timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
@@ -382,15 +382,15 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
             advance_status_timers(actor);
-            (((u8)actor->target_tile_y)) = 0;
-            (((u8)actor->target_tile_x)) = 0;
-            (((u8)actor->pending_turn_updates))--;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->pending_turn_updates--;
             (actor->action_flags) &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

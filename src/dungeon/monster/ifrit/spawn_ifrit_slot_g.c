@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -49,7 +50,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
 {
     s32 kind;
     ObjectNodeHeader *object;
-    S_80170884_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80170884_1 *work;
     S_80170884_4 *actor;
@@ -71,7 +72,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         register_node(object, project_sprite_chain);
 
         part_a = object->position;
-        part_a->unk_0A = value_0A;
+        part_a->z.w.i = value_0A;
         part_b = object->sprite;
         kind = mask & 3;
         part_b->tile_y = value_25;

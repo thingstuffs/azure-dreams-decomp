@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -66,7 +67,7 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
 {
     s32 kind;
     ObjectNodeHeader *obj;
-    S_8014C884_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8014C884_1 *work;
     S_8014C884_4 *actor;
@@ -89,7 +90,7 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->unk_0A = saved_spawn;
+        part_a->z.w.i = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = saved_variant;

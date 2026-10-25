@@ -250,7 +250,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         s32 poly_link;
                         s32 bucket_link;
                         depth_out_or_phase = advance_phase(depth_out_or_phase, scratch.outer);
-                        frame = *(u8 **)&render_state->draw_buffer;
+                        frame = render_state->draw_buffer;
                         poly = *((u8 **) (frame + 0x8D0));
                         *((u8 **) (frame + 0x8D0)) = poly + 40;
                         *((s32 *) (((u8 *) poly) + 4)) = *((s32 *) (((u8 *) appearance) + 0xC));

@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -57,7 +58,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     s32 left;
     S_8100B000_1 *work = NULL;
     ObjectNodeHeader *obj;
-    S_8100B000_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8100B000_4 *actor;
     s8 saved_kind_id;
@@ -75,7 +76,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
         work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
         part_a = obj->position;
-        part_a->unk_0A = saved_spawn;
+        part_a->z.w.i = saved_spawn;
         part_b = obj->sprite;
         kind = flags & 3;
         part_b->tile_y = saved_variant;

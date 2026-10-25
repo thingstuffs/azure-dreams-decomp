@@ -73,7 +73,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFra
     case 1:
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            current_table = *(u8 **)&object_arg->frameTable;
+            current_table = object_arg->frameTable;
             expected_table = beldo_large_frame_set_4;
             if (current_table != expected_table) {
                 (object_arg->frameTable) = expected_table;

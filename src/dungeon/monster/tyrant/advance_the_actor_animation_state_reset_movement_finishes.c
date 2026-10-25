@@ -194,7 +194,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
                     tyrant_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
-            if (((s32)g_dungeon_status.active_actor) == 0) {
+            if ((g_dungeon_status.active_actor) == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
                 sprite->flags &= 0xF7FF;
                 ((S_801729D4_0 *)action)->unk_8C = &tyrant_action_resume_address;

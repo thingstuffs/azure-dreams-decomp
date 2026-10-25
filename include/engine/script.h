@@ -115,15 +115,29 @@ enum ScriptOpcode {
     SCRIPT_OP_COUNT                         /* 89 table slots */
 };
 
+/* One script_opcode_handlers slot. The handlers read different views of the
+ * script context, so the slot leaves their parameters unspecified. */
+typedef void (*ScriptOpcodeHandler)();
+
+/* Defined with its interpreter in src/slus/konami_runtime_w_80038AB8.c. */
+extern ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT];
+
 struct Func80039578State;
 struct Func800395B0State;
 struct Func80039730State;
 struct Func800398BCOwner;
+struct Func80039B94State;
+struct Func80039BBCState;
+struct Func80039BE4State;
+struct Func80039C0CState;
 struct Func80039C44State;
 struct Func80039D10State;
+struct Func80039F80State;
 struct Func80039FC0State;
+struct Func8003A060State;
 struct Func8003A7BCState;
 struct Func8003A7FCState;
+struct Func8003A858State;
 struct S_800390D0_0;
 struct S_80039568_0;
 struct S_80039A08_0;
@@ -174,20 +188,47 @@ void script_play_voice_cue(struct Func800398BCOwner *owner);
 /* opcode_35_install_action.c */
 void script_park(struct S_80039B84_0 *script);
 
+/* opcode_36_read_entry_byte.c */
+void script_wait_actor_ready(struct Func80039B94State *state);
+
+/* opcode_37_read_handler_arg.c */
+void script_poll_service(struct Func80039BBCState *state);
+
+/* opcode_38_select_indexed_handler.c */
+void script_call_indexed_handler(struct Func80039BE4State *state);
+
+/* opcode_39_read_handler_pair.c */
+void script_poll_group_handler(struct Func80039C0CState *state);
+
 /* opcode_42_set_state_bytes_clear_b.c */
 void script_timed_choice_menu(struct Func80039C44State *state);
 
 /* opcode_44_set_state_bytes_set_handler.c */
 void script_wide_choice_menu(struct Func80039D10State *state);
 
+/* opcode_51_copy_value.c */
+void script_copy_variable_a(struct Func80039F80State *reader);
+
 /* opcode_52_set_immediate.c */
 void script_set_variable_a(struct Func80039FC0State *state);
+
+/* opcode_54_load_indexed_word.c */
+void script_load_table_word_a(struct Func8003A060State *state);
 
 /* opcode_68_copy_value.c */
 void script_copy_variable_b(struct Func8003A7BCState *state);
 
 /* opcode_69_set_immediate.c */
 void script_set_variable_b(struct Func8003A7FCState *state);
+
+/* opcode_70_load_indexed_word.c */
+void script_load_table_word_b(struct Func8003A858State *state);
+
+/* opcode_78_store_word_indirect_immediate.c */
+void script_store_indirect(ScriptReader *state);
+
+/* opcode_80_store_word_indirect_indexed.c */
+void script_store_indirect_by_variable(ScriptReader *state);
 
 /* remove_all_controller_nodes.c */
 void remove_all_controller_nodes(void *controller);

@@ -840,7 +840,7 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     s32 fill_shade;
     void *shade_cursor;
 
-    source_ptr = (PackedVector *)((u32)&wave_texture_rect);
+    source_ptr = (PackedVector *)(&wave_texture_rect);
     source = *source_ptr;
     frame = ((S_80025398_0 *)effect)->unk_04.s;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;

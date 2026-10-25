@@ -247,7 +247,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
-            u8 *animation = *(u8 **)&sprite->frameTable;
+            u8 *animation = sprite->frameTable;
             u8 *next_animation = kid_direction_frames;
 
             if (animation != kid_direction_frames) {
@@ -268,7 +268,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, SpriteFr
         }
         {
 
-            if (((s32)g_dungeon_status.active_actor) != 0) {
+            if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;

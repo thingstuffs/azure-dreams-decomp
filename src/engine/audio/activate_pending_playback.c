@@ -15,16 +15,16 @@ void activate_pending_playback(void) {
 
     state->unk_10 = 0;
     state->unk_14 = 0;
-    ((u8)state->unk_31) = 0;
-    ((u8)state->unk_33) = 0;
+    state->unk_31 = 0;
+    state->unk_33 = 0;
 
     sound_stream_task.unk_0C = 3;
     sound_stream_task.unk_10 = 0x80;
 
     state->unk_08 = pending_word_a;
     state->unk_0C = pending_word_b;
-    ((u8)state->unk_30) = pending_byte_a;
-    ((u8)state->unk_32) = pending_byte_b;
+    state->unk_30 = pending_byte_a;
+    state->unk_32 = pending_byte_b;
 
     state->flags00 &= ~0x400;
     state->flags00 &= ~0x4000;

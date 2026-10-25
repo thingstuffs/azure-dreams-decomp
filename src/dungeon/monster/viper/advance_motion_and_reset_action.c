@@ -197,7 +197,7 @@ void advance_motion_and_reset_action(void *state, ObjectPosition *transform, Spr
             }
         }
         action_state = (u8 *)&g_dungeon_status.turn_scale;
-        if (*(s32 *)&action_state->sprite != 0) {
+        if (action_state->sprite != 0) {
             return;
         }
         ((S_80172F5C_7 *)action_state)->unk_0A = ((S_80172F5C_7 *)action_state)->unk_0A - 1;

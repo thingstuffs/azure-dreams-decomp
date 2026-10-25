@@ -210,7 +210,7 @@ void project_textured_quad_or_callback(void *quad, ObjectPosition *position, Spr
     SetTransMatrix(scratch + 0x54);
     SetRotMatrix(scratch + 0x54);
 
-    texture = *(u8 **)&material->source;
+    texture = material->source;
     ((S_81874988_0 *)scratch)->unk_28 = material->flags;
 
     if (!(texture[0] & 0x20)) {
@@ -656,7 +656,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
     u32 address_mask;
     u32 *mode_ot_entry;
 
-    context = *(u8 **)&g_game_work.draw_buffer;
+    context = g_game_work.draw_buffer;
     context_slot = (u8 **)&g_game_work;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;

@@ -3,7 +3,7 @@
 #include "town/person/object/initialize_object_entries_api.h"
 extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern u8 D_800C9AD4[];
-extern u8 D_800D6504[];
+extern s32 D_800D6504[];
 
 // Initialize the object's data, movement state, and variant.
 void initialize_reaction_movement(void *object, void *movementState, void *initializationValue) {

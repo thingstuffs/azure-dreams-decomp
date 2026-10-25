@@ -140,7 +140,7 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
         motion->field_10 = 0;
         motion->field_0c = 0;
         set_record_integer_tile_center(motion, tile->field_24, tile->field_25);
-        if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)actor - 0x20)) {
+        if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7fffffff;
         }
         animation->field_8c = maximum_action_continuation_address;

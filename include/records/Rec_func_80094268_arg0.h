@@ -10,8 +10,8 @@
 #include "m2c_compat.h"   /* M2C_UNK* views: rows that never needed the compat header still compile */
 
 typedef struct Rec_func_80094268_arg0 {
-    union { M2C_UNK * as_pm; void * as_pv; } unk_00;   /* read as M2C_UNK * by 16, void * by 1 */
-    union { M2C_UNK * as_pm; void ** as_ppv; void * as_pv; } unk_04;   /* read as M2C_UNK * by 16, void ** by 1, void * by 1 */
+    union { void * as_pm; void * as_pv; } unk_00;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
+    union { void * as_pm; void ** as_ppv; void * as_pv; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
     u8 pad_08[0x2];
     union { s16 as_s16; u16 as_u16; } unk_0A;   /* read as s16 by 27, u16 by 9 */
     u8 pad_0C[0x2];
@@ -35,8 +35,8 @@ typedef struct Rec_func_80094268_arg0 {
     u8 unk_4D;
     u8 pad_4E[0x1];
     u8 unk_4F;
-    union { M2C_UNK * as_pm; void * as_pv; s32 as_s32; } unk_50;   /* read as M2C_UNK * by 12, void * by 2, s32 by 1 */
-    M2C_UNK * unk_54;
+    union { void * as_pm; void * as_pv; s32 as_s32; } unk_50;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
+    void * unk_54; /* stored handler address; callable views retain their own contracts */
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;

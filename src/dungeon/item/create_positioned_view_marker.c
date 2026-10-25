@@ -775,7 +775,7 @@ typedef struct {
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
-    DungeonRoot *dungeon = *(u8 **)&g_game_work.draw_buffer;
+    DungeonRoot *dungeon = g_game_work.draw_buffer;
     s32 packet_cursor = dungeon->cursor;
     GameWork *root_slot = &g_game_work;
     Scratch *scratch;

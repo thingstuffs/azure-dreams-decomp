@@ -294,7 +294,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
     case 8:
     {
 
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;

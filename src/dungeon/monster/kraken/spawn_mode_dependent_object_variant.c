@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -18,7 +19,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
     s8 saved_kind_id;
     s8 saved_variant;
     ObjectNodeHeader *obj;
-    S_8015886C_2 *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_8015886C_4 *actor;
     s32 left;
@@ -48,7 +49,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
         actor = work;
 
         part_a = obj->position;
-        part_a->unk_0A = spawn_value;
+        part_a->z.w.i = spawn_value;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8015C18C;

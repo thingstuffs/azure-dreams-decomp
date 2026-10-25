@@ -3,7 +3,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 extern u8 D_800C81E4[];
-extern u8 D_800D6110[];
+extern s32 D_800D6110[];
 
 // Initializes the object with D_800D6110, clears its status, and sets state 0x62.
 void initialize_mother_event_object_state(void *object, s32 unused, void *initializationArg) {

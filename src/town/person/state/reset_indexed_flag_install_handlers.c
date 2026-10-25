@@ -28,7 +28,7 @@ typedef struct S_800C5C70_1 {
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
 void reset_indexed_flag_install_handlers(void *object, void *context, void *input) {
     if (((SpriteFrameState *)input)->flags & 0x6000) {
-        initialize_object_entries(object, input, &person_menu_object_entries);
+        initialize_object_entries(object, input, person_menu_object_entries);
         object_index_slots[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
         ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
         ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;

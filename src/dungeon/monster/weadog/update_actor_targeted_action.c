@@ -242,7 +242,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
         ((S_801737B0_0 *)action)->unk_9B++;
 
     case 4:
-        if (((s32)g_dungeon_status.active_actor) == 0) {
+        if ((g_dungeon_status.active_actor) == 0) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
         }
         timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
@@ -265,7 +265,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFr
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, weadog_frame_set_3[direction], 0);
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
 

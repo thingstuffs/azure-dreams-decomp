@@ -1,6 +1,6 @@
 #include "common.h"
 
-typedef struct {
+typedef struct Func80039EF4State {
     u8 pad_00[0x10];
     s32 field_10;
     u8 pad_14[0x08];

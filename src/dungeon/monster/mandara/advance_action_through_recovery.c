@@ -190,7 +190,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
                     0);
             }
         }
-        if (((s32)g_dungeon_status.active_actor) != 0) {
+        if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;

@@ -13,8 +13,15 @@ void card_dev_flag_object_dirty(void *object) {
         u16 object_flags = *flags_ptr;
         s32 global_flags;
         {
+            /* GCC 2 keeps separate load/store declarations for the two
+             * address materializations. Modern C requires matching types. */
+#if defined(__GNUC__) && __GNUC__ < 3
             extern s32 card_ui_dirty_flags;
             global_flags = card_ui_dirty_flags;
+#else
+            extern D_8008DAB4_View card_ui_dirty_flags;
+            global_flags = card_ui_dirty_flags.v;
+#endif
         }
         object_flags |= 0x8000;
         global_flags |= 0x8000;

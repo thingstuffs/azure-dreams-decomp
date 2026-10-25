@@ -114,8 +114,8 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u32 depth;
 
     render_globals = &g_game_work;
-    vertex_table = *(Vertex **)&render_globals->map.vertices;
-    normal_table = *(u8 **)&render_globals->map.surface_planes;
+    vertex_table = render_globals->map.vertices;
+    normal_table = render_globals->map.surface_planes;
 
     PushMatrix();
 
