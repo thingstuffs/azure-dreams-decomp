@@ -860,11 +860,6 @@ s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode) {
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_8009CE1C_0 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-} S_8009CE1C_0;   /* *D_800E3D7C in apply_attack_power_and_element_effects */
-
 typedef struct S_8009CE1C_1 {
     void * unk_00;
     u8 pad_04[0x23];
@@ -922,7 +917,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     affinity = 0;
     if ((target != 0) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
-            bonus = ((S_8009CE1C_0 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_11 * 4;
+            bonus = dungeon_actor_ring_anchor->level * 4;
             if (bonus >= 0x64) {
                 bonus = 0x63;
             }

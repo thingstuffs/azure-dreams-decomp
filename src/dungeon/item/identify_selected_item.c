@@ -56,7 +56,7 @@ s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, 
 
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, action_id);
-        if (feed_actor_restore_mp(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, action_id) == 0) {
+        if (feed_actor_restore_mp(entity, entity_action_selectors[entity->species] & 3, action_id) == 0) {
             place_actor_item(entity, action_id);
             return 1;
         }

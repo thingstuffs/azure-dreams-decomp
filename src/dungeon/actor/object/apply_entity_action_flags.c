@@ -122,7 +122,7 @@ void apply_entity_action_flags(void *object, s32 action) {
             return;
         }
         reset_actor_animation_state(object);
-        if ((*(u8 *)((u8 *)&((ActorRecord *)object)->unk_10 + 3)) != 0) {
+        if (((ActorRecord *)object)->species != 0) {
             break;
         }
         restore_player_control_callback(object, object);

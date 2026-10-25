@@ -520,7 +520,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, void *context, 
     EntityRec *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (((u8 *)&actor_data->unk_10)[2] >= 2 ||
+        if (actor_data->unk_12 >= 2 ||
             (s16)try_begin_block_attack_slot_f(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;

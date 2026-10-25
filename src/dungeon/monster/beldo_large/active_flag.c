@@ -58,7 +58,7 @@ void create_scripted_encounter_object(void) {
         state = ((void *)object) + 0x20;
         st = state;
         object->update_callback = &advance_linked_actor_motion_script;
-        ((s8 *)&st->unk_10)[3] = MONSTER_KEWNE;
+        st->species = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
         object_attrs = object->position;
         ((S_80173140_2 *)object_attrs)->unk_0A =

@@ -885,7 +885,7 @@ u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_ent
     if (((u32)((ActorRecord *)entity)->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         return 1;
     }
-    if ((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) == MONSTER_TYRANT &&
+    if (((ActorRecord *)entity)->species == MONSTER_TYRANT &&
         (((ActorRecord *)entity)->action_state_flags & 0x8000)) {
         return 1;
     }

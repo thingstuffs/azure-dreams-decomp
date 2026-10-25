@@ -4,7 +4,7 @@
 typedef struct S_8002644C_0 {
     s32 * unk_00;
     u8 pad_04[0x40];
-    s32 * unk_44;
+    void (*unk_44)(void *);
 } S_8002644C_0;   /* arg0 in card_boot_enter_overwrite_confirmation; pointer addresses record offset 0x10 */
 
 #include "frontend/libcard/interfaces.h"

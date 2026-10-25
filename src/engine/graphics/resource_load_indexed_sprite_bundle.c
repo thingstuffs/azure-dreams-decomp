@@ -20,25 +20,25 @@ typedef struct S_80048C3C_1 {
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *resource_load_indexed_sprite_bundle(s32 resource_id) {
     void *payload;
-    void *entry;
-    void *entry2;
+    s32 entry_offset;
+    S_80048C3C_0 *entry2;
     void *entry3;
     void *resource;
     s32 load_mode;
 
-    entry = (void *)(resource_id * 8);
+    entry_offset = resource_id * 8;
     load_mode = 6;
-    entry2 = (u8 *)entry + (u32)indexed_sprite_bundle_records;
-    Control_CD(load_mode, ((S_80048C3C_0 *)entry2)->unk_00, 0);
+    entry2 = (S_80048C3C_0 *)(indexed_sprite_bundle_records + entry_offset);
+    Control_CD(load_mode, entry2->unk_00, 0);
     drain_cd_command_queue();
-    resource = ((S_80048C3C_0 *)entry2)->unk_04;
+    resource = entry2->unk_04;
     payload = resource + ((S_80048C3C_1 *)resource)->unk_1C;
     upload_vram_row_and_cache(payload, 0x7A00, ((S_80048C3C_1 *)resource)->unk_20, 2);
     DrawSync(0);
     mark_palette_colors_with_high_bit(payload, 1, 1);
     upload_vram_row_and_cache(payload, 0x7980, ((S_80048C3C_1 *)resource)->unk_20, 2);
     relocate_sprite_metadata_pointers(resource);
-    entry3 = (u8 *)entry2 + 4;
+    entry3 = &entry2->unk_04;
     texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14(resource);
     shared_sprite_resource_loaded = 0;
     return entry3;

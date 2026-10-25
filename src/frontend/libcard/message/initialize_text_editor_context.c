@@ -19,18 +19,18 @@ extern MainRecord D_80027E78[];
 void initialize_text_editor_context(void *dest, s32 record_index)
 {
     MainDescriptor descriptor;
-    u8 *entry;
+    u32 *entry;
     s32 entry_index;
 
     descriptor = D_800200B8;
     *(MainRecord *)((u8 *)dest + 0x60) = D_80027E78[record_index];
     entry_index = 0;
-    entry = (u8 *)(unsigned long)0x80010080;
+    entry = (u32 *)(unsigned long)0x80010080;
     descriptor.second += record_index * 0x10;
     do {
         StoreImage(&descriptor, entry);
         descriptor.first += 4;
-        entry += 0x80;
+        entry += 0x20;
     } while (++entry_index < 3);
     DrawSync(0);
 }

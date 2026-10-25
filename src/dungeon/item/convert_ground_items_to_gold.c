@@ -74,7 +74,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         display_text_with_fullwidth_adjustment(saved_context);
 
         table_base = (u8 *)0x800E0000;
-        scratch_value = (*(u8 *)((u8 *)&target->unk_10 + 3));
+        scratch_value = target->species;
         table_base_2 = (u8 *)entity_action_selectors;
         second_arg = ((u16 *)table_base_2)[scratch_value];
         first_arg = second_arg & 3;

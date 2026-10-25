@@ -31,7 +31,7 @@ s32 use_item_to_apply_speed_boost(void *entity, s32 event_id, s16 event_param) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, event_id, event_param);
-        if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[((ActorRecord *)entity)->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, event_id);
             return 1;
         }

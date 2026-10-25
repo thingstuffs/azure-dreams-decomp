@@ -8,7 +8,7 @@ extern s16 D_80010208;
 
 /* Build text from a one-based index, global state, and a trailing value. */
 void card_boot_build_save_description(s32 record, s32 index) {
-    s32 number_buffer[4];
+    u8 number_buffer[16];
     s32 *text_fragments;
     s32 output_text_target;
     s32 suffix_text_target;

@@ -461,7 +461,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         linked_creature = actor->unk_60;
         linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
         strcpy((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
-        experience = level_experience_table[(*(u8 *)((u8 *)&dungeon_actor_ring_anchor->unk_10 + 1))];
+        experience = level_experience_table[dungeon_actor_ring_anchor->level];
         level_thresholds = level_experience_table + 1;
         creature->unk_18 = experience;
         if (experience >= level_thresholds[creature->unk_11]) {

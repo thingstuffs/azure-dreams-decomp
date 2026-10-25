@@ -6,20 +6,12 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 
-/* The factory also writes the species byte, callback fields and the strength variant for which
- * ActorRecord retains opaque aggregates. Both views describe the same body. */
+/* The factory also stores the strength variant in the low byte of +0xAC, which
+ * ActorRecord types as the saved callback pointer (unk_AC); the view reaches it. */
 typedef union SpawnState {
     ActorRecord actor;
     struct {
-        u8 pad_00[0x13];
-        u8 species;
-        u8 pad_14[0x78];
-        void *action;
-        u8 pad_90[0xA];
-        u8 action_index;
-        u8 pad_9B;
-        s8 unk_9C;
-        u8 pad_9D[0xF];
+        u8 pad_00[0xAC];
         u8 variant;
     } fields;
 } SpawnState;
@@ -57,7 +49,7 @@ void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         body = obj + 1;
         work = body;
         obj->update_callback = update_effect_visuals_and_lifetime;
-        work->fields.species = MONSTER_MANOEVA;
+        work->actor.species = MONSTER_MANOEVA;
         register_node(obj, project_sprite_chain);
         position = obj->position;
         position->z.w.i = saved_height;
@@ -89,10 +81,10 @@ void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
             }
         }
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
-        actor->fields.action_index = 0xFF;
-        actor->fields.unk_9C = -1;
-        actor->fields.action = manoeva_action_resume_address;
-        create_terrain_scaled_actor_effect(obj, &work->actor.facing, &actor->fields.action_index,
+        actor->actor.action_id = 0xFF;
+        actor->actor.unk_9C = -1;
+        actor->actor.unk_8C.address = manoeva_action_resume_address;
+        create_terrain_scaled_actor_effect(obj, &work->actor.facing, &actor->actor.action_id,
                                            &actor->actor.action_state_flags);
         try_move_actor_to_valid_position(&actor->actor, position, sprite, &work->actor);
     }

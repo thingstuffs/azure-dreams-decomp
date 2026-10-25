@@ -42,9 +42,9 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
                             scene_music_hold = 0;
                         }
                         if (!(record->status_flags & 0x800000) && (record->flags14 & ACTOR_PARTY_MEMBER)) {
-                            type_id = (*(u8 *)((u8 *)&record->unk_10 + 3));
+                            type_id = record->species;
                             if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + monster_species_table)))[-1].unk_00 & 0x80)
-                                && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U)
+                                && (type_id >= 2U) && (record->level >= 0x14U)
                                 && !(record->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) && ((get_entity_effect_value(record, 0x18) << 0x10) == 0)) {
                                 eligible = 1;
                             }

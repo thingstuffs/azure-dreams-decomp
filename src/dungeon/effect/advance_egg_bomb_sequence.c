@@ -149,7 +149,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 u32 first_call_arg;
                 s32 first_call_mode;
                 s32 raw_first_result;
-                clamp_value = (*(u8 *)((u8 *)&((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_10 + 1)) + 0x32;
+                clamp_value = dungeon_actor_ring_anchor->level + 0x32;
                 egg_bomb_level = clamp_value;
                 if (clamp_value >= 0x64) {
                     egg_bomb_level = 0x63;

@@ -73,7 +73,7 @@ void runtime_transform_sprite_attachment_point(void *transform, void *point, voi
         S16_AT(scratch, 0x74) = S8_AT(point, 3) - U16_AT(scratch, 0x10A);
     }
     S16_AT(scratch, 0x72) = 0;
-    RotTransSV((void *)((u32)scratch | 0x70), ((u8 *)result), (void *)((u32)scratch | 0x94));
+    RotTransSV(scratch + 0x70, result, scratch + 0x94);
 
     transformed_x = U16_AT(((u8 *)result), 0);
     U16_AT(scratch, 0x00) = transformed_x;

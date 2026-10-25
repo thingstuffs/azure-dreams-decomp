@@ -9,7 +9,7 @@
 #include "slus/data.h"
 
 typedef struct S_8004ED00_0_pre {
-    s32 * unk_00;
+    void (*unk_00)(void *);
     u8 pad_04[0xC];
 } S_8004ED00_0_pre;   /* the 0x10 bytes before arg0 in func_8004ED00, addressed as arg0[-1] */
 

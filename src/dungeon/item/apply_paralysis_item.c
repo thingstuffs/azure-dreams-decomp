@@ -24,7 +24,7 @@ s32 apply_paralysis_item(ActorRecord *target, s32 item, s16 use_type) {
     if ((s32)target <= 0x9FFFFFFFU) {
         display_item_status_message(target, item, use_type);
         if (feed_actor_restore_mp(target,
-                          (entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
+                          (entity_action_selectors[target->species] >> 6) & 3,
                           0) == 0) {
             place_actor_item(target, item);
             return 1;

@@ -34,11 +34,6 @@ typedef struct S_80172D08_4 {
     s16 unk_0A;
 } S_80172D08_4;   /* owner in advance_actor_height_arc */
 
-typedef struct S_80172D08_5 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in advance_actor_height_arc */
-
 extern s32 rsin(s32);
 extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -146,7 +141,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
                 arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
                 fall_step = entity_height_offsets[
-                    ((S_80172D08_5 *)(actor->target))->unk_13] + 0x20;
+                    ((ActorRecord *)actor->target)->species] + 0x20;
                 scaled_arc = arc_sample * fall_step;
                 height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->ground_height) << 13;
                 height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
@@ -247,7 +242,7 @@ void advance_actor_height_arc(void *action, void *motion, SpriteFrameState *reco
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
                 arc_sample = rsin(((S_80172D08_0 *)action)->unk_96.s << 8);
                 height_delta = ((S_80172D08_4 *)owner)->unk_0A -
-                           entity_height_offsets[((S_80172D08_5 *)(actor->target))->unk_13] -
+                           entity_height_offsets[((ActorRecord *)actor->target)->species] -
                            actor->ground_height;
                 height_delta <<= 13;
                 height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;

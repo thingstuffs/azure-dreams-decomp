@@ -38,8 +38,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, s32 item, s16 action_type) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action_type);
-        if (feed_actor_restore_mp(entity, (*((u16 *)(((u8 *)entity_action_selectors) + ((u8 *)&entity->unk_10)[3] * 2))
-            >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, item);
             return 1;
         }

@@ -22,7 +22,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         }
         entity = (ActorRecord *)((u8 *)parent + 0x20);
         parent->update_callback = update_actor_scripts_and_motion;
-        ((u8 *)&entity->unk_10)[3] = 0x39;
+        entity->species = 0x39;
         register_node(parent, project_sprite_chain);
         tile_state = parent->sprite;
         position = parent->position;
@@ -33,7 +33,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         position->y.w.i = (s16)((tile_state->tile_y << 6) + 0x20);
         position->z.w.i = height;
         entity->facing = (s16)(get_direction_toward_target_position(position) << 9);
-        ((u8 *)&entity->unk_10)[3] = 2;
+        entity->species = 2;
         entity->flags14 |= 0x6000;
         entity->flags1C |= 0x6000;
         initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
@@ -41,7 +41,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         entity->unk_9C = -1;
         entity->unk_8C.address = kewne_uncached_action_resume_address;
         entity->unk_90.parts.high.s = -0x20;
-        ((u8 *)&entity->unk_10)[3] = 0x39;
+        entity->species = 0x39;
         entity->flags1C |= 0x40000;
         try_move_actor_to_valid_position(entity, position, tile_state, entity);
     }

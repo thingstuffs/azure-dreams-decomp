@@ -14,9 +14,9 @@ static void advance_actor_along_path_points(void *motion, s32 unused, void *posi
 #include "dungeon/actor/state.h"
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
+    u8 tile_x;
+    u8 tile_y;
+    s8 room_index;
 } S_800C9F34_3;
 #include "shared/dungeon_moving_views.h"
 #include "shared/actor_status.h"
@@ -33,18 +33,18 @@ typedef struct S_800CA0DC_0 {
 } S_800CA0DC_0;
 
 /* Routes actor updates through path movement, defeat or level checks, and pending action selection. */
-void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 context, S_800C9F34_3 *position, ActorRecord *entity) {
+void dispatch_actor_behavior_state(ActorRecord *actor_state, s32 context, S_800C9F34_3 *position, ActorRecord *entity) {
 
     if (g_dungeon_status.flags & 0x1000) {
-        actor_state->unk_9A.as_s8 = 0xE;
+        actor_state->action_id = 0xE;
         advance_actor_along_path_points(actor_state, context, position, entity);
         return;
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        actor_state->unk_9A.as_s8 = 0xE;
+        actor_state->action_id = 0xE;
         entity->flags1C =
             entity->flags1C | 0x40000;
-        actor_state->unk_98 = actor_state->unk_98 & 0xFFF7;
+        actor_state->action_state_flags = actor_state->action_state_flags & 0xFFF7;
         if (entity->hp == 0 || ((*(u16 *)0x80013714) & 8) != 0) {
             set_actor_action_state_eight(actor_state, context, position);
             return;
@@ -59,12 +59,12 @@ void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 cont
             return;
         }
     }
-    position->unk_26 = find_active_rect_containing_point(
-        position->unk_24, position->unk_25);
+    position->room_index = find_active_rect_containing_point(
+        position->tile_x, position->tile_y);
     if ((entity->pending_turn_updates > 0) &&
         (!(g_dungeon_status.flags & 0x2000) ||
          ((check_entity_relation(entity,
-            ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) == 0))) {
+            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 0x10) == 0))) {
         choose_best_eligible_entry_for_actor(actor_state, context, position);
     }
 }

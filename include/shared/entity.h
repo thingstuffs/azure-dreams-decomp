@@ -134,14 +134,17 @@ typedef struct EntityRec {
  * actor+0xBC is already the position record).  r121 opus_entity2 (decision 73 draft) split it out of EntityRec:
  * +0x00..+0x14 are packed innate stats, ability slots and the actor flags word, NOT world coordinates (those live
  * in the separate ObjectPosition); +0x24/+0x25 are MP (decision 73), NOT tile coordinates (those are the sprite's).
- * Leaf types are exactly EntityRec's; names from r121w_entity1 field_roles / naming_decisions (scope actor_data,
+ * Leaf types are EntityRec's except +0x10..+0x13 (four template bytes here, one word there); names from r121w_entity1 field_roles / naming_decisions (scope actor_data,
  * medium unless marked), the rest stay unk_.  Callback variants at +0x8A/+0xA4/+0xA8/+0xAC stay unk_ (O08). */
 /* Live monster, familiar or player statistics and action state.
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
     /* 0x000 */ unsigned char unk_00[0xC]; /* template bytes: +0/+1 attack/defense, +4/+5 MP/HP; ability groups begin at +8 */
     /* 0x00C */ int unk_0C; /* packed bytes within the three ability groups beginning at +0x08 */
-    /* 0x010 */ int unk_10; /* packed template bytes; +0x11 is level, +0x13 is species id */
+    /* 0x010 */ unsigned char unk_10; /* stored level of the third ability group (MonsterInitialStats abilities[2] ends here); no fixed-offset reader */
+    /* 0x011 */ unsigned char level; /* experience level; indexes the level experience table */
+    /* 0x012 */ unsigned char unk_12; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */
+    /* 0x013 */ unsigned char species; /* monster species id (shared/monster_ids.h); init_monster_from_stats and the spawn factories store it */
     /* 0x014 */ int flags14; /* template/property mask; resistance and class bits are documented in shared/actor_property_flags.h */
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */

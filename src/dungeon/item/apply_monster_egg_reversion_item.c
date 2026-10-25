@@ -89,7 +89,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
 
     if (((ActorRecord *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
         text_buffer = get_unused_text_buffer();
-        if ((u32)((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) - 3) < 0x2B) {
+        if ((u32)(((ActorRecord *)entity)->species - 3) < 0x2B) {
             text_end = append_entity_display_text(entity, text_buffer);
             text_end = expand_text_control_codes(D_800E1095, text_end);
         } else {
@@ -102,10 +102,10 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         display_text_with_fullwidth_adjustment(text_buffer);
     }
 
-    entity_type = (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3));
+    entity_type = ((ActorRecord *)entity)->species;
     if ((u32)(entity_type - 3) < 0x2B) {
         spawn_data[0] = entity_type;
-        spawn_type = (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3));
+        spawn_type = ((ActorRecord *)entity)->species;
         if ((spawn_type == 3) || (spawn_type == 5) || (spawn_type == 7) ||
             (spawn_type == 9) || (spawn_type == 0xB) || (spawn_type == 0xD) ||
             (spawn_type == 0xF) || (spawn_type == 0x11) || (spawn_type == 0x13)) {

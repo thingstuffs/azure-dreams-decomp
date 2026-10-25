@@ -876,7 +876,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     } while (part_index >= 0);
     target = find_object_near_tile_height(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
     if (target != 0) {
-        apply_attack_power_and_element_effects(target, 0xC, (*(u8 *)((u8 *)&dungeon_actor_ring_anchor->unk_10 + 1)), 9, 0x400, 0, 3);
+        apply_attack_power_and_element_effects(target, 0xC, dungeon_actor_ring_anchor->level, 9, 0x400, 0, 3);
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -1788,17 +1788,17 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
     u8 prior_state;
     u8 initial_state;
 
-    initial_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
+    initial_state = entity->species;
     if (initial_state != 0x2E) {
         if (((initial_state != 0x1E) || ((entity->unk_A4 == 0) && (entity->unk_AA == 0)))
             && ((get_entity_effect_value(entity, STATUS_FROG) << 0x10) == 0)) {
-            prior_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
+            prior_state = entity->species;
             if ((s16)set_or_clear_actor_status_slot(entity, STATUS_FROG, action_arg) >= 0) {
                 if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-                    updated_state = (*(u8 *)((u8 *)&entity->unk_10 + 3));
-                    (*(u8 *)((u8 *)&entity->unk_10 + 3)) = prior_state;
+                    updated_state = entity->species;
+                    entity->species = prior_state;
                     adjust_source_value_and_finalize(entity, D_800E1C25);
-                    (*(u8 *)((u8 *)&entity->unk_10 + 3)) = updated_state;
+                    entity->species = updated_state;
                 }
             }
         }
