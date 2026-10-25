@@ -19,7 +19,7 @@ typedef struct S_80170700_1 {
     s16 unk_38;
 } S_80170700_1;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 select_sprite_entry();
 typedef struct {
     s32 w[12];

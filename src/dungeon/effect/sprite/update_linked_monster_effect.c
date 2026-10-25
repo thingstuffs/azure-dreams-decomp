@@ -8,13 +8,13 @@
 #include "m2c_compat.h"
 
 #include "slus/gp_shared_81510.h"
+#include "engine/node.h"
 
 s32 func_8002589C(void *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */
 void func_8002660C(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
 s32 func_800266D0(void *, void *);                  /* extern */
 s32 resolve_record_orientation_or_fallback(); /* extern */
-s32 register_node();           /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */

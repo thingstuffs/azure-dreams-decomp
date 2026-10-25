@@ -18,12 +18,12 @@ typedef struct EarlyCallData {
 extern s16 lift_jitter_offsets[2];
 s32 resolve_record_orientation_or_fallback();
 s32 find_flagged_record_by_id(s32, s32);
-void set_record_integer_tile_center();
-void update_actor_status_and_mp();
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+void update_actor_status_and_mp(ActorRecord *entity);
 void begin_actor_throw_from_attachment();
-void cycle_map_cell_flags();
-s32 try_move_actor_to_valid_position();
-s16 sample_terrain_surface_height();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 typedef struct S_800AC82C_2_pre {
     void * unk_00;

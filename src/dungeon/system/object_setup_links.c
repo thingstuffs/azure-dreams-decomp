@@ -14,7 +14,7 @@ s32 link_indexed_entry_chain();
 /* extern */
 void set_attached_object_position(s32 *, s32);
 /* extern */
-static void initialize_nine_entry_links();
+static void initialize_nine_entry_links(void *entry_data, s32 enable_flag);
 
 /* Links nine widget records to their data, vectors, and resources, then sets layout values and the
    enabled scale. */

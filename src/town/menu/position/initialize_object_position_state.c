@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/vector.h"
+#include "engine/node.h"
 
 typedef struct S_800A23D0_0 {
     s32 unk_00;
@@ -29,7 +30,6 @@ typedef struct S_800A23D0_2 {
    /* ((S_800A23D0_2 *)arg0)->unk_14 in initialize_object_position_state */
 
 
-extern s32 register_node();
 extern u8 lit_mesh_renderer_address[];
 extern void D_800A24A8();
 extern M2C_UNK D_800D0A48;

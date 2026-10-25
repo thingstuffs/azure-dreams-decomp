@@ -4,19 +4,19 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/graphics.h"
 
-extern void set_sprite_animation_frame();
 extern s32 rand();
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern void *clear_byte_and_advance();
 extern s32 append_entity_display_text();
-extern void adjust_source_value_and_finalize();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();
-extern s32 play_sound_if_enabled();
-extern s32 display_text_with_fullwidth_adjustment();
-extern s16 random_dungeon_range_16();
+extern s32 play_sound_if_enabled(s32 query_value);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 extern u8 player_action_tag[];
 extern u8 player_wait_frames[8];

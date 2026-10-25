@@ -20,13 +20,13 @@ typedef struct S_80094270_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-s32 get_unused_text_buffer();                          /* extern */
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                          /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void * clear_byte_and_advance();                    /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-s32 play_sound_if_enabled();                     /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];

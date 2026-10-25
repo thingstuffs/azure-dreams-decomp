@@ -8,7 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 
 void *allocate_list_node();                  /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void set_sprite_animation_frame(); /* extern */
 extern void dungeon_familiar_deploy_update_address();
 

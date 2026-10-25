@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void add_hex_20000_s_signed_offset_hex_14();                 /* extern */
+void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                 /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/initialize_record_with_handler_table_api.h"        /* extern */

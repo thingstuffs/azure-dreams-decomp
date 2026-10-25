@@ -17,9 +17,9 @@ typedef struct Copy12 {
     s32 word[3];
 } __attribute__((packed)) Copy12;
 
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rand();                                /* extern */
-s32 func_80167088();                         /* extern */
+s32 func_80167088(s32 limit);                         /* extern */
 extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 

@@ -8,6 +8,8 @@
 #include "shared/dungeon_status.h"
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_moving_views.h"
+struct S_80170E18_3;
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -23,7 +25,7 @@ extern void set_record_integer_tile_center();
 extern void advance_status_timers();
 extern void play_sound_if_enabled();
 extern s32 create_actor_spell_effect();
-extern void create_effect_from_sprite_and_facing();
+extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
 void update_object_animation(void *obj, void *motion, void *part, void *state);
 extern u8 beldo_frame_set_1[8];

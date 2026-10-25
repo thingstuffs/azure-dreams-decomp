@@ -31,13 +31,13 @@ typedef struct S_80171A18_3 {
 
    /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in advance_actor_along_queued_path */
 
-extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 hikewne_direction_frames[];
 #include "dungeon/monster/hikewne.h"
+#include "engine/graphics.h"
 
 /* Advances the actor along its queued path and updates movement timing. */
 void advance_actor_along_queued_path(void *motion, s32 unused, SpriteFrameState *actor, void *move_state) {

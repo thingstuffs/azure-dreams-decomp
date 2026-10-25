@@ -31,8 +31,8 @@ typedef struct DungeonSlot {
     u32 flags;
 } DungeonSlot;
 
-void cycle_map_cell_flags();
-void update_map_cell_flags_with_item_limit();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern DungeonSlot *familiar_record_slots[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */

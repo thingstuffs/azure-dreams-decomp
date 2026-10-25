@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "town/person.h"
 
 
 typedef struct S_800C838C_1 {
@@ -9,7 +10,6 @@ typedef struct S_800C838C_1 {
 } S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in initialize_object_configuration_x */
 
 
-void initialize_object_and_register_slot(); /* extern */
 extern M2C_UNK D_800D6244;
 extern u8 D_800D62D8;
 extern u8 D_800D62E0;
@@ -18,7 +18,7 @@ extern u8 D_800D630C;
 
 
 /* Initialize the object with configuration 0xA and set its associated data pointer. */
-void initialize_object_configuration_x(Rec_func_80094268_arg0 *object) {
+void initialize_object_configuration_x(PersonObject *object) {
     initialize_object_and_register_slot(object, 0xA, &D_800D6308, &D_800D630C, &D_800D62D8, &D_800D62E0);
-    ((S_800C838C_1 *)(object->unk_80))->unk_04 = &D_800D6244;
+    object->descriptor->entries[1] = &D_800D6244;
 }

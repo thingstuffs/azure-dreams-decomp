@@ -5,6 +5,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 
 
@@ -12,10 +14,8 @@
 
 
 void update_directional_record();      /* extern */
-void advance_bounded_entry_index();              /* extern */
-void fill_eligible_negative_slots();            /* extern */
-void select_sprite_entry();         /* extern */
-void advance_sprite_animation_and_textures();                      /* extern */
+void advance_bounded_entry_index(void *bounds_data, void *state_data);              /* extern */
+void fill_eligible_negative_slots(void *record, s16 *eligibility, s16 new_value);            /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 s32 rand();              /* extern */

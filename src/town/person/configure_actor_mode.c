@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/person.h"
 
 
-extern void initialize_object_and_register_slot(void *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
 extern M2C_UNK D_800D5624[];
 extern M2C_UNK D_800D562C[];
 extern M2C_UNK D_800D5654[];

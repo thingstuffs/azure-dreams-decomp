@@ -17,9 +17,9 @@ s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
-void adjust_source_value_and_finalize();
+void adjust_source_value_and_finalize(void *context, const void *source);
 s32 display_text_with_fullwidth_adjustment();
-void place_actor_item();
+void place_actor_item(void *object_context, void *target);
 s32 feed_actor_restore_mp();
 void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 

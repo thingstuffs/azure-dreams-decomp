@@ -3,7 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_delay_views.h"
 
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 draw_randomized_white_points(void *first_object, void *first_coords);
 
 

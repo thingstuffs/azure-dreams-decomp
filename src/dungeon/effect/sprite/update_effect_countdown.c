@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "slus.h"
 
 typedef struct S_800D6FEC_0_pre {
     u16 unk_00;
@@ -19,7 +20,6 @@ typedef struct S_800D6FEC_0 {
 
 
 
-void advance_sprite_animation_and_textures();                     /* extern */
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
 void update_effect_countdown(void *object, MovingPosition *output, void *update_arg) {

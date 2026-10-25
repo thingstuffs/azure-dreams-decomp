@@ -7,13 +7,13 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_indirect_table_entry();
-extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 #include "dungeon/monster/saber.h"
+#include "slus.h"
 extern Callback saber_callbacks[];
 
    /* monster in update_entity_callbacks_and_floor_motion */

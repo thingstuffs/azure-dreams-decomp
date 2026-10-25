@@ -5,11 +5,11 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/texture.h"
+#include "slus.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void select_indirect_table_entry();
-extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();

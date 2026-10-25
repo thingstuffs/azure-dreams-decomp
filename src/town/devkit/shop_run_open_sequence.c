@@ -1,12 +1,12 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
-void dev_report_kind_mode_sno();                     /* extern */
-void propagate_indexed_flag_pair();                     /* extern */
+void dev_report_kind_mode_sno(s32 kind);                     /* extern */
+void propagate_indexed_flag_pair(s32 entry_index);                     /* extern */
 s32 advance_clear_flag_row();                                /* extern */
-void clear_three_flag_pairs();                            /* extern */
-s32 get_selected_flag_state();                             /* extern */
-void update_combined_flag();                            /* extern */
+void clear_three_flag_pairs(void);                            /* extern */
+s32 get_selected_flag_state(s32 unused_selection);                             /* extern */
+void update_combined_flag(void);                            /* extern */
 void func_80702924(s32);                         /* extern */
 void reset_town_display_pick_scene();                    /* extern */
 

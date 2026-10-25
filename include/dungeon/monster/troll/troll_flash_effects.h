@@ -420,9 +420,9 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, T_8017121C_Vec
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern void * allocate_list_node();
-extern void * func_8003FD64();
-extern void select_sprite_entry();
-extern void func_80047784();
+extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 rsin();
 extern s32 rcos();
 extern void set_or_clear_actor_status_slot();

@@ -5,7 +5,7 @@
 s32 func_80017B24();
 s32 * func_80017BDC(void *, void *, s32, s32);
 s32 func_8001856C(s32);
-s32 func_800187D8();
+s32 func_800187D8(s32 target_value);
 extern s32 D_80018974;
 extern s32 D_80018AD0;
 extern s32 D_80019F15;

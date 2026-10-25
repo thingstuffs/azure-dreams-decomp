@@ -32,4 +32,6 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value);
 void *write_status_prefix_bytes(void *dst);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
+void adjust_source_value_and_finalize(void *context, const void *source);
+
 #endif

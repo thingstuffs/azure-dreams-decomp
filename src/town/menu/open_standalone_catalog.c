@@ -7,12 +7,12 @@
 #define NULL 0
 #endif
 
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void release_null_terminated_entries(u16 **entries);
 short SD_Call(int flags);
 void SetGeomOffset(s32, s32);
 void SetGeomScreen(s32);
-void initialize_catalog_glyph_cache();
+void initialize_catalog_glyph_cache(void);
 s32 initialize_catalog_display_nodes();
 void initialize_catalog_state();
 int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);

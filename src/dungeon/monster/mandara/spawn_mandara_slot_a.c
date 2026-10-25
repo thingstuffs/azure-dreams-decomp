@@ -43,7 +43,7 @@ typedef struct S_80FD5000_4 {
 } S_80FD5000_4;
 
 void *allocate_list_node();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 MoveImage(void *, s32, s32);
 s16 set_or_clear_actor_status_slot(); /* extern */
 s32 generate_random_value();

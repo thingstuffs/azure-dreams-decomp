@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/item_menu.h"
+#include "town/shop.h"
 
 void populate_item_menu_page_entries(ItemMenuPart **parts, ItemMenuObject *object);
 /* extern */
@@ -15,7 +16,6 @@ void populate_current_item_menu_page(ItemMenuObject *object);
 /* extern */
 void update_item_menu_page_bounds(ItemMenuObject *object);
 /* extern */
-void item_menu_no_op();
 void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 position, s32 x, s32 y, void *entry);
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];

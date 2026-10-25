@@ -2,8 +2,8 @@
 #include "frontend/card.h"
 #include "main/data.h"
 
-s32 count_entries_for_selected_card_path();                                /* extern */
-s32 func_80401A50();                             /* extern */
+s32 count_entries_for_selected_card_path(void);                                /* extern */
+s32 func_80401A50(s32 entry_count);                             /* extern */
 
 extern s32 card_selected_channel[];
 

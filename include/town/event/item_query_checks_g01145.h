@@ -65,7 +65,7 @@ extern struct {
     int pad[2];
 } active_node_list_head;
 /* ((S_800A9D00_1 *)base)->unk_2C in retry_sound_for_linked_item_and_remove_carry_item */
-extern s32 retry_sound_sequence_when_ready();
+extern void retry_sound_sequence_when_ready(void);
 extern s8 scene_object_payload_alias[0x30];
 extern u8 D_8006C894[];
 extern u8 D_8006C8F7[];

@@ -34,9 +34,9 @@ typedef struct S_800974DC_6 {
 } S_800974DC_6;
 
 void select_record_entry_and_value();
-void process_unflagged_linked_entries(); /* extern */
-s32 resolve_attack_damage_and_effects();
-void set_record_integer_tile_center(); /* extern */
+void process_unflagged_linked_entries(s32 firstEntryBase); /* extern */
+void * resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
 void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];

@@ -7,7 +7,7 @@
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 
 extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);
-extern s32 check_masked_value_in_current_range();
+extern s32 check_masked_value_in_current_range(s32 value);
 extern s16 terrain_height_limits[];
 
    /* Selects one of three object values using a position-based table difference. */

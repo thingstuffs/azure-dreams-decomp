@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 typedef struct S_800B45E0_0_pre {
     u16 unk_00;
@@ -57,7 +58,6 @@ typedef struct S_800B45E0_4 {
    /* ((S_800B45E0_0 *)arg0)->unk_14 in update_anchored_fading_effect */
 
 
-s32 register_node();
 extern s32 attached_fade_draw_address;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */

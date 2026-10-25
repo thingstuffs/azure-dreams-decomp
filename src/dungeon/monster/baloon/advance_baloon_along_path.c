@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_801724B0_arg0.h"
+#include "engine/graphics.h"
 
 typedef struct S_801724B0_3 {
     u8 pad_00[0x74];
@@ -14,12 +15,11 @@ typedef struct S_801724B0_3 {
     u8 unk_7C;
 } S_801724B0_3;   /* (u8 *)arg3 + ((S_801724B0_0 *)arg3)->unk_8A.s in advance_baloon_along_path */
 
-extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
-extern s32 initialize_angle_indexed_target();
+extern void initialize_angle_indexed_target(void *state, s32 unused, SpriteFrameState *target, EntityRec *angleSource);
 
 extern u8 baloon_default_frames[8];
 

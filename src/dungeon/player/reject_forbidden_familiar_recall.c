@@ -2,17 +2,17 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/player.h"
 
-extern void adjust_source_value_and_finalize(s32, void *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern u8 D_800E0600[];
 
 /* Passes a nonzero table entry to adjust_source_value_and_finalize when the global state is 1. */
 s32 reject_forbidden_familiar_recall(s32 entry_index) {
-    s32 entry;
+    void *entry;
 
     {
         s32 *table_base = ((s32 *)&dungeon_actor_ring_anchor);
 
-        entry = *(s32 *)((s8 *)(((s32)(entry_index << 0x10) >> 0xE) + *table_base) + 0xAC);
+        entry = *(void **)((s8 *)(((s32)(entry_index << 0x10) >> 0xE) + *table_base) + 0xAC);
     }
     if (entry != 0) {
         s32 active_state = 1;

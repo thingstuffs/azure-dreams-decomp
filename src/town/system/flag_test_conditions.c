@@ -16,8 +16,8 @@ typedef struct S_800165E4_1 {
 } S_800165E4_1;   /* (void *)entry in set_one */
 
 
-extern void set_flag_test_indexed_bit();
-extern void clear_indexed_flag_unless_identifier();
+extern void set_flag_test_indexed_bit(s32 bit_index);
+extern void clear_indexed_flag_unless_identifier(s32 flag_id);
 
 /* Processes a selected nonzero table value and its owner's parameter if the check succeeds. */
 s32 set_one(S_800165E4_0 *tableOwner, s32 entryIndex) {

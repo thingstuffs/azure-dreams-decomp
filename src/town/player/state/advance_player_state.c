@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
+void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 void initialize_player_linked_record();        /* extern */
 
 

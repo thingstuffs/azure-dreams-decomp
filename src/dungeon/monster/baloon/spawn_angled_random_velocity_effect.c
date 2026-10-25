@@ -25,7 +25,7 @@ typedef struct Effect {
 } Effect;
 
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 extern s32 baloon_object_callback[];
 extern s32 D_800D707C[];

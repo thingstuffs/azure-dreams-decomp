@@ -13,7 +13,7 @@
 #include "shared/entity.h"
 
 #include "engine/graphics/select_sprite_entry_api.h"
-void advance_sprite_animation_and_textures();
+#include "slus.h"
 s32 rand();
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
 s8 find_active_rect_containing_point();

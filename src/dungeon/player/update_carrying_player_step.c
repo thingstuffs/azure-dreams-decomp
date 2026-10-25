@@ -5,8 +5,8 @@
 
 void set_sprite_animation_frame();
 s32 collect_ground_item();
-s32 process_unflagged_linked_entries();
-s32 process_unflagged_linked_entries_alt();
+void process_unflagged_linked_entries(s32 firstEntryBase);
+void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 s32 set_record_integer_tile_center();
 extern s32 player_action_tag;
 extern u8 player_height_step_frames[];

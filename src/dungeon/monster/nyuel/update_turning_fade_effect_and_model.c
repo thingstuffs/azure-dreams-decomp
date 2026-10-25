@@ -82,7 +82,7 @@ extern s16 D_80174F48[];
 extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern int read_stream_cue_start_offset(void);
 s32 select_record_entry_and_value();
 s32 select_indirect_table_entry();

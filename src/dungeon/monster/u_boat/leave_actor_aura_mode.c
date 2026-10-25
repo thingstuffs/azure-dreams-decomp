@@ -24,7 +24,6 @@ typedef struct S_80176084_0 {
 } S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
 extern void clear_slots_of_type();
-extern void select_sprite_entry();
 extern void set_record_integer_tile_center();
 extern s32 play_sound_if_enabled();
 extern s32 try_move_actor_to_valid_position();
@@ -33,6 +32,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
 extern u8 uboat_default_frames[];
 extern u8 u_boat_aura_frames[];
 #include "dungeon/monster/u_boat.h"
+#include "engine/graphics.h"
 
 /* Advance a two-phase animation transition and finalize the entity state. */
 void leave_actor_aura_mode(void *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {

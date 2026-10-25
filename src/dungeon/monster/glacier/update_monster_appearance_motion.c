@@ -5,6 +5,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "slus.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -38,7 +39,6 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 get_entity_effect_value();
 extern void select_indirect_table_entry();
-extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();

@@ -36,8 +36,6 @@ typedef struct S_80F2D000_4 {
 } S_80F2D000_4;   /* work_copy in spawn_effect_object */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *allocate_list_node();                 /* extern */
-s32 register_node();                /* extern */
 s16 set_or_clear_actor_status_slot();        /* extern */
 s32 generate_random_value();                          /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */

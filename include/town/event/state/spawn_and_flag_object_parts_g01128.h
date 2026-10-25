@@ -109,9 +109,9 @@ extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_va
 extern void *allocate_list_node();
 extern s32 register_node(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
-extern s32 add_hex_20000_s_signed_offset_hex_14();
-extern s32 add_motion_deltas_to_position();
-extern s16 query_lowered_transform_position();
+extern s32 add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
+extern void add_motion_deltas_to_position(ObjectPosition *motion);
+extern s16 query_lowered_transform_position(void *position);
 extern u8 D_8009C5D8[];
 extern s32 rand(void);
 extern u8 D_80088D78[8];

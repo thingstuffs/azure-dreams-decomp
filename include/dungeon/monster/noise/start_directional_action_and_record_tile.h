@@ -82,8 +82,8 @@ typedef struct {
     s32 w[12];
 } T_801748D0_MeshCopy;
 
-extern void select_sprite_entry();
-extern void func_80047784();
+extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 find_eligible_actor_at_tile_and_height();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 advance_status_timers();
@@ -104,5 +104,5 @@ extern u8 noise_direction_frames[];
 extern u8 noise_frame_set_2[];
 void start_directional_action_and_record_tile(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
-extern void update_actor_behavior_and_direction();
+extern void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 #endif

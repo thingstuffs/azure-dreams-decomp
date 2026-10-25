@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/player.h"
 
-extern s32 apply_selected_entry_values();
-extern void set_current_entry_script_flag();
+extern s32 apply_selected_entry_values(); /* Slot contract: loading images do not establish one callee contract. */
+extern void set_current_entry_script_flag(void);
 
 /*
  * Sets the current entry script flag when the linked record field reaches 20, then applies the

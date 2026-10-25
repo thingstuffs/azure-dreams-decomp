@@ -192,20 +192,20 @@ typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
 s32 format_unsigned_double_byte_decimal();
-void initialize_timed_motion_step();
+void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 s32 get_entity_effect_value();
 s32 clamp_adjusted_value_0_to_99();
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 extern void create_type_212_object(s32 flag, s8 value);
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-s16 find_directional_entry_and_clear_flag();
-s32 prepare_quarter_damage_return();
+s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
+s32 prepare_quarter_damage_return(struct Object *object, struct Other *source);
 extern u8 D_800E0D7B[23];
 extern u8 D_800E0D92[12];
 extern u8 D_800E0D9E[26];
@@ -623,7 +623,7 @@ typedef struct {
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 
-extern s32 generate_random_value();
+extern s32 generate_random_value(void);
 extern void setup_object_within_planar_range(void *, s32, s32, s32, s32, s32);
 extern s32 check_diagonal_side_height(s32, s32, s32, s32);
 extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s32);
@@ -1309,6 +1309,8 @@ void refresh_packed_grid_nibbles(void) {
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
 #include "shared/game_work.h"
+struct Object;
+struct Other;
 
 typedef struct {
     u8 pad0[0x14];

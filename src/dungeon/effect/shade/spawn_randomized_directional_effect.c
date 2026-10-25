@@ -55,7 +55,7 @@ typedef struct S_800D5DCC_7 {
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 
 extern u8 D_800D5AC0[];

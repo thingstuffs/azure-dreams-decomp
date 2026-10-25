@@ -14,7 +14,7 @@ extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void place_actor_item(void *, s32);
 extern void play_sound_if_enabled(u32);
 extern void apply_entity_effects(void *);
-extern void adjust_source_value_and_finalize(void *, u8 *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void clear_slot_and_update_linked_state(s32);
 
 /* Applies a stat-reducing item to a target and handles item consumption. */

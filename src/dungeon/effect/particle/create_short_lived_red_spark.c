@@ -38,7 +38,7 @@ typedef struct S_80166204_1 {
 } S_80166204_1;
 
 void select_record_entry_and_value();  /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rand();                                /* extern */
 extern void D_80165A0C();
 

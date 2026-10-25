@@ -11,11 +11,11 @@ extern s32 begin_mode_selected_item_action();
 extern s32 begin_parameterized_actor_action();
 extern s32 process_record_and_update_linked_state(u8 *, s32);
 extern s32 clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern s32 clear_byte_and_advance();
 extern s32 append_typed_formatted_value();
-extern s32 display_formatted_context_message();
+extern s32 display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 copy_fullwidth_vowel_bytes();
 extern s32 append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();

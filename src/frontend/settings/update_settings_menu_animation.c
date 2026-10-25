@@ -32,10 +32,10 @@ extern u8 animation_tick_scale[];
 
 extern s32 render_screen_fade_decreasing_intensity();
 extern s32 render_screen_fade_increasing_intensity();
-extern void func_80053da8();
-extern void *func_8003fc64();
-extern void func_8003d468();
-extern void func_80040aa0();
+extern short func_80053da8(int flags);
+extern void *func_8003fc64(s32 flags);
+extern void func_8003d468(void);
+extern void func_80040aa0(s16 requested_state);
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */

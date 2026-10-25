@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "slus.h"
 
 typedef struct S_800BBA98_0 {
     u16 unk_00;
@@ -28,7 +29,6 @@ typedef struct {
     u16 f14;
 } Arg2State;
 
-void advance_sprite_animation_and_textures();
 s32 rand(void);
 
 /* Updates the effect's motion and fade state, then refreshes its display. */

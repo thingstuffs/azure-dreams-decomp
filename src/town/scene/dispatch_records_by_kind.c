@@ -15,7 +15,7 @@ typedef struct S_8001A200_2 {
 } S_8001A200_2;
 
 
-void copy_town_record_pair_fields();     /* extern */
+void copy_town_record_pair_fields(); /* Unprototyped: two or four arguments; retail reads only the first two. */     /* extern */
 extern u8 town_selection_records[96];
 
 /* Dispatches each record to the first matching kind-table entry. */

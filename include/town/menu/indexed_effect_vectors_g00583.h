@@ -18,7 +18,7 @@ typedef struct S_800A8184_1 {
 } S_800A8184_1;
 
 void register_node_if_unregistered(void *block_data, void *registration_id);
-s32 lookup_item_category_mapped_value();
+s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 /* extern */
 void *create_town_effect_object();
 /* extern */

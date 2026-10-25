@@ -20,19 +20,18 @@
 extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
 void set_sprite_animation_frame(); /* extern */
 void apply_pending_byte_increase(); /* extern */
-void begin_player_menu_action(); /* extern */
-s16 resolve_player_input_facing();             /* extern */
+s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);             /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
 s16 dispatch_selected_item_use();                /* extern */
 void resolve_familiar_deployment_request(); /* extern */
 
 
 #include "dungeon/item/actor_target.h"
-s32 can_entity_gain_level();                  /* extern */
-void set_record_integer_tile_center();              /* extern */
+s32 can_entity_gain_level(void *entity);                  /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 #include "dungeon/player/object/action_state.h"
               /* extern */
-s32 lookup_definition_pair_value();                          /* extern */
+s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 generate_random_value(void);                          /* extern */
 extern M2C_UNK player_menu_action_data;
 extern void * create_animated_selection_menu_owner(void *unused, void *source);

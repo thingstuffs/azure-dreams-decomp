@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *object, s32 slot_index, void *field_58_value, void *field_5c_value,
-                          void *field_7c_value, void *field_80_value);
 extern void set_object_referenced_data_pointers(void *object, s32 setup_arg1, s32 setup_arg2);
 
 extern u8 D_800D5958[];

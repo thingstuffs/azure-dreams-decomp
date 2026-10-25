@@ -7,10 +7,10 @@
 
 extern s32 try_claim_dungeon_action_slot();
 extern void apply_camera_offset_and_select_target();
-extern void select_sprite_entry();
 extern void prepare_directional_attack();
 
 #include "dungeon/monster/dreamin.h"
+#include "engine/graphics.h"
 
 /* Update actor action state and select its directional animation. */
 void update_action_and_directional_frame(void *action_state, s32 update_arg, SpriteFrameState *sprite, EntityRec *actor)

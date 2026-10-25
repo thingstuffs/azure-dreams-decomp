@@ -32,7 +32,7 @@ typedef struct {
 
 s32 get_entity_effect_value();                 /* extern */
 void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
-s32 play_sound_if_enabled();                     /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 

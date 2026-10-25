@@ -12,12 +12,13 @@ struct ObjectNodeHeader;
 
 
 #include "dungeon/player/item.h"
+struct Owner_800A48F0;
 void clear_slot_and_update_linked_state();
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 append_entity_display_text();
-s32 set_or_clear_actor_status_slot();
+s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *owner, s8 id, s8 value);
 s32 display_text_with_fullwidth_adjustment();
 void place_actor_item();
 void display_item_status_message();

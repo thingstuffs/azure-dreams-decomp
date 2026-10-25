@@ -9,6 +9,7 @@
 #include "shared/game_work.h"
 
 #include "m2c_compat.h"
+#include "slus.h"
 extern u8 effect_view_matrix[];
 typedef struct S_SCRATCH {
     union {
@@ -79,7 +80,6 @@ typedef struct S_SCRATCH {
     u16 unk_104;
 } S_SCRATCH;
 
-void advance_sprite_animation_and_textures();                      /* extern */
 s32 CompMatrix(void *, void *, void *); /* extern */
 void ReadRotMatrix(void *);
 s32 ScaleMatrix(void *, void *);              /* extern */
@@ -106,7 +106,7 @@ s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *
 s32 RotMatrix(void *, void *, ...);        /* extern */
 void AddPrim(void *, void *);         /* extern */
 void SetPolyFT4(void *);                 /* extern */
-u16 sample_terrain_surface_height();                   /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 extern u32 sprite_projection_matrix[8];
 extern s32 dungeon_floor_flags[3];
 extern u8 floor_objects[128];

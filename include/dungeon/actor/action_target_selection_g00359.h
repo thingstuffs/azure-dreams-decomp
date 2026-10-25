@@ -116,8 +116,8 @@ s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s16 actor_turn_angle_offsets[];
 s32 select_actor_route_target();
-s32 update_actor_proximity_flag();
-void update_actor_status_and_mp();
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+void update_actor_status_and_mp(ActorRecord *entity);
 s32 check_entity_relation();
 /* object in select_target_tile_for_actor_action */
 extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
@@ -126,7 +126,7 @@ extern s32 get_actor_height_difference(s32, void *);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void *choose_best_eligible_entry();
+extern void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit);
 
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 

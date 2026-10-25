@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+struct RegistrationNode;
 typedef struct ovl_1831370_81811370_S_80026370_0 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -178,7 +179,7 @@ s32 func_8004DC14();
 extern s16 SD_Call(s32);
 extern s32 memset();
 extern void write_char_pair();
-extern void func_8004EAC4();
+extern char * func_8004EAC4(u8 *buffer, char *code, s32 slot_index);
 extern void strcpy(s32, s32);
 extern s32 text_editor_packet_payload;
 S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
@@ -188,8 +189,8 @@ extern ovl_1831370_818117D8_S_8002E5E8 display_vector_defaults;
 extern s32 D_80029508[2];
 extern s32 func_80048EE4(void *pool, s32 record_count);
 extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 entries, void *value, s32 count);
-extern void register_node();
-extern void func_8004491C();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern void flag_object_for_removal();
 extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data);
 extern int func_8004CAA0(void *object, int unused, void *data);

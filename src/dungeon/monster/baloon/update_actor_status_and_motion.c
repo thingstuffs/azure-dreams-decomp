@@ -5,9 +5,9 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/graphics.h"
 typedef struct Ent Ent;
 
-void select_sprite_entry();         /* extern */
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */

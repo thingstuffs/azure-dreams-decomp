@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
+#include "engine/graphics.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -112,7 +113,6 @@ typedef struct S_func_81008664_12 {
     s16 unk_0A;
 } S_func_81008664_12;
 
-void select_sprite_entry();
 void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
 s32 advance_status_timers();

@@ -33,7 +33,7 @@ typedef struct S_8015E87C_4 {
 } S_8015E87C_4;   /* actor in create_randomized_flagged_object */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();

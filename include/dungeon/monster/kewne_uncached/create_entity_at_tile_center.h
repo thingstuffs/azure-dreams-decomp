@@ -10,9 +10,9 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 void *allocate_list_node();
-void *func_8003FD64();                 /* extern */
-s32 register_node();
-s32 func_8004491C();                /* extern */
+void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);                 /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);                /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
 extern void *active_action_object[];
@@ -88,14 +88,15 @@ typedef struct S_812A524C_40 {
     void * unk_0C;
 } S_812A524C_40;   /* ((S_812A524C_5 *)(&D_800FBE54))->unk_00 in func_80170A4C */
 
-s32 enqueue_runtime_pool_script(); /* extern */
+s32 enqueue_runtime_pool_script(void *input_data); /* extern */
 void clear_slots_of_type();
 void func_80042B68();                /* extern */
 void select_indirect_table_entry();              /* extern */
-void advance_sprite_animation_and_textures();                      /* extern */
+void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rsin();                             /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 #include "dungeon/player/object/action_state.h"
+struct RegistrationNode;
 s16 set_or_clear_actor_status_slot();       /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */

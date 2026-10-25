@@ -18,7 +18,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 s32 enqueue_runtime_pool_script(void *);
 extern void clear_slots_of_type();
 #include "engine/texture/select_indirect_table_entry_api.h"
-extern void advance_sprite_animation_and_textures();
+#include "slus.h"
 void apply_monster_koyaw_data(s32, s8 *);
 struct Owner_800A48F0; s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *, s8, s8);
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);

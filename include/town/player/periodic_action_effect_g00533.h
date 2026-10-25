@@ -18,16 +18,16 @@ typedef struct S_800917EC_2 {
     s32 unk_08;
 } S_800917EC_2;
 
-s32 scale_random_to_unsigned_halfword_limit();
+u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 void init_flagged_action_fallback(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
-void play_periodic_sound();
-void store_the_valid_shared_angle_in_offset_hex_10();
+void play_periodic_sound(s32 count, s32 interval);
+void store_the_valid_shared_angle_in_offset_hex_10(void *record);
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void compute_and_clamps_vector_based_adjustment_updates_town();
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 void spawn_radial_effect_objects();
 extern u8 D_800D043C[];
 extern s32 D_800FE4E0;

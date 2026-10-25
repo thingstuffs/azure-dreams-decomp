@@ -7,7 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 
-s32 get_script_flag_mask();
+s32 get_script_flag_mask(s32 flagIndex);
 extern s16 scene_gate_script_flag;
 /* Check the record flag only when the global blocking flag is clear. */
 s32 check_record_flag_if_unblocked(void *record)

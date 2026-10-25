@@ -15,7 +15,7 @@ typedef struct S_800CB4C0_6 {
 
 void select_record_entry_and_value();  /* extern */
 void *allocate_list_node();               /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void D_800CB374();
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800E02CC[];

@@ -9,7 +9,6 @@
 
 void call_script(s32);                         /* extern */
 void submit_object_resource_data();                         /* extern */
-void set_default_scene_data_pointer();     /* extern */
 struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
@@ -26,7 +25,8 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();   
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
+#include "town/player.h"
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);                                /* extern */
 s32 select_response_for_source_and_target();                     /* extern */
 extern void D_80093B00();
 extern void D_8009B828();

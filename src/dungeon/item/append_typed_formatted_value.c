@@ -4,9 +4,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
+#include "engine/town.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
-extern void *format_unsigned_double_byte_decimal();
 extern void *expand_text_control_codes();
 extern void *copy_selected_text_without_terminator();
 extern u8 *D_800DD720;

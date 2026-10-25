@@ -15,7 +15,7 @@ extern u8 D_800E0B4C[];
 
 extern s32 try_claim_dungeon_action_slot(s32);
 extern void restore_player_control_callback(Actor *, s32);
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_value_seven_suffix(u8 *dst);

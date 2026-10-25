@@ -6,18 +6,18 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern s32 get_unused_text_buffer(void);
-extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern s32 append_entity_display_text(void *record, u8 *out);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);
+extern void *clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *append_entity_display_text(void *record, u8 *out);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 /* Adjusts a computed value for application to the source and finalizes the original value. */
-void adjust_source_value_and_finalize(s32 context, void *source, s32 first_input, s32 second_input)
+void adjust_source_value_and_finalize(void *context, const void *source)
 {
-    void *source_copy;
-    s32 original_value;
-    s32 current_value;
-    s32 adjusted_value;
+    const u8 *source_copy;
+    void *original_value;
+    void *current_value;
+    void *adjusted_value;
     adjusted_value = append_entity_display_text(context, current_value = get_unused_text_buffer());
     original_value = current_value;
     current_value = adjusted_value;

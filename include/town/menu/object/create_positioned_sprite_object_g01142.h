@@ -52,7 +52,7 @@ void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern s32 D_800D0DF0;
 extern void D_800A7360();
 extern s32 D_800D0DF8[];
-extern s16 query_lowered_transform_position();
+extern s16 query_lowered_transform_position(void *position);
 extern void unlink_node_if_registered(void *);
 
 /* Shared import declarations; data casts preserve each measured view. */

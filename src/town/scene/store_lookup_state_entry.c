@@ -6,7 +6,7 @@ typedef unsigned long long u64;
 
 
 
-extern s32 func_8001A7E8();
+extern s32 func_8001A7E8(); /* Slot contract: loading images do not establish one callee contract. */
 
 
 typedef struct S_8001AC10_1 {

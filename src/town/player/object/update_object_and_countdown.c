@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"     /* extern */
-s16 query_lowered_transform_position();
+s16 query_lowered_transform_position(void *position);
 
 
 /* Update the object and its countdown, dispatching expiry handling when it runs out. */

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 roll_chance_and_apply_effect_four(void *, s16, s16);
-extern void adjust_source_value_and_finalize(void *, const u8 *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void wrap_position_and_set_state_value(s32);
 extern u8 D_800E19E8[];
 extern u8 D_800E1A01[];

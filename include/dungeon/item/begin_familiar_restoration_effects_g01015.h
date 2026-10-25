@@ -78,7 +78,7 @@ extern void create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle,
                           s16 height, s16 depth, s32 color, s16 offset);
 void *allocate_list_node();
 /* extern */
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 /* extern */
 extern s32 clipped_sprite_renderer_address[4];
 extern s32 D_800C1718[4];

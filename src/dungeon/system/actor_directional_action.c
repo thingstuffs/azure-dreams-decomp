@@ -9,7 +9,7 @@
 void select_sprite_entry();
 void func_80047784();
 /* extern */
-static void apply_actor_delta_and_cap_value();
+static void apply_actor_delta_and_cap_value(void *unused_0, void *unused_1, void *unused_2, u8 *record);
 extern void apply_clamped_actor_value_delta(void *arg);
 
 /* Starts action 7 with directional frames when ready; otherwise applies the pending actor delta. */

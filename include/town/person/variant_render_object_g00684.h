@@ -75,7 +75,7 @@ struct IntVector3;
 /* extern (function symbol used as callback) */
 void *allocate_list_node();
 /* extern */
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void unlink_node_if_registered(void *block_data);
 /* extern */
 /* extern */
@@ -87,7 +87,7 @@ void initialize_optional_object_state(void *, s32, struct Rec_D_80082E80 *, s32)
 extern void D_800CBAAC();
 extern M2C_UNK D_800D6A58;
 void * create_town_effect_object(s32, struct IntVector3 *, s32, s32);
-extern s16 query_lowered_transform_position();
+extern s16 query_lowered_transform_position(void *position);
 
 extern s32 D_800D68B0[];
 

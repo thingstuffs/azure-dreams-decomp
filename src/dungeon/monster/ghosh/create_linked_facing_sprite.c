@@ -6,7 +6,7 @@ extern s16 view_facing_angle_alias;
 extern s32 sprite_chain_projector_address, scene_object_list_anchor, D_801714B0, ghosh_frame_set;
 extern void * D_80174CDC[3];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"

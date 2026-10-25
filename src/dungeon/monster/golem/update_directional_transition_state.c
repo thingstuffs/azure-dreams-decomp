@@ -2,8 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/graphics.h"
 
-extern void select_sprite_entry();
 
 extern u8 golem_action_continuation_address[];
 extern u8 golem_direction_frames[];

@@ -3,12 +3,12 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern s32 register_node();
 extern s32 rand();
 extern M2C_UNK D_800254E0;
 extern M2C_UNK tinted_sprite_entries;

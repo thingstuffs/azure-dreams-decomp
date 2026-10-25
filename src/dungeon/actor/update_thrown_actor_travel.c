@@ -13,11 +13,11 @@
 s32 check_neighbor_tile_blocking();             /* extern */
 void *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-u8 find_active_rect_containing_point();                           /* extern */
-s32 update_actor_proximity_flag(); /* extern */
-void set_record_integer_tile_center();              /* extern */
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result); /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 void begin_actor_random_warp(); /* extern */
-s16 sample_terrain_surface_height();                   /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
 s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor) {

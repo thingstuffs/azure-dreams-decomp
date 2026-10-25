@@ -18,9 +18,9 @@ typedef struct S_80016844_3 {
 
 
 extern s32 func_800176B8();
-extern s32 func_800177CC();
-extern s32 initialize_state_two_entries_pointer();
-extern s32 func_8001868C();
+extern s32 func_800177CC(void *object, s32 entryIndex);
+extern void initialize_state_two_entries_pointer(s32 bit_index);
+extern s32 func_8001868C(s32 flagIndex);
 
 typedef struct S_80016844_0 {
     u8 pad_00[0x18];

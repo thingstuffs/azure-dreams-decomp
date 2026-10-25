@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 get_second_work_value();                             /* extern */
-void clear_object_buffer_and_state();                         /* extern */
+void clear_object_buffer_and_state(s32 objectAddress);                         /* extern */
 
 typedef struct S_800255D0_0 {
     u8 pad_00[0x14];

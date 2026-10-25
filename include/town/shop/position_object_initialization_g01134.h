@@ -87,12 +87,12 @@ struct TownLink {
     void *object;
 };
 
-void add_motion_deltas_to_position();
+void add_motion_deltas_to_position(ObjectPosition *motion);
 /* extern */
 extern void *D_8009BC44;
 void *allocate_list_node();
 /* extern */
-s32 lookup_item_category_mapped_value();
+s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 /* extern */
 void configure_the_set_mode_n_4();
 /* extern */

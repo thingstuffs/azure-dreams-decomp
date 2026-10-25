@@ -63,9 +63,9 @@ typedef struct S_800A6994_0 {
     u16 unk_38;
 } S_800A6994_0;
 
-extern s32 test_resident_bitmap_bit();
+extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void *create_town_effect_object();
-extern s16 query_lowered_transform_position();
+extern s16 query_lowered_transform_position(void *position);
 extern void handle_insert_initialize_two_values_status_flags();
 extern void initialize_optional_object_state();
 extern s8 D_800A6684[];

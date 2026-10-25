@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void adjust_source_value_and_finalize(void *target, const void *data);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 roll_threshold_effect_variant_a(void *target, s16 chance, s16 duration);
 extern void wrap_position_and_set_state_value(s32 state_value);
 

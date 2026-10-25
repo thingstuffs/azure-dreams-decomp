@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -35,7 +36,6 @@ typedef struct S_8017472C_6 {
 
 
 extern int abs(int);
-extern void select_sprite_entry();
 extern void *scan_actor_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();

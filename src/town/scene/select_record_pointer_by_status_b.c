@@ -5,7 +5,7 @@
 #define NULL 0
 #endif
 
-extern s32 func_800191E8();
+extern s32 func_800191E8(); /* Unprototyped: zero or one argument; retail reads no incoming argument. */
 extern s32 D_8001A20C;
 extern s32 D_8001A2E7;
 extern s32 D_8001A348;

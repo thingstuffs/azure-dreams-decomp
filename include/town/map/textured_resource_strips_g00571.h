@@ -227,7 +227,7 @@ extern s32 GetTPage();
 extern void AddPrim();
 extern void SetPolyFT4();
 extern void SetDrawMode();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_800A3918[];
 extern s32 D_800A3B1C[];
 extern s32 D_800D0C40[];

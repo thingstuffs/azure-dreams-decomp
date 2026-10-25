@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,7 +63,6 @@ typedef struct S_800B490C_4 {
 
 
 
-s32 register_node();
 extern s32 attached_fade_draw_address;
 
 /* Update an attached effect with damped vertical motion, fading, shrinking, and flashing. */

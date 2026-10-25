@@ -1250,7 +1250,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 
 #include "common.h"
 
-extern s32 initialize_timed_motion_step();
+extern s32 initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 extern s16 sample_terrain_surface_height();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */

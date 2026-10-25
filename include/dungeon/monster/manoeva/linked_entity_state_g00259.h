@@ -45,7 +45,7 @@ extern u8 *find_monster_entry_by_type_and_id(s32, s32);
 extern s32 find_entity_slot_by_field_ac(void *);
 extern void set_record_integer_tile_center(s32, s32, s32);
 
-extern void select_sprite_entry();
+extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"
 extern u8 D_80176670[16];
 

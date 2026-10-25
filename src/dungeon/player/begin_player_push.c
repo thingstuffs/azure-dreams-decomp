@@ -20,12 +20,12 @@ typedef struct S_8008CD4C_2 {
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 s16 check_tile_entry_at_adjusted_height();
-void cycle_map_cell_flags();
-void update_map_cell_flags_with_item_limit();
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();
 s32 find_eligible_actor_at_tile_and_height();
-void append_packed_action_record();
-s32 play_sound_if_enabled();
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+s32 play_sound_if_enabled(s32 query_value);
 
 extern u8 player_push_start_frames[];
 extern u8 player_push_frames[];

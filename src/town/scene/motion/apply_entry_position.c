@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player.h"
 
 typedef struct {
     s16 unk0;
@@ -16,7 +17,6 @@ typedef struct {
 extern s32 find_entry_8_index_or_assert();
 extern void update_dependent_entry_ids();
 extern s32 all_entries_pass_check();
-extern void set_script_flag_bit();
 
 /* Applies the selected entry's position and returns its result. */
 s32 apply_entry_position(Entry *entries, s32 object, void *context, s32 selection)

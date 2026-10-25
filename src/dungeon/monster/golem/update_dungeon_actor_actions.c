@@ -44,7 +44,7 @@ extern s32 func_801716B4();
 extern s32 func_801718F8();
 extern s32 update_eligible_actor_action();
 extern s32 advance_timed_directional_reset();
-extern s32 func_801727D8();
+extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
 extern s32 require_object_flag();
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
@@ -8,6 +9,6 @@ typedef struct TownStateByteView {
     u8 state_byte;
 } TownStateByteView;
 
-u8 get_state_record_byte(void) {
+s32 get_state_record_byte(void) {
     return ((TownStateByteView *)town_scene_root->town_state)->state_byte;
 }

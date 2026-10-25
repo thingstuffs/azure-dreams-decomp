@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
 typedef struct S_80172D24_1 {
     u8 pad_00[0x8C];
@@ -17,7 +18,6 @@ typedef struct S_80172D24_1 {
     u8 unk_9B;
 } S_80172D24_1;   /* arg0 in advance_timed_directional_movement */
 
-extern void select_sprite_entry();
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();

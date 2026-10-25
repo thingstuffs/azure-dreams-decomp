@@ -99,4 +99,7 @@ void call_scene_service_one(void);
 /* Return the selected scene text, including flag-selected alternatives. */
 char *resolve_scene_entry_text(void *context, s32 unused, s32 selection);
 
+/* Return the stored state byte as the word consumed by scene tests. */
+s32 get_state_record_byte(void);
+
 #endif

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "slus.h"
 
 void call_script(s32);
-extern void advance_sprite_animation_and_textures();
 void send_resource_command_23(s32);
 
 extern u8 D_80072210[];

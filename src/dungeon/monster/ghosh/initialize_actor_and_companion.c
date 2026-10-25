@@ -68,7 +68,7 @@ typedef struct S_8016AEDC_6 {
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void func_80042640(void *, s16);
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 retain_spawn_resource(s16, s16);
 extern s8 random_dungeon_range_16();
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32);

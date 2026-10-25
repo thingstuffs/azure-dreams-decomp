@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
-extern void advance_sprite_animation_and_textures();
 
 /* Advances and darkens a moving effect, updates its visual, and propagates status flags. */
 void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8 *visual)

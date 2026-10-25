@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "engine/window.h"
 
 
 typedef struct {
@@ -15,7 +16,6 @@ typedef struct {
     s32 unused_10;
 } Work;
 
-extern s32 scale_random_to_unsigned_halfword_limit();
 extern void spawn_radial_objects();
 extern void spawn_radial_effect_objects();
 extern Pair D_80089128;

@@ -1,10 +1,11 @@
 #include "common.h"
+#include "records/Rec_func_800AB030_arg0.h"
 
 typedef struct {
     s32 pad[3];
 } StateHandler;
 
-extern s32 advance_person_lookup_value();
+extern s16 advance_person_lookup_value(Rec_func_800AB030_arg0 *record);
 extern StateHandler D_800AB4A8;
 extern StateHandler person_approach_state_address;
 

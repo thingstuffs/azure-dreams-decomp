@@ -7,7 +7,7 @@
 
 extern u8 sprite_chain_projector_address[];
 extern u8 shared_sprite_entries[];
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_800F6000[];
 extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
 

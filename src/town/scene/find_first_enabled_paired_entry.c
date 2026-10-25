@@ -1,8 +1,8 @@
 #include "common.h"
 
 
-extern s32 func_8001E578();
-extern s32 func_8001E670();
+extern void func_8001E578(s32 bit_index);
+extern s32 func_8001E670(s32 flagIndex);
 extern u8 town_selection_records[96];
 
 typedef struct S_8001A360_0 {

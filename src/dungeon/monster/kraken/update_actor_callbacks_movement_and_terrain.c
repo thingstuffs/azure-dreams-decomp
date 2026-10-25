@@ -6,9 +6,9 @@
 
 #include "shared/entity.h"
 #include "shared/dungeon_trail_views.h"
+#include "engine/texture.h"
 
 
-void select_indirect_table_entry();
 void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();

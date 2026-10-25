@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
    /* arg0 in create_type_212_effect_object */
 
 extern void select_record_entry_and_value();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_80024374;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */

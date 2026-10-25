@@ -22,7 +22,7 @@ typedef struct S_8092192C_4 {
 } S_8092192C_4;
 
 extern u8 shared_sprite_entries[];
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_record_entry_and_value();
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 

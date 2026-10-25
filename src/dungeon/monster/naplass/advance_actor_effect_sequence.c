@@ -41,7 +41,7 @@ typedef struct Copy24 { u32 words[6]; } Copy24;
 void *allocate_list_node();
 s32 get_entity_effect_value();
 void clear_slots_of_type();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_sprite_entry();
 s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();

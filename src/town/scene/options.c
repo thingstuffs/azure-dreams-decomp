@@ -16,8 +16,8 @@ typedef struct S_806D85A0_1 {
 
 
 
-void *func_80017024();                 /* extern */
-s32 func_8001876C();                         /* extern */
+void *func_80017024(s32 group, s32 n, s32 lookup_variant);                 /* extern */
+s32 func_8001876C(s32 target_value);                         /* extern */
 extern s32 D_80018FE0;
 
 /* Processes active entries for the selected variant and updates 2x2 cells for the first group. */

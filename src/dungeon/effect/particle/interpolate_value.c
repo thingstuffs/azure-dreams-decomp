@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_81331C88Prefix;
@@ -101,7 +102,6 @@ typedef struct S_80168C88_12 {
     u8 unk_09;
 } S_80168C88_12;
 
-extern void register_node();
 extern u8 D_80166914[];
 extern u8 ribbon_particle_update_address[];
 extern u8 D_80173B4C[];

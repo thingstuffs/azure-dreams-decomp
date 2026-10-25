@@ -208,8 +208,8 @@ typedef struct ovl_1830850_81811340_S_80026340_0 {
 } ovl_1830850_81811340_S_80026340_0;
 extern DispatchFunc inventory_menu_handlers[];
 extern ovl_1830850_818108B8_ItemCategory item_category_groups[];
-extern void free_item_data_slot();
-extern void func_8004A7D8();
+extern void free_item_data_slot(int first_value, int second_value);
+extern void func_8004A7D8(int first_value, int second_value);
 extern void strcpy();
 extern s32 check_object_byte_pairs_content(s32);
 extern u8 inventory_default_entry_data[];

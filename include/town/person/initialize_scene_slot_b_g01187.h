@@ -4,8 +4,8 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01187 - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858. */
 
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *, s32, s32, s32, s32, s32);
 extern u8 scene_slot_b_value_7c[];
 extern u8 scene_slot_b_value_80[];
 extern u8 scene_slot_b_value_58[];

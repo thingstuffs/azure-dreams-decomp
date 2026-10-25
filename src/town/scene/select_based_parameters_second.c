@@ -4,7 +4,7 @@
 
 s32 func_800181C8(void *, void *, s32, s32);
 s32 func_80018B58(s32);
-s32 func_80018C50();
+s32 func_80018C50(s32 flagIndex);
 extern M2C_UNK D_80018EF4;
 extern M2C_UNK D_80018F0C;
 extern M2C_UNK scene_request_context;

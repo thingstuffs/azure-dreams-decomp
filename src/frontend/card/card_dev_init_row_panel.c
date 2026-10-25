@@ -69,8 +69,8 @@ typedef struct S_8001C8C8_12 {
     s16 unk_0A;
 } S_8001C8C8_12;
 
-void func_80403698();                      /* extern */
-void initialize_values();       /* extern */
+void func_80403698(void *object);                      /* extern */
+void initialize_values(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);       /* extern */
 void func_804037F4(void *);                            /* extern */
 s32 func_80403868(s32, s32, s32);
 

@@ -114,7 +114,7 @@ extern s32 D_800D0CC0[];
 /* extern */
 void process_scene_record_update(void *,struct ObjectPosition *, void *);
 /* extern */
-void add_motion_deltas_to_position();
+void add_motion_deltas_to_position(ObjectPosition *motion);
 void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);
 /* extern */
 void store_position_and_compute_delta(s32 *);
@@ -138,20 +138,20 @@ s32 check_masked_value_in_current_range(s32);
 extern u8 D_800D0000[];
 extern int abs(int);
 extern u8 D_800A5DF8;
-extern s32 scale_random_to_unsigned_halfword_limit();
+extern u32 scale_random_to_unsigned_halfword_limit(s32 limit);
 s32 runtime_estimate_vector_length(s32, s32);
-extern void SD_Call();
+extern short SD_Call(int flags);
 extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();
 void spawn_directional_effects(void *, s32);
 /* extern */
 extern u8 D_800A5FDC[];
-extern s16 input_angle_with_offset();
+extern s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 extern s32 map_view_transition_address;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_800903FC[];
 extern s16 step_angle_12_toward(s32, s32, s32);
-extern void add_hex_20000_s_signed_offset_hex_14();
+extern void add_hex_20000_s_signed_offset_hex_14(); /* Unprototyped: one or two arguments; retail reads only the first. */
 extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 extern u8 town_blocked_directions[];
 extern u8 town_movement_speed[];

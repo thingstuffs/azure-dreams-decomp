@@ -7,6 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/nyuel.h"
+#include "engine/graphics.h"
 
 typedef s32 M2C_UNK;
 typedef struct {
@@ -48,7 +49,6 @@ typedef struct S_80170E9C_1 {
     s8 unk_6D;
 } S_80170E9C_1;   /* arg3 in update_entity_actions_facing_and_animation */
 
-void select_sprite_entry();
 s32 check_entity_relation();
 s8 find_active_rect_containing_point();
 s32 test_neighbor_position_relation();

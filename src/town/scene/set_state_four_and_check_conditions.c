@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 
-extern s32 func_800198D0();
+extern s32 func_800198D0(s32 flagIndex);
 
 typedef struct {
     s32 value;

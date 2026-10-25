@@ -26,11 +26,14 @@ typedef struct PersonObject {
     s16 timer;
     u8 pad_6E[4];
     s16 heading;
-    u8 pad_74[0xC];
+    u8 pad_74[8];
+    s32 **data_7C;
     PersonDescriptor *descriptor;
     u8 pad_84[4];
     s16 target_x;
     s16 target_y;
+    u8 pad_8C[0xA];
+    u8 variant;
 } PersonObject;
 
 /* The callback's third context has a halfword at +0x12; its other fields
@@ -42,7 +45,7 @@ typedef struct PersonOutput {
 
 /* Install the generic person handlers, store the four per-person data tables
  * (+0x58, +0x5C, +0x7C and the descriptor at +0x80) and register the object in
- * object_index_slots[slot].  The definition still spells the tables as words. */
+ * object_index_slots[slot]. */
 void initialize_object_and_register_slot(PersonObject *object, s32 slot, void *data_58, void *data_5C,
                                          void *data_7C, void *descriptor);
 /* Point descriptor list 1 and the +0x7C table at fixed data; callers pass the
@@ -96,5 +99,10 @@ void init_person_slot_fifty_one(PersonObject *object);
 void init_person_slot_fifty(PersonObject *object);
 
 void init_person_slot_eight(PersonObject *object, s32 context, s8 *output);
+
+void initialize_object_configuration_x(PersonObject *object);
+void initialize_variant_object(PersonObject *object);
+
+void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
 
 #endif

@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/dungeon_moving_views.h"
+struct RegistrationNode;
 struct SpriteFrameState;
 extern u8 zu_default_frames[];
 void select_sprite_entry();
@@ -26,8 +27,8 @@ s32 begin_ready_actor_directional_action();
 s32 get_rounded_facing_and_rounding_flag();
 void * allocate_list_node();
 void * func_8003FD64();
-s32 register_node();
-s32 func_8004491C();
+s32 register_node(struct RegistrationNode *entry, void *registration_id);
+s32 func_8004491C(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 play_sound_if_enabled();
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg);

@@ -3,7 +3,7 @@
 #include "records/Rec_func_80097D54_arg0.h"
 
 extern s32 initialize_target_and_handler_table();
-extern s16 query_lowered_transform_position();
+extern s16 query_lowered_transform_position(void *position);
 
 /* Move the entity in its current direction until the movement countdown expires. */
 void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, EntityRec *entity, s32 finish_arg) {

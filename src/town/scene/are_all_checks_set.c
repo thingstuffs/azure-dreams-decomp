@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800194D8();
+extern s32 func_800194D8(s32 flagIndex);
 
 /* Return whether all checks from 0x147B through 0x1489 are nonzero. */
 s32 are_all_checks_set(void) {

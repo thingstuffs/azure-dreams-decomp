@@ -12,7 +12,7 @@ extern s32 D_80017530;
 extern s32 D_8001753C;
 extern s32 D_80017598;
 extern s32 D_800175A4;
-extern s32 func_800198D0();
+extern s32 func_800198D0(s32 flagIndex);
 
 /* Selects a data pointer based on queried conditions and the current state index. */
 void select_data_pointer_by_conditions(void **out_data) {

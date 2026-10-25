@@ -239,7 +239,7 @@ extern u8 generation_cells[16];
 extern u8 camera_transition_timer[];
 extern void set_continuation_value(void *);
 void file_load_com(void *);
-s32 load_dungeon_sprite_bundle();
+s32 load_dungeon_sprite_bundle(void);
 void bzero(void *, s32);
 extern s32 D_80012D60;
 extern s32 loaded_sprite_bundle_attributes;

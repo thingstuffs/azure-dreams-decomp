@@ -3,7 +3,7 @@
 #include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 process_global();                     /* extern */
+s32 process_global(s32 flag_linked_object);                     /* extern */
 
 typedef struct S_8001B93C_0 {
     u8 pad_00[0x20];

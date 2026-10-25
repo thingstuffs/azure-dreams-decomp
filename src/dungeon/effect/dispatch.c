@@ -401,7 +401,7 @@ struct Dst;
 struct Elem;
 
 extern s32 select_record_entry_and_value(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
 extern void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
@@ -534,7 +534,7 @@ typedef struct CounterBlock {
 } CounterBlock;
 
 s32 select_record_entry_and_value();        /* extern */
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 play_sound_if_enabled();
 extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
@@ -629,7 +629,7 @@ extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 
-void initialize_timed_motion_step();
+void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 void request_scene_dispatch_state();
 s32 get_entity_class();
 void snapshot_inventory_and_familiars();
@@ -1519,7 +1519,7 @@ typedef struct {
 
 extern void copy_words_forward(void *, void *, s32);
 extern void *allocate_list_node(s32, void *);
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 draw_linked_sprites_clipped();

@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "slus.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_80DB9C2CPrefix;
@@ -33,7 +34,6 @@ typedef struct S_8017142C_1 {
     } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in update_growing_colliding_effect */
 
-extern s32 advance_sprite_animation_and_textures();
 extern s32 check_left_tile_and_center_height();
 extern s16 sample_terrain_surface_height();
 

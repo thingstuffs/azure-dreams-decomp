@@ -53,7 +53,7 @@ typedef struct {
     s16 field2;
 } TableEntry;
 
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 extern M2C_UNK D_800777F4;
 extern u8 ghosh_object_callback;

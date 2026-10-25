@@ -61,7 +61,7 @@ s32 retain_sprite_resource_in_cache(s16 slot_id);
 
 /* runtime_no_op_callback.c */
 void *load_and_publish_texture_resource_pair(int resource_id);
-void runtime_no_op_callback(void);
+void runtime_no_op_callback(u32 unused_state);
 void advance_effect_state(void);
 void func_80047E30(void);
 

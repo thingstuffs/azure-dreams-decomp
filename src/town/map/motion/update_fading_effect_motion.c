@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
+#include "slus.h"
 
 
    /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
@@ -14,7 +15,6 @@ typedef struct S_800A86BC_1 {
     s32 unk_04;
 } S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
 
-extern void advance_sprite_animation_and_textures();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
 void update_fading_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {

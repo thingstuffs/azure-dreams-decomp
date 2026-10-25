@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 query_lower_bound_with_x_offset(s32 *);                           /* extern */
-s32 query_larger_position_result();                           /* extern */
+s16 query_larger_position_result(s32 *input);                           /* extern */
 struct S_80096728_0; void set_global_800_cfced_initialize_call_callee_800954_dc(struct S_80096728_0 *, s32);                  /* extern */
 struct S_80096758_0; void set_global_800_cfcec_initialize_call_callee_800954_dc(struct S_80096758_0 *, s32);                  /* extern */
 extern s32 town_secondary_probe_offset;

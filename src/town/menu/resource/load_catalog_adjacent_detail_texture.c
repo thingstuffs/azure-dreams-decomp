@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 typedef struct S_801254D8_0 {
     u8 pad_00[0x4];
@@ -31,7 +32,6 @@ typedef struct {
 
 extern s32 Control_CD();
 extern s32 pack_tagged_resource_descriptor();
-extern s32 decompress_lz();
 extern s32 LoadImage();
 
 extern s32 resource_completion_callback_address[];

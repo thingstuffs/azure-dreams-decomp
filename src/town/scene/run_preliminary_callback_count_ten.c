@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/player.h"
 
-extern s32 set_current_entry_script_flag();
-extern s32 apply_selected_entry_values();
+extern void set_current_entry_script_flag(void);
+extern s32 apply_selected_entry_values(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* Run the preliminary callback at a count of ten or more, then dispatch the argument pair. */
 void run_preliminary_callback_count_ten(s32 dispatch_value, s32 dispatch_option) {

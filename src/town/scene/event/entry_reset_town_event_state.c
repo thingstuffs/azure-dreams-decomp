@@ -11,7 +11,7 @@ typedef struct S_8059E540_2 {
     void * unk_6000;
 } S_8059E540_2;   /* page in func_8059E540 */
 
-s32 func_80018964();
+s32 func_80018964(s32 flagIndex);
 extern u8 D_80010000[];
 extern M2C_UNK D_80018EE4;
 extern M2C_UNK D_80019148[3];

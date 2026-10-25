@@ -44,7 +44,7 @@ void dispatch_audio_command(s32 code);
 void dispatch_audio_event(s32 event);
 
 /* dispatch_combined_driver_flags.c */
-void dispatch_combined_driver_flags(void);
+void dispatch_combined_driver_flags(s32 unused);
 
 /* entry_release_enabled_sound_channel.c */
 void release_sound_channel_and_mark_pending(s16 channel);

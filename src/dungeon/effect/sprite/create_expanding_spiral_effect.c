@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 
 
 extern void select_record_entry_and_value();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern M2C_UNK D_80024330[];

@@ -2,9 +2,9 @@
 #include "shared/resident_resources.h"
 
 
-extern s32 *initialize_shared_script_data();
+extern s32 *initialize_shared_script_data(void);
 extern void **scale_coordinates_and_append_pointers();
-extern void create_entry_builder_controller();
+extern void create_entry_builder_controller(void);
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 extern u8 D_800D43F0[];

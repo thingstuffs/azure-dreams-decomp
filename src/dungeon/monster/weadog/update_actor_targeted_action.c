@@ -12,6 +12,7 @@
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/cd.h"
+#include "engine/graphics.h"
 extern int abs(int);
 
 typedef s32 Any;
@@ -33,14 +34,13 @@ typedef struct S_801737B0_0 {
 extern u8 weadog_action_resume_address[];
 extern u8 weadog_frame_set_3[];
 
-extern Any select_sprite_entry();
 extern s32 rand();
 extern void *scan_actor_along_heading();
 extern Any set_record_integer_tile_center();
 extern Any advance_status_timers();
 extern Any play_sound_if_enabled();
 extern s32 create_actor_spell_effect();
-extern Any create_random_color_offset_effect();
+extern void create_random_color_offset_effect(void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
 /* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores

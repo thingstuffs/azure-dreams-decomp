@@ -1,22 +1,28 @@
-#include "common.h"
+#include "town/scene/entry_requests.h"
 
-typedef struct S_8051E904_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8051E904_1;
-s32 func_80017710(s32, s32);
-void func_80018A64(s32);
+typedef struct SceneValueEntry {
+    u8 pad_00[4];
+    s32 value;
+} SceneValueEntry;
 
-typedef struct S_8051E904_0 {
+typedef struct SceneFlagContext {
     u8 pad_00[0x18];
-    s16 unk_18;
-} S_8051E904_0;   /* arg1 in lookup_entry_apply_record_code */
+    s16 flag;
+} SceneFlagContext;
 
-/* Look up an entry, apply the record code, and return the entry value. */
-s32 lookup_entry_apply_record_code(s32 table_base, S_8051E904_0 *record, s32 lookup_key) {
+s32 func_80017710(void *table, s32 lookup_key);
+void func_80018A64(s32 flag);
+
+/* Look up an entry, apply the context flag, and return the entry value. */
+s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key)
+{
+    SceneValueEntry *entries;
+    SceneFlagContext *flag_context;
     s32 entry_index;
 
-    entry_index = func_80017710(table_base, lookup_key);
-    func_80018A64(record->unk_18);
-    return ((S_8051E904_1 *)(((entry_index * 8) + table_base)))->unk_04;
+    entries = table;
+    flag_context = context;
+    entry_index = func_80017710(table, lookup_key);
+    func_80018A64(flag_context->flag);
+    return entries[entry_index].value;
 }

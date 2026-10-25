@@ -3,6 +3,7 @@
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/state.h"
+struct ObjA464;
 
 typedef struct {
     s32 field_0;
@@ -16,13 +17,13 @@ typedef struct {
     s32 field_20;
     s32 field_24;
     s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
+    void *field_2C;
+    void *field_30;
+    void *field_34;
 } Entity;
 
 extern void cleanup_object_resources();
-extern void flag_object_and_release_inner();
+extern void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
 extern void strcpy();
 
 /* Processes entity fields and copies its string for selected type and state values. */

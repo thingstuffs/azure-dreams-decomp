@@ -6,7 +6,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-s32 advance_status_timers();                      /* extern */
+s32 advance_status_timers(void *record);                      /* extern */
 void refresh_actor_proximity_state();                      /* extern */
 void spend_actor_mp();             /* extern */
 

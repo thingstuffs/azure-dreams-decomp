@@ -4,8 +4,8 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D784C, PD:town/engine:800D7854, PD:town/engine:800D787C, PD:town/engine:800D7880. */
 
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *, s32, s32, s32, s32, s32);
 extern u8 D_800D784C[];
 extern u8 D_800D7854[];
 extern u8 D_800D787C[];

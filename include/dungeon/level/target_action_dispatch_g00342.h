@@ -40,16 +40,16 @@ typedef struct {
     s32 unk5C;
 } Arg1Struct;
 
-s32 find_entry_at_tile_coordinates();
+s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 /* extern */
 /* extern */
-void clear_slot_and_detach_entity();
+void clear_slot_and_detach_entity(s32 slot_index);
 /* extern */
-extern void cycle_map_cell_flags();
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 s16 set_or_clear_actor_status_slot();
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);
-extern void adjust_source_value_and_finalize(void *object, void *value);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s8 D_800E0DF5[];
 extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 trap_request_blocked[16];

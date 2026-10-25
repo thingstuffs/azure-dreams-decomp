@@ -32,7 +32,7 @@ typedef struct S_80175060_3 {
 } S_80175060_3;
 
 void select_record_entry_and_value(void *, void *, s32);  /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rand();                                /* extern */
 extern void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object);

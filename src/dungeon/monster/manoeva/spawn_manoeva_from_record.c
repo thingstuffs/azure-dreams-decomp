@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect.h"
+#include "engine/cd.h"
 
 #ifndef NULL
 #define NULL 0
@@ -63,7 +64,6 @@ typedef struct S_80E3C98C_7 {
 } S_80E3C98C_7;
 
 
-extern s32 drain_cd_command_queue();
 extern s32 func_80042640();
 extern s32 copy_entity_record();
 extern s32 set_code_for_entity_mode();

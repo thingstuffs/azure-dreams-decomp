@@ -10,7 +10,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand(void);
 extern u8 paired_random_effect_callback[12];
 extern u8 D_8002822C[12];

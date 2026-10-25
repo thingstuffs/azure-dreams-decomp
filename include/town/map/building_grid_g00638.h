@@ -17,4 +17,7 @@ void clear_and_initialize_building_grid(s32 grid);
 
 void initialize_building_scene_objects(s32 draw_param);
 
+struct GameWork;
+void no_op_building_callback(struct GameWork *work, s32 size, s32 limit);
+
 #endif

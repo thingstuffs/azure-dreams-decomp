@@ -183,8 +183,8 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, Spr
 #include "m2c_compat.h"
 
 void *allocate_list_node();            /* extern */
-s32 register_node();           /* extern */
-s32 play_sound_if_enabled();                     /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 void draw_textured_ellipse(); /* extern */
 extern void D_800A5828();
 extern M2C_UNK D_800DD854;
@@ -620,7 +620,7 @@ void configure_shared_fade_primitive(void) {
 
 struct S_800A5FC0_2;
 
-s32 register_node();              /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */              /* extern */
 extern s32 D_800A5FC0(struct S_800A5FC0_2 *state);
 
 typedef struct S_800A613C_0 {
@@ -1016,7 +1016,7 @@ void clear_pending_item_action_state(void) {
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
 
-s32 generate_random_value();                             /* extern */
+s32 generate_random_value(void);                             /* extern */
 
 /* Combine the adjusted input divided by four with the helper result low bits. */
 s32 get_random_scaled_value(s16 input_value) {

@@ -37,22 +37,23 @@ typedef struct S_800BE6F0_5 {
 
 s32 get_entity_effect_value();
 #include "dungeon/player/item.h"
+struct EntityLinkNode;
 s32 clear_slot_and_update_linked_state();
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 s32 clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
-s32 unlink_entity_node();
-s32 update_map_cell_flags_with_item_limit();
-s32 detach_record_and_update_slot_state();
+void unlink_entity_node(struct EntityLinkNode *node);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+s32 detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment();
 s32 place_actor_item();
 s32 display_item_status_message();
 s32 release_entity_slot_and_update_flags();
-s32 generate_random_value();
+s32 generate_random_value(void);
 s32 clear_selected_item_flag_400();
-s32 create_effect_or_fallback();
+void * create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
 
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];

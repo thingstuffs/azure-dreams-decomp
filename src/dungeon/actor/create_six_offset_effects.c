@@ -18,7 +18,7 @@ extern s32 create_visual_object();
 extern s32 create_offset_sprite_object_with_z();
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 D_80026680[3];
 extern TableEntry linked_effect_direction_entries[];

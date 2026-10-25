@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
 
 extern s32 loaded_town_resource_attributes[];
 extern u8 D_800D61C4[];

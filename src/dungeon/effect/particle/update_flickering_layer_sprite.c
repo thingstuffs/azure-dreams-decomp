@@ -15,7 +15,7 @@ typedef struct S_80167540_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                   /* extern */
-s16 func_80167088();                         /* extern */
+s32 func_80167088(s32 limit);                         /* extern */
 
 /* Scale effect channels by remaining lifetime, randomize flags, and mark expiration. */
 void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect) {

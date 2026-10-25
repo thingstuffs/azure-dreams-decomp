@@ -31,13 +31,13 @@ typedef struct S_800D3F74_0 {
 } S_800D3F74_0;   /* result in create_actor_with_tile_flags */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value();
-extern s8 find_active_rect_containing_point();
-extern void set_record_integer_tile_center();
-extern s16 sample_terrain_surface_height();
+extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
+extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
-extern void cycle_map_cell_flags();
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 extern u8 D_800D4158;
 extern u8 actor_default_action_address;

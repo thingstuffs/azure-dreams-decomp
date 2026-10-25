@@ -2,10 +2,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
+#include "town/player.h"
 
-s32 apply_selected_entry_values();             /* extern */
-void set_script_flag_bit();                         /* extern */
-s32 get_script_flag_mask();                         /* extern */
+s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *record, s32 entry_index);             /* extern */
 
 
 /* Applies the object's stored value when either condition is active, then forwards the call. */

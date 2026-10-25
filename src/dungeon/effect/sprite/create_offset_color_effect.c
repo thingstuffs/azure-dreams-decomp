@@ -31,7 +31,7 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024088[];
 extern u8 D_800241CC[];
 

@@ -96,7 +96,7 @@ s32 Control_CD(); /* extern */
 #include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
 int read_stream_cue_start_offset(void);                           /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
 s32 rand();                          /* extern */

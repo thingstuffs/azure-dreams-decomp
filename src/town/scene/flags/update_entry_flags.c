@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/player.h"
 
-extern s32 set_script_flag_bit();
-extern s32 clear_script_flag_bit();
 
 /* Update flags using the record and indexed entry, then return success. */
 s32 update_entry_flags(void *record, s32 entry_index) {

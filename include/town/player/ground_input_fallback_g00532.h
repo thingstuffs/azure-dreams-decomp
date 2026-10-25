@@ -36,13 +36,13 @@ void initialize_action_object();
 /* extern */
 void store_the_valid_shared_angle_in_offset_hex_10();
 /* extern */
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
 /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();
 /* extern */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 extern void init_input_action_fallback(void *, void *, s32);
 
 extern void initialize_scene_action_record(Rec_func_80094268_arg0 *, void *, void *);

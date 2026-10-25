@@ -1,10 +1,14 @@
 #include "common.h"
+#include "dungeon/actor/state.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 
 /* Reset the record to state 0x34 with flag bit 0 cleared. */
-void reset_record_to_state_34(Rec_func_8008ACDC_arg0 *record) {
+void reset_record_to_state_34(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor) {
+    Rec_func_8008ACDC_arg0 *record;
+
+    record = state;
     record->unk_9A.as_s8 = 0x34;
     record->unk_9B.as_s8 = 0;
     record->unk_8C.as_s32 = 0;

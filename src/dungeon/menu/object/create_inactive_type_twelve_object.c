@@ -58,7 +58,7 @@ typedef struct Obj12State {
     u16 unk_1E;
 } Obj12State;
 
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 struct ConfigWord { s32 value; };
 extern u8 D_8009E038[];
 extern u8 D_8009E798[];

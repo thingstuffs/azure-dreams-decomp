@@ -1,7 +1,7 @@
 #include "common.h"
 
 s32 func_800173CC();                    /* extern */
-s32 func_80017FEC();                                /* extern */
+s32 func_80017FEC(void);                                /* extern */
 
 /* Check the supplied inputs only when the prerequisite value is positive. */
 s32 check_inputs_after_positive_threshold(s32 check_value, s32 check_data) {

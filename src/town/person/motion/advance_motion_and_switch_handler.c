@@ -10,7 +10,7 @@ typedef struct S_800C3F44_3 {
 } S_800C3F44_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in advance_motion_and_switch_handler */
 
 
-void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
+void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);                      /* extern */
 #include "town/person/object/initialize_object_entries_api.h"        /* extern */
 extern void D_800C3EAC();
 

@@ -11,7 +11,6 @@
 #include "dungeon/player.h"
 
 void apply_pending_byte_increase();
-void begin_player_menu_action();
 void set_record_integer_tile_center();
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
 extern s32 menu_action_argument[];

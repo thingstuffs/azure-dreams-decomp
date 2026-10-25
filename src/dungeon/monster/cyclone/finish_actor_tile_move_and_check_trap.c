@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "engine/graphics.h"
 typedef struct Ent Ent;
 
 typedef struct S_801721C0_1 {
@@ -13,7 +14,6 @@ typedef struct S_801721C0_1 {
     s8 unk_9B;
 } S_801721C0_1;   /* arg0 in finish_actor_tile_move_and_check_trap */
 
-void select_sprite_entry();         /* extern */
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */

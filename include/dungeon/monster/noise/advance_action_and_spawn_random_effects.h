@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+struct RegistrationNode;
 
 typedef struct T_80172FFC_S_80172FFC_0 {
     u8 pad_00[0x8C];
@@ -84,11 +85,11 @@ s32 rand();                                /* extern */
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void * allocate_list_node();
-extern void * func_8003FD64();
-extern s32 register_node();
-extern s32 func_8004491C();
-extern void select_sprite_entry();
-extern void func_80047784();
+extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
+extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 RotTransPers();
 extern void * resolve_attack_damage_and_effects();
 extern s32 advance_status_timers();
@@ -101,5 +102,5 @@ extern u8 noise_frame_set_1[];
 extern u8 D_80174EC0;
 void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_behavior_and_direction();
-extern void project_sprite_entries_to_quads();
+extern void project_sprite_entries_to_quads(void *effect, void *motion, SpriteFrameState *sprite);
 #endif

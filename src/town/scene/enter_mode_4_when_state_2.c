@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void clear_byte_offset_4_eight();                            /* extern */
+void clear_byte_offset_4_eight(void);                            /* extern */
 extern s32 scene_dispatch_mode_index;
 extern s32 scene_cell_dispatch_code;
 

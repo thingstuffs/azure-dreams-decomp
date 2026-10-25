@@ -7,6 +7,7 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
+#include "town/shop/state.h"
 
 typedef struct S_800B05DC_0 {
     u8 pad_00[0x4];
@@ -25,7 +26,6 @@ typedef struct S_800B06C4_0 {
 } S_800B06C4_0;
 
 void bzero(void *, s32);
-s32 set_item_menu_flag_and_return_one();
 /* extern */
 s32 create_item_menu_child_at_position();
 /* extern */

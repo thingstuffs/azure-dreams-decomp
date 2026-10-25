@@ -3,9 +3,9 @@
 #include "town.h"
 
 s32 func_800177CC(s32, s32);
-s32 initialize_state_two_entries_pointer();                         /* extern */
+void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */
 s32 func_8001860C(s32);
-s32 call_points();                         /* extern */
+s32 call_points(s32 target_value);                         /* extern */
 
 typedef struct S_806D435C_0 {
     u8 pad_00[0x18];

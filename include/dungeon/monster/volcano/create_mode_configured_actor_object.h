@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/sprite_frame_state.h"
+struct S_80170A98_2;
 
 #ifndef NULL
 #define NULL 0
@@ -36,8 +38,8 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern void func_8016AA58();
-extern void func_8016AE5C();
+extern void func_8016AA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
+extern void func_8016AE5C(void *actor_in, void *context_in, void *sprite_in, void *status_in);
 extern u8 volcano_frame_set_5[];
 extern u8 D_8016E538[];
 

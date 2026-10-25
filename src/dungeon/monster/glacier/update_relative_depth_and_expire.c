@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "slus.h"
 typedef long long M2C_S64;
 
    /* arg1 in update_relative_depth_and_expire */
@@ -22,7 +23,6 @@ typedef struct S_8102F0D4_1 {
 
 extern s8 view_direction_depth_biases[];
 s32 RotTransPers();
-extern s32 advance_sprite_animation_and_textures();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
 void update_relative_depth_and_expire(void *state, MovingPosition *position, SpriteFrameState *entity) {

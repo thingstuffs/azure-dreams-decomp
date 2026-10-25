@@ -106,8 +106,8 @@ typedef struct {
 } PositionTableEntry;
 
 void select_record_entry_and_value();
-void initialize_timed_motion_step();
-s32 register_node();
+void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 play_sound_if_enabled();
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 void create_ribbon_head_sprite();

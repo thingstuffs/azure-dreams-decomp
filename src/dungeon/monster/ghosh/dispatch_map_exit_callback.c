@@ -6,9 +6,9 @@ struct ObjectNodeHeader;
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "dungeon/item.h"
+#include "engine/graphics.h"
 
 extern void allocate_and_initialize_object(void);
-extern void select_sprite_entry();
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 extern u8 *ghosh_actor_node;

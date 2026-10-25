@@ -6,7 +6,7 @@
 #include "records/Rec_func_8009B828_arg0.h"
 
 void call_the_same_context_both_processing_routines(s32, s32);             /* extern */
-void add_motion_deltas_to_position();                 /* extern */
+void add_motion_deltas_to_position(); /* Unprototyped: one or two arguments; retail reads only the first. */                 /* extern */
 void initialize_target_motion(); /* extern */
 extern s32 town_target_height_offset;
 

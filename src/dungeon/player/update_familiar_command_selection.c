@@ -16,13 +16,12 @@ extern s32 selected_item_record_alias[];
 extern s16 camera_depth_target[5];
 extern s32 menu_action_argument[];
 extern u8 D_8004F5F4[];
-void submit_script_with_registered_context();                     /* extern */
-s32 resolve_player_input_facing();                /* extern */
+s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-void append_packed_action_record();   /* extern */
-s32 play_sound_if_enabled();                     /* extern */
-void *create_panel_effect_object();                      /* extern */
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);   /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
+void *create_panel_effect_object(void *owner);                      /* extern */
 s32 create_familiar_selection_marker();                          /* extern */
 void update_selection_tile_markers();                 /* extern */
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);   /* extern */

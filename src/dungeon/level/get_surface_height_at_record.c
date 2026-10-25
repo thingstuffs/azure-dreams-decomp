@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s16 sample_terrain_surface_height();                   /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 
 typedef struct S_800BCAD0_0 {
     u8 pad_00[0x2];

@@ -14,7 +14,7 @@ typedef struct S_800B0490_1 {
 /* arg0 in handle_item_menu_input */
 
 
-extern void SD_Call();
+extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
 extern void change_item_menu_selection();
 
 /* Routes a menu request result of 1 to its secondary handler and 2 to its data pointer. */

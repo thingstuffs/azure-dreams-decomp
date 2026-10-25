@@ -13,6 +13,7 @@
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/cd.h"
+#include "engine/graphics.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -48,7 +49,6 @@ typedef struct S_801727C8_5 {
 } S_801727C8_5;
 
 extern void *D_80170838[];
-void select_sprite_entry();
 void *scan_actor_along_heading();
 void set_record_integer_tile_center();
 s32 advance_status_timers();

@@ -7,8 +7,8 @@
 
 s32 func_80017684(s32);
 s32 func_800176FC(s32);
-s32 func_8001777C();                         /* extern */
-s32 func_80017918();                                /* extern */
+s32 func_8001777C(s32 flagIndex);                         /* extern */
+s32 func_80017918(void);                                /* extern */
 extern s16 D_80017A6C;
 extern s16 D_80017A74;
 

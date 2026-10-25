@@ -28,7 +28,7 @@ extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 GetTPage();
 s16 GetClut();
 void *resolve_attack_damage_and_effects();

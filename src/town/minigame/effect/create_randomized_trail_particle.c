@@ -27,7 +27,7 @@ typedef struct S_800267DC_3 {
 } S_800267DC_3;
 
 
-void register_node();
+void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_800268DC[];
 extern u8 D_800F1564[];

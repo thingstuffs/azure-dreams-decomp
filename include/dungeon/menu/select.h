@@ -721,6 +721,8 @@ u32 get_rounded_facing_and_rounding_flag(); /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 extern u8 last_frame_ticks[16];
 #include "engine/texture.h"
+struct Entry;
+struct RegistrationNode;
 extern void step_actor_animation(void *, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
@@ -743,9 +745,9 @@ extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *);
-void set_message_mode();                     /* extern */
-void runtime_call_selected_mode_handler();                            /* extern */
-void submit_script_with_registered_context();                   /* extern */
+void set_message_mode(int value);                     /* extern */
+void runtime_call_selected_mode_handler(void);                            /* extern */
+void submit_script_with_registered_context(void *context);                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
@@ -760,7 +762,7 @@ extern s32 RotTransPers();
 extern s32 func_800656C0();
 extern void func_80065034();
 extern void project_sprite_commands();
-extern void func_800453E0();
+extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 extern void draw_sprite_clipped();
 extern void func_80045CC4();
 extern void PopMatrix();
@@ -770,7 +772,7 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 selection_animation_counters[5];
-s32 register_node();
-s32 func_8004491C();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 void AddPrim(void *, void *);
 #endif

@@ -6,17 +6,18 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg0.h"
 #include "dungeon/actor.h"
+struct EntityLinkNode;
 
 
 s32 rsin(s32);
 s32 rcos(s32);
-void unlink_entity_node(); /* extern */
-void update_map_cell_flags_with_item_limit();
-void distribute_experience_and_report_gains(); /* extern */
-s32 detach_record_and_update_slot_state(); /* extern */
-s32 play_sound_if_enabled(); /* extern */
+void unlink_entity_node(struct EntityLinkNode *node); /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
+void distribute_experience_and_report_gains(EntityRec *entity); /* extern */
+s32 detach_record_and_update_slot_state(void *record); /* extern */
+s32 play_sound_if_enabled(s32 query_value); /* extern */
 s32 get_entity_effect_value();
-void *create_effect_or_fallback();
+void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
 
 
 typedef struct S_800AD058_1 {

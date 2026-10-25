@@ -12,13 +12,13 @@
 #include "dungeon/player/item.h"
 #include "dungeon/system.h"
 extern s32 feed_actor_restore_mp();
-extern void place_actor_item();
-extern void create_colored_effect_with_sound();
+extern void place_actor_item(void *object_context, void *target);
+extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern u8 *append_entity_display_text();
-extern void clear_byte_and_advance();
-extern void display_text_with_fullwidth_adjustment();
+extern u8 *expand_text_control_codes(const u8 *src, u8 *dst);
+extern u8 *append_entity_display_text(void *record, u8 *out);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void clear_slot_and_update_linked_state();
 
 extern u8 D_800E13FB[];

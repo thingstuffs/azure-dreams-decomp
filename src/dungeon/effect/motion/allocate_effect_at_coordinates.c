@@ -6,7 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 
 void select_record_entry_and_value();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern M2C_UNK D_80024224;
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DE8E8[];

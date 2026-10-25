@@ -57,7 +57,7 @@ typedef struct S_8001C738_8 {
 } S_8001C738_8;
 
 /* Initializes values in four groups of four linked records. */
-void card_dev_init_row_layout(void *record_groups) {
+void card_dev_init_row_layout(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row) {
     s32 slot_index;
     void *group_slot;
 

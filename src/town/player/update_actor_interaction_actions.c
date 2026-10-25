@@ -12,7 +12,7 @@ void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);                                /* extern */
 
 
    /* target in update_actor_interaction_actions */

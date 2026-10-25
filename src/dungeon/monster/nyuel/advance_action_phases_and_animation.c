@@ -6,8 +6,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
-void select_sprite_entry();
 void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 advance_status_timers();

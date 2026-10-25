@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/player.h"
 
 typedef s32 (*TownEntryPredicate)(void *, s32);
 
@@ -9,7 +10,6 @@ typedef struct S_80019F94_1 {
 } S_80019F94_1;
 
 
-s32 get_script_flag_mask();
 
 typedef struct S_80019F94_0 {
     u8 pad_00[0x10];

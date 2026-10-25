@@ -93,7 +93,7 @@ typedef struct S_800A6F48_11 {
 
 #include "town/menu/object/create_positioned_sprite_object_g01142.h"
 /* extern */
-void spawn_person_radial_effects();
+void spawn_person_radial_effects(void *source);
 /* extern */
 extern void D_800A70EC();
 extern M2C_UNK D_800D0DD8;

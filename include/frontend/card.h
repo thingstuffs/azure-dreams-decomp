@@ -188,7 +188,7 @@ void card_dev_init(void);
 void card_dev_init_output_pointers(void *record);
 
 /* card_dev_init_row_layout.c */
-void card_dev_init_row_layout(void *record_groups);
+void card_dev_init_row_layout(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);
 
 /* card_dev_init_row_panel.c */
 void card_dev_init_row_panel(void *panel);
@@ -468,10 +468,10 @@ s32 init_card_sme_object(s32 init_option);
 void init_card_window_slot_object(s32 init_value, s32 slot_index);
 
 /* init_dialog_object.c */
-void init_dialog_object(s32 object_addr);
+void init_dialog_object(void *object_addr);
 
 /* init_frame_primitive_pairs.c */
-void *init_frame_primitive_pairs(void *buffer);
+void * init_frame_primitive_pairs(void *buffer, void *unused_object);
 
 /* init_menu_entry_pointers.c */
 void init_menu_entry_pointers(void *state, s32 entry_count);

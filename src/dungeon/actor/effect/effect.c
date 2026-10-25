@@ -30,7 +30,7 @@ typedef struct {
     u8 pad02[10];
 } RegionPos;
 
-s32 find_active_rect_containing_point();
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
 u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
@@ -970,11 +970,11 @@ void compact_item_entry_table(s32 entry_index) {
 #include "shared/dungeon_moving_views.h"
 
 s32 resolve_record_orientation_or_fallback();
-void unlink_entity_node();
+void unlink_entity_node(struct EntityLinkNode *node);
 s32 check_neighbor_tile_blocking();
-void *find_eligible_actor_at_tile_and_height();
-void set_record_integer_tile_center();
-s32 place_item_at_valid_floor_position();
+void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 extern s32 held_item_record;
 extern u8 D_800DD7DC[];
 extern s32 saved_held_item_word;
@@ -1616,6 +1616,8 @@ void pack_item_flag_400_bitmap(void)
    A preincrement condition emits count-load before index increment and closes. */
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+struct EntityLinkNode;
+struct Node;
 
 extern s32 test_resident_bit(s32);
 extern s32 has_recorded_value_pair(s32, s32);

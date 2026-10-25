@@ -61,7 +61,7 @@ typedef struct S_801652FC_3 {
    /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
 
 extern void *allocate_list_node(s32, void *);
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 child_particle_draw_address[];
 extern u8 D_80165164[];
 

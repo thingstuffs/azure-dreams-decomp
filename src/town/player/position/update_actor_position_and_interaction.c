@@ -23,7 +23,7 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
-s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
 s32 select_response_for_source_and_target();
 void dispatch_actor_action(void *actor, s32 position, s32 context);
 #include "records/Rec_func_8009B828_arg0.h"

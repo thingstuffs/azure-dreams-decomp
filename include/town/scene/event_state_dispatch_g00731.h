@@ -19,7 +19,7 @@ typedef struct TownEntry {
 } TownEntry;
 
 extern s32 func_80018964(s32);
-extern s32 func_800188E4();
+extern void func_800188E4(s32 bit_index);
 extern void func_8001886C(s32);
 
 extern TownEntry D_80019088[7];

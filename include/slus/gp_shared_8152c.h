@@ -48,7 +48,7 @@ extern void patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2
 /* Advances the effect state, applies a fixed effect, and publishes the state pointer. */
 
 void *load_and_publish_texture_resource_pair(int resource_id);
-void runtime_no_op_callback(void);
+void runtime_no_op_callback(u32 unused_state);
 void advance_effect_state(void);
 
 #endif

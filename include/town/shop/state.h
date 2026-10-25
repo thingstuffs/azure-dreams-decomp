@@ -8,4 +8,6 @@ struct S_800B6580_0;
 /* set_monster_status_panel_height.c */
 void set_monster_status_panel_height(struct S_800B6580_0 *object, s16 height);
 
+s32 set_item_menu_flag_and_return_one(void *state, s32 unused_config);
+
 #endif

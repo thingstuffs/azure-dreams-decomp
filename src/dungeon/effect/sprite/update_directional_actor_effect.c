@@ -88,7 +88,6 @@ typedef struct S_81988800_12 {
 extern M2C_UNK D_80024D58;
 
 extern s32 resolve_record_orientation_or_fallback();
-extern s32 read_sound_mode_blocking_status();
 extern void apply_attack_power_and_element_effects();
 
 void update_directional_actor_effect(void *state_data, void *position_data);
@@ -642,6 +641,7 @@ void mark_referenced_object_and_update_flags(void *entry, void *unused, SpriteFr
     }
 }
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
+#include "slus.h"
 
 typedef struct S_80024B20_0 {
     u8 pad_00[0x10];

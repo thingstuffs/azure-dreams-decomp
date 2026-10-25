@@ -7,7 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();
@@ -15,6 +14,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
 #include "dungeon/monster/dreamin.h"
+#include "engine/graphics.h"
 
 /* Attempt an actor transition and update its state and sprite on success. */
 s32 attempt_actor_transition(void *state, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor)

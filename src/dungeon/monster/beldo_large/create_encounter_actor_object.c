@@ -14,7 +14,7 @@ typedef struct S_func_8133A3F0_0 {
     s16 unk_38;
 } S_func_8133A3F0_0;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 encounter_actor_update_address;
 extern s8 encounter_recovery_flag;
 

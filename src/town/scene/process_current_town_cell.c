@@ -12,7 +12,7 @@ typedef struct S_805D2FC4_2 {
 
 s32 func_80017E1C(void);
 s32 func_80018504();                    /* extern */
-s32 func_800194D8();                         /* extern */
+s32 func_800194D8(s32 flagIndex);                         /* extern */
 extern s32 scene_cell_dispatch_code;
 
 /* Dispatches the current cell's action and clears its status after completion or a status-1 fallback. */

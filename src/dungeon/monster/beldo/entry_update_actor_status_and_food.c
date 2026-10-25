@@ -4,7 +4,7 @@
 
 extern s32 select_sprite_entry();
 extern void update_actor_status_and_mp();
-extern void func_80171BE0();
+extern void func_80171BE0(); /* Slot contract: loading images do not establish one callee contract. */
 
 extern u8 beldo_frame_set_2[];
 extern u8 *beldo_effect_stream;

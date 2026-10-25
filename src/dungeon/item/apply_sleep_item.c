@@ -9,7 +9,7 @@
 
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();

@@ -16,7 +16,7 @@ void initialize_resource_selector_six(void) {
 #include "m2c_compat.h"
 
 s32 initialize_mogura_minigame(); /* extern */
-void initialize_resource_selector_six();                            /* extern */
+void initialize_resource_selector_six(void);                            /* extern */
 
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */
 void start_mogura_func(void) {
@@ -28,7 +28,7 @@ void start_mogura_func(void) {
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void initialize_resource_selector_six();                            /* extern */
+void initialize_resource_selector_six(void);                            /* extern */
 
 /* Run start_tako_func initialization and reset the four control values. */
 void start_tako_func(void) {
@@ -40,7 +40,7 @@ void start_tako_func(void) {
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void initialize_resource_selector_six();                            /* extern */
+void initialize_resource_selector_six(void);                            /* extern */
 
 /* Run func_sn_ball initialization and reset the four control values. */
 void scr_func_sn_ball(void) {
@@ -52,7 +52,7 @@ void scr_func_sn_ball(void) {
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void initialize_resource_selector_six();                            /* extern */
+void initialize_resource_selector_six(void);                            /* extern */
 
 /* start_gym_func: Prepare and start the gym event. */
 void start_gym_func(void) {
@@ -73,7 +73,7 @@ void finalize_keima_resource_operation(void) {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80020300(s32, s32, s32, s32);
-void finalize_keima_resource_operation();                            /* extern */
+void finalize_keima_resource_operation(void);                            /* extern */
 
 /* start_keima_func: Prepare and start the keima event. */
 void start_keima_func(void) {
@@ -85,7 +85,7 @@ void start_keima_func(void) {
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void finalize_keima_resource_operation();                            /* extern */
+void finalize_keima_resource_operation(void);                            /* extern */
 
 /* start_keima2_func: Prepare and start the second keima event. */
 void start_keima2_func(void) {
@@ -104,7 +104,7 @@ void finalize_town_resource_operation(void) {
 #include "town/minigame/dispatch.h"
 #include "common.h"
 void card_dev_init_two_rows(void);                            /* extern */
-void finalize_town_resource_operation();                            /* extern */
+void finalize_town_resource_operation(void);                            /* extern */
 
 /* Run the two handlers for town script call 100. */
 void scr_func_sn_casino(void) {
@@ -116,7 +116,7 @@ void scr_func_sn_casino(void) {
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void finalize_town_resource_operation();                            /* extern */
+void finalize_town_resource_operation(void);                            /* extern */
 
 /* func_sn_casino_slot: prepare and run the casino slot event. */
 void scr_func_sn_casino_slot(void) {

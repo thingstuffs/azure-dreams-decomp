@@ -17,7 +17,7 @@ typedef struct {
 #define MULT_HI(a, b) (0)
 
 extern s32 clipped_sprite_renderer_address[3];
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 #include "shared/sprite_source.h"

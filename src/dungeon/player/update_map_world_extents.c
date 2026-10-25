@@ -9,19 +9,19 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
 extern s32 resolve_record_orientation_or_fallback();
-extern void set_sprite_animation_frame();
 
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern s32 clear_byte_and_advance();
 extern s32 write_text_byte_and_advance();
 extern s32 append_typed_formatted_value();
 extern s32 process_eligible_object_value();
 extern s32 append_entity_display_text();
-extern void process_unflagged_linked_entries();
-extern void process_unflagged_linked_entries_alt();
+extern void process_unflagged_linked_entries(s32 firstEntryBase);
+extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 

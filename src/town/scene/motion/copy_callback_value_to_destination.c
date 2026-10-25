@@ -5,7 +5,7 @@
 
 
 
-void copy_town_record_pair_fields();
+void copy_town_record_pair_fields(); /* Unprototyped: two or four arguments; retail reads only the first two. */
 
 
 /* Pass the callback-selected table value to the destination handler. */

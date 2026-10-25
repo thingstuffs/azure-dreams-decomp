@@ -1,9 +1,9 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
 #include "town/person/object/initialize_object_entries_api.h"                /* extern */
 #include "town/person/state_updates.h"
+#include "engine/window.h"
 
 
 /* Initializes the object, assigns its state data, and sets a value in multiples of 21. */

@@ -17,4 +17,8 @@ void initialize_item_menu_request_state(void *state, s32 base_value);
 s32 count_town_items(void);
 void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table);
 
+struct ItemMenuPart;
+struct ItemMenuObject;
+void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object);
+
 #endif

@@ -23,8 +23,8 @@ typedef struct S_800D991C_0 {
 
 void select_record_entry_and_value();        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
-void set_record_integer_tile_center();              /* extern */
-s32 advance_status_timers();                      /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+s32 advance_status_timers(void *record);                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
                   /* extern */

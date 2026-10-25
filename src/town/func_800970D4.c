@@ -3,8 +3,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 SD_Call();                     
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
+#include "slus.h"
 extern s32 D_80093524;
 extern s32 D_800D0188;
 

@@ -162,11 +162,11 @@ typedef struct {
     u8 padE[6];
 } DungeonEntry;
 
-extern void advance_sprite_animation_and_textures();
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 rand(void);
-extern void apply_monster_koyaw_data();
+extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void try_move_actor_to_valid_position();
+extern s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 extern u8 actor_action_resume_address;
 extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
@@ -186,7 +186,7 @@ extern s16 actor_turn_angle_offsets[];
 s32 check_entity_relation();
 s32 select_actor_route_target();
 s32 update_actor_proximity_flag();
-s32 generate_random_value();
+s32 generate_random_value(void);
 
 struct Dst; struct Elem;
 extern void select_record_entry_and_value(struct Dst *, struct Elem *, s16);

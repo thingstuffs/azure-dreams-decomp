@@ -63,7 +63,7 @@ void destroy_animated_selection_menu_owner(void *object);
 s32 find_resolved_selection_menu_index(void *id_list_data, void *object);
 
 /* flag_object_and_release_inner.c */
-void flag_object_and_release_inner(struct ObjA464 *obj);
+void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
 
 /* handle_animated_selection_menu_cancel.c */
 void handle_animated_selection_menu_cancel(void *payload);

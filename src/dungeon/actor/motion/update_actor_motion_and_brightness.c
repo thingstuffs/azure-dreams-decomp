@@ -8,7 +8,7 @@ typedef void (*Func4)(void *, void *, void *, void *);
 extern Func4 actor_brightness_callbacks[];
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
-extern s32 sample_terrain_surface_height();
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 typedef struct S_800D4158_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

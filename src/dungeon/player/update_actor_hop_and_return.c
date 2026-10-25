@@ -28,7 +28,7 @@ void set_sprite_animation_frame();
 s32 rsin();
 s32 rcos();
 void set_record_integer_tile_center();
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 
 extern u8 player_hop_frames[];
 extern u8 player_landing_frame_set[];

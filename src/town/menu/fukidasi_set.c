@@ -7,6 +7,7 @@
 #include "shared/dungeon_trail_views.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/object_payload.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +36,6 @@ typedef struct {
     void *value;
 } EntryRecord;
 
-extern void register_node_if_unregistered();
 extern void *create_town_effect_object();
 extern u8 D_800A76F0;
 extern s32 D_800D0E24[];

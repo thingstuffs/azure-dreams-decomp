@@ -36,7 +36,7 @@ typedef struct S_81977D08_5 {
 
 extern s32 select_record_entry_and_value();
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 D_8002548C;
 extern s32 D_800DEB70;

@@ -6,7 +6,7 @@
 
 
 
-void func_800174CC();                            /* extern */
+void func_800174CC(void);                            /* extern */
 extern M2C_UNK D_80019814;
 extern M2C_UNK D_80019884;
 extern s32 D_80019AF8;

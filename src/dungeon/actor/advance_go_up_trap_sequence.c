@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
+struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
 typedef struct S_800CB9DC_0_pre {
@@ -62,11 +63,11 @@ typedef struct S_800CB9DC_9 {
 
 extern void request_scene_dispatch_state(s16 requested_state);               /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-void snapshot_inventory_and_familiars();           /* extern */
-void unlink_entity_node();                      /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
-s32 detach_record_and_update_slot_state();                      /* extern */
-s32 check_action_boundary_and_set_flag();                            /* extern */
+void snapshot_inventory_and_familiars(void *input_state);           /* extern */
+void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
+s32 detach_record_and_update_slot_state(void *record);                      /* extern */
+s32 check_action_boundary_and_set_flag(void);                            /* extern */
 extern s32 D_80010234;
 extern s16 floor_generation_state[3];
 extern u8 scene_mode_code;

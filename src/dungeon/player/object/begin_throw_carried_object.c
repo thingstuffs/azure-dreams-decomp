@@ -3,7 +3,7 @@
 #include "dungeon/player/object.h"
 
 void append_packed_action_record(); /* extern */
-s32 play_sound_if_enabled();                     /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 
 
 /* Reset object state, clear flag 0x10, and invoke the state handlers. */

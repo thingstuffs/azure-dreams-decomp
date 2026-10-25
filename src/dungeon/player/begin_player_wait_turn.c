@@ -21,7 +21,7 @@ typedef struct S_8008C7B4_0 {
 
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
-extern void append_packed_action_record();
+extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 extern u8 player_wait_frames;
 extern u8 player_carry_frames[8];
 

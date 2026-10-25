@@ -18,7 +18,7 @@ extern s32 append_entity_display_text();
 extern void display_text_with_fullwidth_adjustment();
 extern void place_actor_item();
 extern void display_item_status_message();
-extern s32 generate_random_value();
+extern s32 generate_random_value(void);
 extern s16 feed_actor_restore_mp();
 extern void create_timed_paired_particle_emitter();
 

@@ -139,10 +139,11 @@ s32 build_screen_outline();
 s32 SetFogFar();
 s32 SetLightMatrix();
 s32 SetColorMatrix();
-s16 sample_terrain_surface_height();
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
 void render_map_cell_mesh(void) {
+    s16 surface_height;
     RenderScratch *scratch;
     RenderScratch *view_scratch;
     u16 view_corners[23];
@@ -218,8 +219,10 @@ void render_map_cell_mesh(void) {
         s32 row_mask;
         s32 max_height;
 
-        coord = sample_terrain_surface_height((u16)view->camera_position.parts.camera_position_x, (u16)view->camera_position.parts.camera_position_y,
+        surface_height = sample_terrain_surface_height((u16)view->camera_position.parts.camera_position_x, (u16)view->camera_position.parts.camera_position_y,
             (s16) (view->camera_position.parts.camera_position_z - 0x20));
+
+        coord = surface_height;
         if (coord < 0x201) {
             view_scratch->view_height = coord;
         } else {

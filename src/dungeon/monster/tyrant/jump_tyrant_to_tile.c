@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/graphics.h"
 
 
 typedef struct S_80172258_0 {
@@ -25,7 +26,6 @@ typedef struct S_80172258_0 {
 
 
 
-void select_sprite_entry();
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();

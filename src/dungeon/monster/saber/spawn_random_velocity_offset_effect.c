@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "slus.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
@@ -20,7 +21,6 @@ typedef struct S_80AC5820_1 {
 
    /* other in spawn_random_velocity_offset_effect */
 
-extern void advance_sprite_animation_and_textures();
 extern s32 RotTransPers(void *, void *, void *, void *);
 
 extern s32 object_flag_block __attribute__((section(".data")));

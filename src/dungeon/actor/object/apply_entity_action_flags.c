@@ -21,10 +21,10 @@ typedef struct S_800A4B88_0_pre {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void select_record_entry_and_value();     /* extern */
 extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
-void apply_entity_effects();                      /* extern */
-void restore_player_control_callback();              /* extern */
-void cycle_map_cell_flags();             /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
+void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */                      /* extern */
+void restore_player_control_callback(void *target, void *source);              /* extern */
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);             /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
  /* extern */
 extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];

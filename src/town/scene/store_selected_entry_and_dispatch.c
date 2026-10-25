@@ -4,7 +4,7 @@
 
 
 s32 prepare_selected_entry_buffer();
-void func_8001E578();
+void func_8001E578(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 
 // Updates the selected entry's value and signals the update when the state is 2.
 s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {

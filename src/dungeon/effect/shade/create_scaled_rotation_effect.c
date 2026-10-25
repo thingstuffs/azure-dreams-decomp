@@ -3,7 +3,7 @@
 #include "common.h"
 
 extern s32 select_record_entry_and_value();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 
 extern u8 D_80025098[9];

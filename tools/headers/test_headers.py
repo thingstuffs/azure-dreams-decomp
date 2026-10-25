@@ -76,6 +76,33 @@ class ScanTests(unittest.TestCase):
         d = {i.decls[0].name: i.cond_depth for i in sc.items}
         self.assertEqual(d, {'a': 1, 'b': 0})
 
+    def test_tagged_return_definition_does_not_consume_following_declaration(self):
+        text = ('struct Item { int x; };\n'
+                'struct Item *lookup(struct Item *p) { return p; }\n'
+                'void next();\n')
+        scan = cscan.scan(text)
+        functions = [item for item in scan.items if item.kind == 'def']
+        self.assertEqual([item.decls[0].name for item in functions], ['lookup'])
+        self.assertEqual(functions[0].spec, ['struct', 'Item'])
+        self.assertEqual(functions[0].decls[0].ptr, 1)
+        self.assertIn(('decl', ['next']), [(item.kind, [d.name for d in item.decls]) for item in scan.items])
+
+    def test_tagged_record_with_attribute_and_initializer_is_not_a_function(self):
+        text = ('struct Item __attribute__((aligned(4))) { int x; };\n'
+                'struct Item item = { 0 };\nvoid next();\n')
+        scan = cscan.scan(text)
+        self.assertFalse(any(item.kind == 'def' for item in scan.items))
+        self.assertIn('next', [d.name for item in scan.items for d in item.decls])
+
+    def test_knr_definition_keeps_following_functions_separate(self):
+        text = ('int first(value)\nshort value;\n{ return value; }\n'
+                'int second(int a, int b) { return a+b; }\nvoid next();\n')
+        scan = cscan.scan(text)
+        definitions = [item for item in scan.items if item.kind == 'def']
+        self.assertEqual([item.decls[0].name for item in definitions], ['first', 'second'])
+        self.assertEqual(definitions[0].decls[0].params, [['value']])
+        self.assertIn('next', [d.name for item in scan.items for d in item.decls])
+
 
 class ClassifyTests(unittest.TestCase):
     def setUp(self):

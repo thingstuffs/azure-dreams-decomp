@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 struct TargetVec;
 extern struct TargetVec *effect_position_source[];
 void *allocate_list_node();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rsin();
 s32 rcos();
 s32 rand();

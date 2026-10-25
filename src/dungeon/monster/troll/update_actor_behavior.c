@@ -11,9 +11,9 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "dungeon/monster/troll.h"
+#include "engine/graphics.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void select_sprite_entry();         /* extern */
 s32 check_entity_relation();                     /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 s32 test_neighbor_position_relation();                  /* extern */

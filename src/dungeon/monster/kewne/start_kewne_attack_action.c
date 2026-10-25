@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "engine/graphics.h"
 
 typedef struct S_809A0A34_1 {
     u8 pad_00[0x98];
@@ -11,7 +12,6 @@ typedef struct S_809A0A34_1 {
     s8 unk_9B;
 } S_809A0A34_1;   /* arg0 in start_kewne_attack_action */
 
-void select_sprite_entry();         /* extern */
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */

@@ -4,12 +4,12 @@
 #include "records/Rec_D_80082D58.h"
 #include "engine/effect.h"
 #include "engine/node.h"
+#include "engine/resource.h"
 
 typedef struct S_8003C2B8_0_pre {
     s32 unk_00;
     u8 pad_04[0x10];
 } S_8003C2B8_0_pre;   /* the 0x14 bytes before &D_80082D58 in clear_fade_manager, addressed as &D_80082D58[-1] */
-void runtime_clear_record_field_04();              /* extern */
 extern u8 fade_manager_state[];
 
 /* Clears D_80082D58 and processes it using the preceding block's value. */

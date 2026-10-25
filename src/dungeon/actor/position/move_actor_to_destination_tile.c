@@ -7,7 +7,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 void begin_player_trap_trigger(); /* extern */
-void set_record_integer_tile_center();              /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 extern void destination_motion_resume_address();
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */

@@ -16,7 +16,6 @@ typedef struct S_80172314_2 {
     u8 unk_9B;
 } S_80172314_2;   /* arg0 in validate_transition_and_update_action */
 
-extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
 extern s32 probe_directional_neighbor();
@@ -24,6 +23,7 @@ extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
 #include "dungeon/monster/mandara.h"
+#include "engine/graphics.h"
 
 /* Validate an actor transition and update its state and directional animation on success. */
 s32 validate_transition_and_update_action(void *state, s32 transition_id, SpriteFrameState *sprite, ActorRecord *actor)

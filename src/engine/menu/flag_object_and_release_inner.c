@@ -20,7 +20,7 @@ typedef struct ObjA464 {
 } ObjA464;
 
 /* Sets object and global flags and processes the object's two inner values. */
-void flag_object_and_release_inner(ObjA464 *obj)
+void flag_object_and_release_inner(ObjA464 *obj, s32 unused)
 {
     InnerA464 *inner;
 

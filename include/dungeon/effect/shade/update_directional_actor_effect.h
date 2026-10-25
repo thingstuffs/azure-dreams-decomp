@@ -278,15 +278,15 @@ void func_8004491C(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rsin(s32);
 void *allocate_list_node();
-void *func_8003FD64();
-void advance_sprite_animation_and_textures();
+void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+void advance_sprite_animation_and_textures(void *entity);
 s32 rcos();
 void PushMatrix();
 void PopMatrix();
 void * ApplyMatrixSV();
 void select_record_entry_and_value();
 
-s32 read_sound_mode_blocking_status();
+s32 read_sound_mode_blocking_status(s32 mode);
 void * RotMatrix();
 s32 rand();
 void apply_attack_power_and_element_effects();

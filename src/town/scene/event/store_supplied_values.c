@@ -2,7 +2,7 @@
 #include "town/scene/entry_requests.h"
 #include "common.h"
 
-void store_supplied_values();                /* extern */
+void store_supplied_values(s32 value_18e44, s32 value_18e48);                /* extern */
 void func_80017EB0(s32, s32);                /* extern */
 void func_800188CC(s32);                     /* extern */
 s32 func_8001894C();                             /* extern */

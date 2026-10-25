@@ -86,7 +86,7 @@ typedef struct S_800C4F20_8 {
 s32 rsin();
 s32 rcos();
 s32 rand();
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 
 /* Updates an object's staged scale and position animation. */
 void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {

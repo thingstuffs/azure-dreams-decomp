@@ -3,6 +3,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/sprite_frame_state.h"
+struct RegistrationNode;
+struct S_80170A98_2;
 
 typedef s32 M2C_UNK;
 
@@ -33,15 +36,15 @@ typedef struct S_8015E854_4 {
     s8 unk_9C;
 } S_8015E854_4;   /* actor in func_8015E854 */
 
-extern void func_8015EA58();
-extern void func_8015EE5C();
+extern void func_8015EA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
+extern void func_8015EE5C(void *actor_in, void *context_in, void *sprite_in, void *status_in);
 extern u8 volcano_frame_set_4[];
 extern u8 D_80162538[];
 
 extern void *allocate_list_node();
-extern void *func_8003FD64();
-extern s32 register_node();
-extern s32 func_8004491C();
+extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern s32 generate_random_value();
 extern s16 set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();

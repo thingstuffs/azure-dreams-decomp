@@ -21,7 +21,7 @@ typedef struct S_80173140_5 {
 } S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in create_scripted_encounter_object */
 
 void *allocate_list_node();            /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void select_sprite_entry();         /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */

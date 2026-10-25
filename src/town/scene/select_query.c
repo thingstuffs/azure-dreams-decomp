@@ -6,7 +6,7 @@ extern s32 D_80018E34;
 extern s32 scene_request_context;
 
 extern void func_800181C8();
-extern s32 func_80018C50();
+extern s32 func_80018C50(s32 flagIndex);
 
 /* Selects data using query 0xFBC and forwards it with the supplied values. */
 void select_query(s32 primaryValue, s32 unusedValue, s32 secondaryValue) {

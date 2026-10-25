@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/monster/nyuel.h"
+#include "engine/graphics.h"
 
 typedef struct S_80171E00_3 {
     u8 pad_00[0x8C];
@@ -16,7 +17,6 @@ typedef struct S_80171E00_3 {
     s8 unk_9B;
 } S_80171E00_3;   /* arg0 in check_movement_and_initialize_action */
 
-void select_sprite_entry();         /* extern */
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 get_actor_height_difference();                     /* extern */

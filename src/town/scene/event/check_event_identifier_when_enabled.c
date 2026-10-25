@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 
-s32 func_8001E670();                             /* extern */
+s32 func_8001E670(s32 flagIndex);                             /* extern */
 extern s16 scene_event_test_id;
 
 /* Return whether the identifier check passes when the state permits it. */

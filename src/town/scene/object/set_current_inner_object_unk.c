@@ -6,9 +6,9 @@ extern s32 D_80018FEC;
 extern s32 *D_800190D8;
 extern s32 D_80019A74;
 
-extern s32 func_80018C74();
-extern s32 func_80018CEC();
-extern s32 func_80018D6C();
+extern void func_80018C74(s32 bit_index);
+extern void func_80018CEC(s32 bit_index);
+extern s32 func_80018D6C(s32 flagIndex);
 
 /* Initializes state pointers and updates flags based on the current state. */
 void set_current_inner_object_unk(void) {

@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 
-void set_selected_entry_state_3();                            /* extern */
+void set_selected_entry_state_3(void);                            /* extern */
 void func_800193E0(s32);                     /* extern */
 extern s32 scene_dispatch_mode_index;
 

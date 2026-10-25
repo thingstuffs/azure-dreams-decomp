@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800198D0();
+extern s32 func_800198D0(s32 flagIndex);
 extern s16 D_800164BC;
 extern s32 scene_choice_index;
 

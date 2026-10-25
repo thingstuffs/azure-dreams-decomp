@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/position_views.h"
+struct RegistrationNode;
 
 extern u8 clown_object_callback_4[];
 extern s32 D_8016B014;
@@ -11,9 +12,9 @@ extern s32 D_8016E20C;
 extern s32 D_8016E25C;
 
 extern void *allocate_list_node();
-extern void *func_8003FD64();
-extern void register_node();
-extern void func_8004491C();
+extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern void set_or_clear_actor_status_slot();
 extern s32 generate_random_value();
 extern void initialize_actor_sprite_and_animation();

@@ -24,7 +24,7 @@ typedef struct S_8002082C_3 {
 
 extern s32 select_record_entry_and_value();
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 typedef struct {
     u16 field_0;

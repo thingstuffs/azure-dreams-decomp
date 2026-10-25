@@ -34,7 +34,7 @@ extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters();
 extern s32 run_cd_image_commands();
 extern s32 read_stream_cue_start_offset();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_indirect_table_entry();
 extern s32 lookup_masked_byte_table();
 extern s32 rand();

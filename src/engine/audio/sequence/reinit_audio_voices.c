@@ -2,7 +2,7 @@
 #include "engine/audio/sequence.h"
 #include "slus.h"
 
-extern void dispatch_combined_driver_flags(int unused);
+extern void dispatch_combined_driver_flags(s32 unused);
 
 /* Runs audio setup and uploads voice 4 sample data to the SPU. */
 void reinit_audio_voices(void)

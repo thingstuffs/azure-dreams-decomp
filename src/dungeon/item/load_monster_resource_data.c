@@ -1,8 +1,8 @@
 #include "common.h"
+#include "engine/cd.h"
 
 extern int abs(int);
 extern s32 Control_CD();
-extern s32 drain_cd_command_queue();
 extern s32 pack_tagged_resource_descriptor();
 
 extern s8 monster_resource_cache_ids[];

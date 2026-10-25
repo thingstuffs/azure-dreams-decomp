@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 void submit_activation_command(void);                            /* extern */
-void *create_transformed_render_object(); /* extern */
+void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode); /* extern */
 extern u8 dungeon_ground_item_positions[];
 
 typedef struct S_8009F020_0 {

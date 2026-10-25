@@ -1,7 +1,7 @@
 #include "common.h"
+#include "engine/window.h"
 
 
-extern s8 scale_random_to_unsigned_halfword_limit();
 void update_actor_surface_motion(void *, void *, void *, void *);
 struct EntityRec; struct Rec_D_80082E80; struct Rec_func_80094268_arg0; void select_object_value_by_height_band(struct Rec_func_80094268_arg0 *, void *, struct EntityRec *, struct Rec_D_80082E80 *);
 

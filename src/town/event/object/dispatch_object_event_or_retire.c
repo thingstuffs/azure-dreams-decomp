@@ -2,12 +2,13 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "shared/object_links.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 
 void unlink_node_if_registered(void *block_data);
-void unlink_scene_list_node();
+void unlink_scene_list_node(Rec_func_80094268_arg0 *node);
 s32 update_object_and_clear_status_fields();
-void set_state_bytes_from_flags();
+void set_state_bytes_from_flags(s32 flags, u8 *state);
 s32 classify_object_against_bounds(void *, s32);
 
 

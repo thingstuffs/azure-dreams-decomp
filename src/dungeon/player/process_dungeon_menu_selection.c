@@ -92,14 +92,16 @@ s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
 void read_vram_blocks_to_buffer();                            /* extern */
 #include "dungeon/player/item.h"
-void initialize_action_state_29(); /* extern */
-s32 request_familiar_deployment_change(); /* extern */
-void resolve_familiar_deployment_request(); /* extern */
-void restore_player_control_callback();              /* extern */
+#include "dungeon/actor/state.h"
+struct S_80094270_2;
+struct S_800B50B0_Entity;
+s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, struct S_80094270_2 *item, s32 slot); /* extern */
+void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr); /* extern */
+void restore_player_control_callback(void *target, void *source);              /* extern */
 void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
 s16 get_special_table_data_index();                          /* extern */
-s32 get_unused_text_buffer();                                /* extern */
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
 s32 append_entity_display_text();                        /* extern */
@@ -107,7 +109,7 @@ void display_formatted_context_message(void *context);                   /* exte
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */
-void update_selection_tile_markers();            /* extern */
+void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
 extern M2C_UNK familiar_menu_action_data;
 extern void *D_8004F5F4(void *, void *);
 extern Rec_D_80082EB0 selected_item_record_alias;

@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 s16 select_lowest_corrected_probe(); /* extern */
-s16 forward_surface_query_with_argument();                    /* extern */
+s16 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */                    /* extern */
 extern M2C_UNK D_800CFD18;
 
 typedef struct {

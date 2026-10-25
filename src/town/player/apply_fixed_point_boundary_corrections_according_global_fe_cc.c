@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(s32 *);                           /* extern */
-s32 handle_queries_large_offset_returns_larger_original_shifted_result();                           /* extern */
+s16 handle_queries_large_offset_returns_larger_original_shifted_result(s32 *input);                           /* extern */
 struct EntityRec; void set_global_800_cfceb_initialize_call_callee_800954_c_4(struct EntityRec *, s32);                  /* extern */
 struct EntityRec; void set_global_800_cfcea_initialize_call_callee_800954_c_4(struct EntityRec *, s32);                  /* extern */
 extern s32 town_primary_probe_offset;

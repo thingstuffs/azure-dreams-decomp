@@ -5,13 +5,13 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80171CD4_arg0.h"
 #include "records/Rec_func_80171CD4_arg1.h"
+#include "engine/graphics.h"
 
-extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
-extern s32 initialize_actor_facing_sprite();
+extern void initialize_actor_facing_sprite(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 
 extern u8 saber_frame_set_9[];
 

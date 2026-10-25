@@ -2,7 +2,7 @@
 
 typedef unsigned long uptr;
 
-extern void func_800B7B48();
+extern void func_800B7B48(s16 x, s16 y, u8 entry_index);
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void decrement_current_entry_counter_condition();                            /* extern */
+void decrement_current_entry_counter_condition(void);                            /* extern */
 s32 invoke_system_callback_21_c();         /* extern */
 s32 func_80018044(); /* extern */
 s32 func_8001894C();                             /* extern */

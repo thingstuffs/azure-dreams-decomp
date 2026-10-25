@@ -21,7 +21,7 @@ typedef struct S_800B1664_4 {
     u16 unk_06;
 } S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in decay_shop_state_and_cleanup */
 void release_null_terminated_entries(u16 **entries);
-void reset_five_shop_slots();
+void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner);
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */
 void decay_shop_state_and_cleanup(void *object) {

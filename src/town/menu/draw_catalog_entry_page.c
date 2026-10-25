@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 void DrawSync(s32);                     /* extern */
 void ClearImage(void *, s32, s32, s32); /* extern */
-s32 is_catalog_entry_available();                             /* extern */
+s32 is_catalog_entry_available(s32 index);                             /* extern */
 void draw_vram_glyph_text();               /* extern */
 void draw_cached_catalog_text(); /* extern */
 extern M2C_UNK D_8011ACD8;

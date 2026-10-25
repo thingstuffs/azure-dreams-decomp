@@ -25,7 +25,7 @@ typedef struct {
     u8 kind48;
 } Obj3;
 
-extern void func_801544BC();
+extern void func_801544BC(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state);
 extern u8 D_80157DC4[8];
 extern u8 D_80157DCC[8];
 extern u8 D_80157DD4[8];

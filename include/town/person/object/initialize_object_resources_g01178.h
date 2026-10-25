@@ -74,11 +74,10 @@ typedef struct S_800C5214_0 {
     s32 unk_BC;
 } S_800C5214_0;
 
-void create_resource_display_object();
+void create_resource_display_object(s16 resource_index);
 /* extern */
 void copy_entity_record_fields();
 /* extern */
-void initialize_object_and_register_slot();
 extern M2C_UNK D_800D50DC;
 extern M2C_UNK D_800D50F0;
 extern M2C_UNK D_800D50F8;
@@ -91,13 +90,14 @@ extern s32 D_80113208[];
 extern u8 message_motion_type_b[];
 extern s32 D_800C5100;
 /* object in create_user_data_object_b */
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_800345B8[];
 extern u8 D_800C52D0[];
 extern u8 D_800F148C[];
 
 /* Shared import declarations; data casts preserve each measured view. */
 #include "town/person/object_setup.h"
+#include "town/person.h"
 
 /* Functions defined in this translation unit. */
 void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/window.h"
 
-s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
 /* extern */
 
 void func_800C9C94(Rec_func_80094268_arg0 *, s32, s32);

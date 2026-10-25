@@ -115,7 +115,7 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
-void advance_sprite_animation_and_textures();  /* extern */
+#include "slus.h"
 s32 rsin();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
 void play_sound_if_enabled();             /* extern */

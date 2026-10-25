@@ -13,7 +13,7 @@ typedef struct S_806D45CC_0 {
     s16 unk_18;
 } S_806D45CC_0;   /* arg0 in update_object_entry_flag */
 void func_800176B8(void *, s32);             /* extern */
-s32 initialize_state_two_entries_pointer();                         /* extern */
+void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */
 
 /* Update the object, clear the current entry flag, and forward the call. */
 void update_object_entry_flag(S_806D45CC_0 *object, s32 context) {

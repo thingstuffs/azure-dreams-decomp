@@ -4,8 +4,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
-extern void select_sprite_entry();
 extern u8 kewne_action_resume_address[];
 extern u8 kewne_turn_frames[];
 extern u8 kewne_frame_set_4[];

@@ -36,7 +36,7 @@ typedef struct S_8016E998_1 {
     s8 unk_20;
 } S_8016E998_1;
 
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                        /* extern */
 void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);

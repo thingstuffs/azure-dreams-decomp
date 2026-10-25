@@ -7,9 +7,9 @@
 typedef void (*Callback)(s32, s32);
 
 
-extern void func_80018B58();
-extern void func_80018BD0();
-extern s32 func_80018C50();
+extern void func_80018B58(s32 bit_index);
+extern void func_80018BD0(s32 bit_index);
+extern s32 func_80018C50(s32 flagIndex);
 
 /* Updates event state and checks completion conditions, invoking a callback if unmet. */
 s32 look_up_slot_record_falling(void)

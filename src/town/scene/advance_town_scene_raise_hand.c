@@ -8,7 +8,7 @@ extern s32 func_8001991C();
 extern void update_entry_flags(void);
 void func_8001A554(s32);
 void func_8001A5CC(s32);
-extern s32 func_8001A64C();
+extern s32 func_8001A64C(s32 flagIndex);
 
 
 /* Advance the town scene: raise 0x94B, then hand back to the scene callback unless flag 0x943 and the step check both pass. */

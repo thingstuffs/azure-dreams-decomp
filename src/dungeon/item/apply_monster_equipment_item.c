@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/system.h"
+#include "engine/menu.h"
 
 typedef struct S_800C08A4_0 {
     void * unk_00;
@@ -39,16 +40,15 @@ typedef struct S_800C08A4_2 {
 void begin_mode_selected_item_action(); /* extern */
 s32 process_record_and_update_linked_state(); /* extern */
 void clear_slot_and_update_linked_state(); /* extern */
-s32 lookup_item_category_mapped_value();
 s32 copy_fullwidth_vowel_bytes();
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
 s32 append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
-void place_actor_item(); /* extern */
+void place_actor_item(void *object_context, void *target); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();

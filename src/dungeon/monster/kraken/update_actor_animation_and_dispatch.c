@@ -9,6 +9,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "engine/graphics.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -50,7 +51,6 @@ typedef struct S_801711A4_3 {
 typedef struct EmptyArg {
 } EmptyArg;
 
-void select_sprite_entry();
 s32 check_entity_relation();
 s8 find_active_rect_containing_point();
 s32 test_neighbor_position_relation();
@@ -66,7 +66,7 @@ s32 process_selected_actor_record();
 void begin_actor_spell_action();
 extern void func_801716CC(void *motion, s32 unused, void *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-s32 func_80171FCC();
+s32 func_80171FCC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 extern void func_80172190(void *action_state, void *context, void *sprite, ActorRecord *actor);
 s32 func_801722B8();
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);

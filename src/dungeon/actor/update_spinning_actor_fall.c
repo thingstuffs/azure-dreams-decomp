@@ -4,6 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+struct EntityLinkNode;
 
 
 typedef struct {
@@ -12,11 +13,11 @@ typedef struct {
 } D_80083460_t;
 
 
-extern void unlink_entity_node();
-extern void cycle_map_cell_flags();
+extern void unlink_entity_node(struct EntityLinkNode *node);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void set_record_integer_tile_center();
-extern void detach_record_and_update_slot_state();
-extern s16 sample_terrain_surface_height();
+extern s32 detach_record_and_update_slot_state(void *record);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 
 typedef struct S_800AC5C8_0 {

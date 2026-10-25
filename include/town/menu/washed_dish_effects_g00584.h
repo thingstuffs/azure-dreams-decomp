@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
+struct S_80045340_Entry;
 
 typedef struct {
     s32 words[3];
@@ -17,7 +18,7 @@ typedef struct {
 } D800D0E44;
 
 void register_node_if_unregistered(void *, void *);
-extern void project_sprite_chain();
+extern s32 project_sprite_chain(void *group_data, s32 context, struct S_80045340_Entry *entry, s32 unused);
 extern s32 classify_object_against_bounds(void *object, void *position_data);
 extern void unlink_node_if_registered(void *object);
 extern s32 D_800D0E40[3];

@@ -11,7 +11,7 @@ typedef struct {
 } CallbackEntry;
 
 extern s32 check_initial_query_zero_secondary();
-extern s32 select_data_array_based_flag();
+extern s32 select_data_array_based_flag(s32 flagIndex);
 extern s16 D_800160B2[8];
 
 typedef struct S_80016818_0 {

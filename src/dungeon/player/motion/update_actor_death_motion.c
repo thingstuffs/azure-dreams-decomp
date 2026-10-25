@@ -14,8 +14,8 @@ typedef struct S_80048A44_Obj S_80048A44_Obj;
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
-void set_record_integer_tile_center();              /* extern */
-void apply_clamped_actor_value_delta();                      /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+void apply_clamped_actor_value_delta(void *entity);                      /* extern */
 extern u8 player_wait_frames[8];
 extern u8 player_damage_frames_2[8];
 

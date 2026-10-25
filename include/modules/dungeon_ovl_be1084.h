@@ -49,6 +49,7 @@ extern void SetDrawMode(void *, s32, s32, u16, s32);
 #include "shared/object_links.h"
 #include "shared/object_payload.h"
 #include "shared/position_views.h"
+struct RegistrationNode;
 
 typedef struct S_80BC1264_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -138,8 +139,8 @@ typedef struct S_80BC1528_2 {
 
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
-extern void register_node();
-extern void func_8004491C();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 
 /* Creates an offset effect and initializes its motion back toward the parent. */
 

@@ -7,12 +7,12 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-void select_sprite_entry();         /* extern */
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
 #include "dungeon/monster/killer.h"
+#include "engine/graphics.h"
 
 /* Updates the actor's action state and directional animation when it can act. */
 void update_eligible_actor_action_alt(void *action_state, s32 context, SpriteFrameState *sprite, void *actor) {

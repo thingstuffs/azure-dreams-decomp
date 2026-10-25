@@ -8,6 +8,7 @@
 #include "shared/runtime_dispatch.h"
 #include "shared/sys_flags.h"
 #include "town/shop.h"
+struct InputRecord;
 
 typedef struct S_800A0668_1 {
     u8 pad_00[0x1];
@@ -187,11 +188,11 @@ extern s32 classify_object_against_bounds(void *, void *);
 extern s32 create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth);
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
 extern void initialize_entity_handlers_and_position(s16 actor_value, s16 position_value_1, s16 position_value_2);
-extern s32 change_map();
-extern s32 find_target_byte_index_in_list();
+extern void change_map(struct InputRecord *input);
+extern s32 find_target_byte_index_in_list(void);
 extern s16 create_objects_descending_by_count();
-s32 count_consecutive_nonzero_entries_up_twenty();
-void set_player_block_value();
+s32 count_consecutive_nonzero_entries_up_twenty(void);
+void set_player_block_value(s32 value);
 s32 service_script_controller(void);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);

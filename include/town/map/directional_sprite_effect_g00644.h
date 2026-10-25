@@ -57,7 +57,7 @@ struct Rec_func_8008F074_arg0;
 
 void *allocate_list_node();
 /* extern */
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 /* extern */
 /* extern */
 /* extern */

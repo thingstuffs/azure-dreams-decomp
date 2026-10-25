@@ -7,7 +7,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s16 GetClut();
 extern s32 draw_linked_textured_quads(void *first_quad);
 extern void update_rotating_effect_vertices(void *effect_data);
@@ -352,7 +352,7 @@ void update_rotating_effect_vertices(void *effect_data) {
 #include "shared/dungeon_moving_views.h"
 
 void *allocate_list_node();            /* extern */
-s16 sample_terrain_surface_height();                   /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 extern void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
 
 typedef struct S_800DAE44_2 {
@@ -416,7 +416,7 @@ typedef struct S_800DAEF4_6 {
 } S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand(void);
 
 extern s32 secondary_sprite;

@@ -12,7 +12,7 @@ struct ObjectNodeHeader;
 #include "dungeon/player/item.h"
 extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *);
-extern void adjust_source_value_and_finalize(void *, void *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);

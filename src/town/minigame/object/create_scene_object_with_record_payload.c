@@ -6,7 +6,7 @@ typedef struct {
 } Record;
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 display_registration_tag;
 
 /* Allocate an object, copy its record, set its value, and pass it for initialization. */

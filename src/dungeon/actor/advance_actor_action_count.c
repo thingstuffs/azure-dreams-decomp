@@ -3,13 +3,15 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 select_record_entry_and_value();
 extern s32 check_entity_relation();
 #include "dungeon/player/object/action_state.h"
-extern void on_actor_status_updated();
-extern void update_actor_status_and_mp();
+#include "records/Rec_func_800AA258_arg2.h"
+#include "shared/entity.h"
+#include "slus.h"
+extern void on_actor_status_updated(void *actor);
+extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move();
-extern s32 begin_ready_actor_directional_action();
+extern s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames);
 extern void begin_actor_move_to_target_facing();
 extern void install_actor_action_handler_after_floor_trap_check();
 

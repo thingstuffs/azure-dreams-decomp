@@ -4,8 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/graphics.h"
 
-extern s32 select_sprite_entry();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 advance_status_timers();
 extern s32 apply_camera_offset_and_select_target();

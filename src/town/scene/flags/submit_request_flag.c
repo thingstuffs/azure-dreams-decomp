@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 get_special_data_for_low_value_id();                         /* extern */
+s32 * get_special_data_for_low_value_id(s32 id);                         /* extern */
 void func_80017960(void *, void *, s32, s32); /* extern */
 extern M2C_UNK D_800189A4;
 extern M2C_UNK scene_event_lookup_context;

@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "dungeon/monster/ghosh.h"
+#include "slus.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -12,10 +13,8 @@ typedef struct {
 typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
-void initialize_timed_motion_step();            /* extern */
 void select_indirect_table_entry();              /* extern */
 void select_sprite_entry();         /* extern */
-void advance_sprite_animation_and_textures();  /* extern */
 s32 rsin();                             /* extern */
 s32 rand();                                /* extern */
 s32 play_sound_if_enabled();                     /* extern */

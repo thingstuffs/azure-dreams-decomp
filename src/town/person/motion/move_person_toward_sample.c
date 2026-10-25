@@ -4,7 +4,7 @@
 #include "records/Rec_func_800AB014_arg0.h"
 #include "town/person/person_record_history_g00592.h"
 
-s32 get_person_lookup_step();                          /* extern */
+s32 get_person_lookup_step(Rec_func_800AAE98_arg0 *coordinates);                          /* extern */
 s32 advance_person_lookup_value();                          /* extern */
 extern void D_800AB5C0();
 

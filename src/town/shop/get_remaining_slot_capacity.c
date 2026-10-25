@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_800B0718();                                /* extern */
+s32 func_800B0718(void);                                /* extern */
 
 /* Returns 20 minus the value reported by func_800B0718. */
 s32 get_remaining_slot_capacity(void) {

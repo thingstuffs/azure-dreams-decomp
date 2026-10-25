@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/window.h"
 
-s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
 extern void D_800A7950();
 
 

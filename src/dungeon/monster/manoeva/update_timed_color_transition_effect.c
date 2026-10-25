@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 #define U8_AT(p, off)  (*(u8 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
@@ -10,9 +11,8 @@
 
 extern s32 actor_fade_draw_address;
 
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void unlink_node();
-extern void advance_sprite_animation_and_textures();
 extern void retire_tracked_effect_by_id();
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */

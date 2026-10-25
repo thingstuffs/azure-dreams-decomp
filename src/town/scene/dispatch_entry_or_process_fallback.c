@@ -2,11 +2,11 @@
 #include "common.h"
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
+#include "town/player.h"
 
 
 extern s32 resolve_entry_flag();
 extern s32 apply_entry_position();
-extern void set_script_flag_bit();
 extern M2C_UNK D_8001BB94;
 extern u8 D_8001E891;
 

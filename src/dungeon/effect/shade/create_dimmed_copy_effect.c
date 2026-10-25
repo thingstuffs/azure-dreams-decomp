@@ -43,7 +43,7 @@ typedef struct S_818C32F4_5 {
 } S_818C32F4_5;
 
 extern s32 select_record_entry_and_value();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024A08[9];
 extern u8 shaded_quad_frame_set[9];
 extern u8 clipped_sprite_renderer_address[9];

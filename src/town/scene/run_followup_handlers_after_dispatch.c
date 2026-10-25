@@ -2,7 +2,7 @@
 #include "common.h"
 
 s32 func_800176B8(s32, s32, s32, s32);                                /* extern */
-s32 initialize_state_two_entries_pointer();                     /* extern */
+void initialize_state_two_entries_pointer(s32 bit_index);                     /* extern */
 void func_800188E8(s32, s32, s32);   /* extern */
 
 /* Run the follow-up handlers when func_800176B8 returns a nonzero result. */

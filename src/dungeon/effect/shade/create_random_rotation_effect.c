@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "engine/node.h"
 
 typedef unsigned long uptr;
 typedef long long s64_local;
@@ -20,7 +21,6 @@ typedef union {
 #endif
 
 extern s32 select_record_entry_and_value();
-extern s32 register_node();
 extern s32 rsin();
 extern s32 rcos();
 extern s32 rand();

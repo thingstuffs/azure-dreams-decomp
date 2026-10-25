@@ -11,7 +11,7 @@ struct Rec_D_800CFCB4; void handle_insert_initialize_two_values_status_flags(str
 void initialize_pointer_table_self_links(void);
 struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(struct Rec_D_800FE490 *, s32, s32);
 void run_the_three_update_routines_context(s32);
-extern s16 query_lowered_transform_position();
+extern s16 query_lowered_transform_position(void *position);
 
 extern struct S_800C01DC_1 map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;

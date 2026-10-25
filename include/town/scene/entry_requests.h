@@ -43,7 +43,9 @@ s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 s
 u8 *get_shared_scene_result(void);
 void *lookup_scene_entry_with_kind_overrides(s32 key, s32 unused, s32 kind);
 void apply_scene_entry_values(void *data, s32 value);
-void apply_scene_record_value(s32 value);
+void apply_scene_record_value(void *context, s32 unused, s32 lookup_key);
+s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key);
+s32 lookup_entry_and_apply_record_code(void *table, void *context, s32 lookup_key);
 void dispatch_scene_entry_table(void);
 void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value);
 void forward_scene_entry_index_a(void *object, s32 entry_index);

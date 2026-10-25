@@ -15,7 +15,7 @@ typedef struct S_801722F0_1 {
     s16 unk_18;
 } S_801722F0_1;
 
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
 extern void update_cascading_trail_emitter(void *record_data);

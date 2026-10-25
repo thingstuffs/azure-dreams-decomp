@@ -5,7 +5,7 @@
 
 
 
-void process_flagged_type_0x18_entries();                            /* extern */
+void process_flagged_type_0x18_entries(void);                            /* extern */
 void call_value_handler_mode_0();                   /* extern */
 extern s32 scene_price;
 

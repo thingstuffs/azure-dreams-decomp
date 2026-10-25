@@ -13,7 +13,7 @@ void *load_and_publish_texture_resource_pair(int resource_id)
 }
 
 /* Uploads image tiles from the fixed resource buffers and publishes the texture handle. */
-void runtime_no_op_callback(void)
+void runtime_no_op_callback(u32 unused_state)
 {
     runtime_texture_resource_handle = upload_image_tiles(&resource_queue_input_buffer, 0xB, 0x7900, 0xD, &D_80023000);
 }

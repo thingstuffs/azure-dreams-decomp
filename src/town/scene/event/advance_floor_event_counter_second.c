@@ -21,8 +21,8 @@ typedef struct S_800161C0_2 {
 extern s32 set_indexed_entry_flag();
 s32 get_script_flag_mask(s32);
 s32 read_script_flag_range(s32, s32);
-extern s32 write_script_flag_range();
-extern s32 func_8001DCD4();
+extern void write_script_flag_range(s32 base, s32 bits, s32 count);
+extern void func_8001DCD4(s32 slot_id);
 
 #define CURRENT_FLOOR() \
 ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_24))->unk_74))->unk_2A

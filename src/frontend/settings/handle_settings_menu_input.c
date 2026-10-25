@@ -42,7 +42,7 @@ extern s32 volume_slider_levels[3];
 extern s32 runtime_saved_state_word;
 extern s32 render_screen_fade_decreasing_intensity();
 extern s32 render_screen_fade_increasing_intensity();
-extern void SD_Call();
+extern void SD_Call(); /* Unprototyped: one or two arguments; the retail audio queue reads only the command. */
 extern void sound_set_cd_playback_volume_scale();
 extern void sound_set_sequence_volume_scale();
 extern void sound_set_voice_gain_scale();

@@ -29,7 +29,7 @@ typedef struct Copy24 {
 } Copy24;
 
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rand();                                /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
 #include "shared/sprite_source.h"

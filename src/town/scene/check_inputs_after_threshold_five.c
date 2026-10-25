@@ -1,7 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 void func_80018570(s32);                     /* extern */
-s32 func_80018668();                         /* extern */
+s32 func_80018668(s32 flagIndex);                         /* extern */
 
 /* Query 0x146C, process it, and return the saved query result. */
 s32 check_inputs_after_threshold_five(void) {

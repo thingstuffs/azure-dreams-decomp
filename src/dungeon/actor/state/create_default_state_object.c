@@ -25,7 +25,7 @@ typedef struct S_800B0544_6 {
 } S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in create_default_state_object */
 
 extern int load_indexed_resource_package(short table_index);
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s16 current_dungeon_floor;
 extern void D_800AFAD8();

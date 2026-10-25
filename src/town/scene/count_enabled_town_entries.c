@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u8 town_selection_records[96];
-s32 func_8001E670();
+s32 func_8001E670(s32 flagIndex);
 
 /* Counts entries 1 through 7 whose associated town selection flag is set. */
 s32 count_enabled_town_entries(void) {

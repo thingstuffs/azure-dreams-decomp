@@ -3,10 +3,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
 #include "town/scene.h"
+#include "town/player.h"
 
-s32 process_checked_entry();             /* extern */
-void set_script_flag_bit();                         /* extern */
-void clear_script_flag_bit();                     /* extern */
+s32 process_checked_entry(void *object, s32 entryIndex);             /* extern */
 
 
 /* Process flag 0xD52, conditionally select the object value, and forward the request. */

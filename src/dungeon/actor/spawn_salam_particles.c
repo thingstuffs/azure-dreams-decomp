@@ -10,7 +10,7 @@
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
 void *allocate_list_node();               /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 s16 rand();                                /* extern */

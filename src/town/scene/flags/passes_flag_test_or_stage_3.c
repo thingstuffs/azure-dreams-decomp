@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
 
-extern s32 get_state_record_byte();
 extern s32 get_flag_test_table_address(void);
 
 /* Check whether the initial query is zero or the secondary value is at least three. */

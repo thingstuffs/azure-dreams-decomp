@@ -14,7 +14,7 @@ typedef struct S_800166B0_2 {
 
 
 s32 attach_global_data_and_invoke_callback();
-void *select_data_array_based_flag();
+s32 select_data_array_based_flag(s32 flagIndex);
 
 typedef struct S_800166B0_0 {
     u8 pad_00[0x14];

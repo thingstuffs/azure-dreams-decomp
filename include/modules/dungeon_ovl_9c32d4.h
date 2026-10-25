@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 typedef struct ovl_9c32d4_809A32D4_S_80174AD4_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -171,7 +172,7 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
 extern void process_linked_mesh_states_mode_0(void);
 extern u8 upper_draw_context[16];
 extern void *allocate_list_node();
-extern void *func_8003FD64();
+extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern u8 D_80175F90[12];
 extern s16 dir_step_x[];
 extern s16 dir_step_y[];

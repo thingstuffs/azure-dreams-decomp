@@ -16,7 +16,7 @@ typedef struct S_80024130_0 {
    /* arg1 in create_randomized_effect_object */
 
 extern s32 select_record_entry_and_value();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 extern u8 D_80024048[9];
 extern u8 D_800DE8E8[9];

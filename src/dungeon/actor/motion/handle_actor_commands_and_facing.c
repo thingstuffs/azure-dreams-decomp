@@ -18,15 +18,15 @@ extern void apply_pending_byte_increase();
 extern void begin_player_menu_action();
 extern s16 resolve_player_input_facing();
 extern s32 has_action_input_without_modifier(void);
-extern void reset_record_to_state_34();
 extern s32 begin_actor_attack();
 extern void finish_paralyzed_actor_action();
 #include "dungeon/item.h"
 
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/actor/state.h"
 
-extern s32 lookup_definition_pair_value();
-extern void play_sound_if_enabled();
+extern s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
+extern void play_sound_if_enabled(); /* Unprototyped: one or two arguments; the retail audio path reads only the command. */
 extern s32 generate_random_value(void);
 
 extern u8 player_menu_action_data[];

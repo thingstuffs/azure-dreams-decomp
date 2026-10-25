@@ -3,8 +3,8 @@
 #include "shared/town_handler_entries.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-s32 SD_Call();                     
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
+#include "slus.h"
 extern s32 D_80092698;
 
 /* Plays sound 0x511, selects counted_action_handler_table, and installs D_80092698 with count six. */

@@ -8,7 +8,7 @@
  */
 void initialize_scene_slot_83(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 83, (s32)D_800D74B4, (s32)D_800D74B8, (s32)D_800D7484, (s32)D_800D748C);
+    initialize_object_and_register_slot(object, 83, D_800D74B4, D_800D74B8, D_800D7484, D_800D748C);
     *(s16 *)((u8 *)context + 0x12) = 0x40;
 }
 
@@ -18,6 +18,6 @@ void initialize_scene_slot_83(void *object, s32 unused, void *context)
  */
 void initialize_scene_slot_84(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 84, (s32)D_800D74B4, (s32)D_800D74B8, (s32)D_800D7484, (s32)D_800D748C);
+    initialize_object_and_register_slot(object, 84, D_800D74B4, D_800D74B8, D_800D7484, D_800D748C);
     *(s16 *)((u8 *)context + 0x12) = 0x40;
 }

@@ -54,7 +54,7 @@ typedef struct {
 } Copy32;
 
 extern void select_record_entry_and_value();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 ribbon_sprite_entries[3];
 extern Copy32 D_801648DC;
 void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);

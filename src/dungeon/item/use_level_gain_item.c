@@ -14,7 +14,7 @@ void clear_slot_and_update_linked_state();                         /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
-void create_colored_effect_with_sound();    /* extern */
+void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {

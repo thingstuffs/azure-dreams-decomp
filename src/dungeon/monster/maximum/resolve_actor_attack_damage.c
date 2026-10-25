@@ -64,7 +64,7 @@ typedef struct S_801728B4_11 {
 } S_801728B4_11;
 
 void *allocate_list_node();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void select_sprite_entry();
 void *scan_actor_along_heading();
 void set_record_integer_tile_center();

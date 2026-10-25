@@ -4,7 +4,7 @@
 #include "shared/town_dispatch_data.h"
 
 
-void dispatch_event_d_8_a();
+void * dispatch_event_d_8_a(void *record);
 extern s32 scene_registered_data_handle;
 
 /* Initialize the shared data and store the mode-2 callback result. */

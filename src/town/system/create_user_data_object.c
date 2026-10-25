@@ -5,7 +5,7 @@
 #include "shared/object_payload.h"
 #include "shared/position_views.h"
 
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 extern M2C_UNK D_80023E64;
 extern s32 linked_sprite_renderer_address[3];
 extern M2C_UNK D_80079438;

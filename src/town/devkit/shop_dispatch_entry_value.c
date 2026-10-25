@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void set_linked_flag();                         /* extern */
-void clear_linked_flag();                         /* extern */
-s32 test_linked_flag();                             /* extern */
+void set_linked_flag(s32 bit_index);                         /* extern */
+void clear_linked_flag(s32 bit_index);                         /* extern */
+s32 test_linked_flag(s32 flag_index);                             /* extern */
 extern u8 devkit_globals_page[];
 
 typedef struct S_8070207C_0 {

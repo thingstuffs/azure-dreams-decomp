@@ -11,7 +11,7 @@
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
 
 void *allocate_list_node();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 rand();
 extern u8 child_particle_draw_address[];
 extern u8 D_801654F0[];

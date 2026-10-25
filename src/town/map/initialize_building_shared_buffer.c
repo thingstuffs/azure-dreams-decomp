@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town/map/building_grid_g00638.h"
 
 extern u8 town_tile_grid[];
-extern void *no_op_building_callback();
 
 /* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
 void initialize_building_shared_buffer(void)

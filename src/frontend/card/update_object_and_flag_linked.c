@@ -3,7 +3,7 @@
 #include "frontend/card.h"
 
 s32 func_80047938(void *, s32, s32);
-void update_linked_object_value_and_flags();                      /* extern */
+void update_linked_object_value_and_flags(void *object);                      /* extern */
 
 /* Run the object update and invoke its follow-up when flag 0x2000 is set. */
 void update_object_and_flag_linked(void *object_data, s32 first_value, s32 second_value) {

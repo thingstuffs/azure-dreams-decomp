@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *, s32, s32, s32, s32, s32);
 extern u8 D_800D7410[];
 extern u8 D_800D7418[];
 extern u8 D_800D7440[];
@@ -12,6 +12,6 @@ extern u8 D_800D7444[];
  */
 void initialize_scene_slot_59(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 59, (s32)D_800D7440, (s32)D_800D7444, (s32)D_800D7410, (s32)D_800D7418);
+    initialize_object_and_register_slot(object, 59, D_800D7440, D_800D7444, D_800D7410, D_800D7418);
     *(s16 *)((u8 *)context + 0x12) = 0x40;
 }

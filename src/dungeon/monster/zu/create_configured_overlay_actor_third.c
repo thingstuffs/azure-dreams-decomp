@@ -32,7 +32,7 @@ typedef struct S_80F93000_4 {
 } S_80F93000_4;   /* actor in create_configured_overlay_actor_third */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();

@@ -12,10 +12,10 @@ typedef struct S_80048A44_Obj S_80048A44_Obj;
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 collect_ground_item();  /* extern */
-void process_unflagged_linked_entries();                         /* extern */
-void process_unflagged_linked_entries_alt();                         /* extern */
-void set_record_integer_tile_center();              /* extern */
-s32 play_sound_if_enabled();                     /* extern */
+void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
+void process_unflagged_linked_entries_alt(s32 firstNodeBase);                         /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 player_height_step_frames[];
 extern u8 player_landing_frame_set[];
 

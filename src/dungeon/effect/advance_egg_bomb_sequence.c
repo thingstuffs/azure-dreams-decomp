@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/level.h"
+#include "slus.h"
 
 typedef struct {
     u8 pad0[2];
@@ -20,16 +21,15 @@ typedef struct {
 extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
-void apply_actor_template_and_class(); /* extern */
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void display_formatted_context_message(void *context); /* extern */
 s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
-s32 find_or_retain_sprite_resource_slot();
-s32 raise_entity_level(); /* extern */
+u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
+s32 raise_entity_level(void *entity_data, s32 show_message); /* extern */
 s32 choose_usable_ability_or_attack();
 s32 choose_best_eligible_entry();
 s16 set_or_clear_actor_status_slot(); /* extern */

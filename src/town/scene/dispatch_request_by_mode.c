@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 count_free_item_slots();
+extern s32 count_free_item_slots(void);
 extern void resolve_entry_flag();
 extern s32 apply_entry_position();
 extern s32 D_8001BB4C[];

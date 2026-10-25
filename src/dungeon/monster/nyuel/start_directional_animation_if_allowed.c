@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/monster/nyuel.h"
+#include "engine/graphics.h"
 
 typedef struct S_80171FC4_1 {
     u8 pad_00[0x9A];
@@ -11,7 +12,6 @@ typedef struct S_80171FC4_1 {
     s8 unk_9B;
 } S_80171FC4_1;   /* arg0 in start_directional_animation_if_allowed */
 
-void select_sprite_entry();         /* extern */
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */

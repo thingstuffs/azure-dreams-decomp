@@ -5,10 +5,10 @@
 #include "shared/town_root.h"
 
 
-extern s32 func_800197FC();
+extern s32 func_800197FC(s32 expected_second, s32 expected_first);
 void func_8001A554(s32);
 void func_8001A5CC(s32);
-extern s32 func_8001A64C();
+extern s32 func_8001A64C(s32 flagIndex);
 extern s32 D_8002116C;
 
 

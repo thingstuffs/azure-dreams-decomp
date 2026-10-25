@@ -59,7 +59,7 @@ typedef void (*FinalFunc)(void *);
 extern Func D_800E2934[];
 extern void set_object_value_and_negation(void *, s32);
 extern s32 link_indexed_entry_chain(void *, s32);
-extern s32 SD_Call();
+extern short SD_Call(int flags);
 extern u8 D_800E2924[];
 
 extern GlobalState *dungeon_menu_object;

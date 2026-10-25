@@ -4,7 +4,7 @@
 #include "engine/resource.h"
 #include "sdk/libgte.h"
 
-s16 input_angle_with_offset();                        /* extern */
+s32 input_angle_with_offset(s32 unused, s32 angle_offset);                        /* extern */
 
 typedef struct {
     u8 pad[0xC];

@@ -21,6 +21,7 @@ struct ObjectPosition;
 #include "shared/dungeon_moving_views.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
+struct S_800AD594_0;
 
 typedef struct Inner {
     u8 pad[1];
@@ -82,7 +83,7 @@ extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 void *allocate_list_node();
 s32 rand(void);
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 expand_text_control_codes();
 void *clear_byte_and_advance();
 s32 append_entity_display_text();
@@ -90,7 +91,7 @@ s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment();
 s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range();
-void spend_actor_mp();
+void spend_actor_mp(struct S_800AD594_0 *entity, s32 base_reduction);
 extern u8 D_80089080[];
 extern u8 spell_mp_costs[];
 extern u8 alternate_spell_mp_costs[];

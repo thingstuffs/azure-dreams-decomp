@@ -62,7 +62,7 @@ s32 append_entity_display_text();                     /* extern */
 #include "dungeon/player/object/action_state.h"
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 generate_random_value();                                /* extern */
-void *func_80170908();                /* extern */
+void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];
 extern u8 D_801708AC[];
 extern u8 D_801708B8[];

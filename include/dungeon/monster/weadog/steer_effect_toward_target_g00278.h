@@ -11,6 +11,8 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/position_views.h"
+#include "shared/object_node.h"
+struct RegistrationNode;
 
 #ifndef NULL
 #define NULL 0
@@ -81,9 +83,9 @@ typedef struct S_80171498_3 {
 /* base in create_random_color_offset_effect */
 /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */
 /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
-void *allocate_list_node();
+void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s32 resolve_record_orientation_or_fallback();
-s32 register_node();
+s32 register_node(struct RegistrationNode *entry, void *registration_id);
 s32 rand();
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];

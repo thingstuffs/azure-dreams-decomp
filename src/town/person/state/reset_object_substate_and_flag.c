@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *context, u32 id, void *data_a, void *data_b,
-                          void *data_c, void *data_d);
 extern u8 D_800D6AE4[];
 extern u8 D_800D6AEC[];
 extern u8 D_800D6B14[];

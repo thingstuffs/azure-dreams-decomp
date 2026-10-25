@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800C9B44_arg0.h"
+#include "engine/window.h"
 
-s32 scale_random_to_unsigned_halfword_limit();
 extern void (*D_800D65D8[])(void *, void *, void *);
 
 /* Choose a random action and an in-bounds heading, then dispatch the action. */

@@ -5,8 +5,8 @@
 u8 *get_special_data_by_id(s32 id);
 s32 func_800178A8();             /* extern */
 s32 * func_80017960(void *, void *, s32, s32);
-s32 func_8001868C();                         /* extern */
-s32 func_80018868();                /* extern */
+s32 func_8001868C(s32 flagIndex);                         /* extern */
+s32 func_80018868(s32 start_index, s32 count);                /* extern */
 s32 func_800188E8(s32, s32, s32);
 extern M2C_UNK D_800189BC;
 extern M2C_UNK scene_event_lookup_context;

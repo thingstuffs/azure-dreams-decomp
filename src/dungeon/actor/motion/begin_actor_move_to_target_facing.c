@@ -14,7 +14,7 @@ typedef struct S_800AA888_4 {
 
 
 
-extern void update_map_cell_flags_with_item_limit();
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 
 /* Reset action state, update the tile, and refresh entity flags and data. */

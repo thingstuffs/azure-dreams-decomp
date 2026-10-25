@@ -5,8 +5,8 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-void set_record_integer_tile_center();              /* extern */
-s16 sample_terrain_surface_height();                   /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 
 typedef struct S_800AC480_0 {
     u8 pad_00[0x92];

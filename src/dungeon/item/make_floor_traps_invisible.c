@@ -11,7 +11,7 @@
 extern s32 begin_mode_selected_item_action();
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();

@@ -2,7 +2,7 @@
 
 
 /* Copies encoded text, expanding table indices into two-byte characters. */
-u8 *expand_text_control_codes(u8 *src, u8 *dst)
+u8 *expand_text_control_codes(const u8 *src, u8 *dst)
 {
     u8 *table_page;
     u8 raw_byte;

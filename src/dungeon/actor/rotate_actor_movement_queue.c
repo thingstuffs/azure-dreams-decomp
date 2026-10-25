@@ -13,8 +13,8 @@ typedef struct S_800A9AFC_2 {
 
 s32 get_entity_effect_value();             /* extern */
 extern s32 memmove(void *, void *, s32);     /* extern */
-void cycle_map_cell_flags();             /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);             /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 
 typedef struct S_800A9AFC_0 {
     u8 pad_00[0x1C];

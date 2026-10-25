@@ -5,7 +5,7 @@
 #include "shared/dungeon_moving_views.h"
 
 
-extern void func_8004E994();
+extern void func_8004E994(); /* Unprototyped: shared empty hook receives varying ignored arguments. */
 
 
 

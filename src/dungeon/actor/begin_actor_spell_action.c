@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/graphics.h"
 
 typedef struct S_800AAF00_0 {
     u8 pad_00[0x14];
@@ -42,11 +43,10 @@ typedef struct S_800AAF00_3 {
     u8 unk_9B;
 } S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
-extern s32 select_sprite_entry();
 extern s32 scan_actor_along_heading();
 extern s32 try_claim_dungeon_action_slot();
-extern void advance_status_timers();
-extern s32 generate_random_value();
+extern s32 advance_status_timers(void *record);
+extern s32 generate_random_value(void);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Updates the object action state and applies direction data to its target. */

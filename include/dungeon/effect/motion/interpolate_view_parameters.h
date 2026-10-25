@@ -366,7 +366,7 @@ void func_8004491C(void *, void *);
 void SetTile(void *, s32);
 void AddPrim(void *, void *);
 void *allocate_list_node();
-void *func_8003FD64();
+void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 s32 rand();
 s32 rand();
 int abs(int);

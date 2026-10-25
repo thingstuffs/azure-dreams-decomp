@@ -51,7 +51,7 @@ typedef struct {
 
 extern void select_record_entry_and_value();
 extern s32 rand();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern u8 D_80024BB0[];
 extern u8 shared_sprite_entries[];

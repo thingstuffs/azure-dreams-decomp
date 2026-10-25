@@ -12,12 +12,12 @@ extern u8 actor_default_frames[];
 
 extern s32 select_record_entry_and_value();
 extern void check_tile_entry_at_adjusted_height();
-extern void process_unflagged_linked_entries();
-extern void process_unflagged_linked_entries_alt();
-extern s32 cycle_map_cell_flags();
-extern s32 update_map_cell_flags_with_item_limit();
+extern void process_unflagged_linked_entries(s32 firstEntryBase);
+extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 classify_adjacent_tile_height();
-extern void append_packed_action_record();
+extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))

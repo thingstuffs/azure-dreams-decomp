@@ -12,6 +12,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "dungeon/effect/motion.h"
+struct Row_818FE800_Target;
 
 typedef struct { u8 bytes[8]; } Packed8 __attribute__((packed));
 typedef struct { u8 bytes[12]; } Packed12 __attribute__((packed));
@@ -29,10 +30,10 @@ typedef union {
 } Local38;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void apply_random_actor_value_adjustment();          /* extern */
+void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32 level, void *record);          /* extern */
 void create_owner_linked_mirrored_sprite(); /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s16 GetTPage(); /* extern */
 s32 rand();                                /* extern */
 s32 check_adjacent_tile_height_clearance();           /* extern */

@@ -292,7 +292,6 @@ typedef struct ShortVec {
 extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
-extern s32 register_node();
 extern s32 rsin(s32, ...);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
 struct FuncInput;
@@ -642,7 +641,6 @@ void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern s32 register_node();
 extern void update_blinking_sprite_flash(void *state, s32 unused, void *primitive);
 extern M2C_UNK visual_object_sprite_data;
 
@@ -782,12 +780,11 @@ typedef struct {
     s16 unk22;
 } FuncObject;
 
-extern s32 process_linked_mesh_states_mode_0();
+extern s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);
 struct Object_800B36B8;
 struct Effect;
 extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
 extern void *allocate_list_node();
-extern s32 register_node();
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
 void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
@@ -1296,7 +1293,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
 extern void *screen_effect_target[];
 
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
@@ -1426,7 +1423,6 @@ extern u8 menu_effect_sprite_entries[];
 extern s16 camera_depth_target[5];
 
 extern void *allocate_list_node();
-extern s32 register_node();
 extern s32 draw_linked_sprites_clipped();
 extern void select_record_entry_and_value();
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
@@ -1548,7 +1544,7 @@ typedef struct GlobalObj {
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-extern s32 get_special_table_data_index();
+extern s32 get_special_table_data_index(s32 dataAddress);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void advance_sprite_animation_and_textures();
@@ -1823,7 +1819,6 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern s32 register_node();
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void select_record_entry_and_value();
@@ -2283,7 +2278,6 @@ void update_pulsing_sprite_color(void *channel_config, void *unused, void *outpu
 #include "common.h"
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
-extern s32 register_node();
 extern s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data);
 extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
 
@@ -2363,7 +2357,7 @@ typedef struct S_8006DE24_Entry {
     u8 pad13;
 } S_8006DE24_Entry;
 extern void * create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
-s16 sample_terrain_surface_height();                   /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 typedef struct S_800B50B0_Entity {
     u8 pad00[0x13];
     u8 kind13;
@@ -2383,6 +2377,7 @@ extern u8 D_800DF380[];
 
 /* Updates marked dungeon tiles for the selected entity, mode, and facing. */
 void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
+    s16 surface_height;
     s32 height;
     s16 forward_height;
     s16 adjacent_height;
@@ -2432,8 +2427,9 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
                     forward_height = height - 0x20;
                     tile_x += (s16) dir_step_x[direction];
                     tile_z += (s16) dir_step_y[direction];
-                    height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                    surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                         forward_height);
+                    height = surface_height;
                     if (height >= 0x201) {
                         break;
                     }
@@ -2451,8 +2447,9 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
                 adjacent_height = height - 0x20;
                 tile_x += (s16) dir_step_x[direction];
                 tile_z += (s16) dir_step_y[direction];
-                height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                     adjacent_height);
+                height = surface_height;
                 if (height >= 0x201) {
                     break;
                 }
@@ -2478,8 +2475,9 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
                     range_height = height - 0x20;
                     tile_x += (s16) dir_step_x[direction];
                     tile_z += (s16) dir_step_y[direction];
-                    height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                    surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                         range_height);
+                    height = surface_height;
                     if (height >= 0x201) {
                         break;
                     }
@@ -2669,7 +2667,6 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern s32 register_node();
 s32 rand();                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
@@ -2759,7 +2756,7 @@ typedef struct S_800BB044_1 {
 
 
 extern void *allocate_list_node();
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void advance_particle_effect_state(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
@@ -3047,8 +3044,8 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-s16 calculate_planar_heading();
-extern s32 play_sound_if_enabled();
+s16 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
@@ -3247,8 +3244,7 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 
 extern void select_record_entry_and_value();
 extern void *allocate_list_node();
-extern s32 register_node();
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
@@ -3613,7 +3609,6 @@ s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data) {
 #include "shared/object_node.h"
 
 extern void *allocate_list_node();
-extern s32 register_node();
 struct State;
 struct Output;
 struct Interp;
@@ -3772,7 +3767,6 @@ typedef struct S_800BC26C_1 {
 
 
 extern void *allocate_list_node();
-extern s32 register_node();
 extern void retire_effect_when_owner_or_value_ends(void *context);
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
@@ -3840,6 +3834,7 @@ void retire_tracked_effect_by_id(s32 targetId) {
 }
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 
 /* Mark completion when the referenced object is flagged or the tracked value is zero. */

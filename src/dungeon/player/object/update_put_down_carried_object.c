@@ -5,7 +5,7 @@
 #include "m2c_compat.h"
 
 s32 find_flagged_record_by_id();                    /* extern */
-void process_unflagged_linked_entries();                         /* extern */
+void process_unflagged_linked_entries(s32 firstEntryBase);                         /* extern */
 void process_unflagged_linked_entries_alt(s32);                         /* extern */
 s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
 s32 play_sound_if_enabled(s32);                     /* extern */

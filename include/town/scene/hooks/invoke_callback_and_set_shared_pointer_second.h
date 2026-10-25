@@ -4,7 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
-M2C_UNK func_80017398();             /* extern */
+M2C_UNK func_80017398(); /* Unprototyped: one or two arguments; the second register argument is ignored. */             /* extern */
 extern M2C_UNK D_80017500;
 extern s16 scene_threshold_counter;
 extern M2C_UNK *D_800175B8;

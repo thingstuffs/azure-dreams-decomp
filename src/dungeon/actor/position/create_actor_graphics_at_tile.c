@@ -14,12 +14,12 @@ struct ObjectNodeHeader;
 
 void select_record_entry_and_value();  /* extern */
 void *allocate_list_node();            /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
-void cycle_map_cell_flags();             /* extern */
-s8 find_active_rect_containing_point();                           /* extern */
-void set_record_integer_tile_center();              /* extern */
-s16 sample_terrain_surface_height();                   /* extern */
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);             /* extern */
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);                   /* extern */
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
 s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry);

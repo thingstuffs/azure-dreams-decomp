@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 scale_random_to_unsigned_halfword_limit();
 #include "town/person/object/initialize_object_entries_api.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "engine/window.h"
 void count_down_and_select_next_setup(Rec_func_80094268_arg0 *object, void *request_data, void *request_param, s32 check_param);
 extern s32 D_800D7284[];
 

@@ -2,9 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
 extern void unlink_node(void *node);
-extern void advance_sprite_animation_and_textures();
 
 extern s32 D_80175220;
 

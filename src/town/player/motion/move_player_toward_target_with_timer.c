@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"     /* extern */
-s16 query_lowered_transform_position();
+s16 query_lowered_transform_position(void *position);
 
 
 /* Move toward the target position and advance the motion state when the countdown ends. */

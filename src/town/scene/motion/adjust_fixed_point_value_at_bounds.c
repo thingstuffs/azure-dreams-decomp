@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 check_the_position_second_coordinate_adjusted_stored_offset();                           /* extern */
+s16 check_the_position_second_coordinate_adjusted_stored_offset(void *source_record);                           /* extern */
 s32 query_position_with_second_component_offset();                           /* extern */
 struct S_8008F534_0; struct S_8008F534_1; void set_the_flag_store_state_clear_state_s_secondary_field(struct S_8008F534_0 *, struct S_8008F534_1 *, s32);             /* extern */
 struct S_8008F548_0; struct S_8008F548_1; void set_the_flag_initialize_associated_state(struct S_8008F548_0 *, struct S_8008F548_1 *, s32);             /* extern */

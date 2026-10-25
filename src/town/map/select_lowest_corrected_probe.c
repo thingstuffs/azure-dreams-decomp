@@ -7,7 +7,7 @@ typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
 typedef struct { IntVector3 work; s32 unused[3]; s32 item; } WorkArea;
 
 s32 dot_sign_with_truncated_q_12_coefficients(s32, s32, s32);
-extern s32 forward_surface_query_with_argument();
+extern s32 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */
 
 /* Selects the item with the smallest corrected probe value across the offsets. */
 s16 select_lowest_corrected_probe(IntVector3 *origin, Vec4i *items, s32 count, s32 *best_item,

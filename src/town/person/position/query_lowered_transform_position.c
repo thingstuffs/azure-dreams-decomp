@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 forward_surface_query_with_argument();
+extern s16 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */
 
 typedef struct {
     s32 unk0;

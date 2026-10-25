@@ -6,6 +6,7 @@
 #include "shared/object_node.h"
 #include "shared/sound_state.h"
 #include "common.h"
+#include "slus/utility_hooks.h"
 #include "shared/sound_volume.h"
 #include "shared/sprite_frame_state.h"
 
@@ -1140,7 +1141,7 @@ void noop_voice_start_notification(void) {
 }
 
 /* Return without performing any work. */
-void noop_channel_control_notification(void) {
+void noop_channel_control_notification(s32 kind, s32 channel, s32 value) {
 }
 
 /* Return without performing any work. */
@@ -1371,7 +1372,7 @@ void submit_audio_driver_scaled_pair(unsigned char code, short first, short seco
     submit_scaled_driver_halfword_pair(code, first, second);
 }
 
-extern void dispatch_combined_driver_flags(s16 flags);
+extern void dispatch_combined_driver_flags(s32 unused);
 
 /* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
 void dispatch_audio_driver_halfword_flags(s32 value)

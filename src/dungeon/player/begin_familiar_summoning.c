@@ -5,6 +5,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
 #include "dungeon/player.h"
+#include "engine/graphics.h"
 
 typedef struct S_80095854_0 {
     u8 pad_00[0x2A];
@@ -29,9 +30,8 @@ typedef struct S_80095854_1 {
    /* arg2 in begin_familiar_summoning */
 
 
-void set_sprite_animation_frame(); /* extern */
-void cycle_map_cell_flags();           /* extern */
-void update_map_cell_flags_with_item_limit();           /* extern */
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);           /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);           /* extern */
 extern u8 familiar_summon_frames;
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */

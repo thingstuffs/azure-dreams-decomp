@@ -33,7 +33,7 @@ typedef struct S_8014C884_4 {
 } S_8014C884_4;   /* actor in queue_linked_point_packets */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();

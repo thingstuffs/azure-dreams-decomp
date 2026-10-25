@@ -19,7 +19,7 @@ typedef struct S_800BF9E4_5 {
 struct Dst;
 struct Elem;
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void configure_the_set_mode_n_1();
 
 extern u8 sprite_chain_projector_address[];

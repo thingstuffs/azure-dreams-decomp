@@ -7,7 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 
 void select_record_entry_and_value();      /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 extern M2C_UNK D_800246AC;

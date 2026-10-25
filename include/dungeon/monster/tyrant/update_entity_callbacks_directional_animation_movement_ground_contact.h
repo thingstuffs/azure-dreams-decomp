@@ -36,9 +36,9 @@ typedef struct T_80170AA4_S_80170AA4_1 {
 
    /* arg1 in func_80170AA4 */
 
-extern void func_80042984();
+extern void func_80042984(void *entity);
 extern void select_indirect_table_entry();
-extern void advance_sprite_animation_and_textures();
+extern void advance_sprite_animation_and_textures(void *entity);
 extern void apply_monster_koyaw_data();
 extern void play_sound_if_enabled();
 extern s32 refresh_actor_facing_and_lifecycle();
@@ -46,5 +46,5 @@ extern void try_move_actor_to_valid_position();
 extern s32 sample_terrain_surface_height();
 extern T_80170AA4_EntityCallback tyrant_callbacks[];
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part);
-extern void update_dungeon_actor_behavior();
+extern void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFrameState *map_object_arg, void *actor_state_arg);
 #endif

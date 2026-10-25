@@ -7,7 +7,7 @@ extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
-extern s32 adjust_source_value_and_finalize(void *, void *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);

@@ -16,13 +16,13 @@ typedef struct S_80172EF4_1 {
     u8 unk_9B;
 } S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
 
-extern void select_sprite_entry();
 extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
+#include "engine/graphics.h"
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */

@@ -18,9 +18,9 @@ typedef struct TablePage {
     s16 entries[1];
 } TablePage;
 
-extern void adjust_source_value_and_finalize(void *, void *);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s16 find_entity_slot_by_field_ac(void *);
-extern s16 try_apply_effect_four_by_chance();
+extern s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
 
 extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
@@ -28,6 +28,7 @@ extern u8 D_800E195C[];
 /* Checks status flags, advances eligible actor state, or performs the requested action. */
 u32 advance_eligible_actor_or_perform_action(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
 {
+    s16 effect_result;
     s32 status_mask;
     s32 slot;
     u8 *slot_entry;
@@ -86,5 +87,6 @@ u32 advance_eligible_actor_or_perform_action(EntityRec *actor, s16 action_arg_1,
         return 1;
     }
 
-    return (u32)~try_apply_effect_four_by_chance(actor, action_arg_1, action_arg_2) >> 31;
+    effect_result = try_apply_effect_four_by_chance(actor, action_arg_1, action_arg_2);
+    return (u32)~effect_result >> 31;
 }

@@ -10,10 +10,10 @@ typedef struct S_80048A44_Obj S_80048A44_Obj;
 extern u8 resident_globals_page[];
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
-extern void adjust_source_value_and_finalize();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 spawn_object_at_target_position();
-extern void append_packed_action_record();
-extern s32 play_sound_if_enabled();
+extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_lift_frames[];
 extern u8 D_800E0495[];
 
@@ -26,7 +26,7 @@ typedef struct S_8008C5C4_2 {
     u8 pad_9C[0x80];
     s32 unk_11C;
     u8 pad_120[0x4];
-    s32 unk_124;
+    ActorRecord *unk_124;
 } S_8008C5C4_2;   /* arg0 in try_begin_lift_object */
 
 typedef struct S_8008C5C4_3 {
@@ -44,7 +44,7 @@ typedef struct S_8008C5C4_4 {
 
 /* Find a target ahead of the actor and initialize the interaction state. */
 s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, EntityRec *actor) {
-    s32 target;
+    ActorRecord *target;
     s32 target_result;
     s32 direction_offset;
     s32 result;
@@ -58,7 +58,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
         actor,
         (s16)(position->tile_x + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
         (s16)(position->tile_y + *(u16 *)(((u8 *)dir_step_y) + direction_offset)));
-    action->unk_124 = target_result;
+    action->unk_124 = (ActorRecord *)target_result;
     if (target_result != 0) {
         result = -1;
         if (target_result <= 0) {
@@ -85,9 +85,9 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
                     }
                 }
                 target = action->unk_124;
-                ((ActorRecord *)target)->flags1C |= 0x80000;
+                target->flags1C |= 0x80000;
                 actor->flags1C |= ACTOR_CARRYING;
-                ((ActorRecord *)(action->unk_124))->target = actor;
+                action->unk_124->target = actor;
                 append_packed_action_record(actor, 0x20, 0, 0);
                 play_sound_if_enabled(0x511);
             }

@@ -24,7 +24,7 @@ extern u8 action_object_handler_table[16];
 void store_the_valid_shared_angle_in_offset_hex_10();
 extern void update_actor_movement_actions(void);
 extern s32 D_800D0108[];
-s16 SD_Call();
+s16 SD_Call(int flags);
 extern void update_actor_input_actions(void);
 extern s32 D_800D0110[];
 extern u8 D_800D0118[];

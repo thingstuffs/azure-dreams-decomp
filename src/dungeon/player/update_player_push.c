@@ -42,12 +42,12 @@ typedef struct S_80092018_5 {
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
 void set_sprite_animation_frame();
-s32 resolve_player_input_facing();
-s32 has_action_input_without_modifier();
-void process_unflagged_linked_entries();
-void process_unflagged_linked_entries_alt();
-void set_record_integer_tile_center();
-void spawn_opposite_offset_effect();
+s32 resolve_player_input_facing(s16 direction_offset, u16 *flags, u16 *angle);
+s32 has_action_input_without_modifier(); /* Unprototyped: zero or one argument; retail replaces all incoming argument registers. */
+void process_unflagged_linked_entries(s32 firstEntryBase);
+void process_unflagged_linked_entries_alt(s32 firstNodeBase);
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern u8 player_push_frames[];
 extern u8 D_800DD020[];
 extern u8 player_push_loop_frames[];

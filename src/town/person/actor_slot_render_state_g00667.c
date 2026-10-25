@@ -5,19 +5,19 @@
 /* Registers the object in scene slot 53 using the four local setup tables. */
 void initialize_scene_slot_53(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 53, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4, (s32)D_800D5DDC);
+    initialize_object_and_register_slot(object, 53, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 55 using the four local setup tables. */
 void initialize_scene_slot_55(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 55, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4, (s32)D_800D5DDC);
+    initialize_object_and_register_slot(object, 55, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 49 using the four local setup tables. */
 void initialize_scene_slot_49(void *object, s32 unused, void *context)
 {
-    initialize_object_and_register_slot(object, 49, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4, (s32)D_800D5DDC);
+    initialize_object_and_register_slot(object, 49, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /*

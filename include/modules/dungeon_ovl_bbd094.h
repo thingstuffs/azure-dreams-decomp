@@ -2,12 +2,13 @@
 #define DUNGEON_OVL_BBD094_H
 #include "common.h"
 #include "shared/object_node.h"
+struct RegistrationNode;
 
 
 extern void *allocate_list_node();
-extern u8 *func_8003FD64();
-extern void register_node();
-extern void func_8004491C();
+extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 extern void project_sprite_chain(void);
 extern void func_80045340(void);
 extern u32 generate_random_value(void);

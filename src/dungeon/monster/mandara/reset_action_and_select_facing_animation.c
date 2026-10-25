@@ -14,11 +14,11 @@ typedef struct S_80172514_1 {
     u8 unk_9B;
 } S_80172514_1;   /* arg0 in reset_action_and_select_facing_animation */
 
-extern void select_sprite_entry();
 extern Ent *prepare_directional_attack();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 apply_camera_offset_and_select_target();
 #include "dungeon/monster/mandara.h"
+#include "engine/graphics.h"
 
 /* Reset actor action state and select a facing-dependent animation when status checks pass. */
 void reset_action_and_select_facing_animation(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor) {

@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "slus.h"
 
 typedef struct S_801745F0_3 {
     u8 pad_00[0x1C];
@@ -18,7 +19,6 @@ typedef struct S_801745F0_2 {
     u16 unk_00;
 } S_801745F0_2;   /* arg0 in copy_linked_position_and_check_status; pointer addresses record offset 0x2 */
 
-void advance_sprite_animation_and_textures();                      /* extern */
 
 /* Copy three object fields and set object and global flags from the processed status. */
 void copy_linked_position_and_check_status(void *object, MovingPosition *dest, SpriteFrameState *status) {

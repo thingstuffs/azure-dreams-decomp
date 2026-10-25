@@ -356,7 +356,17 @@ def scan(text: str) -> Scan:
         if start is None:
             start = i
         if c in '([':
-            i = _match(masked, i, c, ')' if c == '(' else ']')
+            close = _match(masked, i, c, ')' if c == '(' else ']')
+            if c == '(':
+                knr = _knr_body(masked, start, close)
+                if knr is not None:
+                    brace, end = knr
+                    _emit(sc, text, masked, start, end, (brace, end), line_of,
+                          cond_depth_at, head_end=close)
+                    start = None
+                    i = end
+                    continue
+            i = close
             continue
         if c == ';':
             _emit(sc, text, masked, start, i + 1, None, line_of, cond_depth_at)
@@ -366,11 +376,14 @@ def scan(text: str) -> Scan:
         if c == '{':
             head = masked[start:i]
             htoks = tokens(head)
-            is_def = (htoks and htoks[-1] == ')' and '=' not in htoks
-                      and not any(t in TAGS for t in htoks[:1]) and 'typedef' not in htoks)
-            # struct/union/enum anywhere directly before '{' -> not a function
-            if htoks and (htoks[-1] in TAGS or (len(htoks) >= 2 and htoks[-2] in TAGS)):
-                is_def = False
+            is_def = bool(htoks and htoks[-1] == ')' and '=' not in htoks and 'typedef' not in htoks)
+            if is_def:
+                # A tagged return type is part of a function's specifiers,
+                # not a record definition. Parse the declarator to distinguish
+                # it from a tagged record with a trailing attribute.
+                _, _, parts = split_specifiers(htoks)
+                decl = parse_declarator(parts[0]) if len(parts) == 1 else None
+                is_def = decl is not None and decl.is_function
             j = _match(masked, i, '{', '}')
             if is_def:
                 _emit(sc, text, masked, start, j, (i, j), line_of, cond_depth_at)
@@ -383,8 +396,46 @@ def scan(text: str) -> Scan:
     return sc
 
 
-def _emit(sc, text, masked, start, end, body, line_of, cond_depth_at, kind=None):
-    head = masked[start:body[0]] if body else masked[start:end]
+def _knr_body(masked, start, close):
+    """Recognize complete identifier-list definitions, including their formals.
+
+    Consume the body as one top-level item so its declarations cannot swallow
+    following functions. Ambiguous/complex forms remain outside this subset.
+    """
+    head = tokens(masked[start:close])
+    if '=' in head or 'typedef' in head:
+        return None
+    _, _, parts = split_specifiers(head)
+    decl = parse_declarator(parts[0]) if len(parts) == 1 else None
+    if decl is None or not decl.is_function or not decl.params or any(
+            len(p) != 1 or not IDENT.fullmatch(p[0]) or p[0] in BASE_TYPES
+            for p in decl.params):
+        return None
+    rest = masked[close:]
+    if rest.lstrip().startswith((';', '{')):
+        return None
+    relative = rest.find('{')
+    if relative < 0:
+        return None
+    formals = rest[:relative]
+    if not formals.strip() or any(t in formals for t in ('=', '}', '#')):
+        return None
+    names, declared = {p[0] for p in decl.params}, set()
+    for item in scan(formals).items:
+        if item.kind != 'decl' or item.has_body_braces:
+            return None
+        for formal in item.decls:
+            if formal.name not in names or formal.name in declared or formal.is_function or formal.complex:
+                return None
+            declared.add(formal.name)
+    if declared != names:
+        return None
+    brace = close + relative
+    return brace, _match(masked, brace, '{', '}')
+
+
+def _emit(sc, text, masked, start, end, body, line_of, cond_depth_at, kind=None, head_end=None):
+    head = masked[start:head_end if head_end is not None else body[0]] if body else masked[start:end]
     toks = tokens(head)
     if toks and toks[-1] == ';':
         toks = toks[:-1]

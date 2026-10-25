@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/text.h"
+#include "engine/resource.h"
 
 /* Returns 1 if the NUL-terminated string contains a byte other than
  * space (0x20) or newline (0x0A) before its terminator, else 0. */
@@ -10,7 +11,6 @@
  * call sets ONLY $a0=0x100 (matching the target, which never touches
  * a1-a3), and its real return value ($v0, forwarded from the inner call
  * despite the other TU's `void` signature) is captured here as a pointer. */
-extern void *create_callback_pair_default();
 
 /*
  * Parses nonblank text into a new 0x100-byte buffer, returning NULL if blank or allocation fails.

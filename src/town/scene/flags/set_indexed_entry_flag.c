@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/player.h"
 
-void set_script_flag_bit();                 /* extern */
 
 typedef struct S_80019958_0 {
     u8 pad_00[0x10];

@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/actor_status.h"
+#include "engine/graphics.h"
 
 typedef struct S_80171960_0 {
     u8 pad_00[0x1C];
@@ -27,7 +28,6 @@ typedef struct S_80171960_2 {
 
    /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
-extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();

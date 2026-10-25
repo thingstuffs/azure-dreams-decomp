@@ -2,7 +2,7 @@
 #include "shared/town_dispatch_data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80016B1C();              /* extern */
+s32 func_80016B1C(void *entry, s32 callback_mode);              /* extern */
 extern s32 town_stored_amount;
 
 /* Store the result of calling func_80016B1C on D_80018AE8. */

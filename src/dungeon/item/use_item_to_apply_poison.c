@@ -19,7 +19,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
-void adjust_source_value_and_finalize();           /* extern */
+void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */

@@ -16,8 +16,7 @@ struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
-extern s32 register_node();
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void D_800CB9DC();
 extern u8 D_800DF650[];
 
@@ -108,7 +107,7 @@ typedef struct S_800CBCA0_1 {
 } S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
 
 
-extern void adjust_source_value_and_finalize();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s32 generate_random_value(void);
 extern void * create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
@@ -172,10 +171,10 @@ value_ready:
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
-extern void display_formatted_context_message();
+extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 get_entity_effect_value();
-extern void initialize_timed_motion_step();
-extern s32 play_sound_if_enabled();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
 void advance_timed_z_transition(s16 *transition) {
@@ -246,9 +245,9 @@ extern u8 D_800E1B5D;
 extern s32 has_enough_available_runtime_nodes(s32 a0);
 extern s32 get_entity_effect_value();
 extern s16 set_or_clear_actor_status_slot();
-extern void initialize_timed_motion_step();
-extern s32 play_sound_if_enabled();
-extern void display_formatted_context_message();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern s32 play_sound_if_enabled(s32 query_value);
+extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 
 /* Creates an effect for the active entity or displays its status message. */
 s32 create_active_entity_effect_or_message(s32 entity)
@@ -290,8 +289,8 @@ s32 create_active_entity_effect_or_message(s32 entity)
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
 extern s16 set_or_clear_actor_status_slot();
-extern s32 play_sound_if_enabled();
-extern void adjust_source_value_and_finalize();
+extern s32 play_sound_if_enabled(s32 query_value);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
@@ -348,8 +347,8 @@ typedef struct S_800CC18C_0 {
 
 
 extern u8 D_800E1BDA[];
-extern void adjust_source_value_and_finalize();
-extern s32 play_sound_if_enabled();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 begin_actor_random_warp(void *, s32, s32, void *);
 
@@ -412,7 +411,7 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
 
 
 extern s32 try_apply_confusion_status(void *object, s32 amount, s32 slots);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 
 typedef struct {
     u8 pad0[0x14];
@@ -460,8 +459,8 @@ s32 attempt_trap_request_ten_slots(void *object) {
 extern s16 D_8006CCD8[], D_8006CCE8[];
 extern s32 find_object_near_tile_height();
 extern void apply_attack_power_and_element_effects();
-extern s16 find_entry_at_tile_coordinates();
-extern s16 find_floor_item_at_world_position();
+extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
+extern s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 extern s32 take_map_item_slot(void *object, s16 slot);
 
 
@@ -593,7 +592,6 @@ typedef struct DungeonPacket
     u16 field1E;
 }
 DungeonPacket;
-extern s32 register_node();
 extern s32 D_800CC4F0;
 
 /* Create a dungeon object at the tile center and initialize its rendering settings. */
@@ -730,7 +728,6 @@ typedef struct ObjectBlock {
 extern u8 D_800CC744[];
 
 
-extern s32 register_node();
 
 /* Create an object at grid coordinates and initialize its display and tail data. */
 ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
@@ -893,7 +890,7 @@ typedef struct {
 extern u8 trap_resource_slot;
 extern s32 D_800DCF78;
 
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 s32 generate_random_value(void);
 void draw_textured_ellipse(void *, void *, s32, s32);
 extern void create_five_part_target_effect(u16 x, u16 y, s16 z);
@@ -1018,7 +1015,7 @@ typedef struct S_800CCDA0_3 {
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern void apply_attack_power_and_element_effects(s32, s32, s32, s32, s32, s32, s32);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 
 
 
@@ -1167,9 +1164,8 @@ typedef struct S_800CD004_6 {
 } S_800CD004_6;   /* counter in spawn_source_sprite_effect */
 
 
-extern s32 register_node();
 extern s32 rand(void);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
 extern u8 D_800CCDA0;
@@ -1258,8 +1254,8 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 #include "shared/entity.h"
 
 
-extern void adjust_source_value_and_finalize();
-extern s32 play_sound_if_enabled();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern void wrap_position_and_set_state_value(s32);
 extern s32 D_800DCF0C;
@@ -1334,10 +1330,10 @@ typedef struct S_800CD294_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern s32 D_800DCF14;
-extern void adjust_source_value_and_finalize();
-extern s32 play_sound_if_enabled();
-s32 roll_threshold_effect_variant_b();        /* extern */
-void wrap_position_and_set_state_value();                         /* extern */
+extern void adjust_source_value_and_finalize(void *context, const void *source);
+extern s32 play_sound_if_enabled(s32 query_value);
+s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s8 byte_input);        /* extern */
+void wrap_position_and_set_state_value(s32 state_value);                         /* extern */
 extern u8 D_800E1C03[17];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
@@ -1376,9 +1372,9 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
 #include "shared/entity.h"
 
 
-extern void adjust_source_value_and_finalize();
-extern s32 roll_threshold_effect_variant_a();
-extern void wrap_position_and_set_state_value();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
+extern s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s8 byte_input);
+extern void wrap_position_and_set_state_value(s32 state_value);
 extern s32 D_800DCF1C;
 extern u8 D_800E1C14[17];
 
@@ -1467,8 +1463,8 @@ typedef struct S_800CD474_3 {
 } S_800CD474_3;   /* global_base in advance_falling_trap_effect */
 
 
-extern void initialize_timed_motion_step();
-extern s32 play_sound_if_enabled();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void apply_mode_selected_trap_mask();
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
@@ -1562,8 +1558,7 @@ s32 target;
 
 
 extern s32 has_enough_available_runtime_nodes();
-extern s32 register_node();
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern void apply_mode_selected_trap_mask();
 
@@ -1778,7 +1773,7 @@ void tick_trap_effect_countdown(S_800C81B0_a0 *object)
 
 
 extern s32 get_entity_effect_value();
-extern void adjust_source_value_and_finalize();
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern s16 set_or_clear_actor_status_slot();
 extern u8 D_800E1C25[];
 
@@ -1814,7 +1809,7 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 extern s32 get_entity_effect_value();
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 extern u8 D_800CD910[];
@@ -1932,7 +1927,7 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 extern u8 D_800DF870[];
 
 extern s32 generate_random_value(void);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void attempt_action_six_if_eligible(void *, s32, s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
@@ -2136,11 +2131,11 @@ typedef struct {
 
 
 extern void refresh_packed_grid_nibbles(void);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void mark_all_actors_with_high_flag(void);
 extern void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
 extern void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
-extern void initialize_timed_motion_step();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
 void update_long_lived_trap_effect(DungeonEffect *effect) {
@@ -2354,7 +2349,7 @@ typedef struct {
     s16 field_22;
 } GridEffectObject;
 
-extern void initialize_timed_motion_step();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 extern s32 random_dungeon_range_16(s32, s32);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 
@@ -2516,9 +2511,9 @@ s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 void display_text_with_fullwidth_adjustment(s8 *text);
-s32 generate_random_value();
+s32 generate_random_value(void);
 s32 is_linked_object_flagged_10000(void *);
 
 extern u8 D_800E1B76[18];
@@ -2688,17 +2683,17 @@ extern s8 entity_spawn_variant_code;
 
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern void initialize_timed_motion_step();
+extern void initialize_timed_motion_step(); /* Unprototyped: two or three arguments; retail reads only the first two. */
 extern void func_80042640(void *, s32);
 extern void select_sound_stream(s32, s32);
 extern void SD_Call(s32);
-extern void display_formatted_context_message();
+extern void display_formatted_context_message(); /* Unprototyped: one or three arguments; retail retains only the text context. */
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void raise_entity_level(void *, s32);
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 
@@ -2849,6 +2844,8 @@ void advance_monster_den_sequence(void *den_event) {
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
+struct State;
 
 extern u8 D_800CEA44[];
 

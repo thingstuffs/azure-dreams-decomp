@@ -35,7 +35,7 @@ typedef struct S_8107D000_4 {
 } S_8107D000_4;
 
 void *allocate_list_node();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s16 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void initialize_actor_sprite_and_animation();

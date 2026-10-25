@@ -3,7 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-extern s32 func_8001746C();
+extern void func_8001746C(s32 bit_index);
 extern s32 D_800175E4;
 extern s32 *D_80017698;
 void invoke_state_callback(void);

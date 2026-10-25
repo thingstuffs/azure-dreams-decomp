@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
 #include "sdk/libc.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,6 @@ typedef struct S_80026978_4 {
 } S_80026978_4;
 
 
-extern void register_node();
 extern u8 D_80026B00[];
 extern u8 tako_particle_sprite_data[];
 

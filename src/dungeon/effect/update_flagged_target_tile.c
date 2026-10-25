@@ -18,9 +18,9 @@ typedef struct S_800B2FAC_1_pre {
 } S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in update_flagged_target_tile, addressed as arg3[-1] */
 
 void unlink_entity_node();                      /* extern */
-void update_map_cell_flags_with_item_limit();             /* extern */
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 distribute_experience_awards();                      /* extern */
-s32 detach_record_and_update_slot_state();                      /* extern */
+s32 detach_record_and_update_slot_state(void *record);                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
 void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, SpriteFrameState *target) {

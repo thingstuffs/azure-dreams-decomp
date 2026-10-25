@@ -2,7 +2,7 @@
 #include "common.h"
 
 s32 func_80018BD0(s32);
-s32 func_80018C50();                         /* extern */
+s32 func_80018C50(s32 flagIndex);                         /* extern */
 
 /* Process 0xFB7 and 0xFB8, then return whether the 0xFC0 check succeeds. */
 s32 process_succeeds(void) {

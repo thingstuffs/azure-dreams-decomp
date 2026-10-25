@@ -8,6 +8,8 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "dungeon/player/item.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -64,12 +66,9 @@ extern void AddPrim();
 extern void SetLineF2();
 extern void SetDrawArea();
 extern s32 rand();
-extern void begin_deferred_player_item_effect();
-extern s32 reserve_runtime_slot();
 extern void set_sprite_animation_frame();
-extern void snapshot_inventory_and_familiars();
+extern void snapshot_inventory_and_familiars(void *input_state);
 extern void draw_transformed_sprite_with_clip_rect();
-extern void request_scene_state_with_parameters();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
 void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectState *effect) {

@@ -8,7 +8,7 @@
 
 
 extern void handle_audio_status_code(s32 a0);
-extern void dispatch_combined_driver_flags();
+extern void dispatch_combined_driver_flags(s32 unused);
 extern void release_enabled_sound_channel(s16 a0);
 
 /* Stops active playback, releases all four channels, and runs audio cleanup. */

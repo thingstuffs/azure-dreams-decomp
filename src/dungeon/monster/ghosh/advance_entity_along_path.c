@@ -3,13 +3,13 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
-extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
-extern s32 func_8016C698();
+extern void func_8016C698(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
 
 extern u8 ghosh_frame_set_7[];
 

@@ -6,9 +6,9 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/graphics.h"
 typedef struct Ent Ent;
 
-void select_sprite_entry();
 Ent *prepare_directional_attack();
 s32 get_actor_height_difference();
 s32 probe_directional_neighbor();

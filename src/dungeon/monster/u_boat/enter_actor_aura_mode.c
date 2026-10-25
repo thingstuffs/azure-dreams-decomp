@@ -49,8 +49,7 @@ typedef struct S_80175BA8_5 {
 } S_80175BA8_5;
 
 extern void *allocate_list_node();
-extern void register_node();
-extern void select_sprite_entry();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void play_sound_if_enabled();
 extern s32 sample_terrain_surface_height();
 
@@ -60,6 +59,7 @@ extern u8 uboat_aura_later_frames[];
 extern u8 uboat_aura_sprite_data[];
 extern u8 D_80170CEC[];
 #include "dungeon/monster/u_boat.h"
+#include "engine/graphics.h"
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
 void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFrameState *sprite, void *actor_info) {

@@ -15,7 +15,7 @@ typedef struct S_80094A60_0 {
 } S_80094A60_0;
 
 void set_sprite_animation_frame();
-s32 view_relative_angle_sector();
+u32 view_relative_angle_sector(s32 angle);
 extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */

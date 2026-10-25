@@ -12,7 +12,7 @@ typedef struct {
     u8 bytes[12];
 } Block12;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 D_800D4954;
 extern Block12 D_800E233C;
 

@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "shared/sprite_frame_state.h"
 
 typedef unsigned long uptr;
 
@@ -79,7 +80,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
-extern void func_8014CBB8();
+extern void func_8014CBB8(void *actor, void *motion, SpriteFrameState *object);
 extern u8 D_80150494[];
 extern u8 D_801504FC[];
 

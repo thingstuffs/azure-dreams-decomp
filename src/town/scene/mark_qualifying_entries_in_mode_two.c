@@ -20,7 +20,7 @@ typedef struct S_80017DBC_2 {
 } S_80017DBC_2;
 
 
-extern s32 func_800198D0();
+extern s32 func_800198D0(s32 flagIndex);
 extern s32 town_indexed_values;
 extern s32 D_80016608;
 extern s32 scene_update_state;

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 
-extern s32 advance_sprite_animation_and_textures();
 
 /* Increment the object counter, advance paired state values, and propagate status flags. */
 void update_growing_sprite_effect(void *object_ref, void *unused, SpriteFrameState *state) {

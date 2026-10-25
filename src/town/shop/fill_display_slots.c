@@ -7,7 +7,7 @@ typedef struct S_800B62A4_0 {
 } S_800B62A4_0;
 void bzero(void *, s32);            /* extern */
 void collect_selected_record_values();             /* extern */
-void populate_display_row_with_icon();            /* extern */
+void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index);            /* extern */
 void populate_display_row();            /* extern */
 
 typedef struct DisplaySlot {

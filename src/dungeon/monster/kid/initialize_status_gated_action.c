@@ -6,8 +6,8 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/graphics.h"
 
-void select_sprite_entry();
 typedef struct Ent Ent;
 Ent *prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();

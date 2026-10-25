@@ -9,6 +9,7 @@
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/vector.h"
+struct RegistrationNode;
 
 typedef struct S_800A2000_0 {
     u8 pad_00[0xC];
@@ -90,7 +91,7 @@ extern void D_800A2180();
 extern s32 D_800A21EC();
 /* arg0 in initialize_directional_object_state */
 /* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
-extern s32 register_node();
+extern s32 register_node(struct RegistrationNode *entry, void *registration_id);
 extern u8 lit_mesh_renderer_address[];
 extern s32 D_800A2338;
 extern s32 D_800A23D0;

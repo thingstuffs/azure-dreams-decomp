@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 initialize_floor_generation_state();
+extern void initialize_floor_generation_state(void);
 extern s32 set_selected_entry_state_3(s32);
 typedef struct {
     s32 value;

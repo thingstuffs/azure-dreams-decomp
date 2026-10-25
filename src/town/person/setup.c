@@ -9,7 +9,7 @@ typedef struct {
 } Vec3_32;
 void compute_offset_position_linked_object(void *object, Vec3_32 *out_pos);            /* extern */
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 lookup_item_category_mapped_value(s32, s32);                /* extern */
 
 typedef struct S_800C6C10_1 {

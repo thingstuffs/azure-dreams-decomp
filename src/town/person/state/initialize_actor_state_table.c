@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-void clear_record_indexed_flag();       /* extern */
+#include "town/person.h"
 extern s32 D_800D5540[];
 
 /* Initialize the actor with the state table and run its follow-up handler. */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
+#include "slus/utility_hooks.h"
 
 /* Element of the shared D_80084960 stat/entity table (stride 0x9C = 156 bytes);
  * only the field at offset 0x1C is touched here. */
@@ -11,7 +12,6 @@ typedef struct {
 
 extern S_80084960 audio_channel_controls[];
 
-extern void noop_channel_control_notification();
 
 /* Stores value masked to seven bits at index and calls the notifier with the low byte of value. */
 void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value) {

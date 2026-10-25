@@ -67,9 +67,9 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/dungeon_status.h"
 
 extern s32 format_unsigned_double_byte_decimal();
-extern s32 apply_entity_effects();
+extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 SquareRoot12();
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
@@ -435,15 +435,15 @@ loop_0:
 #include "m2c_compat.h"
 
 extern s32 format_unsigned_double_byte_decimal();
-extern s32 apply_entity_effects();
+extern s32 apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 SquareRoot12();
-extern s32 get_unused_text_buffer();
+extern s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance();
 extern s32 append_entity_display_text();
-extern s32 play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment();
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -1091,11 +1091,11 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "shared/entity.h"
 
 s32 format_unsigned_double_byte_decimal();                        /* extern */
-s32 get_unused_text_buffer();                                /* extern */
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 s32 append_entity_display_text();                     /* extern */
-s32 distribute_experience_awards();                          /* extern */
+s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern void *monster_species_table;
 
@@ -1292,8 +1292,8 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_record_slots[];
 extern void clear_slots_of_type(void *, s32);
-extern void decrement_monster_entry_count();
-extern void mark_owned_linked_actor_actions();
+extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
+extern void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 s32 detach_record_and_update_slot_state(void *record) {

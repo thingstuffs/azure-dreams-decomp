@@ -6,6 +6,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "slus.h"
 extern int abs(int);
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -16,11 +17,10 @@ extern int abs(int);
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
-extern void create_tinted_animated_particle();
+extern void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z);
 extern void create_randomized_trail_particle();
 extern void create_brief_randomized_particle();
-extern void register_node();
-extern void SD_Call();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 rand();
 
 extern u8 D_80026748[];

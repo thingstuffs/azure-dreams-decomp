@@ -3,7 +3,7 @@
 
 extern s32 generate_random_value(void);
 extern s32 set_or_clear_actor_status_slot(void *ptr, s32 value, s32 kind);
-extern void adjust_source_value_and_finalize(void *ptr, const void *data);
+extern void adjust_source_value_and_finalize(void *context, const void *source);
 extern void wrap_position_and_set_state_value(s32 value);
 
 extern s32 D_800DCF10[];

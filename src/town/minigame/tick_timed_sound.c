@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "slus.h"
 
    /* the 0x2 bytes before arg0 in tick_timed_sound, addressed as arg0[-1] */
 
@@ -11,7 +12,6 @@ typedef struct S_80026D28_0 {
 } S_80026D28_0;   /* arg0 in tick_timed_sound */
 
 
-extern s32 SD_Call();
 
 
 /* Starts a timed state and sets completion flags when its countdown expires. */

@@ -8,6 +8,7 @@
 #include "records/Rec_func_80173D78_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/manoeva.h"
+#include "engine/graphics.h"
 
 #ifndef NULL
 #define NULL 0
@@ -29,8 +30,7 @@ typedef struct S_80175DD0_1 {
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
-extern s32 register_node();
-extern s32 select_sprite_entry();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 D_80175C60;
 extern s32 D_80175D74;

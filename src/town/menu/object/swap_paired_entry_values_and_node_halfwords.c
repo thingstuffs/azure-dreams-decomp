@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u32 *catalog_display_node_slots[28];
-extern void select_paired_value_tables();
+extern void select_paired_value_tables(void *selection);
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
 void swap_paired_entry_values_and_node_halfwords(u8 *state)

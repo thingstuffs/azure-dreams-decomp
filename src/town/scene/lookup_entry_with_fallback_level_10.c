@@ -5,7 +5,7 @@
 s32 func_800179A0(void);
 s32 func_80017B24();         /* extern */
 s32 * func_80017BDC(void *, void *, s32, s32);
-s32 func_80018820();                                /* extern */
+s32 func_80018820(void);                                /* extern */
 extern s32 D_80018AD0;
 extern M2C_UNK D_80019B97;
 

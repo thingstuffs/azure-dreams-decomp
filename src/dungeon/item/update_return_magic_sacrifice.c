@@ -9,6 +9,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+struct EntityLinkNode;
 
 typedef struct S_800C2824_0 {
     void * unk_00;
@@ -91,13 +92,13 @@ typedef struct S_800C2824_16 {
 } S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in update_return_magic_sacrifice */
 
 s32 get_entity_effect_value();
-s32 register_node();
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void unlink_node();
-void adjust_source_value_and_finalize();
-void unlink_entity_node();
-void update_map_cell_flags_with_item_limit();
+void adjust_source_value_and_finalize(void *context, const void *source);
+void unlink_entity_node(struct EntityLinkNode *node);
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *detach_record_and_update_slot_state();
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 s32 release_entity_slot_and_update_flags();
 void draw_transformed_sprite_with_clip_rect();
 s32 create_five_point_effect(u8, u8, s16, void *, s32, s32, void *);

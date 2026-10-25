@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 void func_800176B8(void *, s32);             /* extern */
-s32 initialize_state_two_entries_pointer();                         /* extern */
-s32 func_8001868C();                         /* extern */
+void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */
+s32 func_8001868C(s32 flagIndex);                         /* extern */
 void func_800188E8(s32, s32, s32);   /* extern */
 
 typedef struct S_806D43CC_0 {

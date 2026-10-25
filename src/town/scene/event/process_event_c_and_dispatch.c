@@ -2,9 +2,9 @@
 #include "common.h"
 #include "shared/town_dispatch_object.h"
 #include "m2c_compat.h"
+#include "town/player.h"
 
 s32 apply_entry_position(); /* extern */
-void set_script_flag_bit();                     /* extern */
 extern M2C_UNK D_8001BB44;
 
 /*

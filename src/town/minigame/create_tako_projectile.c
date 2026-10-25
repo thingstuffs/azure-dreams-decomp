@@ -22,7 +22,7 @@ typedef struct Object136 {
     Copy20 init;
 } Object136;
 
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_8002614C[];
 extern u8 tako_particle_sprite_data[];
 

@@ -10,7 +10,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_8002609C[];
 extern u8 map_animation_sprite_entries[];
 /* Creates a sprite at the given position and applies color-specific settings. */

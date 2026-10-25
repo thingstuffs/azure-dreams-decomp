@@ -55,7 +55,7 @@ typedef struct S_80D653B8_5 {
 } S_80D653B8_5;   /* arg1 in create_anchored_directional_object */
 
 extern void *allocate_list_node();
-extern void register_node();
+extern void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void project_sprite_chain(void);
 extern void select_sprite_entry();
 

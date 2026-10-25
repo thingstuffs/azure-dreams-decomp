@@ -30,4 +30,8 @@ void set_script_flag_bit(s32 bit_index);
 void clear_script_flag_bit(s32 bit_index);
 s32 get_script_flag_mask(s32 flag_index);
 
+void set_default_scene_data_pointer(s32 **out_ptr, void *unused_position, s32 unused_context);
+
+void initialize_threshold_interaction_action(void *record, void *unused_entity, s32 unused_context);
+
 #endif

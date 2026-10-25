@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player.h"
 
 extern u8 *apply_entry_position();
-extern s32 get_script_flag_mask();
 extern u8 D_8001BDB4[16];
 extern u8 scene_dispatch_context[16];
 extern u8 D_8001E20F[16];

@@ -8,7 +8,7 @@ typedef struct S_800C8ABC_0 {
 
 
 extern s32 set_or_clear_actor_status_slot();
-extern s32 generate_random_value();
+extern s32 generate_random_value(void);
 extern s32 is_linked_entity_flagged_2000000(void *record);
 
 /* Roll a chance against the record's stride and, on a win, run the action action. */

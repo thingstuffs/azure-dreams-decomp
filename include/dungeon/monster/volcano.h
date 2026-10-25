@@ -637,7 +637,7 @@ extern void clear_slots_of_type(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void register_node(void *,void *);
 extern void func_8004491C(void *,void *);
-extern void select_indirect_table_entry();
+extern void select_indirect_table_entry(struct S_80047738 *state, s16 table_index, s16 entry_index);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *arg);
@@ -673,6 +673,7 @@ extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s32 try_claim_dungeon_action_slot();
 #include "dungeon/player/object/action_state.h"
+struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_layer_offset_height();

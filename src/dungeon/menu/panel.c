@@ -10,7 +10,7 @@
 #include "dungeon/menu.h"
 
 void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 decode_fullwidth_text();
 s32 build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
@@ -161,7 +161,6 @@ void *create_panel_effect_object(void *owner)
 }
 #include "common.h"
 
-extern void *allocate_flagged_object_node();
 
 /*
  * Allocates an unflagged object node and returns its data address at offset 0x20, or zero if
@@ -589,7 +588,7 @@ extern void update_fading_effect_scale(void *effect, s32 unused, void *render_ar
 extern s32 D_800DF03C[];
 
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 build_positioned_text_glyphs(void *, s32, s32);
 extern s32 strlen(s32);
 extern s32 allocate_panel_offset_or_zero(void);
@@ -840,10 +839,10 @@ typedef struct S_800B1B10_7 {
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
 
 extern void *allocate_list_node();
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 decode_fullwidth_text();
 s32 strlen();
-s32 get_unused_text_buffer();
+s32 get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
@@ -1120,7 +1119,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 void play_sound_if_enabled(s32);
 extern int draw_linked_lit_meshes();
 struct S_800B1F34_0;
@@ -1242,7 +1241,7 @@ typedef struct {
     u16 kind;
 } Object;
 
-extern s32 register_node();
+extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void select_record_entry_and_value(RenderPart *part, void *data, s32 index);
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, s32 update_arg);

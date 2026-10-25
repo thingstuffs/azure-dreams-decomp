@@ -12,7 +12,7 @@ typedef struct TownStateEntryTable {
     TownStateEntry *entries;
 } TownStateEntryTable;
 
-extern s32 func_8001A79C();
+extern s32 func_8001A79C(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* In event state 6, store func_8001A79C() in the indexed entry and return 0; otherwise return 1. */
 s32 store_entry_value_in_state_6(TownStateEntryTable *table, s32 index) {

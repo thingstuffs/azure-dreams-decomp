@@ -12,6 +12,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+struct RegistrationNode;
 typedef struct Row_819A088C_S_819A088C_0 {
     u8 pad_00[0x24];
     union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
@@ -451,8 +452,8 @@ void RotMatrix(void *, void *);
 u16 GetTPage(s32, s32, s32, s32);
 void SetDrawMode(void *, s32, s32, u16, s32);
 void advance_sprite_animation_and_textures(void *);
-void register_node();
-void func_8004491C();
+void register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
+s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
 void select_record_entry_and_value();
 s16 rand();
 s32 get_sprite_attachment_vector(void *, void *, void *, s32);

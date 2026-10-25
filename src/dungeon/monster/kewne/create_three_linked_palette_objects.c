@@ -19,7 +19,7 @@ typedef struct S_80174910_9 {
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
 void *allocate_list_node();               /* extern */
-s32 register_node();           /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 LoadImage();              /* extern */
 extern void D_801747B8();
 extern u8 kewne_palette_colors[];

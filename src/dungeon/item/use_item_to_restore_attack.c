@@ -8,10 +8,10 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-void apply_entity_effects();                      /* extern */
+void apply_entity_effects(); /* Slot contract: loading images do not establish one callee contract. */                      /* extern */
 #include "dungeon/player/item.h"
 void clear_slot_and_update_linked_state();                         /* extern */
-void adjust_source_value_and_finalize();           /* extern */
+void adjust_source_value_and_finalize(void *context, const void *source);           /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */

@@ -70,9 +70,9 @@ void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
 s32 get_mode_selected_value();
 extern void flag_object_for_removal(void *items);
-s32 func_800B0718();
+s32 func_800B0718(void);
 /* extern */
-void store_table_index_and_entry_bytes();
+void store_table_index_and_entry_bytes(void *object, s32 index);
 /* extern */
 s32 func_800B3924();
 /* extern */

@@ -6,6 +6,7 @@
 #include "shared/object_links.h"
 #include "shared/vector.h"
 #include "town/scene/paired_value_dispatch_g00647.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 
@@ -14,9 +15,9 @@ typedef struct { s32 words[21]; } TownRecord;
 
 
 void unlink_node_if_registered(void *block_data);
-void unlink_scene_list_node();                      /* extern */
+void unlink_scene_list_node(Rec_func_80094268_arg0 *node);                      /* extern */
 void call_the_same_context_both_processing_routines();             /* extern */
-void add_motion_deltas_to_position();                      /* extern */
+void add_motion_deltas_to_position(ObjectPosition *motion);                      /* extern */
 void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_byte);
 typedef struct {
     s32 words[0x15];

@@ -8,7 +8,7 @@
 #endif
 
 void *allocate_list_node();
-s32 play_sound_if_enabled();
+s32 play_sound_if_enabled(s32 query_value);
 void tick_view_color_flash(void *fade);
 
 typedef struct S_800C4D78_0 {

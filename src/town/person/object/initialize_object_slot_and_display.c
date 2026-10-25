@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/person.h"
 
-extern void initialize_object_and_register_slot(void *object, s32 slot_index, void *field_58_value, void *field_5c_value,
-                          void *field_7c_value, void *field_80_value);
 extern void set_linked_data_pointers_variant_1(void *record, s32 first_value, s32 second_value);
 extern void create_owner_following_sprite(void *state_value);
 

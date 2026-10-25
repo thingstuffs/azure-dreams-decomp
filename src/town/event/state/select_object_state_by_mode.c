@@ -3,8 +3,8 @@
 #include "records/Rec_D_800CFCB4.h"
 #include "shared/dungeon_effect_views.h"
 
-void handle_insert_initialize_two_values_status_flags();        /* extern */
-void configure_the_set_mode_n_3();                         /* extern */
+void handle_insert_initialize_two_values_status_flags(Rec_D_800CFCB4 *node, s32 value_08, s32 value_0c);        /* extern */
+void configure_the_set_mode_n_3(Rec_D_800CFCB4 *record, s32 setup_value, s32 setup_param);                         /* extern */
 void initialize_optional_object_state(); /* extern */
 extern M2C_UNK D_800D0690;
 

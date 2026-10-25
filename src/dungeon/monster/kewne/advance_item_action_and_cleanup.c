@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 #include "engine/cd.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
@@ -21,7 +22,6 @@ extern u16 D_80175F6E;
 extern s32 Control_CD();
 extern s32 sound_set_cd_cue_parameters();
 extern s32 read_stream_cue_start_offset();
-extern s32 select_sprite_entry();
 extern void *scan_actor_along_heading();
 extern s32 set_record_integer_tile_center();
 extern s32 advance_status_timers();

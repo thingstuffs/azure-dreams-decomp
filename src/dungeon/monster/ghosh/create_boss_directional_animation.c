@@ -19,7 +19,7 @@ typedef struct S_80173F6C_5 {
 extern u8 ghosh_frame_set_1[];
 extern void *ghosh_scripted_actor[];
 void *allocate_list_node();
-s32 register_node(); /* extern */
+s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */ /* extern */
 void unlink_entity_node(); /* extern */
 void update_map_cell_flags_with_item_limit(); /* extern */
 s32 retain_spawn_resource(); /* extern */

@@ -3,6 +3,7 @@
 
 
 #include "common.h"
+#include "slus/utility_hooks.h"
 typedef struct S_80084960
 {
     s32 f00;
@@ -93,8 +94,7 @@ extern S_80073738 audio_master_level;
 extern s32 audio_voice_masks[24];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[24];
-extern void noop_channel_control_notification();
-extern void audio_refresh_sequence_voice_volumes();
+extern void audio_refresh_sequence_voice_volumes(void);
 extern void audio_update_voice_pitch(S_80085458 *e, s32 value);
 extern void apply_tone_parameter_command(S_80084960 *e);
 extern void func_80057A94(S_80084960 *e);

@@ -6,8 +6,8 @@
 typedef void (*Callback)(void *, void *, void *);
 
 #include "town/system/person_idle_dispatch.h"
-s32 quantize_heading_to_sector();
-s32 check_heading_past_half_sector();
+s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount);
+s32 check_heading_past_half_sector(s32 angle, s16 divisions);
 
 /* Run the object callback and update its selected entry and record flags when enabled. */
 void run_object_callback(void *object, void *context, SpriteFrameState *record) {

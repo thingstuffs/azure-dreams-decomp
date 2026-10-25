@@ -5,6 +5,8 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/item.h"
+#include "engine/graphics.h"
+struct S_80098614_0;
 
 typedef struct S_80098CF8_0 {
     u8 pad_00[0x1];
@@ -59,16 +61,15 @@ typedef struct S_80098CF8_6 {
     s32 unk_124;
 } S_80098CF8_6;   /* s3 in begin_holding_item */
 
-extern void set_sprite_animation_frame();
 extern void equip_item_and_update_status();
-extern void change_equipped_item_and_notify();
-extern void clear_slot_and_update_linked_state();
+extern void change_equipped_item_and_notify(struct S_80098614_0 *actor, u8 *requested_item);
+extern void clear_slot_and_update_linked_state(s32 *slot);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
 extern void clear_byte_and_advance();
 extern s32 write_text_byte_and_advance();
 extern s32 append_typed_formatted_value();
-extern void play_sound_if_enabled();
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object();
 

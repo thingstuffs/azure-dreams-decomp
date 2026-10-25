@@ -72,7 +72,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id);
 void run_runtime_callbacks(void);
 
 /* runtime_clear_record_field.c */
-void runtime_clear_record_field_04(Rec_D_80082D58 *record);
+void runtime_clear_record_field_04(void *state, s32 unused_status);
 
 /* runtime_copy_three_global_blocks.c */
 void runtime_copy_three_global_blocks(void);

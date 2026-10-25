@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_800175B0();
-extern s32 func_80019A8C();
+extern s32 func_800175B0(void);
+extern s32 func_80019A8C(void);
 extern s32 scene_update_state;
 
 /* Set state 1 and return whether the initial check passes and the count is at least 20. */

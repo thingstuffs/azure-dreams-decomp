@@ -12,8 +12,8 @@
 #include "dungeon/player/item.h"
 
 extern u8 dungeon_button_latch[9];
-void snapshot_inventory_and_familiars();
-void adjust_source_value_and_finalize();
+void snapshot_inventory_and_familiars(void *input_state);
+void adjust_source_value_and_finalize(void *context, const void *source);
 extern u8 D_800E0672[17];
 
 typedef struct S_8008E0C4_0 {
