@@ -208,6 +208,8 @@ def main(argv=None, root=ROOT):
         step('apply'+suffix, ['git','apply',str(patch)])
     step('scrub', action=lambda:scrub(root))
     step('debt', action=lambda:debt_scan(root, args.allow_debt))
+    step('debt-baseline', [sys.executable, 'tools/lint/debt_check.py', '--check',
+                           '--out', 'build/landing/readability-debt'])
     step('layout', ['python3','tools/source_layout.py','--root',str(root),'check'])
     step('registry', ['python3','tools/registry.py'])
     step('native-graph', ['python3','tools/gate/overlay_module_gate.py','--root',str(root),'--graph'])

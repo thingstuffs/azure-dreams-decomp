@@ -97,14 +97,13 @@ code uses `<global>`. The classes are:
 | `pointer_casts` | Spelled pointer casts recognized by the existing readability lexer. |
 
 Comments and quoted contents do not count. Cast density is the ratio of
-pointer casts to nonexempt C tokens, compared by exact cross multiplication.
-The TSV prints casts per 1,000 tokens for inspection. A reduction in function
-size can increase this density even if its cast count stays constant; review
-that change explicitly.
+pointer casts to nonexempt C tokens. The TSV prints casts per 1,000 tokens for
+inspection; density never fails a check. Removing declarations or other tokens
+may increase density while the absolute cast count stays constant or decreases.
 
 `--baseline FILE` defaults to `tools/lint/debt_baseline.json`. `--check` fails
-on any increased class total, file class count, or function class count, and on
-increased file/function cast density. Improvements in another class, file or
+on any increased class total, file class count, or function class count.
+Improvements in another class, file or
 function cannot pay for new debt. New scopes start at zero debt; removed scopes
 are allowed. A definition/file rename retaining debt needs an explicitly reviewed
 baseline key migration. The sparse baseline records only files and scopes with
@@ -117,7 +116,7 @@ Baseline schema 2 groups `by_file` by directory, then filename. A file record is
 in `classes`, with trailing zero counts omitted. File class counts are the sum
 of its retained scopes; `by_class` retains the totals for all six classes.
 Zero-debt scopes (including `<global>`) need no record, but their tokens remain
-in `total_tokens` so file cast-density comparisons stay exact. Keys are sorted,
+in `total_tokens` to preserve the census denominators. Keys are sorted,
 with one physical file per line and no source line numbers. This avoids storing
 paths and file/scope totals twice while keeping the baseline below 600 KB.
 
@@ -146,6 +145,11 @@ nice -n 10 python3 tools/lint/debt_check.py --summary \
 
 Only a complete census without parse/marker errors may write a baseline.
 Review its diff; raising a count to silence a failure defeats the ratchet.
+
+`tools/land_make.sh` runs this complete baseline check after applying patches
+and the existing changed-source debt scan, before layout checks and configure.
+Failures leave the applied tree and `build/landing/debt-baseline.log` for review;
+no build or commit follows a failed check.
 
 ## Callback and cross-unit soundness
 

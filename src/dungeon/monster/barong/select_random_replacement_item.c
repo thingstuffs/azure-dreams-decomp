@@ -56,7 +56,7 @@ s32 select_random_replacement_item(DungeonArg *selection, u8 *context)
         }
 
         /*
-         * BUG: Original bug: selection still names the original item, so the rarity checks compare it with itself. Check the
+         * BUG: selection still names the original item, so the rarity checks compare it with itself. Check the
          * candidate's rarity instead.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).

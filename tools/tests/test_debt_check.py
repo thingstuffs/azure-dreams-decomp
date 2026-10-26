@@ -1,5 +1,6 @@
 """Debt cannot migrate between functions/classes or hide behind unrelated BYTES comments."""
 import copy
+import csv
 import json
 from pathlib import Path
 import subprocess
@@ -116,13 +117,49 @@ class DebtCheckTest(unittest.TestCase):
         self.assertTrue(any('all: goto' in p for p in problems))
         self.assertTrue(any('src/a.c: goto' in p for p in problems))
 
-    def test_density_is_exact_and_detects_same_cast_count_in_smaller_function(self):
+    def test_density_increase_with_same_cast_count_passes_and_is_reported(self):
         self.path.write_text('int a(void *p) { int x = 1; x += 2; return *(int *)p; }')
         before = D.census(self.root)
         self.path.write_text('int a(void *p) { return *(int *)p; }')
-        problems = D.check_baseline(D.census(self.root), D.baseline_record(before))
-        self.assertTrue(any('pointer_cast_density' in p for p in problems))
-        self.assertFalse(any('pointer_casts ' in p for p in problems))
+        after = D.census(self.root)
+        baseline = D.baseline_record(before)
+        self.assertEqual(D.check_baseline(after, baseline), [])
+        D.write_outputs(self.root / 'out', after, baseline)
+        with (self.root / 'out/debt_functions.tsv').open() as stream:
+            row = next(r for r in csv.DictReader(stream, delimiter='\t')
+                       if r['function'] == 'a#1')
+        self.assertEqual(row['status'], 'PASS')
+        self.assertGreater(float(row['pointer_casts_per_1000_tokens']),
+                           1000 / before['by_function']['src/a.c']['a#1']['tokens'])
+
+    def test_density_increase_with_fewer_casts_passes(self):
+        self.path.write_text('int a(void *p, void *q) { int x = 1; x += 2; x += 3; '
+                             'x += 4; return *(int *)p + *(int *)q + x; }')
+        before = D.census(self.root)
+        self.path.write_text('int a(void *p, void *q) { return *(int *)p; }')
+        after = D.census(self.root)
+        for rows in ('by_file', 'by_function'):
+            old, new = before[rows]['src/a.c'], after[rows]['src/a.c']
+            if rows == 'by_function':
+                old, new = old['a#1'], new['a#1']
+            self.assertLess(new['counts']['pointer_casts'], old['counts']['pointer_casts'])
+            self.assertGreater(new['counts']['pointer_casts'] * old['tokens'],
+                               old['counts']['pointer_casts'] * new['tokens'])
+        self.assertEqual(D.check_baseline(after, D.baseline_record(before)), [])
+
+    def test_added_cast_fails_even_when_density_decreases(self):
+        self.path.write_text('int a(void *p) { return *(int *)p; }')
+        before = D.census(self.root)
+        self.path.write_text('int a(void *p) { int x = 1; x += 2; x += 3; x += 4; '
+                             'x += 5; return *(int *)p + *(short *)p + x; }')
+        after = D.census(self.root)
+        old, new = before['by_function']['src/a.c']['a#1'], after['by_function']['src/a.c']['a#1']
+        self.assertLess(new['counts']['pointer_casts'] * old['tokens'],
+                        old['counts']['pointer_casts'] * new['tokens'])
+        self.assertEqual(D.check_baseline(after, D.baseline_record(before)), [
+            'all: pointer_casts 2 > baseline 1',
+            'src/a.c: pointer_casts 2 > baseline 1',
+            'src/a.c::a#1: pointer_casts 2 > baseline 1'])
 
     def test_baseline_rejects_corruption_partial_runs_and_new_debt(self):
         self.path.write_text('void a(void) { volatile int x; }')
@@ -174,8 +211,9 @@ class DebtCheckTest(unittest.TestCase):
         self.assertEqual(expanded['by_file'], before['by_file'])
         self.assertEqual(set(expanded['by_function']['src/a.c']), {'a#1'})
         self.path.write_text('int a(void *p) { return *(int *)p; }')
-        problems = D.check_baseline(D.census(self.root), baseline)
-        self.assertEqual(problems, ['src/a.c: pointer_cast_density increased (casts per nonexempt C token)'])
+        after = D.census(self.root)
+        self.assertLess(after['by_file']['src/a.c']['tokens'], before['by_file']['src/a.c']['tokens'])
+        self.assertEqual(D.check_baseline(after, baseline), [])
 
     def test_sparse_serialization_is_deterministic_and_round_trips(self):
         self.path.write_text('void z(void) { volatile int x; } void a(void) { goto end; end:; }')

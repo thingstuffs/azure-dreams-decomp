@@ -235,7 +235,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
                 motion->flags14 = 0;
                 /*
-                 * BUG: Original bug: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
+                 * BUG: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
                  * clears Koh's occupancy; resume the attachment without clearing the tile.
                  * Found and documented by the Azure Dreams community
                  * (adrando.com/guide/bugs.html).

@@ -157,7 +157,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 {
                     s32 *scan_arg = entity_level_thresholds;
                     /*
-                     * BUG: Original bug: level-99 EXP still satisfies the loop test, but raise_entity_level stops changing
+                     * BUG: level-99 EXP still satisfies the loop test, but raise_entity_level stops changing
                      * the level at 99. Stop at the cap to avoid an infinite spawn loop.
                      * Found and documented by the Azure Dreams community
                      * (adrando.com/guide/bugs.html).

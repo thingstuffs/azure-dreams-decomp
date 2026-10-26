@@ -28,7 +28,7 @@ s32 can_entity_gain_level(void *entity) {
         return 0;
     }
     /*
-     * BUG: Original bug: Salamanders can qualify for level-up after their last attack disables the callback that clears
+     * BUG: Salamanders can qualify for level-up after their last attack disables the callback that clears
      * their EXP. An off-screen kill can then make the pending EXP owner block its own removal.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
@@ -157,7 +157,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[5] = stat;
             /*
-             * BUG: Original bug: HP growth is added directly to a byte even when doubled HP is already 255. It wraps instead
+             * BUG: HP growth is added directly to a byte even when doubled HP is already 255. It wraps instead
              * of saturating; a full-health Naplass can reach zero HP on leveling up.
              */
             ((u8 *)entity_data)[0x28] += stat_gain_m;
@@ -221,7 +221,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[0] = stat;
             /*
-             * BUG: Original bug: doubled attack can already be 255 while base attack still grows. This byte addition wraps;
+             * BUG: doubled attack can already be 255 while base attack still grows. This byte addition wraps;
              * a full-strength Arachne can reach zero attack on leveling up.
              */
             ((u8 *)entity_data)[0x26] += stat_gain_m;
@@ -259,7 +259,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[1] = stat;
             /*
-             * BUG: Original bug: doubled defense can already be 255 while base defense still grows. This byte addition
+             * BUG: doubled defense can already be 255 while base defense still grows. This byte addition
              * wraps; a full-strength Metal can drop to 1 defense on leveling up.
              */
             ((u8 *)entity_data)[0x27] += stat_gain_m;
@@ -475,7 +475,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         return 0;
     }
     /*
-     * BUG: Original bug: level loss subtracts the evolved species' growth from inherited stats but only repairs exactly
+     * BUG: level loss subtracts the evolved species' growth from inherited stats but only repairs exactly
      * zero. Negative results wrap to 255; clamp them before byte stores.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
@@ -1037,7 +1037,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
                     }
                     create_actor_value_popup(0x82, member, (s16)award, 1);
                     /*
-                     * BUG: Original bug: masking the award to 16 bits wraps EXP above 65535 before the accumulator can
+                     * BUG: masking the award to 16 bits wraps EXP above 65535 before the accumulator can
                      * saturate it. Clamp the wide award first.
                      * Found and documented by the Azure Dreams community
                      * (adrando.com/guide/bugs.html).
@@ -1063,7 +1063,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
                 award = experience + (experience >> bonus_shift);
             }
             /*
-             * BUG: Original bug: masking the award to 16 bits wraps EXP above 65535 before the accumulator can saturate it.
+             * BUG: masking the award to 16 bits wraps EXP above 65535 before the accumulator can saturate it.
              * Clamp the wide award first.
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).

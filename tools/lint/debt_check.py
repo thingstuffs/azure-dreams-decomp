@@ -275,7 +275,7 @@ def validate_counts(counts):
 
 
 def validate_baseline(baseline):
-    """Validate sparse storage and expand it for the unchanged comparisons."""
+    """Validate sparse storage and expand it for absolute-count comparisons."""
     if not isinstance(baseline, dict) or baseline.get('schema_version') != SCHEMA or baseline.get('classes') != list(CLASSES):
         raise ValueError('baseline schema/classes differ; review before writing a new baseline')
     if not validate_counts(baseline.get('by_class')):
@@ -325,10 +325,8 @@ def compare_row(label, current, previous):
     for key in CLASSES:
         if current['counts'][key] > old[key]:
             problems.append(f'{label}: {key} {current["counts"][key]} > baseline {old[key]}')
-    # Exact cross multiplication: no rounding and no float-dependent thresholds.
-    if previous and (current['counts']['pointer_casts'] * previous['tokens'] >
-                     old['pointer_casts'] * current['tokens']):
-        problems.append(label + ': pointer_cast_density increased (casts per nonexempt C token)')
+    # Density is reported in the census only. Removing declarations or other
+    # tokens must not fail the ratchet when no absolute debt count increases.
     return problems
 
 

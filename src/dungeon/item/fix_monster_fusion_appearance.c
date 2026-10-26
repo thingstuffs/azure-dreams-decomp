@@ -70,7 +70,7 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
     if ((u32)entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, data, mode);
         /*
-         * BUG: Original bug: Frog species 0x2E passes this restriction even when the saved species is Hikewne. Ovum can then
+         * BUG: Frog species 0x2E passes this restriction even when the saved species is Hikewne. Ovum can then
          * make that Hikewne survive fusion despite its normal absorption rule.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).

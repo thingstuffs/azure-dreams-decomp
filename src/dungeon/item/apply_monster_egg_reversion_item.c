@@ -148,7 +148,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
                 tile_mask = 0x300;
             }
             /*
-             * BUG: Original bug: a lifted familiar shares Koh's tile. Roche removes the familiar but this clear also removes
+             * BUG: a lifted familiar shares Koh's tile. Roche removes the familiar but this clear also removes
              * Koh's occupancy; preserve the shared tile.
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).

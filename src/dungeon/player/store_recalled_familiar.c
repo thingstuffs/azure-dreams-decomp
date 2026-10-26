@@ -95,7 +95,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
         effect_mask = 0x300;
     }
     /*
-     * BUG: Original bug: a lifted familiar shares Koh's tile. Recalling it clears that tile's occupancy too; skip this clear
+     * BUG: a lifted familiar shares Koh's tile. Recalling it clears that tile's occupancy too; skip this clear
      * while it is lifted.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).

@@ -1898,7 +1898,7 @@ void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1
         u32 scaledLowByte = pinnedValue;
         scaledLowByte >>= 2;
         /*
-         * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * BUG: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
          * Slot-0 success loses its message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.

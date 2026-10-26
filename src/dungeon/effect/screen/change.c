@@ -670,7 +670,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
         /*
-         * BUG: Original bug: The Salamander passes distance zero and no explicit target. The diagonal corner check can still
+         * BUG: The Salamander passes distance zero and no explicit target. The diagonal corner check can still
          * reject a wall beside this same-tile attack, leaving unk60 null and dealing no damage.
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
@@ -747,7 +747,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         a->flags1c &= ~0x1000000;
     }
     /*
-     * BUG: Original bug: the luck dodge roll is limited to incapacitated targets and adds an evasion byte left at zero.
+     * BUG: the luck dodge roll is limited to incapacitated targets and adds an evasion byte left at zero.
      * Capable targets skip the roll entirely.
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).

@@ -52,7 +52,7 @@ void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 rende
             render->scale_y = 0x1000;
             render->scale_x = 0x1000;
             /*
-             * BUG: Original bug: D_800E03B0 supplies a 1x1 command at unit scale. The perspective renderer treats those
+             * BUG: D_800E03B0 supplies a 1x1 command at unit scale. The perspective renderer treats those
              * extents as world units, making these particles too small at the combat camera distance.
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).

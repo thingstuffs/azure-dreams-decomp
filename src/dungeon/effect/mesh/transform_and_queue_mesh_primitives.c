@@ -38,7 +38,7 @@ void try_apply_wind_protection(S_func_8187A800_0 *target, s32 effect_arg, Sprite
 
     if (try_trigger_target_record_effect(target, 4, unused) == 0) {
         /*
-         * BUG: Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * BUG: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
          * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
          * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
          * try_apply_confusion_status uses the nonnegative success test.

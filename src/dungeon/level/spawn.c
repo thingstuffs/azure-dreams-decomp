@@ -392,7 +392,7 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
     /*
-     * BUG: Original bug: equality selects the preceding category, but its item scan uses an exclusive upper bound. A roll at
+     * BUG: equality selects the preceding category, but its item scan uses an exclusive upper bound. A roll at
      * a cumulative boundary falls through to item 0/0; equality should advance to the next category.
      */
     while (1) {

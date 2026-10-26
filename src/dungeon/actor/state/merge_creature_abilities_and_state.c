@@ -550,7 +550,7 @@ merge_donor_primary:
 
             donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
             /*
-             * BUG: Original bug: frogged participants still carry their original talents, but both masks use frog species
+             * BUG: frogged participants still carry their original talents, but both masks use frog species
              * 0x2E, whose native talents are zero. Fusion erases those talents; use the saved original species.
              */
             donor_mask_ptr = trait_table + donor_kind;
@@ -562,7 +562,7 @@ merge_donor_primary:
         }
         apply_entity_effects(result);
         /*
-         * BUG: Original bug: the MP sum is truncated to 16 bits before halving. A sum of 256 MP or more loses 128 MP from
+         * BUG: the MP sum is truncated to 16 bits before halving. A sum of 256 MP or more loses 128 MP from
          * the average; the sum should be halved before narrowing.
          */
         ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
@@ -597,7 +597,7 @@ merge_donor_primary:
         if (destination == 0) {
             mark_owned_linked_actor_actions(donor);
             /*
-             * BUG: Original bug: A frogged donor has species 0x2E, but its familiar sprite slot is keyed by its saved native
+             * BUG: A frogged donor has species 0x2E, but its familiar sprite slot is keyed by its saved native
              * species. Releasing 0x2E leaks that slot and can prevent deployment of another species.
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).

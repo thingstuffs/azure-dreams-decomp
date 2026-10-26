@@ -4,7 +4,9 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -118,3 +120,37 @@ class LandMakeTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'clean worktree'):
                     L.main(['--message','blocked','missing.patch'],root=root)
             self.assertFalse((root/'build').exists())
+
+    def test_cast_regression_stops_at_baseline_check_before_configure(self):
+        (L.ROOT/'build_ovl').mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=L.ROOT/'build_ovl') as td:
+            root=Path(td)
+            def git(*args):
+                return subprocess.check_output(['git',*args],cwd=root,stderr=subprocess.DEVNULL)
+            git('init','-q');git('config','user.name','Fixture');git('config','user.email','fixture.invalid')
+            (root/'.gitignore').write_text('build/\n*.patch\n')
+            (root/'src').mkdir()
+            before='int f(void *p) { return 0; }\n'
+            (root/'src/a.c').write_text(before)
+            for name in ('tools/lint/debt_check.py', 'tools/readability/score.py'):
+                target=root/name
+                target.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(L.ROOT/name,target)
+            subprocess.run([sys.executable,'tools/lint/debt_check.py','--write-baseline',
+                            '--out','build/debt'],cwd=root,check=True,stdout=subprocess.DEVNULL)
+            git('add','.');git('commit','-qm','baseline');head=git('rev-parse','HEAD')
+            import difflib
+            q=root/'cast.patch'
+            q.write_text(''.join(difflib.unified_diff(before.splitlines(True),
+                ['int f(void *p) { return *(int *)p; }\n'],
+                fromfile='a/src/a.c',tofile='b/src/a.c')))
+            with self.assertRaisesRegex(ValueError,'step failed: debt-baseline'):
+                L.main(['--message','must not commit',str(q)],root=root)
+            self.assertEqual(git('rev-parse','HEAD'),head)
+            self.assertIn('*(int *)p',(root/'src/a.c').read_text())
+            steps=[s['step'] for s in json.loads((root/'build/landing/timings.json').read_text())['steps']]
+            self.assertEqual(steps[-2:],['debt','debt-baseline'])
+            self.assertNotIn('configure',steps)
+            self.assertNotIn('build',steps)
+            self.assertIn('pointer_casts 1 > baseline 0',
+                          (root/'build/landing/debt-baseline.log').read_text())

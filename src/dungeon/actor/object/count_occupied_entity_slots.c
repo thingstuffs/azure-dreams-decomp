@@ -26,7 +26,7 @@ s32 count_occupied_entity_slots(void *entity) {
         slot_base = entity + 4;
         do {
             /*
-             * BUG: Original bug: this counts familiar slots but tests Koh's talent flags. Test each familiar instead; their
+             * BUG: this counts familiar slots but tests Koh's talent flags. Test each familiar instead; their
              * Strength increased bonus is otherwise lost.
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).

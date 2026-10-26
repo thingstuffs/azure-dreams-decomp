@@ -134,7 +134,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                     s16 entry_index = find_floor_item_at_world_position(tile_x, tile_y, ((ActorRecord *)creature)->ground_height);
                     if (entry_index >= 0) {
                         /*
-                         * BUG: Original bug: this low-MP food path consumes the floor item without adding MP. The u16
+                         * BUG: this low-MP food path consumes the floor item without adding MP. The u16
                          * read is written back unchanged (the > 0x10000 test cannot pass); a creature with 1 MP
                          * still has 1 MP after eating. feed_actor_restore_mp adds 0xA00 for the same
                          * category-12, subtype-6 food before clamping.
@@ -155,7 +155,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
                             }
                         }
                         /*
-                         * BUG: Original bug: clearing an arbitrary floor slot here leaves its tile's 0x800 item flag
+                         * BUG: clearing an arbitrary floor slot here leaves its tile's 0x800 item flag
                          * set. The clear helper updates that flag only for the player's selected floor entry.
                          * Unless this food is selected, the now-empty tile still blocks item placement;
                          * remove_floor_items_at_tile clears the flag too.

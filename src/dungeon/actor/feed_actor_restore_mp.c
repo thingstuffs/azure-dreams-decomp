@@ -90,7 +90,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
         play_sound_if_enabled(0x51E);
     }
     /*
-     * BUG: Original bug: exactly 0x10000 is not saturated and becomes zero in the u16 MP store. The overflow check should
+     * BUG: exactly 0x10000 is not saturated and becomes zero in the u16 MP store. The overflow check should
      * include equality so feeding fills MP instead of emptying it.
      */
     if (meter > 0x10000) {
