@@ -287,7 +287,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
 
                         action_kind = 0x15;
 
-                        if (dispatch_dungeon_category_action(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
+                        if (dispatch_dungeon_category_action(((S_8008ACDC_7 *)((((s32)command << 2) + (long)actor)))->unk_AC,
                             select_item_record_pointer(target_cmd & 0x1F), action_kind, 0) >= 0) {
                             return;
                         }

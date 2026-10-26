@@ -28,7 +28,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
 {
     Pair80046E38 pair;
     u8 *stream_start;
-    s32 buffer_start;
+    long buffer_start;
     s32 data_offset;
     s32 remaining;
     u8 *table_base;
@@ -40,7 +40,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
 
     stream_start = stream;
     gpu_scratch_write_pointer = gpu_scratch_buffer_base[0];
-    buffer_start = (s32)gpu_scratch_buffer_base[0];
+    buffer_start = (long)gpu_scratch_buffer_base[0];
     DrawSync(0);
 
     shifted_id = entry_id << 16;

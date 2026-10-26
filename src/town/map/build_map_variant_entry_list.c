@@ -27,9 +27,9 @@ extern u8 town_map_selection_state[];
 void build_map_variant_entry_list(void) {
     s32 count;
     s32 i;
-    u32 records;
+    unsigned long records;
     u8 *state;
-    u32 table;
+    unsigned long table;
     u8 *map_records;
 
     count = 1;
@@ -70,9 +70,9 @@ void build_map_variant_entry_list(void) {
         break;
     default:
         i = 0;
-        records = (u32)town_map_variants;
+        records = (unsigned long)town_map_variants;
         state = town_map_selection_state;
-        table = (u32)D_800D1A0C;
+        table = (unsigned long)D_800D1A0C;
         do {
             town_map_entry_list[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
             i++;

@@ -133,7 +133,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
             ((S_81988800_4 *)actor)->unk_A6--;
             ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
 
-            object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
                 if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
                                   ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
@@ -185,7 +185,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     {
         s32 entry_index;
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
-            object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+            object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
                 object->update_callback = update_segment;
                 register_node(object, &D_80024D58);
@@ -595,7 +595,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     callback = mark_referenced_object_and_update_flags;
     resource = (Resource *)directional_sprite_entries;
     do {
-        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
             register_node(effect, project_sprite_chain);

@@ -410,6 +410,7 @@ void dispatch_block_turn_actions_slot_d(CL_CC5000_8017102C_S_8017102C_0 *state, 
 
 /* Advances an actor along stored path tiles, updates tile occupancy, and selects walk or hop animation. */
 void advance_block_path_slot_d(void *motion, s32 update_param, void *entity, void *state) {
+    ActorRecord *rounding_owner = motion;
     s32 tile_mask;
     s32 old_x;
     s32 old_y;
@@ -448,7 +449,7 @@ void advance_block_path_slot_d(void *motion, s32 update_param, void *entity, voi
         old_y,
         ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74,
         ((CL_CC5000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CC5000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)motion + 0x98);
+        &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     ((CL_CC5000_80171590_S_80171590_1 *)entity)->unk_24 =

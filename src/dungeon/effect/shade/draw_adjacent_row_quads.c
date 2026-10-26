@@ -91,7 +91,7 @@ s32 draw_adjacent_row_quads(void)
                 scratch->value78 = vertices[
                     ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
                 next_row = vertices + 0x20;
-                next_right_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
+                next_right_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (unsigned long)next_row);
                 scratch->value80 = next_row[quad_index * 2];
                 next_right_xy = *next_right_ptr;
                 next_row_right = &scratch->value88;

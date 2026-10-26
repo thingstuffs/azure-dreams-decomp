@@ -61,12 +61,12 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
     s32 dst_index;
     ovl_d54c_7FFED630_Record *dst_record;
     ovl_d54c_7FFED630_Record *src_record;
-    s32 records_base;
+    long records_base;
     u8 *state;
 
     dst_index = record_count;
     if (dst_index != 0) {
-        records_base = (s32)resource_cache_records;
+        records_base = (long)resource_cache_records;
         state = (u8 *)&town_resource_context;
         do {
             dst_record = (ovl_d54c_7FFED630_Record *)(dst_index * 8 + records_base);

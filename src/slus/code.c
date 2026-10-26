@@ -316,7 +316,7 @@ s32 get_resource_block_index_from_address(void *address)
     return ((s32)address - (s32)D_800FC000) / 0xD000;
 }
 
-extern void select_sprite_entry(SpriteFrameState *a0, short a1, short a2);
+extern void select_sprite_entry(void *a0, short a1, short a2);
 
 /* Set entity flag 0x400 and reselect its entry. */
 void select_sprite_entry_with_flag(SpriteFrameState *entity, short index, short offset) {

@@ -4,7 +4,7 @@
 
 /* extern */
 
-void initialize_reaction_object_four(Rec_func_80094268_arg0 *, s32, s32);
+void initialize_reaction_object_four(Rec_func_80094268_arg0 *,void *,void *);
 /* Call func_800C9C94 and store the result of scale_random_to_unsigned_halfword_limit(3) plus one. */
 void initialize_reaction_timer(Rec_func_80094268_arg0 *object, s32 param_1, s32 param_2) {
     initialize_reaction_object_four(object, param_1, param_2);

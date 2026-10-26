@@ -406,7 +406,7 @@ extern s16 query_lowered_transform_position(void *);
 extern void runtime_set_record_value_and_buffer(void *, void *);
 extern void ensure_packed_resource_list(u8 *entries_in);
 s32 select_record_entry_and_value();
-void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void unlink_node_if_registered(void *block_data);
 void func_80033D08(void *block_data);

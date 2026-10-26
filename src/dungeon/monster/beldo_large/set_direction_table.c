@@ -72,7 +72,7 @@ static __inline__ void set_direction_table(SpriteFrameState *object, DungeonInpu
 
     object->frameTable = table;
     direction_index = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
-    select_sprite_entry(object, *((u8 *)((u32)direction_index + (u32)table)), 0);
+    select_sprite_entry(object, *((u8 *)((u32)direction_index + (unsigned long)table)), 0);
 }
 
 /* Advance the timed dungeon object sequence and update its direction table. */

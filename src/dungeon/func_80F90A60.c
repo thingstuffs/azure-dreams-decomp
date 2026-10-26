@@ -50,7 +50,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
     s16 timer;
     ObjectNodeHeader *effect_object;
     CylindricalEffectWork *spawned_data;
-    s32 effect_data;
+    void *effect_data;
     s32 next_state;
 
     state_input->unk_A0.parts.low--;
@@ -60,7 +60,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
     case 0:
         animation_flags = animation_input->flags;
         if (animation_flags & 0x8000) {
-            effect_data = (s32)actor_input->target;
+            effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
                 state_input->action_phase = 2;
@@ -101,7 +101,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
         state_input->action_phase = next_state + 1;
         return;
     case 1:
-        effect_data = (s32)actor_input->target;
+        effect_data = actor_input->target;
         if (effect_data != 0) {
             timer = ((s16)state_input->action_timer);
             if (timer >= 0x12) {
@@ -115,7 +115,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
         }
 
         if (((s16)state_input->action_timer) == 0x14) {
-            effect_data = (s32)actor_input->target;
+            effect_data = actor_input->target;
             if (effect_data != 0) {
                 func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
             }

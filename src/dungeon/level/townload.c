@@ -2,7 +2,7 @@
 #include "dungeon/level/townload.h"
 
 
-s32 resource_value_table_contains(s32 value) {
+s32 resource_value_table_contains(void *value) {
     s32 i = 0;
 
     while (town_resource_ids[i] != 0) {
@@ -18,14 +18,14 @@ s32 resource_value_table_contains(s32 value) {
 s32 has_listed_resource_in_slots(void) {
     s32 slot;
     u8 *entry_indices;
-    s32 *entries;
+    void **entries;
     s32 any_found;
 
     slot = 0;
     entry_indices = town_resource_queue;
     entries = town_resource_descriptors;
     for (; slot < 0xF; slot++) {
-        s32 found = resource_value_table_contains(entries[*(u8 *)((u32)slot + (u32)entry_indices)]);
+        s32 found = resource_value_table_contains(entries[*(u8 *)((u32)slot + (unsigned long)entry_indices)]);
 
         if (found != 0) {
             any_found = 1;
@@ -43,11 +43,11 @@ s32 has_listed_resource_in_slots(void) {
 s32 find_slot_for_resource_entry(void) {
     s32 slot_index = 0;
     u8 *entry_indices = town_resource_queue;
-    s32 *entry_table = town_resource_descriptors;
+    void **entry_table = town_resource_descriptors;
     u8 *target_entry = D_80080EA8;
 
     do {
-        if (entry_table[*(u8 *)((s32)slot_index + (s32)entry_indices)] == (s32)target_entry)
+        if (entry_table[*(u8 *)((s32)slot_index + (long)entry_indices)] == target_entry)
             return slot_index;
         slot_index++;
     } while (slot_index < 15);

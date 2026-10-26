@@ -665,7 +665,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             }
             slot_x = (s32)buf;
             base_2 = (u8 *)D_800DF03C;
-            table_entry = (s32 *)((style_byte * 4) + (s32)base_2);
+            table_entry = (s32 *)((style_byte * 4) + (u8 *)base_2);
             hard_zero = 0;
             *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
             style_hold = strlen(*table_entry) * 8;

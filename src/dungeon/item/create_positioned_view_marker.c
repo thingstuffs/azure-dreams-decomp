@@ -2113,7 +2113,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
 
                 render_state = ((RenderRootSlot *)global_slot)->root;
 
-                bucket_ptr = (u8 *)((u32)textured_offset + (u32)render_state);
+                bucket_ptr = (u8 *)((u32)textured_offset + (unsigned long)render_state);
                 ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 =
                     (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & 0xFF000000U) |
                     ((u32)prim & 0xFFFFFFU);

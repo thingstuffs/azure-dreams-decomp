@@ -730,7 +730,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
         func_800A0878_Copy84 *copy_src;
 
         copy_src = (func_800A0878_Copy84 *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
-                              + (u32)copy_table);
+                              + (u8 *)copy_table);
         town_slot_snapshot = *copy_src;
     }
 

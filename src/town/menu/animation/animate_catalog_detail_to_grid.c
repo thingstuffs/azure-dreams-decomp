@@ -46,7 +46,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
         initial_base = (s8 *)catalog_grid_layout;
         initial_offset = 0;
         do {
-            initial_entry = (s32 *)((u32)initial_offset + (u32)initial_base);
+            initial_entry = (s32 *)((u32)initial_offset + (unsigned long)initial_base);
             initial_offset += 8;
             object = catalog_display_node_slots[object_index];
             initial_data = *initial_entry;

@@ -723,7 +723,7 @@ extern u8 last_frame_ticks[16];
 #include "engine/texture.h"
 struct Entry;
 struct RegistrationNode;
-extern void step_actor_animation(void *, s32);
+extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
 extern u8 player_camera_reset_frames[];

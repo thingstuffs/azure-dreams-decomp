@@ -11,8 +11,8 @@ struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE
 
 typedef struct S_80025C7C_0 {
     u8 pad_00[0x18];
-    s32 unk_18;
-    s32 unk_1C;
+    void *unk_18;
+    void *unk_1C;
     void *request;
     s32 unk_24;
     s32 unk_28;
@@ -24,7 +24,7 @@ typedef struct S_80025C7C_1 {
     u8 pad_00[0x10];
     s32 * unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    void *unk_20;
 } S_80025C7C_1;
 
 /* Creates an object and initializes its state. */

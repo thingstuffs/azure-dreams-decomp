@@ -763,7 +763,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        object->update_callback = (s32)D_800A5AF0;
+        object->update_callback = D_800A5AF0;
         register_node(object, linked_sprite_renderer_address);
         position = (s16 *)object->position;
         position[1] = x + 0x280;

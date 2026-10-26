@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -652,6 +653,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_actor_path_step(void *action, s32 action_id, void *entity, void *move_state) {
+    ActorRecord *rounding_owner = action;
     void *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -690,7 +692,7 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
         y,
         ((E_80171B68_S_80171570_3 *)((u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A))->unk_74,
         ((E_80171B68_S_80171570_3 *)((u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A))->unk_7C,
-        (u8 *)action + 0x98);
+        &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
 
     ((SpriteFrameState *)entity)->tile_x =

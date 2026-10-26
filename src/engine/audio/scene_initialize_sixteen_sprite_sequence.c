@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "engine/audio.h"
 #include "engine/effect.h"
@@ -23,9 +24,7 @@ typedef struct S_80053374_Sub {
 } S_80053374_Sub;
 
 typedef struct S_80053374_obj {
-    /* 0x00 */ u8 pad00[0x10];
-    /* 0x10 */ void (*unk10)(struct S_8005313C *);
-    /* 0x14 */ u8 pad14[0x20 - 0x14];
+    ObjectNodeHeader header;
     /* 0x20 */ S_80053374_Sub sub;
 } S_80053374_obj;
 
@@ -41,7 +40,7 @@ void scene_initialize_sixteen_sprite_sequence(S_80053374_obj *entity, void *owne
 
     slot_index = 0;
     sub = (s16 *)((u8 *)entity + 0x20);
-    entity->unk10 = play_timed_animation_sequence;
+    entity->header.update_callback = play_timed_animation_sequence;
     entity->sub.owner = owner;
     sub[2] = 0;
     sub[3] = 0;
@@ -51,7 +50,7 @@ void scene_initialize_sixteen_sprite_sequence(S_80053374_obj *entity, void *owne
     slot_cursor = (s32 *)sub;
 
     do {
-        slot = allocate_list_node(0x212, entity);
+        slot = allocate_list_node(0x212, &entity->header.next);
         if (slot != 0) {
             init_shaded_line_effect(slot, (s16)slot_index);
             slot_cursor[4] = (s32)slot;

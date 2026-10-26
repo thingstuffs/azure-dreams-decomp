@@ -227,7 +227,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
     last_index = (*(u16 *)((u8 *)indices + 6));
     vertex2_xy = ((S_800C9088_7 *)vertex2_pos)->unk_00;
-    vertex3_pos = (u8 *)(last_index * 8 + (u32)positions);
+    vertex3_pos = (u8 *)(last_index * 8 + (unsigned long)positions);
     ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
     z_index = ((u16 *)indices)[0];
     vertex3_xy = ((S_800C9088_8 *)vertex3_pos)->unk_00;

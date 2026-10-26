@@ -67,7 +67,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         slot = 0;
         pairs_page = (u8 *)0x80010000;
         do {
-            pair = (u8 *)((u8)slot * 2 + (u32)pairs_page);
+            pair = (u8 *)((u8)slot * 2 + (unsigned long)pairs_page);
             if (((S_800B83DC_0 *)pair)->unk_33A4 == pair_id &&
                 ((S_800B83DC_0 *)pair)->unk_33A5 != entry_id) return 1;
             slot++;
@@ -104,14 +104,14 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         match_record = match_records + record_id;
         do {
             slot_index = slot & 0xFF;
-            slot_pair = (u8 *)(slot_index * 2 + (u32)slots_page);
+            slot_pair = (u8 *)(slot_index * 2 + (unsigned long)slots_page);
             first_id = ((S_800B83DC_1 *)slot_pair)->unk_33A4;
             if (first_id == record_id)
                 return 0;
             second_id = ((S_800B83DC_1 *)slot_pair)->unk_33A5;
             if (second_id == record_id)
                 return 0;
-            entry = (u8 *)(slot_index * 8 + (u32)entries);
+            entry = (u8 *)(slot_index * 8 + (unsigned long)entries);
             if (entry[2] == match_record->byte4 &&
                 entry[3] == match_record->byte5 &&
                 first_id >= 0x2D) {

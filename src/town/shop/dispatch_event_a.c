@@ -33,7 +33,7 @@ u8 * dispatch_event_d_8_a(u8 *entries) {
     } while (index < 0x21);
     tail_base = entries;
     tail_offset = index * 4;
-    tail = (u8 *)((u32)tail_offset + (u32)tail_base);
+    tail = (u8 *)((u32)tail_offset + (unsigned long)tail_base);
     tail[1] = 0;
     tail[0] = 0;
     return entries;

@@ -5,7 +5,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 familiar_save_frames[];
-extern void step_actor_animation(void *, s32);
+extern void step_actor_animation(void *,s32);
 
 enum DeploymentOverlayState {
     DEPLOY_OVERLAY_GROW = 0,

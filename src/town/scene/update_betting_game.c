@@ -543,7 +543,7 @@ settle_done:
                     do {
                         random_kind = func_80071494() % 3;
                         coin_kind = random_kind;
-                        coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (s32) spawn_data);
+                        coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (long)spawn_data);
                         coins_left = coin_counts->unk_70;
                     } while (coins_left <= 0);
                     do {

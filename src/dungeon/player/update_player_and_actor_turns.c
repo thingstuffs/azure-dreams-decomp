@@ -31,7 +31,7 @@ extern void request_scene_dispatch_state(s16 requested_state);                  
 s16 get_entity_effect_value();                 /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "engine/texture.h"
-extern void step_actor_animation(SpriteFrameState *entity, void *slot_index);             /* extern */
+extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);             /* extern */
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
@@ -743,7 +743,7 @@ begin_linked_pass:
                     }
                     if (!(record_or_page->flags & 0x8000)) {
                         if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
-                            motion_or_count = (void *)((s32)motion_or_count + 1);
+                            motion_or_count = (void *)((u8 *)motion_or_count + 1);
                         }
                         if ((linked_actor == 0) || ((has_pending_actor_or_turn_action(0) << 0x10) != 0)) {
                             record_or_page = actor_update_node_cursor;

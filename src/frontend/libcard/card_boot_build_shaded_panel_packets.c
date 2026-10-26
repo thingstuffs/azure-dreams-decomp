@@ -43,7 +43,7 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     packet_tags = D_80027FD0;
     do {
         field_cursor = packet + 0xB;
-        table_entry = (u8 *) (packet_index + (s32) packet_tags);
+        table_entry = (u8 *) (packet_index + (long)packet_tags);
         packet_index += 1;
         (*(s8 *)((u8 *)field_cursor + -0xA)) = opcode;
         (*(s32 *)((u8 *)field_cursor + -7)) = main_color;

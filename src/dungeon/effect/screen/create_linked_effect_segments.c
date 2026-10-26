@@ -32,7 +32,7 @@ typedef struct S_80024ED4_2 {
 
 typedef struct S_80024ED4_4 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    void *unk_08;
     u8 pad_0C[0x8];
     s16 unk_14;
     s16 unk_16;

@@ -16,11 +16,11 @@ typedef struct RuntimeState {
 /* Opcode 0x3B: v[dst] += v[src]. */
 void script_add(RuntimeState *state)
 {
-    u32 script_cursor;
+    void *script_cursor;
     u32 dest_index;
     u32 source_index;
 
-    script_cursor = (u32)state->read_ptr;
+    script_cursor = state->read_ptr;
     dest_index = *(u8 *)script_cursor;
     script_cursor++;
     state->read_ptr = (u8 *)script_cursor;

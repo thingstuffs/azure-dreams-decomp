@@ -263,14 +263,14 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         }
         x_step_table = ((u8 *)dir_step_x);
         step_offset = direction * 2;
-        x_step_table = (u8 *) (step_offset + (u32) x_step_table);
+        x_step_table = (step_offset + (u8 *)x_step_table);
         x_velocity = * (s16 *) x_step_table;
         launch_duration = 0xC;
         x_velocity <<= 0x16;
         x_velocity = x_velocity / launch_duration;
         motion->unk_0C = x_velocity;
         y_step_table = ((u8 *)dir_step_y);
-        y_step_ptr = (s16 *) (step_offset + (u32) y_step_table);
+        y_step_ptr = (s16 *) (step_offset + (u8 *)y_step_table);
         y_velocity = *y_step_ptr;
         y_velocity <<= 0x16;
         y_velocity = y_velocity / (s16) actor->unk_96;

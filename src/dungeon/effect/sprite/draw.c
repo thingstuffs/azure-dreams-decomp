@@ -223,7 +223,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                                                   packet + 8, packet + 0x10, packet + 0x18, packet + 0x20,
                                                   scratch + 0x90, scratch + 0x94)
                                     - (s32)(s16)depth_bias) - 6;
-                    cache = (Row_818F2800_S_BODY_6 *)(half * 2 + (s32)edge_cache);
+                    cache = (Row_818F2800_S_BODY_6 *)(half * 2 + (long)edge_cache);
                     if (cache->unk_20.s != invalid_coord) {
                         ((Row_818F2800_S_BODY_7 *)packet)->unk_04.u = cache->unk_20.u;
                         ((Row_818F2800_S_BODY_7 *)packet)->unk_06.u = cache->unk_30;

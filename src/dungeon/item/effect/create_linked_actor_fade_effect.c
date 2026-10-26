@@ -35,7 +35,7 @@ typedef struct TailFields {
     u8 pad18[0x34];
     u16 field4C;
     u8 pad4E[0x1A];
-    u32 field68;
+    void *field68;
 } TailFields;
 
 typedef struct EntityFields {

@@ -46,7 +46,7 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
         data->y.v = pos_y;
         entity->scale_y = 0x1000;
         entity->scale_x = 0x1000;
-        entity->source = (s32)tako_particle_sprite_data;
+        entity->source = tako_particle_sprite_data;
         entity->unk_04 = 0;
         entity->frame_ticks = 0;
         entity->color.word = 0x00808080;

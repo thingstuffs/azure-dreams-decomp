@@ -4,7 +4,7 @@
 #include "town/scene/resource/resource_value_table_contains_g01112.h"
 
 /* Return whether the zero-terminated table contains the target value. */
-s32 resource_value_table_contains(s32 target_value) {
+s32 resource_value_table_contains(void *target_value) {
     s32 i = 0;
 
     while (town_resource_ids[i] != 0) {
@@ -24,7 +24,7 @@ s32 has_listed_resource_in_slots(void) {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < 15; entry_index++) {
-        if (resource_value_table_contains((s32)town_resource_descriptors[town_resource_queue[entry_index]]) != 0) {
+        if (resource_value_table_contains(town_resource_descriptors[town_resource_queue[entry_index]]) != 0) {
             return 1;
         }
     }
@@ -54,7 +54,7 @@ void reserve_twch_load(s32 character_id) {
     s32 i;
     s32 found;
 
-    found = resource_value_table_contains((s32)((void **)town_resource_descriptors)[character_id]);
+    found = resource_value_table_contains(town_resource_descriptors[character_id]);
     i = 0;
     if (found != 0) {
         i = find_slot_for_resource_entry();

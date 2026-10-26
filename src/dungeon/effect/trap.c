@@ -2867,7 +2867,7 @@ unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
     } else {
         state = &g_dungeon_status;
         entries = (u8 *)floor_objects;
-        entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
+        entry = (((s32)(entry_index << 0x10) >> 0xE) + (u8 *)entries);
         if ((s16)(((u16)state->monster_count) + *(s8 *)(entry + 2)) >= 0x21) {
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->monster_count);
         }

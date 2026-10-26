@@ -77,7 +77,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         *((u16 *)&positions->velocity_y + 1) = (u16) *(u16 *)&origin->y.w.i;
         *((u16 *)&positions->velocity_z + 1) = (u16) *(u16 *)&origin->z.w.i;
         object_data = (void *) 0x40E020;
-        (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
+        (*(void **)((u8 *)(object->sprite) + 0xC)) = object_data;
         slot_index = (u16)D_80026476;
         object_data = ((void *)object) + 0x20;
         object_data->unk_16 = angle;

@@ -13,9 +13,9 @@
 #include "main/data.h"
 
 typedef struct CardSaveMenuState {
-    s32 backdrop;
-    s32 surface;
-    s32 heading;
+    void *backdrop;
+    void *surface;
+    void *heading;
     u8 pad_0C[0x14];
     void *request;
     s32 mode;

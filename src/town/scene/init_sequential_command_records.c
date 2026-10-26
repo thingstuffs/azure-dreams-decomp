@@ -18,7 +18,7 @@ void *init_sequential_command_records(void *records) {
         record_id += 1;
     } while (record_id < 0x10);
 
-    terminator = (s8 *)((u32)(record_count * 4) + (u32)records);
+    terminator = (s8 *)((u32)(record_count * 4) + (unsigned long)records);
     terminator[1] = 0;
     terminator[0] = 0;
     return records;

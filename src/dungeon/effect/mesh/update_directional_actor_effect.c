@@ -352,7 +352,7 @@ loop_top:
         entry_base = actor_direction_sprites;
         entry_offset &= 0x1C;
         call_node = ((S_8199AAD4_0 *)self)->unk_04;
-        if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out,
+        if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (long)entry_base))->unk_00, call_node->unk_0C, delta_out,
             0)) {
             target[0] += (s32)(s16)delta[0] << 16;
             target[1] += (s32)(s16)delta[1] << 16;

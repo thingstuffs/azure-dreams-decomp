@@ -88,7 +88,7 @@ extern void * allocate_list_node();
 extern void * func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct RegistrationNode *entry, void *registration_id);
-extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 RotTransPers();
 extern void * resolve_attack_damage_and_effects();

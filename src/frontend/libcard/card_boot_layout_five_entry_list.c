@@ -10,7 +10,7 @@ typedef struct MainPosition {
 } MainPosition;
 
 typedef struct MainEntry {
-    s32 value;
+    void *value;
     MainPosition *position;
 } MainEntry;
 

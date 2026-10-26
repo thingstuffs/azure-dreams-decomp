@@ -30,7 +30,7 @@ void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7
     objectState = ((void *)createdObject) + 0x20;
     if (createdObject != NULL) {
         objectData = createdObject->sprite;
-        objectData->source = (s32) sourceData->unk_08;
+        objectData->source = sourceData->unk_08;
         objectData->flags = (u16) sourceData->unk_14;
         register_node_if_unregistered(objectState, project_sprite_chain);
         objectState->unk_6C = 5;

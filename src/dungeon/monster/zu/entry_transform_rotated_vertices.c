@@ -261,7 +261,7 @@ loop_1:
         ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
         SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
         mode_ot_offset = depth * 4;
-        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->draw_buffer))->unk_B0);
+        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (long)gw->draw_buffer))->unk_B0);
         setaddr(*draw_mode, link);
         ot_entry_address = mode_ot_offset + (s32)gw->draw_buffer;
         setaddr(((S_80F90E88_2 *)ot_entry_address)->unk_B0, (s32) draw_mode);

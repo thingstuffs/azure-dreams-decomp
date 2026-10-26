@@ -102,7 +102,7 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
         {
             s32 angle_index;
             angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
-            if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)actor_direction_sprites)),
+            if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (long)(*(s32 * *)actor_direction_sprites)),
                               ((u8 *)(&reference_tile_object)), offset, 0) != 0) {
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;

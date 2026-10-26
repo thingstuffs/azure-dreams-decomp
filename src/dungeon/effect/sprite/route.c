@@ -220,7 +220,7 @@ void create_jittered_terrain_seeking_point(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        object_cursor->update_callback = (s32)advance_jittered_effect_toward_terrain;
+        object_cursor->update_callback = advance_jittered_effect_toward_terrain;
         jitter_x = rand() & 0x1F;
         position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
         dest_x = object_cursor->position;
@@ -444,7 +444,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     s32 r;
     s32 b;
     u8 *src;
-    s32 w1;
+    void *w1;
     u32 hi;
 
     linked_point_effect_updated[0] = 1;
@@ -455,7 +455,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             s32 a3v;
             s32 rv;
             rv = rand();
-            w1 = (s32)((u8 *)entity - 0x20);
+            w1 = ((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
             create_jittered_terrain_seeking_point((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
@@ -694,7 +694,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
             obj = allocate_flagged_object_node(0x212);
             {
-            w1 = (s32)((u8 *)obj + 0x20);
+            w1 = ((u8 *)obj + 0x20);
             if (obj != 0) {
                 ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_02 = 0x14;
                 obj->update_callback = move_and_grow_timed_sprite;

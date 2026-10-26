@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
-  "units": 5993,
-  "compiler_jobs": 23972,
+  "units": 6012,
+  "compiler_jobs": 24048,
   "modes": [
     "m32",
     "m64"
@@ -45,61 +45,61 @@
     "-fmax-errors=0"
   ],
   "by_class": {
-    "-Wint-conversion": 874,
-    "-Wpointer-to-int-cast": 934,
-    "-Wint-to-pointer-cast": 870,
+    "-Wint-conversion": 862,
+    "-Wpointer-to-int-cast": 853,
+    "-Wint-to-pointer-cast": 805,
     "-Wreturn-type": 4,
     "-Wshadow": 1,
     "-Wuninitialized": 2,
     "-Wmaybe-uninitialized": 3,
-    "-Wincompatible-pointer-types": 1070,
+    "-Wincompatible-pointer-types": 1082,
     "-Wimplicit-function-declaration": 29,
     "-Warray-bounds": 0,
     "-Wsizeof-pointer-memaccess": 0
   },
   "by_subsystem": {
     "dungeon": {
-      "-Wint-conversion": 515,
-      "-Wpointer-to-int-cast": 602,
-      "-Wint-to-pointer-cast": 459,
+      "-Wint-conversion": 504,
+      "-Wpointer-to-int-cast": 560,
+      "-Wint-to-pointer-cast": 421,
       "-Wreturn-type": 3,
       "-Wshadow": 1,
       "-Wuninitialized": 1,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 716,
+      "-Wincompatible-pointer-types": 714,
       "-Wimplicit-function-declaration": 17,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     },
     "engine": {
-      "-Wint-conversion": 55,
-      "-Wpointer-to-int-cast": 76,
-      "-Wint-to-pointer-cast": 92,
+      "-Wint-conversion": 54,
+      "-Wpointer-to-int-cast": 68,
+      "-Wint-to-pointer-cast": 88,
       "-Wreturn-type": 1,
       "-Wshadow": 0,
       "-Wuninitialized": 0,
       "-Wmaybe-uninitialized": 0,
-      "-Wincompatible-pointer-types": 132,
+      "-Wincompatible-pointer-types": 130,
       "-Wimplicit-function-declaration": 1,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     },
     "frontend": {
       "-Wint-conversion": 57,
-      "-Wpointer-to-int-cast": 25,
-      "-Wint-to-pointer-cast": 27,
+      "-Wpointer-to-int-cast": 21,
+      "-Wint-to-pointer-cast": 23,
       "-Wreturn-type": 0,
       "-Wshadow": 0,
       "-Wuninitialized": 0,
       "-Wmaybe-uninitialized": 0,
-      "-Wincompatible-pointer-types": 31,
+      "-Wincompatible-pointer-types": 39,
       "-Wimplicit-function-declaration": 0,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     },
     "main": {
       "-Wint-conversion": 2,
-      "-Wpointer-to-int-cast": 1,
+      "-Wpointer-to-int-cast": 0,
       "-Wint-to-pointer-cast": 1,
       "-Wreturn-type": 0,
       "-Wshadow": 0,
@@ -164,13 +164,13 @@
     },
     "town": {
       "-Wint-conversion": 242,
-      "-Wpointer-to-int-cast": 215,
-      "-Wint-to-pointer-cast": 286,
+      "-Wpointer-to-int-cast": 189,
+      "-Wint-to-pointer-cast": 267,
       "-Wreturn-type": 0,
       "-Wshadow": 0,
       "-Wuninitialized": 1,
       "-Wmaybe-uninitialized": 0,
-      "-Wincompatible-pointer-types": 187,
+      "-Wincompatible-pointer-types": 195,
       "-Wimplicit-function-declaration": 8,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
@@ -178,31 +178,31 @@
   },
   "by_mode": {
     "m32": {
-      "-Wint-conversion": 874,
+      "-Wint-conversion": 862,
       "-Wpointer-to-int-cast": 16,
       "-Wint-to-pointer-cast": 30,
       "-Wreturn-type": 4,
       "-Wshadow": 1,
       "-Wuninitialized": 2,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 1070,
+      "-Wincompatible-pointer-types": 1082,
       "-Wimplicit-function-declaration": 29,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     },
     "m64": {
-      "-Wint-conversion": 874,
-      "-Wpointer-to-int-cast": 934,
-      "-Wint-to-pointer-cast": 870,
+      "-Wint-conversion": 862,
+      "-Wpointer-to-int-cast": 853,
+      "-Wint-to-pointer-cast": 805,
       "-Wreturn-type": 4,
       "-Wshadow": 1,
       "-Wuninitialized": 2,
       "-Wmaybe-uninitialized": 3,
-      "-Wincompatible-pointer-types": 1070,
+      "-Wincompatible-pointer-types": 1082,
       "-Wimplicit-function-declaration": 29,
       "-Warray-bounds": 0,
       "-Wsizeof-pointer-memaccess": 0
     }
   },
-  "normalized_findings": 3787
+  "normalized_findings": 3641
 }

@@ -43,7 +43,7 @@ typedef struct T_80173AD4_S_80173AD4_3 {
 
 
 
-extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern void * get_unused_text_buffer();
 extern u8 * expand_text_control_codes();

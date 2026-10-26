@@ -139,7 +139,7 @@ extern u8 D_800287F0[];
 
 extern void sound_set_cd_cue_parameters(void *, void *, void *, s32);
 extern s32 read_stream_cue_start_offset(void);
-extern void Control_CD(s32, s32, s32);
+extern void Control_CD(s32,void *, s32);
 
 extern void play_sound_if_enabled(s32);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
@@ -186,7 +186,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         u8 * page_cursor;
         void *object_m;
         void *child;
-        s32 message_text;
+        void *message_text;
         s32 object_index_m;
         s32 old_x;
         void *prim_m;
@@ -235,7 +235,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
 
         object_index_m = 0;
         slot_value = 0x20000000;
-        message_text = (s32)sequence;
+        message_text = sequence;
 
         do {
             object_m = ((S_800253C0_4 *)message_text)->unk_AC;
@@ -280,7 +280,7 @@ case 4:
         timer = ((S_800253C0_0 *)sequence)->unk_96.n;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
-        message_text = (s32)((u8 *)scene + 0xA8);
+        message_text = (u8 *)scene + 0xA8;
         object_index_m = 0;
         object_slot = sequence;
         move_scene = &g_game_work;
@@ -457,9 +457,9 @@ case 4:
             return;
         }
         {
-            s32 work = (s32)&g_game_work;
-            s32 step_x = (s32)dir_step_x;
-            s32 step_y = (s32)dir_step_y;
+            long work = (long)&g_game_work;
+            long step_x = (long)dir_step_x;
+            long step_y = (long)dir_step_y;
             message_id = get_unused_text_buffer();
             message_text = write_text_byte_and_advance(8, message_id);
             message_text = append_entity_display_text(((S_800253C0_0 *)sequence)->unk_AC, message_text);
@@ -616,7 +616,7 @@ case 4:
 loop_7:
             {
                 object_m =
-                    ((S_800253C0_18 *)((void *)((object_index_m << 2) + (s32)sequence)))->unk_AC;
+                    ((S_800253C0_18 *)((void *)((object_index_m << 2) + (long)sequence)))->unk_AC;
                 if (object_m != 0) {
                     s32 index;
                     u8 *y_table;

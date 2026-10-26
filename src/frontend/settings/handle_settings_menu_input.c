@@ -169,7 +169,7 @@ void handle_settings_menu_input(Menu *menu)
             case 5:
             case 6:
                 channel_or_color = menu->row - 4;
-                color_base = (s16 *) ((u32) (channel_or_color * 2) + (u32) menu);
+                color_base = (s16 *) ((u32) (channel_or_color * 2) + (unsigned long)menu);
 
                 adjusted_value = ((u16) color_base[7]) + delta;
                 color_base[7] = adjusted_value;

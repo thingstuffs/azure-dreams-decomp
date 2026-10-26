@@ -673,9 +673,9 @@ void initialize_dungeon_region_records(void) {
 /* Clears seven bytes in the dungeon actor-anchor block starting at offset 0x24. */
 void clear_dungeon_state_bytes(void) {
     s32 byte_index;
-    s32 clear_base;
+    long clear_base;
     byte_index = 6;
-    clear_base = (s32)((u8 *)&dungeon_actor_ring_anchor + 0x24);
+    clear_base = (long)((u8 *)&dungeon_actor_ring_anchor + 0x24);
     do {
         *(u8*)(byte_index + clear_base) = 0;
         byte_index -= 1;

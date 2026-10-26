@@ -64,6 +64,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     s32 saved_id_2;
     u32 entity_id;
     s32 result;
+    void *text_cursor;
     u32 flag_mask;
 
     if (entity == current_entity) {
@@ -89,15 +90,15 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                 result = special_case;
             }
             if (result != 0) {
-                result = get_unused_text_buffer();
+                text_cursor = get_unused_text_buffer();
                 {
-                    s32 text;
-                    u32 message_arg = result;
+                    void *text;
+                    void *message_arg = text_cursor;
                     text = message_arg;
-                    result = expand_text_control_codes(D_800E0FD7, message_arg);
-                    result = append_entity_display_text(entity, result);
-                    result = expand_text_control_codes(D_80089358, result);
-                    clear_byte_and_advance(result);
+                    text_cursor = expand_text_control_codes(D_800E0FD7, message_arg);
+                    text_cursor = append_entity_display_text(entity, text_cursor);
+                    text_cursor = expand_text_control_codes(D_80089358, text_cursor);
+                    clear_byte_and_advance(text_cursor);
                     display_text_with_fullwidth_adjustment(text);
                 }
 
@@ -118,17 +119,17 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                     saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
                     message_handle = get_unused_text_buffer();
                     ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
-                    result = append_entity_display_text(entity, message_handle);
+                    text_cursor = append_entity_display_text(entity, message_handle);
                     ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
                     message = D_800E0FA4;
-                    result = expand_text_control_codes(message, result);
+                    text_cursor = expand_text_control_codes(message, text_cursor);
                 } else {
                     message_handle = get_unused_text_buffer();
                     message = D_800E0FB9;
-                    result = expand_text_control_codes(message, message_handle);
+                    text_cursor = expand_text_control_codes(message, message_handle);
                 }
             }
-            clear_byte_and_advance(result);
+            clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(message_handle);
             create_colored_effect_with_event((u8 *)entity - 0x20, 0x20A0A0, 0x613);
         } else {
@@ -140,15 +141,15 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             return 1;
         }
-        result = get_unused_text_buffer();
+        text_cursor = get_unused_text_buffer();
         {
-            s32 text;
-            u32 message_arg = result;
+            void *text;
+            void *message_arg = text_cursor;
             text = message_arg;
-            result = expand_text_control_codes(D_800E0FD7, message_arg);
-            result = append_entity_display_text(entity, result);
-            result = expand_text_control_codes(D_80089358, result);
-            clear_byte_and_advance(result);
+            text_cursor = expand_text_control_codes(D_800E0FD7, message_arg);
+            text_cursor = append_entity_display_text(entity, text_cursor);
+            text_cursor = expand_text_control_codes(D_80089358, text_cursor);
+            clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(text);
         }
 

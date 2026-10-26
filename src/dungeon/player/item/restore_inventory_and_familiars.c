@@ -176,7 +176,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     ff2 = 0xFF;
     dispatch_table = (void **)(save_page + 0x248);
     do {
-        entry_idx32 = (s32)((u8 *)(i + (u32)page_base));
+        entry_idx32 = (s32)((u8 *)(i + (unsigned long)page_base));
         cursor_ptr = (u8 *)(((S_80094988_5 *)(u8 *)entry_idx32)->unk_2D52);
         if (((u8)cursor_ptr) != ff2) {
             ((FamiliarItemSlotView *)((u8 *)dungeon + i * 4))->item_address =
@@ -233,7 +233,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                         slot_index = sign_shift >> 16;
                         slot_offset = slot_index * 4;
                         slot_rec = (void *)((u32)slot_offset +
-                                            (u32)dungeon);
+                                            (unsigned long)dungeon);
                         slot_rec->unk_AC = spawned;
                         if (spawned != 0) {
                             func_80042640(spawned,

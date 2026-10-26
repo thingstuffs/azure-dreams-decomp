@@ -504,7 +504,7 @@ merge_donor_primary:
                 }
                 ability_count += 1;
                 {
-                    u8 *visited_row = (u8 *) ((source_side * 3) + (s32) ((u8 *)result_seen));
+                    u8 *visited_row = (u8 *) ((source_side * 3) + (long)((u8 *)result_seen));
                     s32 visited_index = scan_index >> 1;
                     visited_row[visited_index] = 1;
                 }
@@ -609,7 +609,7 @@ merge_donor_primary:
                 u8 *slot_page = resident_globals_page;
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
-            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
+            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)slot_base);
 
             slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
             donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
@@ -642,7 +642,7 @@ merge_donor_primary:
                 u8 *runtime_base;
                 u8 *runtime_addr;
                 runtime_base = *(u8 **) (slot_page + 0x14A8);
-                runtime_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) runtime_base);
+                runtime_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (long)runtime_base);
 
                 ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
             }

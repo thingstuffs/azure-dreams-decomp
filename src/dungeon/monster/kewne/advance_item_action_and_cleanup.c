@@ -89,7 +89,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
     u8 * item_addr;
     s32 item_or_audio_base;
     s32 item_id;
-    s32 audio_base;
+    void *audio_base;
     s32 direction;
     s32 cd_param;
     s32 item_type;
@@ -207,7 +207,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, Sprit
         return;
     }
     item_id = D_80175F6E & 0x7F;
-    audio_base = (s32)D_800DDAB8;
+    audio_base = D_800DDAB8;
     audio_index = (s16)resolve_alternate_spell_id(item_id);
     sound_id = 0x1300;
     play_sound_if_enabled(sound_id);

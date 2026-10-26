@@ -180,7 +180,7 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
         SELF->unk_50.u = 10;
         counter_object->unk_A6--;
         counter_object->unk_A8 = SELF->unk_08;
-        new_object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        new_object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         record = new_object;
         if (record != 0) {
             if (resolve_record_orientation_or_fallback(((ObjectNodeHeader *)owner_object->unk_0C)->position,
@@ -247,7 +247,7 @@ void run_jittered_point_sequence(void *sequence, void *out_position)
         s16 timer_left = SELF->unk_50.s;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
-                record = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+                record = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 if (record != 0) {
                     S_func_819A6800_7 *child_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
@@ -418,7 +418,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
                 - (rsin(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
-                effect = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+                effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 effect_data = ((void *)effect) + 0x20;
                 if (effect != 0) {
                     effect->update_callback = update_randomized_intermediate_points;

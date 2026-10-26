@@ -238,7 +238,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
 
             index = 7;
             do {
-                effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+                effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
                     part = effect->unk_0C;
@@ -450,7 +450,7 @@ case2_spawn_loop:
         S_func_81856800_11 *dst_point;
 
         if (action->unk_50.s16_50 < 6) {
-            effect = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
+            effect = allocate_list_node(0x201, &scene_object_list_anchor.next);
             if (effect != 0) {
                 part = (S_func_81856800_6 *)((u8 *)effect + 32);
                 effect->unk_10 = fade_packed_object_color_to_zero;
@@ -542,7 +542,7 @@ case2_spawn_loop:
 
     case 4:
     {
-        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+        effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
             particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
             part = effect->unk_0C;

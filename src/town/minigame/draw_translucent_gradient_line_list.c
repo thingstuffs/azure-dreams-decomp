@@ -99,9 +99,9 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
             }
             bucket_addr = min_depth * 4;
         }
-        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr;
-        ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr = (u32)line_packet;
-        ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->draw_buffer))->ot[0].addr;
+        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr;
+        ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr = (u32)line_packet;
+        ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr;
         bucket_addr += (u32)arena_ptr->draw_buffer;
         ((S_8002222C_0 *)bucket_addr)->ot[0].addr = (u32)mode_packet;
         next = ((S_8002222C_1_pre *)entry)[-1].unk_00;

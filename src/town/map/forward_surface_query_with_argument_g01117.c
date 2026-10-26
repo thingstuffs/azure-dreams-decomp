@@ -667,8 +667,8 @@ u16 query_z;
                                 s32 z_product;
                                 s32 x_product;
 
-                                plane = (Vec_80090854 *)(plane_index * 8 + (u32)scratch->planes);
-                                vertex = (Vec_80090854 *)(vertex_index * 8 + (u32)vertices);
+                                plane = (Vec_80090854 *)(plane_index * 8 + (unsigned long)scratch->planes);
+                                vertex = (Vec_80090854 *)(vertex_index * 8 + (unsigned long)vertices);
                                 delta_y = vertex->y - (s16)scratch->x;
                                 delta_z = vertex->z - (s16)scratch->z;
                                 y_product = plane->y * delta_y;

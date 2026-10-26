@@ -426,7 +426,7 @@ s32 draw_jittered_triangle_trails(void *first_item)
 
                 byte_offset = depth_index * 4;
                 ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->draw_buffer + 0xB0))[depth_index])->addr;
-                ot_entry_base = (u32 *)(byte_offset + (s32) render_context->draw_buffer);
+                ot_entry_base = (u32 *)(byte_offset + (long)render_context->draw_buffer);
                 ot_tag = ((TrailOrderEntry *)ot_entry_base)->tag;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);

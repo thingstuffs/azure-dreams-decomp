@@ -47,7 +47,7 @@ void store_normalized_building_code(s32 code) {
         scan_base = (u8 *)0x80010000;
         duplicate_code = 9;
         do {
-            scan_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (u32)scan_base);
+            scan_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (unsigned long)scan_base);
             if (scan_slot->unk_33A4 == duplicate_code) return;
             if (scan_slot->unk_33A5 == duplicate_code) return;
             scan_count += 1;
@@ -55,7 +55,7 @@ void store_normalized_building_code(s32 code) {
         scan_count = 0;
         free_base = (u8 *)0x80010000;
         do {
-            free_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (u32)free_base);
+            free_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (unsigned long)free_base);
             if (free_slot->unk_33A5 == 0) {
                 free_slot->unk_33A5 = stored_code;
                 return;

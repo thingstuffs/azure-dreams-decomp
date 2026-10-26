@@ -87,7 +87,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
         initial_base = (s8 *)catalog_grid_layout;
         initial_offset = 0;
         do {
-            initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
+            initial_data = (s32 *)((u32)initial_offset + (unsigned long)initial_base);
             initial_offset += 8;
             target_object = catalog_display_node_slots[object_index];
             data_word = *initial_data;

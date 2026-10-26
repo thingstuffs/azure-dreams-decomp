@@ -5,8 +5,8 @@ typedef struct S_80027A9C_0 {
     u8 pad_04[0x18];
     s32 unk_1C;
     u8 pad_20[0x10];
-    s32 unk_30;
-    s32 unk_34;
+    void *unk_30;
+    void *unk_34;
 } S_80027A9C_0;   /* arg0 in card_boot_create_menu_child_panels; pointer addresses record offset 0x10 */
 
 

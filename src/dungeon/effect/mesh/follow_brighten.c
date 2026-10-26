@@ -428,7 +428,7 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
     } while (--sample_index >= 0);
     entry_index = ((s32) (effect->unk_16 << 0x10) >> 0x12) + 1;
     if (entry_index < 8) {
-        entry_ptr = (void *) ((entry_index << 1) + (u32) effect);
+        entry_ptr = (void *) ((entry_index << 1) + (unsigned long)effect);
         do {
             phase = effect->unk_10 - entry_index;
             phase_rounded = phase;

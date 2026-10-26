@@ -19,7 +19,7 @@ s32 card_boot_sum_slot_lookup_values(void) {
     u8 *page_cursor = (u8 *)0x80010000;
 
     for (; entry_index < 0x22; entry_index++) {
-        sum += *(u8 *)((s32)page_cursor[0x33A4] + (s32)lookup_table);
+        sum += *(u8 *)((s32)page_cursor[0x33A4] + (long)lookup_table);
         page_cursor += 2;
     }
     return sum;

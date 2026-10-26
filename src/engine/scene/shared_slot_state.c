@@ -121,7 +121,7 @@ void draw_cd_wait_sprite_trail(s32 blend_step)
         scene_sprite_list_initialized = scene_sprite_list_initialized + 1;
         sprite_key[1] = 0;
         do {
-            sprite_key[0] = *(u8 *)(sprite_index + (u32)sprite_ids);
+            sprite_key[0] = *(u8 *)(sprite_index + (unsigned long)sprite_ids);
             colour = (s32)((u8 *)build_positioned_text_glyphs(sprite_slot, sprite_key, 0));
             S8_AT((u8 *)colour, 3) = origin_offset;
             S8_AT((u8 *)colour, 2) = origin_offset;

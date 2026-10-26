@@ -83,9 +83,9 @@ s32 render_rotated_grid_surface(void *node) {
                         u8 *grid_point;
                         u8 *rotated_point;
                         offset = point_index * 4;
-                        grid_point = (u8 *) (offset + (s32) grid_row);
+                        grid_point = (u8 *) (offset + (long)grid_row);
                         offset = point_index * 8;
-                        rotated_point = (u8 *) (offset + (s32) rotated_points);
+                        rotated_point = (u8 *) (offset + (long)rotated_points);
                         do {
                             RotTransPers(rotated_point, grid_point, &frame.p.f530, &frame.p.f534);
                             grid_point += 4;
@@ -129,8 +129,8 @@ s32 render_rotated_grid_surface(void *node) {
                     point_index = ring;
                     point_count = frame.p.f528;
                     if (point_index < (point_index + frame.p.f528)) {
-                        u8 *point_row = (u8 *) ((point_index << 6) + (s32) grid);
-                        u8 *rotated_point = (u8 *) ((point_index * 8) + (s32) rotated_points);
+                        u8 *point_row = (u8 *) ((point_index << 6) + (long)grid);
+                        u8 *rotated_point = (u8 *) ((point_index * 8) + (long)rotated_points);
                         do {
                             RotTransPers(rotated_point, point_row + (((ring + (s16) point_count) * 4) - 4),
                                           &frame.p.f530, &frame.p.f534);
@@ -178,14 +178,14 @@ s32 render_rotated_grid_surface(void *node) {
                         ((PolyFT4 *)quad)->tpage = GetTPage(0, 3, 0x300, 0x100);
                         ((PolyFT4 *)quad)->clut = GetClut(0x10, 0x1F8);
                         row_offset = point_index << 6;
-                        src_base = (u8 *) (row_offset + (s32) source_points);
+                        src_base = (u8 *) (row_offset + (long)source_points);
                         src_row = src_base + 0x100;
-                        src_pair = (u8 *) (ring + (s32) src_row);
+                        src_pair = (u8 *) (ring + (long)src_row);
                         ((PolyFT4 *)quad)->xy0 = ((Row_81989558_S_80024D58_Pair *)src_pair)->unk_00;
                         ((PolyFT4 *)quad)->xy1 = ((Row_81989558_S_80024D58_Pair *)src_pair)->unk_04;
                         top_pair = frame.space + 320;
                         dst_row = top_pair + row_offset;
-                        dst_pair = (u8 *) (ring + (s32) dst_row);
+                        dst_pair = (u8 *) (ring + (long)dst_row);
                         ((PolyFT4 *)quad)->xy2 = ((Row_81989558_S_80024D58_Pair *)dst_pair)->unk_00;
                         {
                             s32 bottom_right = ((Row_81989558_S_80024D58_Pair *)dst_pair)->unk_04;

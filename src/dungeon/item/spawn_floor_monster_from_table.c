@@ -84,7 +84,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
                 u8 **spawn_table_addr = (u8 **)((u8 *)(&g_dungeon_status.monster_spawn_table));
                 s32 signed_entry_offset = entry_offset;
                 u8 *spawn_table = *spawn_table_addr;
-                spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);
+                spawn_entry = (u8 *)(signed_entry_offset + (long)spawn_table);
             }
             raw_variant = spawn_entry[1];
             spawn_level = raw_variant;

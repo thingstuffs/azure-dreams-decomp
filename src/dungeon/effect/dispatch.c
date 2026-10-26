@@ -202,19 +202,19 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
 
     for (;;) {
         vertex_index = face->v0;
-        ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
+        ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v1;
-        ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
+        ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v2;
-        ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
+        ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_00;
         vertex_index = face->v0;
-        ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
+        ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
         vertex_index = face->v1;
-        ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
+        ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
         vertex_index = face->v2;
         perspective_arg = perspective_out;
         flags_arg = flags_out;
-        ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
+        ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (unsigned long)vertices))->unk_04;
 
         {
             s32 depth;
@@ -806,7 +806,7 @@ L_third:
             rbase = dungeon_rooms;
             cnt2 = cnt;
             do {
-                room = (u8 *)(phase * 20 + (s32)rbase);
+                room = (u8 *)(phase * 20 + (long)rbase);
                 if (*(s16 *)(room + 10) != 0) {
                     goto L_found;
                 }

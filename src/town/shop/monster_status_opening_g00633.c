@@ -21,7 +21,7 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
     do {
         mode = display_mode;
         entry = ((S_800B65D8_0 *)entry_slot)->unk_50;
-        entry_id = select_display_spacing_table_entry(mode, *(u8 *)((s32)entry_index + (s32)lookup));
+        entry_id = select_display_spacing_table_entry(mode, *(u8 *)((s32)entry_index + (long)lookup));
         if ((entry_index == 0) && (mode == 4)) {
             entry_id -= 1;
         }

@@ -180,7 +180,7 @@ typedef struct T_80173B48_S_80173B48_3_pre {
 
 
 
-extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();

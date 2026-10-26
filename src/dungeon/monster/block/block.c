@@ -412,6 +412,7 @@ void dispatch_actor_turn_and_motion(CB_8017102C_S_8017102C_0 *state, void *motio
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_actor_stored_path(void *motion, s32 update_param, void *entity, void *state) {
+    ActorRecord *rounding_owner = motion;
     s32 tile_mask;
     s32 old_x;
     s32 old_y;
@@ -450,7 +451,7 @@ void advance_actor_stored_path(void *motion, s32 update_param, void *entity, voi
         old_y,
         ((CB_80171590_S_80171590_3 *)((u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74,
         ((CB_80171590_S_80171590_3 *)((u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)motion + 0x98);
+        &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     ((CB_80171590_S_80171590_1 *)entity)->unk_24 =

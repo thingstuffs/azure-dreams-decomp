@@ -69,7 +69,7 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
                                              &coords[0], second_coord)) >> 1;
             if ((u16)avg_depth < 0x1E0U) {
                 ot_offset = (s16)avg_depth * 4;
-                addPrim((u8 *)(ot_offset + (s32)town_state->draw_buffer) + 0xB0,
+                addPrim((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0,
                         line_prim);
 
                 render_state = town_state->draw_buffer;
@@ -77,7 +77,7 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
                 render_state->packetCursor = draw_mode_prim + 0xC;
                 SetDrawMode(draw_mode_prim, 0, 0,
                     GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
-                addPrim((u8 *)(ot_offset + (s32)town_state->draw_buffer) + 0xB0,
+                addPrim((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0,
                         draw_mode_prim);
             }
         }

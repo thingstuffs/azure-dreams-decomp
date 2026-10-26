@@ -283,7 +283,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
             void *actor_base4;
 
             actor_base4 = (*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x);
-            actor_entry4 = (void *)((actor_slot4 * 4) + (s32)actor_base4);
+            actor_entry4 = (void *)((actor_slot4 * 4) + (long)actor_base4);
             actor_entry4->unk_AC = 0;
             actor_entry4->unk_D0 = 0;
         }
@@ -352,7 +352,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, SpriteFrame
             void *actor_base16;
 
             actor_base16 = (*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x);
-            actor_entry16 = (void *)((actor_slot16 * 4) + (s32)actor_base16);
+            actor_entry16 = (void *)((actor_slot16 * 4) + (long)actor_base16);
             actor_entry16->unk_AC = 0;
             actor_entry16->unk_D0 = 0;
         }

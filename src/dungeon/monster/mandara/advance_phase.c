@@ -297,10 +297,10 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         strip_y += 2;
                         *((s16 *) (((u8 *) poly) + 0x22)) = (s16) strip_y;
                         *((s16 *) (((u8 *) poly) + 0x12)) = (s16) strip_y;
-                        poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*(u8 **)&render_state->draw_buffer))) + 0xB0));
+                        poly_link = *((s32 *) ((u8 *) (depth_offset + ((long)(*(u8 **)&render_state->draw_buffer))) + 0xB0));
                         *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000)
                         | (poly_link & left_bound);
-                        depth_bucket = (u8 *) (depth_offset + ((s32) (*(u8 **)&render_state->draw_buffer)));
+                        depth_bucket = (u8 *) (depth_offset + ((long)(*(u8 **)&render_state->draw_buffer)));
                         bucket_link = *((s32 *) (((u8 *) depth_bucket) + 0xB0));
                         *((s32 *) (((u8 *) depth_bucket) + 0xB0)) =
                             (bucket_link & 0xFF000000) | (((s32) poly) & left_bound);

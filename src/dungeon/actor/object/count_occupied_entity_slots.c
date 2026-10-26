@@ -21,7 +21,7 @@ s32 count_occupied_entity_slots(void *entity) {
     void *slot_base;
 
     active_count = 0;
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
+    if (entity == dungeon_actor_ring_anchor) {
         slot_index = 1;
         slot_base = entity + 4;
         do {

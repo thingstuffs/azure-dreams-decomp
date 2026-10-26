@@ -82,14 +82,14 @@ void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *spri
             for (;;) {
                 direction_index = rand() & 3;
                 step_offset = direction_index * 4;
-                probe_x = (s16 *)(step_offset + (s32)x_steps);
+                probe_x = (s16 *)(step_offset + (long)x_steps);
                 distance = F_S16(actor, 0xA2) + *probe_x;
                 distance = abs(distance);
                 choice = direction_index * 2;
                 if (distance >= 2) {
                     continue;
                 }
-                delta_y = F_S16(actor, 0xA0) + *(s16 *)(step_offset + (s32)y_steps);
+                delta_y = F_S16(actor, 0xA0) + *(s16 *)(step_offset + (long)y_steps);
                 delta_y = abs(delta_y);
                 if (delta_y < 2) {
                     break;

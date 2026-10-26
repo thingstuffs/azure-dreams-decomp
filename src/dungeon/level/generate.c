@@ -320,7 +320,7 @@ retry:
             flags_row_shift = config->shiftX;
             row_offset <<= flags_row_shift;
             cell_offset += row_offset;
-            spawn_cell = (floor_generate_isolated_8028484C_MapCell *)(cell_offset * 6 + (s32)map);
+            spawn_cell = (floor_generate_isolated_8028484C_MapCell *)(cell_offset * 6 + (long)map);
             update_size = 0x20;
             spawn_cell->flags = 1;
             cycle_map_cell_flags(spawn_x, spawn_y, update_size);
@@ -411,7 +411,7 @@ s32 mark_path_through_neighboring_tiles(s16 region_id) {
             if ((s16)classify_directional_movement(x, y, tile_id, (s16)direction) != 0) {
                 floor_generate_isolated_80284BEC_S_80017BEC_T *tile;
                 idx = (x + dx[direction]) + ((y + dy[direction]) << map->unk_14);
-                tile = (floor_generate_isolated_80284BEC_S_80017BEC_T *)((idx * 6) + (s32)tiles);
+                tile = (floor_generate_isolated_80284BEC_S_80017BEC_T *)((idx * 6) + (long)tiles);
                 flags = tile->unk_04;
                 if (!(flags & 0x100)) {
                     tile->unk_04 = flags | 0x200;
@@ -428,7 +428,7 @@ s32 mark_path_through_neighboring_tiles(s16 region_id) {
             x += dx[next_direction];
             y += dy[next_direction];
             idx = x + (y << map->unk_14);
-            tile = (floor_generate_isolated_80284BEC_S_80017BEC_T *)((idx * 6) + (s32)tiles);
+            tile = (floor_generate_isolated_80284BEC_S_80017BEC_T *)((idx * 6) + (long)tiles);
             steps--;
             tile->unk_04 |= 0x100;
             if (steps <= 0) {
@@ -647,7 +647,7 @@ void load_dungeon_layout(s16 layout_number)
     s32 entry_index;
     s16 layout_index;
     s32 x_or_marker;
-    s32 layout_id;
+    void *layout_id;
     s32 map_value;
     u16 tile_value;
     u16 shift_y;
@@ -1194,7 +1194,7 @@ void convert_valid_entry_code_2_to_39(void)
 
         index *= 4;
 
-        entry = (u8 *)((u32)index + (u32)base);
+        entry = (u8 *)((u32)index + (unsigned long)base);
 
         if (*entry == 2) {
             *entry = 0x39;
@@ -1585,7 +1585,7 @@ s32 generate_floor_layout(void)
             cn = conn;
             j = ((s32) cn) + x;
             ks = (s16) k;
-            room = (floor_generate_isolated_80286AF8_Room *) ((((x + k) << 2)) + ((s32) rp));
+            room = (floor_generate_isolated_80286AF8_Room *) ((((x + k) << 2)) + ((long)rp));
             do {
                 rh = (s16) dir;
                 bp = (u8 *) (j + (((u32) (dir << 16)) >> 17));
@@ -2982,7 +2982,7 @@ void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *
     s16 *cell;
     u8 *cell_tail;
     MapGrid *grid_config;
-    u32 grid_base;
+    unsigned long grid_base;
     s16 first_row;
     s16 next_row;
     s16 end_row;
@@ -2994,7 +2994,7 @@ void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *
     row = first_row;
     end_row = first_row + region->unk_06 + 2;
     if ((first_row << 16) < (end_row << 16)) {
-        grid_base = (u32)generation_border_cell_base_alias;
+        grid_base = (unsigned long)generation_border_cell_base_alias;
         do {
             cell = (s16 *)((((row << grid_config->shiftX) +
                   region->unk_00) * 6) + grid_base);

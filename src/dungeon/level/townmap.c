@@ -96,7 +96,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
     {
         s8 *link_slots = &town_map_link_slots;
         while (1) {
-            s8 linked_slot = *(s8 *)(count + (s32)link_slots);
+            s8 linked_slot = *(s8 *)(count + (long)link_slots);
             void *linked_data;
             if (linked_slot == count) {
                 linked_data = 0;

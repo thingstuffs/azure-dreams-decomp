@@ -39,7 +39,7 @@ void mark_referenced_building_records(void) {
     do {
         recordIndex = ((BuildingIndexPage *)indexPageCursor)->record_index;
         if (recordIndex != 0) {
-            u8 *record = (u8 *)((recordIndex << 5) + (u32)recordBase);
+            u8 *record = (u8 *)((recordIndex << 5) + (unsigned long)recordBase);
             ((BuildingMarkRecord *)record)->marked = markedFlag;
         }
         entryIndex++;

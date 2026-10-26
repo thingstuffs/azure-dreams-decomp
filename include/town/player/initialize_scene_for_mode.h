@@ -162,7 +162,7 @@ extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode);
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"
-extern void step_actor_animation(void *, s32);
+extern void step_actor_animation(void *,s32);
 extern void func_80048AC8(void *, s32);
 extern s16 step_angle_12_toward(s16, s16, s32);
 extern s32 view_relative_angle_sector(s16);

@@ -217,7 +217,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     do {
     entry_table = (u8 *) (&floor_objects);
 
-    entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
+    entry_flags = (void *) ((entry_index * 4) + ((u8 *)entry_table));
     if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *frame_table;

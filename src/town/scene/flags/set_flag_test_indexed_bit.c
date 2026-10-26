@@ -21,7 +21,7 @@ void set_flag_test_indexed_bit(s32 bit_index) {
             adjusted_id = bit_index + 0x1F;
         }
         word_index = adjusted_id >> 5;
-        flag_word = (s32 *)((word_index * 4) + (s32)context->unk_18);
+        flag_word = (s32 *)((word_index * 4) + (long)context->unk_18);
         *flag_word = (1 << (bit_index - (word_index << 5))) | *flag_word;
     }
 }

@@ -25,9 +25,7 @@ typedef struct S_800525D4_sub {
  * w_8003FC64.c); this function only touches the prefix up through the
  * embedded sub-object at 0x20. */
 typedef struct S_800525D4_obj {
-    u8 pad00[0x10];               /* 0x00 */
-    void (*vtable)(void);         /* 0x10 - set to update_scene_effect_controller */
-    u8 pad14[0x20 - 0x14];        /* 0x14 */
+    ObjectNodeHeader header;
     S_800525D4_sub sub;           /* 0x20 */
 } S_800525D4_obj;
 
@@ -52,7 +50,7 @@ void create_cd_cue_effect(void)
     node = allocate_flagged_object_node(0);
     if (node != 0) {
         slots = &node->sub;
-        node->vtable = update_scene_effect_controller;
+        node->header.update_callback = update_scene_effect_controller;
         node->sub.f0 = 0;
         slots->f2 = 0;
         slots->count = 0;
@@ -66,33 +64,33 @@ void create_cd_cue_effect(void)
         sound_set_cd_cue_parameters(0, 0x15B7C, 0, 0x10093C8);
         SD_Call(0x300);
 
-        slot0 = allocate_list_node(0x212, node);
+        slot0 = allocate_list_node(0x212, &node->header.next);
         if (slot0 != 0) {
             scene_initialize_arc_motion_sprite(slot0, slots);
             slots->fC = slot0;
             slots->count++;
         }
         if (test_resident_bitmap_bit(F_qyun_misuteta) == 0) {
-            slot1 = allocate_list_node(0x212, node);
+            slot1 = allocate_list_node(0x212, &node->header.next);
             if (slot1 != 0) {
                 scene_initialize_orbit_motion_sprite(slot1, slots);
                 slots->f10 = slot1;
                 slots->count++;
             }
         }
-        slot2 = allocate_list_node(0x212, node);
+        slot2 = allocate_list_node(0x212, &node->header.next);
         if (slot2 != 0) {
             init_fade_in_out_effect(slot2, slots);
             slots->f14 = slot2;
             slots->count++;
         }
-        slot3 = allocate_list_node(0x212, node);
+        slot3 = allocate_list_node(0x212, &node->header.next);
         if (slot3 != 0) {
             init_color_fade_effect(slot3, slots);
             slots->f18 = slot3;
             slots->count++;
         }
-        slot4 = allocate_list_node(0x212, node);
+        slot4 = allocate_list_node(0x212, &node->header.next);
         if (slot4 != 0) {
             scene_initialize_sixteen_sprite_sequence(slot4, slots);
             slots->f1C = slot4;

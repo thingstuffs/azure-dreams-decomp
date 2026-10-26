@@ -547,10 +547,10 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
     ((S_8195F43C_0 *)scratch)->unk_EC = ((S_8195F43C_1 *)origin)->unk_0A;
 
     height_row = (u8 *)((u32)(tile_y * 2) +
-        (u32)(height_grid + tile_x * 0x10));
+        (unsigned long)(height_grid + tile_x * 0x10));
     height_grid += 0x10;
     next_height_row = (u8 *)((u32)(tile_y * 2) +
-        (u32)(height_grid + tile_x * 0x10));
+        (unsigned long)(height_grid + tile_x * 0x10));
     {
 
         depth = ((S_8195F43C_2 *)height_row)->unk_00;
@@ -807,10 +807,10 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
     grid = ((s8 *)terrain_effect_height_grid);
     do {
         column_index = 0;
-        row = (s8 *)(((s32) (row_index << 0x10) >> 0xC) + (u32)grid);
+        row = (s8 *)(((s32) (row_index << 0x10) >> 0xC) + (unsigned long)grid);
         do {
             column_shifted = column_index << 0x10;
-            *(s16 *)((column_shifted >> 0xF) + (u32)row) = 0;
+            *(s16 *)((column_shifted >> 0xF) + (unsigned long)row) = 0;
             next_column = column_index + 1;
             column_index = next_column;
         } while (next_column < 8);
@@ -1746,12 +1746,12 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_row = ((s8 *)terrain_effect_height_grid);
         tile_y = row;
         tile_y <<= 4;
-        top_heights = (s16 *)(tile_y + (s32)height_row);
+        top_heights = (s16 *)(tile_y + (long)height_row);
         top_row = top_heights;
         bottom_heights_addr = column << 1;
-        top_heights = (s16 *)(bottom_heights_addr + (s32)top_row);
+        top_heights = (s16 *)(bottom_heights_addr + (long)top_row);
         height_row += 0x10;
-        height_row = (s8 *)(tile_y + (s32)height_row);
+        height_row = (s8 *)(tile_y + (long)height_row);
         bottom_heights_addr += (s32)height_row;
         y_offset = (row - 3) << 6;
         output = object->field8;
@@ -1890,7 +1890,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         position.y = ((u16)view_reference_entity.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.u16_value - 0x50;
         transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
-        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)actor_direction_sprites))->unk_00, ((u8 *)(&reference_tile_object)),
+        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (long)actor_direction_sprites))->unk_00, ((u8 *)(&reference_tile_object)),
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;

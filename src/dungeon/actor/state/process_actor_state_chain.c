@@ -9,10 +9,10 @@ typedef struct Entry {
     u16 unk14;
 } Entry;
 
-extern void render_actor_sprite_parts(void *unused, s32 position, Entry *sprite, s16 depth_bias);
+extern void render_actor_sprite_parts(void *unused, void *position, Entry *sprite, s16 depth_bias);
 
 /* Processes unflagged entries while following the state chain. */
-s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry)
+s32 process_actor_state_chain(void *state_base, void *entry_data, Entry *entry)
 {
     void *state = state_base;
 
@@ -25,7 +25,7 @@ s32 process_actor_state_chain(void *state_base, s32 entry_data, Entry *entry)
             break;
         }
         state = (u8 *)entry + 0x20;
-        entry_data = (s32)entry->unk08;
+        entry_data = entry->unk08;
         entry = entry->unk0C;
     }
     return 0;

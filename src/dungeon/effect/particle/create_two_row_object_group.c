@@ -159,7 +159,7 @@ s32 draw_linked_textured_quads(void *first_quad) {
             link_addr = depth << 2;
             ((S_800DA93C_2 *)packet)->unk_00 =
                 (((S_800DA93C_2 *)packet)->unk_00 & tag_mask) |
-                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->draw_buffer)))->unk_B0 & addr_mask);
+                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (unsigned long)render_state->draw_buffer)))->unk_B0 & addr_mask);
             link_addr += (s32)render_state->draw_buffer;
             ((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 =
                 (((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 & tag_mask) |
@@ -1079,7 +1079,7 @@ void transform_rotated_vertices(void *transform_data) {
                 column_index = last_column_index;
                 row_start = matrix_row;
                 do {
-                    matrix_cell = (s16 *) ((column_index << 1) + (u32) row_start);
+                    matrix_cell = (s16 *) ((column_index << 1) + (unsigned long)row_start);
                     if (index == column_index) {
                         *matrix_cell = diagonal_value;
                     } else {

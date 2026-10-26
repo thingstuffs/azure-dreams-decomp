@@ -23,7 +23,7 @@ s32 process_pairs_and_find_callback(Func8094D708Object *object)
 
     for (;;) {
         void *callbackObject = object;
-        callbackAddress = (u8 *)((s32)(callbackIndex << 4) + (s32)object->callbacks);
+        callbackAddress = (u8 *)((s32)(callbackIndex << 4) + (long)object->callbacks);
         callback = *(Func8094D708Callback *)callbackAddress;
         if (callback(callbackObject, callbackIndex) == 0)
             return callbackIndex;

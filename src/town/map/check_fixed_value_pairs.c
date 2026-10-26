@@ -65,7 +65,7 @@ return_zero:
         pair_num = 0;
         required_value = required_values.value[required_num];
         do {
-            pair_base = (u8 *)((u32)(pair_indices.value[pair_num] * 2) + (u32)data_base);
+            pair_base = (u8 *)((u32)(pair_indices.value[pair_num] * 2) + (unsigned long)data_base);
             if ((pair_base[0x33A4] == required_value) || (pair_base[0x33A5] == required_value)) {
                 break;
             }

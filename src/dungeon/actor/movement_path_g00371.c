@@ -60,7 +60,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
             if (direction_table != 0) {
                 s32 direction_offset = (s16)compare_direction * 4;
                 select_record_entry_and_value(monster,
-                              *(void **)(direction_offset + (s32)direction_table),
+                              *(void **)(direction_offset + (long)direction_table),
                               monster->unk_04);
             }
             entity->unk_94 = state_direction;

@@ -27,7 +27,7 @@ extern void begin_pushed_actor_move(void *,void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void advance_actor_state_with_child(void *, s32, void *, void *);
+extern void advance_actor_state_with_child(void *,void *, void *, void *);
 
 extern u8 maximum_action_continuation_address;
 extern u8 maximum_frame_set_2[];

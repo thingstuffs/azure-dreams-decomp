@@ -199,7 +199,7 @@ s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count
             write_ptr = buffer;
             do {
                 strncpy(write_ptr,
-                        (u8 *)((u32)(entry_index * 0x13) + (u32)entries), 0x12);
+                        (u8 *)((u32)(entry_index * 0x13) + (unsigned long)entries), 0x12);
                 entry_index = find_menu_entry_from_index(held_entry_set, entry_index + 1);
                 copied_count += 1;
                 write_ptr += 0x12;

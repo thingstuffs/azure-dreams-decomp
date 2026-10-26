@@ -7,7 +7,7 @@
  * func_80048374's Struct_80048374 layout. */
 
 /* Updates the entity, then dispatches and clears bit 0x20 if any flags in 0x1220 are set. */
-void step_actor_animation(SpriteFrameState *entity, void *slot_index)
+void step_actor_animation(SpriteFrameState *entity, s32 slot_index)
 {
     advance_actor_step_sequence(entity);
     if (entity->flags & 0x1220) {

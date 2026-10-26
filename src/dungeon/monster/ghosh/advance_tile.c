@@ -64,7 +64,7 @@ extern TileObject D_80082E80_b __asm__("D_80082E80");
 /* Adds the indexed byte from the direction table to the tile coordinate and returns the low byte. */
 static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 {
-    return tile + *(const u8 *)((u32)index + (u32)table);
+    return tile + *(const u8 *)((u32)index + (unsigned long)table);
 }
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */

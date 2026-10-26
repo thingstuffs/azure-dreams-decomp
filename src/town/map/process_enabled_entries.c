@@ -52,7 +52,7 @@ void process_enabled_entries(void) {
     do {
         entry_id = ((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4;
         if (entry_id != 0) {
-            entry = (void *)((u32)(entry_id << 5) + (u32)entry_table);
+            entry = (void *)((u32)(entry_id << 5) + (unsigned long)entry_table);
             if (entry->unk_01 != 0) {
                 apply_building_tile_entry(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
             }

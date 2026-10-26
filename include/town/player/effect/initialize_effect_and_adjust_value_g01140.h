@@ -127,7 +127,7 @@ extern s32 D_800A5A98;
 extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
 #include "engine/texture.h"
-extern void step_actor_animation(void *, s32);
+extern void step_actor_animation(void *,s32);
 extern s32 view_relative_angle_sector(s16);
 extern void clear_motion_along_blocked_directions_update_affected_axes(void *);
 extern void copy_entity_record_fields(void *, void *);

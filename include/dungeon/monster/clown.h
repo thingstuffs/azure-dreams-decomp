@@ -374,7 +374,7 @@ s32 rsin();
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
-void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 s32 check_entity_relation();
 s32 find_active_rect_containing_point();

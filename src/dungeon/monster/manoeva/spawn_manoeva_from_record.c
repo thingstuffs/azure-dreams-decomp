@@ -139,7 +139,7 @@ void *spawn_manoeva_from_record(void *unused0, void *unused1, S_80E3C98C_1 *posi
         table_offset = find_entity_slot_by_field_ac(spawn_data);
         table_base = ((u8 *)dungeon_actor_ring_anchor);
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
-                               (s32)table_base);
+                               (long)table_base);
 
         previous_entity = table_entry->unk_AC;
         table_entry->unk_AC = entity;

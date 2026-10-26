@@ -25,7 +25,7 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
 
     do {
         areaIndex = (u16)generate_random_value() % limits[3];
-        area = (DungeonArea *)((areaIndex * (s32)sizeof(*area)) + (u32)areas);
+        area = (DungeonArea *)((areaIndex * (s32)sizeof(*area)) + (unsigned long)areas);
         if (area->enabled != 0) {
             x = (u32)(generate_random_value() & 0xFFFF) % area->width;
             y = (u32)(generate_random_value() & 0xFFFF) % area->height;

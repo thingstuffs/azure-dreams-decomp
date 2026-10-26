@@ -305,7 +305,7 @@ void SpuGetVoiceAttr(SpuVoiceAttr_ *voice_attr)
     voice_regs = (S_8005FA34_ent *)spu_registers;
     volume_word = voice_index * 2;
     voice_word = voice_index * 8;
-    voice = (S_8005FA34_ent *)(voice_offset + (u32)voice_regs);
+    voice = (S_8005FA34_ent *)(voice_offset + (unsigned long)voice_regs);
     volume_or_note = voice->unk0;
     do {
         right_volume = voice->unk2;

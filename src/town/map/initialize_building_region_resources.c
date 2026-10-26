@@ -42,10 +42,10 @@ void initialize_building_region_resources(void) {
     resources = town_building_records;
     do {
         slot_index = slot_counter & 0xFF;
-        slot = (void *)((slot_index * 2) + (s32)state_base);
+        slot = (void *)((slot_index * 2) + (long)state_base);
         resource_index = slot->unk_33A4;
         if (resource_index != 0) {
-            ((ResourceSlotStateView *)((void *)((resource_index << 5) + (s32)resources)))->unk_0A = 1;
+            ((ResourceSlotStateView *)((void *)((resource_index << 5) + (long)resources)))->unk_0A = 1;
             region = (slot_index * 8) + town_building_slot_rectangles;
             region_x = region->unk_00;
             region_y = region->unk_01;

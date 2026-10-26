@@ -68,7 +68,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
     s32 fwd_row_shift;
     s32 rev_row_shift;
     s32 rev_map_x;
-    s32 y_steps_addr;
+    void *y_steps_addr;
     u16 *rev_y_step;
     s32 rev_step_dir;
     grid = &scene_geometry;
@@ -122,7 +122,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
                     u16 *fwd_x_step_ptr;
 
                     fwd_count += 1;
-                    y_steps_addr = (s32)((s8 *)dir_step_x) + 0x10;
+                    y_steps_addr = ((s8 *)dir_step_x) + 0x10;
                     fwd_y_step = (u16 *)(fwd_step_offset + y_steps_addr);
                     fwd_x_step_ptr = fwd_x_step;
                     fwd_dy = *fwd_y_step;
@@ -164,8 +164,8 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
                     rev_count += 1;
                     rev_step_dir = reverse_dir;
                     rev_step_offset = rev_step_dir << 1;
-                    rev_x_step = (u16 *)(rev_step_offset + (s32)x_steps);
-                    rev_y_step = (u16 *)(rev_step_offset + (s32)((s8 *)dir_step_y));
+                    rev_x_step = (u16 *)(rev_step_offset + (long)x_steps);
+                    rev_y_step = (u16 *)(rev_step_offset + (long)((s8 *)dir_step_y));
                     rev_dx = *rev_x_step;
                     rev_dy = *rev_y_step;
                     rev_x += rev_dx;

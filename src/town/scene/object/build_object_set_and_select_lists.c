@@ -116,7 +116,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                 group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
                 group_entry = (void *)((u32)group_entry + (u32)group_bank);
                 if (((TownResourceGroupView *)group_entry)->unk_0A != 0 || bank_bits != 0) {
-                    record = (void *)((u32)(record_index * 0x1C) + (u32)records);
+                    record = (void *)((u32)(record_index * 0x1C) + (unsigned long)records);
                     if (record->unk_08 != 0) {
                         ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
                         variant_index = find_eligible_entry(record, group_bits);
@@ -134,7 +134,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                         }
                     } else {
                         direct_record = (void *)((u32)(record_index * 0x1C) +
-                                                 (u32)records);
+                                                 (unsigned long)records);
                         direct_record->unk_04 = p;
                         p = populate_and_dispatch_entry_records(p,
                             (void *)direct_record->unk_10, 0, record_index);
@@ -164,16 +164,16 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
                 bank_bits = record_flags >> 0x15;
                 group_data = ((Rec_D_80016000 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
                 flag_bits = bank_bits & 4;
-                lookup_entry = (void *)((u32)flag_bits + (u32)group_data);
+                lookup_entry = (void *)((u32)flag_bits + (unsigned long)group_data);
                 entry_address = group_id << 5;
                 lookup_entry = ((S_8001A044_7 *)lookup_entry)->unk_00.p;
-                group_data = (void *)((u32)entry_address + (u32)lookup_entry);
+                group_data = (void *)((u32)entry_address + (unsigned long)lookup_entry);
                 pp += 1;
                 ((S_8001A044_8 *)group_data)->unk_18 = pp;
                 *pp = 0;
                 previous_group = group_id;
             }
-            lookup_entry = (void *)((u32)(record_index * 0x1C) + (u32)records);
+            lookup_entry = (void *)((u32)(record_index * 0x1C) + (unsigned long)records);
             entry_address = ((S_8001A044_7 *)lookup_entry)->unk_04;
             if ((entry_address != 0) &&
                 !((((S_8001A044_7 *)lookup_entry)->unk_00.i >> 0xF) & 1)) {

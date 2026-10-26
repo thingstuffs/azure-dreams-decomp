@@ -100,7 +100,7 @@ void process_resources_for_expired_slot_countdowns(void *state) {
         slot_offset = slot << 2;
         if (countdown == 0) {
             table = ((S_800B3C74_1 *)owner)->unk_5C;
-            entry = (s32 *)(slot_offset + (s32)table);
+            entry = (s32 *)(slot_offset + (long)table);
             resource_addr = *entry;
             count_cursor += 4;
             move_color_channels_toward_neutral(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);

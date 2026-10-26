@@ -255,14 +255,14 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
                             void *context = global_base->draw_buffer;
                             ((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.s = (s32)(
                                 (((Row_818E747C_S_80024C7C_3 *)primitive)->unk_00.u & 0xFF000000) |
-                                (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
+                                (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (unsigned long)context)))->unk_B0 &
                                  address_mask));
                         }
                         segment_start--;
                         {
                             void *context = global_base->draw_buffer;
-                            ((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 = (u32)(
-                                (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
+                            ((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (unsigned long)context)))->unk_B0 = (u32)(
+                                (((Row_818E747C_S_80024C7C_5 *)((u8 *)(ot_offset + (unsigned long)context)))->unk_B0 &
                                  0xFF000000) |
                                 ((u32)(u8 *)primitive & address_mask));
                         }

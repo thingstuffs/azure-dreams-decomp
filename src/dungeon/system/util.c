@@ -943,7 +943,7 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     if (((u8 *)handle)[3] & 0x20) {
         index = find_entity_slot_by_field_ac(object);
         if (index >= 0) {
-            state_entry = (void *)(index * 4 + ((s32)dungeon_actor_ring_anchor));
+            state_entry = (void *)(index * 4 + ((long)dungeon_actor_ring_anchor));
             ((S_800A6620_2 *)state_entry)->unk_AC = 0;
             ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
         }
@@ -1205,7 +1205,7 @@ void restore_item_flag_400_bitmap(void)
                     (s32)((S_800A6A9C_0 *)group)->unk_0C);
                 *item_flags = *item_flags & clear_flag_mask;
                 bitmap_byte = item_index / 8;
-                if (((s32)*(u8 *)(bitmap_offset + bitmap_byte + (s32)ram_page + 0x5720) >>
+                if (((s32)*(u8 *)(bitmap_offset + bitmap_byte + (long)ram_page + 0x5720) >>
                      (item_index & 7)) & 1) {
                     marked_flags = (s16 *)(item_offset +
                         (s32)((S_800A6A9C_0 *)group)->unk_0C);

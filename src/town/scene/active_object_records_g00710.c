@@ -59,7 +59,7 @@ u8 *record_check_returned(void *unused)
     do {
         {
             checked_count = record_count + record_id;
-            checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (u32)checked_base);
+            checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (unsigned long)checked_base);
             checked_record[1] = checked_tag;
             checked_record[0] = record_id;
             if (check_selected_entry_8((S_80017EB8_0 *)checked_record) != 0) {
@@ -76,7 +76,7 @@ u8 *record_check_returned(void *unused)
     do {
         {
             plain_count = record_count + record_id;
-            plain_record = (u8 *)((u32)((plain_count - 1) * 4) + (u32)plain_base);
+            plain_record = (u8 *)((u32)((plain_count - 1) * 4) + (unsigned long)plain_base);
             plain_record[0] = record_id;
             record_id++;
             plain_record[1] = plain_tag;
@@ -93,7 +93,7 @@ u8 *record_check_returned(void *unused)
     end_record = (u8 *)0x20;
     ((u8 *)plain_tag)[0] = (s32)end_record;
     end_offset = record_count * 4;
-    end_record = (u8 *)(end_offset + (u32)tail_base);
+    end_record = (u8 *)(end_offset + (unsigned long)tail_base);
     end_record[1] = 0;
     end_record[0] = 0;
     return tail_base;

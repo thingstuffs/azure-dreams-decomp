@@ -30,7 +30,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *contex
     s16 saved_mode;
 
     slot_offset = (s32)(target_index << 0x10) >> 0xE;
-    slot_base = (s8 *)((s32)slot_offset + (s32)actor);
+    slot_base = (s8 *)((s32)slot_offset + (long)actor);
     actor_heading = actor;
     target = ((S_8008D024_0 *)slot_base)->unk_AC;
     saved_mode = action_mode;

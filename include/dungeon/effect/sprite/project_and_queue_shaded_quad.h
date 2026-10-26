@@ -379,7 +379,7 @@ s32 rand();
 s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 int abs(int);
-void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 s32 check_adjacent_tile_height_clearance();
 s32 play_sound_if_enabled();

@@ -129,7 +129,7 @@ extern s32 get_entity_effect_value();
 extern s32 func_80042900();
 extern void clear_slots_of_type();
 extern void func_80042B68();
-extern void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();

@@ -32,7 +32,7 @@ TownRecord *populate_records_and_normalize_kind(void)
     source = source_table[town_scene_root->services->callback_2D4(0)];
     index = 0;
     values = value_table[town_scene_root->services->callback_2D4(index)];
-    if (((((TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)scene_record_list)))->flags & 0xC0) != 0x80) {
+    if (((((TownRecord *)((s32)(index * sizeof(TownRecord)) + (long)scene_record_list)))->flags & 0xC0) != 0x80) {
         register s32 next_addr_or_end;
         u8 value_or_flags;
         s32 record_flags;
@@ -44,7 +44,7 @@ TownRecord *populate_records_and_normalize_kind(void)
 
             record = (TownRecord *)((u8 *)scene_record_list + (index * sizeof(TownRecord)));
             copy_town_record_pair_fields(record, copy_source);
-            write_record = (TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)scene_record_list);
+            write_record = (TownRecord *)((s32)(index * sizeof(TownRecord)) + (long)scene_record_list);
             value_or_flags = values[index];
             write_record->value = value_or_flags;
             index++;
@@ -60,18 +60,18 @@ TownRecord *populate_records_and_normalize_kind(void)
         s32 end_flags;
 
         for (;;) {
-            TownRecord *record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)scene_record_list);
+            TownRecord *record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (long)scene_record_list);
             if (record->kind == 11) {
                 end_flags = 128;
                 if (apply_stored_value_17974() != 0)
                     break;
-                ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)scene_record_list))->kind = 10;
+                ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (long)scene_record_list))->kind = 10;
                 break;
             } else {
                 end_flags = 128;
             }
             scan_index++;
-            record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)scene_record_list);
+            record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (long)scene_record_list);
             if ((record->flags & 0xC0) == end_flags)
                 break;
         }

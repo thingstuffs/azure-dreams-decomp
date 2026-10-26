@@ -41,7 +41,7 @@ typedef struct {
     u8 pad[0x14];
     u16 unk14;
 } S_80048AC8;
-void step_actor_animation(S_80048AC8 *entity, void *slot_index);             /* extern */
+void step_actor_animation(S_80048AC8 *entity, s32 slot_index);             /* extern */
 s32 rsin();                             /* extern */
 s32 rcos();                             /* extern */
 void reserve_tw_mon_load(s32 reservation_value);     /* extern */

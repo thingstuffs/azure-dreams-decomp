@@ -700,7 +700,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     CoordTable directions;
     S_func_8190B2D0_1 *owner;
     u8 * owner_base;
-    register u32 source_pos;
+    register void *source_pos;
     s32 state;
     S_func_8190B2D0_3 *target_pos;
     S_func_8190B2D0_4 *motion_or_child = motion_arg;
@@ -710,7 +710,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     capture_rect = D_80024038;
     directions = rising_effect_octant_offsets;
     owner_base = ((u8 *)owner - 32);
-    source_pos = (u32)((S_func_8190B2D0_2 *)owner_base)->unk_8;
+    source_pos = ((S_func_8190B2D0_2 *)owner_base)->unk_8;
     state = effect->unk_A.s16;
 
     switch (state) {

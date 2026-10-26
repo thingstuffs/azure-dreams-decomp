@@ -32,8 +32,8 @@ void shift_history_and_store_current_values(void)
     records = (u8 *)&town_position_history;
     while (record_index > 0) {
         destination_offset = record_index * 8;
-        source = (TownRecord *)(((record_index - 1) * 8) + (u32)records);
-        destination = (TownRecord *)(destination_offset + (u32)records);
+        source = (TownRecord *)(((record_index - 1) * 8) + (unsigned long)records);
+        destination = (TownRecord *)(destination_offset + (unsigned long)records);
         destination->field_0 = source->field_0;
         destination->field_2 = source->field_2;
         destination->field_4 = source->field_4;

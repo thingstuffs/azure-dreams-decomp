@@ -64,7 +64,7 @@ s8 *slots_out;
         slot = 0;
         filter_entry = selected_entry;
         do {
-            slot_row = (u8 *)((u8)slot * 2 + (u32)slot_table_base);
+            slot_row = (u8 *)((u8)slot * 2 + (unsigned long)slot_table_base);
             if ((slot_row[0x33A4] == filter_entry[6]) && (slot_row[0x33A5] != selected_id)) {
                 *slots_out++ = slot;
                 slot_count++;
@@ -106,14 +106,14 @@ s8 *slots_out;
         match_record = match_records + record_id;
         do {
             slot_index = slot & 0xFF;
-            slot_pair = (u8 *)(slot_index * 2 + (u32)slots_page);
+            slot_pair = (u8 *)(slot_index * 2 + (unsigned long)slots_page);
             first_id = slot_pair[0x33A4];
             if (first_id == record_id || (second_id = slot_pair[0x33A5], second_id == record_id)) {
                 slots_out = slots_start;
                 slot_count = 0;
                 break;
             }
-            entry = (u8 *)(slot_index * 8 + (u32)entries);
+            entry = (u8 *)(slot_index * 8 + (unsigned long)entries);
             if (entry[2] == match_record->byte4 &&
                 entry[3] == match_record->byte5 &&
                 first_id >= 0x2D) {

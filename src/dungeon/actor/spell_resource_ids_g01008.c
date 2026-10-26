@@ -231,7 +231,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
             state_value = cd_cue_base[0];
         }
         entry_offset = (s32)(doubled_index << 16) >> 14;
-        selection_entry = (s32 *)(entry_offset + (u32)selection_table);
+        selection_entry = (s32 *)(entry_offset + (unsigned long)selection_table);
         sound_set_cd_cue_parameters(0, state_value, selection_entry[0], selection_entry[1]);
         Control_CD(0x15, (void *)read_stream_cue_start_offset(), 0);
 

@@ -28,5 +28,5 @@ void init_menu_object(Struct8001BF04 *object) {
     if (object->unk0C == 2) {
         callback = (s32) call_handler_with_zero_if_field_is_zero;
     }
-    *(s32 *)((s32) object - 0x10) = callback;
+    *(s32 *)((u8 *)object - 0x10) = callback;
 }

@@ -5,13 +5,13 @@
 
 typedef struct S_800C4D80_1 {
     u8 pad_00[0xC];
-    s32 unk_0C;
+    void *unk_0C;
     void * unk_10;
 } S_800C4D80_1;   /* entry in trget_psn_ang_set */
 
 typedef struct S_800C4D80_2 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    void *unk_04;
 } S_800C4D80_2;   /* child in trget_psn_ang_set */
 
 

@@ -59,10 +59,11 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
     void *call_entity;
     void *context_arg;
     s32 new_context;
+    void *text_cursor;
     void *context;
 
     stored = 0;
-    if (entity == ((s32)dungeon_actor_ring_anchor)) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
         begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.frame_entry, entity);
         return 0;
@@ -106,12 +107,12 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
         ((((S_800BE120_0 *)entity)->unk_13 < MONSTER_KEWNE) ||
          (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
          (((S_800BE120_0 *)entity)->unk_48.at01.v != 0))) {
-        new_context = get_unused_text_buffer();
+        text_cursor = get_unused_text_buffer();
         call_entity = entity;
-        context_arg = new_context;
+        context_arg = text_cursor;
         context = context_arg;
-        new_context = append_entity_display_text((s32)call_entity, context_arg);
-        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_typed_formatted_value(data, expand_text_control_codes(D_800E100F, new_context))));
+        text_cursor = append_entity_display_text(call_entity, context_arg);
+        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_typed_formatted_value(data, expand_text_control_codes(D_800E100F, text_cursor))));
         display_text_with_fullwidth_adjustment(context);
         place_actor_item(entity, data);
         return 1;

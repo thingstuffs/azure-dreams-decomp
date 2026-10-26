@@ -81,7 +81,7 @@ s32 build_visible_item_line_packets(void *first_item)
                 depth_index = (s16)depth_index;
                 table_offset = depth_index * 4;
                 line_table = *render_context;
-                out_x = (s32 *)(table_offset + (u32)line_table + 0xB0);
+                out_x = (s32 *)(table_offset + (unsigned long)line_table + 0xB0);
                 next = ((P_TAG *)out_x)->addr;
                 *(u32 *)line_packet = (*(u32 *)line_packet & 0xFF000000) | (next & 0x00FFFFFF);
 
@@ -109,7 +109,7 @@ s32 build_visible_item_line_packets(void *first_item)
                 func_8006F49C((u8 *)depth_sum, 0, 0, (u16)((u32)state_work), 0);
 
                 state_table = *render_context;
-                state_head = (u32 *)(table_offset + (u32)state_table + 0xB0);
+                state_head = (u32 *)(table_offset + (unsigned long)state_table + 0xB0);
                 next = ((P_TAG *)state_head)->addr;
                 *(u32 *)depth_sum = (*(u32 *)depth_sum & 0xFF000000) | (next & 0x00FFFFFF);
 

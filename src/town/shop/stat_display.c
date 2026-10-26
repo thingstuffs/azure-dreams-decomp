@@ -180,7 +180,7 @@ void populate_display_rows(s32 source_id, void *display) {
     icon_y = 0x66;
     text_y = 0xD8;
     for (; row_index < 3; row_index++) {
-        entry_slot = (void **)((s32)(row_index << 2) + (s32)&scratch[0]);
+        entry_slot = (void **)((s32)(row_index << 2) + (long)&scratch[0]);
         row_display = (u8 *)display + row_index * 4;
         entry = *entry_slot;
         if (entry == NULL) {

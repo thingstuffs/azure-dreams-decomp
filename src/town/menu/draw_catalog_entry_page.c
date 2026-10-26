@@ -49,7 +49,7 @@ void draw_catalog_entry_page(void *object_data) {
             u8 *image_base = (u8 *)catalog_glyphs;
             void **image_ptr;
             image_ptr = (void **)((((slot << 5) + second_image_id) << 2) +
-                                  (u32)image_base);
+                                  (u8 *)image_base);
             draw_vram_glyph_text(*image_ptr, 0x180, 0x80);
         }
         second_image_id += 1;
@@ -61,7 +61,7 @@ void draw_catalog_entry_page(void *object_data) {
         loop_image_base = (u8 *)catalog_glyphs;
         image_id = grid_category * 0x10;
         image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
-                                (u32)loop_image_base);
+                                (u8 *)loop_image_base);
         do {
             if (is_catalog_entry_available(image_id & 0xFF) & 0xFF) {
                 draw_vram_glyph_text(image_entry->image, (s16) (((slot % 3) * 0x12) + 0x180),

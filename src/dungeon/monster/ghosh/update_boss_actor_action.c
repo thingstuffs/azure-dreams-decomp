@@ -78,7 +78,7 @@ void update_boss_actor_action(void *actor, void *context, SpriteFrameState *spri
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
-            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) << 0x10)
+            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((u8 *)primary_actor_record->previous_actor_header) + 0x20)) << 0x10)
                 == 0)) {
                 if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);

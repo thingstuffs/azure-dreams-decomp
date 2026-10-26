@@ -137,7 +137,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         effect->unk_50 = 0xAU;
         actor->unk_A6 = (u16) (actor->unk_A6 - 1);
         actor->unk_A8 = (u8) effect->unk_08;
-        object_data = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+        object_data = allocate_list_node(0x302, &scene_object_list_anchor.next);
         if (object_data != 0) {
             model = location->unk_0C;
             if (resolve_record_orientation_or_fallback(model->unk_08, model, offset, 0) == 0) {
@@ -186,7 +186,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         if ((s16) effect->unk_50 > 0) {
             return;
         }
-        object_data = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
+        object_data = allocate_list_node(0x302, &scene_object_list_anchor.next);
         data_bytes = (u8 *) object_data;
         if (object_data != 0) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
@@ -394,7 +394,7 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
 
             packet->tag =
                 (packet->tag & color_or_tag_mask) |
-                (*(u32 *)((u8 *)(depth_offset + (u32)render_state->draw_buffer) + 0xB0) & addr_mask);
+                (*(u32 *)((u8 *)(depth_offset + (unsigned long)render_state->draw_buffer) + 0xB0) & addr_mask);
             ot_slot = depth_offset + (u32)render_state->draw_buffer;
             *(u32 *)((u8 *)ot_slot + 0xB0) =
                 (*(u32 *)((u8 *)ot_slot + 0xB0) & color_or_tag_mask) |
@@ -573,7 +573,7 @@ void update_animated_target_effect(void *effect)
         particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
         display = secondary_sprite;
         do {
-            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != NULL) {
                 particle->update_callback = particle_data;
                 register_node(particle, project_sprite_chain);
@@ -815,7 +815,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                         faded_shade >>= 5;
                         color_column = (u8 *)((u32)color_column + (u32)scratch);
                         depth_cue = faded_shade;
-                        *(u32 *)(row_offset + (u32)color_column) =
+                        *(u32 *)(row_offset + (unsigned long)color_column) =
                             faded_shade + (faded_shade << 8) + (faded_shade << 16);
                     }
                 } while (column < 16);
@@ -850,7 +850,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                         do {
                             Quad *quad;
                             u8 *vertex_colors;
-                            color_column = (u8 *)((column << 2) + (u32)scratch);
+                            color_column = (u8 *)((column << 2) + (unsigned long)scratch);
 
                             {
                                 u8 *packet_pool;
@@ -859,7 +859,7 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                                 *(Quad **)(packet_pool + 0x8d0) = quad + 1;
                             }
 
-                            vertex_colors = (u8 *)(row_offset + (u32)color_column);
+                            vertex_colors = (u8 *)(row_offset + (unsigned long)color_column);
                             quad->color0 = *(u32 *)(vertex_colors + 0);
                             quad->color1 = *(u32 *)(vertex_colors + 64);
                             quad->color2 = *(u32 *)(vertex_colors + 4);

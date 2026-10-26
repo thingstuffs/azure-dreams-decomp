@@ -358,7 +358,7 @@ void render_shaded_map_tiles(void) {
                                 work_value = scratch.ptr->unk_168.u16;
                                 half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;
                                 work_bits = half_y;
-                                work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
+                                work_ptr = (void *) ((unsigned long)work_ptr + (u32) work_value);
                                 work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
                                 work_bits <<= 0x10;
                                 work_value = scratch.ptr->unk_0C;
@@ -406,7 +406,7 @@ void render_shaded_map_tiles(void) {
                                     work_value = scratch.ptr->unk_168.u16;
                                     half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;
                                     work_bits = half_y;
-                                    work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
+                                    work_ptr = (void *) ((unsigned long)work_ptr + (u32) work_value);
                                     work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
                                     work_bits <<= 0x10;
                                     work_value = scratch.ptr->unk_0C;
@@ -437,7 +437,7 @@ void render_shaded_map_tiles(void) {
                                     }
                                     if ((((s32) scratch.ptr->unk_C8 < 0x1C1) || ((s32) (scratch.ptr->unk_E4.u16 << 0x10) >= 0)
                                         || ((work_value = scratch.ptr->unk_14C, work_value <<= 3,
-                                        work_ptr = (void *)(work_value + (s32)normals), lookup_value = work_ptr,
+                                        work_ptr = (void *)(work_value + (long)normals), lookup_value = work_ptr,
                                         (((S_func_800AED64_16 *)(lookup_value))->unk_04 < 0))
                                         && !(((S_func_800AED64_16 *)(lookup_value))->unk_00 & 0x0FFF0FFF)))
                                         && ((u32) scratch.ptr->unk_C8 < 0x200U)) {
@@ -476,7 +476,7 @@ void render_shaded_map_tiles(void) {
                                                 work_ptr = (void *)scratch.ptr->unk_C8;
                                                 work_ptr = (void *)((s32)work_ptr * 4);
                                                 work_value = scratch.ptr->unk_BC;
-                                                work_ptr = (void *)((s32)work_ptr + work_value);
+                                                work_ptr = (void *)((long)work_ptr + work_value);
                                                 work_value = (s32) packet & tag_low_mask;
                                                 work_bits = ((S_func_800AED64_11 *)(work_ptr))->unk_00;
                                                 packet++;
@@ -506,7 +506,7 @@ void render_shaded_map_tiles(void) {
                                         work_ptr = (void *)scratch.ptr->unk_C8;
                                         work_ptr = (void *)((s32)work_ptr * 4);
                                         work_value = scratch.ptr->unk_BC;
-                                        work_ptr = (void *)((s32)work_ptr + work_value);
+                                        work_ptr = (void *)((long)work_ptr + work_value);
                                         work_bits = ((S_func_800AED64_11 *)(work_ptr))->unk_00;
                                         work_value = (s32) packet & tag_low_mask;
                                         packet++;

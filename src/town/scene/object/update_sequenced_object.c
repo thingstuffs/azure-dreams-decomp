@@ -90,7 +90,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
     s32 current_x;
     s32 delta;
     s32 loop_index;
-    s32 animation_descriptor;
+    void *animation_descriptor;
     s32 clamped_x;
     s32 tmpx;
     s32 state4_v0;
@@ -146,7 +146,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
     case 1:
         if (primitive->flags & 0x6000) {
             motion->velocity_y = 0x80000;
-            animation_descriptor = (s32)D_802892EC;
+            animation_descriptor = D_802892EC;
         }
         if (in0->flags & 1) {
             orbit_ticks = in0->timer.u - 1;
@@ -158,7 +158,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
         if (motion->y.v > 0x0477FFFF) {
             primitive->flags = (u16) (primitive->flags | 1);
             motion->velocity_x = 0x80000;
-            animation_descriptor = (s32)D_80289334;
+            animation_descriptor = D_80289334;
             in0->state.s = 2;
         }
         if (animation_descriptor != 0) {
@@ -167,22 +167,22 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
         return;
     case 2:
         if (primitive->flags & 0x6000) {
-            animation_descriptor = (s32)D_802893C4;
+            animation_descriptor = D_802893C4;
         }
         if (motion->y.v > 0x048FFFFF) {
             tmpx = 3;
-            animation_descriptor = (s32)D_8028937C;
+            animation_descriptor = D_8028937C;
             motion->velocity_y = 0;
             in0->state.s = tmpx;
         }
         break;
     case 3:
         if (primitive->flags & 0x6000) {
-            animation_descriptor = (s32)D_802893C4;
+            animation_descriptor = D_802893C4;
         }
         if (motion->x.v > 0x03DFFFFF) {
             motion->velocity_z = -0x100000;
-            animation_descriptor = (s32)D_80289454;
+            animation_descriptor = D_80289454;
             in0->state.s = 4;
         }
         break;
@@ -236,7 +236,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
             if (D_80132AF2[0] == 0) {
                 if (in0->state.s == 9) {
                     tmpx = 0x100000;
-                    animation_descriptor = (s32)D_8028950C;
+                    animation_descriptor = D_8028950C;
                     sequence->speed = tmpx;
                 } else {
                     global_s5[0] = (s32)D_802434B0;
@@ -315,7 +315,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
             } else {
                 in0->flags = (s32) (in0->flags & ~1);
             }
-            animation_descriptor = (s32)D_802894AC;
+            animation_descriptor = D_802894AC;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -326,7 +326,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
     case 11:
         primitive_flags = primitive->flags;
         if ((primitive_flags & 0x6000) && ((s16) in0->timer.u > 0)) {
-            animation_descriptor = (s32)D_802892EC;
+            animation_descriptor = D_802892EC;
             primitive->flags = (u16) (primitive_flags | 0x800);
         }
         current_x = motion->x.v;
@@ -349,7 +349,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
             } else if (current_x <= 0x0397FFFF) {
                 motion->velocity_x = 0x80000;
             } else {
-                animation_descriptor = (s32)D_8028937C;
+                animation_descriptor = D_8028937C;
                 motion->velocity_x = 0;
                 motion->x.v = 0x03A00000;
             }
@@ -388,7 +388,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
         } else {
             func_80050BD8(0x5DA);
         }
-        animation_descriptor = (s32)D_802892EC;
+        animation_descriptor = D_802892EC;
         motion->velocity_y = 0x80000;
         in0->timer.u = 0x1EU;
         in0->state.s = (s16) ((u16) in0->state.s + 1);
@@ -415,17 +415,17 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
         }
         break;
     case 0x104:
-        animation_descriptor = (s32)D_80289334;
+        animation_descriptor = D_80289334;
         raw_s1 = phase + 1;
         in0->state.s = raw_s1;
         break;
     case 0x105:
-        animation_descriptor = (s32)D_8028937C;
+        animation_descriptor = D_8028937C;
         raw_s1 = phase + 1;
         in0->state.s = raw_s1;
         break;
     case 0x106:
-        animation_descriptor = (s32)D_802893C4;
+        animation_descriptor = D_802893C4;
         raw_s1 = phase + 1;
         in0->state.s = raw_s1;
         break;
@@ -438,7 +438,7 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
         primitive_flags |= 0xC;
         primitive->flags = primitive_flags;
         x_limit_flags_or_phase = (u16) in0->state.u;
-        animation_descriptor = (s32)D_8028940C;
+        animation_descriptor = D_8028940C;
         x_limit_flags_or_phase += 1;
         in0->state.s = (s16) x_limit_flags_or_phase;
         break;

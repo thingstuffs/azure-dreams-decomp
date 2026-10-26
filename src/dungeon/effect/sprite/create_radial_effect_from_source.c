@@ -981,7 +981,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
                 scratch->value78 = vertices[
                     ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
                 next_row = vertices + 0x20;
-                far_next_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
+                far_next_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (unsigned long)next_row);
                 scratch->value80 = next_row[quad_index * 2];
                 far_next_xy = *far_next_ptr;
                 far_next_vertex = &scratch->value88;

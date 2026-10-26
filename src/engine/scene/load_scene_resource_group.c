@@ -26,7 +26,7 @@ struct S_8006CE44
 extern struct S_8006CE44 scene_resource_group_records[];
 
 extern ResourceReadState scene_geometry[];
-extern s32 gpu_scratch_buffer_base;
+extern u8 *gpu_scratch_buffer_base;
 extern s8 node_update_mode;
 extern u8 D_800E6000[];
 /* Loads the entry's resource data and selects its working buffer. */
@@ -88,15 +88,15 @@ void load_scene_resource_group(s16 entry_index)
     }
     {
         s32 buffer_size;
-        s32 buffer_address;
+        void *buffer_address;
         if (resource_type == 2) {
             buffer_size = 0x18800;
-            buffer_address = (s32) (&D_800E6000);
+            buffer_address = (&D_800E6000);
             gpu_scratch_buffer_base = buffer_address;
         }
         else {
             buffer_size = 0x38000;
-            buffer_address = (s32) (&gpu_scratch_ring_buffer);
+            buffer_address = (&gpu_scratch_ring_buffer);
             gpu_scratch_buffer_base = buffer_address;
         }
         gpu_scratch_ring_size = buffer_size;

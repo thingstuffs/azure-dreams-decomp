@@ -119,7 +119,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
                         u32 *resource_header;
 
                         clear_actor_action_markers(entry->unkac);
-                        entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)dungeon_actor_ring_anchor));
+                        entry = (DungeonEntry *)((u32)(entry_index * 4) + (unsigned long)((DungeonEntry *)dungeon_actor_ring_anchor));
                         resource_header = (u32 *)(entry->unkac - 0x20);
                         resource_header[4] = resource_header[4] | resource_flag;
                     }

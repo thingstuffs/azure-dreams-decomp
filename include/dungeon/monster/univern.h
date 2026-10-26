@@ -342,7 +342,7 @@ s32 generate_random_value();
 s32 set_or_clear_actor_status_slot();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
-void select_sprite_entry(SpriteFrameState *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
 void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 void select_indirect_table_entry();

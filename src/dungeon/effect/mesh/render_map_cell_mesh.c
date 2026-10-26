@@ -511,7 +511,7 @@ next_edge_step:
                     while (scratch->max_x >= scratch->min_x.word) {
                         cell_index = scratch->row_base + scratch->column;
                         scratch->cell_index = cell_index;
-                        cell = (CellRec *)((cell_index * 6) + (s32)cells);
+                        cell = (CellRec *)((cell_index * 6) + (long)cells);
                         packet_code = packet + 7;
                         if (cell->index != 0) {
                             scratch->cell_height.word = cell->offset;
@@ -618,7 +618,7 @@ next_face:
                                         normal_index = scratch->face_attr.h.x;
                                         if (scratch->last_normal != normal_index) {
                                             scratch->last_normal = normal_index;
-                                            normal = (MapNormal *)((normal_index * 8) + (s32)normals);
+                                            normal = (MapNormal *)((normal_index * 8) + (long)normals);
                                             if (normal->z >= 0) {
                                                 normal_xy = normal->xy;
                                                 if (!(normal_xy & 0x0FFF0FFF)) {
@@ -663,7 +663,7 @@ next_face:
                                                         neighbor_index = error_step;
                                                         scratch->neighbor_index = neighbor_index;
                                                     }
-                                                    neighbor = (CellRec *)((neighbor_index * 6) + (s32)cells);
+                                                    neighbor = (CellRec *)((neighbor_index * 6) + (long)cells);
                                                     neighbor_flags = neighbor->flags;
                                                     if (!(neighbor_flags & 1)) {
                                                         if (neighbor_flags & 0x80) {

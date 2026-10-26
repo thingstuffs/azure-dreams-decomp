@@ -70,12 +70,12 @@ s32 draw_gradient_line_chain(u8 *node)
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
-            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->draw_buffer)) + 0xB0, line);
+            addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, line);
             render = ((GpuContext *)town->draw_buffer);
             draw_mode = render->packetCursor;
             render->packetCursor = draw_mode + 0xC;
             SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);
-            addPrim((u8 *)(ot_offset + (s32)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
+            addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
         }
         next_node = ((S_80024740_0_pre *)node)[-1].unk_00;
         if (next_node != 0) {

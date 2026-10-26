@@ -305,7 +305,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                     side_offset = ((S_8002520C_0 *)menu)->unk_26;
                     side_ptr = (s32 *)(((S_8002520C_9 *)world_page)->unk_3D7C);
                     side_offset *= 4;
-                    world_node = (void *) (side_offset + (s32) menu);
+                    world_node = (void *) (side_offset + (long)menu);
                     world_node = world_node->unk_0C;
                     side_offset += (s32)side_ptr;
                     cell = (S_8002520C_6 *)(world_node->unk_0C);

@@ -262,7 +262,7 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         profile_dst = (S_func_80174228_6 *)(storage + 0x5E);
         profile_dst->unk_00 = profile_peak;
         do {
-            profile_mirror = (S_func_80174228_7 *)((0xB - i) * 2 + (u32)storage);
+            profile_mirror = (S_func_80174228_7 *)((0xB - i) * 2 + (unsigned long)storage);
             profile_raw = ((S_func_80174228_0 *)storage)->unk_48[0xC - i];
             half_height = (profile_raw << 16) >> 17;
             profile_dst[i].unk_00 = half_height;

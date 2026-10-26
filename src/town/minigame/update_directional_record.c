@@ -21,7 +21,7 @@ typedef struct S_800211C4_2 {
 /* Update the record for its current direction and set its direction flag. */
 void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, SpriteFrameState *record) {
     u8 *flags_page;
-    s32 flags_base;
+    void *flags_base;
     s32 direction;
     u8 *direction_data;
     s32 angle_sector;
@@ -46,7 +46,7 @@ void update_directional_record(S_800211C4_0 *orientation, void *state_ptr, Sprit
         state->unk_20 = direction;
         flags_page = (u8 *)0x80070000;
     }
-    flags_base = (s32)flags_page - 0x3308;
+    flags_base = flags_page - 0x3308;
     direction_data = dir_sprite_flag + direction;
     if (direction_data[0] != 0) {
         flags = record->flags | 1;

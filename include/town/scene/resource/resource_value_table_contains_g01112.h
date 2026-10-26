@@ -5,14 +5,14 @@
 
 #include "common.h"
 
-extern s32 town_resource_ids[];
+extern void *town_resource_ids[];
 extern u8 D_80080EA8[];
 extern void file_load_com(void *object);
 extern u8 town_resource_queue[15];
 extern void *town_resource_descriptors[16];
 
 /* Functions defined in this translation unit. */
-s32 resource_value_table_contains(s32 target_value);
+s32 resource_value_table_contains(void *target_value);
 s32 has_listed_resource_in_slots(void);
 s32 find_slot_for_resource_entry(void);
 void reserve_twch_load(s32 character_id);

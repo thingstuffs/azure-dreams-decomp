@@ -467,7 +467,7 @@ void *project_visible_textured_strips(void *origin, void *render_flags, TownStri
                     prim_buffer += 0x28;
                     bucket_offset = half_index * 4;
                     half_index += 1;
-                    bucket_slot = (s32 *)(bucket_offset + (s32) bucket_list);
+                    bucket_slot = (s32 *)(bucket_offset + (long)bucket_list);
                     texture_entry += 0xC;
                     bucket_addr = draw_state->unk_20.n;
                     bucket_addr += bucket_index * 4;

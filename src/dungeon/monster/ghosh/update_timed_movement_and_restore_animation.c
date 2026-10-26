@@ -197,7 +197,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
             if (anim_addr != (s32)anim_table) {
                 entity->frameTable = anim_table;
                 facing = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A;
-                select_sprite_entry(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+                select_sprite_entry(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (unsigned long)anim_table), 0);
             }
         }
         if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {

@@ -1151,7 +1151,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
         object_settings->scale_x = (u16) settings->unk_1C;
         object_settings->scale_y = (u16) settings->unk_1E;
         object_settings->color.word = (s32) settings->unk_0C;
-        object_settings->source = (s32) settings->unk_08;
+        object_settings->source = settings->unk_08;
         object_settings->flags = (u16) settings->unk_14;
     }
     return object;

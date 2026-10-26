@@ -398,7 +398,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
         resolve_record_orientation_or_fallback(
-            *(void **)(index + (s32)actor_direction_sprites),
+            *(void **)(index + (long)actor_direction_sprites),
             ((u8 *)(&reference_tile_object)), &delta, 0);
 
         base.x += delta.x;
@@ -1147,7 +1147,7 @@ extern s32 has_enough_available_runtime_nodes(s32);
 
 /* Reads the signed halfword at the supplied byte offset in the direction table. */
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
-    return *(s16 *)(offset + (u32)table);
+    return *(s16 *)(offset + (unsigned long)table);
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */

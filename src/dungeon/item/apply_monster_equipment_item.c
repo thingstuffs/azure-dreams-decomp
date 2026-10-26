@@ -103,7 +103,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         entity_value = append_entity_display_text(entity, script);
         event_value = expand_text_control_codes(D_800E13DA, entity_value);
         {
-            s32 node_offset;
+            void *node_offset;
             void *result;
 
             external_entity_value = append_value_seven_suffix(event_value);
@@ -126,7 +126,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         external_entity_value = append_entity_display_text(entity, script);
         external_event_value = expand_text_control_codes(D_800E13E9, external_entity_value);
         {
-            s32 node_offset;
+            void *node_offset;
             void *result;
 
             external_entity_value = append_value_seven_suffix(external_event_value);

@@ -7,7 +7,7 @@ void script_store_table_word(ScriptReader *state) {
     u8 *dst;
     u8 *src;
     u8 *addr_bytes;
-    u32 cursor;
+    void *cursor;
     u32 src_index;
     u32 dst_offset;
     u32 addr_byte0;
@@ -15,7 +15,7 @@ void script_store_table_word(ScriptReader *state) {
     u32 addr_byte2;
     u32 addr_byte3;
 
-    cursor = (u32)state->cursor;
+    cursor = state->cursor;
     src_index = *(u8 *)cursor;
     cursor++;
     state->cursor = (u8 *)cursor;
@@ -33,7 +33,7 @@ void script_store_table_word(ScriptReader *state) {
     dst = (u8 *)(addr_byte0 + (addr_byte1 << 8) +
                  (addr_byte2 << 16) + (addr_byte3 << 24) +
                  dst_offset);
-    src = (u8 *)((src_index * 4) + (u32)state->data);
+    src = (u8 *)((src_index * 4) + (unsigned long)state->data);
 
     dst[0] = *(s32 *)(src + 0x48);
     dst[1] = *(s32 *)(src + 0x48) >> 8;

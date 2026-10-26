@@ -44,7 +44,7 @@ s32 select_random_replacement_item(DungeonArg *selection, u8 *context)
     for (; retries_left >= 0; retries_left--) {
         category_index = random_dungeon_range_16(1, 19);
         candidate_category = (DungeonGroup *)((u32)((u8)category_index * sizeof(DungeonGroup))
-            + (u32)item_category_table);
+            + (unsigned long)item_category_table);
 
         if (candidate_category->count == 1 || (u8)category_index == 18 || (u8)category_index == 14) {
             continue;

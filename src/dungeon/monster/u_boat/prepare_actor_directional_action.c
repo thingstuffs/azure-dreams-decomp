@@ -20,7 +20,7 @@ typedef struct S_801717D0_0 {
     u8 pad_2C[0x1A];
     s16 unk_46;
     u8 pad_48[0x18];
-    s32 unk_60;
+    void *unk_60;
     u8 pad_64[0x9];
     u8 unk_6D;
     u8 pad_6E[0x3];

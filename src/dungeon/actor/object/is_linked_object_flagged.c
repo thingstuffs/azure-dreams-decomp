@@ -15,7 +15,7 @@ s32 is_linked_object_flagged_10000(void *object) {
 
     if (*(s32 *)((u8 *)object + 0x14) & 0x4000) {
         slot_index = 1;
-        slot_base = ((s32)dungeon_actor_ring_anchor) + 4;
+        slot_base = (u8 *)dungeon_actor_ring_anchor + 4;
         do {
             linked_object = *(void **)((u8 *)slot_base + 0xAC);
             if ((linked_object != NULL) && (*(s32 *)((u8 *)linked_object + 0x54) & 0x10000)) {

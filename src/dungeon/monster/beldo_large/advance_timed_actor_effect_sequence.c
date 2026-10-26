@@ -141,7 +141,7 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         if (current_anim_table != anim_table) {
             ((SpriteFieldView_81336BB4 *)sprite)->field_2C = anim_table;
             direction = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + ((ActorFieldView_81336BB4 *)actor)->field_2A + 0x100) >> 9) & 7;
-            select_sprite_entry(sprite, *(u8 *)((u32)direction + (u32)anim_table), 0);
+            select_sprite_entry(sprite, *(u8 *)((u32)direction + (unsigned long)anim_table), 0);
         }
         goto advance;
 

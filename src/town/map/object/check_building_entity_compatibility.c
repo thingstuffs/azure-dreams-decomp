@@ -53,7 +53,7 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
         scan_link_page = (u8 *)0x80010000;
         match_index = entity_index;
         do {
-            slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
+            slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (unsigned long)scan_link_page);
             if (slot[0x33A4] == match_index || slot[0x33A5] == match_index) {
                 return 0;
             }

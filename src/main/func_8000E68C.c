@@ -46,12 +46,12 @@ s32 card_boot_debounce_card_status_events(void) {
             card_boot_select_channel_mode(slot, (s32 *)slot_offset);
             return state;
         }
-        if (*(s32 *)(count_offset + (s32)repeat_counts) >= 0xB) {
+        if (*(s32 *)(count_offset + (long)repeat_counts) >= 0xB) {
             *(s32 *)((s8 *)&(*(s32 (*)[])(&card_filtered_status)) + count_offset) = state;
-            *(s32 *)(count_offset + (s32)repeat_counts) = 0;
+            *(s32 *)(count_offset + (long)repeat_counts) = 0;
             *(s32 *)((s8 *)&(*(s32 (*)[])(&card_last_status)) + count_offset) = 0;
         }
-        card_boot_select_channel_mode(slot, (s32 *)(count_offset + (s32)repeat_counts));
+        card_boot_select_channel_mode(slot, (s32 *)(count_offset + (long)repeat_counts));
     }
     return state;
 }
